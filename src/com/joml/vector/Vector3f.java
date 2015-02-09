@@ -58,9 +58,9 @@ public class Vector3f {
         
         /** Subtracts v2 from v1 and stores the results in dest. Does not modify v1 or v2 */
         public static void sub(Vector3f v1, Vector3f v2, Vector3f dest) {
-            dest.x = v1.x - v2.x;
-            dest.y = v1.y - v2.y;
-            dest.z = v1.z - v2.z;
+            dest.set( v1.x - v2.x,
+                      v1.y - v2.y,
+                      v1.z - v2.z );
         }
         
         /** Adds the supplied vector to this one */
@@ -72,9 +72,9 @@ public class Vector3f {
         
         /** Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2 */
         public static void add(Vector3f v1, Vector3f v2, Vector3f dest) {
-            dest.x = v1.x + v2.x;
-            dest.y = v1.y + v2.y;
-            dest.z = v1.z + v2.z;
+            dest.set( v1.x + v2.x,
+                      v1.y + v2.y,
+                      v1.z + v2.z );
         }
 
         /** Returns the length squared of this vector */
@@ -102,7 +102,7 @@ public class Vector3f {
         /** Normalizes this vector */
 	public void normalize() {
 		float d = length();
-		x /= d;
+                x /= d;
 		y /= d;
 		z /= d;
 	}
@@ -110,21 +110,23 @@ public class Vector3f {
         /** Normalize the original vector and store the results in dest. Does not modify the original */
 	public static void normalize(Vector3f original, Vector3f dest) {
 		float d = length(original);
-		dest.x = original.x / d;
-		dest.y = original.y / d;
-		dest.z = original.z / d;
+		dest.set ( original.x / d,
+                           original.y / d,
+                           original.z / d );
 	}
 
         /** Set this vector to be the cross of v1 and v2 */
 	public void cross(Vector3f v1, Vector3f v2) {
-		set(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
+		set(v1.y * v2.z - v1.z * v2.y,
+                    v1.z * v2.x - v1.x * v2.z,
+                    v1.x * v2.y - v1.y * v2.x);
 	}
         
         /** Calculate the cross of v1 and v2 and store the results in dest. Does modify v1 or v2 */
         public static void cross(Vector3f v1, Vector3f v2, Vector3f dest) {
-            dest.x = v1.y * v2.z - v1.z * v2.y;
-            dest.y = v1.z * v2.x - v1.x * v2.z;
-            dest.z = v1.x * v2.y - v1.y * v2.x;
+            dest.set(v1.y * v2.z - v1.z * v2.y,
+                     v1.z * v2.x - v1.x * v2.z,
+                     v1.x * v2.y - v1.y * v2.x );
         }
         
         /** Returns the distance between the start and end vectors. Does not modify either */
@@ -141,9 +143,9 @@ public class Vector3f {
         
         /** Calculates the normal of a surface defined by points v1, v2 and v3 and stores it in dest. v1, v2 and v3 are not modified */
         public static void normal(Vector3f v1, Vector3f v2, Vector3f v3, Vector3f dest) {
-            dest.x = ((v2.y - v1.y) * (v3.z - v1.z)) - ((v2.z - v1.z) * (v3.y - v1.y));
-            dest.y = ((v2.z - v1.z) * (v3.x - v1.x)) - ((v2.x - v1.x) * (v3.z - v1.z));
-            dest.z = ((v2.x - v1.x) * (v3.y - v1.y)) - ((v2.y - v1.y) * (v3.x - v1.x));
+            dest.set ( ((v2.y - v1.y) * (v3.z - v1.z)) - ((v2.z - v1.z) * (v3.y - v1.y)),
+                       ((v2.z - v1.z) * (v3.x - v1.x)) - ((v2.x - v1.x) * (v3.z - v1.z)),
+                       ((v2.x - v1.x) * (v3.y - v1.y)) - ((v2.y - v1.y) * (v3.x - v1.x)) );
         }
         
         public String toString() {
