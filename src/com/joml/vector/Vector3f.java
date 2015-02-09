@@ -96,6 +96,8 @@ public class Vector3f {
         private static float length(Vector3f source) {
             return (float) Math.sqrt(lengthSquared(source));
         }
+        
+
 
         /** Normalizes this vector */
 	public void normalize() {
