@@ -85,28 +85,28 @@ public class Matrix3f {
 
     /** Multiplies this matrix by the supplied matrix. This matrix will be the left-sided one */
     public void mul(Matrix3f right) {
-        m00 = this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02;
-        m01 = this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02;
-        m02 = this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02;
-        m10 = this.m00 * right.m10 + this.m10 * right.m11 + this.m20 * right.m12;
-        m11 = this.m01 * right.m10 + this.m11 * right.m11 + this.m21 * right.m12;
-        m12 = this.m02 * right.m10 + this.m12 * right.m11 + this.m22 * right.m12;
-        m20 = this.m00 * right.m20 + this.m10 * right.m21 + this.m20 * right.m22;
-        m21 = this.m01 * right.m20 + this.m11 * right.m21 + this.m21 * right.m22;
-        m22 = this.m02 * right.m20 + this.m12 * right.m21 + this.m22 * right.m22;
+        set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02,
+             this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02,
+             this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02,
+             this.m00 * right.m10 + this.m10 * right.m11 + this.m20 * right.m12,
+             this.m01 * right.m10 + this.m11 * right.m11 + this.m21 * right.m12,
+             this.m02 * right.m10 + this.m12 * right.m11 + this.m22 * right.m12,
+             this.m00 * right.m20 + this.m10 * right.m21 + this.m20 * right.m22,
+             this.m01 * right.m20 + this.m11 * right.m21 + this.m21 * right.m22,
+             this.m02 * right.m20 + this.m12 * right.m21 + this.m22 * right.m22 );
     }
     
     /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices */
     public static void mul(Matrix3f left, Matrix3f right, Matrix3f dest) {
-        dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
-        dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
-        dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
-        dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
-        dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
-        dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
-        dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
-        dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
-        dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
+        dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
+                  left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
+                  left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
+                  left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
+                  left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
+                  left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
+                  left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
+                  left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
+                  left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
     }
 
     /** Sets the values within this matrix to the supplied float values. The result looks like this:<br><br>
@@ -217,28 +217,28 @@ public class Matrix3f {
 
     /** Multiply this matrix by the scalar value */
     public void mul(float scalar) {
-        m00 *= scalar;
-        m01 *= scalar;
-        m02 *= scalar;
-        m10 *= scalar;
-        m11 *= scalar;
-        m12 *= scalar;
-        m20 *= scalar;
-        m21 *= scalar;
-        m22 *= scalar;
+       set( m00 *= scalar,
+            m01 *= scalar,
+            m02 *= scalar,
+            m10 *= scalar,
+            m11 *= scalar,
+            m12 *= scalar,
+            m20 *= scalar,
+            m21 *= scalar,
+            m22 *= scalar );
     }
     
     /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
     public static void mul(Matrix3f source, float scalar, Matrix3f dest) {
-        dest.m00 = source.m00 * scalar;
-        dest.m01 = source.m01 * scalar;
-        dest.m02 = source.m02 * scalar;
-        dest.m10 = source.m10 * scalar;
-        dest.m11 = source.m11 * scalar;
-        dest.m12 = source.m12 * scalar;
-        dest.m20 = source.m20 * scalar;
-        dest.m21 = source.m21 * scalar;
-        dest.m22 = source.m22 * scalar;
+        dest.set( source.m00 * scalar,
+                  source.m01 * scalar,
+                  source.m02 * scalar,
+                  source.m10 * scalar,
+                  source.m11 * scalar,
+                  source.m12 * scalar,
+                  source.m20 * scalar,
+                  source.m21 * scalar,
+                  source.m22 * scalar );
     }
     
     public String toString() {

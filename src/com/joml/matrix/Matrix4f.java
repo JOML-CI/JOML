@@ -107,62 +107,62 @@ public class Matrix4f {
 
     /** Set the values within this matrix to be the same as the supplied parameter matrix */
     public void set(Matrix4f m1) {
-        m00 = m1.m00;
-        m01 = m1.m01;
-        m02 = m1.m02;
-        m03 = m1.m03;
-        m10 = m1.m10;
-        m11 = m1.m11;
-        m12 = m1.m12;
-        m13 = m1.m13;
-        m20 = m1.m20;
-        m21 = m1.m21;
-        m22 = m1.m22;
-        m23 = m1.m23;
-        m30 = m1.m30;
-        m31 = m1.m31;
-        m32 = m1.m32;
-        m33 = m1.m33;
+        this.m00 = m1.m00;
+        this.m01 = m1.m01;
+        this.m02 = m1.m02;
+        this.m03 = m1.m03;
+        this.m10 = m1.m10;
+        this.m11 = m1.m11;
+        this.m12 = m1.m12;
+        this.m13 = m1.m13;
+        this.m20 = m1.m20;
+        this.m21 = m1.m21;
+        this.m22 = m1.m22;
+        this.m23 = m1.m23;
+        this.m30 = m1.m30;
+        this.m31 = m1.m31;
+        this.m32 = m1.m32;
+        this.m33 = m1.m33;
     }
 
     /** Multiply this matrix by the supplied parameter matrix. This matrix will be treated as the left */
     public void mul(Matrix4f right) {
-        m00 = this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02 + this.m30 * right.m03;
-        m01 = this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02 + this.m31 * right.m03;
-        m02 = this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02 + this.m32 * right.m03;
-        m03 = this.m03 * right.m00 + this.m13 * right.m01 + this.m23 * right.m02 + this.m33 * right.m03;
-        m10 = this.m00 * right.m10 + this.m10 * right.m11 + this.m20 * right.m12 + this.m30 * right.m13;
-        m11 = this.m01 * right.m10 + this.m11 * right.m11 + this.m21 * right.m12 + this.m31 * right.m13;
-        m12 = this.m02 * right.m10 + this.m12 * right.m11 + this.m22 * right.m12 + this.m32 * right.m13;
-        m13 = this.m03 * right.m10 + this.m13 * right.m11 + this.m23 * right.m12 + this.m33 * right.m13;
-        m20 = this.m00 * right.m20 + this.m10 * right.m21 + this.m20 * right.m22 + this.m30 * right.m23;
-        m21 = this.m01 * right.m20 + this.m11 * right.m21 + this.m21 * right.m22 + this.m31 * right.m23;
-        m22 = this.m02 * right.m20 + this.m12 * right.m21 + this.m22 * right.m22 + this.m32 * right.m23;
-        m23 = this.m03 * right.m20 + this.m13 * right.m21 + this.m23 * right.m22 + this.m33 * right.m23;
-        m30 = this.m00 * right.m30 + this.m10 * right.m31 + this.m20 * right.m32 + this.m30 * right.m33;
-        m31 = this.m01 * right.m30 + this.m11 * right.m31 + this.m21 * right.m32 + this.m31 * right.m33;
-        m32 = this.m02 * right.m30 + this.m12 * right.m31 + this.m22 * right.m32 + this.m32 * right.m33;
-        m33 = this.m03 * right.m30 + this.m13 * right.m31 + this.m23 * right.m32 + this.m33 * right.m33;
+       set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02 + this.m30 * right.m03,
+            this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02 + this.m31 * right.m03,
+            this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02 + this.m32 * right.m03,
+            this.m03 * right.m00 + this.m13 * right.m01 + this.m23 * right.m02 + this.m33 * right.m03,
+            this.m00 * right.m10 + this.m10 * right.m11 + this.m20 * right.m12 + this.m30 * right.m13,
+            this.m01 * right.m10 + this.m11 * right.m11 + this.m21 * right.m12 + this.m31 * right.m13,
+            this.m02 * right.m10 + this.m12 * right.m11 + this.m22 * right.m12 + this.m32 * right.m13,
+            this.m03 * right.m10 + this.m13 * right.m11 + this.m23 * right.m12 + this.m33 * right.m13,
+            this.m00 * right.m20 + this.m10 * right.m21 + this.m20 * right.m22 + this.m30 * right.m23,
+            this.m01 * right.m20 + this.m11 * right.m21 + this.m21 * right.m22 + this.m31 * right.m23,
+            this.m02 * right.m20 + this.m12 * right.m21 + this.m22 * right.m22 + this.m32 * right.m23,
+            this.m03 * right.m20 + this.m13 * right.m21 + this.m23 * right.m22 + this.m33 * right.m23,
+            this.m00 * right.m30 + this.m10 * right.m31 + this.m20 * right.m32 + this.m30 * right.m33,
+            this.m01 * right.m30 + this.m11 * right.m31 + this.m21 * right.m32 + this.m31 * right.m33,
+            this.m02 * right.m30 + this.m12 * right.m31 + this.m22 * right.m32 + this.m32 * right.m33,
+            this.m03 * right.m30 + this.m13 * right.m31 + this.m23 * right.m32 + this.m33 * right.m33 );
     }
     
     /** Multiply the supplied left matrix by the right, and store the results into dest */
     public static void mul(Matrix4f left, Matrix4f right, Matrix4f dest) {
-        dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03;
-        dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03;
-        dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03;
-        dest.m03 = left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02 + left.m33 * right.m03;
-        dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12 + left.m30 * right.m13;
-        dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12 + left.m31 * right.m13;
-        dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12 + left.m32 * right.m13;
-        dest.m13 = left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12 + left.m33 * right.m13;
-        dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22 + left.m30 * right.m23;
-        dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22 + left.m31 * right.m23;
-        dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 + left.m32 * right.m23;
-        dest.m23 = left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22 + left.m33 * right.m23;
-        dest.m30 = left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30 * right.m33;
-        dest.m31 = left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31 * right.m33;
-        dest.m32 = left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32 * right.m33;
-        dest.m33 = left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33;  
+        dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03,
+                 left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03,
+                 left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03,
+                 left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02 + left.m33 * right.m03,
+                 left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12 + left.m30 * right.m13,
+                 left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12 + left.m31 * right.m13,
+                 left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12 + left.m32 * right.m13,
+                 left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12 + left.m33 * right.m13,
+                 left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22 + left.m30 * right.m23,
+                 left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22 + left.m31 * right.m23,
+                 left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 + left.m32 * right.m23,
+                 left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22 + left.m33 * right.m23,
+                 left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30 * right.m33,
+                 left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31 * right.m33,
+                 left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32 * right.m33,
+                 left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33);
     }
 
     /** Set the values within this matrix to the supplied float values. The matrix will look like this:<br><br>
@@ -278,42 +278,42 @@ public class Matrix4f {
 
     /** Multiplies this matrix by the supplied scalar value */
     public void mul(float scalar) {
-        m00 *= scalar;
-        m01 *= scalar;
-        m02 *= scalar;
-        m03 *= scalar;
-        m10 *= scalar;
-        m11 *= scalar;
-        m12 *= scalar;
-        m13 *= scalar;
-        m20 *= scalar;
-        m21 *= scalar;
-        m22 *= scalar;
-        m23 *= scalar;
-        m30 *= scalar;
-        m31 *= scalar;
-        m32 *= scalar;
-        m33 *= scalar;
+        set( m00 *= scalar,
+             m01 *= scalar,
+             m02 *= scalar,
+             m03 *= scalar,
+             m10 *= scalar,
+             m11 *= scalar,
+             m12 *= scalar,
+             m13 *= scalar,
+             m20 *= scalar,
+             m21 *= scalar,
+             m22 *= scalar,
+             m23 *= scalar,
+             m30 *= scalar,
+             m31 *= scalar,
+             m32 *= scalar,
+             m33 *= scalar );
     }
     
     /** Multiplies the supplied source matrix by the supplied scalar and stores the results in dest. Does not modify the original matrix */
     public static void mul(Matrix4f source, float scalar, Matrix4f dest) {
-        dest.m00 = source.m00 * scalar;
-        dest.m01 = source.m01 * scalar;
-        dest.m02 = source.m02 * scalar;
-        dest.m03 = source.m03 * scalar;
-        dest.m10 = source.m10 * scalar;
-        dest.m11 = source.m11 * scalar;
-        dest.m12 = source.m12 * scalar;
-        dest.m13 = source.m13 * scalar;
-        dest.m20 = source.m20 * scalar;
-        dest.m21 = source.m21 * scalar;
-        dest.m22 = source.m22 * scalar;
-        dest.m23 = source.m23 * scalar;
-        dest.m30 = source.m30 * scalar;
-        dest.m31 = source.m31 * scalar;
-        dest.m32 = source.m32 * scalar;
-        dest.m33 = source.m33 * scalar;
+        dest.set( source.m00 * scalar,
+                  source.m01 * scalar,
+                  source.m02 * scalar,
+                  source.m03 * scalar,
+                  source.m10 * scalar,
+                  source.m11 * scalar,
+                  source.m12 * scalar,
+                  source.m13 * scalar,
+                  source.m20 * scalar,
+                  source.m21 * scalar,
+                  source.m22 * scalar,
+                  source.m23 * scalar,
+                  source.m30 * scalar,
+                  source.m31 * scalar,
+                  source.m32 * scalar,
+                  source.m33 * scalar );
     }
 
     
