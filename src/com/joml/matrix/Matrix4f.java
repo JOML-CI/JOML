@@ -336,23 +336,22 @@ public class Matrix4f {
             return;
         }
         s = 1.0f / s;
-        set(m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31),
-            m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31), 
-            m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11), 
-            m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22),
-            m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33), 
-            m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33), 
-            m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13), 
-            m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22),
-            m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33), 
-            m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33), 
-            m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13), 
-            m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20),
-            m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31), 
-            m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31), 
-            m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11), 
-            m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20));
-        mul(s);
+        set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
+            (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s , 
+            (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s, 
+            (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s,
+            (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s, 
+            (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s, 
+            (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s,
+            (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s,
+            (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s,
+            (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s,
+            (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s,
+            (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s,
+            (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
+            (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
+            (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
+            (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s);
     }
     
     /** Invert the supplied matrix and store the results in dest. Does not modify original matrix */
@@ -456,21 +455,21 @@ public class Matrix4f {
     /** Multiplies the supplied source matrix by the supplied scalar and stores the results in dest. Does not modify the original matrix */
     public static void mul(Matrix4f source, float scalar, Matrix4f dest) {           
         dest.m00 = source.m00 * scalar;
-        dest.m01 = source.m00 * scalar;
-        dest.m02 = source.m00 * scalar;
-        dest.m03 = source.m00 * scalar;
-        dest.m10 = source.m00 * scalar;
-        dest.m11 = source.m00 * scalar;
-        dest.m12 = source.m00 * scalar;
-        dest.m13 = source.m00 * scalar;
-        dest.m20 = source.m00 * scalar;
-        dest.m21 = source.m00 * scalar;
-        dest.m22 = source.m00 * scalar;
-        dest.m23 = source.m00 * scalar;
-        dest.m30 = source.m00 * scalar;
-        dest.m31 = source.m00 * scalar;
-        dest.m32 = source.m00 * scalar;
-        dest.m33 = source.m00 * scalar;
+        dest.m01 = source.m01 * scalar;
+        dest.m02 = source.m02 * scalar;
+        dest.m03 = source.m03 * scalar;
+        dest.m10 = source.m10 * scalar;
+        dest.m11 = source.m11 * scalar;
+        dest.m12 = source.m12 * scalar;
+        dest.m13 = source.m13 * scalar;
+        dest.m20 = source.m20 * scalar;
+        dest.m21 = source.m21 * scalar;
+        dest.m22 = source.m22 * scalar;
+        dest.m23 = source.m23 * scalar;
+        dest.m30 = source.m30 * scalar;
+        dest.m31 = source.m31 * scalar;
+        dest.m32 = source.m32 * scalar;
+        dest.m33 = source.m33 * scalar;
     }
     
     /** Transposes this matrix. Modifies the matrix directly */
