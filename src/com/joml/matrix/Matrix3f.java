@@ -108,6 +108,20 @@ public class Matrix3f {
                   left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
                   left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
     }
+    
+    /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices. 
+    * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
+    public static void mulFast(Matrix3f left, Matrix3f right, Matrix3f dest) {
+        dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
+        dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
+        dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
+        dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
+        dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
+        dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
+        dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
+        dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
+        dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
+    }
 
     /** Sets the values within this matrix to the supplied float values. The result looks like this:<br><br>
      * 
@@ -189,16 +203,55 @@ public class Matrix3f {
             return;
         }
         s = 1.0f / s;
-        dest.set(  (source.m11 * source.m22) - (source.m21 * source.m12),
-                  -((source.m01 * source.m22) - (source.m21 * source.m02)),
-                   (source.m01 * source.m12) - (source.m11 * source.m02),
-                  -((source.m10 * source.m22) - (source.m20 * source.m12)),
-                   (source.m00 * source.m22) - (source.m20 * source.m02),
-                  -((source.m00 * source.m12) - (source.m10 * source.m02)),
-                   (source.m10 * source.m21) - (source.m20 * source.m11),
-                  -((source.m00 * source.m21) - (source.m20 * source.m01)),
-                   (source.m00 * source.m11) - (source.m10 * source.m01)  );
-        dest.mul(s);
+        dest.set(  ((source.m11 * source.m22) - (source.m21 * source.m12)) * s,
+                  -((source.m01 * source.m22) - (source.m21 * source.m02)) * s,
+                   ((source.m01 * source.m12) - (source.m11 * source.m02)) * s,
+                  -((source.m10 * source.m22) - (source.m20 * source.m12)) * s,
+                   ((source.m00 * source.m22) - (source.m20 * source.m02)) * s,
+                  -((source.m00 * source.m12) - (source.m10 * source.m02)) * s,
+                   ((source.m10 * source.m21) - (source.m20 * source.m11)) * s,
+                  -((source.m00 * source.m21) - (source.m20 * source.m01)) * s,
+                   ((source.m00 * source.m11) - (source.m10 * source.m01)) * s  );
+    }
+    
+    /** Inverts the source matrix and stores the results in dest. Does not modify the source
+    * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
+    public static void invertFast(Matrix3f source, Matrix3f dest) {
+        float s = source.determinant();
+        if (s == 0.0f) {
+            return;
+        }
+        s = 1.0f / s;
+        
+        dest.m00 = ((source.m11 * source.m22) - (source.m21 * source.m12)) * s;
+        dest.m01 = -((source.m01 * source.m22) - (source.m21 * source.m02)) * s;
+        dest.m02 = ((source.m01 * source.m12) - (source.m11 * source.m02)) * s;
+        dest.m10 = -((source.m10 * source.m22) - (source.m20 * source.m12)) * s;
+        dest.m11 = ((source.m00 * source.m22) - (source.m20 * source.m02)) * s;
+        dest.m12 = -((source.m00 * source.m12) - (source.m10 * source.m02)) * s;
+        dest.m20 = ((source.m10 * source.m21) - (source.m20 * source.m11)) * s;
+        dest.m21 = -((source.m00 * source.m21) - (source.m20 * source.m01)) * s;
+        dest.m22 = ((source.m00 * source.m11) - (source.m10 * source.m01)) * s;
+    }
+    
+    /** Inverts the source matrix and stores the results in dest. Does not modify the source
+    * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
+    public static void invert(Matrix3f source, FloatBuffer dest) {
+        float s = source.determinant();
+        if (s == 0.0f) {
+            return;
+        }
+        s = 1.0f / s;
+        
+        dest.put(((source.m11 * source.m22) - (source.m21 * source.m12)) * s);
+        dest.put(-((source.m01 * source.m22) - (source.m21 * source.m02)) * s);
+        dest.put(((source.m01 * source.m12) - (source.m11 * source.m02)) * s);
+        dest.put(-((source.m10 * source.m22) - (source.m20 * source.m12)) * s);
+        dest.put(((source.m00 * source.m22) - (source.m20 * source.m02)) * s);
+        dest.put(-((source.m00 * source.m12) - (source.m10 * source.m02)) * s);
+        dest.put(((source.m10 * source.m21) - (source.m20 * source.m11)) * s);
+        dest.put(-((source.m00 * source.m21) - (source.m20 * source.m01)) * s);
+        dest.put(((source.m00 * source.m11) - (source.m10 * source.m01)) * s);
     }
     
     /** Transposes this matrix */
@@ -214,31 +267,71 @@ public class Matrix3f {
                  original.m01, original.m11, original.m21,
                  original.m02, original.m12, original.m22);
     }
+    
+    /** Transposes the supplied original matrix and stores the results in dest. The original is not modified */
+    public static void transpose(Matrix3f original, FloatBuffer dest) {
+        dest.put(original.m00);
+        dest.put(original.m10);
+        dest.put(original.m20);
+        dest.put(original.m01);
+        dest.put(original.m11);
+        dest.put(original.m21);
+        dest.put(original.m02);
+        dest.put(original.m12);
+        dest.put(original.m22);
+    }
+    
+    /** Transposes the supplied original matrix and stores the results in dest. The original is not modified.
+    * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
+    public static void transposeFast(Matrix3f original, Matrix3f dest) {
+        dest.m00 = original.m00;
+        dest.m01 = original.m10;
+        dest.m02 = original.m20;
+        dest.m10 = original.m01;
+        dest.m11 = original.m11;
+        dest.m12 = original.m21;
+        dest.m20 = original.m02;
+        dest.m21 = original.m12;
+        dest.m22 = original.m22;
+    }
 
     /** Multiply this matrix by the scalar value */
     public void mul(float scalar) {
-       set( m00 *= scalar,
-            m01 *= scalar,
-            m02 *= scalar,
-            m10 *= scalar,
-            m11 *= scalar,
-            m12 *= scalar,
-            m20 *= scalar,
-            m21 *= scalar,
-            m22 *= scalar );
+        m00 *= scalar;
+        m01 *= scalar;
+        m02 *= scalar;
+        m10 *= scalar;
+        m11 *= scalar;
+        m12 *= scalar;
+        m20 *= scalar;
+        m21 *= scalar;
+        m22 *= scalar;
     }
     
     /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
     public static void mul(Matrix3f source, float scalar, Matrix3f dest) {
-        dest.set( source.m00 * scalar,
-                  source.m01 * scalar,
-                  source.m02 * scalar,
-                  source.m10 * scalar,
-                  source.m11 * scalar,
-                  source.m12 * scalar,
-                  source.m20 * scalar,
-                  source.m21 * scalar,
-                  source.m22 * scalar );
+        dest.m00 = source.m00 * scalar;
+        dest.m01 = source.m01 * scalar;
+        dest.m02 = source.m02 * scalar;
+        dest.m10 = source.m10 * scalar;
+        dest.m11 = source.m11 * scalar;
+        dest.m12 = source.m12 * scalar;
+        dest.m20 = source.m20 * scalar;
+        dest.m21 = source.m21 * scalar;
+        dest.m22 = source.m22 * scalar;
+    }
+    
+    /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
+    public static void mul(Matrix3f source, float scalar, FloatBuffer dest) {
+        dest.put(source.m00 * scalar);
+        dest.put(source.m01 * scalar);
+        dest.put(source.m02 * scalar);
+        dest.put(source.m10 * scalar);
+        dest.put(source.m11 * scalar);
+        dest.put(source.m12 * scalar);
+        dest.put(source.m20 * scalar);
+        dest.put(source.m21 * scalar);
+        dest.put(source.m22 * scalar);
     }
     
     public String toString() {
@@ -250,7 +343,6 @@ public class Matrix3f {
 
     /** Stores this matrix in the supplied FloatBuffer */
     public void store(FloatBuffer buffer) {
-        buffer.rewind();
         buffer.put(this.m00);
         buffer.put(this.m01);
         buffer.put(this.m02);
@@ -277,10 +369,15 @@ public class Matrix3f {
     
     /** Sets this matrix to the identity */
     public void identity() {
-        clear();
-        m00 = 1.0f;
-        m11 = 1.0f;
-        m22 = 1.0f;
+        this.m00 = 1.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = 1.0f;
+        this.m12 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = 1.0f;
     }
 
 
