@@ -355,7 +355,7 @@ public class Matrix4f {
         mul(s);
     }
     
-    /* Invert the supplied matrix and store the results in dest. Does not modify original matrix */
+    /** Invert the supplied matrix and store the results in dest. Does not modify original matrix */
     public static void invert(Matrix4f source, Matrix4f dest) {
         float s = source.determinant();
         if (s == 0.0f) {
@@ -380,7 +380,7 @@ public class Matrix4f {
                  (source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s );
     }
     
-    /* Invert the supplied matrix and store the results in dest. Does not modify original matrix */
+    /** Invert the supplied matrix and store the results in dest. Does not modify original matrix */
     public static void invert(Matrix4f source, FloatBuffer dest) {
         float s = source.determinant();
         if (s == 0.0f) {
@@ -473,6 +473,7 @@ public class Matrix4f {
         dest.m33 = source.m00 * scalar;
     }
     
+    /** Transposes this matrix. Modifies the matrix directly */
     public void transpose() {
         set(m00, m10, m20, m30,
             m01, m11, m21, m31,
