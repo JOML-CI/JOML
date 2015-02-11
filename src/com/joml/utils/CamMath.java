@@ -80,53 +80,56 @@ public class CamMath {
     /** Calculates a view matrix
      * 
      * @param position The position of the camera
-     * @param centre The point in space or direction it is looking at
+     * @param centre The point in space to look at
      * @param up The direction of "up". In most cases it is (x=0, y=1, z=0)
      * @param dest The matrix to store the results in
      */
     public static void lookAt(Vector3f position, Vector3f centre, Vector3f up, Matrix4f dest) {
-        float d = (float) Math.sqrt((position.x - centre.x) * (position.x - centre.x) + (position.y - centre.y) * (position.y - centre.y) + (position.z - centre.z) * (position.z - centre.z));
-
-        float Xx = (up.y * ((position.z - centre.z) / d)) - (up.z * ((position.y - centre.y) / d));
-        float Xy = (up.z * ((position.y - centre.y) / d)) - (up.x * ((position.z - centre.z) / d));
-        float Xz = (up.x * ((position.y - centre.y) / d)) - (up.y * ((position.x - centre.x) / d));
-
-        float Yx = ((position.y - centre.y) / d) * Xz - ((position.z - centre.z) / d) * Xy;
-        float Yy = ((position.z - centre.z) / d) * Xx - ((position.x - centre.x) / d) * Xz;
-        float Yz = ((position.x - centre.x) / d) * Xy - ((position.y - centre.y) / d) * Xx;
-
-        float dX = (float) Math.sqrt(Xx * Xx + Xy * Xy + Xz * Xz);
-        float dY = (float) Math.sqrt(Yx * Yx + Yy * Yy + Yz * Yz);
-
-        float Zx = (position.x - centre.x) / d;
-        float Zy = (position.y - centre.y) / d;
-        float Zz = (position.z - centre.z) / d;
-
-
-        Xx /= dX;
-        Xy /= dX;
-        Xz /= dX;
-
-        Yx /= dY;
-        Yy /= dY;
-        Yz /= dY;
-
-        dest.m00 = Xx;
-        dest.m01 = Yx;
-        dest.m02 = Zx;
+        // Compute direction from position to lookAt
+        float dirX, dirY, dirZ;
+        dirX = centre.x - position.x;
+        dirY = centre.y - position.y;
+        dirZ = centre.z - position.z;
+        // Normalize direction
+        float dirLength = Vector3f.distance(position, centre);
+        dirX /= dirLength;
+        dirY /= dirLength;
+        dirZ /= dirLength;
+        // Normalize up
+        float upX, upY, upZ;
+        upX = up.x;
+        upY = up.y;
+        upZ = up.z;
+        float upLength = up.length();
+        upX /= upLength;
+        upY /= upLength;
+        upZ /= upLength;
+        // right = direction x up
+        float rightX, rightY, rightZ;
+        rightX = dirY * upZ - dirZ * upY;
+        rightY = dirZ * upX - dirX * upZ;
+        rightZ = dirX * upY - dirY * upX;
+        // up = right x direction
+        upX = rightY * dirZ - rightZ * dirY;
+        upY = rightZ * dirX - rightX * dirZ;
+        upZ = rightX * dirY - rightY * dirX;
+        // Set matrix elements
+        dest.m00 = rightX;
+        dest.m01 = upX;
+        dest.m02 = -dirX;
         dest.m03 = 0.0f;
-        dest.m10 = Xy;
-        dest.m11 = Yy;
-        dest.m12 = Zy;
+        dest.m10 = rightY;
+        dest.m11 = upY;
+        dest.m12 = -dirY;
         dest.m13 = 0.0f;
-        dest.m20 = Xz;
-        dest.m21 = Yz;
-        dest.m22 = Zz;
+        dest.m20 = rightZ;
+        dest.m21 = upZ;
+        dest.m22 = -dirZ;
         dest.m23 = 0.0f;
-        dest.m30 = -((Xx * position.x) + (Xy * position.y) + (Xz * position.z));
-        dest.m31 = 0.0f;
-        dest.m32 = -((Zx * position.x) + (Zy * position.y) + (Zz * position.z));
-        dest.m33 = 1.0f;        
+        dest.m30 = -rightX * position.x - rightY * position.y - rightZ * position.z;
+        dest.m31 = -upX * position.x - upY * position.y - upZ * position.z;
+        dest.m32 = dirX * position.x + dirY * position.y + dirZ * position.z;
+        dest.m33 = 1.0f;
     }
     
     /** Calculates a view matrix and stores the results directly into the FloatBuffer
@@ -137,46 +140,50 @@ public class CamMath {
      * @param dest The FloatBuffer to store the results in
      */
     public static void lookAt(Vector3f position, Vector3f centre, Vector3f up, FloatBuffer dest) {
-        float d = (float) Math.sqrt((position.x - centre.x) * (position.x - centre.x) + (position.y - centre.y) * (position.y - centre.y) + (position.z - centre.z) * (position.z - centre.z));
-
-        float Xx = (up.y * ((position.z - centre.z) / d)) - (up.z * ((position.y - centre.y) / d));
-        float Xy = (up.z * ((position.y - centre.y) / d)) - (up.x * ((position.z - centre.z) / d));
-        float Xz = (up.x * ((position.y - centre.y) / d)) - (up.y * ((position.x - centre.x) / d));
-
-        float Yx = ((position.y - centre.y) / d) * Xz - ((position.z - centre.z) / d) * Xy;
-        float Yy = ((position.z - centre.z) / d) * Xx - ((position.x - centre.x) / d) * Xz;
-        float Yz = ((position.x - centre.x) / d) * Xy - ((position.y - centre.y) / d) * Xx;
-
-        float dX = (float) Math.sqrt(Xx * Xx + Xy * Xy + Xz * Xz);
-        float dY = (float) Math.sqrt(Yx * Yx + Yy * Yy + Yz * Yz);
-
-        float Zx = (position.x - centre.x) / d;
-        float Zy = (position.y - centre.y) / d;
-        float Zz = (position.z - centre.z) / d;
-
-        Xx /= dX;
-        Xy /= dX;
-        Xz /= dX;
-
-        Yx /= dY;
-        Yy /= dY;
-        Yz /= dY;
-
-        dest.put(Xx);
-        dest.put(Yx);
-        dest.put(Zx);
+        // Compute direction from position to lookAt
+        float dirX, dirY, dirZ;
+        dirX = centre.x - position.x;
+        dirY = centre.y - position.y;
+        dirZ = centre.z - position.z;
+        // Normalize direction
+        float dirLength = Vector3f.distance(position, centre);
+        dirX /= dirLength;
+        dirY /= dirLength;
+        dirZ /= dirLength;
+        // Normalize up
+        float upX, upY, upZ;
+        upX = up.x;
+        upY = up.y;
+        upZ = up.z;
+        float upLength = up.length();
+        upX /= upLength;
+        upY /= upLength;
+        upZ /= upLength;
+        // right = direction x up
+        float rightX, rightY, rightZ;
+        rightX = dirY * upZ - dirZ * upY;
+        rightY = dirZ * upX - dirX * upZ;
+        rightZ = dirX * upY - dirY * upX;
+        // up = right x direction
+        upX = rightY * dirZ - rightZ * dirY;
+        upY = rightZ * dirX - rightX * dirZ;
+        upZ = rightX * dirY - rightY * dirX;
+        // Set matrix elements
+        dest.put(rightX);
+        dest.put(upX);
+        dest.put(-dirX);
         dest.put(0.0f);
-        dest.put(Xy);
-        dest.put(Yy);
-        dest.put(Zy);
+        dest.put(rightY);
+        dest.put(upY);
+        dest.put(-dirY);
         dest.put(0.0f);
-        dest.put(Xz);
-        dest.put(Yz);
-        dest.put(Zz);
+        dest.put(rightZ);
+        dest.put(upZ);
+        dest.put(-dirZ);
         dest.put(0.0f);
-        dest.put(-((Xx * position.x) + (Xy * position.y) + (Xz * position.z)));
-        dest.put(0.0f);
-        dest.put(-((Zx * position.x) + (Zy * position.y) + (Zz * position.z)));
+        dest.put(-rightX * position.x - rightY * position.y - rightZ * position.z);
+        dest.put(-upX * position.x - upY * position.y - upZ * position.z);
+        dest.put(dirX * position.x + dirY * position.y + dirZ * position.z);
         dest.put(1.0f);
     }
     
