@@ -16,6 +16,9 @@ import static java.lang.Math.PI;
  * @author Richard Greenlees
  */
 public class TrigMath {
+    
+    public static final float degreesToRadians = (float) (PI / 180d);
+    static public final float radiansToDegrees = (float) (180d / PI);
 
     /** Return the coTangent of the supplied angle */
     public static float coTangent(float angle) {
@@ -24,7 +27,7 @@ public class TrigMath {
 
     /** Convert the supplied degrees to radians */
     public static float degreesToRadians(float degrees) {
-        return degrees * (float) (PI / 180d);
+        return degrees * degreesToRadians;
     }
     
     

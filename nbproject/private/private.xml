@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/RGreenlees/Documents/NetBeansProjects/JOML/src/com/joml/vector/Vector4f.java</file>
-            <file>file:/C:/Users/RGreenlees/Documents/NetBeansProjects/JOML/src/com/joml/matrix/Matrix3f.java</file>
+            <file>file:/C:/Users/RGreenlees/Documents/NetBeansProjects/JOML/src/com/joml/rot/Quaternion.java</file>
             <file>file:/C:/Users/RGreenlees/Documents/NetBeansProjects/JOML/src/com/joml/vector/Vector3f.java</file>
             <file>file:/C:/Users/RGreenlees/Documents/NetBeansProjects/JOML/src/com/joml/utils/TrigMath.java</file>
             <file>file:/C:/Users/RGreenlees/Documents/NetBeansProjects/JOML/src/com/joml/matrix/Matrix4f.java</file>
-            <file>file:/C:/Users/RGreenlees/Documents/NetBeansProjects/JOML/src/com/joml/utils/CamMath.java</file>
         </group>
     </open-files>
 </project-private>

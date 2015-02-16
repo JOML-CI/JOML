@@ -6,6 +6,8 @@
  */
 package com.joml.vector;
 
+import com.joml.rot.Quaternion;
+
 /**
  * Vector3f
  * 
@@ -75,6 +77,30 @@ public class Vector3f {
             dest.set( v1.x + v2.x,
                       v1.y + v2.y,
                       v1.z + v2.z );
+        }
+        
+        public void mul(Vector3f v) {
+            x *= v.x;
+            y *= v.y;
+            z *= v.z;
+        }
+        
+        public static void mul(Vector3f v1, Vector3f v2, Vector3f dest) {
+            dest.x = v1.x * v2.x;
+            dest.y = v1.y * v2.y;
+            dest.z = v1.z * v2.z;
+        }
+        
+        public void mul(float scalar) {
+            x *= scalar;
+            y *= scalar;
+            z *= scalar;
+        }
+        
+        public static void mul(Vector3f v, float scalar, Vector3f dest) {
+            dest.x = v.x * scalar;
+            dest.y = v.y * scalar;
+            dest.z = v.z * scalar;
         }
 
         /** Returns the length squared of this vector */
@@ -146,6 +172,46 @@ public class Vector3f {
             dest.set ( ((v2.y - v1.y) * (v3.z - v1.z)) - ((v2.z - v1.z) * (v3.y - v1.y)),
                        ((v2.z - v1.z) * (v3.x - v1.x)) - ((v2.x - v1.x) * (v3.z - v1.z)),
                        ((v2.x - v1.x) * (v3.y - v1.y)) - ((v2.y - v1.y) * (v3.x - v1.x)) );
+        }
+        
+        public void transform(Quaternion q) {
+            /* y = -y;
+               z = -z;
+               w = -w; */
+            
+            /*
+                final float newX = other.w * this.x + other.x * this.w + other.y * this.z - other.z * y;
+		final float newY = other.w * this.y + other.y * this.w + other.z * this.x - other.x * z;
+		final float newZ = other.w * this.z + other.z * this.w + other.x * this.y - other.y * x;
+		final float newW = other.w * this.w - other.x * this.x - other.y * this.y - other.z * z;
+            */
+           /* 
+            float x1 = q.x + x * -q.w + y * -q.z - z * -q.y;
+            float y1 = -q.y + y * -q.w + z * q.x - x * -q.z;
+            float z1 = -q.z + z * -q.w + x * -q.y - z * -q.z;
+            float w1 = -q.w - x * q.x - y * -q.y - z * -q.z;
+            
+            float x2 = w1 * q.x + x1 * -q.w + y1 * -q.z - z1 * -q.y;
+            float y2 = w1 * -q.y + y1 * -q.w + z1 * q.x - x1 * -q.z;
+            float z2 = w1 * -q.z + z1 * -q.w + x1 * -q.y - z1 * -q.z;
+            float w2 = w1 * -q.w - x1 * q.x - y1 * -q.y - z1 * -q.z;
+            
+            x = x2;
+            y = y2;
+            z = z2;*/
+            
+            Quaternion v = new Quaternion(x, y, z, 0.0f);
+            Quaternion cq = new Quaternion();
+            Quaternion.conjugate(q, cq);
+            
+            Quaternion result = new Quaternion();
+            Quaternion.mulFast(q, v, result);
+            Quaternion.mul(result, cq, result);
+            
+            x = result.x;
+            y = result.y;
+            z = result.z;
+            
         }
         
         public String toString() {

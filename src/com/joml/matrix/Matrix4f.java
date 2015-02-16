@@ -652,5 +652,35 @@ public class Matrix4f {
         this.m32 = 0.0f;
         this.m33 = 0.0f;
     }
+    
+    public void scale(Vector3f scale) {
+        m00 *= scale.x;
+        m01 *= scale.x;
+        m02 *= scale.x;
+        m03 *= scale.x;
+        m10 *= scale.y;
+        m11 *= scale.y;
+        m12 *= scale.y;
+        m13 *= scale.y;
+        m20 *= scale.z;
+        m21 *= scale.z;
+        m22 *= scale.z;
+        m23 *= scale.z;
+    }
+    
+    public static void scale(Matrix4f original, Vector3f scale, Matrix4f dest) {
+        dest.m00 = original.m00 * scale.x;
+        dest.m01 = original.m01 * scale.x;
+        dest.m02 = original.m02 * scale.x;
+        dest.m03 = original.m03 * scale.x;
+        dest.m10 = original.m10 * scale.y;
+        dest.m11 = original.m11 * scale.y;
+        dest.m12 = original.m12 * scale.y;
+        dest.m12 = original.m13 * scale.y;
+        dest.m20 = original.m20 * scale.z;
+        dest.m21 = original.m21 * scale.z;
+        dest.m22 = original.m22 * scale.z;
+        dest.m23 = original.m23 * scale.z;
+    }
 
 }
