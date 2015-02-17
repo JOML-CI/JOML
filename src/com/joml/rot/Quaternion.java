@@ -616,6 +616,7 @@ public class Quaternion {
     }
 
     /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
+
     public static void LookAt(Vector3f sourcePoint, Vector3f destPoint, Quaternion dest) {
         float dirX = destPoint.x - sourcePoint.x;
         float dirY = destPoint.y - sourcePoint.y;
