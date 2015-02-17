@@ -615,8 +615,8 @@ public class Quaternion {
         dest.w = (scale1 * start.w) + (scale2 * target.w);
     }
 
-    /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
-
+    /** Rotates dest to point towards destPoint, from the supplied sourcePoint.
+     * Assumes a forward Vector of (0,0,1) and an up Vector of (0,1,0)  */
     public static void LookAt(Vector3f sourcePoint, Vector3f destPoint, Quaternion dest) {
         float dirX = destPoint.x - sourcePoint.x;
         float dirY = destPoint.y - sourcePoint.y;
@@ -661,7 +661,8 @@ public class Quaternion {
         dest.fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
     }
     
-    /** Rotates this Quaternion to point towards destPoint, from the supplied sourcePoint */
+    /** Rotates this Quaternion to point towards destPoint, from the supplied sourcePoint.
+     * Assumes a forward Vector of (0,0,1) and an up Vector of (0,1,0)  */
     public void LookAt(Vector3f sourcePoint, Vector3f destPoint) {
         float dirX = destPoint.x - sourcePoint.x;
         float dirY = destPoint.y - sourcePoint.y;
@@ -696,6 +697,96 @@ public class Quaternion {
         float rotAxisX = Vector3f.forward.y * dirZ - Vector3f.forward.z * dirY;
         float rotAxisY = Vector3f.forward.z * dirX - Vector3f.forward.x * dirZ;
         float rotAxisZ = Vector3f.forward.x * dirY - Vector3f.forward.y * dirX;
+
+        length = (float) Math.sqrt(rotAxisX * rotAxisX + rotAxisY * rotAxisY + rotAxisZ * rotAxisZ);
+
+        rotAxisX /= length;
+        rotAxisY /= length;
+        rotAxisZ /= length;
+
+        fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
+    }
+    
+    /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
+    public static void LookAt(Vector3f sourcePoint, Vector3f destPoint, Vector3f up, Vector3f forward, Quaternion dest) {
+        float dirX = destPoint.x - sourcePoint.x;
+        float dirY = destPoint.y - sourcePoint.y;
+        float dirZ = destPoint.z - sourcePoint.z;
+
+        float length = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+
+        dirX /= length;
+        dirY /= length;
+        dirZ /= length;
+
+        float dot = (forward.x * dirX) + (forward.y * dirY) + (forward.z * dirZ);
+
+        if (Math.abs(dot - (-1.0f)) < 0.000001f) {
+            dest.x = up.x;
+            dest.y = up.y;
+            dest.z = up.z;
+            dest.w = (float) Math.PI;
+            return;
+        }
+
+        if (Math.abs(dot - (1.0f)) < 0.000001f) {
+            dest.x = 0.0f;
+            dest.y = 0.0f;
+            dest.z = 0.0f;
+            dest.w = 1.0f;
+            return;
+        }
+
+        float rotAngle = (float) Math.acos(dot);
+        
+        float rotAxisX = forward.y * dirZ - forward.z * dirY;
+        float rotAxisY = forward.z * dirX - forward.x * dirZ;
+        float rotAxisZ = forward.x * dirY - forward.y * dirX;
+
+        length = (float) Math.sqrt(rotAxisX * rotAxisX + rotAxisY * rotAxisY + rotAxisZ * rotAxisZ);
+
+        rotAxisX /= length;
+        rotAxisY /= length;
+        rotAxisZ /= length;
+
+        dest.fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
+    }
+    
+    /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
+    public void LookAt(Vector3f sourcePoint, Vector3f destPoint, Vector3f up, Vector3f forward) {
+        float dirX = destPoint.x - sourcePoint.x;
+        float dirY = destPoint.y - sourcePoint.y;
+        float dirZ = destPoint.z - sourcePoint.z;
+
+        float length = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+
+        dirX /= length;
+        dirY /= length;
+        dirZ /= length;
+
+        float dot = (forward.x * dirX) + (forward.y * dirY) + (forward.z * dirZ);
+
+        if (Math.abs(dot - (-1.0f)) < 0.000001f) {
+            x = up.x;
+            y = up.y;
+            z = up.z;
+            w = (float) Math.PI;
+            return;
+        }
+
+        if (Math.abs(dot - (1.0f)) < 0.000001f) {
+            x = 0.0f;
+            y = 0.0f;
+            z = 0.0f;
+            w = 1.0f;
+            return;
+        }
+
+        float rotAngle = (float) Math.acos(dot);
+        
+        float rotAxisX = forward.y * dirZ - forward.z * dirY;
+        float rotAxisY = forward.z * dirX - forward.x * dirZ;
+        float rotAxisZ = forward.x * dirY - forward.y * dirX;
 
         length = (float) Math.sqrt(rotAxisX * rotAxisX + rotAxisY * rotAxisY + rotAxisZ * rotAxisZ);
 
