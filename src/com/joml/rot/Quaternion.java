@@ -14,15 +14,15 @@ import java.nio.FloatBuffer;
 
 /**
  * Quaternion
- * 
- * Contains the definition and functions for rotations expressed as 4-dimensional vectors
- * 
+ *
+ * Contains the definition and functions for rotations expressed as
+ * 4-dimensional vectors
+ *
  * @author Richard Greenlees
  */
 public class Quaternion {
 
-    
-    public static final Quaternion IDENTITY = new Quaternion(0, 0, 0, 1);
+    public static final Quaternion IDENTITY = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 
     public float x;
     public float y;
@@ -57,7 +57,9 @@ public class Quaternion {
         w = source.w;
     }
 
-    /** Normalize this Quaternion */
+    /**
+     * Normalize this Quaternion
+     */
     public void normalize() {
         float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
 
@@ -66,8 +68,11 @@ public class Quaternion {
         z /= norm;
         w /= norm;
     }
-    
-    /** Normalizes the supplied Quaternion source and stores the results in dest. Does not modify the source */
+
+    /**
+     * Normalizes the supplied Quaternion source and stores the results in dest.
+     * Does not modify the source
+     */
     public static void normalize(Quaternion source, Quaternion dest) {
         float norm = (float) Math.sqrt(source.x * source.x + source.y * source.y + source.z * source.z + source.w * source.w);
 
@@ -77,7 +82,9 @@ public class Quaternion {
         dest.w = source.w / norm;
     }
 
-    /** Adds q2 to this quaternion */
+    /**
+     * Adds q2 to this quaternion
+     */
     public void add(Quaternion q2) {
         x += q2.x;
         y += q2.y;
@@ -85,7 +92,9 @@ public class Quaternion {
         w += q2.w;
     }
 
-    /** Add q2 to q1 and store the results in dest. Does not modify q1 or q2 */
+    /**
+     * Add q2 to q1 and store the results in dest. Does not modify q1 or q2
+     */
     public static void add(Quaternion q1, Quaternion q2, Quaternion dest) {
         dest.x = q1.x + q2.x;
         dest.y = q1.y + q2.y;
@@ -93,29 +102,39 @@ public class Quaternion {
         dest.w = q1.w + q2.w;
     }
 
-    /** Returns the dot of this Quaternion and otherQuat */
+    /**
+     * Returns the dot of this Quaternion and otherQuat
+     */
     public float dot(Quaternion otherQuat) {
         return this.x * otherQuat.x + this.y * otherQuat.y + this.z * otherQuat.z + this.w * otherQuat.w;
     }
 
-    /** Returns the dot product of a and b */
+    /**
+     * Returns the dot product of a and b
+     */
     public static float dot(Quaternion a, Quaternion b) {
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
     }
 
-    /** Finds the angle represented by this Quaternion in degrees */
+    /**
+     * Finds the angle represented by this Quaternion in degrees
+     */
     public final float getAngle() {
         final float angle = 2.0f * (float) Math.acos(w);
         return (angle <= PI) ? angle : 2.0f * (float) PI - angle;
     }
 
-    /** Finds the angle represented by q in degrees */
+    /**
+     * Finds the angle represented by q in degrees
+     */
     public static float getAngle(Quaternion q) {
         final float angle = 2.0f * (float) Math.acos(q.w);
         return (angle <= PI) ? angle : 2.0f * (float) PI - angle;
     }
 
-    /** Generates a rotation matrix from q and stores the results in dest */
+    /**
+     * Generates a rotation matrix from q and stores the results in dest
+     */
     public static final void getMatrix(Quaternion q, Matrix4f dest) {
         float q00 = 2.0f * q.x * q.x;
         float q11 = 2.0f * q.y * q.y;
@@ -146,8 +165,11 @@ public class Quaternion {
         dest.m32 = 0.0f;
         dest.m33 = 1.0f;
     }
-    
-    /** Generates a rotation matrix from this Quaternion and stores the results in dest */
+
+    /**
+     * Generates a rotation matrix from this Quaternion and stores the results
+     * in dest
+     */
     public static final void getMatrix(Quaternion quat, FloatBuffer dest) {
         float q00 = 2.0f * quat.x * quat.x;
         float q11 = 2.0f * quat.y * quat.y;
@@ -179,7 +201,10 @@ public class Quaternion {
         dest.put(1.0f);
     }
 
-    /** Generates a rotation matrix from this Quaternion and stores the results in dest */
+    /**
+     * Generates a rotation matrix from this Quaternion and stores the results
+     * in dest
+     */
     public final void getMatrix(Matrix4f dest) {
         float q00 = 2.0f * this.x * this.x;
         float q11 = 2.0f * this.y * this.y;
@@ -211,7 +236,10 @@ public class Quaternion {
         dest.m33 = 1.0f;
     }
 
-    /** Generates a rotation matrix from this Quaternion and stores the results in dest */
+    /**
+     * Generates a rotation matrix from this Quaternion and stores the results
+     * in dest
+     */
     public final void getMatrix(FloatBuffer dest) {
         float q00 = 2.0f * this.x * this.x;
         float q11 = 2.0f * this.y * this.y;
@@ -243,7 +271,9 @@ public class Quaternion {
         dest.put(1.0f);
     }
 
-    /** Sets this Quaternion to the new values */
+    /**
+     * Sets this Quaternion to the new values
+     */
     public void set(float newX, float newY, float newZ, float newW) {
         x = newX;
         y = newY;
@@ -251,14 +281,18 @@ public class Quaternion {
         w = newW;
     }
 
-    /** Set the x, y and z components of this Quaternion to the new values */
+    /**
+     * Set the x, y and z components of this Quaternion to the new values
+     */
     public void set(float newX, float newY, float newZ) {
         x = newX;
         y = newY;
         z = newZ;
     }
 
-    /** Sets this Quaternion to be a copy of q. Does not modify q */
+    /**
+     * Sets this Quaternion to be a copy of q. Does not modify q
+     */
     public void set(Quaternion q) {
         x = q.x;
         y = q.y;
@@ -266,7 +300,10 @@ public class Quaternion {
         w = q.w;
     }
 
-    /** Sets this Quaternion to be a representation of the supplied axis and angle (in Radians) */
+    /**
+     * Sets this Quaternion to be a representation of the supplied axis and
+     * angle (in Radians)
+     */
     public void fromAxisAngleRad(Vector3f axis, float angle) {
         float hangle = angle / 2.0f;
         float sinAngle = (float) Math.sin(hangle);
@@ -278,7 +315,25 @@ public class Quaternion {
         w = (float) Math.cos(hangle);
     }
 
-    /** Sets this Quaternion to be a representation of the supplied axis and angle (in Degrees) */
+    /**
+     * Sets this Quaternion to be a representation of the supplied axis and
+     * angle (in Radians)
+     */
+    public void fromAxisAngleRad(float axisX, float axisY, float axisZ, float angle) {
+        float hangle = angle / 2.0f;
+        float sinAngle = (float) Math.sin(hangle);
+        float vLength = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+
+        x = (axisX / vLength) * sinAngle;
+        y = (axisY / vLength) * sinAngle;
+        z = (axisZ / vLength) * sinAngle;
+        w = (float) Math.cos(hangle);
+    }
+
+    /**
+     * Sets this Quaternion to be a representation of the supplied axis and
+     * angle (in Degrees)
+     */
     public void fromAxisAngleDeg(Vector3f axis, float angle) {
         float hangle = (angle * TrigMath.degreesToRadians) / 2.0f;
         float sinAngle = (float) Math.sin(hangle);
@@ -290,7 +345,9 @@ public class Quaternion {
         w = (float) Math.cos(hangle);
     }
 
-    /** Multiply this Quaternion by q */
+    /**
+     * Multiply this Quaternion by q
+     */
     public void mul(Quaternion q) {
         set(x = this.x * q.x - this.y * q.y - this.z * q.z - this.w * q.w,
                 y = this.x * q.y + this.y * q.x + this.z * q.w - this.w * q.z,
@@ -298,8 +355,11 @@ public class Quaternion {
                 w = this.x * q.w + this.y * q.z - this.z * q.y + this.w * q.x);
     }
 
-    /** Multiply a by b and store the results in dest.
-     <B>This is not alias safe so make sure dest is not the same as a or b or you WILL get incorrect results!</B> */
+    /**
+     * Multiply a by b and store the results in dest.
+     * <B>This is not alias safe so make sure dest is not the same as a or b or
+     * you WILL get incorrect results!</B>
+     */
     public static void mulFast(Quaternion a, Quaternion b, Quaternion dest) {
         dest.x = a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w;
         dest.y = a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z;
@@ -307,7 +367,9 @@ public class Quaternion {
         dest.w = a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x;
     }
 
-    /** Multiply a by b and store the results in dest. */
+    /**
+     * Multiply a by b and store the results in dest.
+     */
     public static void mul(Quaternion a, Quaternion b, Quaternion dest) {
         dest.set(a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w,
                 a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
@@ -315,7 +377,9 @@ public class Quaternion {
                 a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x);
     }
 
-    /** Invert this Quaternion */
+    /**
+     * Invert this Quaternion
+     */
     public void invert() {
         float norm = (x * x + y * y + z * z + w * w);
         x = x / norm;
@@ -324,7 +388,9 @@ public class Quaternion {
         w = -w / norm;
     }
 
-    /** Inverts q and stores the results in dest. Does not modify q */
+    /**
+     * Inverts q and stores the results in dest. Does not modify q
+     */
     public static void invert(Quaternion q, Quaternion dest) {
         float norm = (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
         dest.x = q.x / norm;
@@ -333,14 +399,18 @@ public class Quaternion {
         dest.w = -q.w / norm;
     }
 
-    /** Divides this Quaternion by b */
+    /**
+     * Divides this Quaternion by b
+     */
     public void div(Quaternion b) {
         // TODO: Remove method calls
         invert();
         mul(b);
     }
 
-    /** Divides a by b and stores the results in dest. Does not modify a or b */
+    /**
+     * Divides a by b and stores the results in dest. Does not modify a or b
+     */
     public static void div(Quaternion a, Quaternion b, Quaternion dest) {
         dest.x = a.x;
         dest.y = a.y;
@@ -351,14 +421,18 @@ public class Quaternion {
         dest.mul(b);
     }
 
-    /** Conjugates this Quaternion */
+    /**
+     * Conjugates this Quaternion
+     */
     public void conjugate() {
         y = -y;
         z = -z;
         w = -w;
     }
 
-    /** Conjugates a and stores the results in dest. Does not modify a */
+    /**
+     * Conjugates a and stores the results in dest. Does not modify a
+     */
     public static void conjugate(Quaternion a, Quaternion dest) {
         dest.x = a.x;
         dest.y = -a.y;
@@ -366,7 +440,9 @@ public class Quaternion {
         dest.w = -a.w;
     }
 
-    /** Set this Quaternion to the identity */
+    /**
+     * Set this Quaternion to the identity
+     */
     public void identity() {
         x = 0.0f;
         y = 0.0f;
@@ -374,7 +450,9 @@ public class Quaternion {
         w = 1.0f;
     }
 
-    /** Calculate this Quaternion using the supplied Vector3f angles (in degrees) */
+    /**
+     * Calculate this Quaternion using the supplied Vector3f angles (in degrees)
+     */
     public void setEulerAnglesDeg(Vector3f angles) {
         final float sp = (float) Math.sin((angles.x * TrigMath.degreesToRadians) * 0.5f);
         final float cp = (float) Math.cos((angles.x * TrigMath.degreesToRadians) * 0.5f);
@@ -393,8 +471,10 @@ public class Quaternion {
         z = (cycp * sr) - (sysp * cr);
         w = (cycp * cr) + (sysp * sr);
     }
-    
-    /** Calculate this Quaternion using the supplied Vector3f angles (in Radians) */
+
+    /**
+     * Calculate this Quaternion using the supplied Vector3f angles (in Radians)
+     */
     public void setEulerAnglesRad(Vector3f angles) {
         final float sp = (float) Math.sin(angles.x * 0.5f);
         final float cp = (float) Math.cos(angles.x * 0.5f);
@@ -414,7 +494,10 @@ public class Quaternion {
         w = (cycp * cr) + (sysp * sr);
     }
 
-    /** Calculate this Quaternion using the supplied pitch, yaw and roll angles (in degrees) */
+    /**
+     * Calculate this Quaternion using the supplied pitch, yaw and roll angles
+     * (in degrees)
+     */
     public void setEulerAnglesDeg(float pitch, float yaw, float roll) {
         final float sp = (float) Math.sin((pitch * TrigMath.degreesToRadians) * 0.5f);
         final float cp = (float) Math.cos((pitch * TrigMath.degreesToRadians) * 0.5f);
@@ -434,17 +517,24 @@ public class Quaternion {
         w = (cycp * cr) + (sysp * sr);
     }
 
-    /** Returns the length of this quaternion */
+    /**
+     * Returns the length of this quaternion
+     */
     public float length() {
         return x * x + y * y + z * z + w * w;
     }
 
-    /** Returns the length of q */
+    /**
+     * Returns the length of q
+     */
     public static float length(Quaternion q) {
         return q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w;
     }
 
-    /** Calculate this Quaternion using the supplied pitch, yaw and roll angles (in Radians) */
+    /**
+     * Calculate this Quaternion using the supplied pitch, yaw and roll angles
+     * (in Radians)
+     */
     public void setEulerAnglesRad(float pitch, float yaw, float roll) {
         final float sp = (float) Math.sin(pitch * 0.5f);
         final float cp = (float) Math.cos(pitch * 0.5f);
@@ -464,13 +554,16 @@ public class Quaternion {
         w = (cycp * sr) - (sysp * cr);
     }
 
-    /** Spherical linear interpolation between this Quaternion and the specified target, using the specified alpha */
+    /**
+     * Spherical linear interpolation between this Quaternion and the specified
+     * target, using the specified alpha
+     */
     public void slerp(Quaternion target, float alpha) {
         final float dot = Math.abs(this.x * target.x + this.y * target.y + this.z * target.z + this.w * target.w);
         float scale1, scale2;
 
         if ((1 - dot) > 0.1) {
-            
+
             final float angle = (float) Math.acos(dot);
             final float sinAngle = 1f / (float) Math.sin(angle);
 
@@ -478,7 +571,7 @@ public class Quaternion {
             scale2 = ((float) Math.sin((alpha * angle)) * sinAngle);
         } else {
             scale1 = 1f - alpha;
-            scale2 = alpha; 
+            scale2 = alpha;
         }
 
         if (dot < 0.f) {
@@ -490,15 +583,18 @@ public class Quaternion {
         z = (scale1 * z) + (scale2 * target.z);
         w = (scale1 * w) + (scale2 * target.w);
     }
-    
-    /** Spherical linear interpolation between the start and target Quaternions, using the specified alpha,
-     * and storing the results in dest. Neither the start or target are modified*/
+
+    /**
+     * Spherical linear interpolation between the start and target Quaternions,
+     * using the specified alpha, and storing the results in dest. Neither the
+     * start or target are modified
+     */
     public static void slerp(Quaternion start, Quaternion target, float alpha, Quaternion dest) {
         final float dot = Math.abs(start.x * target.x + start.y * target.y + start.z * target.z + start.w * target.w);
         float scale1, scale2;
 
         if ((1.0f - dot) > 0.1) {
-            
+
             final float angle = (float) Math.acos(dot);
             final float sinAngle = 1f / (float) Math.sin(angle);
 
@@ -506,7 +602,7 @@ public class Quaternion {
             scale2 = ((float) Math.sin((alpha * angle)) * sinAngle);
         } else {
             scale1 = 1f - alpha;
-            scale2 = alpha; 
+            scale2 = alpha;
         }
 
         if (dot < 0.f) {
@@ -517,6 +613,50 @@ public class Quaternion {
         dest.y = (scale1 * start.y) + (scale2 * target.y);
         dest.z = (scale1 * start.z) + (scale2 * target.z);
         dest.w = (scale1 * start.w) + (scale2 * target.w);
+    }
+
+    public static void LookAt(Vector3f sourcePoint, Vector3f destPoint, Quaternion dest) {
+        float dirX = destPoint.x - sourcePoint.x;
+        float dirY = destPoint.y - sourcePoint.y;
+        float dirZ = destPoint.z - sourcePoint.z;
+
+        float length = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+
+        dirX /= length;
+        dirY /= length;
+        dirZ /= length;
+
+        float dot = (Vector3f.forward.x * dirX) + (Vector3f.forward.y * dirY) + (Vector3f.forward.z * dirZ);
+
+        if (Math.abs(dot - (-1.0f)) < 0.000001f) {
+            dest.x = Vector3f.up.x;
+            dest.y = Vector3f.up.y;
+            dest.z = Vector3f.up.z;
+            dest.w = (float) Math.PI;
+            return;
+        }
+
+        if (Math.abs(dot - (1.0f)) < 0.000001f) {
+            dest.x = 0.0f;
+            dest.y = 0.0f;
+            dest.z = 0.0f;
+            dest.w = 1.0f;
+            return;
+        }
+
+        float rotAngle = (float) Math.acos(dot);
+        
+        float rotAxisX = Vector3f.forward.y * dirZ - Vector3f.forward.z * dirY;
+        float rotAxisY = Vector3f.forward.z * dirX - Vector3f.forward.x * dirZ;
+        float rotAxisZ = Vector3f.forward.x * dirY - Vector3f.forward.y * dirX;
+
+        length = (float) Math.sqrt(rotAxisX * rotAxisX + rotAxisY * rotAxisY + rotAxisZ * rotAxisZ);
+
+        rotAxisX /= length;
+        rotAxisY /= length;
+        rotAxisZ /= length;
+
+        dest.fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
     }
 
     public String toString() {

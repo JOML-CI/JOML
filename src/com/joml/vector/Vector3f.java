@@ -22,6 +22,9 @@ public class Vector3f {
     public float x;
     public float y;
     public float z;
+    
+    public static Vector3f forward = new Vector3f(0,0,1);
+    public static Vector3f up = new Vector3f(0,1,0);
 
     public Vector3f() {
 
@@ -194,6 +197,8 @@ public class Vector3f {
     private static float length(Vector3f source) {
         return (float) Math.sqrt(lengthSquared(source));
     }
+    
+    
 
     /**
      * Normalizes this vector
