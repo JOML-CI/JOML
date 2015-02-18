@@ -1,5 +1,6 @@
 /.settings/
 /build/
+/dist/
 /nbproject/
 /target/
 /.classpath
