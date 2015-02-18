@@ -7,6 +7,14 @@
 	<name>JOML</name>
 	<description>Java-OpenGL-Math-Library forked from RGreenlees/Java-OpenGL-Math-Library
 Java-OpenGL-Math-Library</description>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
