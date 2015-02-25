@@ -25,21 +25,28 @@ package com.joml.vector;
  * 
  * @author Richard Greenlees
  */
-public class Vector4f {
+public class Vector4d {
 
-    public float x;
-    public float y;
-    public float z;
-    public float w;
+    public double x;
+    public double y;
+    public double z;
+    public double w;
 
-    public Vector4f() {
+    public Vector4d() {
     }
 
-    public Vector4f(float newX, float newY, float newZ, float newW) {
+    public Vector4d(double newX, double newY, double newZ, double newW) {
         x = newX;
         y = newY;
         z = newZ;
         w = newW;
+    }
+
+    public final void set(Vector4d v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        w = v.w;
     }
 
     public final void set(Vector4f v) {
@@ -49,7 +56,7 @@ public class Vector4f {
         w = v.w;
     }
 
-    public final void set(float x, float y, float z, float w) {
+    public final void set(double x, double y, double z, double w) {
         this.x = x;
         this.y = y;
         this.z = z;
