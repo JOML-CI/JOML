@@ -20,13 +20,13 @@
 	<scm>
 		<url>https://github.com/JOML-CI/Java-OpenGL-Math-Library</url>
 		<connection>https://github.com/JOML-CI/Java-OpenGL-Math-Library.git</connection>
-		<developerConnection>https://github.com/JOML-CI/Java-OpenGL-Math-Library</developerConnection>
+		<developerConnection>https://github.com/JOML-CI/Java-OpenGL-Math-Library.git</developerConnection>
 	</scm>
 	<developers>
 		<developer>
 			<id>rgreenless</id>
-			<name>RGreenless</name>
-			<email>rgreenless@googlemail.com</email>
+			<name>Richar Greenless</name>
+			<email>r_ja_greenlees@hotmail.com</email>
 		</developer>
 		<developer>
 			<id>kburjack</id>
