@@ -364,7 +364,7 @@ public class Vector4d {
                 + (end.z - start.z) * (end.z - start.z)
                 + (end.w - start.w) * (end.w - start.w));
     }
-    
+
     /**
      * Returns the distance between this Vector and v. Does not modify
      * either
