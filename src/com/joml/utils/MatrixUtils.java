@@ -34,7 +34,7 @@ public class MatrixUtils {
     
     /** Translates, rotates and scales the identity matrix using the supplied position, scale and rotation parameters
      *  to create a complete transformation matrix and stores the results in dest. Does not modify position, scale or rotation */
-    public static void createTransformationMatrix(Vector3f position, Vector3f scale, Quaternion rotation, Matrix4f dest) {
+    public final static void createTransformationMatrix(Vector3f position, Vector3f scale, Quaternion rotation, Matrix4f dest) {
         float q00 = 2.0f * rotation.x * rotation.x;
         float q11 = 2.0f * rotation.y * rotation.y;
         float q22 = 2.0f * rotation.z * rotation.z;
@@ -65,7 +65,7 @@ public class MatrixUtils {
     
     /** Translates, rotates and scales the identity matrix using the supplied position, scale and rotation parameters
      *  to create a complete transformation matrix and stores the results in dest. Does not modify position, scale or rotation */
-    public static void createTransformationMatrix(Vector3f position, float scale, Quaternion rotation, Matrix4f dest) {
+    public final static void createTransformationMatrix(Vector3f position, float scale, Quaternion rotation, Matrix4f dest) {
 
         float q00 = 2.0f * rotation.x * rotation.x;
         float q11 = 2.0f * rotation.y * rotation.y;
@@ -97,7 +97,7 @@ public class MatrixUtils {
     
     /** Translates, rotates and scales the identity matrix using the supplied position, scale and rotation parameters
      *  to create a complete transformation matrix and stores the results in dest. Does not modify position, scale or rotation */
-    public static void createTransformationMatrix(Vector3f position, Vector3f scale, Quaternion rotation, FloatBuffer dest) {
+    public final static void createTransformationMatrix(Vector3f position, Vector3f scale, Quaternion rotation, FloatBuffer dest) {
         float q00 = 2.0f * rotation.x * rotation.x;
         float q11 = 2.0f * rotation.y * rotation.y;
         float q22 = 2.0f * rotation.z * rotation.z;
@@ -128,7 +128,7 @@ public class MatrixUtils {
     
     /** Translates, rotates and scales the identity matrix using the supplied position, scale and rotation parameters
      *  to create a complete transformation matrix and stores the results in dest. Does not modify position, scale or rotation */
-    public static void createTransformationMatrix(Vector3f position, float scale, Quaternion rotation, FloatBuffer dest) {
+    public final static void createTransformationMatrix(Vector3f position, float scale, Quaternion rotation, FloatBuffer dest) {
         float q00 = 2.0f * rotation.x * rotation.x;
         float q11 = 2.0f * rotation.y * rotation.y;
         float q22 = 2.0f * rotation.z * rotation.z;

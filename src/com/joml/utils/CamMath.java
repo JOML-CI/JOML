@@ -42,7 +42,7 @@ public class CamMath {
      * @param zFar far clipping plane distance
      * @param dest Matrix4f to store the result
      */
-    public static void perspective(final float fovy, final float aspect, final float zNear, final float zFar, Matrix4f dest) {
+    public final static void perspective(final float fovy, final float aspect, final float zNear, final float zFar, Matrix4f dest) {
         float y_scale = coTangent(degreesToRadians(fovy / 2.0f));
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
@@ -64,7 +64,7 @@ public class CamMath {
      * @param zFar far clipping plane distance
      * @param dest FloatBuffer to store the result
      */
-    public static void perspective(final float fovy, final float aspect, final float zNear, final float zFar, FloatBuffer dest) {
+    public final static void perspective(final float fovy, final float aspect, final float zNear, final float zFar, FloatBuffer dest) {
         float y_scale = coTangent(degreesToRadians(fovy / 2.0f));
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
@@ -96,7 +96,7 @@ public class CamMath {
      * @param up The direction of "up". In most cases it is (x=0, y=1, z=0)
      * @param dest The matrix to store the results in
      */
-    public static void lookAt(Vector3f position, Vector3f centre, Vector3f up, Matrix4f dest) {
+    public final static void lookAt(Vector3f position, Vector3f centre, Vector3f up, Matrix4f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centre.x - position.x;
@@ -151,7 +151,7 @@ public class CamMath {
      * @param up The direction of "up". In most cases it is (x=0, y=1, z=0)
      * @param dest The FloatBuffer to store the results in
      */
-    public static void lookAt(Vector3f position, Vector3f centre, Vector3f up, FloatBuffer dest) {
+    public final static void lookAt(Vector3f position, Vector3f centre, Vector3f up, FloatBuffer dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centre.x - position.x;
@@ -209,7 +209,7 @@ public class CamMath {
      * @param zFar Far clipping plane distance
      * @param dest FloatBuffer to store the results
      */
-    public static void ortho(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
+    public final static void ortho(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
         dest.clear();
         
         dest.m00 = 2.0f / (right - left);
@@ -231,7 +231,7 @@ public class CamMath {
      * @param zFar Far clipping plane distance
      * @param dest FloatBuffer to store the results
      */
-    public static void ortho(float left, float right, float bottom, float top, float zNear, float zFar, FloatBuffer dest) {
+    public final static void ortho(float left, float right, float bottom, float top, float zNear, float zFar, FloatBuffer dest) {
         dest.put(2.0f / (right - left));
         dest.put(0.0f);
         dest.put(0.0f);

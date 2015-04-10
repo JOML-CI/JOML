@@ -42,36 +42,36 @@ public class Vector2f {
     }
 
     /** Sets the X and Y attributes using the supplied float values */
-    public void set(float newX, float newY) {
+    public final void set(float newX, float newY) {
         x = newX;
         y = newY;
     }
 
     /** Sets this Vector2f to be a clone of v */
-    public void set(Vector2f v) {
+    public final void set(Vector2f v) {
         x = v.x;
         y = v.y;
     }
 
     /** Stores the perpendicular of v in dest. Does not modify v */
-    public static void perpendicular(Vector2f v, Vector2f dest) {
+    public final static void perpendicular(Vector2f v, Vector2f dest) {
         dest.x = v.y;
         dest.y = v.x * -1;
     }
 
     /** Sets this Vector2f to be its perpendicular */
-    public void perpendicular() {
+    public final void perpendicular() {
         set(y, x * -1);
     }
 
     /** Subtracts b from a and stores the result in dest. Does not modify a or b */
-    public static void sub(Vector2f a, Vector2f b, Vector2f dest) {
+    public final static void sub(Vector2f a, Vector2f b, Vector2f dest) {
         dest.x = a.x - b.x;
         dest.y = a.y - b.y;
     }
 
     /** Subtracts v from this Vector2f */
-    public void sub(Vector2f v) {
+    public final void sub(Vector2f v) {
         x -= v.x;
         y -= v.y;
     }
@@ -109,27 +109,27 @@ public class Vector2f {
     }
 
     /** Stores a normalized copy of the supplied Vector2f in dest. Does not modify a */
-    public static void normalize(Vector2f a, Vector2f dest) {
+    public final static void normalize(Vector2f a, Vector2f dest) {
         float length = (float) Math.sqrt((a.x * a.x) + (a.y * a.y));
         dest.x = a.x / length;
         dest.y = a.y / length;
     }
     
     /** Normalizes this Vector2f */
-    public void normalize() {
+    public final void normalize() {
         float length = (float) Math.sqrt((x * x) + (y * y));
         x /= length;
         y /= length;
     }
     
     /** Adds v to this Vector2f */
-    public void add(Vector2f v) {
+    public final void add(Vector2f v) {
         x += v.x;
         y += v.y;
     }
     
     /** Adds b to a and stores the results in dest */
-    public static void add(Vector2f a, Vector2f b, Vector2f dest) {
+    public final static void add(Vector2f a, Vector2f b, Vector2f dest) {
         dest.x = a.x + b.x;
         dest.y = a.y + b.y;
     }

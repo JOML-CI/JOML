@@ -34,7 +34,7 @@ public class SurfaceMath {
      * Calculates the normal of a surface defined by points v1, v2 and v3 and
      * stores it in dest. v1, v2 and v3 are not modified
      */
-    public static void normal(Vector3f v1, Vector3f v2, Vector3f v3, Vector3f dest) {
+    public final static void normal(Vector3f v1, Vector3f v2, Vector3f v3, Vector3f dest) {
         dest.x = ((v2.y - v1.y) * (v3.z - v1.z)) - ((v2.z - v1.z) * (v3.y - v1.y));
         dest.y = ((v2.z - v1.z) * (v3.x - v1.x)) - ((v2.x - v1.x) * (v3.z - v1.z));
         dest.z = ((v2.x - v1.x) * (v3.y - v1.y)) - ((v2.y - v1.y) * (v3.x - v1.x));
@@ -50,7 +50,7 @@ public class SurfaceMath {
      * @param uv3 UV of third vertex
      * @param dest The tangent will be stored here
      */
-    public static void tangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
+    public final static void tangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
         float f = 1.0f / ((uv2.x - uv1.x) * (uv3.y - uv1.y) - (uv3.x - uv1.x) * (uv2.y - uv1.y));
 
         dest.x = f * ((uv3.y - uv1.y) * (v2.x - v1.x) - (uv2.y - uv1.y) * (v3.x - v1.x));
@@ -68,7 +68,7 @@ public class SurfaceMath {
      * @param uv3 UV of third vertex
      * @param dest The binormal will be stored here
      */
-    public static void binormal(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
+    public final static void binormal(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
         float f = 1.0f / ((uv2.x - uv1.x) * (uv3.y - uv1.y) - (uv3.x - uv1.x) * (uv2.y - uv1.y));
 
         dest.x = f * ((uv2.x - uv1.x) * (v3.x - v1.x) - (uv3.x - uv1.x) * (v2.x - v1.x));

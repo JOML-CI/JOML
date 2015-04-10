@@ -58,21 +58,21 @@ public class Vector4f {
         this.w = w;
     }
 
-    public void set(Vector4f v) {
+    public final void set(Vector4f v) {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
         this.w = v.w;
     }
 
-    public void set(Vector3f v, float w) {
+    public final void set(Vector3f v, float w) {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
         this.w = w;
     }
 
-    public void set(float x, float y, float z, float w) {
+    public final void set(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -82,7 +82,7 @@ public class Vector4f {
     /**
      * Subtracts the supplied vector from this one
      */
-    public void sub(Vector4f v) {
+    public final void sub(Vector4f v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
@@ -93,7 +93,7 @@ public class Vector4f {
      * Subtracts v2 from v1 and stores the results in dest. Does not modify v1
      * or v2
      */
-    public static void sub(Vector4f v1, Vector4f v2, Vector4f dest) {
+    public final static void sub(Vector4f v1, Vector4f v2, Vector4f dest) {
         dest.set(v1.x - v2.x,
                 v1.y - v2.y,
                 v1.z - v2.z,
@@ -103,7 +103,7 @@ public class Vector4f {
     /**
      * Adds the supplied vector to this one
      */
-    public void add(Vector4f v) {
+    public final void add(Vector4f v) {
         x += v.x;
         y += v.y;
         z += v.z;
@@ -113,7 +113,7 @@ public class Vector4f {
     /**
      * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
      */
-    public static void add(Vector4f v1, Vector4f v2, Vector4f dest) {
+    public final static void add(Vector4f v1, Vector4f v2, Vector4f dest) {
         dest.set(v1.x + v2.x,
                 v1.y + v2.y,
                 v1.z + v2.z,
@@ -123,7 +123,7 @@ public class Vector4f {
     /**
      * Multiply this Vector4f by another Vector4f
      */
-    public void mul(Vector4f v) {
+    public final void mul(Vector4f v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
@@ -136,7 +136,7 @@ public class Vector4f {
      * <B>This is not alias safe so make sure dest is not the same as the left
      * or right parameters or you WILL get incorrect results!</B>
      */
-    public static void mulFast(Vector4f v1, Vector4f v2, Vector4f dest) {
+    public final static void mulFast(Vector4f v1, Vector4f v2, Vector4f dest) {
         dest.x = v1.x * v2.x;
         dest.y = v1.y * v2.y;
         dest.z = v1.z * v2.z;
@@ -146,7 +146,7 @@ public class Vector4f {
     /**
      * Multiply this Vector4f by the given rotation matrix mat
      */
-    public void mul(Matrix4f mat) {
+    public final void mul(Matrix4f mat) {
         set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
@@ -157,7 +157,7 @@ public class Vector4f {
      * Multiply Vector4f v by the given rotation matrix mat and store the
      * results in dest. Does not modify v
      */
-    public static void mul(Vector4f v, Matrix4f mat, Vector4f dest) {
+    public final static void mul(Vector4f v, Matrix4f mat, Vector4f dest) {
         dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w,
                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w, 
@@ -170,7 +170,7 @@ public class Vector4f {
      * <B>This is not alias safe so make sure dest is not the same as the left
      * or right parameters or you WILL get incorrect results!</B>
      */
-    public static void mulFast(Vector4f v, Matrix4f mat, Vector4f dest) {
+    public final static void mulFast(Vector4f v, Matrix4f mat, Vector4f dest) {
         dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w;
         dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w;
         dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w;
@@ -180,7 +180,7 @@ public class Vector4f {
     /**
      * Multiply this Vector4f by the given scalar value
      */
-    public void mul(float scalar) {
+    public final void mul(float scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
@@ -188,7 +188,7 @@ public class Vector4f {
     }
 
     /* Multiply the given Vector4f v by the scalar value, and store in dest. Does not modify v */
-    public static void mul(Vector4f v, float scalar, Vector4f dest) {
+    public final static void mul(Vector4f v, float scalar, Vector4f dest) {
         dest.x = v.x * scalar;
         dest.y = v.y * scalar;
         dest.z = v.z * scalar;
@@ -226,7 +226,7 @@ public class Vector4f {
     /**
      * Normalizes this vector
      */
-    public void normalize() {
+    public final void normalize() {
         float d = length();
         x /= d;
         y /= d;
@@ -238,7 +238,7 @@ public class Vector4f {
      * Normalize the original vector and store the results in dest. Does not
      * modify the original
      */
-    public static void normalize(Vector4f original, Vector4f dest) {
+    public final static void normalize(Vector4f original, Vector4f dest) {
         float d = length(original);
         dest.set(original.x / d,
                 original.y / d,

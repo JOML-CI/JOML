@@ -33,12 +33,12 @@ public class TrigMath {
     static public final float radiansToDegrees = (float) (180d / PI);
 
     /** Return the coTangent of the supplied angle */
-    public static float coTangent(float angle) {
+    public final static float coTangent(float angle) {
         return (float) (1f / Math.tan(angle));
     }
 
     /** Convert the supplied degrees to radians */
-    public static float degreesToRadians(float degrees) {
+    public final static float degreesToRadians(float degrees) {
         return degrees * degreesToRadians;
     }
     
