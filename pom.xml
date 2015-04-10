@@ -5,16 +5,45 @@
 	<artifactId>joml</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>JOML</name>
-	<description>Java-OpenGL-Math-Library forked from RGreenlees/Java-OpenGL-Math-Library
-Java-OpenGL-Math-Library</description>
-
+	<description>Java-OpenGL-Math-Library</description>
+	<inceptionYear>2015</inceptionYear>
+	<organization>
+		<name>LWJGL</name>
+		<url>http://www.lwjgl.org</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://github.com/JOML-CI/Java-OpenGL-Math-Library</url>
+		<connection>https://github.com/JOML-CI/Java-OpenGL-Math-Library.git</connection>
+		<developerConnection>https://github.com/JOML-CI/Java-OpenGL-Math-Library.git</developerConnection>
+	</scm>
+	<developers>
+		<developer>
+			<id>rgreenless</id>
+			<name>Richar Greenless</name>
+			<email>r_ja_greenlees@hotmail.com</email>
+		</developer>
+		<developer>
+			<id>kburjack</id>
+			<name>Kai Burjack</name>
+			<email>kburjack@googlemail.com</email>
+		</developer>
+	</developers>
 	<distributionManagement>
+		<repository>
+			<id>oss.sonatype.org</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 		<snapshotRepository>
-			<id>ossrh</id>
+			<id>oss.sonatype.org</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -25,6 +54,81 @@ Java-OpenGL-Math-Library</description>
 					<source>1.5</source>
 					<target>1.5</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>package-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.1</version>
+				<executions>
+					<execution>
+						<id>package-javadoc</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>oss.sonatype.org</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<description>${project.version}</description>
+				</configuration>
+				<executions>
+					<execution>
+						<id>deploy-to-sonatype</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+							<goal>release</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

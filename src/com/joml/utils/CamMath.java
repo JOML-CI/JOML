@@ -147,7 +147,7 @@ public class CamMath {
     /** Calculates a view matrix and stores the results directly into the FloatBuffer
      * 
      * @param position The position of the camera
-     * @param centre The point in space or direction it is looking at
+     * @param centre The point in space to look at
      * @param up The direction of "up". In most cases it is (x=0, y=1, z=0)
      * @param dest The FloatBuffer to store the results in
      */
@@ -214,10 +214,10 @@ public class CamMath {
         
         dest.m00 = 2.0f / (right - left);
         dest.m11 = 2.0f / (top - bottom);
-        dest.m22 = (-2.0f) / (zFar - zNear);
-        dest.m30 = -((right + left) / (right - left));
-        dest.m31 = -((top + bottom) / (top - bottom));
-        dest.m32 = -((zFar + zNear) / (zFar - zNear));
+        dest.m22 = -2.0f / (zFar - zNear);
+        dest.m30 = -(right + left) / (right - left);
+        dest.m31 = -(top + bottom) / (top - bottom);
+        dest.m32 = -(zFar + zNear) / (zFar - zNear);
         dest.m33 = 1.0f;
     }
     
@@ -244,9 +244,9 @@ public class CamMath {
         dest.put(0.0f);
         dest.put(-2.0f / (zFar - zNear));
         dest.put(0.0f);
-        dest.put(((right + left) / (right - left)));
-        dest.put(-((top + bottom) / (top - bottom)));
-        dest.put(-((zFar + zNear) / (zFar - zNear)));
+        dest.put((right + left) / (right - left));
+        dest.put(-(top + bottom) / (top - bottom));
+        dest.put(-(zFar + zNear) / (zFar - zNear));
         dest.put(1.0f);
     }
     
