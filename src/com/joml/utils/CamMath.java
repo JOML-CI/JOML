@@ -244,7 +244,7 @@ public class CamMath {
         dest.put(0.0f);
         dest.put(-2.0f / (zFar - zNear));
         dest.put(0.0f);
-        dest.put((right + left) / (right - left));
+        dest.put(-(right + left) / (right - left));
         dest.put(-(top + bottom) / (top - bottom));
         dest.put(-(zFar + zNear) / (zFar - zNear));
         dest.put(1.0f);
