@@ -232,22 +232,22 @@ public class CamMath {
      * @param dest FloatBuffer to store the results
      */
     public final static void ortho(float left, float right, float bottom, float top, float zNear, float zFar, FloatBuffer dest) {
-        dest.put(2.0f / (right - left));
-        dest.put(0.0f);
-        dest.put(0.0f);
-        dest.put(0.0f);
-        dest.put(0.0f);               
-        dest.put(2.0f / (top - bottom));
-        dest.put(0.0f);
-        dest.put(0.0f);
-        dest.put(0.0f);
-        dest.put(0.0f);
-        dest.put(-2.0f / (zFar - zNear));
-        dest.put(0.0f);
-        dest.put((right + left) / (right - left));
-        dest.put(-(top + bottom) / (top - bottom));
-        dest.put(-(zFar + zNear) / (zFar - zNear));
-        dest.put(1.0f);
+        dest.put(2.0f / (right - left));            //m00
+        dest.put(0.0f);                             //m01
+        dest.put(0.0f);                             //m02
+        dest.put(0.0f);                             //m03
+        dest.put(0.0f);                             //m10
+        dest.put(2.0f / (top - bottom));            //m11
+        dest.put(0.0f);                             //m12
+        dest.put(0.0f);                             //m13
+        dest.put(0.0f);                             //m20
+        dest.put(0.0f);                             //m21
+        dest.put(-2.0f / (zFar - zNear));           //m22
+        dest.put(0.0f);                             //m23
+        dest.put(-(right + left) / (right - left)); //m30
+        dest.put(-(top + bottom) / (top - bottom)); //m31
+        dest.put(-(zFar + zNear) / (zFar - zNear)); //m32
+        dest.put(1.0f);                             //m33
     }
     
 }
