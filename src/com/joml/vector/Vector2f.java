@@ -134,4 +134,13 @@ public class Vector2f {
         dest.y = a.y + b.y;
     }
 
+    /**
+     * Set all components to zero.
+     */
+    public void zero() {
+        this.x = 0.0f;
+        this.y = 0.0f;
+    }
+
+
 }

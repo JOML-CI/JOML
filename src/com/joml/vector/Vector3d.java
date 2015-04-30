@@ -454,6 +454,16 @@ public class Vector3d {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
     }
 
+    /**
+     * Set all components to zero.
+     */
+    public void zero() {
+        this.x = 0.0;
+        this.y = 0.0;
+        this.z = 0.0;
+    }
+
+
     public String toString() {
         return "Vector3d { " + x + ", " + y + ", " + z + " }";
     }

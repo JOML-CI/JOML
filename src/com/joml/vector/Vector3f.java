@@ -303,6 +303,15 @@ public class Vector3f {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
     }
 
+    /**
+     * Set all components to zero.
+     */
+    public void zero() {
+        this.x = 0.0f;
+        this.y = 0.0f;
+        this.z = 0.0f;
+    }
+
     public String toString() {
         return "Vector3f { " + x + ", " + y + ", " + z + " }";
     }

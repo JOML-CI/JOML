@@ -383,6 +383,17 @@ public class Vector4d {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
     }
 
+    /**
+     * Set all components to zero.
+     */
+    public void zero() {
+        this.x = 0.0;
+        this.y = 0.0;
+        this.z = 0.0;
+        this.w = 0.0;
+    }
+
+
     public String toString() {
         return "Vector4d { " + x + ", " + y + ", " + z + ", " + w + " }";
     }
