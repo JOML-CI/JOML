@@ -85,8 +85,6 @@ public class CamMath {
         dest.put(0.0f);
         dest.put(-((2.0f * zNear * zFar) / frustrum_length));
         dest.put(0.0f);
-        
-        
     }
     
     /** Calculates a view matrix

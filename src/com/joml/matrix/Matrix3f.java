@@ -20,6 +20,8 @@ package com.joml.matrix;
 
 import java.nio.FloatBuffer;
 
+import com.joml.vector.Vector2f;
+
 /**
  * Matrix3f
  * 
@@ -306,6 +308,34 @@ public class Matrix3f {
         dest.m20 = original.m02;
         dest.m21 = original.m12;
         dest.m22 = original.m22;
+    }
+
+    /**
+     * Set this matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public void translate(float x, float y) {
+        this.m00 = 1.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = 1.0f;
+        this.m12 = 0.0f;
+        this.m20 = x;
+        this.m21 = y;
+        this.m22 = 1.0f;
+    }
+
+    /**
+     * Set this matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public void translate(Vector2f position) {
+        translate(position.x, position.y);
     }
 
     /** Multiply this matrix by the scalar value */

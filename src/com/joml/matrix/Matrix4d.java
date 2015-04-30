@@ -23,8 +23,6 @@ import java.nio.FloatBuffer;
 
 import com.joml.vector.Vector3d;
 import com.joml.vector.Vector3f;
-import com.joml.vector.Vector4d;
-import com.joml.vector.Vector4f;
 
 /**
  * Matrix4f
@@ -135,22 +133,22 @@ public class Matrix4d {
     
     /** Resets this matrix to the identity */
     public final void identity() {
-        this.m00 = 1.0f;
-        this.m01 = 0.0f;
-        this.m02 = 0.0f;
-        this.m03 = 0.0f;
-        this.m10 = 0.0f;
-        this.m11 = 1.0f;
-        this.m12 = 0.0f;
-        this.m13 = 0.0f;
-        this.m20 = 0.0f;
-        this.m21 = 0.0f;
-        this.m22 = 1.0f;
-        this.m23 = 0.0f;
-        this.m30 = 0.0f;
-        this.m31 = 0.0f;
-        this.m32 = 0.0f;
-        this.m33 = 1.0f;
+        this.m00 = 1.0;
+        this.m01 = 0.0;
+        this.m02 = 0.0;
+        this.m03 = 0.0;
+        this.m10 = 0.0;
+        this.m11 = 1.0;
+        this.m12 = 0.0;
+        this.m13 = 0.0;
+        this.m20 = 0.0;
+        this.m21 = 0.0;
+        this.m22 = 1.0;
+        this.m23 = 0.0;
+        this.m30 = 0.0;
+        this.m31 = 0.0;
+        this.m32 = 0.0;
+        this.m33 = 1.0;
     }
 
     /** Set the values within this matrix to be the same as the supplied parameter matrix */
@@ -728,132 +726,49 @@ public class Matrix4d {
         dest.put(original.m33);
     }
 
-    /** Translate this matrix by the supplied Vector3d */
+    /**
+     * Set this matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public void translate(double x, double y, double z) {
+        this.m00 = 1.0;
+        this.m01 = 0.0;
+        this.m02 = 0.0;
+        this.m03 = 0.0;
+        this.m10 = 0.0;
+        this.m11 = 1.0;
+        this.m12 = 0.0;
+        this.m13 = 0.0;
+        this.m20 = 0.0;
+        this.m21 = 0.0;
+        this.m22 = 1.0;
+        this.m23 = 0.0;
+        this.m30 = x;
+        this.m31 = y;
+        this.m32 = z;
+        this.m33 = 1.0;
+    }
+
+    /**
+     * Set this matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public void translate(Vector3f position) {
+        translate(position.x, position.y, position.z);
+    }
+
+    /**
+     * Set this matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
     public final void translate(Vector3d position) {
-        m30 = position.x;
-        m31 = position.y;
-        m32 = position.z;
-        m33 = 1.0;
-    }
-
-    /** Translate this matrix by the supplied Vector3f */
-    public final void translate(Vector3f position) {
-        m30 = position.x;
-        m31 = position.y;
-        m32 = position.z;
-        m33 = 1.0;
-    }
-
-    /** Translate the supplied Matrix by the supplied Vector3d and store the results in dest. Does not modify the original matrix */
-    public final static void translate(Matrix4d matrix, Vector3d position, Matrix4d dest) {
-        dest.m00 = matrix.m00;
-        dest.m01 = matrix.m01;
-        dest.m02 = matrix.m02;
-        dest.m03 = matrix.m03;
-        dest.m10 = matrix.m10;
-        dest.m11 = matrix.m11;
-        dest.m12 = matrix.m12;
-        dest.m13 = matrix.m13;
-        dest.m20 = matrix.m20;
-        dest.m21 = matrix.m21;
-        dest.m22 = matrix.m22;
-        dest.m23 = matrix.m23;
-        dest.m30 = position.x;
-        dest.m31 = position.y;
-        dest.m32 = position.z;
-        dest.m33 = 1.0;
-    }
-
-    /** Translate the supplied Matrix by the supplied Vector3f and store the results in dest. Does not modify the original matrix */
-    public final static void translate(Matrix4d matrix, Vector3f position, Matrix4d dest) {
-        dest.m00 = matrix.m00;
-        dest.m01 = matrix.m01;
-        dest.m02 = matrix.m02;
-        dest.m03 = matrix.m03;
-        dest.m10 = matrix.m10;
-        dest.m11 = matrix.m11;
-        dest.m12 = matrix.m12;
-        dest.m13 = matrix.m13;
-        dest.m20 = matrix.m20;
-        dest.m21 = matrix.m21;
-        dest.m22 = matrix.m22;
-        dest.m23 = matrix.m23;
-        dest.m30 = position.x;
-        dest.m31 = position.y;
-        dest.m32 = position.z;
-        dest.m33 = 1.0;
-    }
-
-    /** Translate this matrix by the supplied Vector4d */
-    public final void translate(Vector4d position) {
-        m30 = position.x;
-        m31 = position.y;
-        m32 = position.z;
-        m33 = position.w;
-    }
-
-    /** Translate this matrix by the supplied Vector4f */
-    public final void translate(Vector4f position) {
-        m30 = position.x;
-        m31 = position.y;
-        m32 = position.z;
-        m33 = position.w;
-    }
-
-    /** Translate the supplied Matrix by the supplied Vector4d and store the results in dest. Does not modify the original matrix */
-    public final static void translate(Matrix4d matrix, Vector4d position, Matrix4d dest) {
-        dest.m30 = position.x;
-        dest.m31 = position.y;
-        dest.m32 = position.z;
-        dest.m33 = position.w;
-    }
-
-    /** Translate the supplied Matrix by the supplied Vector4f and store the results in dest. Does not modify the original matrix */
-    public final static void translate(Matrix4d matrix, Vector4f position, Matrix4d dest) {
-        dest.m30 = position.x;
-        dest.m31 = position.y;
-        dest.m32 = position.z;
-        dest.m33 = position.w;
-    }
-
-    /** Translate the supplied Matrix by the supplied Vector4d and store the results in the target DoubleBuffer. Does not modify the original matrix */
-    public final static void translate(Matrix4d matrix, Vector4d position, DoubleBuffer dest) {
-        dest.put(matrix.m00);
-        dest.put(matrix.m01);
-        dest.put(matrix.m02);
-        dest.put(matrix.m03);
-        dest.put(matrix.m10);
-        dest.put(matrix.m11);
-        dest.put(matrix.m12);
-        dest.put(matrix.m13);
-        dest.put(matrix.m20);
-        dest.put(matrix.m21);
-        dest.put(matrix.m22);
-        dest.put(matrix.m23);
-        dest.put(position.x);
-        dest.put(position.y);
-        dest.put(position.z);
-        dest.put(position.w);
-    }
-
-    /** Translate the supplied Matrix by the supplied Vector4f and store the results in the target DoubleBuffer. Does not modify the original matrix */
-    public final static void translate(Matrix4d matrix, Vector4f position, DoubleBuffer dest) {
-        dest.put(matrix.m00);
-        dest.put(matrix.m01);
-        dest.put(matrix.m02);
-        dest.put(matrix.m03);
-        dest.put(matrix.m10);
-        dest.put(matrix.m11);
-        dest.put(matrix.m12);
-        dest.put(matrix.m13);
-        dest.put(matrix.m20);
-        dest.put(matrix.m21);
-        dest.put(matrix.m22);
-        dest.put(matrix.m23);
-        dest.put(position.x);
-        dest.put(position.y);
-        dest.put(position.z);
-        dest.put(position.w);
+        translate(position.x, position.y, position.z);
     }
 
     public String toString() {

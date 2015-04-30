@@ -20,6 +20,9 @@ package com.joml.matrix;
 
 import java.nio.DoubleBuffer;
 
+import com.joml.vector.Vector2d;
+import com.joml.vector.Vector2f;
+
 /**
  * Matrix3f
  * 
@@ -389,6 +392,44 @@ public class Matrix3d {
         dest.m20 = original.m02;
         dest.m21 = original.m12;
         dest.m22 = original.m22;
+    }
+
+    /**
+     * Set this matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public void translate(double x, double y) {
+        this.m00 = 1.0;
+        this.m01 = 0.0;
+        this.m02 = 0.0;
+        this.m10 = 0.0;
+        this.m11 = 1.0;
+        this.m12 = 0.0;
+        this.m20 = x;
+        this.m21 = y;
+        this.m22 = 1.0;
+    }
+
+    /**
+     * Set this matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public void translate(Vector2d position) {
+        translate(position.x, position.y);
+    }
+
+    /**
+     * Set this matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public void translate(Vector2f position) {
+        translate(position.x, position.y);
     }
 
     /** Multiply this matrix by the scalar value */

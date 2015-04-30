@@ -41,6 +41,5 @@ public class TrigMath {
     public final static float degreesToRadians(float degrees) {
         return degrees * degreesToRadians;
     }
-    
-    
+
 }

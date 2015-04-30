@@ -41,7 +41,6 @@ public class Vector3d {
     public static Vector3d up = new Vector3d(0, 1, 0);
 
     public Vector3d() {
-
     }
 
     public Vector3d(double x, double y, double z) {
@@ -462,7 +461,6 @@ public class Vector3d {
         this.y = 0.0;
         this.z = 0.0;
     }
-
 
     public String toString() {
         return "Vector3d { " + x + ", " + y + ", " + z + " }";

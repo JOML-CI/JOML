@@ -39,7 +39,6 @@ public class Vector3f {
     public static Vector3f up = new Vector3f(0, 1, 0);
 
     public Vector3f() {
-
     }
 
     public Vector3f(float x, float y, float z) {

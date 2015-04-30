@@ -28,7 +28,6 @@ public class Vector2d {
     public double y;
 
     public Vector2d() {
-
     }
 
     public Vector2d(double newX, double newY) {
@@ -196,6 +195,5 @@ public class Vector2d {
         this.x = 0.0;
         this.y = 0.0;
     }
-
 
 }

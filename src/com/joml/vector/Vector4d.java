@@ -87,6 +87,20 @@ public class Vector4d {
         this.w = v.w;
     }
 
+    public final void set(Vector3d v, double w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
+        this.w = w;
+    }
+
+    public final void set(Vector3f v, double w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
+        this.w = w;
+    }
+
     public final void set(double x, double y, double z, double w) {
         this.x = x;
         this.y = y;
@@ -392,7 +406,6 @@ public class Vector4d {
         this.z = 0.0;
         this.w = 0.0;
     }
-
 
     public String toString() {
         return "Vector4d { " + x + ", " + y + ", " + z + ", " + w + " }";

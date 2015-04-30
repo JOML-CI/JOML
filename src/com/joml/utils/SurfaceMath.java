@@ -53,7 +53,6 @@ public class SurfaceMath {
      * @param dest The tangent will be stored here
      */
     public final static void tangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
-
         float DeltaV1 = uv2.y - uv1.y;
         float DeltaV2 = uv3.y - uv1.y;
 
@@ -64,7 +63,6 @@ public class SurfaceMath {
         dest.z = f * (DeltaV2 * (v2.z - v1.z) - DeltaV1 * (v3.z - v1.z));
 
         dest.normalize();
-
     }
 
     /**
@@ -80,7 +78,6 @@ public class SurfaceMath {
      * @param dest The binormal will be stored here
      */
     public final static void bitangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
-
         float DeltaU1 = uv2.x - uv1.x;
         float DeltaU2 = uv3.x - uv1.x;
 

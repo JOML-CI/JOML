@@ -34,7 +34,6 @@ import java.nio.FloatBuffer;
  * 
  * @author Richard Greenlees
  */
-
 public class Matrix4f {
     
     public float m00;

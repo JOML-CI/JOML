@@ -28,7 +28,6 @@ public class Vector2f {
     public float y;
 
     public Vector2f() {
-
     }
 
     public Vector2f(float newX, float newY) {
@@ -141,6 +140,5 @@ public class Vector2f {
         this.x = 0.0f;
         this.y = 0.0f;
     }
-
 
 }
