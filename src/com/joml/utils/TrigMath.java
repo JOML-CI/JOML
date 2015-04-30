@@ -18,8 +18,6 @@
  */
 package com.joml.utils;
 
-import static java.lang.Math.PI;
-
 /**
  * TrigMath
  * 
@@ -29,8 +27,8 @@ import static java.lang.Math.PI;
  */
 public class TrigMath {
     
-    public static final float degreesToRadians = (float) (PI / 180d);
-    static public final float radiansToDegrees = (float) (180d / PI);
+    public static final float degreesToRadians = (float) (Math.PI / 180d);
+    static public final float radiansToDegrees = (float) (180d / Math.PI);
 
     /** Return the coTangent of the supplied angle */
     public final static float coTangent(float angle) {

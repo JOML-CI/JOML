@@ -471,7 +471,6 @@ public class Matrix3d {
         dest.put(source.m22 * scalar);
     }
 
-    @Override
     public String toString() {
         return "Matrix3d { " + this.m00 + ", " + this.m10 + ", " + this.m20 + ",\n"
                 + "           " + this.m01 + ", " + this.m11 + ", " + this.m21 + ",\n"

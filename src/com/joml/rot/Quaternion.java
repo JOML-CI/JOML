@@ -21,7 +21,6 @@ package com.joml.rot;
 import com.joml.matrix.Matrix4f;
 import com.joml.utils.TrigMath;
 import com.joml.vector.Vector3f;
-import static java.lang.Math.PI;
 import java.nio.FloatBuffer;
 
 /**
@@ -133,7 +132,7 @@ public class Quaternion {
      */
     public final float getAngle() {
         final float angle = 2.0f * (float) Math.acos(w);
-        return (angle <= PI) ? angle : 2.0f * (float) PI - angle;
+        return (angle <= Math.PI) ? angle : 2.0f * (float) Math.PI - angle;
     }
 
     /**
@@ -141,7 +140,7 @@ public class Quaternion {
      */
     public final static float getAngle(Quaternion q) {
         final float angle = 2.0f * (float) Math.acos(q.w);
-        return (angle <= PI) ? angle : 2.0f * (float) PI - angle;
+        return (angle <= Math.PI) ? angle : 2.0f * (float) Math.PI - angle;
     }
 
     /**

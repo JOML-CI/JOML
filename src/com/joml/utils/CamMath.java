@@ -19,8 +19,6 @@
 package com.joml.utils;
 
 import com.joml.matrix.Matrix4f;
-import static com.joml.utils.TrigMath.coTangent;
-import static com.joml.utils.TrigMath.degreesToRadians;
 import com.joml.vector.Vector3f;
 import java.nio.FloatBuffer;
 
@@ -43,7 +41,7 @@ public class CamMath {
      * @param dest Matrix4f to store the result
      */
     public final static void perspective(final float fovy, final float aspect, final float zNear, final float zFar, Matrix4f dest) {
-        float y_scale = coTangent(degreesToRadians(fovy / 2.0f));
+        float y_scale = TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0f));
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
         
@@ -65,7 +63,7 @@ public class CamMath {
      * @param dest FloatBuffer to store the result
      */
     public final static void perspective(final float fovy, final float aspect, final float zNear, final float zFar, FloatBuffer dest) {
-        float y_scale = coTangent(degreesToRadians(fovy / 2.0f));
+        float y_scale = TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0f));
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
         
