@@ -398,7 +398,7 @@ public class Matrix3f {
     }
 
     /** Sets all the values within this matrix to 0 */
-    public final void clear() {
+    public final void zero() {
         this.m00 = 0.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;

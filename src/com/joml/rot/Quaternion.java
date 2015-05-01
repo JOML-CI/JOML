@@ -462,70 +462,71 @@ public class Quaternion {
     }
 
     /**
-     * Calculate this Quaternion using the supplied Vector3f angles (in degrees)
+     * Calculate this Quaternion using the supplied Vector3f angles (in degrees) with rotation order XYZ.
      */
-    public final void setEulerAnglesDeg(Vector3f angles) {
-        final float sp = (float) Math.sin((angles.x * TrigMath.degreesToRadians) * 0.5f);
-        final float cp = (float) Math.cos((angles.x * TrigMath.degreesToRadians) * 0.5f);
-        final float sy = (float) Math.sin((angles.y * TrigMath.degreesToRadians) * 0.5f);
-        final float cy = (float) Math.cos((angles.y * TrigMath.degreesToRadians) * 0.5f);
-        final float sr = (float) Math.sin((angles.z * TrigMath.degreesToRadians) * 0.5f);
-        final float cr = (float) Math.cos((angles.z * TrigMath.degreesToRadians) * 0.5f);
-
-        final float cysp = cy * sp;
-        final float sycp = sy * cp;
-        final float cycp = cy * cp;
-        final float sysp = sy * sp;
-
-        x = (cysp * cr) + (sycp * sr);
-        y = (sycp * cr) - (cysp * sr);
-        z = (cycp * sr) - (sysp * cr);
-        w = (cycp * cr) + (sysp * sr);
+    public final void setEulerAnglesDegXYZ(Vector3f angles) {
+        setEulerAnglesDegXYZ(angles.x, angles.y, angles.z);
     }
 
     /**
-     * Calculate this Quaternion using the supplied Vector3f angles (in Radians)
+     * Calculate this Quaternion using the supplied Vector3f angles (in radians) with rotation order XYZ.
      */
-    public final void setEulerAnglesRad(Vector3f angles) {
-        final float sp = (float) Math.sin(angles.x * 0.5f);
-        final float cp = (float) Math.cos(angles.x * 0.5f);
-        final float sy = (float) Math.sin(angles.y * 0.5f);
-        final float cy = (float) Math.cos(angles.y * 0.5f);
-        final float sr = (float) Math.sin(angles.z * 0.5f);
-        final float cr = (float) Math.cos(angles.z * 0.5f);
-
-        final float cysp = cy * sp;
-        final float sycp = sy * cp;
-        final float cycp = cy * cp;
-        final float sysp = sy * sp;
-
-        x = (cysp * cr) + (sycp * sr);
-        y = (sycp * cr) - (cysp * sr);
-        z = (cycp * sr) - (sysp * cr);
-        w = (cycp * cr) + (sysp * sr);
+    public final void setEulerAnglesRadXYZ(Vector3f angles) {
+        setEulerAnglesRadXYZ(angles.x, angles.y, angles.z);
     }
 
     /**
-     * Calculate this Quaternion using the supplied pitch, yaw and roll angles
-     * (in degrees)
+     * Calculate this Quaternion using the supplied Vector3f angles (in degrees) with rotation order ZYX.
      */
-    public final void setEulerAnglesDeg(float pitch, float yaw, float roll) {
-        final float sp = (float) Math.sin((pitch * TrigMath.degreesToRadians) * 0.5f);
-        final float cp = (float) Math.cos((pitch * TrigMath.degreesToRadians) * 0.5f);
-        final float sy = (float) Math.sin((yaw * TrigMath.degreesToRadians) * 0.5f);
-        final float cy = (float) Math.cos((yaw * TrigMath.degreesToRadians) * 0.5f);
-        final float sr = (float) Math.sin((roll * TrigMath.degreesToRadians) * 0.5f);
-        final float cr = (float) Math.cos((roll * TrigMath.degreesToRadians) * 0.5f);
+    public final void setEulerAnglesDegZYX(Vector3f angles) {
+        setEulerAnglesDegZYX(angles.x, angles.y, angles.z);
+    }
 
-        final float cysp = cy * sp;
-        final float sycp = sy * cp;
-        final float cycp = cy * cp;
-        final float sysp = sy * sp;
+    /**
+     * Calculate this Quaternion using the supplied Vector3f angles (in radians) with rotation order ZYX.
+     */
+    public final void setEulerAnglesRadZYX(Vector3f angles) {
+        setEulerAnglesRadZYX(angles.x, angles.y, angles.z);
+    }
 
-        x = (cysp * cr) + (sycp * sr);
-        y = (sycp * cr) - (cysp * sr);
-        z = (cycp * sr) - (sysp * cr);
-        w = (cycp * cr) + (sysp * sr);
+    /**
+     * Calculate this Quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
+     * (in degrees) with rotation order XYZ.
+     * 
+     * http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion
+     */
+    public final void setEulerAnglesDegXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+        final float sx = (float) Math.sin((rotationAboutX * TrigMath.degreesToRadians) * 0.5f);
+        final float cx = (float) Math.cos((rotationAboutX * TrigMath.degreesToRadians) * 0.5f);
+        final float sy = (float) Math.sin((rotationAboutY * TrigMath.degreesToRadians) * 0.5f);
+        final float cy = (float) Math.cos((rotationAboutY * TrigMath.degreesToRadians) * 0.5f);
+        final float sz = (float) Math.sin((rotationAboutZ * TrigMath.degreesToRadians) * 0.5f);
+        final float cz = (float) Math.cos((rotationAboutZ * TrigMath.degreesToRadians) * 0.5f);
+
+        x = cx*cy*cz + sx*sy*sz;
+        y = sx*cy*cz - cx*sy*sz;
+        z = cx*sy*cz + sx*cy*sz;
+        w = cx*cy*sz - sx*sy*cz;
+    }
+
+    /**
+     * Calculate this Quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
+     * (in degrees) with rotation order ZYX.
+     * 
+     * http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion
+     */
+    public final void setEulerAnglesDegZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+        final float sx = (float) Math.sin(rotationAboutX * TrigMath.degreesToRadians * 0.5f);
+        final float cx = (float) Math.cos(rotationAboutX * TrigMath.degreesToRadians * 0.5f);
+        final float sy = (float) Math.sin(rotationAboutY * TrigMath.degreesToRadians * 0.5f);
+        final float cy = (float) Math.cos(rotationAboutY * TrigMath.degreesToRadians * 0.5f);
+        final float sz = (float) Math.sin(rotationAboutZ * TrigMath.degreesToRadians * 0.5f);
+        final float cz = (float) Math.cos(rotationAboutZ * TrigMath.degreesToRadians * 0.5f);
+
+        x = cx*cy*cz - sx*sy*sz;
+        y = sx*cy*cz + cx*sy*sz;
+        z = cx*sy*cz - sx*cy*sz;
+        w = cx*cy*sz + sx*sy*cz;
     }
 
     /**
@@ -543,26 +544,43 @@ public class Quaternion {
     }
 
     /**
-     * Calculate this Quaternion using the supplied pitch, yaw and roll angles
-     * (in Radians)
+     * Calculate this Quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
+     * (in radians) with rotation order XYZ.
+     * 
+     * http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion
      */
-    public final void setEulerAnglesRad(float pitch, float yaw, float roll) {
-        final float sp = (float) Math.sin(pitch * 0.5f);
-        final float cp = (float) Math.cos(pitch * 0.5f);
-        final float sy = (float) Math.sin(yaw * 0.5f);
-        final float cy = (float) Math.cos(yaw * 0.5f);
-        final float sr = (float) Math.sin(roll * 0.5f);
-        final float cr = (float) Math.cos(roll * 0.5f);
+    public final void setEulerAnglesRadXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+        final float sx = (float) Math.sin(rotationAboutX * 0.5f);
+        final float cx = (float) Math.cos(rotationAboutX * 0.5f);
+        final float sy = (float) Math.sin(rotationAboutY * 0.5f);
+        final float cy = (float) Math.cos(rotationAboutY * 0.5f);
+        final float sz = (float) Math.sin(rotationAboutZ * 0.5f);
+        final float cz = (float) Math.cos(rotationAboutZ * 0.5f);
 
-        final float cysp = cy * sp;
-        final float sycp = sy * cp;
-        final float cycp = cy * cp;
-        final float sysp = sy * sp;
+        x = cx*cy*cz + sx*sy*sz;
+        y = sx*cy*cz - cx*sy*sz;
+        z = cx*sy*cz + sx*cy*sz;
+        w = cx*cy*sz - sx*sy*cz;
+    }
 
-        x = (cycp * cr) + (sysp * sr);
-        y = (sycp * cr) - (cysp * sr);
-        z = (cysp * cr) + (sycp * sr);
-        w = (cycp * sr) - (sysp * cr);
+    /**
+     * Calculate this Quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
+     * (in radians) with rotation order XYZ.
+     * 
+     * http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion
+     */
+    public final void setEulerAnglesRadZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+        final float sx = (float) Math.sin(rotationAboutX * 0.5f);
+        final float cx = (float) Math.cos(rotationAboutX * 0.5f);
+        final float sy = (float) Math.sin(rotationAboutY * 0.5f);
+        final float cy = (float) Math.cos(rotationAboutY * 0.5f);
+        final float sz = (float) Math.sin(rotationAboutZ * 0.5f);
+        final float cz = (float) Math.cos(rotationAboutZ * 0.5f);
+
+        x = cx*cy*cz - sx*sy*sz;
+        y = sx*cy*cz + cx*sy*sz;
+        z = cx*sy*cz - sx*cy*sz;
+        w = cx*cy*sz + sx*sy*cz;
     }
 
     /**

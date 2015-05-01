@@ -475,7 +475,6 @@ public class Matrix3d {
         return "Matrix3d { " + this.m00 + ", " + this.m10 + ", " + this.m20 + ",\n"
                 + "           " + this.m01 + ", " + this.m11 + ", " + this.m21 + ",\n"
                 + "           " + this.m02 + ", " + this.m12 + ", " + this.m22 + " }\n";
-
     }
 
     /** Stores this matrix in the supplied DoubleBuffer */
@@ -492,7 +491,7 @@ public class Matrix3d {
     }
 
     /** Sets all the values within this matrix to 0 */
-    public final void clear() {
+    public final void zero() {
         this.m00 = 0.0;
         this.m01 = 0.0;
         this.m02 = 0.0;

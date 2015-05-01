@@ -45,7 +45,7 @@ public class CamMath {
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
         
-        dest.clear();
+        dest.zero();
         
         dest.m00 = x_scale;
         dest.m11 = y_scale;
@@ -206,7 +206,7 @@ public class CamMath {
      * @param dest FloatBuffer to store the results
      */
     public final static void ortho(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
-        dest.clear();
+        dest.zero();
         
         dest.m00 = 2.0f / (right - left);
         dest.m11 = 2.0f / (top - bottom);

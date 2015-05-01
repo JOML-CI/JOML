@@ -591,7 +591,6 @@ public class Matrix4f {
                 + "           " + this.m01 + ", " + this.m11 + ", " + this.m21 + ", " + this.m31 + ",\n"
                 + "           " + this.m02 + ", " + this.m12 + ", " + this.m22 + ", " + this.m32 + ",\n"
                 + "           " + this.m03 + ", " + this.m13 + ", " + this.m23 + ", " + this.m33 + " }\n";
-
     }
 
     /** Stores this matrix in the supplied FloatBuffer */
@@ -615,7 +614,7 @@ public class Matrix4f {
     }
 
     /** Sets all the values within this matrix to 0 */
-    public final void clear() {
+    public final void zero() {
         this.m00 = 0.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;
