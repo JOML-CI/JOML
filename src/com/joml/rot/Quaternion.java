@@ -492,8 +492,8 @@ public class Quaternion {
     /**
      * Calculate this Quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
      * (in degrees) with rotation order XYZ.
-     * 
-     * http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion
+     * <p>
+     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public final void setEulerAnglesDegXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         final float sx = (float) Math.sin((rotationAboutX * TrigMath.degreesToRadians) * 0.5f);
@@ -512,8 +512,8 @@ public class Quaternion {
     /**
      * Calculate this Quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
      * (in degrees) with rotation order ZYX.
-     * 
-     * http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion
+     * <p>
+     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public final void setEulerAnglesDegZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         final float sx = (float) Math.sin(rotationAboutX * TrigMath.degreesToRadians * 0.5f);
@@ -546,8 +546,8 @@ public class Quaternion {
     /**
      * Calculate this Quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
      * (in radians) with rotation order XYZ.
-     * 
-     * http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion
+     * <p>
+     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public final void setEulerAnglesRadXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         final float sx = (float) Math.sin(rotationAboutX * 0.5f);
@@ -566,8 +566,8 @@ public class Quaternion {
     /**
      * Calculate this Quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
      * (in radians) with rotation order XYZ.
-     * 
-     * http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion
+     * <p>
+     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public final void setEulerAnglesRadZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         final float sx = (float) Math.sin(rotationAboutX * 0.5f);
