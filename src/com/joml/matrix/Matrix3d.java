@@ -35,7 +35,6 @@ import com.joml.vector.Vector2f;
  * 
  * @author Richard Greenlees
  */
-
 public class Matrix3d {
 
     public double m00;
