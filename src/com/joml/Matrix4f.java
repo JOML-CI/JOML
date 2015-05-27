@@ -556,7 +556,7 @@ public class Matrix4f {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translate(float x, float y, float z) {
+    public void translation(float x, float y, float z) {
     	identity();
         this.m30 = x;
         this.m31 = y;
@@ -569,8 +569,8 @@ public class Matrix4f {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translate(Vector3f position) {
-        translate(position.x, position.y, position.z);
+    public void translation(Vector3f position) {
+        translation(position.x, position.y, position.z);
     }
 
     public String toString() {
@@ -633,6 +633,58 @@ public class Matrix4f {
         dest.m00 = scale.x;
         dest.m11 = scale.y;
         dest.m22 = scale.z;
+    }
+    
+    /**
+     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
+     * 
+     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     */
+    public void rotation(float angle, Vector3f axis) {
+    	float cos = (float) Math.cos(angle);
+    	float sin = (float) Math.sin(angle);
+    	m00 = cos + axis.x * axis.x * (1.0f - cos);
+    	m01 = axis.x * axis.y * (1.0f - cos) - axis.z * sin;
+    	m02 = axis.x * axis.z * (1.0f - cos) + axis.y * sin;
+    	m03 = 0.0f;
+    	m10 = axis.y * axis.x * (1.0f - cos) + axis.z * sin;
+    	m11 = cos + axis.y * axis.y * (1.0f - cos);
+    	m12 = axis.y * axis.z * (1.0f - cos) - axis.x * sin;
+    	m13 = 0.0f;
+    	m20 = axis.z * axis.x * (1.0f - cos) - axis.y * sin;
+    	m21 = axis.z * axis.y * (1.0f - cos) + axis.x * sin;
+    	m22 = cos + axis.z * axis.z * (1.0f - cos);
+    	m23 = 0.0f;
+    	m30 = 0.0f;
+    	m31 = 0.0f;
+    	m32 = 0.0f;
+    	m33 = 1.0f;
+    }
+    
+    /**
+     * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
+     * 
+     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     */
+    public static void rotation(float angle, Vector3f axis, Matrix4f dest) {
+    	float cos = (float) Math.cos(angle);
+    	float sin = (float) Math.sin(angle);
+    	dest.m00 = cos + axis.x * axis.x * (1.0f - cos);
+    	dest.m01 = axis.x * axis.y * (1.0f - cos) - axis.z * sin;
+    	dest.m02 = axis.x * axis.z * (1.0f - cos) + axis.y * sin;
+    	dest.m03 = 0.0f;
+    	dest.m10 = axis.y * axis.x * (1.0f - cos) + axis.z * sin;
+    	dest.m11 = cos + axis.y * axis.y * (1.0f - cos);
+    	dest.m12 = axis.y * axis.z * (1.0f - cos) - axis.x * sin;
+    	dest.m13 = 0.0f;
+    	dest.m20 = axis.z * axis.x * (1.0f - cos) - axis.y * sin;
+    	dest.m21 = axis.z * axis.y * (1.0f - cos) + axis.x * sin;
+    	dest.m22 = cos + axis.z * axis.z * (1.0f - cos);
+    	dest.m23 = 0.0f;
+    	dest.m30 = 0.0f;
+    	dest.m31 = 0.0f;
+    	dest.m32 = 0.0f;
+    	dest.m33 = 1.0f;
     }
 
 }
