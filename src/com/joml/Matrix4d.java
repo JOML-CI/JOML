@@ -850,20 +850,20 @@ public class Matrix4d {
     	double cos = Math.cos(angle);
     	double sin = Math.sin(angle);
     	m00 = cos + axis.x * axis.x * (1.0 - cos);
-    	m01 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
-    	m02 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
-    	m03 = 0.0;
-    	m10 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
-    	m11 = cos + axis.y * axis.y * (1.0 - cos);
-    	m12 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
-    	m13 = 0.0;
-    	m20 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
-    	m21 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
-    	m22 = cos + axis.z * axis.z * (1.0 - cos);
-    	m23 = 0.0;
+    	m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
+    	m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
     	m30 = 0.0;
+    	m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
+    	m11 = cos + axis.y * axis.y * (1.0 - cos);
+    	m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
     	m31 = 0.0;
+    	m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
+    	m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
+    	m22 = cos + axis.z * axis.z * (1.0 - cos);
     	m32 = 0.0;
+    	m03 = 0.0;
+    	m13 = 0.0;
+    	m23 = 0.0;
     	m33 = 1.0;
     }
     
@@ -876,20 +876,20 @@ public class Matrix4d {
     	double cos = Math.cos(angle);
     	double sin = Math.sin(angle);
     	dest.m00 = cos + axis.x * axis.x * (1.0 - cos);
-    	dest.m01 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
-    	dest.m02 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
-    	dest.m03 = 0.0;
-    	dest.m10 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
-    	dest.m11 = cos + axis.y * axis.y * (1.0 - cos);
-    	dest.m12 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
-    	dest.m13 = 0.0;
-    	dest.m20 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
-    	dest.m21 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
-    	dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
-    	dest.m23 = 0.0;
+    	dest.m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
+    	dest.m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
     	dest.m30 = 0.0;
+    	dest.m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
+    	dest.m11 = cos + axis.y * axis.y * (1.0 - cos);
+    	dest.m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
     	dest.m31 = 0.0;
+    	dest.m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
+    	dest.m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
+    	dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
     	dest.m32 = 0.0;
+    	dest.m03 = 0.0;
+    	dest.m13 = 0.0;
+    	dest.m23 = 0.0;
     	dest.m33 = 1.0;
     }
 
