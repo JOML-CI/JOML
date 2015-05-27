@@ -16,10 +16,8 @@
  * Lesser General Public License for more details.
  *
  */
-package com.joml.utils;
+package com.joml;
 
-import com.joml.vector.Vector2f;
-import com.joml.vector.Vector3f;
 
 /**
  * Surface Math
@@ -34,7 +32,7 @@ public class SurfaceMath {
      * Calculates the normal of a surface defined by points v1, v2 and v3 and
      * stores it in dest. v1, v2 and v3 are not modified
      */
-    public final static void normal(Vector3f v1, Vector3f v2, Vector3f v3, Vector3f dest) {
+    public static void normal(Vector3f v1, Vector3f v2, Vector3f v3, Vector3f dest) {
         dest.x = ((v2.y - v1.y) * (v3.z - v1.z)) - ((v2.z - v1.z) * (v3.y - v1.y));
         dest.y = ((v2.z - v1.z) * (v3.x - v1.x)) - ((v2.x - v1.x) * (v3.z - v1.z));
         dest.z = ((v2.x - v1.x) * (v3.y - v1.y)) - ((v2.y - v1.y) * (v3.x - v1.x));
@@ -52,7 +50,7 @@ public class SurfaceMath {
      * @param uv3 UV of third vertex
      * @param dest The tangent will be stored here
      */
-    public final static void tangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
+    public static void tangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
         float DeltaV1 = uv2.y - uv1.y;
         float DeltaV2 = uv3.y - uv1.y;
 
@@ -77,7 +75,7 @@ public class SurfaceMath {
      * @param uv3 UV of third vertex
      * @param dest The binormal will be stored here
      */
-    public final static void bitangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
+    public static void bitangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f dest) {
         float DeltaU1 = uv2.x - uv1.x;
         float DeltaU2 = uv3.x - uv1.x;
 
@@ -103,7 +101,7 @@ public class SurfaceMath {
      * @param destTangent The tangent will be stored here
      * @param destBitangent The bitangent will be stored here
      */
-    public final static void tangentBitangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f destTangent, Vector3f destBitangent) {
+    public static void tangentBitangent(Vector3f v1, Vector2f uv1, Vector3f v2, Vector2f uv2, Vector3f v3, Vector2f uv3, Vector3f destTangent, Vector3f destBitangent) {
         float DeltaV1 = uv2.y - uv1.y;
         float DeltaV2 = uv3.y - uv1.y;
         float DeltaU1 = uv2.x - uv1.x;

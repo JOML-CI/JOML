@@ -16,12 +16,8 @@
  * Lesser General Public License for more details.
  *
  */
-package com.joml.vector;
+package com.joml;
 
-import com.joml.matrix.Matrix3d;
-import com.joml.matrix.Matrix3f;
-import com.joml.matrix.Matrix4d;
-import com.joml.matrix.Matrix4f;
 
 /**
  * Vector3d
@@ -36,9 +32,6 @@ public class Vector3d {
     public double x;
     public double y;
     public double z;
-
-    public static Vector3d forward = new Vector3d(0, 0, 1);
-    public static Vector3d up = new Vector3d(0, 1, 0);
 
     public Vector3d() {
     }
@@ -64,7 +57,7 @@ public class Vector3d {
     /**
      * Sets the x, y and z attributes to match the supplied vector
      */
-    public final void set(Vector3d v) {
+    public void set(Vector3d v) {
         x = v.x;
         y = v.y;
         z = v.z;
@@ -73,7 +66,7 @@ public class Vector3d {
     /**
      * Sets the x, y and z attributes to match the supplied vector
      */
-    public final void set(Vector3f v) {
+    public void set(Vector3f v) {
         x = v.x;
         y = v.y;
         z = v.z;
@@ -82,7 +75,7 @@ public class Vector3d {
     /**
      * Sets the x, y and z attributes to the supplied float values
      */
-    public final void set(double x, double y, double z) {
+    public void set(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -91,7 +84,7 @@ public class Vector3d {
     /**
      * Subtracts the supplied vector from this one
      */
-    public final void sub(Vector3d v) {
+    public void sub(Vector3d v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
@@ -100,7 +93,7 @@ public class Vector3d {
     /**
      * Subtracts the supplied vector from this one
      */
-    public final void sub(Vector3f v) {
+    public void sub(Vector3f v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
@@ -110,7 +103,7 @@ public class Vector3d {
      * Subtracts v2 from v1 and stores the results in dest. Does not modify v1
      * or v2
      */
-    public final static void sub(Vector3d v1, Vector3d v2, Vector3d dest) {
+    public static void sub(Vector3d v1, Vector3d v2, Vector3d dest) {
         dest.set(v1.x - v2.x,
                 v1.y - v2.y,
                 v1.z - v2.z);
@@ -120,7 +113,7 @@ public class Vector3d {
      * Subtracts v2 from v1 and stores the results in dest. Does not modify v1
      * or v2
      */
-    public final static void sub(Vector3d v1, Vector3f v2, Vector3d dest) {
+    public static void sub(Vector3d v1, Vector3f v2, Vector3d dest) {
         dest.set(v1.x - v2.x,
                 v1.y - v2.y,
                 v1.z - v2.z);
@@ -130,7 +123,7 @@ public class Vector3d {
      * Subtracts v2 from v1 and stores the results in dest. Does not modify v1
      * or v2
      */
-    public final static void sub(Vector3f v1, Vector3d v2, Vector3d dest) {
+    public static void sub(Vector3f v1, Vector3d v2, Vector3d dest) {
         dest.set(v1.x - v2.x,
                 v1.y - v2.y,
                 v1.z - v2.z);
@@ -139,7 +132,7 @@ public class Vector3d {
     /**
      * Adds the supplied vector to this one
      */
-    public final void add(Vector3d v) {
+    public void add(Vector3d v) {
         x += v.x;
         y += v.y;
         z += v.z;
@@ -148,7 +141,7 @@ public class Vector3d {
     /**
      * Adds the supplied vector to this one
      */
-    public final void add(Vector3f v) {
+    public void add(Vector3f v) {
         x += v.x;
         y += v.y;
         z += v.z;
@@ -157,7 +150,7 @@ public class Vector3d {
     /**
      * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
      */
-    public final static void add(Vector3d v1, Vector3d v2, Vector3d dest) {
+    public static void add(Vector3d v1, Vector3d v2, Vector3d dest) {
         dest.set(v1.x + v2.x,
                 v1.y + v2.y,
                 v1.z + v2.z);
@@ -166,7 +159,7 @@ public class Vector3d {
     /**
      * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
      */
-    public final static void add(Vector3d v1, Vector3f v2, Vector3d dest) {
+    public static void add(Vector3d v1, Vector3f v2, Vector3d dest) {
         dest.set(v1.x + v2.x,
                 v1.y + v2.y,
                 v1.z + v2.z);
@@ -175,7 +168,7 @@ public class Vector3d {
     /**
      * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
      */
-    public final static void add(Vector3f v1, Vector3d v2, Vector3d dest) {
+    public static void add(Vector3f v1, Vector3d v2, Vector3d dest) {
         dest.set(v1.x + v2.x,
                 v1.y + v2.y,
                 v1.z + v2.z);
@@ -184,7 +177,7 @@ public class Vector3d {
     /**
      * Multiply this Vector3d by another Vector3d
      */
-    public final void mul(Vector3d v) {
+    public void mul(Vector3d v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
@@ -193,7 +186,7 @@ public class Vector3d {
     /**
      * Multiply this Vector3d by another Vector3f
      */
-    public final void mul(Vector3f v) {
+    public void mul(Vector3f v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
@@ -205,7 +198,7 @@ public class Vector3d {
      * <B>This is not alias safe so make sure dest is not the same as the left
      * or right parameters or you WILL get incorrect results!</B>
      */
-    public final static void mulFast(Vector3d v1, Vector3d v2, Vector3d dest) {
+    public static void mulFast(Vector3d v1, Vector3d v2, Vector3d dest) {
         dest.x = v1.x * v2.x;
         dest.y = v1.y * v2.y;
         dest.z = v1.z * v2.z;
@@ -214,7 +207,7 @@ public class Vector3d {
     /**
      * Multiply this Vector3d by the given rotation matrix mat
      */
-    public final void mul(Matrix4f mat) {
+    public void mul(Matrix4f mat) {
         set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
@@ -223,7 +216,7 @@ public class Vector3d {
     /**
      * Multiply this Vector3d by the given rotation matrix mat
      */
-    public final void mul(Matrix4d mat) {
+    public void mul(Matrix4d mat) {
         set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
@@ -233,7 +226,7 @@ public class Vector3d {
      * Multiply Vector3d v by the given rotation matrix mat and store the
      * results in dest. Does not modify v
      */
-    public final static void mul(Vector3d v, Matrix4f mat, Vector3d dest) {
+    public static void mul(Vector3d v, Matrix4f mat, Vector3d dest) {
         dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
@@ -243,7 +236,7 @@ public class Vector3d {
      * Multiply Vector3d v by the given rotation matrix mat and store the
      * results in dest. Does not modify v
      */
-    public final static void mul(Vector3d v, Matrix4d mat, Vector3d dest) {
+    public static void mul(Vector3d v, Matrix4d mat, Vector3d dest) {
         dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
@@ -255,7 +248,7 @@ public class Vector3d {
      * <B>This is not alias safe so make sure dest is not the same as the left
      * or right parameters or you WILL get incorrect results!</B>
      */
-    public final static void mulFast(Vector3d v, Matrix4d mat, Vector3d dest) {
+    public static void mulFast(Vector3d v, Matrix4d mat, Vector3d dest) {
         dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
         dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
         dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
@@ -267,7 +260,7 @@ public class Vector3d {
      * <B>This is not alias safe so make sure dest is not the same as the left
      * or right parameters or you WILL get incorrect results!</B>
      */
-    public final static void mulFast(Vector3d v, Matrix4f mat, Vector3d dest) {
+    public static void mulFast(Vector3d v, Matrix4f mat, Vector3d dest) {
         dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
         dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
         dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
@@ -276,7 +269,7 @@ public class Vector3d {
     /**
      * Multiply this Vector3d by the given rotation matrix mat
      */
-    public final void mul(Matrix3f mat) {
+    public void mul(Matrix3f mat) {
         set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
@@ -285,7 +278,7 @@ public class Vector3d {
     /**
      * Multiply this Vector3d by the given rotation matrix mat
      */
-    public final void mul(Matrix3d mat) {
+    public void mul(Matrix3d mat) {
         set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
@@ -295,7 +288,7 @@ public class Vector3d {
      * Multiply Vector3d v by the given rotation matrix mat and store the
      * results in dest. Does not modify v
      */
-    public final static void mul(Vector3d v, Matrix3f mat, Vector3d dest) {
+    public static void mul(Vector3d v, Matrix3f mat, Vector3d dest) {
         dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
@@ -305,7 +298,7 @@ public class Vector3d {
      * Multiply Vector3d v by the given rotation matrix mat and store the
      * results in dest. Does not modify v
      */
-    public final static void mul(Vector3d v, Matrix3d mat, Vector3d dest) {
+    public static void mul(Vector3d v, Matrix3d mat, Vector3d dest) {
         dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
@@ -317,7 +310,7 @@ public class Vector3d {
      * <B>This is not alias safe so make sure dest is not the same as the left
      * or right parameters or you WILL get incorrect results!</B>
      */
-    public final static void mulFast(Vector3d v, Matrix3f mat, Vector3d dest) {
+    public static void mulFast(Vector3d v, Matrix3f mat, Vector3d dest) {
         dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
         dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
         dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
@@ -329,7 +322,7 @@ public class Vector3d {
      * <B>This is not alias safe so make sure dest is not the same as the left
      * or right parameters or you WILL get incorrect results!</B>
      */
-    public final static void mulFast(Vector3d v, Matrix3d mat, Vector3d dest) {
+    public static void mulFast(Vector3d v, Matrix3d mat, Vector3d dest) {
         dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
         dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
         dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
@@ -338,21 +331,21 @@ public class Vector3d {
     /**
      * Multiply this Vector3d by the given scalar value
      */
-    public final void mul(double scalar) {
+    public void mul(double scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
     }
 
     /* Multiply the given Vector3d v by the scalar value, and store in dest. Does not modify v */
-    public final static void mul(Vector3d v, double scalar, Vector3d dest) {
+    public static void mul(Vector3d v, double scalar, Vector3d dest) {
         dest.x = v.x * scalar;
         dest.y = v.y * scalar;
         dest.z = v.z * scalar;
     }
 
     /* Multiply the given Vector3f v by the scalar value, and store in dest. Does not modify v */
-    public final static void mul(Vector3f v, double scalar, Vector3d dest) {
+    public static void mul(Vector3f v, double scalar, Vector3d dest) {
         dest.x = v.x * scalar;
         dest.y = v.y * scalar;
         dest.z = v.z * scalar;
@@ -389,7 +382,7 @@ public class Vector3d {
     /**
      * Normalizes this vector
      */
-    public final void normalize() {
+    public void normalize() {
         double d = length();
         x /= d;
         y /= d;
@@ -400,7 +393,7 @@ public class Vector3d {
      * Normalize the original vector and store the results in dest. Does not
      * modify the original
      */
-    public final static void normalize(Vector3d original, Vector3d dest) {
+    public static void normalize(Vector3d original, Vector3d dest) {
         double d = length(original);
         dest.set(original.x / d,
                 original.y / d,
@@ -410,7 +403,7 @@ public class Vector3d {
     /**
      * Set this vector to be the cross of v1 and v2
      */
-    public final void cross(Vector3d v1, Vector3d v2) {
+    public void cross(Vector3d v1, Vector3d v2) {
         set(v1.y * v2.z - v1.z * v2.y,
                 v1.z * v2.x - v1.x * v2.z,
                 v1.x * v2.y - v1.y * v2.x);
@@ -420,7 +413,7 @@ public class Vector3d {
      * Calculate the cross of v1 and v2 and store the results in dest. Does
      * modify v1 or v2
      */
-    public final static void cross(Vector3d v1, Vector3d v2, Vector3d dest) {
+    public static void cross(Vector3d v1, Vector3d v2, Vector3d dest) {
         dest.set(v1.y * v2.z - v1.z * v2.y,
                 v1.z * v2.x - v1.x * v2.z,
                 v1.x * v2.y - v1.y * v2.x);

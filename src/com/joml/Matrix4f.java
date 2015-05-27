@@ -16,18 +16,14 @@
  * Lesser General Public License for more details.
  *
  */
-package com.joml.matrix;
+package com.joml;
 
-import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
-
-import com.joml.vector.Vector3d;
-import com.joml.vector.Vector3f;
 
 /**
  * Matrix4f
  * 
- * Contains the definition of a 4x4 Matrix of doubles, and associated functions to transform
+ * Contains the definition of a 4x4 Matrix of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * 
  *      m00  m10  m20  m30
@@ -37,32 +33,31 @@ import com.joml.vector.Vector3f;
  * 
  * @author Richard Greenlees
  */
+public class Matrix4f {
+    
+    public float m00;
+    public float m01;
+    public float m02;
+    public float m03;
+    public float m10;
+    public float m11;
+    public float m12;
+    public float m13;
+    public float m20;
+    public float m21;
+    public float m22;
+    public float m23;
+    public float m30;
+    public float m31;
+    public float m32;
+    public float m33;
 
-public class Matrix4d {
-
-    public double m00;
-    public double m01;
-    public double m02;
-    public double m03;
-    public double m10;
-    public double m11;
-    public double m12;
-    public double m13;
-    public double m20;
-    public double m21;
-    public double m22;
-    public double m23;
-    public double m30;
-    public double m31;
-    public double m32;
-    public double m33;
-
-    public Matrix4d() {
+    public Matrix4f() {
         super();
         identity();
     }
 
-    public Matrix4d(double diagonal) {
+    public Matrix4f(float diagonal) {
         super();
         this.m00 = diagonal;
         this.m11 = diagonal;
@@ -71,27 +66,7 @@ public class Matrix4d {
     }
 
     /** Clones this matrix from the supplied matrix */
-    public Matrix4d(Matrix4d mat) {
-        this.m00 = mat.m00;
-        this.m01 = mat.m01;
-        this.m02 = mat.m02;
-        this.m03 = mat.m03;
-        this.m10 = mat.m10;
-        this.m11 = mat.m11;
-        this.m12 = mat.m12;
-        this.m13 = mat.m13;
-        this.m20 = mat.m20;
-        this.m21 = mat.m21;
-        this.m22 = mat.m22;
-        this.m23 = mat.m23;
-        this.m30 = mat.m30;
-        this.m31 = mat.m31;
-        this.m32 = mat.m32;
-        this.m33 = mat.m33;
-    }
-
-    /** Clones this matrix from the supplied matrix */
-    public Matrix4d(Matrix4f mat) {
+    public Matrix4f(Matrix4f mat) {
         this.m00 = mat.m00;
         this.m01 = mat.m01;
         this.m02 = mat.m02;
@@ -110,9 +85,9 @@ public class Matrix4d {
         this.m33 = mat.m33;
     }
     
-    /** Create a new 4x4 matrix using the supplied double values */
-    public Matrix4d(double m00, double m01, double m02, double m03, double m10, double m11, double m12, double m13, double m20,
-            double m21, double m22, double m23, double m30, double m31, double m32, double m33) {
+    /** Create a new 4x4 matrix using the supplied float values */
+    public Matrix4f(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
+            float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
@@ -132,27 +107,27 @@ public class Matrix4d {
     }
     
     /** Resets this matrix to the identity */
-    public final void identity() {
-        this.m00 = 1.0;
-        this.m01 = 0.0;
-        this.m02 = 0.0;
-        this.m03 = 0.0;
-        this.m10 = 0.0;
-        this.m11 = 1.0;
-        this.m12 = 0.0;
-        this.m13 = 0.0;
-        this.m20 = 0.0;
-        this.m21 = 0.0;
-        this.m22 = 1.0;
-        this.m23 = 0.0;
-        this.m30 = 0.0;
-        this.m31 = 0.0;
-        this.m32 = 0.0;
-        this.m33 = 1.0;
+    public void identity() {
+        this.m00 = 1.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = 1.0f;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = 1.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
     }
 
     /** Set the values within this matrix to be the same as the supplied parameter matrix */
-    public final void set(Matrix4d m1) {
+    public void set(Matrix4f m1) {
         this.m00 = m1.m00;
         this.m01 = m1.m01;
         this.m02 = m1.m02;
@@ -170,47 +145,8 @@ public class Matrix4d {
         this.m32 = m1.m32;
         this.m33 = m1.m33;
     }
-
-    /** Set the values within this matrix to be the same as the supplied parameter matrix */
-    public final void set(Matrix4f m1) {
-        this.m00 = m1.m00;
-        this.m01 = m1.m01;
-        this.m02 = m1.m02;
-        this.m03 = m1.m03;
-        this.m10 = m1.m10;
-        this.m11 = m1.m11;
-        this.m12 = m1.m12;
-        this.m13 = m1.m13;
-        this.m20 = m1.m20;
-        this.m21 = m1.m21;
-        this.m22 = m1.m22;
-        this.m23 = m1.m23;
-        this.m30 = m1.m30;
-        this.m31 = m1.m31;
-        this.m32 = m1.m32;
-        this.m33 = m1.m33;
-    }
-
-    public Matrix4d(DoubleBuffer buffer) {
-        m00 = buffer.get();
-        m01 = buffer.get();
-        m02 = buffer.get();
-        m03 = buffer.get();
-        m10 = buffer.get();
-        m11 = buffer.get();
-        m12 = buffer.get();
-        m13 = buffer.get();
-        m20 = buffer.get();
-        m21 = buffer.get();
-        m22 = buffer.get();
-        m23 = buffer.get();
-        m30 = buffer.get();
-        m31 = buffer.get();
-        m32 = buffer.get();
-        m33 = buffer.get();
-    }
-
-    public Matrix4d(FloatBuffer buffer) {
+    
+    public Matrix4f(FloatBuffer buffer) {
         m00 = buffer.get();
         m01 = buffer.get();
         m02 = buffer.get();
@@ -230,7 +166,7 @@ public class Matrix4d {
     }
 
     /** Multiply this matrix by the supplied parameter matrix. This matrix will be treated as the left */
-    public final void mul(Matrix4d right) {
+    public void mul(Matrix4f right) {
        set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02 + this.m30 * right.m03,
             this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02 + this.m31 * right.m03,
             this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02 + this.m32 * right.m03,
@@ -248,29 +184,9 @@ public class Matrix4d {
             this.m02 * right.m30 + this.m12 * right.m31 + this.m22 * right.m32 + this.m32 * right.m33,
             this.m03 * right.m30 + this.m13 * right.m31 + this.m23 * right.m32 + this.m33 * right.m33 );
     }
-
-    /** Multiply this matrix by the supplied parameter matrix. This matrix will be treated as the left */
-    public final void mul(Matrix4f right) {
-       set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02 + this.m30 * right.m03,
-            this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02 + this.m31 * right.m03,
-            this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02 + this.m32 * right.m03,
-            this.m03 * right.m00 + this.m13 * right.m01 + this.m23 * right.m02 + this.m33 * right.m03,
-            this.m00 * right.m10 + this.m10 * right.m11 + this.m20 * right.m12 + this.m30 * right.m13,
-            this.m01 * right.m10 + this.m11 * right.m11 + this.m21 * right.m12 + this.m31 * right.m13,
-            this.m02 * right.m10 + this.m12 * right.m11 + this.m22 * right.m12 + this.m32 * right.m13,
-            this.m03 * right.m10 + this.m13 * right.m11 + this.m23 * right.m12 + this.m33 * right.m13,
-            this.m00 * right.m20 + this.m10 * right.m21 + this.m20 * right.m22 + this.m30 * right.m23,
-            this.m01 * right.m20 + this.m11 * right.m21 + this.m21 * right.m22 + this.m31 * right.m23,
-            this.m02 * right.m20 + this.m12 * right.m21 + this.m22 * right.m22 + this.m32 * right.m23,
-            this.m03 * right.m20 + this.m13 * right.m21 + this.m23 * right.m22 + this.m33 * right.m23,
-            this.m00 * right.m30 + this.m10 * right.m31 + this.m20 * right.m32 + this.m30 * right.m33,
-            this.m01 * right.m30 + this.m11 * right.m31 + this.m21 * right.m32 + this.m31 * right.m33,
-            this.m02 * right.m30 + this.m12 * right.m31 + this.m22 * right.m32 + this.m32 * right.m33,
-            this.m03 * right.m30 + this.m13 * right.m31 + this.m23 * right.m32 + this.m33 * right.m33 );
-    }
-
+    
     /** Multiply the supplied left matrix by the right, and store the results into dest. Function is alias safe. */
-    public final static void mul(Matrix4d left, Matrix4d right, Matrix4d dest) {
+    public static void mul(Matrix4f left, Matrix4f right, Matrix4f dest) {
         dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03,
                  left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03,
                  left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03,
@@ -288,50 +204,10 @@ public class Matrix4d {
                  left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32 * right.m33,
                  left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33);
     }
-
-    /** Multiply the supplied left matrix by the right, and store the results into dest. Function is alias safe. */
-    public final static void mul(Matrix4d left, Matrix4f right, Matrix4d dest) {
-        dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03,
-                 left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03,
-                 left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03,
-                 left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02 + left.m33 * right.m03,
-                 left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12 + left.m30 * right.m13,
-                 left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12 + left.m31 * right.m13,
-                 left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12 + left.m32 * right.m13,
-                 left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12 + left.m33 * right.m13,
-                 left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22 + left.m30 * right.m23,
-                 left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22 + left.m31 * right.m23,
-                 left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 + left.m32 * right.m23,
-                 left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22 + left.m33 * right.m23,
-                 left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30 * right.m33,
-                 left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31 * right.m33,
-                 left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32 * right.m33,
-                 left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33);
-    }
-
-    /** Multiply the supplied left matrix by the right, and store the results into dest. Function is alias safe. */
-    public final static void mul(Matrix4f left, Matrix4d right, Matrix4d dest) {
-        dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03,
-                 left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03,
-                 left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03,
-                 left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02 + left.m33 * right.m03,
-                 left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12 + left.m30 * right.m13,
-                 left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12 + left.m31 * right.m13,
-                 left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12 + left.m32 * right.m13,
-                 left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12 + left.m33 * right.m13,
-                 left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22 + left.m30 * right.m23,
-                 left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22 + left.m31 * right.m23,
-                 left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 + left.m32 * right.m23,
-                 left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22 + left.m33 * right.m23,
-                 left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30 * right.m33,
-                 left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31 * right.m33,
-                 left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32 * right.m33,
-                 left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33);
-    }
-
+    
     /** Multiplies the left matrix by the right, and stores the result into dest. <B>This is not alias safe 
      so make sure dest is not the same as the left or right parameters or you WILL get incorrect results!</B> */
-    public final static void mulFast(Matrix4d left, Matrix4d right, Matrix4d dest) {
+    public static void mulFast(Matrix4f left, Matrix4f right, Matrix4f dest) {
         dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03;
         dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03;
         dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03;
@@ -350,8 +226,8 @@ public class Matrix4d {
         dest.m33 = left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33;
     }
     
-    /** Multiplies the left matrix by the right, and stores the result into the destination DoubleBuffer */
-    public final static void mul(Matrix4d left, Matrix4d right, DoubleBuffer dest) {
+    /** Multiplies the left matrix by the right, and stores the result into the destination FloatBuffer */
+    public static void mul(Matrix4f left, Matrix4f right, FloatBuffer dest) {
         dest.put(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03);
         dest.put(left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03);
         dest.put(left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03);
@@ -370,14 +246,14 @@ public class Matrix4d {
         dest.put(left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33);
     }
 
-    /** Set the values within this matrix to the supplied double values. The matrix will look like this:<br><br>
+    /** Set the values within this matrix to the supplied float values. The matrix will look like this:<br><br>
         
         m00, m10, m20, m30<br>
         m01, m11, m21, m31<br>
         m02, m12, m22, m32<br>
         m03, m13, m23, m33*/
-    public final void set(double m00, double m01, double m02, double m03, double m10, double m11, double m12, double m13, double m20,
-            double m21, double m22, double m23, double m30, double m31, double m32, double m33) {
+    public void set(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
+            float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
@@ -396,14 +272,14 @@ public class Matrix4d {
         this.m33 = m33;
     }
 
-    /** Set the values in the matrix using a double array. The results will look like this:<br><br>
+    /** Set the values in the matrix using a float array. The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      */
-    public final void set(double m[]) {
+    public void set(float m[]) {
         m00 = m[0];
         m01 = m[1];
         m02 = m[2];
@@ -421,41 +297,15 @@ public class Matrix4d {
         m32 = m[14];
         m33 = m[15];
     }
-
-    /** Set the values in the matrix using a double array. The results will look like this:<br><br>
+    
+    /** Set the values in the matrix using a FloatBuffer. The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      */
-    public final void set(float m[]) {
-        m00 = m[0];
-        m01 = m[1];
-        m02 = m[2];
-        m03 = m[3];
-        m10 = m[4];
-        m11 = m[5];
-        m12 = m[6];
-        m13 = m[7];
-        m20 = m[8];
-        m21 = m[9];
-        m22 = m[10];
-        m23 = m[11];
-        m30 = m[12];
-        m31 = m[13];
-        m32 = m[14];
-        m33 = m[15];
-    }
-
-    /** Set the values in the matrix using a DoubleBuffer. The results will look like this:<br><br>
-     * 
-     * 0, 4, 8, 12<br>
-     * 1, 5, 9, 13<br>
-     * 2, 6, 10, 14<br>
-     * 3, 7, 11, 15<br>
-     */
-    public final void set(DoubleBuffer buffer) {
+    public void set(FloatBuffer buffer) {
         m00 = buffer.get();
         m01 = buffer.get();
         m02 = buffer.get();
@@ -473,54 +323,28 @@ public class Matrix4d {
         m32 = buffer.get();
         m33 = buffer.get();
     }
-
-    /** Set the values in the matrix using a DoubleBuffer. The results will look like this:<br><br>
-     * 
-     * 0, 4, 8, 12<br>
-     * 1, 5, 9, 13<br>
-     * 2, 6, 10, 14<br>
-     * 3, 7, 11, 15<br>
-     */
-    public final void set(FloatBuffer buffer) {
-        m00 = buffer.get();
-        m01 = buffer.get();
-        m02 = buffer.get();
-        m03 = buffer.get();
-        m10 = buffer.get();
-        m11 = buffer.get();
-        m12 = buffer.get();
-        m13 = buffer.get();
-        m20 = buffer.get();
-        m21 = buffer.get();
-        m22 = buffer.get();
-        m23 = buffer.get();
-        m30 = buffer.get();
-        m31 = buffer.get();
-        m32 = buffer.get();
-        m33 = buffer.get();
-    }
-
+    
     /** Returns the determinant of this matrix */
-    public double determinant() {
+    public float determinant() {
         return     (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
                  + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
                  - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
     
     /** Returns the determinant of the supplied matrix */
-    public static double determinant(Matrix4d source) {
+    public static float determinant(Matrix4f source) {
         return     (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
                  + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
                  - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
     }
 
     /** Inverts this matrix */
-    public final void invert() {
-        double s = determinant();
-        if (s == 0.0) {
+    public void invert() {
+        float s = determinant();
+        if (s == 0.0f) {
             return;
         }
-        s = 1.0 / s;
+        s = 1.0f / s;
         set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
             (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s , 
             (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s, 
@@ -540,12 +364,12 @@ public class Matrix4d {
     }
     
     /** Invert the supplied matrix and store the results in dest. Does not modify original matrix */
-    public final static void invert(Matrix4d source, Matrix4d dest) {
-        double s = source.determinant();
-        if (s == 0.0) {
+    public static void invert(Matrix4f source, Matrix4f dest) {
+        float s = source.determinant();
+        if (s == 0.0f) {
             return;
         }
-        s = 1.0 / s;
+        s = 1.0f / s;
         dest.set((source.m11 * (source.m22 * source.m33 - source.m23 * source.m32) + source.m12 * (source.m23 * source.m31 - source.m21 * source.m33) + source.m13 * (source.m21 * source.m32 - source.m22 * source.m31)) * s,
                  (source.m21 * (source.m02 * source.m33 - source.m03 * source.m32) + source.m22 * (source.m03 * source.m31 - source.m01 * source.m33) + source.m23 * (source.m01 * source.m32 - source.m02 * source.m31)) * s,
                  (source.m31 * (source.m02 * source.m13 - source.m03 * source.m12) + source.m32 * (source.m03 * source.m11 - source.m01 * source.m13) + source.m33 * (source.m01 * source.m12 - source.m02 * source.m11)) * s,
@@ -565,12 +389,12 @@ public class Matrix4d {
     }
     
     /** Invert the supplied matrix and store the results in dest. Does not modify original matrix */
-    public final static void invert(Matrix4d source, DoubleBuffer dest) {
-        double s = source.determinant();
-        if (s == 0.0) {
+    public static void invert(Matrix4f source, FloatBuffer dest) {
+        float s = source.determinant();
+        if (s == 0.0f) {
             return;
         }
-        s = 1.0 / s;
+        s = 1.0f / s;
         
         dest.put((source.m11 * (source.m22 * source.m33 - source.m23 * source.m32) + source.m12 * (source.m23 * source.m31 - source.m21 * source.m33) + source.m13 * (source.m21 * source.m32 - source.m22 * source.m31)) * s);
         dest.put((source.m21 * (source.m02 * source.m33 - source.m03 * source.m32) + source.m22 * (source.m03 * source.m31 - source.m01 * source.m33) + source.m23 * (source.m01 * source.m32 - source.m02 * source.m31)) * s);
@@ -592,12 +416,12 @@ public class Matrix4d {
     
     /** Inverts the left matrix by the right, and stores the result into dest without modifying the source. 
     <B>This is not alias safe so make sure dest is not the same as the source or you WILL get incorrect results!</B> */
-    public final static void invertFast(Matrix4d source, Matrix4d dest) {
-        double s = source.determinant();
-        if (s == 0.0) {
+    public static void invertFast(Matrix4f source, Matrix4f dest) {
+        float s = source.determinant();
+        if (s == 0.0f) {
             return;
         }
-        s = 1.0 / s;
+        s = 1.0f / s;
         
         dest.m00 = (source.m11 * (source.m22 * source.m33 - source.m23 * source.m32) + source.m12 * (source.m23 * source.m31 - source.m21 * source.m33) + source.m13 * (source.m21 * source.m32 - source.m22 * source.m31)) * s;
         dest.m01 = (source.m21 * (source.m02 * source.m33 - source.m03 * source.m32) + source.m22 * (source.m03 * source.m31 - source.m01 * source.m33) + source.m23 * (source.m01 * source.m32 - source.m02 * source.m31)) * s;
@@ -618,7 +442,7 @@ public class Matrix4d {
     }
 
     /** Multiplies this matrix by the supplied scalar value */
-    public final void mul(double scalar) {
+    public void mul(float scalar) {
         m00 *= scalar;
         m01 *= scalar;
         m02 *= scalar;
@@ -636,9 +460,9 @@ public class Matrix4d {
         m32 *= scalar;
         m33 *= scalar;
     }
-
+    
     /** Multiplies the supplied source matrix by the supplied scalar and stores the results in dest. Does not modify the original matrix */
-    public final static void mul(Matrix4d source, double scalar, Matrix4d dest) {           
+    public static void mul(Matrix4f source, float scalar, Matrix4f dest) {           
         dest.m00 = source.m00 * scalar;
         dest.m01 = source.m01 * scalar;
         dest.m02 = source.m02 * scalar;
@@ -656,18 +480,18 @@ public class Matrix4d {
         dest.m32 = source.m32 * scalar;
         dest.m33 = source.m33 * scalar;
     }
-
+    
     /** Transposes this matrix. Modifies the matrix directly */
-    public final void transpose() {
+    public void transpose() {
         set(m00, m10, m20, m30,
             m01, m11, m21, m31,
             m02, m12, m22, m32,
             m03, m13, m23, m33);
     }
-
+    
     /** Transposes the original matrix and stores the results into the destination Matrix4f. Does not modify the original
      * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
-    public final static void transposeFast(Matrix4d original, Matrix4d dest) {
+    public static void transposeFast(Matrix4f original, Matrix4f dest) {
         dest.m00 = original.m00;
         dest.m01 = original.m10;
         dest.m02 = original.m20;
@@ -685,9 +509,9 @@ public class Matrix4d {
         dest.m32 = original.m23;
         dest.m33 = original.m33;
     }
-
+    
     /** Transposes the original matrix and stores the results into the destination Matrix4f. Does not modify the original */
-    public final static void transpose(Matrix4d original, Matrix4d dest) {
+    public static void transpose(Matrix4f original, Matrix4f dest) {
         dest.set(   original.m00,
                     original.m10,
                     original.m20,
@@ -705,9 +529,9 @@ public class Matrix4d {
                     original.m23,
                     original.m33 );
     }
-
-    /** Transposes the original matrix and stores the results into the destination DoubleBuffer. Does not modify the original */
-    public final static void transpose(Matrix4d original, DoubleBuffer dest) {
+    
+    /** Transposes the original matrix and stores the results into the destination FloatBuffer. Does not modify the original */
+    public static void transpose(Matrix4f original, FloatBuffer dest) {
         dest.put(original.m00);
         dest.put(original.m10);
         dest.put(original.m20);
@@ -732,23 +556,11 @@ public class Matrix4d {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translate(double x, double y, double z) {
-        this.m00 = 1.0;
-        this.m01 = 0.0;
-        this.m02 = 0.0;
-        this.m03 = 0.0;
-        this.m10 = 0.0;
-        this.m11 = 1.0;
-        this.m12 = 0.0;
-        this.m13 = 0.0;
-        this.m20 = 0.0;
-        this.m21 = 0.0;
-        this.m22 = 1.0;
-        this.m23 = 0.0;
+    public void translate(float x, float y, float z) {
+    	identity();
         this.m30 = x;
         this.m31 = y;
         this.m32 = z;
-        this.m33 = 1.0;
     }
 
     /**
@@ -761,25 +573,15 @@ public class Matrix4d {
         translate(position.x, position.y, position.z);
     }
 
-    /**
-     * Set this matrix to be a simple translation matrix.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional translation.
-     */
-    public final void translate(Vector3d position) {
-        translate(position.x, position.y, position.z);
-    }
-
     public String toString() {
-        return "Matrix4d { " + this.m00 + ", " + this.m10 + ", " + this.m20 + ", " + this.m30 + ",\n"
+        return "Matrix4f { " + this.m00 + ", " + this.m10 + ", " + this.m20 + ", " + this.m30 + ",\n"
                 + "           " + this.m01 + ", " + this.m11 + ", " + this.m21 + ", " + this.m31 + ",\n"
                 + "           " + this.m02 + ", " + this.m12 + ", " + this.m22 + ", " + this.m32 + ",\n"
                 + "           " + this.m03 + ", " + this.m13 + ", " + this.m23 + ", " + this.m33 + " }\n";
     }
 
-    /** Stores this matrix in the supplied DoubleBuffer */
-    public final void store(DoubleBuffer buffer) {
+    /** Stores this matrix in the supplied FloatBuffer */
+    public void store(FloatBuffer buffer) {
         buffer.put(this.m00);
         buffer.put(this.m01);
         buffer.put(this.m02);
@@ -799,83 +601,38 @@ public class Matrix4d {
     }
 
     /** Sets all the values within this matrix to 0 */
-    public final void zero() {
-        this.m00 = 0.0;
-        this.m01 = 0.0;
-        this.m02 = 0.0;
-        this.m03 = 0.0;
-        this.m10 = 0.0;
-        this.m11 = 0.0;
-        this.m12 = 0.0;
-        this.m13 = 0.0;
-        this.m20 = 0.0;
-        this.m21 = 0.0;
-        this.m22 = 0.0;
-        this.m23 = 0.0;
-        this.m30 = 0.0;
-        this.m31 = 0.0;
-        this.m32 = 0.0;
-        this.m33 = 0.0;
+    public void zero() {
+    	identity();
+        this.m00 = 0.0f;
+        this.m11 = 0.0f;
+        this.m22 = 0.0f;
+        this.m33 = 0.0f;
     }
-
-    public final void scale(Vector3d scale) {
-        m00 *= scale.x;
-        m01 *= scale.x;
-        m02 *= scale.x;
-        m03 *= scale.x;
-        m10 *= scale.y;
-        m11 *= scale.y;
-        m12 *= scale.y;
-        m13 *= scale.y;
-        m20 *= scale.z;
-        m21 *= scale.z;
-        m22 *= scale.z;
-        m23 *= scale.z;
+    
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
+     * @param scale
+     * 			the scale applied to each dimension
+     */
+    public void scale(Vector3f scale) {
+    	identity();
+        m00 = scale.x;
+        m11 = scale.y;
+        m22 = scale.z;
     }
-
-    public final void scale(Vector3f scale) {
-        m00 *= scale.x;
-        m01 *= scale.x;
-        m02 *= scale.x;
-        m03 *= scale.x;
-        m10 *= scale.y;
-        m11 *= scale.y;
-        m12 *= scale.y;
-        m13 *= scale.y;
-        m20 *= scale.z;
-        m21 *= scale.z;
-        m22 *= scale.z;
-        m23 *= scale.z;
-    }
-
-    public final static void scale(Matrix4d original, Vector3f scale, Matrix4d dest) {
-        dest.m00 = original.m00 * scale.x;
-        dest.m01 = original.m01 * scale.x;
-        dest.m02 = original.m02 * scale.x;
-        dest.m03 = original.m03 * scale.x;
-        dest.m10 = original.m10 * scale.y;
-        dest.m11 = original.m11 * scale.y;
-        dest.m12 = original.m12 * scale.y;
-        dest.m12 = original.m13 * scale.y;
-        dest.m20 = original.m20 * scale.z;
-        dest.m21 = original.m21 * scale.z;
-        dest.m22 = original.m22 * scale.z;
-        dest.m23 = original.m23 * scale.z;
-    }
-
-    public final static void scale(Matrix4d original, Vector3d scale, Matrix4d dest) {
-        dest.m00 = original.m00 * scale.x;
-        dest.m01 = original.m01 * scale.x;
-        dest.m02 = original.m02 * scale.x;
-        dest.m03 = original.m03 * scale.x;
-        dest.m10 = original.m10 * scale.y;
-        dest.m11 = original.m11 * scale.y;
-        dest.m12 = original.m12 * scale.y;
-        dest.m12 = original.m13 * scale.y;
-        dest.m20 = original.m20 * scale.z;
-        dest.m21 = original.m21 * scale.z;
-        dest.m22 = original.m22 * scale.z;
-        dest.m23 = original.m23 * scale.z;
+    
+    /**
+     * Set the given matrix <code>dest</code> to be a simple scale matrix.
+     * 
+     * @param scale
+     * 			the scale applied to each dimension
+     */
+    public static void scale(Vector3f scale, Matrix4f dest) {
+    	dest.identity();
+        dest.m00 = scale.x;
+        dest.m11 = scale.y;
+        dest.m22 = scale.z;
     }
 
 }

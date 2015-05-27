@@ -16,7 +16,7 @@
  * Lesser General Public License for more details.
  *
  */
-package com.joml.utils;
+package com.joml;
 
 /**
  * TrigMath
@@ -28,15 +28,15 @@ package com.joml.utils;
 public class TrigMath {
     
     public static final float degreesToRadians = (float) (Math.PI / 180d);
-    static public final float radiansToDegrees = (float) (180d / Math.PI);
+    public static final float radiansToDegrees = (float) (180d / Math.PI);
 
     /** Return the coTangent of the supplied angle */
-    public final static float coTangent(float angle) {
+    public static float coTangent(float angle) {
         return (float) (1f / Math.tan(angle));
     }
 
     /** Convert the supplied degrees to radians */
-    public final static float degreesToRadians(float degrees) {
+    public static float degreesToRadians(float degrees) {
         return degrees * degreesToRadians;
     }
 

@@ -16,12 +16,7 @@
  * Lesser General Public License for more details.
  *
  */
-package com.joml.rot;
-
-import com.joml.matrix.Matrix4d;
-import com.joml.utils.TrigMath;
-import com.joml.vector.Vector3d;
-import com.joml.vector.Vector3f;
+package com.joml;
 
 import java.nio.DoubleBuffer;
 
@@ -35,7 +30,7 @@ import java.nio.DoubleBuffer;
  */
 public class QuaternionD {
 
-    public static final QuaternionD IDENTITY = new QuaternionD(0.0f, 0.0f, 0.0f, 1.0f);
+    public static QuaternionD IDENTITY = new QuaternionD(0.0f, 0.0f, 0.0f, 1.0f);
 
     public double x;
     public double y;
@@ -73,7 +68,7 @@ public class QuaternionD {
     /**
      * Normalize this Quaternion
      */
-    public final void normalize() {
+    public void normalize() {
         double norm = Math.sqrt(x * x + y * y + z * z + w * w);
 
         x /= norm;
@@ -86,7 +81,7 @@ public class QuaternionD {
      * Normalizes the supplied Quaternion source and stores the results in dest.
      * Does not modify the source
      */
-    public static final void normalize(QuaternionD source, QuaternionD dest) {
+    public static void normalize(QuaternionD source, QuaternionD dest) {
         double norm = Math.sqrt(source.x * source.x + source.y * source.y + source.z * source.z + source.w * source.w);
 
         dest.x = source.x / norm;
@@ -98,7 +93,7 @@ public class QuaternionD {
     /**
      * Adds q2 to this quaternion
      */
-    public final void add(QuaternionD q2) {
+    public void add(QuaternionD q2) {
         x += q2.x;
         y += q2.y;
         z += q2.z;
@@ -108,7 +103,7 @@ public class QuaternionD {
     /**
      * Add q2 to q1 and store the results in dest. Does not modify q1 or q2
      */
-    public static final void add(QuaternionD q1, QuaternionD q2, QuaternionD dest) {
+    public static void add(QuaternionD q1, QuaternionD q2, QuaternionD dest) {
         dest.x = q1.x + q2.x;
         dest.y = q1.y + q2.y;
         dest.z = q1.z + q2.z;
@@ -118,7 +113,7 @@ public class QuaternionD {
     /**
      * Returns the dot of this Quaternion and otherQuat
      */
-    public final double dot(QuaternionD otherQuat) {
+    public double dot(QuaternionD otherQuat) {
         return this.x * otherQuat.x + this.y * otherQuat.y + this.z * otherQuat.z + this.w * otherQuat.w;
     }
 
@@ -132,23 +127,23 @@ public class QuaternionD {
     /**
      * Finds the angle represented by this Quaternion in degrees
      */
-    public final double getAngle() {
-        final double angle = 2.0 * Math.acos(w);
+    public double getAngle() {
+        double angle = 2.0 * Math.acos(w);
         return (angle <= Math.PI) ? angle : 2.0f * Math.PI - angle;
     }
 
     /**
      * Finds the angle represented by q in degrees
      */
-    public final static double getAngle(QuaternionD q) {
-        final double angle = 2.0 * Math.acos(q.w);
+    public static double getAngle(QuaternionD q) {
+        double angle = 2.0 * Math.acos(q.w);
         return (angle <= Math.PI) ? angle : 2.0 * Math.PI - angle;
     }
 
     /**
      * Generates a rotation matrix from q and stores the results in dest
      */
-    public static final void getMatrix(QuaternionD q, Matrix4d dest) {
+    public static void getMatrix(QuaternionD q, Matrix4d dest) {
         double q00 = 2.0f * q.x * q.x;
         double q11 = 2.0f * q.y * q.y;
         double q22 = 2.0f * q.z * q.z;
@@ -183,7 +178,7 @@ public class QuaternionD {
      * Generates a rotation matrix from this Quaternion and stores the results
      * in dest
      */
-    public static final void getMatrix(QuaternionD quat, DoubleBuffer dest) {
+    public static void getMatrix(QuaternionD quat, DoubleBuffer dest) {
         double q00 = 2.0 * quat.x * quat.x;
         double q11 = 2.0 * quat.y * quat.y;
         double q22 = 2.0 * quat.z * quat.z;
@@ -218,7 +213,7 @@ public class QuaternionD {
      * Generates a rotation matrix from this Quaternion and stores the results
      * in dest
      */
-    public final void getMatrix(Matrix4d dest) {
+    public void getMatrix(Matrix4d dest) {
         double q00 = 2.0 * this.x * this.x;
         double q11 = 2.0 * this.y * this.y;
         double q22 = 2.0 * this.z * this.z;
@@ -253,7 +248,7 @@ public class QuaternionD {
      * Generates a rotation matrix from this Quaternion and stores the results
      * in dest
      */
-    public final void getMatrix(DoubleBuffer dest) {
+    public void getMatrix(DoubleBuffer dest) {
         double q00 = 2.0 * this.x * this.x;
         double q11 = 2.0 * this.y * this.y;
         double q22 = 2.0 * this.z * this.z;
@@ -287,7 +282,7 @@ public class QuaternionD {
     /**
      * Sets this Quaternion to the new values
      */
-    public final void set(double newX, double newY, double newZ, double newW) {
+    public void set(double newX, double newY, double newZ, double newW) {
         x = newX;
         y = newY;
         z = newZ;
@@ -297,7 +292,7 @@ public class QuaternionD {
     /**
      * Set the x, y and z components of this Quaternion to the new values
      */
-    public final void set(double newX, double newY, double newZ) {
+    public void set(double newX, double newY, double newZ) {
         x = newX;
         y = newY;
         z = newZ;
@@ -306,7 +301,7 @@ public class QuaternionD {
     /**
      * Sets this Quaternion to be a copy of q. Does not modify q
      */
-    public final void set(QuaternionD q) {
+    public void set(QuaternionD q) {
         x = q.x;
         y = q.y;
         z = q.z;
@@ -317,7 +312,7 @@ public class QuaternionD {
      * Sets this Quaternion to be a representation of the supplied axis and
      * angle (in Radians)
      */
-    public final void fromAxisAngleRad(Vector3d axis, double angle) {
+    public void fromAxisAngleRad(Vector3d axis, double angle) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
@@ -332,7 +327,7 @@ public class QuaternionD {
      * Sets this Quaternion to be a representation of the supplied axis and
      * angle (in Radians)
      */
-    public final void fromAxisAngleRad(double axisX, double axisY, double axisZ, double angle) {
+    public void fromAxisAngleRad(double axisX, double axisY, double axisZ, double angle) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
@@ -347,7 +342,7 @@ public class QuaternionD {
      * Sets this Quaternion to be a representation of the supplied axis and
      * angle (in Degrees)
      */
-    public final void fromAxisAngleDeg(Vector3d axis, double angle) {
+    public void fromAxisAngleDeg(Vector3d axis, double angle) {
         double hangle = (angle * TrigMath.degreesToRadians) / 2.0f;
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
@@ -361,7 +356,7 @@ public class QuaternionD {
     /**
      * Multiply this Quaternion by q
      */
-    public final void mul(QuaternionD q) {
+    public void mul(QuaternionD q) {
         set(x = this.x * q.x - this.y * q.y - this.z * q.z - this.w * q.w,
                 y = this.x * q.y + this.y * q.x + this.z * q.w - this.w * q.z,
                 z = this.x * q.z - this.y * q.w + this.z * q.x + this.w * q.y,
@@ -373,7 +368,7 @@ public class QuaternionD {
      * <B>This is not alias safe so make sure dest is not the same as a or b or
      * you WILL get incorrect results!</B>
      */
-    public static final void mulFast(QuaternionD a, QuaternionD b, QuaternionD dest) {
+    public static void mulFast(QuaternionD a, QuaternionD b, QuaternionD dest) {
         dest.x = a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w;
         dest.y = a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z;
         dest.z = a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y;
@@ -383,7 +378,7 @@ public class QuaternionD {
     /**
      * Multiply a by b and store the results in dest.
      */
-    public static final void mul(QuaternionD a, QuaternionD b, QuaternionD dest) {
+    public static void mul(QuaternionD a, QuaternionD b, QuaternionD dest) {
         dest.set(a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w,
                 a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
                 a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
@@ -393,7 +388,7 @@ public class QuaternionD {
     /**
      * Invert this Quaternion
      */
-    public final void invert() {
+    public void invert() {
         double norm = (x * x + y * y + z * z + w * w);
         x = x / norm;
         y = -y / norm;
@@ -404,7 +399,7 @@ public class QuaternionD {
     /**
      * Inverts q and stores the results in dest. Does not modify q
      */
-    public static final void invert(QuaternionD q, QuaternionD dest) {
+    public static void invert(QuaternionD q, QuaternionD dest) {
         double norm = (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
         dest.x = q.x / norm;
         dest.y = -q.y / norm;
@@ -415,7 +410,7 @@ public class QuaternionD {
     /**
      * Divides this Quaternion by b
      */
-    public final void div(QuaternionD b) {
+    public void div(QuaternionD b) {
         // TODO: Remove method calls
         invert();
         mul(b);
@@ -424,7 +419,7 @@ public class QuaternionD {
     /**
      * Divides a by b and stores the results in dest. Does not modify a or b
      */
-    public static final void div(QuaternionD a, QuaternionD b, QuaternionD dest) {
+    public static void div(QuaternionD a, QuaternionD b, QuaternionD dest) {
         dest.x = a.x;
         dest.y = a.y;
         dest.z = a.z;
@@ -437,7 +432,7 @@ public class QuaternionD {
     /**
      * Conjugates this Quaternion
      */
-    public final void conjugate() {
+    public void conjugate() {
         y = -y;
         z = -z;
         w = -w;
@@ -446,7 +441,7 @@ public class QuaternionD {
     /**
      * Conjugates a and stores the results in dest. Does not modify a
      */
-    public static final void conjugate(QuaternionD a, QuaternionD dest) {
+    public static void conjugate(QuaternionD a, QuaternionD dest) {
         dest.x = a.x;
         dest.y = -a.y;
         dest.z = -a.z;
@@ -456,7 +451,7 @@ public class QuaternionD {
     /**
      * Set this Quaternion to the identity
      */
-    public final void identity() {
+    public void identity() {
         x = 0.0f;
         y = 0.0f;
         z = 0.0f;
@@ -466,28 +461,28 @@ public class QuaternionD {
     /**
      * Calculate this Quaternion using the supplied Vector3f angles (in degrees) with rotation order XYZ.
      */
-    public final void setEulerAnglesDegXYZ(Vector3d angles) {
+    public void setEulerAnglesDegXYZ(Vector3d angles) {
         setEulerAnglesDegXYZ(angles.x, angles.y, angles.z);
     }
 
     /**
      * Calculate this Quaternion using the supplied Vector3f angles (in radians) with rotation order XYZ.
      */
-    public final void setEulerAnglesRadXYZ(Vector3d angles) {
+    public void setEulerAnglesRadXYZ(Vector3d angles) {
         setEulerAnglesRadXYZ(angles.x, angles.y, angles.z);
     }
 
     /**
      * Calculate this Quaternion using the supplied Vector3f angles (in degrees) with rotation order ZYX.
      */
-    public final void setEulerAnglesDegZYX(Vector3d angles) {
+    public void setEulerAnglesDegZYX(Vector3d angles) {
         setEulerAnglesDegZYX(angles.x, angles.y, angles.z);
     }
 
     /**
      * Calculate this Quaternion using the supplied Vector3f angles (in radians) with rotation order ZYX.
      */
-    public final void setEulerAnglesRadZYX(Vector3d angles) {
+    public void setEulerAnglesRadZYX(Vector3d angles) {
         setEulerAnglesRadZYX(angles.x, angles.y, angles.z);
     }
 
@@ -497,13 +492,13 @@ public class QuaternionD {
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
-    public final void setEulerAnglesDegXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        final double sx = Math.sin((rotationAboutX * TrigMath.degreesToRadians) * 0.5);
-        final double cx = Math.cos((rotationAboutX * TrigMath.degreesToRadians) * 0.5);
-        final double sy = Math.sin((rotationAboutY * TrigMath.degreesToRadians) * 0.5);
-        final double cy = Math.cos((rotationAboutY * TrigMath.degreesToRadians) * 0.5);
-        final double sz = Math.sin((rotationAboutZ * TrigMath.degreesToRadians) * 0.5);
-        final double cz = Math.cos((rotationAboutZ * TrigMath.degreesToRadians) * 0.5);
+    public void setEulerAnglesDegXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+        double sx = Math.sin((rotationAboutX * TrigMath.degreesToRadians) * 0.5);
+        double cx = Math.cos((rotationAboutX * TrigMath.degreesToRadians) * 0.5);
+        double sy = Math.sin((rotationAboutY * TrigMath.degreesToRadians) * 0.5);
+        double cy = Math.cos((rotationAboutY * TrigMath.degreesToRadians) * 0.5);
+        double sz = Math.sin((rotationAboutZ * TrigMath.degreesToRadians) * 0.5);
+        double cz = Math.cos((rotationAboutZ * TrigMath.degreesToRadians) * 0.5);
 
         x = cx*cy*cz + sx*sy*sz;
         y = sx*cy*cz - cx*sy*sz;
@@ -517,13 +512,13 @@ public class QuaternionD {
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
-    public final void setEulerAnglesDegZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        final double sx = Math.sin(rotationAboutX * TrigMath.degreesToRadians * 0.5);
-        final double cx = Math.cos(rotationAboutX * TrigMath.degreesToRadians * 0.5);
-        final double sy = Math.sin(rotationAboutY * TrigMath.degreesToRadians * 0.5);
-        final double cy = Math.cos(rotationAboutY * TrigMath.degreesToRadians * 0.5);
-        final double sz = Math.sin(rotationAboutZ * TrigMath.degreesToRadians * 0.5);
-        final double cz = Math.cos(rotationAboutZ * TrigMath.degreesToRadians * 0.5);
+    public void setEulerAnglesDegZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+        double sx = Math.sin(rotationAboutX * TrigMath.degreesToRadians * 0.5);
+        double cx = Math.cos(rotationAboutX * TrigMath.degreesToRadians * 0.5);
+        double sy = Math.sin(rotationAboutY * TrigMath.degreesToRadians * 0.5);
+        double cy = Math.cos(rotationAboutY * TrigMath.degreesToRadians * 0.5);
+        double sz = Math.sin(rotationAboutZ * TrigMath.degreesToRadians * 0.5);
+        double cz = Math.cos(rotationAboutZ * TrigMath.degreesToRadians * 0.5);
 
         x = cx*cy*cz - sx*sy*sz;
         y = sx*cy*cz + cx*sy*sz;
@@ -551,13 +546,13 @@ public class QuaternionD {
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
-    public final void setEulerAnglesRadXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        final double sx = Math.sin(rotationAboutX * 0.5);
-        final double cx = Math.cos(rotationAboutX * 0.5);
-        final double sy = Math.sin(rotationAboutY * 0.5);
-        final double cy = Math.cos(rotationAboutY * 0.5);
-        final double sz = Math.sin(rotationAboutZ * 0.5);
-        final double cz = Math.cos(rotationAboutZ * 0.5);
+    public void setEulerAnglesRadXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+        double sx = Math.sin(rotationAboutX * 0.5);
+        double cx = Math.cos(rotationAboutX * 0.5);
+        double sy = Math.sin(rotationAboutY * 0.5);
+        double cy = Math.cos(rotationAboutY * 0.5);
+        double sz = Math.sin(rotationAboutZ * 0.5);
+        double cz = Math.cos(rotationAboutZ * 0.5);
 
         x = cx*cy*cz + sx*sy*sz;
         y = sx*cy*cz - cx*sy*sz;
@@ -571,13 +566,13 @@ public class QuaternionD {
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
-    public final void setEulerAnglesRadZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        final double sx = Math.sin(rotationAboutX * 0.5);
-        final double cx = Math.cos(rotationAboutX * 0.5);
-        final double sy = Math.sin(rotationAboutY * 0.5);
-        final double cy = Math.cos(rotationAboutY * 0.5);
-        final double sz = Math.sin(rotationAboutZ * 0.5);
-        final double cz = Math.cos(rotationAboutZ * 0.5);
+    public void setEulerAnglesRadZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+        double sx = Math.sin(rotationAboutX * 0.5);
+        double cx = Math.cos(rotationAboutX * 0.5);
+        double sy = Math.sin(rotationAboutY * 0.5);
+        double cy = Math.cos(rotationAboutY * 0.5);
+        double sz = Math.sin(rotationAboutZ * 0.5);
+        double cz = Math.cos(rotationAboutZ * 0.5);
 
         x = cx*cy*cz - sx*sy*sz;
         y = sx*cy*cz + cx*sy*sz;
@@ -589,14 +584,14 @@ public class QuaternionD {
      * Spherical linear interpolation between this Quaternion and the specified
      * target, using the specified alpha
      */
-    public final void slerp(QuaternionD target, double alpha) {
-        final double dot = Math.abs(this.x * target.x + this.y * target.y + this.z * target.z + this.w * target.w);
+    public void slerp(QuaternionD target, double alpha) {
+        double dot = Math.abs(this.x * target.x + this.y * target.y + this.z * target.z + this.w * target.w);
         double scale1, scale2;
 
         if ((1 - dot) > 0.1) {
             
-            final double angle = Math.acos(dot);
-            final double sinAngle = 1.0 / Math.sin(angle);
+            double angle = Math.acos(dot);
+            double sinAngle = 1.0 / Math.sin(angle);
 
             scale1 = (Math.sin((1.0 - alpha) * angle) * sinAngle);
             scale2 = (Math.sin((alpha * angle)) * sinAngle);
@@ -620,13 +615,13 @@ public class QuaternionD {
      * using the specified alpha, and storing the results in dest. Neither the
      * start or target are modified
      */
-    public static final void slerp(QuaternionD start, QuaternionD target, double alpha, QuaternionD dest) {
-        final double dot = Math.abs(start.x * target.x + start.y * target.y + start.z * target.z + start.w * target.w);
+    public static void slerp(QuaternionD start, QuaternionD target, double alpha, QuaternionD dest) {
+        double dot = Math.abs(start.x * target.x + start.y * target.y + start.z * target.z + start.w * target.w);
         double scale1, scale2;
 
         if ((1.0 - dot) > 0.0) {
-            final double angle = Math.acos(dot);
-            final double sinAngle = 1.0 / Math.sin(angle);
+            double angle = Math.acos(dot);
+            double sinAngle = 1.0 / Math.sin(angle);
 
             scale1 = (Math.sin((1.0 - alpha) * angle) * sinAngle);
             scale2 = (Math.sin((alpha * angle)) * sinAngle);
@@ -645,100 +640,8 @@ public class QuaternionD {
         dest.w = (scale1 * start.w) + (scale2 * target.w);
     }
 
-    /** Rotates dest to point towards destPoint, from the supplied sourcePoint.
-     * Assumes a forward Vector of (0,0,1) and an up Vector of (0,1,0)  */
-    public static final void LookAt(Vector3d sourcePoint, Vector3d destPoint, QuaternionD dest) {
-    	double dirX = destPoint.x - sourcePoint.x;
-    	double dirY = destPoint.y - sourcePoint.y;
-    	double dirZ = destPoint.z - sourcePoint.z;
-
-    	double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-
-        dirX /= length;
-        dirY /= length;
-        dirZ /= length;
-
-        double dot = (Vector3d.forward.x * dirX) + (Vector3d.forward.y * dirY) + (Vector3d.forward.z * dirZ);
-
-        if (Math.abs(dot + 1.0) < 0.000001) {
-            dest.x = Vector3f.up.x;
-            dest.y = Vector3f.up.y;
-            dest.z = Vector3f.up.z;
-            dest.w = Math.PI;
-            return;
-        }
-
-        if (Math.abs(dot - 1.0) < 0.000001) {
-            dest.x = 0.0;
-            dest.y = 0.0;
-            dest.z = 0.0;
-            dest.w = 1.0;
-            return;
-        }
-
-        double rotAngle = (double) Math.acos(dot);
-        
-        double rotAxisX = Vector3d.forward.y * dirZ - Vector3d.forward.z * dirY;
-        double rotAxisY = Vector3d.forward.z * dirX - Vector3d.forward.x * dirZ;
-        double rotAxisZ = Vector3d.forward.x * dirY - Vector3d.forward.y * dirX;
-
-        length = Math.sqrt(rotAxisX * rotAxisX + rotAxisY * rotAxisY + rotAxisZ * rotAxisZ);
-
-        rotAxisX /= length;
-        rotAxisY /= length;
-        rotAxisZ /= length;
-
-        dest.fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
-    }
-    
-    /** Rotates this Quaternion to point towards destPoint, from the supplied sourcePoint.
-     * Assumes a forward Vector of (0,0,1) and an up Vector of (0,1,0)  */
-    public final void LookAt(Vector3d sourcePoint, Vector3d destPoint) {
-    	double dirX = destPoint.x - sourcePoint.x;
-    	double dirY = destPoint.y - sourcePoint.y;
-    	double dirZ = destPoint.z - sourcePoint.z;
-
-    	double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-
-        dirX /= length;
-        dirY /= length;
-        dirZ /= length;
-
-        double dot = (Vector3d.forward.x * dirX) + (Vector3d.forward.y * dirY) + (Vector3d.forward.z * dirZ);
-
-        if (Math.abs(dot + 1.0) < 0.000001) {
-            x = Vector3f.up.x;
-            y = Vector3f.up.y;
-            z = Vector3f.up.z;
-            w = Math.PI;
-            return;
-        }
-
-        if (Math.abs(dot - 1.0) < 0.000001) {
-            x = 0.0;
-            y = 0.0;
-            z = 0.0;
-            w = 1.0;
-            return;
-        }
-
-        double rotAngle = Math.acos(dot);
-        
-        double rotAxisX = Vector3d.forward.y * dirZ - Vector3d.forward.z * dirY;
-        double rotAxisY = Vector3d.forward.z * dirX - Vector3d.forward.x * dirZ;
-        double rotAxisZ = Vector3d.forward.x * dirY - Vector3d.forward.y * dirX;
-
-        length = Math.sqrt(rotAxisX * rotAxisX + rotAxisY * rotAxisY + rotAxisZ * rotAxisZ);
-
-        rotAxisX /= length;
-        rotAxisY /= length;
-        rotAxisZ /= length;
-
-        fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
-    }
-    
     /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
-    public static final void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward, QuaternionD dest) {
+    public static void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward, QuaternionD dest) {
     	double dirX = destPoint.x - sourcePoint.x;
     	double dirY = destPoint.y - sourcePoint.y;
     	double dirZ = destPoint.z - sourcePoint.z;
@@ -783,7 +686,7 @@ public class QuaternionD {
     }
     
     /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
-    public final void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward) {
+    public void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward) {
     	double dirX = destPoint.x - sourcePoint.x;
     	double dirY = destPoint.y - sourcePoint.y;
     	double dirZ = destPoint.z - sourcePoint.z;

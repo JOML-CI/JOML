@@ -16,11 +16,9 @@
  * Lesser General Public License for more details.
  *
  */
-package com.joml.matrix;
+package com.joml;
 
 import java.nio.FloatBuffer;
-
-import com.joml.vector.Vector2f;
 
 /**
  * Matrix3f
@@ -86,7 +84,7 @@ public class Matrix3f {
     }
 
     /** Set the values in this matrix to the ones in m1 */
-    public final void set(Matrix3f m1) {
+    public void set(Matrix3f m1) {
         m00 = m1.m00;
         m01 = m1.m01;
         m02 = m1.m02;
@@ -99,7 +97,7 @@ public class Matrix3f {
     }
 
     /** Multiplies this matrix by the supplied matrix. This matrix will be the left-sided one */
-    public final void mul(Matrix3f right) {
+    public void mul(Matrix3f right) {
         set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02,
              this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02,
              this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02,
@@ -112,7 +110,7 @@ public class Matrix3f {
     }
     
     /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices */
-    public final static void mul(Matrix3f left, Matrix3f right, Matrix3f dest) {
+    public static void mul(Matrix3f left, Matrix3f right, Matrix3f dest) {
         dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
                   left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
                   left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
@@ -126,7 +124,7 @@ public class Matrix3f {
     
     /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices. 
     * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
-    public final static void mulFast(Matrix3f left, Matrix3f right, Matrix3f dest) {
+    public static void mulFast(Matrix3f left, Matrix3f right, Matrix3f dest) {
         dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
         dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
         dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
@@ -145,7 +143,7 @@ public class Matrix3f {
      * m02, m12, m22
      * 
      */
-    public final void set(float m00, float m01, float m02, float m10, float m11,
+    public void set(float m00, float m01, float m02, float m10, float m11,
                     float m12, float m20, float m21, float m22) {
         this.m00 = m00;
         this.m01 = m01;
@@ -167,7 +165,7 @@ public class Matrix3f {
      * Only uses the first 9 values, all others are ignored
      * 
      */
-    public final void set(float m[]) {
+    public void set(float m[]) {
         m00 = m[0];
         m01 = m[1];
         m02 = m[2];
@@ -180,7 +178,7 @@ public class Matrix3f {
     }
 
     /** Returns the determinant of this Matrix */
-    public final float determinant() {
+    public float determinant() {
         return   ((m00 * m11 * m22)
                + (m10 * m21 * m02)
                + (m20 * m01 * m12))
@@ -190,7 +188,7 @@ public class Matrix3f {
     }
 
     /** Inverts this matrix */
-    public final void invert() {
+    public void invert() {
         float s = determinant();
         
         if (s == 0.0f) {
@@ -212,7 +210,7 @@ public class Matrix3f {
     }
     
     /** Inverts the source matrix and stores the results in dest. Does not modify the source */
-    public final static void invert(Matrix3f source, Matrix3f dest) {
+    public static void invert(Matrix3f source, Matrix3f dest) {
         float s = source.determinant();
         if (s == 0.0f) {
             return;
@@ -231,7 +229,7 @@ public class Matrix3f {
     
     /** Inverts the source matrix and stores the results in dest. Does not modify the source
     * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
-    public final static void invertFast(Matrix3f source, Matrix3f dest) {
+    public static void invertFast(Matrix3f source, Matrix3f dest) {
         float s = source.determinant();
         if (s == 0.0f) {
             return;
@@ -251,7 +249,7 @@ public class Matrix3f {
     
     /** Inverts the source matrix and stores the results in dest. Does not modify the source
     * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
-    public final static void invert(Matrix3f source, FloatBuffer dest) {
+    public static void invert(Matrix3f source, FloatBuffer dest) {
         float s = source.determinant();
         if (s == 0.0f) {
             return;
@@ -270,21 +268,21 @@ public class Matrix3f {
     }
     
     /** Transposes this matrix */
-    public final void transpose() {
+    public void transpose() {
         set(m00, m10, m20,
             m01, m11, m21,
             m02, m12, m22);
     }
     
     /** Transposes the supplied original matrix and stores the results in dest. The original is not modified */
-    public final static void transpose(Matrix3f original, Matrix3f dest) {
+    public static void transpose(Matrix3f original, Matrix3f dest) {
         dest.set(original.m00, original.m10, original.m20,
                  original.m01, original.m11, original.m21,
                  original.m02, original.m12, original.m22);
     }
     
     /** Transposes the supplied original matrix and stores the results in dest. The original is not modified */
-    public final static void transpose(Matrix3f original, FloatBuffer dest) {
+    public static void transpose(Matrix3f original, FloatBuffer dest) {
         dest.put(original.m00);
         dest.put(original.m10);
         dest.put(original.m20);
@@ -298,7 +296,7 @@ public class Matrix3f {
     
     /** Transposes the supplied original matrix and stores the results in dest. The original is not modified.
     * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
-    public final static void transposeFast(Matrix3f original, Matrix3f dest) {
+    public static void transposeFast(Matrix3f original, Matrix3f dest) {
         dest.m00 = original.m00;
         dest.m01 = original.m10;
         dest.m02 = original.m20;
@@ -339,7 +337,7 @@ public class Matrix3f {
     }
 
     /** Multiply this matrix by the scalar value */
-    public final void mul(float scalar) {
+    public void mul(float scalar) {
         m00 *= scalar;
         m01 *= scalar;
         m02 *= scalar;
@@ -352,7 +350,7 @@ public class Matrix3f {
     }
     
     /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
-    public final static void mul(Matrix3f source, float scalar, Matrix3f dest) {
+    public static void mul(Matrix3f source, float scalar, Matrix3f dest) {
         dest.m00 = source.m00 * scalar;
         dest.m01 = source.m01 * scalar;
         dest.m02 = source.m02 * scalar;
@@ -365,7 +363,7 @@ public class Matrix3f {
     }
     
     /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
-    public final static void mul(Matrix3f source, float scalar, FloatBuffer dest) {
+    public static void mul(Matrix3f source, float scalar, FloatBuffer dest) {
         dest.put(source.m00 * scalar);
         dest.put(source.m01 * scalar);
         dest.put(source.m02 * scalar);
@@ -385,7 +383,7 @@ public class Matrix3f {
     }
 
     /** Stores this matrix in the supplied FloatBuffer */
-    public final void store(FloatBuffer buffer) {
+    public void store(FloatBuffer buffer) {
         buffer.put(this.m00);
         buffer.put(this.m01);
         buffer.put(this.m02);
@@ -398,7 +396,7 @@ public class Matrix3f {
     }
 
     /** Sets all the values within this matrix to 0 */
-    public final void zero() {
+    public void zero() {
         this.m00 = 0.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;
@@ -411,7 +409,7 @@ public class Matrix3f {
     }
     
     /** Sets this matrix to the identity */
-    public final void identity() {
+    public void identity() {
         this.m00 = 1.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;
