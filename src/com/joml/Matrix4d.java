@@ -846,7 +846,7 @@ public class Matrix4d {
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      */
-    public void rotation(float angle, Vector3d axis) {
+    public void rotation(double angle, Vector3d axis) {
     	double cos = Math.cos(angle);
     	double sin = Math.sin(angle);
     	m00 = cos + axis.x * axis.x * (1.0 - cos);
@@ -872,7 +872,7 @@ public class Matrix4d {
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      */
-    public static void rotation(float angle, Vector3d axis, Matrix4d dest) {
+    public static void rotation(double angle, Vector3d axis, Matrix4d dest) {
     	double cos = Math.cos(angle);
     	double sin = Math.sin(angle);
     	dest.m00 = cos + axis.x * axis.x * (1.0 - cos);

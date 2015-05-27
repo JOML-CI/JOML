@@ -612,6 +612,23 @@ public class Matrix4f {
     /**
      * Set this matrix to be a simple scale matrix.
      * 
+     * @param x
+     * 			the scale in x
+     * @param y
+     * 			the scale in y
+     * @param z
+     * 			the scale in z
+     */
+    public void scale(float x, float y, float z) {
+    	identity();
+        m00 = x;
+        m11 = y;
+        m22 = z;
+    }
+    
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
      * @param scale
      * 			the scale applied to each dimension
      */
@@ -633,6 +650,23 @@ public class Matrix4f {
         dest.m00 = scale.x;
         dest.m11 = scale.y;
         dest.m22 = scale.z;
+    }
+    
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
+     * @param x
+     * 			the scale in x
+     * @param y
+     * 			the scale in y
+     * @param z
+     * 			the scale in z
+     */
+    public void scale(float x, float y, float z, Matrix4f dest) {
+    	dest.identity();
+    	dest.m00 = x;
+    	dest.m11 = y;
+    	dest.m22 = z;
     }
     
     /**
