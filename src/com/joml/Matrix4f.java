@@ -721,4 +721,48 @@ public class Matrix4f {
     	dest.m33 = 1.0f;
     }
 
+    /**
+     * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
+     */
+    public void fromMatrix3(Matrix3f mat) {
+    	this.m00 = mat.m00;
+    	this.m01 = mat.m01;
+    	this.m02 = mat.m02;
+    	this.m03 = 0.0f;
+    	this.m10 = mat.m10;
+    	this.m11 = mat.m11;
+    	this.m12 = mat.m12;
+    	this.m13 = 0.0f;
+    	this.m20 = mat.m20;
+    	this.m21 = mat.m21;
+    	this.m22 = mat.m22;
+    	this.m23 = 0.0f;
+    	this.m30 = 0.0f;
+    	this.m31 = 0.0f;
+    	this.m32 = 0.0f;
+    	this.m33 = 1.0f;
+    }
+
+    /**
+     * Set the upper 3x3 matrix of the given <code>dest</code> {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
+     */
+    public static void fromMatrix3(Matrix3f mat, Matrix4f dest) {
+    	dest.m00 = mat.m00;
+    	dest.m01 = mat.m01;
+    	dest.m02 = mat.m02;
+    	dest.m03 = 0.0f;
+    	dest.m10 = mat.m10;
+    	dest.m11 = mat.m11;
+    	dest.m12 = mat.m12;
+    	dest.m13 = 0.0f;
+    	dest.m20 = mat.m20;
+    	dest.m21 = mat.m21;
+    	dest.m22 = mat.m22;
+    	dest.m23 = 0.0f;
+    	dest.m30 = 0.0f;
+    	dest.m31 = 0.0f;
+    	dest.m32 = 0.0f;
+    	dest.m33 = 1.0f;
+    }
+
 }

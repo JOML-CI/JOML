@@ -196,17 +196,15 @@ public class Matrix3f {
         }
         s = 1.0f / s;
 
-       set( (m11 * m22) - (m21 * m12),
-           -((m01 * m22) - (m21 * m02)),
-            (m01 * m12) - (m11 * m02),
-           -((m10 * m22) - (m20 * m12)),
-            (m00 * m22) - (m20 * m02),
-           -((m00 * m12) - (m10 * m02)),
-            (m10 * m21) - (m20 * m11),
-           -((m00 * m21) - (m20 * m01)),
-            (m00 * m11) - (m10 * m01));
-        
-        mul(s);
+       set( (m11 * m22) - (m21 * m12) * s,
+           -((m01 * m22) - (m21 * m02)) * s,
+            (m01 * m12) - (m11 * m02) * s,
+           -((m10 * m22) - (m20 * m12)) * s,
+            (m00 * m22) - (m20 * m02) * s,
+           -((m00 * m12) - (m10 * m02)) * s,
+            (m10 * m21) - (m20 * m11) * s,
+           -((m00 * m21) - (m20 * m01)) * s,
+            (m00 * m11) - (m10 * m01) * s);
     }
     
     /** Inverts the source matrix and stores the results in dest. Does not modify the source */
@@ -314,7 +312,7 @@ public class Matrix3f {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translate(float x, float y) {
+    public void translation(float x, float y) {
         this.m00 = 1.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;
@@ -327,26 +325,33 @@ public class Matrix3f {
     }
 
     /**
+     * Set the given matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public static void translation(Vector2f position, Matrix3f dest) {
+        dest.translation(position.x, position.y);
+    }
+
+    /**
+     * Set the given matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public static void translation(float x, float y, Matrix3f dest) {
+        dest.translation(x, y);
+    }
+
+    /**
      * Set this matrix to be a simple translation matrix.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translate(Vector2f position) {
-        translate(position.x, position.y);
-    }
-
-    /** Multiply this matrix by the scalar value */
-    public void mul(float scalar) {
-        m00 *= scalar;
-        m01 *= scalar;
-        m02 *= scalar;
-        m10 *= scalar;
-        m11 *= scalar;
-        m12 *= scalar;
-        m20 *= scalar;
-        m21 *= scalar;
-        m22 *= scalar;
+    public void translation(Vector2f position) {
+        translation(position.x, position.y);
     }
     
     /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
@@ -421,5 +426,103 @@ public class Matrix3f {
         this.m22 = 1.0f;
     }
 
+    
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
+     * @param x
+     * 			the scale in x
+     * @param y
+     * 			the scale in y
+     * @param z
+     * 			the scale in z
+     */
+    public void scale(float x, float y, float z) {
+    	identity();
+        m00 = x;
+        m11 = y;
+        m22 = z;
+    }
+    
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
+     * @param scale
+     * 			the scale applied to each dimension
+     */
+    public void scale(Vector3f scale) {
+    	identity();
+        m00 = scale.x;
+        m11 = scale.y;
+        m22 = scale.z;
+    }
+    
+    /**
+     * Set the given matrix <code>dest</code> to be a simple scale matrix.
+     * 
+     * @param scale
+     * 			the scale applied to each dimension
+     */
+    public static void scale(Vector3f scale, Matrix3f dest) {
+    	dest.identity();
+        dest.m00 = scale.x;
+        dest.m11 = scale.y;
+        dest.m22 = scale.z;
+    }
+    
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
+     * @param x
+     * 			the scale in x
+     * @param y
+     * 			the scale in y
+     * @param z
+     * 			the scale in z
+     */
+    public void scale(float x, float y, float z, Matrix3f dest) {
+    	dest.identity();
+    	dest.m00 = x;
+    	dest.m11 = y;
+    	dest.m22 = z;
+    }
+    
+    /**
+     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
+     * 
+     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     */
+    public void rotation(float angle, Vector3f axis) {
+    	float cos = (float) Math.cos(angle);
+    	float sin = (float) Math.sin(angle);
+    	m00 = cos + axis.x * axis.x * (1.0f - cos);
+    	m10 = axis.x * axis.y * (1.0f - cos) - axis.z * sin;
+    	m20 = axis.x * axis.z * (1.0f - cos) + axis.y * sin;
+    	m01 = axis.y * axis.x * (1.0f - cos) + axis.z * sin;
+    	m11 = cos + axis.y * axis.y * (1.0f - cos);
+    	m21 = axis.y * axis.z * (1.0f - cos) - axis.x * sin;
+    	m02 = axis.z * axis.x * (1.0f - cos) - axis.y * sin;
+    	m12 = axis.z * axis.y * (1.0f - cos) + axis.x * sin;
+    	m22 = cos + axis.z * axis.z * (1.0f - cos);
+    }
+    
+    /**
+     * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
+     * 
+     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     */
+    public static void rotation(float angle, Vector3f axis, Matrix3f dest) {
+    	float cos = (float) Math.cos(angle);
+    	float sin = (float) Math.sin(angle);
+    	dest.m00 = cos + axis.x * axis.x * (1.0f - cos);
+    	dest.m10 = axis.x * axis.y * (1.0f - cos) - axis.z * sin;
+    	dest.m20 = axis.x * axis.z * (1.0f - cos) + axis.y * sin;
+    	dest.m01 = axis.y * axis.x * (1.0f - cos) + axis.z * sin;
+    	dest.m11 = cos + axis.y * axis.y * (1.0f - cos);
+    	dest.m21 = axis.y * axis.z * (1.0f - cos) - axis.x * sin;
+    	dest.m02 = axis.z * axis.x * (1.0f - cos) - axis.y * sin;
+    	dest.m12 = axis.z * axis.y * (1.0f - cos) + axis.x * sin;
+    	dest.m22 = cos + axis.z * axis.z * (1.0f - cos);
+    }
 
 }
