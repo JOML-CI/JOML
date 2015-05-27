@@ -45,8 +45,7 @@ public class Matrix3f {
     public float m21;
     public float m22;
     
-    
-   public Matrix3f() {
+    public Matrix3f() {
         super();
         identity();
     }
@@ -426,7 +425,6 @@ public class Matrix3f {
         this.m22 = 1.0f;
     }
 
-    
     /**
      * Set this matrix to be a simple scale matrix.
      * 

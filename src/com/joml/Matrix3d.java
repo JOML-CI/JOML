@@ -278,17 +278,15 @@ public class Matrix3d {
         }
         s = 1.0 / s;
 
-       set( (m11 * m22) - (m21 * m12),
-           -((m01 * m22) - (m21 * m02)),
-            (m01 * m12) - (m11 * m02),
-           -((m10 * m22) - (m20 * m12)),
-            (m00 * m22) - (m20 * m02),
-           -((m00 * m12) - (m10 * m02)),
-            (m10 * m21) - (m20 * m11),
-           -((m00 * m21) - (m20 * m01)),
-            (m00 * m11) - (m10 * m01));
-        
-        mul(s);
+       set( (m11 * m22) - (m21 * m12) * s,
+           -((m01 * m22) - (m21 * m02)) * s,
+            (m01 * m12) - (m11 * m02) * s,
+           -((m10 * m22) - (m20 * m12)) * s,
+            (m00 * m22) - (m20 * m02) * s,
+           -((m00 * m12) - (m10 * m02)) * s,
+            (m10 * m21) - (m20 * m11) * s,
+           -((m00 * m21) - (m20 * m01)) * s,
+            (m00 * m11) - (m10 * m01) * s);
     }
 
     /** Inverts the source matrix and stores the results in dest. Does not modify the source */
@@ -396,7 +394,7 @@ public class Matrix3d {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translate(double x, double y) {
+    public void translation(double x, double y) {
         this.m00 = 1.0;
         this.m01 = 0.0;
         this.m02 = 0.0;
@@ -407,15 +405,15 @@ public class Matrix3d {
         this.m21 = y;
         this.m22 = 1.0;
     }
-
+ 
     /**
-     * Set this matrix to be a simple translation matrix.
+     * Set the given matrix to be a simple translation matrix.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translate(Vector2d position) {
-        translate(position.x, position.y);
+    public static void translation(double x, double y, Matrix3d dest) {
+    	dest.translation(x, y);
     }
 
     /**
@@ -424,21 +422,38 @@ public class Matrix3d {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translate(Vector2f position) {
-        translate(position.x, position.y);
+    public void translation(Vector2d position) {
+        translation(position.x, position.y);
     }
 
-    /** Multiply this matrix by the scalar value */
-    public void mul(double scalar) {
-        m00 *= scalar;
-        m01 *= scalar;
-        m02 *= scalar;
-        m10 *= scalar;
-        m11 *= scalar;
-        m12 *= scalar;
-        m20 *= scalar;
-        m21 *= scalar;
-        m22 *= scalar;
+    /**
+     * Set the given matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public static void translation(Vector2d position, Matrix3d dest) {
+        dest.translation(position.x, position.y);
+    }
+
+    /**
+     * Set this matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public void translation(Vector2f position) {
+        translation(position.x, position.y);
+    }
+
+    /**
+     * Set the given matrix to be a simple translation matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     */
+    public static void translation(Vector2f position, Matrix3d dest) {
+        dest.translation(position.x, position.y);
     }
 
     /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
@@ -512,5 +527,102 @@ public class Matrix3d {
         this.m22 = 1.0;
     }
 
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
+     * @param x
+     * 			the scale in x
+     * @param y
+     * 			the scale in y
+     * @param z
+     * 			the scale in z
+     */
+    public void scale(double x, double y, double z) {
+    	identity();
+        m00 = x;
+        m11 = y;
+        m22 = z;
+    }
+    
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
+     * @param scale
+     * 			the scale applied to each dimension
+     */
+    public void scale(Vector3d scale) {
+    	identity();
+        m00 = scale.x;
+        m11 = scale.y;
+        m22 = scale.z;
+    }
+    
+    /**
+     * Set the given matrix <code>dest</code> to be a simple scale matrix.
+     * 
+     * @param scale
+     * 			the scale applied to each dimension
+     */
+    public static void scale(Vector3d scale, Matrix3d dest) {
+    	dest.identity();
+        dest.m00 = scale.x;
+        dest.m11 = scale.y;
+        dest.m22 = scale.z;
+    }
+    
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
+     * @param x
+     * 			the scale in x
+     * @param y
+     * 			the scale in y
+     * @param z
+     * 			the scale in z
+     */
+    public void scale(double x, double y, double z, Matrix3d dest) {
+    	dest.identity();
+    	dest.m00 = x;
+    	dest.m11 = y;
+    	dest.m22 = z;
+    }
+    
+    /**
+     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
+     * 
+     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     */
+    public void rotation(double angle, Vector3d axis) {
+    	double cos = Math.cos(angle);
+    	double sin = Math.sin(angle);
+    	m00 = cos + axis.x * axis.x * (1.0 - cos);
+    	m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
+    	m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
+    	m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
+    	m11 = cos + axis.y * axis.y * (1.0 - cos);
+    	m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
+    	m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
+    	m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
+    	m22 = cos + axis.z * axis.z * (1.0 - cos);
+    }
+    
+    /**
+     * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
+     * 
+     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     */
+    public static void rotation(double angle, Vector3d axis, Matrix3d dest) {
+    	double cos = Math.cos(angle);
+    	double sin = Math.sin(angle);
+    	dest.m00 = cos + axis.x * axis.x * (1.0 - cos);
+    	dest.m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
+    	dest.m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
+    	dest.m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
+    	dest.m11 = cos + axis.y * axis.y * (1.0 - cos);
+    	dest.m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
+    	dest.m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
+    	dest.m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
+    	dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
+    }
 
 }
