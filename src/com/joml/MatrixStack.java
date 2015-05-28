@@ -18,8 +18,6 @@
  */
 package com.joml;
 
-import javafx.scene.transform.Translate;
-
 /**
  * Resembles the matrix stack known from legacy OpenGL.
  * <p>
