@@ -67,10 +67,13 @@ public class MatrixStack {
      * counter to zero.
      * <p>
      * The first matrix will also be set to identity.
+     * 
+     * @return this
      */
-    public void clear() {
+    public MatrixStack clear() {
         curr = 0;
         mats[0].identity();
+        return this;
     }
 
     /**
@@ -94,11 +97,12 @@ public class MatrixStack {
      * @param mat
      *            the matrix which is stored in the current stack matrix
      */
-    public void loadMatrix(Matrix4f mat) {
+    public MatrixStack loadMatrix(Matrix4f mat) {
         if (mat == null) {
             throw new IllegalArgumentException("mat must not be null");
         }
         mats[curr].set(mat);
+        return this;
     }
 
     /**
@@ -129,12 +133,14 @@ public class MatrixStack {
      *            the values of the 4x4 matrix as a column-major
      *            {@link FloatBuffer} containing at least 16 floats starting at
      *            the relative {@link FloatBuffer#position()}
+     * @return this
      */
-    public void loadMatrix(FloatBuffer columnMajorArray) {
+    public MatrixStack loadMatrix(FloatBuffer columnMajorArray) {
         if (columnMajorArray == null) {
             throw new IllegalArgumentException("columnMajorArray must not be null");
         }
         mats[curr].set(columnMajorArray);
+        return this;
     }
 
     /**
@@ -146,8 +152,9 @@ public class MatrixStack {
      *            at least 16 floats
      * @param offset
      *            the offset into the array
+     * @return this
      */
-    public void loadMatrix(float[] columnMajorArray, int offset) {
+    public MatrixStack loadMatrix(float[] columnMajorArray, int offset) {
         if (columnMajorArray == null) {
             throw new IllegalArgumentException("columnMajorArray must not be null");
         }
@@ -155,13 +162,16 @@ public class MatrixStack {
             throw new IllegalArgumentException("columnMajorArray does not have enough elements");
         }
         mats[curr].set(columnMajorArray, offset);
+        return this;
     }
 
     /**
      * Increment the stack pointer by one and set the values of the new current
      * matrix to the one directly below it.
+     * 
+     * @return this
      */
-    public void pushMatrix() {
+    public MatrixStack pushMatrix() {
         if (curr == mats.length - 1) {
             throw new IllegalStateException("max stack size of " + (curr + 1) + " reached");
         }
@@ -171,6 +181,7 @@ public class MatrixStack {
             mats[curr + 1].set(mats[curr]);
         }
         curr++;
+        return this;
     }
 
     /**
@@ -192,12 +203,15 @@ public class MatrixStack {
      * Decrement the stack pointer by one.
      * <p>
      * This will effectively dispose of the current matrix.
+     * 
+     * @return this
      */
-    public void popMatrix() {
+    public MatrixStack popMatrix() {
         if (curr == 0) {
             throw new IllegalStateException("already at the buttom of the stack");
         }
         curr--;
+        return this;
     }
 
     /**
@@ -338,8 +352,9 @@ public class MatrixStack {
      * @param x
      * @param y
      * @param z
+     * @return this
      */
-    public void translate(float x, float y, float z) {
+    public MatrixStack translate(float x, float y, float z) {
         Matrix4f c = mats[curr];
         // translation matrix elements:
         // m00, m11, m22, m33 = 1
@@ -349,6 +364,7 @@ public class MatrixStack {
         c.m31 = c.m01 * x + c.m11 * y + c.m21 * z + c.m31;
         c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
         c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
+        return this;
     }
 
     /**
@@ -359,12 +375,14 @@ public class MatrixStack {
      * 
      * @param xyz
      *            contains the number of units to translate by
+     * @return this
      */
-    public void translate(Vector3f xyz) {
+    public MatrixStack translate(Vector3f xyz) {
         if (xyz == null) {
             throw new IllegalArgumentException("xyz must not be null");
         }
         translate(xyz.x, xyz.y, xyz.z);
+        return this;
     }
 
     /**
@@ -425,8 +443,9 @@ public class MatrixStack {
      *            the factor of the y component
      * @param z
      *            the factor of the z component
+     * @return this
      */
-    public void scale(float x, float y, float z) {
+    public MatrixStack scale(float x, float y, float z) {
         Matrix4f c = mats[curr];
         // scale matrix elements:
         // m00 = x, m11 = y, m22 = z
@@ -444,6 +463,7 @@ public class MatrixStack {
         c.m21 = c.m21 * z;
         c.m22 = c.m22 * z;
         c.m23 = c.m23 * z;
+        return this;
     }
 
     /**
@@ -476,12 +496,14 @@ public class MatrixStack {
      * 
      * @param xyz
      *            contains the factors to scale by
+     * @return this
      */
-    public void scale(Vector3f xyz) {
+    public MatrixStack scale(Vector3f xyz) {
         if (xyz == null) {
             throw new IllegalArgumentException("xyz must not be null");
         }
         this.scale(xyz.x, xyz.y, xyz.z);
+        return this;
     }
 
     /**
@@ -522,8 +544,9 @@ public class MatrixStack {
      *            the y component of the axis
      * @param z
      *            the z component of the axis
+     * @return this
      */
-    public void rotate(float ang, float x, float y, float z) {
+    public MatrixStack rotate(float ang, float x, float y, float z) {
         Matrix4f c = mats[curr];
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
@@ -565,6 +588,7 @@ public class MatrixStack {
         c.m21 = nm21;
         c.m22 = nm22;
         c.m23 = nm23;
+        return this;
     }
 
     /**
@@ -602,12 +626,14 @@ public class MatrixStack {
      *            the angle in degrees
      * @param axis
      *            the axis to rotate about
+     * @return this
      */
-    public void rotate(float ang, Vector3f axis) {
+    public MatrixStack rotate(float ang, Vector3f axis) {
         if (axis == null) {
             throw new IllegalArgumentException("axis must not be null");
         }
         rotate(ang, axis.x, axis.y, axis.z);
+        return this;
     }
 
     /**
@@ -635,9 +661,12 @@ public class MatrixStack {
 
     /**
      * Set the current matrix to identity.
+     * 
+     * @return this
      */
-    public void loadIdentity() {
+    public MatrixStack loadIdentity() {
         mats[curr].identity();
+        return this;
     }
 
     /**
@@ -662,12 +691,15 @@ public class MatrixStack {
      * applied first!
      * 
      * @param mat
+     *      the matrix to multiply this matrix with
+     * @return this
      */
-    public void multMatrix(Matrix4f mat) {
+    public MatrixStack multMatrix(Matrix4f mat) {
         if (mat == null) {
             throw new IllegalArgumentException("mat must not be null");
         }
         mats[curr].mul(mat);
+        return this;
     }
 
     /**

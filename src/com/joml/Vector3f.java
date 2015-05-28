@@ -50,29 +50,43 @@ public class Vector3f {
 
     /**
      * Sets the x, y and z attributes to match the supplied vector
+     * 
+     * @param v
+     * @return this
      */
-    public void set(Vector3f v) {
+    public Vector3f set(Vector3f v) {
         x = v.x;
         y = v.y;
         z = v.z;
+        return this;
     }
 
     /**
      * Sets the x, y and z attributes to the supplied float values
+     * 
+     * @param x
+     * @param y
+     * @param z
+     * @return this
      */
-    public void set(float x, float y, float z) {
+    public Vector3f set(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
+        return this;
     }
 
     /**
      * Subtracts the supplied vector from this one
+     * 
+     * @param v
+     * @return this
      */
-    public void sub(Vector3f v) {
+    public Vector3f sub(Vector3f v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
+        return this;
     }
 
     /**
@@ -87,11 +101,15 @@ public class Vector3f {
 
     /**
      * Adds the supplied vector to this one
+     * 
+     * @param v
+     * @return this
      */
-    public void add(Vector3f v) {
+    public Vector3f add(Vector3f v) {
         x += v.x;
         y += v.y;
         z += v.z;
+        return this;
     }
 
     /**
@@ -105,11 +123,15 @@ public class Vector3f {
 
     /**
      * Multiply this Vector3f by another Vector3f
+     * 
+     * @param v
+     * @return this
      */
-    public void mul(Vector3f v) {
+    public Vector3f mul(Vector3f v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
+        return this;
     }
 
     /**
@@ -126,11 +148,14 @@ public class Vector3f {
 
     /**
      * Multiply this Vector3f by the given matrix <code>mat</code>.
+     * 
+     * @param mat
+     * @return this
      */
-    public void mul(Matrix4f mat) {
-        set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
-                mat.m01 * x + mat.m11 * y + mat.m21 * z,
-                mat.m02 * x + mat.m12 * y + mat.m22 * z);
+    public Vector3f mul(Matrix4f mat) {
+        return set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                   mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                   mat.m02 * x + mat.m12 * y + mat.m22 * z);
     }
 
     /**
@@ -139,8 +164,8 @@ public class Vector3f {
      */
     public static void mul(Vector3f v, Matrix4f mat, Vector3f dest) {
         dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
+                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
+                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
     }
 
     /**
@@ -156,22 +181,25 @@ public class Vector3f {
     }
 
     /**
-     * Multiply this Vector3f by the given rotation matrix mat
+     * Multiply this Vector3f by the given rotation matrix mat.
+     * 
+     * @param mat
+     * @return this
      */
-    public void mul(Matrix3f mat) {
-        set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
-                mat.m01 * x + mat.m11 * y + mat.m21 * z,
-                mat.m02 * x + mat.m12 * y + mat.m22 * z);
+    public Vector3f mul(Matrix3f mat) {
+        return set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                   mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                   mat.m02 * x + mat.m12 * y + mat.m22 * z);
     }
 
     /**
      * Multiply Vector3f v by the given rotation matrix mat and store the
-     * results in dest. Does not modify v
+     * results in dest. Does not modify v.
      */
     public static void mul(Vector3f v, Matrix3f mat, Vector3f dest) {
         dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
+                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
+                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
     }
 
     /**
@@ -187,12 +215,16 @@ public class Vector3f {
     }
 
     /**
-     * Multiply this Vector3f by the given scalar value
+     * Multiply this Vector3f by the given scalar value.
+     * 
+     * @param scalar
+     * @return this
      */
-    public void mul(float scalar) {
+    public Vector3f mul(float scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
+        return this;
     }
 
     /* Multiply the given Vector3f v by the scalar value, and store in dest. Does not modify v */
@@ -217,71 +249,61 @@ public class Vector3f {
     }
 
     /**
-     * Used internally for the distance function
+     * Normalize this vector.
+     * 
+     * @return this
      */
-    private static float lengthSquared(Vector3f source) {
-        return source.x * source.x + source.y * source.y + source.z * source.z;
-    }
-
-    /**
-     * Used internally for the distance function
-     */
-    private static float length(Vector3f source) {
-        return (float) Math.sqrt(lengthSquared(source));
-    }
-
-    /**
-     * Normalizes this vector
-     */
-    public void normalize() {
+    public Vector3f normalize() {
         float d = length();
         x /= d;
         y /= d;
         z /= d;
+        return this;
     }
 
     /**
-     * Normalize the original vector and store the results in dest. Does not
-     * modify the original
+     * Normalize the original vector and store the results in dest.
      */
     public static void normalize(Vector3f original, Vector3f dest) {
-        float d = length(original);
+        float d = original.length();
         dest.set(original.x / d,
-                original.y / d,
-                original.z / d);
+                 original.y / d,
+                 original.z / d);
     }
 
     /**
      * Set this vector to be the cross of itself and v.
+     * 
+     * @return this
      */
-    public void cross(Vector3f v) {
-        set(y * v.z - z * v.y,
-            z * v.x - x * v.z,
-            x * v.y - y * v.x);
+    public Vector3f cross(Vector3f v) {
+        return set(y * v.z - z * v.y,
+                   z * v.x - x * v.z,
+                   x * v.y - y * v.x);
     }
     
     /**
-     * Set this vector to be the cross of v1 and v2
+     * Set this vector to be the cross of v1 and v2.
+     * 
+     * @return this
      */
-    public void cross(Vector3f v1, Vector3f v2) {
-        set(v1.y * v2.z - v1.z * v2.y,
-                v1.z * v2.x - v1.x * v2.z,
-                v1.x * v2.y - v1.y * v2.x);
+    public Vector3f cross(Vector3f v1, Vector3f v2) {
+        return set(v1.y * v2.z - v1.z * v2.y,
+                   v1.z * v2.x - v1.x * v2.z,
+                   v1.x * v2.y - v1.y * v2.x);
     }
 
     /**
-     * Calculate the cross of v1 and v2 and store the results in dest. Does
-     * modify v1 or v2
+     * Calculate the cross of v1 and v2 and store the results in dest.
      */
     public static void cross(Vector3f v1, Vector3f v2, Vector3f dest) {
         dest.set(v1.y * v2.z - v1.z * v2.y,
-                v1.z * v2.x - v1.x * v2.z,
-                v1.x * v2.y - v1.y * v2.x);
+                 v1.z * v2.x - v1.x * v2.z,
+                 v1.x * v2.y - v1.y * v2.x);
     }
 
     /**
-     * Returns the distance between the start and end vectors. Does not modify
-     * either
+     * Return the distance between the start and end vectors.
      */
     public static float distance(Vector3f start, Vector3f end) {
         return (float) Math.sqrt((end.x - start.x) * (end.x - start.x)
@@ -290,8 +312,7 @@ public class Vector3f {
     }
     
     /**
-     * Returns the distance between this Vector and v. Does not modify
-     * either
+     * Return the distance between this Vector and v.
      */
     public float distance(Vector3f v) {
         return (float) Math.sqrt((v.x - this.x) * (v.x - this.x)
@@ -300,14 +321,14 @@ public class Vector3f {
     }
 
     /**
-     * Return the dot product of this vector and the supplied vector
+     * Return the dot product of this vector and the supplied vector.
      */
     public float dot(Vector3f v) {
         return (x * v.x) + (y * v.y) + (z * v.z);
     }
     
     /**
-     * Return the dot product of the supplied v1 and v2 vectors
+     * Return the dot product of the supplied v1 and v2 vectors.
      */
     public static float dot(Vector3f v1, Vector3f v2) {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
@@ -315,11 +336,14 @@ public class Vector3f {
 
     /**
      * Set all components to zero.
+     * 
+     * @return this
      */
-    public void zero() {
+    public Vector3f zero() {
         this.x = 0.0f;
         this.y = 0.0f;
         this.z = 0.0f;
+        return this;
     }
 
     public String toString() {

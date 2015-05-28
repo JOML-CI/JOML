@@ -57,40 +57,64 @@ public class Vector4f {
         this.w = w;
     }
 
-    public void set(Vector4f v) {
+    /**
+     * 
+     * @param v
+     * @return this
+     */
+    public Vector4f set(Vector4f v) {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
         this.w = v.w;
+        return this;
     }
 
-    public void set(Vector3f v, float w) {
+    /**
+     * 
+     * @param v
+     * @param w
+     * @return this
+     */
+    public Vector4f set(Vector3f v, float w) {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
         this.w = w;
+        return this;
     }
 
-    public void set(float x, float y, float z, float w) {
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @return this
+     */
+    public Vector4f set(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.w = w;
+        return this;
     }
     
     /**
-     * Subtracts the supplied vector from this one
+     * Subtract the supplied vector from this one.
+     * 
+     * @return this
      */
-    public void sub(Vector4f v) {
+    public Vector4f sub(Vector4f v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
         w -= v.w;
+        return this;
     }
 
     /**
-     * Subtracts v2 from v1 and stores the results in dest. Does not modify v1
-     * or v2
+     * Subtract v2 from v1 and stores the results in dest.
      */
     public static void sub(Vector4f v1, Vector4f v2, Vector4f dest) {
         dest.set(v1.x - v2.x,
@@ -100,13 +124,16 @@ public class Vector4f {
     }
 
     /**
-     * Adds the supplied vector to this one
+     * Add the supplied vector to this one.
+     * 
+     * @return this
      */
-    public void add(Vector4f v) {
+    public Vector4f add(Vector4f v) {
         x += v.x;
         y += v.y;
         z += v.z;
         w += v.w;
+        return this;
     }
 
     /**
@@ -120,13 +147,16 @@ public class Vector4f {
     }
 
     /**
-     * Multiply this Vector4f by another Vector4f
+     * Multiply this Vector4f by another Vector4f.
+     * 
+     * @return this
      */
-    public void mul(Vector4f v) {
+    public Vector4f mul(Vector4f v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
         z *= v.w;
+        return this;
     }
 
     /**
@@ -143,13 +173,15 @@ public class Vector4f {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix mat
+     * Multiply this Vector4f by the given matrix mat.
+     * 
+     * @return this
      */
-    public void mul(Matrix4f mat) {
-        set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
-                mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
-                mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
-                mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
+    public Vector4f mul(Matrix4f mat) {
+        return set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
+                   mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
+                   mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
+                   mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
     }
 
     /**
@@ -177,16 +209,19 @@ public class Vector4f {
     }
 
     /**
-     * Multiply this Vector4f by the given scalar value
+     * Multiply this Vector4f by the given scalar value.
+     * 
+     * @return this
      */
-    public void mul(float scalar) {
+    public Vector4f mul(float scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
         w *= scalar;
+        return this;
     }
 
-    /* Multiply the given Vector4f v by the scalar value, and store in dest. Does not modify v */
+    /** Multiply the given Vector4f v by the scalar value, and store the result in dest.*/
     public static void mul(Vector4f v, float scalar, Vector4f dest) {
         dest.x = v.x * scalar;
         dest.y = v.y * scalar;
@@ -195,50 +230,38 @@ public class Vector4f {
     }
 
     /**
-     * Returns the length squared of this vector
+     * Return the length squared of this vector.
      */
     public float lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
 
     /**
-     * Returns the length of this vector
+     * Return the length of this vector.
      */
     public float length() {
         return (float) Math.sqrt(lengthSquared());
     }
 
     /**
-     * Used internally for the distance function
+     * Normalizes this vector.
+     * 
+     * @return this
      */
-    private static float lengthSquared(Vector4f source) {
-        return source.x * source.x + source.y * source.y + source.z * source.z + source.w * source.w;
-    }
-
-    /**
-     * Used internally for the distance function
-     */
-    private static float length(Vector4f source) {
-        return (float) Math.sqrt(lengthSquared(source));
-    }
-
-    /**
-     * Normalizes this vector
-     */
-    public void normalize() {
+    public Vector4f normalize() {
         float d = length();
         x /= d;
         y /= d;
         z /= d;
         w /= d;
+        return this;
     }
 
     /**
-     * Normalize the original vector and store the results in dest. Does not
-     * modify the original
+     * Normalize the original vector and store the results in dest.
      */
     public static void normalize(Vector4f original, Vector4f dest) {
-        float d = length(original);
+        float d = original.length();
         dest.set(original.x / d,
                 original.y / d,
                 original.z / d,
@@ -246,8 +269,7 @@ public class Vector4f {
     }
 
     /**
-     * Returns the distance between the start and end vectors. Does not modify
-     * either
+     * Returns the distance between the start and end vectors.
      */
     public static float distance(Vector4f start, Vector4f end) {
         return (float) Math.sqrt((end.x - start.x) * (end.x - start.x)
@@ -257,8 +279,7 @@ public class Vector4f {
     }
     
     /**
-     * Returns the distance between this Vector and v. Does not modify
-     * either
+     * Returns the distance between this Vector and v.
      */
     public float distance(Vector4f v) {
         return (float) Math.sqrt((v.x - this.x) * (v.x - this.x)
@@ -267,12 +288,18 @@ public class Vector4f {
                 + (v.w - this.w) * (v.w - this.w));
     }
     
+    /**
+     * Compute the dot product (inner product) of this vector and the given vector. 
+     * 
+     * @param v
+     * @return the dot product
+     */
     public float dot(Vector4f v) {
         return (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w);
     }
     
     /**
-     * Return the dot product of the supplied v1 and v2 vectors
+     * Return the dot product of the supplied v1 and v2 vectors.
      */
     public static float dot(Vector4f v1, Vector4f v2) {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
@@ -280,12 +307,15 @@ public class Vector4f {
     
     /**
      * Set all components to zero.
+     * 
+     * @return this
      */
-    public void zero() {
+    public Vector4f zero() {
         this.x = 0.0f;
         this.y = 0.0f;
         this.z = 0.0f;
         this.w = 0.0f;
+        return this;
     }
 
     public String toString() {

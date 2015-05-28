@@ -106,46 +106,6 @@ public class Matrix4f {
         this.m33 = m33;
     }
     
-    /** Resets this matrix to the identity */
-    public void identity() {
-        this.m00 = 1.0f;
-        this.m01 = 0.0f;
-        this.m02 = 0.0f;
-        this.m03 = 0.0f;
-        this.m10 = 0.0f;
-        this.m11 = 1.0f;
-        this.m12 = 0.0f;
-        this.m13 = 0.0f;
-        this.m20 = 0.0f;
-        this.m21 = 0.0f;
-        this.m22 = 1.0f;
-        this.m23 = 0.0f;
-        this.m30 = 0.0f;
-        this.m31 = 0.0f;
-        this.m32 = 0.0f;
-        this.m33 = 1.0f;
-    }
-
-    /** Set the values within this matrix to be the same as the supplied parameter matrix */
-    public void set(Matrix4f m1) {
-        this.m00 = m1.m00;
-        this.m01 = m1.m01;
-        this.m02 = m1.m02;
-        this.m03 = m1.m03;
-        this.m10 = m1.m10;
-        this.m11 = m1.m11;
-        this.m12 = m1.m12;
-        this.m13 = m1.m13;
-        this.m20 = m1.m20;
-        this.m21 = m1.m21;
-        this.m22 = m1.m22;
-        this.m23 = m1.m23;
-        this.m30 = m1.m30;
-        this.m31 = m1.m31;
-        this.m32 = m1.m32;
-        this.m33 = m1.m33;
-    }
-    
     public Matrix4f(FloatBuffer buffer) {
         m00 = buffer.get();
         m01 = buffer.get();
@@ -164,9 +124,63 @@ public class Matrix4f {
         m32 = buffer.get();
         m33 = buffer.get();
     }
+    
+    /**
+     * Reset this matrix to the identity.
+     * 
+     * @return this
+     */
+    public Matrix4f identity() {
+        this.m00 = 1.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = 0.0f;
+        this.m11 = 1.0f;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
+        this.m22 = 1.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
+        this.m33 = 1.0f;
+        return this;
+    }
 
-    /** Multiply this matrix by the supplied parameter matrix. This matrix will be treated as the left */
-    public void mul(Matrix4f right) {
+    /**
+     * Set the values within this matrix to be the same as the supplied parameter matrix.
+     * 
+     * @return this
+     */
+    public Matrix4f set(Matrix4f m1) {
+        this.m00 = m1.m00;
+        this.m01 = m1.m01;
+        this.m02 = m1.m02;
+        this.m03 = m1.m03;
+        this.m10 = m1.m10;
+        this.m11 = m1.m11;
+        this.m12 = m1.m12;
+        this.m13 = m1.m13;
+        this.m20 = m1.m20;
+        this.m21 = m1.m21;
+        this.m22 = m1.m22;
+        this.m23 = m1.m23;
+        this.m30 = m1.m30;
+        this.m31 = m1.m31;
+        this.m32 = m1.m32;
+        this.m33 = m1.m33;
+        return this;
+    }
+    
+    /**
+     * Multiply this matrix by the supplied parameter matrix. This matrix will be treated as the left.
+     * 
+     * @return this
+     */
+    public Matrix4f mul(Matrix4f right) {
        set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02 + this.m30 * right.m03,
             this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02 + this.m31 * right.m03,
             this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02 + this.m32 * right.m03,
@@ -183,6 +197,7 @@ public class Matrix4f {
             this.m01 * right.m30 + this.m11 * right.m31 + this.m21 * right.m32 + this.m31 * right.m33,
             this.m02 * right.m30 + this.m12 * right.m31 + this.m22 * right.m32 + this.m32 * right.m33,
             this.m03 * right.m30 + this.m13 * right.m31 + this.m23 * right.m32 + this.m33 * right.m33 );
+       return this;
     }
     
     /** Multiply the supplied left matrix by the right, and store the results into dest. Function is alias safe. */
@@ -246,13 +261,17 @@ public class Matrix4f {
         dest.put(left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33);
     }
 
-    /** Set the values within this matrix to the supplied float values. The matrix will look like this:<br><br>
-        
-        m00, m10, m20, m30<br>
-        m01, m11, m21, m31<br>
-        m02, m12, m22, m32<br>
-        m03, m13, m23, m33*/
-    public void set(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
+    /**
+     * Set the values within this matrix to the supplied float values. The matrix will look like this:<br><br>
+     *
+     *  m00, m10, m20, m30<br>
+     *  m01, m11, m21, m31<br>
+     *  m02, m12, m22, m32<br>
+     *  m03, m13, m23, m33
+     *   
+     * @return this
+     */
+    public Matrix4f set(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
             float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
         this.m00 = m00;
         this.m01 = m01;
@@ -270,16 +289,20 @@ public class Matrix4f {
         this.m31 = m31;
         this.m32 = m32;
         this.m33 = m33;
+        return this;
     }
 
-    /** Set the values in the matrix using a float array. The results will look like this:<br><br>
+    /**
+     * Set the values in the matrix using a float array. The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
+     * 
+     * @return this
      */
-    public void set(float m[], int off) {
+    public Matrix4f set(float m[], int off) {
         m00 = m[off+0];
         m01 = m[off+1];
         m02 = m[off+2];
@@ -296,9 +319,11 @@ public class Matrix4f {
         m31 = m[off+13];
         m32 = m[off+14];
         m33 = m[off+15];
+        return this;
     }
     
-    /** Set the values in the matrix using a float array. The results will look like this:<br><br>
+    /**
+     * Set the values in the matrix using a float array. The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
@@ -306,19 +331,24 @@ public class Matrix4f {
      * 3, 7, 11, 15<br>
      * 
      * @see #set(float[], int)
+     * 
+     * @return this
      */
-    public void set(float m[]) {
-        set(m, 0);
+    public Matrix4f set(float m[]) {
+        return set(m, 0);
     }
     
-    /** Set the values in the matrix using a FloatBuffer. The results will look like this:<br><br>
+    /**
+     * Set the values in the matrix using a FloatBuffer. The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
+     * 
+     * @return this
      */
-    public void set(FloatBuffer buffer) {
+    public Matrix4f set(FloatBuffer buffer) {
         m00 = buffer.get();
         m01 = buffer.get();
         m02 = buffer.get();
@@ -335,6 +365,7 @@ public class Matrix4f {
         m31 = buffer.get();
         m32 = buffer.get();
         m33 = buffer.get();
+        return this;
     }
     
     /** Returns the determinant of this matrix */
@@ -351,11 +382,15 @@ public class Matrix4f {
                  - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
     }
 
-    /** Inverts this matrix */
-    public void invert() {
+    /**
+     * Invert this matrix.
+     * 
+     * @return this 
+     */
+    public Matrix4f invert() {
         float s = determinant();
         if (s == 0.0f) {
-            return;
+            return this;
         }
         s = 1.0f / s;
         set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
@@ -374,6 +409,7 @@ public class Matrix4f {
             (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
             (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
             (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s);
+        return this;
     }
     
     /** Invert the supplied matrix and store the results in dest. Does not modify original matrix */
@@ -454,8 +490,12 @@ public class Matrix4f {
         dest.m33 = (source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s;
     }
 
-    /** Multiplies this matrix by the supplied scalar value */
-    public void mul(float scalar) {
+    /**
+     * Multiply this matrix by the supplied scalar value.
+     *
+     * @return this
+     */
+    public Matrix4f mul(float scalar) {
         m00 *= scalar;
         m01 *= scalar;
         m02 *= scalar;
@@ -472,6 +512,7 @@ public class Matrix4f {
         m31 *= scalar;
         m32 *= scalar;
         m33 *= scalar;
+        return this;
     }
     
     /** Multiplies the supplied source matrix by the supplied scalar and stores the results in dest. Does not modify the original matrix */
@@ -494,12 +535,16 @@ public class Matrix4f {
         dest.m33 = source.m33 * scalar;
     }
     
-    /** Transposes this matrix. Modifies the matrix directly */
-    public void transpose() {
-        set(m00, m10, m20, m30,
-            m01, m11, m21, m31,
-            m02, m12, m22, m32,
-            m03, m13, m23, m33);
+    /**
+     * Transpose this matrix. Modifies the matrix directly.
+     * 
+     * @return this 
+     */
+    public Matrix4f transpose() {
+        return set(m00, m10, m20, m30,
+                   m01, m11, m21, m31,
+                   m02, m12, m22, m32,
+                   m03, m13, m23, m33);
     }
     
     /** Transposes the original matrix and stores the results into the destination Matrix4f. Does not modify the original
@@ -525,22 +570,22 @@ public class Matrix4f {
     
     /** Transposes the original matrix and stores the results into the destination Matrix4f. Does not modify the original */
     public static void transpose(Matrix4f original, Matrix4f dest) {
-        dest.set(   original.m00,
-                    original.m10,
-                    original.m20,
-                    original.m30,
-                    original.m01,
-                    original.m11,
-                    original.m21,
-                    original.m31,
-                    original.m02,
-                    original.m12,
-                    original.m22,
-                    original.m32,
-                    original.m03,
-                    original.m13,
-                    original.m23,
-                    original.m33 );
+        dest.set(original.m00,
+                 original.m10,
+                 original.m20,
+                 original.m30,
+                 original.m01,
+                 original.m11,
+                 original.m21,
+                 original.m31,
+                 original.m02,
+                 original.m12,
+                 original.m22,
+                 original.m32,
+                 original.m03,
+                 original.m13,
+                 original.m23,
+                 original.m33 );
     }
     
     /** Transposes the original matrix and stores the results into the destination FloatBuffer. Does not modify the original */
@@ -568,12 +613,15 @@ public class Matrix4f {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @return this
      */
-    public void translation(float x, float y, float z) {
+    public Matrix4f translation(float x, float y, float z) {
     	identity();
         this.m30 = x;
         this.m31 = y;
         this.m32 = z;
+        return this;
     }
 
     /**
@@ -581,9 +629,11 @@ public class Matrix4f {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @return this
      */
-    public void translation(Vector3f position) {
-        translation(position.x, position.y, position.z);
+    public Matrix4f translation(Vector3f position) {
+        return translation(position.x, position.y, position.z);
     }
 
     public String toString() {
@@ -596,9 +646,11 @@ public class Matrix4f {
     /**
      * Store this matrix into the supplied {@link FloatBuffer}.
      * <p>
-     * This method will increment the position of the given FloatBuffer by 16, if it returns normally. 
+     * This method will increment the position of the given FloatBuffer by 16, if it returns normally.
+     * 
+     * @return this
      */
-    public void store(FloatBuffer buffer) {
+    public Matrix4f store(FloatBuffer buffer) {
         buffer.put(this.m00);
         buffer.put(this.m01);
         buffer.put(this.m02);
@@ -615,12 +667,15 @@ public class Matrix4f {
         buffer.put(this.m31);
         buffer.put(this.m32);
         buffer.put(this.m33);
+        return this;
     }
 
     /**
      * Store this matrix into the supplied float array.
+     * 
+     * @return this
      */
-    public void store(float[] arr, int offset) {
+    public Matrix4f store(float[] arr, int offset) {
         arr[offset+0] = this.m00;
         arr[offset+1] = this.m01;
         arr[offset+2] = this.m02;
@@ -637,17 +692,21 @@ public class Matrix4f {
         arr[offset+13] = this.m31;
         arr[offset+14] = this.m32;
         arr[offset+15] = this.m33;
+        return this;
     }
     
     /**
      * Set all the values within this matrix to <code>0</code>.
+     * 
+     * @return this
      */
-    public void zero() {
+    public Matrix4f zero() {
     	identity();
         this.m00 = 0.0f;
         this.m11 = 0.0f;
         this.m22 = 0.0f;
         this.m33 = 0.0f;
+        return this;
     }
     
     /**
@@ -659,12 +718,14 @@ public class Matrix4f {
      * 			the scale in y
      * @param z
      * 			the scale in z
+     * @return this
      */
-    public void scale(float x, float y, float z) {
+    public Matrix4f scale(float x, float y, float z) {
     	identity();
         m00 = x;
         m11 = y;
         m22 = z;
+        return this;
     }
     
     /**
@@ -672,12 +733,14 @@ public class Matrix4f {
      * 
      * @param scale
      * 			the scale applied to each dimension
+     * @return this
      */
-    public void scale(Vector3f scale) {
+    public Matrix4f scale(Vector3f scale) {
     	identity();
         m00 = scale.x;
         m11 = scale.y;
         m22 = scale.z;
+        return this;
     }
     
     /**
@@ -702,29 +765,35 @@ public class Matrix4f {
      * 			the scale in y
      * @param z
      * 			the scale in z
+     * @return this
      */
-    public void scale(float x, float y, float z, Matrix4f dest) {
+    public Matrix4f scale(float x, float y, float z, Matrix4f dest) {
     	dest.identity();
     	dest.m00 = x;
     	dest.m11 = y;
     	dest.m22 = z;
+    	return this;
     }
     
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * 
+     * @return this
      */
-    public void rotation(float angle, Vector3f axis) {
-    	rotation(angle, axis.x, axis.y, axis.z);
+    public Matrix4f rotation(float angle, Vector3f axis) {
+    	return rotation(angle, axis.x, axis.y, axis.z);
     }
     
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * 
+     * @return this
      */
-    public void rotation(float angle, float x, float y, float z) {
+    public Matrix4f rotation(float angle, float x, float y, float z) {
     	float cos = (float) Math.cos(angle);
     	float sin = (float) Math.sin(angle);
     	m00 = cos + x * x * (1.0f - cos);
@@ -743,6 +812,7 @@ public class Matrix4f {
     	m13 = 0.0f;
     	m23 = 0.0f;
     	m33 = 1.0f;
+    	return this;
     }
     
     /**
@@ -773,8 +843,10 @@ public class Matrix4f {
 
     /**
      * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
+     * 
+     * @return this
      */
-    public void fromMatrix3(Matrix3f mat) {
+    public Matrix4f fromMatrix3(Matrix3f mat) {
     	this.m00 = mat.m00;
     	this.m01 = mat.m01;
     	this.m02 = mat.m02;
@@ -791,6 +863,7 @@ public class Matrix4f {
     	this.m31 = 0.0f;
     	this.m32 = 0.0f;
     	this.m33 = 1.0f;
+    	return this;
     }
 
     /**
@@ -815,10 +888,26 @@ public class Matrix4f {
     	dest.m33 = 1.0f;
     }
 
-    public void transform(Vector4f v) {
+    /**
+     * Transform/multiply the given vector by this matrix.
+     * 
+     * @param v
+     *          the vector to transform
+     * @return this
+     */
+    public Matrix4f transform(Vector4f v) {
     	v.mul(this);
+    	return this;
     }
 
+    /**
+     * Transform/multiply the given vector by the given matrix.
+     * 
+     * @param mat
+     *          the matrix
+     * @param v
+     *          the vector to transform
+     */
     public static void transform(Matrix4f mat, Vector4f v) {
     	v.mul(mat);
     }
