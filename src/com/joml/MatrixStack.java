@@ -18,6 +18,8 @@
  */
 package com.joml;
 
+import java.nio.FloatBuffer;
+
 /**
  * Resembles the matrix stack known from legacy OpenGL.
  * <p>
@@ -111,6 +113,41 @@ public class MatrixStack {
     }
 
     /**
+     * Load the values of a column-major matrix from the given
+     * {@link FloatBuffer} into the current matrix of the stack.
+     * 
+     * @param columnMajorArray
+     *            the values of the 4x4 matrix as a column-major
+     *            {@link FloatBuffer} containing at least 16 floats starting at
+     *            the relative {@link FloatBuffer#position()}
+     */
+    public void loadMatrix(FloatBuffer columnMajorArray) {
+        if (columnMajorArray == null) {
+            throw new IllegalArgumentException(
+                    "columnMajorArray must not be null");
+        }
+        mats[curr].set(columnMajorArray);
+    }
+
+    /**
+     * Load the values of a column-major matrix from the given float array into
+     * the current matrix of the stack.
+     * 
+     * @param columnMajorArray
+     *            the values of the 4x4 matrix as a column-major float array of
+     *            at least 16 floats
+     * @param offset
+     *            the offset into the array
+     */
+    public void loadMatrix(float[] columnMajorArray, int offset) {
+        if (columnMajorArray == null) {
+            throw new IllegalArgumentException(
+                    "columnMajorArray must not be null");
+        }
+        mats[curr].set(columnMajorArray, offset);
+    }
+
+    /**
      * Increment the stack pointer by one and set the values of the new current
      * matrix to the one directly below it.
      */
@@ -165,8 +202,8 @@ public class MatrixStack {
     }
 
     /**
-     * Stores the current matrix of the stack into the supplied
-     * <code>dest</code> matrix.
+     * Store the current matrix of the stack into the supplied <code>dest</code>
+     * matrix.
      * 
      * @param dest
      *            the destination {@link Matrix4f} into which to store the
@@ -175,6 +212,36 @@ public class MatrixStack {
      */
     public Matrix4f get(Matrix4f dest) {
         dest.set(mats[curr]);
+        return dest;
+    }
+
+    /**
+     * Store the column-major values of the current matrix of the stack into the
+     * supplied {@link FloatBuffer}.
+     * 
+     * @param dest
+     *            the destination {@link FloatBuffer} into which to store the
+     *            column-major values of the current stack matrix
+     * @return <code>dest</code>
+     */
+    public FloatBuffer get(FloatBuffer dest) {
+        mats[curr].store(dest);
+        return dest;
+    }
+
+    /**
+     * Store the column-major values of the current matrix of the stack into the
+     * supplied float array at the given offset.
+     * 
+     * @param dest
+     *            the destination float array into which to store the
+     *            column-major values of the current stack matrix
+     * @param offset
+     *            the array offset
+     * @return <code>dest</code>
+     */
+    public float[] get(float[] dest, int offset) {
+        mats[curr].store(dest, offset);
         return dest;
     }
 

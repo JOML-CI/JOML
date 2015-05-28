@@ -279,23 +279,23 @@ public class Matrix4f {
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      */
-    public void set(float m[]) {
-        m00 = m[0];
-        m01 = m[1];
-        m02 = m[2];
-        m03 = m[3];
-        m10 = m[4];
-        m11 = m[5];
-        m12 = m[6];
-        m13 = m[7];
-        m20 = m[8];
-        m21 = m[9];
-        m22 = m[10];
-        m23 = m[11];
-        m30 = m[12];
-        m31 = m[13];
-        m32 = m[14];
-        m33 = m[15];
+    public void set(float m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m02 = m[off+2];
+        m03 = m[off+3];
+        m10 = m[off+4];
+        m11 = m[off+5];
+        m12 = m[off+6];
+        m13 = m[off+7];
+        m20 = m[off+8];
+        m21 = m[off+9];
+        m22 = m[off+10];
+        m23 = m[off+11];
+        m30 = m[off+12];
+        m31 = m[off+13];
+        m32 = m[off+14];
+        m33 = m[off+15];
     }
     
     /** Set the values in the matrix using a FloatBuffer. The results will look like this:<br><br>
@@ -580,7 +580,11 @@ public class Matrix4f {
                 + "           " + this.m03 + ", " + this.m13 + ", " + this.m23 + ", " + this.m33 + " }\n";
     }
 
-    /** Stores this matrix in the supplied FloatBuffer */
+    /**
+     * Store this matrix into the supplied {@link FloatBuffer}.
+     * <p>
+     * This method will increment the position of the given FloatBuffer by 16, if it returns normally. 
+     */
     public void store(FloatBuffer buffer) {
         buffer.put(this.m00);
         buffer.put(this.m01);
@@ -600,7 +604,31 @@ public class Matrix4f {
         buffer.put(this.m33);
     }
 
-    /** Sets all the values within this matrix to 0 */
+    /**
+     * Store this matrix into the supplied float array.
+     */
+    public void store(float[] arr, int offset) {
+        arr[offset+0] = this.m00;
+        arr[offset+1] = this.m01;
+        arr[offset+2] = this.m02;
+        arr[offset+3] = this.m03;
+        arr[offset+4] = this.m10;
+        arr[offset+5] = this.m11;
+        arr[offset+6] = this.m12;
+        arr[offset+7] = this.m13;
+        arr[offset+8] = this.m20;
+        arr[offset+9] = this.m21;
+        arr[offset+10] = this.m22;
+        arr[offset+11] = this.m23;
+        arr[offset+12] = this.m30;
+        arr[offset+13] = this.m31;
+        arr[offset+14] = this.m32;
+        arr[offset+15] = this.m33;
+    }
+    
+    /**
+     * Set all the values within this matrix to <code>0</code>.
+     */
     public void zero() {
     	identity();
         this.m00 = 0.0f;
