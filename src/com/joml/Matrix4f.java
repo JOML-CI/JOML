@@ -298,6 +298,19 @@ public class Matrix4f {
         m33 = m[off+15];
     }
     
+    /** Set the values in the matrix using a float array. The results will look like this:<br><br>
+     * 
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     * 
+     * @see #set(float[], int)
+     */
+    public void set(float m[]) {
+        set(m, 0);
+    }
+    
     /** Set the values in the matrix using a FloatBuffer. The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>

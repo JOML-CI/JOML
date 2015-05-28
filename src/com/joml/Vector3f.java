@@ -252,6 +252,15 @@ public class Vector3f {
     }
 
     /**
+     * Set this vector to be the cross of itself and v.
+     */
+    public void cross(Vector3f v) {
+        set(y * v.z - z * v.y,
+            z * v.x - x * v.z,
+            x * v.y - y * v.x);
+    }
+    
+    /**
      * Set this vector to be the cross of v1 and v2
      */
     public void cross(Vector3f v1, Vector3f v2) {
@@ -290,6 +299,13 @@ public class Vector3f {
                 + (v.z - this.z) * (v.z - this.z));
     }
 
+    /**
+     * Return the dot product of this vector and the supplied vector
+     */
+    public float dot(Vector3f v) {
+        return (x * v.x) + (y * v.y) + (z * v.z);
+    }
+    
     /**
      * Return the dot product of the supplied v1 and v2 vectors
      */

@@ -266,7 +266,11 @@ public class Vector4f {
                 + (v.z - this.z) * (v.z - this.z)
                 + (v.w - this.w) * (v.w - this.w));
     }
-
+    
+    public float dot(Vector4f v) {
+        return (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w);
+    }
+    
     /**
      * Return the dot product of the supplied v1 and v2 vectors
      */
