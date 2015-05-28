@@ -39,7 +39,7 @@ public class CamMath {
      * @param dest Matrix4f to store the result
      */
     public static void perspective(float fovy, float aspect, float zNear, float zFar, Matrix4f dest) {
-        float y_scale = TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0f));
+        float y_scale = (float) TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0));
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
         
@@ -61,7 +61,7 @@ public class CamMath {
      * @param dest FloatBuffer to store the result
      */
     public static void perspective(float fovy, float aspect, float zNear, float zFar, FloatBuffer dest) {
-        float y_scale = TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0f));
+        float y_scale = (float) TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0));
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
         

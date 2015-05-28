@@ -43,12 +43,6 @@ public class MatrixStack {
 	private int curr;
 
 	/**
-	 * Working matrix which is used to create rotation, translation and scaling
-	 * matrices.
-	 */
-	private Matrix4f work;
-
-	/**
 	 * Create a new {@link MatrixStack} of the given size.
 	 * <p>
 	 * Initially the stack pointer is at zero and the current matrix is set to
@@ -63,7 +57,6 @@ public class MatrixStack {
 		}
 		mats = new Matrix4f[stackSize];
 		mats[0] = new Matrix4f();
-		work = new Matrix4f();
 	}
 
 	/**
@@ -138,16 +131,36 @@ public class MatrixStack {
 	 * <p>
 	 * If <code>C</code> is the current matrix and <code>T</code> the
 	 * translation matrix, then the new current matrix will be
-	 * <code>C * T</code>. So when transforming a vector with the new matrix,
-	 * the translation will be applied first!
+	 * <code>C * T</code>. So when transforming a vector <code>v</code> with the
+	 * new matrix by using <code>C * T * v</code>, the translation will be
+	 * applied first!
 	 * 
 	 * @param x
 	 * @param y
 	 * @param z
 	 */
 	public void translate(float x, float y, float z) {
-		work.translation(x, y, z);
-		mats[curr].mul(work);
+		Matrix4f c = mats[curr];
+		// translation matrix elements:
+		// m00, m11, m22, m33 = 1
+		// m30 = x, m31 = y, m32 = z
+		// all others = 0
+		c.set(  c.m00,
+	            c.m01,
+	            c.m02,
+	            c.m03,
+	            c.m10,
+	            c.m11,
+	            c.m12,
+	            c.m13,
+	            c.m20,
+	            c.m21,
+	            c.m22,
+	            c.m23,
+	            c.m00 * x + c.m10 * y + c.m20 * z + c.m30 ,
+	            c.m01 * x + c.m11 * y + c.m21 * z + c.m31 ,
+	            c.m02 * x + c.m12 * y + c.m22 * z + c.m32 ,
+	            c.m03 * x + c.m13 * y + c.m23 * z + c.m33  );
 	}
 
 	/**
@@ -155,16 +168,35 @@ public class MatrixStack {
 	 * <p>
 	 * If <code>C</code> is the current matrix and <code>S</code> the scaling
 	 * matrix, then the new current matrix will be <code>C * S</code>. So when
-	 * transforming a vector with the new matrix, the scaling will be applied
-	 * first!
+	 * transforming a vector <code>v</code> with the new matrix by using
+	 * <code>C * S * v</code>, the scaling will be applied first!
 	 * 
 	 * @param x
 	 * @param y
 	 * @param z
 	 */
 	public void scale(float x, float y, float z) {
-		work.scale(x, y, z);
-		mats[curr].mul(work);
+		Matrix4f c = mats[curr];
+		// scale matrix elements:
+		// m00 = x, m11 = y, m22 = z
+		// m33 = 1
+		// all others = 0
+        c.set( c.m00 * x,
+               c.m01 * x,
+               c.m02 * x,
+               c.m03 * x,
+               c.m10 * y,
+               c.m11 * y,
+               c.m12 * y,
+               c.m13 * y,
+               c.m20 * z,
+               c.m21 * z,
+               c.m22 * z,
+               c.m23 * z,
+               c.m30,
+               c.m31,
+               c.m32,
+               c.m33 );
 	}
 
 	/**
@@ -172,8 +204,8 @@ public class MatrixStack {
 	 * <p>
 	 * If <code>C</code> is the current matrix and <code>R</code> the rotation
 	 * matrix, then the new current matrix will be <code>C * R</code>. So when
-	 * transforming a vector with the new matrix, the rotation will be applied
-	 * first!
+	 * transforming a vector <code>v</code> with the new matrix by using
+	 * <code>C * R * v</code>, the rotation will be applied first!
 	 * 
 	 * @param ang
 	 *            the angle is in degrees
@@ -182,8 +214,37 @@ public class MatrixStack {
 	 * @param z
 	 */
 	public void rotate(float ang, float x, float y, float z) {
-		work.rotation(TrigMath.degreesToRadians(ang), x, y, z);
-		mats[curr].mul(work);
+		Matrix4f c = mats[curr];
+		// rotation matrix elements:
+		// m30, m31, m32, m03, m13, m23 = 0
+		// m33 = 1
+    	float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
+    	float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
+    	float m00 = (cos + x * x * (1.0f - cos));
+    	float m10 = x * y * (1.0f - cos) - z * sin;
+    	float m20 = x * z * (1.0f - cos) + y * sin;
+    	float m01 = y * x * (1.0f - cos) + z * sin;
+    	float m11 = cos + y * y * (1.0f - cos);
+    	float m21 = y * z * (1.0f - cos) - x * sin;
+    	float m02 = z * x * (1.0f - cos) - y * sin;
+    	float m12 = z * y * (1.0f - cos) + x * sin;
+    	float m22 = cos + z * z * (1.0f - cos);
+        c.set(  c.m00 * m00 + c.m10 * m01 + c.m20 * m02,
+                c.m01 * m00 + c.m11 * m01 + c.m21 * m02,
+                c.m02 * m00 + c.m12 * m01 + c.m22 * m02,
+                c.m03 * m00 + c.m13 * m01 + c.m23 * m02,
+                c.m00 * m10 + c.m10 * m11 + c.m20 * m12,
+                c.m01 * m10 + c.m11 * m11 + c.m21 * m12,
+                c.m02 * m10 + c.m12 * m11 + c.m22 * m12,
+                c.m03 * m10 + c.m13 * m11 + c.m23 * m12,
+                c.m00 * m20 + c.m10 * m21 + c.m20 * m22,
+                c.m01 * m20 + c.m11 * m21 + c.m21 * m22,
+                c.m02 * m20 + c.m12 * m21 + c.m22 * m22,
+                c.m03 * m20 + c.m13 * m21 + c.m23 * m22,
+                c.m30,
+                c.m31,
+                c.m32,
+                c.m33 );
 	}
 
 	/**
@@ -197,8 +258,9 @@ public class MatrixStack {
 	 * Right-multiply the given matrix <code>mat</code> against the current
 	 * matrix. If <code>C</code> is the current matrix and <code>M</code> the
 	 * supplied matrix, then the new current matrix will be <code>C * M</code>.
-	 * So when transforming a vector with the new matrix, the supplied matrix
-	 * <code>mat</code> will be applied first!
+	 * So when transforming a vector <code>v</code> with the new matrix by using
+	 * <code>C * M * v</code>, the supplied matrix <code>mat</code> will be
+	 * applied first!
 	 * 
 	 * @param mat
 	 */

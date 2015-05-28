@@ -27,16 +27,16 @@ package com.joml;
  */
 public class TrigMath {
     
-    public static final float degreesToRadians = (float) (Math.PI / 180d);
-    public static final float radiansToDegrees = (float) (180d / Math.PI);
+    public static final double degreesToRadians = (Math.PI / 180.0);
+    public static final double radiansToDegrees = (180.0 / Math.PI);
 
     /** Return the coTangent of the supplied angle */
-    public static float coTangent(float angle) {
-        return (float) (1f / Math.tan(angle));
+    public static double coTangent(double angle) {
+        return 1.0 / Math.tan(angle);
     }
 
     /** Convert the supplied degrees to radians */
-    public static float degreesToRadians(float degrees) {
+    public static double degreesToRadians(double degrees) {
         return degrees * degreesToRadians;
     }
 

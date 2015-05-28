@@ -343,7 +343,7 @@ public class Quaternion {
      * angle (in Degrees)
      */
     public void fromAxisAngleDeg(Vector3f axis, float angle) {
-        float hangle = (angle * TrigMath.degreesToRadians) / 2.0f;
+        float hangle = (float) ((angle * TrigMath.degreesToRadians) / 2.0);
         float sinAngle = (float) Math.sin(hangle);
         float vLength = axis.length();
 
