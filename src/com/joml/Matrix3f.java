@@ -489,18 +489,22 @@ public class Matrix3f {
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      */
-    public void rotation(float angle, Vector3f axis) {
+    public void rotation(float angle, float x, float y, float z) {
     	float cos = (float) Math.cos(angle);
     	float sin = (float) Math.sin(angle);
-    	m00 = cos + axis.x * axis.x * (1.0f - cos);
-    	m10 = axis.x * axis.y * (1.0f - cos) - axis.z * sin;
-    	m20 = axis.x * axis.z * (1.0f - cos) + axis.y * sin;
-    	m01 = axis.y * axis.x * (1.0f - cos) + axis.z * sin;
-    	m11 = cos + axis.y * axis.y * (1.0f - cos);
-    	m21 = axis.y * axis.z * (1.0f - cos) - axis.x * sin;
-    	m02 = axis.z * axis.x * (1.0f - cos) - axis.y * sin;
-    	m12 = axis.z * axis.y * (1.0f - cos) + axis.x * sin;
-    	m22 = cos + axis.z * axis.z * (1.0f - cos);
+    	m00 = cos + x * x * (1.0f - cos);
+    	m10 = x * y * (1.0f - cos) - z * sin;
+    	m20 = x * z * (1.0f - cos) + y * sin;
+    	m01 = y * x * (1.0f - cos) + z * sin;
+    	m11 = cos + y * y * (1.0f - cos);
+    	m21 = y * z * (1.0f - cos) - x * sin;
+    	m02 = z * x * (1.0f - cos) - y * sin;
+    	m12 = z * y * (1.0f - cos) + x * sin;
+    	m22 = cos + z * z * (1.0f - cos);
+    }
+    
+    public void rotation(float angle, Vector3f axis) {
+        rotation(angle, axis.x, axis.y, axis.z);
     }
     
     /**
@@ -508,18 +512,30 @@ public class Matrix3f {
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      */
-    public static void rotation(float angle, Vector3f axis, Matrix3f dest) {
+    public static void rotation(float angle, float x, float y, float z, Matrix3f dest) {
     	float cos = (float) Math.cos(angle);
     	float sin = (float) Math.sin(angle);
-    	dest.m00 = cos + axis.x * axis.x * (1.0f - cos);
-    	dest.m10 = axis.x * axis.y * (1.0f - cos) - axis.z * sin;
-    	dest.m20 = axis.x * axis.z * (1.0f - cos) + axis.y * sin;
-    	dest.m01 = axis.y * axis.x * (1.0f - cos) + axis.z * sin;
-    	dest.m11 = cos + axis.y * axis.y * (1.0f - cos);
-    	dest.m21 = axis.y * axis.z * (1.0f - cos) - axis.x * sin;
-    	dest.m02 = axis.z * axis.x * (1.0f - cos) - axis.y * sin;
-    	dest.m12 = axis.z * axis.y * (1.0f - cos) + axis.x * sin;
-    	dest.m22 = cos + axis.z * axis.z * (1.0f - cos);
+    	dest.m00 = cos + x * x * (1.0f - cos);
+    	dest.m10 = x * y * (1.0f - cos) - z * sin;
+    	dest.m20 = x * z * (1.0f - cos) + y * sin;
+    	dest.m01 = y * x * (1.0f - cos) + z * sin;
+    	dest.m11 = cos + y * y * (1.0f - cos);
+    	dest.m21 = y * z * (1.0f - cos) - x * sin;
+    	dest.m02 = z * x * (1.0f - cos) - y * sin;
+    	dest.m12 = z * y * (1.0f - cos) + x * sin;
+    	dest.m22 = cos + z * z * (1.0f - cos);
+    }
+    
+    public static void rotation(float angle, Vector3f axis, Matrix3f dest) {
+        rotation(angle, axis.x, axis.y, axis.z, dest);
+    }
+
+    public void transform(Vector3f v) {
+        v.mul(this);
+    }
+
+    public static void transform(Matrix3f mat, Vector3f v) {
+        v.mul(mat);
     }
 
 }

@@ -52,6 +52,12 @@ public class Vector2d {
         y = v.y;
     }
 
+    /** Sets this Vector2d to be a clone of v */
+    public void set(Vector2f v) {
+        x = v.x;
+        y = v.y;
+    }
+
     /** Stores the perpendicular of v in dest. Does not modify v */
     public static void perpendicular(Vector2d v, Vector2d dest) {
         dest.x = v.y;

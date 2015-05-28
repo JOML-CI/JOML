@@ -625,4 +625,12 @@ public class Matrix3d {
     	dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
     }
 
+    public void transform(Vector3d v) {
+        v.mul(this);
+    }
+
+    public static void transform(Matrix3d mat, Vector3d v) {
+        v.mul(mat);
+    }
+
 }

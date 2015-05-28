@@ -125,7 +125,7 @@ public class Vector3f {
     }
 
     /**
-     * Multiply this Vector3f by the given rotation matrix mat
+     * Multiply this Vector3f by the given matrix <code>mat</code>.
      */
     public void mul(Matrix4f mat) {
         set(mat.m00 * x + mat.m10 * y + mat.m20 * z,

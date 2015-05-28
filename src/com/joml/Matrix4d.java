@@ -845,20 +845,20 @@ public class Matrix4d {
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      */
-    public void rotation(double angle, Vector3d axis) {
+    public void rotation(double angle, double x, double y, double z) {
     	double cos = Math.cos(angle);
     	double sin = Math.sin(angle);
-    	m00 = cos + axis.x * axis.x * (1.0 - cos);
-    	m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
-    	m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
+    	m00 = cos + x * x * (1.0 - cos);
+    	m10 = x * y * (1.0 - cos) - z * sin;
+    	m20 = x * z * (1.0 - cos) + y * sin;
     	m30 = 0.0;
-    	m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
-    	m11 = cos + axis.y * axis.y * (1.0 - cos);
-    	m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
+    	m01 = y * x * (1.0 - cos) + z * sin;
+    	m11 = cos + y * y * (1.0 - cos);
+    	m21 = y * z * (1.0 - cos) - x * sin;
     	m31 = 0.0;
-    	m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
-    	m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
-    	m22 = cos + axis.z * axis.z * (1.0 - cos);
+    	m02 = z * x * (1.0 - cos) - y * sin;
+    	m12 = z * y * (1.0 - cos) + x * sin;
+    	m22 = cos + z * z * (1.0 - cos);
     	m32 = 0.0;
     	m03 = 0.0;
     	m13 = 0.0;
@@ -866,30 +866,68 @@ public class Matrix4d {
     	m33 = 1.0;
     }
     
+    public void rotation(double angle, Vector3d axis) {
+        rotation(angle, axis.x, axis.y, axis.z);
+    }
+    
     /**
      * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      */
-    public static void rotation(double angle, Vector3d axis, Matrix4d dest) {
+    public static void rotation(double angle, double x, double y, double z, Matrix4d dest) {
     	double cos = Math.cos(angle);
     	double sin = Math.sin(angle);
-    	dest.m00 = cos + axis.x * axis.x * (1.0 - cos);
-    	dest.m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
-    	dest.m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
+    	dest.m00 = cos + x * x * (1.0 - cos);
+    	dest.m10 = x * y * (1.0 - cos) - z * sin;
+    	dest.m20 = x * z * (1.0 - cos) + y * sin;
     	dest.m30 = 0.0;
-    	dest.m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
-    	dest.m11 = cos + axis.y * axis.y * (1.0 - cos);
-    	dest.m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
+    	dest.m01 = y * x * (1.0 - cos) + z * sin;
+    	dest.m11 = cos + y * y * (1.0 - cos);
+    	dest.m21 = y * z * (1.0 - cos) - x * sin;
     	dest.m31 = 0.0;
-    	dest.m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
-    	dest.m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
-    	dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
+    	dest.m02 = z * x * (1.0 - cos) - y * sin;
+    	dest.m12 = z * y * (1.0 - cos) + x * sin;
+    	dest.m22 = cos + z * z * (1.0 - cos);
     	dest.m32 = 0.0;
     	dest.m03 = 0.0;
     	dest.m13 = 0.0;
     	dest.m23 = 0.0;
     	dest.m33 = 1.0;
+    }
+    
+    public static void rotation(double angle, Vector3d axis, Matrix4d dest) {
+        rotation(angle, axis.x, axis.y, axis.z, dest);
+    }
+
+    public void transform(Vector4d v) {
+        v.mul(this);
+    }
+
+    public static void transform(Matrix4d mat, Vector4d v) {
+        v.mul(mat);
+    }
+
+    /**
+     * Set the upper 3x3 matrix of the given <code>dest</code> {@link Matrix4d} to the given {@link Matrix3d} and the rest to the identity.
+     */
+    public static void fromMatrix3(Matrix3d mat, Matrix4d dest) {
+        dest.m00 = mat.m00;
+        dest.m01 = mat.m01;
+        dest.m02 = mat.m02;
+        dest.m03 = 0.0;
+        dest.m10 = mat.m10;
+        dest.m11 = mat.m11;
+        dest.m12 = mat.m12;
+        dest.m13 = 0.0;
+        dest.m20 = mat.m20;
+        dest.m21 = mat.m21;
+        dest.m22 = mat.m22;
+        dest.m23 = 0.0;
+        dest.m30 = 0.0;
+        dest.m31 = 0.0;
+        dest.m32 = 0.0;
+        dest.m33 = 1.0;
     }
 
 }
