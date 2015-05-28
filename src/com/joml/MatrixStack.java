@@ -193,6 +193,31 @@ public class MatrixStack {
     }
 
     /**
+     * Get a reference to the current matrix of the stack directly without
+     * copying its values to a user-supplied matrix like in
+     * {@link #get(Matrix4f)}.
+     * <p>
+     * Note that any changes made to this matrix will also change the current
+     * stack matrix!
+     *
+     * @return the current stack matrix
+     */
+    public Matrix4f getDirect() {
+        return mats[curr];
+    }
+
+    /**
+     * Static version of {@link #getDirect()}.
+     * 
+     * @param stack
+     *            the {@link MatrixStack} to apply the operation on
+     * @return the current stack matrix
+     */
+    public static Matrix4f getDirect(MatrixStack stack) {
+        return stack.getDirect();
+    }
+
+    /**
      * Apply a translation to the current matrix by translating by the given
      * number of units in x, y and z.
      * <p>
@@ -275,8 +300,11 @@ public class MatrixStack {
      * <code>C * S * v</code>, the scaling will be applied first!
      * 
      * @param x
+     *            the factor of the x component
      * @param y
+     *            the factor of the y component
      * @param z
+     *            the factor of the z component
      */
     public void scale(float x, float y, float z) {
         Matrix4f c = mats[curr];
@@ -357,8 +385,11 @@ public class MatrixStack {
      * @param ang
      *            the angle is in degrees
      * @param x
+     *            the x component of the axis
      * @param y
+     *            the y component of the axis
      * @param z
+     *            the z component of the axis
      */
     public void rotate(float ang, float x, float y, float z) {
         Matrix4f c = mats[curr];
