@@ -18,10 +18,13 @@
  */
 package com.joml;
 
+import javafx.scene.transform.Translate;
+
 /**
  * Resembles the matrix stack known from legacy OpenGL.
  * <p>
- * Their names and semantics resemble those of the legacy OpenGL matrix stack.
+ * The operation names and semantics resemble those of the legacy OpenGL matrix
+ * stack.
  * <p>
  * As with the OpenGL version there is no way to get a hold of any matrix
  * instance within the stack. You can only load the current matrix into a
@@ -71,15 +74,42 @@ public class MatrixStack {
     }
 
     /**
+     * Static version of {@link #clear()}.
+     * 
+     * @see #clear()
+     * 
+     * @param stack
+     *            the {@link MatrixStack} to apply the operation on
+     */
+    public static void clear(MatrixStack stack) {
+        stack.clear();
+    }
+
+    /**
      * Load the given {@link Matrix4f} into the current matrix of the stack.
      * 
      * @param mat
+     *            the matrix which is stored in the current stack matrix
      */
     public void loadMatrix(Matrix4f mat) {
         if (mat == null) {
             throw new IllegalArgumentException("mat must not be null");
         }
         mats[curr].set(mat);
+    }
+
+    /**
+     * Static version of {@link #loadMatrix(Matrix4f)}.
+     * 
+     * @see #loadMatrix(Matrix4f)
+     * 
+     * @param mat
+     *            the matrix which is stored in the current stack matrix
+     * @param stack
+     *            the {@link MatrixStack} to apply the operation on
+     */
+    public static void loadMatrix(Matrix4f mat, MatrixStack stack) {
+        stack.loadMatrix(mat);
     }
 
     /**
@@ -100,6 +130,18 @@ public class MatrixStack {
     }
 
     /**
+     * Static version of {@link #pushMatrix()}.
+     * 
+     * @see #pushMatrix()
+     * 
+     * @param stack
+     *            the {@link MatrixStack} to apply the operation on
+     */
+    public static void pushMatrix(MatrixStack stack) {
+        stack.pushMatrix();
+    }
+
+    /**
      * Decrement the stack pointer by one.
      * <p>
      * This will effectively dispose of the current matrix.
@@ -113,13 +155,25 @@ public class MatrixStack {
     }
 
     /**
+     * Static version of {@link #popMatrix()}.
+     * 
+     * @see #popMatrix()
+     * 
+     * @param stack
+     *            the {@link MatrixStack} to apply the operation on
+     */
+    public static void popMatrix(MatrixStack stack) {
+        stack.popMatrix();
+    }
+
+    /**
      * Stores the current matrix of the stack into the supplied
      * <code>dest</code> matrix.
      * 
      * @param dest
      *            the destination {@link Matrix4f} into which to store the
      *            current stack matrix
-     * @return returns <code>dest</code>
+     * @return <code>dest</code>
      */
     public Matrix4f get(Matrix4f dest) {
         dest.set(mats[curr]);
@@ -127,7 +181,22 @@ public class MatrixStack {
     }
 
     /**
-     * Apply a translation to the current matrix.
+     * Static version of {@link #get(Matrix4f)}.
+     * 
+     * @param dest
+     *            the destination {@link Matrix4f} into which to store the
+     *            current stack matrix
+     * @param stack
+     *            the {@link MatrixStack} to apply the operation on
+     * @return <code>dest</code>
+     */
+    public static Matrix4f get(Matrix4f dest, MatrixStack stack) {
+        return stack.get(dest);
+    }
+
+    /**
+     * Apply a translation to the current matrix by translating by the given
+     * number of units in x, y and z.
      * <p>
      * If <code>C</code> is the current matrix and <code>T</code> the
      * translation matrix, then the new current matrix will be
@@ -152,7 +221,55 @@ public class MatrixStack {
     }
 
     /**
-     * Apply scaling to the current matrix.
+     * Apply a translation to the current matrix by translating by the number of
+     * units in the given {@link Vector3f}.
+     * 
+     * @see #translate(float, float, float)
+     * 
+     * @param xyz
+     *            contains the number of units to translate by
+     */
+    public void translate(Vector3f xyz) {
+        translate(xyz.x, xyz.y, xyz.z);
+    }
+
+    /**
+     * Static version of {@link #translate(float, float, float)} which applies
+     * the transformation to the given {@link MatrixStack}.
+     * 
+     * @see #translate(float, float, float)
+     * 
+     * @param x
+     *            the number of units on the x axis to translate by
+     * @param y
+     *            the number of units on the y axis to translate by
+     * @param z
+     *            the number of units on the z axis to translate by
+     * @param stack
+     *            the {@link MatrixStack} to apply the transformation on
+     */
+    public static void translate(float x, float y, float z, MatrixStack stack) {
+        stack.translate(x, y, z);
+    }
+
+    /**
+     * Static version of {@link #translate(Vector3f)} which applies the
+     * transformation to the given {@link MatrixStack}.
+     * 
+     * @see #translate(Vector3f)
+     * 
+     * @param v
+     *            the vector containing the number of units to translate by
+     * @param stack
+     *            the {@link MatrixStack} to apply the transformation on
+     */
+    public static void translate(Vector3f v, MatrixStack stack) {
+        stack.translate(v);
+    }
+
+    /**
+     * Apply scaling to the current matrix by scaling by the given x, y and z
+     * factors.
      * <p>
      * If <code>C</code> is the current matrix and <code>S</code> the scaling
      * matrix, then the new current matrix will be <code>C * S</code>. So when
@@ -184,7 +301,55 @@ public class MatrixStack {
     }
 
     /**
-     * Apply rotation to the current matrix.
+     * Static version of {@link #scale(float, float, float)} which applies the
+     * transformation to the given {@link MatrixStack}.
+     * 
+     * @see #scale(float, float, float)
+     * 
+     * @param x
+     *            the factor to scale the x component by
+     * @param y
+     *            the factor to scale the y component by
+     * @param z
+     *            the factor to scale the z component by
+     * @param stack
+     *            the {@link MatrixStack} to apply the transformation on
+     */
+    public static void scale(float x, float y, float z, MatrixStack stack) {
+        stack.scale(x, y, z);
+    }
+
+    /**
+     * Apply a scaling transformation to the current matrix by scaling by the
+     * factors in the given {@link Vector3f}.
+     * 
+     * @see #scale(float, float, float)
+     * 
+     * @param xyz
+     *            contains the factors to scale by
+     */
+    public void scale(Vector3f xyz) {
+        this.scale(xyz.x, xyz.y, xyz.z);
+    }
+
+    /**
+     * Static version of {@link #scale(Vector3f)} which applies the
+     * transformation to the given {@link MatrixStack}.
+     * 
+     * @see #scale(Vector3f)
+     * 
+     * @param v
+     *            the vector containing the factors to scale by
+     * @param stack
+     *            the {@link MatrixStack} to apply the transformation on
+     */
+    public static void scale(Vector3f xyz, MatrixStack stack) {
+        stack.scale(xyz);
+    }
+
+    /**
+     * Apply rotation to the current matrix by rotating the given amount of
+     * degrees about the given axis specified as x, y and z component.
      * <p>
      * If <code>C</code> is the current matrix and <code>R</code> the rotation
      * matrix, then the new current matrix will be <code>C * R</code>. So when
@@ -242,10 +407,75 @@ public class MatrixStack {
     }
 
     /**
+     * Static version of {@link #rotate(float, float, float, float)} which
+     * applies the transformation to the given {@link MatrixStack}.
+     * 
+     * @see #rotate(float, float, float, float)
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param x
+     *            the x component of the axis to rotate about
+     * @param y
+     *            the y component of the axis to rotate about
+     * @param z
+     *            the z component of the axis to rotate about
+     * @param stack
+     *            the {@link MatrixStack} to apply the transformation on
+     */
+    public static void rotate(float ang, float x, float y, float z,
+            MatrixStack stack) {
+        stack.rotate(ang, x, y, z);
+    }
+
+    /**
+     * Apply a rotation transformation to the current matrix by rotating the
+     * given amount of degrees about the given <code>axis</code>
+     * {@link Vector3f}.
+     * 
+     * @see #rotate(float, float, float, float)
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param axis
+     *            the axis to rotate about
+     */
+    public void rotate(float ang, Vector3f axis) {
+        rotate(ang, axis.x, axis.y, axis.z);
+    }
+
+    /**
+     * Static version of {@link #rotate(float, Vector3f)} which applies the
+     * transformation to the given {@link MatrixStack}.
+     * 
+     * @see #rotate(float, Vector3f)
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param axis
+     *            the axis to rotate about
+     * @param stack
+     *            the {@link MatrixStack} to apply the transformation on
+     */
+    public static void rotate(float ang, Vector3f axis, MatrixStack stack) {
+        stack.rotate(ang, axis.x, axis.y, axis.z);
+    }
+
+    /**
      * Set the current matrix to identity.
      */
     public void loadIdentity() {
         mats[curr].identity();
+    }
+
+    /**
+     * Static version of {@link #loadIdentity()}.
+     * 
+     * @param stack
+     *            the {@link MatrixStack} to perform the operation on
+     */
+    public static void loadIdentity(MatrixStack stack) {
+        stack.loadIdentity();
     }
 
     /**
@@ -263,6 +493,20 @@ public class MatrixStack {
             throw new IllegalArgumentException("mat must not be null");
         }
         mats[curr].mul(mat);
+    }
+
+    /**
+     * Static version of {@link #multMatrix(Matrix4f)}.
+     * 
+     * @see #multMatrix(Matrix4f)
+     * 
+     * @param mat
+     *            the matrix to multiply the current stack matrix with
+     * @param stack
+     *            the {@link MatrixStack} to apply the operation on
+     */
+    public static void multMatrix(Matrix4f mat, MatrixStack stack) {
+        stack.multMatrix(mat);
     }
 
 }
