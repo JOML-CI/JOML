@@ -213,22 +213,32 @@ public class MatrixStack {
         float m02 = z * x * (1.0f - cos) - y * sin;
         float m12 = z * y * (1.0f - cos) + x * sin;
         float m22 = cos + z * z * (1.0f - cos);
-        c.set(  c.m00 * m00 + c.m10 * m01 + c.m20 * m02,
-                c.m01 * m00 + c.m11 * m01 + c.m21 * m02,
-                c.m02 * m00 + c.m12 * m01 + c.m22 * m02,
-                c.m03 * m00 + c.m13 * m01 + c.m23 * m02,
-                c.m00 * m10 + c.m10 * m11 + c.m20 * m12,
-                c.m01 * m10 + c.m11 * m11 + c.m21 * m12,
-                c.m02 * m10 + c.m12 * m11 + c.m22 * m12,
-                c.m03 * m10 + c.m13 * m11 + c.m23 * m12,
-                c.m00 * m20 + c.m10 * m21 + c.m20 * m22,
-                c.m01 * m20 + c.m11 * m21 + c.m21 * m22,
-                c.m02 * m20 + c.m12 * m21 + c.m22 * m22,
-                c.m03 * m20 + c.m13 * m21 + c.m23 * m22,
-                c.m30,
-                c.m31,
-                c.m32,
-                c.m33 );
+
+        float nm00 = c.m00 * m00 + c.m10 * m01 + c.m20 * m02;
+        float nm01 = c.m01 * m00 + c.m11 * m01 + c.m21 * m02;
+        float nm02 = c.m02 * m00 + c.m12 * m01 + c.m22 * m02;
+        float nm03 = c.m03 * m00 + c.m13 * m01 + c.m23 * m02;
+        float nm10 = c.m00 * m10 + c.m10 * m11 + c.m20 * m12;
+        float nm11 = c.m01 * m10 + c.m11 * m11 + c.m21 * m12;
+        float nm12 = c.m02 * m10 + c.m12 * m11 + c.m22 * m12;
+        float nm13 = c.m03 * m10 + c.m13 * m11 + c.m23 * m12;
+        float nm20 = c.m00 * m20 + c.m10 * m21 + c.m20 * m22;
+        float nm21 = c.m01 * m20 + c.m11 * m21 + c.m21 * m22;
+        float nm22 = c.m02 * m20 + c.m12 * m21 + c.m22 * m22;
+        float nm23 = c.m03 * m20 + c.m13 * m21 + c.m23 * m22;
+
+        c.m00 = nm00;
+        c.m01 = nm01;
+        c.m02 = nm02;
+        c.m03 = nm03;
+        c.m10 = nm10;
+        c.m11 = nm11;
+        c.m12 = nm12;
+        c.m13 = nm13;
+        c.m20 = nm20;
+        c.m21 = nm21;
+        c.m22 = nm22;
+        c.m23 = nm23;
     }
 
     /**
