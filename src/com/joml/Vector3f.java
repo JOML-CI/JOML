@@ -47,9 +47,20 @@ public class Vector3f {
         this.y = clone.y;
         this.z = clone.z;
     }
+    
+    /**
+     * Create a new {@link Vector3f} whose components are initialized with the components of the given javax.vecmath vector.
+     * 
+     * @param javaxVecmathVector
+     */
+    public Vector3f(javax.vecmath.Vector3f javaxVecmathVector) {
+        this.x = javaxVecmathVector.x;
+        this.y = javaxVecmathVector.y;
+        this.z = javaxVecmathVector.z;
+    }
 
     /**
-     * Sets the x, y and z attributes to match the supplied vector
+     * Set the x, y and z attributes to match the supplied vector.
      * 
      * @param v
      * @return this
@@ -61,6 +72,19 @@ public class Vector3f {
         return this;
     }
 
+    /**
+     * Set the x, y and z attributes to match the ones of the supplied javax.vecmath vector.
+     * 
+     * @param javaxVecmathVector
+     * @return this
+     */
+    public Vector3f set(javax.vecmath.Vector3f javaxVecmathVector) {
+        x = javaxVecmathVector.x;
+        y = javaxVecmathVector.y;
+        z = javaxVecmathVector.z;
+        return this;
+    }
+    
     /**
      * Sets the x, y and z attributes to the supplied float values
      * 

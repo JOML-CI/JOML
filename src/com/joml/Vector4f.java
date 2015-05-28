@@ -42,6 +42,18 @@ public class Vector4f {
         this.z = clone.z;
         this.w = clone.w;
     }
+    
+    /**
+     * Create a new {@link Vector4f} whose components are initialized with the components of the given javax.vecmath vector.
+     * 
+     * @param javaxVecmathVector
+     */
+    public Vector4f(javax.vecmath.Vector4f javaxVecmathVector) {
+        this.x = javaxVecmathVector.x;
+        this.y = javaxVecmathVector.y;
+        this.z = javaxVecmathVector.z;
+        this.w = javaxVecmathVector.w;
+    }
 
     public Vector4f(Vector3f clone, float w) {
         this.x = clone.x;
@@ -67,6 +79,20 @@ public class Vector4f {
         this.y = v.y;
         this.z = v.z;
         this.w = v.w;
+        return this;
+    }
+
+    /**
+     * Set the attributes to match the ones of the supplied javax.vecmath vector.
+     * 
+     * @param javaxVecmathVector
+     * @return this
+     */
+    public Vector4f set(javax.vecmath.Vector4f javaxVecmathVector) {
+        x = javaxVecmathVector.x;
+        y = javaxVecmathVector.y;
+        z = javaxVecmathVector.z;
+        w = javaxVecmathVector.w;
         return this;
     }
 

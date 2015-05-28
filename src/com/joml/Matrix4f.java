@@ -126,6 +126,30 @@ public class Matrix4f {
     }
     
     /**
+     * Create a new matrix that is initialized with the values of the given javax.vecmath matrix.
+     * 
+     * @param javaxVecmathMatrix
+     */
+    public Matrix4f(javax.vecmath.Matrix4f javaxVecmathMatrix) {
+        m00 = javaxVecmathMatrix.m00;
+        m01 = javaxVecmathMatrix.m10;
+        m02 = javaxVecmathMatrix.m20;
+        m03 = javaxVecmathMatrix.m30;
+        m10 = javaxVecmathMatrix.m01;
+        m11 = javaxVecmathMatrix.m11;
+        m12 = javaxVecmathMatrix.m21;
+        m13 = javaxVecmathMatrix.m31;
+        m20 = javaxVecmathMatrix.m02;
+        m21 = javaxVecmathMatrix.m12;
+        m22 = javaxVecmathMatrix.m22;
+        m23 = javaxVecmathMatrix.m32;
+        m30 = javaxVecmathMatrix.m03;
+        m31 = javaxVecmathMatrix.m13;
+        m32 = javaxVecmathMatrix.m23;
+        m33 = javaxVecmathMatrix.m33;
+    }
+    
+    /**
      * Reset this matrix to the identity.
      * 
      * @return this
@@ -172,6 +196,32 @@ public class Matrix4f {
         this.m31 = m1.m31;
         this.m32 = m1.m32;
         this.m33 = m1.m33;
+        return this;
+    }
+    
+    /**
+     * Set the values of this matrix to the ones of the given javax.vecmath matrix.
+     * 
+     * @param javaxVecmathMatrix
+     * @return this
+     */
+    public Matrix4f set(javax.vecmath.Matrix4f javaxVecmathMatrix) {
+        m00 = javaxVecmathMatrix.m00;
+        m01 = javaxVecmathMatrix.m10;
+        m02 = javaxVecmathMatrix.m20;
+        m03 = javaxVecmathMatrix.m30;
+        m10 = javaxVecmathMatrix.m01;
+        m11 = javaxVecmathMatrix.m11;
+        m12 = javaxVecmathMatrix.m21;
+        m13 = javaxVecmathMatrix.m31;
+        m20 = javaxVecmathMatrix.m02;
+        m21 = javaxVecmathMatrix.m12;
+        m22 = javaxVecmathMatrix.m22;
+        m23 = javaxVecmathMatrix.m32;
+        m30 = javaxVecmathMatrix.m03;
+        m31 = javaxVecmathMatrix.m13;
+        m32 = javaxVecmathMatrix.m23;
+        m33 = javaxVecmathMatrix.m33;
         return this;
     }
     
@@ -667,6 +717,26 @@ public class Matrix4f {
         buffer.put(this.m31);
         buffer.put(this.m32);
         buffer.put(this.m33);
+        return this;
+    }
+    
+    public Matrix4f store(javax.vecmath.Matrix4f mat) {
+        mat.m00 = m00;
+        mat.m10 = m01;
+        mat.m20 = m02;
+        mat.m30 = m03;
+        mat.m01 = m10;
+        mat.m11 = m11;
+        mat.m21 = m12;
+        mat.m31 = m13;
+        mat.m02 = m20;
+        mat.m12 = m21;
+        mat.m22 = m22;
+        mat.m32 = m23;
+        mat.m03 = m30;
+        mat.m13 = m31;
+        mat.m23 = m32;
+        mat.m33 = m33;
         return this;
     }
 
