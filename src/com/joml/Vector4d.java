@@ -31,7 +31,7 @@ public class Vector4d {
     public double x;
     public double y;
     public double z;
-    public double w;
+    public double w = 1.0;
 
     public Vector4d() {
     }

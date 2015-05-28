@@ -31,7 +31,7 @@ public class Vector4f {
     public float x;
     public float y;
     public float z;
-    public float w;
+    public float w = 1.0f;
 
     public Vector4f() {
     }
@@ -143,7 +143,7 @@ public class Vector4f {
     }
 
     /**
-     * Multiply this Vector4f by the given rotation matrix mat
+     * Multiply this Vector4f by the given matrix mat
      */
     public void mul(Matrix4f mat) {
         set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
