@@ -21,50 +21,63 @@ package com.joml;
 import java.nio.FloatBuffer;
 
 /**
- * CamMath
- * 
- * Contains some handy functions for calculating matrices in relation to the view, including
- * the famous perspective, lookAt and ortho functions from the C-based GLM library
+ * Contains some handy functions for calculating matrices in relation to the
+ * view, including the famous perspective, lookAt and ortho functions from the
+ * C-based GLM library.
  * 
  * @author Richard Greenlees
  */
 public class CamMath {
-    
-    /** Calculates a perspective projection matrix using the supplied parameters and stores the result in dest
+
+    /**
+     * Calculates a perspective projection matrix using the supplied parameters
+     * and stores the result in dest
      * 
-     * @param fovy Field of view
-     * @param aspect Aspect ratio (display width / display height)
-     * @param zNear near clipping plane distance
-     * @param zFar far clipping plane distance
-     * @param dest Matrix4f to store the result
+     * @param fovy
+     *            Field of view
+     * @param aspect
+     *            Aspect ratio (display width / display height)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            Matrix4f to store the result
      */
     public static void perspective(float fovy, float aspect, float zNear, float zFar, Matrix4f dest) {
         float y_scale = (float) TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0));
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
-        
+
         dest.zero();
-        
+
         dest.m00 = x_scale;
         dest.m11 = y_scale;
         dest.m22 = -((zFar + zNear) / frustrum_length);
         dest.m23 = -1.0f;
         dest.m32 = -((2.0f * zNear * zFar) / frustrum_length);
     }
-    
-    /** Calculates a perspective projection matrix using the supplied parameters and writes the result directly into the FloatBuffer
+
+    /**
+     * Calculates a perspective projection matrix using the supplied parameters
+     * and writes the result directly into the FloatBuffer
      * 
-     * @param fovy Field of view
-     * @param aspect Aspect ratio (display width / display height)
-     * @param zNear near clipping plane distance
-     * @param zFar far clipping plane distance
-     * @param dest FloatBuffer to store the result
+     * @param fovy
+     *            Field of view
+     * @param aspect
+     *            Aspect ratio (display width / display height)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            FloatBuffer to store the result
      */
     public static void perspective(float fovy, float aspect, float zNear, float zFar, FloatBuffer dest) {
         float y_scale = (float) TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0));
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
-        
+
         dest.put(x_scale);
         dest.put(0.0f);
         dest.put(0.0f);
@@ -74,7 +87,7 @@ public class CamMath {
         dest.put(0.0f);
         dest.put(0.0f);
         dest.put(0.0f);
-        dest.put(0.0f);                
+        dest.put(0.0f);
         dest.put(-((zFar + zNear) / frustrum_length));
         dest.put(-1.0f);
         dest.put(0.0f);
@@ -82,13 +95,18 @@ public class CamMath {
         dest.put(-((2.0f * zNear * zFar) / frustrum_length));
         dest.put(0.0f);
     }
-    
-    /** Calculates a view matrix
+
+    /**
+     * Calculates a view matrix
      * 
-     * @param position The position of the camera
-     * @param centre The point in space to look at
-     * @param up The direction of "up". In most cases it is (x=0, y=1, z=0)
-     * @param dest The matrix to store the results in
+     * @param position
+     *            The position of the camera
+     * @param centre
+     *            The point in space to look at
+     * @param up
+     *            The direction of "up". In most cases it is (x=0, y=1, z=0)
+     * @param dest
+     *            The matrix to store the results in
      */
     public static void lookAt(Vector3f position, Vector3f centre, Vector3f up, Matrix4f dest) {
         // Compute direction from position to lookAt
@@ -137,22 +155,29 @@ public class CamMath {
         dest.m32 = dirX * position.x + dirY * position.y + dirZ * position.z;
         dest.m33 = 1.0f;
     }
-    
-    /** Calculates a view matrix and stores the results directly into the FloatBuffer
+
+    /**
+     * Calculates a view matrix and stores the result directly into the given
+     * {@link FloatBuffer}.
      * 
-     * @param position The position of the camera
-     * @param centre The point in space to look at
-     * @param up The direction of "up". In most cases it is (x=0, y=1, z=0)
-     * @param dest The FloatBuffer to store the results in
+     * @param eye
+     *            the position of the camera
+     * @param lookat
+     *            the point in space to look at
+     * @param up
+     *            the direction of "up". In most cases it is
+     *            <code>(0, 1, 0)</code>
+     * @param dest
+     *            the {@link FloatBuffer} to store the result in
      */
-    public static void lookAt(Vector3f position, Vector3f centre, Vector3f up, FloatBuffer dest) {
+    public static void lookAt(Vector3f eye, Vector3f lookat, Vector3f up, FloatBuffer dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
-        dirX = centre.x - position.x;
-        dirY = centre.y - position.y;
-        dirZ = centre.z - position.z;
+        dirX = lookat.x - eye.x;
+        dirY = lookat.y - eye.y;
+        dirZ = lookat.z - eye.z;
         // Normalize direction
-        float dirLength = Vector3f.distance(position, centre);
+        float dirLength = Vector3f.distance(eye, lookat);
         dirX /= dirLength;
         dirY /= dirLength;
         dirZ /= dirLength;
@@ -187,21 +212,30 @@ public class CamMath {
         dest.put(upZ);
         dest.put(-dirZ);
         dest.put(0.0f);
-        dest.put(-rightX * position.x - rightY * position.y - rightZ * position.z);
-        dest.put(-upX * position.x - upY * position.y - upZ * position.z);
-        dest.put(dirX * position.x + dirY * position.y + dirZ * position.z);
+        dest.put(-rightX * eye.x - rightY * eye.y - rightZ * eye.z);
+        dest.put(-upX * eye.x - upY * eye.y - upZ * eye.z);
+        dest.put(dirX * eye.x + dirY * eye.y + dirZ * eye.z);
         dest.put(1.0f);
     }
-    
-    /** Calculates an orthographic projection matrix using the supplied parameters and stores it directly into the FloatBuffer
+
+    /**
+     * Calculates an orthographic projection frustum/matrix using the supplied
+     * parameters and stores it directly into the {@link Matrix4f}.
      * 
-     * @param left X starting position of the screen
-     * @param right X end position of the screen
-     * @param bottom Y starting position of the screen
-     * @param top Y end position of the screen
-     * @param zNear Near clipping plane distance
-     * @param zFar Far clipping plane distance
-     * @param dest FloatBuffer to store the results
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            {@link Matrix4f} to store the result
      */
     public static void ortho(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
         dest.zero();
@@ -213,34 +247,43 @@ public class CamMath {
         dest.m32 = -(zFar + zNear) / (zFar - zNear);
         dest.m33 = 1.0f;
     }
-    
-    /** Calculates an orthographic projection matrix using the supplied parameters and stores directly into the FloatBuffer
+
+    /**
+     * Calculates an orthographic projection frustum/matrix using the supplied
+     * parameters and stores it directly into the {@link FloatBuffer}.
      * 
-     * @param left X starting position of the screen
-     * @param right X end position of the screen
-     * @param bottom Y starting position of the screen
-     * @param top Y end position of the screen
-     * @param zNear Near clipping plane distance
-     * @param zFar Far clipping plane distance
-     * @param dest FloatBuffer to store the results
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            {@link FloatBuffer} to store the result
      */
     public static void ortho(float left, float right, float bottom, float top, float zNear, float zFar, FloatBuffer dest) {
-        dest.put(2.0f / (right - left));            //m00
-        dest.put(0.0f);                             //m01
-        dest.put(0.0f);                             //m02
-        dest.put(0.0f);                             //m03
-        dest.put(0.0f);                             //m10
-        dest.put(2.0f / (top - bottom));            //m11
-        dest.put(0.0f);                             //m12
-        dest.put(0.0f);                             //m13
-        dest.put(0.0f);                             //m20
-        dest.put(0.0f);                             //m21
-        dest.put(-2.0f / (zFar - zNear));           //m22
-        dest.put(0.0f);                             //m23
-        dest.put(-(right + left) / (right - left)); //m30
-        dest.put(-(top + bottom) / (top - bottom)); //m31
-        dest.put(-(zFar + zNear) / (zFar - zNear)); //m32
-        dest.put(1.0f);                             //m33
+        dest.put(2.0f / (right - left)); // m00
+        dest.put(0.0f); // m01
+        dest.put(0.0f); // m02
+        dest.put(0.0f); // m03
+        dest.put(0.0f); // m10
+        dest.put(2.0f / (top - bottom)); // m11
+        dest.put(0.0f); // m12
+        dest.put(0.0f); // m13
+        dest.put(0.0f); // m20
+        dest.put(0.0f); // m21
+        dest.put(-2.0f / (zFar - zNear)); // m22
+        dest.put(0.0f); // m23
+        dest.put(-(right + left) / (right - left)); // m30
+        dest.put(-(top + bottom) / (top - bottom)); // m31
+        dest.put(-(zFar + zNear) / (zFar - zNear)); // m32
+        dest.put(1.0f); // m33
     }
-    
+
 }

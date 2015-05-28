@@ -19,16 +19,14 @@
 package com.joml;
 
 /**
- * TrigMath
- * 
  * Contains some generally useful functions for trigonometry calculations.
  * 
  * @author Richard Greenlees
  */
 public class TrigMath {
-    
-    public static final double degreesToRadians = (Math.PI / 180.0);
-    public static final double radiansToDegrees = (180.0 / Math.PI);
+
+    public static final double degreesToRadiansFactor = (Math.PI / 180.0);
+    public static final double radiansToDegreesFactor = (180.0 / Math.PI);
 
     /** Return the coTangent of the supplied angle */
     public static double coTangent(double angle) {
@@ -37,7 +35,12 @@ public class TrigMath {
 
     /** Convert the supplied degrees to radians */
     public static double degreesToRadians(double degrees) {
-        return degrees * degreesToRadians;
+        return degrees * degreesToRadiansFactor;
+    }
+
+    /** Convert the supplied radians to degrees */
+    public static double radiansToDegrees(double radians) {
+        return radians * radiansToDegreesFactor;
     }
 
 }

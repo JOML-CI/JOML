@@ -30,8 +30,6 @@ import java.nio.FloatBuffer;
  */
 public class Quaternion {
 
-    public static Quaternion IDENTITY = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
-
     public float x;
     public float y;
     public float z;
@@ -343,7 +341,7 @@ public class Quaternion {
      * angle (in Degrees)
      */
     public void fromAxisAngleDeg(Vector3f axis, float angle) {
-        float hangle = (float) ((angle * TrigMath.degreesToRadians) / 2.0);
+        float hangle = (float) ((angle * TrigMath.degreesToRadiansFactor) / 2.0);
         float sinAngle = (float) Math.sin(hangle);
         float vLength = axis.length();
 
@@ -493,12 +491,12 @@ public class Quaternion {
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public void setEulerAnglesDegXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        float sx = (float) Math.sin((rotationAboutX * TrigMath.degreesToRadians) * 0.5f);
-        float cx = (float) Math.cos((rotationAboutX * TrigMath.degreesToRadians) * 0.5f);
-        float sy = (float) Math.sin((rotationAboutY * TrigMath.degreesToRadians) * 0.5f);
-        float cy = (float) Math.cos((rotationAboutY * TrigMath.degreesToRadians) * 0.5f);
-        float sz = (float) Math.sin((rotationAboutZ * TrigMath.degreesToRadians) * 0.5f);
-        float cz = (float) Math.cos((rotationAboutZ * TrigMath.degreesToRadians) * 0.5f);
+        float sx = (float) Math.sin((rotationAboutX * TrigMath.degreesToRadiansFactor) * 0.5f);
+        float cx = (float) Math.cos((rotationAboutX * TrigMath.degreesToRadiansFactor) * 0.5f);
+        float sy = (float) Math.sin((rotationAboutY * TrigMath.degreesToRadiansFactor) * 0.5f);
+        float cy = (float) Math.cos((rotationAboutY * TrigMath.degreesToRadiansFactor) * 0.5f);
+        float sz = (float) Math.sin((rotationAboutZ * TrigMath.degreesToRadiansFactor) * 0.5f);
+        float cz = (float) Math.cos((rotationAboutZ * TrigMath.degreesToRadiansFactor) * 0.5f);
 
         x = cx*cy*cz + sx*sy*sz;
         y = sx*cy*cz - cx*sy*sz;
@@ -513,12 +511,12 @@ public class Quaternion {
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public void setEulerAnglesDegZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        float sx = (float) Math.sin(rotationAboutX * TrigMath.degreesToRadians * 0.5f);
-        float cx = (float) Math.cos(rotationAboutX * TrigMath.degreesToRadians * 0.5f);
-        float sy = (float) Math.sin(rotationAboutY * TrigMath.degreesToRadians * 0.5f);
-        float cy = (float) Math.cos(rotationAboutY * TrigMath.degreesToRadians * 0.5f);
-        float sz = (float) Math.sin(rotationAboutZ * TrigMath.degreesToRadians * 0.5f);
-        float cz = (float) Math.cos(rotationAboutZ * TrigMath.degreesToRadians * 0.5f);
+        float sx = (float) Math.sin(rotationAboutX * TrigMath.degreesToRadiansFactor * 0.5f);
+        float cx = (float) Math.cos(rotationAboutX * TrigMath.degreesToRadiansFactor * 0.5f);
+        float sy = (float) Math.sin(rotationAboutY * TrigMath.degreesToRadiansFactor * 0.5f);
+        float cy = (float) Math.cos(rotationAboutY * TrigMath.degreesToRadiansFactor * 0.5f);
+        float sz = (float) Math.sin(rotationAboutZ * TrigMath.degreesToRadiansFactor * 0.5f);
+        float cz = (float) Math.cos(rotationAboutZ * TrigMath.degreesToRadiansFactor * 0.5f);
 
         x = cx*cy*cz - sx*sy*sz;
         y = sx*cy*cz + cx*sy*sz;

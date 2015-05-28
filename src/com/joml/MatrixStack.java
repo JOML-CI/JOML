@@ -38,7 +38,7 @@ public class MatrixStack {
      * The matrix stack as a non-growable array. The size of the stack must be
      * specified in the {@link #MatrixStack(int) constructor}.
      */
-    private Matrix4f[] mats;
+    private final Matrix4f[] mats;
 
     /**
      * The index of the "current" matrix within {@link #mats}.
