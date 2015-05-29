@@ -345,7 +345,7 @@ public class QuaternionD implements Serializable, Externalizable {
      * angle (in Degrees)
      */
     public void fromAxisAngleDeg(Vector3d axis, double angle) {
-        double hangle = angle * Math.PI / 180.0 / 2.0f;
+        double hangle = Math.toRadians(angle) / 2.0f;
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
 
@@ -359,10 +359,10 @@ public class QuaternionD implements Serializable, Externalizable {
      * Multiply this Quaternion by q
      */
     public void mul(QuaternionD q) {
-        set(x = this.x * q.x - this.y * q.y - this.z * q.z - this.w * q.w,
-                y = this.x * q.y + this.y * q.x + this.z * q.w - this.w * q.z,
-                z = this.x * q.z - this.y * q.w + this.z * q.x + this.w * q.y,
-                w = this.x * q.w + this.y * q.z - this.z * q.y + this.w * q.x);
+        set(this.x * q.x - this.y * q.y - this.z * q.z - this.w * q.w,
+            this.x * q.y + this.y * q.x + this.z * q.w - this.w * q.z,
+            this.x * q.z - this.y * q.w + this.z * q.x + this.w * q.y,
+            this.x * q.w + this.y * q.z - this.z * q.y + this.w * q.x);
     }
 
     /**
@@ -382,9 +382,9 @@ public class QuaternionD implements Serializable, Externalizable {
      */
     public static void mul(QuaternionD a, QuaternionD b, QuaternionD dest) {
         dest.set(a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w,
-                a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
-                a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
-                a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x);
+                 a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
+                 a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
+                 a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x);
     }
 
     /**
@@ -413,7 +413,6 @@ public class QuaternionD implements Serializable, Externalizable {
      * Divides this Quaternion by b
      */
     public void div(QuaternionD b) {
-        // TODO: Remove method calls
         invert();
         mul(b);
     }
@@ -495,12 +494,12 @@ public class QuaternionD implements Serializable, Externalizable {
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public void setEulerAnglesDegXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        double sx = Math.sin(rotationAboutX * Math.PI / 90.0);
-        double cx = Math.cos(rotationAboutX * Math.PI / 90.0);
-        double sy = Math.sin(rotationAboutY * Math.PI / 90.0);
-        double cy = Math.cos(rotationAboutY * Math.PI / 90.0);
-        double sz = Math.sin(rotationAboutZ * Math.PI / 90.0);
-        double cz = Math.cos(rotationAboutZ * Math.PI / 90.0);
+        double sx = Math.sin(Math.toRadians(rotationAboutX) * 0.5);
+        double cx = Math.cos(Math.toRadians(rotationAboutX) * 0.5);
+        double sy = Math.sin(Math.toRadians(rotationAboutY) * 0.5);
+        double cy = Math.cos(Math.toRadians(rotationAboutY) * 0.5);
+        double sz = Math.sin(Math.toRadians(rotationAboutZ) * 0.5);
+        double cz = Math.cos(Math.toRadians(rotationAboutZ) * 0.5);
 
         x = cx*cy*cz + sx*sy*sz;
         y = sx*cy*cz - cx*sy*sz;
@@ -515,12 +514,12 @@ public class QuaternionD implements Serializable, Externalizable {
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public void setEulerAnglesDegZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        double sx = Math.sin(rotationAboutX * Math.PI / 90.0);
-        double cx = Math.cos(rotationAboutX * Math.PI / 90.0);
-        double sy = Math.sin(rotationAboutY * Math.PI / 90.0);
-        double cy = Math.cos(rotationAboutY * Math.PI / 90.0);
-        double sz = Math.sin(rotationAboutZ * Math.PI / 90.0);
-        double cz = Math.cos(rotationAboutZ * Math.PI / 90.0);
+        double sx = Math.sin(Math.toRadians(rotationAboutX) * 0.5);
+        double cx = Math.cos(Math.toRadians(rotationAboutX) * 0.5);
+        double sy = Math.sin(Math.toRadians(rotationAboutY) * 0.5);
+        double cy = Math.cos(Math.toRadians(rotationAboutY) * 0.5);
+        double sz = Math.sin(Math.toRadians(rotationAboutZ) * 0.5);
+        double cz = Math.cos(Math.toRadians(rotationAboutZ) * 0.5);
 
         x = cx*cy*cz - sx*sy*sz;
         y = sx*cy*cz + cx*sy*sz;

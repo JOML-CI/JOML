@@ -893,8 +893,6 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
-     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
-     * 
      * @return this
      */
     public Matrix4f rotation(float angle, Vector3f axis) {
@@ -903,8 +901,8 @@ public class Matrix4f implements Serializable, Externalizable {
     
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
-     * 
-     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
      * 
      * @return this
      */
@@ -929,31 +927,12 @@ public class Matrix4f implements Serializable, Externalizable {
     	m33 = 1.0f;
     	return this;
     }
-    
+
     /**
      * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
-     * 
-     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      */
     public static void rotation(float angle, Vector3f axis, Matrix4f dest) {
-    	float cos = (float) Math.cos(angle);
-    	float sin = (float) Math.sin(angle);
-    	dest.m00 = cos + axis.x * axis.x * (1.0f - cos);
-    	dest.m10 = axis.x * axis.y * (1.0f - cos) - axis.z * sin;
-    	dest.m20 = axis.x * axis.z * (1.0f - cos) + axis.y * sin;
-    	dest.m30 = 0.0f;
-    	dest.m01 = axis.y * axis.x * (1.0f - cos) + axis.z * sin;
-    	dest.m11 = cos + axis.y * axis.y * (1.0f - cos);
-    	dest.m21 = axis.y * axis.z * (1.0f - cos) - axis.x * sin;
-    	dest.m31 = 0.0f;
-    	dest.m02 = axis.z * axis.x * (1.0f - cos) - axis.y * sin;
-    	dest.m12 = axis.z * axis.y * (1.0f - cos) + axis.x * sin;
-    	dest.m22 = cos + axis.z * axis.z * (1.0f - cos);
-    	dest.m32 = 0.0f;
-    	dest.m03 = 0.0f;
-    	dest.m13 = 0.0f;
-    	dest.m23 = 0.0f;
-    	dest.m33 = 1.0f;
+    	dest.rotation(angle, axis);
     }
 
     /**
@@ -1090,6 +1069,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in degrees
@@ -1128,6 +1109,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in degrees
@@ -1166,6 +1149,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in degrees
@@ -1208,6 +1193,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in degrees
@@ -1329,6 +1316,8 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply an orthographic projection transformation to this matrix.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
      * 
      * @param left
      *            the distance from the center to the left frustum edge
@@ -1376,7 +1365,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a rotation transformation to this matrix to make +z point along <code>dir</code>. 
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
      * 
      * @param dir
      *            the direction in space to look along
@@ -1457,14 +1446,14 @@ public class Matrix4f implements Serializable, Externalizable {
      * 
      * @param eye
      *            the position of the camera
-     * @param lookAt
+     * @param center
      *            the point in space to look at
      * @param up
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4f lookAt(Vector3f eye, Vector3f lookAt, Vector3f up) {
-        return lookAt(eye.x, eye.y, eye.z, lookAt.x, lookAt.y, lookAt.z, up.x, up.y, up.z);
+    public Matrix4f lookAt(Vector3f eye, Vector3f center, Vector3f up) {
+        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
     }
 
     /**
@@ -1473,18 +1462,18 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f lookAt(float eyeX, float eyeY, float eyeZ,
-                           float lookAtX, float lookAtY, float lookAtZ,
+                           float centerX, float centerY, float centerZ,
                            float upX, float upY, float upZ) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
-        dirX = lookAtX - eyeX;
-        dirY = lookAtY - eyeY;
-        dirZ = lookAtZ - eyeZ;
+        dirX = centerX - eyeX;
+        dirY = centerY - eyeY;
+        dirZ = centerZ - eyeZ;
         // Normalize direction
         float dirLength = (float) Math.sqrt(
-                  (eyeX - lookAtX) * (eyeX - lookAtX)
-                + (eyeY - lookAtY) * (eyeY - lookAtY)
-                + (eyeZ - lookAtZ) * (eyeZ - lookAtZ));
+                  (eyeX - centerX) * (eyeX - centerX)
+                + (eyeY - centerY) * (eyeY - centerY)
+                + (eyeZ - centerZ) * (eyeZ - centerZ));
         dirX /= dirLength;
         dirY /= dirLength;
         dirZ /= dirLength;
@@ -1574,6 +1563,8 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply an arbitrary perspective projection frustum transformation to this matrix.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
      * 
      * @param left
      *            the distance along the x-axis to the left frustum edge

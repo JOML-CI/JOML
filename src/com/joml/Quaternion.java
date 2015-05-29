@@ -345,7 +345,7 @@ public class Quaternion implements Serializable, Externalizable {
      * angle (in Degrees)
      */
     public void fromAxisAngleDeg(Vector3f axis, float angle) {
-        float hangle = (float) (angle * Math.PI / 180.0 / 2.0);
+        float hangle = (float) (Math.toRadians(angle) / 2.0);
         float sinAngle = (float) Math.sin(hangle);
         float vLength = axis.length();
 
@@ -494,12 +494,12 @@ public class Quaternion implements Serializable, Externalizable {
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public void setEulerAnglesDegXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        float sx = (float) Math.sin(rotationAboutX * Math.PI / 90.0);
-        float cx = (float) Math.cos(rotationAboutX * Math.PI / 90.0);
-        float sy = (float) Math.sin(rotationAboutY * Math.PI / 90.0);
-        float cy = (float) Math.cos(rotationAboutY * Math.PI / 90.0);
-        float sz = (float) Math.sin(rotationAboutZ * Math.PI / 90.0);
-        float cz = (float) Math.cos(rotationAboutZ * Math.PI / 90.0);
+        float sx = (float) Math.sin(Math.toRadians(rotationAboutX) * 0.5);
+        float cx = (float) Math.cos(Math.toRadians(rotationAboutX) * 0.5);
+        float sy = (float) Math.sin(Math.toRadians(rotationAboutY) * 0.5);
+        float cy = (float) Math.cos(Math.toRadians(rotationAboutY) * 0.5);
+        float sz = (float) Math.sin(Math.toRadians(rotationAboutZ) * 0.5);
+        float cz = (float) Math.cos(Math.toRadians(rotationAboutZ) * 0.5);
 
         x = cx*cy*cz + sx*sy*sz;
         y = sx*cy*cz - cx*sy*sz;
@@ -514,12 +514,12 @@ public class Quaternion implements Serializable, Externalizable {
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public void setEulerAnglesDegZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        float sx = (float) Math.sin(rotationAboutX * Math.PI / 90.0);
-        float cx = (float) Math.cos(rotationAboutX * Math.PI / 90.0);
-        float sy = (float) Math.sin(rotationAboutY * Math.PI / 90.0);
-        float cy = (float) Math.cos(rotationAboutY * Math.PI / 90.0);
-        float sz = (float) Math.sin(rotationAboutZ * Math.PI / 90.0);
-        float cz = (float) Math.cos(rotationAboutZ * Math.PI / 90.0);
+        float sx = (float) Math.sin(Math.toRadians(rotationAboutX) * 0.5);
+        float cx = (float) Math.cos(Math.toRadians(rotationAboutX) * 0.5);
+        float sy = (float) Math.sin(Math.toRadians(rotationAboutY) * 0.5);
+        float cy = (float) Math.cos(Math.toRadians(rotationAboutY) * 0.5);
+        float sz = (float) Math.sin(Math.toRadians(rotationAboutZ) * 0.5);
+        float cz = (float) Math.cos(Math.toRadians(rotationAboutZ) * 0.5);
 
         x = cx*cy*cz - sx*sy*sz;
         y = sx*cy*cz + cx*sy*sz;
