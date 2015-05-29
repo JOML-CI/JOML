@@ -49,30 +49,6 @@ public class Vector4f implements Serializable, Externalizable {
         this.w = clone.w;
     }
     
-    /**
-     * Create a new {@link Vector4f} whose components are initialized with the components of the given javax.vecmath vector.
-     * 
-     * @param javaxVecmathVector
-     */
-    public Vector4f(javax.vecmath.Vector4f javaxVecmathVector) {
-        this.x = javaxVecmathVector.x;
-        this.y = javaxVecmathVector.y;
-        this.z = javaxVecmathVector.z;
-        this.w = javaxVecmathVector.w;
-    }
-    
-    /**
-     * Create a new {@link Vector3f} whose components are initialized with the components of the given org.lwjgl.util.vector vector.
-     * 
-     * @param lwjglVector
-     */
-    public Vector4f(org.lwjgl.util.vector.Vector4f lwjglVector) {
-        this.x = lwjglVector.x;
-        this.y = lwjglVector.y;
-        this.z = lwjglVector.z;
-        this.w = lwjglVector.w;
-    }
-
     public Vector4f(Vector3f clone, float w) {
         this.x = clone.x;
         this.y = clone.y;
@@ -106,7 +82,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @param javaxVecmathVector
      * @return this
      */
-    public Vector4f set(javax.vecmath.Vector4f javaxVecmathVector) {
+    public Vector4f fromVector(javax.vecmath.Vector4f javaxVecmathVector) {
         x = javaxVecmathVector.x;
         y = javaxVecmathVector.y;
         z = javaxVecmathVector.z;
@@ -120,7 +96,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @param lwjglVector
      * @return this
      */
-    public Vector4f set(org.lwjgl.util.vector.Vector4f lwjglVector) {
+    public Vector4f fromVector(org.lwjgl.util.vector.Vector4f lwjglVector) {
         this.x = lwjglVector.x;
         this.y = lwjglVector.y;
         this.z = lwjglVector.z;
@@ -176,9 +152,9 @@ public class Vector4f implements Serializable, Externalizable {
      */
     public static void sub(Vector4f v1, Vector4f v2, Vector4f dest) {
         dest.set(v1.x - v2.x,
-                v1.y - v2.y,
-                v1.z - v2.z,
-                v1.w - v2.w);
+                 v1.y - v2.y,
+                 v1.z - v2.z,
+                 v1.w - v2.w);
     }
 
     /**
@@ -199,9 +175,9 @@ public class Vector4f implements Serializable, Externalizable {
      */
     public static void add(Vector4f v1, Vector4f v2, Vector4f dest) {
         dest.set(v1.x + v2.x,
-                v1.y + v2.y,
-                v1.z + v2.z,
-                v1.w + v2.w);
+                 v1.y + v2.y,
+                 v1.z + v2.z,
+                 v1.w + v2.w);
     }
 
     /**
@@ -248,9 +224,9 @@ public class Vector4f implements Serializable, Externalizable {
      */
     public static void mul(Vector4f v, Matrix4f mat, Vector4f dest) {
         dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w,
-                mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
-                mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w, 
-                mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w);
+                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
+                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w, 
+                 mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w);
     }
 
     /**
@@ -330,7 +306,8 @@ public class Vector4f implements Serializable, Externalizable {
      * Returns the distance between the start and end vectors.
      */
     public static float distance(Vector4f start, Vector4f end) {
-        return (float) Math.sqrt((end.x - start.x) * (end.x - start.x)
+        return (float) Math.sqrt(
+                  (end.x - start.x) * (end.x - start.x)
                 + (end.y - start.y) * (end.y - start.y)
                 + (end.z - start.z) * (end.z - start.z)
                 + (end.w - start.w) * (end.w - start.w));
@@ -340,7 +317,8 @@ public class Vector4f implements Serializable, Externalizable {
      * Returns the distance between this Vector and v.
      */
     public float distance(Vector4f v) {
-        return (float) Math.sqrt((v.x - this.x) * (v.x - this.x)
+        return (float) Math.sqrt(
+                  (v.x - this.x) * (v.x - this.x)
                 + (v.y - this.y) * (v.y - this.y)
                 + (v.z - this.z) * (v.z - this.z)
                 + (v.w - this.w) * (v.w - this.w));

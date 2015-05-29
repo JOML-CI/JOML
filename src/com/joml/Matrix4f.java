@@ -132,54 +132,6 @@ public class Matrix4f implements Serializable, Externalizable {
     }
     
     /**
-     * Create a new matrix that is initialized with the values of the given javax.vecmath matrix.
-     * 
-     * @param javaxVecmathMatrix
-     */
-    public Matrix4f(javax.vecmath.Matrix4f javaxVecmathMatrix) {
-        m00 = javaxVecmathMatrix.m00;
-        m01 = javaxVecmathMatrix.m10;
-        m02 = javaxVecmathMatrix.m20;
-        m03 = javaxVecmathMatrix.m30;
-        m10 = javaxVecmathMatrix.m01;
-        m11 = javaxVecmathMatrix.m11;
-        m12 = javaxVecmathMatrix.m21;
-        m13 = javaxVecmathMatrix.m31;
-        m20 = javaxVecmathMatrix.m02;
-        m21 = javaxVecmathMatrix.m12;
-        m22 = javaxVecmathMatrix.m22;
-        m23 = javaxVecmathMatrix.m32;
-        m30 = javaxVecmathMatrix.m03;
-        m31 = javaxVecmathMatrix.m13;
-        m32 = javaxVecmathMatrix.m23;
-        m33 = javaxVecmathMatrix.m33;
-    }
-    
-    /**
-     * Create a new matrix that is initialized with the values of the given org.lwjgl.util.vector.Matrix4f.
-     * 
-     * @param lwjglMatrix
-     */
-    public Matrix4f(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
-        m00 = lwjglMatrix.m00;
-        m01 = lwjglMatrix.m01;
-        m02 = lwjglMatrix.m02;
-        m03 = lwjglMatrix.m03;
-        m10 = lwjglMatrix.m10;
-        m11 = lwjglMatrix.m11;
-        m12 = lwjglMatrix.m12;
-        m13 = lwjglMatrix.m13;
-        m20 = lwjglMatrix.m20;
-        m21 = lwjglMatrix.m21;
-        m22 = lwjglMatrix.m22;
-        m23 = lwjglMatrix.m23;
-        m30 = lwjglMatrix.m30;
-        m31 = lwjglMatrix.m31;
-        m32 = lwjglMatrix.m32;
-        m33 = lwjglMatrix.m33;
-    }
-    
-    /**
      * Reset this matrix to the identity.
      * 
      * @return this
@@ -235,7 +187,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param javaxVecmathMatrix
      * @return this
      */
-    public Matrix4f set(javax.vecmath.Matrix4f javaxVecmathMatrix) {
+    public Matrix4f fromMatrix(javax.vecmath.Matrix4f javaxVecmathMatrix) {
         m00 = javaxVecmathMatrix.m00;
         m01 = javaxVecmathMatrix.m10;
         m02 = javaxVecmathMatrix.m20;
@@ -261,7 +213,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param lwjglMatrix
      * @return this
      */
-    public Matrix4f set(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
+    public Matrix4f fromMatrix(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
         m00 = lwjglMatrix.m00;
         m01 = lwjglMatrix.m01;
         m02 = lwjglMatrix.m02;
@@ -487,6 +439,38 @@ public class Matrix4f implements Serializable, Externalizable {
                  + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
                  - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
     }
+    
+    /**
+     * Invert this matrix and write the result into <code>dest</code>.
+     * 
+     * @param dest
+     * @return this 
+     */
+    public Matrix4f invert(Matrix4f dest) {
+        float s = determinant();
+        if (s == 0.0f) {
+            dest.set(this);
+            return this;
+        }
+        s = 1.0f / s;
+        dest.set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
+                 (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s , 
+                 (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s, 
+                 (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s,
+                 (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s, 
+                 (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s, 
+                 (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s,
+                 (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s,
+                 (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s,
+                 (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s,
+                 (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s,
+                 (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s,
+                 (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
+                 (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
+                 (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
+                 (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s);
+        return this;
+    }
 
     /**
      * Invert this matrix.
@@ -494,34 +478,14 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this 
      */
     public Matrix4f invert() {
-        float s = determinant();
-        if (s == 0.0f) {
-            return this;
-        }
-        s = 1.0f / s;
-        set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
-            (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s , 
-            (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s, 
-            (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s,
-            (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s, 
-            (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s, 
-            (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s,
-            (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s,
-            (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s,
-            (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s,
-            (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s,
-            (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s,
-            (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
-            (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
-            (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
-            (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s);
-        return this;
+        return invert(this);
     }
-    
+
     /** Invert the supplied matrix and store the results in dest. Does not modify original matrix */
     public static void invert(Matrix4f source, Matrix4f dest) {
         float s = source.determinant();
         if (s == 0.0f) {
+            dest.set(source);
             return;
         }
         s = 1.0f / s;
@@ -547,6 +511,7 @@ public class Matrix4f implements Serializable, Externalizable {
     public static void invert(Matrix4f source, FloatBuffer dest) {
         float s = source.determinant();
         if (s == 0.0f) {
+            source.get(dest);
             return;
         }
         s = 1.0f / s;
@@ -574,6 +539,7 @@ public class Matrix4f implements Serializable, Externalizable {
     public static void invertFast(Matrix4f source, Matrix4f dest) {
         float s = source.determinant();
         if (s == 0.0f) {
+            dest.set(source);
             return;
         }
         s = 1.0f / s;
@@ -640,19 +606,30 @@ public class Matrix4f implements Serializable, Externalizable {
         dest.m32 = source.m32 * scalar;
         dest.m33 = source.m33 * scalar;
     }
-    
+
+    /**
+     * Transpose this matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     * @return this
+     */
+    public Matrix4f transpose(Matrix4f dest) {
+        dest.set(m00, m10, m20, m30,
+                 m01, m11, m21, m31,
+                 m02, m12, m22, m32,
+                 m03, m13, m23, m33);
+        return this;
+    }
+
     /**
      * Transpose this matrix. Modifies the matrix directly.
      * 
      * @return this 
      */
     public Matrix4f transpose() {
-        return set(m00, m10, m20, m30,
-                   m01, m11, m21, m31,
-                   m02, m12, m22, m32,
-                   m03, m13, m23, m33);
+        return transpose(this);
     }
-    
+
     /** Transposes the original matrix and stores the results into the destination Matrix4f. Does not modify the original
      * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
     public static void transposeFast(Matrix4f original, Matrix4f dest) {
@@ -783,7 +760,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param javaxVecmathMatrix
      * @return this
      */
-    public Matrix4f get(javax.vecmath.Matrix4f javaxVecmathMatrix) {
+    public Matrix4f toMatrix(javax.vecmath.Matrix4f javaxVecmathMatrix) {
         javaxVecmathMatrix.m00 = m00;
         javaxVecmathMatrix.m10 = m01;
         javaxVecmathMatrix.m20 = m02;
@@ -809,7 +786,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param lwjglMatrix
      * @return this
      */
-    public Matrix4f get(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
+    public Matrix4f toMatrix(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
         lwjglMatrix.m00 = m00;
         lwjglMatrix.m01 = m01;
         lwjglMatrix.m02 = m02;
@@ -1276,30 +1253,31 @@ public class Matrix4f implements Serializable, Externalizable {
      */
     public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar) {
         // calculate left matrix elements
-        float nm00 = 2.0f / (right - left);
-        float nm11 = 2.0f / (top - bottom);
-        float nm22 = -2.0f / (zFar - zNear);
-        float nm30 = -(right + left) / (right - left);
-        float nm31 = -(top + bottom) / (top - bottom);
-        float nm32 = -(zFar + zNear) / (zFar - zNear);
+        float rm00 = 2.0f / (right - left);
+        float rm11 = 2.0f / (top - bottom);
+        float rm22 = -2.0f / (zFar - zNear);
+        float rm30 = -(right + left) / (right - left);
+        float rm31 = -(top + bottom) / (top - bottom);
+        float rm32 = -(zFar + zNear) / (zFar - zNear);
         
         // perform optimized multiplication
-        m00 = m00 * nm00;
-        m01 = m01 * nm00;
-        m02 = m02 * nm00;
-        m03 = m03 * nm00;
-        m10 = m10 * nm11;
-        m11 = m11 * nm11;
-        m12 = m12 * nm11;
-        m13 = m13 * nm11;
-        m20 = m20 * nm22;
-        m21 = m21 * nm22;
-        m22 = m22 * nm22;
-        m23 = m23 * nm22;
-        m30 = m00 * nm30 + m10 * nm31 + m20 * nm32 + m30;
-        m31 = m01 * nm30 + m11 * nm31 + m21 * nm32 + m31;
-        m32 = m02 * nm30 + m12 * nm31 + m22 * nm32 + m32;
-        m33 = m03 * nm30 + m13 * nm31 + m23 * nm32 + m33;
+        // compute the last column first, because other rows do not depend on it
+        m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        m00 = m00 * rm00;
+        m01 = m01 * rm00;
+        m02 = m02 * rm00;
+        m03 = m03 * rm00;
+        m10 = m10 * rm11;
+        m11 = m11 * rm11;
+        m12 = m12 * rm11;
+        m13 = m13 * rm11;
+        m20 = m20 * rm22;
+        m21 = m21 * rm22;
+        m22 = m22 * rm22;
+        m23 = m23 * rm22;
 
         return this;
     }
@@ -1346,37 +1324,48 @@ public class Matrix4f implements Serializable, Externalizable {
         upZ = rightX * dirY - rightY * dirX;
         
         // calculate left matrix elements
-        float nm00 = rightX;
-        float nm01 = upX;
-        float nm02 = -dirX;
-        float nm10 = rightY;
-        float nm11 = upY;
-        float nm12 = -dirY;
-        float nm20 = rightZ;
-        float nm21 = upZ;
-        float nm22 = -dirZ;
-        float nm30 = -rightX * position.x - rightY * position.y - rightZ * position.z;
-        float nm31 = -upX * position.x - upY * position.y - upZ * position.z;
-        float nm32 = dirX * position.x + dirY * position.y + dirZ * position.z;
-        
-        // perform multiplication
-        m00 = m00 * nm00 + m10 * nm01 + m20 * nm02;
-        m01 = m01 * nm00 + m11 * nm01 + m21 * nm02;
-        m02 = m02 * nm00 + m12 * nm01 + m22 * nm02;
-        m03 = m03 * nm00 + m13 * nm01 + m23 * nm02;
-        m10 = m00 * nm10 + m10 * nm11 + m20 * nm12;
-        m11 = m01 * nm10 + m11 * nm11 + m21 * nm12;
-        m12 = m02 * nm10 + m12 * nm11 + m22 * nm12;
-        m13 = m03 * nm10 + m13 * nm11 + m23 * nm12;
-        m20 = m00 * nm20 + m10 * nm21 + m20 * nm22;
-        m21 = m01 * nm20 + m11 * nm21 + m21 * nm22;
-        m22 = m02 * nm20 + m12 * nm21 + m22 * nm22;
-        m23 = m03 * nm20 + m13 * nm21 + m23 * nm22;
-        m30 = m00 * nm30 + m10 * nm31 + m20 * nm32 + m30;
-        m31 = m01 * nm30 + m11 * nm31 + m21 * nm32 + m31;
-        m32 = m02 * nm30 + m12 * nm31 + m22 * nm32 + m32;
-        m33 = m03 * nm30 + m13 * nm31 + m23 * nm32 + m33;
-        
+        float rm00 = rightX;
+        float rm01 = upX;
+        float rm02 = -dirX;
+        float rm10 = rightY;
+        float rm11 = upY;
+        float rm12 = -dirY;
+        float rm20 = rightZ;
+        float rm21 = upZ;
+        float rm22 = -dirZ;
+        float rm30 = -rightX * position.x - rightY * position.y - rightZ * position.z;
+        float rm31 = -upX * position.x - upY * position.y - upZ * position.z;
+        float rm32 = dirX * position.x + dirY * position.y + dirZ * position.z;
+
+        // perform optimized matrix multiplication
+        // compute last column first, because others do not depend on it
+        m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        // introduce temporaries for dependent results
+        float m00 = this.m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float m01 = this.m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float m02 = this.m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float m03 = this.m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float m10 = this.m00 * rm10 + this.m10 * rm11 + m20 * rm12;
+        float m11 = this.m01 * rm10 + this.m11 * rm11 + m21 * rm12;
+        float m12 = this.m02 * rm10 + this.m12 * rm11 + m22 * rm12;
+        float m13 = this.m03 * rm10 + this.m13 * rm11 + m23 * rm12;
+        m20 = this.m00 * rm20 + this.m10 * rm21 + this.m20 * rm22;
+        m21 = this.m01 * rm20 + this.m11 * rm21 + this.m21 * rm22;
+        m22 = this.m02 * rm20 + this.m12 * rm21 + this.m22 * rm22;
+        m23 = this.m03 * rm20 + this.m13 * rm21 + this.m23 * rm22;
+        // set the rest of the matrix elements
+        this.m00 = m00;
+        this.m01 = m01;
+        this.m02 = m02;
+        this.m03 = m03;
+        this.m10 = m10;
+        this.m11 = m11;
+        this.m12 = m12;
+        this.m13 = m13;
+
         return this;
     }
 
@@ -1404,28 +1393,32 @@ public class Matrix4f implements Serializable, Externalizable {
         float ff = zFar;
         
         // calculate left matrix elements
-        float nm00 = 2.0f * fn / (fr - fl);
-        float nm11 = 2.0f * fn / (ft - fb);
-        float nm22 = -(ff + fn) / (ff - fn);
-        float nm32 = -2.0f * ff * fn / (ff - fn);
+        float rm00 = 2.0f * fn / (fr - fl);
+        float rm11 = 2.0f * fn / (ft - fb);
+        float rm22 = -(ff + fn) / (ff - fn);
+        float rm32 = -2.0f * ff * fn / (ff - fn);
         
         // perform optimized matrix multiplication
-        m00 = m00 * nm00;
-        m01 = m01 * nm00;
-        m02 = m02 * nm00;
-        m03 = m03 * nm00;
-        m10 = m10 * nm11;
-        m11 = m11 * nm11;
-        m12 = m12 * nm11;
-        m13 = m13 * nm11;
-        m20 = m20 * nm22 - m30;
-        m21 = m21 * nm22 - m31;
-        m22 = m22 * nm22 - m32;
-        m23 = m23 * nm22 - m33;
-        m30 = m20 * nm32;
-        m31 = m21 * nm32;
-        m32 = m22 * nm32;
-        m33 = m23 * nm32;
+        m00 = m00 * rm00;
+        m01 = m01 * rm00;
+        m02 = m02 * rm00;
+        m03 = m03 * rm00;
+        m10 = m10 * rm11;
+        m11 = m11 * rm11;
+        m12 = m12 * rm11;
+        m13 = m13 * rm11;
+        float m20 = this.m20 * rm22 - m30;
+        float m21 = this.m21 * rm22 - m31;
+        float m22 = this.m22 * rm22 - m32;
+        float m23 = this.m23 * rm22 - m33;
+        m30 = this.m20 * rm32;
+        m31 = this.m21 * rm32;
+        m32 = this.m22 * rm32;
+        m33 = this.m23 * rm32;
+        this.m20 = m20;
+        this.m21 = m21;
+        this.m22 = m22;
+        this.m23 = m23;
         
         return this;
     }

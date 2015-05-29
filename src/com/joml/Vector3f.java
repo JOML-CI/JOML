@@ -55,28 +55,6 @@ public class Vector3f implements Serializable, Externalizable {
     }
     
     /**
-     * Create a new {@link Vector3f} whose components are initialized with the components of the given javax.vecmath vector.
-     * 
-     * @param javaxVecmathVector
-     */
-    public Vector3f(javax.vecmath.Vector3f javaxVecmathVector) {
-        this.x = javaxVecmathVector.x;
-        this.y = javaxVecmathVector.y;
-        this.z = javaxVecmathVector.z;
-    }
-    
-    /**
-     * Create a new {@link Vector3f} whose components are initialized with the components of the given org.lwjgl.util.vector vector.
-     * 
-     * @param lwjglVector
-     */
-    public Vector3f(org.lwjgl.util.vector.Vector3f lwjglVector) {
-        this.x = lwjglVector.x;
-        this.y = lwjglVector.y;
-        this.z = lwjglVector.z;
-    }
-
-    /**
      * Set the x, y and z attributes to match the supplied vector.
      * 
      * @param v
@@ -95,7 +73,7 @@ public class Vector3f implements Serializable, Externalizable {
      * @param javaxVecmathVector
      * @return this
      */
-    public Vector3f set(javax.vecmath.Vector3f javaxVecmathVector) {
+    public Vector3f fromVector(javax.vecmath.Vector3f javaxVecmathVector) {
         x = javaxVecmathVector.x;
         y = javaxVecmathVector.y;
         z = javaxVecmathVector.z;
@@ -108,7 +86,7 @@ public class Vector3f implements Serializable, Externalizable {
      * @param lwjglVector
      * @return this
      */
-    public Vector3f set(org.lwjgl.util.vector.Vector3f lwjglVector) {
+    public Vector3f fromVector(org.lwjgl.util.vector.Vector3f lwjglVector) {
         this.x = lwjglVector.x;
         this.y = lwjglVector.y;
         this.z = lwjglVector.z;
