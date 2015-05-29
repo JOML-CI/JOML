@@ -1150,6 +1150,123 @@ public class Matrix4f implements Serializable, Externalizable {
     public Matrix4f scale(float xyz) {
         return scale(xyz, xyz, xyz);
     }
+    
+    /**
+     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees.
+     * <p>
+     * If <code>M</code> is this matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4f rotateX(float ang) {
+        float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
+        float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
+        float rm11 = cos;
+        float rm21 = -sin;
+        float rm12 = sin;
+        float rm22 = cos;
+
+        // add temporaries for dependent values
+        float nm10 = m10 * rm11 + m20 * rm12;
+        float nm11 = m11 * rm11 + m21 * rm12;
+        float nm12 = m12 * rm11 + m22 * rm12;
+        float nm13 = m13 * rm11 + m23 * rm12;
+        // set non-dependent values directly
+        m20 = m10 * rm21 + m20 * rm22;
+        m21 = m11 * rm21 + m21 * rm22;
+        m22 = m12 * rm21 + m22 * rm22;
+        m23 = m13 * rm21 + m23 * rm22;
+        // set other values
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
+        m13 = nm13;
+        return this;
+    }
+
+    /**
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees.
+     * <p>
+     * If <code>M</code> is this matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4f rotateY(float ang) {
+        float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
+        float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
+        float rm00 = cos;
+        float rm20 = sin;
+        float rm02 = -sin;
+        float rm22 = cos;
+
+        // add temporaries for dependent values
+        float nm00 = m00 * rm00 + m20 * rm02;
+        float nm01 = m01 * rm00 + m21 * rm02;
+        float nm02 = m02 * rm00 + m22 * rm02;
+        float nm03 = m03 * rm00 + m23 * rm02;
+        // set non-dependent values directly
+        m20 = m00 * rm20 + m20 * rm22;
+        m21 = m01 * rm20 + m21 * rm22;
+        m22 = m02 * rm20 + m22 * rm22;
+        m23 = m03 * rm20 + m23 * rm22;
+        // set other values
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m03 = nm03;
+        return this;
+    }
+
+    /**
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees.
+     * <p>
+     * If <code>M</code> is this matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4f rotateZ(float ang) {
+        float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
+        float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
+        float rm00 = cos;
+        float rm10 = -sin;
+        float rm01 = sin;
+        float rm11 = cos;
+
+        // add temporaries for dependent values
+        float nm00 = m00 * rm00 + m10 * rm01;
+        float nm01 = m01 * rm00 + m11 * rm01;
+        float nm02 = m02 * rm00 + m12 * rm01;
+        float nm03 = m03 * rm00 + m13 * rm01;
+        float nm10 = m00 * rm10 + m10 * rm11;
+        float nm11 = m01 * rm10 + m11 * rm11;
+        float nm12 = m02 * rm10 + m12 * rm11;
+        float nm13 = m03 * rm10 + m13 * rm11;
+        // set other values
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m03 = nm03;
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
+        m13 = nm13;
+        return this;
+    }
 
     /**
      * Apply rotation to this matrix by rotating the given amount of degrees
@@ -1161,7 +1278,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * , the rotation will be applied first!
      * 
      * @param ang
-     *            the angle is in degrees
+     *            the angle in degrees
      * @param x
      *            the x component of the axis
      * @param y
