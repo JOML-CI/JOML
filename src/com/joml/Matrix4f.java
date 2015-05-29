@@ -1257,4 +1257,120 @@ public class Matrix4f implements Serializable, Externalizable {
         m33 = in.readFloat();
     }
 
+    /**
+     * Calculate an orthographic projection frustum/matrix using the supplied
+     * parameters.
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar) {
+        zero();
+        m00 = 2.0f / (right - left);
+        m11 = 2.0f / (top - bottom);
+        m22 = -2.0f / (zFar - zNear);
+        m30 = -(right + left) / (right - left);
+        m31 = -(top + bottom) / (top - bottom);
+        m32 = -(zFar + zNear) / (zFar - zNear);
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Calculate a view matrix.
+     * 
+     * @param position
+     *            The position of the camera
+     * @param centre
+     *            The point in space to look at
+     * @param up
+     *            The direction of "up". In most cases it is (x=0, y=1, z=0)
+     * @return this
+     */
+    public Matrix4f lookAt(Vector3f position, Vector3f centre, Vector3f up) {
+        // Compute direction from position to lookAt
+        float dirX, dirY, dirZ;
+        dirX = centre.x - position.x;
+        dirY = centre.y - position.y;
+        dirZ = centre.z - position.z;
+        // Normalize direction
+        float dirLength = Vector3f.distance(position, centre);
+        dirX /= dirLength;
+        dirY /= dirLength;
+        dirZ /= dirLength;
+        // Normalize up
+        float upX, upY, upZ;
+        upX = up.x;
+        upY = up.y;
+        upZ = up.z;
+        float upLength = up.length();
+        upX /= upLength;
+        upY /= upLength;
+        upZ /= upLength;
+        // right = direction x up
+        float rightX, rightY, rightZ;
+        rightX = dirY * upZ - dirZ * upY;
+        rightY = dirZ * upX - dirX * upZ;
+        rightZ = dirX * upY - dirY * upX;
+        // up = right x direction
+        upX = rightY * dirZ - rightZ * dirY;
+        upY = rightZ * dirX - rightX * dirZ;
+        upZ = rightX * dirY - rightY * dirX;
+        // Set matrix elements
+        m00 = rightX;
+        m01 = upX;
+        m02 = -dirX;
+        m03 = 0.0f;
+        m10 = rightY;
+        m11 = upY;
+        m12 = -dirY;
+        m13 = 0.0f;
+        m20 = rightZ;
+        m21 = upZ;
+        m22 = -dirZ;
+        m23 = 0.0f;
+        m30 = -rightX * position.x - rightY * position.y - rightZ * position.z;
+        m31 = -upX * position.x - upY * position.y - upZ * position.z;
+        m32 = dirX * position.x + dirY * position.y + dirZ * position.z;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Calculate a perspective projection matrix using the supplied parameters.
+     * 
+     * @param fovy
+     *            Field of view
+     * @param aspect
+     *            Aspect ratio (display width / display height)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar) {
+        float y_scale = (float) TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0));
+        float x_scale = y_scale / aspect;
+        float frustrum_length = zFar - zNear;
+        zero();
+        m00 = x_scale;
+        m11 = y_scale;
+        m22 = -((zFar + zNear) / frustrum_length);
+        m23 = -1.0f;
+        m32 = -((2.0f * zNear * zFar) / frustrum_length);
+        return this;
+    }
+
 }
