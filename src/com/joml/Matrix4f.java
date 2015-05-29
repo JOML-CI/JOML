@@ -1569,38 +1569,7 @@ public class Matrix4f implements Serializable, Externalizable {
         float fr = fl + 2.0f * w;
         float fb = -h;
         float ft = fb + 2.0f * h;
-        float fn = zNear;
-        float ff = zFar;
-        
-        // calculate right matrix elements
-        float rm00 = 2.0f * fn / (fr - fl);
-        float rm11 = 2.0f * fn / (ft - fb);
-        float rm22 = -(ff + fn) / (ff - fn);
-        float rm32 = -2.0f * ff * fn / (ff - fn);
-        
-        // perform optimized matrix multiplication
-        m00 = m00 * rm00;
-        m01 = m01 * rm00;
-        m02 = m02 * rm00;
-        m03 = m03 * rm00;
-        m10 = m10 * rm11;
-        m11 = m11 * rm11;
-        m12 = m12 * rm11;
-        m13 = m13 * rm11;
-        float m20 = this.m20 * rm22 - m30;
-        float m21 = this.m21 * rm22 - m31;
-        float m22 = this.m22 * rm22 - m32;
-        float m23 = this.m23 * rm22 - m33;
-        m30 = this.m20 * rm32;
-        m31 = this.m21 * rm32;
-        m32 = this.m22 * rm32;
-        m33 = this.m23 * rm32;
-        this.m20 = m20;
-        this.m21 = m21;
-        this.m22 = m22;
-        this.m23 = m23;
-        
-        return this;
+        return perspective(fl, fr, fb, ft, zNear, zFar);
     }
 
     /**
