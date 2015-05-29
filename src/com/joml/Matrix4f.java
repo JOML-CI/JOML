@@ -19,6 +19,7 @@
 package com.joml;
 
 import java.nio.FloatBuffer;
+import java.text.DecimalFormat;
 
 /**
  * Matrix4f
@@ -687,10 +688,11 @@ public class Matrix4f {
     }
 
     public String toString() {
-        return "Matrix4f { " + this.m00 + ", " + this.m10 + ", " + this.m20 + ", " + this.m30 + ",\n"
-                + "           " + this.m01 + ", " + this.m11 + ", " + this.m21 + ", " + this.m31 + ",\n"
-                + "           " + this.m02 + ", " + this.m12 + ", " + this.m22 + ", " + this.m32 + ",\n"
-                + "           " + this.m03 + ", " + this.m13 + ", " + this.m23 + ", " + this.m33 + " }\n";
+        DecimalFormat formatter = new DecimalFormat("0.000E0");
+        return "Matrix4f { " + formatter.format(this.m00) + ", " + formatter.format(this.m10) + ", " + formatter.format(this.m20) + ", " + formatter.format(this.m30) + ",\n"
+             + "           " + formatter.format(this.m01) + ", " + formatter.format(this.m11) + ", " + formatter.format(this.m21) + ", " + formatter.format(this.m31) + ",\n"
+             + "           " + formatter.format(this.m02) + ", " + formatter.format(this.m12) + ", " + formatter.format(this.m22) + ", " + formatter.format(this.m32) + ",\n"
+             + "           " + formatter.format(this.m03) + ", " + formatter.format(this.m13) + ", " + formatter.format(this.m23) + ", " + formatter.format(this.m33) + " }\n";
     }
 
     /**
@@ -1107,7 +1109,7 @@ public class Matrix4f {
      * units in x, y and z.
      * <p>
      * If <code>M</code> is this matrix and <code>T</code> the translation
-     * matrix, then the new current matrix will be <code>M * T</code>. So when
+     * matrix, then the new matrix will be <code>M * T</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>M * T * v</code>, the translation will be applied first!
      * 
