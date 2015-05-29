@@ -983,7 +983,7 @@ public class Matrix4f {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the unit axes by the given x,
+     * Apply scaling to this matrix by scaling the unit axes by the given x,
      * y and z factors.
      * <p>
      * If <code>M</code> is this matrix and <code>S</code> the scaling matrix,
@@ -1018,6 +1018,24 @@ public class Matrix4f {
         c.m22 = c.m22 * z;
         c.m23 = c.m23 * z;
         return this;
+    }
+
+    /**
+     * Apply scaling to this matrix by uniformly scaling all unit axes by the given xyz factor.
+     * <p>
+     * If <code>M</code> is this matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @see #scale(float, float, float)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @return this
+     */
+    public Matrix4f scale(float xyz) {
+        return scale(xyz, xyz, xyz);
     }
 
     /**
