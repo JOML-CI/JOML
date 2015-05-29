@@ -790,7 +790,7 @@ public class Matrix4f {
      * 			the scale in z
      * @return this
      */
-    public Matrix4f scale(float x, float y, float z) {
+    public Matrix4f scaling(float x, float y, float z) {
     	identity();
         m00 = x;
         m11 = y;
@@ -805,7 +805,7 @@ public class Matrix4f {
      * 			the scale applied to each dimension
      * @return this
      */
-    public Matrix4f scale(Vector3f scale) {
+    public Matrix4f scaling(Vector3f scale) {
     	identity();
         m00 = scale.x;
         m11 = scale.y;
@@ -819,7 +819,7 @@ public class Matrix4f {
      * @param scale
      * 			the scale applied to each dimension
      */
-    public static void scale(Vector3f scale, Matrix4f dest) {
+    public static void scaling(Vector3f scale, Matrix4f dest) {
     	dest.identity();
         dest.m00 = scale.x;
         dest.m11 = scale.y;
@@ -837,7 +837,7 @@ public class Matrix4f {
      * 			the scale in z
      * @return this
      */
-    public Matrix4f scale(float x, float y, float z, Matrix4f dest) {
+    public Matrix4f scaling(float x, float y, float z, Matrix4f dest) {
     	dest.identity();
     	dest.m00 = x;
     	dest.m11 = y;
@@ -982,4 +982,133 @@ public class Matrix4f {
     	v.mul(mat);
     }
 
+    /**
+     * Apply scaling to the this matrix by scaling the unit axes by the given x,
+     * y and z factors.
+     * <p>
+     * If <code>M</code> is this matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @return this
+     */
+    public Matrix4f scale(float x, float y, float z) {
+        Matrix4f c = this;
+        // scale matrix elements:
+        // m00 = x, m11 = y, m22 = z
+        // m33 = 1
+        // all others = 0
+        c.m00 = c.m00 * x;
+        c.m01 = c.m01 * x;
+        c.m02 = c.m02 * x;
+        c.m03 = c.m03 * x;
+        c.m10 = c.m10 * y;
+        c.m11 = c.m11 * y;
+        c.m12 = c.m12 * y;
+        c.m13 = c.m13 * y;
+        c.m20 = c.m20 * z;
+        c.m21 = c.m21 * z;
+        c.m22 = c.m22 * z;
+        c.m23 = c.m23 * z;
+        return this;
+    }
+
+    /**
+     * Apply rotation to this matrix by rotating the given amount of degrees
+     * about the given axis specified as x, y and z components.
+     * <p>
+     * If <code>M</code> is this matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * 
+     * @param ang
+     *            the angle is in degrees
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @return this
+     */
+    public Matrix4f rotate(float ang, float x, float y, float z) {
+        Matrix4f c = this;
+        // rotation matrix elements:
+        // m30, m31, m32, m03, m13, m23 = 0
+        // m33 = 1
+        float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
+        float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
+        float m00 = (cos + x * x * (1.0f - cos));
+        float m10 = x * y * (1.0f - cos) - z * sin;
+        float m20 = x * z * (1.0f - cos) + y * sin;
+        float m01 = y * x * (1.0f - cos) + z * sin;
+        float m11 = cos + y * y * (1.0f - cos);
+        float m21 = y * z * (1.0f - cos) - x * sin;
+        float m02 = z * x * (1.0f - cos) - y * sin;
+        float m12 = z * y * (1.0f - cos) + x * sin;
+        float m22 = cos + z * z * (1.0f - cos);
+
+        float nm00 = c.m00 * m00 + c.m10 * m01 + c.m20 * m02;
+        float nm01 = c.m01 * m00 + c.m11 * m01 + c.m21 * m02;
+        float nm02 = c.m02 * m00 + c.m12 * m01 + c.m22 * m02;
+        float nm03 = c.m03 * m00 + c.m13 * m01 + c.m23 * m02;
+        float nm10 = c.m00 * m10 + c.m10 * m11 + c.m20 * m12;
+        float nm11 = c.m01 * m10 + c.m11 * m11 + c.m21 * m12;
+        float nm12 = c.m02 * m10 + c.m12 * m11 + c.m22 * m12;
+        float nm13 = c.m03 * m10 + c.m13 * m11 + c.m23 * m12;
+        float nm20 = c.m00 * m20 + c.m10 * m21 + c.m20 * m22;
+        float nm21 = c.m01 * m20 + c.m11 * m21 + c.m21 * m22;
+        float nm22 = c.m02 * m20 + c.m12 * m21 + c.m22 * m22;
+        float nm23 = c.m03 * m20 + c.m13 * m21 + c.m23 * m22;
+
+        c.m00 = nm00;
+        c.m01 = nm01;
+        c.m02 = nm02;
+        c.m03 = nm03;
+        c.m10 = nm10;
+        c.m11 = nm11;
+        c.m12 = nm12;
+        c.m13 = nm13;
+        c.m20 = nm20;
+        c.m21 = nm21;
+        c.m22 = nm22;
+        c.m23 = nm23;
+        return this;
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of
+     * units in x, y and z.
+     * <p>
+     * If <code>M</code> is this matrix and <code>T</code> the translation
+     * matrix, then the new current matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * 
+     * @param x
+     * @param y
+     * @param z
+     * @return this
+     */
+    public Matrix4f translate(float x, float y, float z) {
+        Matrix4f c = this;
+        // translation matrix elements:
+        // m00, m11, m22, m33 = 1
+        // m30 = x, m31 = y, m32 = z
+        // all others = 0
+        c.m30 = c.m00 * x + c.m10 * y + c.m20 * z + c.m30;
+        c.m31 = c.m01 * x + c.m11 * y + c.m21 * z + c.m31;
+        c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
+        c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
+        return this;
+    }
+    
 }
