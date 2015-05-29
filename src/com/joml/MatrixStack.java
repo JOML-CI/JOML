@@ -692,4 +692,63 @@ public class MatrixStack implements Serializable, Externalizable {
         }
     }
 
+    /**
+     * Apply a "lookat" transformation to the current matrix.
+     * 
+     * @param position
+     *            the position of the camera
+     * @param centre
+     *            the point in space to look at
+     * @param up
+     *            the direction of 'up'. In most cases it is (x=0, y=1, z=0)
+     * @return this
+     */
+    public MatrixStack lookAt(Vector3f position, Vector3f centre, Vector3f up) {
+        mats[curr].lookAt(position, centre, up);
+        return this;
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation to the
+     * current matrix.
+     * 
+     * @param fovy
+     *            the vertical field of view in degrees
+     * @param aspect
+     *            the aspect ratio (i.e. width / height)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public MatrixStack perspective(float fovy, float aspect, float zNear,
+            float zFar) {
+        mats[curr].perspective(fovy, aspect, zNear, zFar);
+        return this;
+    }
+
+    /**
+     * Apply an orthographic projection transformation to the current matrix.
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public MatrixStack ortho(float left, float right, float bottom, float top,
+            float zNear, float zFar) {
+        mats[curr].ortho(left, right, bottom, top, zNear, zFar);
+        return this;
+    }
+
 }
