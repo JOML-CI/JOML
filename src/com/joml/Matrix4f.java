@@ -1258,8 +1258,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Calculate an orthographic projection frustum/matrix using the supplied
-     * parameters.
+     * Apply an orthographic projection transformation to this matrix.
      * 
      * @param left
      *            the distance from the center to the left frustum edge
@@ -1276,26 +1275,44 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar) {
-        zero();
-        m00 = 2.0f / (right - left);
-        m11 = 2.0f / (top - bottom);
-        m22 = -2.0f / (zFar - zNear);
-        m30 = -(right + left) / (right - left);
-        m31 = -(top + bottom) / (top - bottom);
-        m32 = -(zFar + zNear) / (zFar - zNear);
-        m33 = 1.0f;
+        // calculate left matrix elements
+        float nm00 = 2.0f / (right - left);
+        float nm11 = 2.0f / (top - bottom);
+        float nm22 = -2.0f / (zFar - zNear);
+        float nm30 = -(right + left) / (right - left);
+        float nm31 = -(top + bottom) / (top - bottom);
+        float nm32 = -(zFar + zNear) / (zFar - zNear);
+        
+        // perform optimized multiplication
+        m00 = m00 * nm00;
+        m01 = m01 * nm00;
+        m02 = m02 * nm00;
+        m03 = m03 * nm00;
+        m10 = m10 * nm11;
+        m11 = m11 * nm11;
+        m12 = m12 * nm11;
+        m13 = m13 * nm11;
+        m20 = m20 * nm22;
+        m21 = m21 * nm22;
+        m22 = m22 * nm22;
+        m23 = m23 * nm22;
+        m30 = m00 * nm30 + m10 * nm31 + m20 * nm32 + m30;
+        m31 = m01 * nm30 + m11 * nm31 + m21 * nm32 + m31;
+        m32 = m02 * nm30 + m12 * nm31 + m22 * nm32 + m32;
+        m33 = m03 * nm30 + m13 * nm31 + m23 * nm32 + m33;
+
         return this;
     }
 
     /**
-     * Calculate a view matrix.
+     * Apply a "lookat" transformation to this matrix.
      * 
      * @param position
-     *            The position of the camera
+     *            the position of the camera
      * @param centre
-     *            The point in space to look at
+     *            the point in space to look at
      * @param up
-     *            The direction of "up". In most cases it is (x=0, y=1, z=0)
+     *            the direction of 'up'. In most cases it is (x=0, y=1, z=0)
      * @return this
      */
     public Matrix4f lookAt(Vector3f position, Vector3f centre, Vector3f up) {
@@ -1327,33 +1344,49 @@ public class Matrix4f implements Serializable, Externalizable {
         upX = rightY * dirZ - rightZ * dirY;
         upY = rightZ * dirX - rightX * dirZ;
         upZ = rightX * dirY - rightY * dirX;
-        // Set matrix elements
-        m00 = rightX;
-        m01 = upX;
-        m02 = -dirX;
-        m03 = 0.0f;
-        m10 = rightY;
-        m11 = upY;
-        m12 = -dirY;
-        m13 = 0.0f;
-        m20 = rightZ;
-        m21 = upZ;
-        m22 = -dirZ;
-        m23 = 0.0f;
-        m30 = -rightX * position.x - rightY * position.y - rightZ * position.z;
-        m31 = -upX * position.x - upY * position.y - upZ * position.z;
-        m32 = dirX * position.x + dirY * position.y + dirZ * position.z;
-        m33 = 1.0f;
+        
+        // calculate left matrix elements
+        float nm00 = rightX;
+        float nm01 = upX;
+        float nm02 = -dirX;
+        float nm10 = rightY;
+        float nm11 = upY;
+        float nm12 = -dirY;
+        float nm20 = rightZ;
+        float nm21 = upZ;
+        float nm22 = -dirZ;
+        float nm30 = -rightX * position.x - rightY * position.y - rightZ * position.z;
+        float nm31 = -upX * position.x - upY * position.y - upZ * position.z;
+        float nm32 = dirX * position.x + dirY * position.y + dirZ * position.z;
+        
+        // perform multiplication
+        m00 = m00 * nm00 + m10 * nm01 + m20 * nm02;
+        m01 = m01 * nm00 + m11 * nm01 + m21 * nm02;
+        m02 = m02 * nm00 + m12 * nm01 + m22 * nm02;
+        m03 = m03 * nm00 + m13 * nm01 + m23 * nm02;
+        m10 = m00 * nm10 + m10 * nm11 + m20 * nm12;
+        m11 = m01 * nm10 + m11 * nm11 + m21 * nm12;
+        m12 = m02 * nm10 + m12 * nm11 + m22 * nm12;
+        m13 = m03 * nm10 + m13 * nm11 + m23 * nm12;
+        m20 = m00 * nm20 + m10 * nm21 + m20 * nm22;
+        m21 = m01 * nm20 + m11 * nm21 + m21 * nm22;
+        m22 = m02 * nm20 + m12 * nm21 + m22 * nm22;
+        m23 = m03 * nm20 + m13 * nm21 + m23 * nm22;
+        m30 = m00 * nm30 + m10 * nm31 + m20 * nm32 + m30;
+        m31 = m01 * nm30 + m11 * nm31 + m21 * nm32 + m31;
+        m32 = m02 * nm30 + m12 * nm31 + m22 * nm32 + m32;
+        m33 = m03 * nm30 + m13 * nm31 + m23 * nm32 + m33;
+        
         return this;
     }
 
     /**
-     * Calculate a perspective projection matrix using the supplied parameters.
+     * Apply a symmetric perspective projection frustum transformation to this matrix.
      * 
      * @param fovy
-     *            Field of view
+     *            the vertical field of view in degrees
      * @param aspect
-     *            Aspect ratio (display width / display height)
+     *            the aspect ratio (i.e. width / height)
      * @param zNear
      *            near clipping plane distance
      * @param zFar
@@ -1364,12 +1397,31 @@ public class Matrix4f implements Serializable, Externalizable {
         float y_scale = (float) TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0));
         float x_scale = y_scale / aspect;
         float frustrum_length = zFar - zNear;
-        zero();
-        m00 = x_scale;
-        m11 = y_scale;
-        m22 = -((zFar + zNear) / frustrum_length);
-        m23 = -1.0f;
-        m32 = -((2.0f * zNear * zFar) / frustrum_length);
+        
+        // calculate left matrix elements
+        float nm00 = x_scale;
+        float nm11 = y_scale;
+        float nm22 = -((zFar + zNear) / frustrum_length);
+        float nm32 = -((2.0f * zNear * zFar) / frustrum_length);
+        
+        // perform optimized matrix multiplication
+        m00 = m00 * nm00;
+        m01 = m01 * nm00;
+        m02 = m02 * nm00;
+        m03 = m03 * nm00;
+        m10 = m10 * nm11;
+        m11 = m11 * nm11;
+        m12 = m12 * nm11;
+        m13 = m13 * nm11;
+        m20 = m20 * nm22 - m30;
+        m21 = m21 * nm22 - m31;
+        m22 = m22 * nm22 - m32;
+        m23 = m23 * nm22 - m33;
+        m30 = m20 * nm32;
+        m31 = m21 * nm32;
+        m32 = m22 * nm32;
+        m33 = m23 * nm32;
+        
         return this;
     }
 
