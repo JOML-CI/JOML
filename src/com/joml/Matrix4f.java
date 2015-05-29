@@ -1280,6 +1280,82 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Apply a rotation transformation to this matrix to make +z point along <code>dir</code>. 
+     * 
+     * @param direction
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix4f lookAlong(Vector3f dir, Vector3f up) {
+        float dirX, dirY, dirZ;
+        dirX = dir.x;
+        dirY = dir.y;
+        dirZ = dir.z;
+        // Normalize direction
+        float dirLength = dir.length();
+        dirX /= dirLength;
+        dirY /= dirLength;
+        dirZ /= dirLength;
+        // Normalize up
+        float upX, upY, upZ;
+        upX = up.x;
+        upY = up.y;
+        upZ = up.z;
+        float upLength = up.length();
+        upX /= upLength;
+        upY /= upLength;
+        upZ /= upLength;
+        // right = direction x up
+        float rightX, rightY, rightZ;
+        rightX = dirY * upZ - dirZ * upY;
+        rightY = dirZ * upX - dirX * upZ;
+        rightZ = dirX * upY - dirY * upX;
+        // up = right x direction
+        upX = rightY * dirZ - rightZ * dirY;
+        upY = rightZ * dirX - rightX * dirZ;
+        upZ = rightX * dirY - rightY * dirX;
+        
+        // calculate left matrix elements
+        float rm00 = rightX;
+        float rm01 = upX;
+        float rm02 = -dirX;
+        float rm10 = rightY;
+        float rm11 = upY;
+        float rm12 = -dirY;
+        float rm20 = rightZ;
+        float rm21 = upZ;
+        float rm22 = -dirZ;
+
+        // perform optimized matrix multiplication
+        // introduce temporaries for dependent results
+        float m00 = this.m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float m01 = this.m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float m02 = this.m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float m03 = this.m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float m10 = this.m00 * rm10 + this.m10 * rm11 + m20 * rm12;
+        float m11 = this.m01 * rm10 + this.m11 * rm11 + m21 * rm12;
+        float m12 = this.m02 * rm10 + this.m12 * rm11 + m22 * rm12;
+        float m13 = this.m03 * rm10 + this.m13 * rm11 + m23 * rm12;
+        m20 = this.m00 * rm20 + this.m10 * rm21 + this.m20 * rm22;
+        m21 = this.m01 * rm20 + this.m11 * rm21 + this.m21 * rm22;
+        m22 = this.m02 * rm20 + this.m12 * rm21 + this.m22 * rm22;
+        m23 = this.m03 * rm20 + this.m13 * rm21 + this.m23 * rm22;
+        // set the rest of the matrix elements
+        this.m00 = m00;
+        this.m01 = m01;
+        this.m02 = m02;
+        this.m03 = m03;
+        this.m10 = m10;
+        this.m11 = m11;
+        this.m12 = m12;
+        this.m13 = m13;
+
+        return this;
+    }
+
+    /**
      * Apply a "lookat" transformation to this matrix.
      * 
      * @param position
@@ -1287,7 +1363,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param centre
      *            the point in space to look at
      * @param up
-     *            the direction of 'up'. In most cases it is (x=0, y=1, z=0)
+     *            the direction of 'up'
      * @return this
      */
     public Matrix4f lookAt(Vector3f position, Vector3f centre, Vector3f up) {
