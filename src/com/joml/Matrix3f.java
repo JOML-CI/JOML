@@ -133,14 +133,14 @@ public class Matrix3f implements Serializable, Externalizable {
         m22 = m1.m22;
         return this;
     }
-    
+
     /**
      * Set the values of this matrix to the ones of the given javax.vecmath.Matrix3f matrix.
      * 
      * @param javaxVecmathMatrix
      * @return this
      */
-    public Matrix3f set(javax.vecmath.Matrix3f javaxVecmathMatrix) {
+    public Matrix3f fromJavaxMatrix(javax.vecmath.Matrix3f javaxVecmathMatrix) {
         this.m00 = javaxVecmathMatrix.m00;
         this.m01 = javaxVecmathMatrix.m10;
         this.m02 = javaxVecmathMatrix.m20;
@@ -152,14 +152,14 @@ public class Matrix3f implements Serializable, Externalizable {
         this.m22 = javaxVecmathMatrix.m22;
         return this;
     }
-    
+
     /**
      * Set the values of this matrix to the ones of the given org.lwjgl.util.vector.Matrix3f matrix.
      * 
      * @param lwjglMatrix
      * @return this
      */
-    public Matrix3f set(org.lwjgl.util.vector.Matrix3f lwjglMatrix) {
+    public Matrix3f fromLwjglMatrix(org.lwjgl.util.vector.Matrix3f lwjglMatrix) {
         m00 = lwjglMatrix.m00;
         m01 = lwjglMatrix.m01;
         m02 = lwjglMatrix.m02;
