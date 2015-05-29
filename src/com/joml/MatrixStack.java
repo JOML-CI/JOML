@@ -268,7 +268,7 @@ public class MatrixStack {
             throw new IllegalArgumentException(
                     "dest does not have enough space");
         }
-        mats[curr].store(dest);
+        mats[curr].get(dest);
         return dest;
     }
 
@@ -294,7 +294,7 @@ public class MatrixStack {
             throw new IllegalArgumentException(
                     "dest does not have enough elements");
         }
-        mats[curr].store(dest, offset);
+        mats[curr].get(dest, offset);
         return dest;
     }
 

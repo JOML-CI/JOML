@@ -68,6 +68,40 @@ public class Matrix3f {
         this.m22 = mat.m22;
     }
     
+    /**
+     * Create a new matrix that is initialized with the values of the given javax.vecmath.Matrix3f.
+     * 
+     * @param javaxVecmathMatrix
+     */
+    public Matrix3f(javax.vecmath.Matrix3f javaxVecmathMatrix) {
+        this.m00 = javaxVecmathMatrix.m00;
+        this.m01 = javaxVecmathMatrix.m10;
+        this.m02 = javaxVecmathMatrix.m20;
+        this.m10 = javaxVecmathMatrix.m01;
+        this.m11 = javaxVecmathMatrix.m11;
+        this.m12 = javaxVecmathMatrix.m21;
+        this.m20 = javaxVecmathMatrix.m02;
+        this.m21 = javaxVecmathMatrix.m12;
+        this.m22 = javaxVecmathMatrix.m22;
+    }
+    
+    /**
+     * Create a new matrix that is initialized with the values of the given org.lwjgl.util.vector.Matrix3f.
+     * 
+     * @param lwjglMatrix
+     */
+    public Matrix3f(org.lwjgl.util.vector.Matrix3f lwjglMatrix) {
+        this.m00 = lwjglMatrix.m00;
+        this.m01 = lwjglMatrix.m01;
+        this.m02 = lwjglMatrix.m02;
+        this.m10 = lwjglMatrix.m10;
+        this.m11 = lwjglMatrix.m11;
+        this.m12 = lwjglMatrix.m12;
+        this.m20 = lwjglMatrix.m20;
+        this.m21 = lwjglMatrix.m21;
+        this.m22 = lwjglMatrix.m22;
+    }
+    
     public Matrix3f(float m00, float m01, float m02, float m10, float m11,
                     float m12, float m20, float m21, float m22) {
         this.m00 = m00;
@@ -82,7 +116,7 @@ public class Matrix3f {
     }
 
     /** Set the values in this matrix to the ones in m1 */
-    public void set(Matrix3f m1) {
+    public Matrix3f set(Matrix3f m1) {
         m00 = m1.m00;
         m01 = m1.m01;
         m02 = m1.m02;
@@ -92,19 +126,63 @@ public class Matrix3f {
         m20 = m1.m20;
         m21 = m1.m21;
         m22 = m1.m22;
+        return this;
+    }
+    
+    /**
+     * Set the values of this matrix to the ones of the given javax.vecmath.Matrix3f matrix.
+     * 
+     * @param javaxVecmathMatrix
+     * @return this
+     */
+    public Matrix3f set(javax.vecmath.Matrix3f javaxVecmathMatrix) {
+        this.m00 = javaxVecmathMatrix.m00;
+        this.m01 = javaxVecmathMatrix.m10;
+        this.m02 = javaxVecmathMatrix.m20;
+        this.m10 = javaxVecmathMatrix.m01;
+        this.m11 = javaxVecmathMatrix.m11;
+        this.m12 = javaxVecmathMatrix.m21;
+        this.m20 = javaxVecmathMatrix.m02;
+        this.m21 = javaxVecmathMatrix.m12;
+        this.m22 = javaxVecmathMatrix.m22;
+        return this;
+    }
+    
+    /**
+     * Set the values of this matrix to the ones of the given org.lwjgl.util.vector.Matrix3f matrix.
+     * 
+     * @param lwjglMatrix
+     * @return this
+     */
+    public Matrix3f set(org.lwjgl.util.vector.Matrix3f lwjglMatrix) {
+        m00 = lwjglMatrix.m00;
+        m01 = lwjglMatrix.m01;
+        m02 = lwjglMatrix.m02;
+        m10 = lwjglMatrix.m10;
+        m11 = lwjglMatrix.m11;
+        m12 = lwjglMatrix.m12;
+        m20 = lwjglMatrix.m20;
+        m21 = lwjglMatrix.m21;
+        m22 = lwjglMatrix.m22;
+        return this;
     }
 
-    /** Multiplies this matrix by the supplied matrix. This matrix will be the left-sided one */
-    public void mul(Matrix3f right) {
-        set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02,
-             this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02,
-             this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02,
-             this.m00 * right.m10 + this.m10 * right.m11 + this.m20 * right.m12,
-             this.m01 * right.m10 + this.m11 * right.m11 + this.m21 * right.m12,
-             this.m02 * right.m10 + this.m12 * right.m11 + this.m22 * right.m12,
-             this.m00 * right.m20 + this.m10 * right.m21 + this.m20 * right.m22,
-             this.m01 * right.m20 + this.m11 * right.m21 + this.m21 * right.m22,
-             this.m02 * right.m20 + this.m12 * right.m21 + this.m22 * right.m22 );
+    /**
+     * Multiplies this matrix by the supplied matrix. This matrix will be the left-sided one.
+     * 
+     * @param right
+     * @return this
+     */
+    public Matrix3f mul(Matrix3f right) {
+        return set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02,
+                    this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02,
+                    this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02,
+                    this.m00 * right.m10 + this.m10 * right.m11 + this.m20 * right.m12,
+                    this.m01 * right.m10 + this.m11 * right.m11 + this.m21 * right.m12,
+                    this.m02 * right.m10 + this.m12 * right.m11 + this.m22 * right.m12,
+                    this.m00 * right.m20 + this.m10 * right.m21 + this.m20 * right.m22,
+                    this.m01 * right.m20 + this.m11 * right.m21 + this.m21 * right.m22,
+                    this.m02 * right.m20 + this.m12 * right.m21 + this.m22 * right.m22 );
     }
     
     /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices */
@@ -141,7 +219,7 @@ public class Matrix3f {
      * m02, m12, m22
      * 
      */
-    public void set(float m00, float m01, float m02, float m10, float m11,
+    public Matrix3f set(float m00, float m01, float m02, float m10, float m11,
                     float m12, float m20, float m21, float m22) {
         this.m00 = m00;
         this.m01 = m01;
@@ -152,6 +230,7 @@ public class Matrix3f {
         this.m20 = m20;
         this.m21 = m21;
         this.m22 = m22;
+        return this;
     }
 
     /** Sets the values in this matrix based on the supplied float array. The result looks like this:<br><br>
@@ -162,8 +241,9 @@ public class Matrix3f {
      * 
      * Only uses the first 9 values, all others are ignored
      * 
+     * @return this
      */
-    public void set(float m[]) {
+    public Matrix3f set(float m[]) {
         m00 = m[0];
         m01 = m[1];
         m02 = m[2];
@@ -173,6 +253,7 @@ public class Matrix3f {
         m20 = m[6];
         m21 = m[7];
         m22 = m[8];
+        return this;
     }
 
     /** Returns the determinant of this Matrix */
@@ -185,24 +266,28 @@ public class Matrix3f {
                + (m10 * m01 * m22));
     }
 
-    /** Inverts this matrix */
-    public void invert() {
+    /**
+     * Invert this matrix.
+     *
+     * @return this
+     */
+    public Matrix3f invert() {
         float s = determinant();
         
         if (s == 0.0f) {
-            return;
+            return this;
         }
         s = 1.0f / s;
 
-       set( (m11 * m22) - (m21 * m12) * s,
-           -((m01 * m22) - (m21 * m02)) * s,
-            (m01 * m12) - (m11 * m02) * s,
-           -((m10 * m22) - (m20 * m12)) * s,
-            (m00 * m22) - (m20 * m02) * s,
-           -((m00 * m12) - (m10 * m02)) * s,
-            (m10 * m21) - (m20 * m11) * s,
-           -((m00 * m21) - (m20 * m01)) * s,
-            (m00 * m11) - (m10 * m01) * s);
+        return set((m11 * m22) - (m21 * m12) * s,
+                 -((m01 * m22) - (m21 * m02)) * s,
+                   (m01 * m12) - (m11 * m02) * s,
+                 -((m10 * m22) - (m20 * m12)) * s,
+                   (m00 * m22) - (m20 * m02) * s,
+                 -((m00 * m12) - (m10 * m02)) * s,
+                   (m10 * m21) - (m20 * m11) * s,
+                 -((m00 * m21) - (m20 * m01)) * s,
+                   (m00 * m11) - (m10 * m01) * s);
     }
     
     /** Inverts the source matrix and stores the results in dest. Does not modify the source */
@@ -264,10 +349,10 @@ public class Matrix3f {
     }
     
     /** Transposes this matrix */
-    public void transpose() {
-        set(m00, m10, m20,
-            m01, m11, m21,
-            m02, m12, m22);
+    public Matrix3f transpose() {
+        return set(m00, m10, m20,
+                   m01, m11, m21,
+                   m02, m12, m22);
     }
     
     /** Transposes the supplied original matrix and stores the results in dest. The original is not modified */
@@ -310,7 +395,7 @@ public class Matrix3f {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translation(float x, float y) {
+    public Matrix3f translation(float x, float y) {
         this.m00 = 1.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;
@@ -320,6 +405,7 @@ public class Matrix3f {
         this.m20 = x;
         this.m21 = y;
         this.m22 = 1.0f;
+        return this;
     }
 
     /**
@@ -348,8 +434,8 @@ public class Matrix3f {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translation(Vector2f position) {
-        translation(position.x, position.y);
+    public Matrix3f translation(Vector2f position) {
+        return translation(position.x, position.y);
     }
     
     /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
@@ -386,7 +472,7 @@ public class Matrix3f {
     }
 
     /** Stores this matrix in the supplied FloatBuffer */
-    public void store(FloatBuffer buffer) {
+    public Matrix3f get(FloatBuffer buffer) {
         buffer.put(this.m00);
         buffer.put(this.m01);
         buffer.put(this.m02);
@@ -396,10 +482,11 @@ public class Matrix3f {
         buffer.put(this.m20);
         buffer.put(this.m21);
         buffer.put(this.m22);
+        return this;
     }
 
     /** Sets all the values within this matrix to 0 */
-    public void zero() {
+    public Matrix3f zero() {
         this.m00 = 0.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;
@@ -409,10 +496,11 @@ public class Matrix3f {
         this.m20 = 0.0f;
         this.m21 = 0.0f;
         this.m22 = 0.0f;
+        return this;
     }
     
     /** Sets this matrix to the identity */
-    public void identity() {
+    public Matrix3f identity() {
         this.m00 = 1.0f;
         this.m01 = 0.0f;
         this.m02 = 0.0f;
@@ -422,6 +510,7 @@ public class Matrix3f {
         this.m20 = 0.0f;
         this.m21 = 0.0f;
         this.m22 = 1.0f;
+        return this;
     }
 
     /**
@@ -433,12 +522,14 @@ public class Matrix3f {
      * 			the scale in y
      * @param z
      * 			the scale in z
+     * @return this
      */
-    public void scale(float x, float y, float z) {
+    public Matrix3f scale(float x, float y, float z) {
     	identity();
         m00 = x;
         m11 = y;
         m22 = z;
+        return this;
     }
     
     /**
@@ -446,12 +537,14 @@ public class Matrix3f {
      * 
      * @param scale
      * 			the scale applied to each dimension
+     * @return this
      */
-    public void scale(Vector3f scale) {
+    public Matrix3f scale(Vector3f scale) {
     	identity();
         m00 = scale.x;
         m11 = scale.y;
         m22 = scale.z;
+        return this;
     }
     
     /**
@@ -460,7 +553,7 @@ public class Matrix3f {
      * @param scale
      * 			the scale applied to each dimension
      */
-    public static void scale(Vector3f scale, Matrix3f dest) {
+    public static void scaling(Vector3f scale, Matrix3f dest) {
     	dest.identity();
         dest.m00 = scale.x;
         dest.m11 = scale.y;
@@ -476,20 +569,24 @@ public class Matrix3f {
      * 			the scale in y
      * @param z
      * 			the scale in z
+     * @return this
      */
-    public void scale(float x, float y, float z, Matrix3f dest) {
+    public Matrix3f scaling(float x, float y, float z, Matrix3f dest) {
     	dest.identity();
     	dest.m00 = x;
     	dest.m11 = y;
     	dest.m22 = z;
+    	return this;
     }
     
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * 
+     * @return this
      */
-    public void rotation(float angle, float x, float y, float z) {
+    public Matrix3f rotation(float angle, float x, float y, float z) {
     	float cos = (float) Math.cos(angle);
     	float sin = (float) Math.sin(angle);
     	m00 = cos + x * x * (1.0f - cos);
@@ -501,10 +598,11 @@ public class Matrix3f {
     	m02 = z * x * (1.0f - cos) - y * sin;
     	m12 = z * y * (1.0f - cos) + x * sin;
     	m22 = cos + z * z * (1.0f - cos);
+    	return this;
     }
     
-    public void rotation(float angle, Vector3f axis) {
-        rotation(angle, axis.x, axis.y, axis.z);
+    public Matrix3f rotation(float angle, Vector3f axis) {
+        return rotation(angle, axis.x, axis.y, axis.z);
     }
     
     /**
@@ -530,8 +628,9 @@ public class Matrix3f {
         rotation(angle, axis.x, axis.y, axis.z, dest);
     }
 
-    public void transform(Vector3f v) {
+    public Matrix3f transform(Vector3f v) {
         v.mul(this);
+        return this;
     }
 
     public static void transform(Matrix3f mat, Vector3f v) {

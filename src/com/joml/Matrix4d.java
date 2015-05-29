@@ -765,7 +765,7 @@ public class Matrix4d {
     }
 
     /** Stores this matrix in the supplied DoubleBuffer */
-    public void store(DoubleBuffer buffer) {
+    public void get(DoubleBuffer buffer) {
         buffer.put(this.m00);
         buffer.put(this.m01);
         buffer.put(this.m02);

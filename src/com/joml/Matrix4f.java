@@ -151,6 +151,30 @@ public class Matrix4f {
     }
     
     /**
+     * Create a new matrix that is initialized with the values of the given org.lwjgl.util.vector.Matrix4f.
+     * 
+     * @param lwjglMatrix
+     */
+    public Matrix4f(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
+        m00 = lwjglMatrix.m00;
+        m01 = lwjglMatrix.m01;
+        m02 = lwjglMatrix.m02;
+        m03 = lwjglMatrix.m03;
+        m10 = lwjglMatrix.m10;
+        m11 = lwjglMatrix.m11;
+        m12 = lwjglMatrix.m12;
+        m13 = lwjglMatrix.m13;
+        m20 = lwjglMatrix.m20;
+        m21 = lwjglMatrix.m21;
+        m22 = lwjglMatrix.m22;
+        m23 = lwjglMatrix.m23;
+        m30 = lwjglMatrix.m30;
+        m31 = lwjglMatrix.m31;
+        m32 = lwjglMatrix.m32;
+        m33 = lwjglMatrix.m33;
+    }
+    
+    /**
      * Reset this matrix to the identity.
      * 
      * @return this
@@ -223,6 +247,32 @@ public class Matrix4f {
         m31 = javaxVecmathMatrix.m13;
         m32 = javaxVecmathMatrix.m23;
         m33 = javaxVecmathMatrix.m33;
+        return this;
+    }
+    
+    /**
+     * Set the values of this matrix to the ones of the given org.lwjgl.util.vector.Matrix4f matrix.
+     * 
+     * @param lwjglMatrix
+     * @return this
+     */
+    public Matrix4f set(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
+        m00 = lwjglMatrix.m00;
+        m01 = lwjglMatrix.m01;
+        m02 = lwjglMatrix.m02;
+        m03 = lwjglMatrix.m03;
+        m10 = lwjglMatrix.m10;
+        m11 = lwjglMatrix.m11;
+        m12 = lwjglMatrix.m12;
+        m13 = lwjglMatrix.m13;
+        m20 = lwjglMatrix.m20;
+        m21 = lwjglMatrix.m21;
+        m22 = lwjglMatrix.m22;
+        m23 = lwjglMatrix.m23;
+        m30 = lwjglMatrix.m30;
+        m31 = lwjglMatrix.m31;
+        m32 = lwjglMatrix.m32;
+        m33 = lwjglMatrix.m33;
         return this;
     }
     
@@ -702,7 +752,7 @@ public class Matrix4f {
      * 
      * @return this
      */
-    public Matrix4f store(FloatBuffer buffer) {
+    public Matrix4f get(FloatBuffer buffer) {
         buffer.put(this.m00);
         buffer.put(this.m01);
         buffer.put(this.m02);
@@ -722,23 +772,55 @@ public class Matrix4f {
         return this;
     }
     
-    public Matrix4f store(javax.vecmath.Matrix4f mat) {
-        mat.m00 = m00;
-        mat.m10 = m01;
-        mat.m20 = m02;
-        mat.m30 = m03;
-        mat.m01 = m10;
-        mat.m11 = m11;
-        mat.m21 = m12;
-        mat.m31 = m13;
-        mat.m02 = m20;
-        mat.m12 = m21;
-        mat.m22 = m22;
-        mat.m32 = m23;
-        mat.m03 = m30;
-        mat.m13 = m31;
-        mat.m23 = m32;
-        mat.m33 = m33;
+    /**
+     * Store the values of this matrix into the given javax.vecmath.Matrix4f.
+     * 
+     * @param javaxVecmathMatrix
+     * @return this
+     */
+    public Matrix4f get(javax.vecmath.Matrix4f javaxVecmathMatrix) {
+        javaxVecmathMatrix.m00 = m00;
+        javaxVecmathMatrix.m10 = m01;
+        javaxVecmathMatrix.m20 = m02;
+        javaxVecmathMatrix.m30 = m03;
+        javaxVecmathMatrix.m01 = m10;
+        javaxVecmathMatrix.m11 = m11;
+        javaxVecmathMatrix.m21 = m12;
+        javaxVecmathMatrix.m31 = m13;
+        javaxVecmathMatrix.m02 = m20;
+        javaxVecmathMatrix.m12 = m21;
+        javaxVecmathMatrix.m22 = m22;
+        javaxVecmathMatrix.m32 = m23;
+        javaxVecmathMatrix.m03 = m30;
+        javaxVecmathMatrix.m13 = m31;
+        javaxVecmathMatrix.m23 = m32;
+        javaxVecmathMatrix.m33 = m33;
+        return this;
+    }
+    
+    /**
+     * Store the values of this matrix into the given org.lwjgl.util.vector.Matrix4f.
+     * 
+     * @param lwjglMatrix
+     * @return this
+     */
+    public Matrix4f get(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
+        lwjglMatrix.m00 = m00;
+        lwjglMatrix.m01 = m01;
+        lwjglMatrix.m02 = m02;
+        lwjglMatrix.m03 = m03;
+        lwjglMatrix.m10 = m10;
+        lwjglMatrix.m11 = m11;
+        lwjglMatrix.m12 = m12;
+        lwjglMatrix.m13 = m13;
+        lwjglMatrix.m20 = m20;
+        lwjglMatrix.m21 = m21;
+        lwjglMatrix.m22 = m22;
+        lwjglMatrix.m23 = m23;
+        lwjglMatrix.m30 = m30;
+        lwjglMatrix.m31 = m31;
+        lwjglMatrix.m32 = m32;
+        lwjglMatrix.m33 = m33;
         return this;
     }
 
@@ -747,7 +829,7 @@ public class Matrix4f {
      * 
      * @return this
      */
-    public Matrix4f store(float[] arr, int offset) {
+    public Matrix4f get(float[] arr, int offset) {
         arr[offset+0] = this.m00;
         arr[offset+1] = this.m01;
         arr[offset+2] = this.m02;
