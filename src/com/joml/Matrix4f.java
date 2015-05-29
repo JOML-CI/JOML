@@ -1394,15 +1394,20 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar) {
-        float y_scale = (float) TrigMath.coTangent(TrigMath.degreesToRadians(fovy / 2.0));
-        float x_scale = y_scale / aspect;
-        float frustrum_length = zFar - zNear;
+        float h = (float)Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
+        float w = h * aspect;
+        float fl = -w;
+        float fr = fl + 2.0f * w;
+        float fb = -h;
+        float ft = fb + 2.0f * h;
+        float fn = zNear;
+        float ff = zFar;
         
         // calculate left matrix elements
-        float nm00 = x_scale;
-        float nm11 = y_scale;
-        float nm22 = -((zFar + zNear) / frustrum_length);
-        float nm32 = -((2.0f * zNear * zFar) / frustrum_length);
+        float nm00 = 2.0f * fn / (fr - fl);
+        float nm11 = 2.0f * fn / (ft - fb);
+        float nm22 = -(ff + fn) / (ff - fn);
+        float nm32 = -2.0f * ff * fn / (ff - fn);
         
         // perform optimized matrix multiplication
         m00 = m00 * nm00;
