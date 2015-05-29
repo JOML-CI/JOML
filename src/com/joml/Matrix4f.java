@@ -71,6 +71,26 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m33 = diagonal;
     }
 
+    /**
+     * Create a new {@link Matrix4f} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3f}
+     * and the rest to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix3f}
+     */
+    public Matrix4f(Matrix3f mat) {
+        this.m00 = mat.m00;
+        this.m01 = mat.m01;
+        this.m02 = mat.m02;
+        this.m10 = mat.m10;
+        this.m11 = mat.m11;
+        this.m12 = mat.m12;
+        this.m20 = mat.m20;
+        this.m21 = mat.m21;
+        this.m22 = mat.m22;
+        this.m33 = 1.0f;
+    }
+
     /** Clones this matrix from the supplied matrix */
     public Matrix4f(Matrix4f mat) {
         this.m00 = mat.m00;
@@ -180,7 +200,28 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m33 = m1.m33;
         return this;
     }
-    
+
+    /**
+     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix3f}
+     * @return this
+     */
+    public Matrix4f set(Matrix3f mat) {
+        this.m00 = mat.m00;
+        this.m01 = mat.m01;
+        this.m02 = mat.m02;
+        this.m10 = mat.m10;
+        this.m11 = mat.m11;
+        this.m12 = mat.m12;
+        this.m20 = mat.m20;
+        this.m21 = mat.m21;
+        this.m22 = mat.m22;
+        this.m33 = 1.0f;
+        return this;
+    }
+
     /**
      * Set the values of this matrix to the ones of the given javax.vecmath matrix.
      * 
@@ -1249,7 +1290,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar) {
-        // calculate left matrix elements
+        // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
         float rm22 = -2.0f / (zFar - zNear);
@@ -1318,7 +1359,7 @@ public class Matrix4f implements Serializable, Externalizable {
         upY = rightZ * dirX - rightX * dirZ;
         upZ = rightX * dirY - rightY * dirX;
         
-        // calculate left matrix elements
+        // calculate right matrix elements
         float rm00 = rightX;
         float rm01 = upX;
         float rm02 = -dirX;
@@ -1407,7 +1448,7 @@ public class Matrix4f implements Serializable, Externalizable {
         upY = rightZ * dirX - rightX * dirZ;
         upZ = rightX * dirY - rightY * dirX;
         
-        // calculate left matrix elements
+        // calculate right matrix elements
         float rm00 = rightX;
         float rm01 = upX;
         float rm02 = -dirX;
@@ -1476,7 +1517,7 @@ public class Matrix4f implements Serializable, Externalizable {
         float fn = zNear;
         float ff = zFar;
         
-        // calculate left matrix elements
+        // calculate right matrix elements
         float rm00 = 2.0f * fn / (fr - fl);
         float rm11 = 2.0f * fn / (ft - fb);
         float rm22 = -(ff + fn) / (ff - fn);
