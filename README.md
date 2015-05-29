@@ -34,6 +34,17 @@ m.transform(v);
 // v is now transformed using the transformations in m
 ```
 
+Perspective projections
+------------
+In the same way that you can concatenate/multiply multiple simple affine transformations, you can use the methods Matrix4f.perspective(), .ortho() to specify a perspective or orthogonal projection and .lookAt() to create a orthonormal transformation that resembles a camera "looking" into a given direction. Those three methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):
+```Java
+Matrix4f m = new Matrix4f()
+     .perspective(45.0f, 1.0f, 0.01f, 100.0f)
+     .lookAt(new Vector3f(0.0f, 0.0f, 10.0f), new Vector3f(), new Vector3f(0.0f, 1.0f, 0.0f));
+// the camera transformation is now in m
+```
+The above transformation can then be used as a "view-projection" matrix in a shader.
+
 Matrix stack
 ------------
 JOML also features an interface that resembles the matrix stack from legacy OpenGL.
