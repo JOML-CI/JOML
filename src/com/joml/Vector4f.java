@@ -54,6 +54,18 @@ public class Vector4f {
         this.z = javaxVecmathVector.z;
         this.w = javaxVecmathVector.w;
     }
+    
+    /**
+     * Create a new {@link Vector3f} whose components are initialized with the components of the given org.lwjgl.util.vector vector.
+     * 
+     * @param lwjglVector
+     */
+    public Vector4f(org.lwjgl.util.vector.Vector4f lwjglVector) {
+        this.x = lwjglVector.x;
+        this.y = lwjglVector.y;
+        this.z = lwjglVector.z;
+        this.w = lwjglVector.w;
+    }
 
     public Vector4f(Vector3f clone, float w) {
         this.x = clone.x;
@@ -96,6 +108,20 @@ public class Vector4f {
         return this;
     }
 
+    /**
+     * Set the x, y and z attributes to match the ones of the supplied org.lwjgl.util.vector vector.
+     * 
+     * @param lwjglVector
+     * @return this
+     */
+    public Vector4f set(org.lwjgl.util.vector.Vector4f lwjglVector) {
+        this.x = lwjglVector.x;
+        this.y = lwjglVector.y;
+        this.z = lwjglVector.z;
+        this.w = lwjglVector.w;
+        return this;
+    }
+    
     /**
      * 
      * @param v

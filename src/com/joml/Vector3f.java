@@ -58,6 +58,17 @@ public class Vector3f {
         this.y = javaxVecmathVector.y;
         this.z = javaxVecmathVector.z;
     }
+    
+    /**
+     * Create a new {@link Vector3f} whose components are initialized with the components of the given org.lwjgl.util.vector vector.
+     * 
+     * @param lwjglVector
+     */
+    public Vector3f(org.lwjgl.util.vector.Vector3f lwjglVector) {
+        this.x = lwjglVector.x;
+        this.y = lwjglVector.y;
+        this.z = lwjglVector.z;
+    }
 
     /**
      * Set the x, y and z attributes to match the supplied vector.
@@ -82,6 +93,19 @@ public class Vector3f {
         x = javaxVecmathVector.x;
         y = javaxVecmathVector.y;
         z = javaxVecmathVector.z;
+        return this;
+    }
+    
+    /**
+     * Set the x, y and z attributes to match the ones of the supplied org.lwjgl.util.vector vector.
+     * 
+     * @param lwjglVector
+     * @return this
+     */
+    public Vector3f set(org.lwjgl.util.vector.Vector3f lwjglVector) {
+        this.x = lwjglVector.x;
+        this.y = lwjglVector.y;
+        this.z = lwjglVector.z;
         return this;
     }
     
