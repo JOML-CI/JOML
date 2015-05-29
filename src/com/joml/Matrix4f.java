@@ -1603,4 +1603,55 @@ public class Matrix4f implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Apply an arbitrary perspective projection frustum transformation to this matrix.
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @return this
+     */
+    public Matrix4f perspective(float left, float right, float bottom, float top, float zNear, float zFar) {
+        // calculate right matrix elements
+        float rm00 = 2.0f * zNear / (right - left);
+        float rm11 = 2.0f * zNear / (top - bottom);
+        float rm20 = (right + left) / (right - left);
+        float rm21 = (top + bottom) / (top - bottom);
+        float rm22 = -(zFar + zNear) / (zFar - zNear);
+        float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
+
+        // perform optimized matrix multiplication
+        float m20 = m00 * rm20 + m10 * rm21 + this.m20 * rm22 - m30;
+        float m21 = m01 * rm20 + m11 * rm21 + this.m21 * rm22 - m31;
+        float m22 = m02 * rm20 + m12 * rm21 + this.m22 * rm22 - m32;
+        float m23 = m03 * rm20 + m13 * rm21 + this.m23 * rm22 - m33;
+        m00 = m00 * rm00;
+        m01 = m01 * rm00;
+        m02 = m02 * rm00;
+        m03 = m03 * rm00;
+        m10 = m10 * rm11;
+        m11 = m11 * rm11;
+        m12 = m12 * rm11;
+        m13 = m13 * rm11;
+        m30 = this.m20 * rm32;
+        m31 = this.m21 * rm32;
+        m32 = this.m22 * rm32;
+        m33 = this.m23 * rm32;
+        this.m20 = m20;
+        this.m21 = m21;
+        this.m22 = m22;
+        this.m23 = m23;
+
+        return this;
+    }
+
 }
