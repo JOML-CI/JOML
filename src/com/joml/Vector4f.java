@@ -82,7 +82,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @param javaxVecmathVector
      * @return this
      */
-    public Vector4f fromVector(javax.vecmath.Vector4f javaxVecmathVector) {
+    public Vector4f fromJavaxVector(javax.vecmath.Vector4f javaxVecmathVector) {
         x = javaxVecmathVector.x;
         y = javaxVecmathVector.y;
         z = javaxVecmathVector.z;
@@ -96,7 +96,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @param lwjglVector
      * @return this
      */
-    public Vector4f fromVector(org.lwjgl.util.vector.Vector4f lwjglVector) {
+    public Vector4f fromLwjglVector(org.lwjgl.util.vector.Vector4f lwjglVector) {
         this.x = lwjglVector.x;
         this.y = lwjglVector.y;
         this.z = lwjglVector.z;
@@ -371,6 +371,36 @@ public class Vector4f implements Serializable, Externalizable {
         y = in.readFloat();
         z = in.readFloat();
         w = in.readFloat();
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector4f min(Vector4f v) {
+        this.x = Math.min(x, v.x);
+        this.y = Math.min(y, v.y);
+        this.z = Math.min(z, v.z);
+        this.w = Math.min(w, v.w);
+        return this;
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector4f max(Vector4f v) {
+        this.x = Math.max(x, v.x);
+        this.y = Math.max(y, v.y);
+        this.z = Math.max(z, v.z);
+        this.w = Math.min(w, v.w);
+        return this;
     }
 
 }

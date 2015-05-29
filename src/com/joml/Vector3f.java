@@ -73,7 +73,7 @@ public class Vector3f implements Serializable, Externalizable {
      * @param javaxVecmathVector
      * @return this
      */
-    public Vector3f fromVector(javax.vecmath.Vector3f javaxVecmathVector) {
+    public Vector3f fromJavaxVector(javax.vecmath.Vector3f javaxVecmathVector) {
         x = javaxVecmathVector.x;
         y = javaxVecmathVector.y;
         z = javaxVecmathVector.z;
@@ -86,7 +86,7 @@ public class Vector3f implements Serializable, Externalizable {
      * @param lwjglVector
      * @return this
      */
-    public Vector3f fromVector(org.lwjgl.util.vector.Vector3f lwjglVector) {
+    public Vector3f fromLwjglVector(org.lwjgl.util.vector.Vector3f lwjglVector) {
         this.x = lwjglVector.x;
         this.y = lwjglVector.y;
         this.z = lwjglVector.z;
@@ -364,6 +364,34 @@ public class Vector3f implements Serializable, Externalizable {
      */
     public static float dot(Vector3f v1, Vector3f v2) {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise minimum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector3f min(Vector3f v) {
+        this.x = Math.min(x, v.x);
+        this.y = Math.min(y, v.y);
+        this.z = Math.min(z, v.z);
+        return this;
+    }
+
+    /**
+     * Set the components of this vector to be the component-wise maximum of this and the other vector.
+     *
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector3f max(Vector3f v) {
+        this.x = Math.max(x, v.x);
+        this.y = Math.max(y, v.y);
+        this.z = Math.max(z, v.z);
+        return this;
     }
 
     /**

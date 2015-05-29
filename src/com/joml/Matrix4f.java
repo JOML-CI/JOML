@@ -187,7 +187,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param javaxVecmathMatrix
      * @return this
      */
-    public Matrix4f fromMatrix(javax.vecmath.Matrix4f javaxVecmathMatrix) {
+    public Matrix4f fromJavaxMatrix(javax.vecmath.Matrix4f javaxVecmathMatrix) {
         m00 = javaxVecmathMatrix.m00;
         m01 = javaxVecmathMatrix.m10;
         m02 = javaxVecmathMatrix.m20;
@@ -213,7 +213,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param lwjglMatrix
      * @return this
      */
-    public Matrix4f fromMatrix(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
+    public Matrix4f fromLwjglMatrix(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
         m00 = lwjglMatrix.m00;
         m01 = lwjglMatrix.m01;
         m02 = lwjglMatrix.m02;
@@ -1124,47 +1124,44 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotate(float ang, float x, float y, float z) {
-        Matrix4f c = this;
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
         // m33 = 1
         float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
         float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
-        float m00 = (cos + x * x * (1.0f - cos));
-        float m10 = x * y * (1.0f - cos) - z * sin;
-        float m20 = x * z * (1.0f - cos) + y * sin;
-        float m01 = y * x * (1.0f - cos) + z * sin;
-        float m11 = cos + y * y * (1.0f - cos);
-        float m21 = y * z * (1.0f - cos) - x * sin;
-        float m02 = z * x * (1.0f - cos) - y * sin;
-        float m12 = z * y * (1.0f - cos) + x * sin;
-        float m22 = cos + z * z * (1.0f - cos);
+        float rm00 = (cos + x * x * (1.0f - cos));
+        float rm10 = x * y * (1.0f - cos) - z * sin;
+        float rm20 = x * z * (1.0f - cos) + y * sin;
+        float rm01 = y * x * (1.0f - cos) + z * sin;
+        float rm11 = cos + y * y * (1.0f - cos);
+        float rm21 = y * z * (1.0f - cos) - x * sin;
+        float rm02 = z * x * (1.0f - cos) - y * sin;
+        float rm12 = z * y * (1.0f - cos) + x * sin;
+        float rm22 = cos + z * z * (1.0f - cos);
 
-        float nm00 = c.m00 * m00 + c.m10 * m01 + c.m20 * m02;
-        float nm01 = c.m01 * m00 + c.m11 * m01 + c.m21 * m02;
-        float nm02 = c.m02 * m00 + c.m12 * m01 + c.m22 * m02;
-        float nm03 = c.m03 * m00 + c.m13 * m01 + c.m23 * m02;
-        float nm10 = c.m00 * m10 + c.m10 * m11 + c.m20 * m12;
-        float nm11 = c.m01 * m10 + c.m11 * m11 + c.m21 * m12;
-        float nm12 = c.m02 * m10 + c.m12 * m11 + c.m22 * m12;
-        float nm13 = c.m03 * m10 + c.m13 * m11 + c.m23 * m12;
-        float nm20 = c.m00 * m20 + c.m10 * m21 + c.m20 * m22;
-        float nm21 = c.m01 * m20 + c.m11 * m21 + c.m21 * m22;
-        float nm22 = c.m02 * m20 + c.m12 * m21 + c.m22 * m22;
-        float nm23 = c.m03 * m20 + c.m13 * m21 + c.m23 * m22;
-
-        c.m00 = nm00;
-        c.m01 = nm01;
-        c.m02 = nm02;
-        c.m03 = nm03;
-        c.m10 = nm10;
-        c.m11 = nm11;
-        c.m12 = nm12;
-        c.m13 = nm13;
-        c.m20 = nm20;
-        c.m21 = nm21;
-        c.m22 = nm22;
-        c.m23 = nm23;
+        // add temporaries for dependent values
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        // set non-dependent values directly
+        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        // set other values
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m03 = nm03;
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
+        m13 = nm13;
         return this;
     }
 
