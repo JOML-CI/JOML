@@ -22,14 +22,23 @@ v.add(a);
 a.cross(v);
 ```
 
-Matrix stack
+Matrix API
 ------------
-JOML features an interface that resembles the matrix stack from legacy OpenGL.
-This allows you to compose the final transformation matrix using a sequence of simple operations,
-but without the otherwise necessary JNI calls into the graphics driver.
-
+Using JOML you can build matrices out of basic transformations, such as scale, translate and rotate, using a fluent-interface style. All such operations directly modify the matrix instance on which they are invoked.
 The following example builds a transformation matrix which effectively first scales all axes by 0.5
 and then translates x by 2.0:
+```Java
+Matrix4f m = new Matrix4f().translate(2.0f, 0.0f, 0.0f).scale(0.5f);
+Vector4f v = new Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+m.transform(v);
+// v is now transformed using the transformations in m
+```
+
+Matrix stack
+------------
+JOML also features an interface that resembles the matrix stack from legacy OpenGL.
+This allows you to use all of the legacy OpenGL matrix stack operations even in modern OpenGL applications,
+but without the otherwise necessary JNI calls into the graphics driver.
 ```Java
 MatrixStack stack = new MatrixStack();
 // Compose the final matrix
