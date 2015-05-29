@@ -18,6 +18,12 @@
  */
 package com.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
+
 
 /**
  * Vector4f
@@ -26,7 +32,7 @@ package com.joml;
  * 
  * @author Richard Greenlees
  */
-public class Vector4f {
+public class Vector4f implements Serializable, Externalizable {
 
     public float x;
     public float y;
@@ -372,6 +378,21 @@ public class Vector4f {
 
     public String toString() {
         return "Vector4f { " + x + ", " + y + ", " + z + ", " + w + " }";
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeFloat(x);
+        out.writeFloat(y);
+        out.writeFloat(z);
+        out.writeFloat(w);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        x = in.readFloat();
+        y = in.readFloat();
+        z = in.readFloat();
+        w = in.readFloat();
     }
 
 }

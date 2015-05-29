@@ -18,6 +18,11 @@
  */
 package com.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 
@@ -34,7 +39,7 @@ import java.text.DecimalFormat;
  * 
  * @author Richard Greenlees
  */
-public class Matrix4f {
+public class Matrix4f implements Serializable, Externalizable {
     
     public float m00;
     public float m01;
@@ -1212,5 +1217,44 @@ public class Matrix4f {
         c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
         return this;
     }
-    
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeFloat(m00);
+        out.writeFloat(m01);
+        out.writeFloat(m02);
+        out.writeFloat(m03);
+        out.writeFloat(m10);
+        out.writeFloat(m11);
+        out.writeFloat(m12);
+        out.writeFloat(m13);
+        out.writeFloat(m20);
+        out.writeFloat(m21);
+        out.writeFloat(m22);
+        out.writeFloat(m23);
+        out.writeFloat(m30);
+        out.writeFloat(m31);
+        out.writeFloat(m32);
+        out.writeFloat(m33);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        m00 = in.readFloat();
+        m01 = in.readFloat();
+        m02 = in.readFloat();
+        m03 = in.readFloat();
+        m10 = in.readFloat();
+        m11 = in.readFloat();
+        m12 = in.readFloat();
+        m13 = in.readFloat();
+        m20 = in.readFloat();
+        m21 = in.readFloat();
+        m22 = in.readFloat();
+        m23 = in.readFloat();
+        m30 = in.readFloat();
+        m31 = in.readFloat();
+        m32 = in.readFloat();
+        m33 = in.readFloat();
+    }
+
 }

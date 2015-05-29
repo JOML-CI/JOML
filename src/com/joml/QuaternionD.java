@@ -18,6 +18,11 @@
  */
 package com.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.nio.DoubleBuffer;
 
 /**
@@ -28,7 +33,7 @@ import java.nio.DoubleBuffer;
  *
  * @author Richard Greenlees
  */
-public class QuaternionD {
+public class QuaternionD implements Serializable, Externalizable {
 
     public double x;
     public double y;
@@ -730,6 +735,21 @@ public class QuaternionD {
 
     public String toString() {
         return "Quaternion { " + x + ", " + y + ", " + z + ", " + w + " }";
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeDouble(x);
+        out.writeDouble(y);
+        out.writeDouble(z);
+        out.writeDouble(w);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        x = in.readDouble();
+        y = in.readDouble();
+        z = in.readDouble();
+        w = in.readDouble();
     }
 
 }

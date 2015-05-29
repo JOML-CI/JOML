@@ -18,6 +18,11 @@
  */
 package com.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.nio.FloatBuffer;
 
 /**
@@ -32,7 +37,7 @@ import java.nio.FloatBuffer;
  * 
  * @author Richard Greenlees
  */
-public class Matrix3f {
+public class Matrix3f implements Serializable, Externalizable {
     
     public float m00;
     public float m01;
@@ -635,6 +640,31 @@ public class Matrix3f {
 
     public static void transform(Matrix3f mat, Vector3f v) {
         v.mul(mat);
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeFloat(m00);
+        out.writeFloat(m01);
+        out.writeFloat(m02);
+        out.writeFloat(m10);
+        out.writeFloat(m11);
+        out.writeFloat(m12);
+        out.writeFloat(m20);
+        out.writeFloat(m21);
+        out.writeFloat(m22);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        m00 = in.readFloat();
+        m01 = in.readFloat();
+        m02 = in.readFloat();
+        m10 = in.readFloat();
+        m11 = in.readFloat();
+        m12 = in.readFloat();
+        m20 = in.readFloat();
+        m21 = in.readFloat();
+        m22 = in.readFloat();
     }
 
 }

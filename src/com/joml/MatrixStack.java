@@ -18,6 +18,11 @@
  */
 package com.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.nio.FloatBuffer;
 
 /**
@@ -32,13 +37,13 @@ import java.nio.FloatBuffer;
  * 
  * @author Kai Burjack
  */
-public class MatrixStack {
+public class MatrixStack implements Serializable, Externalizable {
 
     /**
      * The matrix stack as a non-growable array. The size of the stack must be
      * specified in the {@link #MatrixStack(int) constructor}.
      */
-    private final Matrix4f[] mats;
+    private Matrix4f[] mats;
 
     /**
      * The index of the "current" matrix within {@link #mats}.
@@ -667,6 +672,24 @@ public class MatrixStack {
             throw new IllegalArgumentException("stack must not be null");
         }
         stack.multMatrix(mat);
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeInt(curr);
+        out.writeInt(mats.length);
+        for (int i = 0; i < mats.length; i++) {
+            out.writeObject(mats[i]);
+        }
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        curr = in.readInt();
+        int len = in.readInt();
+        mats = new Matrix4f[len];
+        for (int i = 0; i < len; i++) {
+            mats[i] = (Matrix4f) in.readObject();
+        }
     }
 
 }

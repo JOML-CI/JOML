@@ -18,6 +18,11 @@
  */
 package com.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
@@ -35,7 +40,7 @@ import java.text.DecimalFormat;
  * 
  * @author Richard Greenlees
  */
-public class Matrix4d {
+public class Matrix4d implements Serializable, Externalizable {
 
     public double m00;
     public double m01;
@@ -1078,6 +1083,45 @@ public class Matrix4d {
         c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
         c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
         return this;
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeDouble(m00);
+        out.writeDouble(m01);
+        out.writeDouble(m02);
+        out.writeDouble(m03);
+        out.writeDouble(m10);
+        out.writeDouble(m11);
+        out.writeDouble(m12);
+        out.writeDouble(m13);
+        out.writeDouble(m20);
+        out.writeDouble(m21);
+        out.writeDouble(m22);
+        out.writeDouble(m23);
+        out.writeDouble(m30);
+        out.writeDouble(m31);
+        out.writeDouble(m32);
+        out.writeDouble(m33);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        m00 = in.readDouble();
+        m01 = in.readDouble();
+        m02 = in.readDouble();
+        m03 = in.readDouble();
+        m10 = in.readDouble();
+        m11 = in.readDouble();
+        m12 = in.readDouble();
+        m13 = in.readDouble();
+        m20 = in.readDouble();
+        m21 = in.readDouble();
+        m22 = in.readDouble();
+        m23 = in.readDouble();
+        m30 = in.readDouble();
+        m31 = in.readDouble();
+        m32 = in.readDouble();
+        m33 = in.readDouble();
     }
 
 }

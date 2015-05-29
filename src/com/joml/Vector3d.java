@@ -18,6 +18,12 @@
  */
 package com.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
+
 
 /**
  * Vector3d
@@ -27,7 +33,7 @@ package com.joml;
  *
  * @author Richard Greenlees
  */
-public class Vector3d {
+public class Vector3d implements Serializable, Externalizable {
 
     public double x;
     public double y;
@@ -457,6 +463,19 @@ public class Vector3d {
 
     public String toString() {
         return "Vector3d { " + x + ", " + y + ", " + z + " }";
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeDouble(x);
+        out.writeDouble(y);
+        out.writeDouble(z);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        x = in.readDouble();
+        y = in.readDouble();
+        z = in.readDouble();
     }
 
 }

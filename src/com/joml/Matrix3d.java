@@ -18,6 +18,11 @@
  */
 package com.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.nio.DoubleBuffer;
 
 /**
@@ -32,7 +37,7 @@ import java.nio.DoubleBuffer;
  * 
  * @author Richard Greenlees
  */
-public class Matrix3d {
+public class Matrix3d implements Serializable, Externalizable {
 
     public double m00;
     public double m01;
@@ -631,6 +636,31 @@ public class Matrix3d {
 
     public static void transform(Matrix3d mat, Vector3d v) {
         v.mul(mat);
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeDouble(m00);
+        out.writeDouble(m01);
+        out.writeDouble(m02);
+        out.writeDouble(m10);
+        out.writeDouble(m11);
+        out.writeDouble(m12);
+        out.writeDouble(m20);
+        out.writeDouble(m21);
+        out.writeDouble(m22);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        m00 = in.readDouble();
+        m01 = in.readDouble();
+        m02 = in.readDouble();
+        m10 = in.readDouble();
+        m11 = in.readDouble();
+        m12 = in.readDouble();
+        m20 = in.readDouble();
+        m21 = in.readDouble();
+        m22 = in.readDouble();
     }
 
 }

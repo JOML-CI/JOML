@@ -18,11 +18,17 @@
  */
 package com.joml;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
+
 /**
  *
  * @author RGreenlees
  */
-public class Vector2f {
+public class Vector2f implements Serializable, Externalizable {
 
     public float x;
     public float y;
@@ -139,6 +145,17 @@ public class Vector2f {
     public void zero() {
         this.x = 0.0f;
         this.y = 0.0f;
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeFloat(x);
+        out.writeFloat(y);
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        x = in.readFloat();
+        y = in.readFloat();
     }
 
 }
