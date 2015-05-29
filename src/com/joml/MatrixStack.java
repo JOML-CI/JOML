@@ -751,4 +751,26 @@ public class MatrixStack implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Apply an arbitrary perspective projection frustum transformation to the current matrix.
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @return this
+     */
+    public MatrixStack frustum(float left, float right, float bottom, float top, float zNear, float zFar) {
+        mats[curr].frustum(left, right, bottom, top, zNear, zFar);
+        return this;
+    }
+
 }

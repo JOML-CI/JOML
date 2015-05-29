@@ -39,7 +39,7 @@ import java.text.DecimalFormat;
  * @author Kai Burjack
  */
 public class Matrix4f implements Serializable, Externalizable {
-    
+
     public float m00;
     public float m01;
     public float m02;
@@ -60,14 +60,6 @@ public class Matrix4f implements Serializable, Externalizable {
     public Matrix4f() {
         super();
         identity();
-    }
-
-    public Matrix4f(float diagonal) {
-        super();
-        this.m00 = diagonal;
-        this.m11 = diagonal;
-        this.m22 = diagonal;
-        this.m33 = diagonal;
     }
 
     /**
@@ -176,7 +168,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values within this matrix to be the same as the supplied parameter matrix.
+     * Set the values within this matrix to be the same as the supplied matrix.
      * 
      * @return this
      */
@@ -1378,7 +1370,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a rotation transformation to this matrix to make +z point along <code>dir</code>. 
+     * Apply a rotation transformation to this matrix to make -z point along <code>dir</code>. 
      * 
      * @return this
      */
@@ -1558,7 +1550,7 @@ public class Matrix4f implements Serializable, Externalizable {
         float fr = fl + 2.0f * w;
         float fb = -h;
         float ft = fb + 2.0f * h;
-        return perspective(fl, fr, fb, ft, zNear, zFar);
+        return frustum(fl, fr, fb, ft, zNear, zFar);
     }
 
     /**
@@ -1580,7 +1572,7 @@ public class Matrix4f implements Serializable, Externalizable {
      *            the distance along the z-axis to the far clipping plane
      * @return this
      */
-    public Matrix4f perspective(float left, float right, float bottom, float top, float zNear, float zFar) {
+    public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar) {
         // calculate right matrix elements
         float rm00 = 2.0f * zNear / (right - left);
         float rm11 = 2.0f * zNear / (top - bottom);

@@ -63,14 +63,6 @@ public class Matrix4d implements Serializable, Externalizable {
         identity();
     }
 
-    public Matrix4d(double diagonal) {
-        super();
-        this.m00 = diagonal;
-        this.m11 = diagonal;
-        this.m22 = diagonal;
-        this.m33 = diagonal;
-    }
-
     /** Clones this matrix from the supplied matrix */
     public Matrix4d(Matrix4d mat) {
         this.m00 = mat.m00;

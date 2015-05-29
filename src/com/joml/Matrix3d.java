@@ -53,13 +53,6 @@ public class Matrix3d implements Serializable, Externalizable {
         identity();
     }
 
-    public Matrix3d(double diagonal) {
-        super();
-        this.m00 = diagonal;
-        this.m11 = diagonal;
-        this.m22 = diagonal;
-    }
-
     public Matrix3d(Matrix3d mat) {
         this.m00 = mat.m00;
         this.m01 = mat.m01;

@@ -37,7 +37,7 @@ import java.nio.FloatBuffer;
  * @author Kai Burjack
  */
 public class Matrix3f implements Serializable, Externalizable {
-    
+
     public float m00;
     public float m01;
     public float m02;
@@ -51,13 +51,6 @@ public class Matrix3f implements Serializable, Externalizable {
     public Matrix3f() {
         super();
         identity();
-    }
-
-    public Matrix3f(float diagonal) {
-        super();
-        this.m00 = diagonal;
-        this.m11 = diagonal;
-        this.m22 = diagonal;
     }
 
     public Matrix3f(Matrix3f mat) {
