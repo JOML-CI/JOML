@@ -1164,8 +1164,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotateX(float ang) {
-        float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
-        float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
+        float cos = (float) Math.cos(ang * Math.PI / 180.0);
+        float sin = (float) Math.sin(ang * Math.PI / 180.0);
         float rm11 = cos;
         float rm21 = -sin;
         float rm12 = sin;
@@ -1202,8 +1202,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotateY(float ang) {
-        float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
-        float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
+        float cos = (float) Math.cos(ang * Math.PI / 180.0);
+        float sin = (float) Math.sin(ang * Math.PI / 180.0);
         float rm00 = cos;
         float rm20 = sin;
         float rm02 = -sin;
@@ -1240,8 +1240,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotateZ(float ang) {
-        float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
-        float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
+        float cos = (float) Math.cos(ang * Math.PI / 180.0);
+        float sin = (float) Math.sin(ang * Math.PI / 180.0);
         float rm00 = cos;
         float rm10 = -sin;
         float rm01 = sin;
@@ -1291,8 +1291,8 @@ public class Matrix4f implements Serializable, Externalizable {
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
         // m33 = 1
-        float cos = (float) Math.cos(TrigMath.degreesToRadians(ang));
-        float sin = (float) Math.sin(TrigMath.degreesToRadians(ang));
+        float cos = (float) Math.cos(ang * Math.PI / 180.0);
+        float sin = (float) Math.sin(ang * Math.PI / 180.0);
         float rm00 = (cos + x * x * (1.0f - cos));
         float rm10 = x * y * (1.0f - cos) - z * sin;
         float rm20 = x * z * (1.0f - cos) + y * sin;

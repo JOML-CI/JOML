@@ -346,7 +346,7 @@ public class Quaternion implements Serializable, Externalizable {
      * angle (in Degrees)
      */
     public void fromAxisAngleDeg(Vector3f axis, float angle) {
-        float hangle = (float) ((angle * TrigMath.degreesToRadiansFactor) / 2.0);
+        float hangle = (float) (angle * Math.PI / 180.0 / 2.0);
         float sinAngle = (float) Math.sin(hangle);
         float vLength = axis.length();
 
@@ -360,10 +360,10 @@ public class Quaternion implements Serializable, Externalizable {
      * Multiply this Quaternion by q
      */
     public void mul(Quaternion q) {
-        set(x = this.x * q.x - this.y * q.y - this.z * q.z - this.w * q.w,
-                y = this.x * q.y + this.y * q.x + this.z * q.w - this.w * q.z,
-                z = this.x * q.z - this.y * q.w + this.z * q.x + this.w * q.y,
-                w = this.x * q.w + this.y * q.z - this.z * q.y + this.w * q.x);
+        set(this.x * q.x - this.y * q.y - this.z * q.z - this.w * q.w,
+            this.x * q.y + this.y * q.x + this.z * q.w - this.w * q.z,
+            this.x * q.z - this.y * q.w + this.z * q.x + this.w * q.y,
+            this.x * q.w + this.y * q.z - this.z * q.y + this.w * q.x);
     }
 
     /**
@@ -383,9 +383,9 @@ public class Quaternion implements Serializable, Externalizable {
      */
     public static void mul(Quaternion a, Quaternion b, Quaternion dest) {
         dest.set(a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w,
-                a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
-                a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
-                a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x);
+                 a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
+                 a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
+                 a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x);
     }
 
     /**
@@ -414,7 +414,6 @@ public class Quaternion implements Serializable, Externalizable {
      * Divides this Quaternion by b
      */
     public void div(Quaternion b) {
-        // TODO: Remove method calls
         invert();
         mul(b);
     }
@@ -496,12 +495,12 @@ public class Quaternion implements Serializable, Externalizable {
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public void setEulerAnglesDegXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        float sx = (float) Math.sin((rotationAboutX * TrigMath.degreesToRadiansFactor) * 0.5f);
-        float cx = (float) Math.cos((rotationAboutX * TrigMath.degreesToRadiansFactor) * 0.5f);
-        float sy = (float) Math.sin((rotationAboutY * TrigMath.degreesToRadiansFactor) * 0.5f);
-        float cy = (float) Math.cos((rotationAboutY * TrigMath.degreesToRadiansFactor) * 0.5f);
-        float sz = (float) Math.sin((rotationAboutZ * TrigMath.degreesToRadiansFactor) * 0.5f);
-        float cz = (float) Math.cos((rotationAboutZ * TrigMath.degreesToRadiansFactor) * 0.5f);
+        float sx = (float) Math.sin(rotationAboutX * Math.PI / 90.0);
+        float cx = (float) Math.cos(rotationAboutX * Math.PI / 90.0);
+        float sy = (float) Math.sin(rotationAboutY * Math.PI / 90.0);
+        float cy = (float) Math.cos(rotationAboutY * Math.PI / 90.0);
+        float sz = (float) Math.sin(rotationAboutZ * Math.PI / 90.0);
+        float cz = (float) Math.cos(rotationAboutZ * Math.PI / 90.0);
 
         x = cx*cy*cz + sx*sy*sz;
         y = sx*cy*cz - cx*sy*sz;
@@ -516,12 +515,12 @@ public class Quaternion implements Serializable, Externalizable {
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      */
     public void setEulerAnglesDegZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        float sx = (float) Math.sin(rotationAboutX * TrigMath.degreesToRadiansFactor * 0.5f);
-        float cx = (float) Math.cos(rotationAboutX * TrigMath.degreesToRadiansFactor * 0.5f);
-        float sy = (float) Math.sin(rotationAboutY * TrigMath.degreesToRadiansFactor * 0.5f);
-        float cy = (float) Math.cos(rotationAboutY * TrigMath.degreesToRadiansFactor * 0.5f);
-        float sz = (float) Math.sin(rotationAboutZ * TrigMath.degreesToRadiansFactor * 0.5f);
-        float cz = (float) Math.cos(rotationAboutZ * TrigMath.degreesToRadiansFactor * 0.5f);
+        float sx = (float) Math.sin(rotationAboutX * Math.PI / 90.0);
+        float cx = (float) Math.cos(rotationAboutX * Math.PI / 90.0);
+        float sy = (float) Math.sin(rotationAboutY * Math.PI / 90.0);
+        float cy = (float) Math.cos(rotationAboutY * Math.PI / 90.0);
+        float sz = (float) Math.sin(rotationAboutZ * Math.PI / 90.0);
+        float cz = (float) Math.cos(rotationAboutZ * Math.PI / 90.0);
 
         x = cx*cy*cz - sx*sy*sz;
         y = sx*cy*cz + cx*sy*sz;
@@ -592,10 +591,8 @@ public class Quaternion implements Serializable, Externalizable {
         float scale1, scale2;
 
         if ((1 - dot) > 0.1) {
-            
             float angle = (float) Math.acos(dot);
             float sinAngle = 1f / (float) Math.sin(angle);
-
             scale1 = ((float) Math.sin((1f - alpha) * angle) * sinAngle);
             scale2 = ((float) Math.sin((alpha * angle)) * sinAngle);
         } else {    

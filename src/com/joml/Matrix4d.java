@@ -1018,8 +1018,8 @@ public class Matrix4d implements Serializable, Externalizable {
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
         // m33 = 1
-        double cos = Math.cos(TrigMath.degreesToRadians(ang));
-        double sin = Math.sin(TrigMath.degreesToRadians(ang));
+        double cos = Math.cos(ang * Math.PI / 180.0);
+        double sin = Math.sin(ang * Math.PI / 180.0);
         double m00 = (cos + x * x * (1.0 - cos));
         double m10 = x * y * (1.0 - cos) - z * sin;
         double m20 = x * z * (1.0 - cos) + y * sin;
