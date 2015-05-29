@@ -26,12 +26,11 @@ import java.io.Serializable;
 import java.nio.DoubleBuffer;
 
 /**
- * Quaternion
- *
  * Contains the definition and functions for rotations expressed as
  * 4-dimensional vectors
  *
  * @author Richard Greenlees
+ * @author Kai Burjack
  */
 public class QuaternionD implements Serializable, Externalizable {
 

@@ -26,16 +26,15 @@ import java.io.Serializable;
 import java.nio.FloatBuffer;
 
 /**
- * Matrix3f
- * 
  * Contains the definition of a 3x3 Matrix of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
- * 
- *      m00  m10  m20
- *      m01  m11  m21
- *      m02  m12  m22
+ * <p>
+ *      m00  m10  m20</br>
+ *      m01  m11  m21</br>
+ *      m02  m12  m22</br>
  * 
  * @author Richard Greenlees
+ * @author Kai Burjack
  */
 public class Matrix3f implements Serializable, Externalizable {
     
@@ -333,26 +332,6 @@ public class Matrix3f implements Serializable, Externalizable {
         dest.m22 = ((source.m00 * source.m11) - (source.m10 * source.m01)) * s;
     }
     
-    /** Inverts the source matrix and stores the results in dest. Does not modify the source
-    * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
-    public static void invert(Matrix3f source, FloatBuffer dest) {
-        float s = source.determinant();
-        if (s == 0.0f) {
-            return;
-        }
-        s = 1.0f / s;
-        
-        dest.put(((source.m11 * source.m22) - (source.m21 * source.m12)) * s);
-        dest.put(-((source.m01 * source.m22) - (source.m21 * source.m02)) * s);
-        dest.put(((source.m01 * source.m12) - (source.m11 * source.m02)) * s);
-        dest.put(-((source.m10 * source.m22) - (source.m20 * source.m12)) * s);
-        dest.put(((source.m00 * source.m22) - (source.m20 * source.m02)) * s);
-        dest.put(-((source.m00 * source.m12) - (source.m10 * source.m02)) * s);
-        dest.put(((source.m10 * source.m21) - (source.m20 * source.m11)) * s);
-        dest.put(-((source.m00 * source.m21) - (source.m20 * source.m01)) * s);
-        dest.put(((source.m00 * source.m11) - (source.m10 * source.m01)) * s);
-    }
-    
     /** Transposes this matrix */
     public Matrix3f transpose() {
         return set(m00, m10, m20,
@@ -365,19 +344,6 @@ public class Matrix3f implements Serializable, Externalizable {
         dest.set(original.m00, original.m10, original.m20,
                  original.m01, original.m11, original.m21,
                  original.m02, original.m12, original.m22);
-    }
-    
-    /** Transposes the supplied original matrix and stores the results in dest. The original is not modified */
-    public static void transpose(Matrix3f original, FloatBuffer dest) {
-        dest.put(original.m00);
-        dest.put(original.m10);
-        dest.put(original.m20);
-        dest.put(original.m01);
-        dest.put(original.m11);
-        dest.put(original.m21);
-        dest.put(original.m02);
-        dest.put(original.m12);
-        dest.put(original.m22);
     }
     
     /** Transposes the supplied original matrix and stores the results in dest. The original is not modified.
@@ -456,19 +422,6 @@ public class Matrix3f implements Serializable, Externalizable {
         dest.m22 = source.m22 * scalar;
     }
     
-    /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
-    public static void mul(Matrix3f source, float scalar, FloatBuffer dest) {
-        dest.put(source.m00 * scalar);
-        dest.put(source.m01 * scalar);
-        dest.put(source.m02 * scalar);
-        dest.put(source.m10 * scalar);
-        dest.put(source.m11 * scalar);
-        dest.put(source.m12 * scalar);
-        dest.put(source.m20 * scalar);
-        dest.put(source.m21 * scalar);
-        dest.put(source.m22 * scalar);
-    }
-    
     public String toString() {
         return "Matrix3f { " + this.m00 + ", " + this.m10 + ", " + this.m20 + ",\n"
                 + "           " + this.m01 + ", " + this.m11 + ", " + this.m21 + ",\n"
@@ -487,6 +440,20 @@ public class Matrix3f implements Serializable, Externalizable {
         buffer.put(this.m20);
         buffer.put(this.m21);
         buffer.put(this.m22);
+        return this;
+    }
+
+    /** Read and set the matrix values from the supplied FloatBuffer */
+    public Matrix3f set(FloatBuffer buffer) {
+        this.m00 = buffer.get();
+        this.m01 = buffer.get();
+        this.m02 = buffer.get();
+        this.m10 = buffer.get();
+        this.m11 = buffer.get();
+        this.m12 = buffer.get();
+        this.m20 = buffer.get();
+        this.m21 = buffer.get();
+        this.m22 = buffer.get();
         return this;
     }
 

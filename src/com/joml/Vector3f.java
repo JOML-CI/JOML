@@ -26,12 +26,11 @@ import java.io.Serializable;
 
 
 /**
- * Vector3f
- *
  * Contains the definition of a Vector comprising 3 floats and associated
  * transformations.
  *
  * @author Richard Greenlees
+ * @author Kai Burjack
  */
 public class Vector3f implements Serializable, Externalizable {
 

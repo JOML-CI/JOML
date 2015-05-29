@@ -27,6 +27,7 @@ import java.io.Serializable;
 /**
  *
  * @author RGreenlees
+ * @author Kai Burjack
  */
 public class Vector2f implements Serializable, Externalizable {
 

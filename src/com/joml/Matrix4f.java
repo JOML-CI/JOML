@@ -27,17 +27,16 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 
 /**
- * Matrix4f
- * 
  * Contains the definition of a 4x4 Matrix of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
- * 
- *      m00  m10  m20  m30
- *      m01  m11  m21  m31
- *      m02  m12  m22  m32
- *      m03  m13  m23  m33
+ * <p>
+ *      m00  m10  m20  m30</br>
+ *      m01  m11  m21  m31</br>
+ *      m02  m12  m22  m32</br>
+ *      m03  m13  m23  m33</br>
  * 
  * @author Richard Greenlees
+ * @author Kai Burjack
  */
 public class Matrix4f implements Serializable, Externalizable {
     
@@ -346,26 +345,6 @@ public class Matrix4f implements Serializable, Externalizable {
         dest.m33 = left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33;
     }
     
-    /** Multiplies the left matrix by the right, and stores the result into the destination FloatBuffer */
-    public static void mul(Matrix4f left, Matrix4f right, FloatBuffer dest) {
-        dest.put(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03);
-        dest.put(left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03);
-        dest.put(left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03);
-        dest.put(left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02 + left.m33 * right.m03);
-        dest.put(left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12 + left.m30 * right.m13);
-        dest.put(left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12 + left.m31 * right.m13);
-        dest.put(left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12 + left.m32 * right.m13);
-        dest.put(left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12 + left.m33 * right.m13);
-        dest.put(left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22 + left.m30 * right.m23);
-        dest.put(left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22 + left.m31 * right.m23);
-        dest.put(left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 + left.m32 * right.m23);
-        dest.put(left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22 + left.m33 * right.m23);
-        dest.put(left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30 * right.m33);
-        dest.put(left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31 * right.m33);
-        dest.put(left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32 * right.m33);
-        dest.put(left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33);
-    }
-
     /**
      * Set the values within this matrix to the supplied float values. The matrix will look like this:<br><br>
      *
@@ -554,33 +533,6 @@ public class Matrix4f implements Serializable, Externalizable {
                  (source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s );
     }
     
-    /** Invert the supplied matrix and store the results in dest. Does not modify original matrix */
-    public static void invert(Matrix4f source, FloatBuffer dest) {
-        float s = source.determinant();
-        if (s == 0.0f) {
-            source.get(dest);
-            return;
-        }
-        s = 1.0f / s;
-        
-        dest.put((source.m11 * (source.m22 * source.m33 - source.m23 * source.m32) + source.m12 * (source.m23 * source.m31 - source.m21 * source.m33) + source.m13 * (source.m21 * source.m32 - source.m22 * source.m31)) * s);
-        dest.put((source.m21 * (source.m02 * source.m33 - source.m03 * source.m32) + source.m22 * (source.m03 * source.m31 - source.m01 * source.m33) + source.m23 * (source.m01 * source.m32 - source.m02 * source.m31)) * s);
-        dest.put((source.m31 * (source.m02 * source.m13 - source.m03 * source.m12) + source.m32 * (source.m03 * source.m11 - source.m01 * source.m13) + source.m33 * (source.m01 * source.m12 - source.m02 * source.m11)) * s);
-        dest.put((source.m01 * (source.m13 * source.m22 - source.m12 * source.m23) + source.m02 * (source.m11 * source.m23 - source.m13 * source.m21) + source.m03 * (source.m12 * source.m21 - source.m11 * source.m22)) * s);
-        dest.put((source.m12 * (source.m20 * source.m33 - source.m23 * source.m30) + source.m13 * (source.m22 * source.m30 - source.m20 * source.m32) + source.m10 * (source.m23 * source.m32 - source.m22 * source.m33)) * s);
-        dest.put((source.m22 * (source.m00 * source.m33 - source.m03 * source.m30) + source.m23 * (source.m02 * source.m30 - source.m00 * source.m32) + source.m20 * (source.m03 * source.m32 - source.m02 * source.m33)) * s);
-        dest.put((source.m32 * (source.m00 * source.m13 - source.m03 * source.m10) + source.m33 * (source.m02 * source.m10 - source.m00 * source.m12) + source.m30 * (source.m03 * source.m12 - source.m02 * source.m13)) * s);
-        dest.put((source.m02 * (source.m13 * source.m20 - source.m10 * source.m23) + source.m03 * (source.m10 * source.m22 - source.m12 * source.m20) + source.m00 * (source.m12 * source.m23 - source.m13 * source.m22)) * s);
-        dest.put((source.m13 * (source.m20 * source.m31 - source.m21 * source.m30) + source.m10 * (source.m21 * source.m33 - source.m23 * source.m31) + source.m11 * (source.m23 * source.m30 - source.m20 * source.m33)) * s);
-        dest.put((source.m23 * (source.m00 * source.m31 - source.m01 * source.m30) + source.m20 * (source.m01 * source.m33 - source.m03 * source.m31) + source.m21 * (source.m03 * source.m30 - source.m00 * source.m33)) * s);
-        dest.put((source.m33 * (source.m00 * source.m11 - source.m01 * source.m10) + source.m30 * (source.m01 * source.m13 - source.m03 * source.m11) + source.m31 * (source.m03 * source.m10 - source.m00 * source.m13)) * s);
-        dest.put((source.m03 * (source.m11 * source.m20 - source.m10 * source.m21) + source.m00 * (source.m13 * source.m21 - source.m11 * source.m23) + source.m01 * (source.m10 * source.m23 - source.m13 * source.m20)) * s);
-        dest.put((source.m10 * (source.m22 * source.m31 - source.m21 * source.m32) + source.m11 * (source.m20 * source.m32 - source.m22 * source.m30) + source.m12 * (source.m21 * source.m30 - source.m20 * source.m31)) * s);
-        dest.put((source.m20 * (source.m02 * source.m31 - source.m01 * source.m32) + source.m21 * (source.m00 * source.m32 - source.m02 * source.m30) + source.m22 * (source.m01 * source.m30 - source.m00 * source.m31)) * s);
-        dest.put((source.m30 * (source.m02 * source.m11 - source.m01 * source.m12) + source.m31 * (source.m00 * source.m12 - source.m02 * source.m10) + source.m32 * (source.m01 * source.m10 - source.m00 * source.m11)) * s);
-        dest.put((source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s);
-    }
-    
     /** Inverts the left matrix by the right, and stores the result into dest without modifying the source. 
     <B>This is not alias safe so make sure dest is not the same as the source or you WILL get incorrect results!</B> */
     public static void invertFast(Matrix4f source, Matrix4f dest) {
@@ -718,26 +670,6 @@ public class Matrix4f implements Serializable, Externalizable {
                  original.m33 );
     }
     
-    /** Transposes the original matrix and stores the results into the destination FloatBuffer. Does not modify the original */
-    public static void transpose(Matrix4f original, FloatBuffer dest) {
-        dest.put(original.m00);
-        dest.put(original.m10);
-        dest.put(original.m20);
-        dest.put(original.m30);
-        dest.put(original.m01);
-        dest.put(original.m11);
-        dest.put(original.m21);
-        dest.put(original.m31);
-        dest.put(original.m02);
-        dest.put(original.m12);
-        dest.put(original.m22);
-        dest.put(original.m32);
-        dest.put(original.m03);
-        dest.put(original.m13);
-        dest.put(original.m23);
-        dest.put(original.m33);
-    }
-
     /**
      * Set this matrix to be a simple translation matrix.
      * <p>

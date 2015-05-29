@@ -26,12 +26,11 @@ import java.io.Serializable;
 
 
 /**
- * Vector3d
- *
  * Contains the definition of a Vector comprising 3 doubles and associated
  * transformations.
  *
  * @author Richard Greenlees
+ * @author Kai Burjack
  */
 public class Vector3d implements Serializable, Externalizable {
 

@@ -20,8 +20,6 @@ package com.joml;
 
 
 /**
- * Surface Math
- *
  * Contains utility functions related to surfaces and faces
  *
  * @author Richard Greenlees

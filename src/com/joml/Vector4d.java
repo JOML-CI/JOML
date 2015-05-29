@@ -26,11 +26,10 @@ import java.io.Serializable;
 
 
 /**
- * Vector4f
- * 
  * Contains the definition of a Vector comprising 4 floats and associated transformations.
  * 
  * @author Richard Greenlees
+ * @author Kai Burjack
  */
 public class Vector4d implements Serializable, Externalizable {
 
