@@ -1282,28 +1282,29 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply a rotation transformation to this matrix to make +z point along <code>dir</code>. 
      * 
-     * @param direction
+     * @param dir
      *            the direction in space to look along
      * @param up
      *            the direction of 'up'
      * @return this
      */
     public Matrix4f lookAlong(Vector3f dir, Vector3f up) {
-        float dirX, dirY, dirZ;
-        dirX = dir.x;
-        dirY = dir.y;
-        dirZ = dir.z;
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make +z point along <code>dir</code>. 
+     * 
+     * @return this
+     */
+    public Matrix4f lookAlong(float dirX, float dirY, float dirZ,
+                              float upX, float upY, float upZ) {
         // Normalize direction
-        float dirLength = dir.length();
+        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX /= dirLength;
         dirY /= dirLength;
         dirZ /= dirLength;
-        // Normalize up
-        float upX, upY, upZ;
-        upX = up.x;
-        upY = up.y;
-        upZ = up.z;
-        float upLength = up.length();
+        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
         upX /= upLength;
         upY /= upLength;
         upZ /= upLength;
@@ -1358,31 +1359,41 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply a "lookat" transformation to this matrix.
      * 
-     * @param position
+     * @param eye
      *            the position of the camera
-     * @param centre
+     * @param lookAt
      *            the point in space to look at
      * @param up
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4f lookAt(Vector3f position, Vector3f centre, Vector3f up) {
+    public Matrix4f lookAt(Vector3f eye, Vector3f lookAt, Vector3f up) {
+        return lookAt(eye.x, eye.y, eye.z, lookAt.x, lookAt.y, lookAt.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix.
+     * 
+     * @return this
+     */
+    public Matrix4f lookAt(float eyeX, float eyeY, float eyeZ,
+                           float lookAtX, float lookAtY, float lookAtZ,
+                           float upX, float upY, float upZ) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
-        dirX = centre.x - position.x;
-        dirY = centre.y - position.y;
-        dirZ = centre.z - position.z;
+        dirX = lookAtX - eyeX;
+        dirY = lookAtY - eyeY;
+        dirZ = lookAtZ - eyeZ;
         // Normalize direction
-        float dirLength = Vector3f.distance(position, centre);
+        float dirLength = (float) Math.sqrt(
+                  (eyeX - lookAtX) * (eyeX - lookAtX)
+                + (eyeY - lookAtY) * (eyeY - lookAtY)
+                + (eyeZ - lookAtZ) * (eyeZ - lookAtZ));
         dirX /= dirLength;
         dirY /= dirLength;
         dirZ /= dirLength;
         // Normalize up
-        float upX, upY, upZ;
-        upX = up.x;
-        upY = up.y;
-        upZ = up.z;
-        float upLength = up.length();
+        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
         upX /= upLength;
         upY /= upLength;
         upZ /= upLength;
@@ -1406,9 +1417,9 @@ public class Matrix4f implements Serializable, Externalizable {
         float rm20 = rightZ;
         float rm21 = upZ;
         float rm22 = -dirZ;
-        float rm30 = -rightX * position.x - rightY * position.y - rightZ * position.z;
-        float rm31 = -upX * position.x - upY * position.y - upZ * position.z;
-        float rm32 = dirX * position.x + dirY * position.y + dirZ * position.z;
+        float rm30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
+        float rm31 = -upX * eyeX - upY * eyeY - upZ * eyeZ;
+        float rm32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
 
         // perform optimized matrix multiplication
         // compute last column first, because others do not depend on it
