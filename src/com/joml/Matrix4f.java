@@ -212,12 +212,18 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m00 = mat.m00;
         this.m01 = mat.m01;
         this.m02 = mat.m02;
+        this.m03 = 0.0f;
         this.m10 = mat.m10;
         this.m11 = mat.m11;
         this.m12 = mat.m12;
+        this.m13 = 0.0f;
         this.m20 = mat.m20;
         this.m21 = mat.m21;
         this.m22 = mat.m22;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
         this.m33 = 1.0f;
         return this;
     }
