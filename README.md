@@ -40,7 +40,9 @@ In the same way that you can concatenate/multiply multiple simple affine transfo
 ```Java
 Matrix4f m = new Matrix4f()
      .perspective(45.0f, 1.0f, 0.01f, 100.0f)
-     .lookAt(new Vector3f(0.0f, 0.0f, 10.0f), new Vector3f(), new Vector3f(0.0f, 1.0f, 0.0f));
+     .lookAt(0.0f, 0.0f, 10.0f,
+             0.0f, 0.0f, 0.0f,
+             0.0f, 1.0f, 0.0f);
 // the camera transformation is now in m
 ```
 The above transformation can then be used as a "view-projection" matrix in a shader.
