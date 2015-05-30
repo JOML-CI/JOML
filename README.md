@@ -86,7 +86,7 @@ Matrix4f m = new Matrix4f()
      .lookAt(0.0f, 0.0f, 10.0f,
              0.0f, 0.0f, 0.0f,
              0.0f, 1.0f, 0.0f);
-m.get(fb);
+     .get(fb);
 fb.rewind();
 glUniformMatrix4fv(mat4Location, false, fb);
 ```
@@ -113,8 +113,8 @@ void frame() {
    .perspective(45.0f, (float)width/height, 0.01f, 100.0f)
    .lookAt(0.0f, 0.0f, 10.0f,
            0.0f, 0.0f, 0.0f,
-           0.0f, 1.0f, 0.0f);
-  m.get(fb);
+           0.0f, 1.0f, 0.0f)
+   .get(fb);
   fb.rewind();
   glUniformMatrix4fv(mat4Location, false, fb);
   ...
