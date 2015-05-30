@@ -74,7 +74,7 @@ Matrix4f m = new Matrix4f()
              0.0f, 1.0f, 0.0f);
 m.get(fb);
 fb.rewind();
-glUniformMatrix4(mat4Location, false, fb);
+glUniformMatrix4fv(mat4Location, false, fb);
 ```
 
 Matrix stack
