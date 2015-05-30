@@ -170,6 +170,7 @@ public class QuaternionD implements Serializable, Externalizable {
         dest.m20 = q02 + q13;
         dest.m21 = q12 - q03;
         dest.m22 = 1.0 - q11 - q00;
+        dest.m23 = 0.0f;
         dest.m30 = 0.0;
         dest.m31 = 0.0;
         dest.m32 = 0.0;
@@ -205,6 +206,7 @@ public class QuaternionD implements Serializable, Externalizable {
         dest.put(q02 + q13);
         dest.put(q12 - q03);
         dest.put(1.0 - q11 - q00);
+        dest.put(0.0);
         dest.put(0.0);
         dest.put(0.0);
         dest.put(0.0);

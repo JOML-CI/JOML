@@ -279,6 +279,7 @@ public class Quaternion implements Serializable, Externalizable {
         dest.put(0.0f);
         dest.put(0.0f);
         dest.put(0.0f);
+        dest.put(0.0f);
         dest.put(1.0f);
     }
 
