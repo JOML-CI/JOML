@@ -872,7 +872,7 @@ public class Matrix4f implements Serializable, Externalizable {
     	dest.m22 = z;
     	return this;
     }
-    
+
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
@@ -885,11 +885,11 @@ public class Matrix4f implements Serializable, Externalizable {
     public Matrix4f rotation(float angle, Vector3f axis) {
     	return rotation(angle, axis.x, axis.y, axis.z);
     }
-    
+
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @return this
      */

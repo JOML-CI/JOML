@@ -64,7 +64,10 @@ public class MatrixStack implements Serializable, Externalizable {
             throw new IllegalArgumentException("stackSize must be >= 1");
         }
         mats = new Matrix4f[stackSize];
-        mats[0] = new Matrix4f();
+        // Allocate all matrices up front to keep the promise of being "allocation-free"
+        for (int i = 0; i < stackSize; i++) {
+            mats[i] = new Matrix4f();
+        }
     }
 
     /**
@@ -184,11 +187,7 @@ public class MatrixStack implements Serializable, Externalizable {
             throw new IllegalStateException("max stack size of " + (curr + 1)
                     + " reached");
         }
-        if (mats[curr + 1] == null) {
-            mats[curr + 1] = new Matrix4f(mats[curr]);
-        } else {
-            mats[curr + 1].set(mats[curr]);
-        }
+        mats[curr + 1].set(mats[curr]);
         curr++;
         return this;
     }
