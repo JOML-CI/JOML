@@ -448,39 +448,56 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to be a simple scale matrix.
+     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * y and z factors.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
      * 
      * @param x
-     * 			the scale in x
+     *            the factor of the x component
      * @param y
-     * 			the scale in y
+     *            the factor of the y component
      * @param z
-     * 			the scale in z
+     *            the factor of the z component
      * @return this
      */
     public Matrix3f scale(float x, float y, float z) {
-    	identity();
-        m00 = x;
-        m11 = y;
-        m22 = z;
+        // scale matrix elements:
+        // m00 = x, m11 = y, m22 = z
+        // all others = 0
+        m00 = m00 * x;
+        m01 = m01 * x;
+        m02 = m02 * x;
+        m10 = m10 * y;
+        m11 = m11 * y;
+        m12 = m12 * y;
+        m20 = m20 * z;
+        m21 = m21 * z;
+        m22 = m22 * z;
         return this;
     }
-    
+
     /**
-     * Set this matrix to be a simple scale matrix.
+     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
      * 
-     * @param scale
-     * 			the scale applied to each dimension
+     * @see #scale(float, float, float)
+     * 
+     * @param xyz
+     *            the factor for all components
      * @return this
      */
-    public Matrix3f scale(Vector3f scale) {
-    	identity();
-        m00 = scale.x;
-        m11 = scale.y;
-        m22 = scale.z;
-        return this;
+    public Matrix3f scale(float xyz) {
+        return scale(xyz, xyz, xyz);
     }
-    
+
     /**
      * Set the given matrix <code>dest</code> to be a simple scale matrix.
      * 
@@ -626,13 +643,190 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
+     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix3f rotateX(float ang) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        float rm11 = cos;
+        float rm21 = -sin;
+        float rm12 = sin;
+        float rm22 = cos;
+
+        // add temporaries for dependent values
+        float nm10 = m10 * rm11 + m20 * rm12;
+        float nm11 = m11 * rm11 + m21 * rm12;
+        float nm12 = m12 * rm11 + m22 * rm12;
+        // set non-dependent values directly
+        m20 = m10 * rm21 + m20 * rm22;
+        m21 = m11 * rm21 + m21 * rm22;
+        m22 = m12 * rm21 + m22 * rm22;
+        // set other values
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
+
+        return this;
+    }
+
+    /**
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix3f rotateY(float ang) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        float rm00 = cos;
+        float rm20 = sin;
+        float rm02 = -sin;
+        float rm22 = cos;
+
+        // add temporaries for dependent values
+        float nm00 = m00 * rm00 + m20 * rm02;
+        float nm01 = m01 * rm00 + m21 * rm02;
+        float nm02 = m02 * rm00 + m22 * rm02;
+        // set non-dependent values directly
+        m20 = m00 * rm20 + m20 * rm22;
+        m21 = m01 * rm20 + m21 * rm22;
+        m22 = m02 * rm20 + m22 * rm22;
+        // set other values
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+
+        return this;
+    }
+
+    /**
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix3f rotateZ(float ang) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        float rm00 = cos;
+        float rm10 = -sin;
+        float rm01 = sin;
+        float rm11 = cos;
+
+        // add temporaries for dependent values
+        float nm00 = m00 * rm00 + m10 * rm01;
+        float nm01 = m01 * rm00 + m11 * rm01;
+        float nm02 = m02 * rm00 + m12 * rm01;
+        float nm10 = m00 * rm10 + m10 * rm11;
+        float nm11 = m01 * rm10 + m11 * rm11;
+        float nm12 = m02 * rm10 + m12 * rm11;
+        // set other values
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
+
+        return this;
+    }
+
+    /**
+     * Apply rotation to this matrix by rotating the given amount of degrees
+     * about the given axis specified as x, y and z components.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @return this
+     */
+    public Matrix3f rotate(float ang, float x, float y, float z) {
+        float s = (float) Math.sin(Math.toRadians(ang));
+        float c = (float) Math.cos(Math.toRadians(ang));
+        float C = 1.0f - c;
+
+        // rotation matrix elements:
+        // m30, m31, m32, m03, m13, m23 = 0
+        // m33 = 1
+        float rm00 = x * x * C + c;
+        float rm01 = y * x * C + z * s;
+        float rm02 = z * x * C - y * s;
+        float rm10 = x * y * C - z * s;
+        float rm11 = y * y * C + c;
+        float rm12 = z * y * C + x * s;
+        float rm20 = x * z * C + y * s;
+        float rm21 = y * z * C - x * s;
+        float rm22 = z * z * C + c;
+
+        // add temporaries for dependent values
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        // set non-dependent values directly
+        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        // set other values
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
+
+        return this;
+    }
+
+    /**
      * Apply the rotation transformation of the given {@link Quaternion} to this matrix.
      * 
      * @param quat
      *          the {@link Quaternion}
      * @return this
      */
-    public Matrix3f mul(Quaternion quat) {
+    public Matrix3f rotate(Quaternion quat) {
         float q00 = 2.0f * quat.x * quat.x;
         float q11 = 2.0f * quat.y * quat.y;
         float q22 = 2.0f * quat.z * quat.z;

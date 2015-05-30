@@ -1102,23 +1102,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f scale(float x, float y, float z) {
-        Matrix4f c = this;
         // scale matrix elements:
         // m00 = x, m11 = y, m22 = z
         // m33 = 1
         // all others = 0
-        c.m00 = c.m00 * x;
-        c.m01 = c.m01 * x;
-        c.m02 = c.m02 * x;
-        c.m03 = c.m03 * x;
-        c.m10 = c.m10 * y;
-        c.m11 = c.m11 * y;
-        c.m12 = c.m12 * y;
-        c.m13 = c.m13 * y;
-        c.m20 = c.m20 * z;
-        c.m21 = c.m21 * z;
-        c.m22 = c.m22 * z;
-        c.m23 = c.m23 * z;
+        m00 = m00 * x;
+        m01 = m01 * x;
+        m02 = m02 * x;
+        m03 = m03 * x;
+        m10 = m10 * y;
+        m11 = m11 * y;
+        m12 = m12 * y;
+        m13 = m13 * y;
+        m20 = m20 * z;
+        m21 = m21 * z;
+        m22 = m22 * z;
+        m23 = m23 * z;
         return this;
     }
 
@@ -1139,7 +1138,7 @@ public class Matrix4f implements Serializable, Externalizable {
     public Matrix4f scale(float xyz) {
         return scale(xyz, xyz, xyz);
     }
-    
+
     /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of degrees.
      * <p>
