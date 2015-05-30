@@ -788,7 +788,6 @@ public class Matrix3f implements Serializable, Externalizable {
 
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
-        // m33 = 1
         float rm00 = x * x * C + c;
         float rm01 = y * x * C + z * s;
         float rm02 = z * x * C - y * s;
