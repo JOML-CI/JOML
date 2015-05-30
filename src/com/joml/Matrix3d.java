@@ -636,4 +636,51 @@ public class Matrix3d implements Serializable, Externalizable {
         m22 = in.readDouble();
     }
 
+    /**
+     * Apply the rotation transformation of the given {@link QuaternionD} to this matrix.
+     * 
+     * @param quat
+     *          the {@link QuaternionD}
+     * @return this
+     */
+    public Matrix3d mul(QuaternionD quat) {
+        double q00 = 2.0 * quat.x * quat.x;
+        double q11 = 2.0 * quat.y * quat.y;
+        double q22 = 2.0 * quat.z * quat.z;
+        double q01 = 2.0 * quat.x * quat.y;
+        double q02 = 2.0 * quat.x * quat.z;
+        double q03 = 2.0 * quat.x * quat.w;
+        double q12 = 2.0 * quat.y * quat.z;
+        double q13 = 2.0 * quat.y * quat.w;
+        double q23 = 2.0 * quat.z * quat.w;
+
+        double rm00 = 1.0 - q11 - q22;
+        double rm01 = q01 + q23;
+        double rm02 = q02 - q13;
+        double rm10 = q01 - q23;
+        double rm11 = 1.0 - q22 - q00;
+        double rm12 = q12 + q03;
+        double rm20 = q02 + q13;
+        double rm21 = q12 - q03;
+        double rm22 = 1.0 - q11 - q00;
+
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        this.m00 = nm00;
+        this.m01 = nm01;
+        this.m02 = nm02;
+        this.m10 = nm10;
+        this.m11 = nm11;
+        this.m12 = nm12;
+
+        return this;
+    }
+
 }
