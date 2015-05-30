@@ -406,4 +406,11 @@ public class Vector3f implements Serializable, Externalizable {
         z = in.readFloat();
     }
 
+    public Vector3f negate() {
+        x = -x;
+        y = -y;
+        z = -z;
+        return this;
+    }
+
 }

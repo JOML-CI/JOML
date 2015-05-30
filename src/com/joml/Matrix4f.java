@@ -1204,6 +1204,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>M * T * v</code>, the translation will be applied first!
      * 
+     * @param point
+     * @return this
+     */
+    public Matrix4f translate(Vector3f point) {
+        return translate(point.x, point.y, point.z);
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of
+     * units in x, y and z.
+     * <p>
+     * If <code>M</code> is this matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * 
      * @param x
      * @param y
      * @param z
