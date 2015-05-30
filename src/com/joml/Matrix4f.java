@@ -476,7 +476,14 @@ public class Matrix4f implements Serializable, Externalizable {
         return invert(this);
     }
 
-    /** Invert the supplied matrix and store the results in dest. Does not modify original matrix */
+    /**
+     * Invert the supplied matrix and store the result in <code>dest</code>.
+     * 
+     * @param source
+     *          the matrix to invert
+     * @param dest
+     *          the matrix to hold the result
+     */
     public static void invert(Matrix4f source, Matrix4f dest) {
         float s = source.determinant();
         if (s == 0.0f) {
@@ -524,6 +531,8 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Multiply this matrix by the supplied scalar value.
      *
+     * @param scalar
+     *          the scalar value to multiply each matrix element by
      * @return this
      */
     public Matrix4f mul(float scalar) {
@@ -546,7 +555,17 @@ public class Matrix4f implements Serializable, Externalizable {
         return this;
     }
     
-    /** Multiplies the supplied source matrix by the supplied scalar and stores the results in dest. Does not modify the original matrix */
+    /**
+     * Multiply the supplied <code>source</code> matrix by the supplied
+     * <code>scalar</code> and store the result in <code>dest</code>.
+     * 
+     * @param source
+     *          the source matrix
+     * @param scalar
+     *          the scalar
+     * @param dest
+     *          willd hold the result
+     */
     public static void mul(Matrix4f source, float scalar, Matrix4f dest) {           
         dest.m00 = source.m00 * scalar;
         dest.m01 = source.m01 * scalar;
@@ -825,6 +844,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * 
      * @param scale
      * 			the scale applied to each dimension
+     * @param dest
+     *          will hold the result
      */
     public static void scaling(Vector3f scale, Matrix4f dest) {
     	dest.identity();
@@ -855,6 +876,10 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the axis to rotate about
      * @return this
      */
     public Matrix4f rotation(float angle, Vector3f axis) {
@@ -892,6 +917,14 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
+     * The result will be stored in <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the axis to rotate about
+     * @param dest
+     *          will hold the result
      */
     public static void rotation(float angle, Vector3f axis, Matrix4f dest) {
     	dest.rotation(angle, axis);
@@ -900,6 +933,10 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
      * 
+     * @param mat
+     *          the 3x3 matrix
+     * @param dest
+     *          the destination matrix whose upper left 3x3 submatrix will be set to <code>mat</code>
      * @return this
      */
     public Matrix4f fromMatrix3(Matrix3f mat) {
@@ -908,7 +945,13 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the upper 3x3 matrix of the given <code>dest</code> {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
+     * Set the upper 3x3 matrix of the given <code>dest</code> {@link Matrix4f}
+     * to the given {@link Matrix3f} and the rest to the identity.
+     * 
+     * @param mat
+     *          the 3x3 matrix
+     * @param dest
+     *          the destination matrix whose upper left 3x3 submatrix will be set to <code>mat</code>
      */
     public static void fromMatrix3(Matrix3f mat, Matrix4f dest) {
     	dest.m00 = mat.m00;
@@ -930,10 +973,12 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Transform/multiply the given vector by this matrix.
+     * Transform/multiply the given vector by this matrix and store the result in that vector.
+     * 
+     * @see Vector4f#mul(Matrix4f)
      * 
      * @param v
-     *          the vector to transform
+     *          the vector to transform and to hold the final result
      * @return this
      */
     public Matrix4f transform(Vector4f v) {
@@ -943,6 +988,8 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Transform/multiply the given vector by this matrix and store the result in <code>dest</code>.
+     * 
+     * @see Vector4f#mul(Matrix4f, Vector4f)
      * 
      * @param v
      *          the vector to transform
@@ -956,12 +1003,14 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Transform/multiply the given vector by the given matrix.
+     * Transform/multiply the given vector by the given matrix and store the result in that vector.
+     * 
+     * @see Vector4f#mul(Matrix4f)
      * 
      * @param mat
      *          the matrix
      * @param v
-     *          the vector to transform
+     *          the vector to transform and to hold the final result
      */
     public static void transform(Matrix4f mat, Vector4f v) {
     	v.mul(mat);
@@ -1006,7 +1055,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given xyz factor.
+     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -1031,7 +1080,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
      * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in degrees
@@ -1071,7 +1120,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
      * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in degrees
@@ -1111,7 +1160,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
      * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in degrees
@@ -1155,7 +1204,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
      * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix">http://en.wikipedia.org</a>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in degrees
@@ -1294,6 +1343,11 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply an orthographic projection transformation to this matrix.
      * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>
+     * , the orthographic projection transformation will be applied first!
+     * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
      * 
      * @param left
@@ -1343,6 +1397,11 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
+     * , the lookalong rotation transformation will be applied first!
      * 
      * @param dir
      *            the direction in space to look along
@@ -1356,7 +1415,12 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
-     * 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
+     * , the lookalong rotation transformation will be applied first!
+     * <p>
      * @return this
      */
     public Matrix4f lookAlong(float dirX, float dirY, float dirZ,
@@ -1420,6 +1484,11 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply a "lookat" transformation to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
+     * , the lookat transformation will be applied first!
      * 
      * @param eye
      *            the position of the camera
@@ -1435,7 +1504,12 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply a "lookat" transformation to this matrix.
-     * 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
+     * , the lookat transformation will be applied first!
+     * <p>
      * @return this
      */
     public Matrix4f lookAt(float eyeX, float eyeY, float eyeZ,
@@ -1517,7 +1591,12 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply a symmetric perspective projection frustum transformation to this matrix.
-     * 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>
+     * , the perspective projection will be applied first!
+     * <p>
      * @param fovy
      *            the vertical field of view in degrees
      * @param aspect
@@ -1540,6 +1619,11 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply an arbitrary perspective projection frustum transformation to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>
+     * , the frustum transformation will be applied first!
      * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
      * 
@@ -1593,6 +1677,13 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply the rotation transformation of the given {@link Quaternion} to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>
+     * , the quaternion rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
      * @param quat
      *          the {@link Quaternion}

@@ -203,8 +203,10 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix mat.
+     * Multiply this Vector4f by the given matrix mat and store the result in <code>this</code>.
      * 
+     * @param mat
+     *          the matrix to multiply the vector with
      * @return this
      */
     public Vector4f mul(Matrix4f mat) {
@@ -216,7 +218,9 @@ public class Vector4f implements Serializable, Externalizable {
      * Multiply this Vector4f by the given matrix mat and store the result in <code>dest</code>.
      * 
      * @param mat
+     *          the matrix to multiply the vector with
      * @param dest
+     *          the destination vector to hold the result
      * @return this
      */
     public Vector4f mul(Matrix4f mat, Vector4f dest) {
@@ -225,8 +229,15 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply Vector4f v by the given matrix mat and store the
-     * result in dest.
+     * Multiply Vector4f <code>v</code> by the given matrix mat and store the
+     * result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to multiply the matrix with
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
      */
     public static void mul(Vector4f v, Matrix4f mat, Vector4f dest) {
         if (v != dest) {
