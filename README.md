@@ -83,7 +83,7 @@ JOML also features an interface that resembles the matrix stack from legacy Open
 This allows you to use all of the legacy OpenGL matrix stack operations even in modern OpenGL applications,
 but without the otherwise necessary JNI calls into the graphics driver.
 ```Java
-MatrixStack s = new MatrixStack();
+MatrixStack s = new MatrixStack(2);
 Matrix4f result = new Matrix4f();
 s.translate(2.0f, 0.0f, 0.0f);
 s.pushMatrix();
