@@ -1741,7 +1741,7 @@ public class Matrix4f implements Serializable, Externalizable {
      *          the {@link Quaternion}
      * @return this
      */
-    public Matrix4f mul(Quaternion quat) {
+    public Matrix4f rotate(Quaternion quat) {
         float q00 = 2.0f * quat.x * quat.x;
         float q11 = 2.0f * quat.y * quat.y;
         float q22 = 2.0f * quat.z * quat.z;
@@ -1783,6 +1783,62 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m12 = nm12;
         this.m13 = nm13;
         
+        return this;
+    }
+
+    /**
+     * Apply the rotation transformation of the given {@link AxisAngle4f} to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given axis-angle,
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>
+     * , the axis-angle rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @param axisAngle
+     *          the {@link AxisAngle4f}
+     * @return this
+     */
+    public Matrix4f rotate(AxisAngle4f axisAngle) {
+        float x = axisAngle.x;
+        float y = axisAngle.y;
+        float z = axisAngle.z;
+        float s = (float) Math.sin(axisAngle.angle);
+        float c = (float) Math.cos(axisAngle.angle);
+        float C = 1.0f - c;
+
+        float rm00 = x * x * C + c;
+        float rm01 = y * x * C + z * s;
+        float rm02 = z * x * C - y * s;
+        float rm10 = x * y * C - z * s;
+        float rm11 = y * y * C + c;
+        float rm12 = z * y * C + x * s;
+        float rm20 = x * z * C + y * s;
+        float rm21 = y * z * C - x * s;
+        float rm22 = z * z * C + c;
+
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        this.m00 = nm00;
+        this.m01 = nm01;
+        this.m02 = nm02;
+        this.m03 = nm03;
+        this.m10 = nm10;
+        this.m11 = nm11;
+        this.m12 = nm12;
+        this.m13 = nm13;
+
         return this;
     }
 

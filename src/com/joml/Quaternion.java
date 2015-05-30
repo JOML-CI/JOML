@@ -67,6 +67,15 @@ public class Quaternion implements Serializable, Externalizable {
         w = source.w;
     }
 
+    public Quaternion(AxisAngle4f axisAngle) {
+        float sin = (float) Math.sin(axisAngle.angle / 2.0);
+        float cos = (float) Math.cos(axisAngle.angle / 2.0);
+        x = axisAngle.x * sin;
+        x = axisAngle.y * sin;
+        x = axisAngle.z * sin;
+        w = cos;
+    }
+
     /**
      * Normalize this Quaternion
      */
@@ -310,6 +319,24 @@ public class Quaternion implements Serializable, Externalizable {
         y = q.y;
         z = q.z;
         w = q.w;
+    }
+
+    /**
+     * Set this {@link Quaternion} to be equivalent to the given
+     * {@link AxisAngle4f}.
+     * 
+     * @param axisAngle
+     *            the {@link AxisAngle4f}
+     * @return this
+     */
+    public Quaternion set(AxisAngle4f axisAngle) {
+        float sin = (float) Math.sin(axisAngle.angle / 2.0);
+        float cos = (float) Math.cos(axisAngle.angle / 2.0);
+        x = axisAngle.x * sin;
+        x = axisAngle.y * sin;
+        x = axisAngle.z * sin;
+        w = cos;
+        return this;
     }
 
     /**
