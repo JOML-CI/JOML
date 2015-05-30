@@ -871,6 +871,20 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
+     * Transform/multiply the given vector by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return this
+     */
+    public Matrix4d transform(Vector4d v, Vector4d dest) {
+        v.mul(this, dest);
+        return this;
+    }
+
+    /**
      * Transform the given vector by the given matrix.
      * 
      * @param mat

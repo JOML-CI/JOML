@@ -213,6 +213,18 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
+     * Multiply this Vector4f by the given matrix mat and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     * @param dest
+     * @return this
+     */
+    public Vector4f mul(Matrix4f mat, Vector4f dest) {
+        mul(this, mat, dest);
+        return this;
+    }
+
+    /**
      * Multiply Vector4f v by the given matrix mat and store the
      * result in dest.
      */

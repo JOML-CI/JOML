@@ -563,6 +563,18 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
+     * Transform the given vector by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param v
+     * @param dest
+     * @return this
+     */
+    public Matrix3f transform(Vector3f v, Vector3f dest) {
+        v.mul(this, dest);
+        return this;
+    }
+
+    /**
      * Transform the given vector by the given matrix.
      * 
      * @param mat

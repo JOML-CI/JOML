@@ -253,10 +253,34 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
+     * Multiply this Vector4d by the given matrix mat and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     * @param dest
+     * @return this
+     */
+    public Vector4d mul(Matrix4d mat, Vector4d dest) {
+        mul(this, mat, dest);
+        return this;
+    }
+
+    /**
      * Multiply this Vector4d by the given rotation matrix mat
      */
     public Vector4d mul(Matrix4f mat) {
         mul(this, mat, this);
+        return this;
+    }
+
+    /**
+     * Multiply this Vector4d by the given matrix mat and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     * @param dest
+     * @return this
+     */
+    public Vector4d mul(Matrix4f mat, Vector4d dest) {
+        mul(this, mat, dest);
         return this;
     }
 

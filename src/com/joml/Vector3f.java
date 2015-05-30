@@ -186,6 +186,18 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
+     * Multiply this Vector3f by the given matrix <code>mat</code> and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     * @param dest
+     * @return this
+     */
+    public Vector3f mul(Matrix4f mat, Vector3f dest) {
+        mul(this, mat, dest);
+        return this;
+    }
+
+    /**
      * Multiply Vector3f v by the given matrix mat and store the
      * result in dest.
      */
@@ -208,9 +220,20 @@ public class Vector3f implements Serializable, Externalizable {
      * @return this
      */
     public Vector3f mul(Matrix3f mat) {
-        return set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
-                   mat.m01 * x + mat.m11 * y + mat.m21 * z,
-                   mat.m02 * x + mat.m12 * y + mat.m22 * z);
+        mul(this, mat, this);
+        return this;
+    }
+
+    /**
+     * Multiply this Vector3f by the given rotation matrix mat and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     * @param dest
+     * @return this
+     */
+    public Vector3f mul(Matrix3f mat, Vector3f dest) {
+        mul(this, mat, dest);
+        return this;
     }
 
     /**

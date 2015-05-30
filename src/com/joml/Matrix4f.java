@@ -942,6 +942,20 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Transform/multiply the given vector by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return this
+     */
+    public Matrix4f transform(Vector4f v, Vector4f dest) {
+        v.mul(this, dest);
+        return this;
+    }
+
+    /**
      * Transform/multiply the given vector by the given matrix.
      * 
      * @param mat
