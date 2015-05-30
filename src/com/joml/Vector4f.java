@@ -24,9 +24,9 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
 
-
 /**
- * Contains the definition of a Vector comprising 4 floats and associated transformations.
+ * Contains the definition of a Vector comprising 4 floats and associated
+ * transformations.
  * 
  * @author Richard Greenlees
  * @author Kai Burjack
@@ -38,23 +38,43 @@ public class Vector4f implements Serializable, Externalizable {
     public float z;
     public float w = 1.0f;
 
+    /**
+     * Create a new {@link Vector4f} of <code>(0, 0, 0, 1)</code>.
+     */
     public Vector4f() {
     }
 
-    public Vector4f(Vector4f clone) {
-        this.x = clone.x;
-        this.y = clone.y;
-        this.z = clone.z;
-        this.w = clone.w;
+    /**
+     * Create a new {@link Vector4f} with the same values as <code>v</code>.
+     * 
+     * @param the {@link Vector4f}
+     */
+    public Vector4f(Vector4f v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
+        this.w = v.w;
     }
-    
-    public Vector4f(Vector3f clone, float w) {
-        this.x = clone.x;
-        this.y = clone.y;
-        this.z = clone.z;
+
+    /**
+     * Create a new {@link Vector4f} with the first three components from the
+     * given <code>v</code> and the given <code>w</code>.
+     * 
+     * @param v
+     *          the {@link Vector3f}
+     * @param w
+     *          the w value
+     */
+    public Vector4f(Vector3f v, float w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
         this.w = w;
     }
 
+    /**
+     * Create a new {@link Vector4f} with the given component values.
+     */
     public Vector4f(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
@@ -63,8 +83,10 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this {@link Vector4f} to the values of the given <code>v</code>.
      * 
      * @param v
+     *          the vector whose values will be copied into this
      * @return this
      */
     public Vector4f set(Vector4f v) {
@@ -76,7 +98,8 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the attributes to match the ones of the supplied javax.vecmath vector.
+     * Set the attributes to match the ones of the supplied javax.vecmath
+     * vector.
      * 
      * @param javaxVecmathVector
      * @return this
@@ -90,7 +113,8 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the x, y and z attributes to match the ones of the supplied org.lwjgl.util.vector vector.
+     * Set the x, y and z attributes to match the ones of the supplied
+     * org.lwjgl.util.vector vector.
      * 
      * @param lwjglVector
      * @return this
@@ -102,11 +126,15 @@ public class Vector4f implements Serializable, Externalizable {
         this.w = lwjglVector.w;
         return this;
     }
-    
+
     /**
+     * Set the first three components of this to the components of <code>v</code>
+     * and the last component to <code>w</code>.
      * 
      * @param v
+     *          the {@link Vector3f} to copy
      * @param w
+     *          the w component
      * @return this
      */
     public Vector4f set(Vector3f v, float w) {
@@ -118,11 +146,13 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set the first three components of this to the components of <code>v</code>
+     * and the last component to <code>w</code>.
      * 
-     * @param x
-     * @param y
-     * @param z
+     * @param v
+     *          the {@link Vector3f} to copy
      * @param w
+     *          the w component
      * @return this
      */
     public Vector4f set(float x, float y, float z, float w) {
@@ -132,7 +162,7 @@ public class Vector4f implements Serializable, Externalizable {
         this.w = w;
         return this;
     }
-    
+
     /**
      * Subtract the supplied vector from this one.
      * 
@@ -203,10 +233,11 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix mat and store the result in <code>this</code>.
+     * Multiply this Vector4f by the given matrix mat and store the result in
+     * <code>this</code>.
      * 
      * @param mat
-     *          the matrix to multiply the vector with
+     *            the matrix to multiply the vector with
      * @return this
      */
     public Vector4f mul(Matrix4f mat) {
@@ -215,12 +246,13 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix mat and store the result in <code>dest</code>.
+     * Multiply this Vector4f by the given matrix mat and store the result in
+     * <code>dest</code>.
      * 
      * @param mat
-     *          the matrix to multiply the vector with
+     *            the matrix to multiply the vector with
      * @param dest
-     *          the destination vector to hold the result
+     *            the destination vector to hold the result
      * @return this
      */
     public Vector4f mul(Matrix4f mat, Vector4f dest) {
@@ -229,15 +261,15 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply Vector4f <code>v</code> by the given matrix mat and store the
+     * Multiply <code>v</code> by the given matrix <code>mat</code> and store the
      * result in <code>dest</code>.
      * 
      * @param v
-     *          the vector to multiply the matrix with
+     *            the vector to multiply the matrix with
      * @param mat
-     *          the matrix
+     *            the matrix
      * @param dest
-     *          will hold the result
+     *            will hold the result
      */
     public static void mul(Vector4f v, Matrix4f mat, Vector4f dest) {
         if (v != dest) {
@@ -246,15 +278,15 @@ public class Vector4f implements Serializable, Externalizable {
             dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w;
             dest.w = mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w;
         } else {
-            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w,
-                     mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
-                     mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w, 
-                     mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w);
+        	dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w,
+                    mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
+                    mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w, 
+                    mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w);
         }
     }
 
     /**
-     * Multiply this Vector4f by the given scalar value.
+     * Multiply all components of this {@link Vector4f} by the given scalar value.
      * 
      * @return this
      */
@@ -266,7 +298,10 @@ public class Vector4f implements Serializable, Externalizable {
         return this;
     }
 
-    /** Multiply the given Vector4f v by the scalar value, and store the result in dest.*/
+    /**
+     * Multiply the given Vector4f v by the scalar value, and store the result
+     * in dest.
+     */
     public static void mul(Vector4f v, float scalar, Vector4f dest) {
         dest.x = v.x * scalar;
         dest.y = v.y * scalar;
@@ -276,6 +311,8 @@ public class Vector4f implements Serializable, Externalizable {
 
     /**
      * Return the length squared of this vector.
+     * 
+     * @return the length squared
      */
     public float lengthSquared() {
         return x * x + y * y + z * z + w * w;
@@ -283,6 +320,8 @@ public class Vector4f implements Serializable, Externalizable {
 
     /**
      * Return the length of this vector.
+     * 
+     * @return the length
      */
     public float length() {
         return (float) Math.sqrt(lengthSquared());
@@ -303,55 +342,67 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Normalize the original vector and store the results in dest.
+     * Normalize the <code>original</code> vector and store the result in <code>dest</code>.
+     * 
+     * @param original
+     *          the vector to normalize
+     * @param dest
+     *          will hold the result
      */
     public static void normalize(Vector4f original, Vector4f dest) {
         float d = original.length();
         dest.set(original.x / d,
-                original.y / d,
-                original.z / d,
-                original.w / d);
+                 original.y / d,
+                 original.z / d,
+                 original.w / d);
     }
 
     /**
-     * Returns the distance between the start and end vectors.
+     * Return the distance between <code>start</code> and <code>end</code>.
+     * 
+     * @param start
+     *          the first vector
+     * @param end
+     *          the second vector
+     * @return the euclidean distance
      */
     public static float distance(Vector4f start, Vector4f end) {
         return (float) Math.sqrt(
-                  (end.x - start.x) * (end.x - start.x)
-                + (end.y - start.y) * (end.y - start.y)
-                + (end.z - start.z) * (end.z - start.z)
-                + (end.w - start.w) * (end.w - start.w));
+                (end.x - start.x) * (end.x - start.x)
+              + (end.y - start.y) * (end.y - start.y)
+              + (end.z - start.z) * (end.z - start.z)
+              + (end.w - start.w) * (end.w - start.w));
     }
-    
+
     /**
-     * Returns the distance between this Vector and v.
+     * Return the distance between <code>this</code> vector and <code>v</code>.
+     * 
+     * @return the euclidean distance
      */
     public float distance(Vector4f v) {
-        return (float) Math.sqrt(
-                  (v.x - this.x) * (v.x - this.x)
-                + (v.y - this.y) * (v.y - this.y)
-                + (v.z - this.z) * (v.z - this.z)
-                + (v.w - this.w) * (v.w - this.w));
+        return distance(this, v);
     }
-    
+
     /**
-     * Compute the dot product (inner product) of this vector and the given vector. 
+     * Compute the dot product (inner product) of this vector and <code>v</code>.
      * 
      * @param v
+     *          the other vector
      * @return the dot product
      */
     public float dot(Vector4f v) {
         return (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w);
     }
-    
+
     /**
-     * Return the dot product of the supplied v1 and v2 vectors.
+     * Return the dot product of the supplied <code>v1</code> and <code>v2</code> vectors.
+     * 
+     * @return the dot product
      */
     public static float dot(Vector4f v1, Vector4f v2) {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
     }
-    
+
     /**
      * Set all components to zero.
      * 
@@ -376,8 +427,7 @@ public class Vector4f implements Serializable, Externalizable {
         out.writeFloat(w);
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         x = in.readFloat();
         y = in.readFloat();
         z = in.readFloat();
@@ -385,10 +435,11 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the components of this vector to be the component-wise minimum of this and the other vector.
+     * Set the components of this vector to be the component-wise minimum of
+     * this and the other vector.
      *
      * @param v
-     *          the other vector
+     *            the other vector
      * @return this
      */
     public Vector4f min(Vector4f v) {
@@ -400,10 +451,11 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the components of this vector to be the component-wise maximum of this and the other vector.
+     * Set the components of this vector to be the component-wise maximum of
+     * this and the other vector.
      *
      * @param v
-     *          the other vector
+     *            the other vector
      * @return this
      */
     public Vector4f max(Vector4f v) {
