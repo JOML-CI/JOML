@@ -125,9 +125,9 @@ public class Vector3f implements Serializable, Externalizable {
      * or v2
      */
     public static void sub(Vector3f v1, Vector3f v2, Vector3f dest) {
-        dest.set(v1.x - v2.x,
-                v1.y - v2.y,
-                v1.z - v2.z);
+        dest.x = v1.x - v2.x;
+        dest.y = v1.y - v2.y;
+        dest.z = v1.z - v2.z;
     }
 
     /**
@@ -147,9 +147,9 @@ public class Vector3f implements Serializable, Externalizable {
      * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
      */
     public static void add(Vector3f v1, Vector3f v2, Vector3f dest) {
-        dest.set(v1.x + v2.x,
-                v1.y + v2.y,
-                v1.z + v2.z);
+        dest.x = v1.x + v2.x;
+        dest.y = v1.y + v2.y;
+        dest.z = v1.z + v2.z;
     }
 
     /**
@@ -166,12 +166,9 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply v1 by v2 and store the results into dest. v1 and v2 are not
-     * modified
-     * <B>This is not alias safe so make sure dest is not the same as the left
-     * or right parameters or you WILL get incorrect results!</B>
+     * Multiply v1 by v2 component-wise and store the result into dest.
      */
-    public static void mulFast(Vector3f v1, Vector3f v2, Vector3f dest) {
+    public static void mul(Vector3f v1, Vector3f v2, Vector3f dest) {
         dest.x = v1.x * v2.x;
         dest.y = v1.y * v2.y;
         dest.z = v1.z * v2.z;
@@ -190,25 +187,19 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply Vector3f v by the given rotation matrix mat and store the
-     * results in dest. Does not modify v
+     * Multiply Vector3f v by the given matrix mat and store the
+     * result in dest.
      */
     public static void mul(Vector3f v, Matrix4f mat, Vector3f dest) {
-        dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
-    }
-
-    /**
-     * Multiply Vector3f v by the given rotation matrix mat and store the
-     * results in dest. Does not modify v
-     * <B>This is not alias safe so make sure dest is not the same as the left
-     * or right parameters or you WILL get incorrect results!</B>
-     */
-    public static void mulFast(Vector3f v, Matrix4f mat, Vector3f dest) {
-        dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
-        dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
-        dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
+        if (v != dest) {
+            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
+            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
+            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
+        } else {
+            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
+                     mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
+                     mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
+        }
     }
 
     /**
@@ -224,25 +215,19 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply Vector3f v by the given rotation matrix mat and store the
-     * results in dest. Does not modify v.
+     * Multiply Vector3f v by the given matrix mat and store the
+     * result in dest.
      */
     public static void mul(Vector3f v, Matrix3f mat, Vector3f dest) {
-        dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                 mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                 mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
-    }
-
-    /**
-     * Multiply Vector3f v by the given rotation matrix mat and store the
-     * results in dest. Does not modify v
-     * <B>This is not alias safe so make sure dest is not the same as the left
-     * or right parameters or you WILL get incorrect results!</B>
-     */
-    public static void mulFast(Vector3f v, Matrix3f mat, Vector3f dest) {
-        dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
-        dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
-        dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
+        if (v != dest) {
+            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
+            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
+            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
+        } else {
+            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
+                     mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
+                     mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
+        }
     }
 
     /**

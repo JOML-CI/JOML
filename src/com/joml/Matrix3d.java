@@ -90,7 +90,7 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /** Set the values in this matrix to the ones in m1 */
-    public void set(Matrix3d m1) {
+    public Matrix3d set(Matrix3d m1) {
         m00 = m1.m00;
         m01 = m1.m01;
         m02 = m1.m02;
@@ -100,10 +100,11 @@ public class Matrix3d implements Serializable, Externalizable {
         m20 = m1.m20;
         m21 = m1.m21;
         m22 = m1.m22;
+        return this;
     }
 
     /** Set the values in this matrix to the ones in m1 */
-    public void set(Matrix3f m1) {
+    public Matrix3d set(Matrix3f m1) {
         m00 = m1.m00;
         m01 = m1.m01;
         m02 = m1.m02;
@@ -113,93 +114,117 @@ public class Matrix3d implements Serializable, Externalizable {
         m20 = m1.m20;
         m21 = m1.m21;
         m22 = m1.m22;
+        return this;
     }
 
-    /** Multiplies this matrix by the supplied matrix. This matrix will be the left-sided one */
-    public void mul(Matrix3d right) {
-        set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02,
-             this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02,
-             this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02,
-             this.m00 * right.m10 + this.m10 * right.m11 + this.m20 * right.m12,
-             this.m01 * right.m10 + this.m11 * right.m11 + this.m21 * right.m12,
-             this.m02 * right.m10 + this.m12 * right.m11 + this.m22 * right.m12,
-             this.m00 * right.m20 + this.m10 * right.m21 + this.m20 * right.m22,
-             this.m01 * right.m20 + this.m11 * right.m21 + this.m21 * right.m22,
-             this.m02 * right.m20 + this.m12 * right.m21 + this.m22 * right.m22 );
+    /**
+     * Multiply this matrix by the supplied matrix.
+     * This matrix will be the left one.
+     * 
+     * @return this
+     */
+    public Matrix3d mul(Matrix3d right) {
+        mul(this, right, this);
+        return this;
     }
 
-    /** Multiplies this matrix by the supplied matrix. This matrix will be the left-sided one */
-    public void mul(Matrix3f right) {
-        set( this.m00 * right.m00 + this.m10 * right.m01 + this.m20 * right.m02,
-             this.m01 * right.m00 + this.m11 * right.m01 + this.m21 * right.m02,
-             this.m02 * right.m00 + this.m12 * right.m01 + this.m22 * right.m02,
-             this.m00 * right.m10 + this.m10 * right.m11 + this.m20 * right.m12,
-             this.m01 * right.m10 + this.m11 * right.m11 + this.m21 * right.m12,
-             this.m02 * right.m10 + this.m12 * right.m11 + this.m22 * right.m12,
-             this.m00 * right.m20 + this.m10 * right.m21 + this.m20 * right.m22,
-             this.m01 * right.m20 + this.m11 * right.m21 + this.m21 * right.m22,
-             this.m02 * right.m20 + this.m12 * right.m21 + this.m22 * right.m22 );
+    /**
+     * Multiply this matrix by the supplied matrix.
+     * This matrix will be the left one.
+     * 
+     * @return this
+     */
+    public Matrix3d mul(Matrix3f right) {
+        mul(this, right, this);
+        return this;
     }
 
-    /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices */
+    /**
+     * Multiply the left matrix by the right and store the result in dest.
+     */
     public static void mul(Matrix3d left, Matrix3d right, Matrix3d dest) {
-        dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
-                  left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
-                  left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
-                  left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
-                  left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
-                  left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
-                  left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
-                  left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
-                  left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
+        if (left != dest && right != dest) {
+            dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
+            dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
+            dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
+            dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
+            dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
+            dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
+            dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
+            dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
+            dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
+        } else {
+            dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
+                      left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
+                      left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
+                      left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
+                      left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
+                      left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
+                      left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
+                      left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
+                      left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
+        }
     }
 
-    /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices */
+    /**
+     * Multiply the left matrix by the right and store the result in dest.
+     */
     public static void mul(Matrix3f left, Matrix3d right, Matrix3d dest) {
-        dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
-                  left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
-                  left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
-                  left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
-                  left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
-                  left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
-                  left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
-                  left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
-                  left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
+        if (right != dest) {
+            dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
+            dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
+            dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
+            dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
+            dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
+            dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
+            dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
+            dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
+            dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
+        } else {
+            dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
+                      left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
+                      left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
+                      left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
+                      left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
+                      left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
+                      left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
+                      left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
+                      left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
+        }
     }
 
-    /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices */
+    /**
+     * Multiply the left matrix by the right and store the result in dest.
+     */
     public static void mul(Matrix3d left, Matrix3f right, Matrix3d dest) {
-        dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
-                  left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
-                  left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
-                  left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
-                  left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
-                  left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
-                  left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
-                  left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
-                  left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
+        if (left != dest) {
+            dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
+            dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
+            dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
+            dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
+            dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
+            dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
+            dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
+            dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
+            dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
+        } else {
+            dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
+                      left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
+                      left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
+                      left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
+                      left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
+                      left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
+                      left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
+                      left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
+                      left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
+        }
     }
 
-    /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices. 
-    * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
-    public static void mulFast(Matrix3d left, Matrix3d right, Matrix3d dest) {
-        dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
-        dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
-        dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
-        dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
-        dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
-        dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
-        dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
-        dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
-        dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
-    }
-
-    /** Sets the values within this matrix to the supplied double values. The result looks like this:<br><br>
-     * 
-     * m00, m10, m20
-     * m01, m11, m21
-     * m02, m12, m22
-     * 
+    /** Sets the values within this matrix to the supplied double values. The result looks like this:
+     * <p>
+     * m00, m10, m20</br>
+     * m01, m11, m21</br>
+     * m02, m12, m22</br>
      */
     public void set(double m00, double m01, double m02, double m10, double m11,
                     double m12, double m20, double m21, double m22) {
@@ -266,90 +291,77 @@ public class Matrix3d implements Serializable, Externalizable {
                + (m10 * m01 * m22));
     }
 
-    /** Inverts this matrix */
-    public void invert() {
-        double s = determinant();
-        
-        if (s == 0.0) {
-            return;
-        }
-        s = 1.0 / s;
-
-       set( (m11 * m22) - (m21 * m12) * s,
-           -((m01 * m22) - (m21 * m02)) * s,
-            (m01 * m12) - (m11 * m02) * s,
-           -((m10 * m22) - (m20 * m12)) * s,
-            (m00 * m22) - (m20 * m02) * s,
-           -((m00 * m12) - (m10 * m02)) * s,
-            (m10 * m21) - (m20 * m11) * s,
-           -((m00 * m21) - (m20 * m01)) * s,
-            (m00 * m11) - (m10 * m01) * s);
+    /**
+     * Invert this matrix.
+     * 
+     * @return this
+     */
+    public Matrix3d invert() {
+        invert(this, this);
+        return this;
     }
 
-    /** Inverts the source matrix and stores the results in dest. Does not modify the source */
+    /**
+     * Invert the source matrix and store the results in dest.
+     */
     public static void invert(Matrix3d source, Matrix3d dest) {
         double s = source.determinant();
         if (s == 0.0f) {
             return;
         }
         s = 1.0f / s;
-        dest.set(  ((source.m11 * source.m22) - (source.m21 * source.m12)) * s,
-                  -((source.m01 * source.m22) - (source.m21 * source.m02)) * s,
-                   ((source.m01 * source.m12) - (source.m11 * source.m02)) * s,
-                  -((source.m10 * source.m22) - (source.m20 * source.m12)) * s,
-                   ((source.m00 * source.m22) - (source.m20 * source.m02)) * s,
-                  -((source.m00 * source.m12) - (source.m10 * source.m02)) * s,
-                   ((source.m10 * source.m21) - (source.m20 * source.m11)) * s,
-                  -((source.m00 * source.m21) - (source.m20 * source.m01)) * s,
-                   ((source.m00 * source.m11) - (source.m10 * source.m01)) * s  );
-    }
-
-    /** Inverts the source matrix and stores the results in dest. Does not modify the source
-    * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
-    public static void invertFast(Matrix3d source, Matrix3d dest) {
-        double s = source.determinant();
-        if (s == 0.0f) {
-            return;
+        if (source != dest) {
+            dest.m00 = ((source.m11 * source.m22) - (source.m21 * source.m12)) * s;
+            dest.m01 = -((source.m01 * source.m22) - (source.m21 * source.m02)) * s;
+            dest.m02 = ((source.m01 * source.m12) - (source.m11 * source.m02)) * s;
+            dest.m10 = -((source.m10 * source.m22) - (source.m20 * source.m12)) * s;
+            dest.m11 = ((source.m00 * source.m22) - (source.m20 * source.m02)) * s;
+            dest.m12 = -((source.m00 * source.m12) - (source.m10 * source.m02)) * s;
+            dest.m20 = ((source.m10 * source.m21) - (source.m20 * source.m11)) * s;
+            dest.m21 = -((source.m00 * source.m21) - (source.m20 * source.m01)) * s;
+            dest.m22 = ((source.m00 * source.m11) - (source.m10 * source.m01)) * s;
+        } else {
+            dest.set(  ((source.m11 * source.m22) - (source.m21 * source.m12)) * s,
+                      -((source.m01 * source.m22) - (source.m21 * source.m02)) * s,
+                       ((source.m01 * source.m12) - (source.m11 * source.m02)) * s,
+                      -((source.m10 * source.m22) - (source.m20 * source.m12)) * s,
+                       ((source.m00 * source.m22) - (source.m20 * source.m02)) * s,
+                      -((source.m00 * source.m12) - (source.m10 * source.m02)) * s,
+                       ((source.m10 * source.m21) - (source.m20 * source.m11)) * s,
+                      -((source.m00 * source.m21) - (source.m20 * source.m01)) * s,
+                       ((source.m00 * source.m11) - (source.m10 * source.m01)) * s  );
         }
-        s = 1.0f / s;
-        
-        dest.m00 = ((source.m11 * source.m22) - (source.m21 * source.m12)) * s;
-        dest.m01 = -((source.m01 * source.m22) - (source.m21 * source.m02)) * s;
-        dest.m02 = ((source.m01 * source.m12) - (source.m11 * source.m02)) * s;
-        dest.m10 = -((source.m10 * source.m22) - (source.m20 * source.m12)) * s;
-        dest.m11 = ((source.m00 * source.m22) - (source.m20 * source.m02)) * s;
-        dest.m12 = -((source.m00 * source.m12) - (source.m10 * source.m02)) * s;
-        dest.m20 = ((source.m10 * source.m21) - (source.m20 * source.m11)) * s;
-        dest.m21 = -((source.m00 * source.m21) - (source.m20 * source.m01)) * s;
-        dest.m22 = ((source.m00 * source.m11) - (source.m10 * source.m01)) * s;
     }
 
-    /** Transposes this matrix */
-    public void transpose() {
-        set(m00, m10, m20,
-            m01, m11, m21,
-            m02, m12, m22);
+    /**
+     * Transpose this matrix.
+     * 
+     * @return this
+     */
+    public Matrix3d transpose() {
+        transpose(this, this);
+        return this;
     }
 
-    /** Transposes the supplied original matrix and stores the results in dest. The original is not modified */
+    /**
+     * Transpose the supplied original matrix and store the results in dest.
+     */
     public static void transpose(Matrix3d original, Matrix3d dest) {
-        dest.set(original.m00, original.m10, original.m20,
-                 original.m01, original.m11, original.m21,
-                 original.m02, original.m12, original.m22);
-    }
-
-    /** Transposes the supplied original matrix and stores the results in dest. The original is not modified.
-    * <B>This is not alias safe so make sure dest is not the same object as the original or you WILL get incorrect results!</B> */
-    public static void transposeFast(Matrix3d original, Matrix3d dest) {
-        dest.m00 = original.m00;
-        dest.m01 = original.m10;
-        dest.m02 = original.m20;
-        dest.m10 = original.m01;
-        dest.m11 = original.m11;
-        dest.m12 = original.m21;
-        dest.m20 = original.m02;
-        dest.m21 = original.m12;
-        dest.m22 = original.m22;
+        if (original != dest) {
+            dest.m00 = original.m00;
+            dest.m01 = original.m10;
+            dest.m02 = original.m20;
+            dest.m10 = original.m01;
+            dest.m11 = original.m11;
+            dest.m12 = original.m21;
+            dest.m20 = original.m02;
+            dest.m21 = original.m12;
+            dest.m22 = original.m22;
+        } else {
+            dest.set(original.m00, original.m10, original.m20,
+                     original.m01, original.m11, original.m21,
+                     original.m02, original.m12, original.m22);
+        }
     }
 
     /**
@@ -357,8 +369,10 @@ public class Matrix3d implements Serializable, Externalizable {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @return this
      */
-    public void translation(double x, double y) {
+    public Matrix3d translation(double x, double y) {
         this.m00 = 1.0;
         this.m01 = 0.0;
         this.m02 = 0.0;
@@ -368,6 +382,7 @@ public class Matrix3d implements Serializable, Externalizable {
         this.m20 = x;
         this.m21 = y;
         this.m22 = 1.0;
+        return this;
     }
  
     /**
@@ -386,8 +401,8 @@ public class Matrix3d implements Serializable, Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translation(Vector2d position) {
-        translation(position.x, position.y);
+    public Matrix3d translation(Vector2d position) {
+        return translation(position.x, position.y);
     }
 
     /**
@@ -406,8 +421,8 @@ public class Matrix3d implements Serializable, Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      */
-    public void translation(Vector2f position) {
-        translation(position.x, position.y);
+    public Matrix3d translation(Vector2f position) {
+        return translation(position.x, position.y);
     }
 
     /**
@@ -468,7 +483,7 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /** Sets all the values within this matrix to 0 */
-    public void zero() {
+    public Matrix3d zero() {
         this.m00 = 0.0;
         this.m01 = 0.0;
         this.m02 = 0.0;
@@ -478,10 +493,11 @@ public class Matrix3d implements Serializable, Externalizable {
         this.m20 = 0.0;
         this.m21 = 0.0;
         this.m22 = 0.0;
+        return this;
     }
     
     /** Sets this matrix to the identity */
-    public void identity() {
+    public Matrix3d identity() {
         this.m00 = 1.0;
         this.m01 = 0.0;
         this.m02 = 0.0;
@@ -491,6 +507,7 @@ public class Matrix3d implements Serializable, Externalizable {
         this.m20 = 0.0;
         this.m21 = 0.0;
         this.m22 = 1.0;
+        return this;
     }
 
     /**
@@ -503,11 +520,12 @@ public class Matrix3d implements Serializable, Externalizable {
      * @param z
      * 			the scale in z
      */
-    public void scale(double x, double y, double z) {
+    public Matrix3d scale(double x, double y, double z) {
     	identity();
         m00 = x;
         m11 = y;
         m22 = z;
+        return this;
     }
     
     /**
@@ -516,13 +534,14 @@ public class Matrix3d implements Serializable, Externalizable {
      * @param scale
      * 			the scale applied to each dimension
      */
-    public void scale(Vector3d scale) {
+    public Matrix3d scale(Vector3d scale) {
     	identity();
         m00 = scale.x;
         m11 = scale.y;
         m22 = scale.z;
+        return this;
     }
-    
+
     /**
      * Set the given matrix <code>dest</code> to be a simple scale matrix.
      * 
@@ -546,32 +565,24 @@ public class Matrix3d implements Serializable, Externalizable {
      * @param z
      * 			the scale in z
      */
-    public void scale(double x, double y, double z, Matrix3d dest) {
+    public Matrix3d scale(double x, double y, double z, Matrix3d dest) {
     	dest.identity();
     	dest.m00 = x;
     	dest.m11 = y;
     	dest.m22 = z;
+    	return this;
     }
-    
+
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      */
-    public void rotation(double angle, Vector3d axis) {
-    	double cos = Math.cos(angle);
-    	double sin = Math.sin(angle);
-    	m00 = cos + axis.x * axis.x * (1.0 - cos);
-    	m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
-    	m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
-    	m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
-    	m11 = cos + axis.y * axis.y * (1.0 - cos);
-    	m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
-    	m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
-    	m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
-    	m22 = cos + axis.z * axis.z * (1.0 - cos);
+    public Matrix3d rotation(double angle, Vector3d axis) {
+    	rotation(angle, axis, this);
+    	return this;
     }
-    
+
     /**
      * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
@@ -591,8 +602,9 @@ public class Matrix3d implements Serializable, Externalizable {
     	dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
     }
 
-    public void transform(Vector3d v) {
+    public Matrix3d transform(Vector3d v) {
         v.mul(this);
+        return this;
     }
 
     public static void transform(Matrix3d mat, Vector3d v) {

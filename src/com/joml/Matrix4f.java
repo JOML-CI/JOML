@@ -596,23 +596,6 @@ public class Matrix4f implements Serializable, Externalizable {
      */
     public static void transpose(Matrix4f original, Matrix4f dest) {
         if (original != dest) {
-            dest.set(original.m00,
-                     original.m10,
-                     original.m20,
-                     original.m30,
-                     original.m01,
-                     original.m11,
-                     original.m21,
-                     original.m31,
-                     original.m02,
-                     original.m12,
-                     original.m22,
-                     original.m32,
-                     original.m03,
-                     original.m13,
-                     original.m23,
-                     original.m33);
-        } else {
             dest.m00 = original.m00;
             dest.m01 = original.m10;
             dest.m02 = original.m20;
@@ -629,6 +612,23 @@ public class Matrix4f implements Serializable, Externalizable {
             dest.m31 = original.m13;
             dest.m32 = original.m23;
             dest.m33 = original.m33;
+        } else {
+            dest.set(original.m00,
+                    original.m10,
+                    original.m20,
+                    original.m30,
+                    original.m01,
+                    original.m11,
+                    original.m21,
+                    original.m31,
+                    original.m02,
+                    original.m12,
+                    original.m22,
+                    original.m32,
+                    original.m03,
+                    original.m13,
+                    original.m23,
+                    original.m33);
         }
     }
     
@@ -903,22 +903,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f fromMatrix3(Matrix3f mat) {
-    	this.m00 = mat.m00;
-    	this.m01 = mat.m01;
-    	this.m02 = mat.m02;
-    	this.m03 = 0.0f;
-    	this.m10 = mat.m10;
-    	this.m11 = mat.m11;
-    	this.m12 = mat.m12;
-    	this.m13 = 0.0f;
-    	this.m20 = mat.m20;
-    	this.m21 = mat.m21;
-    	this.m22 = mat.m22;
-    	this.m23 = 0.0f;
-    	this.m30 = 0.0f;
-    	this.m31 = 0.0f;
-    	this.m32 = 0.0f;
-    	this.m33 = 1.0f;
+        fromMatrix3(mat, this);
     	return this;
     }
 

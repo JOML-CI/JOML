@@ -235,12 +235,9 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply v1 by v2 and store the results into dest. v1 and v2 are not
-     * modified
-     * <B>This is not alias safe so make sure dest is not the same as the left
-     * or right parameters or you WILL get incorrect results!</B>
+     * Multiply v1 by v2 component-wise and store the result into dest.
      */
-    public static void mulFast(Vector4d v1, Vector4d v2, Vector4d dest) {
+    public static void mul(Vector4d v1, Vector4d v2, Vector4d dest) {
         dest.x = v1.x * v2.x;
         dest.y = v1.y * v2.y;
         dest.z = v1.z * v2.z;
@@ -252,9 +249,9 @@ public class Vector4d implements Serializable, Externalizable {
      */
     public void mul(Matrix4d mat) {
         set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
-                mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
-                mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
-                mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
+            mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
+            mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
+            mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
     }
 
     /**
