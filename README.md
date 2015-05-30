@@ -36,6 +36,15 @@ m.transform(v);
 // v is now transformed using the transformations in m
 ```
 
+Common transformation idioms, such as rotating about a given axis using a specific rotation center, can be expressed in a simple way. The following example rotates about the x-axis and uses (2, 3, 4) as the rotation center:
+```Java
+Matrix4f rot = new Matrix4f();
+Vector3f center = new Vector3f(2.0f, 3.0f, 4.0f);
+rot.translate(center)
+   .rotate(45.0f, 1.0f, 0.0f, 0.0f)
+   .translate(center.negate());
+```
+
 Perspective projections
 ------------
 In the same way that you can concatenate/multiply multiple simple affine transformations, you can use the methods Matrix4f.perspective(), .ortho() to specify a perspective or orthogonal projection and .lookAt() to create a orthonormal transformation that resembles a camera "looking" into a given direction. Those three methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):
