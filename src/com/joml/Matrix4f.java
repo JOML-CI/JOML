@@ -729,7 +729,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param javaxVecmathMatrix
      * @return this
      */
-    public Matrix4f toMatrix(javax.vecmath.Matrix4f javaxVecmathMatrix) {
+    public Matrix4f toJavaxMatrix(javax.vecmath.Matrix4f javaxVecmathMatrix) {
         javaxVecmathMatrix.m00 = m00;
         javaxVecmathMatrix.m10 = m01;
         javaxVecmathMatrix.m20 = m02;
@@ -755,7 +755,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param lwjglMatrix
      * @return this
      */
-    public Matrix4f toMatrix(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
+    public Matrix4f toLwjglMatrix(org.lwjgl.util.vector.Matrix4f lwjglMatrix) {
         lwjglMatrix.m00 = m00;
         lwjglMatrix.m01 = m01;
         lwjglMatrix.m02 = m02;

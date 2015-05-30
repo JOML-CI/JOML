@@ -65,40 +65,6 @@ public class Matrix3f implements Serializable, Externalizable {
         this.m22 = mat.m22;
     }
     
-    /**
-     * Create a new matrix that is initialized with the values of the given javax.vecmath.Matrix3f.
-     * 
-     * @param javaxVecmathMatrix
-     */
-    public Matrix3f(javax.vecmath.Matrix3f javaxVecmathMatrix) {
-        this.m00 = javaxVecmathMatrix.m00;
-        this.m01 = javaxVecmathMatrix.m10;
-        this.m02 = javaxVecmathMatrix.m20;
-        this.m10 = javaxVecmathMatrix.m01;
-        this.m11 = javaxVecmathMatrix.m11;
-        this.m12 = javaxVecmathMatrix.m21;
-        this.m20 = javaxVecmathMatrix.m02;
-        this.m21 = javaxVecmathMatrix.m12;
-        this.m22 = javaxVecmathMatrix.m22;
-    }
-    
-    /**
-     * Create a new matrix that is initialized with the values of the given org.lwjgl.util.vector.Matrix3f.
-     * 
-     * @param lwjglMatrix
-     */
-    public Matrix3f(org.lwjgl.util.vector.Matrix3f lwjglMatrix) {
-        this.m00 = lwjglMatrix.m00;
-        this.m01 = lwjglMatrix.m01;
-        this.m02 = lwjglMatrix.m02;
-        this.m10 = lwjglMatrix.m10;
-        this.m11 = lwjglMatrix.m11;
-        this.m12 = lwjglMatrix.m12;
-        this.m20 = lwjglMatrix.m20;
-        this.m21 = lwjglMatrix.m21;
-        this.m22 = lwjglMatrix.m22;
-    }
-    
     public Matrix3f(float m00, float m01, float m02, float m10, float m11,
                     float m12, float m20, float m21, float m22) {
         this.m00 = m00;
