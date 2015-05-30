@@ -40,7 +40,7 @@ Common transformation idioms, such as rotating about a given axis using a specif
 ```Java
 Matrix4f rot = new Matrix4f();
 Vector3f center = new Vector3f(0.0f, 3.0f, 4.0f);
-Vector4f pointToRotate = new Vector3f(0.0f, 4.0f, 4.0f, 1.0f);
+Vector4f pointToRotate = new Vector4f(0.0f, 4.0f, 4.0f, 1.0f);
 rot.translate(center)
    .rotate(90.0f, 1.0f, 0.0f, 0.0f)
    .translate(center.negate())
