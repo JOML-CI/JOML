@@ -62,21 +62,38 @@ viewProj.perspective(45.0f, 1.0f, 0.01f, 100.0f)
 ```
 The *invViewProj* matrix now contains the inverse of the *viewProj* matrix, but the latter is still intact.
 
+Usage in [LWJGL](https://github.com/LWJGL/lwjgl3)
+------------
+JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader:
+```Java
+FloatBuffer fb = BufferUtils.createFloatBuffer(16);
+Matrix4f m = new Matrix4f()
+     .perspective(45.0f, 1.0f, 0.01f, 100.0f)
+     .lookAt(0.0f, 0.0f, 10.0f,
+             0.0f, 0.0f, 0.0f,
+             0.0f, 1.0f, 0.0f);
+m.get(fb);
+fb.rewind();
+glUniformMatrix4(mat4Location, false, fb);
+```
+
 Matrix stack
 ------------
 JOML also features an interface that resembles the matrix stack from legacy OpenGL.
 This allows you to use all of the legacy OpenGL matrix stack operations even in modern OpenGL applications,
 but without the otherwise necessary JNI calls into the graphics driver.
 ```Java
-MatrixStack stack = new MatrixStack();
-// Compose the final matrix
-stack.translate(2.0f, 0.0f, 0.0f);
-stack.scale(0.5f, 0.5f, 0.5f);
-// Obtain the final matrix
+MatrixStack s = new MatrixStack();
 Matrix4f result = new Matrix4f();
-stack.get(result);
-// Or store it into a FloatBuffer for final submission to OpenGL as uniform mat4
-FloatBuffer fb = ByteBuffer.allocateDirect(4 * 16).order(ByteOrder.nativeOrder()).asFloatBuffer();
-stack.get(fb);
-fb.rewind();
+s.translate(2.0f, 0.0f, 0.0f);
+s.pushMatrix();
+{
+  s.scale(0.5f, 0.5f, 0.5f);
+  s.get(result);
+  // do something with result
+}
+s.popMatrix();
+s.rotate(45.0f, 0.0f, 0.0f, 1.0f);
+s.get(result);
+// do something with result
 ```
