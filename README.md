@@ -62,9 +62,9 @@ viewProj.perspective(45.0f, 1.0f, 0.01f, 100.0f)
 ```
 The *invViewProj* matrix now contains the inverse of the *viewProj* matrix, but the latter is still intact.
 
-Usage in [LWJGL](https://github.com/LWJGL/lwjgl3)
+Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
 ------------
-JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader:
+JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. The Matrix4f class provides a methods to transfer a matrix into a Java NIO FloatBuffer:
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f()
