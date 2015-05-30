@@ -18,7 +18,7 @@ Vector3f v = new Vector3f();
 Vector3f a = new Vector3f(1.0f, 0.0f, 0.0f);
 // v = v + a
 v.add(a);
-// a = cross product of v and a
+// a = a x v
 a.cross(v);
 ```
 
@@ -64,7 +64,7 @@ The *invViewProj* matrix now contains the inverse of the *viewProj* matrix, but 
 
 Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
 ------------
-JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. The Matrix4f class provides a methods to transfer a matrix into a Java NIO FloatBuffer:
+JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. The Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f()
