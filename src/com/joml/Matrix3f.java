@@ -540,15 +540,16 @@ public class Matrix3f implements Serializable, Externalizable {
     public Matrix3f rotation(float angle, float x, float y, float z) {
     	float cos = (float) Math.cos(angle);
     	float sin = (float) Math.sin(angle);
-    	m00 = cos + x * x * (1.0f - cos);
-    	m10 = x * y * (1.0f - cos) - z * sin;
-    	m20 = x * z * (1.0f - cos) + y * sin;
-    	m01 = y * x * (1.0f - cos) + z * sin;
-    	m11 = cos + y * y * (1.0f - cos);
-    	m21 = y * z * (1.0f - cos) - x * sin;
-    	m02 = z * x * (1.0f - cos) - y * sin;
-    	m12 = z * y * (1.0f - cos) + x * sin;
-    	m22 = cos + z * z * (1.0f - cos);
+    	float C = 1.0f - cos;
+    	m00 = cos + x * x * C;
+    	m10 = x * y * C - z * sin;
+    	m20 = x * z * C + y * sin;
+    	m01 = y * x * C + z * sin;
+    	m11 = cos + y * y * C;
+    	m21 = y * z * C - x * sin;
+    	m02 = z * x * C - y * sin;
+    	m12 = z * y * C + x * sin;
+    	m22 = cos + z * z * C;
     	return this;
     }
 
@@ -569,15 +570,16 @@ public class Matrix3f implements Serializable, Externalizable {
     public static void rotation(float angle, float x, float y, float z, Matrix3f dest) {
     	float cos = (float) Math.cos(angle);
     	float sin = (float) Math.sin(angle);
-    	dest.m00 = cos + x * x * (1.0f - cos);
-    	dest.m10 = x * y * (1.0f - cos) - z * sin;
-    	dest.m20 = x * z * (1.0f - cos) + y * sin;
-    	dest.m01 = y * x * (1.0f - cos) + z * sin;
-    	dest.m11 = cos + y * y * (1.0f - cos);
-    	dest.m21 = y * z * (1.0f - cos) - x * sin;
-    	dest.m02 = z * x * (1.0f - cos) - y * sin;
-    	dest.m12 = z * y * (1.0f - cos) + x * sin;
-    	dest.m22 = cos + z * z * (1.0f - cos);
+        float C = 1.0f - cos;
+    	dest.m00 = cos + x * x * C;
+    	dest.m10 = x * y * C - z * sin;
+    	dest.m20 = x * z * C + y * sin;
+    	dest.m01 = y * x * C + z * sin;
+    	dest.m11 = cos + y * y * C;
+    	dest.m21 = y * z * C - x * sin;
+    	dest.m02 = z * x * C - y * sin;
+    	dest.m12 = z * y * C + x * sin;
+    	dest.m22 = cos + z * z * C;
     }
     
     public static void rotation(float angle, Vector3f axis, Matrix3f dest) {

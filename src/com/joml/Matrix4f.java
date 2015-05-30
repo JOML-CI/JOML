@@ -964,17 +964,18 @@ public class Matrix4f implements Serializable, Externalizable {
     public Matrix4f rotation(float angle, float x, float y, float z) {
     	float cos = (float) Math.cos(angle);
     	float sin = (float) Math.sin(angle);
-    	m00 = cos + x * x * (1.0f - cos);
-    	m10 = x * y * (1.0f - cos) - z * sin;
-    	m20 = x * z * (1.0f - cos) + y * sin;
+    	float C = 1.0f - cos;
+    	m00 = cos + x * x * C;
+    	m10 = x * y * C - z * sin;
+    	m20 = x * z * C + y * sin;
     	m30 = 0.0f;
-    	m01 = y * x * (1.0f - cos) + z * sin;
-    	m11 = cos + y * y * (1.0f - cos);
-    	m21 = y * z * (1.0f - cos) - x * sin;
+    	m01 = y * x * C + z * sin;
+    	m11 = cos + y * y * C;
+    	m21 = y * z * C - x * sin;
     	m31 = 0.0f;
-    	m02 = z * x * (1.0f - cos) - y * sin;
-    	m12 = z * y * (1.0f - cos) + x * sin;
-    	m22 = cos + z * z * (1.0f - cos);
+    	m02 = z * x * C - y * sin;
+    	m12 = z * y * C + x * sin;
+    	m22 = cos + z * z * C;
     	m32 = 0.0f;
     	m03 = 0.0f;
     	m13 = 0.0f;
