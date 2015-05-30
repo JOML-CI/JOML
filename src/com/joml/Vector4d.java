@@ -136,10 +136,10 @@ public class Vector4d implements Serializable, Externalizable {
      * or v2
      */
     public static void sub(Vector4d v1, Vector4d v2, Vector4d dest) {
-        dest.set(v1.x - v2.x,
-                v1.y - v2.y,
-                v1.z - v2.z,
-                v1.w - v2.w);
+        dest.x = v1.x - v2.x;
+        dest.y = v1.y - v2.y;
+        dest.z = v1.z - v2.z;
+        dest.w = v1.w - v2.w;
     }
 
     /**
@@ -147,10 +147,10 @@ public class Vector4d implements Serializable, Externalizable {
      * or v2
      */
     public static void sub(Vector4d v1, Vector4f v2, Vector4d dest) {
-        dest.set(v1.x - v2.x,
-                v1.y - v2.y,
-                v1.z - v2.z,
-                v1.w - v2.w);
+        dest.x = v1.x - v2.x;
+        dest.y = v1.y - v2.y;
+        dest.z = v1.z - v2.z;
+        dest.w = v1.w - v2.w;
     }
 
     /**
@@ -158,10 +158,10 @@ public class Vector4d implements Serializable, Externalizable {
      * or v2
      */
     public static void sub(Vector4f v1, Vector4d v2, Vector4d dest) {
-        dest.set(v1.x - v2.x,
-                v1.y - v2.y,
-                v1.z - v2.z,
-                v1.w - v2.w);
+        dest.x = v1.x - v2.x;
+        dest.y = v1.y - v2.y;
+        dest.z = v1.z - v2.z;
+        dest.w = v1.w - v2.w;
     }
 
     /**
@@ -188,30 +188,30 @@ public class Vector4d implements Serializable, Externalizable {
      * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
      */
     public static void add(Vector4d v1, Vector4d v2, Vector4d dest) {
-        dest.set(v1.x + v2.x,
-                v1.y + v2.y,
-                v1.z + v2.z,
-                v1.w + v2.w);
+        dest.x = v1.x + v2.x;
+        dest.y = v1.y + v2.y;
+        dest.z = v1.z + v2.z;
+        dest.w = v1.w + v2.w;
     }
 
     /**
      * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
      */
     public static void add(Vector4d v1, Vector4f v2, Vector4d dest) {
-        dest.set(v1.x + v2.x,
-                v1.y + v2.y,
-                v1.z + v2.z,
-                v1.w + v2.w);
+        dest.x = v1.x + v2.x;
+        dest.y = v1.y + v2.y;
+        dest.z = v1.z + v2.z;
+        dest.w = v1.w + v2.w;
     }
 
     /**
      * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
      */
     public static void add(Vector4f v1, Vector4d v2, Vector4d dest) {
-        dest.set(v1.x + v2.x,
-                v1.y + v2.y,
-                v1.z + v2.z,
-                v1.w + v2.w);
+        dest.x = v1.x + v2.x;
+        dest.y = v1.y + v2.y;
+        dest.z = v1.z + v2.z;
+        dest.w = v1.w + v2.w;
     }
 
     /**
@@ -247,21 +247,17 @@ public class Vector4d implements Serializable, Externalizable {
     /**
      * Multiply this Vector4d by the given rotation matrix mat
      */
-    public void mul(Matrix4d mat) {
-        set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
-            mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
-            mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
-            mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
+    public Vector4d mul(Matrix4d mat) {
+        mul(this, mat, this);
+        return this;
     }
 
     /**
      * Multiply this Vector4d by the given rotation matrix mat
      */
-    public void mul(Matrix4f mat) {
-        set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
-                mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
-                mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
-                mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
+    public Vector4d mul(Matrix4f mat) {
+        mul(this, mat, this);
+        return this;
     }
 
     /**
@@ -269,10 +265,17 @@ public class Vector4d implements Serializable, Externalizable {
      * results in dest. Does not modify v
      */
     public static void mul(Vector4d v, Matrix4d mat, Vector4d dest) {
-        dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w,
-                mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
-                mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w, 
-                mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w);
+        if (v != dest) {
+            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w;
+            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w;
+            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w;
+            dest.w = mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w;
+        } else {
+            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w,
+                    mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
+                    mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w, 
+                    mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w);
+        }
     }
 
     /**
@@ -280,23 +283,17 @@ public class Vector4d implements Serializable, Externalizable {
      * results in dest. Does not modify v
      */
     public static void mul(Vector4d v, Matrix4f mat, Vector4d dest) {
-        dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w,
-                mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
-                mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w, 
-                mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w);
-    }
-
-    /**
-     * Multiply Vector4d v by the given rotation matrix mat and store the
-     * results in dest. Does not modify v
-     * <B>This is not alias safe so make sure dest is not the same as the left
-     * or right parameters or you WILL get incorrect results!</B>
-     */
-    public static void mulFast(Vector4d v, Matrix4d mat, Vector4d dest) {
-        dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w;
-        dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w;
-        dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w;
-        dest.w = mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w;
+        if (v != dest) {
+            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w;
+            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w;
+            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w;
+            dest.w = mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w;  
+        } else {
+            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w,
+                     mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
+                     mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w, 
+                     mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w);
+        }
     }
 
     /**
