@@ -36,14 +36,17 @@ m.transform(v);
 // v is now transformed using the transformations in m
 ```
 
-Common transformation idioms, such as rotating about a given axis using a specific rotation center, can be expressed in a simple way. The following example rotates about the x-axis and uses (0, 3, 4) as the rotation center:
+Common transformation idioms, such as rotating about a given axis using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 1, 0) about the x-axis and uses (0, 3, 4) as the rotation center:
 ```Java
 Matrix4f rot = new Matrix4f();
 Vector3f center = new Vector3f(0.0f, 3.0f, 4.0f);
+Vector4f pointToRotate = new Vector3f(0.0f, 4.0f, 4.0f, 1.0f);
 rot.translate(center)
-   .rotate(45.0f, 1.0f, 0.0f, 0.0f)
-   .translate(center.negate());
+   .rotate(90.0f, 1.0f, 0.0f, 0.0f)
+   .translate(center.negate())
+   .transform(pointToRotate);
 ```
+The vector *pointToRotate* will now represent (0, 3, 5).
 
 Perspective projections
 ------------
