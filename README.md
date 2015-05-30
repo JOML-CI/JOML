@@ -34,7 +34,7 @@ Vector4f v = new Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
 new Matrix4f().translate(2.0f, 0.0f, 0.0f)
               .scale(0.5f);
               .transform(v);
-// v is now transformed using the transformations in m
+// v is now transformed by the specified transformation
 ```
 
 Common transformation idioms, such as rotating about a given axis using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 4, 4) about the x-axis and uses (0, 3, 4) as the rotation center:
