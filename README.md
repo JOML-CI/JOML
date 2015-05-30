@@ -91,6 +91,37 @@ fb.rewind();
 glUniformMatrix4fv(mat4Location, false, fb);
 ```
 
+Staying allocation-free
+-----------------------
+JOML is designed to be completely allocation-free for all methods. That means JOML will never allocate Java objects on the heap unless you as the client specifically requests to do so via the *new* keyword when creating a new matrix or vector or calling the *toString()* method on them.
+
+Since you have to create a matrix or a vector at some point in order to make any computations with JOML on them, you are advised to do so once at the initialization of your program. Those objects will then be the *working memory/objects* for JOML. These working objects can then be reused in your hot path of your application without incurring any additional allocations. The following example shows a typical usecase with LWJGL:
+
+```Java
+FloatBuffer fb;
+Matrix4f m;
+
+public void init() {
+  FloatBuffer fb = BufferUtils.createFloatBuffer(16);
+  Matrix4f m = new Matrix4f();
+  ...
+}
+
+public void frame() {
+  ..
+  m.identity()
+   .perspective(45.0f, (float)width/height, 0.01f, 100.0f)
+   .lookAt(0.0f, 0.0f, 10.0f,
+           0.0f, 0.0f, 0.0f,
+           0.0f, 1.0f, 0.0f);
+  m.get(fb);
+  fb.rewind();
+  glUniformMatrix4fv(mat4Location, false, fb);
+  ...
+}
+```
+In the example above, a single Matrix4f is allocated during some initialization time when the *init()* method is called. Then each *frame()* we reinitialize the same matrix with the *identity()* and recompute the camera transformation based on some other parameters.
+
 Matrix stack
 ------------
 JOML also features an interface that resembles the matrix stack from legacy OpenGL.
