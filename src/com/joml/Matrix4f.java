@@ -714,6 +714,22 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Get the current values of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * <p>
+     * This is the reverse method of {@link #set(Matrix4f)} and allows to obtain
+     * intermediate calculation results when chaining multiple transformations.
+     * 
+     * @param dest
+     *          the destination matrix
+     * @return this
+     */
+    public Matrix4f get(Matrix4f dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
      * Store this matrix into the supplied {@link FloatBuffer}.
      * <p>
      * This method will increment the position of the given FloatBuffer by 16, if it returns normally.

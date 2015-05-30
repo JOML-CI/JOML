@@ -375,6 +375,22 @@ public class Matrix3f implements Serializable, Externalizable {
 
     }
 
+    /**
+     * Get the current values of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * <p>
+     * This is the reverse method of {@link #set(Matrix3f)} and allows to obtain
+     * intermediate calculation results when chaining multiple transformations.
+     * 
+     * @param dest
+     *          the destination matrix
+     * @return this
+     */
+    public Matrix3f get(Matrix3f dest) {
+        dest.set(this);
+        return this;
+    }
+
     /** Stores this matrix in the supplied FloatBuffer */
     public Matrix3f get(FloatBuffer buffer) {
         buffer.put(this.m00);

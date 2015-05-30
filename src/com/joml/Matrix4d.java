@@ -704,6 +704,22 @@ public class Matrix4d implements Serializable, Externalizable {
              + "           " + formatter.format(this.m03) + ", " + formatter.format(this.m13) + ", " + formatter.format(this.m23) + ", " + formatter.format(this.m33) + " }\n";
     }
 
+    /**
+     * Get the current values of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * <p>
+     * This is the reverse method of {@link #set(Matrix4d)} and allows to obtain
+     * intermediate calculation results when chaining multiple transformations.
+     * 
+     * @param dest
+     *          the destination matrix
+     * @return this
+     */
+    public Matrix4d get(Matrix4d dest) {
+        dest.set(this);
+        return this;
+    }
+
     /** Stores this matrix in the supplied DoubleBuffer */
     public void get(DoubleBuffer buffer) {
         buffer.put(this.m00);

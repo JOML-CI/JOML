@@ -464,6 +464,22 @@ public class Matrix3d implements Serializable, Externalizable {
                 + "           " + this.m02 + ", " + this.m12 + ", " + this.m22 + " }\n";
     }
 
+    /**
+     * Get the current values of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * <p>
+     * This is the reverse method of {@link #set(Matrix3d)} and allows to obtain
+     * intermediate calculation results when chaining multiple transformations.
+     * 
+     * @param dest
+     *          the destination matrix
+     * @return this
+     */
+    public Matrix3d get(Matrix3d dest) {
+        dest.set(this);
+        return this;
+    }
+
     /** Stores this matrix in the supplied DoubleBuffer */
     public Matrix3d get(DoubleBuffer buffer) {
         buffer.put(this.m00);
