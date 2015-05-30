@@ -159,4 +159,15 @@ public class Vector2f implements Serializable, Externalizable {
         y = in.readFloat();
     }
 
+    /**
+     * Negate this vector.
+     * 
+     * @return this
+     */
+    public Vector2f negate() {
+        x = -x;
+        y = -y;
+        return this;
+    }
+
 }

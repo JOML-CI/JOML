@@ -446,4 +446,16 @@ public class Vector3d implements Serializable, Externalizable {
         z = in.readDouble();
     }
 
+    /**
+     * Negate this vector.
+     * 
+     * @return this
+     */
+    public Vector3d negate() {
+        x = -x;
+        y = -y;
+        z = -z;
+        return this;
+    }
+
 }

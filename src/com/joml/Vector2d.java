@@ -220,4 +220,15 @@ public class Vector2d implements Serializable, Externalizable {
         y = in.readDouble();
     }
 
+    /**
+     * Negate this vector.
+     * 
+     * @return this
+     */
+    public Vector2d negate() {
+        x = -x;
+        y = -y;
+        return this;
+    }
+
 }
