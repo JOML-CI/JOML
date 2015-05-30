@@ -14,12 +14,14 @@ The following is a collection of simple usage examples.
 All operations in JOML are designed to modify the object on which the operation is invoked. This helps in completely eliminating any object allocations, which the client could otherwise not control and which impact the GC performance resulting in small hickups.
 The client is responsible to allocate the needed working objects.
 ```Java
-Vector3f v = new Vector3f();
+Vector3f v = new Vector3f(0.0f, 1.0f, 0.0f);
 Vector3f a = new Vector3f(1.0f, 0.0f, 0.0f);
 // v = v + a
 v.add(a);
 // a = a x v
 a.cross(v);
+// a = a/|a|
+a.normalize();
 ```
 
 Matrix API
