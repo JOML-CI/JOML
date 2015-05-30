@@ -272,6 +272,32 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set the values of this matrix to the ones of the given com.badlogic.gdx.math.Matrix4 matrix.
+     * 
+     * @param gdxMatrix
+     * @return this
+     */
+    public Matrix4f fromGdxMatrix(com.badlogic.gdx.math.Matrix4 gdxMatrix) {
+        m00 = gdxMatrix.val[0];
+        m01 = gdxMatrix.val[1];
+        m02 = gdxMatrix.val[2];
+        m03 = gdxMatrix.val[3];
+        m10 = gdxMatrix.val[4];
+        m11 = gdxMatrix.val[5];
+        m12 = gdxMatrix.val[6];
+        m13 = gdxMatrix.val[7];
+        m20 = gdxMatrix.val[8];
+        m21 = gdxMatrix.val[9];
+        m22 = gdxMatrix.val[10];
+        m23 = gdxMatrix.val[11];
+        m30 = gdxMatrix.val[12];
+        m31 = gdxMatrix.val[13];
+        m32 = gdxMatrix.val[14];
+        m33 = gdxMatrix.val[15];
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      *
      * @param right the right matrix
@@ -763,6 +789,32 @@ public class Matrix4f implements Serializable, Externalizable {
         lwjglMatrix.m31 = m31;
         lwjglMatrix.m32 = m32;
         lwjglMatrix.m33 = m33;
+        return this;
+    }
+
+    /**
+     * Store the values of this matrix into the given com.badlogic.gdx.math.Matrix4.
+     * 
+     * @param gdxMatrix
+     * @return this
+     */
+    public Matrix4f toGdxMatrix(com.badlogic.gdx.math.Matrix4 gdxMatrix) {
+        gdxMatrix.val[0] = m00;
+        gdxMatrix.val[1] = m01;
+        gdxMatrix.val[2] = m02;
+        gdxMatrix.val[3] = m03;
+        gdxMatrix.val[4] = m10;
+        gdxMatrix.val[5] = m11;
+        gdxMatrix.val[6] = m12;
+        gdxMatrix.val[7] = m13;
+        gdxMatrix.val[8] = m20;
+        gdxMatrix.val[9] = m21;
+        gdxMatrix.val[10] = m22;
+        gdxMatrix.val[11] = m23;
+        gdxMatrix.val[12] = m30;
+        gdxMatrix.val[13] = m31;
+        gdxMatrix.val[14] = m32;
+        gdxMatrix.val[15] = m33;
         return this;
     }
 

@@ -87,5 +87,11 @@
 			<version>2.8.4</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx</artifactId>
+			<version>1.6.1</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 </project>
