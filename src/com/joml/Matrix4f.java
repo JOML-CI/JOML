@@ -1561,4 +1561,56 @@ public class Matrix4f implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Apply the rotation transformation of the given {@link Quaternion} to this matrix.
+     * 
+     * @param quat
+     *          the {@link Quaternion}
+     * @return this
+     */
+    public Matrix4f mul(Quaternion quat) {
+        float q00 = 2.0f * quat.x * quat.x;
+        float q11 = 2.0f * quat.y * quat.y;
+        float q22 = 2.0f * quat.z * quat.z;
+        float q01 = 2.0f * quat.x * quat.y;
+        float q02 = 2.0f * quat.x * quat.z;
+        float q03 = 2.0f * quat.x * quat.w;
+        float q12 = 2.0f * quat.y * quat.z;
+        float q13 = 2.0f * quat.y * quat.w;
+        float q23 = 2.0f * quat.z * quat.w;
+
+        float rm00 = 1.0f - q11 - q22;
+        float rm01 = q01 + q23;
+        float rm02 = q02 - q13;
+        float rm10 = q01 - q23;
+        float rm11 = 1.0f - q22 - q00;
+        float rm12 = q12 + q03;
+        float rm20 = q02 + q13;
+        float rm21 = q12 - q03;
+        float rm22 = 1.0f - q11 - q00;
+
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        this.m00 = nm00;
+        this.m01 = nm01;
+        this.m02 = nm02;
+        this.m03 = nm03;
+        this.m10 = nm10;
+        this.m11 = nm11;
+        this.m12 = nm12;
+        this.m13 = nm13;
+        
+        return this;
+    }
+
 }
