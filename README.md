@@ -47,6 +47,21 @@ Matrix4f m = new Matrix4f()
 ```
 The above transformation can then be used as a "view-projection" matrix in a shader.
 
+Computation result
+------------
+Usually, the instance methods in Matrix4f operate on the matrix on which they are invoked by writing the computation result into that matrix back. Most of the methods however also allow to specify another destination matrix to write the result into.
+This can be useful for computing the view-projection matrix and its inverse in one go:
+```Java
+Matrix4f viewProj = new Matrix4f();
+Matrix4f invViewProj = new Matrix4f();
+viewProj.perspective(45.0f, 1.0f, 0.01f, 100.0f)
+        .lookAt(0.0f, 1.0f, 3.0f,
+                0.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f)
+        .invert(invViewProj);
+```
+The *invViewProj* matrix now contains the inverse of the *viewProj* matrix, but the latter is still intact.
+
 Matrix stack
 ------------
 JOML also features an interface that resembles the matrix stack from legacy OpenGL.
