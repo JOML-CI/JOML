@@ -1797,7 +1797,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @param axisAngle
-     *          the {@link AxisAngle4f}
+     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @return this
      */
     public Matrix4f rotate(AxisAngle4f axisAngle) {
