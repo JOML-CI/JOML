@@ -1269,20 +1269,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotate(float ang, float x, float y, float z) {
+        float s = (float) Math.sin(Math.toRadians(ang));
+        float c = (float) Math.cos(Math.toRadians(ang));
+        float C = 1.0f - c;
+
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
         // m33 = 1
-        float cos = (float) Math.cos(Math.toRadians(ang));
-        float sin = (float) Math.sin(Math.toRadians(ang));
-        float rm00 = (cos + x * x * (1.0f - cos));
-        float rm10 = x * y * (1.0f - cos) - z * sin;
-        float rm20 = x * z * (1.0f - cos) + y * sin;
-        float rm01 = y * x * (1.0f - cos) + z * sin;
-        float rm11 = cos + y * y * (1.0f - cos);
-        float rm21 = y * z * (1.0f - cos) - x * sin;
-        float rm02 = z * x * (1.0f - cos) - y * sin;
-        float rm12 = z * y * (1.0f - cos) + x * sin;
-        float rm22 = cos + z * z * (1.0f - cos);
+        float rm00 = x * x * C + c;
+        float rm01 = y * x * C + z * s;
+        float rm02 = z * x * C - y * s;
+        float rm10 = x * y * C - z * s;
+        float rm11 = y * y * C + c;
+        float rm12 = z * y * C + x * s;
+        float rm20 = x * z * C + y * s;
+        float rm21 = y * z * C - x * s;
+        float rm22 = z * z * C + c;
 
         // add temporaries for dependent values
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
@@ -1307,6 +1309,7 @@ public class Matrix4f implements Serializable, Externalizable {
         m11 = nm11;
         m12 = nm12;
         m13 = nm13;
+
         return this;
     }
 
@@ -1801,45 +1804,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotate(AxisAngle4f axisAngle) {
-        float x = axisAngle.x;
-        float y = axisAngle.y;
-        float z = axisAngle.z;
-        float s = (float) Math.sin(axisAngle.angle);
-        float c = (float) Math.cos(axisAngle.angle);
-        float C = 1.0f - c;
-
-        float rm00 = x * x * C + c;
-        float rm01 = y * x * C + z * s;
-        float rm02 = z * x * C - y * s;
-        float rm10 = x * y * C - z * s;
-        float rm11 = y * y * C + c;
-        float rm12 = z * y * C + x * s;
-        float rm20 = x * z * C + y * s;
-        float rm21 = y * z * C - x * s;
-        float rm22 = z * z * C + c;
-
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
-        this.m00 = nm00;
-        this.m01 = nm01;
-        this.m02 = nm02;
-        this.m03 = nm03;
-        this.m10 = nm10;
-        this.m11 = nm11;
-        this.m12 = nm12;
-        this.m13 = nm13;
-
-        return this;
+        return rotate((float) Math.toDegrees(axisAngle.angle), axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
 }
