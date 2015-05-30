@@ -495,16 +495,16 @@ public class Matrix4d implements Serializable, Externalizable {
 
     /** Returns the determinant of this matrix */
     public double determinant() {
-        return     (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
-                 + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
-                 - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
+        return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
+             + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
+             - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
     
     /** Returns the determinant of the supplied matrix */
     public static double determinant(Matrix4d source) {
-        return     (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
-                 + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
-                 - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
+        return (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
+             + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
+             - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
     }
 
     /**
@@ -659,12 +659,15 @@ public class Matrix4d implements Serializable, Externalizable {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @return this
      */
-    public void translation(double x, double y, double z) {
+    public Matrix4d translation(double x, double y, double z) {
     	identity();
         this.m30 = x;
         this.m31 = y;
         this.m32 = z;
+        return this;
     }
 
     /**
@@ -672,9 +675,12 @@ public class Matrix4d implements Serializable, Externalizable {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @return this
      */
-    public void translation(Vector3f position) {
+    public Matrix4d translation(Vector3f position) {
         translation(position.x, position.y, position.z);
+        return this;
     }
 
     /**
@@ -682,9 +688,12 @@ public class Matrix4d implements Serializable, Externalizable {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @return this
      */
-    public void translation(Vector3d position) {
+    public Matrix4d translation(Vector3d position) {
         translation(position.x, position.y, position.z);
+        return this;
     }
 
     public String toString() {
@@ -715,13 +724,18 @@ public class Matrix4d implements Serializable, Externalizable {
         buffer.put(this.m33);
     }
 
-    /** Sets all the values within this matrix to 0 */
-    public void zero() {
+    /**
+     * Set all the values within this matrix to 0.
+     * 
+     * @return this
+     */
+    public Matrix4d zero() {
     	identity();
         this.m00 = 0.0;
         this.m11 = 0.0;
         this.m22 = 0.0;
         this.m33 = 0.0;
+        return this;
     }
     
     /**
@@ -729,12 +743,14 @@ public class Matrix4d implements Serializable, Externalizable {
      * 
      * @param scale
      * 			the scale applied to each dimension
+     * @return this
      */
-    public void scaling(double x, double y, double z) {
+    public Matrix4d scaling(double x, double y, double z) {
     	identity();
         m00 = x;
         m11 = y;
         m22 = z;
+        return this;
     }
     
     /**
@@ -742,12 +758,14 @@ public class Matrix4d implements Serializable, Externalizable {
      * 
      * @param scale
      * 			the scale applied to each dimension
+     * @return this
      */
-    public void scaling(Vector3d scale) {
+    public Matrix4d scaling(Vector3d scale) {
     	identity();
         m00 = scale.x;
         m11 = scale.y;
         m22 = scale.z;
+        return this;
     }
     
     /**
@@ -777,8 +795,10 @@ public class Matrix4d implements Serializable, Externalizable {
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * 
+     * @return this
      */
-    public void rotation(double angle, double x, double y, double z) {
+    public Matrix4d rotation(double angle, double x, double y, double z) {
     	double cos = Math.cos(angle);
     	double sin = Math.sin(angle);
     	m00 = cos + x * x * (1.0 - cos);
@@ -797,10 +817,16 @@ public class Matrix4d implements Serializable, Externalizable {
     	m13 = 0.0;
     	m23 = 0.0;
     	m33 = 1.0;
+    	return this;
     }
-    
-    public void rotation(double angle, Vector3d axis) {
-        rotation(angle, axis.x, axis.y, axis.z);
+
+    /**
+     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
+     * 
+     * @return this
+     */
+    public Matrix4d rotation(double angle, Vector3d axis) {
+        return rotation(angle, axis.x, axis.y, axis.z);
     }
     
     /**
@@ -833,10 +859,23 @@ public class Matrix4d implements Serializable, Externalizable {
         rotation(angle, axis.x, axis.y, axis.z, dest);
     }
 
-    public void transform(Vector4d v) {
+    /**
+     * Transform the given vector by this matrix.
+     * 
+     * @param v
+     * @return this
+     */
+    public Matrix4d transform(Vector4d v) {
         v.mul(this);
+        return this;
     }
 
+    /**
+     * Transform the given vector by the given matrix.
+     * 
+     * @param mat
+     * @param v
+     */
     public static void transform(Matrix4d mat, Vector4d v) {
         v.mul(mat);
     }
@@ -868,7 +907,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * Apply scaling to the this matrix by scaling the unit axes by the given x,
      * y and z factors.
      * <p>
-     * If <code>M</code> is this matrix and <code>S</code> the scaling matrix,
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
@@ -905,7 +944,7 @@ public class Matrix4d implements Serializable, Externalizable {
     /**
      * Apply scaling to this matrix by uniformly scaling all unit axes by the given xyz factor.
      * <p>
-     * If <code>M</code> is this matrix and <code>S</code> the scaling matrix,
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
@@ -924,7 +963,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * Apply rotation to this matrix by rotating the given amount of degrees
      * about the given axis specified as x, y and z components.
      * <p>
-     * If <code>M</code> is this matrix and <code>R</code> the rotation matrix,
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
@@ -944,8 +983,8 @@ public class Matrix4d implements Serializable, Externalizable {
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
         // m33 = 1
-        double cos = Math.cos(ang * Math.PI / 180.0);
-        double sin = Math.sin(ang * Math.PI / 180.0);
+        double cos = Math.cos(Math.toRadians(ang));
+        double sin = Math.sin(Math.toRadians(ang));
         double m00 = (cos + x * x * (1.0 - cos));
         double m10 = x * y * (1.0 - cos) - z * sin;
         double m20 = x * z * (1.0 - cos) + y * sin;
@@ -988,7 +1027,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * Apply a translation to this matrix by translating by the given number of
      * units in x, y and z.
      * <p>
-     * If <code>M</code> is this matrix and <code>T</code> the translation
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
      * matrix, then the new current matrix will be <code>M * T</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>M * T * v</code>, the translation will be applied first!

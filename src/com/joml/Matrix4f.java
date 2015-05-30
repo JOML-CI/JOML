@@ -444,16 +444,16 @@ public class Matrix4f implements Serializable, Externalizable {
     
     /** Returns the determinant of this matrix */
     public float determinant() {
-        return     (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
-                 + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
-                 - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
+        return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
+             + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
+             - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
     
     /** Returns the determinant of the supplied matrix */
     public static float determinant(Matrix4f source) {
-        return     (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
-                 + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
-                 - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
+        return (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
+             + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
+             - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
     }
     
     /**
@@ -614,21 +614,21 @@ public class Matrix4f implements Serializable, Externalizable {
             dest.m33 = original.m33;
         } else {
             dest.set(original.m00,
-                    original.m10,
-                    original.m20,
-                    original.m30,
-                    original.m01,
-                    original.m11,
-                    original.m21,
-                    original.m31,
-                    original.m02,
-                    original.m12,
-                    original.m22,
-                    original.m32,
-                    original.m03,
-                    original.m13,
-                    original.m23,
-                    original.m33);
+                     original.m10,
+                     original.m20,
+                     original.m30,
+                     original.m01,
+                     original.m11,
+                     original.m21,
+                     original.m31,
+                     original.m02,
+                     original.m12,
+                     original.m22,
+                     original.m32,
+                     original.m03,
+                     original.m13,
+                     original.m23,
+                     original.m33);
         }
     }
     
@@ -957,7 +957,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * Apply scaling to this matrix by scaling the unit axes by the given x,
      * y and z factors.
      * <p>
-     * If <code>M</code> is this matrix and <code>S</code> the scaling matrix,
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
@@ -994,7 +994,7 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply scaling to this matrix by uniformly scaling all unit axes by the given xyz factor.
      * <p>
-     * If <code>M</code> is this matrix and <code>S</code> the scaling matrix,
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
@@ -1012,7 +1012,7 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of degrees.
      * <p>
-     * If <code>M</code> is this matrix and <code>R</code> the rotation matrix,
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
@@ -1024,8 +1024,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotateX(float ang) {
-        float cos = (float) Math.cos(ang * Math.PI / 180.0);
-        float sin = (float) Math.sin(ang * Math.PI / 180.0);
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
         float rm11 = cos;
         float rm21 = -sin;
         float rm12 = sin;
@@ -1052,7 +1052,7 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees.
      * <p>
-     * If <code>M</code> is this matrix and <code>R</code> the rotation matrix,
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
@@ -1064,8 +1064,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotateY(float ang) {
-        float cos = (float) Math.cos(ang * Math.PI / 180.0);
-        float sin = (float) Math.sin(ang * Math.PI / 180.0);
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
         float rm00 = cos;
         float rm20 = sin;
         float rm02 = -sin;
@@ -1092,7 +1092,7 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees.
      * <p>
-     * If <code>M</code> is this matrix and <code>R</code> the rotation matrix,
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
@@ -1104,8 +1104,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotateZ(float ang) {
-        float cos = (float) Math.cos(ang * Math.PI / 180.0);
-        float sin = (float) Math.sin(ang * Math.PI / 180.0);
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
         float rm00 = cos;
         float rm10 = -sin;
         float rm01 = sin;
@@ -1136,7 +1136,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * Apply rotation to this matrix by rotating the given amount of degrees
      * about the given axis specified as x, y and z components.
      * <p>
-     * If <code>M</code> is this matrix and <code>R</code> the rotation matrix,
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
@@ -1157,8 +1157,8 @@ public class Matrix4f implements Serializable, Externalizable {
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
         // m33 = 1
-        float cos = (float) Math.cos(ang * Math.PI / 180.0);
-        float sin = (float) Math.sin(ang * Math.PI / 180.0);
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
         float rm00 = (cos + x * x * (1.0f - cos));
         float rm10 = x * y * (1.0f - cos) - z * sin;
         float rm20 = x * z * (1.0f - cos) + y * sin;
@@ -1199,7 +1199,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * Apply a translation to this matrix by translating by the given number of
      * units in x, y and z.
      * <p>
-     * If <code>M</code> is this matrix and <code>T</code> the translation
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
      * matrix, then the new matrix will be <code>M * T</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>M * T * v</code>, the translation will be applied first!
@@ -1215,7 +1215,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * Apply a translation to this matrix by translating by the given number of
      * units in x, y and z.
      * <p>
-     * If <code>M</code> is this matrix and <code>T</code> the translation
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
      * matrix, then the new matrix will be <code>M * T</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>M * T * v</code>, the translation will be applied first!
@@ -1341,7 +1341,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a rotation transformation to this matrix to make -z point along <code>dir</code>. 
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
      * 
      * @return this
      */
@@ -1515,7 +1515,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar) {
-        float h = (float)Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
+        float h = (float) Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
         float w = h * aspect;
         float fl = -w;
         float fr = +w;

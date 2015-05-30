@@ -496,9 +496,9 @@ public class Matrix3f implements Serializable, Externalizable {
     	dest.m22 = z;
     	return this;
     }
-    
+
     /**
-     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
+     * Set this matrix to a rotation matrix which rotates the given radians about the given axis.
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      * 
@@ -518,11 +518,16 @@ public class Matrix3f implements Serializable, Externalizable {
     	m22 = cos + z * z * (1.0f - cos);
     	return this;
     }
-    
+
+    /**
+     * Set this matrix to a rotation matrix which rotates the given radians about the given axis.
+     * 
+     * @return this
+     */
     public Matrix3f rotation(float angle, Vector3f axis) {
         return rotation(angle, axis.x, axis.y, axis.z);
     }
-    
+
     /**
      * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
@@ -546,11 +551,23 @@ public class Matrix3f implements Serializable, Externalizable {
         rotation(angle, axis.x, axis.y, axis.z, dest);
     }
 
+    /**
+     * Transform the given vector by this matrix.
+     * 
+     * @param v
+     * @return this
+     */
     public Matrix3f transform(Vector3f v) {
         v.mul(this);
         return this;
     }
 
+    /**
+     * Transform the given vector by the given matrix.
+     * 
+     * @param mat
+     * @param v
+     */
     public static void transform(Matrix3f mat, Vector3f v) {
         v.mul(mat);
     }

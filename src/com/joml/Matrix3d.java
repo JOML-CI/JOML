@@ -220,13 +220,16 @@ public class Matrix3d implements Serializable, Externalizable {
         }
     }
 
-    /** Sets the values within this matrix to the supplied double values. The result looks like this:
+    /**
+     * Set the values within this matrix to the supplied double values. The result looks like this:
      * <p>
      * m00, m10, m20</br>
      * m01, m11, m21</br>
      * m02, m12, m22</br>
+     * 
+     * @return this
      */
-    public void set(double m00, double m01, double m02, double m10, double m11,
+    public Matrix3d set(double m00, double m01, double m02, double m10, double m11,
                     double m12, double m20, double m21, double m22) {
         this.m00 = m00;
         this.m01 = m01;
@@ -237,18 +240,21 @@ public class Matrix3d implements Serializable, Externalizable {
         this.m20 = m20;
         this.m21 = m21;
         this.m22 = m22;
+        return this;
     }
 
-    /** Sets the values in this matrix based on the supplied double array. The result looks like this:<br><br>
+    /**
+     * Set the values in this matrix based on the supplied double array. The result looks like this:
+     * <p>
+     * 0, 3, 6</br>
+     * 1, 4, 7</br>
+     * 2, 5, 8</br>
+     * <p>
+     * Only uses the first 9 values, all others are ignored.
      * 
-     * 0, 3, 6<br>
-     * 1, 4, 7<br>
-     * 2, 5, 8<br><br>
-     * 
-     * Only uses the first 9 values, all others are ignored
-     * 
+     * @return this
      */
-    public void set(double m[]) {
+    public Matrix3d set(double m[]) {
         m00 = m[0];
         m01 = m[1];
         m02 = m[2];
@@ -258,18 +264,21 @@ public class Matrix3d implements Serializable, Externalizable {
         m20 = m[6];
         m21 = m[7];
         m22 = m[8];
+        return this;
     }
 
-    /** Sets the values in this matrix based on the supplied double array. The result looks like this:<br><br>
-     * 
-     * 0, 3, 6<br>
-     * 1, 4, 7<br>
-     * 2, 5, 8<br><br>
-     * 
+    /**
+     * Set the values in this matrix based on the supplied double array. The result looks like this:
+     * <p>
+     * 0, 3, 6</br>
+     * 1, 4, 7</br>
+     * 2, 5, 8</br>
+     * <p>
      * Only uses the first 9 values, all others are ignored
      * 
+     * @return this
      */
-    public void set(float m[]) {
+    public Matrix3d set(float m[]) {
         m00 = m[0];
         m01 = m[1];
         m02 = m[2];
@@ -279,16 +288,17 @@ public class Matrix3d implements Serializable, Externalizable {
         m20 = m[6];
         m21 = m[7];
         m22 = m[8];
+        return this;
     }
 
     /** Returns the determinant of this Matrix */
     public double determinant() {
-        return   ((m00 * m11 * m22)
-               + (m10 * m21 * m02)
-               + (m20 * m01 * m12))
-               - ((m20 * m11 * m02)
-               + (m00 * m21 * m12)
-               + (m10 * m01 * m22));
+        return ((m00 * m11 * m22)
+             + (m10 * m21 * m02)
+             + (m20 * m01 * m12))
+             - ((m20 * m11 * m02)
+             + (m00 * m21 * m12)
+             + (m10 * m01 * m22));
     }
 
     /**
@@ -482,7 +492,11 @@ public class Matrix3d implements Serializable, Externalizable {
         return this;
     }
 
-    /** Sets all the values within this matrix to 0 */
+    /**
+     * Set all the values within this matrix to 0.
+     * 
+     * @return this
+     */
     public Matrix3d zero() {
         this.m00 = 0.0;
         this.m01 = 0.0;
@@ -496,7 +510,11 @@ public class Matrix3d implements Serializable, Externalizable {
         return this;
     }
     
-    /** Sets this matrix to the identity */
+    /**
+     * Set this matrix to the identity.
+     * 
+     * @return this
+     */
     public Matrix3d identity() {
         this.m00 = 1.0;
         this.m01 = 0.0;
@@ -519,6 +537,7 @@ public class Matrix3d implements Serializable, Externalizable {
      * 			the scale in y
      * @param z
      * 			the scale in z
+     * @return this
      */
     public Matrix3d scale(double x, double y, double z) {
     	identity();
@@ -533,6 +552,7 @@ public class Matrix3d implements Serializable, Externalizable {
      * 
      * @param scale
      * 			the scale applied to each dimension
+     * @return this
      */
     public Matrix3d scale(Vector3d scale) {
     	identity();
@@ -564,6 +584,7 @@ public class Matrix3d implements Serializable, Externalizable {
      * 			the scale in y
      * @param z
      * 			the scale in z
+     * @return this
      */
     public Matrix3d scale(double x, double y, double z, Matrix3d dest) {
     	dest.identity();
@@ -576,7 +597,7 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
-     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * @return this
      */
     public Matrix3d rotation(double angle, Vector3d axis) {
     	rotation(angle, axis, this);
@@ -602,11 +623,23 @@ public class Matrix3d implements Serializable, Externalizable {
     	dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
     }
 
+    /**
+     * Transform the given vector by this matrix.
+     * 
+     * @param v
+     * @return this
+     */
     public Matrix3d transform(Vector3d v) {
         v.mul(this);
         return this;
     }
 
+    /**
+     * Transform the given vector by the given matrix.
+     * 
+     * @param mat
+     * @param v
+     */
     public static void transform(Matrix3d mat, Vector3d v) {
         v.mul(mat);
     }
