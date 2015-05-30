@@ -272,12 +272,25 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this matrix by the supplied parameter matrix. This matrix will be treated as the left.
-     * 
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     *
+     * @param right the right matrix
      * @return this
      */
     public Matrix4f mul(Matrix4f right) {
        mul(this, right, this);
+       return this;
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * 
+     * @param right the right matrix
+     * @param dest the destination matrix
+     * @return this
+     */
+    public Matrix4f mul(Matrix4f right, Matrix4f dest) {
+       mul(this, right, dest);
        return this;
     }
 
