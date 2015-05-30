@@ -101,13 +101,13 @@ Since you have to create a matrix or a vector at some point in order to make any
 FloatBuffer fb;
 Matrix4f m;
 
-public void init() {
-  FloatBuffer fb = BufferUtils.createFloatBuffer(16);
-  Matrix4f m = new Matrix4f();
+void init() {
+  fb = BufferUtils.createFloatBuffer(16);
+  m = new Matrix4f();
   ...
 }
 
-public void frame() {
+void frame() {
   ..
   m.identity()
    .perspective(45.0f, (float)width/height, 0.01f, 100.0f)
