@@ -1545,9 +1545,9 @@ public class Matrix4f implements Serializable, Externalizable {
         float h = (float)Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
         float w = h * aspect;
         float fl = -w;
-        float fr = fl + 2.0f * w;
+        float fr = +w;
         float fb = -h;
-        float ft = fb + 2.0f * h;
+        float ft = +h;
         return frustum(fl, fr, fb, ft, zNear, zFar);
     }
 
