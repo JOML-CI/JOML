@@ -6,11 +6,8 @@ Design goals
 
 The goal of JOML is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.4 and not making use of JNI.
 
-Simple examples
----------------
-The following is a collection of simple usage examples.
-
-### Vector arithmetic
+Vector arithmetic
+-----------------
 All operations in JOML are designed to modify the object on which the operation is invoked. This helps in completely eliminating any object allocations, which the client could otherwise not control and which impact the GC performance resulting in small hickups.
 The client is responsible to allocate the needed working objects.
 ```Java
@@ -26,7 +23,7 @@ a.normalize();
 
 Matrix API
 ------------
-Using JOML you can build matrices out of basic transformations, such as scale, translate and rotate, using a fluent-interface style. All such operations directly modify the matrix instance on which they are invoked.
+Using JOML you can build matrices out of basic transformations, such as scale, translate and rotate, using a fluent interface style. All such operations directly modify the matrix instance on which they are invoked.
 The following example builds a transformation matrix which effectively first scales all axes by 0.5
 and then translates x by 2.0:
 ```Java
@@ -51,7 +48,7 @@ The vector *pointToRotate* will now represent (0, 3, 5).
 Extending JOML
 --------------
 Using standard subclassing in Java you can extend JOML and add additional features/methods to JOML's classes.
-For example, using the above example which rotates around a given rotation center, you can use the basic methods to build a new method which nicely encapsulate this functionality.
+For example, using the above example which rotates around a given rotation center, you can use the basic methods to build a new method which nicely encapsulates this functionality.
 
 Building a camera transformation
 ------------
