@@ -92,6 +92,8 @@ fb.rewind();
 glUniformMatrix4fv(mat4Location, false, fb);
 ```
 
+If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call *glLoadMatrixf()* provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack.
+
 Staying allocation-free
 -----------------------
 JOML is designed to be completely allocation-free for all methods. That means JOML will never allocate Java objects on the heap unless you as the client specifically requests to do so via the *new* keyword when creating a new matrix or vector or calling the *toString()* method on them.
