@@ -1304,8 +1304,8 @@ public class Matrix4f implements Serializable, Externalizable {
         float cos = (float) Math.cos(Math.toRadians(ang));
         float sin = (float) Math.sin(Math.toRadians(ang));
         float rm11 = cos;
-        float rm21 = -sin;
         float rm12 = sin;
+        float rm21 = -sin;
         float rm22 = cos;
 
         // add temporaries for dependent values
@@ -1344,8 +1344,8 @@ public class Matrix4f implements Serializable, Externalizable {
         float cos = (float) Math.cos(Math.toRadians(ang));
         float sin = (float) Math.sin(Math.toRadians(ang));
         float rm00 = cos;
-        float rm20 = sin;
         float rm02 = -sin;
+        float rm20 = sin;
         float rm22 = cos;
 
         // add temporaries for dependent values
@@ -1384,8 +1384,8 @@ public class Matrix4f implements Serializable, Externalizable {
         float cos = (float) Math.cos(Math.toRadians(ang));
         float sin = (float) Math.sin(Math.toRadians(ang));
         float rm00 = cos;
-        float rm10 = -sin;
         float rm01 = sin;
+        float rm10 = -sin;
         float rm11 = cos;
 
         // add temporaries for dependent values
