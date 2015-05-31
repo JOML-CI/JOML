@@ -968,10 +968,18 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
+     * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
+     * @param angle
+     *          the angle in degrees
+     * @param x
+     *          the x-component of the rotation axis
+     * @param y
+     *          the y-component of the rotation axis
+     * @param z
+     *          the z-component of the rotation axis
      * @return this
      */
     public Matrix4f rotation(float angle, float x, float y, float z) {
