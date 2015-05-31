@@ -143,6 +143,10 @@ void frame() {
 ```
 In the example above, a single Matrix4f is allocated during some initialization time when the *init()* method is called. Then each *frame()* we reinitialize the same matrix with the *identity()* and recompute the camera transformation based on some other parameters.
 
+Multithreading
+--------------
+Due to JOML not using any internal temporary objects during any computations, you can use JOML in a multithreaded application. You only need to make sure not to call a modifying method on the same matrix or vector from two different threads. Other than that, there is no internal or external synchronization necessary.
+
 Matrix stack
 ------------
 JOML also features an interface that resembles the matrix stack from legacy OpenGL.
