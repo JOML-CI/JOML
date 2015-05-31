@@ -64,6 +64,17 @@ Matrix4f m = new Matrix4f()
 ```
 The above transformation can then be used as a "view-projection" matrix in a shader.
 
+Using method chaining in a fluent interface style you can also specify both the view and projection matrices in one go:
+```Java
+Matrix4f proj = new Matrix4f();
+Matrix4f view = new Matrix4f();
+Matrix4f.With(proj).perspective(45.0f, 1.0f, 0.01f, 100.0f)
+        .with(view).lookAt(0.0f, 1.0f, 5.0f,
+                           0.0f, 0.0f, 0.0f,
+                           0.0f, 1.0f, 0.0f);
+```
+This feature is currently only available in [fluent](https://github.com/JOML-CI/Java-OpenGL-Math-Library/tree/fluent) branch.
+
 Computation result
 ------------
 Usually, the instance methods in Matrix4f operate on the matrix on which they are invoked by writing the computation result into that matrix back. Most of the methods however also allow to specify another destination matrix to write the result into.
