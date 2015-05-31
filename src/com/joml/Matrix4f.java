@@ -1467,6 +1467,45 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to be an orthographic projection transformation.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4f setOrtho(float left, float right, float bottom, float top, float zNear, float zFar) {
+        m00 = 2.0f / (right - left);
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 2.0f / (top - bottom);
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = -2.0f / (zFar - zNear);
+        m23 = 0.0f;
+        m30 = -(right + left) / (right - left);
+        m31 = -(top + bottom) / (top - bottom);
+        m32 = -(zFar + zNear) / (zFar - zNear);
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
@@ -1549,6 +1588,77 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m11 = m11;
         this.m12 = m12;
         this.m13 = m13;
+
+        return this;
+    }
+
+    /**
+     * Set this matrix to be a "lookat" transformation.
+     * 
+     * @param eye
+     *            the position of the camera
+     * @param center
+     *            the point in space to look at
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix4f setLookAt(Vector3f eye, Vector3f center, Vector3f up) {
+        return setLookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Set this matrix to be a "lookat" transformation.
+     * <p>
+     * @return this
+     */
+    public Matrix4f setLookAt(float eyeX, float eyeY, float eyeZ,
+                              float centerX, float centerY, float centerZ,
+                              float upX, float upY, float upZ) {
+        // Compute direction from position to lookAt
+        float dirX, dirY, dirZ;
+        dirX = centerX - eyeX;
+        dirY = centerY - eyeY;
+        dirZ = centerZ - eyeZ;
+        // Normalize direction
+        float dirLength = (float) Math.sqrt(
+                  (eyeX - centerX) * (eyeX - centerX)
+                + (eyeY - centerY) * (eyeY - centerY)
+                + (eyeZ - centerZ) * (eyeZ - centerZ));
+        dirX /= dirLength;
+        dirY /= dirLength;
+        dirZ /= dirLength;
+        // Normalize up
+        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
+        upX /= upLength;
+        upY /= upLength;
+        upZ /= upLength;
+        // right = direction x up
+        float rightX, rightY, rightZ;
+        rightX = dirY * upZ - dirZ * upY;
+        rightY = dirZ * upX - dirX * upZ;
+        rightZ = dirX * upY - dirY * upX;
+        // up = right x direction
+        upX = rightY * dirZ - rightZ * dirY;
+        upY = rightZ * dirX - rightX * dirZ;
+        upZ = rightX * dirY - rightY * dirX;
+
+        m00 = rightX;
+        m01 = upX;
+        m02 = -dirX;
+        m03 = 0.0f;
+        m10 = rightY;
+        m11 = upY;
+        m12 = -dirY;
+        m13 = 0.0f;
+        m20 = rightZ;
+        m21 = upZ;
+        m22 = -dirZ;
+        m23 = 0.0f;
+        m30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
+        m31 = -upX * eyeX - upY * eyeY - upZ * eyeZ;
+        m32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
+        m33 = 0.0f;
 
         return this;
     }
@@ -1689,6 +1799,29 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to be a symmetric perspective projection frustum transformation.
+     * <p>
+     * @param fovy
+     *            the vertical field of view in degrees
+     * @param aspect
+     *            the aspect ratio (i.e. width / height)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar) {
+        float h = (float) Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
+        float w = h * aspect;
+        float fl = -w;
+        float fr = +w;
+        float fb = -h;
+        float ft = +h;
+        return setFrustum(fl, fr, fb, ft, zNear, zFar);
+    }
+
+    /**
      * Apply an arbitrary perspective projection frustum transformation to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
@@ -1743,6 +1876,46 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m22 = m22;
         this.m23 = m23;
 
+        return this;
+    }
+
+    /**
+     * Set this matrix to be an arbitrary perspective projection frustum transformation.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @return this
+     */
+    public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
+        // calculate right matrix elements
+        m00 = 2.0f * zNear / (right - left);
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 2.0f * zNear / (top - bottom);
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = (right + left) / (right - left);
+        m21 = (top + bottom) / (top - bottom);
+        m22 = -(zFar + zNear) / (zFar - zNear);
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = -2.0f * zFar * zNear / (zFar - zNear);
+        m33 = 1.0f;
         return this;
     }
 
