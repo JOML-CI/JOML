@@ -97,12 +97,12 @@ If you prefer not to use shaders but the fixed-function pipeline and want to use
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f();
-m.perspective(45.0f, 1.0f, 0.01f, 100.0f).get(fb);
+m.setPerspective(45.0f, 1.0f, 0.01f, 100.0f).get(fb);
 glMatrixMode(GL_PROJECTION);
 glLoadMatrixf(fb);
-m.identity().lookAt(0.0f, 0.0f, 10.0f,
-                    0.0f, 0.0f, 0.0f,
-                    0.0f, 1.0f, 0.0f).get(fb);
+m.setLookAt(0.0f, 0.0f, 10.0f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f).get(fb);
 glMatrixMode(GL_MODELVIEW);
 glLoadMatrixf(fb);
 ```
