@@ -92,7 +92,21 @@ fb.rewind();
 glUniformMatrix4fv(mat4Location, false, fb);
 ```
 
-If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call *glLoadMatrixf()* provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack.
+If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call *glLoadMatrixf()* provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
+```Java
+FloatBuffer fb = BufferUtils.createFloatBuffer(16);
+Matrix4f m = new Matrix4f();
+m.perspective(45.0f, 1.0f, 0.01f, 100.0f).get(fb);
+fb.rewind();
+glMatrixMode(GL_PROJECTION);
+glLoadMatrix(fb);
+m.identity().lookAt(0.0f, 0.0f, 10.0f,
+                    0.0f, 0.0f, 0.0f,
+                    0.0f, 1.0f, 0.0f).get(fb);
+fb.rewind();
+glMatrixMode(GL_MODELVIEW);
+glLoadMatrix(fb);
+```
 
 Staying allocation-free
 -----------------------
