@@ -1806,21 +1806,21 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link AxisAngle4f} to this matrix.
+     * Apply the rotation transformation of the given {@link AngleAxis4f} to this matrix.
      * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given axis-angle,
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>
-     * , the axis-angle rotation will be applied first!
+     * , the angle-axis rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
      * @return this
      */
-    public Matrix4f rotate(AxisAngle4f axisAngle) {
-        return rotate((float) Math.toDegrees(axisAngle.angle), axisAngle.x, axisAngle.y, axisAngle.z);
+    public Matrix4f rotate(AngleAxis4f axisAngle) {
+        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
 }

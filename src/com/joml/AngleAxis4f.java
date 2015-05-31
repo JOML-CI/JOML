@@ -25,31 +25,36 @@ import java.io.ObjectOutput;
 import java.io.Serializable;
 
 /**
- * Represents a 3D rotation about an axis represented as an unit 3D vector.
+ * Represents a 3D rotation of a given degree about an axis represented as an
+ * unit 3D vector.
  * 
  * @author Kai Burjack
  */
-public class AxisAngle4f implements Serializable, Externalizable {
+public class AngleAxis4f implements Serializable, Externalizable {
+
+    /**
+     * The angle in degrees.
+     */
+    public float angle;
 
     public float x;
     public float y;
     public float z;
-    public float angle;
 
     /**
-     * Create a new {@link AxisAngle4f} with zero rotation about (0, 0, 1).
+     * Create a new {@link AngleAxis4f} with zero rotation about (0, 0, 1).
      */
-    public AxisAngle4f() {
+    public AngleAxis4f() {
         z = 1.0f;
     }
 
     /**
-     * Create a new {@link AxisAngle4f} with the same values of <code>a</code>.
+     * Create a new {@link AngleAxis4f} with the same values of <code>a</code>.
      * 
      * @param a
-     *            the {@link AxisAngle4f} to copy the values from
+     *            the {@link AngleAxis4f} to copy the values from
      */
-    public AxisAngle4f(AxisAngle4f a) {
+    public AngleAxis4f(AngleAxis4f a) {
         x = a.x;
         y = a.y;
         z = a.z;
@@ -57,7 +62,7 @@ public class AxisAngle4f implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link AxisAngle4f} from the given {@link Quaternion}.
+     * Create a new {@link AngleAxis4f} from the given {@link Quaternion}.
      * <p>
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
@@ -66,28 +71,28 @@ public class AxisAngle4f implements Serializable, Externalizable {
      * @param q
      *            the {@link Quaternion}
      */
-    public AxisAngle4f(Quaternion q) {
+    public AngleAxis4f(Quaternion q) {
         float acos = (float) Math.acos(q.w);
         float sqrt = (float) Math.sqrt(1.0 - q.w * q.w);
         this.x = q.x / sqrt;
         this.y = q.y / sqrt;
         this.z = q.z / sqrt;
-        this.angle = 2.0f * acos;
+        this.angle = (float) Math.toDegrees(2.0 * acos);
     }
 
     /**
-     * Create a new {@link AxisAngle4f} with the given values.
-     * 
+     * Create a new {@link AngleAxis4f} with the given values.
+     *
+     * @param angle
+     *            the angle in degrees
      * @param x
      *            the x-coordinate of the rotation axis
      * @param y
      *            the y-coordinate of the rotation axis
      * @param z
      *            the z-coordinate of the rotation axis
-     * @param angle
-     *            the angle in radians
      */
-    public AxisAngle4f(float x, float y, float z, float angle) {
+    public AngleAxis4f(float angle, float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -95,13 +100,13 @@ public class AxisAngle4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AxisAngle4f} to the values of <code>a</code>.
+     * Set this {@link AngleAxis4f} to the values of <code>a</code>.
      * 
      * @param a
-     *            the {@link AxisAngle4f} to copy the values from
+     *            the {@link AngleAxis4f} to copy the values from
      * @return this
      */
-    public AxisAngle4f set(AxisAngle4f a) {
+    public AngleAxis4f set(AngleAxis4f a) {
         x = a.x;
         y = a.y;
         z = a.z;
@@ -110,19 +115,19 @@ public class AxisAngle4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AxisAngle4f} to the given values.
+     * Set this {@link AngleAxis4f} to the given values.
      * 
+     * @param angle
+     *            the angle in radians
      * @param x
      *            the x-coordinate of the rotation axis
      * @param y
      *            the y-coordinate of the rotation axis
      * @param z
      *            the z-coordinate of the rotation axis
-     * @param angle
-     *            the angle in radians
      * @return this
      */
-    public AxisAngle4f set(float x, float y, float z, float angle) {
+    public AngleAxis4f set(float angle, float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -131,20 +136,20 @@ public class AxisAngle4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AxisAngle4f} to be equivalent to the given
+     * Set this {@link AngleAxis4f} to be equivalent to the given
      * {@link Quaternion}.
      * 
      * @param q
      *            the {@link Quaternion}
      * @return this
      */
-    public AxisAngle4f set(Quaternion q) {
+    public AngleAxis4f set(Quaternion q) {
         float acos = (float) Math.acos(q.w);
         float sqrt = (float) Math.sqrt(1.0 - q.w * q.w);
         this.x = q.x / sqrt;
         this.y = q.y / sqrt;
         this.z = q.z / sqrt;
-        this.angle = 2.0f * acos;
+        this.angle = (float) Math.toDegrees(2.0f * acos);
         return this;
     }
 
@@ -167,7 +172,7 @@ public class AxisAngle4f implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public AxisAngle4f normalize() {
+    public AngleAxis4f normalize() {
         float length = (float) Math.sqrt(x * x + y * y + z * z);
         x /= length;
         y /= length;
