@@ -742,32 +742,56 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied {@link FloatBuffer}.
+     * Store this matrix into the supplied {@link FloatBuffer} at the current buffer {@link FloatBuffer#position() position}.
      * <p>
-     * This method will increment the position of the given FloatBuffer by 16, if it returns normally.
+     * This method will not increment the position of the given {@link FloatBuffer}.
+     * If you want the position to be incremented use {@link #get(FloatBuffer, boolean)} with <code>true</code> as second argument.
      * 
+     * @see #get(FloatBuffer, boolean)
+     * 
+     * @param buffer
+     *          will receive the values of this matrix in column-major order
      * @return this
      */
     public Matrix4f get(FloatBuffer buffer) {
-        buffer.put(this.m00);
-        buffer.put(this.m01);
-        buffer.put(this.m02);
-        buffer.put(this.m03);
-        buffer.put(this.m10);
-        buffer.put(this.m11);
-        buffer.put(this.m12);
-        buffer.put(this.m13);
-        buffer.put(this.m20);
-        buffer.put(this.m21);
-        buffer.put(this.m22);
-        buffer.put(this.m23);
-        buffer.put(this.m30);
-        buffer.put(this.m31);
-        buffer.put(this.m32);
-        buffer.put(this.m33);
+        return get(buffer, false);
+    }
+
+    /**
+     * Store this matrix into the supplied {@link FloatBuffer} at the current buffer {@link FloatBuffer#position() position} and optionally advance the buffer position.
+     * 
+     * @see #get(FloatBuffer, boolean)
+     * 
+     * @param buffer
+     *          will receive the values of this matrix in column-major order
+     * @param advanceBufferPosition
+     *          <code>true</code> if the buffer's position should be incremented; <code>false</code> if not
+     * @return this
+     */
+    public Matrix4f get(FloatBuffer buffer, boolean advanceBufferPosition) {
+        int pos = buffer.position();
+        buffer.put(pos, this.m00);
+        buffer.put(pos+1, this.m01);
+        buffer.put(pos+2, this.m02);
+        buffer.put(pos+3, this.m03);
+        buffer.put(pos+4, this.m10);
+        buffer.put(pos+5, this.m11);
+        buffer.put(pos+6, this.m12);
+        buffer.put(pos+7, this.m13);
+        buffer.put(pos+8, this.m20);
+        buffer.put(pos+9, this.m21);
+        buffer.put(pos+10, this.m22);
+        buffer.put(pos+11, this.m23);
+        buffer.put(pos+12, this.m30);
+        buffer.put(pos+13, this.m31);
+        buffer.put(pos+14, this.m32);
+        buffer.put(pos+15, this.m33);
+        if (advanceBufferPosition) {
+            buffer.position(pos + 16);
+        }
         return this;
     }
-    
+
     /**
      * Store the values of this matrix into the given javax.vecmath.Matrix4f.
      * 
