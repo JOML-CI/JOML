@@ -1000,6 +1000,99 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to a rotation transformation about the X axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4f rotationX(float ang) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        m00 = 1.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = cos;
+        m12 = sin;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = -sin;
+        m22 = cos;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a rotation transformation about the Y axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4f rotationY(float ang) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        m00 = cos;
+        m01 = 0.0f;
+        m02 = -sin;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 1.0f;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = sin;
+        m21 = 0.0f;
+        m22 = cos;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a rotation transformation about the Z axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4f rotationZ(float ang) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        m00 = cos;
+        m01 = sin;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = -sin;
+        m11 = cos;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = 0.0f;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
      * 
      * @param mat
@@ -1593,7 +1686,8 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to be a "lookat" transformation.
+     * Set this matrix to be a "lookat" transformation, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
      * 
      * @param eye
      *            the position of the camera
@@ -1608,7 +1702,8 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to be a "lookat" transformation.
+     * Set this matrix to be a "lookat" transformation, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
      * <p>
      * @return this
      */
@@ -1664,7 +1759,8 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a "lookat" transformation to this matrix.
+     * Apply a "lookat" transformation to this matrix, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -1684,7 +1780,8 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a "lookat" transformation to this matrix.
+     * Apply a "lookat" transformation to this matrix, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
