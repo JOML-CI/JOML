@@ -310,7 +310,7 @@ public class Quaternion implements Serializable, Externalizable {
      * @return this
      */
     public Quaternion setAngleAxis(float angle, float axisX, float axisY, float axisZ) {
-        float hangle = (float) (Math.toRadians(angle) / 2.0);
+        float hangle = (float) Math.toRadians(angle / 2.0);
         float sinAngle = (float) Math.sin(hangle);
         float vLength = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
@@ -640,7 +640,6 @@ public class Quaternion implements Serializable, Externalizable {
         float scale1, scale2;
 
         if ((1.0f - dot) > 0.1) {
-
             float angle = (float) Math.acos(dot);
             float sinAngle = 1f / (float) Math.sin(angle);
 

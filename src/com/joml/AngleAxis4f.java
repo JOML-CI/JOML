@@ -154,17 +154,17 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeFloat(angle);
         out.writeFloat(x);
         out.writeFloat(y);
         out.writeFloat(z);
-        out.writeFloat(angle);
     }
 
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        angle = in.readFloat();
         x = in.readFloat();
         y = in.readFloat();
         z = in.readFloat();
-        angle = in.readFloat();
     }
 
     /**
