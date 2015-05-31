@@ -970,7 +970,7 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
      * <p>
-     * The axis described by the three components must be normalized.
+     * The axis described by the three components needs to be a unit vector.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
@@ -1423,7 +1423,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * Apply rotation to this matrix by rotating the given amount of degrees
      * about the given axis specified as x, y and z components.
      * <p>
-     * The axis described by the three components must be normalized.
+     * The axis described by the three components needs to be a unit vector.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -2170,7 +2170,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param angle
      *          the angle in degrees
      * @param axis
-     *          the rotation axis (needs to be {@link Vector3f#normalize() normalized}
+     *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
     public Matrix4f rotate(float angle, Vector3f axis) {
