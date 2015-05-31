@@ -1899,7 +1899,6 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
-        // calculate right matrix elements
         m00 = 2.0f * zNear / (right - left);
         m01 = 0.0f;
         m02 = 0.0f;
@@ -1911,11 +1910,11 @@ public class Matrix4f implements Serializable, Externalizable {
         m20 = (right + left) / (right - left);
         m21 = (top + bottom) / (top - bottom);
         m22 = -(zFar + zNear) / (zFar - zNear);
-        m23 = 0.0f;
+        m23 = -1.0f;
         m30 = 0.0f;
         m31 = 0.0f;
         m32 = -2.0f * zFar * zNear / (zFar - zNear);
-        m33 = 1.0f;
+        m33 = 0.0f;
         return this;
     }
 
