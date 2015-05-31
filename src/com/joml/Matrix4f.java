@@ -686,10 +686,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f translation(float x, float y, float z) {
-    	identity();
+    	this.m00 = 1.0f;
+    	this.m01 = 0.0f;
+    	this.m02 = 0.0f;
+    	this.m03 = 0.0f;
+    	this.m10 = 0.0f;
+    	this.m11 = 1.0f;
+    	this.m12 = 0.0f;
+    	this.m13 = 0.0f;
+    	this.m20 = 0.0f;
+    	this.m21 = 0.0f;
+    	this.m22 = 0.0f;
+    	this.m23 = 0.0f;
         this.m30 = x;
         this.m31 = y;
         this.m32 = z;
+        this.m33 = 1.0f;
         return this;
     }
 
@@ -858,21 +870,32 @@ public class Matrix4f implements Serializable, Externalizable {
         arr[offset+15] = this.m33;
         return this;
     }
-    
+
     /**
      * Set all the values within this matrix to <code>0</code>.
      * 
      * @return this
      */
     public Matrix4f zero() {
-    	identity();
         this.m00 = 0.0f;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = 0.0f;
         this.m11 = 0.0f;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = 0.0f;
+        this.m21 = 0.0f;
         this.m22 = 0.0f;
+        this.m23 = 0.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = 0.0f;
         this.m33 = 0.0f;
         return this;
     }
-    
+
     /**
      * Set this matrix to be a simple scale matrix.
      * 
@@ -885,13 +908,25 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f scaling(float x, float y, float z) {
-    	identity();
         m00 = x;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
         m11 = y;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
         m22 = z;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
         return this;
     }
-    
+
     /**
      * Set this matrix to be a simple scale matrix.
      * 
@@ -900,13 +935,9 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f scaling(Vector3f scale) {
-    	identity();
-        m00 = scale.x;
-        m11 = scale.y;
-        m22 = scale.z;
-        return this;
+    	return scaling(scale.x, scale.y, scale.z);
     }
-    
+
     /**
      * Set the given matrix <code>dest</code> to be a simple scale matrix.
      * 
@@ -916,12 +947,9 @@ public class Matrix4f implements Serializable, Externalizable {
      *          will hold the result
      */
     public static void scaling(Vector3f scale, Matrix4f dest) {
-    	dest.identity();
-        dest.m00 = scale.x;
-        dest.m11 = scale.y;
-        dest.m22 = scale.z;
+    	dest.scaling(scale);
     }
-    
+
     /**
      * Set this matrix to be a simple scale matrix.
      * 
@@ -934,11 +962,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f scaling(float x, float y, float z, Matrix4f dest) {
-    	dest.identity();
-    	dest.m00 = x;
-    	dest.m11 = y;
-    	dest.m22 = z;
-    	return this;
+    	return dest.scaling(x, y, z);
     }
 
     /**
@@ -959,12 +983,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
-     * @param axisAngle
+     * @param angleAxis
      *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
      * @return this
      */
-    public Matrix4f rotation(AngleAxis4f axisAngle) {
-        return rotation(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
+    public Matrix4f rotation(AngleAxis4f angleAxis) {
+        return rotation(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
     }
 
     /**
@@ -1725,27 +1749,27 @@ public class Matrix4f implements Serializable, Externalizable {
 
         // perform optimized matrix multiplication
         // introduce temporaries for dependent results
-        float m00 = this.m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float m01 = this.m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float m02 = this.m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float m03 = this.m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float m10 = this.m00 * rm10 + this.m10 * rm11 + m20 * rm12;
-        float m11 = this.m01 * rm10 + this.m11 * rm11 + m21 * rm12;
-        float m12 = this.m02 * rm10 + this.m12 * rm11 + m22 * rm12;
-        float m13 = this.m03 * rm10 + this.m13 * rm11 + m23 * rm12;
+        float nm00 = this.m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = this.m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = this.m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm03 = this.m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float nm10 = this.m00 * rm10 + this.m10 * rm11 + m20 * rm12;
+        float nm11 = this.m01 * rm10 + this.m11 * rm11 + m21 * rm12;
+        float nm12 = this.m02 * rm10 + this.m12 * rm11 + m22 * rm12;
+        float nm13 = this.m03 * rm10 + this.m13 * rm11 + m23 * rm12;
         m20 = this.m00 * rm20 + this.m10 * rm21 + this.m20 * rm22;
         m21 = this.m01 * rm20 + this.m11 * rm21 + this.m21 * rm22;
         m22 = this.m02 * rm20 + this.m12 * rm21 + this.m22 * rm22;
         m23 = this.m03 * rm20 + this.m13 * rm21 + this.m23 * rm22;
         // set the rest of the matrix elements
-        this.m00 = m00;
-        this.m01 = m01;
-        this.m02 = m02;
-        this.m03 = m03;
-        this.m10 = m10;
-        this.m11 = m11;
-        this.m12 = m12;
-        this.m13 = m13;
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m03 = nm03;
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
+        m13 = nm13;
 
         return this;
     }
@@ -1907,27 +1931,27 @@ public class Matrix4f implements Serializable, Externalizable {
         m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
         m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
         // introduce temporaries for dependent results
-        float m00 = this.m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float m01 = this.m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float m02 = this.m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float m03 = this.m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float m10 = this.m00 * rm10 + this.m10 * rm11 + m20 * rm12;
-        float m11 = this.m01 * rm10 + this.m11 * rm11 + m21 * rm12;
-        float m12 = this.m02 * rm10 + this.m12 * rm11 + m22 * rm12;
-        float m13 = this.m03 * rm10 + this.m13 * rm11 + m23 * rm12;
+        float nm00 = this.m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = this.m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = this.m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm03 = this.m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float nm10 = this.m00 * rm10 + this.m10 * rm11 + m20 * rm12;
+        float nm11 = this.m01 * rm10 + this.m11 * rm11 + m21 * rm12;
+        float nm12 = this.m02 * rm10 + this.m12 * rm11 + m22 * rm12;
+        float nm13 = this.m03 * rm10 + this.m13 * rm11 + m23 * rm12;
         m20 = this.m00 * rm20 + this.m10 * rm21 + this.m20 * rm22;
         m21 = this.m01 * rm20 + this.m11 * rm21 + this.m21 * rm22;
         m22 = this.m02 * rm20 + this.m12 * rm21 + this.m22 * rm22;
         m23 = this.m03 * rm20 + this.m13 * rm21 + this.m23 * rm22;
         // set the rest of the matrix elements
-        this.m00 = m00;
-        this.m01 = m01;
-        this.m02 = m02;
-        this.m03 = m03;
-        this.m10 = m10;
-        this.m11 = m11;
-        this.m12 = m12;
-        this.m13 = m13;
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m03 = nm03;
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
+        m13 = nm13;
 
         return this;
     }
@@ -2017,10 +2041,10 @@ public class Matrix4f implements Serializable, Externalizable {
         float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
 
         // perform optimized matrix multiplication
-        float m20 = m00 * rm20 + m10 * rm21 + this.m20 * rm22 - m30;
-        float m21 = m01 * rm20 + m11 * rm21 + this.m21 * rm22 - m31;
-        float m22 = m02 * rm20 + m12 * rm21 + this.m22 * rm22 - m32;
-        float m23 = m03 * rm20 + m13 * rm21 + this.m23 * rm22 - m33;
+        float nm20 = m00 * rm20 + m10 * rm21 + this.m20 * rm22 - m30;
+        float nm21 = m01 * rm20 + m11 * rm21 + this.m21 * rm22 - m31;
+        float nm22 = m02 * rm20 + m12 * rm21 + this.m22 * rm22 - m32;
+        float nm23 = m03 * rm20 + m13 * rm21 + this.m23 * rm22 - m33;
         m00 = m00 * rm00;
         m01 = m01 * rm00;
         m02 = m02 * rm00;
@@ -2033,10 +2057,10 @@ public class Matrix4f implements Serializable, Externalizable {
         m31 = this.m21 * rm32;
         m32 = this.m22 * rm32;
         m33 = this.m23 * rm32;
-        this.m20 = m20;
-        this.m21 = m21;
-        this.m22 = m22;
-        this.m23 = m23;
+        m20 = nm20;
+        m21 = nm21;
+        m22 = nm22;
+        m23 = nm23;
 
         return this;
     }
@@ -2127,14 +2151,14 @@ public class Matrix4f implements Serializable, Externalizable {
         m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
         m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
         m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
-        this.m00 = nm00;
-        this.m01 = nm01;
-        this.m02 = nm02;
-        this.m03 = nm03;
-        this.m10 = nm10;
-        this.m11 = nm11;
-        this.m12 = nm12;
-        this.m13 = nm13;
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m03 = nm03;
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
+        m13 = nm13;
         
         return this;
     }
@@ -2149,12 +2173,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
-     * @param axisAngle
+     * @param angleAxis
      *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
      * @return this
      */
-    public Matrix4f rotate(AngleAxis4f axisAngle) {
-        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
+    public Matrix4f rotate(AngleAxis4f angleAxis) {
+        return rotate(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
     }
 
     /**
