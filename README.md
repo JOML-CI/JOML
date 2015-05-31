@@ -48,9 +48,10 @@ new Matrix4f().translate(center)
 ```
 The vector *pointToRotate* will now represent (0, 3, 5).
 
-Perspective projections
+Building a camera transformation
 ------------
-In the same way that you can concatenate/multiply multiple simple affine transformations, you can use the methods Matrix4f.perspective(), .ortho() to specify a perspective or orthogonal projection and .lookAt() to create a orthonormal transformation that resembles a camera "looking" into a given direction. Those three methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):
+In the same way that you can concatenate multiple simple affine transformations, you can use the methods perspective(), frustum() and ortho() to specify a perspective or orthogonal projection and lookAt() to create an orthonormal transformation that mimics a camera *looking* at a given point.
+Those methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):
 ```Java
 Matrix4f m = new Matrix4f()
      .perspective(45.0f, 1.0f, 0.01f, 100.0f)
