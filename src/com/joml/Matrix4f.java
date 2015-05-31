@@ -1800,6 +1800,65 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to a rotation transformation to make <code>-z</code> point along <code>dir</code>. 
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix4f setLookAlong(Vector3f dir, Vector3f up) {
+        return setLookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Set this matrix to a rotation transformation to make <code>-z</code> point along <code>dir</code>.
+     *  
+     * @return this
+     */
+    public Matrix4f setLookAlong(float dirX, float dirY, float dirZ,
+                                 float upX, float upY, float upZ) {
+        // Normalize direction
+        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX /= dirLength;
+        dirY /= dirLength;
+        dirZ /= dirLength;
+        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
+        upX /= upLength;
+        upY /= upLength;
+        upZ /= upLength;
+        // right = direction x up
+        float rightX, rightY, rightZ;
+        rightX = dirY * upZ - dirZ * upY;
+        rightY = dirZ * upX - dirX * upZ;
+        rightZ = dirX * upY - dirY * upX;
+        // up = right x direction
+        upX = rightY * dirZ - rightZ * dirY;
+        upY = rightZ * dirX - rightX * dirZ;
+        upZ = rightX * dirY - rightY * dirX;
+
+        m00 = rightX;
+        m01 = upX;
+        m02 = -dirX;
+        m03 = 0.0f;
+        m10 = rightY;
+        m11 = upY;
+        m12 = -dirY;
+        m13 = 0.0f;
+        m20 = rightZ;
+        m21 = upZ;
+        m22 = -dirZ;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
+
+        return this;
+    }
+
+    /**
      * Set this matrix to be a "lookat" transformation, 
      * that aligns <code>-z</code> with <code>center - eye</code>.
      * 
