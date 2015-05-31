@@ -145,7 +145,7 @@ In the example above, a single Matrix4f is allocated during some initialization 
 
 Multithreading
 --------------
-Due to JOML not using any internal temporary objects during any computations, you can use JOML in a multithreaded application. You only need to make sure not to call a modifying method on the same matrix or vector from two different threads. Other than that, there is no internal or external synchronization necessary.
+Due to JOML not using any internal temporary objects during any computations, you can use JOML in a multithreaded application. You only need to make sure not to call a method modifying the same matrix or vector from two different threads. Other than that, there is no internal or external synchronization necessary.
 
 Matrix stack
 ------------
