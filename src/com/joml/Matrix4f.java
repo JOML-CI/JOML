@@ -1658,7 +1658,7 @@ public class Matrix4f implements Serializable, Externalizable {
         m30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
         m31 = -upX * eyeX - upY * eyeY - upZ * eyeZ;
         m32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
-        m33 = 0.0f;
+        m33 = 1.0f;
 
         return this;
     }
