@@ -90,7 +90,6 @@ Matrix4f m = new Matrix4f()
              0.0f, 0.0f, 0.0f,
              0.0f, 1.0f, 0.0f)
      .get(fb);
-fb.rewind();
 glUniformMatrix4fv(mat4Location, false, fb);
 ```
 
@@ -99,13 +98,11 @@ If you prefer not to use shaders but the fixed-function pipeline and want to use
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f();
 m.perspective(45.0f, 1.0f, 0.01f, 100.0f).get(fb);
-fb.rewind();
 glMatrixMode(GL_PROJECTION);
 glLoadMatrixf(fb);
 m.identity().lookAt(0.0f, 0.0f, 10.0f,
                     0.0f, 0.0f, 0.0f,
                     0.0f, 1.0f, 0.0f).get(fb);
-fb.rewind();
 glMatrixMode(GL_MODELVIEW);
 glLoadMatrixf(fb);
 ```
@@ -134,9 +131,7 @@ void frame() {
    .perspective(45.0f, (float)width/height, 0.01f, 100.0f)
    .lookAt(0.0f, 0.0f, 10.0f,
            0.0f, 0.0f, 0.0f,
-           0.0f, 1.0f, 0.0f)
-   .get(fb);
-  fb.rewind();
+           0.0f, 1.0f, 0.0f).get(fb);
   glUniformMatrix4fv(mat4Location, false, fb);
   ...
 }
