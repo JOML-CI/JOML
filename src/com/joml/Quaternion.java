@@ -360,6 +360,18 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
+     * Invert this Quaternion and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaternion invert(Quaternion dest) {
+        invert(this, dest);
+        return this;
+    }
+
+    /**
      * Invert this Quaternion.
      * 
      * @return this
@@ -382,6 +394,20 @@ public class Quaternion implements Serializable, Externalizable {
         dest.y = -q.y / norm;
         dest.z = -q.z / norm;
         dest.w = -q.w / norm;
+    }
+
+    /**
+     * Divides this Quaternion by b and store the result in <code>dest</code>.
+     * 
+     * @param b
+     *          the {@link Quaternion} to divide this by
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaternion div(Quaternion b, Quaternion dest) {
+        div(this, b, dest);
+        return this;
     }
 
     /**
@@ -636,9 +662,9 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Rotate <code>dest</code> to point towards <code>destPoint</code>, from the supplied <code>sourcePoint</code>
+     * Set <code>dest</code> to be a rotation leading <code>sourcePoint</code> to rotate to <code>destPoint</code>.
      */
-    public static void LookAt(Vector3f sourcePoint, Vector3f destPoint, Vector3f up, Vector3f forward, Quaternion dest) {
+    public static void lookAt(Vector3f sourcePoint, Vector3f destPoint, Vector3f up, Vector3f forward, Quaternion dest) {
         float dirX = destPoint.x - sourcePoint.x;
         float dirY = destPoint.y - sourcePoint.y;
         float dirZ = destPoint.z - sourcePoint.z;
@@ -681,14 +707,14 @@ public class Quaternion implements Serializable, Externalizable {
 
         dest.setAngleAxis(rotAngle, rotAxisX, rotAxisY, rotAxisZ);
     }
-    
+
     /**
-     * Rotate <code>dest</code> to point towards <code>destPoint</code>, from the supplied <code>sourcePoint</code>.
+     * Set <code>dest</code> to be a rotation leading <code>sourcePoint</code> to rotate to <code>destPoint</code>.
      * 
      * @return this
      */
-    public Quaternion LookAt(Vector3f sourcePoint, Vector3f destPoint, Vector3f up, Vector3f forward) {
-        LookAt(sourcePoint, destPoint, up, forward, this);
+    public Quaternion lookAt(Vector3f sourcePoint, Vector3f destPoint, Vector3f up, Vector3f forward) {
+        lookAt(sourcePoint, destPoint, up, forward, this);
         return this;
     }
 
