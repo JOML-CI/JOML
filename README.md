@@ -48,6 +48,11 @@ new Matrix4f().translate(center)
 ```
 The vector *pointToRotate* will now represent (0, 3, 5).
 
+Extending JOML
+--------------
+Using standard subclassing in Java you can extend JOML and add additional features/methods to JOML's classes.
+For example, using the above example which rotates around a given rotation center, you can use the basic methods to build a new method which nicely encapsulate this functionality.
+
 Building a camera transformation
 ------------
 In the same way that you can concatenate multiple simple affine transformations, you can use the methods perspective(), frustum() and ortho() to specify a perspective or orthogonal projection and lookAt() to create an orthonormal transformation that mimics a camera *looking* at a given point.
