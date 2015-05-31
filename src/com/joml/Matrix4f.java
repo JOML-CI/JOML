@@ -774,23 +774,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f get(int index, FloatBuffer buffer) {
-        int pos = buffer.position();
-        buffer.put(pos, this.m00);
-        buffer.put(pos+1, this.m01);
-        buffer.put(pos+2, this.m02);
-        buffer.put(pos+3, this.m03);
-        buffer.put(pos+4, this.m10);
-        buffer.put(pos+5, this.m11);
-        buffer.put(pos+6, this.m12);
-        buffer.put(pos+7, this.m13);
-        buffer.put(pos+8, this.m20);
-        buffer.put(pos+9, this.m21);
-        buffer.put(pos+10, this.m22);
-        buffer.put(pos+11, this.m23);
-        buffer.put(pos+12, this.m30);
-        buffer.put(pos+13, this.m31);
-        buffer.put(pos+14, this.m32);
-        buffer.put(pos+15, this.m33);
+        buffer.put(index, this.m00);
+        buffer.put(index+1, this.m01);
+        buffer.put(index+2, this.m02);
+        buffer.put(index+3, this.m03);
+        buffer.put(index+4, this.m10);
+        buffer.put(index+5, this.m11);
+        buffer.put(index+6, this.m12);
+        buffer.put(index+7, this.m13);
+        buffer.put(index+8, this.m20);
+        buffer.put(index+9, this.m21);
+        buffer.put(index+10, this.m22);
+        buffer.put(index+11, this.m23);
+        buffer.put(index+12, this.m30);
+        buffer.put(index+13, this.m31);
+        buffer.put(index+14, this.m32);
+        buffer.put(index+15, this.m33);
         return this;
     }
 
