@@ -4,7 +4,7 @@ A Java-based math library for OpenGL rendering calculations
 Design goals
 ------------
 
-The goal of JOML is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.3 and not making use JNI.
+The goal of JOML is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.3 and not making use of JNI.
 
 Simple examples
 ---------------
