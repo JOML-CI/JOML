@@ -733,7 +733,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * intermediate calculation results when chaining multiple transformations.
      * 
      * @param dest
-     *          the destination matrix
+     *            the destination matrix
      * @return this
      */
     public Matrix4f get(Matrix4f dest) {
@@ -742,33 +742,38 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied {@link FloatBuffer} at the current buffer {@link FloatBuffer#position() position}.
+     * Store this matrix into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
      * <p>
-     * This method will not increment the position of the given {@link FloatBuffer}.
-     * If you want the position to be incremented use {@link #get(FloatBuffer, boolean)} with <code>true</code> as second argument.
+     * This method will not increment the position of the given
+     * {@link FloatBuffer}.
+     * <p>
+     * If you want to specify the offset into the {@link FloatBuffer} at which
+     * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
      * 
-     * @see #get(FloatBuffer, boolean)
+     * @see #get(int, FloatBuffer)
      * 
      * @param buffer
-     *          will receive the values of this matrix in column-major order
+     *            will receive the values of this matrix in column-major order at its current position
      * @return this
      */
     public Matrix4f get(FloatBuffer buffer) {
-        return get(buffer, false);
+        return get(buffer.position(), buffer);
     }
 
     /**
-     * Store this matrix into the supplied {@link FloatBuffer} at the current buffer {@link FloatBuffer#position() position} and optionally advance the buffer position.
+     * Store this matrix into the supplied {@link FloatBuffer} starting at the specified buffer position/index.
+     * <p>
+     * This method will not increment the position of the given {@link FloatBuffer}.
      * 
-     * @see #get(FloatBuffer, boolean)
-     * 
+     * @param index
+     *            the absolute position into the {@link FloatBuffer}
      * @param buffer
-     *          will receive the values of this matrix in column-major order
-     * @param advanceBufferPosition
-     *          <code>true</code> if the buffer's position should be incremented; <code>false</code> if not
+     *            will receive the values of this matrix in column-major order
      * @return this
      */
-    public Matrix4f get(FloatBuffer buffer, boolean advanceBufferPosition) {
+    public Matrix4f get(int index, FloatBuffer buffer) {
         int pos = buffer.position();
         buffer.put(pos, this.m00);
         buffer.put(pos+1, this.m01);
@@ -786,9 +791,6 @@ public class Matrix4f implements Serializable, Externalizable {
         buffer.put(pos+13, this.m31);
         buffer.put(pos+14, this.m32);
         buffer.put(pos+15, this.m33);
-        if (advanceBufferPosition) {
-            buffer.position(pos + 16);
-        }
         return this;
     }
 
