@@ -1719,6 +1719,10 @@ public class Matrix4f implements Serializable, Externalizable {
      * then the new matrix will be <code>M * L</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
      * , the lookalong rotation transformation will be applied first!
+     * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * 
      * @param dir
      *            the direction in space to look along
@@ -1738,6 +1742,10 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
      * , the lookalong rotation transformation will be applied first!
      * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * 
      * @return this
      */
     public Matrix4f lookAlong(float dirX, float dirY, float dirZ,
@@ -1800,7 +1808,12 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation transformation to make <code>-z</code> point along <code>dir</code>. 
+     * Set this matrix to a rotation transformation to make <code>-z</code>
+     * point along <code>dir</code>.
+     * <p>
+     * This is equivalent to calling
+     * {@link #setLookAt(Vector3f, Vector3f, Vector3f) setLookAt} 
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * 
      * @param dir
      *            the direction in space to look along
@@ -1813,8 +1826,13 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation transformation to make <code>-z</code> point along <code>dir</code>.
-     *  
+     * Set this matrix to a rotation transformation to make <code>-z</code>
+     * point along <code>dir</code>.
+     * <p>
+     * This is equivalent to calling
+     * {@link #setLookAt(float, float, float, float, float, float, float, float, float)
+     * setLookAt} with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * 
      * @return this
      */
     public Matrix4f setLookAlong(float dirX, float dirY, float dirZ,
