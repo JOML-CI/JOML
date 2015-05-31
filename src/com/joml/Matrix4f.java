@@ -947,7 +947,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @param angle
      *          the angle in degrees
      * @param axis
-     *          the axis to rotate about
+     *          the axis to rotate about (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
     public Matrix4f rotation(float angle, Vector3f axis) {
@@ -969,6 +969,8 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
+     * <p>
+     * The axis described by the three components must be normalized.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
@@ -1420,6 +1422,8 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply rotation to this matrix by rotating the given amount of degrees
      * about the given axis specified as x, y and z components.
+     * <p>
+     * The axis described by the three components must be normalized.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -2151,6 +2155,26 @@ public class Matrix4f implements Serializable, Externalizable {
      */
     public Matrix4f rotate(AngleAxis4f axisAngle) {
         return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
+    }
+
+    /**
+     * Apply the rotation transformation of the given axis and angle to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>
+     * , the angle-axis rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis (needs to be {@link Vector3f#normalize() normalized}
+     * @return this
+     */
+    public Matrix4f rotate(float angle, Vector3f axis) {
+        return rotate(angle, axis.x, axis.y, axis.z);
     }
 
 }
