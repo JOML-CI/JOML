@@ -101,13 +101,13 @@ Matrix4f m = new Matrix4f();
 m.perspective(45.0f, 1.0f, 0.01f, 100.0f).get(fb);
 fb.rewind();
 glMatrixMode(GL_PROJECTION);
-glLoadMatrix(fb);
+glLoadMatrixf(fb);
 m.identity().lookAt(0.0f, 0.0f, 10.0f,
                     0.0f, 0.0f, 0.0f,
                     0.0f, 1.0f, 0.0f).get(fb);
 fb.rewind();
 glMatrixMode(GL_MODELVIEW);
-glLoadMatrix(fb);
+glLoadMatrixf(fb);
 ```
 
 Staying allocation-free
