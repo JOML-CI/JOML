@@ -101,7 +101,7 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m32 = mat.m32;
         this.m33 = mat.m33;
     }
-    
+
     /** Create a new 4x4 matrix using the supplied float values */
     public Matrix4f(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
             float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
@@ -122,7 +122,7 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m32 = m32;
         this.m33 = m33;
     }
-    
+
     public Matrix4f(FloatBuffer buffer) {
         m00 = buffer.get();
         m01 = buffer.get();
@@ -141,7 +141,7 @@ public class Matrix4f implements Serializable, Externalizable {
         m32 = buffer.get();
         m33 = buffer.get();
     }
-    
+
     /**
      * Reset this matrix to the identity.
      * 
@@ -244,7 +244,7 @@ public class Matrix4f implements Serializable, Externalizable {
         m33 = javaxVecmathMatrix.m33;
         return this;
     }
-    
+
     /**
      * Set the values of this matrix to the ones of the given org.lwjgl.util.vector.Matrix4f matrix.
      * 
@@ -421,7 +421,7 @@ public class Matrix4f implements Serializable, Externalizable {
         m33 = m[off+15];
         return this;
     }
-    
+
     /**
      * Set the values in the matrix using a float array. The results will look like this:<br><br>
      * 
@@ -437,7 +437,7 @@ public class Matrix4f implements Serializable, Externalizable {
     public Matrix4f set(float m[]) {
         return set(m, 0);
     }
-    
+
     /**
      * Set the values in the matrix using a FloatBuffer. The results will look like this:<br><br>
      * 
@@ -467,21 +467,21 @@ public class Matrix4f implements Serializable, Externalizable {
         m33 = buffer.get();
         return this;
     }
-    
+
     /** Returns the determinant of this matrix */
     public float determinant() {
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
              + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
              - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
-    
+
     /** Returns the determinant of the supplied matrix */
     public static float determinant(Matrix4f source) {
         return (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
              + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
              - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
     }
-    
+
     /**
      * Invert this matrix and write the result into <code>dest</code>.
      * 
@@ -580,7 +580,7 @@ public class Matrix4f implements Serializable, Externalizable {
         m33 *= scalar;
         return this;
     }
-    
+
     /**
      * Multiply the supplied <code>source</code> matrix by the supplied
      * <code>scalar</code> and store the result in <code>dest</code>.
@@ -818,7 +818,7 @@ public class Matrix4f implements Serializable, Externalizable {
         javaxVecmathMatrix.m33 = m33;
         return this;
     }
-    
+
     /**
      * Store the values of this matrix into the given org.lwjgl.util.vector.Matrix4f.
      * 
@@ -991,7 +991,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
+     * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
      * 
      * @param angle
      *          the angle in degrees
@@ -1057,7 +1057,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
+     * Set the destination matrix to a rotation matrix which rotates the given degrees about a given axis.
      * The result will be stored in <code>dest</code>.
      * 
      * @param angle
@@ -1650,7 +1650,7 @@ public class Matrix4f implements Serializable, Externalizable {
         float rm30 = -(right + left) / (right - left);
         float rm31 = -(top + bottom) / (top - bottom);
         float rm32 = -(zFar + zNear) / (zFar - zNear);
-        
+
         // perform optimized multiplication
         // compute the last column first, because other rows do not depend on it
         m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
@@ -1768,7 +1768,7 @@ public class Matrix4f implements Serializable, Externalizable {
         upX = rightY * dirZ - rightZ * dirY;
         upY = rightZ * dirX - rightX * dirZ;
         upZ = rightX * dirY - rightY * dirX;
-        
+
         // calculate right matrix elements
         float rm00 = rightX;
         float rm01 = upX;
@@ -2011,7 +2011,7 @@ public class Matrix4f implements Serializable, Externalizable {
         upX = rightY * dirZ - rightZ * dirY;
         upY = rightZ * dirX - rightX * dirZ;
         upZ = rightX * dirY - rightY * dirX;
-        
+
         // calculate right matrix elements
         float rm00 = rightX;
         float rm01 = upX;
@@ -2261,7 +2261,7 @@ public class Matrix4f implements Serializable, Externalizable {
         m11 = nm11;
         m12 = nm12;
         m13 = nm13;
-        
+
         return this;
     }
 
