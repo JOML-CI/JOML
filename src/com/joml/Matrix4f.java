@@ -676,7 +676,7 @@ public class Matrix4f implements Serializable, Externalizable {
                      original.m33);
         }
     }
-    
+
     /**
      * Set this matrix to be a simple translation matrix.
      * <p>
@@ -955,6 +955,19 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to a rotation transformation rotation of the given {@link AngleAxis4f}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @param axisAngle
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
+     * @return this
+     */
+    public Matrix4f rotation(AngleAxis4f axisAngle) {
+        return rotation(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
+    }
+
+    /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
@@ -1089,6 +1102,46 @@ public class Matrix4f implements Serializable, Externalizable {
         m31 = 0.0f;
         m32 = 0.0f;
         m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to the rotation transformation of the given {@link Quaternion}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @param quat
+     *          the {@link Quaternion}
+     * @return this
+     */
+    public Matrix4f rotation(Quaternion quat) {
+        float q00 = 2.0f * quat.x * quat.x;
+        float q11 = 2.0f * quat.y * quat.y;
+        float q22 = 2.0f * quat.z * quat.z;
+        float q01 = 2.0f * quat.x * quat.y;
+        float q02 = 2.0f * quat.x * quat.z;
+        float q03 = 2.0f * quat.x * quat.w;
+        float q12 = 2.0f * quat.y * quat.z;
+        float q13 = 2.0f * quat.y * quat.w;
+        float q23 = 2.0f * quat.z * quat.w;
+
+        m00 = 1.0f - q11 - q22;
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m03 = 0.0f;
+        m10 = q01 - q23;
+        m11 = 1.0f - q22 - q00;
+        m12 = q12 + q03;
+        m13 = 0.0f;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0f - q11 - q00;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
+
         return this;
     }
 
