@@ -712,6 +712,21 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
+     * Apply a "lookat" transformation to the current matrix for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * 
+     * @see #lookAt(Vector3f, Vector3f, Vector3f)
+     * 
+     * @return this
+     */
+    public MatrixStack lookAt(float eyeX, float eyeY, float eyeZ,
+                           float centerX, float centerY, float centerZ,
+                           float upX, float upY, float upZ) {
+        mats[curr].lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+        return this;
+    }
+
+    /**
      * Apply a symmetric perspective projection frustum transformation to the
      * current matrix.
      * 
