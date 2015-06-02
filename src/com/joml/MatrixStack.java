@@ -68,7 +68,8 @@ public class MatrixStack implements Serializable, Externalizable {
             throw new IllegalArgumentException("stackSize must be >= 1");
         }
         mats = new Matrix4f[stackSize];
-        // Allocate all matrices up front to keep the promise of being "allocation-free"
+        // Allocate all matrices up front to keep the promise of being
+        // "allocation-free"
         for (int i = 0; i < stackSize; i++) {
             mats[i] = new Matrix4f();
         }
@@ -149,8 +150,7 @@ public class MatrixStack implements Serializable, Externalizable {
      */
     public MatrixStack loadMatrix(FloatBuffer columnMajorArray) {
         if (columnMajorArray == null) {
-            throw new IllegalArgumentException(
-                    "columnMajorArray must not be null");
+            throw new IllegalArgumentException("columnMajorArray must not be null");
         }
         mats[curr].set(columnMajorArray);
         return this;
@@ -169,12 +169,10 @@ public class MatrixStack implements Serializable, Externalizable {
      */
     public MatrixStack loadMatrix(float[] columnMajorArray, int offset) {
         if (columnMajorArray == null) {
-            throw new IllegalArgumentException(
-                    "columnMajorArray must not be null");
+            throw new IllegalArgumentException("columnMajorArray must not be null");
         }
         if (columnMajorArray.length - offset < 16) {
-            throw new IllegalArgumentException(
-                    "columnMajorArray does not have enough elements");
+            throw new IllegalArgumentException("columnMajorArray does not have enough elements");
         }
         mats[curr].set(columnMajorArray, offset);
         return this;
@@ -188,8 +186,7 @@ public class MatrixStack implements Serializable, Externalizable {
      */
     public MatrixStack pushMatrix() {
         if (curr == mats.length - 1) {
-            throw new IllegalStateException("max stack size of " + (curr + 1)
-                    + " reached");
+            throw new IllegalStateException("max stack size of " + (curr + 1) + " reached");
         }
         mats[curr + 1].set(mats[curr]);
         curr++;
@@ -220,8 +217,7 @@ public class MatrixStack implements Serializable, Externalizable {
      */
     public MatrixStack popMatrix() {
         if (curr == 0) {
-            throw new IllegalStateException(
-                    "already at the buttom of the stack");
+            throw new IllegalStateException("already at the buttom of the stack");
         }
         curr--;
         return this;
@@ -260,8 +256,17 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Store the column-major values of the current matrix of the stack into the
-     * supplied {@link FloatBuffer}.
+     * Store the current matrix into the supplied {@link FloatBuffer} at the
+     * current buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given
+     * {@link FloatBuffer}.
+     * <p>
+     * If you want to specify the offset into the {@link FloatBuffer} at which
+     * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see Matrix4f#get(FloatBuffer)
      * 
      * @param dest
      *            the destination {@link FloatBuffer} into which to store the
@@ -273,8 +278,36 @@ public class MatrixStack implements Serializable, Externalizable {
             throw new IllegalArgumentException("dest must not be null");
         }
         if (dest.remaining() < 16) {
-            throw new IllegalArgumentException(
-                    "dest does not have enough space");
+            throw new IllegalArgumentException("dest does not have enough space");
+        }
+        mats[curr].get(dest);
+        return dest;
+    }
+
+    /**
+     * Store the current matrix into the supplied {@link FloatBuffer} starting
+     * at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given
+     * {@link FloatBuffer}.
+     * <p>
+     * If you want to store the matrix at the current buffer's position, you can
+     * use {@link #get(FloatBuffer)} instead.
+     * 
+     * @see #get(FloatBuffer)
+     * 
+     * @param index
+     *            the absolute position into the {@link FloatBuffer}
+     * @param dest
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public FloatBuffer get(int index, FloatBuffer dest) {
+        if (dest == null) {
+            throw new IllegalArgumentException("dest must not be null");
+        }
+        if (dest.remaining() < 16) {
+            throw new IllegalArgumentException("dest does not have enough space");
         }
         mats[curr].get(dest);
         return dest;
@@ -299,8 +332,7 @@ public class MatrixStack implements Serializable, Externalizable {
             throw new IllegalArgumentException("offset must not be negative");
         }
         if (dest.length - offset < 16) {
-            throw new IllegalArgumentException(
-                    "dest does not have enough elements");
+            throw new IllegalArgumentException("dest does not have enough elements");
         }
         mats[curr].get(dest, offset);
         return dest;
@@ -378,6 +410,11 @@ public class MatrixStack implements Serializable, Externalizable {
     /**
      * Apply a translation to the current matrix by translating by the number of
      * units in the given {@link Vector3f}.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>T</code> the
+     * translation matrix, then the new matrix will be <code>C * T</code>. So
+     * when transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * T * v</code>, the translation will be applied first!
      * 
      * @see #translate(float, float, float)
      * 
@@ -484,6 +521,11 @@ public class MatrixStack implements Serializable, Externalizable {
     /**
      * Apply a scaling transformation to the current matrix by scaling by the
      * factors in the given {@link Vector3f}.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>S</code> the scaling
+     * matrix, then the new matrix will be <code>C * S</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * S * v</code>, the scaling will be applied first!
      * 
      * @see #scale(float, float, float)
      * 
@@ -521,6 +563,25 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
+     * Apply scaling to the current matrix by uniformly scaling all unit axes by
+     * the given <code>xyz</code> factor.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>S</code> the scaling
+     * matrix, then the new matrix will be <code>C * S</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * S * v</code>, the scaling will be applied first!
+     * 
+     * @see #scale(float, float, float)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @return this
+     */
+    public MatrixStack scale(float xyz) {
+        return scale(xyz, xyz, xyz);
+    }
+
+    /**
      * Apply rotation to the current matrix by rotating the given amount of
      * degrees about the given axis specified as x, y and z component.
      * <p>
@@ -548,6 +609,11 @@ public class MatrixStack implements Serializable, Externalizable {
     /**
      * Static version of {@link #rotate(float, float, float, float)} which
      * applies the transformation to the given {@link MatrixStack}.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation
+     * matrix, then the new current matrix will be <code>C * R</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @see #rotate(float, float, float, float)
      * 
@@ -562,8 +628,7 @@ public class MatrixStack implements Serializable, Externalizable {
      * @param stack
      *            the {@link MatrixStack} to apply the transformation on
      */
-    public static void rotate(float ang, float x, float y, float z,
-            MatrixStack stack) {
+    public static void rotate(float ang, float x, float y, float z, MatrixStack stack) {
         if (stack == null) {
             throw new IllegalArgumentException("v must not be null");
         }
@@ -574,6 +639,11 @@ public class MatrixStack implements Serializable, Externalizable {
      * Apply a rotation transformation to the current matrix by rotating the
      * given amount of degrees about the given <code>axis</code>
      * {@link Vector3f}.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation
+     * matrix, then the new current matrix will be <code>C * R</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @see #rotate(float, float, float, float)
      * 
@@ -594,6 +664,11 @@ public class MatrixStack implements Serializable, Externalizable {
     /**
      * Static version of {@link #rotate(float, Vector3f)} which applies the
      * transformation to the given {@link MatrixStack}.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation
+     * matrix, then the new current matrix will be <code>C * R</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @see #rotate(float, Vector3f)
      * 
@@ -615,10 +690,16 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternion} to the current matrix.
+     * Apply the rotation transformation of the given {@link Quaternion} to the
+     * current matrix.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation
+     * matrix, then the new current matrix will be <code>C * R</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @param quat
-     *          the {@link Quaternion}
+     *            the {@link Quaternion}
      * @return this
      */
     public MatrixStack rotate(Quaternion quat) {
@@ -630,10 +711,17 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a rotation transformation, rotating about the given {@link AngleAxis4f}, to the current matrix.
+     * Apply a rotation transformation, rotating about the given
+     * {@link AngleAxis4f}, to the current matrix.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation
+     * matrix, then the new current matrix will be <code>C * R</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @param angleAxis
-     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
+     *            the {@link AngleAxis4f} (needs to be
+     *            {@link AngleAxis4f#normalize() normalized})
      * @return this
      */
     public MatrixStack rotate(AngleAxis4f angleAxis) {
@@ -645,7 +733,13 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Apply rotation about the X axis to the current matrix by rotating the given amount of degrees.
+     * Apply rotation about the X axis to the current matrix by rotating the
+     * given amount of degrees.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation
+     * matrix, then the new current matrix will be <code>C * R</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @param ang
      *            the angle in degrees
@@ -657,7 +751,13 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Apply rotation about the Y axis to the current matrix by rotating the given amount of degrees.
+     * Apply rotation about the Y axis to the current matrix by rotating the
+     * given amount of degrees.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation
+     * matrix, then the new current matrix will be <code>C * R</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @param ang
      *            the angle in degrees
@@ -669,7 +769,13 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Apply rotation about the X axis to the current matrix by rotating the given amount of degrees.
+     * Apply rotation about the X axis to the current matrix by rotating the
+     * given amount of degrees.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation
+     * matrix, then the new current matrix will be <code>C * R</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @param ang
      *            the angle in degrees
@@ -704,10 +810,12 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Right-multiply the given matrix <code>mat</code> against the current
-     * matrix. If <code>C</code> is the current matrix and <code>M</code> the
-     * supplied matrix, then the new current matrix will be <code>C * M</code>.
-     * So when transforming a vector <code>v</code> with the new matrix by using
+     * Post-multiply the given matrix <code>mat</code> against the current
+     * matrix.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>M</code> the supplied
+     * matrix, then the new current matrix will be <code>C * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * M * v</code>, the supplied matrix <code>mat</code> will be
      * applied first!
      * 
@@ -751,8 +859,7 @@ public class MatrixStack implements Serializable, Externalizable {
         }
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         curr = in.readInt();
         int len = in.readInt();
         mats = new Matrix4f[len];
@@ -763,6 +870,11 @@ public class MatrixStack implements Serializable, Externalizable {
 
     /**
      * Apply a "lookat" transformation to the current matrix.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>L</code> the lookat
+     * matrix, then the new current matrix will be <code>C * L</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * L * v</code>, the lookat transformation will be applied first!
      * 
      * @param position
      *            the position of the camera
@@ -778,41 +890,59 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a "lookat" transformation to the current matrix for a right-handed coordinate system, 
-     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * Apply a "lookat" transformation to the current matrix for a right-handed
+     * coordinate system, that aligns <code>-z</code> with
+     * <code>center - eye</code>.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>L</code> the lookat
+     * matrix, then the new current matrix will be <code>C * L</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * L * v</code>, the lookat transformation will be applied first!
      * 
      * @see #lookAt(Vector3f, Vector3f, Vector3f)
      * 
      * @return this
      */
-    public MatrixStack lookAt(float eyeX, float eyeY, float eyeZ,
-                           float centerX, float centerY, float centerZ,
-                           float upX, float upY, float upZ) {
+    public MatrixStack lookAt(float eyeX, float eyeY, float eyeZ, float centerX, float centerY, float centerZ,
+            float upX, float upY, float upZ) {
         mats[curr].lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         return this;
     }
 
     /**
-     * Apply a rotation transformation to the current matrix to make <code>-z</code> point along <code>dir</code>. 
+     * Apply a rotation transformation to the current matrix to make
+     * <code>-z</code> point along <code>dir</code>.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>L</code> the lookalong
+     * matrix, then the new current matrix will be <code>C * L</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * L * v</code>, the lookalong transformation will be applied
+     * first!
      * <p>
      * This is equivalent to calling
-     * {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt}
-     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * {@link #lookAt(float, float, float, float, float, float, float, float, float)
+     * lookAt} with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * 
      * @return this
      */
-    public MatrixStack lookAlong(float dirX, float dirY, float dirZ,
-                                 float upX, float upY, float upZ) {
+    public MatrixStack lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         mats[curr].lookAlong(dirX, dirY, dirZ, upX, upY, upZ);
         return this;
     }
 
     /**
-     * Apply a rotation transformation to the current matrix to make <code>-z</code> point along <code>dir</code>. 
+     * Apply a rotation transformation to the current matrix to make
+     * <code>-z</code> point along <code>dir</code>.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>L</code> the lookalong
+     * matrix, then the new current matrix will be <code>C * L</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * L * v</code>, the lookalong transformation will be applied
+     * first!
      * <p>
      * This is equivalent to calling
-     * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt}
-     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt} with
+     * <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * 
      * @param dir
      *            the direction in space to look along
@@ -828,6 +958,12 @@ public class MatrixStack implements Serializable, Externalizable {
     /**
      * Apply a symmetric perspective projection frustum transformation to the
      * current matrix.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>P</code> the
+     * perspective projection matrix, then the new matrix will be
+     * <code>C * P</code>. So when transforming a vector <code>v</code> with the
+     * new matrix by using <code>C * P * v</code>, the perspective projection
+     * will be applied first!
      * 
      * @param fovy
      *            the vertical field of view in degrees
@@ -839,14 +975,19 @@ public class MatrixStack implements Serializable, Externalizable {
      *            far clipping plane distance
      * @return this
      */
-    public MatrixStack perspective(float fovy, float aspect, float zNear,
-            float zFar) {
+    public MatrixStack perspective(float fovy, float aspect, float zNear, float zFar) {
         mats[curr].perspective(fovy, aspect, zNear, zFar);
         return this;
     }
 
     /**
      * Apply an orthographic projection transformation to the current matrix.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>O</code> the
+     * orthographic projection matrix, then the new matrix will be
+     * <code>C * O</code>. So when transforming a vector <code>v</code> with the
+     * new matrix by using <code>C * O * v</code>, the orthographic projection
+     * will be applied first!
      * 
      * @param left
      *            the distance from the center to the left frustum edge
@@ -862,14 +1003,19 @@ public class MatrixStack implements Serializable, Externalizable {
      *            far clipping plane distance
      * @return this
      */
-    public MatrixStack ortho(float left, float right, float bottom, float top,
-            float zNear, float zFar) {
+    public MatrixStack ortho(float left, float right, float bottom, float top, float zNear, float zFar) {
         mats[curr].ortho(left, right, bottom, top, zNear, zFar);
         return this;
     }
 
     /**
-     * Apply an arbitrary perspective projection frustum transformation to the current matrix.
+     * Apply an arbitrary perspective projection frustum transformation to the
+     * current matrix.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>F</code> the frustum
+     * projection matrix, then the new matrix will be <code>C * F</code>. So
+     * when transforming a vector <code>v</code> with the new matrix by using
+     * <code>C * F * v</code>, the frustum projection will be applied first!
      * 
      * @param left
      *            the distance along the x-axis to the left frustum edge

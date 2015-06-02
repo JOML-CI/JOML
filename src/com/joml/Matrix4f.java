@@ -774,7 +774,8 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied {@link FloatBuffer} starting at the specified buffer position/index.
+     * Store this matrix into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
      * <p>
      * This method will not increment the position of the given {@link FloatBuffer}.
      * 
@@ -2083,7 +2084,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * then the new matrix will be <code>M * P</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * P * v</code>
      * , the perspective projection will be applied first!
-     * <p>
+     * 
      * @param fovy
      *            the vertical field of view in degrees
      * @param aspect
@@ -2106,7 +2107,7 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Set this matrix to be a symmetric perspective projection frustum transformation.
-     * <p>
+     * 
      * @param fovy
      *            the vertical field of view in degrees
      * @param aspect
