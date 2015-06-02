@@ -172,8 +172,12 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values within this matrix to be the same as the supplied matrix.
+     * Store the values of the given matrix <code>m1</code> into <code>this</code> matrix.
      * 
+     * @see #get(Matrix4f)
+     * 
+     * @param m1
+     *          the matrix to copy the values from
      * @return this
      */
     public Matrix4f set(Matrix4f m1) {
@@ -743,6 +747,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * This is the reverse method of {@link #set(Matrix4f)} and allows to obtain
      * intermediate calculation results when chaining multiple transformations.
      * 
+     * @see #set(Matrix4f)
+     * 
      * @param dest
      *            the destination matrix
      * @return this
@@ -1306,8 +1312,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
      * 
      * @param x
      *            the factor of the x component
@@ -1342,8 +1348,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
      * 
      * @see #scale(float, float, float)
      * 
@@ -1360,8 +1366,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
@@ -1400,8 +1406,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
@@ -1440,8 +1446,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
@@ -1486,8 +1492,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
@@ -1633,8 +1639,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>
-     * , the orthographic projection transformation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
      * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
      * 
@@ -1727,12 +1733,15 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
-     * , the lookalong rotation transformation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
      * <p>
      * This is equivalent to calling
      * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * 
+     * @see #lookAlong(float, float, float, float, float, float)
+     * @see #lookAt(Vector3f, Vector3f, Vector3f)
      * 
      * @param dir
      *            the direction in space to look along
@@ -1749,12 +1758,14 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
-     * , the lookalong rotation transformation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
      * <p>
      * This is equivalent to calling
-     * {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt}
+     * {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt()}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * 
+     * @see #lookAt(float, float, float, float, float, float, float, float, float)
      * 
      * @return this
      */
@@ -1822,8 +1833,10 @@ public class Matrix4f implements Serializable, Externalizable {
      * point along <code>dir</code>.
      * <p>
      * This is equivalent to calling
-     * {@link #setLookAt(Vector3f, Vector3f, Vector3f) setLookAt} 
+     * {@link #setLookAt(Vector3f, Vector3f, Vector3f) setLookAt()} 
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * 
+     * @see #setLookAlong(Vector3f, Vector3f)
      * 
      * @param dir
      *            the direction in space to look along
@@ -1841,7 +1854,9 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * This is equivalent to calling
      * {@link #setLookAt(float, float, float, float, float, float, float, float, float)
-     * setLookAt} with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * setLookAt()} with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * 
+     * @see #setLookAlong(float, float, float, float, float, float)
      * 
      * @return this
      */
@@ -1892,7 +1907,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If you do not want to use {@link Vector3f} instances but simple floats
      * like in the GLU function, you can use
-     * {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt}
+     * {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt()}
      * instead.
      * 
      * @see #setLookAt(float, float, float, float, float, float, float, float, float)
@@ -1974,8 +1989,10 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
-     * , the lookat transformation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * 
+     * @see #lookAt(float, float, float, float, float, float, float, float, float)
      * 
      * @param eye
      *            the position of the camera
@@ -1995,9 +2012,9 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>
-     * , the lookat transformation will be applied first!
-     * <p>
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * 
      * @return this
      */
     public Matrix4f lookAt(float eyeX, float eyeY, float eyeZ,
@@ -2082,8 +2099,14 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>
-     * , the perspective projection will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * This method first computes the frustum corners using the specified parameters and then makes use of
+     * {@link #frustum(float, float, float, float, float, float) frustum()} to finally apply the frustum
+     * transformation.
+     * 
+     * @see #frustum(float, float, float, float, float, float)
      * 
      * @param fovy
      *            the vertical field of view in degrees
@@ -2107,6 +2130,12 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Set this matrix to be a symmetric perspective projection frustum transformation.
+     * <p>
+     * This method first computes the frustum corners using the specified parameters and then makes use of
+     * {@link #setFrustum(float, float, float, float, float, float) setFrustum()} to finally apply the frustum
+     * transformation.
+     * 
+     * @see #setFrustum(float, float, float, float, float, float)
      * 
      * @param fovy
      *            the vertical field of view in degrees
@@ -2133,8 +2162,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
      * then the new matrix will be <code>M * F</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>
-     * , the frustum transformation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
      * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
      * 
@@ -2230,8 +2259,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>
-     * , the quaternion rotation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
@@ -2289,10 +2318,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>
-     * , the angle-axis rotation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the angle-axis rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
      * 
      * @param angleAxis
      *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
@@ -2307,10 +2338,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>
-     * , the angle-axis rotation will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the angle-axis rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
      * 
      * @param angle
      *          the angle in degrees

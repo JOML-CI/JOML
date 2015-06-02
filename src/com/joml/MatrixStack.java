@@ -260,16 +260,17 @@ public class MatrixStack implements Serializable, Externalizable {
      * current buffer {@link FloatBuffer#position() position}.
      * <p>
      * This method will not increment the position of the given
-     * {@link FloatBuffer}.
+     * FloatBuffer.
      * <p>
-     * If you want to specify the offset into the {@link FloatBuffer} at which
+     * If you want to specify the offset into the FloatBuffer at which
      * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      * 
-     * @see Matrix4f#get(FloatBuffer)
+     * @see #get(int, FloatBuffer)
+     * @see Matrix4f#get(int, FloatBuffer)
      * 
      * @param dest
-     *            the destination {@link FloatBuffer} into which to store the
+     *            the destination FloatBuffer into which to store the
      *            column-major values of the current stack matrix
      * @return <code>dest</code>
      */
@@ -295,6 +296,7 @@ public class MatrixStack implements Serializable, Externalizable {
      * use {@link #get(FloatBuffer)} instead.
      * 
      * @see #get(FloatBuffer)
+     * @see Matrix4f#get(FloatBuffer)
      * 
      * @param index
      *            the absolute position into the {@link FloatBuffer}
