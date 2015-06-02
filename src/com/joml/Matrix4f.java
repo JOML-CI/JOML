@@ -1008,7 +1008,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation transformation rotation of the given {@link AngleAxis4f}.
+     * Set this matrix to a rotation transformation using the given {@link AngleAxis4f}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
@@ -1061,7 +1061,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the destination matrix to a rotation matrix which rotates the given degrees about a given axis.
+     * Set the destination matrix to a rotation matrix which rotates the given degrees about the specified axis.
      * The result will be stored in <code>dest</code>.
      * 
      * @param angle
@@ -1881,8 +1881,15 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to be a "lookat" transformation, 
-     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * Set this matrix to be a "lookat" transformation for a right-handed coordinate system, that aligns
+     * <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * If you do not want to use {@link Vector3f} instances but simple floats
+     * like in the GLU function, you can use
+     * {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt}
+     * instead.
+     * 
+     * @see #setLookAt(float, float, float, float, float, float, float, float, float)
      * 
      * @param eye
      *            the position of the camera
@@ -1897,9 +1904,11 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to be a "lookat" transformation, 
+     * Set this matrix to be a "lookat" transformation for a right-handed coordinate system, 
      * that aligns <code>-z</code> with <code>center - eye</code>.
-     * <p>
+     * 
+     * @see #setLookAt(Vector3f, Vector3f, Vector3f)
+     * 
      * @return this
      */
     public Matrix4f setLookAt(float eyeX, float eyeY, float eyeZ,
@@ -1954,7 +1963,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a "lookat" transformation to this matrix, 
+     * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
      * that aligns <code>-z</code> with <code>center - eye</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
@@ -1975,7 +1984,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a "lookat" transformation to this matrix, 
+     * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
      * that aligns <code>-z</code> with <code>center - eye</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
@@ -2270,7 +2279,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link AngleAxis4f} to this matrix.
+     * Apply a rotation transformation, rotating about the given {@link AngleAxis4f}, to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a
@@ -2288,7 +2297,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given axis and angle to this matrix.
+     * Apply a rotation transformation, rotating the given degree about the specified axis, to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a

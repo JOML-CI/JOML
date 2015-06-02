@@ -204,7 +204,7 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Add v2 to v1 and store the result in dest.
+     * Add v2 to v1 and store the result in <code>dest</code>.
      */
     public static void add(Vector4f v1, Vector4f v2, Vector4f dest) {
         dest.x = v1.x + v2.x;
