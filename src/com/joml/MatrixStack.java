@@ -615,6 +615,72 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
+     * Apply the rotation transformation of the given {@link Quaternion} to the current matrix.
+     * 
+     * @param quat
+     *          the {@link Quaternion}
+     * @return this
+     */
+    public MatrixStack rotate(Quaternion quat) {
+        if (quat == null) {
+            throw new IllegalArgumentException("quat must not be null");
+        }
+        mats[curr].rotate(quat);
+        return this;
+    }
+
+    /**
+     * Apply a rotation transformation, rotating about the given {@link AngleAxis4f}, to the current matrix.
+     * 
+     * @param angleAxis
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
+     * @return this
+     */
+    public MatrixStack rotate(AngleAxis4f angleAxis) {
+        if (angleAxis == null) {
+            throw new IllegalArgumentException("angleAxis must not be null");
+        }
+        mats[curr].rotate(angleAxis);
+        return this;
+    }
+
+    /**
+     * Apply rotation about the X axis to the current matrix by rotating the given amount of degrees.
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public MatrixStack rotateX(float ang) {
+        mats[curr].rotateX(ang);
+        return this;
+    }
+
+    /**
+     * Apply rotation about the Y axis to the current matrix by rotating the given amount of degrees.
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public MatrixStack rotateY(float ang) {
+        mats[curr].rotateY(ang);
+        return this;
+    }
+
+    /**
+     * Apply rotation about the X axis to the current matrix by rotating the given amount of degrees.
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public MatrixStack rotateZ(float ang) {
+        mats[curr].rotateZ(ang);
+        return this;
+    }
+
+    /**
      * Set the current matrix to identity.
      * 
      * @return this
@@ -723,6 +789,39 @@ public class MatrixStack implements Serializable, Externalizable {
                            float centerX, float centerY, float centerZ,
                            float upX, float upY, float upZ) {
         mats[curr].lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+        return this;
+    }
+
+    /**
+     * Apply a rotation transformation to the current matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * 
+     * @return this
+     */
+    public MatrixStack lookAlong(float dirX, float dirY, float dirZ,
+                                 float upX, float upY, float upZ) {
+        mats[curr].lookAlong(dirX, dirY, dirZ, upX, upY, upZ);
+        return this;
+    }
+
+    /**
+     * Apply a rotation transformation to the current matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public MatrixStack lookAlong(Vector3f dir, Vector3f up) {
+        mats[curr].lookAlong(dir, up);
         return this;
     }
 
