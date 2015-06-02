@@ -186,6 +186,19 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
+     * Decrement the components of this vector by the given values.
+     * 
+     * @return this
+     */
+    public Vector4f sub(float x, float y, float z, float w) {
+        this.x -= x;
+        this.y -= y;
+        this.z -= z;
+        this.w -= w;
+        return this;
+    }
+
+    /**
      * Subtract v2 from v1 and store the result in dest.
      */
     public static void sub(Vector4f v1, Vector4f v2, Vector4f dest) {
@@ -205,6 +218,19 @@ public class Vector4f implements Serializable, Externalizable {
         y += v.y;
         z += v.z;
         w += v.w;
+        return this;
+    }
+
+    /**
+     * Increment the components of this vector by the given values.
+     * 
+     * @return this
+     */
+    public Vector4f add(float x, float y, float z, float w) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+        this.w += w;
         return this;
     }
 
@@ -305,6 +331,19 @@ public class Vector4f implements Serializable, Externalizable {
         y *= scalar;
         z *= scalar;
         w *= scalar;
+        return this;
+    }
+
+    /**
+     * Multiply the components of this Vector4f by the given scalar values and store the result in <code>this</code>.
+     * 
+     * @return this
+     */
+    public Vector4f mul(float x, float y, float z, float w) {
+        this.x *= x;
+        this.y *= y;
+        this.z *= z;
+        this.w *= w;
         return this;
     }
 

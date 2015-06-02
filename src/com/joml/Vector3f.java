@@ -125,6 +125,18 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
+     * Decrement the components of this vector by the given values.
+     * 
+     * @return this
+     */
+    public Vector3f sub(float x, float y, float z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+        return this;
+    }
+
+    /**
      * Subtract v2 from v1 and store the result in <code>dest</code>.
      * 
      * @param v1
@@ -151,6 +163,18 @@ public class Vector3f implements Serializable, Externalizable {
         x += v.x;
         y += v.y;
         z += v.z;
+        return this;
+    }
+
+    /**
+     * Increment the components of this vector by the given values.
+     * 
+     * @return this
+     */
+    public Vector3f add(float x, float y, float z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
         return this;
     }
 
@@ -306,6 +330,18 @@ public class Vector3f implements Serializable, Externalizable {
         x *= scalar;
         y *= scalar;
         z *= scalar;
+        return this;
+    }
+
+    /**
+     * Multiply the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
+     * 
+     * @return this
+     */
+    public Vector3f mul(float x, float y, float z) {
+        this.x *= x;
+        this.y *= y;
+        this.z *= z;
         return this;
     }
 
