@@ -433,7 +433,7 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     public String toString() {
-        return "Vector4d { " + x + ", " + y + ", " + z + ", " + w + " }";
+        return "(" + x + ", " + y + ", " + z + ", " + w + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

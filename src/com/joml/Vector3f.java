@@ -507,7 +507,7 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     public String toString() {
-        return "Vector3f { " + x + ", " + y + ", " + z + " }";
+        return "(" + x + ", " + y + ", " + z + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

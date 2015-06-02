@@ -466,7 +466,7 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     public String toString() {
-        return "Vector4f { " + x + ", " + y + ", " + z + ", " + w + " }";
+        return "(" + x + ", " + y + ", " + z + ", " + w + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

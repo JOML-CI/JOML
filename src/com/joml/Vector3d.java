@@ -434,7 +434,7 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     public String toString() {
-        return "Vector3d { " + x + ", " + y + ", " + z + " }";
+        return "(" + x + ", " + y + ", " + z + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
