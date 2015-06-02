@@ -505,7 +505,7 @@ public class MatrixStack implements Serializable, Externalizable {
      * 
      * @see #scale(Vector3f)
      * 
-     * @param v
+     * @param xyz
      *            the vector containing the factors to scale by
      * @param stack
      *            the {@link MatrixStack} to apply the transformation on

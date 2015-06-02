@@ -326,6 +326,13 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Multiply the supplied left matrix by the right and store the result into dest.
+     * 
+     * @param left
+     *          the left matrix
+     * @param right
+     *          the right matrix
+     * @param dest
+     *          will hold the result
      */
     public static void mul(Matrix4f left, Matrix4f right, Matrix4f dest) {
         if (left != dest && right != dest) {
@@ -1213,8 +1220,6 @@ public class Matrix4f implements Serializable, Externalizable {
      * 
      * @param mat
      *          the 3x3 matrix
-     * @param dest
-     *          the destination matrix whose upper left 3x3 submatrix will be set to <code>mat</code>
      * @return this
      */
     public Matrix4f fromMatrix3(Matrix3f mat) {

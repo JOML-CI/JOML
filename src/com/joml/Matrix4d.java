@@ -761,8 +761,12 @@ public class Matrix4d implements Serializable, Externalizable {
     /**
      * Set this matrix to be a simple scale matrix.
      * 
-     * @param scale
-     * 			the scale applied to each dimension
+     * @param x
+     *          the scale in x
+     * @param y
+     *          the scale in y
+     * @param z
+     *          the scale in z         
      * @return this
      */
     public Matrix4d scaling(double x, double y, double z) {
