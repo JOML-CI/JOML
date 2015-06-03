@@ -524,5 +524,5 @@ public class Vector4f implements Serializable, Externalizable {
 	ret = ret && vector.w == this.w;
 	return ret;
     }
-
 }
+
