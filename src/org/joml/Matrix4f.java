@@ -1307,6 +1307,44 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in that vector.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a point/location in 3D-space rather than a direction.
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return this
+     */
+    public Matrix4f transform(Vector3f v) {
+        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
+              m01 * v.x + m11 * v.y + m21 * v.z + m31,
+              m02 * v.x + m12 * v.y + m22 * v.z + m32);
+        return this;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a point/location in 3D-space rather than a direction.
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f transform(Vector3f v, Vector3f dest) {
+        dest.x = m00 * v.x + m10 * v.y + m20 * v.z + m30;
+        dest.y = m01 * v.x + m11 * v.y + m21 * v.z + m31;
+        dest.z = m02 * v.x + m12 * v.y + m22 * v.z + m32;
+        return this;
+    }
+
+    /**
      * Apply scaling to this matrix by scaling the unit axes by the given x,
      * y and z factors.
      * <p>
