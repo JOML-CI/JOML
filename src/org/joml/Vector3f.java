@@ -535,4 +535,13 @@ public class Vector3f implements Serializable, Externalizable {
         return this;
     }
 
+    public boolean equals(Object o){
+	Vector3f vector = (Vector3f) o;
+	boolean ret = true;
+	ret = ret && vector.x == this.x;
+	ret = ret && vector.y == this.y;
+	ret = ret && vector.z == this.z;
+	return ret;
+    }
+
 }

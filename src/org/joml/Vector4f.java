@@ -515,4 +515,14 @@ public class Vector4f implements Serializable, Externalizable {
         return this;
     }
 
+    public boolean equals(Object o){
+	Vector4f vector = (Vector4f) o;
+	boolean ret = true;
+	ret = ret && vector.x == this.x;
+	ret = ret && vector.y == this.y;
+	ret = ret && vector.z == this.z;
+	ret = ret && vector.w == this.w;
+	return ret;
+    }
+
 }

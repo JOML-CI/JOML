@@ -174,4 +174,11 @@ public class Vector2f implements Serializable, Externalizable {
         return this;
     }
 
+    public boolean equals(Object o){
+	Vector2f vector = (Vector2f) o;
+	boolean ret = true;
+	ret = ret && vector.x == this.x;
+	ret = ret && vector.y == this.y;
+	return ret;
+    }
 }

@@ -235,4 +235,12 @@ public class Vector2d implements Serializable, Externalizable {
         return this;
     }
 
+    public boolean equals(Object o){
+	Vector2d vector = (Vector2d) o;
+	boolean ret = true;
+	ret = ret && vector.x == this.x;
+	ret = ret && vector.y == this.y;
+	return ret;
+    }
+
 }

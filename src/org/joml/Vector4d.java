@@ -449,4 +449,14 @@ public class Vector4d implements Serializable, Externalizable {
         z = in.readDouble();
     }
 
+    public boolean equals(Object o){
+	Vector4d vector = (Vector4d) o;
+	boolean ret = true;
+	ret = ret && vector.x == this.x;
+	ret = ret && vector.y == this.y;
+	ret = ret && vector.z == this.z;
+	ret = ret && vector.w == this.w;
+	return ret;
+    }
+
 }
