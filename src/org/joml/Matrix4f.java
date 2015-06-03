@@ -140,28 +140,29 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Create a new {@link Matrix4f} by reading its 16 float components from the given {@link FloatBuffer}.
      * That FloatBuffer is expected to hold the values in column-major order.
-     * The FloatBuffer position will be incremented by 16 after the constructor returned normally.
+     * The FloatBuffer position will not be changed.
      * 
      * @param buffer
      *          the {@link FloatBuffer} to read the matrix values from
      */
     public Matrix4f(FloatBuffer buffer) {
-        m00 = buffer.get();
-        m01 = buffer.get();
-        m02 = buffer.get();
-        m03 = buffer.get();
-        m10 = buffer.get();
-        m11 = buffer.get();
-        m12 = buffer.get();
-        m13 = buffer.get();
-        m20 = buffer.get();
-        m21 = buffer.get();
-        m22 = buffer.get();
-        m23 = buffer.get();
-        m30 = buffer.get();
-        m31 = buffer.get();
-        m32 = buffer.get();
-        m33 = buffer.get();
+        int pos = buffer.position();
+        m00 = buffer.get(pos);
+        m01 = buffer.get(pos+1);
+        m02 = buffer.get(pos+2);
+        m03 = buffer.get(pos+3);
+        m10 = buffer.get(pos+4);
+        m11 = buffer.get(pos+5);
+        m12 = buffer.get(pos+6);
+        m13 = buffer.get(pos+7);
+        m20 = buffer.get(pos+8);
+        m21 = buffer.get(pos+9);
+        m22 = buffer.get(pos+10);
+        m23 = buffer.get(pos+11);
+        m30 = buffer.get(pos+12);
+        m31 = buffer.get(pos+13);
+        m32 = buffer.get(pos+14);
+        m33 = buffer.get(pos+15);
     }
 
     /**
@@ -490,32 +491,30 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values in the matrix using a FloatBuffer. The results will look like this:<br><br>
-     * 
-     * 0, 4, 8, 12<br>
-     * 1, 5, 9, 13<br>
-     * 2, 6, 10, 14<br>
-     * 3, 7, 11, 15<br>
+     * Set the values of this matrix by reading 16 float values from the given FloatBuffer, starting at its current position.
+     * The FloatBuffer is expected to contain the values in column-major order.
+     * The position of the FloatBuffer will not be changed by this method.
      * 
      * @return this
      */
     public Matrix4f set(FloatBuffer buffer) {
-        m00 = buffer.get();
-        m01 = buffer.get();
-        m02 = buffer.get();
-        m03 = buffer.get();
-        m10 = buffer.get();
-        m11 = buffer.get();
-        m12 = buffer.get();
-        m13 = buffer.get();
-        m20 = buffer.get();
-        m21 = buffer.get();
-        m22 = buffer.get();
-        m23 = buffer.get();
-        m30 = buffer.get();
-        m31 = buffer.get();
-        m32 = buffer.get();
-        m33 = buffer.get();
+        int pos = buffer.position();
+        m00 = buffer.get(pos);
+        m01 = buffer.get(pos+1);
+        m02 = buffer.get(pos+2);
+        m03 = buffer.get(pos+3);
+        m10 = buffer.get(pos+4);
+        m11 = buffer.get(pos+5);
+        m12 = buffer.get(pos+6);
+        m13 = buffer.get(pos+7);
+        m20 = buffer.get(pos+8);
+        m21 = buffer.get(pos+9);
+        m22 = buffer.get(pos+10);
+        m23 = buffer.get(pos+11);
+        m30 = buffer.get(pos+12);
+        m31 = buffer.get(pos+13);
+        m32 = buffer.get(pos+14);
+        m33 = buffer.get(pos+15);
         return this;
     }
 
