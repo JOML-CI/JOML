@@ -29,7 +29,7 @@ Using JOML you can build matrices out of basic transformations, such as scale, t
 The following example builds a transformation matrix which effectively first scales all axes by 0.5
 and then translates x by 2.0:
 ```Java
-Vector4f v = new Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+Vector3f v = ...;
 new Matrix4f().translate(2.0f, 0.0f, 0.0f)
               .scale(0.5f);
               .transform(v);
@@ -39,7 +39,7 @@ new Matrix4f().translate(2.0f, 0.0f, 0.0f)
 Common transformation idioms, such as rotating about a given axis using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 4, 4) about the x-axis and uses (0, 3, 4) as the rotation center:
 ```Java
 Vector3f center = new Vector3f(0.0f, 3.0f, 4.0f);
-Vector4f pointToRotate = new Vector4f(0.0f, 4.0f, 4.0f, 1.0f);
+Vector3f pointToRotate = new Vector4f(0.0f, 4.0f, 4.0f);
 new Matrix4f().translate(center)
               .rotate(90.0f, 1.0f, 0.0f, 0.0f)
               .translate(center.negate())
