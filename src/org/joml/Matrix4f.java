@@ -1105,8 +1105,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
-     * If you want to post-multiply a rotation transformation directly to a
-     * matrix, you can use {@link #rotate(AngleAxis4f) rotate()} instead.
+     * In order to apply the rotation transformation to an existing transformation,
+     * use {@link #rotate(AngleAxis4f) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      *
@@ -1128,8 +1128,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
-     * If you want to post-multiply a rotation transformation directly to a
-     * matrix, you can use {@link #rotate(float, float, float, float) rotate()} instead.
+     * In order to apply the rotation transformation to an existing transformation,
+     * use {@link #rotate(float, float, float, float) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
@@ -1282,8 +1282,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
-     * If you want to post-multiply a rotation transformation directly to a
-     * matrix, you can use {@link #rotate(Quaternion) rotate()} instead.
+     * In order to apply the rotation transformation to an existing transformation,
+     * use {@link #rotate(Quaternion) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
@@ -1414,6 +1414,10 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
      * will represent a point/location in 3D-space rather than a direction.
+     * <p>
+     * In order to apply the transformation to another vector, use {@link #transform(Vector3f, Vector3f)}.
+     * 
+     * @see #transform(Vector3f, Vector3f)
      * 
      * @param v
      *          the vector to transform and to hold the final result
@@ -1432,6 +1436,10 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
      * will represent a point/location in 3D-space rather than a direction.
+     * <p>
+     * In order to apply the transformation to the same vector, use {@link #transform(Vector3f)}.
+     * 
+     * @see #transform(Vector3f)
      * 
      * @param v
      *          the vector to transform
@@ -1490,6 +1498,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * scaling will be applied first!
+     * <p>
+     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float)}. 
      * 
      * @see #scale(float, float, float)
      * 
@@ -1635,7 +1645,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
+     * In order to set the matrix to a rotation matrix without post-multiplying the rotation
+     * transformation, use {@link #rotation(float, float, float, float) rotation()}.
+     * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(float, float, float, float)
      * 
      * @param ang
      *            the angle in degrees
@@ -1700,8 +1715,14 @@ public class Matrix4f implements Serializable, Externalizable {
      * matrix, then the new matrix will be <code>M * T</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translate(Vector3f)}.
+     * 
+     * @see #translate(Vector3f)
      * 
      * @param point
+     *          the point by which to translate
      * @return this
      */
     public Matrix4f translate(Vector3f point) {
@@ -1716,6 +1737,11 @@ public class Matrix4f implements Serializable, Externalizable {
      * matrix, then the new matrix will be <code>M * T</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translate(float, float, float)}.
+     * 
+     * @see #translate(float, float, float)
      * 
      * @param x
      * @param y
@@ -1782,7 +1808,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
      * orthographic projection transformation will be applied first!
      * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(float, float, float, float, float, float) setOrtho()}.
+     * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho(float, float, float, float, float, float)
      * 
      * @param left
      *            the distance from the center to the left frustum edge
@@ -1832,7 +1863,12 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set this matrix to be an orthographic projection transformation.
      * <p>
+     * In order to apply the orthographic projection to an already existing transformation,
+     * use {@link #ortho(float, float, float, float, float, float) ortho()}.
+     * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #ortho(float, float, float, float, float, float)
      * 
      * @param left
      *            the distance from the center to the left frustum edge
@@ -1879,9 +1915,13 @@ public class Matrix4f implements Serializable, Externalizable {
      * This is equivalent to calling
      * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
      * 
      * @see #lookAlong(float, float, float, float, float, float)
      * @see #lookAt(Vector3f, Vector3f, Vector3f)
+     * @see #setLookAlong(Vector3f, Vector3f)
      * 
      * @param dir
      *            the direction in space to look along
@@ -1904,8 +1944,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * This is equivalent to calling
      * {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt()}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(float, float, float, float, float, float) setLookAlong()}
      * 
      * @see #lookAt(float, float, float, float, float, float, float, float, float)
+     * @see #setLookAlong(float, float, float, float, float, float)
      * 
      * @return this
      */
@@ -1975,8 +2019,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * This is equivalent to calling
      * {@link #setLookAt(Vector3f, Vector3f, Vector3f) setLookAt()} 
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to apply the lookalong transformation to any previous existing transformation,
+     * use {@link #lookAlong(Vector3f, Vector3f)}.
      * 
      * @see #setLookAlong(Vector3f, Vector3f)
+     * @see #lookAlong(Vector3f, Vector3f)
      * 
      * @param dir
      *            the direction in space to look along
@@ -1995,8 +2043,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * This is equivalent to calling
      * {@link #setLookAt(float, float, float, float, float, float, float, float, float)
      * setLookAt()} with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to apply the lookalong transformation to any previous existing transformation,
+     * use {@link #lookAlong(float, float, float, float, float, float) lookAlong()}
      * 
      * @see #setLookAlong(float, float, float, float, float, float)
+     * @see #lookAlong(float, float, float, float, float, float)
      * 
      * @return this
      */
@@ -2049,8 +2101,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * like in the GLU function, you can use
      * {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt()}
      * instead.
+     * <p>
+     * In order to apply the lookat transformation to a previous existing transformation,
+     * use {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt()}.
      * 
      * @see #setLookAt(float, float, float, float, float, float, float, float, float)
+     * @see #lookAt(Vector3f, Vector3f, Vector3f)
      * 
      * @param eye
      *            the position of the camera
@@ -2067,8 +2123,12 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set this matrix to be a "lookat" transformation for a right-handed coordinate system, 
      * that aligns <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * In order to apply the lookat transformation to a previous existing transformation,
+     * use {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt}.
      * 
      * @see #setLookAt(Vector3f, Vector3f, Vector3f)
+     * @see #lookAt(float, float, float, float, float, float, float, float, float)
      * 
      * @return this
      */
@@ -2131,8 +2191,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * then the new matrix will be <code>M * L</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAt(Vector3f, Vector3f, Vector3f)}.
      * 
      * @see #lookAt(float, float, float, float, float, float, float, float, float)
+     * @see #setLookAlong(Vector3f, Vector3f)
      * 
      * @param eye
      *            the position of the camera
@@ -2154,6 +2218,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * then the new matrix will be <code>M * L</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
      * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt()}.
+     * 
+     * @see #lookAt(Vector3f, Vector3f, Vector3f)
+     * @see #setLookAt(float, float, float, float, float, float, float, float, float)
      * 
      * @return this
      */
@@ -2245,8 +2315,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * This method first computes the frustum corners using the specified parameters and then makes use of
      * {@link #frustum(float, float, float, float, float, float) frustum()} to finally apply the frustum
      * transformation.
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspective(float, float, float, float) setPerspective}.
      * 
      * @see #frustum(float, float, float, float, float, float)
+     * @see #setPerspective(float, float, float, float)
      * 
      * @param fovy
      *            the vertical field of view in degrees
@@ -2274,8 +2348,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * This method first computes the frustum corners using the specified parameters and then makes use of
      * {@link #setFrustum(float, float, float, float, float, float) setFrustum()} to finally apply the frustum
      * transformation.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspective(float, float, float, float) perspective()}.
      * 
      * @see #setFrustum(float, float, float, float, float, float)
+     * @see #perspective(float, float, float, float)
      * 
      * @param fovy
      *            the vertical field of view in degrees
@@ -2305,7 +2383,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
      * the frustum transformation will be applied first!
      * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustum(float, float, float, float, float, float) setFrustum()}.
+     * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #setFrustum(float, float, float, float, float, float)
      * 
      * @param left
      *            the distance along the x-axis to the left frustum edge
@@ -2358,7 +2441,12 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set this matrix to be an arbitrary perspective projection frustum transformation.
      * <p>
+     * In order to apply the perspective frustum transformation to an existing transformation,
+     * use {@link #frustum(float, float, float, float, float, float) frustum()}.
+     * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #frustum(float, float, float, float, float, float)
      * 
      * @param left
      *            the distance along the x-axis to the left frustum edge
@@ -2402,7 +2490,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
      * the quaternion rotation will be applied first!
      * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaternion)}.
+     * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternion)
      * 
      * @param quat
      *          the {@link Quaternion}
@@ -2461,9 +2554,13 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
      * the angle-axis rotation will be applied first!
      * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(AngleAxis4f)}.
+     * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(float, float, float, float)
+     * @see #rotation(AngleAxis4f)
      * 
      * @param angleAxis
      *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
@@ -2481,9 +2578,13 @@ public class Matrix4f implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
      * the angle-axis rotation will be applied first!
      * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(float, Vector3f)}.
+     * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(float, float, float, float)
+     * @see #rotation(float, Vector3f)
      * 
      * @param angle
      *          the angle in degrees
