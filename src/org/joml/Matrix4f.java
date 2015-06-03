@@ -61,6 +61,9 @@ public class Matrix4f implements Serializable, Externalizable {
     public float m32;
     public float m33;
 
+    /**
+     * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
+     */
     public Matrix4f() {
         super();
         identity();
@@ -86,7 +89,12 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m33 = 1.0f;
     }
 
-    /** Clones this matrix from the supplied matrix */
+    /**
+     * Create a new {@link Matrix4f} and make it a copy of the given matrix.
+     * 
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     */
     public Matrix4f(Matrix4f mat) {
         this.m00 = mat.m00;
         this.m01 = mat.m01;
@@ -106,7 +114,9 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m33 = mat.m33;
     }
 
-    /** Create a new 4x4 matrix using the supplied float values */
+    /**
+     * Create a new 4x4 matrix using the supplied float values.
+     */
     public Matrix4f(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
             float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
         this.m00 = m00;
@@ -127,6 +137,14 @@ public class Matrix4f implements Serializable, Externalizable {
         this.m33 = m33;
     }
 
+    /**
+     * Create a new {@link Matrix4f} by reading its 16 float components from the given {@link FloatBuffer}.
+     * That FloatBuffer is expected to hold the values in column-major order.
+     * The FloatBuffer position will be incremented by 16 after the constructor returned normally.
+     * 
+     * @param buffer
+     *          the {@link FloatBuffer} to read the matrix values from
+     */
     public Matrix4f(FloatBuffer buffer) {
         m00 = buffer.get();
         m01 = buffer.get();
@@ -174,6 +192,7 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Store the values of the given matrix <code>m1</code> into <code>this</code> matrix.
      * 
+     * @see #Matrix4f(Matrix4f)
      * @see #get(Matrix4f)
      * 
      * @param m1
@@ -201,7 +220,10 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to identity.
+     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} 
+     * and the rest to identity.
+     * 
+     * @see #Matrix4f(Matrix3f)
      * 
      * @param mat
      *          the {@link Matrix3f}
@@ -307,8 +329,12 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is this matrix and <code>R</code> is the <code>right</code> matrix then the result
+     * of the multiplication will be <code>M x R</code> and will be stored as the new value of <code>this</code>. 
      *
-     * @param right the right matrix
+     * @param right
+     *          the right operand of the matrix multiplication
      * @return this
      */
     public Matrix4f mul(Matrix4f right) {
@@ -318,9 +344,14 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
-     * 
-     * @param right the right matrix
-     * @param dest the destination matrix
+     * <p>
+     * If <code>M</code> is this matrix and <code>R</code> is the <code>right</code> matrix then the result
+     * of the multiplication will be <code>M x R</code>. 
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
      * @return this
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
@@ -330,7 +361,10 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Multiply the supplied left matrix by the right and store the result into dest.
-     * 
+     * <p>
+     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> is the <code>right</code> matrix then the result
+     * of the multiplication will be <code>L x R</code> and will be stored in <code>dest</code>. 
+     *
      * @param left
      *          the left matrix
      * @param right
@@ -415,6 +449,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      * 
+     * @see #set(float[])
+     * 
      * @return this
      */
     public Matrix4f set(float m[], int off) {
@@ -483,14 +519,18 @@ public class Matrix4f implements Serializable, Externalizable {
         return this;
     }
 
-    /** Returns the determinant of this matrix */
+    /**
+     * Return the determinant of this matrix.
+     */
     public float determinant() {
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
              + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
              - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
 
-    /** Returns the determinant of the supplied matrix */
+    /**
+     * Return the determinant of the supplied matrix.
+     */
     public static float determinant(Matrix4f source) {
         return (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
              + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
@@ -570,7 +610,9 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this matrix by the supplied scalar value.
+     * Multiply all 16 components of this matrix by the supplied scalar value.
+     *
+     * @see #mul(Matrix4f, float, Matrix4f)
      *
      * @param scalar
      *          the scalar value to multiply each matrix element by
@@ -599,6 +641,8 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Multiply the supplied <code>source</code> matrix by the supplied
      * <code>scalar</code> and store the result in <code>dest</code>.
+     * 
+     * @see #mul(float)
      * 
      * @param source
      *          the source matrix
@@ -638,7 +682,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Transpose this matrix. Modifies the matrix directly.
+     * Transpose this matrix.
      * 
      * @return this 
      */
@@ -647,7 +691,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Transpose the original matrix and store the results into the destination Matrix4f.
+     * Transpose the <code>original</code> matrix and store the result in <code>dest</code>.
      * 
      * @param original
      *              the matrix to transpose
@@ -697,6 +741,11 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * <p>
+     * If you want to post-multiply a translation transformation directly to a
+     * matrix, you can use {@link #translate(float, float, float) translate()} instead.
+     * 
+     * @see #translate(float, float, float)
      * 
      * @return this
      */
@@ -725,6 +774,11 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * <p>
+     * If you want to post-multiply a translation transformation directly to a
+     * matrix, you can use {@link #translate(Vector3f) translate()} instead.
+     * 
+     * @see #translate(float, float, float)
      * 
      * @return this
      */
@@ -892,6 +946,8 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Store this matrix into the supplied float array.
      * 
+     * @see #get(float[], int)
+     * 
      * @return this
      */
     public Matrix4f get(float[] arr, int offset) {
@@ -941,6 +997,12 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Set this matrix to be a simple scale matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional scaling.
+     * <p>
+     * If you want to post-multiply a scaling transformation directly to a
+     * matrix, you can use {@link #scale(float, float, float) scale()} instead.
      * 
      * @param x
      * 			the scale in x
@@ -972,6 +1034,12 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Set this matrix to be a simple scale matrix.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional scaling.
+     * <p>
+     * If you want to post-multiply a scaling transformation directly to a
+     * matrix, you can use {@link #scale(Vector3f) scale()} instead.
      * 
      * @param scale
      * 			the scale applied to each dimension
@@ -984,6 +1052,8 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set the given matrix <code>dest</code> to be a simple scale matrix.
      * 
+     * @see #scaling(Vector3f)
+     * 
      * @param scale
      * 			the scale applied to each dimension
      * @param dest
@@ -994,7 +1064,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to be a simple scale matrix.
+     * Set the <code>dest</code> matrix to be a simple scaleing transformation.
      * 
      * @param x
      * 			the scale in x
@@ -1005,11 +1075,20 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f scaling(float x, float y, float z, Matrix4f dest) {
-    	return dest.scaling(x, y, z);
+    	dest.scaling(x, y, z);
+    	return this;
     }
 
     /**
      * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * If you want to post-multiply a rotation transformation directly to a
+     * matrix, you can use {@link #rotate(float, Vector3f) rotate()} instead.
+     * 
+     * @see #rotate(float, Vector3f)
      * 
      * @param angle
      *          the angle in degrees
@@ -1024,7 +1103,15 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set this matrix to a rotation transformation using the given {@link AngleAxis4f}.
      * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * If you want to post-multiply a rotation transformation directly to a
+     * matrix, you can use {@link #rotate(AngleAxis4f) rotate()} instead.
+     * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     *
+     * @see #rotate(AngleAxis4f)
      * 
      * @param angleAxis
      *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
@@ -1039,7 +1126,15 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * If you want to post-multiply a rotation transformation directly to a
+     * matrix, you can use {@link #rotate(float, float, float, float) rotate()} instead.
+     * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
      * 
      * @param angle
      *          the angle in degrees
@@ -1185,7 +1280,15 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Set this matrix to the rotation transformation of the given {@link Quaternion}.
      * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * If you want to post-multiply a rotation transformation directly to a
+     * matrix, you can use {@link #rotate(Quaternion) rotate()} instead.
+     * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(Quaternion)
      * 
      * @param quat
      *          the {@link Quaternion}
