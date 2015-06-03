@@ -449,15 +449,39 @@ public class Vector4d implements Serializable, Externalizable {
         z = in.readDouble();
     }
 
-    public boolean equals(Object o){
-	Vector4d vector = (Vector4d) o;
-	boolean ret = true;
-	ret = ret && vector.x == this.x;
-	ret = ret && vector.y == this.y;
-	ret = ret && vector.z == this.z;
-	ret = ret && vector.w == this.w;
-	return ret;
-    }
+    public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(w);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(x);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(y);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(z);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vector4d other = (Vector4d) obj;
+		if (Double.doubleToLongBits(w) != Double.doubleToLongBits(other.w))
+			return false;
+		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
+			return false;
+		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
+			return false;
+		if (Double.doubleToLongBits(z) != Double.doubleToLongBits(other.z))
+			return false;
+		return true;
+	}
 
 }
 

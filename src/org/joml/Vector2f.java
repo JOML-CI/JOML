@@ -174,11 +174,26 @@ public class Vector2f implements Serializable, Externalizable {
         return this;
     }
 
-    public boolean equals(Object o){
-	Vector2f vector = (Vector2f) o;
-	boolean ret = true;
-	ret = ret && vector.x == this.x;
-	ret = ret && vector.y == this.y;
-	return ret;
-    }
+    public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(x);
+		result = prime * result + Float.floatToIntBits(y);
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vector2f other = (Vector2f) obj;
+		if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
+			return false;
+		if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
+			return false;
+		return true;
+	}
 }

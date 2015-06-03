@@ -515,14 +515,33 @@ public class Vector4f implements Serializable, Externalizable {
         return this;
     }
 
-    public boolean equals(Object o){
-	Vector4f vector = (Vector4f) o;
-	boolean ret = true;
-	ret = ret && vector.x == this.x;
-	ret = ret && vector.y == this.y;
-	ret = ret && vector.z == this.z;
-	ret = ret && vector.w == this.w;
-	return ret;
-    }
+    public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(w);
+		result = prime * result + Float.floatToIntBits(x);
+		result = prime * result + Float.floatToIntBits(y);
+		result = prime * result + Float.floatToIntBits(z);
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vector4f other = (Vector4f) obj;
+		if (Float.floatToIntBits(w) != Float.floatToIntBits(other.w))
+			return false;
+		if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
+			return false;
+		if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
+			return false;
+		if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
+			return false;
+		return true;
+	}
 }
 
