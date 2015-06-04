@@ -28,6 +28,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.text.DecimalFormat;
 
 /**
@@ -2594,6 +2595,64 @@ public class Matrix4f implements Serializable, Externalizable {
      */
     public Matrix4f rotate(float angle, Vector3f axis) {
         return rotate(angle, axis.x, axis.y, axis.z);
+    }
+
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by this matrix using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param inverseOut
+     *          will hold the inverse of <code>this</code> after the method returns
+     * @param dest
+     *          will hold the unprojected position
+     */
+    public void unproject(float winX, float winY, float winZ, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
+        this.invert(inverseOut);
+        float ndcX = (winX-viewport.get(0))/viewport.get(2)*2.0f-1.0f;
+        float ndcY = (winY-viewport.get(1))/viewport.get(3)*2.0f-1.0f;
+        float ndcZ = 2.0f*winZ-1.0f;
+        dest.set(ndcX, ndcY, ndcZ, 1.0f);
+        inverseOut.transform(dest);
+        dest.mul(1.0f / dest.w);
+    }
+
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by the given view and projection matrices using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>proj * view</code>.  
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param inverseOut
+     *          will hold the inverse of <code>proj * view</code> after the method returns
+     * @param dest
+     *          will hold the unprojected position
+     */
+    public static void unproject(float winX, float winY, float winZ, Matrix4f proj, Matrix4f view, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
+        inverseOut.set(proj).mul(view).invert();
+        float ndcX = (winX-viewport.get(0))/viewport.get(2)*2.0f-1.0f;
+        float ndcY = (winY-viewport.get(1))/viewport.get(3)*2.0f-1.0f;
+        float ndcZ = 2.0f*winZ-1.0f;
+        dest.set(ndcX, ndcY, ndcZ, 1.0f);
+        inverseOut.transform(dest);
+        dest.mul(1.0f / dest.w);
     }
 
 }
