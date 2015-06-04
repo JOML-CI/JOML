@@ -185,7 +185,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     public String toString() {
-        return "AxisAngle4f {" + x + ", " + y + ", " + z + " <| " + angle + "}";
+        return "(" + x + ", " + y + ", " + z + " <| " + angle + ")";
     }
 
 }

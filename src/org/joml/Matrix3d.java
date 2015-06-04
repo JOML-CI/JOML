@@ -463,9 +463,9 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     public String toString() {
-        return "Matrix3d { " + this.m00 + ", " + this.m10 + ", " + this.m20 + ",\n"
-                + "           " + this.m01 + ", " + this.m11 + ", " + this.m21 + ",\n"
-                + "           " + this.m02 + ", " + this.m12 + ", " + this.m22 + " }\n";
+        return this.m00 + ", " + this.m10 + ", " + this.m20 + ",\n"
+             + this.m01 + ", " + this.m11 + ", " + this.m21 + ",\n"
+             + this.m02 + ", " + this.m12 + ", " + this.m22;
     }
 
     /**

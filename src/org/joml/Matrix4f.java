@@ -787,10 +787,10 @@ public class Matrix4f implements Serializable, Externalizable {
 
     public String toString() {
         DecimalFormat formatter = new DecimalFormat("0.000E0");
-        return "Matrix4f { " + formatter.format(this.m00) + ", " + formatter.format(this.m10) + ", " + formatter.format(this.m20) + ", " + formatter.format(this.m30) + ",\n"
-             + "           " + formatter.format(this.m01) + ", " + formatter.format(this.m11) + ", " + formatter.format(this.m21) + ", " + formatter.format(this.m31) + ",\n"
-             + "           " + formatter.format(this.m02) + ", " + formatter.format(this.m12) + ", " + formatter.format(this.m22) + ", " + formatter.format(this.m32) + ",\n"
-             + "           " + formatter.format(this.m03) + ", " + formatter.format(this.m13) + ", " + formatter.format(this.m23) + ", " + formatter.format(this.m33) + " }\n";
+        return formatter.format(this.m00) + ", " + formatter.format(this.m10) + ", " + formatter.format(this.m20) + ", " + formatter.format(this.m30) + ",\n"
+             + formatter.format(this.m01) + ", " + formatter.format(this.m11) + ", " + formatter.format(this.m21) + ", " + formatter.format(this.m31) + ",\n"
+             + formatter.format(this.m02) + ", " + formatter.format(this.m12) + ", " + formatter.format(this.m22) + ", " + formatter.format(this.m32) + ",\n"
+             + formatter.format(this.m03) + ", " + formatter.format(this.m13) + ", " + formatter.format(this.m23) + ", " + formatter.format(this.m33);
     }
 
     /**

@@ -722,7 +722,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     public String toString() {
-        return "Quaternion { " + x + ", " + y + ", " + z + ", " + w + " }";
+        return "(" + x + ", " + y + ", " + z + ", " + w + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
