@@ -2670,6 +2670,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
      * @param x
      *          the x-coordinate of the position to project
@@ -2701,6 +2703,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * This method transforms the given coordinates by <code>proj * view</code> including perspective division to 
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
      * @param x
      *          the x-coordinate of the position to project
