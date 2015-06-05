@@ -130,9 +130,9 @@ public class Vector3f implements Serializable, Externalizable {
      * @return this
      */
     public Vector3f sub(float x, float y, float z) {
-        this.x += x;
-        this.y += y;
-        this.z += z;
+        this.x -= x;
+        this.y -= y;
+        this.z -= z;
         return this;
     }
 

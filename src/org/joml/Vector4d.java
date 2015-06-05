@@ -136,6 +136,16 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
+     * Subtracts (x, y, z, w) vector from this one
+     */
+    public void sub(double x, double y, double z, double w) {
+        this.x -= x;
+        this.y -= y;
+        this.z -= z;
+        this.w -= w;
+    }
+
+    /**
      * Subtracts v2 from v1 and stores the results in dest. Does not modify v1
      * or v2
      */

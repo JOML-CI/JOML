@@ -86,6 +86,12 @@ public class Vector2f implements Serializable, Externalizable {
         y -= v.y;
     }
 
+    /** Subtracts (x, y) from this Vector2d */
+    public void sub(float x, float y) {
+        this.x -= x;
+        this.y -= y;
+    }
+
     /** Returns the dot product of a and b */
     public static float dot(Vector2f a, Vector2f b) {
         return ((a.x * b.x) + (a.y * b.y));

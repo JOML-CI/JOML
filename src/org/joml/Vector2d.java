@@ -110,6 +110,12 @@ public class Vector2d implements Serializable, Externalizable {
         y -= v.y;
     }
 
+    /** Subtracts (x, y) from this Vector2d */
+    public void sub(double x, double y) {
+        this.x -= x;
+        this.y -= y;
+    }
+
     /** Returns the dot product of a and b */
     public static double dot(Vector2d a, Vector2d b) {
         return ((a.x * b.x) + (a.y * b.y));

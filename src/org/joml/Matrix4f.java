@@ -2617,8 +2617,9 @@ public class Matrix4f implements Serializable, Externalizable {
      *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
+     * @return this
      */
-    public void unproject(float winX, float winY, float winZ, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
+    public Matrix4f unproject(float winX, float winY, float winZ, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
         this.invert(inverseOut);
         float ndcX = (winX-viewport.get(0))/viewport.get(2)*2.0f-1.0f;
         float ndcY = (winY-viewport.get(1))/viewport.get(3)*2.0f-1.0f;
@@ -2626,6 +2627,7 @@ public class Matrix4f implements Serializable, Externalizable {
         dest.set(ndcX, ndcY, ndcZ, 1.0f);
         inverseOut.transform(dest);
         dest.mul(1.0f / dest.w);
+        return this;
     }
 
     /**

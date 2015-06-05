@@ -108,6 +108,13 @@ public class Vector3d implements Serializable, Externalizable {
         z -= v.z;
     }
 
+    /** Subtracts (x, y, z) from this Vector2d */
+    public void sub(double x, double y, double z) {
+        this.x -= x;
+        this.y -= y;
+        this.z -= z;
+    }
+
     /**
      * Subtract v2 from v1 and store the result in dest.
      */
