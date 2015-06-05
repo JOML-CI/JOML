@@ -236,8 +236,6 @@ public class Vector2f implements Serializable, Externalizable {
 
     /**
      * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
-     * 
-     * @return this
      */
     public static void add(Vector2f a, Vector2f b, Vector2f dest) {
         dest.x = a.x + b.x;

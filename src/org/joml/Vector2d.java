@@ -328,8 +328,6 @@ public class Vector2d implements Serializable, Externalizable {
 
     /**
      * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
-     * 
-     * @return this
      */
     public static void add(Vector2d a, Vector2d b, Vector2d dest) {
         dest.x = a.x + b.x;
@@ -338,8 +336,6 @@ public class Vector2d implements Serializable, Externalizable {
 
     /**
      * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
-     * 
-     * @return this
      */
     public static void add(Vector2d a, Vector2f b, Vector2d dest) {
         dest.x = a.x + b.x;
@@ -348,8 +344,6 @@ public class Vector2d implements Serializable, Externalizable {
 
     /**
      * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
-     * 
-     * @return this
      */
     public static void add(Vector2f a, Vector2d b, Vector2d dest) {
         dest.x = a.x + b.x;

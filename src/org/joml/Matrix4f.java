@@ -139,9 +139,12 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix4f} by reading its 16 float components from the given {@link FloatBuffer}.
+     * Create a new {@link Matrix4f} by reading its 16 float components from the given {@link FloatBuffer}
+     * at the buffer's current position.
+     * <p>
      * That FloatBuffer is expected to hold the values in column-major order.
-     * The FloatBuffer position will not be changed.
+     * <p>
+     * The buffer's position will not be changed by this method.
      * 
      * @param buffer
      *          the {@link FloatBuffer} to read the matrix values from
@@ -192,32 +195,32 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Store the values of the given matrix <code>m1</code> into <code>this</code> matrix.
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
      * 
      * @see #Matrix4f(Matrix4f)
      * @see #get(Matrix4f)
      * 
-     * @param m1
+     * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4f set(Matrix4f m1) {
-        this.m00 = m1.m00;
-        this.m01 = m1.m01;
-        this.m02 = m1.m02;
-        this.m03 = m1.m03;
-        this.m10 = m1.m10;
-        this.m11 = m1.m11;
-        this.m12 = m1.m12;
-        this.m13 = m1.m13;
-        this.m20 = m1.m20;
-        this.m21 = m1.m21;
-        this.m22 = m1.m22;
-        this.m23 = m1.m23;
-        this.m30 = m1.m30;
-        this.m31 = m1.m31;
-        this.m32 = m1.m32;
-        this.m33 = m1.m33;
+    public Matrix4f set(Matrix4f m) {
+        this.m00 = m.m00;
+        this.m01 = m.m01;
+        this.m02 = m.m02;
+        this.m03 = m.m03;
+        this.m10 = m.m10;
+        this.m11 = m.m11;
+        this.m12 = m.m12;
+        this.m13 = m.m13;
+        this.m20 = m.m20;
+        this.m21 = m.m21;
+        this.m22 = m.m22;
+        this.m23 = m.m23;
+        this.m30 = m.m30;
+        this.m31 = m.m31;
+        this.m32 = m.m32;
+        this.m33 = m.m33;
         return this;
     }
 
@@ -1490,6 +1493,28 @@ public class Matrix4f implements Serializable, Externalizable {
         m22 = m22 * z;
         m23 = m23 * z;
         return this;
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * y and z components of the given {@link Vector3f}.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * In order to set the matrix to a scaling transformation without post-multiplying it,
+     * use {@link #scaling(Vector3f)}.
+     * 
+     * @see #scaling(Vector3f)
+     * 
+     * @param xyz
+     *            the factor for all components as {@link Vector3f}
+     * @return this
+     */
+    public Matrix4f scale(Vector3f xyz) {
+        return scale(xyz.x, xyz.y, xyz.z);
     }
 
     /**
