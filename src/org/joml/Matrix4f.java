@@ -2621,8 +2621,9 @@ public class Matrix4f implements Serializable, Externalizable {
      */
     public Matrix4f unproject(float winX, float winY, float winZ, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
         this.invert(inverseOut);
-        float ndcX = (winX-viewport.get(0))/viewport.get(2)*2.0f-1.0f;
-        float ndcY = (winY-viewport.get(1))/viewport.get(3)*2.0f-1.0f;
+        int pos = viewport.position();
+        float ndcX = (winX-viewport.get(pos))/viewport.get(pos+2)*2.0f-1.0f;
+        float ndcY = (winY-viewport.get(pos+1))/viewport.get(pos+3)*2.0f-1.0f;
         float ndcZ = 2.0f*winZ-1.0f;
         dest.set(ndcX, ndcY, ndcZ, 1.0f);
         inverseOut.transform(dest);
@@ -2653,8 +2654,9 @@ public class Matrix4f implements Serializable, Externalizable {
      */
     public static void unproject(float winX, float winY, float winZ, Matrix4f proj, Matrix4f view, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
         inverseOut.set(proj).mul(view).invert();
-        float ndcX = (winX-viewport.get(0))/viewport.get(2)*2.0f-1.0f;
-        float ndcY = (winY-viewport.get(1))/viewport.get(3)*2.0f-1.0f;
+        int pos = viewport.position();
+        float ndcX = (winX-viewport.get(pos))/viewport.get(pos+2)*2.0f-1.0f;
+        float ndcY = (winY-viewport.get(pos+1))/viewport.get(pos+3)*2.0f-1.0f;
         float ndcZ = 2.0f*winZ-1.0f;
         dest.set(ndcX, ndcY, ndcZ, 1.0f);
         inverseOut.transform(dest);
