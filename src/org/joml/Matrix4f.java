@@ -2632,6 +2632,40 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * This method differs from {@link #unproject(float, float, float, IntBuffer, Matrix4f, Vector4f) unproject()} 
+     * by assuming that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix, including perspective division.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return this
+     */
+    public Matrix4f unprojectInv(float winX, float winY, float winZ, IntBuffer viewport, Vector4f dest) {
+        int pos = viewport.position();
+        float ndcX = (winX-viewport.get(pos))/viewport.get(pos+2)*2.0f-1.0f;
+        float ndcY = (winY-viewport.get(pos+1))/viewport.get(pos+3)*2.0f-1.0f;
+        float ndcZ = 2.0f*winZ-1.0f;
+        dest.set(ndcX, ndcY, ndcZ, 1.0f);
+        this.transform(dest);
+        dest.mul(1.0f / dest.w);
+        return this;
+    }
+
+    /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by the given view and projection matrices using the specified viewport.
      * <p>
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
@@ -2665,7 +2699,7 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Project the given <tt>(x, y, z)</tt> position via <code>this</code> matrix using the specified viewport
-     * and store the resulting window coordinates in <code>dest</code>.
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
      * <p>
      * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
@@ -2698,7 +2732,7 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Project the given <tt>(x, y, z)</tt> position via the given view and projection matrices using the specified viewport
-     * and store the resulting window coordinates in <code>dest</code>.
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
      * <p>
      * This method transforms the given coordinates by <code>proj * view</code> including perspective division to 
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
