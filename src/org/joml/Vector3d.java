@@ -231,7 +231,7 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Addv2 to v1 and store the result in dest.
+     * Add v2 to v1 and store the result in dest.
      */
     public static void add(Vector3f v1, Vector3d v2, Vector3d dest) {
         dest.x = v1.x + v2.x;

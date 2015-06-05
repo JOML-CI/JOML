@@ -29,6 +29,7 @@ import java.io.ObjectOutput;
 import java.io.Serializable;
 
 /**
+ * Represents a 2D vector with double-precision.
  *
  * @author RGreenlees
  * @author Kai Burjack
@@ -38,174 +39,318 @@ public class Vector2d implements Serializable, Externalizable {
     public double x;
     public double y;
 
+    /**
+     * Create a new {@link Vector2d} and initialize its components to zero.
+     */
     public Vector2d() {
     }
 
-    public Vector2d(double newX, double newY) {
-        x = newX;
-        y = newY;
+    /**
+     * Create a new {@link Vector2d} and initialize its components to the given values.
+     * 
+     * @param x
+     *          the x value
+     * @param y
+     *          the y value
+     */
+    public Vector2d(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public Vector2d(Vector2d clone) {
-        x = clone.x;
-        y = clone.y;
-    }
-
-    /** Sets the X and Y attributes using the supplied float values */
-    public void set(double newX, double newY) {
-        x = newX;
-        y = newY;
-    }
-
-    /** Sets this Vector2d to be a clone of v */
-    public void set(Vector2d v) {
+    /**
+     * Create a new {@link Vector2d} and initialize its components to the one of the given vector.
+     * 
+     * @param v
+     *          the {@link Vector2d} to copy the values from
+     */
+    public Vector2d(Vector2d v) {
         x = v.x;
         y = v.y;
     }
 
-    /** Sets this Vector2d to be a clone of v */
-    public void set(Vector2f v) {
-        x = v.x;
-        y = v.y;
+    /**
+     * Set the x and y attributes to the supplied values.
+     * 
+     * @param x
+     *          the x value to set
+     * @param y
+     *          the y value to set
+     * @return this
+     */
+    public Vector2d set(double x, double y) {
+        this.x = x;
+        this.y = y;
+        return this;
     }
 
-    /** Stores the perpendicular of v in dest. Does not modify v */
+    /**
+     * Set this {@link Vector2d} to the values of v.
+     * 
+     * @param v
+     *          the vector to copy from
+     * @return this
+     */
+    public Vector2d set(Vector2d v) {
+        x = v.x;
+        y = v.y;
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector2d} to be a clone of <code>v</code>.
+     * 
+     * @param v
+     *          the vector to copy from
+     * @return this
+     */
+    public Vector2d set(Vector2f v) {
+        x = v.x;
+        y = v.y;
+        return this;
+    }
+
+    /**
+     * Store one perpendicular vector of <code>v</code> in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to build one perpendicular vector of
+     * @param dest
+     *          will hold the result
+     */
     public static void perpendicular(Vector2d v, Vector2d dest) {
         dest.x = v.y;
         dest.y = v.x * -1;
     }
 
-    /** Sets this Vector2d to be its perpendicular */
-    public void perpendicular() {
-        set(y, x * -1);
+    /**
+     * Set this vector to be one of its perpendicular vectors.
+     * 
+     * @return this
+     */
+    public Vector2d perpendicular() {
+        return set(y, x * -1);
     }
 
-    /** Subtracts b from a and stores the result in dest. Does not modify a or b */
+    /**
+     * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first operand
+     * @param b
+     *          the second operand
+     * @param dest
+     *          will hold the result of <code>a - b</code>
+     */
     public static void sub(Vector2d a, Vector2d b, Vector2d dest) {
         dest.x = a.x - b.x;
         dest.y = a.y - b.y;
     }
 
-    /** Subtracts b from a and stores the result in dest. Does not modify a or b */
+    /**
+     * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first operand
+     * @param b
+     *          the second operand
+     * @param dest
+     *          will hold the result of <code>a - b</code>
+     */
     public static void sub(Vector2f a, Vector2d b, Vector2d dest) {
         dest.x = a.x - b.x;
         dest.y = a.y - b.y;
     }
 
-    /** Subtracts b from a and stores the result in dest. Does not modify a or b */
+    /**
+     * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first operand
+     * @param b
+     *          the second operand
+     * @param dest
+     *          will hold the result of <code>a - b</code>
+     */
     public static void sub(Vector2d a, Vector2f b, Vector2d dest) {
         dest.x = a.x - b.x;
         dest.y = a.y - b.y;
     }
 
-    /** Subtracts v from this Vector2d */
-    public void sub(Vector2d v) {
+    /**
+     * Subtract <code>v</code> from this vector.
+     * 
+     * @param v
+     *          the vector to subtract from this
+     * @return this
+     */
+    public Vector2d sub(Vector2d v) {
         x -= v.x;
         y -= v.y;
+        return this;
     }
 
-    /** Subtracts v from this Vector2d */
-    public void sub(Vector2f v) {
+    /**
+     * Subtract <code>v</code> from this vector.
+     * 
+     * @param v
+     *          the vector to subtract from this
+     * @return this
+     */
+    public Vector2d sub(Vector2f v) {
         x -= v.x;
         y -= v.y;
+        return this;
     }
 
-    /** Subtracts (x, y) from this Vector2d */
-    public void sub(double x, double y) {
+    /**
+     * Subtract <tt>(x, y)</tt> from this vector.
+     * 
+     * @return this
+     */
+    public Vector2d sub(double x, double y) {
         this.x -= x;
         this.y -= y;
+        return this;
     }
 
-    /** Returns the dot product of a and b */
+    /**
+     * Return the dot product of <code>a</code> and <code>b</code>.
+     */
     public static double dot(Vector2d a, Vector2d b) {
         return ((a.x * b.x) + (a.y * b.y));
     }
 
-    /** Returns the dot product of this vector and v */
+    /**
+     * Return the dot product of this vector and <code>v</code>
+     */
     public double dot(Vector2d v) {
         return ((x * v.x) + (y * v.y));
     }
 
-    /** Returns the length of a */
+    /**
+     * Return the length of a.
+     */
     public static double length(Vector2d a) {
         return Math.sqrt((a.x * a.x) + (a.y * a.y));
     }
 
-    /** Returns the length of this Vector2d */
+    /**
+     * Return the length of this vector.
+     */
     public double length() {
         return Math.sqrt((x * x) + (y * y));
     }
 
-    /** Returns the distance between the start and end vectors */
+    /**
+     * Return the distance between <code>start</code> and <code>end</code>.
+     */
     public static double distance(Vector2d start, Vector2d end) {
         return Math.sqrt((end.x - start.x) * (end.x - start.x)
                 + (end.y - start.y) * (end.y - start.y));
     }
 
-    /** Returns the distance between the start and end vectors */
+    /**
+     * Return the distance between <code>start</code> and <code>end</code>.
+     */
     public static double distance(Vector2d start, Vector2f end) {
         return Math.sqrt((end.x - start.x) * (end.x - start.x)
                 + (end.y - start.y) * (end.y - start.y));
     }
 
-    /** Returns the distance between the start and end vectors */
+    /**
+     * Return the distance between <code>start</code> and <code>end</code>.
+     */
     public static double distance(Vector2f start, Vector2d end) {
         return Math.sqrt((end.x - start.x) * (end.x - start.x)
                 + (end.y - start.y) * (end.y - start.y));
     }
 
-    /** Returns the distance between this Vector and v */
+    /**
+     * Return the distance between this and <code>v</code>.
+     */
     public double distance(Vector2d v) {
         return Math.sqrt((v.x - x) * (v.x - x)
                 + (v.y - y) * (v.y - y));
     }
 
-    /** Stores a normalized copy of the supplied Vector2d in dest. Does not modify a */
+    /**
+     * Normalize <code>a</code> and store the result in <code>dest</code>.
+     */
     public static void normalize(Vector2d a, Vector2d dest) {
         double length = Math.sqrt((a.x * a.x) + (a.y * a.y));
         dest.x = a.x / length;
         dest.y = a.y / length;
     }
 
-    /** Stores a normalized copy of the supplied Vector2f in dest. Does not modify a */
+    /**
+     * Normalize <code>a</code> and store the result in <code>dest</code>.
+     */
     public static void normalize(Vector2f a, Vector2d dest) {
         double length = Math.sqrt((a.x * a.x) + (a.y * a.y));
         dest.x = a.x / length;
         dest.y = a.y / length;
     }
 
-    /** Normalizes this Vector2d */
-    public void normalize() {
+    /**
+     * Normalize this vector.
+     * 
+     * @return this
+     */
+    public Vector2d normalize() {
         double length = Math.sqrt((x * x) + (y * y));
         x /= length;
         y /= length;
+        return this;
     }
 
-    /** Adds v to this Vector2d */
-    public void add(Vector2d v) {
+    /**
+     * Add <code>v</code> to this vector.
+     * 
+     * @return this
+     */
+    public Vector2d add(Vector2d v) {
         x += v.x;
         y += v.y;
+        return this;
     }
 
-    /** Adds v to this Vector2f */
-    public void add(Vector2f v) {
+    /**
+     * Add <code>v</code> to this vector.
+     * 
+     * @return this
+     */
+    public Vector2d add(Vector2f v) {
         x += v.x;
         y += v.y;
+        return this;
     }
 
-    /** Adds b to a and stores the results in dest */
+    /**
+     * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
+     * 
+     * @return this
+     */
     public static void add(Vector2d a, Vector2d b, Vector2d dest) {
         dest.x = a.x + b.x;
         dest.y = a.y + b.y;
     }
 
-    /** Adds b to a and stores the results in dest */
+    /**
+     * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
+     * 
+     * @return this
+     */
     public static void add(Vector2d a, Vector2f b, Vector2d dest) {
         dest.x = a.x + b.x;
         dest.y = a.y + b.y;
     }
 
-    /** Adds b to a and stores the results in dest */
+    /**
+     * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
+     * 
+     * @return this
+     */
     public static void add(Vector2f a, Vector2d b, Vector2d dest) {
         dest.x = a.x + b.x;
         dest.y = a.y + b.y;
@@ -213,10 +358,13 @@ public class Vector2d implements Serializable, Externalizable {
 
     /**
      * Set all components to zero.
+     * 
+     * @return this
      */
-    public void zero() {
+    public Vector2d zero() {
         this.x = 0.0;
         this.y = 0.0;
+        return this;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
