@@ -2663,4 +2663,70 @@ public class Matrix4f implements Serializable, Externalizable {
         dest.mul(1.0f / dest.w);
     }
 
+    /**
+     * Project the given <tt>(x, y, z)</tt> position via <code>this</code> matrix using the specified viewport
+     * and store the resulting window coordinates in <code>dest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * 
+     * @param x
+     *          the x-coordinate of the position to project
+     * @param y
+     *          the y-coordinate of the position to project
+     * @param z
+     *          the z-coordinate of the position to project
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     * @return this
+     */
+    public Matrix4f project(float x, float y, float z, IntBuffer viewport, Vector4f winCoordsDest) {
+        winCoordsDest.set(x, y, z, 1.0f);
+        transform(winCoordsDest);
+        int pos = viewport.position();
+        winCoordsDest.mul(1.0f / winCoordsDest.w);
+        winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
+        winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport.get(pos+3) + viewport.get(pos+1);
+        winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
+        return this;
+    }
+
+    /**
+     * Project the given <tt>(x, y, z)</tt> position via the given view and projection matrices using the specified viewport
+     * and store the resulting window coordinates in <code>dest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>proj * view</code> including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * 
+     * @param x
+     *          the x-coordinate of the position to project
+     * @param y
+     *          the y-coordinate of the position to project
+     * @param z
+     *          the z-coordinate of the position to project
+     * @param proj
+     *          the projection matrix
+     * @param view
+     *          the view matrix
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param mulOut
+     *          will hold <tt>proj * view</tt> when this method returns
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     */
+    public static void project(float x, float y, float z, Matrix4f proj, Matrix4f view, IntBuffer viewport, Matrix4f mulOut, Vector4f winCoordsDest) {
+        winCoordsDest.set(x, y, z, 1.0f);
+        mulOut.set(proj).mul(view).transform(winCoordsDest);
+        int pos = viewport.position();
+        winCoordsDest.mul(1.0f / winCoordsDest.w);
+        winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
+        winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport.get(pos+3) + viewport.get(pos+1);
+        winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
+    }
+
 }
