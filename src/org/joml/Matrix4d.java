@@ -445,12 +445,15 @@ public class Matrix4d implements Serializable, Externalizable {
         m33 = m[15];
     }
 
-    /** Set the values in the matrix using a DoubleBuffer. The results will look like this:<br><br>
+    /**
+     * Set the values of this matrix by reading 16 double values from the given DoubleBuffer,
+     * starting at its current position.
+     * <p>
+     * The DoubleBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the DoubleBuffer will not be changed by this method.
      * 
-     * 0, 4, 8, 12<br>
-     * 1, 5, 9, 13<br>
-     * 2, 6, 10, 14<br>
-     * 3, 7, 11, 15<br>
+     * @return this
      */
     public void set(DoubleBuffer buffer) {
         m00 = buffer.get();
@@ -471,12 +474,15 @@ public class Matrix4d implements Serializable, Externalizable {
         m33 = buffer.get();
     }
 
-    /** Set the values in the matrix using a FloatBuffer. The results will look like this:<br><br>
+    /**
+     * Set the values of this matrix by reading 16 float values from the given FloatBuffer,
+     * starting at its current position.
+     * <p>
+     * The FloatBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the FloatBuffer will not be changed by this method.
      * 
-     * 0, 4, 8, 12<br>
-     * 1, 5, 9, 13<br>
-     * 2, 6, 10, 14<br>
-     * 3, 7, 11, 15<br>
+     * @return this
      */
     public void set(FloatBuffer buffer) {
         m00 = buffer.get();
@@ -497,14 +503,18 @@ public class Matrix4d implements Serializable, Externalizable {
         m33 = buffer.get();
     }
 
-    /** Returns the determinant of this matrix */
+    /**
+     * Return the determinant of this matrix.
+     */
     public double determinant() {
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
              + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
              - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
     
-    /** Returns the determinant of the supplied matrix */
+    /**
+     * Return the determinant of the supplied matrix.
+     */
     public static double determinant(Matrix4d source) {
         return (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
              + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
@@ -565,46 +575,6 @@ public class Matrix4d implements Serializable, Externalizable {
                      (source.m30 * (source.m02 * source.m11 - source.m01 * source.m12) + source.m31 * (source.m00 * source.m12 - source.m02 * source.m10) + source.m32 * (source.m01 * source.m10 - source.m00 * source.m11)) * s,
                      (source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s );
         }
-    }
-    
-    /** Multiplies this matrix by the supplied scalar value */
-    public void mul(double scalar) {
-        m00 *= scalar;
-        m01 *= scalar;
-        m02 *= scalar;
-        m03 *= scalar;
-        m10 *= scalar;
-        m11 *= scalar;
-        m12 *= scalar;
-        m13 *= scalar;
-        m20 *= scalar;
-        m21 *= scalar;
-        m22 *= scalar;
-        m23 *= scalar;
-        m30 *= scalar;
-        m31 *= scalar;
-        m32 *= scalar;
-        m33 *= scalar;
-    }
-
-    /** Multiplies the supplied source matrix by the supplied scalar and stores the results in dest. Does not modify the original matrix */
-    public static void mul(Matrix4d source, double scalar, Matrix4d dest) {           
-        dest.m00 = source.m00 * scalar;
-        dest.m01 = source.m01 * scalar;
-        dest.m02 = source.m02 * scalar;
-        dest.m03 = source.m03 * scalar;
-        dest.m10 = source.m10 * scalar;
-        dest.m11 = source.m11 * scalar;
-        dest.m12 = source.m12 * scalar;
-        dest.m13 = source.m13 * scalar;
-        dest.m20 = source.m20 * scalar;
-        dest.m21 = source.m21 * scalar;
-        dest.m22 = source.m22 * scalar;
-        dest.m23 = source.m23 * scalar;
-        dest.m30 = source.m30 * scalar;
-        dest.m31 = source.m31 * scalar;
-        dest.m32 = source.m32 * scalar;
-        dest.m33 = source.m33 * scalar;
     }
 
     /**
@@ -724,7 +694,23 @@ public class Matrix4d implements Serializable, Externalizable {
         return this;
     }
 
-    /** Stores this matrix in the supplied DoubleBuffer */
+    /**
+     * Store this matrix into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given
+     * {@link DoubleBuffer}.
+     * <p>
+     * If you want to specify the offset into the {@link DoubleBuffer} at which
+     * the matrix is stored, you can use {@link #get(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, DoubleBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
     public void get(DoubleBuffer buffer) {
         buffer.put(this.m00);
         buffer.put(this.m01);
@@ -742,6 +728,38 @@ public class Matrix4d implements Serializable, Externalizable {
         buffer.put(this.m31);
         buffer.put(this.m32);
         buffer.put(this.m33);
+    }
+
+    /**
+     * Store this matrix into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given {@link DoubleBuffer}.
+     * 
+     * @param index
+     *            the absolute position into the {@link DoubleBuffer}
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix4d get(int index, DoubleBuffer buffer) {
+        buffer.put(index, this.m00);
+        buffer.put(index+1, this.m01);
+        buffer.put(index+2, this.m02);
+        buffer.put(index+3, this.m03);
+        buffer.put(index+4, this.m10);
+        buffer.put(index+5, this.m11);
+        buffer.put(index+6, this.m12);
+        buffer.put(index+7, this.m13);
+        buffer.put(index+8, this.m20);
+        buffer.put(index+9, this.m21);
+        buffer.put(index+10, this.m22);
+        buffer.put(index+11, this.m23);
+        buffer.put(index+12, this.m30);
+        buffer.put(index+13, this.m31);
+        buffer.put(index+14, this.m32);
+        buffer.put(index+15, this.m33);
+        return this;
     }
 
     /**

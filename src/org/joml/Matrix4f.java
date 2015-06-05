@@ -495,8 +495,11 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values of this matrix by reading 16 float values from the given FloatBuffer, starting at its current position.
+     * Set the values of this matrix by reading 16 float values from the given FloatBuffer,
+     * starting at its current position.
+     * <p>
      * The FloatBuffer is expected to contain the values in column-major order.
+     * <p>
      * The position of the FloatBuffer will not be changed by this method.
      * 
      * @return this
@@ -610,35 +613,6 @@ public class Matrix4f implements Serializable, Externalizable {
                      (source.m30 * (source.m02 * source.m11 - source.m01 * source.m12) + source.m31 * (source.m00 * source.m12 - source.m02 * source.m10) + source.m32 * (source.m01 * source.m10 - source.m00 * source.m11)) * s,
                      (source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s );
         }
-    }
-
-    /**
-     * Multiply all 16 components of this matrix by the supplied scalar value.
-     *
-     * @see #mul(Matrix4f, float, Matrix4f)
-     *
-     * @param scalar
-     *          the scalar value to multiply each matrix element by
-     * @return this
-     */
-    public Matrix4f mul(float scalar) {
-        m00 *= scalar;
-        m01 *= scalar;
-        m02 *= scalar;
-        m03 *= scalar;
-        m10 *= scalar;
-        m11 *= scalar;
-        m12 *= scalar;
-        m13 *= scalar;
-        m20 *= scalar;
-        m21 *= scalar;
-        m22 *= scalar;
-        m23 *= scalar;
-        m30 *= scalar;
-        m31 *= scalar;
-        m32 *= scalar;
-        m33 *= scalar;
-        return this;
     }
 
     /**

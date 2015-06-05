@@ -394,35 +394,91 @@ public class Matrix3f implements Serializable, Externalizable {
         return this;
     }
 
-    /** Stores this matrix in the supplied FloatBuffer */
+    /**
+     * Store this matrix into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given
+     * {@link FloatBuffer}.
+     * <p>
+     * If you want to specify the offset into the {@link FloatBuffer} at which
+     * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
     public Matrix3f get(FloatBuffer buffer) {
-        buffer.put(this.m00);
-        buffer.put(this.m01);
-        buffer.put(this.m02);
-        buffer.put(this.m10);
-        buffer.put(this.m11);
-        buffer.put(this.m12);
-        buffer.put(this.m20);
-        buffer.put(this.m21);
-        buffer.put(this.m22);
+        int pos = buffer.position();
+        buffer.put(pos, this.m00);
+        buffer.put(pos+1, this.m01);
+        buffer.put(pos+2, this.m02);
+        buffer.put(pos+3, this.m10);
+        buffer.put(pos+4, this.m11);
+        buffer.put(pos+5, this.m12);
+        buffer.put(pos+6, this.m20);
+        buffer.put(pos+7, this.m21);
+        buffer.put(pos+8, this.m22);
         return this;
     }
 
-    /** Read and set the matrix values from the supplied FloatBuffer */
+    /**
+     * Store this matrix into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given {@link FloatBuffer}.
+     * 
+     * @param index
+     *            the absolute position into the {@link FloatBuffer}
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix3f get(int index, FloatBuffer buffer) {
+        buffer.put(index, this.m00);
+        buffer.put(index+1, this.m01);
+        buffer.put(index+2, this.m02);
+        buffer.put(index+3, this.m10);
+        buffer.put(index+4, this.m11);
+        buffer.put(index+5, this.m12);
+        buffer.put(index+6, this.m20);
+        buffer.put(index+7, this.m21);
+        buffer.put(index+8, this.m22);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 9 float values from the given FloatBuffer,
+     * starting at its current position.
+     * <p>
+     * The FloatBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the FloatBuffer will not be changed by this method.
+     * 
+     * @return this
+     */
     public Matrix3f set(FloatBuffer buffer) {
-        this.m00 = buffer.get();
-        this.m01 = buffer.get();
-        this.m02 = buffer.get();
-        this.m10 = buffer.get();
-        this.m11 = buffer.get();
-        this.m12 = buffer.get();
-        this.m20 = buffer.get();
-        this.m21 = buffer.get();
-        this.m22 = buffer.get();
+        int pos = buffer.position();
+        this.m00 = buffer.get(pos);
+        this.m01 = buffer.get(pos+1);
+        this.m02 = buffer.get(pos+2);
+        this.m10 = buffer.get(pos+3);
+        this.m11 = buffer.get(pos+4);
+        this.m12 = buffer.get(pos+5);
+        this.m20 = buffer.get(pos+6);
+        this.m21 = buffer.get(pos+7);
+        this.m22 = buffer.get(pos+8);
         return this;
     }
 
-    /** Sets all the values within this matrix to 0 */
+    /**
+     * Set all values within this matrix to zero.
+     * 
+     * @return this
+     */
     public Matrix3f zero() {
         this.m00 = 0.0f;
         this.m01 = 0.0f;
@@ -436,7 +492,11 @@ public class Matrix3f implements Serializable, Externalizable {
         return this;
     }
     
-    /** Sets this matrix to the identity */
+    /**
+     * Set this matrix to the identity.
+     * 
+     * @return this
+     */
     public Matrix3f identity() {
         this.m00 = 1.0f;
         this.m01 = 0.0f;
@@ -566,7 +626,7 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
+     * Set the destination matrix to a rotation matrix which rotates the given radians about the given axis.
      * 
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      */
@@ -584,7 +644,10 @@ public class Matrix3f implements Serializable, Externalizable {
     	dest.m12 = z * y * C + x * sin;
     	dest.m22 = cos + z * z * C;
     }
-    
+
+    /**
+     * Set the destination matrix to a rotation matrix which rotates the given radians about the given axis.
+     */
     public static void rotation(float angle, Vector3f axis, Matrix3f dest) {
         rotation(angle, axis.x, axis.y, axis.z, dest);
     }
@@ -593,6 +656,7 @@ public class Matrix3f implements Serializable, Externalizable {
      * Transform the given vector by this matrix.
      * 
      * @param v
+     *          the vector to transform
      * @return this
      */
     public Matrix3f transform(Vector3f v) {
@@ -604,7 +668,9 @@ public class Matrix3f implements Serializable, Externalizable {
      * Transform the given vector by this matrix and store the result in <code>dest</code>.
      * 
      * @param v
+     *          the vector to transform
      * @param dest
+     *          will hold the result
      * @return this
      */
     public Matrix3f transform(Vector3f v, Vector3f dest) {
@@ -616,7 +682,9 @@ public class Matrix3f implements Serializable, Externalizable {
      * Transform the given vector by the given matrix.
      * 
      * @param mat
+     *          the matrix to transform the vector by
      * @param v
+     *          the vector to transform
      */
     public static void transform(Matrix3f mat, Vector3f v) {
         v.mul(mat);

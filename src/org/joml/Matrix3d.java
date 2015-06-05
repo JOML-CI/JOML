@@ -28,6 +28,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
 import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
 
 /**
  * Contains the definition of a 3x3 Matrix of doubles, and associated functions to transform
@@ -52,11 +53,20 @@ public class Matrix3d implements Serializable, Externalizable {
     public double m21;
     public double m22;
 
+    /**
+     * Create a new {@link Matrix3d} and initialize it to {@link #identity() identity}.
+     */
     public Matrix3d() {
         super();
         identity();
     }
 
+    /**
+     * Create a new {@link Matrix3d} and initialize it with the values from the given matrix.
+     * 
+     * @param mat
+     *          the matrix to initialize this matrix with
+     */
     public Matrix3d(Matrix3d mat) {
         this.m00 = mat.m00;
         this.m01 = mat.m01;
@@ -69,6 +79,12 @@ public class Matrix3d implements Serializable, Externalizable {
         this.m22 = mat.m22;
     }
 
+    /**
+     * Create a new {@link Matrix3d} and initialize it with the values from the given matrix.
+     * 
+     * @param mat
+     *          the matrix to initialize this matrix with
+     */
     public Matrix3d(Matrix3f mat) {
         this.m00 = mat.m00;
         this.m01 = mat.m01;
@@ -81,6 +97,9 @@ public class Matrix3d implements Serializable, Externalizable {
         this.m22 = mat.m22;
     }
 
+    /**
+     * Create a new {@link Matrix3d} and initialize its elements with the given values.
+     */
     public Matrix3d(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22) {
         this.m00 = m00;
         this.m01 = m01;
@@ -93,31 +112,39 @@ public class Matrix3d implements Serializable, Externalizable {
         this.m22 = m22;
     }
 
-    /** Set the values in this matrix to the ones in m1 */
-    public Matrix3d set(Matrix3d m1) {
-        m00 = m1.m00;
-        m01 = m1.m01;
-        m02 = m1.m02;
-        m10 = m1.m10;
-        m11 = m1.m11;
-        m12 = m1.m12;
-        m20 = m1.m20;
-        m21 = m1.m21;
-        m22 = m1.m22;
+    /**
+     * Set the values in this matrix to the ones in m.
+     * 
+     * @return this
+     */
+    public Matrix3d set(Matrix3d m) {
+        m00 = m.m00;
+        m01 = m.m01;
+        m02 = m.m02;
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
         return this;
     }
 
-    /** Set the values in this matrix to the ones in m1 */
-    public Matrix3d set(Matrix3f m1) {
-        m00 = m1.m00;
-        m01 = m1.m01;
-        m02 = m1.m02;
-        m10 = m1.m10;
-        m11 = m1.m11;
-        m12 = m1.m12;
-        m20 = m1.m20;
-        m21 = m1.m21;
-        m22 = m1.m22;
+    /**
+     * Set the values in this matrix to the ones in m.
+     * 
+     * @return this
+     */
+    public Matrix3d set(Matrix3f m) {
+        m00 = m.m00;
+        m01 = m.m01;
+        m02 = m.m02;
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
         return this;
     }
 
@@ -125,6 +152,8 @@ public class Matrix3d implements Serializable, Externalizable {
      * Multiply this matrix by the supplied matrix.
      * This matrix will be the left one.
      * 
+     * @param right
+     *          the right operand
      * @return this
      */
     public Matrix3d mul(Matrix3d right) {
@@ -136,6 +165,8 @@ public class Matrix3d implements Serializable, Externalizable {
      * Multiply this matrix by the supplied matrix.
      * This matrix will be the left one.
      * 
+     * @param right
+     *          the right operand
      * @return this
      */
     public Matrix3d mul(Matrix3f right) {
@@ -295,7 +326,9 @@ public class Matrix3d implements Serializable, Externalizable {
         return this;
     }
 
-    /** Returns the determinant of this Matrix */
+    /**
+     * Return the determinant of this matrix.
+     */
     public double determinant() {
         return ((m00 * m11 * m22)
              + (m10 * m21 * m02)
@@ -316,7 +349,7 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
-     * Invert the source matrix and store the results in dest.
+     * Invert the source matrix and store the result in dest.
      */
     public static void invert(Matrix3d source, Matrix3d dest) {
         double s = source.determinant();
@@ -358,7 +391,7 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
-     * Transpose the supplied original matrix and store the results in dest.
+     * Transpose the supplied original matrix and store the result in dest.
      */
     public static void transpose(Matrix3d original, Matrix3d dest) {
         if (original != dest) {
@@ -381,7 +414,7 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Set this matrix to be a simple translation matrix.
      * <p>
-     * The resulting matrix can be multiplied against another transformation
+     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
      * matrix to obtain an additional translation.
      * 
      * @return this
@@ -402,7 +435,7 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Set the given matrix to be a simple translation matrix.
      * <p>
-     * The resulting matrix can be multiplied against another transformation
+     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
      * matrix to obtain an additional translation.
      */
     public static void translation(double x, double y, Matrix3d dest) {
@@ -412,7 +445,7 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Set this matrix to be a simple translation matrix.
      * <p>
-     * The resulting matrix can be multiplied against another transformation
+     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
      * matrix to obtain an additional translation.
      */
     public Matrix3d translation(Vector2d position) {
@@ -422,7 +455,7 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Set the given matrix to be a simple translation matrix.
      * <p>
-     * The resulting matrix can be multiplied against another transformation
+     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
      * matrix to obtain an additional translation.
      */
     public static void translation(Vector2d position, Matrix3d dest) {
@@ -432,7 +465,7 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Set this matrix to be a simple translation matrix.
      * <p>
-     * The resulting matrix can be multiplied against another transformation
+     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
      * matrix to obtain an additional translation.
      */
     public Matrix3d translation(Vector2f position) {
@@ -442,24 +475,11 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Set the given matrix to be a simple translation matrix.
      * <p>
-     * The resulting matrix can be multiplied against another transformation
+     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
      * matrix to obtain an additional translation.
      */
     public static void translation(Vector2f position, Matrix3d dest) {
         dest.translation(position.x, position.y);
-    }
-
-    /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
-    public static void mul(Matrix3d source, double scalar, Matrix3d dest) {
-        dest.m00 = source.m00 * scalar;
-        dest.m01 = source.m01 * scalar;
-        dest.m02 = source.m02 * scalar;
-        dest.m10 = source.m10 * scalar;
-        dest.m11 = source.m11 * scalar;
-        dest.m12 = source.m12 * scalar;
-        dest.m20 = source.m20 * scalar;
-        dest.m21 = source.m21 * scalar;
-        dest.m22 = source.m22 * scalar;
     }
 
     public String toString() {
@@ -484,31 +504,83 @@ public class Matrix3d implements Serializable, Externalizable {
         return this;
     }
 
-    /** Stores this matrix in the supplied DoubleBuffer */
+    /**
+     * Store this matrix into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given
+     * {@link DoubleBuffer}.
+     * <p>
+     * If you want to specify the offset into the {@link DoubleBuffer} at which
+     * the matrix is stored, you can use {@link #get(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, DoubleBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
     public Matrix3d get(DoubleBuffer buffer) {
-        buffer.put(this.m00);
-        buffer.put(this.m01);
-        buffer.put(this.m02);
-        buffer.put(this.m10);
-        buffer.put(this.m11);
-        buffer.put(this.m12);
-        buffer.put(this.m20);
-        buffer.put(this.m21);
-        buffer.put(this.m22);
+        int pos = buffer.position();
+        buffer.put(pos, this.m00);
+        buffer.put(pos+1, this.m01);
+        buffer.put(pos+2, this.m02);
+        buffer.put(pos+3, this.m10);
+        buffer.put(pos+4, this.m11);
+        buffer.put(pos+5, this.m12);
+        buffer.put(pos+6, this.m20);
+        buffer.put(pos+7, this.m21);
+        buffer.put(pos+8, this.m22);
         return this;
     }
 
-    /** Read and set the matrix values from the supplied DoubleBuffer */
+    /**
+     * Store this matrix into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given {@link DoubleBuffer}.
+     * 
+     * @param index
+     *            the absolute position into the {@link DoubleBuffer}
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix3d get(int index, DoubleBuffer buffer) {
+        buffer.put(index, this.m00);
+        buffer.put(index+1, this.m01);
+        buffer.put(index+2, this.m02);
+        buffer.put(index+3, this.m10);
+        buffer.put(index+4, this.m11);
+        buffer.put(index+5, this.m12);
+        buffer.put(index+6, this.m20);
+        buffer.put(index+7, this.m21);
+        buffer.put(index+8, this.m22);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 9 double values from the given DoubleBuffer,
+     * starting at its current position.
+     * <p>
+     * The DoubleBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the DoubleBuffer will not be changed by this method.
+     * 
+     * @return this
+     */
     public Matrix3d set(DoubleBuffer buffer) {
-        this.m00 = buffer.get();
-        this.m01 = buffer.get();
-        this.m02 = buffer.get();
-        this.m10 = buffer.get();
-        this.m11 = buffer.get();
-        this.m12 = buffer.get();
-        this.m20 = buffer.get();
-        this.m21 = buffer.get();
-        this.m22 = buffer.get();
+        int pos = buffer.position();
+        this.m00 = buffer.get(pos);
+        this.m01 = buffer.get(pos+1);
+        this.m02 = buffer.get(pos+2);
+        this.m10 = buffer.get(pos+3);
+        this.m11 = buffer.get(pos+4);
+        this.m12 = buffer.get(pos+5);
+        this.m20 = buffer.get(pos+6);
+        this.m21 = buffer.get(pos+7);
+        this.m22 = buffer.get(pos+8);
         return this;
     }
 
