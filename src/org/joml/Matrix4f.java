@@ -2718,14 +2718,13 @@ public class Matrix4f implements Serializable, Externalizable {
      *          the view matrix
      * @param viewport
      *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param mulOut
-     *          will hold <tt>proj * view</tt> when this method returns
      * @param winCoordsDest
      *          will hold the projected window coordinates
      */
-    public static void project(float x, float y, float z, Matrix4f proj, Matrix4f view, IntBuffer viewport, Matrix4f mulOut, Vector4f winCoordsDest) {
+    public static void project(float x, float y, float z, Matrix4f proj, Matrix4f view, IntBuffer viewport, Vector4f winCoordsDest) {
         winCoordsDest.set(x, y, z, 1.0f);
-        mulOut.set(proj).mul(view).transform(winCoordsDest);
+        view.transform(winCoordsDest);
+        proj.transform(winCoordsDest);
         int pos = viewport.position();
         winCoordsDest.mul(1.0f / winCoordsDest.w);
         winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
