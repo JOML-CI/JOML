@@ -272,9 +272,9 @@ public class MatrixStack implements Serializable, Externalizable {
      * @param dest
      *            the destination FloatBuffer into which to store the
      *            column-major values of the current stack matrix
-     * @return <code>dest</code>
+     * @return this
      */
-    public FloatBuffer get(FloatBuffer dest) {
+    public MatrixStack get(FloatBuffer dest) {
         if (dest == null) {
             throw new IllegalArgumentException("dest must not be null");
         }
@@ -282,7 +282,7 @@ public class MatrixStack implements Serializable, Externalizable {
             throw new IllegalArgumentException("dest does not have enough space");
         }
         mats[curr].get(dest);
-        return dest;
+        return this;
     }
 
     /**
@@ -304,7 +304,7 @@ public class MatrixStack implements Serializable, Externalizable {
      *            will receive the values of this matrix in column-major order
      * @return this
      */
-    public FloatBuffer get(int index, FloatBuffer dest) {
+    public MatrixStack get(int index, FloatBuffer dest) {
         if (dest == null) {
             throw new IllegalArgumentException("dest must not be null");
         }
@@ -312,7 +312,7 @@ public class MatrixStack implements Serializable, Externalizable {
             throw new IllegalArgumentException("dest does not have enough space");
         }
         mats[curr].get(dest);
-        return dest;
+        return this;
     }
 
     /**
