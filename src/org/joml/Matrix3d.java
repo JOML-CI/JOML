@@ -28,7 +28,6 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
 import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
 
 /**
  * Contains the definition of a 3x3 Matrix of doubles, and associated functions to transform
@@ -68,15 +67,15 @@ public class Matrix3d implements Serializable, Externalizable {
      *          the matrix to initialize this matrix with
      */
     public Matrix3d(Matrix3d mat) {
-        this.m00 = mat.m00;
-        this.m01 = mat.m01;
-        this.m02 = mat.m02;
-        this.m10 = mat.m10;
-        this.m11 = mat.m11;
-        this.m12 = mat.m12;
-        this.m20 = mat.m20;
-        this.m21 = mat.m21;
-        this.m22 = mat.m22;
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
     }
 
     /**
@@ -86,15 +85,15 @@ public class Matrix3d implements Serializable, Externalizable {
      *          the matrix to initialize this matrix with
      */
     public Matrix3d(Matrix3f mat) {
-        this.m00 = mat.m00;
-        this.m01 = mat.m01;
-        this.m02 = mat.m02;
-        this.m10 = mat.m10;
-        this.m11 = mat.m11;
-        this.m12 = mat.m12;
-        this.m20 = mat.m20;
-        this.m21 = mat.m21;
-        this.m22 = mat.m22;
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
     }
 
     /**
@@ -420,15 +419,15 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d translation(double x, double y) {
-        this.m00 = 1.0;
-        this.m01 = 0.0;
-        this.m02 = 0.0;
-        this.m10 = 0.0;
-        this.m11 = 1.0;
-        this.m12 = 0.0;
-        this.m20 = x;
-        this.m21 = y;
-        this.m22 = 1.0;
+        m00 = 1.0;
+        m01 = 0.0;
+        m02 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0;
+        m12 = 0.0;
+        m20 = x;
+        m21 = y;
+        m22 = 1.0;
         return this;
     }
  
@@ -483,9 +482,9 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     public String toString() {
-        return this.m00 + ", " + this.m10 + ", " + this.m20 + ",\n"
-             + this.m01 + ", " + this.m11 + ", " + this.m21 + ",\n"
-             + this.m02 + ", " + this.m12 + ", " + this.m22;
+        return m00 + ", " + m10 + ", " + m20 + ",\n"
+             + m01 + ", " + m11 + ", " + m21 + ",\n"
+             + m02 + ", " + m12 + ", " + m22;
     }
 
     /**
@@ -522,17 +521,7 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d get(DoubleBuffer buffer) {
-        int pos = buffer.position();
-        buffer.put(pos, this.m00);
-        buffer.put(pos+1, this.m01);
-        buffer.put(pos+2, this.m02);
-        buffer.put(pos+3, this.m10);
-        buffer.put(pos+4, this.m11);
-        buffer.put(pos+5, this.m12);
-        buffer.put(pos+6, this.m20);
-        buffer.put(pos+7, this.m21);
-        buffer.put(pos+8, this.m22);
-        return this;
+        return get(buffer.position(), buffer);
     }
 
     /**
@@ -548,15 +537,15 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d get(int index, DoubleBuffer buffer) {
-        buffer.put(index, this.m00);
-        buffer.put(index+1, this.m01);
-        buffer.put(index+2, this.m02);
-        buffer.put(index+3, this.m10);
-        buffer.put(index+4, this.m11);
-        buffer.put(index+5, this.m12);
-        buffer.put(index+6, this.m20);
-        buffer.put(index+7, this.m21);
-        buffer.put(index+8, this.m22);
+        buffer.put(index, m00);
+        buffer.put(index+1, m01);
+        buffer.put(index+2, m02);
+        buffer.put(index+3, m10);
+        buffer.put(index+4, m11);
+        buffer.put(index+5, m12);
+        buffer.put(index+6, m20);
+        buffer.put(index+7, m21);
+        buffer.put(index+8, m22);
         return this;
     }
 
@@ -572,15 +561,15 @@ public class Matrix3d implements Serializable, Externalizable {
      */
     public Matrix3d set(DoubleBuffer buffer) {
         int pos = buffer.position();
-        this.m00 = buffer.get(pos);
-        this.m01 = buffer.get(pos+1);
-        this.m02 = buffer.get(pos+2);
-        this.m10 = buffer.get(pos+3);
-        this.m11 = buffer.get(pos+4);
-        this.m12 = buffer.get(pos+5);
-        this.m20 = buffer.get(pos+6);
-        this.m21 = buffer.get(pos+7);
-        this.m22 = buffer.get(pos+8);
+        m00 = buffer.get(pos);
+        m01 = buffer.get(pos+1);
+        m02 = buffer.get(pos+2);
+        m10 = buffer.get(pos+3);
+        m11 = buffer.get(pos+4);
+        m12 = buffer.get(pos+5);
+        m20 = buffer.get(pos+6);
+        m21 = buffer.get(pos+7);
+        m22 = buffer.get(pos+8);
         return this;
     }
 
@@ -590,15 +579,15 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d zero() {
-        this.m00 = 0.0;
-        this.m01 = 0.0;
-        this.m02 = 0.0;
-        this.m10 = 0.0;
-        this.m11 = 0.0;
-        this.m12 = 0.0;
-        this.m20 = 0.0;
-        this.m21 = 0.0;
-        this.m22 = 0.0;
+        m00 = 0.0;
+        m01 = 0.0;
+        m02 = 0.0;
+        m10 = 0.0;
+        m11 = 0.0;
+        m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = 0.0;
         return this;
     }
     
@@ -608,15 +597,15 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d identity() {
-        this.m00 = 1.0;
-        this.m01 = 0.0;
-        this.m02 = 0.0;
-        this.m10 = 0.0;
-        this.m11 = 1.0;
-        this.m12 = 0.0;
-        this.m20 = 0.0;
-        this.m21 = 0.0;
-        this.m22 = 1.0;
+        m00 = 1.0;
+        m01 = 0.0;
+        m02 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0;
+        m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = 1.0;
         return this;
     }
 
@@ -798,12 +787,12 @@ public class Matrix3d implements Serializable, Externalizable {
         m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
         m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
         m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        this.m00 = nm00;
-        this.m01 = nm01;
-        this.m02 = nm02;
-        this.m10 = nm10;
-        this.m11 = nm11;
-        this.m12 = nm12;
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
 
         return this;
     }

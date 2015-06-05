@@ -78,16 +78,16 @@ public class Matrix4f implements Serializable, Externalizable {
      *          the {@link Matrix3f}
      */
     public Matrix4f(Matrix3f mat) {
-        this.m00 = mat.m00;
-        this.m01 = mat.m01;
-        this.m02 = mat.m02;
-        this.m10 = mat.m10;
-        this.m11 = mat.m11;
-        this.m12 = mat.m12;
-        this.m20 = mat.m20;
-        this.m21 = mat.m21;
-        this.m22 = mat.m22;
-        this.m33 = 1.0f;
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m33 = 1.0f;
     }
 
     /**
@@ -97,22 +97,22 @@ public class Matrix4f implements Serializable, Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix4f(Matrix4f mat) {
-        this.m00 = mat.m00;
-        this.m01 = mat.m01;
-        this.m02 = mat.m02;
-        this.m03 = mat.m03;
-        this.m10 = mat.m10;
-        this.m11 = mat.m11;
-        this.m12 = mat.m12;
-        this.m13 = mat.m13;
-        this.m20 = mat.m20;
-        this.m21 = mat.m21;
-        this.m22 = mat.m22;
-        this.m23 = mat.m23;
-        this.m30 = mat.m30;
-        this.m31 = mat.m31;
-        this.m32 = mat.m32;
-        this.m33 = mat.m33;
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m03 = mat.m03;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m13 = mat.m13;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m23 = mat.m23;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
+        m33 = mat.m33;
     }
 
     /**
@@ -175,22 +175,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f identity() {
-        this.m00 = 1.0f;
-        this.m01 = 0.0f;
-        this.m02 = 0.0f;
-        this.m03 = 0.0f;
-        this.m10 = 0.0f;
-        this.m11 = 1.0f;
-        this.m12 = 0.0f;
-        this.m13 = 0.0f;
-        this.m20 = 0.0f;
-        this.m21 = 0.0f;
-        this.m22 = 1.0f;
-        this.m23 = 0.0f;
-        this.m30 = 0.0f;
-        this.m31 = 0.0f;
-        this.m32 = 0.0f;
-        this.m33 = 1.0f;
+        m00 = 1.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 1.0f;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = 1.0f;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
         return this;
     }
 
@@ -205,22 +205,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f set(Matrix4f m) {
-        this.m00 = m.m00;
-        this.m01 = m.m01;
-        this.m02 = m.m02;
-        this.m03 = m.m03;
-        this.m10 = m.m10;
-        this.m11 = m.m11;
-        this.m12 = m.m12;
-        this.m13 = m.m13;
-        this.m20 = m.m20;
-        this.m21 = m.m21;
-        this.m22 = m.m22;
-        this.m23 = m.m23;
-        this.m30 = m.m30;
-        this.m31 = m.m31;
-        this.m32 = m.m32;
-        this.m33 = m.m33;
+        m00 = m.m00;
+        m01 = m.m01;
+        m02 = m.m02;
+        m03 = m.m03;
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
+        m13 = m.m13;
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
+        m23 = m.m23;
+        m30 = m.m30;
+        m31 = m.m31;
+        m32 = m.m32;
+        m33 = m.m33;
         return this;
     }
 
@@ -235,22 +235,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f set(Matrix3f mat) {
-        this.m00 = mat.m00;
-        this.m01 = mat.m01;
-        this.m02 = mat.m02;
-        this.m03 = 0.0f;
-        this.m10 = mat.m10;
-        this.m11 = mat.m11;
-        this.m12 = mat.m12;
-        this.m13 = 0.0f;
-        this.m20 = mat.m20;
-        this.m21 = mat.m21;
-        this.m22 = mat.m22;
-        this.m23 = 0.0f;
-        this.m30 = 0.0f;
-        this.m31 = 0.0f;
-        this.m32 = 0.0f;
-        this.m33 = 1.0f;
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m03 = 0.0f;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m13 = 0.0f;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
         return this;
     }
 
@@ -727,22 +727,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f translation(float x, float y, float z) {
-    	this.m00 = 1.0f;
-    	this.m01 = 0.0f;
-    	this.m02 = 0.0f;
-    	this.m03 = 0.0f;
-    	this.m10 = 0.0f;
-    	this.m11 = 1.0f;
-    	this.m12 = 0.0f;
-    	this.m13 = 0.0f;
-    	this.m20 = 0.0f;
-    	this.m21 = 0.0f;
-    	this.m22 = 0.0f;
-    	this.m23 = 0.0f;
-        this.m30 = x;
-        this.m31 = y;
-        this.m32 = z;
-        this.m33 = 1.0f;
+    	m00 = 1.0f;
+    	m01 = 0.0f;
+    	m02 = 0.0f;
+    	m03 = 0.0f;
+    	m10 = 0.0f;
+    	m11 = 1.0f;
+    	m12 = 0.0f;
+    	m13 = 0.0f;
+    	m20 = 0.0f;
+    	m21 = 0.0f;
+    	m22 = 0.0f;
+    	m23 = 0.0f;
+        m30 = x;
+        m31 = y;
+        m32 = z;
+        m33 = 1.0f;
         return this;
     }
 
@@ -765,10 +765,10 @@ public class Matrix4f implements Serializable, Externalizable {
 
     public String toString() {
         DecimalFormat formatter = new DecimalFormat("0.000E0");
-        return formatter.format(this.m00) + ", " + formatter.format(this.m10) + ", " + formatter.format(this.m20) + ", " + formatter.format(this.m30) + ",\n"
-             + formatter.format(this.m01) + ", " + formatter.format(this.m11) + ", " + formatter.format(this.m21) + ", " + formatter.format(this.m31) + ",\n"
-             + formatter.format(this.m02) + ", " + formatter.format(this.m12) + ", " + formatter.format(this.m22) + ", " + formatter.format(this.m32) + ",\n"
-             + formatter.format(this.m03) + ", " + formatter.format(this.m13) + ", " + formatter.format(this.m23) + ", " + formatter.format(this.m33);
+        return formatter.format(m00) + ", " + formatter.format(m10) + ", " + formatter.format(m20) + ", " + formatter.format(m30) + ",\n"
+             + formatter.format(m01) + ", " + formatter.format(m11) + ", " + formatter.format(m21) + ", " + formatter.format(m31) + ",\n"
+             + formatter.format(m02) + ", " + formatter.format(m12) + ", " + formatter.format(m22) + ", " + formatter.format(m32) + ",\n"
+             + formatter.format(m03) + ", " + formatter.format(m13) + ", " + formatter.format(m23) + ", " + formatter.format(m33);
     }
 
     /**
@@ -823,22 +823,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f get(int index, FloatBuffer buffer) {
-        buffer.put(index, this.m00);
-        buffer.put(index+1, this.m01);
-        buffer.put(index+2, this.m02);
-        buffer.put(index+3, this.m03);
-        buffer.put(index+4, this.m10);
-        buffer.put(index+5, this.m11);
-        buffer.put(index+6, this.m12);
-        buffer.put(index+7, this.m13);
-        buffer.put(index+8, this.m20);
-        buffer.put(index+9, this.m21);
-        buffer.put(index+10, this.m22);
-        buffer.put(index+11, this.m23);
-        buffer.put(index+12, this.m30);
-        buffer.put(index+13, this.m31);
-        buffer.put(index+14, this.m32);
-        buffer.put(index+15, this.m33);
+        buffer.put(index, m00);
+        buffer.put(index+1, m01);
+        buffer.put(index+2, m02);
+        buffer.put(index+3, m03);
+        buffer.put(index+4, m10);
+        buffer.put(index+5, m11);
+        buffer.put(index+6, m12);
+        buffer.put(index+7, m13);
+        buffer.put(index+8, m20);
+        buffer.put(index+9, m21);
+        buffer.put(index+10, m22);
+        buffer.put(index+11, m23);
+        buffer.put(index+12, m30);
+        buffer.put(index+13, m31);
+        buffer.put(index+14, m32);
+        buffer.put(index+15, m33);
         return this;
     }
 
@@ -928,22 +928,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f get(float[] arr, int offset) {
-        arr[offset+0] = this.m00;
-        arr[offset+1] = this.m01;
-        arr[offset+2] = this.m02;
-        arr[offset+3] = this.m03;
-        arr[offset+4] = this.m10;
-        arr[offset+5] = this.m11;
-        arr[offset+6] = this.m12;
-        arr[offset+7] = this.m13;
-        arr[offset+8] = this.m20;
-        arr[offset+9] = this.m21;
-        arr[offset+10] = this.m22;
-        arr[offset+11] = this.m23;
-        arr[offset+12] = this.m30;
-        arr[offset+13] = this.m31;
-        arr[offset+14] = this.m32;
-        arr[offset+15] = this.m33;
+        arr[offset+0] = m00;
+        arr[offset+1] = m01;
+        arr[offset+2] = m02;
+        arr[offset+3] = m03;
+        arr[offset+4] = m10;
+        arr[offset+5] = m11;
+        arr[offset+6] = m12;
+        arr[offset+7] = m13;
+        arr[offset+8] = m20;
+        arr[offset+9] = m21;
+        arr[offset+10] = m22;
+        arr[offset+11] = m23;
+        arr[offset+12] = m30;
+        arr[offset+13] = m31;
+        arr[offset+14] = m32;
+        arr[offset+15] = m33;
         return this;
     }
 
@@ -953,22 +953,22 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f zero() {
-        this.m00 = 0.0f;
-        this.m01 = 0.0f;
-        this.m02 = 0.0f;
-        this.m03 = 0.0f;
-        this.m10 = 0.0f;
-        this.m11 = 0.0f;
-        this.m12 = 0.0f;
-        this.m13 = 0.0f;
-        this.m20 = 0.0f;
-        this.m21 = 0.0f;
-        this.m22 = 0.0f;
-        this.m23 = 0.0f;
-        this.m30 = 0.0f;
-        this.m31 = 0.0f;
-        this.m32 = 0.0f;
-        this.m33 = 0.0f;
+        m00 = 0.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 0.0f;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = 0.0f;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 0.0f;
         return this;
     }
 
@@ -1987,18 +1987,18 @@ public class Matrix4f implements Serializable, Externalizable {
 
         // perform optimized matrix multiplication
         // introduce temporaries for dependent results
-        float nm00 = this.m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = this.m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = this.m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm03 = this.m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float nm10 = this.m00 * rm10 + this.m10 * rm11 + m20 * rm12;
-        float nm11 = this.m01 * rm10 + this.m11 * rm11 + m21 * rm12;
-        float nm12 = this.m02 * rm10 + this.m12 * rm11 + m22 * rm12;
-        float nm13 = this.m03 * rm10 + this.m13 * rm11 + m23 * rm12;
-        m20 = this.m00 * rm20 + this.m10 * rm21 + this.m20 * rm22;
-        m21 = this.m01 * rm20 + this.m11 * rm21 + this.m21 * rm22;
-        m22 = this.m02 * rm20 + this.m12 * rm21 + this.m22 * rm22;
-        m23 = this.m03 * rm20 + this.m13 * rm21 + this.m23 * rm22;
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
         // set the rest of the matrix elements
         m00 = nm00;
         m01 = nm01;
@@ -2279,18 +2279,18 @@ public class Matrix4f implements Serializable, Externalizable {
         m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
         m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
         // introduce temporaries for dependent results
-        float nm00 = this.m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = this.m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = this.m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm03 = this.m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float nm10 = this.m00 * rm10 + this.m10 * rm11 + m20 * rm12;
-        float nm11 = this.m01 * rm10 + this.m11 * rm11 + m21 * rm12;
-        float nm12 = this.m02 * rm10 + this.m12 * rm11 + m22 * rm12;
-        float nm13 = this.m03 * rm10 + this.m13 * rm11 + m23 * rm12;
-        m20 = this.m00 * rm20 + this.m10 * rm21 + this.m20 * rm22;
-        m21 = this.m01 * rm20 + this.m11 * rm21 + this.m21 * rm22;
-        m22 = this.m02 * rm20 + this.m12 * rm21 + this.m22 * rm22;
-        m23 = this.m03 * rm20 + this.m13 * rm21 + this.m23 * rm22;
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
         // set the rest of the matrix elements
         m00 = nm00;
         m01 = nm01;
@@ -2414,10 +2414,10 @@ public class Matrix4f implements Serializable, Externalizable {
         float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
 
         // perform optimized matrix multiplication
-        float nm20 = m00 * rm20 + m10 * rm21 + this.m20 * rm22 - m30;
-        float nm21 = m01 * rm20 + m11 * rm21 + this.m21 * rm22 - m31;
-        float nm22 = m02 * rm20 + m12 * rm21 + this.m22 * rm22 - m32;
-        float nm23 = m03 * rm20 + m13 * rm21 + this.m23 * rm22 - m33;
+        float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
+        float nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 - m31;
+        float nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 - m32;
+        float nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 - m33;
         m00 = m00 * rm00;
         m01 = m01 * rm00;
         m02 = m02 * rm00;
@@ -2426,10 +2426,10 @@ public class Matrix4f implements Serializable, Externalizable {
         m11 = m11 * rm11;
         m12 = m12 * rm11;
         m13 = m13 * rm11;
-        m30 = this.m20 * rm32;
-        m31 = this.m21 * rm32;
-        m32 = this.m22 * rm32;
-        m33 = this.m23 * rm32;
+        m30 = m20 * rm32;
+        m31 = m21 * rm32;
+        m32 = m22 * rm32;
+        m33 = m23 * rm32;
         m20 = nm20;
         m21 = nm21;
         m22 = nm22;

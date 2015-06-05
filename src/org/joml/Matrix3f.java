@@ -58,15 +58,15 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     public Matrix3f(Matrix3f mat) {
-        this.m00 = mat.m00;
-        this.m01 = mat.m01;
-        this.m02 = mat.m02;
-        this.m10 = mat.m10;
-        this.m11 = mat.m11;
-        this.m12 = mat.m12;
-        this.m20 = mat.m20;
-        this.m21 = mat.m21;
-        this.m22 = mat.m22;
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
     }
     
     public Matrix3f(float m00, float m01, float m02, float m10, float m11,
@@ -103,15 +103,15 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f fromJavaxMatrix(javax.vecmath.Matrix3f javaxVecmathMatrix) {
-        this.m00 = javaxVecmathMatrix.m00;
-        this.m01 = javaxVecmathMatrix.m10;
-        this.m02 = javaxVecmathMatrix.m20;
-        this.m10 = javaxVecmathMatrix.m01;
-        this.m11 = javaxVecmathMatrix.m11;
-        this.m12 = javaxVecmathMatrix.m21;
-        this.m20 = javaxVecmathMatrix.m02;
-        this.m21 = javaxVecmathMatrix.m12;
-        this.m22 = javaxVecmathMatrix.m22;
+        m00 = javaxVecmathMatrix.m00;
+        m01 = javaxVecmathMatrix.m10;
+        m02 = javaxVecmathMatrix.m20;
+        m10 = javaxVecmathMatrix.m01;
+        m11 = javaxVecmathMatrix.m11;
+        m12 = javaxVecmathMatrix.m21;
+        m20 = javaxVecmathMatrix.m02;
+        m21 = javaxVecmathMatrix.m12;
+        m22 = javaxVecmathMatrix.m22;
         return this;
     }
 
@@ -317,15 +317,15 @@ public class Matrix3f implements Serializable, Externalizable {
      * matrix to obtain an additional translation.
      */
     public Matrix3f translation(float x, float y) {
-        this.m00 = 1.0f;
-        this.m01 = 0.0f;
-        this.m02 = 0.0f;
-        this.m10 = 0.0f;
-        this.m11 = 1.0f;
-        this.m12 = 0.0f;
-        this.m20 = x;
-        this.m21 = y;
-        this.m22 = 1.0f;
+        m00 = 1.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m10 = 0.0f;
+        m11 = 1.0f;
+        m12 = 0.0f;
+        m20 = x;
+        m21 = y;
+        m22 = 1.0f;
         return this;
     }
 
@@ -373,9 +373,9 @@ public class Matrix3f implements Serializable, Externalizable {
     }
     
     public String toString() {
-        return this.m00 + ", " + this.m10 + ", " + this.m20 + ",\n"
-             + this.m01 + ", " + this.m11 + ", " + this.m21 + ",\n"
-             + this.m02 + ", " + this.m12 + ", " + this.m22;
+        return m00 + ", " + m10 + ", " + m20 + ",\n"
+             + m01 + ", " + m11 + ", " + m21 + ",\n"
+             + m02 + ", " + m12 + ", " + m22;
     }
 
     /**
@@ -412,17 +412,7 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f get(FloatBuffer buffer) {
-        int pos = buffer.position();
-        buffer.put(pos, this.m00);
-        buffer.put(pos+1, this.m01);
-        buffer.put(pos+2, this.m02);
-        buffer.put(pos+3, this.m10);
-        buffer.put(pos+4, this.m11);
-        buffer.put(pos+5, this.m12);
-        buffer.put(pos+6, this.m20);
-        buffer.put(pos+7, this.m21);
-        buffer.put(pos+8, this.m22);
-        return this;
+        return get(buffer.position(), buffer);
     }
 
     /**
@@ -438,15 +428,15 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f get(int index, FloatBuffer buffer) {
-        buffer.put(index, this.m00);
-        buffer.put(index+1, this.m01);
-        buffer.put(index+2, this.m02);
-        buffer.put(index+3, this.m10);
-        buffer.put(index+4, this.m11);
-        buffer.put(index+5, this.m12);
-        buffer.put(index+6, this.m20);
-        buffer.put(index+7, this.m21);
-        buffer.put(index+8, this.m22);
+        buffer.put(index, m00);
+        buffer.put(index+1, m01);
+        buffer.put(index+2, m02);
+        buffer.put(index+3, m10);
+        buffer.put(index+4, m11);
+        buffer.put(index+5, m12);
+        buffer.put(index+6, m20);
+        buffer.put(index+7, m21);
+        buffer.put(index+8, m22);
         return this;
     }
 
@@ -462,15 +452,15 @@ public class Matrix3f implements Serializable, Externalizable {
      */
     public Matrix3f set(FloatBuffer buffer) {
         int pos = buffer.position();
-        this.m00 = buffer.get(pos);
-        this.m01 = buffer.get(pos+1);
-        this.m02 = buffer.get(pos+2);
-        this.m10 = buffer.get(pos+3);
-        this.m11 = buffer.get(pos+4);
-        this.m12 = buffer.get(pos+5);
-        this.m20 = buffer.get(pos+6);
-        this.m21 = buffer.get(pos+7);
-        this.m22 = buffer.get(pos+8);
+        m00 = buffer.get(pos);
+        m01 = buffer.get(pos+1);
+        m02 = buffer.get(pos+2);
+        m10 = buffer.get(pos+3);
+        m11 = buffer.get(pos+4);
+        m12 = buffer.get(pos+5);
+        m20 = buffer.get(pos+6);
+        m21 = buffer.get(pos+7);
+        m22 = buffer.get(pos+8);
         return this;
     }
 
@@ -480,15 +470,15 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f zero() {
-        this.m00 = 0.0f;
-        this.m01 = 0.0f;
-        this.m02 = 0.0f;
-        this.m10 = 0.0f;
-        this.m11 = 0.0f;
-        this.m12 = 0.0f;
-        this.m20 = 0.0f;
-        this.m21 = 0.0f;
-        this.m22 = 0.0f;
+        m00 = 0.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m10 = 0.0f;
+        m11 = 0.0f;
+        m12 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = 0.0f;
         return this;
     }
     
@@ -498,15 +488,15 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f identity() {
-        this.m00 = 1.0f;
-        this.m01 = 0.0f;
-        this.m02 = 0.0f;
-        this.m10 = 0.0f;
-        this.m11 = 1.0f;
-        this.m12 = 0.0f;
-        this.m20 = 0.0f;
-        this.m21 = 0.0f;
-        this.m22 = 1.0f;
+        m00 = 1.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m10 = 0.0f;
+        m11 = 1.0f;
+        m12 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = 1.0f;
         return this;
     }
 
@@ -928,12 +918,12 @@ public class Matrix3f implements Serializable, Externalizable {
         m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
         m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
         m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        this.m00 = nm00;
-        this.m01 = nm01;
-        this.m02 = nm02;
-        this.m10 = nm10;
-        this.m11 = nm11;
-        this.m12 = nm12;
+        m00 = nm00;
+        m01 = nm01;
+        m02 = nm02;
+        m10 = nm10;
+        m11 = nm11;
+        m12 = nm12;
 
         return this;
     }
