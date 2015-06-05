@@ -42,77 +42,123 @@ public class Vector3d implements Serializable, Externalizable {
     public double y;
     public double z;
 
+    /**
+     * Create a new {@link Vector3d} with all components set to zero.
+     */
     public Vector3d() {
     }
 
+    /**
+     * Create a new {@link Vector3d} with the given component values.
+     * 
+     * @param x
+     * @param y
+     * @param z
+     */
     public Vector3d(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Vector3d(Vector3f clone) {
-        this.x = clone.x;
-        this.y = clone.y;
-        this.z = clone.z;
-    }
-
-    public Vector3d(Vector3d clone) {
-        this.x = clone.x;
-        this.y = clone.y;
-        this.z = clone.z;
+    /**
+     * Create a new {@link Vector3d} whose values will be copied from the given vector.
+     * 
+     * @param v
+     *          provides the initial values for the new vector
+     */
+    public Vector3d(Vector3f v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
     }
 
     /**
-     * Sets the x, y and z attributes to match the supplied vector
+     * Create a new {@link Vector3d} whose values will be copied from the given vector.
+     * 
+     * @param v
+     *          provides the initial values for the new vector
      */
-    public void set(Vector3d v) {
+    public Vector3d(Vector3d v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
+    }
+
+    /**
+     * Set the x, y and z attributes to match the supplied vector.
+     * 
+     * @param v
+     *          the vector to set this vector's components from
+     * @return this
+     */
+    public Vector3d set(Vector3d v) {
         x = v.x;
         y = v.y;
         z = v.z;
+        return this;
     }
 
     /**
-     * Sets the x, y and z attributes to match the supplied vector
+     * Set the x, y and z attributes to match the supplied vector.
+     * 
+     * @param v
+     *          the vector to set this vector's components from
+     * @return this
      */
-    public void set(Vector3f v) {
+    public Vector3d set(Vector3f v) {
         x = v.x;
         y = v.y;
         z = v.z;
+        return this;
     }
 
     /**
-     * Sets the x, y and z attributes to the supplied float values
+     * Set the x, y and z attributes to the supplied float values.
+     * 
+     * @return this
      */
-    public void set(double x, double y, double z) {
+    public Vector3d set(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
+        return this;
     }
 
     /**
-     * Subtracts the supplied vector from this one
+     * Subtract the supplied vector from this one.
+     * 
+     * @return this
      */
-    public void sub(Vector3d v) {
+    public Vector3d sub(Vector3d v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
+        return this;
     }
 
     /**
-     * Subtracts the supplied vector from this one
+     * Subtract the supplied vector from this one.
+     * 
+     * @return this
      */
-    public void sub(Vector3f v) {
+    public Vector3d sub(Vector3f v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
+        return this;
     }
 
-    /** Subtracts (x, y, z) from this Vector2d */
-    public void sub(double x, double y, double z) {
+    /**
+     * Subtract <tt>(x, y, z)</tt> from this Vector2d.
+     * 
+     * @return this
+     */
+    public Vector3d sub(double x, double y, double z) {
         this.x -= x;
         this.y -= y;
         this.z -= z;
+        return this;
     }
 
     /**
@@ -143,21 +189,27 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Adds the supplied vector to this one
+     * Add the supplied vector to this one.
+     * 
+     * @return this
      */
-    public void add(Vector3d v) {
+    public Vector3d add(Vector3d v) {
         x += v.x;
         y += v.y;
         z += v.z;
+        return this;
     }
 
     /**
-     * Adds the supplied vector to this one
+     * Add the supplied vector to this one.
+     * 
+     * @return this
      */
-    public void add(Vector3f v) {
+    public Vector3d add(Vector3f v) {
         x += v.x;
         y += v.y;
         z += v.z;
+        return this;
     }
 
     /**
@@ -188,21 +240,27 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector3d by another Vector3d
+     * Multiply this Vector3d component-wise by another Vector3d.
+     * 
+     * @return this
      */
-    public void mul(Vector3d v) {
+    public Vector3d mul(Vector3d v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
+        return this;
     }
 
     /**
-     * Multiply this Vector3d by another Vector3f
+     * Multiply this Vector3d component-wise by another Vector3f.
+     * 
+     * @return this
      */
-    public void mul(Vector3f v) {
+    public Vector3d mul(Vector3f v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
+        return this;
     }
 
     /**
@@ -215,24 +273,28 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector3d by the given rotation matrix mat
+     * Multiply this Vector3d by the given matrix <code>mat</code>.
+     * 
+     * @return this
      */
-    public void mul(Matrix4f mat) {
+    public Vector3d mul(Matrix4f mat) {
         mul(this, mat, this);
+        return this;
     }
 
     /**
-     * Multiply this Vector3d by the given rotation matrix mat
+     * Multiply this Vector3d by the given matrix <code>mat</code>.
+     * 
+     * @return this
      */
-    public void mul(Matrix4d mat) {
+    public Vector3d mul(Matrix4d mat) {
         mul(this, mat, this);
+        return this;
     }
 
     /**
-     * Multiply Vector3d v by the given rotation matrix mat and store the
-     * results in dest. Does not modify v
-     * <B>This is not alias safe so make sure dest is not the same as the left
-     * or right parameters or you WILL get incorrect results!</B>
+     * Multiply Vector3d v by the given matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
      */
     public static void mul(Vector3d v, Matrix4d mat, Vector3d dest) {
         if (v != dest) {
@@ -262,22 +324,28 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector3d by the given rotation matrix mat
+     * Multiply this Vector3d by the given matrix <code>mat</code>.
+     * 
+     * @return this
      */
-    public void mul(Matrix3f mat) {
+    public Vector3d mul(Matrix3f mat) {
         mul(this, mat, this);
+        return this;
     }
 
     /**
-     * Multiply this Vector3d by the given rotation matrix mat
+     * Multiply this Vector3d by the given matrix <code>mat</code>.
+     * 
+     * @return this
      */
-    public void mul(Matrix3d mat) {
+    public Vector3d mul(Matrix3d mat) {
         mul(this, mat, this);
+        return this;
     }
 
     /**
-     * Multiply v by the given matrix mat and store the
-     * result in dest.
+     * Multiply <code>v</code> by the given matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
      */
     public static void mul(Vector3d v, Matrix3d mat, Vector3d dest) {
         if (v != dest) {
@@ -292,8 +360,8 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply v by the given matrix mat and store the
-     * result in dest.
+     * Multiply <code>v</code> by the given matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
      */
     public static void mul(Vector3d v, Matrix3f mat, Vector3d dest) {
         if (v != dest) {
@@ -308,16 +376,19 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector3d by the given scalar value
+     * Multiply this Vector3d by the given scalar value.
+     * 
+     * @return this
      */
-    public void mul(double scalar) {
+    public Vector3d mul(double scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
+        return this;
     }
 
     /**
-     * Multiply v by the scalar value and store the result in dest.
+     * Multiply <code>v</code> by the <code>scalar</code> value and store the result in <code>dest</code>.
      */
     public static void mul(Vector3d v, double scalar, Vector3d dest) {
         dest.x = v.x * scalar;
@@ -326,7 +397,7 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply v by the scalar value and store the result in dest.
+     * Multiply <code>v</code> by the <code>scalar</code> value and store the result in <code>dest</code>.
      */
     public static void mul(Vector3f v, double scalar, Vector3d dest) {
         dest.x = v.x * scalar;
@@ -335,66 +406,56 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Returns the length squared of this vector
+     * Return the length squared of this vector.
      */
     public double lengthSquared() {
         return x * x + y * y + z * z;
     }
 
     /**
-     * Returns the length of this vector
+     * Return the length of this vector.
      */
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
     /**
-     * Used internally for the distance function
+     * Normalize this vector.
+     * 
+     * @return this
      */
-    private static double lengthSquared(Vector3d source) {
-        return source.x * source.x + source.y * source.y + source.z * source.z;
-    }
-
-    /**
-     * Used internally for the distance function
-     */
-    private static double length(Vector3d source) {
-        return Math.sqrt(lengthSquared(source));
-    }
-
-    /**
-     * Normalizes this vector
-     */
-    public void normalize() {
+    public Vector3d normalize() {
         double d = length();
         x /= d;
         y /= d;
         z /= d;
+        return this;
     }
 
     /**
-     * Normalize the original vector and store the results in dest. Does not
-     * modify the original
+     * Normalize the original vector and store the result in dest.
      */
     public static void normalize(Vector3d original, Vector3d dest) {
-        double d = length(original);
+        double d = original.length();
         dest.set(original.x / d,
                 original.y / d,
                 original.z / d);
     }
 
     /**
-     * Set this vector to be the cross of v1 and v2
+     * Set this vector to be the cross product of v1 and v2.
+     * 
+     * @return this
      */
-    public void cross(Vector3d v1, Vector3d v2) {
+    public Vector3d cross(Vector3d v1, Vector3d v2) {
         set(v1.y * v2.z - v1.z * v2.y,
             v1.z * v2.x - v1.x * v2.z,
             v1.x * v2.y - v1.y * v2.x);
+        return this;
     }
 
     /**
-     * Calculate the cross of v1 and v2 and store the results in dest. Does
-     * modify v1 or v2
+     * Calculate the cross product of v1 and v2 and store the result in dest.
      */
     public static void cross(Vector3d v1, Vector3d v2, Vector3d dest) {
         dest.set(v1.y * v2.z - v1.z * v2.y,
@@ -403,8 +464,7 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Returns the distance between the start and end vectors. Does not modify
-     * either
+     * Return the distance between the start and end vectors.
      */
     public static double distance(Vector3d start, Vector3d end) {
         return Math.sqrt(
@@ -414,8 +474,7 @@ public class Vector3d implements Serializable, Externalizable {
     }
     
     /**
-     * Returns the distance between this Vector and v. Does not modify
-     * either
+     * Return the distance between this vector and <code>v</code>.
      */
     public double distance(Vector3d v) {
         return Math.sqrt(
@@ -425,7 +484,7 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Return the dot product of the supplied v1 and v2 vectors
+     * Return the dot product of the supplied v1 and v2 vectors.
      */
     public static double dot(Vector3d v1, Vector3d v2) {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
@@ -433,11 +492,14 @@ public class Vector3d implements Serializable, Externalizable {
 
     /**
      * Set all components to zero.
+     * 
+     * @return this
      */
-    public void zero() {
+    public Vector3d zero() {
         this.x = 0.0;
         this.y = 0.0;
         this.z = 0.0;
+        return this;
     }
 
     public String toString() {
