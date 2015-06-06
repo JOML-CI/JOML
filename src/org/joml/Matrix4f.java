@@ -617,38 +617,6 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply the supplied <code>source</code> matrix by the supplied
-     * <code>scalar</code> and store the result in <code>dest</code>.
-     * 
-     * @see #mul(float)
-     * 
-     * @param source
-     *          the source matrix
-     * @param scalar
-     *          the scalar
-     * @param dest
-     *          willd hold the result
-     */
-    public static void mul(Matrix4f source, float scalar, Matrix4f dest) {           
-        dest.m00 = source.m00 * scalar;
-        dest.m01 = source.m01 * scalar;
-        dest.m02 = source.m02 * scalar;
-        dest.m03 = source.m03 * scalar;
-        dest.m10 = source.m10 * scalar;
-        dest.m11 = source.m11 * scalar;
-        dest.m12 = source.m12 * scalar;
-        dest.m13 = source.m13 * scalar;
-        dest.m20 = source.m20 * scalar;
-        dest.m21 = source.m21 * scalar;
-        dest.m22 = source.m22 * scalar;
-        dest.m23 = source.m23 * scalar;
-        dest.m30 = source.m30 * scalar;
-        dest.m31 = source.m31 * scalar;
-        dest.m32 = source.m32 * scalar;
-        dest.m33 = source.m33 * scalar;
-    }
-
-    /**
      * Transpose this matrix and store the result in <code>dest</code>.
      * 
      * @param dest
