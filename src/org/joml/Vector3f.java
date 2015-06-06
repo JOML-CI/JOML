@@ -514,7 +514,7 @@ public class Vector3f implements Serializable, Externalizable {
     }
     
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + ", " + formatter.format(y) + ", " + formatter.format(z) + ")";
+        return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

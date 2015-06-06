@@ -445,12 +445,12 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     public String toString() {
-    	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-    	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
-    
+
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + ", " + formatter.format(y) + ", " + formatter.format(z) + ", " + formatter.format(w) + ")";
+        return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + " " + formatter.format(w) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

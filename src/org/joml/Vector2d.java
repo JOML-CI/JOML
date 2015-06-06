@@ -417,7 +417,7 @@ public class Vector2d implements Serializable, Externalizable {
     }
     
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + ", " + formatter.format(y) + ")";
+        return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
     }
 
 }
