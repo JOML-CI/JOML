@@ -30,6 +30,7 @@ import java.io.Serializable;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * Contains the definition of a 4x4 Matrix of doubles, and associated functions to transform
@@ -670,8 +671,26 @@ public class Matrix4d implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Return a string representation of this matrix.
+     * <p>
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string <tt>0.000E0</tt>.
+     * 
+     * @return the string representation
+     */
     public String toString() {
         DecimalFormat formatter = new DecimalFormat("0.000E0");
+        return toString(formatter);
+    }
+
+    /**
+     * Return a string representation of this matrix by formatting the matrix elements with the given {@link NumberFormat}.
+     * 
+     * @param formatter
+     *          the {@link NumberFormat} used to format the matrix values with
+     * @return the string representation
+     */
+    public String toString(NumberFormat formatter) {
         return formatter.format(m00) + ", " + formatter.format(m10) + ", " + formatter.format(m20) + ", " + formatter.format(m30) + ",\n"
              + formatter.format(m01) + ", " + formatter.format(m11) + ", " + formatter.format(m21) + ", " + formatter.format(m31) + ",\n"
              + formatter.format(m02) + ", " + formatter.format(m12) + ", " + formatter.format(m22) + ", " + formatter.format(m32) + ",\n"

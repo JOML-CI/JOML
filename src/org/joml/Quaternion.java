@@ -444,9 +444,9 @@ public class Quaternion implements Serializable, Externalizable {
      * @return this
      */
     public Quaternion conjugate() {
+        x = -x;
         y = -y;
         z = -z;
-        w = -w;
         return this;
     }
 
@@ -454,10 +454,10 @@ public class Quaternion implements Serializable, Externalizable {
      * Conjugates a and stores the results in dest. Does not modify a
      */
     public static void conjugate(Quaternion a, Quaternion dest) {
-        dest.x = a.x;
+        dest.x = -a.x;
         dest.y = -a.y;
         dest.z = -a.z;
-        dest.w = -a.w;
+        dest.w = a.w;
     }
 
     /**

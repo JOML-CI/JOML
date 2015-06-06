@@ -442,19 +442,19 @@ public class QuaternionD implements Serializable, Externalizable {
      * Conjugates this Quaternion
      */
     public void conjugate() {
+        x = -x;
         y = -y;
         z = -z;
-        w = -w;
     }
 
     /**
      * Conjugates a and stores the results in dest. Does not modify a
      */
     public static void conjugate(QuaternionD a, QuaternionD dest) {
-        dest.x = a.x;
+        dest.x = -a.x;
         dest.y = -a.y;
         dest.z = -a.z;
-        dest.w = -a.w;
+        dest.w = a.w;
     }
 
     /**
