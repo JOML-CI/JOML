@@ -382,7 +382,7 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        DecimalFormat formatter = new DecimalFormat("  0.000E0; -");
         return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
@@ -394,9 +394,9 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return formatter.format(m00) + ", " + formatter.format(m10) + ", " + formatter.format(m20) + ",\n"
-             + formatter.format(m01) + ", " + formatter.format(m11) + ", " + formatter.format(m21) + ",\n"
-             + formatter.format(m02) + ", " + formatter.format(m12) + ", " + formatter.format(m22) + ",\n";
+        return formatter.format(m00) + formatter.format(m10) + formatter.format(m20) + "\n"
+             + formatter.format(m01) + formatter.format(m11) + formatter.format(m21) + "\n"
+             + formatter.format(m02) + formatter.format(m12) + formatter.format(m22) + "\n";
     }
 
     /**
