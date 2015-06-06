@@ -509,8 +509,8 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     public String toString() {
-    	DecimalFormat formatter = new DecimalFormat("0.000E0");
-    	return toString(formatter);
+    	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+    	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
     
     public String toString(NumberFormat formatter) {

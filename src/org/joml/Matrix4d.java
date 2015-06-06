@@ -693,8 +693,8 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat("0.000E0");
-        return toString(formatter);
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
     /**
