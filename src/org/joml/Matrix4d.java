@@ -373,8 +373,11 @@ public class Matrix4d implements Serializable, Externalizable {
         m00, m10, m20, m30<br>
         m01, m11, m21, m31<br>
         m02, m12, m22, m32<br>
-        m03, m13, m23, m33*/
-    public void set(double m00, double m01, double m02, double m03, double m10, double m11, double m12, double m13, double m20,
+        m03, m13, m23, m33
+      
+        @return this
+     */
+    public Matrix4d set(double m00, double m01, double m02, double m03, double m10, double m11, double m12, double m13, double m20,
             double m21, double m22, double m23, double m30, double m31, double m32, double m33) {
         this.m00 = m00;
         this.m01 = m01;
@@ -392,6 +395,7 @@ public class Matrix4d implements Serializable, Externalizable {
         this.m31 = m31;
         this.m32 = m32;
         this.m33 = m33;
+        return this;
     }
 
     /** Set the values in the matrix using a double array. The results will look like this:<br><br>
@@ -400,8 +404,10 @@ public class Matrix4d implements Serializable, Externalizable {
      * 1, 5, 9, 13<br>
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
+     * 
+     * @return this
      */
-    public void set(double m[]) {
+    public Matrix4d set(double m[]) {
         m00 = m[0];
         m01 = m[1];
         m02 = m[2];
@@ -418,6 +424,7 @@ public class Matrix4d implements Serializable, Externalizable {
         m31 = m[13];
         m32 = m[14];
         m33 = m[15];
+        return this;
     }
 
     /** Set the values in the matrix using a double array. The results will look like this:<br><br>
@@ -426,8 +433,10 @@ public class Matrix4d implements Serializable, Externalizable {
      * 1, 5, 9, 13<br>
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
+     * 
+     * @return this
      */
-    public void set(float m[]) {
+    public Matrix4d set(float m[]) {
         m00 = m[0];
         m01 = m[1];
         m02 = m[2];
@@ -444,10 +453,11 @@ public class Matrix4d implements Serializable, Externalizable {
         m31 = m[13];
         m32 = m[14];
         m33 = m[15];
+        return this;
     }
 
     /**
-     * Set the values of this matrix by reading 16 double values from the given DoubleBuffer,
+     * Set the values of this matrix by reading 16 float values from the given DoubleBuffer,
      * starting at its current position.
      * <p>
      * The DoubleBuffer is expected to contain the values in column-major order.
@@ -456,23 +466,25 @@ public class Matrix4d implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public void set(DoubleBuffer buffer) {
-        m00 = buffer.get();
-        m01 = buffer.get();
-        m02 = buffer.get();
-        m03 = buffer.get();
-        m10 = buffer.get();
-        m11 = buffer.get();
-        m12 = buffer.get();
-        m13 = buffer.get();
-        m20 = buffer.get();
-        m21 = buffer.get();
-        m22 = buffer.get();
-        m23 = buffer.get();
-        m30 = buffer.get();
-        m31 = buffer.get();
-        m32 = buffer.get();
-        m33 = buffer.get();
+    public Matrix4d set(DoubleBuffer buffer) {
+        int pos = buffer.position();
+        m00 = buffer.get(pos);
+        m01 = buffer.get(pos+1);
+        m02 = buffer.get(pos+2);
+        m03 = buffer.get(pos+3);
+        m10 = buffer.get(pos+4);
+        m11 = buffer.get(pos+5);
+        m12 = buffer.get(pos+6);
+        m13 = buffer.get(pos+7);
+        m20 = buffer.get(pos+8);
+        m21 = buffer.get(pos+9);
+        m22 = buffer.get(pos+10);
+        m23 = buffer.get(pos+11);
+        m30 = buffer.get(pos+12);
+        m31 = buffer.get(pos+13);
+        m32 = buffer.get(pos+14);
+        m33 = buffer.get(pos+15);
+        return this;
     }
 
     /**
@@ -485,23 +497,25 @@ public class Matrix4d implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public void set(FloatBuffer buffer) {
-        m00 = buffer.get();
-        m01 = buffer.get();
-        m02 = buffer.get();
-        m03 = buffer.get();
-        m10 = buffer.get();
-        m11 = buffer.get();
-        m12 = buffer.get();
-        m13 = buffer.get();
-        m20 = buffer.get();
-        m21 = buffer.get();
-        m22 = buffer.get();
-        m23 = buffer.get();
-        m30 = buffer.get();
-        m31 = buffer.get();
-        m32 = buffer.get();
-        m33 = buffer.get();
+    public Matrix4d set(FloatBuffer buffer) {
+        int pos = buffer.position();
+        m00 = buffer.get(pos);
+        m01 = buffer.get(pos+1);
+        m02 = buffer.get(pos+2);
+        m03 = buffer.get(pos+3);
+        m10 = buffer.get(pos+4);
+        m11 = buffer.get(pos+5);
+        m12 = buffer.get(pos+6);
+        m13 = buffer.get(pos+7);
+        m20 = buffer.get(pos+8);
+        m21 = buffer.get(pos+9);
+        m22 = buffer.get(pos+10);
+        m23 = buffer.get(pos+11);
+        m30 = buffer.get(pos+12);
+        m31 = buffer.get(pos+13);
+        m32 = buffer.get(pos+14);
+        m33 = buffer.get(pos+15);
+        return this;
     }
 
     /**
