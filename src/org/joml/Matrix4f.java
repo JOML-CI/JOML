@@ -755,7 +755,7 @@ public class Matrix4f implements Serializable, Externalizable {
         return formatter.format(m00) + ", " + formatter.format(m10) + ", " + formatter.format(m20) + ", " + formatter.format(m30) + ",\n"
              + formatter.format(m01) + ", " + formatter.format(m11) + ", " + formatter.format(m21) + ", " + formatter.format(m31) + ",\n"
              + formatter.format(m02) + ", " + formatter.format(m12) + ", " + formatter.format(m22) + ", " + formatter.format(m32) + ",\n"
-             + formatter.format(m03) + ", " + formatter.format(m13) + ", " + formatter.format(m23) + ", " + formatter.format(m33);
+             + formatter.format(m03) + ", " + formatter.format(m13) + ", " + formatter.format(m23) + ", " + formatter.format(m33) + ",\n";
     }
 
     /**

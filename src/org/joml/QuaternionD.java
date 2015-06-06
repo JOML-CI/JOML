@@ -28,6 +28,8 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
 import java.nio.DoubleBuffer;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * Contains the definition and functions for rotations expressed as
@@ -740,7 +742,12 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     public String toString() {
-        return "(" + x + ", " + y + ", " + z + ", " + w + ")";
+    	DecimalFormat formatter = new DecimalFormat("0.000E0");
+    	return toString(formatter);
+    }
+    
+    public String toString(NumberFormat formatter) {
+        return "(" + formatter.format(x) + ", " + formatter.format(y) + ", " + formatter.format(z) + ", " + formatter.format(w) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
