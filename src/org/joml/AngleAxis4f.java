@@ -192,7 +192,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
     
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + ", " + formatter.format(y) + ", " + formatter.format(z) + " <| " + formatter.format(angle) + ")";
+        return "(" + formatter.format(x) + formatter.format(y) + formatter.format(z) + " <|" + formatter.format(angle) + " )";
     }
 
 }
