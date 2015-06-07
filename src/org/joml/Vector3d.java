@@ -491,6 +491,49 @@ public class Vector3d implements Serializable, Externalizable {
     public static double dot(Vector3d v1, Vector3d v2) {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
     }
+    
+    /**
+     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector3d)
+     */
+    public double angleCos(Vector3d v) {
+    	return angleCos(this, v);
+    }
+    
+    /**
+     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector3d, Vector3d)
+     */
+    public static double angleCos(Vector3d v1, Vector3d v2) {
+    	double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z));
+    	double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z));
+    	double dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+    	return dot / (length1 * length2);
+    }
+    
+    /**
+     * Return the angle between this vector and the supplied vector.
+     * @return the angle, in radians
+     * @see #angleCos(Vector3d)
+     */
+    public double angle(Vector3d v) {
+    	return angle(this, v);
+    }
+    
+    /**
+     * Return the angle between the supplied vectors.
+     * @return the angle, in radians
+     * @see #angleCos(Vector3d, Vector3d)
+     */
+    public static double angle(Vector3d v1, Vector3d v2) {
+    	double cos = angleCos(v1, v2);
+    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
+    	cos = Math.min(cos, 1);
+    	cos = Math.max(cos, -1);
+    	return Math.acos(cos);
+    }
 
     /**
      * Set all components to zero.
@@ -536,6 +579,15 @@ public class Vector3d implements Serializable, Externalizable {
         y = -y;
         z = -z;
         return this;
+    }
+    
+    /**
+     * Negate original and store the result in dest.
+     */
+    public static void negate(Vector3d original, Vector3d dest) {
+    	dest.x = -original.x;
+    	dest.y = -original.y;
+    	dest.z = -original.z;
     }
 
     public int hashCode() {

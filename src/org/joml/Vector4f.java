@@ -453,6 +453,49 @@ public class Vector4f implements Serializable, Externalizable {
     public static float dot(Vector4f v1, Vector4f v2) {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
     }
+    
+    /**
+     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector4f)
+     */
+    public float angleCos(Vector4f v) {
+    	return angleCos(this, v);
+    }
+    
+    /**
+     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector4f, Vector4f)
+     */
+    public static float angleCos(Vector4f v1, Vector4f v2) {
+    	float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z) + (v1.w * v1.w));
+    	float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z) + (v2.w * v2.w));
+    	float dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
+    	return dot / (length1 * length2);
+    }
+    
+    /**
+     * Return the angle between this vector and the supplied vector.
+     * @return the angle, in radians
+     * @see #angleCos(Vector4f)
+     */
+    public float angle(Vector4f v) {
+    	return angle(this, v);
+    }
+    
+    /**
+     * Return the angle between the supplied vectors.
+     * @return the angle, in radians
+     * @see #angleCos(Vector4f, Vector4f)
+     */
+    public static float angle(Vector4f v1, Vector4f v2) {
+    	float cos = angleCos(v1, v2);
+    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
+    	cos = Math.min(cos, 1);
+    	cos = Math.max(cos, -1);
+    	return (float) Math.acos(cos);
+    }
 
     /**
      * Set all components to zero.
@@ -465,6 +508,29 @@ public class Vector4f implements Serializable, Externalizable {
         this.z = 0.0f;
         this.w = 0.0f;
         return this;
+    }
+    
+    /**
+     * Negate this vector.
+     * 
+     * @return this
+     */
+    public Vector4f negate() {
+        x = -x;
+        y = -y;
+        z = -z;
+        w = -w;
+        return this;
+    }
+    
+    /**
+     * Negate original and store the result in dest.
+     */
+    public static void negate(Vector4f original, Vector4f dest) {
+    	dest.x = -original.x;
+    	dest.y = -original.y;
+    	dest.z = -original.z;
+    	dest.w = -original.w;
     }
 
     public String toString() {

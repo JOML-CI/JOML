@@ -435,6 +435,59 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
+     * Return the dot product of the supplied <code>v1</code> and
+     * <code>v2</code> vectors.
+     * 
+     * @return the dot product
+     */
+    public static float dot(Vector4f v1, Vector4f v2) {
+        return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
+    }
+    
+    /**
+     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector4d)
+     */
+    public double angleCos(Vector4d v) {
+    	return angleCos(this, v);
+    }
+    
+    /**
+     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector4d, Vector4d)
+     */
+    public static double angleCos(Vector4d v1, Vector4d v2) {
+    	double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z) + (v1.w * v1.w));
+    	double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z) + (v2.w * v2.w));
+    	double dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
+    	return dot / (length1 * length2);
+    }
+    
+    /**
+     * Return the angle between this vector and the supplied vector.
+     * @return the angle, in radians
+     * @see #angleCos(Vector4d)
+     */
+    public double angle(Vector4d v) {
+    	return angle(this, v);
+    }
+    
+    /**
+     * Return the angle between the supplied vectors.
+     * @return the angle, in radians
+     * @see #angleCos(Vector4d, Vector4d)
+     */
+    public static double angle(Vector4d v1, Vector4d v2) {
+    	double cos = angleCos(v1, v2);
+    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
+    	cos = Math.min(cos, 1);
+    	cos = Math.max(cos, -1);
+    	return Math.acos(cos);
+    }
+
+    /**
      * Set all components to zero.
      */
     public void zero() {
@@ -442,6 +495,29 @@ public class Vector4d implements Serializable, Externalizable {
         this.y = 0.0;
         this.z = 0.0;
         this.w = 0.0;
+    }
+    
+    /**
+     * Negate this vector.
+     * 
+     * @return this
+     */
+    public Vector4d negate() {
+        x = -x;
+        y = -y;
+        z = -z;
+        w = -w;
+        return this;
+    }
+    
+    /**
+     * Negate original and store the result in dest.
+     */
+    public static void negate(Vector4d original, Vector4d dest) {
+    	dest.x = -original.x;
+    	dest.y = -original.y;
+    	dest.z = -original.z;
+    	dest.w = -original.w;
     }
 
     public String toString() {

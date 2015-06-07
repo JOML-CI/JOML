@@ -173,6 +173,49 @@ public class Vector2f implements Serializable, Externalizable {
     public float dot(Vector2f v) {
         return ((x * v.x) + (y * v.y));
     }
+    
+    /**
+     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector2f)
+     */
+    public float angleCos(Vector2f v) {
+    	return angleCos(this, v);
+    }
+    
+    /**
+     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector2f, Vector2f)
+     */
+    public static float angleCos(Vector2f v1, Vector2f v2) {
+    	float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y));
+    	float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y));
+    	float dot = (v1.x * v2.x) + (v1.y * v2.y);
+    	return dot / (length1 * length2);
+    }
+    
+    /**
+     * Return the angle between this vector and the supplied vector.
+     * @return the angle, in radians
+     * @see #angleCos(Vector2f)
+     */
+    public float angle(Vector2f v) {
+    	return angle(this, v);
+    }
+    
+    /**
+     * Return the angle between the supplied vectors.
+     * @return the angle, in radians
+     * @see #angleCos(Vector2f, Vector2f)
+     */
+    public static float angle(Vector2f v1, Vector2f v2) {
+    	float cos = angleCos(v1, v2);
+    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
+    	cos = Math.min(cos, 1);
+    	cos = Math.max(cos, -1);
+    	return (float) Math.acos(cos);
+    }
 
     /**
      * Return the length of a.
@@ -275,6 +318,14 @@ public class Vector2f implements Serializable, Externalizable {
         x = -x;
         y = -y;
         return this;
+    }
+    
+    /**
+     * Negate original and store the result in dest.
+     */
+    public static void negate(Vector2f original, Vector2f dest) {
+    	dest.x = -original.x;
+    	dest.y = -original.y;
     }
 
     public int hashCode() {
