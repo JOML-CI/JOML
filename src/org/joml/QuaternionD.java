@@ -391,10 +391,10 @@ public class QuaternionD implements Serializable, Externalizable {
      * Multiply a by b and store the results in dest.
      */
     public static void mul(QuaternionD a, QuaternionD b, QuaternionD dest) {
-        dest.set(a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w,
-                 a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
-                 a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
-                 a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x);
+    	dest.set(a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
+    		     a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
+			     a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
+			     a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z);
     }
 
     /**
@@ -653,11 +653,11 @@ public class QuaternionD implements Serializable, Externalizable {
 
     /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
     public static void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward, QuaternionD dest) {
-    	double dirX = destPoint.x - sourcePoint.x;
-    	double dirY = destPoint.y - sourcePoint.y;
-    	double dirZ = destPoint.z - sourcePoint.z;
+        double dirX = destPoint.x - sourcePoint.x;
+        double dirY = destPoint.y - sourcePoint.y;
+        double dirZ = destPoint.z - sourcePoint.z;
 
-    	double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
 
         dirX /= length;
         dirY /= length;
@@ -698,11 +698,11 @@ public class QuaternionD implements Serializable, Externalizable {
     
     /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
     public void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward) {
-    	double dirX = destPoint.x - sourcePoint.x;
-    	double dirY = destPoint.y - sourcePoint.y;
-    	double dirZ = destPoint.z - sourcePoint.z;
+        double dirX = destPoint.x - sourcePoint.x;
+        double dirY = destPoint.y - sourcePoint.y;
+        double dirZ = destPoint.z - sourcePoint.z;
 
-    	double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
 
         dirX /= length;
         dirY /= length;
@@ -742,8 +742,8 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     public String toString() {
-    	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-    	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
     
     public String toString(NumberFormat formatter) {

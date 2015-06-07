@@ -352,17 +352,10 @@ public class Quaternion implements Serializable, Externalizable {
      * Multiply a by b and store the results in dest.
      */
     public static void mul(Quaternion a, Quaternion b, Quaternion dest) {
-        if (a != dest && b != dest) {
-            dest.x = a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w;
-            dest.y = a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z;
-            dest.z = a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y;
-            dest.w = a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x;
-        } else {
-            dest.set(a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w,
-                     a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
-                     a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
-                     a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x);
-        }
+    	dest.set(a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
+			     a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
+			     a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
+			     a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z);
     }
 
     /**
