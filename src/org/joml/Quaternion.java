@@ -729,7 +729,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
     
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + ", " + formatter.format(y) + ", " + formatter.format(z) + ", " + formatter.format(w) + ")";
+        return "(" + formatter.format(x) + formatter.format(y) + formatter.format(z) + formatter.format(w) + " )";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

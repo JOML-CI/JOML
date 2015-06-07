@@ -467,6 +467,49 @@ public class Vector3f implements Serializable, Externalizable {
     public static float dot(Vector3f v1, Vector3f v2) {
         return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
     }
+    
+    /**
+     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector3f)
+     */
+    public float angleCos(Vector3f v) {
+    	return angleCos(this, v);
+    }
+    
+    /**
+     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
+     * @return the cosinus of the angle
+     * @see #angle(Vector3f, Vector3f)
+     */
+    public static float angleCos(Vector3f v1, Vector3f v2) {
+    	float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z));
+    	float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z));
+    	float dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+    	return dot / (length1 * length2);
+    }
+    
+    /**
+     * Return the angle between this vector and the supplied vector.
+     * @return the angle, in radians
+     * @see #angleCos(Vector3f)
+     */
+    public float angle(Vector3f v) {
+    	return angle(this, v);
+    }
+    
+    /**
+     * Return the angle between the supplied vectors.
+     * @return the angle, in radians
+     * @see #angleCos(Vector3f, Vector3f)
+     */
+    public static float angle(Vector3f v1, Vector3f v2) {
+    	float cos = angleCos(v1, v2);
+    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
+    	cos = Math.min(cos, 1);
+    	cos = Math.max(cos, -1);
+    	return (float) Math.acos(cos);
+    }
 
     /**
      * Set the components of this vector to be the component-wise minimum of this and the other vector.
@@ -540,6 +583,15 @@ public class Vector3f implements Serializable, Externalizable {
         y = -y;
         z = -z;
         return this;
+    }
+    
+    /**
+     * Negate original and store the result in dest.
+     */
+    public static void negate(Vector3f original, Vector3f dest) {
+    	dest.x = -original.x;
+    	dest.y = -original.y;
+    	dest.z = -original.z;
     }
 
     public int hashCode() {
