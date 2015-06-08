@@ -390,10 +390,17 @@ public class Quaternion implements Serializable, Externalizable {
      * Multiply a by b and store the results in dest.
      */
     public static void mul(Quaternion a, Quaternion b, Quaternion dest) {
-    	dest.set(a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
-			     a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
-			     a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
-			     a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z);
+        if (a != dest && b != dest) {
+            dest.x = a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y;
+            dest.y = a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x;
+            dest.z = a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w;
+            dest.w = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z;
+        } else {
+            dest.set(a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
+                     a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
+                     a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
+                     a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z);
+        }
     }
 
     /**
@@ -762,8 +769,8 @@ public class Quaternion implements Serializable, Externalizable {
      * @return the string representation
      */
     public String toString() {
-    	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-    	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
     /**
