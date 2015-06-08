@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
-import java.nio.DoubleBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -184,23 +183,62 @@ public class QuaternionD implements Serializable, Externalizable {
         double angle = 2.0 * Math.acos(q.w);
         return (angle <= Math.PI) ? angle : 2.0 * Math.PI - angle;
     }
+    /**
+     * Set the given destination matrix to the rotation represented by <code>q</code>.
+     */
+    public static void getMatrix(QuaternionD q, Matrix3d dest) {
+        double q00 = 2.0 * q.x * q.x;
+        double q11 = 2.0 * q.y * q.y;
+        double q22 = 2.0 * q.z * q.z;
+
+        double q01 = 2.0 * q.x * q.y;
+        double q02 = 2.0 * q.x * q.z;
+        double q03 = 2.0 * q.x * q.w;
+
+        double q12 = 2.0 * q.y * q.z;
+        double q13 = 2.0 * q.y * q.w;
+
+        double q23 = 2.0 * q.z * q.w;
+
+        dest.m00 = 1.0 - q11 - q22;
+        dest.m01 = q01 + q23;
+        dest.m02 = q02 - q13;
+        dest.m10 = q01 - q23;
+        dest.m11 = 1.0 - q22 - q00;
+        dest.m12 = q12 + q03;
+        dest.m20 = q02 + q13;
+        dest.m21 = q12 - q03;
+        dest.m22 = 1.0 - q11 - q00;
+    }
 
     /**
-     * Generates a rotation matrix from q and stores the results in dest
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @return this
+     */
+    public QuaternionD getMatrix(Matrix3d dest) {
+        getMatrix(this, dest);
+        return this;
+    }
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>q</code>.
+     * 
+     * @return this
      */
     public static void getMatrix(QuaternionD q, Matrix4d dest) {
-        double q00 = 2.0f * q.x * q.x;
-        double q11 = 2.0f * q.y * q.y;
-        double q22 = 2.0f * q.z * q.z;
+        double q00 = 2.0 * q.x * q.x;
+        double q11 = 2.0 * q.y * q.y;
+        double q22 = 2.0 * q.z * q.z;
 
-        double q01 = 2.0f * q.x * q.y;
-        double q02 = 2.0f * q.x * q.z;
-        double q03 = 2.0f * q.x * q.w;
+        double q01 = 2.0 * q.x * q.y;
+        double q02 = 2.0 * q.x * q.z;
+        double q03 = 2.0 * q.x * q.w;
 
-        double q12 = 2.0f * q.y * q.z;
-        double q13 = 2.0f * q.y * q.w;
+        double q12 = 2.0 * q.y * q.z;
+        double q13 = 2.0 * q.y * q.w;
 
-        double q23 = 2.0f * q.z * q.w;
+        double q23 = 2.0 * q.z * q.w;
 
         dest.m00 = 1.0 - q11 - q22;
         dest.m01 = q01 + q23;
@@ -213,7 +251,6 @@ public class QuaternionD implements Serializable, Externalizable {
         dest.m20 = q02 + q13;
         dest.m21 = q12 - q03;
         dest.m22 = 1.0 - q11 - q00;
-        dest.m23 = 0.0f;
         dest.m30 = 0.0;
         dest.m31 = 0.0;
         dest.m32 = 0.0;
@@ -221,80 +258,12 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Generates a rotation matrix from this Quaternion and stores the results
-     * in dest
-     */
-    public static void getMatrix(QuaternionD quat, DoubleBuffer dest) {
-        double q00 = 2.0 * quat.x * quat.x;
-        double q11 = 2.0 * quat.y * quat.y;
-        double q22 = 2.0 * quat.z * quat.z;
-
-        double q01 = 2.0 * quat.x * quat.y;
-        double q02 = 2.0 * quat.x * quat.z;
-        double q03 = 2.0 * quat.x * quat.w;
-
-        double q12 = 2.0 * quat.y * quat.z;
-        double q13 = 2.0 * quat.y * quat.w;
-
-        double q23 = 2.0 * quat.z * quat.w;
-
-        dest.put(1.0 - q11 - q22);
-        dest.put(q01 + q23);
-        dest.put(q02 - q13);
-        dest.put(0.0);
-        dest.put(q01 - q23);
-        dest.put(1.0 - q22 - q00);
-        dest.put(q12 + q03);
-        dest.put(0.0);
-        dest.put(q02 + q13);
-        dest.put(q12 - q03);
-        dest.put(1.0 - q11 - q00);
-        dest.put(0.0);
-        dest.put(0.0);
-        dest.put(0.0);
-        dest.put(0.0);
-        dest.put(1.0);
-    }
-
-    /**
-     * Generate a rotation matrix from this Quaternion and store the result
-     * in dest.
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
-     * @param dest
-     *          the {@link Matrix4d} to store the quaternion rotation into
      * @return this
      */
     public QuaternionD getMatrix(Matrix4d dest) {
-        double q00 = 2.0 * this.x * this.x;
-        double q11 = 2.0 * this.y * this.y;
-        double q22 = 2.0 * this.z * this.z;
-
-        double q01 = 2.0 * this.x * this.y;
-        double q02 = 2.0 * this.x * this.z;
-        double q03 = 2.0 * this.x * this.w;
-
-        double q12 = 2.0 * this.y * this.z;
-        double q13 = 2.0 * this.y * this.w;
-
-        double q23 = 2.0 * this.z * this.w;
-
-        dest.m00 = 1.0 - q11 - q22;
-        dest.m01 = q01 + q23;
-        dest.m02 = q02 - q13;
-        dest.m03 = 0.0;
-        dest.m10 = q01 - q23;
-        dest.m11 = 1.0 - q22 - q00;
-        dest.m12 = q12 + q03;
-        dest.m13 = 0.0;
-        dest.m20 = q02 + q13;
-        dest.m21 = q12 - q03;
-        dest.m22 = 1.0 - q11 - q00;
-        dest.m23 = 0.0;
-        dest.m30 = 0.0;
-        dest.m31 = 0.0;
-        dest.m32 = 0.0;
-        dest.m33 = 1.0;
-        
+        getMatrix(this, dest);
         return this;
     }
 

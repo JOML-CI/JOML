@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
-import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -203,7 +202,47 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Generates a rotation matrix from q and stores the results in dest
+     * Set the given destination matrix to the rotation represented by <code>q</code>.
+     */
+    public static void getMatrix(Quaternion q, Matrix3f dest) {
+        float q00 = 2.0f * q.x * q.x;
+        float q11 = 2.0f * q.y * q.y;
+        float q22 = 2.0f * q.z * q.z;
+
+        float q01 = 2.0f * q.x * q.y;
+        float q02 = 2.0f * q.x * q.z;
+        float q03 = 2.0f * q.x * q.w;
+
+        float q12 = 2.0f * q.y * q.z;
+        float q13 = 2.0f * q.y * q.w;
+
+        float q23 = 2.0f * q.z * q.w;
+
+        dest.m00 = 1.0f - q11 - q22;
+        dest.m01 = q01 + q23;
+        dest.m02 = q02 - q13;
+        dest.m10 = q01 - q23;
+        dest.m11 = 1.0f - q22 - q00;
+        dest.m12 = q12 + q03;
+        dest.m20 = q02 + q13;
+        dest.m21 = q12 - q03;
+        dest.m22 = 1.0f - q11 - q00;
+    }
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @return this
+     */
+    public Quaternion getMatrix(Matrix3f dest) {
+        getMatrix(this, dest);
+        return this;
+    }
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>q</code>.
+     * 
+     * @return this
      */
     public static void getMatrix(Quaternion q, Matrix4f dest) {
         float q00 = 2.0f * q.x * q.x;
@@ -237,42 +276,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Generates a rotation matrix from this Quaternion and stores the results
-     * in dest
-     */
-    public static void getMatrix(Quaternion quat, FloatBuffer dest) {
-        float q00 = 2.0f * quat.x * quat.x;
-        float q11 = 2.0f * quat.y * quat.y;
-        float q22 = 2.0f * quat.z * quat.z;
-
-        float q01 = 2.0f * quat.x * quat.y;
-        float q02 = 2.0f * quat.x * quat.z;
-        float q03 = 2.0f * quat.x * quat.w;
-
-        float q12 = 2.0f * quat.y * quat.z;
-        float q13 = 2.0f * quat.y * quat.w;
-
-        float q23 = 2.0f * quat.z * quat.w;
-
-        dest.put(1.0f - q11 - q22);
-        dest.put(q01 + q23);
-        dest.put(q02 - q13);
-        dest.put(0.0f);
-        dest.put(q01 - q23);
-        dest.put(1.0f - q22 - q00);
-        dest.put(q12 + q03);
-        dest.put(0.0f);
-        dest.put(q02 + q13);
-        dest.put(q12 - q03);
-        dest.put(1.0f - q11 - q00);
-        dest.put(0.0f);
-        dest.put(0.0f);
-        dest.put(0.0f);
-        dest.put(1.0f);
-    }
-
-    /**
-     * Generate a rotation matrix from this Quaternion and store the result in <code>dest</code>.
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
      * @return this
      */
@@ -282,25 +286,15 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Generate a rotation matrix from this Quaternion and store the result in <code>dest</code>.
-     * 
-     * @return this
-     */
-    public Quaternion getMatrix(FloatBuffer dest) {
-        getMatrix(this, dest);
-        return this;
-    }
-
-    /**
      * Set this Quaternion to the given values.
      * 
      * @return this
      */
-    public Quaternion set(float newX, float newY, float newZ, float newW) {
-        x = newX;
-        y = newY;
-        z = newZ;
-        w = newW;
+    public Quaternion set(float x, float y, float z, float w) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = w;
         return this;
     }
 
@@ -309,10 +303,10 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion set(float newX, float newY, float newZ) {
-        x = newX;
-        y = newY;
-        z = newZ;
+    public Quaternion set(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
         return this;
     }
 
@@ -333,18 +327,12 @@ public class Quaternion implements Serializable, Externalizable {
      * Set this {@link Quaternion} to be equivalent to the given
      * {@link AngleAxis4f}.
      * 
-     * @param axisAngle
+     * @param angleAxis
      *            the {@link AngleAxis4f}
      * @return this
      */
-    public Quaternion set(AngleAxis4f axisAngle) {
-        float sin = (float) Math.sin(Math.toRadians(axisAngle.angle) / 2.0);
-        float cos = (float) Math.cos(Math.toRadians(axisAngle.angle) / 2.0);
-        x = axisAngle.x * sin;
-        x = axisAngle.y * sin;
-        x = axisAngle.z * sin;
-        w = cos;
-        return this;
+    public Quaternion set(AngleAxis4f angleAxis) {
+        return setAngleAxis(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
     }
 
     /**
