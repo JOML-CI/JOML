@@ -220,14 +220,14 @@ public class Vector2d implements Serializable, Externalizable {
      * Return the dot product of <code>a</code> and <code>b</code>.
      */
     public static double dot(Vector2d a, Vector2d b) {
-        return ((a.x * b.x) + (a.y * b.y));
+        return a.x * b.x + a.y * b.y;
     }
 
     /**
      * Return the dot product of this vector and <code>v</code>
      */
     public double dot(Vector2d v) {
-        return ((x * v.x) + (y * v.y));
+        return x * v.x + y * v.y;
     }
     
     /**
@@ -462,11 +462,25 @@ public class Vector2d implements Serializable, Externalizable {
         return true;
     }
 
+    /**
+     * Return a string representation of this vector.
+     * <p>
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
+     * 
+     * @return the string representation
+     */
     public String toString() {
     	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
     	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
-    
+
+    /**
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
+     * 
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
+     * @return the string representation
+     */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
     }

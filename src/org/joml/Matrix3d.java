@@ -331,12 +331,12 @@ public class Matrix3d implements Serializable, Externalizable {
      * Return the determinant of this matrix.
      */
     public double determinant() {
-        return ((m00 * m11 * m22)
-             + (m10 * m21 * m02)
-             + (m20 * m01 * m12))
-             - ((m20 * m11 * m02)
-             + (m00 * m21 * m12)
-             + (m10 * m01 * m22));
+        return m00 * m11 * m22
+             + m10 * m21 * m02
+             + m20 * m01 * m12
+             - m20 * m11 * m02
+             - m00 * m21 * m12
+             - m10 * m01 * m22;
     }
 
     /**
@@ -486,7 +486,7 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Return a string representation of this matrix.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string <tt>0.000E0</tt>.
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>  0.000E0; -</tt>".
      * 
      * @return the string representation
      */

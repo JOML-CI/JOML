@@ -735,7 +735,7 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Return a string representation of this matrix.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string <tt>0.000E0</tt>.
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>  0.000E0; -</tt>".
      * 
      * @return the string representation
      */

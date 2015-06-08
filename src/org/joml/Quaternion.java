@@ -761,11 +761,25 @@ public class Quaternion implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Return a string representation of this quaternion.
+     * <p>
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
+     * 
+     * @return the string representation
+     */
     public String toString() {
     	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
     	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
-    
+
+    /**
+     * Return a string representation of this quaternion by formatting the components with the given {@link NumberFormat}.
+     * 
+     * @param formatter
+     *          the {@link NumberFormat} used to format the quaternion components with
+     * @return the string representation
+     */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + formatter.format(y) + formatter.format(z) + formatter.format(w) + " )";
     }

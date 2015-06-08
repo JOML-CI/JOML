@@ -489,7 +489,7 @@ public class Vector3d implements Serializable, Externalizable {
      * Return the dot product of the supplied v1 and v2 vectors.
      */
     public static double dot(Vector3d v1, Vector3d v2) {
-        return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
     
     /**
@@ -547,11 +547,25 @@ public class Vector3d implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Return a string representation of this vector.
+     * <p>
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
+     * 
+     * @return the string representation
+     */
     public String toString() {
     	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
     	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
-    
+
+    /**
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
+     * 
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
+     * @return the string representation
+     */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + ")";
     }
