@@ -425,18 +425,6 @@ public class QuaternionD implements Serializable, Externalizable {
 
     /**
      * Multiply a by b and store the results in dest.
-     * <B>This is not alias safe so make sure dest is not the same as a or b or
-     * you WILL get incorrect results!</B>
-     */
-    public static void mulFast(QuaternionD a, QuaternionD b, QuaternionD dest) {
-    	dest.x = a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y;
-   		dest.y = a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x;
-   		dest.z = a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w;
-   		dest.w = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z;
-    }
-
-    /**
-     * Multiply a by b and store the results in dest.
      */
     public static void mul(QuaternionD a, QuaternionD b, QuaternionD dest) {
     	dest.set(a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
