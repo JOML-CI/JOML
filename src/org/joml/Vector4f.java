@@ -441,7 +441,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @return the dot product
      */
     public float dot(Vector4f v) {
-        return (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w);
+        return x * v.x + y * v.y + z * v.z + w * v.w;
     }
 
     /**
@@ -451,7 +451,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @return the dot product
      */
     public static float dot(Vector4f v1, Vector4f v2) {
-        return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
+        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
     }
     
     /**
@@ -533,11 +533,25 @@ public class Vector4f implements Serializable, Externalizable {
     	dest.w = -original.w;
     }
 
+    /**
+     * Return a string representation of this vector.
+     * <p>
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
+     * 
+     * @return the string representation
+     */
     public String toString() {
     	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
     	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
+    /**
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
+     * 
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
+     * @return the string representation
+     */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + " " + formatter.format(w) + ")";
     }

@@ -45,6 +45,9 @@ public class QuaternionD implements Serializable, Externalizable {
     public double z;
     public double w;
 
+    /**
+     * Create a new {@link QuaternionD} and initialize it with <tt>(0, 0, 0, 1)</tt>.
+     */
     public QuaternionD() {
         x = 0.0f;
         y = 0.0f;
@@ -52,20 +55,49 @@ public class QuaternionD implements Serializable, Externalizable {
         w = 1.0f;
     }
 
-    public QuaternionD(double newX, double newY, double newZ, double newW) {
-        x = newX;
-        y = newY;
-        z = newZ;
-        w = newW;
+    /**
+     * Create a new {@link QuaternionD} and initialize its components to the given values.
+     * 
+     * @param x
+     *          the first component of the imaginary part
+     * @param y
+     *          the second component of the imaginary part
+     * @param z
+     *          the third component of the imaginary part
+     * @param w
+     *          the real part
+     */
+    public QuaternionD(double x, double y, double z, double w) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = w;
     }
 
-    public QuaternionD(double newX, double newY, double newZ) {
-        x = newX;
-        y = newY;
-        z = newZ;
-        w = 1.0f;
+    /**
+     * Create a new {@link Quaternion} and initialize its imaginary components to the given values,
+     * and its real part to <tt>1.0</tt>.
+     * 
+     * @param x
+     *          the first component of the imaginary part
+     * @param y
+     *          the second component of the imaginary part
+     * @param z
+     *          the third component of the imaginary part
+     */
+    public QuaternionD(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = 1.0f;
     }
 
+    /**
+     * Create a new {@link QuaternionD} and initialize its components to the same values as the given {@link QuaternionD}.
+     * 
+     * @param source
+     *          the {@link QuaternionD} to take the component values from
+     */
     public QuaternionD(QuaternionD source) {
         x = source.x;
         y = source.y;
@@ -74,15 +106,17 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Normalize this Quaternion
+     * Normalize this Quaternion.
+     * 
+     * @return this
      */
-    public void normalize() {
+    public QuaternionD normalize() {
         double norm = Math.sqrt(x * x + y * y + z * z + w * w);
-
         x /= norm;
         y /= norm;
         z /= norm;
         w /= norm;
+        return this;
     }
 
     /**
@@ -99,13 +133,16 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Adds q2 to this quaternion
+     * Add q2 to this quaternion.
+     * 
+     * @return this
      */
-    public void add(QuaternionD q2) {
+    public QuaternionD add(QuaternionD q2) {
         x += q2.x;
         y += q2.y;
         z += q2.z;
         w += q2.w;
+        return this;
     }
 
     /**
@@ -220,10 +257,14 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Generates a rotation matrix from this Quaternion and stores the results
-     * in dest
+     * Generate a rotation matrix from this Quaternion and store the result
+     * in dest.
+     * 
+     * @param dest
+     *          the {@link Matrix4d} to store the quaternion rotation into
+     * @return this
      */
-    public void getMatrix(Matrix4d dest) {
+    public QuaternionD getMatrix(Matrix4d dest) {
         double q00 = 2.0 * this.x * this.x;
         double q11 = 2.0 * this.y * this.y;
         double q22 = 2.0 * this.z * this.z;
@@ -253,78 +294,61 @@ public class QuaternionD implements Serializable, Externalizable {
         dest.m31 = 0.0;
         dest.m32 = 0.0;
         dest.m33 = 1.0;
+        
+        return this;
     }
 
     /**
-     * Generates a rotation matrix from this Quaternion and stores the results
-     * in dest
+     * Set this Quaternion to the new values.
+     * 
+     * @return this
      */
-    public void getMatrix(DoubleBuffer dest) {
-        double q00 = 2.0 * this.x * this.x;
-        double q11 = 2.0 * this.y * this.y;
-        double q22 = 2.0 * this.z * this.z;
-
-        double q01 = 2.0 * this.x * this.y;
-        double q02 = 2.0 * this.x * this.z;
-        double q03 = 2.0 * this.x * this.w;
-
-        double q12 = 2.0 * this.y * this.z;
-        double q13 = 2.0 * this.y * this.w;
-
-        double q23 = 2.0 * this.z * this.w;
-
-        dest.put(1.0 - q11 - q22);
-        dest.put(q01 + q23);
-        dest.put(q02 - q13);
-        dest.put(0.0);
-        dest.put(q01 - q23);
-        dest.put(1.0 - q22 - q00);
-        dest.put(q12 + q03);
-        dest.put(0.0);
-        dest.put(q02 + q13);
-        dest.put(q12 - q03);
-        dest.put(1.0 - q11 - q00);
-        dest.put(0.0);
-        dest.put(0.0);
-        dest.put(0.0);
-        dest.put(0.0);
-        dest.put(1.0);
+    public QuaternionD set(double x, double y, double z, double w) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = w;
+        return this;
     }
 
     /**
-     * Sets this Quaternion to the new values
+     * Set the x, y and z components of this Quaternion to the new values.
+     * 
+     * @return this
      */
-    public void set(double newX, double newY, double newZ, double newW) {
-        x = newX;
-        y = newY;
-        z = newZ;
-        w = newW;
+    public QuaternionD set(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        return this;
     }
 
     /**
-     * Set the x, y and z components of this Quaternion to the new values
+     * Set this Quaternion to be a copy of q.
+     * 
+     * @param q
+     *          the {@link QuaternionD} to copy
+     * @return this
      */
-    public void set(double newX, double newY, double newZ) {
-        x = newX;
-        y = newY;
-        z = newZ;
-    }
-
-    /**
-     * Sets this Quaternion to be a copy of q. Does not modify q
-     */
-    public void set(QuaternionD q) {
+    public QuaternionD set(QuaternionD q) {
         x = q.x;
         y = q.y;
         z = q.z;
         w = q.w;
+        return this;
     }
 
     /**
-     * Sets this Quaternion to be a representation of the supplied axis and
-     * angle (in Radians)
+     * Set this Quaternion to be a representation of the supplied axis and
+     * angle (in radians).
+     * 
+     * @param axis
+     *          the rotation axis
+     * @param angle
+     *          the angle in radians
+     * @return this
      */
-    public void fromAxisAngleRad(Vector3d axis, double angle) {
+    public QuaternionD fromAxisAngleRad(Vector3d axis, double angle) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
@@ -333,13 +357,25 @@ public class QuaternionD implements Serializable, Externalizable {
         y = (axis.y / vLength) * sinAngle;
         z = (axis.z / vLength) * sinAngle;
         w = Math.cos(hangle);
+        
+        return this;
     }
 
     /**
-     * Sets this Quaternion to be a representation of the supplied axis and
-     * angle (in Radians)
+     * Set this Quaternion to be a representation of the supplied axis and
+     * angle (in radians).
+     * 
+     * @param axisX
+     *          the x component of the rotation axis
+     * @param axisY
+     *          the y component of the rotation axis
+     * @param axisZ
+     *          the z component of the rotation axis         
+     * @param angle
+     *          the angle in radians
+     * @return this
      */
-    public void fromAxisAngleRad(double axisX, double axisY, double axisZ, double angle) {
+    public QuaternionD fromAxisAngleRad(double axisX, double axisY, double axisZ, double angle) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
@@ -348,13 +384,21 @@ public class QuaternionD implements Serializable, Externalizable {
         y = (axisY / vLength) * sinAngle;
         z = (axisZ / vLength) * sinAngle;
         w = Math.cos(hangle);
+        
+        return this;
     }
 
     /**
-     * Sets this Quaternion to be a representation of the supplied axis and
-     * angle (in Degrees)
+     * Set this Quaternion to be a representation of the supplied axis and
+     * angle (in degrees).
+     * 
+     * @param axis
+     *          the rotation axis
+     * @param angle
+     *          the angle in radians
+     * @return this
      */
-    public void fromAxisAngleDeg(Vector3d axis, double angle) {
+    public QuaternionD fromAxisAngleDeg(Vector3d axis, double angle) {
         double hangle = Math.toRadians(angle) / 2.0f;
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
@@ -363,10 +407,16 @@ public class QuaternionD implements Serializable, Externalizable {
         y = (axis.y / vLength) * sinAngle;
         z = (axis.z / vLength) * sinAngle;
         w = Math.cos(hangle);
+        
+        return this;
     }
 
     /**
-     * Multiply this Quaternion by q
+     * Multiply this Quaternion by q.
+     * 
+     * @param q
+     *          the quaternion to multiply this quaternion with
+     * @return this
      */
     public QuaternionD mul(QuaternionD q) {
     	mul(this, q, this);
@@ -396,14 +446,17 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Invert this Quaternion
+     * Invert this Quaternion.
+     * 
+     * @return this
      */
-    public void invert() {
+    public QuaternionD invert() {
         double norm = (x * x + y * y + z * z + w * w);
         x = x / norm;
         y = -y / norm;
         z = -z / norm;
         w = -w / norm;
+        return this;
     }
 
     /**
@@ -418,11 +471,14 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Divides this Quaternion by b
+     * Divide this Quaternion by b.
+     * 
+     * @return this
      */
-    public void div(QuaternionD b) {
+    public QuaternionD div(QuaternionD b) {
         invert();
         mul(b);
+        return this;
     }
 
     /**
@@ -439,12 +495,15 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Conjugates this Quaternion
+     * Conjugate this Quaternion.
+     * 
+     * @return this;
      */
-    public void conjugate() {
+    public QuaternionD conjugate() {
         x = -x;
         y = -y;
         z = -z;
+        return this;
     }
 
     /**
@@ -458,41 +517,52 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to the identity
+     * Set this Quaternion to the identity.
+     * 
+     * @return this
      */
-    public void identity() {
+    public QuaternionD identity() {
         x = 0.0f;
         y = 0.0f;
         z = 0.0f;
         w = 1.0f;
+        return this;
     }
 
     /**
      * Calculate this Quaternion using the supplied Vector3f angles (in degrees) with rotation order XYZ.
+     * 
+     * @return this
      */
-    public void setEulerAnglesDegXYZ(Vector3d angles) {
-        setEulerAnglesDegXYZ(angles.x, angles.y, angles.z);
+    public QuaternionD setEulerAnglesDegXYZ(Vector3d angles) {
+        return setEulerAnglesDegXYZ(angles.x, angles.y, angles.z);
     }
 
     /**
      * Calculate this Quaternion using the supplied Vector3f angles (in radians) with rotation order XYZ.
+     * 
+     * @return this
      */
-    public void setEulerAnglesRadXYZ(Vector3d angles) {
-        setEulerAnglesRadXYZ(angles.x, angles.y, angles.z);
+    public QuaternionD setEulerAnglesRadXYZ(Vector3d angles) {
+        return setEulerAnglesRadXYZ(angles.x, angles.y, angles.z);
     }
 
     /**
      * Calculate this Quaternion using the supplied Vector3f angles (in degrees) with rotation order ZYX.
+     * 
+     * @return this
      */
-    public void setEulerAnglesDegZYX(Vector3d angles) {
-        setEulerAnglesDegZYX(angles.x, angles.y, angles.z);
+    public QuaternionD setEulerAnglesDegZYX(Vector3d angles) {
+        return setEulerAnglesDegZYX(angles.x, angles.y, angles.z);
     }
 
     /**
      * Calculate this Quaternion using the supplied Vector3f angles (in radians) with rotation order ZYX.
+     * 
+     * @return this
      */
-    public void setEulerAnglesRadZYX(Vector3d angles) {
-        setEulerAnglesRadZYX(angles.x, angles.y, angles.z);
+    public QuaternionD setEulerAnglesRadZYX(Vector3d angles) {
+        return setEulerAnglesRadZYX(angles.x, angles.y, angles.z);
     }
 
     /**
@@ -500,8 +570,10 @@ public class QuaternionD implements Serializable, Externalizable {
      * (in degrees) with rotation order XYZ.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
+     * 
+     * @return this
      */
-    public void setEulerAnglesDegXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+    public QuaternionD setEulerAnglesDegXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
         double sx = Math.sin(Math.toRadians(rotationAboutX) * 0.5);
         double cx = Math.cos(Math.toRadians(rotationAboutX) * 0.5);
         double sy = Math.sin(Math.toRadians(rotationAboutY) * 0.5);
@@ -513,6 +585,8 @@ public class QuaternionD implements Serializable, Externalizable {
         y = sx*cy*cz - cx*sy*sz;
         z = cx*sy*cz + sx*cy*sz;
         w = cx*cy*sz - sx*sy*cz;
+        
+        return this;
     }
 
     /**
@@ -520,8 +594,10 @@ public class QuaternionD implements Serializable, Externalizable {
      * (in degrees) with rotation order ZYX.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
+     * 
+     * @return this
      */
-    public void setEulerAnglesDegZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+    public QuaternionD setEulerAnglesDegZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
         double sx = Math.sin(Math.toRadians(rotationAboutX) * 0.5);
         double cx = Math.cos(Math.toRadians(rotationAboutX) * 0.5);
         double sy = Math.sin(Math.toRadians(rotationAboutY) * 0.5);
@@ -533,6 +609,8 @@ public class QuaternionD implements Serializable, Externalizable {
         y = sx*cy*cz + cx*sy*sz;
         z = cx*sy*cz - sx*cy*sz;
         w = cx*cy*sz + sx*sy*cz;
+        
+        return this;
     }
 
     /**
@@ -554,8 +632,10 @@ public class QuaternionD implements Serializable, Externalizable {
      * (in radians) with rotation order XYZ.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
+     * 
+     * @return this
      */
-    public void setEulerAnglesRadXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+    public QuaternionD setEulerAnglesRadXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
         double sx = Math.sin(rotationAboutX * 0.5);
         double cx = Math.cos(rotationAboutX * 0.5);
         double sy = Math.sin(rotationAboutY * 0.5);
@@ -567,6 +647,8 @@ public class QuaternionD implements Serializable, Externalizable {
         y = sx*cy*cz - cx*sy*sz;
         z = cx*sy*cz + sx*cy*sz;
         w = cx*cy*sz - sx*sy*cz;
+        
+        return this;
     }
 
     /**
@@ -574,8 +656,10 @@ public class QuaternionD implements Serializable, Externalizable {
      * (in radians) with rotation order ZYX.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
+     * 
+     * @return this
      */
-    public void setEulerAnglesRadZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+    public QuaternionD setEulerAnglesRadZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
         double sx = Math.sin(rotationAboutX * 0.5);
         double cx = Math.cos(rotationAboutX * 0.5);
         double sy = Math.sin(rotationAboutY * 0.5);
@@ -587,13 +671,17 @@ public class QuaternionD implements Serializable, Externalizable {
         y = sx*cy*cz + cx*sy*sz;
         z = cx*sy*cz - sx*cy*sz;
         w = cx*cy*sz + sx*sy*cz;
+        
+        return this;
     }
 
     /**
      * Spherical linear interpolation between this Quaternion and the specified
-     * target, using the specified alpha
+     * target, using the specified alpha.
+     * 
+     * @return this
      */
-    public void slerp(QuaternionD target, double alpha) {
+    public QuaternionD slerp(QuaternionD target, double alpha) {
         double dot = Math.abs(this.x * target.x + this.y * target.y + this.z * target.z + this.w * target.w);
         double scale1, scale2;
 
@@ -617,6 +705,8 @@ public class QuaternionD implements Serializable, Externalizable {
         y = (scale1 * y) + (scale2 * target.y);
         z = (scale1 * z) + (scale2 * target.z);
         w = (scale1 * w) + (scale2 * target.w);
+        
+        return this;
     }
 
     /**
@@ -694,11 +784,15 @@ public class QuaternionD implements Serializable, Externalizable {
         dest.fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
     }
     
-    /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
-    public void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward) {
-        double dirX = destPoint.x - sourcePoint.x;
-        double dirY = destPoint.y - sourcePoint.y;
-        double dirZ = destPoint.z - sourcePoint.z;
+    /**
+     * Rotate <code>dest</code> to point towards <code>destPoint</code>, from the supplied <code>sourcePoint</code>.
+     * 
+     * @return this
+     */
+    public QuaternionD LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward) {
+    	double dirX = destPoint.x - sourcePoint.x;
+    	double dirY = destPoint.y - sourcePoint.y;
+    	double dirZ = destPoint.z - sourcePoint.z;
 
         double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
 
@@ -713,7 +807,7 @@ public class QuaternionD implements Serializable, Externalizable {
             y = up.y;
             z = up.z;
             w = Math.PI;
-            return;
+            return this;
         }
 
         if (Math.abs(dot - 1.0) < 0.000001) {
@@ -721,7 +815,7 @@ public class QuaternionD implements Serializable, Externalizable {
             y = 0.0f;
             z = 0.0f;
             w = 1.0f;
-            return;
+            return this;
         }
 
         double rotAngle = Math.acos(dot);
@@ -737,13 +831,29 @@ public class QuaternionD implements Serializable, Externalizable {
         rotAxisZ /= length;
 
         fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
+        
+        return this;
     }
 
+    /**
+     * Return a string representation of this quaternion.
+     * <p>
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
+     * 
+     * @return the string representation
+     */
     public String toString() {
         DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
         return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
-    
+
+    /**
+     * Return a string representation of this quaternion by formatting the components with the given {@link NumberFormat}.
+     * 
+     * @param formatter
+     *          the {@link NumberFormat} used to format the quaternion components with
+     * @return the string representation
+     */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + formatter.format(y) + formatter.format(z) + formatter.format(w) + " )";
     }
