@@ -414,8 +414,6 @@ public class QuaternionD implements Serializable, Externalizable {
     /**
      * Multiply this Quaternion by q.
      * 
-     * @param q
-     *          the quaternion to multiply this quaternion with
      * @return this
      */
     public QuaternionD mul(QuaternionD q) {
