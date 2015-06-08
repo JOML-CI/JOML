@@ -368,11 +368,9 @@ public class QuaternionD implements Serializable, Externalizable {
     /**
      * Multiply this Quaternion by q
      */
-    public void mul(QuaternionD q) {
-        set(this.x * q.x - this.y * q.y - this.z * q.z - this.w * q.w,
-            this.x * q.y + this.y * q.x + this.z * q.w - this.w * q.z,
-            this.x * q.z - this.y * q.w + this.z * q.x + this.w * q.y,
-            this.x * q.w + this.y * q.z - this.z * q.y + this.w * q.x);
+    public QuaternionD mul(QuaternionD q) {
+    	mul(this, q, this);
+    	return this;
     }
 
     /**
@@ -381,10 +379,10 @@ public class QuaternionD implements Serializable, Externalizable {
      * you WILL get incorrect results!</B>
      */
     public static void mulFast(QuaternionD a, QuaternionD b, QuaternionD dest) {
-        dest.x = a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w;
-        dest.y = a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z;
-        dest.z = a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y;
-        dest.w = a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x;
+    	dest.x = a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y;
+   		dest.y = a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x;
+   		dest.z = a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w;
+   		dest.w = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z;
     }
 
     /**
