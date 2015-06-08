@@ -20,11 +20,11 @@ public class TestUtil {
 	/**
 	 * Precision for methods that do many operations, giving less accuracy.
 	 */
-	public static final double MANY_OPS_PRECISION_DOUBLE = 0.001;
+	public static final double MANY_OPS_PRECISION_DOUBLE = 0.00001;
 	/**
 	 * Precision for methods that do basic operations.
 	 */
-	public static final double STANDARD_PRECISION_DOUBLE = 0.000000000000000001;
+	public static final double STANDARD_PRECISION_DOUBLE = 0.000000000000000000001;
 	
 	/**
 	 * Return whether two floating point numbers are equal. They are considered equal when their difference is less than or equal to the precision.
@@ -101,5 +101,21 @@ public class TestUtil {
 			&& floatEqual(a.y, b.y, precision)
 			&& floatEqual(a.z, b.z, precision)
 			&& floatEqual(a.w, b.w, precision);
+	}
+	
+
+	/**
+	 * Return whether two quaternions are equal. They are considered equal when their difference is 
+	 * less than or equal to the precision.
+	 * @param a the first quaternion
+	 * @param b the second quaternion
+	 * @param precision if abs(a.[comp] - b.[comp]) <= precision for every component comp (x, y, z, w), a and b are considered equal
+	 * @return whether a and b are equal
+	 */
+	public static boolean quatEqual(QuaternionD a, QuaternionD b, double precision) {
+		return doubleEqual(a.x, b.x, precision)
+			&& doubleEqual(a.y, b.y, precision)
+			&& doubleEqual(a.z, b.z, precision)
+			&& doubleEqual(a.w, b.w, precision);
 	}
 }

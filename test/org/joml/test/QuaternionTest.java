@@ -8,6 +8,7 @@ import org.joml.*;
  * @author Sebastian Fellner
  */
 public class QuaternionTest extends TestCase {
+	
 	public void testMulQuaternionQuaternionQuaternion() {
 		// Multiplication with the identity quaternion should change nothing
 		Quaternion testQuat = new Quaternion(1f, 23.3f, -7.57f, 2.1f);
