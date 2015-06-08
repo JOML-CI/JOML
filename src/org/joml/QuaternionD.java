@@ -414,38 +414,28 @@ public class QuaternionD implements Serializable, Externalizable {
     /**
      * Multiply this Quaternion by q.
      * 
-     * @param q
-     *          the quaternion to multiply this quaternion with
      * @return this
      */
     public QuaternionD mul(QuaternionD q) {
-        set(this.x * q.x - this.y * q.y - this.z * q.z - this.w * q.w,
-            this.x * q.y + this.y * q.x + this.z * q.w - this.w * q.z,
-            this.x * q.z - this.y * q.w + this.z * q.x + this.w * q.y,
-            this.x * q.w + this.y * q.z - this.z * q.y + this.w * q.x);
+        mul(this, q, this);
         return this;
-    }
-
-    /**
-     * Multiply a by b and store the results in dest.
-     * <B>This is not alias safe so make sure dest is not the same as a or b or
-     * you WILL get incorrect results!</B>
-     */
-    public static void mulFast(QuaternionD a, QuaternionD b, QuaternionD dest) {
-        dest.x = a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w;
-        dest.y = a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z;
-        dest.z = a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y;
-        dest.w = a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x;
     }
 
     /**
      * Multiply a by b and store the results in dest.
      */
     public static void mul(QuaternionD a, QuaternionD b, QuaternionD dest) {
-        dest.set(a.x * b.x - a.y * b.y - a.z * b.z - a.w * b.w,
-                 a.x * b.y + a.y * b.x + a.z * b.w - a.w * b.z,
-                 a.x * b.z - a.y * b.w + a.z * b.x + a.w * b.y,
-                 a.x * b.w + a.y * b.z - a.z * b.y + a.w * b.x);
+        if (a != dest && b != dest) {
+            dest.x = a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y;
+            dest.y = a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x;
+            dest.z = a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w;
+            dest.w = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z;
+        } else {
+            dest.set(a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
+                     a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
+                     a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
+                     a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z);
+        }
     }
 
     /**
@@ -744,11 +734,11 @@ public class QuaternionD implements Serializable, Externalizable {
 
     /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
     public static void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward, QuaternionD dest) {
-    	double dirX = destPoint.x - sourcePoint.x;
-    	double dirY = destPoint.y - sourcePoint.y;
-    	double dirZ = destPoint.z - sourcePoint.z;
+        double dirX = destPoint.x - sourcePoint.x;
+        double dirY = destPoint.y - sourcePoint.y;
+        double dirZ = destPoint.z - sourcePoint.z;
 
-    	double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
 
         dirX /= length;
         dirY /= length;
@@ -793,11 +783,11 @@ public class QuaternionD implements Serializable, Externalizable {
      * @return this
      */
     public QuaternionD LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward) {
-    	double dirX = destPoint.x - sourcePoint.x;
-    	double dirY = destPoint.y - sourcePoint.y;
-    	double dirZ = destPoint.z - sourcePoint.z;
+        double dirX = destPoint.x - sourcePoint.x;
+        double dirY = destPoint.y - sourcePoint.y;
+        double dirZ = destPoint.z - sourcePoint.z;
 
-    	double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
 
         dirX /= length;
         dirY /= length;
