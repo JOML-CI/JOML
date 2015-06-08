@@ -8,23 +8,23 @@ import org.joml.*;
  */
 public class TestUtil {
 	/**
-	 * Precision for methods that do many operations, giving less accuracy.
+	 * Precision for methods that do many operations calculating with a magnitude around zero, giving less accuracy.
 	 */
-	public static final float MANY_OPS_PRECISION_FLOAT = 0.001f;
+	public static final float MANY_OPS_AROUND_ZERO_PRECISION_FLOAT = 0.001f;
 	/**
-	 * Precision for methods that do basic operations.
+	 * Precision for methods that do basic operations calculating with a magnitude around zero.
 	 */
-	public static final float STANDARD_PRECISION_FLOAT = 0.000000000000000001f;
+	public static final float STANDARD_AROUND_ZERO_PRECISION_FLOAT = 0.000000000000000001f;
 	
 
 	/**
-	 * Precision for methods that do many operations, giving less accuracy.
+	 * Precision for methods that do many operations calculating with values with a magnitude around zero, giving less accuracy.
 	 */
-	public static final double MANY_OPS_PRECISION_DOUBLE = 0.00001;
+	public static final double MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE = 0.00001;
 	/**
-	 * Precision for methods that do basic operations.
+	 * Precision for methods that do basic operations calculating with a magnitude around zero.
 	 */
-	public static final double STANDARD_PRECISION_DOUBLE = 0.000000000000000000001;
+	public static final double STANDARD_AROUND_ZERO_PRECISION_DOUBLE = 0.000000000000000000001;
 	
 	/**
 	 * Return whether two floating point numbers are equal. They are considered equal when their difference is less than or equal to the precision.

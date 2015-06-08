@@ -32,10 +32,10 @@ public class Matrix4fTest extends TestCase {
         .unproject(actual.x, actual.y, actual.z, viewport, inverse, actual);
 
         /* Check for equality of the components */
-        assertEquals(expected.x, actual.x, TestUtil.MANY_OPS_PRECISION_FLOAT);
-        assertEquals(expected.y, actual.y, TestUtil.MANY_OPS_PRECISION_FLOAT);
-        assertEquals(expected.z, actual.z, TestUtil.MANY_OPS_PRECISION_FLOAT);
-        assertEquals(expected.w, actual.w, TestUtil.MANY_OPS_PRECISION_FLOAT);
+        assertEquals(expected.x, actual.x, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+        assertEquals(expected.y, actual.y, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+        assertEquals(expected.z, actual.z, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+        assertEquals(expected.w, actual.w, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
     }
 
 }

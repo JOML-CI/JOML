@@ -16,10 +16,10 @@ public class QuaternionTest extends TestCase {
 		Quaternion resultQuat = new Quaternion();
 		
 		Quaternion.mul(testQuat, identityQuat, resultQuat);
-		assertTrue(TestUtil.quatEqual(testQuat, resultQuat, TestUtil.STANDARD_PRECISION_FLOAT));
+		assertTrue(TestUtil.quatEqual(testQuat, resultQuat, TestUtil.STANDARD_AROUND_ZERO_PRECISION_FLOAT));
 		
 		Quaternion.mul(identityQuat, testQuat, resultQuat);
-		assertTrue(TestUtil.quatEqual(testQuat, resultQuat, TestUtil.STANDARD_PRECISION_FLOAT));
+		assertTrue(TestUtil.quatEqual(testQuat, resultQuat, TestUtil.STANDARD_AROUND_ZERO_PRECISION_FLOAT));
 		
 		// Multiplication with conjugate should give (0, 0, 0, dot(this, this))
 		Quaternion conjugate = new Quaternion();
@@ -27,6 +27,6 @@ public class QuaternionTest extends TestCase {
 		Quaternion.mul(testQuat, conjugate, resultQuat);
 		
 		Quaternion wantedResultQuat = new Quaternion(0, 0, 0, testQuat.dot(testQuat));
-		assertTrue(TestUtil.quatEqual(resultQuat, wantedResultQuat, TestUtil.MANY_OPS_PRECISION_FLOAT));
+		assertTrue(TestUtil.quatEqual(resultQuat, wantedResultQuat, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT));
 	}
 }
