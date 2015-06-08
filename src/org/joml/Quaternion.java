@@ -45,6 +45,9 @@ public class Quaternion implements Serializable, Externalizable {
     public float z;
     public float w;
 
+    /**
+     * Create a new {@link Quaternion} and initialize it with <tt>(0, 0, 0, 1)</tt>.
+     */
     public Quaternion() {
         x = 0.0f;
         y = 0.0f;
@@ -52,20 +55,49 @@ public class Quaternion implements Serializable, Externalizable {
         w = 1.0f;
     }
 
-    public Quaternion(float newX, float newY, float newZ, float newW) {
-        x = newX;
-        y = newY;
-        z = newZ;
-        w = newW;
+    /**
+     * Create a new {@link Quaternion} and initialize its components to the given values.
+     * 
+     * @param x
+     *          the first component of the imaginary part
+     * @param y
+     *          the second component of the imaginary part
+     * @param z
+     *          the third component of the imaginary part
+     * @param w
+     *          the real part
+     */
+    public Quaternion(float x, float y, float z, float w) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = w;
     }
 
-    public Quaternion(float newX, float newY, float newZ) {
-        x = newX;
-        y = newY;
-        z = newZ;
+    /**
+     * Create a new {@link Quaternion} and initialize its imaginary components to the given values,
+     * and its real part to <tt>1.0</tt>.
+     * 
+     * @param x
+     *          the first component of the imaginary part
+     * @param y
+     *          the second component of the imaginary part
+     * @param z
+     *          the third component of the imaginary part
+     */
+    public Quaternion(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
         w = 1.0f;
     }
 
+    /**
+     * Create a new {@link Quaternion} and initialize its components to the same values as the given {@link Quaternion}.
+     * 
+     * @param source
+     *          the {@link Quaternion} to take the component values from
+     */
     public Quaternion(Quaternion source) {
         x = source.x;
         y = source.y;
@@ -73,6 +105,12 @@ public class Quaternion implements Serializable, Externalizable {
         w = source.w;
     }
 
+    /**
+     * Create a new {@link Quaternion} which represents the rotation of the given {@link AngleAxis4f}.
+     * 
+     * @param axisAngle
+     *          the {@link AngleAxis4f}
+     */
     public Quaternion(AngleAxis4f axisAngle) {
         float sin = (float) Math.sin(Math.toRadians(axisAngle.angle) / 2.0);
         float cos = (float) Math.cos(Math.toRadians(axisAngle.angle) / 2.0);
