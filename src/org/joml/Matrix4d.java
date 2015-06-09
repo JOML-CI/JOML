@@ -1215,68 +1215,68 @@ public class Matrix4d implements Serializable, Externalizable {
         return this;
     }
 
-	public void getRow(int row, Vector4d dest){
-		switch (row) {
-		case 0:
-			dest.x = m00;
-			dest.y = m10;
-			dest.z = m20;
-			dest.w = m30;
-			break;
-		case 1:
-			dest.x = m01;
-			dest.y = m11;
-			dest.z = m21;
-			dest.w = m31;
-			break;
-		case 2:
-			dest.x = m02;
-			dest.y = m12;
-			dest.z = m22;
-			dest.w = m32;
-			break;
-		case 3:
-			dest.x = m03;
-			dest.y = m13;
-			dest.z = m23;
-			dest.w = m33;
-			break;
-		default:
-			throw new IndexOutOfBoundsException();			
-		}
-		return;
-	}
-	
-	public void getColumn(int column, Vector4d dest){
-		switch (column) {
-		case 0:
-			dest.x = m00;
-			dest.y = m01;
-			dest.z = m02;
-			dest.w = m03;
-			break;
-		case 1:
-			dest.x = m10;
-			dest.y = m11;
-			dest.z = m12;
-			dest.w = m13;
-			break;
-		case 2:
-			dest.x = m20;
-			dest.y = m21;
-			dest.z = m22;
-			dest.w = m23;
-			break;
-		case 3:
-			dest.x = m30;
-			dest.y = m31;
-			dest.z = m32;
-			dest.w = m32;
-			break;		
-		default:
-			throw new IndexOutOfBoundsException();			
-		}
-		return;
-	}
+    public void getRow(int row, Vector4d dest) {
+        switch (row) {
+        case 0:
+            dest.x = m00;
+            dest.y = m10;
+            dest.z = m20;
+            dest.w = m30;
+            break;
+        case 1:
+            dest.x = m01;
+            dest.y = m11;
+            dest.z = m21;
+            dest.w = m31;
+            break;
+        case 2:
+            dest.x = m02;
+            dest.y = m12;
+            dest.z = m22;
+            dest.w = m32;
+            break;
+        case 3:
+            dest.x = m03;
+            dest.y = m13;
+            dest.z = m23;
+            dest.w = m33;
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return;
+    }
+
+    public void getColumn(int column, Vector4d dest) {
+        switch (column) {
+        case 0:
+            dest.x = m00;
+            dest.y = m01;
+            dest.z = m02;
+            dest.w = m03;
+            break;
+        case 1:
+            dest.x = m10;
+            dest.y = m11;
+            dest.z = m12;
+            dest.w = m13;
+            break;
+        case 2:
+            dest.x = m20;
+            dest.y = m21;
+            dest.z = m22;
+            dest.w = m23;
+            break;
+        case 3:
+            dest.x = m30;
+            dest.y = m31;
+            dest.z = m32;
+            dest.w = m32;
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return;
+    }
 
 }
