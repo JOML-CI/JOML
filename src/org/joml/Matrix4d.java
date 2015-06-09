@@ -1218,5 +1218,5 @@ public class Matrix4d implements Serializable, Externalizable {
 		}
 		return;
 	}
-    
+
 }
