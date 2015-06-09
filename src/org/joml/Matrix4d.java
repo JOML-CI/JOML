@@ -1215,7 +1215,16 @@ public class Matrix4d implements Serializable, Externalizable {
         return this;
     }
 
-    public void getRow(int row, Vector4d dest) {
+    /**
+     * Get the row at the given <code>row</code> index, starting with <code>0</code>.
+     * 
+     * @param row
+     *          the row index in <tt>[0..3]</tt>
+     * @param dest
+     *          will hold the row components
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..3]</tt>
+     */
+    public void getRow(int row, Vector4d dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
             dest.x = m00;
@@ -1247,7 +1256,16 @@ public class Matrix4d implements Serializable, Externalizable {
         return;
     }
 
-    public void getColumn(int column, Vector4d dest) {
+    /**
+     * Get the column at the given <code>column</code> index, starting with <code>0</code>.
+     * 
+     * @param column
+     *          the column index in <tt>[0..3]</tt>
+     * @param dest
+     *          will hold the column components
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..3]</tt>
+     */
+    public void getColumn(int column, Vector4d dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
             dest.x = m00;
