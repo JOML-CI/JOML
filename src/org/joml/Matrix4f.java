@@ -2590,6 +2590,13 @@ public class Matrix4f implements Serializable, Externalizable {
      * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
+     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
+     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
+     * can be invoked on it.
+     * 
+     * @see #unprojectInv(float, float, float, IntBuffer, Vector4f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -2619,14 +2626,17 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * <p>
      * This method differs from {@link #unproject(float, float, float, IntBuffer, Matrix4f, Vector4f) unproject()} 
-     * by assuming that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
      * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unproject(float, float, float, IntBuffer, Matrix4f, Vector4f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
