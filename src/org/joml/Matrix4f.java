@@ -2632,7 +2632,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
-     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * and then transforms those NDC coordinates by <code>this</code> matrix.  
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * 
@@ -2800,7 +2800,6 @@ public class Matrix4f implements Serializable, Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        return;
     }
 
     /**
@@ -2841,6 +2840,5 @@ public class Matrix4f implements Serializable, Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        return;
     }
 }
