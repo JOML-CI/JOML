@@ -2752,4 +2752,43 @@ public class Matrix4f implements Serializable, Externalizable {
         winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
     }
 
+	public void getRow0(Vector4f dest) {
+		if (dest != null) {
+			dest.x = m00;
+			dest.y = m10;
+			dest.z = m20;
+			dest.w = m30;
+		}
+		return;
+	}
+
+	public void getRow1(Vector4f dest) {
+		if (dest != null) {
+			dest.x = m01;
+			dest.y = m11;
+			dest.z = m21;
+			dest.w = m31;
+		}
+		return;
+	}
+
+	public void getRow2(Vector4f dest) {
+		if (dest != null) {
+			dest.x = m02;
+			dest.y = m12;
+			dest.z = m22;
+			dest.w = m32;
+		}
+		return;
+	}
+
+	public void getRow3(Vector4f dest) {
+		if (dest != null) {
+			dest.x = m03;
+			dest.y = m13;
+			dest.z = m23;
+			dest.w = m33;
+		}
+		return;
+	}
 }

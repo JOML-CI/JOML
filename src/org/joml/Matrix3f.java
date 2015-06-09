@@ -949,4 +949,29 @@ public class Matrix3f implements Serializable, Externalizable {
         return this;
     }
 
+	public void getRow0(Vector3f dest) {
+		if (dest != null) {
+			dest.x = m00;
+			dest.y = m10;
+			dest.z = m20;
+		}
+		return;
+	}
+	public void getRow1(Vector3f dest) {
+		if (dest != null) {
+			dest.x = m01;
+			dest.y = m11;
+			dest.z = m21;
+		}
+		return;
+	}
+	public void getRow2(Vector3f dest) {
+		if (dest != null) {
+			dest.x = m02;
+			dest.y = m12;
+			dest.z = m22;
+		}
+		return;
+	}
+
 }
