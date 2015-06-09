@@ -223,8 +223,6 @@ public class QuaternionD implements Serializable, Externalizable {
 
     /**
      * Set the given destination matrix to the rotation represented by <code>q</code>.
-     * 
-     * @return this
      */
     public static void getMatrix(QuaternionD q, Matrix4d dest) {
         double q00 = 2.0 * q.x * q.x;

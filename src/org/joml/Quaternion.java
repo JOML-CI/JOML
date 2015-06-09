@@ -241,8 +241,6 @@ public class Quaternion implements Serializable, Externalizable {
 
     /**
      * Set the given destination matrix to the rotation represented by <code>q</code>.
-     * 
-     * @return this
      */
     public static void getMatrix(Quaternion q, Matrix4f dest) {
         float q00 = 2.0f * q.x * q.x;
