@@ -818,29 +818,48 @@ public class Matrix3d implements Serializable, Externalizable {
         return this;
     }
 
-	public void getRow0(Vector3d dest) {
-		if (dest != null) {
+	public void getRow(int row, Vector3d dest){
+		switch (row) {
+		case 0:
 			dest.x = m00;
 			dest.y = m10;
 			dest.z = m20;
-		}
-		return;
-	}
-
-	public void getRow1(Vector3d dest) {
-		if (dest != null) {
+			break;
+		case 1:
 			dest.x = m01;
 			dest.y = m11;
 			dest.z = m21;
-		}
-		return;
-	}
-
-	public void getRow2(Vector3d dest) {
-		if (dest != null) {
+			break;
+		case 2:
 			dest.x = m02;
 			dest.y = m12;
 			dest.z = m22;
+			break;
+		default:
+			throw new IndexOutOfBoundsException();			
+		}
+		return;
+	}
+	
+	public void getColumn(int column, Vector3d dest){
+		switch (column) {
+		case 0:
+			dest.x = m00;
+			dest.y = m01;
+			dest.z = m02;
+			break;
+		case 1:
+			dest.x = m10;
+			dest.y = m11;
+			dest.z = m12;
+			break;
+		case 2:
+			dest.x = m20;
+			dest.y = m21;
+			dest.z = m22;
+			break;
+		default:
+			throw new IndexOutOfBoundsException();			
 		}
 		return;
 	}
