@@ -646,12 +646,14 @@ public class Vector3d implements Serializable, Externalizable {
      * 
      * @param normal
      *             the vector to reflect about
+     * @return this
      */
-    public void reflect(Vector3d normal) {
+    public Vector3d reflect(Vector3d normal) {
         double dot = this.dot(normal);
         x = x - 2.0 * dot * normal.x;
         y = y - 2.0 * dot * normal.y;
         z = z - 2.0 * dot * normal.z;
+        return this;
     }
 
     /**
@@ -661,12 +663,37 @@ public class Vector3d implements Serializable, Externalizable {
      *             the vector to reflect about
      * @param dest
      *             will hold the result
+     * @return this
      */
-    public void reflect(Vector3d normal, Vector3d dest) {
+    public Vector3d reflect(Vector3d normal, Vector3d dest) {
         double dot = this.dot(normal);
         dest.x = x - 2.0 * dot * normal.x;
         dest.y = y - 2.0 * dot * normal.y;
         dest.z = z - 2.0 * dot * normal.z;
+        return this;
     }
+
+    /**
+     * Compute the half vector between this and the other vector.
+     * 
+     * @param other
+     *             the other vector
+     */
+    public Vector3d half(Vector3d other) {
+        return this.add(other).normalize();
+    }
+
+    /**
+     * Compute the half vector between this and the other vector and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *             the other vector
+     * @param dest
+     *             will hold the result
+     */
+    public Vector3d half(Vector3d other, Vector3d dest) {
+        return dest.set(this).add(other).normalize();
+    }
+
 
 }
