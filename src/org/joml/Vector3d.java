@@ -491,7 +491,14 @@ public class Vector3d implements Serializable, Externalizable {
     public static double dot(Vector3d v1, Vector3d v2) {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
-    
+
+    /**
+     * Return the dot product of this vector and the supplied vector.
+     */
+    public double dot(Vector3d v) {
+        return x * v.x + y * v.y + z * v.z;
+    }
+
     /**
      * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
      * @return the cosinus of the angle
@@ -633,5 +640,33 @@ public class Vector3d implements Serializable, Externalizable {
 			return false;
 		return true;
 	}
+
+    /**
+     * Reflect this vector about the given normal vector.
+     * 
+     * @param normal
+     *             the vector to reflect about
+     */
+    public void reflect(Vector3d normal) {
+        double dot = this.dot(normal);
+        x = x - 2.0 * dot * normal.x;
+        y = y - 2.0 * dot * normal.y;
+        z = z - 2.0 * dot * normal.z;
+    }
+
+    /**
+     * Reflect this vector about the given normal vector and store the result in <code>dest</code>.
+     * 
+     * @param normal
+     *             the vector to reflect about
+     * @param dest
+     *             will hold the result
+     */
+    public void reflect(Vector3d normal, Vector3d dest) {
+        double dot = this.dot(normal);
+        dest.x = x - 2.0 * dot * normal.x;
+        dest.y = y - 2.0 * dot * normal.y;
+        dest.z = z - 2.0 * dot * normal.z;
+    }
 
 }

@@ -634,4 +634,32 @@ public class Vector3f implements Serializable, Externalizable {
 		return true;
 	}
 
+	/**
+	 * Reflect this vector about the given normal vector.
+	 * 
+	 * @param normal
+	 *             the vector to reflect about
+	 */
+	public void reflect(Vector3f normal) {
+	    float dot = this.dot(normal);
+	    x = x - 2.0f * dot * normal.x;
+	    y = y - 2.0f * dot * normal.y;
+	    z = z - 2.0f * dot * normal.z;
+	}
+
+    /**
+     * Reflect this vector about the given normal vector and store the result in <code>dest</code>.
+     * 
+     * @param normal
+     *             the vector to reflect about
+     * @param dest
+     *             will hold the result
+     */
+    public void reflect(Vector3f normal, Vector3f dest) {
+        float dot = this.dot(normal);
+        dest.x = x - 2.0f * dot * normal.x;
+        dest.y = y - 2.0f * dot * normal.y;
+        dest.z = z - 2.0f * dot * normal.z;
+    }
+
 }
