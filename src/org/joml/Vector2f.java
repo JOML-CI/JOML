@@ -232,6 +232,13 @@ public class Vector2f implements Serializable, Externalizable {
     }
 
     /**
+     * Return the length squared of this vector.
+     */
+    public float lengthSquared() {
+        return x * x + y * y;
+    }
+
+    /**
      * Return the distance between <code>start</code> and <code>end</code>.
      */
     public static float distance(Vector2f start, Vector2f end) {
@@ -319,13 +326,41 @@ public class Vector2f implements Serializable, Externalizable {
         y = -y;
         return this;
     }
-    
+
     /**
      * Negate original and store the result in dest.
      */
     public static void negate(Vector2f original, Vector2f dest) {
     	dest.x = -original.x;
     	dest.y = -original.y;
+    }
+
+    /**
+     * Multiply the components of this vector by the given scalar.
+     * 
+     * @param scalar
+     *          the value to multiply this vector's components by
+     * @return this
+     */
+    public Vector2f mul(float scalar) {
+        this.x *= scalar;
+        this.y *= scalar;
+        return this;
+    }
+
+    /**
+     * Multiply the components of this vector by the given scalar and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *          the value to multiply this vector's components by
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector2f mul(float scalar, Vector2f dest) {
+        dest.x *= scalar;
+        dest.y *= scalar;
+        return this;
     }
 
     public int hashCode() {
