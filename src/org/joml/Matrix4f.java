@@ -1623,7 +1623,7 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply rotation to this matrix by rotating the given amount of degrees
-     * about the given axis specified as x, y and z components.
+     * about the given axis specified as x, y and z components and store the result in <code>dest</code>.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -1647,9 +1647,11 @@ public class Matrix4f implements Serializable, Externalizable {
      *            the y component of the axis
      * @param z
      *            the z component of the axis
+     * @param dest
+     *            will hold the result
      * @return this
      */
-    public Matrix4f rotate(float ang, float x, float y, float z) {
+    public Matrix4f rotate(float ang, float x, float y, float z, Matrix4f dest) {
         float s = (float) Math.sin(Math.toRadians(ang));
         float c = (float) Math.cos(Math.toRadians(ang));
         float C = 1.0f - c;
@@ -1677,21 +1679,57 @@ public class Matrix4f implements Serializable, Externalizable {
         float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
         // set non-dependent values directly
-        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
         // set other values
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m03 = nm03;
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
-        m13 = nm13;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
 
         return this;
+    }
+
+    /**
+     * Apply rotation to this matrix by rotating the given amount of degrees
+     * about the given axis specified as x, y and z components.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation matrix without post-multiplying the rotation
+     * transformation, use {@link #rotation(float, float, float, float) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(float, float, float, float)
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @return this
+     */
+    public Matrix4f rotate(float ang, float x, float y, float z) {
+        return rotate(ang, x, y, z, this);
     }
 
     /**
@@ -2470,7 +2508,8 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternion} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaternion} to this matrix and store
+     * the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
@@ -2486,9 +2525,11 @@ public class Matrix4f implements Serializable, Externalizable {
      * 
      * @param quat
      *          the {@link Quaternion}
+     * @param dest
+     *          will hold the result
      * @return this
      */
-    public Matrix4f rotate(Quaternion quat) {
+    public Matrix4f rotate(Quaternion quat, Matrix4f dest) {
         float q00 = 2.0f * quat.x * quat.x;
         float q11 = 2.0f * quat.y * quat.y;
         float q22 = 2.0f * quat.z * quat.z;
@@ -2517,20 +2558,47 @@ public class Matrix4f implements Serializable, Externalizable {
         float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m03 = nm03;
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
-        m13 = nm13;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
 
         return this;
+    }
+
+    /**
+     * Apply the rotation transformation of the given {@link Quaternion} to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaternion)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternion)
+     * 
+     * @param quat
+     *          the {@link Quaternion}
+     * @return this
+     */
+    public Matrix4f rotate(Quaternion quat) {
+        return rotate(quat, this);
     }
 
     /**
@@ -2555,6 +2623,32 @@ public class Matrix4f implements Serializable, Externalizable {
      */
     public Matrix4f rotate(AngleAxis4f angleAxis) {
         return rotate(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    }
+
+    /**
+     * Apply a rotation transformation, rotating about the given {@link AngleAxis4f} and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the angle-axis rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(AngleAxis4f)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
+     * @see #rotation(AngleAxis4f)
+     * 
+     * @param angleAxis
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f rotate(AngleAxis4f angleAxis, Matrix4f dest) {
+        return rotate(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z, dest);
     }
 
     /**
