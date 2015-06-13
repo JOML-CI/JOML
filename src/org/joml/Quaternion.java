@@ -926,15 +926,15 @@ public class Quaternion implements Serializable, Externalizable {
      * Apply the given angular velocity to <code>this</code> quaternion using the given time differential and
      * store the result in <code>dest</code>.
      * <p>
-     * The angular velocity is in radians per time unit. The time unit used by the angular velocity must be the 
+     * The angular velocity is in degrees per time unit. The time unit used by the angular velocity must be the 
      * same as used by <code>dt</code>.
      * 
      * @param velocityX
-     *              the angular velocity in x
+     *              the angular velocity around the x axis in degrees per time unit
      * @param velocityY
-     *              the angular velocity in y
+     *              the angular velocity around the y axis in degrees per time unit
      * @param velocityZ
-     *              the angular velocity in z
+     *              the angular velocity around the z axis in degrees per time unit
      * @param dt
      *              the time differential during which the velocity is applied
      * @param dest
@@ -942,9 +942,9 @@ public class Quaternion implements Serializable, Externalizable {
      * @return this
      */
     public Quaternion integrate(float velocityX, float velocityY, float velocityZ, float dt, Quaternion dest) {
-        double thetaX = velocityX * dt * 0.5;
-        double thetaY = velocityY * dt * 0.5;
-        double thetaZ = velocityZ * dt * 0.5;
+        double thetaX = Math.toRadians(velocityX) * dt * 0.5;
+        double thetaY = Math.toRadians(velocityY) * dt * 0.5;
+        double thetaZ = Math.toRadians(velocityZ) * dt * 0.5;
         double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
         double s;
         double dqX, dqY, dqZ, dqW;
@@ -969,15 +969,15 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply the given angular velocity to <code>this</code> quaternion using the given time differential.
      * <p>
-     * The angular velocity is in radians per time unit. The time unit used by the angular velocity must be the 
+     * The angular velocity is in degrees per time unit. The time unit used by the angular velocity must be the 
      * same as used by <code>dt</code>.
      * 
      * @param velocityX
-     *              the angular velocity in x
+     *              the angular velocity around the x axis in degrees per time unit
      * @param velocityY
-     *              the angular velocity in y
+     *              the angular velocity around the y axis in degrees per time unit
      * @param velocityZ
-     *              the angular velocity in z
+     *              the angular velocity around the z axis in degrees per time unit
      * @param dt
      *              the time differential during which the velocity is applied
      * @return this
@@ -989,11 +989,11 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply the given angular velocity to <code>this</code> quaternion using the given time differential.
      * <p>
-     * The angular velocity is in radians per time unit. The time unit used by the angular velocity must be the 
+     * The angular velocity is in degrees per time unit. The time unit used by the angular velocity must be the 
      * same as used by <code>dt</code>.
      * 
      * @param velocity
-     *              the applied angular velocity
+     *              the applied angular velocity in degrees per time unit
      * @param dt
      *              the time differential during which the velocity is applied
      * @return this
@@ -1006,11 +1006,11 @@ public class Quaternion implements Serializable, Externalizable {
      * Apply the given angular velocity to <code>this</code> quaternion using the given time differential and
      * store the result in <code>dest</code>.
      * <p>
-     * The angular velocity is in radians per time unit. The time unit used by the angular velocity must be the 
+     * The angular velocity is in degrees per time unit. The time unit used by the angular velocity must be the 
      * same as used by <code>dt</code>.
      * 
      * @param velocity
-     *              the applied angular velocity
+     *              the applied angular velocity in degrees per time unit
      * @param dt
      *              the time differential during which the velocity is applied
      * @param dest
