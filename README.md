@@ -75,7 +75,6 @@ Matrix4f.With(proj).perspective(45.0f, 1.0f, 0.01f, 100.0f)
                            0.0f, 0.0f, 0.0f,
                            0.0f, 1.0f, 0.0f);
 ```
-This feature is currently only available in the [fluent](https://github.com/JOML-CI/Java-OpenGL-Math-Library/commit/1ae68ddc7350265d116d2155de50697cb66c9471) branch.
 
 Computation result
 ------------
