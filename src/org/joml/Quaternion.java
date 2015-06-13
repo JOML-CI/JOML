@@ -1055,17 +1055,6 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the z axis.
-     * 
-     * @param angle
-     *              the angle in degrees to rotate about the z axis
-     * @return this
-     */
-    public Quaternion rotateZ(float angle) {
-        return rotate(0.0f, 0.0f, angle, this);
-    }
-
-    /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the y axis
      * and store the result in <code>dest</code>.
      * 
@@ -1080,11 +1069,22 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the z axis.
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the z axis
+     * @return this
+     */
+    public Quaternion rotateZ(float angle) {
+        return rotate(0.0f, 0.0f, angle, this);
+    }
+
+    /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the z axis
      * and store the result in <code>dest</code>.
      * 
      * @param angle
-     *              the angle in degrees to rotate about the x axis
+     *              the angle in degrees to rotate about the z axis
      * @param dest
      *              will hold the result
      * @return this
