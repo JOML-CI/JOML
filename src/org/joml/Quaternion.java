@@ -923,7 +923,8 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential.
+     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential and
+     * store the result in <code>dest</code>.
      * <p>
      * The angular velocity is in radians per time unit. The time unit used by the angular velocity must be the 
      * same as used by <code>dt</code>.
@@ -936,6 +937,8 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angular velocity in z
      * @param dt
      *              the time differential during which the velocity is applied
+     * @param dest
+     *              will hold the result
      * @return this
      */
     public Quaternion integrate(float velocityX, float velocityY, float velocityZ, float dt, Quaternion dest) {
@@ -961,6 +964,26 @@ public class Quaternion implements Serializable, Externalizable {
                  deltaQw * z + deltaQx * y - deltaQy * x + deltaQz * w,
                  deltaQw * w - deltaQx * x - deltaQy * y - deltaQz * z);
         return this;
+    }
+
+    /**
+     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential.
+     * <p>
+     * The angular velocity is in radians per time unit. The time unit used by the angular velocity must be the 
+     * same as used by <code>dt</code>.
+     * 
+     * @param velocityX
+     *              the angular velocity in x
+     * @param velocityY
+     *              the angular velocity in y
+     * @param velocityZ
+     *              the angular velocity in z
+     * @param dt
+     *              the time differential during which the velocity is applied
+     * @return this
+     */
+    public Quaternion integrate(float velocityX, float velocityY, float velocityZ, float dt) {
+        return integrate(velocityX, velocityY, velocityZ, dt, this);
     }
 
     /**
