@@ -947,22 +947,22 @@ public class Quaternion implements Serializable, Externalizable {
         double thetaZ = velocityZ * dt * 0.5;
         double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
         double s;
-        double deltaQx, deltaQy, deltaQz, deltaQw;
-        if (thetaMagSq * thetaMagSq / 24.0f < 1E-7f) {
-            deltaQw = 1.0 - thetaMagSq / 2.0;
+        double dqX, dqY, dqZ, dqW;
+        if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
+            dqW = 1.0 - thetaMagSq / 2.0;
             s = 1.0 - thetaMagSq / 6.0;
         } else {
             double thetaMag = Math.sqrt(thetaMagSq);
-            deltaQw = Math.cos(thetaMag);
+            dqW = Math.cos(thetaMag);
             s = Math.sin(thetaMag) / thetaMag;
         }
-        deltaQx = thetaX * s;
-        deltaQy = thetaY * s;
-        deltaQz = thetaZ * s;
-        dest.set((float) (deltaQw * x + deltaQx * w + deltaQy * z - deltaQz * y),
-                 (float) (deltaQw * y - deltaQx * z + deltaQy * w + deltaQz * x),
-                 (float) (deltaQw * z + deltaQx * y - deltaQy * x + deltaQz * w),
-                 (float) (deltaQw * w - deltaQx * x - deltaQy * y - deltaQz * z));
+        dqX = thetaX * s;
+        dqY = thetaY * s;
+        dqZ = thetaZ * s;
+        dest.set((float) (dqW * x + dqX * w + dqY * z - dqZ * y),
+                 (float) (dqW * y - dqX * z + dqY * w + dqZ * x),
+                 (float) (dqW * z + dqX * y - dqY * x + dqZ * w),
+                 (float) (dqW * w - dqX * x - dqY * y - dqZ * z));
         return this;
     }
 
