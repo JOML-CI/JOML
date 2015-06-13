@@ -186,17 +186,17 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Finds the angle represented by this Quaternion in degrees
+     * Return the angle represented by this quaternion rotation in degrees.
      */
-    public float getAngle() {
+    public float angle() {
         float angle = 2.0f * (float) Math.acos(w);
         return (angle <= Math.PI) ? angle : 2.0f * (float) Math.PI - angle;
     }
 
     /**
-     * Finds the angle represented by q in degrees
+     * Return the angle represented by <code>q</code> in degrees.
      */
-    public static float getAngle(Quaternion q) {
+    public static float angle(Quaternion q) {
         float angle = 2.0f * (float) Math.acos(q.w);
         return (angle <= Math.PI) ? angle : 2.0f * (float) Math.PI - angle;
     }
@@ -204,7 +204,7 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>q</code>.
      */
-    public static void getMatrix(Quaternion q, Matrix3f dest) {
+    public static void get(Quaternion q, Matrix3f dest) {
         float q00 = 2.0f * q.x * q.x;
         float q11 = 2.0f * q.y * q.y;
         float q22 = 2.0f * q.z * q.z;
@@ -234,15 +234,15 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion getMatrix(Matrix3f dest) {
-        getMatrix(this, dest);
+    public Quaternion get(Matrix3f dest) {
+        get(this, dest);
         return this;
     }
 
     /**
      * Set the given destination matrix to the rotation represented by <code>q</code>.
      */
-    public static void getMatrix(Quaternion q, Matrix4f dest) {
+    public static void get(Quaternion q, Matrix4f dest) {
         float q00 = 2.0f * q.x * q.x;
         float q11 = 2.0f * q.y * q.y;
         float q22 = 2.0f * q.z * q.z;
@@ -278,8 +278,8 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion getMatrix(Matrix4f dest) {
-        getMatrix(this, dest);
+    public Quaternion get(Matrix4f dest) {
+        get(this, dest);
         return this;
     }
 
@@ -819,6 +819,50 @@ public class Quaternion implements Serializable, Externalizable {
         dest.y = (scale1 * start.y) + (scale2 * target.y);
         dest.z = (scale1 * start.z) + (scale2 * target.z);
         dest.w = (scale1 * start.w) + (scale2 * target.w);
+    }
+
+    /**
+     * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
+     * and store the result in <code>this</code>.
+     * 
+     * @param q
+     *          the other quaternion
+     * @param factor
+     *          the interpolation factor. It is between 0.0 and 1.0
+     * @return this
+     */
+    public Quaternion nlerp(Quaternion q, float factor) {
+        return nlerp(q, factor, this);
+    }
+
+    /**
+     * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param q
+     *          the other quaternion
+     * @param factor
+     *          the interpolation factor. It is between 0.0 and 1.0
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaternion nlerp(Quaternion q, float factor, Quaternion dest) {
+        float dot = this.dot(q);
+        float blendI = 1.0f - factor;
+        if (dot < 0.0f) {
+            dest.w = blendI * w + factor * -q.w;
+            dest.x = blendI * x + factor * -q.x;
+            dest.y = blendI * y + factor * -q.y;
+            dest.z = blendI * z + factor * -q.z;
+        } else {
+            dest.w = blendI * w + factor * q.w;
+            dest.x = blendI * x + factor * q.x;
+            dest.y = blendI * y + factor * q.y;
+            dest.z = blendI * z + factor * q.z;
+        }
+        dest.normalize();
+        return this;
     }
 
     /**

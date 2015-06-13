@@ -169,24 +169,24 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Finds the angle represented by this Quaternion in degrees
+     * Return the angle represented by this quaternion rotation in degrees.
      */
-    public double getAngle() {
+    public double angle() {
         double angle = 2.0 * Math.acos(w);
         return (angle <= Math.PI) ? angle : 2.0f * Math.PI - angle;
     }
 
     /**
-     * Finds the angle represented by q in degrees
+     * Return the angle represented by <code>q</code> in degrees.
      */
-    public static double getAngle(QuaternionD q) {
+    public static double angle(QuaternionD q) {
         double angle = 2.0 * Math.acos(q.w);
         return (angle <= Math.PI) ? angle : 2.0 * Math.PI - angle;
     }
     /**
      * Set the given destination matrix to the rotation represented by <code>q</code>.
      */
-    public static void getMatrix(QuaternionD q, Matrix3d dest) {
+    public static void get(QuaternionD q, Matrix3d dest) {
         double q00 = 2.0 * q.x * q.x;
         double q11 = 2.0 * q.y * q.y;
         double q22 = 2.0 * q.z * q.z;
@@ -216,15 +216,15 @@ public class QuaternionD implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public QuaternionD getMatrix(Matrix3d dest) {
-        getMatrix(this, dest);
+    public QuaternionD get(Matrix3d dest) {
+        get(this, dest);
         return this;
     }
 
     /**
      * Set the given destination matrix to the rotation represented by <code>q</code>.
      */
-    public static void getMatrix(QuaternionD q, Matrix4d dest) {
+    public static void get(QuaternionD q, Matrix4d dest) {
         double q00 = 2.0 * q.x * q.x;
         double q11 = 2.0 * q.y * q.y;
         double q22 = 2.0 * q.z * q.z;
@@ -260,8 +260,8 @@ public class QuaternionD implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public QuaternionD getMatrix(Matrix4d dest) {
-        getMatrix(this, dest);
+    public QuaternionD get(Matrix4d dest) {
+        get(this, dest);
         return this;
     }
 
@@ -814,31 +814,8 @@ public class QuaternionD implements Serializable, Externalizable {
      * @return this
      */
     public QuaternionD slerp(QuaternionD target, double alpha) {
-        double dot = Math.abs(this.x * target.x + this.y * target.y + this.z * target.z + this.w * target.w);
-        double scale1, scale2;
-
-        if ((1 - dot) > 0.1) {
-            
-            double angle = Math.acos(dot);
-            double sinAngle = 1.0 / Math.sin(angle);
-
-            scale1 = (Math.sin((1.0 - alpha) * angle) * sinAngle);
-            scale2 = (Math.sin((alpha * angle)) * sinAngle);
-        } else {    
-            scale1 = 1.0 - alpha;
-            scale2 = alpha;
-        }
-
-        if (dot < 0.0) {
-            scale2 = -scale2;
-        }
-
-        x = (scale1 * x) + (scale2 * target.x);
-        y = (scale1 * y) + (scale2 * target.y);
-        z = (scale1 * z) + (scale2 * target.z);
-        w = (scale1 * w) + (scale2 * target.w);
-        
-        return this;
+       slerp(this, target, alpha, this);
+       return this;
     }
 
     /**
@@ -871,6 +848,51 @@ public class QuaternionD implements Serializable, Externalizable {
         dest.w = (scale1 * start.w) + (scale2 * target.w);
     }
 
+    /**
+     * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
+     * and store the result in <code>this</code>.
+     * 
+     * @param q
+     *          the other quaternion
+     * @param factor
+     *          the interpolation factor. It is between 0.0 and 1.0
+     * @return this
+     */
+    public QuaternionD nlerp(QuaternionD q, float factor) {
+        return nlerp(q, factor, this);
+    }
+
+    /**
+     * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param q
+     *          the other quaternion
+     * @param factor
+     *          the interpolation factor. It is between 0.0 and 1.0
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public QuaternionD nlerp(QuaternionD q, float factor, QuaternionD dest) {
+        double dot = this.dot(q);
+        double blendI = 1.0 - factor;
+        if (dot < 0.0) {
+            dest.w = blendI * w + factor * -q.w;
+            dest.x = blendI * x + factor * -q.x;
+            dest.y = blendI * y + factor * -q.y;
+            dest.z = blendI * z + factor * -q.z;
+        } else {
+            dest.w = blendI * w + factor * q.w;
+            dest.x = blendI * x + factor * q.x;
+            dest.y = blendI * y + factor * q.y;
+            dest.z = blendI * z + factor * q.z;
+        }
+        dest.normalize();
+        return this;
+    }
+
+    
     /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
     public static void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward, QuaternionD dest) {
         double dirX = destPoint.x - sourcePoint.x;
