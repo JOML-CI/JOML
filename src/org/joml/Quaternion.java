@@ -329,8 +329,8 @@ public class Quaternion implements Serializable, Externalizable {
      *            the {@link AngleAxis4f}
      * @return this
      */
-    public Quaternion set(AngleAxis4f angleAxis) {
-        return setAngleAxis(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    public Quaternion rotation(AngleAxis4f angleAxis) {
+        return rotation(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
     }
 
     /**
@@ -339,7 +339,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion setAngleAxis(float angle, float axisX, float axisY, float axisZ) {
+    public Quaternion rotation(float angle, float axisX, float axisY, float axisZ) {
         float hangle = (float) Math.toRadians(angle / 2.0);
         float sinAngle = (float) Math.sin(hangle);
         float vLength = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
@@ -358,8 +358,8 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion setAngleAxis(float angle, Vector3f axis) {
-        return setAngleAxis(angle, axis.x, axis.y, axis.z);
+    public Quaternion rotation(float angle, Vector3f axis) {
+        return rotation(angle, axis.x, axis.y, axis.z);
     }
 
     /**
@@ -925,7 +925,7 @@ public class Quaternion implements Serializable, Externalizable {
         rotAxisY /= length;
         rotAxisZ /= length;
 
-        dest.setAngleAxis(rotAngle, rotAxisX, rotAxisY, rotAxisZ);
+        dest.rotation(rotAngle, rotAxisX, rotAxisY, rotAxisZ);
     }
 
     /**
@@ -943,13 +943,40 @@ public class Quaternion implements Serializable, Externalizable {
      * axes and store the result in <code>dest</code>.
      * 
      * @param anglesXYZ
-     *              the angles in degrees to rotate about the x, y and axes
+     *              the angles in degrees to rotate about the x, y and z axes, respectively
      * @param dest
      *              will hold the result
      * @return this
      */
+    public Quaternion rotate(Vector3f anglesXYZ, Quaternion dest) {
+        return rotate(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z, dest);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit
+     * axes.
+     * 
+     * @param anglesXYZ
+     *              the angles in degrees to rotate about the x, y and z axes, respectively
+     * @return this
+     */
     public Quaternion rotate(Vector3f anglesXYZ) {
         return rotate(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit axes.
+     * 
+     * @param angleX
+     *              the angle in degrees to rotate about the x axis
+     * @param angleY
+     *              the angle in degrees to rotate about the y axis
+     * @param angleZ
+     *              the angle in degrees to rotate about the z axis
+     * @return this
+     */
+    public Quaternion rotate(float angleX, float angleY, float angleZ) {
+        return rotate(angleX, angleY, angleZ, this);
     }
 
     /**
