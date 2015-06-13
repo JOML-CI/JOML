@@ -45,7 +45,8 @@ public class QuaternionD implements Serializable, Externalizable {
     public double w;
 
     /**
-     * Create a new {@link QuaternionD} and initialize it with <tt>(0, 0, 0, 1)</tt>.
+     * Create a new {@link Quaternion} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>, 
+     * where <tt>(x, y, z)</tt> is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
      */
     public QuaternionD() {
         x = 0.0f;
