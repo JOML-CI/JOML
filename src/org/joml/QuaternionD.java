@@ -306,6 +306,137 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
+     * Set this {@link QuaternionD} to be equivalent to the given
+     * {@link AngleAxis4f}.
+     * 
+     * @param angleAxis
+     *            the {@link AngleAxis4f}
+     * @return this
+     */
+    public QuaternionD set(AngleAxis4f angleAxis) {
+        return setAngleAxis(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    }
+
+    /**
+     * Set this quaternion to be a representation of the supplied axis and
+     * angle (in degrees).
+     * 
+     * @return this
+     */
+    public QuaternionD setAngleAxis(double angle, double axisX, double axisY, double axisZ) {
+        double hangle = Math.toRadians(angle / 2.0);
+        double sinAngle = Math.sin(hangle);
+        double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+
+        x = (axisX / vLength) * sinAngle;
+        y = (axisY / vLength) * sinAngle;
+        z = (axisZ / vLength) * sinAngle;
+        w = Math.cos(hangle);
+
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the supplied axis and
+     * angle (in degrees).
+     * 
+     * @return this
+     */
+    public QuaternionD setAngleAxis(double angle, Vector3d axis) {
+        return setAngleAxis(angle, axis.x, axis.y, axis.z);
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public QuaternionD set(Matrix4d mat) {
+        double t;
+        double tr = mat.m00 + mat.m11 + mat.m22;
+        if (tr >= 0.0) {
+            t = Math.sqrt(tr + 1.0);
+            w = t * 0.5;
+            t = 0.5 / t;
+            x = (mat.m12 - mat.m21) * t;
+            y = (mat.m20 - mat.m02) * t;
+            z = (mat.m01 - mat.m10) * t;
+        } else {
+            double max = Math.max(Math.max(mat.m00, mat.m11), mat.m22);
+            if (max == mat.m00) {
+                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
+                x = t * 0.5;
+                t = 0.5 / t;
+                y = (mat.m10 + mat.m01) * t;
+                z = (mat.m02 + mat.m20) * t;
+                w = (mat.m12 - mat.m21) * t;
+            } else if (max == mat.m11) {
+                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
+                y = t * 0.5;
+                t = 0.5 / t;
+                z = (mat.m21 + mat.m12) * t;
+                x = (mat.m10 + mat.m01) * t;
+                w = (mat.m20 - mat.m02) * t;
+            } else {
+                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
+                z = t * 0.5;
+                t = 0.5 / t;
+                x = (mat.m02 + mat.m20) * t;
+                y = (mat.m21 + mat.m12) * t;
+                w = (mat.m01 - mat.m10) * t;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public QuaternionD set(Matrix3d mat) {
+        double t;
+        double tr = mat.m00 + mat.m11 + mat.m22;
+        if (tr >= 0.0) {
+            t = Math.sqrt(tr + 1.0);
+            w = t * 0.5;
+            t = 0.5 / t;
+            x = (mat.m12 - mat.m21) * t;
+            y = (mat.m20 - mat.m02) * t;
+            z = (mat.m01 - mat.m10) * t;
+        } else {
+            double max = Math.max(Math.max(mat.m00, mat.m11), mat.m22);
+            if (max == mat.m00) {
+                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
+                x = t * 0.5;
+                t = 0.5 / t;
+                y = (mat.m10 + mat.m01) * t;
+                z = (mat.m02 + mat.m20) * t;
+                w = (mat.m12 - mat.m21) * t;
+            } else if (max == mat.m11) {
+                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
+                y = t * 0.5;
+                t = 0.5 / t;
+                z = (mat.m21 + mat.m12) * t;
+                x = (mat.m10 + mat.m01) * t;
+                w = (mat.m20 - mat.m02) * t;
+            } else {
+                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
+                z = t * 0.5;
+                t = 0.5 / t;
+                x = (mat.m02 + mat.m20) * t;
+                y = (mat.m21 + mat.m12) * t;
+                w = (mat.m01 - mat.m10) * t;
+            }
+        }
+        return this;
+    }
+
+    /**
      * Set this Quaternion to be a representation of the supplied axis and
      * angle (in radians).
      * 
@@ -403,6 +534,47 @@ public class QuaternionD implements Serializable, Externalizable {
                      a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
                      a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z);
         }
+    }
+
+    /**
+     * Transform the given vector by this quaternion.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @return this
+     */
+    public QuaternionD transform(Vector3d vec){
+        return transform(vec, vec);
+    }
+
+    /**
+     * Transform the given vector by this quaternion and store the result in <code>dest</code>.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public QuaternionD transform(Vector3d vec, Vector3d dest) {
+        double num = x * 2.0;
+        double num2 = y * 2.0;
+        double num3 = z * 2.0;
+        double num4 = x * num;
+        double num5 = y * num2;
+        double num6 = z * num3;
+        double num7 = x * num2;
+        double num8 = x * num3;
+        double num9 = y * num3;
+        double num10 = w * num;
+        double num11 = w * num2;
+        double num12 = w * num3;
+        vec.set((1.0 - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z,
+                (num7 + num12) * vec.x + (1.0 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z,
+                (num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0 - (num4 + num5)) * vec.z);
+        return this;
     }
 
     /**
