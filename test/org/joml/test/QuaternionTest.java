@@ -1,6 +1,7 @@
 package org.joml.test;
 
 import junit.framework.TestCase;
+
 import org.joml.*;
 
 /**
@@ -29,4 +30,5 @@ public class QuaternionTest extends TestCase {
 		Quaternion wantedResultQuat = new Quaternion(0, 0, 0, testQuat.dot(testQuat));
 		assertTrue(TestUtil.quatEqual(resultQuat, wantedResultQuat, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT));
 	}
+
 }

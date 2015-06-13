@@ -480,7 +480,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Transform the given vector by this matrix.
+     * Transform the given vector by this quaternion.
      * This will apply the rotation described by this quaternion to the given vector.
      * 
      * @param vec
