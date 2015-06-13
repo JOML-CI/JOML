@@ -939,28 +939,37 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential and
-     * store the result in <code>dest</code>.
-     * <p>
-     * The angular velocity is in degrees per time unit. The time unit used by the angular velocity must be the 
-     * same as used by <code>dt</code>.
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit
+     * axes and store the result in <code>dest</code>.
      * 
-     * @param velocityX
-     *              the angular velocity around the x axis in degrees per time unit
-     * @param velocityY
-     *              the angular velocity around the y axis in degrees per time unit
-     * @param velocityZ
-     *              the angular velocity around the z axis in degrees per time unit
-     * @param dt
-     *              the time differential during which the velocity is applied
+     * @param anglesXYZ
+     *              the angles in degrees to rotate about the x, y and axes
      * @param dest
      *              will hold the result
      * @return this
      */
-    public Quaternion integrate(float velocityX, float velocityY, float velocityZ, float dt, Quaternion dest) {
-        double thetaX = Math.toRadians(velocityX) * dt * 0.5;
-        double thetaY = Math.toRadians(velocityY) * dt * 0.5;
-        double thetaZ = Math.toRadians(velocityZ) * dt * 0.5;
+    public Quaternion rotate(Vector3f anglesXYZ) {
+        return rotate(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit
+     * axes and store the result in <code>dest</code>.
+     * 
+     * @param angleX
+     *              the angle in degrees to rotate about the x axis
+     * @param angleY
+     *              the angle in degrees to rotate about the y axis
+     * @param angleZ
+     *              the angle in degrees to rotate about the z axis
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaternion rotate(float angleX, float angleY, float angleZ, Quaternion dest) {
+        double thetaX = Math.toRadians(angleX) * 0.5;
+        double thetaY = Math.toRadians(angleY) * 0.5;
+        double thetaZ = Math.toRadians(angleZ) * 0.5;
         double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
         double s;
         double dqX, dqY, dqZ, dqW;
@@ -983,58 +992,78 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential.
-     * <p>
-     * The angular velocity is in degrees per time unit. The time unit used by the angular velocity must be the 
-     * same as used by <code>dt</code>.
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the x axis.
      * 
-     * @param velocityX
-     *              the angular velocity around the x axis in degrees per time unit
-     * @param velocityY
-     *              the angular velocity around the y axis in degrees per time unit
-     * @param velocityZ
-     *              the angular velocity around the z axis in degrees per time unit
-     * @param dt
-     *              the time differential during which the velocity is applied
+     * @param angle
+     *              the angle in degrees to rotate about the x axis
      * @return this
      */
-    public Quaternion integrate(float velocityX, float velocityY, float velocityZ, float dt) {
-        return integrate(velocityX, velocityY, velocityZ, dt, this);
+    public Quaternion rotateX(float angle) {
+        return rotate(angle, 0.0f, 0.0f, this);
     }
 
     /**
-     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential.
-     * <p>
-     * The angular velocity is in degrees per time unit. The time unit used by the angular velocity must be the 
-     * same as used by <code>dt</code>.
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the x axis
+     * and store the result in <code>dest</code>.
      * 
-     * @param velocity
-     *              the applied angular velocity in degrees per time unit
-     * @param dt
-     *              the time differential during which the velocity is applied
-     * @return this
-     */
-    public Quaternion integrate(Vector3f velocity, float dt) {
-        return integrate(velocity.x, velocity.y, velocity.z, dt, this);
-    }
-
-    /**
-     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential and
-     * store the result in <code>dest</code>.
-     * <p>
-     * The angular velocity is in degrees per time unit. The time unit used by the angular velocity must be the 
-     * same as used by <code>dt</code>.
-     * 
-     * @param velocity
-     *              the applied angular velocity in degrees per time unit
-     * @param dt
-     *              the time differential during which the velocity is applied
+     * @param angle
+     *              the angle in degrees to rotate about the x axis
      * @param dest
      *              will hold the result
      * @return this
      */
-    public Quaternion integrate(Vector3f velocity, float dt, Quaternion dest) {
-        return integrate(velocity.x, velocity.y, velocity.z, dt, dest);
+    public Quaternion rotateX(float angle, Quaternion dest) {
+        return rotate(angle, 0.0f, 0.0f, dest);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the y axis.
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the y axis
+     * @return this
+     */
+    public Quaternion rotateY(float angle) {
+        return rotate(0.0f, angle, 0.0f, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the z axis.
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the z axis
+     * @return this
+     */
+    public Quaternion rotateZ(float angle) {
+        return rotate(0.0f, 0.0f, angle, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the y axis
+     * and store the result in <code>dest</code>.
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the y axis
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaternion rotateY(float angle, Quaternion dest) {
+        return rotate(0.0f, angle, 0.0f, dest);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the z axis
+     * and store the result in <code>dest</code>.
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the x axis
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaternion rotateZ(float angle, Quaternion dest) {
+        return rotate(0.0f, 0.0f, angle, dest);
     }
 
     /**
