@@ -2678,6 +2678,34 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Apply a rotation transformation, rotating the given degree about the specified axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the angle-axis rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(float, Vector3f)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
+     * @see #rotation(float, Vector3f)
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f rotate(float angle, Vector3f axis, Matrix4f dest) {
+        return rotate(angle, axis.x, axis.y, axis.z, dest);
+    }
+
+    /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by this matrix using the specified viewport.
      * <p>
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
