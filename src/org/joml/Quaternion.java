@@ -455,10 +455,26 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Multiply this Quaternion by q.
      * 
+     * @param q
+     *          the quaternion to multiply <code>this</code> by
      * @return this
      */
     public Quaternion mul(Quaternion q) {
         mul(this, q, this);
+        return this;
+    }
+
+    /**
+     * Multiply this Quaternion by q and store the result in <code>dest</code>.
+     * 
+     * @param q
+     *          the quaternion to multiply <code>this</code> by
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaternion mul(Quaternion q, Quaternion dest) {
+        mul(this, q, dest);
         return this;
     }
 
