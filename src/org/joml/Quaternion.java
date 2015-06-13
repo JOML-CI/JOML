@@ -881,7 +881,7 @@ public class Quaternion implements Serializable, Externalizable {
 
         float dot = (forward.x * dirX) + (forward.y * dirY) + (forward.z * dirZ);
 
-        if (Math.abs(dot - (-1.0f)) < 0.000001f) {
+        if (Math.abs(dot - (-1.0f)) < 1E-6f) {
             dest.x = up.x;
             dest.y = up.y;
             dest.z = up.z;
@@ -889,7 +889,7 @@ public class Quaternion implements Serializable, Externalizable {
             return;
         }
 
-        if (Math.abs(dot - (1.0f)) < 0.000001f) {
+        if (Math.abs(dot - (1.0f)) < 1E-6f) {
             dest.x = 0.0f;
             dest.y = 0.0f;
             dest.z = 0.0f;
@@ -942,27 +942,27 @@ public class Quaternion implements Serializable, Externalizable {
      * @return this
      */
     public Quaternion integrate(float velocityX, float velocityY, float velocityZ, float dt, Quaternion dest) {
-        float thetaX = velocityX * dt * 0.5f;
-        float thetaY = velocityY * dt * 0.5f;
-        float thetaZ = velocityZ * dt * 0.5f;
-        float thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
-        float s;
-        float deltaQx, deltaQy, deltaQz, deltaQw;
+        double thetaX = velocityX * dt * 0.5;
+        double thetaY = velocityY * dt * 0.5;
+        double thetaZ = velocityZ * dt * 0.5;
+        double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
+        double s;
+        double deltaQx, deltaQy, deltaQz, deltaQw;
         if (thetaMagSq * thetaMagSq / 24.0f < 1E-7f) {
-            deltaQw = 1.0f - thetaMagSq / 2.0f;
-            s = 1.0f - thetaMagSq / 6.0f;
+            deltaQw = 1.0 - thetaMagSq / 2.0;
+            s = 1.0 - thetaMagSq / 6.0;
         } else {
-            float thetaMag = (float) Math.sqrt(thetaMagSq);
-            deltaQw = (float) Math.cos(thetaMag);
-            s = (float) Math.sin(thetaMag) / thetaMag;
+            double thetaMag = Math.sqrt(thetaMagSq);
+            deltaQw = Math.cos(thetaMag);
+            s = Math.sin(thetaMag) / thetaMag;
         }
         deltaQx = thetaX * s;
         deltaQy = thetaY * s;
         deltaQz = thetaZ * s;
-        dest.set(deltaQw * x + deltaQx * w + deltaQy * z - deltaQz * y,
-                 deltaQw * y - deltaQx * z + deltaQy * w + deltaQz * x,
-                 deltaQw * z + deltaQx * y - deltaQy * x + deltaQz * w,
-                 deltaQw * w - deltaQx * x - deltaQy * y - deltaQz * z);
+        dest.set((float) (deltaQw * x + deltaQx * w + deltaQy * z - deltaQz * y),
+                 (float) (deltaQw * y - deltaQx * z + deltaQy * w + deltaQz * x),
+                 (float) (deltaQw * z + deltaQx * y - deltaQy * x + deltaQz * w),
+                 (float) (deltaQw * w - deltaQx * x - deltaQy * y - deltaQz * z));
         return this;
     }
 
