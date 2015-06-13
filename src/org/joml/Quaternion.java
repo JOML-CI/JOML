@@ -514,9 +514,9 @@ public class Quaternion implements Serializable, Externalizable {
         double num10 = w * num;
         double num11 = w * num2;
         double num12 = w * num3;
-        vec.set((float) ((1.0 - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z),
-                (float) ((num7 + num12) * vec.x + (1.0 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z),
-                (float) ((num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0 - (num4 + num5)) * vec.z));
+        dest.set((float) ((1.0 - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z),
+                 (float) ((num7 + num12) * vec.x + (1.0 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z),
+                 (float) ((num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0 - (num4 + num5)) * vec.z));
         return this;
     }
 
@@ -920,6 +920,82 @@ public class Quaternion implements Serializable, Externalizable {
     public Quaternion lookAt(Vector3f sourcePoint, Vector3f destPoint, Vector3f up, Vector3f forward) {
         lookAt(sourcePoint, destPoint, up, forward, this);
         return this;
+    }
+
+    /**
+     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential.
+     * <p>
+     * The angular velocity is in radians per time unit. The time unit used by the angular velocity must be the 
+     * same as used by <code>dt</code>.
+     * 
+     * @param velocityX
+     *              the angular velocity in x
+     * @param velocityY
+     *              the angular velocity in y
+     * @param velocityZ
+     *              the angular velocity in z
+     * @param dt
+     *              the time differential during which the velocity is applied
+     * @return this
+     */
+    public Quaternion integrate(float velocityX, float velocityY, float velocityZ, float dt, Quaternion dest) {
+        float thetaX = velocityX * dt * 0.5f;
+        float thetaY = velocityY * dt * 0.5f;
+        float thetaZ = velocityZ * dt * 0.5f;
+        float thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
+        float s;
+        float deltaQx, deltaQy, deltaQz, deltaQw;
+        if (thetaMagSq * thetaMagSq / 24.0f < 1E-7f) {
+            deltaQw = 1.0f - thetaMagSq / 2.0f;
+            s = 1.0f - thetaMagSq / 6.0f;
+        } else {
+            float thetaMag = (float) Math.sqrt(thetaMagSq);
+            deltaQw = (float) Math.cos(thetaMag);
+            s = (float) Math.sin(thetaMag) / thetaMag;
+        }
+        deltaQx = thetaX * s;
+        deltaQy = thetaY * s;
+        deltaQz = thetaZ * s;
+        dest.set(deltaQw * x + deltaQx * w + deltaQy * z - deltaQz * y,
+                 deltaQw * y - deltaQx * z + deltaQy * w + deltaQz * x,
+                 deltaQw * z + deltaQx * y - deltaQy * x + deltaQz * w,
+                 deltaQw * w - deltaQx * x - deltaQy * y - deltaQz * z);
+        return this;
+    }
+
+    /**
+     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential.
+     * <p>
+     * The angular velocity is in radians per time unit. The time unit used by the angular velocity must be the 
+     * same as used by <code>dt</code>.
+     * 
+     * @param velocity
+     *              the applied angular velocity
+     * @param dt
+     *              the time differential during which the velocity is applied
+     * @return this
+     */
+    public Quaternion integrate(Vector3f velocity, float dt) {
+        return integrate(velocity.x, velocity.y, velocity.z, dt, this);
+    }
+
+    /**
+     * Apply the given angular velocity to <code>this</code> quaternion using the given time differential and
+     * store the result in <code>dest</code>.
+     * <p>
+     * The angular velocity is in radians per time unit. The time unit used by the angular velocity must be the 
+     * same as used by <code>dt</code>.
+     * 
+     * @param velocity
+     *              the applied angular velocity
+     * @param dt
+     *              the time differential during which the velocity is applied
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaternion integrate(Vector3f velocity, float dt, Quaternion dest) {
+        return integrate(velocity.x, velocity.y, velocity.z, dt, dest);
     }
 
     /**
