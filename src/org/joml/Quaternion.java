@@ -942,6 +942,11 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit
      * axes and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param anglesXYZ
      *              the angles in degrees to rotate about the x, y and z axes, respectively
@@ -956,6 +961,11 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit
      * axes.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param anglesXYZ
      *              the angles in degrees to rotate about the x, y and z axes, respectively
@@ -967,6 +977,11 @@ public class Quaternion implements Serializable, Externalizable {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit axes.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param angleX
      *              the angle in degrees to rotate about the x axis
@@ -983,6 +998,11 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit
      * axes and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param angleX
      *              the angle in degrees to rotate about the x axis
@@ -1027,6 +1047,11 @@ public class Quaternion implements Serializable, Externalizable {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the x axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param angle
      *              the angle in degrees to rotate about the x axis
@@ -1039,6 +1064,11 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the x axis
      * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param angle
      *              the angle in degrees to rotate about the x axis
@@ -1052,6 +1082,11 @@ public class Quaternion implements Serializable, Externalizable {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the y axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param angle
      *              the angle in degrees to rotate about the y axis
@@ -1064,6 +1099,11 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the y axis
      * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param angle
      *              the angle in degrees to rotate about the y axis
@@ -1077,6 +1117,11 @@ public class Quaternion implements Serializable, Externalizable {
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the z axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param angle
      *              the angle in degrees to rotate about the z axis
@@ -1089,6 +1134,11 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the z axis
      * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param angle
      *              the angle in degrees to rotate about the z axis
