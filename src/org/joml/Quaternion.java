@@ -330,8 +330,8 @@ public class Quaternion implements Serializable, Externalizable {
      *            the {@link AngleAxis4f}
      * @return this
      */
-    public Quaternion rotation(AngleAxis4f angleAxis) {
-        return rotation(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    public Quaternion rotationAxis(AngleAxis4f angleAxis) {
+        return rotationAxis(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
     }
 
     /**
@@ -340,7 +340,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion rotation(float angle, float axisX, float axisY, float axisZ) {
+    public Quaternion rotationAxis(float angle, float axisX, float axisY, float axisZ) {
         float hangle = (float) Math.toRadians(angle / 2.0);
         float sinAngle = (float) Math.sin(hangle);
         float vLength = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
@@ -359,8 +359,83 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion rotation(float angle, Vector3f axis) {
-        return rotation(angle, axis.x, axis.y, axis.z);
+    public Quaternion rotationAxis(float angle, Vector3f axis) {
+        return rotationAxis(angle, axis.x, axis.y, axis.z);
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given angles in degrees about the basis unit axes of the cartesian space.
+     * 
+     * @param anglesXYZ
+     *              the angles in degrees to rotate about the basis unit axes of the cartesian space
+     * @return this
+     */
+    public Quaternion rotation(Vector3f anglesXYZ) {
+        return rotation(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z);
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given angles in degrees about the basis unit axes of the cartesian space.
+     * 
+     * @param angleX
+     *              the angle in degrees to rotate about the x axis
+     * @param angleY
+     *              the angle in degrees to rotate about the y axis
+     * @param angleZ
+     *              the angle in degrees to rotate about the z axis
+     * @return this
+     */
+    public Quaternion rotation(float angleX, float angleY, float angleZ) {
+        double thetaX = Math.toRadians(angleX) * 0.5;
+        double thetaY = Math.toRadians(angleY) * 0.5;
+        double thetaZ = Math.toRadians(angleZ) * 0.5;
+        double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
+        double s;
+        if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
+            w = (float) (1.0 - thetaMagSq / 2.0);
+            s = 1.0 - thetaMagSq / 6.0;
+        } else {
+            double thetaMag = Math.sqrt(thetaMagSq);
+            w = (float) Math.cos(thetaMag);
+            s = Math.sin(thetaMag) / thetaMag;
+        }
+        x = (float) (thetaX * s);
+        y = (float) (thetaY * s);
+        z = (float) (thetaZ * s);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given degrees about the x axis.
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the x axis
+     * @return this
+     */
+    public Quaternion rotationX(float angle) {
+        return rotation(angle, 0.0f, 0.0f);
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given degrees about the y axis.
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the y axis
+     * @return this
+     */
+    public Quaternion rotationY(float angle) {
+        return rotation(0.0f, angle, 0.0f);
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given degrees about the z axis.
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the z axis
+     * @return this
+     */
+    public Quaternion rotationZ(float angle) {
+        return rotation(0.0f, 0.0f, angle);
     }
 
     /**
@@ -926,7 +1001,7 @@ public class Quaternion implements Serializable, Externalizable {
         rotAxisY /= length;
         rotAxisZ /= length;
 
-        dest.rotation(rotAngle, rotAxisX, rotAxisY, rotAxisZ);
+        dest.rotationAxis(rotAngle, rotAxisX, rotAxisY, rotAxisZ);
     }
 
     /**
@@ -940,8 +1015,8 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit
-     * axes and store the result in <code>dest</code>.
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the basis unit axes of the
+     * cartesian space and store the result in <code>dest</code>.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -959,8 +1034,8 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit
-     * axes.
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the basis unit axes
+     * of the cartesian space.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -976,7 +1051,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit axes.
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the basis unit axes of the cartesian space.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -996,8 +1071,8 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the unit
-     * axes and store the result in <code>dest</code>.
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the basis unit axes of the
+     * cartesian space and store the result in <code>dest</code>.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
