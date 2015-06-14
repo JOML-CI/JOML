@@ -1279,8 +1279,6 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle in degrees to rotate about the specified axis
      * @param axis
      *              the rotation axis
-     * @param dest
-     *              will hold the result
      * @return this
      */
     public Quaternion rotateAxis(float angle, Vector3f axis) {
