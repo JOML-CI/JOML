@@ -106,6 +106,19 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
+     * Create a new {@link QuaternionD} and initialize its components to the same values as the given {@link Quaternion}.
+     * 
+     * @param source
+     *          the {@link Quaternion} to take the component values from
+     */
+    public QuaternionD(Quaternion source) {
+        x = source.x;
+        y = source.y;
+        z = source.z;
+        w = source.w;
+    }
+
+    /**
      * Normalize this Quaternion.
      * 
      * @return this
