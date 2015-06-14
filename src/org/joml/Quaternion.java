@@ -1012,10 +1012,16 @@ public class Quaternion implements Serializable, Externalizable {
         dqX = thetaX * s;
         dqY = thetaY * s;
         dqZ = thetaZ * s;
-        dest.set((float) (dqW * x + dqX * w + dqY * z - dqZ * y),
-                 (float) (dqW * y - dqX * z + dqY * w + dqZ * x),
-                 (float) (dqW * z + dqX * y - dqY * x + dqZ * w),
-                 (float) (dqW * w - dqX * x - dqY * y - dqZ * z));
+        /* Pre-multiplication */
+//        dest.set((float) (dqW * x + dqX * w + dqY * z - dqZ * y),
+//                 (float) (dqW * y - dqX * z + dqY * w + dqZ * x),
+//                 (float) (dqW * z + dqX * y - dqY * x + dqZ * w),
+//                 (float) (dqW * w - dqX * x - dqY * y - dqZ * z));
+        /* Post-multiplication (like matrices multiply) */
+        dest.set((float) (w * dqX + x * dqW + y * dqZ - z * dqY),
+                 (float) (w * dqY - x * dqZ + y * dqW + z * dqX),
+                 (float) (w * dqZ + x * dqY - y * dqX + z * dqW),
+                 (float) (w * dqW - x * dqX - y * dqY - z * dqZ));
         return this;
     }
 
