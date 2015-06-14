@@ -323,11 +323,11 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link Quaternion} to be equivalent to the given
-     * {@link AngleAxis4f}.
+     * Set this {@link Quaternion} to a rotation of the given angle in degrees about the supplied
+     * axis, all of which are specified via the {@link AngleAxis4f}.
      * 
      * @param angleAxis
-     *            the {@link AngleAxis4f}
+     *            the {@link AngleAxis4f} giving the rotation angle in degrees and the axis to rotate about
      * @return this
      */
     public Quaternion rotationAxis(AngleAxis4f angleAxis) {
@@ -335,9 +335,10 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to be a representation of the supplied axis and
-     * angle (in degrees).
+     * Set this Quaternion to a rotation of the given angle in degrees about the supplied axis.
      * 
+     * @param angle
+     *          the rotation angle in degrees
      * @return this
      */
     public Quaternion rotationAxis(float angle, float axisX, float axisY, float axisZ) {
@@ -354,9 +355,12 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to be a representation of the supplied axis and
-     * angle (in degrees).
+     * Set this Quaternion to a rotation of the given angle in degrees about the supplied axis.
      * 
+     * @param angle
+     *          the rotation angle in degrees
+     * @param axis
+     *          the axis to rotate about
      * @return this
      */
     public Quaternion rotationAxis(float angle, Vector3f axis) {
@@ -1223,6 +1227,86 @@ public class Quaternion implements Serializable, Externalizable {
      */
     public Quaternion rotateZ(float angle, Quaternion dest) {
         return rotate(0.0f, 0.0f, angle, dest);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the specified axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the specified axis
+     * @param axisX
+     *              the x coordinate of the rotation axis
+     * @param axisY
+     *              the y coordinate of the rotation axis
+     * @param axisZ
+     *              the z coordinate of the rotation axis
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaternion rotateAxis(float angle, float axisX, float axisY, float axisZ, Quaternion dest) {
+        double hangle = Math.toRadians(angle / 2.0);
+        double sinAngle = Math.sin(hangle);
+        double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+
+        double rx = (axisX / vLength) * sinAngle;
+        double ry = (axisY / vLength) * sinAngle;
+        double rz = (axisZ / vLength) * sinAngle;
+        double rw = Math.cos(hangle);
+
+        dest.set((float) (w * rx + x * rw + y * rz - z * ry),
+                 (float) (w * ry - x * rz + y * rw + z * rx),
+                 (float) (w * rz + x * ry - y * rx + z * rw),
+                 (float) (w * rw - x * rx - y * ry - z * rz));
+        return this;
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the specified axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the specified axis
+     * @param axis
+     *              the rotation axis
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaternion rotateAxis(float angle, Vector3f axis) {
+        return rotateAxis(angle, axis.x, axis.y, axis.z, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the specified axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the specified axis
+     * @param axisX
+     *              the x coordinate of the rotation axis
+     * @param axisY
+     *              the y coordinate of the rotation axis
+     * @param axisZ
+     *              the z coordinate of the rotation axis
+     * @return this
+     */
+    public Quaternion rotateAxis(float angle, float axisX, float axisY, float axisZ) {
+        return rotateAxis(angle, axisX, axisY, axisZ, this);
     }
 
     /**
