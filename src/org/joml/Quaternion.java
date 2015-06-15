@@ -681,10 +681,10 @@ public class Quaternion implements Serializable, Externalizable {
      */
     public Quaternion invert() {
         float norm = (x * x + y * y + z * z + w * w);
-        x = x / norm;
+        x = -x / norm;
         y = -y / norm;
         z = -z / norm;
-        w = -w / norm;
+        w = w / norm;
         return this;
     }
 
@@ -693,10 +693,10 @@ public class Quaternion implements Serializable, Externalizable {
      */
     public static void invert(Quaternion q, Quaternion dest) {
         float norm = (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
-        dest.x = q.x / norm;
+        dest.x = -q.x / norm;
         dest.y = -q.y / norm;
         dest.z = -q.z / norm;
-        dest.w = -q.w / norm;
+        dest.w = q.w / norm;
     }
 
     /**
@@ -1418,6 +1418,41 @@ public class Quaternion implements Serializable, Externalizable {
         if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
             return false;
         return true;
+    }
+
+    /**
+     * Compute the difference between <code>this</code> and the <code>other</code> quaternion
+     * and store the result in <code>this</code>.
+     * <p>
+     * The difference is the rotation that has to be applied to get from
+     * <code>this</code> rotation to <code>other</code>.
+     * <p>
+     * It is defined as: <tt>D = this * other^-1</tt>
+     * 
+     * @param other
+     * @return this
+     */
+    public Quaternion difference(Quaternion other) {
+        return this.invert().mul(other);
+    }
+
+    /**
+     * Compute the difference between <code>this</code> and the <code>other</code> quaternion
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The difference is the rotation that has to be applied to get from
+     * <code>this</code> rotation to <code>other</code>.
+     * <p>
+     * It is defined as: <tt>D = this * other^-1</tt>
+     * 
+     * @param other
+     *          the other quaternion
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaternion difference(Quaternion other, Quaternion dest) {
+        return dest.set(this).invert().mul(other);
     }
 
 }
