@@ -1459,11 +1459,12 @@ public class Quaternion implements Serializable, Externalizable {
      * and store the result in <code>this</code>.
      * <p>
      * The difference is the rotation that has to be applied to get from
-     * <code>this</code> rotation to <code>other</code>, so that the following equation holds:
+     * <code>this</code> rotation to <code>other</code>. If <tt>T</tt> is <code>this</code>, <tt>Q</tt>
+     * is <code>other</code> and <tt>D</tt> is the computed difference, then the following equation holds:
      * <p>
-     * <tt>this * this.difference(other) = other</tt>
+     * <tt>T * D = Q</tt>
      * <p>
-     * It is defined as: <tt>D = this^-1 * other</tt>
+     * It is defined as: <tt>D = T^-1 * Q</tt>, where <tt>T^-1</tt> denotes the {@link #invert() inverse} of <tt>T</tt>.
      * 
      * @param other
      *          the other quaternion
@@ -1478,11 +1479,12 @@ public class Quaternion implements Serializable, Externalizable {
      * and store the result in <code>dest</code>.
      * <p>
      * The difference is the rotation that has to be applied to get from
-     * <code>this</code> rotation to <code>other</code>, so that the following equation holds:
+     * <code>this</code> rotation to <code>other</code>. If <tt>T</tt> is <code>this</code>, <tt>Q</tt>
+     * is <code>other</code> and <tt>D</tt> is the computed difference, then the following equation holds:
      * <p>
-     * <tt>this * this.difference(other) = other</tt>
+     * <tt>T * D = Q</tt>
      * <p>
-     * It is defined as: <tt>D = this^-1 * other</tt>
+     * It is defined as: <tt>D = T^-1 * Q</tt>, where <tt>T^-1</tt> denotes the {@link #invert() inverse} of <tt>T</tt>.
      * 
      * @param other
      *          the other quaternion
