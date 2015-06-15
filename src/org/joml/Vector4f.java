@@ -361,6 +361,52 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
+     * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
+     * 
+     * @see Quaternion#transform(Vector4f)
+     * 
+     * @param quat
+     *          the quaternion to multiply this vector by
+     * @return this
+     */
+    public Vector4f mul(Quaternion quat) {
+        mul(this, quat, this);
+        return this;
+    }
+
+    /**
+     * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
+     * 
+     * @see Quaternion#transform(Vector4f)
+     * 
+     * @param quat
+     *          the quaternion to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4f mul(Quaternion quat, Vector4f dest) {
+        mul(this, quat, dest);
+        return this;
+    }
+
+    /**
+     * Multiply the vector <code>v</code> by the given quaternion <code>mat</code> and store the result in <code>dest</code>.
+     * 
+     * @see Quaternion#transform(Vector4f)
+     * 
+     * @param v
+     *          the vector to multiply
+     * @param quat
+     *          the quaternion to multiply the vector by
+     * @param dest
+     *          will hold the result
+     */
+    public static void mul(Vector4f v, Quaternion quat, Vector4f dest) {
+        quat.transform(v, dest);
+    }
+
+    /**
      * Return the length squared of this vector.
      * 
      * @return the length squared
