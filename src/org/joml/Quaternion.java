@@ -1461,7 +1461,7 @@ public class Quaternion implements Serializable, Externalizable {
      * The difference is the rotation that has to be applied to get from
      * <code>this</code> rotation to <code>other</code>.
      * <p>
-     * It is defined as: <tt>D = this * other^-1</tt>
+     * It is defined as: <tt>D = this^-1 * other</tt>
      * 
      * @param other
      * @return this
@@ -1477,7 +1477,7 @@ public class Quaternion implements Serializable, Externalizable {
      * The difference is the rotation that has to be applied to get from
      * <code>this</code> rotation to <code>other</code>.
      * <p>
-     * It is defined as: <tt>D = this * other^-1</tt>
+     * It is defined as: <tt>D = this^-1 * other</tt>
      * 
      * @param other
      *          the other quaternion
