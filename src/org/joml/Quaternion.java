@@ -285,6 +285,40 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
+     * Set the given {@link AngleAxis4f} to represent the rotation of
+     * <code>this</code> quaternion.
+     * 
+     * @param angleAxis
+     *            the {@link AngleAxis4f} to set
+     * @return this
+     */
+    public Quaternion get(AngleAxis4f angleAxis) {
+        float x = this.x;
+        float y = this.y;
+        float z = this.z;
+        float w = this.w;
+        if (w > 1.0f) {
+            float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
+            x /= norm;
+            y /= norm;
+            z /= norm;
+            w /= norm;
+        }
+        angleAxis.angle = (float) (2.0f * Math.acos(w));
+        float s = (float) Math.sqrt(1.0 - w * w);
+        if (s < 0.001f) {
+            angleAxis.x = x;
+            angleAxis.y = y;
+            angleAxis.z = z;
+        } else {
+            angleAxis.x = x / s;
+            angleAxis.y = y / s;
+            angleAxis.z = z / s;
+        }
+        return this;
+    }
+
+    /**
      * Set this Quaternion to the given values.
      * 
      * @return this
