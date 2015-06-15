@@ -1459,7 +1459,9 @@ public class Quaternion implements Serializable, Externalizable {
      * and store the result in <code>this</code>.
      * <p>
      * The difference is the rotation that has to be applied to get from
-     * <code>this</code> rotation to <code>other</code>.
+     * <code>this</code> rotation to <code>other</code>, so that the following equation holds:
+     * <p>
+     * <tt>this * this.difference(other) = other</tt>
      * <p>
      * It is defined as: <tt>D = this^-1 * other</tt>
      * 
@@ -1475,7 +1477,9 @@ public class Quaternion implements Serializable, Externalizable {
      * and store the result in <code>dest</code>.
      * <p>
      * The difference is the rotation that has to be applied to get from
-     * <code>this</code> rotation to <code>other</code>.
+     * <code>this</code> rotation to <code>other</code>, so that the following equation holds:
+     * <p>
+     * <tt>this * this.difference(other) = other</tt>
      * <p>
      * It is defined as: <tt>D = this^-1 * other</tt>
      * 
