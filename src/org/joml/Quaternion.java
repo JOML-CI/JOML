@@ -1099,6 +1099,101 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
+     * Set this quaternion to a rotation that maps the given direction to the positive Z axis.
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * 
+     * @return this
+     */
+    public Quaternion lookAlong(Vector3f dir, Vector3f up) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    }
+
+    /**
+     * Calculate a rotation quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * 
+     * @return this
+     */
+    public Quaternion lookAlong(Vector3f dir, Vector3f up, Quaternion dest) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Set this quaternion to a rotation that maps the given direction to the positive Z axis.
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * 
+     * @return this
+     */
+    public Quaternion lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
+        return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Calculate a rotation quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * 
+     * @return this
+     */
+    public Quaternion lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternion dest) {
+        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX /= dirLength;
+        dirY /= dirLength;
+        dirZ /= dirLength;
+        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
+        upX /= upLength;
+        upY /= upLength;
+        upZ /= upLength;
+        // left = up x dir
+        float rightX, rightY, rightZ;
+        rightX = upY * dirZ - upZ * dirY;
+        rightY = upZ * dirX - upX * dirZ;
+        rightZ = upX * dirY - upY * dirX;
+        // up = direction x left
+        upX = dirY * rightZ - dirZ * rightY;
+        upY = dirZ * rightX - dirX * rightZ;
+        upZ = dirX * rightY - dirY * rightX;
+
+        double t;
+        double tr = rightX + upY - dirZ;
+        if (tr >= 0.0) {
+            t = Math.sqrt(tr + 1.0);
+            dest.w = (float) (t * 0.5);
+            t = 0.5 / t;
+            dest.x = (float) ((dirY - upZ) * t);
+            dest.y = (float) ((rightZ - dirX) * t);
+            dest.z = (float) ((upX - rightY) * t);
+        } else {
+            if (rightX >= upY && rightX >= dirZ) {
+                t = Math.sqrt(1.0 + rightX - upY - dirZ);
+                dest.x = (float) (t * 0.5);
+                t = 0.5 / t;
+                dest.y = (float) ((rightY + upX) * t);
+                dest.z = (float) ((dirX + rightZ) * t);
+                dest.w = (float) ((dirY - upZ) * t);
+            } else if (upY > dirZ) {
+                t = Math.sqrt(1.0 + upY - rightX - dirZ);
+                dest.y = (float) (t * 0.5);
+                t = 0.5 / t;
+                dest.x = (float) ((rightY + upX) * t);
+                dest.z = (float) ((upZ + dirY) * t);
+                dest.w = (float) ((rightZ - dirX) * t);
+            } else {
+                t = Math.sqrt(1.0 + dirZ - rightX - upY);
+                dest.z = (float) (t * 0.5);
+                t = 0.5 / t;
+                dest.x = (float) ((dirX + rightZ) * t);
+                dest.y = (float) ((upZ + dirY) * t);
+                dest.w = (float) ((upX - rightY) * t);
+            }
+        }
+        return this;
+    }
+
+    /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the basis unit axes of the
      * cartesian space and store the result in <code>dest</code>.
      * <p>
