@@ -1466,10 +1466,11 @@ public class Quaternion implements Serializable, Externalizable {
      * It is defined as: <tt>D = this^-1 * other</tt>
      * 
      * @param other
+     *          the other quaternion
      * @return this
      */
     public Quaternion difference(Quaternion other) {
-        return this.invert().mul(other);
+        return difference(other, this);
     }
 
     /**
@@ -1490,7 +1491,16 @@ public class Quaternion implements Serializable, Externalizable {
      * @return this
      */
     public Quaternion difference(Quaternion other, Quaternion dest) {
-        return dest.set(this).invert().mul(other);
+        float norm = x * x + y * y + z * z + w * w;
+        float x = -this.x / norm;
+        float y = -this.y / norm;
+        float z = -this.z / norm;
+        float w = this.w / norm;
+        dest.set(w * other.x + x * other.w + y * other.z - z * other.y,
+                 w * other.y - x * other.z + y * other.w + z * other.x,
+                 w * other.z + x * other.y - y * other.x + z * other.w,
+                 w * other.w - x * other.x - y * other.y - z * other.z);
+        return this;
     }
 
 }
