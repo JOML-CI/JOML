@@ -655,28 +655,62 @@ public class QuaternionD implements Serializable, Externalizable {
         dest.w = -q.w / norm;
     }
 
+
     /**
-     * Divide this Quaternion by b.
+     * Divide <code>this</code> quaternion by <code>b</code> and store the result in <code>dest</code>.
+     * <p>
+     * The division expressed using the inverse is performed in the following way:
+     * <p>
+     * <tt>dest = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
      * 
+     * @param b
+     *          the {@link QuaternionD} to divide this by
+     * @param dest
+     *          will hold the result
      * @return this
      */
-    public QuaternionD div(QuaternionD b) {
-        invert();
-        mul(b);
+    public QuaternionD div(QuaternionD b, QuaternionD dest) {
+        div(this, b, dest);
         return this;
     }
 
     /**
-     * Divides a by b and stores the results in dest. Does not modify a or b
+     * Divide <code>this</code> quaternion by <code>b</code>.
+     * <p>
+     * The division expressed using the inverse is performed in the following way:
+     * <p>
+     * <tt>this = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
+     * 
+     * @param b
+     *          the {@link QuaternionD} to divide this by
+     * @return this
+     */
+    public QuaternionD div(QuaternionD b) {
+        return this;
+    }
+
+    /**
+     * Divide <code>a</code> by <code>b</code> and stores the results in <code>dest</code>.
+     * <p>
+     * The division expressed with the inverse is performed in the following way:
+     * <p>
+     * <tt>dest = a * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
+     * 
+     * @param a
+     * @param b
+     * @param dest
+     *          will hold the result
      */
     public static void div(QuaternionD a, QuaternionD b, QuaternionD dest) {
-        dest.x = a.x;
-        dest.y = a.y;
-        dest.z = a.z;
-        dest.w = a.w;
-
-        dest.invert();
-        dest.mul(b);
+        double norm = (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
+        double x = -b.x / norm;
+        double y = -b.y / norm;
+        double z = -b.z / norm;
+        double w = b.w / norm;
+        dest.set(a.w * x + a.x * w + a.y * z - a.z * y,
+                 a.w * y - a.x * z + a.y * w + a.z * x,
+                 a.w * z + a.x * y - a.y * x + a.z * w,
+                 a.w * w - a.x * x - a.y * y - a.z * z);
     }
 
     /**

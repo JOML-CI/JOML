@@ -774,7 +774,11 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Divides this Quaternion by b and store the result in <code>dest</code>.
+     * Divide <code>this</code> quaternion by <code>b</code> and store the result in <code>dest</code>.
+     * <p>
+     * The division expressed using the inverse is performed in the following way:
+     * <p>
+     * <tt>dest = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
      * 
      * @param b
      *          the {@link Quaternion} to divide this by
@@ -788,27 +792,37 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Divides this Quaternion by b.
+     * Divide <code>this</code> quaternion by <code>b</code>.
+     * <p>
+     * The division expressed using the inverse is performed in the following way:
+     * <p>
+     * <tt>this = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
      * 
+     * @param b
+     *          the {@link Quaternion} to divide this by
      * @return this
      */
     public Quaternion div(Quaternion b) {
-        invert();
-        mul(b);
         return this;
     }
 
     /**
-     * Divides a by b and stores the results in dest. Does not modify a or b
+     * Divide <code>a</code> by <code>b</code> and stores the results in <code>dest</code>.
+     * <p>
+     * The division expressed with the inverse is performed in the following way:
+     * <p>
+     * <tt>dest = a * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
      */
     public static void div(Quaternion a, Quaternion b, Quaternion dest) {
-        dest.x = a.x;
-        dest.y = a.y;
-        dest.z = a.z;
-        dest.w = a.w;
-
-        dest.invert();
-        dest.mul(b);
+        float norm = (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
+        float x = -b.x / norm;
+        float y = -b.y / norm;
+        float z = -b.z / norm;
+        float w = b.w / norm;
+        dest.set(a.w * x + a.x * w + a.y * z - a.z * y,
+                 a.w * y - a.x * z + a.y * w + a.z * x,
+                 a.w * z + a.x * y - a.y * x + a.z * w,
+                 a.w * w - a.x * x - a.y * y - a.z * z);
     }
 
     /**
