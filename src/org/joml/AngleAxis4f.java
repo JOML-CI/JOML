@@ -159,6 +159,42 @@ public class AngleAxis4f implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Set this {@link AngleAxis4f} to be equivalent to the rotation 
+     * of the given {@link Matrix3f}.
+     * 
+     * @param m
+     *            the {@link Matrix3f}
+     * @return this
+     */
+    public AngleAxis4f set(Matrix3f m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = (float)(m.m12 - m.m21);
+        y = (float)(m.m20 - m.m02);
+        z = (float)(m.m01 - m.m10);
+        double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
+        angle = (float)Math.atan2(sin, cos);
+        return this;
+    }
+
+    /**
+     * Set this {@link AngleAxis4f} to be equivalent to the rotational component 
+     * of the given {@link Matrix4f}.
+     * 
+     * @param m
+     *            the {@link Matrix4f}
+     * @return this
+     */
+    public AngleAxis4f set(Matrix4f m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = (float)(m.m12 - m.m21);
+        y = (float)(m.m20 - m.m02);
+        z = (float)(m.m01 - m.m10);
+        double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
+        angle = (float)Math.atan2(sin, cos);
+        return this;
+    }
+
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeFloat(angle);
         out.writeFloat(x);

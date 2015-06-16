@@ -440,6 +440,33 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
+     * Get the current values of <code>this</code> matrix and store them as
+     * the rotational component of <code>dest</code>. All other values of <code>dest</code> will
+     * be set to identity.
+     * 
+     * @param dest
+     *          the destination matrix
+     * @return this
+     */
+    public Matrix3f get(Matrix4f dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link AngleAxis4f}.
+     * 
+     * @param dest
+     *          the destination {@link AngleAxis4f}
+     * @return this
+     */
+    public Matrix3f get(AngleAxis4f dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
      * Store this matrix into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
      * <p>
