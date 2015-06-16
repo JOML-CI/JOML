@@ -196,14 +196,14 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AngleAxis4f} to be equivalent to the rotation described by the given {@link AngleAxis4f}.
+     * Set this {@link AngleAxis4f} to be equivalent to the rotation described by the given {@link Quaternion}.
      * 
-     * @param angleAxis
-     *          the {@link AngleAxis4f}
+     * @param q
+     *          the {@link Quaternion}
      * @return this
      */
-    public AngleAxis4f get(Quaternion quat) {
-        quat.set(this);
+    public AngleAxis4f get(Quaternion q) {
+        q.set(this);
         return this;
     }
 
