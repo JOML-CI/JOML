@@ -567,7 +567,15 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Quaternion by q.
+     * Multiply this Quaternion by <code>q</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
+     * quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = T * Q</tt>
+     * <p>
+     * So, this method uses post-multiplication like the matrix classes, resulting in a
+     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
      * 
      * @param q
      *          the quaternion to multiply <code>this</code> by
@@ -579,12 +587,20 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Quaternion by q and store the result in <code>dest</code>.
+     * Multiply this Quaternion by <code>q</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
+     * quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = T * Q</tt>
+     * <p>
+     * So, this method uses post-multiplication like the matrix classes, resulting in a
+     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
      * 
      * @param q
-     *          the quaternion to multiply <code>this</code> by
+     *            the quaternion to multiply <code>this</code> by
      * @param dest
-     *          will hold the result
+     *            will hold the result
      * @return this
      */
     public Quaternion mul(Quaternion q, Quaternion dest) {
@@ -593,7 +609,14 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply a by b and store the results in dest.
+     * Multiply <code>a</code> by <code>b</code> and store the result in <code>dest</code>.
+     * <p>
+     * The result <tt>R</tt> of the multiplication is then defined as:
+     * <p>
+     * <tt>R = a * b</tt>
+     * <p>
+     * So, this method uses post-multiplication like the matrix classes, resulting in a
+     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
      */
     public static void mul(Quaternion a, Quaternion b, Quaternion dest) {
         if (a != dest && b != dest) {
