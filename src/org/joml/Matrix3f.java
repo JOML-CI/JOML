@@ -629,37 +629,20 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given degrees about the given axis.
+     * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
      * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * If you want to post-multiply a rotation transformation directly to a
+     * matrix, you can use {@link #rotate(float, Vector3f) rotate()} instead.
      * 
-     * @param angle
-     *          the angle in degrees
-     * @return this
-     */
-    public Matrix3f rotation(float angle, float x, float y, float z) {
-    	float cos = (float) Math.cos(angle);
-    	float sin = (float) Math.sin(angle);
-    	float C = 1.0f - cos;
-    	m00 = cos + x * x * C;
-    	m10 = x * y * C - z * sin;
-    	m20 = x * z * C + y * sin;
-    	m01 = y * x * C + z * sin;
-    	m11 = cos + y * y * C;
-    	m21 = y * z * C - x * sin;
-    	m02 = z * x * C - y * sin;
-    	m12 = z * y * C + x * sin;
-    	m22 = cos + z * z * C;
-    	return this;
-    }
-
-    /**
-     * Set this matrix to a rotation matrix which rotates the given degrees about the given axis.
+     * @see #rotate(float, Vector3f)
      * 
      * @param angle
      *          the angle in degrees
      * @param axis
-     *          the rotation axis
+     *          the axis to rotate about (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
     public Matrix3f rotation(float angle, Vector3f axis) {
@@ -667,42 +650,193 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the destination matrix to a rotation matrix which rotates the given degrees about the given axis.
+     * Set this matrix to a rotation transformation using the given {@link AngleAxis4f}.
      * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * In order to apply the rotation transformation to an existing transformation,
+     * use {@link #rotate(AngleAxis4f) rotate()} instead.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     *
+     * @see #rotate(AngleAxis4f)
      * 
-     * @param angle
-     *          the angle in degrees
-     * @param dest
-     *          will hold the result
+     * @param angleAxis
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
+     * @return this
      */
-    public static void rotation(float angle, float x, float y, float z, Matrix3f dest) {
-    	float cos = (float) Math.cos(Math.toRadians(angle));
-    	float sin = (float) Math.sin(Math.toRadians(angle));
-        float C = 1.0f - cos;
-    	dest.m00 = cos + x * x * C;
-    	dest.m10 = x * y * C - z * sin;
-    	dest.m20 = x * z * C + y * sin;
-    	dest.m01 = y * x * C + z * sin;
-    	dest.m11 = cos + y * y * C;
-    	dest.m21 = y * z * C - x * sin;
-    	dest.m02 = z * x * C - y * sin;
-    	dest.m12 = z * y * C + x * sin;
-    	dest.m22 = cos + z * z * C;
+    public Matrix3f rotation(AngleAxis4f angleAxis) {
+        return rotation(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
     }
 
     /**
-     * Set the <code>dest</code> matrix to a rotation matrix which rotates the given degrees about the given <code>axis</code>.
+     * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * In order to apply the rotation transformation to an existing transformation,
+     * use {@link #rotate(float, float, float, float) rotate()} instead.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param x
+     *          the x-component of the rotation axis
+     * @param y
+     *          the y-component of the rotation axis
+     * @param z
+     *          the z-component of the rotation axis
+     * @return this
+     */
+    public Matrix3f rotation(float angle, float x, float y, float z) {
+        float cos = (float) Math.cos(Math.toRadians(angle));
+        float sin = (float) Math.sin(Math.toRadians(angle));
+        float C = 1.0f - cos;
+        m00 = cos + x * x * C;
+        m10 = x * y * C - z * sin;
+        m20 = x * z * C + y * sin;
+        m01 = y * x * C + z * sin;
+        m11 = cos + y * y * C;
+        m21 = y * z * C - x * sin;
+        m02 = z * x * C - y * sin;
+        m12 = z * y * C + x * sin;
+        m22 = cos + z * z * C;
+        return this;
+    }
+
+    /**
+     * Set the destination matrix to a rotation matrix which rotates the given degrees about the specified axis.
+     * The result will be stored in <code>dest</code>.
      * 
      * @param angle
      *          the angle in degrees
      * @param axis
-     *          the rotation axis
+     *          the axis to rotate about
      * @param dest
      *          will hold the result
      */
     public static void rotation(float angle, Vector3f axis, Matrix3f dest) {
-        rotation(angle, axis.x, axis.y, axis.z, dest);
+        dest.rotation(angle, axis);
+    }
+
+    /**
+     * Set this matrix to a rotation transformation about the X axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix3f rotationX(float ang) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        m00 = 1.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m10 = 0.0f;
+        m11 = cos;
+        m12 = sin;
+        m20 = 0.0f;
+        m21 = -sin;
+        m22 = cos;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a rotation transformation about the Y axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix3f rotationY(float ang) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        m00 = cos;
+        m01 = 0.0f;
+        m02 = -sin;
+        m10 = 0.0f;
+        m11 = 1.0f;
+        m12 = 0.0f;
+        m20 = sin;
+        m21 = 0.0f;
+        m22 = cos;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a rotation transformation about the Z axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix3f rotationZ(float ang) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        m00 = cos;
+        m01 = sin;
+        m02 = 0.0f;
+        m10 = -sin;
+        m11 = cos;
+        m12 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = 0.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to the rotation transformation of the given {@link Quaternion}.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * In order to apply the rotation transformation to an existing transformation,
+     * use {@link #rotate(Quaternion) rotate()} instead.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(Quaternion)
+     * 
+     * @param quat
+     *          the {@link Quaternion}
+     * @return this
+     */
+    public Matrix3f rotation(Quaternion quat) {
+        float q00 = 2.0f * quat.x * quat.x;
+        float q11 = 2.0f * quat.y * quat.y;
+        float q22 = 2.0f * quat.z * quat.z;
+        float q01 = 2.0f * quat.x * quat.y;
+        float q02 = 2.0f * quat.x * quat.z;
+        float q03 = 2.0f * quat.x * quat.w;
+        float q12 = 2.0f * quat.y * quat.z;
+        float q13 = 2.0f * quat.y * quat.w;
+        float q23 = 2.0f * quat.z * quat.w;
+
+        m00 = 1.0f - q11 - q22;
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m10 = q01 - q23;
+        m11 = 1.0f - q22 - q00;
+        m12 = q12 + q03;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0f - q11 - q00;
+
+        return this;
     }
 
     /**
@@ -906,6 +1040,33 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f rotate(float ang, float x, float y, float z) {
+        return rotate(ang, x, y, z, this);
+    }
+
+    /**
+     * Apply rotation to this matrix by rotating the given amount of degrees
+     * about the given axis specified as x, y and z components, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f rotate(float ang, float x, float y, float z, Matrix3f dest) {
         float s = (float) Math.sin(Math.toRadians(ang));
         float c = (float) Math.cos(Math.toRadians(ang));
         float C = 1.0f - c;
@@ -930,28 +1091,66 @@ public class Matrix3f implements Serializable, Externalizable {
         float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         // set non-dependent values directly
-        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
         // set other values
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
 
         return this;
     }
 
     /**
      * Apply the rotation transformation of the given {@link Quaternion} to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaternion)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternion)
      * 
      * @param quat
      *          the {@link Quaternion}
      * @return this
      */
     public Matrix3f rotate(Quaternion quat) {
+        return rotate(quat, this);
+    }
+
+    /**
+     * Apply the rotation transformation of the given {@link Quaternion} to this matrix and store
+     * the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaternion)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternion)
+     * 
+     * @param quat
+     *          the {@link Quaternion}
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix3f rotate(Quaternion quat, Matrix3f dest) {
         float q00 = 2.0f * quat.x * quat.x;
         float q11 = 2.0f * quat.y * quat.y;
         float q22 = 2.0f * quat.z * quat.z;
@@ -978,17 +1177,121 @@ public class Matrix3f implements Serializable, Externalizable {
         float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
         float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
 
         return this;
+    }
+
+    /**
+     * Apply a rotation transformation, rotating about the given {@link AngleAxis4f}, to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the angle-axis rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(AngleAxis4f)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
+     * @see #rotation(AngleAxis4f)
+     * 
+     * @param angleAxis
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
+     * @return this
+     */
+    public Matrix3f rotate(AngleAxis4f angleAxis) {
+        return rotate(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    }
+
+    /**
+     * Apply a rotation transformation, rotating about the given {@link AngleAxis4f} and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the angle-axis rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(AngleAxis4f)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
+     * @see #rotation(AngleAxis4f)
+     * 
+     * @param angleAxis
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix3f rotate(AngleAxis4f angleAxis, Matrix3f dest) {
+        return rotate(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z, dest);
+    }
+
+    /**
+     * Apply a rotation transformation, rotating the given degree about the specified axis, to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the angle-axis rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(float, Vector3f)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
+     * @see #rotation(float, Vector3f)
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
+     * @return this
+     */
+    public Matrix3f rotate(float angle, Vector3f axis) {
+        return rotate(angle, axis.x, axis.y, axis.z);
+    }
+
+    /**
+     * Apply a rotation transformation, rotating the given degree about the specified axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle-axis,
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the angle-axis rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(float, Vector3f)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(float, float, float, float)
+     * @see #rotation(float, Vector3f)
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix3f rotate(float angle, Vector3f axis, Matrix3f dest) {
+        return rotate(angle, axis.x, axis.y, axis.z, dest);
     }
 
     /**
@@ -1053,6 +1356,36 @@ public class Matrix3f implements Serializable, Externalizable {
             throw new IndexOutOfBoundsException();
         }
         return;
+    }
+
+    /**
+     * Return the specified {@link Matrix3f}.
+     * <p>
+     * This method exists to switch the matrix that subsequent calls operate on when using
+     * method chaining in a fluent interface style.
+     * 
+     * @param other
+     *          the {@link Matrix3f} to return
+     * @return that matrix
+     */
+    public Matrix3f with(Matrix3f other) {
+        return other;
+    }
+
+    /**
+     * Return the specified {@link Matrix3f}.
+     * <p>
+     * This method mainly exists for symmetry with operation chaining when using the
+     * {@link #with(Matrix3f)} instance call in a fluent interface style.
+     * <p>
+     * It purposely breaks with Java's camelCase naming convention.
+     * 
+     * @param other
+     *          the {@link Matrix3f} to return
+     * @return that matrix
+     */
+    public static Matrix3f With(Matrix3f other) {
+        return other;
     }
 
 }
