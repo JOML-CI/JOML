@@ -173,7 +173,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
         y = (float)(m.m20 - m.m02);
         z = (float)(m.m01 - m.m10);
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = (float)Math.atan2(sin, cos);
+        angle = (float) Math.toDegrees(Math.atan2(sin, cos));
         return this;
     }
 
@@ -191,7 +191,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
         y = (float)(m.m20 - m.m02);
         z = (float)(m.m01 - m.m10);
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = (float)Math.atan2(sin, cos);
+        angle = (float) Math.toDegrees(Math.atan2(sin, cos));
         return this;
     }
 

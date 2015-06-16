@@ -118,6 +118,44 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link AngleAxis4f}.
+     * 
+     * @param angleAxis
+     *          the {@link AngleAxis4f}
+     * @return this
+     */
+    public Matrix3f set(AngleAxis4f angleAxis) {
+        float x = angleAxis.x;
+        float y = angleAxis.y;
+        float z = angleAxis.z;
+        double angle = Math.toRadians(angleAxis.angle);
+        double n = Math.sqrt(x*x + y*y + z*z);
+        n = 1/n;
+        x *= n;
+        y *= n;
+        z *= n;
+        double c = Math.cos(angle);
+        double s = Math.sin(angle);
+        double omc = 1.0 - c;
+        m00 = (float)(c + x*x*omc);
+        m11 = (float)(c + y*y*omc);
+        m22 = (float)(c + z*z*omc);
+        double tmp1 = x*y*omc;
+        double tmp2 = z*s;
+        m10 = (float)(tmp1 - tmp2);
+        m01 = (float)(tmp1 + tmp2);
+        tmp1 = x*z*omc;
+        tmp2 = y*s;
+        m20 = (float)(tmp1 + tmp2);
+        m02 = (float)(tmp1 - tmp2);
+        tmp1 = y*z*omc;
+        tmp2 = x*s;
+        m21 = (float)(tmp1 - tmp2);
+        m12 = (float)(tmp1 + tmp2);
+        return this;
+    }
+
+    /**
      * Set the values of this matrix to the ones of the given javax.vecmath.Matrix3f matrix.
      * 
      * @param javaxVecmathMatrix
