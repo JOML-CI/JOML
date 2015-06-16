@@ -1122,46 +1122,66 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this quaternion to a rotation that maps the given direction to the positive Z axis.
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
      * @return this
      */
-    public Quaternion lookAlong(Vector3f dir, Vector3f up) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    public Quaternion rotateDirToPositiveZ(Vector3f dir, Vector3f up) {
+        return rotateDirToPositiveZ(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
     }
 
     /**
-     * Calculate a rotation quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
      * @return this
      */
-    public Quaternion lookAlong(Vector3f dir, Vector3f up, Quaternion dest) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    public Quaternion rotateDirToPositiveZ(Vector3f dir, Vector3f up, Quaternion dest) {
+        return rotateDirToPositiveZ(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
     }
 
     /**
-     * Set this quaternion to a rotation that maps the given direction to the positive Z axis.
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
      * @return this
      */
-    public Quaternion lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
-        return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
+    public Quaternion rotateDirToPositiveZ(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
+        return rotateDirToPositiveZ(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
     /**
-     * Calculate a rotation quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
      * @return this
      */
-    public Quaternion lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternion dest) {
+    public Quaternion rotateDirToPositiveZ(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternion dest) {
         float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX /= dirLength;
         dirY /= dirLength;
@@ -1179,40 +1199,47 @@ public class Quaternion implements Serializable, Externalizable {
         upX = dirY * rightZ - dirZ * rightY;
         upY = dirZ * rightX - dirX * rightZ;
         upZ = dirX * rightY - dirY * rightX;
-
+        
+        /* Convert orthonormal basis vectors to quaternion */
+        float x, y, z, w;
         double t;
         double tr = rightX + upY - dirZ;
         if (tr >= 0.0) {
             t = Math.sqrt(tr + 1.0);
-            dest.w = (float) (t * 0.5);
+            w = (float) (t * 0.5);
             t = 0.5 / t;
-            dest.x = (float) ((dirY - upZ) * t);
-            dest.y = (float) ((rightZ - dirX) * t);
-            dest.z = (float) ((upX - rightY) * t);
+            x = (float) ((dirY - upZ) * t);
+            y = (float) ((rightZ - dirX) * t);
+            z = (float) ((upX - rightY) * t);
         } else {
             if (rightX >= upY && rightX >= dirZ) {
                 t = Math.sqrt(1.0 + rightX - upY - dirZ);
-                dest.x = (float) (t * 0.5);
+                x = (float) (t * 0.5);
                 t = 0.5 / t;
-                dest.y = (float) ((rightY + upX) * t);
-                dest.z = (float) ((dirX + rightZ) * t);
-                dest.w = (float) ((dirY - upZ) * t);
+                y = (float) ((rightY + upX) * t);
+                z = (float) ((dirX + rightZ) * t);
+                w = (float) ((dirY - upZ) * t);
             } else if (upY > dirZ) {
                 t = Math.sqrt(1.0 + upY - rightX - dirZ);
-                dest.y = (float) (t * 0.5);
+                y = (float) (t * 0.5);
                 t = 0.5 / t;
-                dest.x = (float) ((rightY + upX) * t);
-                dest.z = (float) ((upZ + dirY) * t);
-                dest.w = (float) ((rightZ - dirX) * t);
+                x = (float) ((rightY + upX) * t);
+                z = (float) ((upZ + dirY) * t);
+                w = (float) ((rightZ - dirX) * t);
             } else {
                 t = Math.sqrt(1.0 + dirZ - rightX - upY);
-                dest.z = (float) (t * 0.5);
+                z = (float) (t * 0.5);
                 t = 0.5 / t;
-                dest.x = (float) ((dirX + rightZ) * t);
-                dest.y = (float) ((upZ + dirY) * t);
-                dest.w = (float) ((upX - rightY) * t);
+                x = (float) ((dirX + rightZ) * t);
+                y = (float) ((upZ + dirY) * t);
+                w = (float) ((upX - rightY) * t);
             }
         }
+        /* Multiply */
+        dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
+                 this.w * y - this.x * z + this.y * w + this.z * x,
+                 this.w * z + this.x * y - this.y * x + this.z * w,
+                 this.w * w - this.x * x - this.y * y - this.z * z);
         return this;
     }
 
