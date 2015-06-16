@@ -53,12 +53,21 @@ public class Matrix3f implements Serializable, Externalizable {
     public float m20;
     public float m21;
     public float m22;
-    
+
+    /**
+     * Create a new {@link Matrix3f} and set it to {@link #identity() identity}.
+     */
     public Matrix3f() {
         super();
         identity();
     }
 
+    /**
+     * Create a new {@link Matrix3f} and make it a copy of the given matrix.
+     * 
+     * @param mat
+     *          the {@link Matrix3f} to copy the values from
+     */
     public Matrix3f(Matrix3f mat) {
         m00 = mat.m00;
         m01 = mat.m01;
@@ -70,7 +79,11 @@ public class Matrix3f implements Serializable, Externalizable {
         m21 = mat.m21;
         m22 = mat.m22;
     }
-    
+
+    /**
+     * Create a new 3x3 matrix using the supplied float values. The order of the parameter is column-major, 
+     * so the first three parameters specify the three elements of the first column.
+     */
     public Matrix3f(float m00, float m01, float m02, float m10, float m11,
                     float m12, float m20, float m21, float m22) {
         this.m00 = m00;
@@ -84,17 +97,23 @@ public class Matrix3f implements Serializable, Externalizable {
         this.m22 = m22;
     }
 
-    /** Set the values in this matrix to the ones in m1 */
-    public Matrix3f set(Matrix3f m1) {
-        m00 = m1.m00;
-        m01 = m1.m01;
-        m02 = m1.m02;
-        m10 = m1.m10;
-        m11 = m1.m11;
-        m12 = m1.m12;
-        m20 = m1.m20;
-        m21 = m1.m21;
-        m22 = m1.m22;
+    /**
+     * Set the elements of this matrix to the ones in <code>m</code>.
+     * 
+     * @param m
+     *          the matrix to copy the elements from
+     * @return this
+     */
+    public Matrix3f set(Matrix3f m) {
+        m00 = m.m00;
+        m01 = m.m01;
+        m02 = m.m02;
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
         return this;
     }
 
@@ -137,9 +156,10 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiplies this matrix by the supplied matrix. This matrix will be the left-sided one.
+     * Multiply this matrix by the supplied matrix. This matrix will be the left-sided one.
      * 
      * @param right
+     *          the right operand of the matrix multiplication
      * @return this
      */
     public Matrix3f mul(Matrix3f right) {
@@ -147,7 +167,16 @@ public class Matrix3f implements Serializable, Externalizable {
         return this;
     }
 
-    /** Multiplies the left matrix by the right, and stores the results in dest. Does not modify the left or right matrices */
+    /**
+     * Multiply the <code>left</code> matrix by the <code>right</code>, and store the result in <code>dest</code>.
+     * 
+     * @param left
+     *          the left operand
+     * @param right
+     *          the right operand
+     * @param dest
+     *          will hold the result
+     */
     public static void mul(Matrix3f left, Matrix3f right, Matrix3f dest) {
         if (left != dest && right != dest) {
             dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
@@ -172,11 +201,14 @@ public class Matrix3f implements Serializable, Externalizable {
         }
     }
     
-    /** Sets the values within this matrix to the supplied float values. The result looks like this:
+    /**
+     * Set the values within this matrix to the supplied float values. The result looks like this:
      * <p>
      * m00, m10, m20</br>
      * m01, m11, m21</br>
      * m02, m12, m22</br>
+     * 
+     * @return this
      */
     public Matrix3f set(float m00, float m01, float m02, float m10, float m11,
                     float m12, float m20, float m21, float m22) {
@@ -192,13 +224,14 @@ public class Matrix3f implements Serializable, Externalizable {
         return this;
     }
 
-    /** Sets the values in this matrix based on the supplied float array. The result looks like this:
+    /**
+     * Set the values in this matrix based on the supplied float array. The result looks like this:
      * <p>
      * 0, 3, 6</br>
      * 1, 4, 7</br>
      * 2, 5, 8</br>
      * 
-     * Only uses the first 9 values, all others are ignored
+     * This method only uses the first 9 values, all others are ignored.
      * 
      * @return this
      */
@@ -215,7 +248,9 @@ public class Matrix3f implements Serializable, Externalizable {
         return this;
     }
 
-    /** Returns the determinant of this Matrix */
+    /**
+     * Return the determinant of this matrix.
+     */
     public float determinant() {
         return m00 * m11 * m22
              + m10 * m21 * m02
@@ -250,7 +285,7 @@ public class Matrix3f implements Serializable, Externalizable {
     }
     
     /**
-     * Invert the source matrix and store the results in dest.
+     * Invert the <code>source</code> matrix and store the result in <code>dest</code>.
      */
     public static void invert(Matrix3f source, Matrix3f dest) {
         float s = source.determinant();
@@ -292,7 +327,7 @@ public class Matrix3f implements Serializable, Externalizable {
     }
     
     /**
-     * Transpose the supplied original matrix and store the results in dest.
+     * Transpose the supplied <code>original</code> matrix and store the result in <code>dest</code>.
      */
     public static void transpose(Matrix3f original, Matrix3f dest) {
         if (original != dest) {
@@ -313,10 +348,12 @@ public class Matrix3f implements Serializable, Externalizable {
     }
     
     /**
-     * Set this matrix to be a simple translation matrix.
+     * Set this matrix to be a simple translation matrix in a two-dimensional coordinate system.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @return this
      */
     public Matrix3f translation(float x, float y) {
         m00 = 1.0f;
@@ -332,7 +369,7 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the given matrix to be a simple translation matrix.
+     * Set the given matrix to be a simple translation matrix in a two-dimensional coordinate system.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
@@ -342,7 +379,7 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the given matrix to be a simple translation matrix.
+     * Set the given matrix to be a simple translation matrix in a two-dimensional coordinate system.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
@@ -352,7 +389,7 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to be a simple translation matrix.
+     * Set this matrix to be a simple translation matrix in a two-dimensional coordinate system.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
@@ -361,19 +398,6 @@ public class Matrix3f implements Serializable, Externalizable {
         return translation(position.x, position.y);
     }
     
-    /** Multiply the supplied Matrix by the supplied scalar value and store the results in dest. Does not modify the source */
-    public static void mul(Matrix3f source, float scalar, Matrix3f dest) {
-        dest.m00 = source.m00 * scalar;
-        dest.m01 = source.m01 * scalar;
-        dest.m02 = source.m02 * scalar;
-        dest.m10 = source.m10 * scalar;
-        dest.m11 = source.m11 * scalar;
-        dest.m12 = source.m12 * scalar;
-        dest.m20 = source.m20 * scalar;
-        dest.m21 = source.m21 * scalar;
-        dest.m22 = source.m22 * scalar;
-    }
-
     /**
      * Return a string representation of this matrix.
      * <p>
@@ -605,10 +629,12 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given radians about the given axis.
+     * Set this matrix to a rotation matrix which rotates the given degrees about the given axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      * 
-     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
-     * 
+     * @param angle
+     *          the angle in degrees
      * @return this
      */
     public Matrix3f rotation(float angle, float x, float y, float z) {
@@ -628,8 +654,12 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given radians about the given axis.
+     * Set this matrix to a rotation matrix which rotates the given degrees about the given axis.
      * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis
      * @return this
      */
     public Matrix3f rotation(float angle, Vector3f axis) {
@@ -637,13 +667,18 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the destination matrix to a rotation matrix which rotates the given radians about the given axis.
+     * Set the destination matrix to a rotation matrix which rotates the given degrees about the given axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      * 
-     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * @param angle
+     *          the angle in degrees
+     * @param dest
+     *          will hold the result
      */
     public static void rotation(float angle, float x, float y, float z, Matrix3f dest) {
-    	float cos = (float) Math.cos(angle);
-    	float sin = (float) Math.sin(angle);
+    	float cos = (float) Math.cos(Math.toRadians(angle));
+    	float sin = (float) Math.sin(Math.toRadians(angle));
         float C = 1.0f - cos;
     	dest.m00 = cos + x * x * C;
     	dest.m10 = x * y * C - z * sin;
@@ -657,7 +692,14 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the destination matrix to a rotation matrix which rotates the given radians about the given axis.
+     * Set the <code>dest</code> matrix to a rotation matrix which rotates the given degrees about the given <code>axis</code>.
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis
+     * @param dest
+     *          will hold the result
      */
     public static void rotation(float angle, Vector3f axis, Matrix3f dest) {
         rotation(angle, axis.x, axis.y, axis.z, dest);

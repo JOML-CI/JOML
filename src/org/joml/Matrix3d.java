@@ -697,8 +697,12 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
+     * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
      * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis
      * @return this
      */
     public Matrix3d rotation(double angle, Vector3d axis) {
@@ -707,13 +711,20 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
-     * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
+     * Set the destination matrix to a rotation matrix which rotates the given degrees about a given axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      * 
-     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis
+     * @param dest
+     *          will hold the result
      */
     public static void rotation(double angle, Vector3d axis, Matrix3d dest) {
-    	double cos = Math.cos(angle);
-    	double sin = Math.sin(angle);
+    	double cos = Math.cos(Math.toRadians(angle));
+    	double sin = Math.sin(Math.toRadians(angle));
     	dest.m00 = cos + axis.x * axis.x * (1.0 - cos);
     	dest.m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
     	dest.m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
