@@ -234,6 +234,37 @@ public class AngleAxis4f implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Transform the given vector by the rotation transformation described by this {@link AngleAxis4f}.
+     * 
+     * @param v
+     *          the vector to transform
+     * @return this
+     */
+    public AngleAxis4f transform(Vector3f v) {
+        return transform(v, v);
+    }
+
+    /**
+     * Transform the given vector by the rotation transformation described by this {@link AngleAxis4f}
+     * and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public AngleAxis4f transform(Vector3f v, Vector3f dest) {
+        double cos = Math.cos(Math.toRadians(angle));
+        double sin = Math.sin(Math.toRadians(angle));
+        float dot = x * v.x + y * v.y + z * v.z;
+        dest.set((float) (v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x),
+                 (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
+                 (float) (v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z));
+        return this;
+    }
+
     public String toString() {
         DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
         return toString(formatter).replaceAll("E(\\d+)", "E+$1");
