@@ -195,6 +195,18 @@ public class AngleAxis4f implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Set this {@link AngleAxis4f} to be equivalent to the rotation described by the given {@link AngleAxis4f}.
+     * 
+     * @param angleAxis
+     *          the {@link AngleAxis4f}
+     * @return this
+     */
+    public AngleAxis4f get(Quaternion quat) {
+        quat.set(this);
+        return this;
+    }
+
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeFloat(angle);
         out.writeFloat(x);
