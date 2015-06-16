@@ -803,6 +803,7 @@ public class Quaternion implements Serializable, Externalizable {
      * @return this
      */
     public Quaternion div(Quaternion b) {
+        div(this, b, this);
         return this;
     }
 

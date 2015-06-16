@@ -686,6 +686,7 @@ public class QuaternionD implements Serializable, Externalizable {
      * @return this
      */
     public QuaternionD div(QuaternionD b) {
+        div(this, b, this);
         return this;
     }
 
