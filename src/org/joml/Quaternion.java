@@ -1191,48 +1191,48 @@ public class Quaternion implements Serializable, Externalizable {
         upY /= upLength;
         upZ /= upLength;
         // left = up x dir
-        float rightX, rightY, rightZ;
-        rightX = upY * dirZ - upZ * dirY;
-        rightY = upZ * dirX - upX * dirZ;
-        rightZ = upX * dirY - upY * dirX;
+        float leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
         // up = direction x left
-        upX = dirY * rightZ - dirZ * rightY;
-        upY = dirZ * rightX - dirX * rightZ;
-        upZ = dirX * rightY - dirY * rightX;
+        upX = dirY * leftZ - dirZ * leftY;
+        upY = dirZ * leftX - dirX * leftZ;
+        upZ = dirX * leftY - dirY * leftX;
         
         /* Convert orthonormal basis vectors to quaternion */
         float x, y, z, w;
         double t;
-        double tr = rightX + upY - dirZ;
+        double tr = leftX + upY + dirZ;
         if (tr >= 0.0) {
             t = Math.sqrt(tr + 1.0);
             w = (float) (t * 0.5);
             t = 0.5 / t;
             x = (float) ((dirY - upZ) * t);
-            y = (float) ((rightZ - dirX) * t);
-            z = (float) ((upX - rightY) * t);
+            y = (float) ((leftZ - dirX) * t);
+            z = (float) ((upX - leftY) * t);
         } else {
-            if (rightX >= upY && rightX >= dirZ) {
-                t = Math.sqrt(1.0 + rightX - upY - dirZ);
+            if (leftX >= upY && leftX >= dirZ) {
+                t = Math.sqrt(1.0 + leftX - upY - dirZ);
                 x = (float) (t * 0.5);
                 t = 0.5 / t;
-                y = (float) ((rightY + upX) * t);
-                z = (float) ((dirX + rightZ) * t);
+                y = (float) ((leftY + upX) * t);
+                z = (float) ((dirX + leftZ) * t);
                 w = (float) ((dirY - upZ) * t);
             } else if (upY > dirZ) {
-                t = Math.sqrt(1.0 + upY - rightX - dirZ);
+                t = Math.sqrt(1.0 + upY - leftX - dirZ);
                 y = (float) (t * 0.5);
                 t = 0.5 / t;
-                x = (float) ((rightY + upX) * t);
+                x = (float) ((leftY + upX) * t);
                 z = (float) ((upZ + dirY) * t);
-                w = (float) ((rightZ - dirX) * t);
+                w = (float) ((leftZ - dirX) * t);
             } else {
-                t = Math.sqrt(1.0 + dirZ - rightX - upY);
+                t = Math.sqrt(1.0 + dirZ - leftX - upY);
                 z = (float) (t * 0.5);
                 t = 0.5 / t;
-                x = (float) ((dirX + rightZ) * t);
+                x = (float) ((dirX + leftZ) * t);
                 y = (float) ((upZ + dirY) * t);
-                w = (float) ((upX - rightY) * t);
+                w = (float) ((upX - leftY) * t);
             }
         }
         /* Multiply */
