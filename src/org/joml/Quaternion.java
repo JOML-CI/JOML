@@ -414,6 +414,8 @@ public class Quaternion implements Serializable, Externalizable {
      * Set this {@link Quaternion} to a rotation of the given angle in degrees about the supplied
      * axis, all of which are specified via the {@link AngleAxis4f}.
      * 
+     * @see #rotationAxis(float, float, float, float)
+     * 
      * @param angleAxis
      *            the {@link AngleAxis4f} giving the rotation angle in degrees and the axis to rotate about
      * @return this
@@ -445,6 +447,8 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Set this Quaternion to a rotation of the given angle in degrees about the supplied axis.
      * 
+     * @see #rotationAxis(float, float, float, float)
+     * 
      * @param angle
      *          the rotation angle in degrees
      * @param axis
@@ -457,6 +461,8 @@ public class Quaternion implements Serializable, Externalizable {
 
     /**
      * Set this quaternion to represent a rotation of the given angles in degrees about the basis unit axes of the cartesian space.
+     * 
+     * @see #rotation(float, float, float)
      * 
      * @param anglesXYZ
      *              the angles in degrees to rotate about the basis unit axes of the cartesian space
@@ -500,6 +506,8 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Set this quaternion to represent a rotation of the given degrees about the x axis.
      * 
+     * @see #rotation(float, float, float)
+     * 
      * @param angle
      *              the angle in degrees to rotate about the x axis
      * @return this
@@ -511,6 +519,8 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Set this quaternion to represent a rotation of the given degrees about the y axis.
      * 
+     * @see #rotation(float, float, float)
+     * 
      * @param angle
      *              the angle in degrees to rotate about the y axis
      * @return this
@@ -521,6 +531,8 @@ public class Quaternion implements Serializable, Externalizable {
 
     /**
      * Set this quaternion to represent a rotation of the given degrees about the z axis.
+     * 
+     * @see #rotation(float, float, float)
      * 
      * @param angle
      *              the angle in degrees to rotate about the z axis
@@ -1198,6 +1210,8 @@ public class Quaternion implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
+     * @see #rotateDirToPositiveZ(float, float, float, float, float, float, Quaternion)
+     * 
      * @return this
      */
     public Quaternion rotateDirToPositiveZ(Vector3f dir, Vector3f up) {
@@ -1214,6 +1228,8 @@ public class Quaternion implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
+     * @see #rotateDirToPositiveZ(float, float, float, float, float, float, Quaternion)
+     * 
      * @return this
      */
     public Quaternion rotateDirToPositiveZ(Vector3f dir, Vector3f up, Quaternion dest) {
@@ -1229,6 +1245,8 @@ public class Quaternion implements Serializable, Externalizable {
      * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * 
+     * @see #rotateDirToPositiveZ(float, float, float, float, float, float, Quaternion)
      * 
      * @return this
      */
@@ -1318,7 +1336,7 @@ public class Quaternion implements Serializable, Externalizable {
      * Apply a quaternion to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt> and
      * store the result in <code>dest</code>.
      * <p>
-     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -1386,12 +1404,14 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a quaternion to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
      * <p>
-     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * 
+     * @see #rotateTo(float, float, float, float, float, float, Quaternion)
      * 
      * @return this
      */
@@ -1409,6 +1429,8 @@ public class Quaternion implements Serializable, Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * 
+     * @see #rotateTo(float, float, float, float, float, float, Quaternion)
      * 
      * @param fromDir
      *          the starting direction
@@ -1432,6 +1454,8 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
+     * @see #rotateTo(float, float, float, float, float, float, Quaternion)
+     * 
      * @param fromDir
      *          the starting direction
      * @param toDir
@@ -1450,6 +1474,8 @@ public class Quaternion implements Serializable, Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * 
+     * @see #rotate(float, float, float, Quaternion)
      * 
      * @param anglesXYZ
      *              the angles in degrees to rotate about the x, y and z axes, respectively
@@ -1470,6 +1496,8 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
+     * @see #rotate(float, float, float, Quaternion)
+     * 
      * @param anglesXYZ
      *              the angles in degrees to rotate about the x, y and z axes, respectively
      * @return this
@@ -1485,6 +1513,8 @@ public class Quaternion implements Serializable, Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * 
+     * @see #rotate(float, float, float, Quaternion)
      * 
      * @param angleX
      *              the angle in degrees to rotate about the x axis
@@ -1506,6 +1536,8 @@ public class Quaternion implements Serializable, Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * 
+     * @see #rotate(float, float, float, Quaternion)
      * 
      * @param angleX
      *              the angle in degrees to rotate about the x axis
@@ -1556,6 +1588,8 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
+     * @see #rotate(float, float, float, Quaternion)
+     * 
      * @param angle
      *              the angle in degrees to rotate about the x axis
      * @return this
@@ -1572,6 +1606,8 @@ public class Quaternion implements Serializable, Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * 
+     * @see #rotate(float, float, float, Quaternion)
      * 
      * @param angle
      *              the angle in degrees to rotate about the x axis
@@ -1591,6 +1627,8 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
+     * @see #rotate(float, float, float, Quaternion)
+     * 
      * @param angle
      *              the angle in degrees to rotate about the y axis
      * @return this
@@ -1607,6 +1645,8 @@ public class Quaternion implements Serializable, Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * 
+     * @see #rotate(float, float, float, Quaternion)
      * 
      * @param angle
      *              the angle in degrees to rotate about the y axis
@@ -1626,6 +1666,8 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
+     * @see #rotate(float, float, float, Quaternion)
+     * 
      * @param angle
      *              the angle in degrees to rotate about the z axis
      * @return this
@@ -1642,6 +1684,8 @@ public class Quaternion implements Serializable, Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * 
+     * @see #rotate(float, float, float, Quaternion)
      * 
      * @param angle
      *              the angle in degrees to rotate about the z axis
@@ -1699,6 +1743,8 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
+     * @see #rotateAxis(float, float, float, float, Quaternion)
+     * 
      * @param angle
      *              the angle in degrees to rotate about the specified axis
      * @param axis
@@ -1716,6 +1762,8 @@ public class Quaternion implements Serializable, Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * 
+     * @see #rotateAxis(float, float, float, float, Quaternion)
      * 
      * @param angle
      *              the angle in degrees to rotate about the specified axis
