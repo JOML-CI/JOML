@@ -1239,6 +1239,9 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
      * <p>
+     * Because there are multiple possibilities for such a rotations, this method will choose the one that ensures the given up direction to remain
+     * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors. 
+     * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
@@ -1312,7 +1315,100 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this quaternion to a rotation that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
+     * Apply a quaternion to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt> and
+     * store the result in <code>dest</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaternion rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ, Quaternion dest) {
+        double fromLength = Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
+        double fromX = fromDirX / fromLength;
+        double fromY = fromDirY / fromLength;
+        double fromZ = fromDirZ / fromLength;
+        double toLength = Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
+        double toX = toDirX / toLength;
+        double toY = toDirY / toLength;
+        double toZ = toDirZ / toLength;
+        double dot = fromX * toX + fromY * toY + fromZ * toZ;
+        float x, y, z, w;
+        if (dot < 1e-6 - 1.0) {
+            /* vectors are negation of each other */
+            double axisX = 0.0;
+            double axisY = -fromZ;
+            double axisZ = fromY;
+            if (axisX * axisX + axisY * axisY + axisZ * axisZ < 1E-6) {
+                axisX = fromZ;
+                axisY = 0.0;
+                axisZ = -fromX;
+            }
+            double angleR = Math.toRadians(180.0);
+            double s = Math.sin(angleR / 2.0);
+            x = (float) (axisX * s);
+            y = (float) (axisY * s);
+            z = (float) (axisZ * s);
+            w = (float) Math.cos(angleR / 2.0);
+        } else if (dot < 1.0) {
+            double s = Math.sqrt((1.0 + dot) * 2.0);
+            double invs = 1.0 / s;
+            double crossX = fromY * toZ - fromZ * toY;
+            double crossY = fromZ * toX - fromX * toZ;
+            double crossZ = fromX * toY - fromY * toX;
+            x = (float) (crossX * invs);
+            y = (float) (crossY * invs);
+            z = (float) (crossZ * invs);
+            w = (float) (s * 0.5);
+            float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
+            x /= norm;
+            y /= norm;
+            z /= norm;
+            w /= norm;
+        } else {
+            /* vectors are parallel, don't change anything */
+            return this;
+        }
+        /* Multiply */
+        dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
+                 this.w * y - this.x * z + this.y * w + this.z * x,
+                 this.w * z + this.x * y - this.y * x + this.z * w,
+                 this.w * w - this.x * x - this.y * y - this.z * z);
+        return this;
+    }
+
+    /**
+     * Apply a quaternion to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @return this
+     */
+    public Quaternion rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
+        return rotateTo(fromDirX, fromDirY, fromDirZ, toDirX, toDirY, toDirZ, this);
+    }
+
+    /**
+     * Apply a quaternion to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code> and
+     * store the result in <code>dest</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @param fromDir
+     *          the starting direction
+     * @param toDir
+     *          the destination direction
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaternion rotateTo(Vector3f fromDir, Vector3f toDir, Quaternion dest) {
+        return rotateTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z, dest);
+    }
+
+    /**
+     * Apply a quaternion to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * 
@@ -1322,43 +1418,8 @@ public class Quaternion implements Serializable, Externalizable {
      *          the destination direction
      * @return this
      */
-    public Quaternion rotationTo(Vector3f fromDir, Vector3f toDir) {
-        float fromLength = fromDir.length();
-        float fromX = fromDir.x / fromLength;
-        float fromY = fromDir.y / fromLength;
-        float fromZ = fromDir.z / fromLength;
-        float toLength = toDir.length();
-        float toX = toDir.x / toLength;
-        float toY = toDir.y / toLength;
-        float toZ = toDir.z / toLength;
-        float dot = fromX * toX + fromY * toY + fromZ * toZ;
-        if (dot < 1e-6f - 1.0f) {
-            /* vectors are negation of each other */
-            float axisX = 0.0f;
-            float axisY = -fromZ;
-            float axisZ = fromY;
-            if (axisX * axisX + axisY * axisY + axisZ * axisZ < 1E-6f) {
-                axisX = fromZ;
-                axisY = 0.0f;
-                axisZ = -fromX;
-            }
-            setAngleAxis(180.0f, axisX, axisY, axisZ);
-        } else if (dot < 1.0f) {
-            double s = Math.sqrt((1.0 + dot) * 2.0);
-            double invs = 1.0 / s;
-            double crossX = fromY * toZ - fromZ * toY;
-            double crossY = fromZ * toX - fromX * toZ;
-            double crossZ = fromX * toY - fromY * toX;
-            x = (float) (crossX * invs);
-            y = (float) (crossY * invs);
-            z = (float) (crossZ * invs);
-            w = (float) (s * 0.5f);
-            normalize();
-        } else {
-            /* vectors are parallel, return identity */
-            identity();
-        }
-        return this;
+    public Quaternion rotateTo(Vector3f fromDir, Vector3f toDir) {
+        return rotateTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z, this);
     }
 
     /**
