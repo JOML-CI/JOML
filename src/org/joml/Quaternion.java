@@ -1144,63 +1144,6 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set <code>dest</code> to be a rotation leading <code>sourcePoint</code> to rotate to <code>destPoint</code>.
-     */
-    public static void lookAt(Vector3f sourcePoint, Vector3f destPoint, Vector3f up, Vector3f forward, Quaternion dest) {
-        float dirX = destPoint.x - sourcePoint.x;
-        float dirY = destPoint.y - sourcePoint.y;
-        float dirZ = destPoint.z - sourcePoint.z;
-
-        float length = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-
-        dirX /= length;
-        dirY /= length;
-        dirZ /= length;
-
-        float dot = (forward.x * dirX) + (forward.y * dirY) + (forward.z * dirZ);
-
-        if (Math.abs(dot - (-1.0f)) < 1E-6f) {
-            dest.x = up.x;
-            dest.y = up.y;
-            dest.z = up.z;
-            dest.w = (float) Math.PI;
-            return;
-        }
-
-        if (Math.abs(dot - (1.0f)) < 1E-6f) {
-            dest.x = 0.0f;
-            dest.y = 0.0f;
-            dest.z = 0.0f;
-            dest.w = 1.0f;
-            return;
-        }
-
-        float rotAngle = (float) Math.acos(dot);
-
-        float rotAxisX = forward.y * dirZ - forward.z * dirY;
-        float rotAxisY = forward.z * dirX - forward.x * dirZ;
-        float rotAxisZ = forward.x * dirY - forward.y * dirX;
-
-        length = (float) Math.sqrt(rotAxisX * rotAxisX + rotAxisY * rotAxisY + rotAxisZ * rotAxisZ);
-
-        rotAxisX /= length;
-        rotAxisY /= length;
-        rotAxisZ /= length;
-
-        dest.rotationAxis(rotAngle, rotAxisX, rotAxisY, rotAxisZ);
-    }
-
-    /**
-     * Set <code>dest</code> to be a rotation leading <code>sourcePoint</code> to rotate to <code>destPoint</code>.
-     * 
-     * @return this
-     */
-    public Quaternion lookAt(Vector3f sourcePoint, Vector3f destPoint, Vector3f up, Vector3f forward) {
-        lookAt(sourcePoint, destPoint, up, forward, this);
-        return this;
-    }
-
-    /**
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -1210,12 +1153,12 @@ public class Quaternion implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #rotateDirToPositiveZ(float, float, float, float, float, float, Quaternion)
+     * @see #lookRotate(float, float, float, float, float, float, Quaternion)
      * 
      * @return this
      */
-    public Quaternion rotateDirToPositiveZ(Vector3f dir, Vector3f up) {
-        return rotateDirToPositiveZ(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    public Quaternion lookRotate(Vector3f dir, Vector3f up) {
+        return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
     }
 
     /**
@@ -1228,12 +1171,12 @@ public class Quaternion implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #rotateDirToPositiveZ(float, float, float, float, float, float, Quaternion)
+     * @see #lookRotate(float, float, float, float, float, float, Quaternion)
      * 
      * @return this
      */
-    public Quaternion rotateDirToPositiveZ(Vector3f dir, Vector3f up, Quaternion dest) {
-        return rotateDirToPositiveZ(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    public Quaternion lookRotate(Vector3f dir, Vector3f up, Quaternion dest) {
+        return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
     }
 
     /**
@@ -1246,12 +1189,12 @@ public class Quaternion implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #rotateDirToPositiveZ(float, float, float, float, float, float, Quaternion)
+     * @see #lookRotate(float, float, float, float, float, float, Quaternion)
      * 
      * @return this
      */
-    public Quaternion rotateDirToPositiveZ(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
-        return rotateDirToPositiveZ(dirX, dirY, dirZ, upX, upY, upZ, this);
+    public Quaternion lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
+        return lookRotate(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
     /**
@@ -1269,7 +1212,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion rotateDirToPositiveZ(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternion dest) {
+    public Quaternion lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternion dest) {
         // Normalize direction
         float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float dirnX = dirX / dirLength;
@@ -1333,7 +1276,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a quaternion to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt> and
+     * Apply a rotation to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt> and
      * store the result in <code>dest</code>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
@@ -1402,7 +1345,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a quaternion to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
+     * Apply a rotation to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
@@ -1420,7 +1363,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a quaternion to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code> and
+     * Apply a rotation to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code> and
      * store the result in <code>dest</code>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
@@ -1445,7 +1388,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a quaternion to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
+     * Apply a rotation to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
