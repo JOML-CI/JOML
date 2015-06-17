@@ -583,6 +583,7 @@ public class Quaternion implements Serializable, Externalizable {
                 w = (float) ((mat.m01 - mat.m10) * t);
             }
         }
+        normalize();
         return this;
     }
 
@@ -627,6 +628,7 @@ public class Quaternion implements Serializable, Externalizable {
                 w = (float) ((mat.m01 - mat.m10) * t);
             }
         }
+        normalize();
         return this;
     }
 
@@ -1244,7 +1246,7 @@ public class Quaternion implements Serializable, Externalizable {
             y = (float) ((leftZ - dirnX) * t);
             z = (float) ((upnX - leftY) * t);
         } else {
-            if (leftX >= upnY && leftX >= dirnZ) {
+            if (leftX > upnY && leftX > dirnZ) {
                 t = Math.sqrt(1.0 + leftX - upnY - dirnZ);
                 x = (float) (t * 0.5);
                 t = 0.5 / t;
@@ -1267,6 +1269,11 @@ public class Quaternion implements Serializable, Externalizable {
                 w = (float) ((upnX - leftY) * t);
             }
         }
+        float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
+        x /= norm;
+        y /= norm;
+        z /= norm;
+        w /= norm;
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
