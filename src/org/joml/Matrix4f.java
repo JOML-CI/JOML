@@ -2037,33 +2037,33 @@ public class Matrix4f implements Serializable, Externalizable {
                               float upX, float upY, float upZ) {
         // Normalize direction
         float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        dirX /= dirLength;
-        dirY /= dirLength;
-        dirZ /= dirLength;
+        float dirnX = dirX / dirLength;
+        float dirnY = dirY / dirLength;
+        float dirnZ = dirZ / dirLength;
         float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        upX /= upLength;
-        upY /= upLength;
-        upZ /= upLength;
+        float upnX = upX / upLength;
+        float upnY = upY / upLength;
+        float upnZ = upZ / upLength;
         // right = direction x up
         float rightX, rightY, rightZ;
-        rightX = dirY * upZ - dirZ * upY;
-        rightY = dirZ * upX - dirX * upZ;
-        rightZ = dirX * upY - dirY * upX;
+        rightX = dirnY * upnZ - dirnZ * upnY;
+        rightY = dirnZ * upnX - dirnX * upnZ;
+        rightZ = dirnX * upnY - dirnY * upnX;
         // up = right x direction
-        upX = rightY * dirZ - rightZ * dirY;
-        upY = rightZ * dirX - rightX * dirZ;
-        upZ = rightX * dirY - rightY * dirX;
+        upnX = rightY * dirnZ - rightZ * dirnY;
+        upnY = rightZ * dirnX - rightX * dirnZ;
+        upnZ = rightX * dirnY - rightY * dirnX;
 
         // calculate right matrix elements
         float rm00 = rightX;
-        float rm01 = upX;
-        float rm02 = -dirX;
+        float rm01 = upnX;
+        float rm02 = -dirnX;
         float rm10 = rightY;
-        float rm11 = upY;
-        float rm12 = -dirY;
+        float rm11 = upnY;
+        float rm12 = -dirnY;
         float rm20 = rightZ;
-        float rm21 = upZ;
-        float rm22 = -dirZ;
+        float rm21 = upnZ;
+        float rm22 = -dirnZ;
 
         // perform optimized matrix multiplication
         // introduce temporaries for dependent results
@@ -2136,22 +2136,22 @@ public class Matrix4f implements Serializable, Externalizable {
                                  float upX, float upY, float upZ) {
         // Normalize direction
         float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        dirX /= dirLength;
-        dirY /= dirLength;
-        dirZ /= dirLength;
+        float dirnX = dirX / dirLength;
+        float dirnY = dirY / dirLength;
+        float dirnZ = dirZ / dirLength;
         float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        upX /= upLength;
-        upY /= upLength;
-        upZ /= upLength;
+        float upnX = upX / upLength;
+        float upnY = upY / upLength;
+        float upnZ = upZ / upLength;
         // right = direction x up
         float rightX, rightY, rightZ;
-        rightX = dirY * upZ - dirZ * upY;
-        rightY = dirZ * upX - dirX * upZ;
-        rightZ = dirX * upY - dirY * upX;
+        rightX = dirnY * upnZ - dirnZ * upnY;
+        rightY = dirnZ * upnX - dirnX * upnZ;
+        rightZ = dirnX * upnY - dirnY * upnX;
         // up = right x direction
-        upX = rightY * dirZ - rightZ * dirY;
-        upY = rightZ * dirX - rightX * dirZ;
-        upZ = rightX * dirY - rightY * dirX;
+        upnX = rightY * dirnZ - rightZ * dirnY;
+        upnY = rightZ * dirnX - rightX * dirnZ;
+        upnZ = rightX * dirnY - rightY * dirnX;
 
         m00 = rightX;
         m01 = upX;
@@ -2230,33 +2230,33 @@ public class Matrix4f implements Serializable, Externalizable {
         dirZ /= dirLength;
         // Normalize up
         float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        upX /= upLength;
-        upY /= upLength;
-        upZ /= upLength;
+        float upnX = upX / upLength;
+        float upnY = upY / upLength;
+        float upnZ = upZ / upLength;
         // right = direction x up
         float rightX, rightY, rightZ;
-        rightX = dirY * upZ - dirZ * upY;
-        rightY = dirZ * upX - dirX * upZ;
-        rightZ = dirX * upY - dirY * upX;
+        rightX = dirY * upnZ - dirZ * upnY;
+        rightY = dirZ * upnX - dirX * upnZ;
+        rightZ = dirX * upnY - dirY * upnX;
         // up = right x direction
-        upX = rightY * dirZ - rightZ * dirY;
-        upY = rightZ * dirX - rightX * dirZ;
-        upZ = rightX * dirY - rightY * dirX;
+        upnX = rightY * dirZ - rightZ * dirY;
+        upnY = rightZ * dirX - rightX * dirZ;
+        upnZ = rightX * dirY - rightY * dirX;
 
         m00 = rightX;
-        m01 = upX;
+        m01 = upnX;
         m02 = -dirX;
         m03 = 0.0f;
         m10 = rightY;
-        m11 = upY;
+        m11 = upnY;
         m12 = -dirY;
         m13 = 0.0f;
         m20 = rightZ;
-        m21 = upZ;
+        m21 = upnZ;
         m22 = -dirZ;
         m23 = 0.0f;
         m30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
-        m31 = -upX * eyeX - upY * eyeY - upZ * eyeZ;
+        m31 = -upnX * eyeX - upnY * eyeY - upnZ * eyeZ;
         m32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
         m33 = 1.0f;
 
@@ -2325,31 +2325,31 @@ public class Matrix4f implements Serializable, Externalizable {
         dirZ /= dirLength;
         // Normalize up
         float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        upX /= upLength;
-        upY /= upLength;
-        upZ /= upLength;
+        float upnX = upX / upLength;
+        float upnY = upY / upLength;
+        float upnZ = upZ / upLength;
         // right = direction x up
         float rightX, rightY, rightZ;
-        rightX = dirY * upZ - dirZ * upY;
-        rightY = dirZ * upX - dirX * upZ;
-        rightZ = dirX * upY - dirY * upX;
+        rightX = dirY * upnZ - dirZ * upnY;
+        rightY = dirZ * upnX - dirX * upnZ;
+        rightZ = dirX * upnY - dirY * upnX;
         // up = right x direction
-        upX = rightY * dirZ - rightZ * dirY;
-        upY = rightZ * dirX - rightX * dirZ;
-        upZ = rightX * dirY - rightY * dirX;
+        upnX = rightY * dirZ - rightZ * dirY;
+        upnY = rightZ * dirX - rightX * dirZ;
+        upnZ = rightX * dirY - rightY * dirX;
 
         // calculate right matrix elements
         float rm00 = rightX;
-        float rm01 = upX;
+        float rm01 = upnX;
         float rm02 = -dirX;
         float rm10 = rightY;
-        float rm11 = upY;
+        float rm11 = upnY;
         float rm12 = -dirY;
         float rm20 = rightZ;
-        float rm21 = upZ;
+        float rm21 = upnZ;
         float rm22 = -dirZ;
         float rm30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
-        float rm31 = -upX * eyeX - upY * eyeY - upZ * eyeZ;
+        float rm31 = -upnX * eyeX - upnY * eyeY - upnZ * eyeZ;
         float rm32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
 
         // perform optimized matrix multiplication
