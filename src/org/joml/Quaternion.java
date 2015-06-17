@@ -386,6 +386,29 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
+     * Set this quaternion to a rotation equivalent to the given angle-axis.
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param x
+     *          the x-component of the rotation axis
+     * @param y
+     *          the y-component of the rotation axis
+     * @param z
+     *          the z-component of the rotation axis
+     * @return this
+     */
+    public Quaternion setAngleAxis(float angle, float x, float y, float z) {
+        double angleR = Math.toRadians(angle);
+        double s = Math.sin(angleR / 2.0);
+        this.x = (float) (x * s);
+        this.y = (float) (y * s);
+        this.z = (float) (z * s);
+        this.w = (float) Math.cos(angleR / 2.0);
+        return this;
+    }
+
+    /**
      * Set this {@link Quaternion} to a rotation of the given angle in degrees about the supplied
      * axis, all of which are specified via the {@link AngleAxis4f}.
      * 
@@ -1285,6 +1308,56 @@ public class Quaternion implements Serializable, Externalizable {
                  this.w * y - this.x * z + this.y * w + this.z * x,
                  this.w * z + this.x * y - this.y * x + this.z * w,
                  this.w * w - this.x * x - this.y * y - this.z * z);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to a rotation that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @param fromDir
+     *          the starting direction
+     * @param toDir
+     *          the destination direction
+     * @return this
+     */
+    public Quaternion rotationTo(Vector3f fromDir, Vector3f toDir) {
+        float fromLength = fromDir.length();
+        float fromX = fromDir.x / fromLength;
+        float fromY = fromDir.y / fromLength;
+        float fromZ = fromDir.z / fromLength;
+        float toLength = toDir.length();
+        float toX = toDir.x / toLength;
+        float toY = toDir.y / toLength;
+        float toZ = toDir.z / toLength;
+        float dot = fromX * toX + fromY * toY + fromZ * toZ;
+        if (dot < 1e-6f - 1.0f) {
+            /* vectors are negation of each other */
+            float axisX = 0.0f;
+            float axisY = -fromZ;
+            float axisZ = fromY;
+            if (axisX * axisX + axisY * axisY + axisZ * axisZ < 1E-6f) {
+                axisX = fromZ;
+                axisY = 0.0f;
+                axisZ = -fromX;
+            }
+            setAngleAxis(180.0f, axisX, axisY, axisZ);
+        } else if (dot < 1.0f) {
+            double s = Math.sqrt((1.0 + dot) * 2.0);
+            double invs = 1.0 / s;
+            double crossX = fromY * toZ - fromZ * toY;
+            double crossY = fromZ * toX - fromX * toZ;
+            double crossZ = fromX * toY - fromY * toX;
+            x = (float) (crossX * invs);
+            y = (float) (crossY * invs);
+            z = (float) (crossZ * invs);
+            w = (float) (s * 0.5f);
+            normalize();
+        } else {
+            /* vectors are parallel, return identity */
+            identity();
+        }
         return this;
     }
 
