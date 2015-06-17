@@ -1319,6 +1319,11 @@ public class Quaternion implements Serializable, Externalizable {
      * store the result in <code>dest</code>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param dest
      *          will hold the result
@@ -1382,6 +1387,11 @@ public class Quaternion implements Serializable, Externalizable {
      * Apply a quaternion to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @return this
      */
@@ -1394,6 +1404,11 @@ public class Quaternion implements Serializable, Externalizable {
      * store the result in <code>dest</code>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param fromDir
      *          the starting direction
@@ -1411,6 +1426,11 @@ public class Quaternion implements Serializable, Externalizable {
      * Apply a quaternion to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
      * @param fromDir
      *          the starting direction

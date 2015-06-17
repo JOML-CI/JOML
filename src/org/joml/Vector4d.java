@@ -72,10 +72,10 @@ public class Vector4d implements Serializable, Externalizable {
      * @param w
      *            the w value
      */
-    public Vector4d(Vector3d clone, double w) {
-        this.x = clone.x;
-        this.y = clone.y;
-        this.z = clone.z;
+    public Vector4d(Vector3d v, double w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
         this.w = w;
     }
 
@@ -101,10 +101,10 @@ public class Vector4d implements Serializable, Externalizable {
      * @param w
      *            the w value
      */
-    public Vector4d(Vector3f clone, double w) {
-        this.x = clone.x;
-        this.y = clone.y;
-        this.z = clone.z;
+    public Vector4d(Vector3f v, double w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
         this.w = w;
     }
 
@@ -125,11 +125,12 @@ public class Vector4d implements Serializable, Externalizable {
      *            the vector whose values will be copied into this
      * @return this
      */
-    public void set(Vector4d v) {
+    public Vector4d set(Vector4d v) {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
         this.w = v.w;
+        return this;
     }
 
     /**
@@ -139,11 +140,12 @@ public class Vector4d implements Serializable, Externalizable {
      *            the vector whose values will be copied into this
      * @return this
      */
-    public void set(Vector4f v) {
+    public Vector4d set(Vector4f v) {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
         this.w = v.w;
+        return this;
     }
 
     /**
@@ -156,11 +158,12 @@ public class Vector4d implements Serializable, Externalizable {
      *            the w component
      * @return this
      */
-    public void set(Vector3d v, double w) {
+    public Vector4d set(Vector3d v, double w) {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
         this.w = w;
+        return this;
     }
 
     /**
@@ -173,11 +176,12 @@ public class Vector4d implements Serializable, Externalizable {
      *            the w component
      * @return this
      */
-    public void set(Vector3f v, double w) {
+    public Vector4d set(Vector3f v, double w) {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
         this.w = w;
+        return this;
     }
 
     /**
@@ -193,11 +197,12 @@ public class Vector4d implements Serializable, Externalizable {
      *            the w component
      * @return this
      */
-    public void set(double x, double y, double z, double w) {
+    public Vector4d set(double x, double y, double z, double w) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.w = w;
+        return this;
     }
 
     /**
@@ -514,8 +519,10 @@ public class Vector4d implements Serializable, Externalizable {
     /**
      * Normalize the original vector and store the result in <code>dest</code>.
      * 
-     * @param the vector to normalize
-     * @param dest will hold the result
+     * @param original
+     *          the vector to normalize
+     * @param dest
+     *          will hold the result
      */
     public static void normalize(Vector4d original, Vector4d dest) {
         double d = original.length();
