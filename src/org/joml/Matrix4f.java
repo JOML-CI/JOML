@@ -2154,16 +2154,16 @@ public class Matrix4f implements Serializable, Externalizable {
         upnZ = rightX * dirnY - rightY * dirnX;
 
         m00 = rightX;
-        m01 = upX;
-        m02 = -dirX;
+        m01 = upnX;
+        m02 = -dirnX;
         m03 = 0.0f;
         m10 = rightY;
-        m11 = upY;
-        m12 = -dirY;
+        m11 = upnY;
+        m12 = -dirnY;
         m13 = 0.0f;
         m20 = rightZ;
-        m21 = upZ;
-        m22 = -dirZ;
+        m21 = upnZ;
+        m22 = -dirnZ;
         m23 = 0.0f;
         m30 = 0.0f;
         m31 = 0.0f;

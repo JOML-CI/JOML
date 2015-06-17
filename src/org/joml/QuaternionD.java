@@ -994,7 +994,7 @@ public class QuaternionD implements Serializable, Externalizable {
 
     
     /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
-    public static void LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward, QuaternionD dest) {
+    public static void lookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward, QuaternionD dest) {
         double dirX = destPoint.x - sourcePoint.x;
         double dirY = destPoint.y - sourcePoint.y;
         double dirZ = destPoint.z - sourcePoint.z;
@@ -1043,7 +1043,7 @@ public class QuaternionD implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public QuaternionD LookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward) {
+    public QuaternionD lookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward) {
         double dirX = destPoint.x - sourcePoint.x;
         double dirY = destPoint.y - sourcePoint.y;
         double dirZ = destPoint.z - sourcePoint.z;
