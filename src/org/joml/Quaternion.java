@@ -39,6 +39,8 @@ import java.text.NumberFormat;
  */
 public class Quaternion implements Serializable, Externalizable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * The first component of the vector part.
      */
@@ -546,15 +548,14 @@ public class Quaternion implements Serializable, Externalizable {
             y = (float) ((mat.m20 - mat.m02) * t);
             z = (float) ((mat.m01 - mat.m10) * t);
         } else {
-            double max = Math.max(Math.max(mat.m00, mat.m11), mat.m22);
-            if (max == mat.m00) {
+            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
                 t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
                 x = (float) (t * 0.5);
                 t = 0.5 / t;
                 y = (float) ((mat.m10 + mat.m01) * t);
                 z = (float) ((mat.m02 + mat.m20) * t);
                 w = (float) ((mat.m12 - mat.m21) * t);
-            } else if (max == mat.m11) {
+            } else if (mat.m11 > mat.m22) {
                 t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
                 y = (float) (t * 0.5);
                 t = 0.5 / t;
@@ -591,15 +592,14 @@ public class Quaternion implements Serializable, Externalizable {
             y = (float) ((mat.m20 - mat.m02) * t);
             z = (float) ((mat.m01 - mat.m10) * t);
         } else {
-            double max = Math.max(Math.max(mat.m00, mat.m11), mat.m22);
-            if (max == mat.m00) {
+            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
                 t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
                 x = (float) (t * 0.5);
                 t = 0.5 / t;
                 y = (float) ((mat.m10 + mat.m01) * t);
                 z = (float) ((mat.m02 + mat.m20) * t);
                 w = (float) ((mat.m12 - mat.m21) * t);
-            } else if (max == mat.m11) {
+            } else if (mat.m11 > mat.m22) {
                 t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
                 y = (float) (t * 0.5);
                 t = 0.5 / t;

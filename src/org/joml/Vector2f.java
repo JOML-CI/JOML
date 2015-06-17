@@ -38,6 +38,8 @@ import java.text.NumberFormat;
  */
 public class Vector2f implements Serializable, Externalizable {
 
+    private static final long serialVersionUID = 1L;
+
     public float x;
     public float y;
 

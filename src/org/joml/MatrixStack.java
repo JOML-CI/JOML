@@ -43,6 +43,8 @@ import java.nio.FloatBuffer;
  */
 public class MatrixStack implements Serializable, Externalizable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * The matrix stack as a non-growable array. The size of the stack must be
      * specified in the {@link #MatrixStack(int) constructor}.

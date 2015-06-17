@@ -44,6 +44,8 @@ import java.text.NumberFormat;
  */
 public class Matrix3f implements Serializable, Externalizable {
 
+    private static final long serialVersionUID = 1L;
+
     public float m00;
     public float m01;
     public float m02;

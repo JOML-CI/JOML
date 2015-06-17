@@ -40,6 +40,8 @@ import java.text.NumberFormat;
  */
 public class Vector3f implements Serializable, Externalizable {
 
+    private static final long serialVersionUID = 1L;    
+
     public float x;
     public float y;
     public float z;

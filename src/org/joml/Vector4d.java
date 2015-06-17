@@ -39,6 +39,8 @@ import java.text.NumberFormat;
  */
 public class Vector4d implements Serializable, Externalizable {
 
+    private static final long serialVersionUID = 1L;   
+
     public double x;
     public double y;
     public double z;

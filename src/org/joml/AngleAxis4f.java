@@ -38,6 +38,8 @@ import java.text.NumberFormat;
  */
 public class AngleAxis4f implements Serializable, Externalizable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * The angle in degrees.
      */

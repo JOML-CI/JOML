@@ -46,6 +46,8 @@ import java.text.NumberFormat;
  */
 public class Matrix4d implements Serializable, Externalizable {
 
+    private static final long serialVersionUID = 1L;
+
     public double m00;
     public double m01;
     public double m02;
