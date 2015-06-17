@@ -39,9 +39,21 @@ import java.text.NumberFormat;
  */
 public class Quaternion implements Serializable, Externalizable {
 
+    /**
+     * The first component of the vector part.
+     */
     public float x;
+    /**
+     * The second component of the vector part.
+     */
     public float y;
+    /**
+     * The thirdcomponent of the vector part.
+     */
     public float z;
+    /**
+     * The real/scalar part of the quaternion.
+     */
     public float w;
 
     /**

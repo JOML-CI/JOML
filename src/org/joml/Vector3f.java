@@ -44,19 +44,31 @@ public class Vector3f implements Serializable, Externalizable {
     public float y;
     public float z;
 
+    /**
+     * Create a new {@link Vector3f} of <code>(0, 0, 0)</code>.
+     */
     public Vector3f() {
     }
 
+    /**
+     * Create a new {@link Vector4f} with the given component values.
+     */
     public Vector3f(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Vector3f(Vector3f clone) {
-        this.x = clone.x;
-        this.y = clone.y;
-        this.z = clone.z;
+    /**
+     * Create a new {@link Vector3f} with the same values as <code>v</code>.
+     * 
+     * @param v
+     *            the {@link Vector3f} to copy the values from
+     */
+    public Vector3f(Vector3f v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
     }
 
     /**

@@ -153,8 +153,7 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the first three components of this to the components of
-     * <code>v</code> and the last component to <code>w</code>.
+     * Set the components of this vector to the given values.
      * 
      * @param x
      *            the x-component

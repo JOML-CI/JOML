@@ -43,8 +43,19 @@ public class AngleAxis4f implements Serializable, Externalizable {
      */
     public float angle;
 
+    /**
+     * The x-component of the rotation axis.
+     */
     public float x;
+
+    /**
+     * The y-component of the rotation axis.
+     */
     public float y;
+
+    /**
+     * The z-component of the rotation axis.
+     */
     public float z;
 
     /**
@@ -265,11 +276,25 @@ public class AngleAxis4f implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Return a string representation of this angle-axis.
+     * <p>
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
+     * 
+     * @return the string representation
+     */
     public String toString() {
         DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
         return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
+    /**
+     * Return a string representation of this angle-axis by formatting the components with the given {@link NumberFormat}.
+     * 
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
+     * @return the string representation
+     */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + formatter.format(y) + formatter.format(z) + " <|" + formatter.format(angle) + " )";
     }

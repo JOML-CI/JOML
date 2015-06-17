@@ -44,16 +44,34 @@ public class Vector4d implements Serializable, Externalizable {
     public double z;
     public double w = 1.0;
 
+    /**
+     * Create a new {@link Vector4d} of <code>(0, 0, 0, 1)</code>.
+     */
     public Vector4d() {
     }
 
-    public Vector4d(Vector4d clone) {
-        this.x = clone.x;
-        this.y = clone.y;
-        this.z = clone.z;
-        this.w = clone.w;
+    /**
+     * Create a new {@link Vector4d} with the same values as <code>v</code>.
+     * 
+     * @param v
+     *            the {@link Vector4d} to copy the values from
+     */
+    public Vector4d(Vector4d v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
+        this.w = v.w;
     }
 
+    /**
+     * Create a new {@link Vector4d} with the first three components from the
+     * given <code>v</code> and the given <code>w</code>.
+     * 
+     * @param v
+     *            the {@link Vector3d}
+     * @param w
+     *            the w value
+     */
     public Vector4d(Vector3d clone, double w) {
         this.x = clone.x;
         this.y = clone.y;
@@ -61,13 +79,28 @@ public class Vector4d implements Serializable, Externalizable {
         this.w = w;
     }
 
-    public Vector4d(Vector4f clone) {
-        this.x = clone.x;
-        this.y = clone.y;
-        this.z = clone.z;
-        this.w = clone.w;
+    /**
+     * Create a new {@link Vector4d} with the same values as <code>v</code>.
+     * 
+     * @param v
+     *            the {@link Vector4f} to copy the values from
+     */
+    public Vector4d(Vector4f v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
+        this.w = v.w;
     }
 
+    /**
+     * Create a new {@link Vector4d} with the first three components from the
+     * given <code>v</code> and the given <code>w</code>.
+     * 
+     * @param v
+     *            the {@link Vector3f}
+     * @param w
+     *            the w value
+     */
     public Vector4d(Vector3f clone, double w) {
         this.x = clone.x;
         this.y = clone.y;
@@ -75,6 +108,9 @@ public class Vector4d implements Serializable, Externalizable {
         this.w = w;
     }
 
+    /**
+     * Create a new {@link Vector4f} with the given component values.
+     */
     public Vector4d(double x, double y, double z, double w) {
         this.x = x;
         this.y = y;
@@ -82,6 +118,13 @@ public class Vector4d implements Serializable, Externalizable {
         this.w = w;
     }
 
+    /**
+     * Set this {@link Vector4d} to the values of the given <code>v</code>.
+     * 
+     * @param v
+     *            the vector whose values will be copied into this
+     * @return this
+     */
     public void set(Vector4d v) {
         this.x = v.x;
         this.y = v.y;
@@ -89,6 +132,13 @@ public class Vector4d implements Serializable, Externalizable {
         this.w = v.w;
     }
 
+    /**
+     * Set this {@link Vector4d} to the values of the given <code>v</code>.
+     * 
+     * @param v
+     *            the vector whose values will be copied into this
+     * @return this
+     */
     public void set(Vector4f v) {
         this.x = v.x;
         this.y = v.y;
@@ -96,6 +146,16 @@ public class Vector4d implements Serializable, Externalizable {
         this.w = v.w;
     }
 
+    /**
+     * Set the first three components of this to the components of
+     * <code>v</code> and the last component to <code>w</code>.
+     * 
+     * @param v
+     *            the {@link Vector3d} to copy
+     * @param w
+     *            the w component
+     * @return this
+     */
     public void set(Vector3d v, double w) {
         this.x = v.x;
         this.y = v.y;
@@ -103,6 +163,16 @@ public class Vector4d implements Serializable, Externalizable {
         this.w = w;
     }
 
+    /**
+     * Set the first three components of this to the components of
+     * <code>v</code> and the last component to <code>w</code>.
+     * 
+     * @param v
+     *            the {@link Vector3f} to copy
+     * @param w
+     *            the w component
+     * @return this
+     */
     public void set(Vector3f v, double w) {
         this.x = v.x;
         this.y = v.y;
@@ -110,6 +180,19 @@ public class Vector4d implements Serializable, Externalizable {
         this.w = w;
     }
 
+    /**
+     * Set the components of this vector to the given values.
+     * 
+     * @param x
+     *            the x-component
+     * @param y
+     *            the y-component
+     * @param z
+     *            the z-component
+     * @param w
+     *            the w component
+     * @return this
+     */
     public void set(double x, double y, double z, double w) {
         this.x = x;
         this.y = y;
@@ -118,38 +201,53 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Subtracts the supplied vector from this one
+     * Subtract the supplied vector from this one.
+     * 
+     * @return this
      */
-    public void sub(Vector4d v) {
+    public Vector4d sub(Vector4d v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
         w -= v.w;
+        return this;
     }
 
     /**
-     * Subtracts the supplied vector from this one
+     * Subtract the supplied vector from this one.
+     * 
+     * @return this
      */
-    public void sub(Vector4f v) {
+    public Vector4d sub(Vector4f v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
         w -= v.w;
+        return this;
     }
 
     /**
-     * Subtracts (x, y, z, w) vector from this one
+     * Subtract <tt>(x, y, z, w)</tt> vector from this one.
+     * 
+     * @return this
      */
-    public void sub(double x, double y, double z, double w) {
+    public Vector4d sub(double x, double y, double z, double w) {
         this.x -= x;
         this.y -= y;
         this.z -= z;
         this.w -= w;
+        return this;
     }
 
     /**
-     * Subtracts v2 from v1 and stores the results in dest. Does not modify v1
-     * or v2
+     * Subtract <code>v2</code> from <code>v1</code> and store the result in <code>dest</code>.
+     * 
+     * @param v1
+     *          the left operand
+     * @param v2
+     *          the right operand
+     * @param dest
+     *          will hold the result
      */
     public static void sub(Vector4d v1, Vector4d v2, Vector4d dest) {
         dest.x = v1.x - v2.x;
@@ -159,8 +257,14 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Subtracts v2 from v1 and stores the results in dest. Does not modify v1
-     * or v2
+     * Subtract <code>v2</code> from <code>v1</code> and store the result in <code>dest</code>.
+     * 
+     * @param v1
+     *          the left operand
+     * @param v2
+     *          the right operand
+     * @param dest
+     *          will hold the result
      */
     public static void sub(Vector4d v1, Vector4f v2, Vector4d dest) {
         dest.x = v1.x - v2.x;
@@ -170,8 +274,14 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Subtracts v2 from v1 and stores the results in dest. Does not modify v1
-     * or v2
+     * Subtract <code>v2</code> from <code>v1</code> and store the result in <code>dest</code>.
+     * 
+     * @param v1
+     *          the left operand
+     * @param v2
+     *          the right operand
+     * @param dest
+     *          will hold the result
      */
     public static void sub(Vector4f v1, Vector4d v2, Vector4d dest) {
         dest.x = v1.x - v2.x;
@@ -181,27 +291,33 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Adds the supplied vector to this one
+     * Add the supplied vector to this one.
+     * 
+     * @return this
      */
-    public void add(Vector4d v) {
+    public Vector4d add(Vector4d v) {
         x += v.x;
         y += v.y;
         z += v.z;
         w += v.w;
+        return this;
     }
 
     /**
-     * Adds the supplied vector to this one
+     * Add the supplied vector to this one.
+     * 
+     * @return this
      */
-    public void add(Vector4f v) {
+    public Vector4d add(Vector4f v) {
         x += v.x;
         y += v.y;
         z += v.z;
         w += v.w;
+        return this;
     }
 
     /**
-     * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
+     * Add <code>v2</code> to <code>v1</code> and store the result in <code>dest</code>.
      */
     public static void add(Vector4d v1, Vector4d v2, Vector4d dest) {
         dest.x = v1.x + v2.x;
@@ -211,7 +327,7 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
+     * Add <code>v2</code> to <code>v1</code> and store the result in <code>dest</code>.
      */
     public static void add(Vector4d v1, Vector4f v2, Vector4d dest) {
         dest.x = v1.x + v2.x;
@@ -221,7 +337,7 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Adds v2 to v1 and stores the results in dest. Does not modify v1 or v2
+     * Add <code>v2</code> to <code>v1</code> and store the result in <code>dest</code>.
      */
     public static void add(Vector4f v1, Vector4d v2, Vector4d dest) {
         dest.x = v1.x + v2.x;
@@ -231,27 +347,33 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by another Vector4d
+     * Multiply this {@link Vector4d} component-wise by the given {@link Vector4d}.
+     * 
+     * @return this
      */
-    public void mul(Vector4d v) {
+    public Vector4d mul(Vector4d v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
         z *= v.w;
+        return this;
     }
 
     /**
-     * Multiply this Vector4d by a Vector4f
+     * Multiply this {@link Vector4d} component-wise by the given {@link Vector4f}.
+     * 
+     * @return this
      */
-    public void mul(Vector4f v) {
+    public Vector4d mul(Vector4f v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
         z *= v.w;
+        return this;
     }
 
     /**
-     * Multiply v1 by v2 component-wise and store the result into dest.
+     * Multiply <code>v1</code> component-wise by <code>v2</code> and store the result in <code>dest</code>.
      */
     public static void mul(Vector4d v1, Vector4d v2, Vector4d dest) {
         dest.x = v1.x * v2.x;
@@ -261,7 +383,9 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by the given rotation matrix mat
+     * Multiply this {@link Vector4d} by the given matrix <code>mat</code>.
+     * 
+     * @return this
      */
     public Vector4d mul(Matrix4d mat) {
         mul(this, mat, this);
@@ -269,7 +393,7 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by the given matrix mat and store the result in <code>dest</code>.
+     * Multiply this {@link Vector4d} by the given matrix mat and store the result in <code>dest</code>.
      * 
      * @param mat
      * @param dest
@@ -281,7 +405,9 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by the given rotation matrix mat
+     * Multiply this {@link Vector4d} by the given matrix <code>mat</code>.
+     * 
+     * @return this
      */
     public Vector4d mul(Matrix4f mat) {
         mul(this, mat, this);
@@ -337,16 +463,22 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by the given scalar value
+     * Multiply this Vector4d by the given scalar value.
+     * 
+     * @return this
      */
-    public void mul(double scalar) {
+    public Vector4d mul(double scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
         w *= scalar;
+        return this;
     }
 
-    /* Multiply the given Vector4d v by the scalar value, and store in dest. Does not modify v */
+    /**
+     * Multiply the given Vector4d <code>v</code> component-wise by the <code>scalar</code> value,
+     * and store the result in <code>dest</code>.
+     */
     public static void mul(Vector4d v, double scalar, Vector4d dest) {
         dest.x = v.x * scalar;
         dest.y = v.y * scalar;
@@ -355,31 +487,17 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Returns the length squared of this vector
+     * Return the length squared of this vector.
      */
     public double lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
 
     /**
-     * Returns the length of this vector
+     * Return the length of this vector.
      */
     public double length() {
         return Math.sqrt(lengthSquared());
-    }
-
-    /**
-     * Used internally for the distance function
-     */
-    private static double lengthSquared(Vector4d source) {
-        return source.x * source.x + source.y * source.y + source.z * source.z + source.w * source.w;
-    }
-
-    /**
-     * Used internally for the distance function
-     */
-    private static double length(Vector4d source) {
-        return Math.sqrt(lengthSquared(source));
     }
 
     /**
@@ -394,11 +512,13 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Normalize the original vector and store the results in dest. Does not
-     * modify the original
+     * Normalize the original vector and store the result in <code>dest</code>.
+     * 
+     * @param the vector to normalize
+     * @param dest will hold the result
      */
     public static void normalize(Vector4d original, Vector4d dest) {
-        double d = length(original);
+        double d = original.length();
         dest.set(original.x / d,
                 original.y / d,
                 original.z / d,
@@ -406,8 +526,7 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Returns the distance between the start and end vectors. Does not modify
-     * either
+     * Return the euclidean distance between <code>start</code> and <code>end</code>.
      */
     public static double distance(Vector4d start, Vector4d end) {
         return Math.sqrt((end.x - start.x) * (end.x - start.x)
@@ -417,8 +536,7 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Returns the distance between this Vector and v. Does not modify
-     * either
+     * Return the euclidean distance between <code>this</code> and <code>v</code>.
      */
     public double distance(Vector4d v) {
         return Math.sqrt((v.x - this.x) * (v.x - this.x)
@@ -428,7 +546,8 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     /**
-     * Return the dot product of the supplied v1 and v2 vectors
+     * Return the dot product of the supplied <code>v1</code> and
+     * <code>v2</code> vectors.
      */
     public static double dot(Vector4d v1, Vector4d v2) {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
@@ -489,12 +608,15 @@ public class Vector4d implements Serializable, Externalizable {
 
     /**
      * Set all components to zero.
+     * 
+     * @return this
      */
-    public void zero() {
+    public Vector4d zero() {
         this.x = 0.0;
         this.y = 0.0;
         this.z = 0.0;
         this.w = 0.0;
+        return this;
     }
     
     /**

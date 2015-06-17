@@ -63,12 +63,20 @@ public class Matrix4d implements Serializable, Externalizable {
     public double m32;
     public double m33;
 
+    /**
+     * Create a new {@link Matrix4d} and set it to {@link #identity() identity}.
+     */
     public Matrix4d() {
         super();
         identity();
     }
 
-    /** Clones this matrix from the supplied matrix */
+    /**
+     * Create a new {@link Matrix4d} and make it a copy of the given matrix.
+     * 
+     * @param mat
+     *          the {@link Matrix4d} to copy the values from
+     */
     public Matrix4d(Matrix4d mat) {
         m00 = mat.m00;
         m01 = mat.m01;
@@ -88,7 +96,12 @@ public class Matrix4d implements Serializable, Externalizable {
         m33 = mat.m33;
     }
 
-    /** Clones this matrix from the supplied matrix */
+    /**
+     * Create a new {@link Matrix4d} and make it a copy of the given matrix.
+     * 
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     */
     public Matrix4d(Matrix4f mat) {
         m00 = mat.m00;
         m01 = mat.m01;
@@ -108,7 +121,9 @@ public class Matrix4d implements Serializable, Externalizable {
         m33 = mat.m33;
     }
     
-    /** Create a new 4x4 matrix using the supplied double values */
+    /**
+     * Create a new 4x4 matrix using the supplied double values.
+     */
     public Matrix4d(double m00, double m01, double m02, double m03, double m10, double m11, double m12, double m13, double m20,
             double m21, double m22, double m23, double m30, double m31, double m32, double m33) {
         this.m00 = m00;
@@ -129,7 +144,11 @@ public class Matrix4d implements Serializable, Externalizable {
         this.m33 = m33;
     }
     
-    /** Resets this matrix to the identity */
+    /**
+     * Reset this matrix to the identity.
+     * 
+     * @return this
+     */
     public void identity() {
         m00 = 1.0;
         m01 = 0.0;
@@ -149,27 +168,44 @@ public class Matrix4d implements Serializable, Externalizable {
         m33 = 1.0;
     }
 
-    /** Set the values within this matrix to be the same as the supplied parameter matrix */
-    public void set(Matrix4d m1) {
-        m00 = m1.m00;
-        m01 = m1.m01;
-        m02 = m1.m02;
-        m03 = m1.m03;
-        m10 = m1.m10;
-        m11 = m1.m11;
-        m12 = m1.m12;
-        m13 = m1.m13;
-        m20 = m1.m20;
-        m21 = m1.m21;
-        m22 = m1.m22;
-        m23 = m1.m23;
-        m30 = m1.m30;
-        m31 = m1.m31;
-        m32 = m1.m32;
-        m33 = m1.m33;
+    /**
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
+     * 
+     * @see #Matrix4d(Matrix4d)
+     * @see #get(Matrix4d)
+     * 
+     * @param m
+     *          the matrix to copy the values from
+     * @return this
+     */
+    public void set(Matrix4d m) {
+        m00 = m.m00;
+        m01 = m.m01;
+        m02 = m.m02;
+        m03 = m.m03;
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
+        m13 = m.m13;
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
+        m23 = m.m23;
+        m30 = m.m30;
+        m31 = m.m31;
+        m32 = m.m32;
+        m33 = m.m33;
     }
 
-    /** Set the values within this matrix to be the same as the supplied parameter matrix */
+    /**
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
+     * 
+     * @see #Matrix4d(Matrix4f)
+     * 
+     * @param m
+     *          the matrix to copy the values from
+     * @return this
+     */
     public void set(Matrix4f m1) {
         m00 = m1.m00;
         m01 = m1.m01;
@@ -189,48 +225,12 @@ public class Matrix4d implements Serializable, Externalizable {
         m33 = m1.m33;
     }
 
-    public Matrix4d(DoubleBuffer buffer) {
-        m00 = buffer.get();
-        m01 = buffer.get();
-        m02 = buffer.get();
-        m03 = buffer.get();
-        m10 = buffer.get();
-        m11 = buffer.get();
-        m12 = buffer.get();
-        m13 = buffer.get();
-        m20 = buffer.get();
-        m21 = buffer.get();
-        m22 = buffer.get();
-        m23 = buffer.get();
-        m30 = buffer.get();
-        m31 = buffer.get();
-        m32 = buffer.get();
-        m33 = buffer.get();
-    }
-
-    public Matrix4d(FloatBuffer buffer) {
-        m00 = buffer.get();
-        m01 = buffer.get();
-        m02 = buffer.get();
-        m03 = buffer.get();
-        m10 = buffer.get();
-        m11 = buffer.get();
-        m12 = buffer.get();
-        m13 = buffer.get();
-        m20 = buffer.get();
-        m21 = buffer.get();
-        m22 = buffer.get();
-        m23 = buffer.get();
-        m30 = buffer.get();
-        m31 = buffer.get();
-        m32 = buffer.get();
-        m33 = buffer.get();
-    }
-
     /**
      * Multiply this matrix by the supplied parameter matrix.
      * This matrix will be treated as the left.
      * 
+     * @param right
+     *          the right operand of the multiplication
      * @return this
      */
     public Matrix4d mul(Matrix4d right) {
@@ -242,6 +242,8 @@ public class Matrix4d implements Serializable, Externalizable {
      * Multiply this matrix by the supplied parameter matrix.
      * This matrix will be treated as the left.
      * 
+     * @param right
+     *          the right operand of the multiplication
      * @return this
      */
     public Matrix4d mul(Matrix4f right) {
@@ -914,7 +916,18 @@ public class Matrix4d implements Serializable, Externalizable {
     	dest.m23 = 0.0;
     	dest.m33 = 1.0;
     }
-    
+
+    /**
+     * Set the destination matrix to a rotation matrix which rotates the given degrees about the specified axis.
+     * The result will be stored in <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the axis to rotate about
+     * @param dest
+     *          will hold the result
+     */
     public static void rotation(double angle, Vector3d axis, Matrix4d dest) {
         rotation(angle, axis.x, axis.y, axis.z, dest);
     }

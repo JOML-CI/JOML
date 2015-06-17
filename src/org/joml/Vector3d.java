@@ -440,8 +440,8 @@ public class Vector3d implements Serializable, Externalizable {
     public static void normalize(Vector3d original, Vector3d dest) {
         double d = original.length();
         dest.set(original.x / d,
-                original.y / d,
-                original.z / d);
+                 original.y / d,
+                 original.z / d);
     }
 
     /**
