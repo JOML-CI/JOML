@@ -61,7 +61,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
     public float z;
 
     /**
-     * Create a new {@link AngleAxis4f} with zero rotation about (0, 0, 1).
+     * Create a new {@link AngleAxis4f} with zero rotation about <tt>(0, 0, 1)</tt>.
      */
     public AngleAxis4f() {
         z = 1.0f;
@@ -71,7 +71,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * Create a new {@link AngleAxis4f} with the same values of <code>a</code>.
      * 
      * @param a
-     *            the {@link AngleAxis4f} to copy the values from
+     *            the AngleAxis4f to copy the values from
      */
     public AngleAxis4f(AngleAxis4f a) {
         x = a.x;
@@ -88,7 +88,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * >http://www.euclideanspace.com</a>
      * 
      * @param q
-     *            the {@link Quaternion}
+     *            the quaternion from which to create the new AngleAxis4f
      */
     public AngleAxis4f(Quaternion q) {
         float acos = (float) Math.acos(q.w);
@@ -122,7 +122,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * Set this {@link AngleAxis4f} to the values of <code>a</code>.
      * 
      * @param a
-     *            the {@link AngleAxis4f} to copy the values from
+     *            the AngleAxis4f to copy the values from
      * @return this
      */
     public AngleAxis4f set(AngleAxis4f a) {
@@ -159,7 +159,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * {@link Quaternion}.
      * 
      * @param q
-     *            the {@link Quaternion}
+     *            the quaternion to set this AngleAxis4f from
      * @return this
      */
     public AngleAxis4f set(Quaternion q) {
@@ -177,7 +177,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * of the given {@link Matrix3f}.
      * 
      * @param m
-     *            the {@link Matrix3f}
+     *            the Matrix3f to set this AngleAxis4f from
      * @return this
      */
     public AngleAxis4f set(Matrix3f m) {
@@ -195,7 +195,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * of the given {@link Matrix4f}.
      * 
      * @param m
-     *            the {@link Matrix4f}
+     *            the Matrix4f to set this AngleAxis4f from
      * @return this
      */
     public AngleAxis4f set(Matrix4f m) {
@@ -214,7 +214,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * @see Quaternion#set(AngleAxis4f)
      * 
      * @param q
-     *          the {@link Quaternion}
+     *          the quaternion to set
      * @return this
      */
     public AngleAxis4f get(Quaternion q) {

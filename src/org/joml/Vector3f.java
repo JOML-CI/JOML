@@ -47,7 +47,7 @@ public class Vector3f implements Serializable, Externalizable {
     public float z;
 
     /**
-     * Create a new {@link Vector3f} of <code>(0, 0, 0)</code>.
+     * Create a new {@link Vector3f} of <tt>(0, 0, 0)</tt>.
      */
     public Vector3f() {
     }
