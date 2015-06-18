@@ -1207,21 +1207,6 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the destination matrix to a rotation matrix which rotates the given degrees about the specified axis.
-     * The result will be stored in <code>dest</code>.
-     * 
-     * @param angle
-     *          the angle in degrees
-     * @param axis
-     *          the axis to rotate about
-     * @param dest
-     *          will hold the result
-     */
-    public static void rotation(float angle, Vector3f axis, Matrix4f dest) {
-    	dest.rotation(angle, axis);
-    }
-
-    /**
      * Set this matrix to a rotation transformation about the X axis.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
@@ -1572,6 +1557,57 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f rotateX(float ang, Matrix4f dest) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        float rm11 = cos;
+        float rm12 = sin;
+        float rm21 = -sin;
+        float rm22 = cos;
+
+        // add temporaries for dependent values
+        float nm10 = m10 * rm11 + m20 * rm12;
+        float nm11 = m11 * rm11 + m21 * rm12;
+        float nm12 = m12 * rm11 + m22 * rm12;
+        float nm13 = m13 * rm11 + m23 * rm12;
+        // set non-dependent values directly
+        dest.m20 = m10 * rm21 + m20 * rm22;
+        dest.m21 = m11 * rm21 + m21 * rm22;
+        dest.m22 = m12 * rm21 + m22 * rm22;
+        dest.m23 = m13 * rm21 + m23 * rm22;
+        // set other values
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m03 = m03;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return this;
+    }
+
+    /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of degrees.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1586,28 +1622,57 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotateX(float ang) {
+        return rotateX(ang, this);
+    }
+
+    /**
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f rotateY(float ang, Matrix4f dest) {
         float cos = (float) Math.cos(Math.toRadians(ang));
         float sin = (float) Math.sin(Math.toRadians(ang));
-        float rm11 = cos;
-        float rm12 = sin;
-        float rm21 = -sin;
+        float rm00 = cos;
+        float rm02 = -sin;
+        float rm20 = sin;
         float rm22 = cos;
 
         // add temporaries for dependent values
-        float nm10 = m10 * rm11 + m20 * rm12;
-        float nm11 = m11 * rm11 + m21 * rm12;
-        float nm12 = m12 * rm11 + m22 * rm12;
-        float nm13 = m13 * rm11 + m23 * rm12;
+        float nm00 = m00 * rm00 + m20 * rm02;
+        float nm01 = m01 * rm00 + m21 * rm02;
+        float nm02 = m02 * rm00 + m22 * rm02;
+        float nm03 = m03 * rm00 + m23 * rm02;
         // set non-dependent values directly
-        m20 = m10 * rm21 + m20 * rm22;
-        m21 = m11 * rm21 + m21 * rm22;
-        m22 = m12 * rm21 + m22 * rm22;
-        m23 = m13 * rm21 + m23 * rm22;
+        dest.m20 = m00 * rm20 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m23 * rm22;
         // set other values
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
-        m13 = nm13;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = m10;
+        dest.m11 = m11;
+        dest.m12 = m12;
+        dest.m13 = m13;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
         return this;
     }
 
@@ -1626,28 +1691,60 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotateY(float ang) {
+        return rotateY(ang, this);
+    }
+
+    /**
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f rotateZ(float ang, Matrix4f dest) {
         float cos = (float) Math.cos(Math.toRadians(ang));
         float sin = (float) Math.sin(Math.toRadians(ang));
         float rm00 = cos;
-        float rm02 = -sin;
-        float rm20 = sin;
-        float rm22 = cos;
+        float rm01 = sin;
+        float rm10 = -sin;
+        float rm11 = cos;
 
         // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m20 * rm02;
-        float nm01 = m01 * rm00 + m21 * rm02;
-        float nm02 = m02 * rm00 + m22 * rm02;
-        float nm03 = m03 * rm00 + m23 * rm02;
-        // set non-dependent values directly
-        m20 = m00 * rm20 + m20 * rm22;
-        m21 = m01 * rm20 + m21 * rm22;
-        m22 = m02 * rm20 + m22 * rm22;
-        m23 = m03 * rm20 + m23 * rm22;
+        float nm00 = m00 * rm00 + m10 * rm01;
+        float nm01 = m01 * rm00 + m11 * rm01;
+        float nm02 = m02 * rm00 + m12 * rm01;
+        float nm03 = m03 * rm00 + m13 * rm01;
+        float nm10 = m00 * rm10 + m10 * rm11;
+        float nm11 = m01 * rm10 + m11 * rm11;
+        float nm12 = m02 * rm10 + m12 * rm11;
+        float nm13 = m03 * rm10 + m13 * rm11;
         // set other values
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m03 = nm03;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
+        dest.m23 = m23;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
         return this;
     }
 
@@ -1666,32 +1763,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotateZ(float ang) {
-        float cos = (float) Math.cos(Math.toRadians(ang));
-        float sin = (float) Math.sin(Math.toRadians(ang));
-        float rm00 = cos;
-        float rm01 = sin;
-        float rm10 = -sin;
-        float rm11 = cos;
-
-        // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m10 * rm01;
-        float nm01 = m01 * rm00 + m11 * rm01;
-        float nm02 = m02 * rm00 + m12 * rm01;
-        float nm03 = m03 * rm00 + m13 * rm01;
-        float nm10 = m00 * rm10 + m10 * rm11;
-        float nm11 = m01 * rm10 + m11 * rm11;
-        float nm12 = m02 * rm10 + m12 * rm11;
-        float nm13 = m03 * rm10 + m13 * rm11;
-        // set other values
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m03 = nm03;
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
-        m13 = nm13;
-        return this;
+        return rotateZ(ang, this);
     }
 
     /**
@@ -1899,6 +1971,68 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Apply an orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(float, float, float, float, float, float) setOrtho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho(float, float, float, float, float, float)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
+        // calculate right matrix elements
+        float rm00 = 2.0f / (right - left);
+        float rm11 = 2.0f / (top - bottom);
+        float rm22 = -2.0f / (zFar - zNear);
+        float rm30 = -(right + left) / (right - left);
+        float rm31 = -(top + bottom) / (top - bottom);
+        float rm32 = -(zFar + zNear) / (zFar - zNear);
+
+        // perform optimized multiplication
+        // compute the last column first, because other rows do not depend on it
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m20 = m20 * rm22;
+        dest.m21 = m21 * rm22;
+        dest.m22 = m22 * rm22;
+        dest.m23 = m23 * rm22;
+
+        return this;
+    }
+
+    /**
      * Apply an orthographic projection transformation to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
@@ -1928,34 +2062,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar) {
-        // calculate right matrix elements
-        float rm00 = 2.0f / (right - left);
-        float rm11 = 2.0f / (top - bottom);
-        float rm22 = -2.0f / (zFar - zNear);
-        float rm30 = -(right + left) / (right - left);
-        float rm31 = -(top + bottom) / (top - bottom);
-        float rm32 = -(zFar + zNear) / (zFar - zNear);
-
-        // perform optimized multiplication
-        // compute the last column first, because other rows do not depend on it
-        m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
-        m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
-        m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
-        m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
-        m00 = m00 * rm00;
-        m01 = m01 * rm00;
-        m02 = m02 * rm00;
-        m03 = m03 * rm00;
-        m10 = m10 * rm11;
-        m11 = m11 * rm11;
-        m12 = m12 * rm11;
-        m13 = m13 * rm11;
-        m20 = m20 * rm22;
-        m21 = m21 * rm22;
-        m22 = m22 * rm22;
-        m23 = m23 * rm22;
-
-        return this;
+        return ortho(left, right, bottom, top, zNear, zFar, this);
     }
 
     /**
@@ -2028,11 +2135,44 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f lookAlong(Vector3f dir, Vector3f up) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
     }
 
     /**
-     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
+     * and store the result in <code>dest</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
+     * 
+     * @see #lookAlong(float, float, float, float, float, float)
+     * @see #lookAt(Vector3f, Vector3f, Vector3f)
+     * @see #setLookAlong(Vector3f, Vector3f)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f lookAlong(Vector3f dir, Vector3f up, Matrix4f dest) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
+     * and store the result in <code>dest</code>. 
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -2049,10 +2189,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * @see #lookAt(float, float, float, float, float, float, float, float, float)
      * @see #setLookAlong(float, float, float, float, float, float)
      * 
+     * @param dest
+     *              will hold the result
      * @return this
      */
     public Matrix4f lookAlong(float dirX, float dirY, float dirZ,
-                              float upX, float upY, float upZ) {
+                              float upX, float upY, float upZ, Matrix4f dest) {
         // Normalize direction
         float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float dirnX = dirX / dirLength;
@@ -2093,21 +2235,50 @@ public class Matrix4f implements Serializable, Externalizable {
         float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
         // set the rest of the matrix elements
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m03 = nm03;
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
-        m13 = nm13;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
 
         return this;
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt()}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(float, float, float, float, float, float) setLookAlong()}
+     * 
+     * @see #lookAt(float, float, float, float, float, float, float, float, float)
+     * @see #setLookAlong(float, float, float, float, float, float)
+     * 
+     * @return this
+     */
+    public Matrix4f lookAlong(float dirX, float dirY, float dirZ,
+                              float upX, float upY, float upZ) {
+        return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
     /**
@@ -2283,6 +2454,35 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAt(Vector3f, Vector3f, Vector3f)}.
+     * 
+     * @see #lookAt(float, float, float, float, float, float, float, float, float)
+     * @see #setLookAlong(Vector3f, Vector3f)
+     * 
+     * @param eye
+     *            the position of the camera
+     * @param center
+     *            the point in space to look at
+     * @param up
+     *            the direction of 'up'
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f lookAt(Vector3f eye, Vector3f center, Vector3f up, Matrix4f dest) {
+        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
      * that aligns <code>-z</code> with <code>center - eye</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
@@ -2305,12 +2505,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f lookAt(Vector3f eye, Vector3f center, Vector3f up) {
-        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
+        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, this);
     }
 
     /**
      * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
-     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * that aligns <code>-z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -2323,11 +2523,13 @@ public class Matrix4f implements Serializable, Externalizable {
      * @see #lookAt(Vector3f, Vector3f, Vector3f)
      * @see #setLookAt(float, float, float, float, float, float, float, float, float)
      * 
+     * @param dest
+     *          will hold the result
      * @return this
      */
     public Matrix4f lookAt(float eyeX, float eyeY, float eyeZ,
                            float centerX, float centerY, float centerZ,
-                           float upX, float upY, float upZ) {
+                           float upX, float upY, float upZ, Matrix4f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -2372,10 +2574,10 @@ public class Matrix4f implements Serializable, Externalizable {
 
         // perform optimized matrix multiplication
         // compute last column first, because others do not depend on it
-        m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
-        m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
-        m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
-        m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
         // introduce temporaries for dependent results
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
@@ -2385,21 +2587,84 @@ public class Matrix4f implements Serializable, Externalizable {
         float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
         // set the rest of the matrix elements
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m03 = nm03;
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
-        m13 = nm13;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
 
         return this;
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt()}.
+     * 
+     * @see #lookAt(Vector3f, Vector3f, Vector3f)
+     * @see #setLookAt(float, float, float, float, float, float, float, float, float)
+     * 
+     * @return this
+     */
+    public Matrix4f lookAt(float eyeX, float eyeY, float eyeZ,
+                           float centerX, float centerY, float centerZ,
+                           float upX, float upY, float upZ) {
+        return lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * This method first computes the frustum corners using the specified parameters and then makes use of
+     * {@link #frustum(float, float, float, float, float, float) frustum()} to finally apply the frustum
+     * transformation.
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspective(float, float, float, float) setPerspective}.
+     * 
+     * @see #frustum(float, float, float, float, float, float)
+     * @see #setPerspective(float, float, float, float)
+     * 
+     * @param fovy
+     *            the vertical field of view in degrees
+     * @param aspect
+     *            the aspect ratio (i.e. width / height)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, Matrix4f dest) {
+        float h = (float) Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
+        float w = h * aspect;
+        float fl = -w;
+        float fr = +w;
+        float fb = -h;
+        float ft = +h;
+        return frustum(fl, fr, fb, ft, zNear, zFar, dest);
     }
 
     /**
@@ -2431,13 +2696,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar) {
-        float h = (float) Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
-        float w = h * aspect;
-        float fl = -w;
-        float fr = +w;
-        float fb = -h;
-        float ft = +h;
-        return frustum(fl, fr, fb, ft, zNear, zFar);
+        return perspective(fovy, aspect, zNear, zFar, this);
     }
 
     /**
@@ -2474,6 +2733,76 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Apply an arbitrary perspective projection frustum transformation to this matrix 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustum(float, float, float, float, float, float) setFrustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #setFrustum(float, float, float, float, float, float)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
+        // calculate right matrix elements
+        float rm00 = 2.0f * zNear / (right - left);
+        float rm11 = 2.0f * zNear / (top - bottom);
+        float rm20 = (right + left) / (right - left);
+        float rm21 = (top + bottom) / (top - bottom);
+        float rm22 = -(zFar + zNear) / (zFar - zNear);
+        float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
+
+        // perform optimized matrix multiplication
+        float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
+        float nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 - m31;
+        float nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 - m32;
+        float nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 - m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m30 = m20 * rm32;
+        dest.m31 = m21 * rm32;
+        dest.m32 = m22 * rm32;
+        dest.m33 = m23 * rm32;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+
+        return this;
+    }
+
+    /**
      * Apply an arbitrary perspective projection frustum transformation to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
@@ -2503,37 +2832,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar) {
-        // calculate right matrix elements
-        float rm00 = 2.0f * zNear / (right - left);
-        float rm11 = 2.0f * zNear / (top - bottom);
-        float rm20 = (right + left) / (right - left);
-        float rm21 = (top + bottom) / (top - bottom);
-        float rm22 = -(zFar + zNear) / (zFar - zNear);
-        float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
-
-        // perform optimized matrix multiplication
-        float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
-        float nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 - m31;
-        float nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 - m32;
-        float nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 - m33;
-        m00 = m00 * rm00;
-        m01 = m01 * rm00;
-        m02 = m02 * rm00;
-        m03 = m03 * rm00;
-        m10 = m10 * rm11;
-        m11 = m11 * rm11;
-        m12 = m12 * rm11;
-        m13 = m13 * rm11;
-        m30 = m20 * rm32;
-        m31 = m21 * rm32;
-        m32 = m22 * rm32;
-        m33 = m23 * rm32;
-        m20 = nm20;
-        m21 = nm21;
-        m22 = nm22;
-        m23 = nm23;
-
-        return this;
+        return frustum(left, right, bottom, top, zNear, zFar, this);
     }
 
     /**
