@@ -1033,9 +1033,9 @@ public class Matrix3f implements Serializable, Externalizable {
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-        dest.m20 = m20;
-        dest.m21 = m21;
-        dest.m22 = m22;
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
 
         return this;
     }
@@ -1095,9 +1095,9 @@ public class Matrix3f implements Serializable, Externalizable {
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
-        dest.m20 = m20;
-        dest.m21 = m21;
-        dest.m22 = m22;
+        dest.m10 = m10;
+        dest.m11 = m11;
+        dest.m12 = m12;
 
         return this;
     }
