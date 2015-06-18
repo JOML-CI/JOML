@@ -528,12 +528,11 @@ public class Matrix3d implements Serializable, Externalizable {
 
     /**
      * Store this matrix into the supplied {@link DoubleBuffer} at the current
-     * buffer {@link DoubleBuffer#position() position}.
+     * buffer {@link DoubleBuffer#position() position} using column-major order.
      * <p>
-     * This method will not increment the position of the given
-     * {@link DoubleBuffer}.
+     * This method will not increment the position of the given DoubleBuffer.
      * <p>
-     * If you want to specify the offset into the {@link DoubleBuffer} at which
+     * If you want to specify the offset into the DoubleBuffer} at which
      * the matrix is stored, you can use {@link #get(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      * 
@@ -549,7 +548,7 @@ public class Matrix3d implements Serializable, Externalizable {
 
     /**
      * Store this matrix into the supplied {@link DoubleBuffer} starting at the specified
-     * absolute buffer position/index.
+     * absolute buffer position/index using column-major order.
      * <p>
      * This method will not increment the position of the given {@link DoubleBuffer}.
      * 
@@ -573,13 +572,15 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values of this matrix by reading 9 double values from the given DoubleBuffer,
+     * Set the values of this matrix by reading 9 double values from the given {@link DoubleBuffer} in column-major order,
      * starting at its current position.
      * <p>
      * The DoubleBuffer is expected to contain the values in column-major order.
      * <p>
      * The position of the DoubleBuffer will not be changed by this method.
      * 
+     * @param buffer
+     *              the DoubleBuffer to read the matrix values from in column-major order
      * @return this
      */
     public Matrix3d set(DoubleBuffer buffer) {

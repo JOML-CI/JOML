@@ -464,13 +464,15 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values of this matrix by reading 16 float values from the given DoubleBuffer,
+     * Set the values of this matrix by reading 16 float values from the given {@link DoubleBuffer} in column-major order,
      * starting at its current position.
      * <p>
      * The DoubleBuffer is expected to contain the values in column-major order.
      * <p>
      * The position of the DoubleBuffer will not be changed by this method.
      * 
+     * @param buffer
+     *              the DoubleBuffer to read the matrix values from in column-major order
      * @return this
      */
     public Matrix4d set(DoubleBuffer buffer) {
@@ -495,13 +497,15 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values of this matrix by reading 16 float values from the given FloatBuffer,
+     * Set the values of this matrix by reading 16 float values from the given {@link FloatBuffer} in column-major order,
      * starting at its current position.
      * <p>
      * The FloatBuffer is expected to contain the values in column-major order.
      * <p>
      * The position of the FloatBuffer will not be changed by this method.
      * 
+     * @param buffer
+     *              the FloatBuffer to read the matrix values from in column-major order
      * @return this
      */
     public Matrix4d set(FloatBuffer buffer) {
@@ -735,13 +739,12 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied {@link DoubleBuffer} at the current
+     * Store this matrix in column-major order into the supplied {@link DoubleBuffer} at the current
      * buffer {@link DoubleBuffer#position() position}.
      * <p>
-     * This method will not increment the position of the given
-     * {@link DoubleBuffer}.
+     * This method will not increment the position of the given DoubleBuffer.
      * <p>
-     * If you want to specify the offset into the {@link DoubleBuffer} at which
+     * If you want to specify the offset into the DoubleBuffer at which
      * the matrix is stored, you can use {@link #get(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      * 
@@ -756,7 +759,7 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied {@link DoubleBuffer} starting at the specified
+     * Store this matrix in column-major order into the supplied {@link DoubleBuffer} starting at the specified
      * absolute buffer position/index.
      * <p>
      * This method will not increment the position of the given {@link DoubleBuffer}.

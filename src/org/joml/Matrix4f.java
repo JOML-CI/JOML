@@ -554,13 +554,15 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values of this matrix by reading 16 float values from the given FloatBuffer,
+     * Set the values of this matrix by reading 16 float values from the given {@link FloatBuffer} in column-major order,
      * starting at its current position.
      * <p>
      * The FloatBuffer is expected to contain the values in column-major order.
      * <p>
      * The position of the FloatBuffer will not be changed by this method.
      * 
+     * @param buffer
+     *              the FloatBuffer to read the matrix values from in column-major order
      * @return this
      */
     public Matrix4f set(FloatBuffer buffer) {
@@ -850,13 +852,13 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied {@link FloatBuffer} at the current
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
      * <p>
      * This method will not increment the position of the given
-     * {@link FloatBuffer}.
+     * FloatBuffer.
      * <p>
-     * If you want to specify the offset into the {@link FloatBuffer} at which
+     * If you want to specify the offset into the FloatBuffer at which
      * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      * 
@@ -871,13 +873,13 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied {@link FloatBuffer} starting at the specified
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
      * absolute buffer position/index.
      * <p>
-     * This method will not increment the position of the given {@link FloatBuffer}.
+     * This method will not increment the position of the given FloatBuffer.
      * 
      * @param index
-     *            the absolute position into the {@link FloatBuffer}
+     *            the absolute position into the FloatBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
      * @return this
