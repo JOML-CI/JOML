@@ -209,7 +209,9 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AngleAxis4f} to be equivalent to the rotation described by the given {@link Quaternion}.
+     * Set the given {@link Quaternion} to be equivalent to this {@link AngleAxis4f} rotation.
+     * 
+     * @see Quaternion#set(AngleAxis4f)
      * 
      * @param q
      *          the {@link Quaternion}
@@ -217,6 +219,20 @@ public class AngleAxis4f implements Serializable, Externalizable {
      */
     public AngleAxis4f get(Quaternion q) {
         q.set(this);
+        return this;
+    }
+
+    /**
+     * Set the given {@link Matrix4f} to a rotation transformation equivalent to this {@link AngleAxis4f}.
+     * 
+     * @see Matrix4f#set(AngleAxis4f)
+     * 
+     * @param m
+     *          the matrix to set
+     * @return this
+     */
+    public AngleAxis4f get(Matrix4f m) {
+        m.set(this);
         return this;
     }
 

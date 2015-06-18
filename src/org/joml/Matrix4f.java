@@ -300,6 +300,20 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternion}.
+     * 
+     * @see Quaternion#get(Matrix4f)
+     * 
+     * @param q
+     *          the {@link Quaternion}
+     * @return this
+     */
+    public Matrix4f set(Quaternion q) {
+        q.get(this);
+        return this;
+    }
+
+    /**
      * Set the values of this matrix to the ones of the given javax.vecmath matrix.
      * 
      * @param javaxVecmathMatrix
@@ -823,6 +837,8 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Get the rotational component of <code>this</code> matrix and store the represented rotation
      * into the given {@link AngleAxis4f}.
+     * 
+     * @see AngleAxis4f#set(Matrix4f)
      * 
      * @param dest
      *          the destination {@link AngleAxis4f}

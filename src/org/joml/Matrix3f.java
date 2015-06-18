@@ -158,6 +158,20 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternion}.
+     * 
+     * @see Quaternion#get(Matrix3f)
+     * 
+     * @param q
+     *          the {@link Quaternion}
+     * @return this
+     */
+    public Matrix3f set(Quaternion q) {
+        q.get(this);
+        return this;
+    }
+
+    /**
      * Set the values of this matrix to the ones of the given javax.vecmath.Matrix3f matrix.
      * 
      * @param javaxVecmathMatrix
@@ -502,6 +516,19 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f get(AngleAxis4f dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaternion}.
+     * 
+     * @param dest
+     *          the destination {@link Quaternion}
+     * @return this
+     */
+    public Matrix3f get(Quaternion dest) {
         dest.set(this);
         return this;
     }
