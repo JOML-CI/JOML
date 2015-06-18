@@ -135,7 +135,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Normalize this Quaternion.
+     * Normalize this quaternion.
      * 
      * @return this
      */
@@ -151,7 +151,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Normalizes the supplied Quaternion source and stores the results in dest.
+     * Normalizes the supplied quaternion source and stores the results in dest.
      * Does not modify the source
      */
     public static void normalize(Quaternion source, Quaternion dest) {
@@ -187,7 +187,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Returns the dot of this Quaternion and otherQuat
+     * Returns the dot of this quaternion and otherQuat
      */
     public float dot(Quaternion otherQuat) {
         return this.x * otherQuat.x + this.y * otherQuat.y + this.z * otherQuat.z + this.w * otherQuat.w;
@@ -333,7 +333,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to the given values.
+     * Set this quaternion to the given values.
      * 
      * @return this
      */
@@ -346,7 +346,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set the x, y and z components of this Quaternion to the given values.
+     * Set the x, y and z components of this quaternion to the given values.
      * 
      * @return this
      */
@@ -358,7 +358,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to be a copy of q.
+     * Set this quaternion to be a copy of q.
      * 
      * @return this
      */
@@ -425,7 +425,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to a rotation of the given angle in degrees about the supplied axis.
+     * Set this quaternion to a rotation of the given angle in degrees about the supplied axis.
      * 
      * @param angle
      *          the rotation angle in degrees
@@ -445,7 +445,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to a rotation of the given angle in degrees about the supplied axis.
+     * Set this quaternion to a rotation of the given angle in degrees about the supplied axis.
      * 
      * @see #rotationAxis(float, float, float, float)
      * 
@@ -543,10 +543,10 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to be a representation of the rotational component of the given matrix.
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
      * 
      * @param mat
-     *          the matrix whose rotational component is used to set this Quaternion
+     *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
     public Quaternion set(Matrix4f mat) {
@@ -588,10 +588,10 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to be a representation of the rotational component of the given matrix.
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
      * 
      * @param mat
-     *          the matrix whose rotational component is used to set this Quaternion
+     *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
     public Quaternion set(Matrix3f mat) {
@@ -633,7 +633,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Quaternion by <code>q</code>.
+     * Multiply this quaternion by <code>q</code>.
      * <p>
      * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
      * quaternion, then the resulting quaternion <tt>R</tt> is:
@@ -653,7 +653,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Quaternion by <code>q</code> and store the result in <code>dest</code>.
+     * Multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
      * <p>
      * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
      * quaternion, then the resulting quaternion <tt>R</tt> is:
@@ -786,7 +786,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Invert this Quaternion and store the result in <code>dest</code>.
+     * Invert this quaternion and store the result in <code>dest</code>.
      * 
      * @param dest
      *          will hold the result
@@ -798,7 +798,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Invert this Quaternion.
+     * Invert this quaternion.
      * 
      * @return this
      */
@@ -876,7 +876,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Conjugates this Quaternion.
+     * Conjugate this quaternion.
      * 
      * @return this
      */
@@ -888,7 +888,12 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Conjugates a and stores the results in dest. Does not modify a
+     * Conjugate <code>a</code> and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the quaternion to conjugate
+     * @param dest
+     *          will hold the result
      */
     public static void conjugate(Quaternion a, Quaternion dest) {
         dest.x = -a.x;
@@ -898,7 +903,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion to the identity.
+     * Set this quaternion to the identity.
      * 
      * @return this
      */
@@ -911,7 +916,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion from the supplied euler angles (in degrees) with rotation order XYZ.
+     * Set this quaternion from the supplied euler angles (in degrees) with rotation order XYZ.
      * 
      * @return this
      */
@@ -921,7 +926,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion from the supplied euler angles (in radians) with rotation order XYZ.
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
      * 
      * @return this
      */
@@ -931,7 +936,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion from the supplied euler angles (in degrees) with rotation order ZYX.
+     * Set this quaternion from the supplied euler angles (in degrees) with rotation order ZYX.
      * 
      * @return this
      */
@@ -941,7 +946,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion from the supplied euler angles (in radians) with rotation order ZYX.
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order ZYX.
      * 
      * @return this
      */
@@ -951,7 +956,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion from the supplied euler angles (in degrees) with rotation order XYZ.
+     * Set this quaternion from the supplied euler angles (in degrees) with rotation order XYZ.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
@@ -974,7 +979,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion from the supplied euler angles (in degrees) with rotation order ZYX.
+     * Set this quaternion from the supplied euler angles (in degrees) with rotation order ZYX.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
@@ -1015,7 +1020,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion from the supplied euler angles (in radians) with rotation order XYZ.
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
@@ -1038,7 +1043,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this Quaternion from the supplied euler angles (in radians) with rotation order ZYX.
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order ZYX.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
@@ -1061,7 +1066,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Spherical linear interpolation between this Quaternion and the specified
+     * Spherical linear interpolation between this quaternion and the specified
      * target, using the specified alpha.
      * 
      * @return this
@@ -1072,7 +1077,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Spherical linear interpolation between the start and target Quaternions,
+     * Spherical linear interpolation between the start and target quaternions,
      * using the specified alpha, and storing the results in dest. Neither the
      * start or target are modified
      */

@@ -236,6 +236,20 @@ public class AngleAxis4f implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Set the given {@link Matrix3f} to a rotation transformation equivalent to this {@link AngleAxis4f}.
+     * 
+     * @see Matrix3f#set(AngleAxis4f)
+     * 
+     * @param m
+     *          the matrix to set
+     * @return this
+     */
+    public AngleAxis4f get(Matrix3f m) {
+        m.set(this);
+        return this;
+    }
+
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeFloat(angle);
         out.writeFloat(x);
