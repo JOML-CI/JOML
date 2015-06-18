@@ -1461,6 +1461,215 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
+     * 
+     * @see #lookAlong(float, float, float, float, float, float)
+     * @see #setLookAlong(Vector3f, Vector3f)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix3f lookAlong(Vector3f dir, Vector3f up) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
+     * and store the result in <code>dest</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
+     * 
+     * @see #lookAlong(float, float, float, float, float, float)
+     * @see #setLookAlong(Vector3f, Vector3f)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f lookAlong(Vector3f dir, Vector3f up, Matrix3f dest) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
+     * and store the result in <code>dest</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(float, float, float, float, float, float) setLookAlong()}
+     * 
+     * @see #setLookAlong(float, float, float, float, float, float)
+     * 
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Matrix3f lookAlong(float dirX, float dirY, float dirZ,
+                              float upX, float upY, float upZ, Matrix3f dest) {
+        // Normalize direction
+        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float dirnX = dirX / dirLength;
+        float dirnY = dirY / dirLength;
+        float dirnZ = dirZ / dirLength;
+        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
+        float upnX = upX / upLength;
+        float upnY = upY / upLength;
+        float upnZ = upZ / upLength;
+        // right = direction x up
+        float rightX, rightY, rightZ;
+        rightX = dirnY * upnZ - dirnZ * upnY;
+        rightY = dirnZ * upnX - dirnX * upnZ;
+        rightZ = dirnX * upnY - dirnY * upnX;
+        // up = right x direction
+        upnX = rightY * dirnZ - rightZ * dirnY;
+        upnY = rightZ * dirnX - rightX * dirnZ;
+        upnZ = rightX * dirnY - rightY * dirnX;
+
+        // calculate right matrix elements
+        float rm00 = rightX;
+        float rm01 = upnX;
+        float rm02 = -dirnX;
+        float rm10 = rightY;
+        float rm11 = upnY;
+        float rm12 = -dirnY;
+        float rm20 = rightZ;
+        float rm21 = upnZ;
+        float rm22 = -dirnZ;
+
+        // perform optimized matrix multiplication
+        // introduce temporaries for dependent results
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        // set the rest of the matrix elements
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+
+        return this;
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(float, float, float, float, float, float) setLookAlong()}
+     * 
+     * @see #setLookAlong(float, float, float, float, float, float)
+     * 
+     * @return this
+     */
+    public Matrix3f lookAlong(float dirX, float dirY, float dirZ,
+                              float upX, float upY, float upZ) {
+        return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Set this matrix to a rotation transformation to make <code>-z</code>
+     * point along <code>dir</code>.
+     * <p>
+     * In order to apply the lookalong transformation to any previous existing transformation,
+     * use {@link #lookAlong(Vector3f, Vector3f)}.
+     * 
+     * @see #setLookAlong(Vector3f, Vector3f)
+     * @see #lookAlong(Vector3f, Vector3f)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix3f setLookAlong(Vector3f dir, Vector3f up) {
+        return setLookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Set this matrix to a rotation transformation to make <code>-z</code>
+     * point along <code>dir</code>.
+     * <p>
+     * In order to apply the lookalong transformation to any previous existing transformation,
+     * use {@link #lookAlong(float, float, float, float, float, float) lookAlong()}
+     * 
+     * @see #setLookAlong(float, float, float, float, float, float)
+     * @see #lookAlong(float, float, float, float, float, float)
+     * 
+     * @return this
+     */
+    public Matrix3f setLookAlong(float dirX, float dirY, float dirZ,
+                                 float upX, float upY, float upZ) {
+        // Normalize direction
+        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float dirnX = dirX / dirLength;
+        float dirnY = dirY / dirLength;
+        float dirnZ = dirZ / dirLength;
+        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
+        float upnX = upX / upLength;
+        float upnY = upY / upLength;
+        float upnZ = upZ / upLength;
+        // right = direction x up
+        float rightX, rightY, rightZ;
+        rightX = dirnY * upnZ - dirnZ * upnY;
+        rightY = dirnZ * upnX - dirnX * upnZ;
+        rightZ = dirnX * upnY - dirnY * upnX;
+        // up = right x direction
+        upnX = rightY * dirnZ - rightZ * dirnY;
+        upnY = rightZ * dirnX - rightX * dirnZ;
+        upnZ = rightX * dirnY - rightY * dirnX;
+
+        m00 = rightX;
+        m01 = upnX;
+        m02 = -dirnX;
+        m10 = rightY;
+        m11 = upnY;
+        m12 = -dirnY;
+        m20 = rightZ;
+        m21 = upnZ;
+        m22 = -dirnZ;
+
+        return this;
+    }
+
+    /**
      * Get the row at the given <code>row</code> index, starting with <code>0</code>.
      * 
      * @param row
