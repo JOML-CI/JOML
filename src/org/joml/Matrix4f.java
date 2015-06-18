@@ -1438,11 +1438,15 @@ public class Matrix4f implements Serializable, Externalizable {
      * this matrix and store the result in that vector.
      * <p>
      * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
-     * will represent a point/location in 3D-space rather than a direction.
+     * will represent a point/location in 3D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(Vector4f)}.
      * <p>
-     * In order to apply the transformation to another vector, use {@link #transform(Vector3f, Vector3f)}.
+     * In order to store the result in another vector, use {@link #transform(Vector3f, Vector3f)}.
      * 
      * @see #transform(Vector3f, Vector3f)
+     * @see #transform(Vector4f)
      * 
      * @param v
      *          the vector to transform and to hold the final result
@@ -1460,11 +1464,15 @@ public class Matrix4f implements Serializable, Externalizable {
      * this matrix and store the result in <code>dest</code>.
      * <p>
      * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
-     * will represent a point/location in 3D-space rather than a direction.
+     * will represent a point/location in 3D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(Vector4f, Vector4f)}.
      * <p>
-     * In order to apply the transformation to the same vector, use {@link #transform(Vector3f)}.
+     * In order to store the result in the same vector, use {@link #transform(Vector3f)}.
      * 
      * @see #transform(Vector3f)
+     * @see #transform(Vector4f, Vector4f)
      * 
      * @param v
      *          the vector to transform
