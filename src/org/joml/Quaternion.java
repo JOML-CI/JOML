@@ -1148,6 +1148,9 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
      * <p>
+     * Because there are multiple possibilities for such a rotations, this method will choose the one that ensures the given up direction to remain
+     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
+     * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
@@ -1157,6 +1160,11 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @see #lookRotate(float, float, float, float, float, float, Quaternion)
      * 
+     * @param dir
+     *              the direction to map to the positive Z axis
+     * @param up
+     *              the vector which will be mapped to a vector parallel to the plane
+     *              spanned by the given <code>dir</code> and <code>up</code>
      * @return this
      */
     public Quaternion lookRotate(Vector3f dir, Vector3f up) {
@@ -1166,6 +1174,9 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
      * <p>
+     * Because there are multiple possibilities for such a rotations, this method will choose the one that ensures the given up direction to remain
+     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
+     * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
@@ -1175,6 +1186,13 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @see #lookRotate(float, float, float, float, float, float, Quaternion)
      * 
+     * @param dir
+     *              the direction to map to the positive Z axis
+     * @param up
+     *              the vector which will be mapped to a vector parallel to the plane 
+     *              spanned by the given <code>dir</code> and <code>up</code>
+     * @param dest
+     *              will hold the result
      * @return this
      */
     public Quaternion lookRotate(Vector3f dir, Vector3f up, Quaternion dest) {
@@ -1183,6 +1201,9 @@ public class Quaternion implements Serializable, Externalizable {
 
     /**
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
+     * <p>
+     * Because there are multiple possibilities for such a rotations, this method will choose the one that ensures the given up direction to remain
+     * parallel to the plane spanned by the <tt>up and <tt>dir</tt> vectors. 
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -1212,6 +1233,8 @@ public class Quaternion implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
+     * @param dest
+     *              will hold the result
      * @return this
      */
     public Quaternion lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternion dest) {
@@ -1683,6 +1706,29 @@ public class Quaternion implements Serializable, Externalizable {
                  (float) (w * rz + x * ry - y * rx + z * rw),
                  (float) (w * rw - x * rx - y * ry - z * rz));
         return this;
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the specified axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @see #rotateAxis(float, float, float, float, Quaternion)
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the specified axis
+     * @param axis
+     *              the rotation axis
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaternion rotateAxis(float angle, Vector3f axis, Quaternion dest) {
+        return rotateAxis(angle, axis.x, axis.y, axis.z, dest);
     }
 
     /**
