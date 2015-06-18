@@ -435,6 +435,21 @@ public class Vector3d implements Serializable, Externalizable {
         z /= d;
         return this;
     }
+    
+    /**
+     * Normalize this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3d normalize(Vector3d dest) {
+        double d = length();
+        dest.x = x / d;
+        dest.y = y / d;
+        dest.z = z / d;
+        return this;
+    }
 
     /**
      * Normalize the original vector and store the result in dest.

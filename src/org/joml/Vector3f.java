@@ -451,6 +451,21 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
+     * Normalize this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f normalize(Vector3f dest) {
+        float d = length();
+        dest.x = x / d;
+        dest.y = y / d;
+        dest.z = z / d;
+        return this;
+    }
+
+    /**
      * Normalize the <code>original</code> vector and store the result in <code>dest</code>.
      * 
      * @param original

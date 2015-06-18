@@ -997,6 +997,50 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
+     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f rotateX(float ang, Matrix3f dest) {
+        float cos = (float) Math.cos(Math.toRadians(ang));
+        float sin = (float) Math.sin(Math.toRadians(ang));
+        float rm11 = cos;
+        float rm21 = -sin;
+        float rm12 = sin;
+        float rm22 = cos;
+
+        // add temporaries for dependent values
+        float nm10 = m10 * rm11 + m20 * rm12;
+        float nm11 = m11 * rm11 + m21 * rm12;
+        float nm12 = m12 * rm11 + m22 * rm12;
+        // set non-dependent values directly
+        dest.m20 = m10 * rm21 + m20 * rm22;
+        dest.m21 = m11 * rm21 + m21 * rm22;
+        dest.m22 = m12 * rm21 + m22 * rm22;
+        // set other values
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
+
+        return this;
+    }
+
+    /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of degrees.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1011,25 +1055,49 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f rotateX(float ang) {
+        return rotateX(ang, this);
+    }
+
+    /**
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f rotateY(float ang, Matrix3f dest) {
         float cos = (float) Math.cos(Math.toRadians(ang));
         float sin = (float) Math.sin(Math.toRadians(ang));
-        float rm11 = cos;
-        float rm21 = -sin;
-        float rm12 = sin;
+        float rm00 = cos;
+        float rm20 = sin;
+        float rm02 = -sin;
         float rm22 = cos;
 
         // add temporaries for dependent values
-        float nm10 = m10 * rm11 + m20 * rm12;
-        float nm11 = m11 * rm11 + m21 * rm12;
-        float nm12 = m12 * rm11 + m22 * rm12;
+        float nm00 = m00 * rm00 + m20 * rm02;
+        float nm01 = m01 * rm00 + m21 * rm02;
+        float nm02 = m02 * rm00 + m22 * rm02;
         // set non-dependent values directly
-        m20 = m10 * rm21 + m20 * rm22;
-        m21 = m11 * rm21 + m21 * rm22;
-        m22 = m12 * rm21 + m22 * rm22;
+        dest.m20 = m00 * rm20 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m22 * rm22;
         // set other values
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
 
         return this;
     }
@@ -1049,25 +1117,51 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f rotateY(float ang) {
+        return rotateY(ang, this);
+    }
+
+    /**
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f rotateZ(float ang, Matrix3f dest) {
         float cos = (float) Math.cos(Math.toRadians(ang));
         float sin = (float) Math.sin(Math.toRadians(ang));
         float rm00 = cos;
-        float rm20 = sin;
-        float rm02 = -sin;
-        float rm22 = cos;
+        float rm10 = -sin;
+        float rm01 = sin;
+        float rm11 = cos;
 
         // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m20 * rm02;
-        float nm01 = m01 * rm00 + m21 * rm02;
-        float nm02 = m02 * rm00 + m22 * rm02;
-        // set non-dependent values directly
-        m20 = m00 * rm20 + m20 * rm22;
-        m21 = m01 * rm20 + m21 * rm22;
-        m22 = m02 * rm20 + m22 * rm22;
+        float nm00 = m00 * rm00 + m10 * rm01;
+        float nm01 = m01 * rm00 + m11 * rm01;
+        float nm02 = m02 * rm00 + m12 * rm01;
+        float nm10 = m00 * rm10 + m10 * rm11;
+        float nm11 = m01 * rm10 + m11 * rm11;
+        float nm12 = m02 * rm10 + m12 * rm11;
         // set other values
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
 
         return this;
     }
@@ -1087,29 +1181,7 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f rotateZ(float ang) {
-        float cos = (float) Math.cos(Math.toRadians(ang));
-        float sin = (float) Math.sin(Math.toRadians(ang));
-        float rm00 = cos;
-        float rm10 = -sin;
-        float rm01 = sin;
-        float rm11 = cos;
-
-        // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m10 * rm01;
-        float nm01 = m01 * rm00 + m11 * rm01;
-        float nm02 = m02 * rm00 + m12 * rm01;
-        float nm10 = m00 * rm10 + m10 * rm11;
-        float nm11 = m01 * rm10 + m11 * rm11;
-        float nm12 = m02 * rm10 + m12 * rm11;
-        // set other values
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
-
-        return this;
+        return rotateZ(ang, this);
     }
 
     /**
