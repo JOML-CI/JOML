@@ -1149,16 +1149,14 @@ public class Matrix3f implements Serializable, Externalizable {
         float nm00 = m00 * rm00 + m10 * rm01;
         float nm01 = m01 * rm00 + m11 * rm01;
         float nm02 = m02 * rm00 + m12 * rm01;
-        float nm10 = m00 * rm10 + m10 * rm11;
-        float nm11 = m01 * rm10 + m11 * rm11;
-        float nm12 = m02 * rm10 + m12 * rm11;
+        // set non-dependent values directly
+        dest.m10 = m00 * rm10 + m10 * rm11;
+        dest.m11 = m01 * rm10 + m11 * rm11;
+        dest.m12 = m02 * rm10 + m12 * rm11;
         // set other values
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
         dest.m20 = m20;
         dest.m21 = m21;
         dest.m22 = m22;
