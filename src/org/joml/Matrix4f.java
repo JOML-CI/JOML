@@ -3373,6 +3373,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <code>nx</code>, <code>ny</code> and <code>nz</code> are the coordinates of the plane normal
      * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>, 
      * and store the result in <code>dest</code>.
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
      * 
      * @param nx
      *          the x-coordinate of the plane normal
@@ -3494,6 +3496,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * specified via the equation <tt>x*nx + y*ny + z*nz + d = 0</tt> where
      * <code>nx</code>, <code>ny</code> and <code>nz</code> are the coordinates of the plane normal
      * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>.
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
      * 
      * @param nx
      *          the x-coordinate of the plane normal
