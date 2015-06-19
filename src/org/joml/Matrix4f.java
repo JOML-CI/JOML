@@ -3458,6 +3458,35 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @param px
+     *          the x-coordinate of a point on the plane
+     * @param py
+     *          the y-coordinate of a point on the plane
+     * @param pz
+     *          the z-coordinate of a point on the plane
+     * @return this
+     */
+    public Matrix4f reflect(float nx, float ny, float nz, float px, float py, float pz) {
+        // normalize the normal (just to be sure)
+        float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+        float nnx = nx / length;
+        float nny = ny / length;
+        float nnz = nz / length;
+        // project (px, py, pz) to normal
+        float dot = nnx * px + nny * py + nnz * pz;
+        return reflect(nx, ny, nz, -dot, this);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
      * specified via the equation <tt>x*n.x + y*n.y + z*n.z + d = 0</tt> where
      * <code>n</code>is the plane normal
      * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>, 
