@@ -3539,12 +3539,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * <code>n</code> is the plane normal
      * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>.
      * 
-     * @param nx
-     *          the x-coordinate of the plane normal
-     * @param ny
-     *          the y-coordinate of the plane normal
-     * @param nz
-     *          the z-coordinate of the plane normal
+     * @param n
+     *          the plane normal
      * @param d
      *          the distance between the plane and the origin
      * @return this
