@@ -3369,43 +3369,37 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
-     * specified via the equation <tt>x*nx + y*ny + z*nz + d = 0</tt> where
-     * <code>nx</code>, <code>ny</code> and <code>nz</code> are the coordinates of the plane normal
-     * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>, 
-     * and store the result in <code>dest</code>.
+     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt> and store the result in <code>dest</code>.
+     * <p>
+     * The vector <tt>(a, b, c)</tt> must be a unit vector.
      * <p>
      * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
      * 
-     * @param nx
-     *          the x-coordinate of the plane normal
+     * @param a
+     *          the x factor in the plane equation
      * @param ny
-     *          the y-coordinate of the plane normal
+     *          the y factor in the plane equation
      * @param nz
-     *          the z-coordinate of the plane normal
+     *          the z factor in the plane equation
      * @param d
-     *          the distance between the plane and the origin
+     *          the constant in the plane equation
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Matrix4f reflect(float nx, float ny, float nz, float d, Matrix4f dest) {
-        // normalize the normal (just to be sure)
-        float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
-        float nnx = nx / length;
-        float nny = ny / length;
-        float nnz = nz / length;
-        float rm00 = 1.0f - 2.0f * nnx*nnx;
-        float rm01 = -2.0f * nnx * nny;
-        float rm02 = -2.0f * nnx * nnz;
-        float rm10 = -2.0f * nnx * nny;
-        float rm11 = 1.0f - 2.0f * nny * nny;
-        float rm12 = -2.0f * nny * nnz;
-        float rm20 = -2.0f * nnx * nnz;
-        float rm21 = -2.0f * nny * nnz;
-        float rm22 = 1.0f - 2.0f * nnz * nnz;
-        float rm30 = -2.0f * nnx * d;
-        float rm31 = -2.0f * nny * d;
-        float rm32 = -2.0f * nnz * d;
+    public Matrix4f reflect(float a, float b, float c, float d, Matrix4f dest) {
+        float rm00 = 1.0f - 2.0f * a * a;
+        float rm01 = -2.0f * a * b;
+        float rm02 = -2.0f * a * c;
+        float rm10 = -2.0f * a * b;
+        float rm11 = 1.0f - 2.0f * b * b;
+        float rm12 = -2.0f * b * c;
+        float rm20 = -2.0f * a * c;
+        float rm21 = -2.0f * b * c;
+        float rm22 = 1.0f - 2.0f * c * c;
+        float rm30 = -2.0f * a * d;
+        float rm31 = -2.0f * b * d;
+        float rm32 = -2.0f * c * d;
 
         // matrix multiplication
         dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
@@ -3438,22 +3432,24 @@ public class Matrix4f implements Serializable, Externalizable {
 
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
-     * specified via the equation <tt>x*nx + y*ny + z*nz + d = 0</tt> where
-     * <code>nx</code>, <code>ny</code> and <code>nz</code> are the coordinates of the plane normal
-     * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>.
+     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
+     * <p>
+     * The vector <tt>(a, b, c)</tt> must be a unit vector.
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
      * 
-     * @param nx
-     *          the x-coordinate of the plane normal
+     * @param a
+     *          the x factor in the plane equation
      * @param ny
-     *          the y-coordinate of the plane normal
+     *          the y factor in the plane equation
      * @param nz
-     *          the z-coordinate of the plane normal
+     *          the z factor in the plane equation
      * @param d
-     *          the distance between the plane and the origin
+     *          the constant in the plane equation
      * @return this
      */
-    public Matrix4f reflect(float nx, float ny, float nz, float d) {
-        return reflect(nx, ny, nz, d, this);
+    public Matrix4f reflect(float a, float b, float c, float d) {
+        return reflect(a, b, c, d, this);
     }
 
     /**
@@ -3499,14 +3495,11 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f reflect(float nx, float ny, float nz, float px, float py, float pz, Matrix4f dest) {
-        // normalize the normal (just to be sure)
         float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
         float nnx = nx / length;
         float nny = ny / length;
         float nnz = nz / length;
-        // project (px, py, pz) to normal
-        float dot = nnx * px + nny * py + nnz * pz;
-        return reflect(nx, ny, nz, -dot, dest);
+        return reflect(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz, dest);
     }
 
     /**
@@ -3540,100 +3533,39 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
-     * specified via the equation <tt>x*n.x + y*n.y + z*n.z + d = 0</tt> where
-     * <code>n</code>is the plane normal
-     * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>, 
-     * and store the result in <code>dest</code>.
-     * 
-     * @param n
-     *          the plane normal
-     * @param d
-     *          the distance between the plane and the origin
-     * @param dest
-     *          will hold the result
-     * @return this
-     */
-    public Matrix4f reflect(Vector3f n, float d, Matrix4f dest) {
-        return reflect(n.x, n.y, n.z, d, dest);
-    }
-
-    /**
-     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
-     * specified via the equation <tt>x*n.x + y*n.y + z*n.z + d = 0</tt> where
-     * <code>n</code>is the plane normal
-     * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>.
-     * 
-     * @param n
-     *          the plane normal
-     * @param d
-     *          the distance between the plane and the origin
-     * @return this
-     */
-    public Matrix4f reflect(Vector3f n, float d) {
-        return reflect(n.x, n.y, n.z, d, this);
-    }
-
-    /**
      * Set this matrix to a mirror/reflection transformation that reflects about the given plane
-     * specified via the equation <tt>x*nx + y*ny + z*nz + d = 0</tt> where
-     * <code>nx</code>, <code>ny</code> and <code>nz</code> are the coordinates of the plane normal
-     * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>.
+     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
      * <p>
      * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
      * 
-     * @param nx
-     *          the x-coordinate of the plane normal
+     * @param a
+     *          the x factor in the plane equation
      * @param ny
-     *          the y-coordinate of the plane normal
+     *          the y factor in the plane equation
      * @param nz
-     *          the z-coordinate of the plane normal
+     *          the z factor in the plane equation
      * @param d
-     *          the distance between the plane and the origin
+     *          the constant in the plane equation
      * @return this
      */
-    public Matrix4f reflection(float nx, float ny, float nz, float d) {
-        // normalize the normal (just to be sure)
-        float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
-        float nnx = nx / length;
-        float nny = ny / length;
-        float nnz = nz / length;
-
-        // matrix multiplication
-        m00 = 1.0f - 2.0f * nnx*nnx;
-        m01 = -2.0f * nnx * nny;
-        m02 = -2.0f * nnx * nnz;
+    public Matrix4f reflection(float a, float b, float c, float d) {
+        m00 = 1.0f - 2.0f * a*a;
+        m01 = -2.0f * a * b;
+        m02 = -2.0f * a * c;
         m03 = 0.0f;
-        m10 = -2.0f * nnx * nny;
-        m11 = 1.0f - 2.0f * nny * nny;
-        m12 = -2.0f * nny * nnz;
+        m10 = -2.0f * a * b;
+        m11 = 1.0f - 2.0f * b * b;
+        m12 = -2.0f * b * c;
         m13 = 0.0f;
-        m20 = -2.0f * nnx * nnz;
-        m21 = -2.0f * nny * nnz;
-        m22 = 1.0f - 2.0f * nnz * nnz;
+        m20 = -2.0f * a * c;
+        m21 = -2.0f * b * c;
+        m22 = 1.0f - 2.0f * c * c;
         m23 = 0.0f;
-        m30 = -2.0f * nnx * d;
-        m31 = -2.0f * nny * d;
-        m32 = -2.0f * nnz * d;
+        m30 = -2.0f * a * d;
+        m31 = -2.0f * b * d;
+        m32 = -2.0f * c * d;
         m33 = 1.0f;
-
         return this;
-    }
-
-    /**
-     * Set this matrix to a mirror/reflection transformation that reflects about the given plane
-     * specified via the equation <tt>x*n.x + y*n.y + z*n.z + d = 0</tt> where
-     * <code>n</code> is the plane normal
-     * and <code>d</code> is the shortest distance between the plane and the origin <tt>(0, 0, 0)</tt>.
-     * 
-     * @param n
-     *          the plane normal
-     * @param d
-     *          the distance between the plane and the origin
-     * @return this
-     */
-    public Matrix4f reflection(Vector3f n, float d) {
-        return reflection(n.x, n.y, n.z, d);
     }
 
     /**
