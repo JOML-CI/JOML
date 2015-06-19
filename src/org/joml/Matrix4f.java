@@ -3475,6 +3475,30 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f reflect(float nx, float ny, float nz, float px, float py, float pz) {
+        return reflect(nx, ny, nz, px, py, pz, this);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane, and store the result in <code>dest</code>.
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @param px
+     *          the x-coordinate of a point on the plane
+     * @param py
+     *          the y-coordinate of a point on the plane
+     * @param pz
+     *          the z-coordinate of a point on the plane
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f reflect(float nx, float ny, float nz, float px, float py, float pz, Matrix4f dest) {
         // normalize the normal (just to be sure)
         float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
         float nnx = nx / length;
@@ -3482,7 +3506,37 @@ public class Matrix4f implements Serializable, Externalizable {
         float nnz = nz / length;
         // project (px, py, pz) to normal
         float dot = nnx * px + nny * py + nnz * pz;
-        return reflect(nx, ny, nz, -dot, this);
+        return reflect(nx, ny, nz, -dot, dest);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * 
+     * @param normal
+     *          the plane normal
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public Matrix4f reflect(Vector3f normal, Vector3f point) {
+        return reflect(normal.x, normal.y, normal.z, point.x, point.y, point.z);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane, and store the result in <code>dest</code>.
+     * 
+     * @param normal
+     *          the plane normal
+     * @param point
+     *          a point on the plane
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f reflect(Vector3f normal, Vector3f point, Matrix4f dest) {
+        return reflect(normal.x, normal.y, normal.z, point.x, point.y, point.z, dest);
     }
 
     /**
