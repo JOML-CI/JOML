@@ -657,7 +657,12 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Inverts q and stores the results in dest. Does not modify q
+     * Invert <code>q</code> and store the result in <code>dest</code>.
+     * 
+     * @param q
+     *          the quaternion to invert
+     * @param dest
+     *          will hold the result
      */
     public static void invert(QuaternionD q, QuaternionD dest) {
         double norm = (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
@@ -666,7 +671,6 @@ public class QuaternionD implements Serializable, Externalizable {
         dest.z = -q.z / norm;
         dest.w = -q.w / norm;
     }
-
 
     /**
      * Divide <code>this</code> quaternion by <code>b</code> and store the result in <code>dest</code>.
@@ -703,14 +707,12 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Divide <code>a</code> by <code>b</code> and stores the results in <code>dest</code>.
+     * Divide <code>a</code> by <code>b</code> and store the result in <code>dest</code>.
      * <p>
      * The division expressed with the inverse is performed in the following way:
      * <p>
      * <tt>dest = a * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
      * 
-     * @param a
-     * @param b
      * @param dest
      *          will hold the result
      */

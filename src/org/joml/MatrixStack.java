@@ -92,21 +92,6 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Static version of {@link #clear()}.
-     * 
-     * @see #clear()
-     * 
-     * @param stack
-     *            the {@link MatrixStack} to apply the operation on
-     */
-    public static void clear(MatrixStack stack) {
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        stack.clear();
-    }
-
-    /**
      * Load the given {@link Matrix4f} into the current matrix of the stack.
      * 
      * @param mat
@@ -118,26 +103,6 @@ public class MatrixStack implements Serializable, Externalizable {
         }
         mats[curr].set(mat);
         return this;
-    }
-
-    /**
-     * Static version of {@link #loadMatrix(Matrix4f)}.
-     * 
-     * @see #loadMatrix(Matrix4f)
-     * 
-     * @param mat
-     *            the matrix which is stored in the current stack matrix
-     * @param stack
-     *            the {@link MatrixStack} to apply the operation on
-     */
-    public static void loadMatrix(Matrix4f mat, MatrixStack stack) {
-        if (mat == null) {
-            throw new IllegalArgumentException("mat must not be null");
-        }
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        stack.loadMatrix(mat);
     }
 
     /**
@@ -196,21 +161,6 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Static version of {@link #pushMatrix()}.
-     * 
-     * @see #pushMatrix()
-     * 
-     * @param stack
-     *            the {@link MatrixStack} to apply the operation on
-     */
-    public static void pushMatrix(MatrixStack stack) {
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        stack.pushMatrix();
-    }
-
-    /**
      * Decrement the stack pointer by one.
      * <p>
      * This will effectively dispose of the current matrix.
@@ -223,21 +173,6 @@ public class MatrixStack implements Serializable, Externalizable {
         }
         curr--;
         return this;
-    }
-
-    /**
-     * Static version of {@link #popMatrix()}.
-     * 
-     * @see #popMatrix()
-     * 
-     * @param stack
-     *            the {@link MatrixStack} to apply the operation on
-     */
-    public static void popMatrix(MatrixStack stack) {
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        stack.popMatrix();
     }
 
     /**
@@ -343,26 +278,6 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Static version of {@link #get(Matrix4f)}.
-     * 
-     * @param dest
-     *            the destination {@link Matrix4f} into which to store the
-     *            current stack matrix
-     * @param stack
-     *            the {@link MatrixStack} to apply the operation on
-     * @return <code>dest</code>
-     */
-    public static Matrix4f get(Matrix4f dest, MatrixStack stack) {
-        if (dest == null) {
-            throw new IllegalArgumentException("dest must not be null");
-        }
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        return stack.get(dest);
-    }
-
-    /**
      * Get a reference to the current matrix of the stack directly without
      * copying its values to a user-supplied matrix like in
      * {@link #get(Matrix4f)}.
@@ -374,20 +289,6 @@ public class MatrixStack implements Serializable, Externalizable {
      */
     public Matrix4f getDirect() {
         return mats[curr];
-    }
-
-    /**
-     * Static version of {@link #getDirect()}.
-     * 
-     * @param stack
-     *            the {@link MatrixStack} to apply the operation on
-     * @return the current stack matrix
-     */
-    public static Matrix4f getDirect(MatrixStack stack) {
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        return stack.getDirect();
     }
 
     /**
@@ -435,49 +336,6 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Static version of {@link #translate(float, float, float)} which applies
-     * the transformation to the given {@link MatrixStack}.
-     * 
-     * @see #translate(float, float, float)
-     * 
-     * @param x
-     *            the number of units on the x axis to translate by
-     * @param y
-     *            the number of units on the y axis to translate by
-     * @param z
-     *            the number of units on the z axis to translate by
-     * @param stack
-     *            the {@link MatrixStack} to apply the transformation on
-     */
-    public static void translate(float x, float y, float z, MatrixStack stack) {
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        stack.translate(x, y, z);
-    }
-
-    /**
-     * Static version of {@link #translate(Vector3f)} which applies the
-     * transformation to the given {@link MatrixStack}.
-     * 
-     * @see #translate(Vector3f)
-     * 
-     * @param v
-     *            the vector containing the number of units to translate by
-     * @param stack
-     *            the {@link MatrixStack} to apply the transformation on
-     */
-    public static void translate(Vector3f v, MatrixStack stack) {
-        if (v == null) {
-            throw new IllegalArgumentException("v must not be null");
-        }
-        if (stack == null) {
-            throw new IllegalArgumentException("v must not be null");
-        }
-        stack.translate(v);
-    }
-
-    /**
      * Apply scaling to the current matrix by scaling by the given x, y and z
      * factors.
      * <p>
@@ -501,28 +359,6 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Static version of {@link #scale(float, float, float)} which applies the
-     * transformation to the given {@link MatrixStack}.
-     * 
-     * @see #scale(float, float, float)
-     * 
-     * @param x
-     *            the factor to scale the x component by
-     * @param y
-     *            the factor to scale the y component by
-     * @param z
-     *            the factor to scale the z component by
-     * @param stack
-     *            the {@link MatrixStack} to apply the transformation on
-     */
-    public static void scale(float x, float y, float z, MatrixStack stack) {
-        if (stack == null) {
-            throw new IllegalArgumentException("v must not be null");
-        }
-        stack.scale(x, y, z);
-    }
-
-    /**
      * Apply a scaling transformation to the current matrix by scaling by the
      * factors in the given {@link Vector3f}.
      * <p>
@@ -543,27 +379,6 @@ public class MatrixStack implements Serializable, Externalizable {
         }
         this.scale(xyz.x, xyz.y, xyz.z);
         return this;
-    }
-
-    /**
-     * Static version of {@link #scale(Vector3f)} which applies the
-     * transformation to the given {@link MatrixStack}.
-     * 
-     * @see #scale(Vector3f)
-     * 
-     * @param xyz
-     *            the vector containing the factors to scale by
-     * @param stack
-     *            the {@link MatrixStack} to apply the transformation on
-     */
-    public static void scale(Vector3f xyz, MatrixStack stack) {
-        if (xyz == null) {
-            throw new IllegalArgumentException("xyz must not be null");
-        }
-        if (stack == null) {
-            throw new IllegalArgumentException("v must not be null");
-        }
-        stack.scale(xyz);
     }
 
     /**
@@ -611,35 +426,6 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Static version of {@link #rotate(float, float, float, float)} which
-     * applies the transformation to the given {@link MatrixStack}.
-     * <p>
-     * If <code>C</code> is the current matrix and <code>R</code> the rotation
-     * matrix, then the new current matrix will be <code>C * R</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>C * R * v</code>, the rotation will be applied first!
-     * 
-     * @see #rotate(float, float, float, float)
-     * 
-     * @param ang
-     *            the angle in degrees
-     * @param x
-     *            the x component of the axis to rotate about
-     * @param y
-     *            the y component of the axis to rotate about
-     * @param z
-     *            the z component of the axis to rotate about
-     * @param stack
-     *            the {@link MatrixStack} to apply the transformation on
-     */
-    public static void rotate(float ang, float x, float y, float z, MatrixStack stack) {
-        if (stack == null) {
-            throw new IllegalArgumentException("v must not be null");
-        }
-        stack.rotate(ang, x, y, z);
-    }
-
-    /**
      * Apply a rotation transformation to the current matrix by rotating the
      * given amount of degrees about the given <code>axis</code>
      * {@link Vector3f}.
@@ -663,34 +449,6 @@ public class MatrixStack implements Serializable, Externalizable {
         }
         rotate(ang, axis.x, axis.y, axis.z);
         return this;
-    }
-
-    /**
-     * Static version of {@link #rotate(float, Vector3f)} which applies the
-     * transformation to the given {@link MatrixStack}.
-     * <p>
-     * If <code>C</code> is the current matrix and <code>R</code> the rotation
-     * matrix, then the new current matrix will be <code>C * R</code>. So when
-     * transforming a vector <code>v</code> with the new matrix by using
-     * <code>C * R * v</code>, the rotation will be applied first!
-     * 
-     * @see #rotate(float, Vector3f)
-     * 
-     * @param ang
-     *            the angle in degrees
-     * @param axis
-     *            the axis to rotate about
-     * @param stack
-     *            the {@link MatrixStack} to apply the transformation on
-     */
-    public static void rotate(float ang, Vector3f axis, MatrixStack stack) {
-        if (axis == null) {
-            throw new IllegalArgumentException("axis must not be null");
-        }
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        stack.rotate(ang, axis.x, axis.y, axis.z);
     }
 
     /**
@@ -801,19 +559,6 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Static version of {@link #loadIdentity()}.
-     * 
-     * @param stack
-     *            the {@link MatrixStack} to perform the operation on
-     */
-    public static void loadIdentity(MatrixStack stack) {
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        stack.loadIdentity();
-    }
-
-    /**
      * Post-multiply the given matrix <code>mat</code> against the current
      * matrix.
      * <p>
@@ -835,26 +580,6 @@ public class MatrixStack implements Serializable, Externalizable {
         return this;
     }
 
-    /**
-     * Static version of {@link #multMatrix(Matrix4f)}.
-     * 
-     * @see #multMatrix(Matrix4f)
-     * 
-     * @param mat
-     *            the matrix to multiply the current stack matrix with
-     * @param stack
-     *            the {@link MatrixStack} to apply the operation on
-     */
-    public static void multMatrix(Matrix4f mat, MatrixStack stack) {
-        if (mat == null) {
-            throw new IllegalArgumentException("mat must not be null");
-        }
-        if (stack == null) {
-            throw new IllegalArgumentException("stack must not be null");
-        }
-        stack.multMatrix(mat);
-    }
-
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeInt(curr);
         out.writeInt(mats.length);
@@ -873,7 +598,8 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Apply a "lookat" transformation to the current matrix.
+     * Apply a "lookat" transformation to the current matrix for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
      * <p>
      * If <code>C</code> is the current matrix and <code>L</code> the lookat
      * matrix, then the new current matrix will be <code>C * L</code>. So when
@@ -1037,6 +763,83 @@ public class MatrixStack implements Serializable, Externalizable {
      */
     public MatrixStack frustum(float left, float right, float bottom, float top, float zNear, float zFar) {
         mats[curr].frustum(left, right, bottom, top, zNear, zFar);
+        return this;
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to the current matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>C * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @see Matrix4f#reflect(float, float, float, float, float, float)
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @param px
+     *          the x-coordinate of a point on the plane
+     * @param py
+     *          the y-coordinate of a point on the plane
+     * @param pz
+     *          the z-coordinate of a point on the plane
+     * @return this
+     */
+    public MatrixStack reflect(float nx, float ny, float nz, float px, float py, float pz) {
+        mats[curr].reflect(nx, ny, nz, px, py, pz);
+        return this;
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to the current matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>C * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @see Matrix4f#reflect(Vector3f, Vector3f)
+     * 
+     * @param normal
+     *          the plane normal
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public MatrixStack reflect(Vector3f normal, Vector3f point) {
+        mats[curr].reflect(normal, point);
+        return this;
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to the current matrix that reflects about a plane
+     * specified via the plane orientation and a point on the plane.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>C * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @see Matrix4f#reflect(Quaternion, Vector3f)
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public MatrixStack reflect(Quaternion orientation, Vector3f point) {
+        mats[curr].reflect(orientation, point);
         return this;
     }
 

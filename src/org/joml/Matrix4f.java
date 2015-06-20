@@ -3601,6 +3601,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * Set this matrix to a mirror/reflection transformation that reflects about the given plane
      * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
      * <p>
+     * The vector <tt>(a, b, c)</tt> must be a unit vector.
+     * <p>
      * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
      * 
      * @param a
