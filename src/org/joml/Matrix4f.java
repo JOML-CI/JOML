@@ -3373,13 +3373,18 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * The vector <tt>(a, b, c)</tt> must be a unit vector.
      * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * <p>
      * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
      * 
      * @param a
      *          the x factor in the plane equation
-     * @param ny
+     * @param b
      *          the y factor in the plane equation
-     * @param nz
+     * @param c
      *          the z factor in the plane equation
      * @param d
      *          the constant in the plane equation
@@ -3436,13 +3441,18 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * The vector <tt>(a, b, c)</tt> must be a unit vector.
      * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * <p>
      * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
      * 
      * @param a
      *          the x factor in the plane equation
-     * @param ny
+     * @param b
      *          the y factor in the plane equation
-     * @param nz
+     * @param c
      *          the z factor in the plane equation
      * @param d
      *          the constant in the plane equation
@@ -3455,6 +3465,11 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
      * specified via the plane normal and a point on the plane.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
      * 
      * @param nx
      *          the x-coordinate of the plane normal
@@ -3477,6 +3492,11 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
      * specified via the plane normal and a point on the plane, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
      * 
      * @param nx
      *          the x-coordinate of the plane normal
@@ -3505,6 +3525,11 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
      * specified via the plane normal and a point on the plane.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
      * 
      * @param normal
      *          the plane normal
@@ -3522,6 +3547,11 @@ public class Matrix4f implements Serializable, Externalizable {
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
      * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
      * 
      * @param orientation
      *          the plane orientation
@@ -3530,24 +3560,23 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f reflect(Quaternion orientation, Vector3f point) {
-        double num = orientation.x * 2.0;
+        double num1 = orientation.x * 2.0;
         double num2 = orientation.y * 2.0;
         double num3 = orientation.z * 2.0;
-        double num4 = orientation.x * num;
-        double num5 = orientation.y * num2;
-        double num8 = orientation.x * num3;
-        double num9 = orientation.y * num3;
-        double num10 = orientation.w * num;
-        double num11 = orientation.w * num2;
-        float normalX = (float) (num8 + num11);
-        float normalY = (float) (num9 - num10);
-        float normalZ = (float) (1.0 - (num4 + num5));
+        float normalX = (float) (orientation.x * num3 + orientation.w * num2);
+        float normalY = (float) (orientation.y * num3 - orientation.w * num1);
+        float normalZ = (float) (1.0 - (orientation.x * num1 + orientation.y * num2));
         return reflect(normalX, normalY, normalZ, point.x, point.y, point.z);
     }
 
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
      * specified via the plane normal and a point on the plane, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
      * 
      * @param normal
      *          the plane normal
@@ -3569,9 +3598,9 @@ public class Matrix4f implements Serializable, Externalizable {
      * 
      * @param a
      *          the x factor in the plane equation
-     * @param ny
+     * @param b
      *          the y factor in the plane equation
-     * @param nz
+     * @param c
      *          the z factor in the plane equation
      * @param d
      *          the constant in the plane equation
