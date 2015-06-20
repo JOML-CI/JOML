@@ -3517,6 +3517,35 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about a plane
+     * specified via the plane orientation and a point on the plane.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>.
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public Matrix4f reflect(Quaternion orientation, Vector3f point) {
+        double num = orientation.x * 2.0;
+        double num2 = orientation.y * 2.0;
+        double num3 = orientation.z * 2.0;
+        double num4 = orientation.x * num;
+        double num5 = orientation.y * num2;
+        double num8 = orientation.x * num3;
+        double num9 = orientation.y * num3;
+        double num10 = orientation.w * num;
+        double num11 = orientation.w * num2;
+        float normalX = (float) (num8 + num11);
+        float normalY = (float) (num9 - num10);
+        float normalZ = (float) (1.0 - (num4 + num5));
+        return reflect(normalX, normalY, normalZ, point.x, point.y, point.z);
+    }
+
+    /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
      * specified via the plane normal and a point on the plane, and store the result in <code>dest</code>.
      * 
@@ -3549,7 +3578,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f reflection(float a, float b, float c, float d) {
-        m00 = 1.0f - 2.0f * a*a;
+        m00 = 1.0f - 2.0f * a * a;
         m01 = -2.0f * a * b;
         m02 = -2.0f * a * c;
         m03 = 0.0f;
