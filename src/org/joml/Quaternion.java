@@ -1153,7 +1153,7 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
      * <p>
-     * Because there are multiple possibilities for such a rotations, this method will choose the one that ensures the given up direction to remain
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
      * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -1179,7 +1179,7 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
      * <p>
-     * Because there are multiple possibilities for such a rotations, this method will choose the one that ensures the given up direction to remain
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
      * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -1207,7 +1207,7 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
      * <p>
-     * Because there are multiple possibilities for such a rotations, this method will choose the one that ensures the given up direction to remain
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
      * parallel to the plane spanned by the <tt>up and <tt>dir</tt> vectors. 
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -1228,7 +1228,7 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
      * <p>
-     * Because there are multiple possibilities for such a rotations, this method will choose the one that ensures the given up direction to remain
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
      * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors. 
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
