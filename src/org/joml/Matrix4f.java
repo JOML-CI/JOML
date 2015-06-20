@@ -3636,6 +3636,70 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to a mirror/reflection transformation that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @param px
+     *          the x-coordinate of a point on the plane
+     * @param py
+     *          the y-coordinate of a point on the plane
+     * @param pz
+     *          the z-coordinate of a point on the plane
+     * @return this
+     */
+    public Matrix4f reflection(float nx, float ny, float nz, float px, float py, float pz) {
+        float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+        float nnx = nx / length;
+        float nny = ny / length;
+        float nnz = nz / length;
+        /* See: http://mathworld.wolfram.com/Plane.html */
+        return reflection(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz);
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * 
+     * @param normal
+     *          the plane normal
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public Matrix4f reflection(Vector3f normal, Vector3f point) {
+        return reflection(normal.x, normal.y, normal.z, point.x, point.y, point.z);
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects about a plane
+     * specified via the plane orientation and a point on the plane.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>.
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public Matrix4f reflection(Quaternion orientation, Vector3f point) {
+        double num1 = orientation.x * 2.0;
+        double num2 = orientation.y * 2.0;
+        double num3 = orientation.z * 2.0;
+        float normalX = (float) (orientation.x * num3 + orientation.w * num2);
+        float normalY = (float) (orientation.y * num3 - orientation.w * num1);
+        float normalZ = (float) (1.0 - (orientation.x * num1 + orientation.y * num2));
+        return reflection(normalX, normalY, normalZ, point.x, point.y, point.z);
+    }
+
+    /**
      * Get the row at the given <code>row</code> index, starting with <code>0</code>.
      * 
      * @param row
