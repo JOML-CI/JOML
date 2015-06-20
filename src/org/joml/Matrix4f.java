@@ -394,8 +394,10 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * <p>
-     * If <code>M</code> is this matrix and <code>R</code> is the <code>right</code> matrix then the result
-     * of the multiplication will be <code>M x R</code> and will be stored as the new value of <code>this</code>. 
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
      *
      * @param right
      *          the right operand of the matrix multiplication
@@ -409,8 +411,10 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
      * <p>
-     * If <code>M</code> is this matrix and <code>R</code> is the <code>right</code> matrix then the result
-     * of the multiplication will be <code>M x R</code>. 
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
      *
      * @param right
      *          the right operand of the matrix multiplication
@@ -426,8 +430,10 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Multiply the supplied left matrix by the right and store the result into dest.
      * <p>
-     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> is the <code>right</code> matrix then the result
-     * of the multiplication will be <code>L x R</code> and will be stored in <code>dest</code>. 
+     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>L * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
+     * transformation of the right matrix will be applied first!
      *
      * @param left
      *          the left matrix
@@ -3519,6 +3525,7 @@ public class Matrix4f implements Serializable, Externalizable {
         float nnx = nx / length;
         float nny = ny / length;
         float nnz = nz / length;
+        /* See: http://mathworld.wolfram.com/Plane.html */
         return reflect(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz, dest);
     }
 

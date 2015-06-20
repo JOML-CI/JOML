@@ -210,7 +210,12 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this matrix by the supplied matrix. This matrix will be the left-sided one.
+     * Multiply this matrix by the supplied <code>right</code> matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
      * 
      * @param right
      *          the right operand of the matrix multiplication
@@ -222,7 +227,31 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix3f mul(Matrix3f right, Matrix3f dest) {
+        mul(this, right, dest);
+        return this;
+    }
+
+    /**
      * Multiply the <code>left</code> matrix by the <code>right</code>, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>L * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
+     * transformation of the right matrix will be applied first!
      * 
      * @param left
      *          the left operand

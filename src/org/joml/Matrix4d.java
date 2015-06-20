@@ -232,7 +232,11 @@ public class Matrix4d implements Serializable, Externalizable {
 
     /**
      * Multiply this matrix by the supplied parameter matrix.
-     * This matrix will be treated as the left.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
      * 
      * @param right
      *          the right operand of the multiplication
@@ -245,7 +249,11 @@ public class Matrix4d implements Serializable, Externalizable {
 
     /**
      * Multiply this matrix by the supplied parameter matrix.
-     * This matrix will be treated as the left.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
      * 
      * @param right
      *          the right operand of the multiplication
@@ -256,7 +264,21 @@ public class Matrix4d implements Serializable, Externalizable {
        return this;
     }
 
-    /** Multiply the supplied left matrix by the right, and store the results into dest. Function is alias safe. */
+    /**
+     * Multiply the supplied <code>left</code> matrix by the <code>right</code> and store the result into <code>dest</code>.
+     * <p>
+     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>L * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param left
+     *          the left operand of the multiplication
+     * @param right
+     *          the right operand of the multiplication
+     * @param dest
+     *          will hold the result
+     */
     public static void mul(Matrix4d left, Matrix4d right, Matrix4d dest) {
         if (left != dest && right != dest) {
             dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03;
@@ -295,7 +317,21 @@ public class Matrix4d implements Serializable, Externalizable {
         }
     }
 
-    /** Multiply the supplied left matrix by the right, and store the results into dest. Function is alias safe. */
+    /**
+     * Multiply the supplied <code>left</code> matrix by the <code>right</code> and store the result into <code>dest</code>.
+     * <p>
+     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>L * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param left
+     *          the left operand of the multiplication
+     * @param right
+     *          the right operand of the multiplication
+     * @param dest
+     *          will hold the result
+     */
     public static void mul(Matrix4d left, Matrix4f right, Matrix4d dest) {
         if (left != dest) {
             dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03;
@@ -335,7 +371,19 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply the supplied left matrix by the right and store the results into dest.
+     * Multiply the supplied <code>left</code> matrix by the <code>right</code> and store the result into <code>dest</code>.
+     * <p>
+     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>L * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param left
+     *          the left operand of the multiplication
+     * @param right
+     *          the right operand of the multiplication
+     * @param dest
+     *          will hold the result
      */
     public static void mul(Matrix4f left, Matrix4d right, Matrix4d dest) {
         if (right != dest) {
@@ -1186,12 +1234,17 @@ public class Matrix4d implements Serializable, Externalizable {
 
     /**
      * Apply the rotation transformation of the given {@link QuaternionD} to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
      * 
      * @param quat
      *          the {@link QuaternionD}
      * @return this
      */
-    public Matrix4d mul(QuaternionD quat) {
+    public Matrix4d rotate(QuaternionD quat) {
         double q00 = 2.0 * quat.x * quat.x;
         double q11 = 2.0 * quat.y * quat.y;
         double q22 = 2.0 * quat.z * quat.z;
