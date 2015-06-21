@@ -3567,13 +3567,37 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f reflect(Quaternion orientation, Vector3f point) {
+        return reflect(orientation, point, this);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about a plane
+     * specified via the plane orientation and a point on the plane, and store the result in <code>dest</code>.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @param point
+     *          a point on the plane
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f reflect(Quaternion orientation, Vector3f point, Matrix4f dest) {
         double num1 = orientation.x * 2.0;
         double num2 = orientation.y * 2.0;
         double num3 = orientation.z * 2.0;
         float normalX = (float) (orientation.x * num3 + orientation.w * num2);
         float normalY = (float) (orientation.y * num3 - orientation.w * num1);
         float normalZ = (float) (1.0 - (orientation.x * num1 + orientation.y * num2));
-        return reflect(normalX, normalY, normalZ, point.x, point.y, point.z);
+        return reflect(normalX, normalY, normalZ, point.x, point.y, point.z, dest);
     }
 
     /**
