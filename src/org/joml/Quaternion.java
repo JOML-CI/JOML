@@ -924,88 +924,105 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this quaternion from the supplied euler angles (in degrees) with rotation order XYZ.
-     * 
-     * @return this
-     */
-    public Quaternion setEulerAnglesDegXYZ(Vector3f angles) {
-        setEulerAnglesDegXYZ(angles.x, angles.y, angles.z);
-        return this;
-    }
-
-    /**
-     * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
-     * 
-     * @return this
-     */
-    public Quaternion setEulerAnglesRadXYZ(Vector3f angles) {
-        setEulerAnglesRadXYZ(angles.x, angles.y, angles.z);
-        return this;
-    }
-
-    /**
-     * Set this quaternion from the supplied euler angles (in degrees) with rotation order ZYX.
-     * 
-     * @return this
-     */
-    public Quaternion setEulerAnglesDegZYX(Vector3f angles) {
-        setEulerAnglesDegZYX(angles.x, angles.y, angles.z);
-        return this;
-    }
-
-    /**
-     * Set this quaternion from the supplied euler angles (in radians) with rotation order ZYX.
-     * 
-     * @return this
-     */
-    public Quaternion setEulerAnglesRadZYX(Vector3f angles) {
-        setEulerAnglesRadZYX(angles.x, angles.y, angles.z);
-        return this;
-    }
-
-    /**
-     * Set this quaternion from the supplied euler angles (in degrees) with rotation order XYZ.
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>XYZ</tt>.
      * <p>
-     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
+     * @param angles
+     *              the euler angles in degrees
+     * @param dest
+     *              will hold the result
      * @return this
      */
-    public Quaternion setEulerAnglesDegXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        float sx = (float) Math.sin(Math.toRadians(rotationAboutX) * 0.5);
-        float cx = (float) Math.cos(Math.toRadians(rotationAboutX) * 0.5);
-        float sy = (float) Math.sin(Math.toRadians(rotationAboutY) * 0.5);
-        float cy = (float) Math.cos(Math.toRadians(rotationAboutY) * 0.5);
-        float sz = (float) Math.sin(Math.toRadians(rotationAboutZ) * 0.5);
-        float cz = (float) Math.cos(Math.toRadians(rotationAboutZ) * 0.5);
-
-        x = cx*cy*cz + sx*sy*sz;
-        y = sx*cy*cz - cx*sy*sz;
-        z = cx*sy*cz + sx*cy*sz;
-        w = cx*cy*sz - sx*sy*cz;
-
+    public Quaternion rotateEulerAnglesXYZ(Vector3f angles) {
+        rotateEulerAnglesXYZ(angles.x, angles.y, angles.z);
         return this;
     }
 
     /**
-     * Set this quaternion from the supplied euler angles (in degrees) with rotation order ZYX.
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>ZYX</tt>.
      * <p>
-     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
      * 
+     * @param angles
+     *              the euler angles in degrees
+     * @param dest
+     *              will hold the result
      * @return this
      */
-    public Quaternion setEulerAnglesDegZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        float sx = (float) Math.sin(Math.toRadians(rotationAboutX) * 0.5);
-        float cx = (float) Math.cos(Math.toRadians(rotationAboutX) * 0.5);
-        float sy = (float) Math.sin(Math.toRadians(rotationAboutY) * 0.5);
-        float cy = (float) Math.cos(Math.toRadians(rotationAboutY) * 0.5);
-        float sz = (float) Math.sin(Math.toRadians(rotationAboutZ) * 0.5);
-        float cz = (float) Math.cos(Math.toRadians(rotationAboutZ) * 0.5);
+    public Quaternion rotateEulerAnglesZYX(Vector3f angles) {
+        rotateEulerAnglesZYX(angles.x, angles.y, angles.z);
+        return this;
+    }
 
-        x = cx*cy*cz - sx*sy*sz;
-        y = sx*cy*cz + cx*sy*sz;
-        z = cx*sy*cz - sx*cy*sz;
-        w = cx*cy*sz + sx*sy*cz;
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>XYZ</tt>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param rotationAboutX
+     *              the angle to rotate about the x axis
+     * @param rotationAboutY
+     *              the angle to rotate about the y axis
+     * @param rotationAboutZ
+     *              the angle to rotate about the z axis
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaternion rotateEulerAnglesXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+        rotateX(rotationAboutX).rotateY(rotationAboutY).rotateZ(rotationAboutZ);
+        return this;
+    }
 
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>ZYX</tt>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param rotationAboutX
+     *              the angle to rotate about the x axis
+     * @param rotationAboutY
+     *              the angle to rotate about the y axis
+     * @param rotationAboutZ
+     *              the angle to rotate about the z axis
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaternion rotateEulerAnglesZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+        rotateZ(rotationAboutX).rotateY(rotationAboutY).rotateX(rotationAboutZ);
+        return this;
+    }
+
+    /**
+     * Get the euler angles in degrees in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the 
+     * provided parameter <code>eulerAngles</code>.
+     * 
+     * @param eulerAngles
+     *          will hold the euler angles in degrees
+     * @return this
+     */
+    public Quaternion getEulerAnglesXYZ(Vector3f eulerAngles) {
+        eulerAngles.x = (float) Math.toDegrees(Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y)));
+        eulerAngles.y = (float) Math.toDegrees(Math.asin(2.0 * (x*z + y*w)));
+        eulerAngles.z = (float) Math.toDegrees(Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z)));
         return this;
     }
 
