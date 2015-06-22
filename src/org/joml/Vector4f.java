@@ -107,36 +107,6 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the attributes to match the ones of the supplied javax.vecmath
-     * vector.
-     * 
-     * @param javaxVecmathVector
-     * @return this
-     */
-    public Vector4f fromJavaxVector(javax.vecmath.Vector4f javaxVecmathVector) {
-        x = javaxVecmathVector.x;
-        y = javaxVecmathVector.y;
-        z = javaxVecmathVector.z;
-        w = javaxVecmathVector.w;
-        return this;
-    }
-
-    /**
-     * Set the x, y and z attributes to match the ones of the supplied
-     * org.lwjgl.util.vector vector.
-     * 
-     * @param lwjglVector
-     * @return this
-     */
-    public Vector4f fromLwjglVector(org.lwjgl.util.vector.Vector4f lwjglVector) {
-        this.x = lwjglVector.x;
-        this.y = lwjglVector.y;
-        this.z = lwjglVector.z;
-        this.w = lwjglVector.w;
-        return this;
-    }
-
-    /**
      * Set the first three components of this to the components of
      * <code>v</code> and the last component to <code>w</code>.
      * 

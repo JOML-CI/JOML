@@ -87,32 +87,6 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the x, y and z attributes to match the ones of the supplied javax.vecmath vector.
-     * 
-     * @param javaxVecmathVector
-     * @return this
-     */
-    public Vector3f fromJavaxVector(javax.vecmath.Vector3f javaxVecmathVector) {
-        x = javaxVecmathVector.x;
-        y = javaxVecmathVector.y;
-        z = javaxVecmathVector.z;
-        return this;
-    }
-
-    /**
-     * Set the x, y and z attributes to match the ones of the supplied org.lwjgl.util.vector vector.
-     * 
-     * @param lwjglVector
-     * @return this
-     */
-    public Vector3f fromLwjglVector(org.lwjgl.util.vector.Vector3f lwjglVector) {
-        this.x = lwjglVector.x;
-        this.y = lwjglVector.y;
-        this.z = lwjglVector.z;
-        return this;
-    }
-
-    /**
      * Set the x, y and z attributes to the supplied float values.
      * 
      * @param x
