@@ -936,8 +936,8 @@ public class Quaternion implements Serializable, Externalizable {
      *              the euler angles in degrees
      * @return this
      */
-    public Quaternion rotateEulerAnglesXYZ(Vector3f angles) {
-        return rotateEulerAnglesXYZ(angles.x, angles.y, angles.z);
+    public Quaternion rotateXYZ(Vector3f angles) {
+        return rotateXYZ(angles.x, angles.y, angles.z);
     }
 
     /**
@@ -953,8 +953,8 @@ public class Quaternion implements Serializable, Externalizable {
      *              the euler angles in degrees
      * @return this
      */
-    public Quaternion rotateEulerAnglesZYX(Vector3f angles) {
-        return rotateEulerAnglesZYX(angles.x, angles.y, angles.z);
+    public Quaternion rotateZYX(Vector3f angles) {
+        return rotateZYX(angles.x, angles.y, angles.z);
     }
 
     /**
@@ -974,7 +974,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle to rotate about the z axis
      * @return this
      */
-    public Quaternion rotateEulerAnglesXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+    public Quaternion rotateXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         return rotateX(rotationAboutX).rotateY(rotationAboutY).rotateZ(rotationAboutZ);
     }
 
@@ -995,7 +995,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle to rotate about the z axis
      * @return this
      */
-    public Quaternion rotateEulerAnglesZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+    public Quaternion rotateZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         return rotateZ(rotationAboutX).rotateY(rotationAboutY).rotateX(rotationAboutZ);
     }
 
@@ -1011,21 +1011,6 @@ public class Quaternion implements Serializable, Externalizable {
         eulerAngles.x = (float) Math.toDegrees(Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y)));
         eulerAngles.y = (float) Math.toDegrees(Math.asin(2.0 * (x*z + y*w)));
         eulerAngles.z = (float) Math.toDegrees(Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z)));
-        return this;
-    }
-
-    /**
-     * Get the euler angles in degrees in rotation sequence <tt>ZYX</tt> of this quaternion and store them in the 
-     * provided parameter <code>eulerAngles</code>.
-     * 
-     * @param eulerAngles
-     *          will hold the euler angles in degrees
-     * @return this
-     */
-    public Quaternion getEulerAnglesZYX(Vector3f eulerAngles) {
-        eulerAngles.x = (float) Math.toDegrees(Math.atan2((y*z - w*x), 1.0/2.0 - (x*x + y*y)));
-        eulerAngles.y = (float) Math.toDegrees(Math.asin(-2.0 * (x*z - y*w)));
-        eulerAngles.z = (float) Math.toDegrees(Math.atan2((x*y + w*z), 1.0/2.0 - (y*y + z*z)));
         return this;
     }
 
