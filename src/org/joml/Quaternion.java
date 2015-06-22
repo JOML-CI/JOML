@@ -927,6 +927,8 @@ public class Quaternion implements Serializable, Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>XYZ</tt>.
      * <p>
+     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
+     * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
@@ -944,6 +946,8 @@ public class Quaternion implements Serializable, Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>ZYX</tt>.
      * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
+     * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
@@ -954,49 +958,53 @@ public class Quaternion implements Serializable, Externalizable {
      * @return this
      */
     public Quaternion rotateZYX(Vector3f angles) {
-        return rotateZYX(angles.x, angles.y, angles.z);
+        return rotateZYX(angles.z, angles.y, angles.x);
     }
 
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>XYZ</tt>.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @param rotationAboutX
-     *              the angle to rotate about the x axis
-     * @param rotationAboutY
-     *              the angle to rotate about the y axis
-     * @param rotationAboutZ
-     *              the angle to rotate about the z axis
-     * @return this
-     */
-    public Quaternion rotateXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        return rotateX(rotationAboutX).rotateY(rotationAboutY).rotateZ(rotationAboutZ);
-    }
-
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
-     * called the euler angles using rotation sequence <tt>ZYX</tt>.
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @param rotationAboutX
+     * @param angleX
      *              the angle to rotate about the x axis
-     * @param rotationAboutY
+     * @param angleY
      *              the angle to rotate about the y axis
-     * @param rotationAboutZ
+     * @param angleZ
      *              the angle to rotate about the z axis
      * @return this
      */
-    public Quaternion rotateZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
-        return rotateZ(rotationAboutX).rotateY(rotationAboutY).rotateX(rotationAboutZ);
+    public Quaternion rotateXYZ(float angleX, float angleY, float angleZ) {
+        return rotateX(angleX).rotateY(angleY).rotateZ(angleZ);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * called the euler angles, using the rotation sequence <tt>ZYX</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angleX
+     *              the angle to rotate about the x axis
+     * @param angleY
+     *              the angle to rotate about the y axis
+     * @param angleZ
+     *              the angle to rotate about the z axis
+     * @return this
+     */
+    public Quaternion rotateZYX(float angleX, float angleY, float angleZ) {
+        return rotateZ(angleZ).rotateY(angleY).rotateX(angleX);
     }
 
     /**
