@@ -172,44 +172,6 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values of this matrix to the ones of the given javax.vecmath.Matrix3f matrix.
-     * 
-     * @param javaxVecmathMatrix
-     * @return this
-     */
-    public Matrix3f fromJavaxMatrix(javax.vecmath.Matrix3f javaxVecmathMatrix) {
-        m00 = javaxVecmathMatrix.m00;
-        m01 = javaxVecmathMatrix.m10;
-        m02 = javaxVecmathMatrix.m20;
-        m10 = javaxVecmathMatrix.m01;
-        m11 = javaxVecmathMatrix.m11;
-        m12 = javaxVecmathMatrix.m21;
-        m20 = javaxVecmathMatrix.m02;
-        m21 = javaxVecmathMatrix.m12;
-        m22 = javaxVecmathMatrix.m22;
-        return this;
-    }
-
-    /**
-     * Set the values of this matrix to the ones of the given org.lwjgl.util.vector.Matrix3f matrix.
-     * 
-     * @param lwjglMatrix
-     * @return this
-     */
-    public Matrix3f fromLwjglMatrix(org.lwjgl.util.vector.Matrix3f lwjglMatrix) {
-        m00 = lwjglMatrix.m00;
-        m01 = lwjglMatrix.m01;
-        m02 = lwjglMatrix.m02;
-        m10 = lwjglMatrix.m10;
-        m11 = lwjglMatrix.m11;
-        m12 = lwjglMatrix.m12;
-        m20 = lwjglMatrix.m20;
-        m21 = lwjglMatrix.m21;
-        m22 = lwjglMatrix.m22;
-        return this;
-    }
-
-    /**
      * Multiply this matrix by the supplied <code>right</code> matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
