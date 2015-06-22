@@ -823,7 +823,8 @@ public class MatrixStack implements Serializable, Externalizable {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>.
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternion} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * <p>
      * If <code>C</code> is the current matrix and <code>R</code> the reflection matrix,
      * then the new matrix will be <code>C * R</code>. So when transforming a
