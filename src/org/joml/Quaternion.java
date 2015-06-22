@@ -1338,7 +1338,7 @@ public class Quaternion implements Serializable, Externalizable {
         double fromX = fromDirX / fromLength;
         double fromY = fromDirY / fromLength;
         double fromZ = fromDirZ / fromLength;
-        double toLength = Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
+        double toLength = Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
         double toX = toDirX / toLength;
         double toY = toDirY / toLength;
         double toZ = toDirZ / toLength;
