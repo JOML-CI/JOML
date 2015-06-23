@@ -910,44 +910,54 @@ public class QuaternionD implements Serializable, Externalizable {
     }
 
     /**
-     * Spherical linear interpolation between this Quaternion and the specified
-     * target, using the specified alpha.
+     * Interpolate between <code>this</code> quaternion and the specified
+     * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>.
      * 
+     * @param target
+     *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
+     * @param alpha
+     *          the interpolation factor, within <tt>[0..1]</tt>
      * @return this
      */
-    public QuaternionD slerp(QuaternionD target, double alpha) {
-       slerp(this, target, alpha, this);
-       return this;
+    public QuaternionD slerp(QuaternionD target, float alpha) {
+        return slerp(target, alpha, this);
     }
 
     /**
-     * Spherical linear interpolation between the start and target Quaternions,
-     * using the specified alpha, and storing the results in dest. Neither the
-     * start or target are modified
+     * Interpolate between <code>this</code> quaternion and the specified
+     * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>,
+     * and store the result in <code>dest</code>.
+     * 
+     * @param target
+     *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
+     * @param alpha
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void slerp(QuaternionD start, QuaternionD target, double alpha, QuaternionD dest) {
-        double dot = Math.abs(start.x * target.x + start.y * target.y + start.z * target.z + start.w * target.w);
-        double scale1, scale2;
-
-        if ((1.0 - dot) > 0.0) {
-            double angle = Math.acos(dot);
-            double sinAngle = 1.0 / Math.sin(angle);
-
-            scale1 = (Math.sin((1.0 - alpha) * angle) * sinAngle);
-            scale2 = (Math.sin((alpha * angle)) * sinAngle);
+    public QuaternionD slerp(QuaternionD target, float alpha, QuaternionD dest) {
+        double q2, q3;
+        double q4 = (x * target.x) + (y * target.y) + (z * target.z) + (w * target.w);
+        boolean flag = false;
+        if (q4 < 0.0) {
+            flag = true;
+            q4 = -q4;
+        }
+        if (q4 > 0.999999) {
+            q3 = 1.0F - alpha;
+            q2 = flag ? -alpha : alpha;
         } else {
-            scale1 = 1.0 - alpha;
-            scale2 = alpha;
+            double q5 = Math.acos(q4);
+            double q6 = 1.0 / Math.sin(q5);
+            q3 = Math.sin(((1.0 - alpha) * q5)) * q6;
+            q2 = flag ? -Math.sin(alpha * q5) * q6 : Math.sin(alpha * q5) * q6;
         }
-
-        if (dot < 0.0) {
-            scale2 = -scale2;
-        }
-
-        dest.x = (scale1 * start.x) + (scale2 * target.x);
-        dest.y = (scale1 * start.y) + (scale2 * target.y);
-        dest.z = (scale1 * start.z) + (scale2 * target.z);
-        dest.w = (scale1 * start.w) + (scale2 * target.w);
+        dest.x = (q3 * x) + (q2 * target.x);
+        dest.y = (q3 * y) + (q2 * target.y);
+        dest.z = (q3 * z) + (q2 * target.z);
+        dest.w = (q3 * w) + (q2 * target.w);
+        return this;
     }
 
     /**
