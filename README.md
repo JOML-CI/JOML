@@ -109,7 +109,7 @@ Matrix4f.With(proj).perspective(45.0f, 1.0f, 0.01f, 100.0f)
 
 Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
 ---------------------------------------------------
-JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. The Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
+JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f()
@@ -120,8 +120,9 @@ Matrix4f m = new Matrix4f()
      .get(fb);
 glUniformMatrix4fv(mat4Location, false, fb);
 ```
+The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method [*glUniformMatrix4fv*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv%28int,%20boolean,%20java.nio.FloatBuffer%29).
 
-If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call *glLoadMatrixf()* provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
+If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call [*glLoadMatrixf()*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf%28java.nio.FloatBuffer%29) provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f();
