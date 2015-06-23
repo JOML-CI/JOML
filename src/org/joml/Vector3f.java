@@ -720,6 +720,7 @@ public class Vector3f implements Serializable, Externalizable {
      * 
      * @param other
      *             the other vector
+     * @return this
      */
     public Vector3f half(Vector3f other) {
         return this.add(other).normalize();
@@ -732,9 +733,11 @@ public class Vector3f implements Serializable, Externalizable {
      *             the other vector
      * @param dest
      *             will hold the result
+     * @return this
      */
     public Vector3f half(Vector3f other, Vector3f dest) {
-        return dest.set(this).add(other).normalize();
+        dest.set(this).add(other).normalize();
+        return this;
     }
 
     /**
