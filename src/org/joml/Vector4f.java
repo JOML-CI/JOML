@@ -695,4 +695,70 @@ public class Vector4f implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Return the specified {@link Vector3f}.
+     * 
+     * @param v
+     *          the {@link Vector3f} to return
+     * @return that vector
+     */
+    public Vector3f with(Vector3f v) {
+        return v;
+    }
+
+    /**
+     * Return the specified {@link Vector4f}.
+     * 
+     * @param v
+     *          the {@link Vector4f} to return
+     * @return that vector
+     */
+    public Vector4f with(Vector4f v) {
+        return v;
+    }
+
+    /**
+     * Return the specified {@link Quaternion}.
+     * 
+     * @param q
+     *          the {@link Quaternion} to return
+     * @return that quaternion
+     */
+    public Quaternion with(Quaternion q) {
+        return q;
+    }
+
+    /**
+     * Return the specified {@link AngleAxis4f}.
+     * 
+     * @param a
+     *          the {@link AngleAxis4f} to return
+     * @return that quaternion
+     */
+    public AngleAxis4f with(AngleAxis4f a) {
+        return a;
+    }
+
+    /**
+     * Return the specified {@link Matrix3f}.
+     * 
+     * @param m
+     *          the {@link Matrix3f} to return
+     * @return that matrix
+     */
+    public Matrix3f with(Matrix3f m) {
+        return m;
+    }
+
+    /**
+     * Return the specified {@link Matrix4f}.
+     * 
+     * @param m
+     *          the {@link Matrix4f} to return
+     * @return that matrix
+     */
+    public Matrix4f with(Matrix4f m) {
+        return m;
+    }
+
 }
