@@ -24,7 +24,7 @@ a.normalize();
 ```
 
 Matrix API
-------------
+----------
 Using JOML you can build matrices out of basic transformations, such as scale, translate and rotate, using a fluent interface style. All such operations directly modify the matrix instance on which they are invoked.
 The following example builds a transformation matrix which effectively first scales all axes by 0.5
 and then translates x by 2.0:
@@ -53,7 +53,7 @@ Using standard subclassing in Java you can extend JOML and add additional featur
 For example, using the above example which rotates around a given rotation center, you can use the basic methods to build a new method which nicely encapsulates this functionality.
 
 Building a camera transformation
-------------
+--------------------------------
 In the same way that you can concatenate multiple simple affine transformations, you can use the methods perspective(), frustum() and ortho() to specify a perspective or orthogonal projection and lookAt() to create an orthonormal transformation that mimics a camera *looking* at a given point.
 Those methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):
 ```Java
@@ -66,19 +66,9 @@ Matrix4f m = new Matrix4f()
 ```
 The above transformation can then be used as a "view-projection" matrix in a shader.
 
-Using method chaining in a fluent interface style you can also specify both the view and projection matrices in one go:
-```Java
-Matrix4f proj = new Matrix4f();
-Matrix4f view = new Matrix4f();
-Matrix4f.With(proj).perspective(45.0f, 1.0f, 0.01f, 100.0f)
-        .with(view).lookAt(0.0f, 1.0f, 5.0f,
-                           0.0f, 0.0f, 0.0f,
-                           0.0f, 1.0f, 0.0f);
-```
-
 Computation result
-------------
-Usually, the instance methods in Matrix4f operate on the matrix on which they are invoked by writing the computation result into that matrix back. Most of the methods however also allow to specify another destination matrix to write the result into.
+------------------
+Usually, instance methods operate on the object (matrix, vector, quaternion) on which they are invoked by writing the computation result back into that back. Most of the methods however also allow to specify another destination object to write the result into.
 This can be useful for computing the view-projection matrix and its inverse in one go:
 ```Java
 Matrix4f viewProj = new Matrix4f();
@@ -91,8 +81,34 @@ viewProj.perspective(45.0f, 1.0f, 0.01f, 100.0f)
 ```
 The *invViewProj* matrix now contains the inverse of the *viewProj* matrix, but the latter is still intact.
 
+Method chaining and switching
+-----------------------------
+With the possibility of chaining multiple transformations and writing computation results in designated _destination_ objects, it is convenient to be able to switch the context object in order to apply further operations on different objects.
+This can be done easily using the _with()_ methods.
+The following example shows how a spherical linear interpolation can be built and the result be used to transform a vector:
+
+```Java
+Quaternion q1 = ...;
+Quaternion q2 = ...;
+Quaternion dest = new Quaternion();
+Vector3f v = ...;
+q1.slerp(q2, alpha, dest).with(dest).transform(v);
+```
+Here, the spherical linear interpolation is computed using the Quaternion's _slerp()_ method taking a _dest_ parameter. This method is preferred because it does not change the original context quaternion _q1_.
+Now, because the context after this call is still _q1_, the _with()_ method is used to switch over to _dest_ and then transform the vector _v_ by this interpolated quaternion.
+
+Using the same method you can also specify both the view and projection matrices in one go:
+```Java
+Matrix4f proj = new Matrix4f();
+Matrix4f view = new Matrix4f();
+Matrix4f.With(proj).perspective(45.0f, 1.0f, 0.01f, 100.0f)
+        .with(view).lookAt(0.0f, 1.0f, 5.0f,
+                           0.0f, 0.0f, 0.0f,
+                           0.0f, 1.0f, 0.0f);
+```
+
 Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
-------------
+---------------------------------------------------
 JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. The Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
