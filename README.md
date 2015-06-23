@@ -47,10 +47,21 @@ new Matrix4f().translate(center)
 ```
 The vector *pointToRotate* will now represent (0, 3, 5).
 
-Extending JOML
---------------
-Using standard subclassing in Java you can extend JOML and add additional features/methods to JOML's classes.
-For example, using the above example which rotates around a given rotation center, you can use the basic methods to build a new method which nicely encapsulates this functionality.
+Post-multiplication
+-------------------
+All transformation operations in the matrix and quaternion classes act in the same way as OpenGL and GLU by post-multiplying the operation's result to the object on which they are invoked. This allows to chain multiple transformations in the same way as with OpenGL's legacy matrix stack operations, and was shown in the matrix examples above.
+
+In addition to the post-multiplying methods, there are still ways to set a matrix or quaternion to a given transformation regardless of what that matrix or quaternion was before:
+
+```Java
+Matrix m = new Matrix();
+Vector3f point = new Vector3f(1.0f, 2.0f, 3.0f);
+Vector3f offset = new Vector3f(1.0f, 0.0f, 0.0f);
+...
+m.translation(offset).transform(point);
+```
+In the above example, the matrix _m_ is being set to a translation, instead of applying the translation to it.
+These methods are useful when the same matrix is being used repeatedly in a loop in order to reset it to a defined transformation.
 
 Building a camera transformation
 --------------------------------
@@ -155,7 +166,7 @@ void init() {
 }
 
 void frame() {
-  ..
+  ...
   m.identity()
    .perspective(45.0f, (float)width/height, 0.01f, 100.0f)
    .lookAt(0.0f, 0.0f, 10.0f,
