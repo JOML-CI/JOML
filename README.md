@@ -68,7 +68,7 @@ The above transformation can then be used as a "view-projection" matrix in a sha
 
 Computation result
 ------------------
-Usually, instance methods operate on the object (matrix, vector, quaternion) on which they are invoked by writing the computation result back into that back. Most of the methods however also allow to specify another destination object to write the result into.
+Usually, instance methods operate on the object (matrix, vector, quaternion) on which they are invoked by writing the computation result back into that object. Most of the methods however also allow to specify another destination object to write the result into. This is useful if you do not want to overwrite the original object with the computation result.
 This can be useful for computing the view-projection matrix and its inverse in one go:
 ```Java
 Matrix4f viewProj = new Matrix4f();
@@ -81,8 +81,8 @@ viewProj.perspective(45.0f, 1.0f, 0.01f, 100.0f)
 ```
 The *invViewProj* matrix now contains the inverse of the *viewProj* matrix, but the latter is still intact.
 
-Method chaining and switching
------------------------------
+Method chaining and context switching
+-------------------------------------
 With the possibility of chaining multiple transformations and writing computation results in designated _destination_ objects, it is convenient to be able to switch the context object in order to apply further operations on different objects.
 This can be done easily using the _with()_ methods.
 The following example shows how a spherical linear interpolation can be built and the result be used to transform a vector:
