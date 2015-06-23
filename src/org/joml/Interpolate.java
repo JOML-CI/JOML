@@ -64,7 +64,9 @@ public class Interpolate {
      * <code>t</code>.
      * 
      * @param v1
+     *            the first value
      * @param v2
+     *            the second value
      * @param t
      *            the interpolation parameter, within <tt>[0..1]</tt>
      * @return the interpolated value
