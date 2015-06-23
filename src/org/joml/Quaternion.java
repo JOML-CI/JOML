@@ -1130,10 +1130,10 @@ public class Quaternion implements Serializable, Externalizable {
             q3 = Math.sin(((1.0 - alpha) * q5)) * q6;
             q2 = flag ? -Math.sin(alpha * q5) * q6 : Math.sin(alpha * q5) * q6;
         }
-        dest.x = (float) ((q3 * x) + (q2 * target.x));
-        dest.y = (float) ((q3 * y) + (q2 * target.y));
-        dest.z = (float) ((q3 * z) + (q2 * target.z));
-        dest.w = (float) ((q3 * w) + (q2 * target.w));
+        dest.x = (float) (q3 * x + q2 * target.x);
+        dest.y = (float) (q3 * y + q2 * target.y);
+        dest.z = (float) (q3 * z + q2 * target.z);
+        dest.w = (float) (q3 * w + q2 * target.w);
         return this;
     }
 

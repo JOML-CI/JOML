@@ -953,10 +953,10 @@ public class QuaternionD implements Serializable, Externalizable {
             q3 = Math.sin(((1.0 - alpha) * q5)) * q6;
             q2 = flag ? -Math.sin(alpha * q5) * q6 : Math.sin(alpha * q5) * q6;
         }
-        dest.x = (q3 * x) + (q2 * target.x);
-        dest.y = (q3 * y) + (q2 * target.y);
-        dest.z = (q3 * z) + (q2 * target.z);
-        dest.w = (q3 * w) + (q2 * target.w);
+        dest.x = q3 * x + q2 * target.x;
+        dest.y = q3 * y + q2 * target.y;
+        dest.z = q3 * z + q2 * target.z;
+        dest.w = q3 * w + q2 * target.w;
         return this;
     }
 
