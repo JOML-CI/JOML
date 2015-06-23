@@ -33,7 +33,7 @@ public class Interpolate {
             result = v1;
         else
             result = (2.0 * v0 - 2.0 * v1 + t1 + t0) * t3 + (3.0 * v1 - 3.0 * v0 - 2.0 * t0 - t1) * t2 + t0 * t + v0;
-        return (float) result;
+        return result;
     }
 
     /**
