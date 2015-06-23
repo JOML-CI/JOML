@@ -647,5 +647,52 @@ public class Vector4f implements Serializable, Externalizable {
 			return false;
 		return true;
 	}
-}
+	
 
+    /**
+     * Compute a smooth-step (i.e. hermite with zero tangents) interpolation
+     * between <code>this</code> vector and the given vector <code>v</code> and
+     * store the result in <code>dest</code>.
+     * 
+     * @param v
+     *            the other vector
+     * @param t
+     *            the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Vector4f smoothStep(Vector4d v, float t, Vector4f dest) {
+        dest.x = (float) Interpolate.smoothStep(x, v.x, t);
+        dest.y = (float) Interpolate.smoothStep(y, v.y, t);
+        dest.z = (float) Interpolate.smoothStep(x, v.z, t);
+        dest.w = (float) Interpolate.smoothStep(w, v.w, t);
+        return this;
+    }
+
+    /**
+     * Compute a hermite interpolation between <code>this</code> vector and its
+     * associated tangent <code>t0</code> and the given vector <code>v</code>
+     * with its tangent <code>t1</code> and store the result in
+     * <code>dest</code>.
+     * 
+     * @param t0
+     *            the tangent of <code>this</code> vector
+     * @param v1
+     *            the other vector
+     * @param t1
+     *            the tangent of the other vector
+     * @param t
+     *            the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *            will hold the result
+     */
+    public Vector4f hermite(Vector4f t0, Vector4f v1, Vector4f t1, double t, Vector4f dest) {
+        dest.x = (float) Interpolate.hermite(x, t0.x, v1.x, t1.x, t);
+        dest.y = (float) Interpolate.hermite(y, t0.y, v1.y, t1.y, t);
+        dest.z = (float) Interpolate.hermite(z, t0.z, v1.z, t1.z, t);
+        dest.w = (float) Interpolate.hermite(z, t0.w, v1.w, t1.w, t);
+        return this;
+    }
+
+}
