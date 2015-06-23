@@ -697,6 +697,9 @@ public class Vector4f implements Serializable, Externalizable {
 
     /**
      * Return the specified {@link Vector3f}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
      * 
      * @param v
      *          the {@link Vector3f} to return
@@ -708,6 +711,9 @@ public class Vector4f implements Serializable, Externalizable {
 
     /**
      * Return the specified {@link Vector4f}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
      * 
      * @param v
      *          the {@link Vector4f} to return
@@ -719,6 +725,9 @@ public class Vector4f implements Serializable, Externalizable {
 
     /**
      * Return the specified {@link Quaternion}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
      * 
      * @param q
      *          the {@link Quaternion} to return
@@ -730,6 +739,9 @@ public class Vector4f implements Serializable, Externalizable {
 
     /**
      * Return the specified {@link AngleAxis4f}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given angle-axis.
      * 
      * @param a
      *          the {@link AngleAxis4f} to return
@@ -741,6 +753,9 @@ public class Vector4f implements Serializable, Externalizable {
 
     /**
      * Return the specified {@link Matrix3f}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
      * 
      * @param m
      *          the {@link Matrix3f} to return
@@ -752,6 +767,9 @@ public class Vector4f implements Serializable, Externalizable {
 
     /**
      * Return the specified {@link Matrix4f}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
      * 
      * @param m
      *          the {@link Matrix4f} to return
