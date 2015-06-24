@@ -50,7 +50,7 @@ public class Quaternion implements Serializable, Externalizable {
      */
     public float y;
     /**
-     * The thirdcomponent of the vector part.
+     * The third component of the vector part.
      */
     public float z;
     /**

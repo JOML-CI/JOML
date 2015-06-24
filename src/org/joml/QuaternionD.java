@@ -50,7 +50,7 @@ public class QuaternionD implements Serializable, Externalizable {
      */
     public double y;
     /**
-     * The thirdcomponent of the vector part.
+     * The third component of the vector part.
      */
     public double z;
     /**
