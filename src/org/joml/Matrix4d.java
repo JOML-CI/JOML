@@ -2105,8 +2105,8 @@ public class Matrix4d implements Serializable, Externalizable {
         double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.set(((m11 * m22) - (m21 * m12)) * s,
-                -((m10 * m22) - (m20 * m12) * s),
-	             ((m10 * m21) - (m20 * m11) * s),
+                -((m10 * m22) - (m20 * m12)) * s,
+	             ((m10 * m21) - (m20 * m11)) * s,
 	             0.0,
 	            -((m01 * m22) - (m21 * m02)) * s,
 	             ((m00 * m22) - (m20 * m02)) * s,

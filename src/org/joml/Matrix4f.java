@@ -4071,8 +4071,8 @@ public class Matrix4f implements Serializable, Externalizable {
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.set(((m11 * m22) - (m21 * m12)) * s,
-        		-((m10 * m22) - (m20 * m12) * s),
-	             ((m10 * m21) - (m20 * m11) * s),
+        		-((m10 * m22) - (m20 * m12)) * s,
+	             ((m10 * m21) - (m20 * m11)) * s,
 	             0.0f,
 	            -((m01 * m22) - (m21 * m02)) * s,
 	             ((m00 * m22) - (m20 * m02)) * s,
