@@ -958,7 +958,23 @@ public class Matrix4d implements Serializable, Externalizable {
         m22 = z;
         return this;
     }
-    
+
+    /**
+     * Set the <code>dest</code> matrix to be a simple scaling transformation.
+     * 
+     * @param x
+     *          the scale in x
+     * @param y
+     *          the scale in y
+     * @param z
+     *          the scale in z
+     * @return this
+     */
+    public Matrix4d scaling(double x, double y, double z, Matrix4d dest) {
+        dest.scaling(x, y, z);
+        return this;
+    }
+
     /**
      * Set this matrix to be a simple scale matrix.
      * 
@@ -973,30 +989,7 @@ public class Matrix4d implements Serializable, Externalizable {
         m22 = scale.z;
         return this;
     }
-    
-    /**
-     * Set the given matrix <code>dest</code> to be a simple scale matrix.
-     * 
-     * @param scale
-     * 			the scale applied to each dimension
-     */
-    public static void scaling(Vector3d scale, Matrix4d dest) {
-    	dest.identity();
-        dest.m00 = scale.x;
-        dest.m11 = scale.y;
-        dest.m22 = scale.z;
-    }
-    
-    /**
-     * Set the given matrix <code>dest</code> to be a simple scale matrix.
-     */
-    public static void scaling(double x, double y, double z, Matrix4d dest) {
-    	dest.identity();
-        dest.m00 = x;
-        dest.m11 = y;
-        dest.m22 = z;
-    }
-    
+
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
@@ -1027,6 +1020,99 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to a rotation transformation about the X axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4d rotationX(double ang) {
+        double cos = Math.cos(Math.toRadians(ang));
+        double sin = Math.sin(Math.toRadians(ang));
+        m00 = 1.0;
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = cos;
+        m12 = sin;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = -sin;
+        m22 = cos;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a rotation transformation about the Y axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4d rotationY(double ang) {
+        double cos = Math.cos(Math.toRadians(ang));
+        double sin = Math.sin(Math.toRadians(ang));
+        m00 = cos;
+        m01 = 0.0;
+        m02 = -sin;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = sin;
+        m21 = 0.0;
+        m22 = cos;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a rotation transformation about the Z axis.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4d rotationZ(double ang) {
+        double cos = Math.cos(Math.toRadians(ang));
+        double sin = Math.sin(Math.toRadians(ang));
+        m00 = cos;
+        m01 = sin;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = -sin;
+        m11 = cos;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = 0.0;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
      * @return this
@@ -1035,47 +1121,6 @@ public class Matrix4d implements Serializable, Externalizable {
         return rotation(angle, axis.x, axis.y, axis.z);
     }
     
-    /**
-     * Set the destination matrix to a rotation matrix which rotates the given radians about a given axis.
-     * 
-     * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
-     */
-    public static void rotation(double angle, double x, double y, double z, Matrix4d dest) {
-    	double cos = Math.cos(angle);
-    	double sin = Math.sin(angle);
-    	dest.m00 = cos + x * x * (1.0 - cos);
-    	dest.m10 = x * y * (1.0 - cos) - z * sin;
-    	dest.m20 = x * z * (1.0 - cos) + y * sin;
-    	dest.m30 = 0.0;
-    	dest.m01 = y * x * (1.0 - cos) + z * sin;
-    	dest.m11 = cos + y * y * (1.0 - cos);
-    	dest.m21 = y * z * (1.0 - cos) - x * sin;
-    	dest.m31 = 0.0;
-    	dest.m02 = z * x * (1.0 - cos) - y * sin;
-    	dest.m12 = z * y * (1.0 - cos) + x * sin;
-    	dest.m22 = cos + z * z * (1.0 - cos);
-    	dest.m32 = 0.0;
-    	dest.m03 = 0.0;
-    	dest.m13 = 0.0;
-    	dest.m23 = 0.0;
-    	dest.m33 = 1.0;
-    }
-
-    /**
-     * Set the destination matrix to a rotation matrix which rotates the given degrees about the specified axis.
-     * The result will be stored in <code>dest</code>.
-     * 
-     * @param angle
-     *          the angle in degrees
-     * @param axis
-     *          the axis to rotate about
-     * @param dest
-     *          will hold the result
-     */
-    public static void rotation(double angle, Vector3d axis, Matrix4d dest) {
-        rotation(angle, axis.x, axis.y, axis.z, dest);
-    }
-
     /**
      * Transform the given vector by this matrix.
      * 
@@ -1152,26 +1197,58 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d scale(double x, double y, double z) {
-        Matrix4d c = this;
         // scale matrix elements:
         // m00 = x, m11 = y, m22 = z
         // m33 = 1
         // all others = 0
-        c.m00 = c.m00 * x;
-        c.m01 = c.m01 * x;
-        c.m02 = c.m02 * x;
-        c.m03 = c.m03 * x;
-        c.m10 = c.m10 * y;
-        c.m11 = c.m11 * y;
-        c.m12 = c.m12 * y;
-        c.m13 = c.m13 * y;
-        c.m20 = c.m20 * z;
-        c.m21 = c.m21 * z;
-        c.m22 = c.m22 * z;
-        c.m23 = c.m23 * z;
+        m00 = m00 * x;
+        m01 = m01 * x;
+        m02 = m02 * x;
+        m03 = m03 * x;
+        m10 = m10 * y;
+        m11 = m11 * y;
+        m12 = m12 * y;
+        m13 = m13 * y;
+        m20 = m20 * z;
+        m21 = m21 * z;
+        m22 = m22 * z;
+        m23 = m23 * z;
         return this;
     }
-    
+
+    /**
+     * Apply scaling to the this matrix by scaling the unit axes by the given x,
+     * y and z factors.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z components, respectively
+     * @return this
+     */
+    public Matrix4d scale(Vector3d xyz) {
+        // scale matrix elements:
+        // m00 = x, m11 = y, m22 = z
+        // m33 = 1
+        // all others = 0
+        m00 = m00 * xyz.x;
+        m01 = m01 * xyz.x;
+        m02 = m02 * xyz.x;
+        m03 = m03 * xyz.x;
+        m10 = m10 * xyz.y;
+        m11 = m11 * xyz.y;
+        m12 = m12 * xyz.y;
+        m13 = m13 * xyz.y;
+        m20 = m20 * xyz.z;
+        m21 = m21 * xyz.z;
+        m22 = m22 * xyz.z;
+        m23 = m23 * xyz.z;
+        return this;
+    }
+
     /**
      * Apply scaling to this matrix by uniformly scaling all unit axes by the given xyz factor.
      * <p>
@@ -1298,15 +1375,14 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d translate(double x, double y, double z) {
-        Matrix4d c = this;
         // translation matrix elements:
         // m00, m11, m22, m33 = 1
         // m30 = x, m31 = y, m32 = z
         // all others = 0
-        c.m30 = c.m00 * x + c.m10 * y + c.m20 * z + c.m30;
-        c.m31 = c.m01 * x + c.m11 * y + c.m21 * z + c.m31;
-        c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
-        c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
+        m30 = m00 * x + m10 * y + m20 * z + m30;
+        m31 = m01 * x + m11 * y + m21 * z + m31;
+        m32 = m02 * x + m12 * y + m22 * z + m32;
+        m33 = m03 * x + m13 * y + m23 * z + m33;
         return this;
     }
 
@@ -1347,6 +1423,285 @@ public class Matrix4d implements Serializable, Externalizable {
         m31 = in.readDouble();
         m32 = in.readDouble();
         m33 = in.readDouble();
+    }
+    
+
+    /**
+     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d rotateX(double ang, Matrix4d dest) {
+        double cos = Math.cos(Math.toRadians(ang));
+        double sin = Math.sin(Math.toRadians(ang));
+        double rm11 = cos;
+        double rm12 = sin;
+        double rm21 = -sin;
+        double rm22 = cos;
+
+        // add temporaries for dependent values
+        double nm10 = m10 * rm11 + m20 * rm12;
+        double nm11 = m11 * rm11 + m21 * rm12;
+        double nm12 = m12 * rm11 + m22 * rm12;
+        double nm13 = m13 * rm11 + m23 * rm12;
+        // set non-dependent values directly
+        dest.m20 = m10 * rm21 + m20 * rm22;
+        dest.m21 = m11 * rm21 + m21 * rm22;
+        dest.m22 = m12 * rm21 + m22 * rm22;
+        dest.m23 = m13 * rm21 + m23 * rm22;
+        // set other values
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m03 = m03;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+
+        return this;
+    }
+
+    /**
+     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4d rotateX(double ang) {
+        return rotateX(ang, this);
+    }
+
+    /**
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d rotateY(double ang, Matrix4d dest) {
+        double cos = Math.cos(Math.toRadians(ang));
+        double sin = Math.sin(Math.toRadians(ang));
+        double rm00 = cos;
+        double rm02 = -sin;
+        double rm20 = sin;
+        double rm22 = cos;
+
+        // add temporaries for dependent values
+        double nm00 = m00 * rm00 + m20 * rm02;
+        double nm01 = m01 * rm00 + m21 * rm02;
+        double nm02 = m02 * rm00 + m22 * rm02;
+        double nm03 = m03 * rm00 + m23 * rm02;
+        // set non-dependent values directly
+        dest.m20 = m00 * rm20 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m23 * rm22;
+        // set other values
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = m10;
+        dest.m11 = m11;
+        dest.m12 = m12;
+        dest.m13 = m13;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+
+        return this;
+    }
+
+    /**
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4d rotateY(double ang) {
+        return rotateY(ang, this);
+    }
+
+    /**
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d rotateZ(double ang, Matrix4d dest) {
+        double cos = Math.cos(Math.toRadians(ang));
+        double sin = Math.sin(Math.toRadians(ang));
+        double rm00 = cos;
+        double rm01 = sin;
+        double rm10 = -sin;
+        double rm11 = cos;
+
+        // add temporaries for dependent values
+        double nm00 = m00 * rm00 + m10 * rm01;
+        double nm01 = m01 * rm00 + m11 * rm01;
+        double nm02 = m02 * rm00 + m12 * rm01;
+        double nm03 = m03 * rm00 + m13 * rm01;
+        // set non-dependent values directly
+        dest.m10 = m00 * rm10 + m10 * rm11;
+        dest.m11 = m01 * rm10 + m11 * rm11;
+        dest.m12 = m02 * rm10 + m12 * rm11;
+        dest.m13 = m03 * rm10 + m13 * rm11;
+        // set other values
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
+        dest.m23 = m23;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return this;
+    }
+
+    /**
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in degrees
+     * @return this
+     */
+    public Matrix4d rotateZ(float ang) {
+        return rotateZ(ang, this);
+    }
+
+    /**
+     * Set this matrix to a rotation transformation using the given {@link AxisAngle4f}.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * In order to apply the rotation transformation to an existing transformation,
+     * use {@link #rotate(AxisAngle4f) rotate()} instead.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     *
+     * @see #rotate(AxisAngle4f)
+     * 
+     * @param angleAxis
+     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
+     * @return this
+     */
+    public Matrix4d rotation(AxisAngle4f angleAxis) {
+        return rotation(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    }
+
+    /**
+     * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * In order to apply the rotation transformation to an existing transformation,
+     * use {@link #rotate(Quaterniond) rotate()} instead.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(Quaterniond)
+     * 
+     * @param quat
+     *          the {@link Quaterniond}
+     * @return this
+     */
+    public Matrix4d rotation(Quaterniond quat) {
+        double q00 = 2.0 * quat.x * quat.x;
+        double q11 = 2.0 * quat.y * quat.y;
+        double q22 = 2.0 * quat.z * quat.z;
+        double q01 = 2.0 * quat.x * quat.y;
+        double q02 = 2.0 * quat.x * quat.z;
+        double q03 = 2.0 * quat.x * quat.w;
+        double q12 = 2.0 * quat.y * quat.z;
+        double q13 = 2.0 * quat.y * quat.w;
+        double q23 = 2.0 * quat.z * quat.w;
+
+        m00 = 1.0 - q11 - q22;
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m03 = 0.0;
+        m10 = q01 - q23;
+        m11 = 1.0 - q22 - q00;
+        m12 = q12 + q03;
+        m13 = 0.0;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0 - q11 - q00;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+
+        return this;
     }
 
     /**
@@ -1441,6 +1796,110 @@ public class Matrix4d implements Serializable, Externalizable {
      */
     public Matrix4d rotate(Quaterniond quat) {
         return rotate(quat, this);
+    }
+
+    /**
+     * Apply a rotation transformation, rotating about the given {@link AxisAngle4f}, to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the {@link AxisAngle4f} rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(AxisAngle4f)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(double, double, double, double)
+     * @see #rotation(AxisAngle4f)
+     * 
+     * @param axisAngle
+     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
+     * @return this
+     */
+    public Matrix4d rotate(AxisAngle4f axisAngle) {
+        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
+    }
+
+    /**
+     * Apply a rotation transformation, rotating about the given {@link AxisAngle4f} and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the {@link AxisAngle4f} rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(AxisAngle4f)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(double, double, double, double)
+     * @see #rotation(AxisAngle4f)
+     * 
+     * @param axisAngle
+     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4d rotate(AxisAngle4f axisAngle, Matrix4d dest) {
+        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z, dest);
+    }
+
+    /**
+     * Apply a rotation transformation, rotating the given degree about the specified axis, to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the {@link AxisAngle4f} rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(double, Vector3d)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(double, double, double, double)
+     * @see #rotation(double, Vector3d)
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis (needs to be {@link Vector3d#normalize() normalized})
+     * @return this
+     */
+    public Matrix4d rotate(double angle, Vector3d axis) {
+        return rotate(angle, axis.x, axis.y, axis.z);
+    }
+
+    /**
+     * Apply a rotation transformation, rotating the given degree about the specified axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
+     * then the new matrix will be <code>M * A</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
+     * the {@link AxisAngle4f} rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(double, Vector3d)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(double, double, double, double)
+     * @see #rotation(double, Vector3d)
+     * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis (needs to be {@link Vector3d#normalize() normalized})
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4d rotate(float angle, Vector3d axis, Matrix4d dest) {
+        return rotate(angle, axis.x, axis.y, axis.z, dest);
     }
 
     /**

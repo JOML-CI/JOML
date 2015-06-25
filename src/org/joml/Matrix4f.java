@@ -1031,21 +1031,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the given matrix <code>dest</code> to be a simple scale matrix.
-     * 
-     * @see #scaling(Vector3f)
-     * 
-     * @param scale
-     * 			the scale applied to each dimension
-     * @param dest
-     *          will hold the result
-     */
-    public static void scaling(Vector3f scale, Matrix4f dest) {
-    	dest.scaling(scale);
-    }
-
-    /**
-     * Set the <code>dest</code> matrix to be a simple scaleing transformation.
+     * Set the <code>dest</code> matrix to be a simple scaling transformation.
      * 
      * @param x
      * 			the scale in x
