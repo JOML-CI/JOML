@@ -4030,8 +4030,14 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Compute a normal matrix from the top-left 3x3 submatrix of <code>this</code> and store it into the top-left 3x3 submatrix of <code>dest</code>.
-     * All other values of <code>dest</code> will be set to {@link #identity() identity}. 
+     * Compute a normal matrix from the top-left 3x3 submatrix of <code>this</code>
+     * and store it into the top-left 3x3 submatrix of <code>dest</code>.
+     * All other values of <code>dest</code> will be set to {@link #identity() identity}.
+     * <p>
+     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * In the special case of an orthonormal 3x3 matrix (one that maps any two perpendicular 
+     * unit vectors to another pair of perpendicular unit vectors) only the transpose is
+     * computed.
      * 
      * @param dest
      * 			will hold the result
