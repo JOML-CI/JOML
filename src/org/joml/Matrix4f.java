@@ -4092,4 +4092,48 @@ public class Matrix4f implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Compute a normal matrix from the top-left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * <p>
+     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * In the special case of an orthonormal 3x3 matrix (one that maps any two perpendicular 
+     * unit vectors to another pair of perpendicular unit vectors) only the transpose is
+     * computed.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return this
+     */
+    public Matrix4f normal(Matrix3f dest) {
+        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
+        float det = determinant();
+        float diff = Math.abs(Math.abs(det) - 1.0f);
+        if (diff < 1E-8f) {
+            /* The fast path, if only 1:1:1 scaling is being used */
+            dest.m00 = m00;
+            dest.m01 = m10;
+            dest.m02 = m20;
+            dest.m10 = m01;
+            dest.m11 = m11;
+            dest.m12 = m21;
+            dest.m20 = m02;
+            dest.m21 = m12;
+            dest.m22 = m22;
+        }
+        /* The general case */
+        float s = 1.0f / det;
+        /* Invert and transpose in one go */
+        dest.m00 =  ((m11 * m22) - (m21 * m12)) * s;
+        dest.m01 = -((m10 * m22) - (m20 * m12)) * s;
+        dest.m02 =  ((m10 * m21) - (m20 * m11)) * s;
+        dest.m10 = -((m01 * m22) - (m21 * m02)) * s;
+        dest.m11 =  ((m00 * m22) - (m20 * m02)) * s;
+        dest.m12 = -((m00 * m21) - (m20 * m01)) * s;
+        dest.m20 =  ((m01 * m12) - (m11 * m02)) * s;
+        dest.m21 = -((m00 * m12) - (m10 * m02)) * s;
+        dest.m22 =  ((m00 * m11) - (m10 * m01)) * s;
+        return this;
+    }
+
 }
