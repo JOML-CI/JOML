@@ -3758,4 +3758,61 @@ public class Matrix4f implements Serializable, Externalizable {
         return m;
     }
 
+    /**
+     * Compute a normal matrix from the top-left 3x3 submatrix of <code>this</code> and store it into the top-left 3x3 submatrix of <code>dest</code>.
+     * All other values of <code>dest</code> will be set to {@link #identity() identity}. 
+     * 
+     * @param dest
+     * 			will hold the result
+     * @return this
+     */
+    public Matrix4f normal(Matrix4f dest) {
+    	// see: http://mathworld.wolfram.com/OrthogonalMatrix.html
+    	float det = determinant();
+    	float diff = Math.abs(Math.abs(det) - 1.0f);
+    	if (diff < 1E-8f) {
+    		/* The fast path, if only 1:1:1 scaling is being used */
+            if (this != dest) {
+                dest.m00 = m00;
+                dest.m01 = m10;
+                dest.m02 = m20;
+                dest.m03 = 0.0f;
+                dest.m10 = m01;
+                dest.m11 = m11;
+                dest.m12 = m21;
+                dest.m13 = 0.0f;
+                dest.m20 = m02;
+                dest.m21 = m12;
+                dest.m22 = m22;
+                dest.m23 = 0.0f;
+                dest.m30 = 0.0f;
+                dest.m31 = 0.0f;
+                dest.m32 = 0.0f;
+                dest.m33 = 1.0f;
+            } else {
+                dest.set(m00,  m10,  m20,  0.0f,
+                         m01,  m11,  m21,  0.0f,
+                         m02,  m12,  m22,  0.0f,
+                         0.0f, 0.0f, 0.0f, 1.0f);
+            }
+    	}
+    	/* The general case */
+        float s = 1.0f / det;
+        /* Invert and transpose in one go */
+        dest.set(((m11 * m22) - (m21 * m12)) * s,
+        		-((m10 * m22) - (m20 * m12) * s),
+	             ((m10 * m21) - (m20 * m11) * s),
+	             0.0f,
+	            -((m01 * m22) - (m21 * m02)) * s,
+	             ((m00 * m22) - (m20 * m02)) * s,
+	            -((m00 * m21) - (m20 * m01)) * s,
+	             0.0f,
+	             ((m01 * m12) - (m11 * m02)) * s,
+	            -((m00 * m12) - (m10 * m02)) * s,
+	             ((m00 * m11) - (m10 * m01)) * s,
+	             0.0f,
+	             0.0f, 0.0f, 0.0f, 1.0f);
+    	return this;
+    }
+
 }

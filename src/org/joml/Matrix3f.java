@@ -318,15 +318,15 @@ public class Matrix3f implements Serializable, Externalizable {
         }
         s = 1.0f / s;
 
-        return set((m11 * m22) - (m21 * m12) * s,
-                 -((m01 * m22) - (m21 * m02)) * s,
-                   (m01 * m12) - (m11 * m02) * s,
-                 -((m10 * m22) - (m20 * m12)) * s,
-                   (m00 * m22) - (m20 * m02) * s,
-                 -((m00 * m12) - (m10 * m02)) * s,
-                   (m10 * m21) - (m20 * m11) * s,
-                 -((m00 * m21) - (m20 * m01)) * s,
-                   (m00 * m11) - (m10 * m01) * s);
+        return set(((m11 * m22) - (m21 * m12)) * s,
+                 - ((m01 * m22) - (m21 * m02)) * s,
+                   ((m01 * m12) - (m11 * m02)) * s,
+                  -((m10 * m22) - (m20 * m12)) * s,
+                   ((m00 * m22) - (m20 * m02)) * s,
+                  -((m00 * m12) - (m10 * m02)) * s,
+                   ((m10 * m21) - (m20 * m11)) * s,
+                  -((m00 * m21) - (m20 * m01)) * s,
+                   ((m00 * m11) - (m10 * m01)) * s);
     }
     
     /**
@@ -360,38 +360,38 @@ public class Matrix3f implements Serializable, Externalizable {
                        ((source.m00 * source.m11) - (source.m10 * source.m01)) * s  );
         }
     }
-    
+
     /**
      * Transpose this matrix.
      *
      * @return this
      */
     public Matrix3f transpose() {
-        transpose(this, this);
-        return this;
+        return transpose(this);
     }
-    
+
     /**
      * Transpose the supplied <code>original</code> matrix and store the result in <code>dest</code>.
      */
-    public static void transpose(Matrix3f original, Matrix3f dest) {
-        if (original != dest) {
-            dest.m00 = original.m00;
-            dest.m01 = original.m10;
-            dest.m02 = original.m20;
-            dest.m10 = original.m01;
-            dest.m11 = original.m11;
-            dest.m12 = original.m21;
-            dest.m20 = original.m02;
-            dest.m21 = original.m12;
-            dest.m22 = original.m22;
+    public Matrix3f transpose(Matrix3f dest) {
+        if (this != dest) {
+            dest.m00 = m00;
+            dest.m01 = m10;
+            dest.m02 = m20;
+            dest.m10 = m01;
+            dest.m11 = m11;
+            dest.m12 = m21;
+            dest.m20 = m02;
+            dest.m21 = m12;
+            dest.m22 = m22;
         } else {
-            dest.set(original.m00, original.m10, original.m20,
-                     original.m01, original.m11, original.m21,
-                     original.m02, original.m12, original.m22);
+            dest.set(m00, m10, m20,
+                     m01, m11, m21,
+                     m02, m12, m22);
         }
+        return this;
     }
-    
+
     /**
      * Set this matrix to be a simple translation matrix in a two-dimensional coordinate system.
      * <p>
@@ -1821,6 +1821,36 @@ public class Matrix3f implements Serializable, Externalizable {
      */
     public Matrix4f with(Matrix4f m) {
         return m;
+    }
+
+    /**
+     * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
+     * 
+     * @param dest
+     * 			will hold the result
+     * @return this
+     */
+    public Matrix3f normal(Matrix3f dest) {
+    	// see: http://mathworld.wolfram.com/OrthogonalMatrix.html
+    	float det = determinant();
+    	float diff = Math.abs(Math.abs(det) - 1.0f);
+    	if (diff < 1E-8f) {
+    		/* The fast path, if only 1:1:1 scaling is being used */
+    		return this.transpose(dest);
+    	}
+    	/* The general case */
+        float s = 1.0f / det;
+        /* Invert and transpose in one go */
+        dest.set(((m11 * m22) - (m21 * m12)) * s,
+        		-((m10 * m22) - (m20 * m12)) * s,
+	             ((m10 * m21) - (m20 * m11)) * s,
+	            -((m01 * m22) - (m21 * m02)) * s,
+	             ((m00 * m22) - (m20 * m02)) * s,
+	            -((m00 * m21) - (m20 * m01)) * s,
+	             ((m01 * m12) - (m11 * m02)) * s,
+	            -((m00 * m12) - (m10 * m02)) * s,
+	             ((m00 * m11) - (m10 * m01)) * s);
+    	return this;
     }
 
 }
