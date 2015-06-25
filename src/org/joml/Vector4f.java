@@ -514,7 +514,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @see #angle(Vector4f)
      */
     public float angleCos(Vector4f v) {
-    	return angleCos(this, v);
+        return angleCos(this, v);
     }
     
     /**
@@ -523,10 +523,10 @@ public class Vector4f implements Serializable, Externalizable {
      * @see #angle(Vector4f, Vector4f)
      */
     public static float angleCos(Vector4f v1, Vector4f v2) {
-    	float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z) + (v1.w * v1.w));
-    	float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z) + (v2.w * v2.w));
-    	float dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
-    	return dot / (length1 * length2);
+        float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z) + (v1.w * v1.w));
+        float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z) + (v2.w * v2.w));
+        float dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
+        return dot / (length1 * length2);
     }
     
     /**
@@ -535,7 +535,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @see #angleCos(Vector4f)
      */
     public float angle(Vector4f v) {
-    	return angle(this, v);
+        return angle(this, v);
     }
     
     /**
@@ -544,11 +544,11 @@ public class Vector4f implements Serializable, Externalizable {
      * @see #angleCos(Vector4f, Vector4f)
      */
     public static float angle(Vector4f v1, Vector4f v2) {
-    	float cos = angleCos(v1, v2);
-    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
-    	cos = Math.min(cos, 1);
-    	cos = Math.max(cos, -1);
-    	return (float) Math.acos(cos);
+        float cos = angleCos(v1, v2);
+        // This is because sometimes cos goes above 1 or below -1 because of lost precision
+        cos = Math.min(cos, 1);
+        cos = Math.max(cos, -1);
+        return (float) Math.acos(cos);
     }
 
     /**
@@ -581,10 +581,10 @@ public class Vector4f implements Serializable, Externalizable {
      * Negate original and store the result in dest.
      */
     public static void negate(Vector4f original, Vector4f dest) {
-    	dest.x = -original.x;
-    	dest.y = -original.y;
-    	dest.z = -original.z;
-    	dest.w = -original.w;
+        dest.x = -original.x;
+        dest.y = -original.y;
+        dest.z = -original.z;
+        dest.w = -original.w;
     }
 
     /**
@@ -595,8 +595,8 @@ public class Vector4f implements Serializable, Externalizable {
      * @return the string representation
      */
     public String toString() {
-    	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-    	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
     /**
@@ -657,34 +657,33 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Float.floatToIntBits(w);
-		result = prime * result + Float.floatToIntBits(x);
-		result = prime * result + Float.floatToIntBits(y);
-		result = prime * result + Float.floatToIntBits(z);
-		return result;
-	}
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Float.floatToIntBits(w);
+        result = prime * result + Float.floatToIntBits(x);
+        result = prime * result + Float.floatToIntBits(y);
+        result = prime * result + Float.floatToIntBits(z);
+        return result;
+    }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Vector4f other = (Vector4f) obj;
-		if (Float.floatToIntBits(w) != Float.floatToIntBits(other.w))
-			return false;
-		if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
-			return false;
-		if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
-			return false;
-		if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
-			return false;
-		return true;
-	}
-	
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vector4f other = (Vector4f) obj;
+        if (Float.floatToIntBits(w) != Float.floatToIntBits(other.w))
+            return false;
+        if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
+            return false;
+        if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
+            return false;
+        if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
+            return false;
+        return true;
+    }
 
     /**
      * Compute a smooth-step (i.e. hermite with zero tangents) interpolation

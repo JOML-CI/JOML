@@ -238,7 +238,7 @@ public class Vector2d implements Serializable, Externalizable {
      * @see #angle(Vector2d)
      */
     public double angleCos(Vector2d v) {
-    	return angleCos(this, v);
+        return angleCos(this, v);
     }
     
     /**
@@ -247,10 +247,10 @@ public class Vector2d implements Serializable, Externalizable {
      * @see #angle(Vector2d, Vector2d)
      */
     public static double angleCos(Vector2d v1, Vector2d v2) {
-    	double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y));
-    	double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y));
-    	double dot = (v1.x * v2.x) + (v1.y * v2.y);
-    	return dot / (length1 * length2);
+        double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y));
+        double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y));
+        double dot = (v1.x * v2.x) + (v1.y * v2.y);
+        return dot / (length1 * length2);
     }
     
     /**
@@ -259,7 +259,7 @@ public class Vector2d implements Serializable, Externalizable {
      * @see #angleCos(Vector2d)
      */
     public double angle(Vector2d v) {
-    	return angle(this, v);
+        return angle(this, v);
     }
     
     /**
@@ -268,11 +268,11 @@ public class Vector2d implements Serializable, Externalizable {
      * @see #angleCos(Vector2d, Vector2d)
      */
     public static double angle(Vector2d v1, Vector2d v2) {
-    	double cos = angleCos(v1, v2);
-    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
-    	cos = Math.min(cos, 1);
-    	cos = Math.max(cos, -1);
-    	return Math.acos(cos);
+        double cos = angleCos(v1, v2);
+        // This is because sometimes cos goes above 1 or below -1 because of lost precision
+        cos = Math.min(cos, 1);
+        cos = Math.max(cos, -1);
+        return Math.acos(cos);
     }
 
     /**
@@ -434,8 +434,8 @@ public class Vector2d implements Serializable, Externalizable {
      * Negate original and store the result in dest.
      */
     public static void negate(Vector2d original, Vector2d dest) {
-    	dest.x = -original.x;
-    	dest.y = -original.y;
+        dest.x = -original.x;
+        dest.y = -original.y;
     }
 
     public int hashCode() {
@@ -472,8 +472,8 @@ public class Vector2d implements Serializable, Externalizable {
      * @return the string representation
      */
     public String toString() {
-    	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-    	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
     /**

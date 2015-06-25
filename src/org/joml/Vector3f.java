@@ -558,7 +558,7 @@ public class Vector3f implements Serializable, Externalizable {
      * @see #angle(Vector3f)
      */
     public float angleCos(Vector3f v) {
-    	return angleCos(this, v);
+        return angleCos(this, v);
     }
     
     /**
@@ -567,10 +567,10 @@ public class Vector3f implements Serializable, Externalizable {
      * @see #angle(Vector3f, Vector3f)
      */
     public static float angleCos(Vector3f v1, Vector3f v2) {
-    	float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z));
-    	float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z));
-    	float dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
-    	return dot / (length1 * length2);
+        float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z));
+        float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z));
+        float dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+        return dot / (length1 * length2);
     }
     
     /**
@@ -579,7 +579,7 @@ public class Vector3f implements Serializable, Externalizable {
      * @see #angleCos(Vector3f)
      */
     public float angle(Vector3f v) {
-    	return angle(this, v);
+        return angle(this, v);
     }
     
     /**
@@ -588,11 +588,11 @@ public class Vector3f implements Serializable, Externalizable {
      * @see #angleCos(Vector3f, Vector3f)
      */
     public static float angle(Vector3f v1, Vector3f v2) {
-    	float cos = angleCos(v1, v2);
-    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
-    	cos = Math.min(cos, 1);
-    	cos = Math.max(cos, -1);
-    	return (float) Math.acos(cos);
+        float cos = angleCos(v1, v2);
+        // This is because sometimes cos goes above 1 or below -1 because of lost precision
+        cos = Math.min(cos, 1);
+        cos = Math.max(cos, -1);
+        return (float) Math.acos(cos);
     }
 
     /**
@@ -643,8 +643,8 @@ public class Vector3f implements Serializable, Externalizable {
      * @return the string representation
      */
     public String toString() {
-    	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-    	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
     /**
@@ -687,51 +687,51 @@ public class Vector3f implements Serializable, Externalizable {
      * Negate original and store the result in dest.
      */
     public static void negate(Vector3f original, Vector3f dest) {
-    	dest.x = -original.x;
-    	dest.y = -original.y;
-    	dest.z = -original.z;
+        dest.x = -original.x;
+        dest.y = -original.y;
+        dest.z = -original.z;
     }
 
     public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Float.floatToIntBits(x);
-		result = prime * result + Float.floatToIntBits(y);
-		result = prime * result + Float.floatToIntBits(z);
-		return result;
-	}
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Float.floatToIntBits(x);
+        result = prime * result + Float.floatToIntBits(y);
+        result = prime * result + Float.floatToIntBits(z);
+        return result;
+    }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Vector3f other = (Vector3f) obj;
-		if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
-			return false;
-		if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
-			return false;
-		if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
-			return false;
-		return true;
-	}
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vector3f other = (Vector3f) obj;
+        if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
+            return false;
+        if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
+            return false;
+        if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
+            return false;
+        return true;
+    }
 
-	/**
-	 * Reflect this vector about the given normal vector.
-	 * 
-	 * @param normal
-	 *             the vector to reflect about
-	 * @return this
-	 */
-	public Vector3f reflect(Vector3f normal) {
-	    float dot = this.dot(normal);
-	    x = x - 2.0f * dot * normal.x;
-	    y = y - 2.0f * dot * normal.y;
-	    z = z - 2.0f * dot * normal.z;
-	    return this;
-	}
+    /**
+     * Reflect this vector about the given normal vector.
+     * 
+     * @param normal
+     *             the vector to reflect about
+     * @return this
+     */
+    public Vector3f reflect(Vector3f normal) {
+        float dot = this.dot(normal);
+        x = x - 2.0f * dot * normal.x;
+        y = y - 2.0f * dot * normal.y;
+        z = z - 2.0f * dot * normal.z;
+        return this;
+    }
 
     /**
      * Reflect this vector about the given normal vector and store the result in <code>dest</code>.

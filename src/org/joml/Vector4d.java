@@ -615,7 +615,7 @@ public class Vector4d implements Serializable, Externalizable {
      * @see #angle(Vector4d)
      */
     public double angleCos(Vector4d v) {
-    	return angleCos(this, v);
+        return angleCos(this, v);
     }
     
     /**
@@ -624,10 +624,10 @@ public class Vector4d implements Serializable, Externalizable {
      * @see #angle(Vector4d, Vector4d)
      */
     public static double angleCos(Vector4d v1, Vector4d v2) {
-    	double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z) + (v1.w * v1.w));
-    	double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z) + (v2.w * v2.w));
-    	double dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
-    	return dot / (length1 * length2);
+        double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z) + (v1.w * v1.w));
+        double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z) + (v2.w * v2.w));
+        double dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
+        return dot / (length1 * length2);
     }
     
     /**
@@ -636,7 +636,7 @@ public class Vector4d implements Serializable, Externalizable {
      * @see #angleCos(Vector4d)
      */
     public double angle(Vector4d v) {
-    	return angle(this, v);
+        return angle(this, v);
     }
     
     /**
@@ -645,11 +645,11 @@ public class Vector4d implements Serializable, Externalizable {
      * @see #angleCos(Vector4d, Vector4d)
      */
     public static double angle(Vector4d v1, Vector4d v2) {
-    	double cos = angleCos(v1, v2);
-    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
-    	cos = Math.min(cos, 1);
-    	cos = Math.max(cos, -1);
-    	return Math.acos(cos);
+        double cos = angleCos(v1, v2);
+        // This is because sometimes cos goes above 1 or below -1 because of lost precision
+        cos = Math.min(cos, 1);
+        cos = Math.max(cos, -1);
+        return Math.acos(cos);
     }
 
     /**
@@ -682,10 +682,10 @@ public class Vector4d implements Serializable, Externalizable {
      * Negate original and store the result in dest.
      */
     public static void negate(Vector4d original, Vector4d dest) {
-    	dest.x = -original.x;
-    	dest.y = -original.y;
-    	dest.z = -original.z;
-    	dest.w = -original.w;
+        dest.x = -original.x;
+        dest.y = -original.y;
+        dest.z = -original.z;
+        dest.w = -original.w;
     }
 
     /**
@@ -725,38 +725,38 @@ public class Vector4d implements Serializable, Externalizable {
     }
 
     public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(w);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(x);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(z);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(w);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(x);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(z);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Vector4d other = (Vector4d) obj;
-		if (Double.doubleToLongBits(w) != Double.doubleToLongBits(other.w))
-			return false;
-		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
-			return false;
-		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
-			return false;
-		if (Double.doubleToLongBits(z) != Double.doubleToLongBits(other.z))
-			return false;
-		return true;
-	}
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vector4d other = (Vector4d) obj;
+        if (Double.doubleToLongBits(w) != Double.doubleToLongBits(other.w))
+            return false;
+        if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
+            return false;
+        if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
+            return false;
+        if (Double.doubleToLongBits(z) != Double.doubleToLongBits(other.z))
+            return false;
+        return true;
+    }
 
     /**
      * Compute a smooth-step (i.e. hermite with zero tangents) interpolation

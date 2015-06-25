@@ -700,7 +700,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * Invert <code>this</code> matrix and store the result in <code>dest</code>.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return this
      */
     public Matrix4d invert(Matrix4d dest) {
@@ -760,7 +760,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * Transpose <code>this</code> matrix and store the result into <code>dest</code>.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return this
      */
     public Matrix4d transpose(Matrix4d dest) {
@@ -805,7 +805,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d translation(double x, double y, double z) {
-    	identity();
+        identity();
         m30 = x;
         m31 = y;
         m32 = z;
@@ -976,7 +976,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d zero() {
-    	identity();
+        identity();
         m00 = 0.0;
         m11 = 0.0;
         m22 = 0.0;
@@ -996,7 +996,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d scaling(double x, double y, double z) {
-    	identity();
+        identity();
         m00 = x;
         m11 = y;
         m22 = z;
@@ -1023,11 +1023,11 @@ public class Matrix4d implements Serializable, Externalizable {
      * Set this matrix to be a simple scale matrix.
      * 
      * @param scale
-     * 			the scale applied to each dimension
+     *             the scale applied to each dimension
      * @return this
      */
     public Matrix4d scaling(Vector3d scale) {
-    	identity();
+        identity();
         m00 = scale.x;
         m11 = scale.y;
         m22 = scale.z;
@@ -1042,25 +1042,25 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d rotation(double angle, double x, double y, double z) {
-    	double cos = Math.cos(angle);
-    	double sin = Math.sin(angle);
-    	m00 = cos + x * x * (1.0 - cos);
-    	m10 = x * y * (1.0 - cos) - z * sin;
-    	m20 = x * z * (1.0 - cos) + y * sin;
-    	m30 = 0.0;
-    	m01 = y * x * (1.0 - cos) + z * sin;
-    	m11 = cos + y * y * (1.0 - cos);
-    	m21 = y * z * (1.0 - cos) - x * sin;
-    	m31 = 0.0;
-    	m02 = z * x * (1.0 - cos) - y * sin;
-    	m12 = z * y * (1.0 - cos) + x * sin;
-    	m22 = cos + z * z * (1.0 - cos);
-    	m32 = 0.0;
-    	m03 = 0.0;
-    	m13 = 0.0;
-    	m23 = 0.0;
-    	m33 = 1.0;
-    	return this;
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
+        m00 = cos + x * x * (1.0 - cos);
+        m10 = x * y * (1.0 - cos) - z * sin;
+        m20 = x * z * (1.0 - cos) + y * sin;
+        m30 = 0.0;
+        m01 = y * x * (1.0 - cos) + z * sin;
+        m11 = cos + y * y * (1.0 - cos);
+        m21 = y * z * (1.0 - cos) - x * sin;
+        m31 = 0.0;
+        m02 = z * x * (1.0 - cos) - y * sin;
+        m12 = z * y * (1.0 - cos) + x * sin;
+        m22 = cos + z * z * (1.0 - cos);
+        m32 = 0.0;
+        m03 = 0.0;
+        m13 = 0.0;
+        m23 = 0.0;
+        m33 = 1.0;
+        return this;
     }
 
     /**
@@ -2074,15 +2074,15 @@ public class Matrix4d implements Serializable, Externalizable {
      * computed.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return this
      */
     public Matrix4d normal(Matrix4d dest) {
-    	// see: http://mathworld.wolfram.com/OrthogonalMatrix.html
-    	double det = determinant();
-    	double diff = Math.abs(Math.abs(det) - 1.0);
-    	if (diff < 1E-8) {
-    		/* The fast path, if only 1:1:1 scaling is being used */
+        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
+        double det = determinant();
+        double diff = Math.abs(Math.abs(det) - 1.0);
+        if (diff < 1E-8) {
+            /* The fast path, if only 1:1:1 scaling is being used */
             if (this != dest) {
                 dest.m00 = m00;
                 dest.m01 = m10;
@@ -2106,24 +2106,24 @@ public class Matrix4d implements Serializable, Externalizable {
                          m02, m12, m22, 0.0,
                          0.0, 0.0, 0.0, 1.0);
             }
-    	}
-    	/* The general case */
+        }
+        /* The general case */
         double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.set(((m11 * m22) - (m21 * m12)) * s,
                 -((m10 * m22) - (m20 * m12)) * s,
-	             ((m10 * m21) - (m20 * m11)) * s,
-	             0.0,
-	            -((m01 * m22) - (m21 * m02)) * s,
-	             ((m00 * m22) - (m20 * m02)) * s,
-	            -((m00 * m21) - (m20 * m01)) * s,
-	             0.0,
-	             ((m01 * m12) - (m11 * m02)) * s,
-	            -((m00 * m12) - (m10 * m02)) * s,
-	             ((m00 * m11) - (m10 * m01)) * s,
-	             0.0,
-	             0.0, 0.0, 0.0, 1.0);
-    	return this;
+                 ((m10 * m21) - (m20 * m11)) * s,
+                 0.0,
+                -((m01 * m22) - (m21 * m02)) * s,
+                 ((m00 * m22) - (m20 * m02)) * s,
+                -((m00 * m21) - (m20 * m01)) * s,
+                 0.0,
+                 ((m01 * m12) - (m11 * m02)) * s,
+                -((m00 * m12) - (m10 * m02)) * s,
+                 ((m00 * m11) - (m10 * m01)) * s,
+                 0.0,
+                 0.0, 0.0, 0.0, 1.0);
+        return this;
     }
 
     /**
@@ -2156,9 +2156,9 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d unproject(double winX, double winY, double winZ, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
-    	this.invert(inverseOut);
-    	inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
-    	return this;
+        this.invert(inverseOut);
+        inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+        return this;
     }
 
     /**
@@ -2191,9 +2191,9 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d unproject(double winX, double winY, double winZ, IntBuffer viewport, Matrix4d inverseOut, Vector3d dest) {
-    	this.invert(inverseOut);
-    	inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
-    	return this;
+        this.invert(inverseOut);
+        inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+        return this;
     }
 
     /**
@@ -2360,7 +2360,7 @@ public class Matrix4d implements Serializable, Externalizable {
      *          will hold the unprojected position
      */
     public static void unproject(double winX, double winY, double winZ, Matrix4d projection, Matrix4d view, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
-    	inverseOut.set(projection).mul(view).invert().unprojectInv(winX, winY, winZ, viewport, dest);
+        inverseOut.set(projection).mul(view).invert().unprojectInv(winX, winY, winZ, viewport, dest);
     }
 
     /**

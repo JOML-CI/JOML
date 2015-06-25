@@ -699,7 +699,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * Transpose this matrix and store the result in <code>dest</code>.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return this
      */
     public Matrix4f transpose(Matrix4f dest) {
@@ -776,18 +776,18 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f translation(float x, float y, float z) {
-    	m00 = 1.0f;
-    	m01 = 0.0f;
-    	m02 = 0.0f;
-    	m03 = 0.0f;
-    	m10 = 0.0f;
-    	m11 = 1.0f;
-    	m12 = 0.0f;
-    	m13 = 0.0f;
-    	m20 = 0.0f;
-    	m21 = 0.0f;
-    	m22 = 0.0f;
-    	m23 = 0.0f;
+        m00 = 1.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 1.0f;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = 0.0f;
+        m23 = 0.0f;
         m30 = x;
         m31 = y;
         m32 = z;
@@ -1022,11 +1022,11 @@ public class Matrix4f implements Serializable, Externalizable {
      * matrix, you can use {@link #scale(float, float, float) scale()} instead.
      * 
      * @param x
-     * 			the scale in x
+     *             the scale in x
      * @param y
-     * 			the scale in y
+     *             the scale in y
      * @param z
-     * 			the scale in z
+     *             the scale in z
      * @return this
      */
     public Matrix4f scaling(float x, float y, float z) {
@@ -1059,27 +1059,27 @@ public class Matrix4f implements Serializable, Externalizable {
      * matrix, you can use {@link #scale(Vector3f) scale()} instead.
      * 
      * @param scale
-     * 			the scale applied to each dimension
+     *             the scale applied to each dimension
      * @return this
      */
     public Matrix4f scaling(Vector3f scale) {
-    	return scaling(scale.x, scale.y, scale.z);
+        return scaling(scale.x, scale.y, scale.z);
     }
 
     /**
      * Set the <code>dest</code> matrix to be a simple scaling transformation.
      * 
      * @param x
-     * 			the scale in x
+     *             the scale in x
      * @param y
-     * 			the scale in y
+     *             the scale in y
      * @param z
-     * 			the scale in z
+     *             the scale in z
      * @return this
      */
     public Matrix4f scaling(float x, float y, float z, Matrix4f dest) {
-    	dest.scaling(x, y, z);
-    	return this;
+        dest.scaling(x, y, z);
+        return this;
     }
 
     /**
@@ -1100,7 +1100,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotation(float angle, Vector3f axis) {
-    	return rotation(angle, axis.x, axis.y, axis.z);
+        return rotation(angle, axis.x, axis.y, axis.z);
     }
 
     /**
@@ -1150,26 +1150,26 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f rotation(float angle, float x, float y, float z) {
-    	float cos = (float) Math.cos(Math.toRadians(angle));
-    	float sin = (float) Math.sin(Math.toRadians(angle));
-    	float C = 1.0f - cos;
-    	m00 = cos + x * x * C;
-    	m10 = x * y * C - z * sin;
-    	m20 = x * z * C + y * sin;
-    	m30 = 0.0f;
-    	m01 = y * x * C + z * sin;
-    	m11 = cos + y * y * C;
-    	m21 = y * z * C - x * sin;
-    	m31 = 0.0f;
-    	m02 = z * x * C - y * sin;
-    	m12 = z * y * C + x * sin;
-    	m22 = cos + z * z * C;
-    	m32 = 0.0f;
-    	m03 = 0.0f;
-    	m13 = 0.0f;
-    	m23 = 0.0f;
-    	m33 = 1.0f;
-    	return this;
+        float cos = (float) Math.cos(Math.toRadians(angle));
+        float sin = (float) Math.sin(Math.toRadians(angle));
+        float C = 1.0f - cos;
+        m00 = cos + x * x * C;
+        m10 = x * y * C - z * sin;
+        m20 = x * z * C + y * sin;
+        m30 = 0.0f;
+        m01 = y * x * C + z * sin;
+        m11 = cos + y * y * C;
+        m21 = y * z * C - x * sin;
+        m31 = 0.0f;
+        m02 = z * x * C - y * sin;
+        m12 = z * y * C + x * sin;
+        m22 = cos + z * z * C;
+        m32 = 0.0f;
+        m03 = 0.0f;
+        m13 = 0.0f;
+        m23 = 0.0f;
+        m33 = 1.0f;
+        return this;
     }
 
     /**
@@ -1322,7 +1322,7 @@ public class Matrix4f implements Serializable, Externalizable {
      */
     public Matrix4f fromMatrix3(Matrix3f mat) {
         fromMatrix3(mat, this);
-    	return this;
+        return this;
     }
 
     /**
@@ -1335,22 +1335,22 @@ public class Matrix4f implements Serializable, Externalizable {
      *          the destination matrix whose upper left 3x3 submatrix will be set to <code>mat</code>
      */
     public static void fromMatrix3(Matrix3f mat, Matrix4f dest) {
-    	dest.m00 = mat.m00;
-    	dest.m01 = mat.m01;
-    	dest.m02 = mat.m02;
-    	dest.m03 = 0.0f;
-    	dest.m10 = mat.m10;
-    	dest.m11 = mat.m11;
-    	dest.m12 = mat.m12;
-    	dest.m13 = 0.0f;
-    	dest.m20 = mat.m20;
-    	dest.m21 = mat.m21;
-    	dest.m22 = mat.m22;
-    	dest.m23 = 0.0f;
-    	dest.m30 = 0.0f;
-    	dest.m31 = 0.0f;
-    	dest.m32 = 0.0f;
-    	dest.m33 = 1.0f;
+        dest.m00 = mat.m00;
+        dest.m01 = mat.m01;
+        dest.m02 = mat.m02;
+        dest.m03 = 0.0f;
+        dest.m10 = mat.m10;
+        dest.m11 = mat.m11;
+        dest.m12 = mat.m12;
+        dest.m13 = 0.0f;
+        dest.m20 = mat.m20;
+        dest.m21 = mat.m21;
+        dest.m22 = mat.m22;
+        dest.m23 = 0.0f;
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
     }
 
     /**
@@ -1363,8 +1363,8 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f transform(Vector4f v) {
-    	v.mul(this);
-    	return this;
+        v.mul(this);
+        return this;
     }
 
     /**
@@ -1394,7 +1394,7 @@ public class Matrix4f implements Serializable, Externalizable {
      *          the vector to transform and to hold the final result
      */
     public static void transform(Matrix4f mat, Vector4f v) {
-    	v.mul(mat);
+        v.mul(mat);
     }
 
     /**
@@ -3081,9 +3081,9 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f unproject(float winX, float winY, float winZ, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
-    	this.invert(inverseOut);
-    	inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
-    	return this;
+        this.invert(inverseOut);
+        inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+        return this;
     }
 
     /**
@@ -3116,9 +3116,9 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f unproject(float winX, float winY, float winZ, IntBuffer viewport, Matrix4f inverseOut, Vector3f dest) {
-    	this.invert(inverseOut);
-    	inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
-    	return this;
+        this.invert(inverseOut);
+        inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+        return this;
     }
 
     /**
@@ -3285,7 +3285,7 @@ public class Matrix4f implements Serializable, Externalizable {
      *          will hold the unprojected position
      */
     public static void unproject(float winX, float winY, float winZ, Matrix4f projection, Matrix4f view, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
-    	inverseOut.set(projection).mul(view).invert().unprojectInv(winX, winY, winZ, viewport, dest);
+        inverseOut.set(projection).mul(view).invert().unprojectInv(winX, winY, winZ, viewport, dest);
     }
 
     /**
@@ -4040,15 +4040,15 @@ public class Matrix4f implements Serializable, Externalizable {
      * computed.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return this
      */
     public Matrix4f normal(Matrix4f dest) {
-    	// see: http://mathworld.wolfram.com/OrthogonalMatrix.html
-    	float det = determinant();
-    	float diff = Math.abs(Math.abs(det) - 1.0f);
-    	if (diff < 1E-8f) {
-    		/* The fast path, if only 1:1:1 scaling is being used */
+        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
+        float det = determinant();
+        float diff = Math.abs(Math.abs(det) - 1.0f);
+        if (diff < 1E-8f) {
+            /* The fast path, if only 1:1:1 scaling is being used */
             if (this != dest) {
                 dest.m00 = m00;
                 dest.m01 = m10;
@@ -4072,24 +4072,24 @@ public class Matrix4f implements Serializable, Externalizable {
                          m02,  m12,  m22,  0.0f,
                          0.0f, 0.0f, 0.0f, 1.0f);
             }
-    	}
-    	/* The general case */
+        }
+        /* The general case */
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.set(((m11 * m22) - (m21 * m12)) * s,
-        		-((m10 * m22) - (m20 * m12)) * s,
-	             ((m10 * m21) - (m20 * m11)) * s,
-	             0.0f,
-	            -((m01 * m22) - (m21 * m02)) * s,
-	             ((m00 * m22) - (m20 * m02)) * s,
-	            -((m00 * m21) - (m20 * m01)) * s,
-	             0.0f,
-	             ((m01 * m12) - (m11 * m02)) * s,
-	            -((m00 * m12) - (m10 * m02)) * s,
-	             ((m00 * m11) - (m10 * m01)) * s,
-	             0.0f,
-	             0.0f, 0.0f, 0.0f, 1.0f);
-    	return this;
+                -((m10 * m22) - (m20 * m12)) * s,
+                 ((m10 * m21) - (m20 * m11)) * s,
+                 0.0f,
+                -((m01 * m22) - (m21 * m02)) * s,
+                 ((m00 * m22) - (m20 * m02)) * s,
+                -((m00 * m21) - (m20 * m01)) * s,
+                 0.0f,
+                 ((m01 * m12) - (m11 * m02)) * s,
+                -((m00 * m12) - (m10 * m02)) * s,
+                 ((m00 * m11) - (m10 * m01)) * s,
+                 0.0f,
+                 0.0f, 0.0f, 0.0f, 1.0f);
+        return this;
     }
 
 }

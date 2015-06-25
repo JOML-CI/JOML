@@ -557,7 +557,7 @@ public class Vector3d implements Serializable, Externalizable {
      * @see #angle(Vector3d)
      */
     public double angleCos(Vector3d v) {
-    	return angleCos(this, v);
+        return angleCos(this, v);
     }
     
     /**
@@ -566,10 +566,10 @@ public class Vector3d implements Serializable, Externalizable {
      * @see #angle(Vector3d, Vector3d)
      */
     public static double angleCos(Vector3d v1, Vector3d v2) {
-    	double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z));
-    	double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z));
-    	double dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
-    	return dot / (length1 * length2);
+        double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z));
+        double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z));
+        double dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+        return dot / (length1 * length2);
     }
     
     /**
@@ -578,7 +578,7 @@ public class Vector3d implements Serializable, Externalizable {
      * @see #angleCos(Vector3d)
      */
     public double angle(Vector3d v) {
-    	return angle(this, v);
+        return angle(this, v);
     }
     
     /**
@@ -587,11 +587,11 @@ public class Vector3d implements Serializable, Externalizable {
      * @see #angleCos(Vector3d, Vector3d)
      */
     public static double angle(Vector3d v1, Vector3d v2) {
-    	double cos = angleCos(v1, v2);
-    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
-    	cos = Math.min(cos, 1);
-    	cos = Math.max(cos, -1);
-    	return Math.acos(cos);
+        double cos = angleCos(v1, v2);
+        // This is because sometimes cos goes above 1 or below -1 because of lost precision
+        cos = Math.min(cos, 1);
+        cos = Math.max(cos, -1);
+        return Math.acos(cos);
     }
 
     /**
@@ -614,8 +614,8 @@ public class Vector3d implements Serializable, Externalizable {
      * @return the string representation
      */
     public String toString() {
-    	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-    	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
     /**
@@ -658,40 +658,40 @@ public class Vector3d implements Serializable, Externalizable {
      * Negate original and store the result in dest.
      */
     public static void negate(Vector3d original, Vector3d dest) {
-    	dest.x = -original.x;
-    	dest.y = -original.y;
-    	dest.z = -original.z;
+        dest.x = -original.x;
+        dest.y = -original.y;
+        dest.z = -original.z;
     }
 
     public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(x);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(z);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(x);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(z);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Vector3d other = (Vector3d) obj;
-		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
-			return false;
-		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
-			return false;
-		if (Double.doubleToLongBits(z) != Double.doubleToLongBits(other.z))
-			return false;
-		return true;
-	}
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vector3d other = (Vector3d) obj;
+        if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
+            return false;
+        if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
+            return false;
+        if (Double.doubleToLongBits(z) != Double.doubleToLongBits(other.z))
+            return false;
+        return true;
+    }
 
     /**
      * Reflect this vector about the given normal vector.

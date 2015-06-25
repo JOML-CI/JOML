@@ -396,7 +396,7 @@ public class Matrix3d implements Serializable, Externalizable {
      * Transpose <code>this</code> matrix and store the result in <code>dest</code>.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return this
      */
     public Matrix3d transpose(Matrix3d dest) {
@@ -446,7 +446,7 @@ public class Matrix3d implements Serializable, Externalizable {
      * matrix to obtain an additional translation.
      */
     public static void translation(double x, double y, Matrix3d dest) {
-    	dest.translation(x, y);
+        dest.translation(x, y);
     }
 
     /**
@@ -641,15 +641,15 @@ public class Matrix3d implements Serializable, Externalizable {
      * Set this matrix to be a simple scale matrix.
      * 
      * @param x
-     * 			the scale in x
+     *             the scale in x
      * @param y
-     * 			the scale in y
+     *             the scale in y
      * @param z
-     * 			the scale in z
+     *             the scale in z
      * @return this
      */
     public Matrix3d scale(double x, double y, double z) {
-    	identity();
+        identity();
         m00 = x;
         m11 = y;
         m22 = z;
@@ -660,11 +660,11 @@ public class Matrix3d implements Serializable, Externalizable {
      * Set this matrix to be a simple scale matrix.
      * 
      * @param scale
-     * 			the scale applied to each dimension
+     *             the scale applied to each dimension
      * @return this
      */
     public Matrix3d scale(Vector3d scale) {
-    	identity();
+        identity();
         m00 = scale.x;
         m11 = scale.y;
         m22 = scale.z;
@@ -675,10 +675,10 @@ public class Matrix3d implements Serializable, Externalizable {
      * Set the given matrix <code>dest</code> to be a simple scale matrix.
      * 
      * @param scale
-     * 			the scale applied to each dimension
+     *             the scale applied to each dimension
      */
     public static void scale(Vector3d scale, Matrix3d dest) {
-    	dest.identity();
+        dest.identity();
         dest.m00 = scale.x;
         dest.m11 = scale.y;
         dest.m22 = scale.z;
@@ -688,19 +688,19 @@ public class Matrix3d implements Serializable, Externalizable {
      * Set this matrix to be a simple scale matrix.
      * 
      * @param x
-     * 			the scale in x
+     *             the scale in x
      * @param y
-     * 			the scale in y
+     *             the scale in y
      * @param z
-     * 			the scale in z
+     *             the scale in z
      * @return this
      */
     public Matrix3d scale(double x, double y, double z, Matrix3d dest) {
-    	dest.identity();
-    	dest.m00 = x;
-    	dest.m11 = y;
-    	dest.m22 = z;
-    	return this;
+        dest.identity();
+        dest.m00 = x;
+        dest.m11 = y;
+        dest.m22 = z;
+        return this;
     }
 
     /**
@@ -713,8 +713,8 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d rotation(double angle, Vector3d axis) {
-    	rotation(angle, axis, this);
-    	return this;
+        rotation(angle, axis, this);
+        return this;
     }
 
     /**
@@ -730,17 +730,17 @@ public class Matrix3d implements Serializable, Externalizable {
      *          will hold the result
      */
     public static void rotation(double angle, Vector3d axis, Matrix3d dest) {
-    	double cos = Math.cos(Math.toRadians(angle));
-    	double sin = Math.sin(Math.toRadians(angle));
-    	dest.m00 = cos + axis.x * axis.x * (1.0 - cos);
-    	dest.m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
-    	dest.m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
-    	dest.m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
-    	dest.m11 = cos + axis.y * axis.y * (1.0 - cos);
-    	dest.m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
-    	dest.m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
-    	dest.m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
-    	dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
+        double cos = Math.cos(Math.toRadians(angle));
+        double sin = Math.sin(Math.toRadians(angle));
+        dest.m00 = cos + axis.x * axis.x * (1.0 - cos);
+        dest.m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
+        dest.m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
+        dest.m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
+        dest.m11 = cos + axis.y * axis.y * (1.0 - cos);
+        dest.m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
+        dest.m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
+        dest.m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
+        dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
     }
 
     /**
@@ -904,30 +904,30 @@ public class Matrix3d implements Serializable, Externalizable {
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return this
      */
     public Matrix3d normal(Matrix3d dest) {
-    	// see: http://mathworld.wolfram.com/OrthogonalMatrix.html
-    	double det = determinant();
-    	double diff = Math.abs(Math.abs(det) - 1.0);
-    	if (diff < 1E-8) {
-    		/* The fast path, if only 1:1:1 scaling is being used */
-    		return this.transpose(dest);
-    	}
-    	/* The general case */
-    	double s = 1.0 / det;
+        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
+        double det = determinant();
+        double diff = Math.abs(Math.abs(det) - 1.0);
+        if (diff < 1E-8) {
+            /* The fast path, if only 1:1:1 scaling is being used */
+            return this.transpose(dest);
+        }
+        /* The general case */
+        double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.set(((m11 * m22) - (m21 * m12)) * s,
                 -((m10 * m22) - (m20 * m12)) * s,
-	             ((m10 * m21) - (m20 * m11)) * s,
-	            -((m01 * m22) - (m21 * m02)) * s,
-	             ((m00 * m22) - (m20 * m02)) * s,
-	            -((m00 * m21) - (m20 * m01)) * s,
-	             ((m01 * m12) - (m11 * m02)) * s,
-	            -((m00 * m12) - (m10 * m02)) * s,
-	             ((m00 * m11) - (m10 * m01)) * s);
-    	return this;
+                 ((m10 * m21) - (m20 * m11)) * s,
+                -((m01 * m22) - (m21 * m02)) * s,
+                 ((m00 * m22) - (m20 * m02)) * s,
+                -((m00 * m21) - (m20 * m01)) * s,
+                 ((m01 * m12) - (m11 * m02)) * s,
+                -((m00 * m12) - (m10 * m02)) * s,
+                 ((m00 * m11) - (m10 * m01)) * s);
+        return this;
     }
 
 }

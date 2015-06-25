@@ -182,7 +182,7 @@ public class Vector2f implements Serializable, Externalizable {
      * @see #angle(Vector2f)
      */
     public float angleCos(Vector2f v) {
-    	return angleCos(this, v);
+        return angleCos(this, v);
     }
     
     /**
@@ -191,10 +191,10 @@ public class Vector2f implements Serializable, Externalizable {
      * @see #angle(Vector2f, Vector2f)
      */
     public static float angleCos(Vector2f v1, Vector2f v2) {
-    	float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y));
-    	float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y));
-    	float dot = (v1.x * v2.x) + (v1.y * v2.y);
-    	return dot / (length1 * length2);
+        float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y));
+        float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y));
+        float dot = (v1.x * v2.x) + (v1.y * v2.y);
+        return dot / (length1 * length2);
     }
     
     /**
@@ -203,7 +203,7 @@ public class Vector2f implements Serializable, Externalizable {
      * @see #angleCos(Vector2f)
      */
     public float angle(Vector2f v) {
-    	return angle(this, v);
+        return angle(this, v);
     }
     
     /**
@@ -212,11 +212,11 @@ public class Vector2f implements Serializable, Externalizable {
      * @see #angleCos(Vector2f, Vector2f)
      */
     public static float angle(Vector2f v1, Vector2f v2) {
-    	float cos = angleCos(v1, v2);
-    	// This is because sometimes cos goes above 1 or below -1 because of lost precision
-    	cos = Math.min(cos, 1);
-    	cos = Math.max(cos, -1);
-    	return (float) Math.acos(cos);
+        float cos = angleCos(v1, v2);
+        // This is because sometimes cos goes above 1 or below -1 because of lost precision
+        cos = Math.min(cos, 1);
+        cos = Math.max(cos, -1);
+        return (float) Math.acos(cos);
     }
 
     /**
@@ -333,8 +333,8 @@ public class Vector2f implements Serializable, Externalizable {
      * Negate original and store the result in dest.
      */
     public static void negate(Vector2f original, Vector2f dest) {
-    	dest.x = -original.x;
-    	dest.y = -original.y;
+        dest.x = -original.x;
+        dest.y = -original.y;
     }
 
     /**
@@ -396,8 +396,8 @@ public class Vector2f implements Serializable, Externalizable {
      * @return the string representation
      */
     public String toString() {
-    	DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-    	return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
     }
 
     /**

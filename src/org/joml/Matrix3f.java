@@ -311,14 +311,14 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f invert() {
-    	return invert(this);
+        return invert(this);
     }
 
     /**
      * Invert the <code>this</code> matrix and store the result in <code>dest</code>.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      */
     public Matrix3f invert(Matrix3f dest) {
         float s = determinant();
@@ -363,7 +363,7 @@ public class Matrix3f implements Serializable, Externalizable {
      * Transpose <code>this</code> matrix and store the result in <code>dest</code>.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return this
      */
     public Matrix3f transpose(Matrix3f dest) {
@@ -679,10 +679,10 @@ public class Matrix3f implements Serializable, Externalizable {
      * Set the given matrix <code>dest</code> to be a simple scale matrix.
      * 
      * @param scale
-     * 			the scale applied to each dimension
+     *             the scale applied to each dimension
      */
     public static void scaling(Vector3f scale, Matrix3f dest) {
-    	dest.identity();
+        dest.identity();
         dest.m00 = scale.x;
         dest.m11 = scale.y;
         dest.m22 = scale.z;
@@ -692,19 +692,19 @@ public class Matrix3f implements Serializable, Externalizable {
      * Set this matrix to be a simple scale matrix.
      * 
      * @param x
-     * 			the scale in x
+     *             the scale in x
      * @param y
-     * 			the scale in y
+     *             the scale in y
      * @param z
-     * 			the scale in z
+     *             the scale in z
      * @return this
      */
     public Matrix3f scaling(float x, float y, float z, Matrix3f dest) {
-    	dest.identity();
-    	dest.m00 = x;
-    	dest.m11 = y;
-    	dest.m22 = z;
-    	return this;
+        dest.identity();
+        dest.m00 = x;
+        dest.m11 = y;
+        dest.m22 = z;
+        return this;
     }
 
     /**
@@ -1820,30 +1820,30 @@ public class Matrix3f implements Serializable, Externalizable {
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
      * 
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return this
      */
     public Matrix3f normal(Matrix3f dest) {
-    	// see: http://mathworld.wolfram.com/OrthogonalMatrix.html
-    	float det = determinant();
-    	float diff = Math.abs(Math.abs(det) - 1.0f);
-    	if (diff < 1E-8f) {
-    		/* The fast path, if only 1:1:1 scaling is being used */
-    		return this.transpose(dest);
-    	}
-    	/* The general case */
+        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
+        float det = determinant();
+        float diff = Math.abs(Math.abs(det) - 1.0f);
+        if (diff < 1E-8f) {
+            /* The fast path, if only 1:1:1 scaling is being used */
+            return this.transpose(dest);
+        }
+        /* The general case */
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.set(((m11 * m22) - (m21 * m12)) * s,
-        		-((m10 * m22) - (m20 * m12)) * s,
-	             ((m10 * m21) - (m20 * m11)) * s,
-	            -((m01 * m22) - (m21 * m02)) * s,
-	             ((m00 * m22) - (m20 * m02)) * s,
-	            -((m00 * m21) - (m20 * m01)) * s,
-	             ((m01 * m12) - (m11 * m02)) * s,
-	            -((m00 * m12) - (m10 * m02)) * s,
-	             ((m00 * m11) - (m10 * m01)) * s);
-    	return this;
+                -((m10 * m22) - (m20 * m12)) * s,
+                 ((m10 * m21) - (m20 * m11)) * s,
+                -((m01 * m22) - (m21 * m02)) * s,
+                 ((m00 * m22) - (m20 * m02)) * s,
+                -((m00 * m21) - (m20 * m01)) * s,
+                 ((m01 * m12) - (m11 * m02)) * s,
+                -((m00 * m12) - (m10 * m02)) * s,
+                 ((m00 * m11) - (m10 * m01)) * s);
+        return this;
     }
 
 }
