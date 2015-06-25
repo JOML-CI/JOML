@@ -403,6 +403,97 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @return this
+     */
+    public Matrix4f mul4x3(Matrix4f right) {
+       mul4x3(this, right, this);
+       return this;
+    }
+
+    /**
+     * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return this
+     */
+    public Matrix4f mul4x3(Matrix4f right, Matrix4f dest) {
+       mul4x3(this, right, dest);
+       return this;
+    }
+
+    /**
+     * Multiply the supplied <code>left</code> matrix by the top 4x3 submatrix of the supplied <code>right</code> and store the result into <code>dest</code>.
+     * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>L * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param left
+     *          the left matrix
+     * @param right
+     *          the right matrix (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @param dest
+     *          will hold the result
+     */
+    public static void mul4x3(Matrix4f left, Matrix4f right, Matrix4f dest) {
+        if (left != dest && right != dest) {
+            dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
+            dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
+            dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
+            dest.m03 = left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02;
+            dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
+            dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
+            dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
+            dest.m13 = left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12;
+            dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
+            dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
+            dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
+            dest.m23 = left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22;
+            dest.m30 = left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30;
+            dest.m31 = left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31;
+            dest.m32 = left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32;
+            dest.m33 = left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33;
+        } else {
+            dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
+                     left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
+                     left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
+                     left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02,
+                     left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
+                     left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
+                     left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
+                     left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12,
+                     left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
+                     left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
+                     left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22,
+                     left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22,
+                     left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30,
+                     left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31,
+                     left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32,
+                     left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33);
+        }
+    }
+
+    /**
      * Set the values within this matrix to the supplied float values. The matrix will look like this:<br><br>
      *
      *  m00, m10, m20, m30<br>
