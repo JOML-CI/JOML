@@ -36,7 +36,7 @@ import java.text.NumberFormat;
  * 
  * @author Kai Burjack
  */
-public class AngleAxis4f implements Serializable, Externalizable {
+public class AxisAngle4f implements Serializable, Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -61,19 +61,19 @@ public class AngleAxis4f implements Serializable, Externalizable {
     public float z;
 
     /**
-     * Create a new {@link AngleAxis4f} with zero rotation about <tt>(0, 0, 1)</tt>.
+     * Create a new {@link AxisAngle4f} with zero rotation about <tt>(0, 0, 1)</tt>.
      */
-    public AngleAxis4f() {
+    public AxisAngle4f() {
         z = 1.0f;
     }
 
     /**
-     * Create a new {@link AngleAxis4f} with the same values of <code>a</code>.
+     * Create a new {@link AxisAngle4f} with the same values of <code>a</code>.
      * 
      * @param a
      *            the AngleAxis4f to copy the values from
      */
-    public AngleAxis4f(AngleAxis4f a) {
+    public AxisAngle4f(AxisAngle4f a) {
         x = a.x;
         y = a.y;
         z = a.z;
@@ -81,7 +81,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link AngleAxis4f} from the given {@link Quaternionf}.
+     * Create a new {@link AxisAngle4f} from the given {@link Quaternionf}.
      * <p>
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
@@ -90,7 +90,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * @param q
      *            the quaternion from which to create the new AngleAxis4f
      */
-    public AngleAxis4f(Quaternionf q) {
+    public AxisAngle4f(Quaternionf q) {
         float acos = (float) Math.acos(q.w);
         float sqrt = (float) Math.sqrt(1.0 - q.w * q.w);
         this.x = q.x / sqrt;
@@ -100,7 +100,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link AngleAxis4f} with the given values.
+     * Create a new {@link AxisAngle4f} with the given values.
      *
      * @param angle
      *            the angle in degrees
@@ -111,7 +111,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * @param z
      *            the z-coordinate of the rotation axis
      */
-    public AngleAxis4f(float angle, float x, float y, float z) {
+    public AxisAngle4f(float angle, float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -119,13 +119,13 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AngleAxis4f} to the values of <code>a</code>.
+     * Set this {@link AxisAngle4f} to the values of <code>a</code>.
      * 
      * @param a
      *            the AngleAxis4f to copy the values from
      * @return this
      */
-    public AngleAxis4f set(AngleAxis4f a) {
+    public AxisAngle4f set(AxisAngle4f a) {
         x = a.x;
         y = a.y;
         z = a.z;
@@ -134,7 +134,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AngleAxis4f} to the given values.
+     * Set this {@link AxisAngle4f} to the given values.
      * 
      * @param angle
      *            the angle in radians
@@ -146,7 +146,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      *            the z-coordinate of the rotation axis
      * @return this
      */
-    public AngleAxis4f set(float angle, float x, float y, float z) {
+    public AxisAngle4f set(float angle, float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -155,14 +155,14 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AngleAxis4f} to be equivalent to the given
+     * Set this {@link AxisAngle4f} to be equivalent to the given
      * {@link Quaternionf}.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4f from
      * @return this
      */
-    public AngleAxis4f set(Quaternionf q) {
+    public AxisAngle4f set(Quaternionf q) {
         float acos = (float) Math.acos(q.w);
         float sqrt = (float) Math.sqrt(1.0 - q.w * q.w);
         this.x = q.x / sqrt;
@@ -173,14 +173,14 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AngleAxis4f} to be equivalent to the rotation 
+     * Set this {@link AxisAngle4f} to be equivalent to the rotation 
      * of the given {@link Matrix3f}.
      * 
      * @param m
      *            the Matrix3f to set this AngleAxis4f from
      * @return this
      */
-    public AngleAxis4f set(Matrix3f m) {
+    public AxisAngle4f set(Matrix3f m) {
         double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
         x = (float)(m.m12 - m.m21);
         y = (float)(m.m20 - m.m02);
@@ -191,14 +191,14 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link AngleAxis4f} to be equivalent to the rotational component 
+     * Set this {@link AxisAngle4f} to be equivalent to the rotational component 
      * of the given {@link Matrix4f}.
      * 
      * @param m
      *            the Matrix4f to set this AngleAxis4f from
      * @return this
      */
-    public AngleAxis4f set(Matrix4f m) {
+    public AxisAngle4f set(Matrix4f m) {
         double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
         x = (float)(m.m12 - m.m21);
         y = (float)(m.m20 - m.m02);
@@ -209,43 +209,43 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the given {@link Quaternionf} to be equivalent to this {@link AngleAxis4f} rotation.
+     * Set the given {@link Quaternionf} to be equivalent to this {@link AxisAngle4f} rotation.
      * 
-     * @see Quaternionf#set(AngleAxis4f)
+     * @see Quaternionf#set(AxisAngle4f)
      * 
      * @param q
      *          the quaternion to set
      * @return this
      */
-    public AngleAxis4f get(Quaternionf q) {
+    public AxisAngle4f get(Quaternionf q) {
         q.set(this);
         return this;
     }
 
     /**
-     * Set the given {@link Matrix4f} to a rotation transformation equivalent to this {@link AngleAxis4f}.
+     * Set the given {@link Matrix4f} to a rotation transformation equivalent to this {@link AxisAngle4f}.
      * 
-     * @see Matrix4f#set(AngleAxis4f)
+     * @see Matrix4f#set(AxisAngle4f)
      * 
      * @param m
      *          the matrix to set
      * @return this
      */
-    public AngleAxis4f get(Matrix4f m) {
+    public AxisAngle4f get(Matrix4f m) {
         m.set(this);
         return this;
     }
 
     /**
-     * Set the given {@link Matrix3f} to a rotation transformation equivalent to this {@link AngleAxis4f}.
+     * Set the given {@link Matrix3f} to a rotation transformation equivalent to this {@link AxisAngle4f}.
      * 
-     * @see Matrix3f#set(AngleAxis4f)
+     * @see Matrix3f#set(AxisAngle4f)
      * 
      * @param m
      *          the matrix to set
      * @return this
      */
-    public AngleAxis4f get(Matrix3f m) {
+    public AxisAngle4f get(Matrix3f m) {
         m.set(this);
         return this;
     }
@@ -269,7 +269,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public AngleAxis4f normalize() {
+    public AxisAngle4f normalize() {
         float length = (float) Math.sqrt(x * x + y * y + z * z);
         x /= length;
         y /= length;
@@ -278,18 +278,18 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Transform the given vector by the rotation transformation described by this {@link AngleAxis4f}.
+     * Transform the given vector by the rotation transformation described by this {@link AxisAngle4f}.
      * 
      * @param v
      *          the vector to transform
      * @return this
      */
-    public AngleAxis4f transform(Vector3f v) {
+    public AxisAngle4f transform(Vector3f v) {
         return transform(v, v);
     }
 
     /**
-     * Transform the given vector by the rotation transformation described by this {@link AngleAxis4f}
+     * Transform the given vector by the rotation transformation described by this {@link AxisAngle4f}
      * and store the result in <code>dest</code>.
      * 
      * @param v
@@ -298,7 +298,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public AngleAxis4f transform(Vector3f v, Vector3f dest) {
+    public AxisAngle4f transform(Vector3f v, Vector3f dest) {
         double cos = Math.cos(Math.toRadians(angle));
         double sin = Math.sin(Math.toRadians(angle));
         float dot = x * v.x + y * v.y + z * v.z;
@@ -309,18 +309,18 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Transform the given vector by the rotation transformation described by this {@link AngleAxis4f}.
+     * Transform the given vector by the rotation transformation described by this {@link AxisAngle4f}.
      * 
      * @param v
      *          the vector to transform
      * @return this
      */
-    public AngleAxis4f transform(Vector4f v) {
+    public AxisAngle4f transform(Vector4f v) {
         return transform(v, v);
     }
 
     /**
-     * Transform the given vector by the rotation transformation described by this {@link AngleAxis4f}
+     * Transform the given vector by the rotation transformation described by this {@link AxisAngle4f}
      * and store the result in <code>dest</code>.
      * 
      * @param v
@@ -329,7 +329,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public AngleAxis4f transform(Vector4f v, Vector4f dest) {
+    public AxisAngle4f transform(Vector4f v, Vector4f dest) {
         double cos = Math.cos(Math.toRadians(angle));
         double sin = Math.sin(Math.toRadians(angle));
         float dot = x * v.x + y * v.y + z * v.z;
@@ -341,7 +341,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Return a string representation of this angle-axis.
+     * Return a string representation of this {@link AxisAngle4f}.
      * <p>
      * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
      * 
@@ -353,7 +353,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Return a string representation of this angle-axis by formatting the components with the given {@link NumberFormat}.
+     * Return a string representation of this {@link AxisAngle4f} by formatting the components with the given {@link NumberFormat}.
      * 
      * @param formatter
      *          the {@link NumberFormat} used to format the vector components with
@@ -380,7 +380,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AngleAxis4f other = (AngleAxis4f) obj;
+        AxisAngle4f other = (AxisAngle4f) obj;
         if (Float.floatToIntBits(angle) != Float.floatToIntBits(other.angle))
             return false;
         if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
@@ -435,16 +435,16 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Return the specified {@link AngleAxis4f}.
+     * Return the specified {@link AxisAngle4f}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given angle-axis.
+     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
      * 
      * @param a
-     *          the {@link AngleAxis4f} to return
+     *          the {@link AxisAngle4f} to return
      * @return that quaternion
      */
-    public AngleAxis4f with(AngleAxis4f a) {
+    public AxisAngle4f with(AxisAngle4f a) {
         return a;
     }
 

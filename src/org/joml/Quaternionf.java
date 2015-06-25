@@ -120,12 +120,12 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link Quaternionf} which represents the rotation of the given {@link AngleAxis4f}.
+     * Create a new {@link Quaternionf} which represents the rotation of the given {@link AxisAngle4f}.
      * 
      * @param axisAngle
-     *          the {@link AngleAxis4f}
+     *          the {@link AxisAngle4f}
      */
-    public Quaternionf(AngleAxis4f axisAngle) {
+    public Quaternionf(AxisAngle4f axisAngle) {
         float sin = (float) Math.sin(Math.toRadians(axisAngle.angle) / 2.0);
         float cos = (float) Math.cos(Math.toRadians(axisAngle.angle) / 2.0);
         x = axisAngle.x * sin;
@@ -299,14 +299,14 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Set the given {@link AngleAxis4f} to represent the rotation of
+     * Set the given {@link AxisAngle4f} to represent the rotation of
      * <code>this</code> quaternion.
      * 
      * @param angleAxis
-     *            the {@link AngleAxis4f} to set
+     *            the {@link AxisAngle4f} to set
      * @return this
      */
-    public Quaternionf get(AngleAxis4f angleAxis) {
+    public Quaternionf get(AxisAngle4f angleAxis) {
         float x = this.x;
         float y = this.y;
         float z = this.z;
@@ -371,13 +371,13 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Set this quaternion to a rotation equivalent to the given {@link AngleAxis4f}.
+     * Set this quaternion to a rotation equivalent to the given {@link AxisAngle4f}.
      * 
      * @param angleAxis
-     *          the {@link AngleAxis4f}
+     *          the {@link AxisAngle4f}
      * @return this
      */
-    public Quaternionf set(AngleAxis4f angleAxis) {
+    public Quaternionf set(AxisAngle4f angleAxis) {
         double angle = Math.toRadians(angleAxis.angle);
         double s = Math.sin(angle / 2.0);
         x = (float) (angleAxis.x * s);
@@ -388,7 +388,7 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Set this quaternion to a rotation equivalent to the given angle-axis.
+     * Set this quaternion to a rotation equivalent to the given {@link AxisAngle4f}.
      * 
      * @param angle
      *          the angle in degrees
@@ -412,15 +412,15 @@ public class Quaternionf implements Serializable, Externalizable {
 
     /**
      * Set this {@link Quaternionf} to a rotation of the given angle in degrees about the supplied
-     * axis, all of which are specified via the {@link AngleAxis4f}.
+     * axis, all of which are specified via the {@link AxisAngle4f}.
      * 
      * @see #rotationAxis(float, float, float, float)
      * 
      * @param angleAxis
-     *            the {@link AngleAxis4f} giving the rotation angle in degrees and the axis to rotate about
+     *            the {@link AxisAngle4f} giving the rotation angle in degrees and the axis to rotate about
      * @return this
      */
-    public Quaternionf rotationAxis(AngleAxis4f angleAxis) {
+    public Quaternionf rotationAxis(AxisAngle4f angleAxis) {
         return rotationAxis(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
     }
 
@@ -2044,16 +2044,16 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Return the specified {@link AngleAxis4f}.
+     * Return the specified {@link AxisAngle4f}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given angle-axis.
+     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
      * 
      * @param a
-     *          the {@link AngleAxis4f} to return
+     *          the {@link AxisAngle4f} to return
      * @return that quaternion
      */
-    public AngleAxis4f with(AngleAxis4f a) {
+    public AxisAngle4f with(AxisAngle4f a) {
         return a;
     }
 

@@ -1192,6 +1192,76 @@ public class Matrix4d implements Serializable, Externalizable {
 
     /**
      * Apply rotation to this matrix by rotating the given amount of degrees
+     * about the given axis specified as x, y and z components and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * 
+     * @param ang
+     *            the angle is in degrees
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d rotate(double ang, double x, double y, double z, Matrix4d dest) {
+        // rotation matrix elements:
+        // m30, m31, m32, m03, m13, m23 = 0
+        // m33 = 1
+        double cos = Math.cos(Math.toRadians(ang));
+        double sin = Math.sin(Math.toRadians(ang));
+        double m00 = (cos + x * x * (1.0 - cos));
+        double m10 = x * y * (1.0 - cos) - z * sin;
+        double m20 = x * z * (1.0 - cos) + y * sin;
+        double m01 = y * x * (1.0 - cos) + z * sin;
+        double m11 = cos + y * y * (1.0 - cos);
+        double m21 = y * z * (1.0 - cos) - x * sin;
+        double m02 = z * x * (1.0 - cos) - y * sin;
+        double m12 = z * y * (1.0 - cos) + x * sin;
+        double m22 = cos + z * z * (1.0 - cos);
+
+        double nm00 = m00 * m00 + m10 * m01 + m20 * m02;
+        double nm01 = m01 * m00 + m11 * m01 + m21 * m02;
+        double nm02 = m02 * m00 + m12 * m01 + m22 * m02;
+        double nm03 = m03 * m00 + m13 * m01 + m23 * m02;
+        double nm10 = m00 * m10 + m10 * m11 + m20 * m12;
+        double nm11 = m01 * m10 + m11 * m11 + m21 * m12;
+        double nm12 = m02 * m10 + m12 * m11 + m22 * m12;
+        double nm13 = m03 * m10 + m13 * m11 + m23 * m12;
+        double nm20 = m00 * m20 + m10 * m21 + m20 * m22;
+        double nm21 = m01 * m20 + m11 * m21 + m21 * m22;
+        double nm22 = m02 * m20 + m12 * m21 + m22 * m22;
+        double nm23 = m03 * m20 + m13 * m21 + m23 * m22;
+
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+
+        return this;
+    }
+
+    /**
+     * Apply rotation to this matrix by rotating the given amount of degrees
      * about the given axis specified as x, y and z components.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1210,48 +1280,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d rotate(double ang, double x, double y, double z) {
-        Matrix4d c = this;
-        // rotation matrix elements:
-        // m30, m31, m32, m03, m13, m23 = 0
-        // m33 = 1
-        double cos = Math.cos(Math.toRadians(ang));
-        double sin = Math.sin(Math.toRadians(ang));
-        double m00 = (cos + x * x * (1.0 - cos));
-        double m10 = x * y * (1.0 - cos) - z * sin;
-        double m20 = x * z * (1.0 - cos) + y * sin;
-        double m01 = y * x * (1.0 - cos) + z * sin;
-        double m11 = cos + y * y * (1.0 - cos);
-        double m21 = y * z * (1.0 - cos) - x * sin;
-        double m02 = z * x * (1.0 - cos) - y * sin;
-        double m12 = z * y * (1.0 - cos) + x * sin;
-        double m22 = cos + z * z * (1.0 - cos);
-
-        double nm00 = c.m00 * m00 + c.m10 * m01 + c.m20 * m02;
-        double nm01 = c.m01 * m00 + c.m11 * m01 + c.m21 * m02;
-        double nm02 = c.m02 * m00 + c.m12 * m01 + c.m22 * m02;
-        double nm03 = c.m03 * m00 + c.m13 * m01 + c.m23 * m02;
-        double nm10 = c.m00 * m10 + c.m10 * m11 + c.m20 * m12;
-        double nm11 = c.m01 * m10 + c.m11 * m11 + c.m21 * m12;
-        double nm12 = c.m02 * m10 + c.m12 * m11 + c.m22 * m12;
-        double nm13 = c.m03 * m10 + c.m13 * m11 + c.m23 * m12;
-        double nm20 = c.m00 * m20 + c.m10 * m21 + c.m20 * m22;
-        double nm21 = c.m01 * m20 + c.m11 * m21 + c.m21 * m22;
-        double nm22 = c.m02 * m20 + c.m12 * m21 + c.m22 * m22;
-        double nm23 = c.m03 * m20 + c.m13 * m21 + c.m23 * m22;
-
-        c.m00 = nm00;
-        c.m01 = nm01;
-        c.m02 = nm02;
-        c.m03 = nm03;
-        c.m10 = nm10;
-        c.m11 = nm11;
-        c.m12 = nm12;
-        c.m13 = nm13;
-        c.m20 = nm20;
-        c.m21 = nm21;
-        c.m22 = nm22;
-        c.m23 = nm23;
-        return this;
+        return rotate(ang, x, y, z, this);
     }
 
     /**
@@ -1321,37 +1350,47 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix and store
+     * the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
      * the quaternion rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaterniond)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaterniond)
      * 
      * @param quat
      *          the {@link Quaterniond}
+     * @param dest
+     *          will hold the result
      * @return this
      */
-    public Matrix4d rotate(Quaterniond quat) {
-        double q00 = 2.0 * quat.x * quat.x;
-        double q11 = 2.0 * quat.y * quat.y;
-        double q22 = 2.0 * quat.z * quat.z;
-        double q01 = 2.0 * quat.x * quat.y;
-        double q02 = 2.0 * quat.x * quat.z;
-        double q03 = 2.0 * quat.x * quat.w;
-        double q12 = 2.0 * quat.y * quat.z;
-        double q13 = 2.0 * quat.y * quat.w;
-        double q23 = 2.0 * quat.z * quat.w;
+    public Matrix4d rotate(Quaterniond quat, Matrix4d dest) {
+        double q00 = 2.0f * quat.x * quat.x;
+        double q11 = 2.0f * quat.y * quat.y;
+        double q22 = 2.0f * quat.z * quat.z;
+        double q01 = 2.0f * quat.x * quat.y;
+        double q02 = 2.0f * quat.x * quat.z;
+        double q03 = 2.0f * quat.x * quat.w;
+        double q12 = 2.0f * quat.y * quat.z;
+        double q13 = 2.0f * quat.y * quat.w;
+        double q23 = 2.0f * quat.z * quat.w;
 
-        double rm00 = 1.0 - q11 - q22;
+        double rm00 = 1.0f - q11 - q22;
         double rm01 = q01 + q23;
         double rm02 = q02 - q13;
         double rm10 = q01 - q23;
-        double rm11 = 1.0 - q22 - q00;
+        double rm11 = 1.0f - q22 - q00;
         double rm12 = q12 + q03;
         double rm20 = q02 + q13;
         double rm21 = q12 - q03;
-        double rm22 = 1.0 - q11 - q00;
+        double rm22 = 1.0f - q11 - q00;
 
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
@@ -1361,20 +1400,47 @@ public class Matrix4d implements Serializable, Externalizable {
         double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
-        m00 = nm00;
-        m01 = nm01;
-        m02 = nm02;
-        m03 = nm03;
-        m10 = nm10;
-        m11 = nm11;
-        m12 = nm12;
-        m13 = nm13;
-        
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+
         return this;
+    }
+
+    /**
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaterniond)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaterniond)
+     * 
+     * @param quat
+     *          the {@link Quaterniond}
+     * @return this
+     */
+    public Matrix4d rotate(Quaterniond quat) {
+        return rotate(quat, this);
     }
 
     /**
@@ -1501,7 +1567,7 @@ public class Matrix4d implements Serializable, Externalizable {
         double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.set(((m11 * m22) - (m21 * m12)) * s,
-        		-((m10 * m22) - (m20 * m12) * s),
+                -((m10 * m22) - (m20 * m12) * s),
 	             ((m10 * m21) - (m20 * m11) * s),
 	             0.0,
 	            -((m01 * m22) - (m21 * m02)) * s,

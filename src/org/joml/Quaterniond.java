@@ -335,13 +335,13 @@ public class Quaterniond implements Serializable, Externalizable {
 
     /**
      * Set this {@link Quaterniond} to be equivalent to the given
-     * {@link AngleAxis4f}.
+     * {@link AxisAngle4f}.
      * 
      * @param angleAxis
-     *            the {@link AngleAxis4f}
+     *            the {@link AxisAngle4f}
      * @return this
      */
-    public Quaterniond set(AngleAxis4f angleAxis) {
+    public Quaterniond set(AxisAngle4f angleAxis) {
         return setAngleAxis(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
     }
 

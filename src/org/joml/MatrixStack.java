@@ -474,7 +474,7 @@ public class MatrixStack implements Serializable, Externalizable {
 
     /**
      * Apply a rotation transformation, rotating about the given
-     * {@link AngleAxis4f}, to the current matrix.
+     * {@link AxisAngle4f}, to the current matrix.
      * <p>
      * If <code>C</code> is the current matrix and <code>R</code> the rotation
      * matrix, then the new current matrix will be <code>C * R</code>. So when
@@ -482,11 +482,11 @@ public class MatrixStack implements Serializable, Externalizable {
      * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @param angleAxis
-     *            the {@link AngleAxis4f} (needs to be
-     *            {@link AngleAxis4f#normalize() normalized})
+     *            the {@link AxisAngle4f} (needs to be
+     *            {@link AxisAngle4f#normalize() normalized})
      * @return this
      */
-    public MatrixStack rotate(AngleAxis4f angleAxis) {
+    public MatrixStack rotate(AxisAngle4f angleAxis) {
         if (angleAxis == null) {
             throw new IllegalArgumentException("angleAxis must not be null");
         }
