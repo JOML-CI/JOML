@@ -574,7 +574,7 @@ public class Matrix4d implements Serializable, Externalizable {
         return this;
     }
 
-    /** Set the values in the matrix using a double array. The results will look like this:<br><br>
+    /** Set the values in the matrix using a float array. The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
@@ -604,7 +604,7 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Set the values of this matrix by reading 16 float values from the given {@link DoubleBuffer} in column-major order,
+     * Set the values of this matrix by reading 16 double values from the given {@link DoubleBuffer} in column-major order,
      * starting at its current position.
      * <p>
      * The DoubleBuffer is expected to contain the values in column-major order.
@@ -1631,7 +1631,7 @@ public class Matrix4d implements Serializable, Externalizable {
      *            the angle in degrees
      * @return this
      */
-    public Matrix4d rotateZ(float ang) {
+    public Matrix4d rotateZ(double ang) {
         return rotateZ(ang, this);
     }
 
@@ -1898,7 +1898,7 @@ public class Matrix4d implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Matrix4d rotate(float angle, Vector3d axis, Matrix4d dest) {
+    public Matrix4d rotate(double angle, Vector3d axis, Matrix4d dest) {
         return rotate(angle, axis.x, axis.y, axis.z, dest);
     }
 
@@ -2448,7 +2448,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * @param winCoordsDest
      *          will hold the projected window coordinates
      */
-    public static void project(float x, float y, float z, Matrix4f projection, Matrix4f view, IntBuffer viewport, Vector4f winCoordsDest) {
+    public static void project(double x, double y, double z, Matrix4d projection, Matrix4d view, IntBuffer viewport, Vector4d winCoordsDest) {
         winCoordsDest.set(x, y, z, 1.0f);
         view.transform(winCoordsDest);
         projection.transform(winCoordsDest);
@@ -2469,7 +2469,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
-     * @see #project(float, float, float, Matrix4f, Matrix4f, IntBuffer, Vector4f)
+     * @see #project(double, double, double, Matrix4d, Matrix4d, IntBuffer, Vector4d)
      * 
      * @param position
      *          the position to project into window coordinates
@@ -2482,7 +2482,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * @param winCoordsDest
      *          will hold the projected window coordinates
      */
-    public static void project(Vector3f position, Matrix4f projection, Matrix4f view, IntBuffer viewport, Vector4f winCoordsDest) {
+    public static void project(Vector3d position, Matrix4d projection, Matrix4d view, IntBuffer viewport, Vector4d winCoordsDest) {
         project(position.x, position.y, position.z, projection, view, viewport, winCoordsDest);
     }
 
