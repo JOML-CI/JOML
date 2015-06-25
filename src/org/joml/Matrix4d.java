@@ -796,6 +796,12 @@ public class Matrix4d implements Serializable, Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param z
+     *          the offset to translate in z
      * @return this
      */
     public Matrix4d translation(double x, double y, double z) {
@@ -812,10 +818,12 @@ public class Matrix4d implements Serializable, Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      * 
+     * @param offset
+     *              the offsets in x, y and z to translate
      * @return this
      */
-    public Matrix4d translation(Vector3f position) {
-        return translation(position.x, position.y, position.z);
+    public Matrix4d translation(Vector3f offset) {
+        return translation(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -823,11 +831,13 @@ public class Matrix4d implements Serializable, Externalizable {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
-     * 
+     *
+     * @param offset
+     *              the offsets in x, y and z to translate
      * @return this
      */
-    public Matrix4d translation(Vector3d position) {
-        return translation(position.x, position.y, position.z);
+    public Matrix4d translation(Vector3d offset) {
+        return translation(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -1379,7 +1389,12 @@ public class Matrix4d implements Serializable, Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation matrix without post-multiplying the rotation
+     * transformation, use {@link #rotation(double, double, double, double) rotation()}.
      * 
+     * @see #rotation(double, double, double, double)
+     *  
      * @param ang
      *            the angle is in degrees
      * @param x
@@ -1402,10 +1417,18 @@ public class Matrix4d implements Serializable, Externalizable {
      * matrix, then the new current matrix will be <code>M * T</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(double, double, double)}.
+     * 
+     * @see #translation(double, double, double)
      * 
      * @param x
+     *            the offset in x
      * @param y
+     *            the offset in y
      * @param z
+     *            the offset in z
      * @return this
      */
     public Matrix4d translate(double x, double y, double z) {

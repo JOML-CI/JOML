@@ -1862,12 +1862,12 @@ public class Matrix4f implements Serializable, Externalizable {
      * 
      * @see #translation(Vector3f)
      * 
-     * @param point
-     *          the point by which to translate
+     * @param offset
+     *          the number of units in x, y and z by which to translate
      * @return this
      */
-    public Matrix4f translate(Vector3f point) {
-        return translate(point.x, point.y, point.z);
+    public Matrix4f translate(Vector3f offset) {
+        return translate(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -1880,13 +1880,16 @@ public class Matrix4f implements Serializable, Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translate(float, float, float)}.
+     * it, use {@link #translation(float, float, float)}.
      * 
-     * @see #translate(float, float, float)
+     * @see #translation(float, float, float)
      * 
      * @param x
+     *          the offset to translate in x
      * @param y
+     *          the offset to translate in y
      * @param z
+     *          the offset to translate in z
      * @return this
      */
     public Matrix4f translate(float x, float y, float z) {
