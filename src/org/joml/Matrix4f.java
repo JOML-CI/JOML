@@ -813,6 +813,42 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
+     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given values <tt>(x, y, z)</tt>.
+     * <p>
+     * To build a translation matrix instead, use {@link #translation(float, float, float)}.
+     * To apply a translation to another matrix, use {@link #translate(float, float, float)}.
+     * 
+     * @see #translation(float, float, float)
+     * @see #translate(float, float, float)
+     * 
+     * @return this
+     */
+    public Matrix4f setTranslation(float x, float y, float z) {
+        m30 = x;
+        m31 = y;
+        m32 = z;
+        return this;
+    }
+
+    /**
+     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given vector values <tt>(x, y, z)</tt>.
+     * <p>
+     * To build a translation matrix instead, use {@link #translation(Vector3f)}.
+     * To apply a translation to another matrix, use {@link #translate(Vector3f)}.
+     * 
+     * @see #translation(Vector3f)
+     * @see #translate(Vector3f)
+     * 
+     * @return this
+     */
+    public Matrix4f setTranslation(Vector3f xyz) {
+        m30 = xyz.x;
+        m31 = xyz.y;
+        m32 = xyz.z;
+        return this;
+    }
+
+    /**
      * Return a string representation of this matrix.
      * <p>
      * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>  0.000E0; -</tt>".
@@ -1822,9 +1858,9 @@ public class Matrix4f implements Serializable, Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translate(Vector3f)}.
+     * it, use {@link #translation(Vector3f)}.
      * 
-     * @see #translate(Vector3f)
+     * @see #translation(Vector3f)
      * 
      * @param point
      *          the point by which to translate

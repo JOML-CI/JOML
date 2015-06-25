@@ -815,8 +815,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d translation(Vector3f position) {
-        translation(position.x, position.y, position.z);
-        return this;
+        return translation(position.x, position.y, position.z);
     }
 
     /**
@@ -828,7 +827,42 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d translation(Vector3d position) {
-        translation(position.x, position.y, position.z);
+        return translation(position.x, position.y, position.z);
+    }
+
+    /**
+     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given values <tt>(x, y, z)</tt>.
+     * <p>
+     * To build a translation matrix instead, use {@link #translation(double, double, double)}.
+     * To apply a translation to another matrix, use {@link #translate(double, double, double)}.
+     * 
+     * @see #translation(double, double, double)
+     * @see #translate(double, double, double)
+     * 
+     * @return this
+     */
+    public Matrix4d setTranslation(double x, double y, double z) {
+        m30 = x;
+        m31 = y;
+        m32 = z;
+        return this;
+    }
+
+    /**
+     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given vector values <tt>(x, y, z)</tt>.
+     * <p>
+     * To build a translation matrix instead, use {@link #translation(Vector3d)}.
+     * To apply a translation to another matrix, use {@link #translate(Vector3d)}.
+     * 
+     * @see #translation(Vector3d)
+     * @see #translate(Vector3d)
+     * 
+     * @return this
+     */
+    public Matrix4d setTranslation(Vector3d xyz) {
+        m30 = xyz.x;
+        m31 = xyz.y;
+        m32 = xyz.z;
         return this;
     }
 
@@ -1384,6 +1418,28 @@ public class Matrix4d implements Serializable, Externalizable {
         m32 = m02 * x + m12 * y + m22 * z + m32;
         m33 = m03 * x + m13 * y + m23 * z + m33;
         return this;
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of
+     * units in x, y and z.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(Vector3f)}.
+     * 
+     * @see #translation(Vector3d)
+     * 
+     * @param point
+     *          the point by which to translate
+     * @return this
+     */
+    public Matrix4d translate(Vector3d point) {
+        return translate(point.x, point.y, point.z);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
