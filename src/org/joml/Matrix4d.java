@@ -29,6 +29,7 @@ import java.io.ObjectOutput;
 import java.io.Serializable;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -601,54 +602,54 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d invert() {
-        invert(this, this);
-        return this;
+        return invert(this);
     }
 
     /**
-     * Invert the supplied matrix and store the results in dest.
+     * Invert <code>this</code> matrix and store the result in <code>dest</code>.
      */
-    public static void invert(Matrix4d source, Matrix4d dest) {
-        double s = source.determinant();
+    public Matrix4d invert(Matrix4d dest) {
+        double s = determinant();
         if (s == 0.0) {
-            return;
+            return this;
         }
         s = 1.0 / s;
-        if (source != dest) {
-            dest.m00 = (source.m11 * (source.m22 * source.m33 - source.m23 * source.m32) + source.m12 * (source.m23 * source.m31 - source.m21 * source.m33) + source.m13 * (source.m21 * source.m32 - source.m22 * source.m31)) * s;
-            dest.m01 = (source.m21 * (source.m02 * source.m33 - source.m03 * source.m32) + source.m22 * (source.m03 * source.m31 - source.m01 * source.m33) + source.m23 * (source.m01 * source.m32 - source.m02 * source.m31)) * s;
-            dest.m02 = (source.m31 * (source.m02 * source.m13 - source.m03 * source.m12) + source.m32 * (source.m03 * source.m11 - source.m01 * source.m13) + source.m33 * (source.m01 * source.m12 - source.m02 * source.m11)) * s;
-            dest.m03 = (source.m01 * (source.m13 * source.m22 - source.m12 * source.m23) + source.m02 * (source.m11 * source.m23 - source.m13 * source.m21) + source.m03 * (source.m12 * source.m21 - source.m11 * source.m22)) * s;
-            dest.m10 = (source.m12 * (source.m20 * source.m33 - source.m23 * source.m30) + source.m13 * (source.m22 * source.m30 - source.m20 * source.m32) + source.m10 * (source.m23 * source.m32 - source.m22 * source.m33)) * s;
-            dest.m11 = (source.m22 * (source.m00 * source.m33 - source.m03 * source.m30) + source.m23 * (source.m02 * source.m30 - source.m00 * source.m32) + source.m20 * (source.m03 * source.m32 - source.m02 * source.m33)) * s;
-            dest.m12 = (source.m32 * (source.m00 * source.m13 - source.m03 * source.m10) + source.m33 * (source.m02 * source.m10 - source.m00 * source.m12) + source.m30 * (source.m03 * source.m12 - source.m02 * source.m13)) * s;
-            dest.m13 = (source.m02 * (source.m13 * source.m20 - source.m10 * source.m23) + source.m03 * (source.m10 * source.m22 - source.m12 * source.m20) + source.m00 * (source.m12 * source.m23 - source.m13 * source.m22)) * s;
-            dest.m20 = (source.m13 * (source.m20 * source.m31 - source.m21 * source.m30) + source.m10 * (source.m21 * source.m33 - source.m23 * source.m31) + source.m11 * (source.m23 * source.m30 - source.m20 * source.m33)) * s;
-            dest.m21 = (source.m23 * (source.m00 * source.m31 - source.m01 * source.m30) + source.m20 * (source.m01 * source.m33 - source.m03 * source.m31) + source.m21 * (source.m03 * source.m30 - source.m00 * source.m33)) * s;
-            dest.m22 = (source.m33 * (source.m00 * source.m11 - source.m01 * source.m10) + source.m30 * (source.m01 * source.m13 - source.m03 * source.m11) + source.m31 * (source.m03 * source.m10 - source.m00 * source.m13)) * s;
-            dest.m23 = (source.m03 * (source.m11 * source.m20 - source.m10 * source.m21) + source.m00 * (source.m13 * source.m21 - source.m11 * source.m23) + source.m01 * (source.m10 * source.m23 - source.m13 * source.m20)) * s;
-            dest.m30 = (source.m10 * (source.m22 * source.m31 - source.m21 * source.m32) + source.m11 * (source.m20 * source.m32 - source.m22 * source.m30) + source.m12 * (source.m21 * source.m30 - source.m20 * source.m31)) * s;
-            dest.m31 = (source.m20 * (source.m02 * source.m31 - source.m01 * source.m32) + source.m21 * (source.m00 * source.m32 - source.m02 * source.m30) + source.m22 * (source.m01 * source.m30 - source.m00 * source.m31)) * s;
-            dest.m32 = (source.m30 * (source.m02 * source.m11 - source.m01 * source.m12) + source.m31 * (source.m00 * source.m12 - source.m02 * source.m10) + source.m32 * (source.m01 * source.m10 - source.m00 * source.m11)) * s;
-            dest.m33 = (source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s;
+        if (this != dest) {
+            dest.m00 = (m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s;
+            dest.m01 = (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s;
+            dest.m02 = (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s;
+            dest.m03 = (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s;
+            dest.m10 = (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s;
+            dest.m11 = (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s;
+            dest.m12 = (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s;
+            dest.m13 = (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s;
+            dest.m20 = (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s;
+            dest.m21 = (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s;
+            dest.m22 = (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s;
+            dest.m23 = (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s;
+            dest.m30 = (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s;
+            dest.m31 = (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s;
+            dest.m32 = (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s;
+            dest.m33 = (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s;
         } else {
-            dest.set((source.m11 * (source.m22 * source.m33 - source.m23 * source.m32) + source.m12 * (source.m23 * source.m31 - source.m21 * source.m33) + source.m13 * (source.m21 * source.m32 - source.m22 * source.m31)) * s,
-                     (source.m21 * (source.m02 * source.m33 - source.m03 * source.m32) + source.m22 * (source.m03 * source.m31 - source.m01 * source.m33) + source.m23 * (source.m01 * source.m32 - source.m02 * source.m31)) * s,
-                     (source.m31 * (source.m02 * source.m13 - source.m03 * source.m12) + source.m32 * (source.m03 * source.m11 - source.m01 * source.m13) + source.m33 * (source.m01 * source.m12 - source.m02 * source.m11)) * s,
-                     (source.m01 * (source.m13 * source.m22 - source.m12 * source.m23) + source.m02 * (source.m11 * source.m23 - source.m13 * source.m21) + source.m03 * (source.m12 * source.m21 - source.m11 * source.m22)) * s,
-                     (source.m12 * (source.m20 * source.m33 - source.m23 * source.m30) + source.m13 * (source.m22 * source.m30 - source.m20 * source.m32) + source.m10 * (source.m23 * source.m32 - source.m22 * source.m33)) * s,
-                     (source.m22 * (source.m00 * source.m33 - source.m03 * source.m30) + source.m23 * (source.m02 * source.m30 - source.m00 * source.m32) + source.m20 * (source.m03 * source.m32 - source.m02 * source.m33)) * s,
-                     (source.m32 * (source.m00 * source.m13 - source.m03 * source.m10) + source.m33 * (source.m02 * source.m10 - source.m00 * source.m12) + source.m30 * (source.m03 * source.m12 - source.m02 * source.m13)) * s,
-                     (source.m02 * (source.m13 * source.m20 - source.m10 * source.m23) + source.m03 * (source.m10 * source.m22 - source.m12 * source.m20) + source.m00 * (source.m12 * source.m23 - source.m13 * source.m22)) * s,
-                     (source.m13 * (source.m20 * source.m31 - source.m21 * source.m30) + source.m10 * (source.m21 * source.m33 - source.m23 * source.m31) + source.m11 * (source.m23 * source.m30 - source.m20 * source.m33)) * s,
-                     (source.m23 * (source.m00 * source.m31 - source.m01 * source.m30) + source.m20 * (source.m01 * source.m33 - source.m03 * source.m31) + source.m21 * (source.m03 * source.m30 - source.m00 * source.m33)) * s,
-                     (source.m33 * (source.m00 * source.m11 - source.m01 * source.m10) + source.m30 * (source.m01 * source.m13 - source.m03 * source.m11) + source.m31 * (source.m03 * source.m10 - source.m00 * source.m13)) * s,
-                     (source.m03 * (source.m11 * source.m20 - source.m10 * source.m21) + source.m00 * (source.m13 * source.m21 - source.m11 * source.m23) + source.m01 * (source.m10 * source.m23 - source.m13 * source.m20)) * s,
-                     (source.m10 * (source.m22 * source.m31 - source.m21 * source.m32) + source.m11 * (source.m20 * source.m32 - source.m22 * source.m30) + source.m12 * (source.m21 * source.m30 - source.m20 * source.m31)) * s,
-                     (source.m20 * (source.m02 * source.m31 - source.m01 * source.m32) + source.m21 * (source.m00 * source.m32 - source.m02 * source.m30) + source.m22 * (source.m01 * source.m30 - source.m00 * source.m31)) * s,
-                     (source.m30 * (source.m02 * source.m11 - source.m01 * source.m12) + source.m31 * (source.m00 * source.m12 - source.m02 * source.m10) + source.m32 * (source.m01 * source.m10 - source.m00 * source.m11)) * s,
-                     (source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s );
+            dest.set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
+                     (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s,
+                     (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s,
+                     (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s,
+                     (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s,
+                     (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s,
+                     (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s,
+                     (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s,
+                     (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s,
+                     (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s,
+                     (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s,
+                     (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s,
+                     (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
+                     (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
+                     (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
+                     (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s );
         }
+        return this;
     }
 
     /**
@@ -1426,6 +1427,451 @@ public class Matrix4d implements Serializable, Externalizable {
 	             0.0,
 	             0.0, 0.0, 0.0, 1.0);
     	return this;
+    }
+
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
+     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
+     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(double, double, double, IntBuffer, Vector4d) unprojectInv()}
+     * can be invoked on it.
+     * 
+     * @see #unprojectInv(double, double, double, IntBuffer, Vector4d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param inverseOut
+     *          will hold the inverse of <code>this</code> after the method returns
+     * @param dest
+     *          will hold the unprojected position
+     * @return this
+     */
+    public Matrix4d unproject(double winX, double winY, double winZ, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
+    	this.invert(inverseOut);
+    	inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+    	return this;
+    }
+
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
+     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
+     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(double, double, double, IntBuffer, Vector3d) unprojectInv()}
+     * can be invoked on it.
+     * 
+     * @see #unprojectInv(double, double, double, IntBuffer, Vector3d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param inverseOut
+     *          will hold the inverse of <code>this</code> after the method returns
+     * @param dest
+     *          will hold the unprojected position
+     * @return this
+     */
+    public Matrix4d unproject(double winX, double winY, double winZ, IntBuffer viewport, Matrix4d inverseOut, Vector3d dest) {
+    	this.invert(inverseOut);
+    	inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+    	return this;
+    }
+
+    /**
+     * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
+     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
+     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(double, double, double, IntBuffer, Vector4d) unprojectInv()}
+     * can be invoked on it.
+     * 
+     * @see #unprojectInv(double, double, double, IntBuffer, Vector4d)
+     * @see #unproject(double, double, double, IntBuffer, Matrix4d, Vector4d)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param inverseOut
+     *          will hold the inverse of <code>this</code> after the method returns
+     * @param dest
+     *          will hold the unprojected position
+     * @return this
+     */
+    public Matrix4d unproject(Vector3d winCoords, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
+        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
+    }
+
+    /**
+     * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
+     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
+     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(double, double, double, IntBuffer, Vector4d) unprojectInv()}
+     * can be invoked on it.
+     * 
+     * @see #unprojectInv(double, double, double, IntBuffer, Vector4d)
+     * @see #unproject(double, double, double, IntBuffer, Matrix4d, Vector4d)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param inverseOut
+     *          will hold the inverse of <code>this</code> after the method returns
+     * @param dest
+     *          will hold the unprojected position
+     * @return this
+     */
+    public Matrix4d unproject(Vector3d winCoords, IntBuffer viewport, Matrix4d inverseOut, Vector3d dest) {
+        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
+    }
+
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method differs from {@link #unproject(double, double, double, IntBuffer, Matrix4d, Vector4d) unproject()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unproject(double, double, double, IntBuffer, Matrix4d, Vector4d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return this
+     */
+    public Matrix4d unprojectInv(double winX, double winY, double winZ, IntBuffer viewport, Vector4d dest) {
+        int pos = viewport.position();
+        double ndcX = (winX-viewport.get(pos))/viewport.get(pos+2)*2.0-1.0;
+        double ndcY = (winY-viewport.get(pos+1))/viewport.get(pos+3)*2.0-1.0;
+        double ndcZ = 2.0*winZ-1.0;
+        dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
+        dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
+        dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
+        dest.w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
+        dest.mul(1.0 / dest.w);
+        return this;
+    }
+
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method differs from {@link #unproject(double, double, double, IntBuffer, Matrix4d, Vector3d) unproject()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unproject(double, double, double, IntBuffer, Matrix4d, Vector3d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return this
+     */
+    public Matrix4d unprojectInv(double winX, double winY, double winZ, IntBuffer viewport, Vector3d dest) {
+        int pos = viewport.position();
+        double ndcX = (winX-viewport.get(pos))/viewport.get(pos+2)*2.0-1.0;
+        double ndcY = (winY-viewport.get(pos+1))/viewport.get(pos+3)*2.0-1.0;
+        double ndcZ = 2.0*winZ-1.0;
+        dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
+        dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
+        dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
+        double w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
+        dest.mul(1.0 / w);
+        return this;
+    }
+
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by the given <code>view</code> and <code>projection</code> matrices using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>projection * view</code>.
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param projection
+     *          the projection matrix
+     * @param view
+     *          the view matrix
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param inverseOut
+     *          will hold the inverse of <code>projection * view</code> after the method returns
+     * @param dest
+     *          will hold the unprojected position
+     */
+    public static void unproject(double winX, double winY, double winZ, Matrix4d projection, Matrix4d view, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
+    	inverseOut.set(projection).mul(view).invert().unprojectInv(winX, winY, winZ, viewport, dest);
+    }
+
+    /**
+     * Unproject the given window coordinates <code>winCoords</code> by the given <code>view</code> and <code>projection</code> matrices using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>projection * view</code>.
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @see #unproject(double, double, double, Matrix4d, Matrix4d, IntBuffer, Matrix4d, Vector4d)
+     * 
+     * @param winCoords
+     *          the window coordinate to unproject
+     * @param projection
+     *          the projection matrix
+     * @param view
+     *          the view matrix
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param inverseOut
+     *          will hold the inverse of <code>projection * view</code> after the method returns
+     * @param dest
+     *          will hold the unprojected position
+     */
+    public static void unproject(Vector3d winCoords, Matrix4d projection, Matrix4d view, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
+        unproject(winCoords.x, winCoords.y, winCoords.z, projection, view, viewport, inverseOut, dest);
+    }
+
+    /**
+     * Project the given <tt>(x, y, z)</tt> position via <code>this</code> matrix using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @param x
+     *          the x-coordinate of the position to project
+     * @param y
+     *          the y-coordinate of the position to project
+     * @param z
+     *          the z-coordinate of the position to project
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     * @return this
+     */
+    public Matrix4d project(double x, double y, double z, IntBuffer viewport, Vector4d winCoordsDest) {
+        winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
+        winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
+        winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
+        winCoordsDest.w = m03 * x + m13 * y + m23 * z + m33;
+        int pos = viewport.position();
+        winCoordsDest.mul(1.0 / winCoordsDest.w);
+        winCoordsDest.x = (winCoordsDest.x*0.5+0.5) * viewport.get(pos+2) + viewport.get(pos);
+        winCoordsDest.y = (winCoordsDest.y*0.5+0.5) * viewport.get(pos+3) + viewport.get(pos+1);
+        winCoordsDest.z = (1.0+winCoordsDest.z)*0.5;
+        return this;
+    }
+
+    /**
+     * Project the given <tt>(x, y, z)</tt> position via <code>this</code> matrix using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @param x
+     *          the x-coordinate of the position to project
+     * @param y
+     *          the y-coordinate of the position to project
+     * @param z
+     *          the z-coordinate of the position to project
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     * @return this
+     */
+    public Matrix4d project(double x, double y, double z, IntBuffer viewport, Vector3d winCoordsDest) {
+        winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
+        winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
+        winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
+        double w = m03 * x + m13 * y + m23 * z + m33;
+        int pos = viewport.position();
+        winCoordsDest.mul(1.0 / w);
+        winCoordsDest.x = (winCoordsDest.x*0.5+0.5) * viewport.get(pos+2) + viewport.get(pos);
+        winCoordsDest.y = (winCoordsDest.y*0.5+0.5) * viewport.get(pos+3) + viewport.get(pos+1);
+        winCoordsDest.z = (1.0+winCoordsDest.z)*0.5;
+        return this;
+    }
+
+    /**
+     * Project the given <code>position</code> via <code>this</code> matrix using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @see #project(double, double, double, IntBuffer, Vector4d)
+     * 
+     * @param position
+     *          the position to project into window coordinates
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     * @return this
+     */
+    public Matrix4d project(Vector3d position, IntBuffer viewport, Vector4d winCoordsDest) {
+        return project(position.x, position.y, position.z, viewport, winCoordsDest);
+    }
+
+    /**
+     * Project the given <code>position</code> via <code>this</code> matrix using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @see #project(double, double, double, IntBuffer, Vector4d)
+     * 
+     * @param position
+     *          the position to project into window coordinates
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     * @return this
+     */
+    public Matrix4d project(Vector3d position, IntBuffer viewport, Vector3d winCoordsDest) {
+        return project(position.x, position.y, position.z, viewport, winCoordsDest);
+    }
+
+    /**
+     * Project the given <tt>(x, y, z)</tt> position via the given <code>view</code> and <code>projection</code> matrices using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>projection * view</code> including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @param x
+     *          the x-coordinate of the position to project
+     * @param y
+     *          the y-coordinate of the position to project
+     * @param z
+     *          the z-coordinate of the position to project
+     * @param projection
+     *          the projection matrix
+     * @param view
+     *          the view matrix
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     */
+    public static void project(float x, float y, float z, Matrix4f projection, Matrix4f view, IntBuffer viewport, Vector4f winCoordsDest) {
+        winCoordsDest.set(x, y, z, 1.0f);
+        view.transform(winCoordsDest);
+        projection.transform(winCoordsDest);
+        int pos = viewport.position();
+        winCoordsDest.mul(1.0f / winCoordsDest.w);
+        winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
+        winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport.get(pos+3) + viewport.get(pos+1);
+        winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
+    }
+
+    /**
+     * Project the given <code>position</code> via the given <code>view</code> and <code>projection</code> matrices using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>projection * view</code> including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @see #project(float, float, float, Matrix4f, Matrix4f, IntBuffer, Vector4f)
+     * 
+     * @param position
+     *          the position to project into window coordinates
+     * @param projection
+     *          the projection matrix
+     * @param view
+     *          the view matrix
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     */
+    public static void project(Vector3f position, Matrix4f projection, Matrix4f view, IntBuffer viewport, Vector4f winCoordsDest) {
+        project(position.x, position.y, position.z, projection, view, viewport, winCoordsDest);
     }
 
 }
