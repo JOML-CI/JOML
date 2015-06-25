@@ -4072,6 +4072,7 @@ public class Matrix4f implements Serializable, Externalizable {
                          m02,  m12,  m22,  0.0f,
                          0.0f, 0.0f, 0.0f, 1.0f);
             }
+            return this;
         }
         /* The general case */
         float s = 1.0f / det;
@@ -4120,6 +4121,7 @@ public class Matrix4f implements Serializable, Externalizable {
             dest.m20 = m02;
             dest.m21 = m12;
             dest.m22 = m22;
+            return this;
         }
         /* The general case */
         float s = 1.0f / det;

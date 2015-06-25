@@ -2106,6 +2106,7 @@ public class Matrix4d implements Serializable, Externalizable {
                          m02, m12, m22, 0.0,
                          0.0, 0.0, 0.0, 1.0);
             }
+            return this;
         }
         /* The general case */
         double s = 1.0 / det;
@@ -2154,6 +2155,7 @@ public class Matrix4d implements Serializable, Externalizable {
             dest.m20 = m02;
             dest.m21 = m12;
             dest.m22 = m22;
+            return this;
         }
         /* The general case */
         double s = 1.0 / det;
