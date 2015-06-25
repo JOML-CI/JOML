@@ -218,6 +218,43 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @return this
+     */
+    public Vector4f fma(Vector4f a, Vector4f b) {
+        x += a.x * b.x;
+        y += a.y * b.y;
+        z += a.z * b.z;
+        w += a.w * b.w;
+        return this;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4f fma(Vector4f a, Vector4f b, Vector4f dest) {
+        dest.x = x + a.x * b.x;
+        dest.y = y + a.y * b.y;
+        dest.z = z + a.z * b.z;
+        dest.w = w + a.w * b.w;
+        return this;
+    }
+
+    /**
      * Multiply this Vector4f by another Vector4f.
      * 
      * @return this
