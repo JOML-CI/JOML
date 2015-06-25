@@ -37,7 +37,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Quaternion implements Serializable, Externalizable {
+public class Quaternionf implements Serializable, Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,10 +59,10 @@ public class Quaternion implements Serializable, Externalizable {
     public float w;
 
     /**
-     * Create a new {@link Quaternion} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>, 
+     * Create a new {@link Quaternionf} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>, 
      * where <tt>(x, y, z)</tt> is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
      */
-    public Quaternion() {
+    public Quaternionf() {
         x = 0.0f;
         y = 0.0f;
         z = 0.0f;
@@ -70,7 +70,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link Quaternion} and initialize its components to the given values.
+     * Create a new {@link Quaternionf} and initialize its components to the given values.
      * 
      * @param x
      *          the first component of the imaginary part
@@ -81,7 +81,7 @@ public class Quaternion implements Serializable, Externalizable {
      * @param w
      *          the real part
      */
-    public Quaternion(float x, float y, float z, float w) {
+    public Quaternionf(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -89,7 +89,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link Quaternion} and initialize its imaginary components to the given values,
+     * Create a new {@link Quaternionf} and initialize its imaginary components to the given values,
      * and its real part to <tt>1.0</tt>.
      * 
      * @param x
@@ -99,7 +99,7 @@ public class Quaternion implements Serializable, Externalizable {
      * @param z
      *          the third component of the imaginary part
      */
-    public Quaternion(float x, float y, float z) {
+    public Quaternionf(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -107,12 +107,12 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link Quaternion} and initialize its components to the same values as the given {@link Quaternion}.
+     * Create a new {@link Quaternionf} and initialize its components to the same values as the given {@link Quaternionf}.
      * 
      * @param source
-     *          the {@link Quaternion} to take the component values from
+     *          the {@link Quaternionf} to take the component values from
      */
-    public Quaternion(Quaternion source) {
+    public Quaternionf(Quaternionf source) {
         x = source.x;
         y = source.y;
         z = source.z;
@@ -120,12 +120,12 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link Quaternion} which represents the rotation of the given {@link AngleAxis4f}.
+     * Create a new {@link Quaternionf} which represents the rotation of the given {@link AngleAxis4f}.
      * 
      * @param axisAngle
      *          the {@link AngleAxis4f}
      */
-    public Quaternion(AngleAxis4f axisAngle) {
+    public Quaternionf(AngleAxis4f axisAngle) {
         float sin = (float) Math.sin(Math.toRadians(axisAngle.angle) / 2.0);
         float cos = (float) Math.cos(Math.toRadians(axisAngle.angle) / 2.0);
         x = axisAngle.x * sin;
@@ -139,7 +139,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion normalize() {
+    public Quaternionf normalize() {
         float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
 
         x /= norm;
@@ -154,7 +154,7 @@ public class Quaternion implements Serializable, Externalizable {
      * Normalizes the supplied quaternion source and stores the results in dest.
      * Does not modify the source
      */
-    public static void normalize(Quaternion source, Quaternion dest) {
+    public static void normalize(Quaternionf source, Quaternionf dest) {
         float norm = (float) Math.sqrt(source.x * source.x + source.y * source.y + source.z * source.z + source.w * source.w);
 
         dest.x = source.x / norm;
@@ -168,7 +168,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion add(Quaternion q2) {
+    public Quaternionf add(Quaternionf q2) {
         x += q2.x;
         y += q2.y;
         z += q2.z;
@@ -179,7 +179,7 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Add q2 to q1 and store the results in dest. Does not modify q1 or q2
      */
-    public static void add(Quaternion q1, Quaternion q2, Quaternion dest) {
+    public static void add(Quaternionf q1, Quaternionf q2, Quaternionf dest) {
         dest.x = q1.x + q2.x;
         dest.y = q1.y + q2.y;
         dest.z = q1.z + q2.z;
@@ -189,14 +189,14 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Returns the dot of this quaternion and otherQuat
      */
-    public float dot(Quaternion otherQuat) {
+    public float dot(Quaternionf otherQuat) {
         return this.x * otherQuat.x + this.y * otherQuat.y + this.z * otherQuat.z + this.w * otherQuat.w;
     }
 
     /**
      * Returns the dot product of a and b
      */
-    public static float dot(Quaternion a, Quaternion b) {
+    public static float dot(Quaternionf a, Quaternionf b) {
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
     }
 
@@ -211,7 +211,7 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Return the angle represented by <code>q</code> in degrees.
      */
-    public static float angle(Quaternion q) {
+    public static float angle(Quaternionf q) {
         float angle = 2.0f * (float) Math.acos(q.w);
         return (angle <= Math.PI) ? angle : 2.0f * (float) Math.PI - angle;
     }
@@ -219,7 +219,7 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>q</code>.
      */
-    public static void get(Quaternion q, Matrix3f dest) {
+    public static void get(Quaternionf q, Matrix3f dest) {
         float q00 = 2.0f * q.x * q.x;
         float q11 = 2.0f * q.y * q.y;
         float q22 = 2.0f * q.z * q.z;
@@ -249,7 +249,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion get(Matrix3f dest) {
+    public Quaternionf get(Matrix3f dest) {
         get(this, dest);
         return this;
     }
@@ -257,7 +257,7 @@ public class Quaternion implements Serializable, Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>q</code>.
      */
-    public static void get(Quaternion q, Matrix4f dest) {
+    public static void get(Quaternionf q, Matrix4f dest) {
         float q00 = 2.0f * q.x * q.x;
         float q11 = 2.0f * q.y * q.y;
         float q22 = 2.0f * q.z * q.z;
@@ -293,7 +293,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion get(Matrix4f dest) {
+    public Quaternionf get(Matrix4f dest) {
         get(this, dest);
         return this;
     }
@@ -306,7 +306,7 @@ public class Quaternion implements Serializable, Externalizable {
      *            the {@link AngleAxis4f} to set
      * @return this
      */
-    public Quaternion get(AngleAxis4f angleAxis) {
+    public Quaternionf get(AngleAxis4f angleAxis) {
         float x = this.x;
         float y = this.y;
         float z = this.z;
@@ -337,7 +337,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion set(float x, float y, float z, float w) {
+    public Quaternionf set(float x, float y, float z, float w) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -350,7 +350,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion set(float x, float y, float z) {
+    public Quaternionf set(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -362,7 +362,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion set(Quaternion q) {
+    public Quaternionf set(Quaternionf q) {
         x = q.x;
         y = q.y;
         z = q.z;
@@ -377,7 +377,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the {@link AngleAxis4f}
      * @return this
      */
-    public Quaternion set(AngleAxis4f angleAxis) {
+    public Quaternionf set(AngleAxis4f angleAxis) {
         double angle = Math.toRadians(angleAxis.angle);
         double s = Math.sin(angle / 2.0);
         x = (float) (angleAxis.x * s);
@@ -400,7 +400,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the z-component of the rotation axis
      * @return this
      */
-    public Quaternion setAngleAxis(float angle, float x, float y, float z) {
+    public Quaternionf setAngleAxis(float angle, float x, float y, float z) {
         double angleR = Math.toRadians(angle);
         double s = Math.sin(angleR / 2.0);
         this.x = (float) (x * s);
@@ -411,7 +411,7 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Set this {@link Quaternion} to a rotation of the given angle in degrees about the supplied
+     * Set this {@link Quaternionf} to a rotation of the given angle in degrees about the supplied
      * axis, all of which are specified via the {@link AngleAxis4f}.
      * 
      * @see #rotationAxis(float, float, float, float)
@@ -420,7 +420,7 @@ public class Quaternion implements Serializable, Externalizable {
      *            the {@link AngleAxis4f} giving the rotation angle in degrees and the axis to rotate about
      * @return this
      */
-    public Quaternion rotationAxis(AngleAxis4f angleAxis) {
+    public Quaternionf rotationAxis(AngleAxis4f angleAxis) {
         return rotationAxis(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
     }
 
@@ -431,7 +431,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the rotation angle in degrees
      * @return this
      */
-    public Quaternion rotationAxis(float angle, float axisX, float axisY, float axisZ) {
+    public Quaternionf rotationAxis(float angle, float axisX, float axisY, float axisZ) {
         float hangle = (float) Math.toRadians(angle / 2.0);
         float sinAngle = (float) Math.sin(hangle);
         float vLength = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
@@ -455,7 +455,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the axis to rotate about
      * @return this
      */
-    public Quaternion rotationAxis(float angle, Vector3f axis) {
+    public Quaternionf rotationAxis(float angle, Vector3f axis) {
         return rotationAxis(angle, axis.x, axis.y, axis.z);
     }
 
@@ -468,7 +468,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angles in degrees to rotate about the basis unit axes of the cartesian space
      * @return this
      */
-    public Quaternion rotation(Vector3f anglesXYZ) {
+    public Quaternionf rotation(Vector3f anglesXYZ) {
         return rotation(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z);
     }
 
@@ -483,7 +483,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle in degrees to rotate about the z axis
      * @return this
      */
-    public Quaternion rotation(float angleX, float angleY, float angleZ) {
+    public Quaternionf rotation(float angleX, float angleY, float angleZ) {
         double thetaX = Math.toRadians(angleX) * 0.5;
         double thetaY = Math.toRadians(angleY) * 0.5;
         double thetaZ = Math.toRadians(angleZ) * 0.5;
@@ -512,7 +512,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle in degrees to rotate about the x axis
      * @return this
      */
-    public Quaternion rotationX(float angle) {
+    public Quaternionf rotationX(float angle) {
         return rotation(angle, 0.0f, 0.0f);
     }
 
@@ -525,7 +525,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle in degrees to rotate about the y axis
      * @return this
      */
-    public Quaternion rotationY(float angle) {
+    public Quaternionf rotationY(float angle) {
         return rotation(0.0f, angle, 0.0f);
     }
 
@@ -538,7 +538,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle in degrees to rotate about the z axis
      * @return this
      */
-    public Quaternion rotationZ(float angle) {
+    public Quaternionf rotationZ(float angle) {
         return rotation(0.0f, 0.0f, angle);
     }
 
@@ -549,7 +549,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaternion set(Matrix4f mat) {
+    public Quaternionf set(Matrix4f mat) {
         double t;
         double tr = mat.m00 + mat.m11 + mat.m22;
         if (tr >= 0.0) {
@@ -594,7 +594,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaternion set(Matrix3f mat) {
+    public Quaternionf set(Matrix3f mat) {
         double t;
         double tr = mat.m00 + mat.m11 + mat.m22;
         if (tr >= 0.0) {
@@ -647,7 +647,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the quaternion to multiply <code>this</code> by
      * @return this
      */
-    public Quaternion mul(Quaternion q) {
+    public Quaternionf mul(Quaternionf q) {
         mul(this, q, this);
         return this;
     }
@@ -669,7 +669,7 @@ public class Quaternion implements Serializable, Externalizable {
      *            will hold the result
      * @return this
      */
-    public Quaternion mul(Quaternion q, Quaternion dest) {
+    public Quaternionf mul(Quaternionf q, Quaternionf dest) {
         mul(this, q, dest);
         return this;
     }
@@ -684,7 +684,7 @@ public class Quaternion implements Serializable, Externalizable {
      * So, this method uses post-multiplication like the matrix classes, resulting in a
      * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
      */
-    public static void mul(Quaternion a, Quaternion b, Quaternion dest) {
+    public static void mul(Quaternionf a, Quaternionf b, Quaternionf dest) {
         if (a != dest && b != dest) {
             dest.x = a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y;
             dest.y = a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x;
@@ -706,7 +706,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the vector to transform
      * @return this
      */
-    public Quaternion transform(Vector3f vec){
+    public Quaternionf transform(Vector3f vec){
         return transform(vec, vec);
     }
 
@@ -720,7 +720,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the vector to transform
      * @return this
      */
-    public Quaternion transform(Vector4f vec){
+    public Quaternionf transform(Vector4f vec){
         return transform(vec, vec);
     }
 
@@ -734,7 +734,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Quaternion transform(Vector3f vec, Vector3f dest) {
+    public Quaternionf transform(Vector3f vec, Vector3f dest) {
         double num = x * 2.0;
         double num2 = y * 2.0;
         double num3 = z * 2.0;
@@ -765,7 +765,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Quaternion transform(Vector4f vec, Vector4f dest) {
+    public Quaternionf transform(Vector4f vec, Vector4f dest) {
         double num = x * 2.0;
         double num2 = y * 2.0;
         double num3 = z * 2.0;
@@ -792,7 +792,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Quaternion invert(Quaternion dest) {
+    public Quaternionf invert(Quaternionf dest) {
         invert(this, dest);
         return this;
     }
@@ -802,7 +802,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion invert() {
+    public Quaternionf invert() {
         float norm = (x * x + y * y + z * z + w * w);
         x = -x / norm;
         y = -y / norm;
@@ -819,7 +819,7 @@ public class Quaternion implements Serializable, Externalizable {
      * @param dest
      *          will hold the result
      */
-    public static void invert(Quaternion q, Quaternion dest) {
+    public static void invert(Quaternionf q, Quaternionf dest) {
         float norm = (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
         dest.x = -q.x / norm;
         dest.y = -q.y / norm;
@@ -835,12 +835,12 @@ public class Quaternion implements Serializable, Externalizable {
      * <tt>dest = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
      * 
      * @param b
-     *          the {@link Quaternion} to divide this by
+     *          the {@link Quaternionf} to divide this by
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Quaternion div(Quaternion b, Quaternion dest) {
+    public Quaternionf div(Quaternionf b, Quaternionf dest) {
         div(this, b, dest);
         return this;
     }
@@ -853,10 +853,10 @@ public class Quaternion implements Serializable, Externalizable {
      * <tt>this = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
      * 
      * @param b
-     *          the {@link Quaternion} to divide this by
+     *          the {@link Quaternionf} to divide this by
      * @return this
      */
-    public Quaternion div(Quaternion b) {
+    public Quaternionf div(Quaternionf b) {
         div(this, b, this);
         return this;
     }
@@ -871,7 +871,7 @@ public class Quaternion implements Serializable, Externalizable {
      * @param dest
      *          will hold the result
      */
-    public static void div(Quaternion a, Quaternion b, Quaternion dest) {
+    public static void div(Quaternionf a, Quaternionf b, Quaternionf dest) {
         float norm = (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
         float x = -b.x / norm;
         float y = -b.y / norm;
@@ -888,7 +888,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion conjugate() {
+    public Quaternionf conjugate() {
         x = -x;
         y = -y;
         z = -z;
@@ -903,7 +903,7 @@ public class Quaternion implements Serializable, Externalizable {
      * @param dest
      *          will hold the result
      */
-    public static void conjugate(Quaternion a, Quaternion dest) {
+    public static void conjugate(Quaternionf a, Quaternionf dest) {
         dest.x = -a.x;
         dest.y = -a.y;
         dest.z = -a.z;
@@ -915,7 +915,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion identity() {
+    public Quaternionf identity() {
         x = 0.0f;
         y = 0.0f;
         z = 0.0f;
@@ -938,7 +938,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the euler angles in degrees
      * @return this
      */
-    public Quaternion rotateXYZ(Vector3f angles) {
+    public Quaternionf rotateXYZ(Vector3f angles) {
         return rotateXYZ(angles.x, angles.y, angles.z);
     }
 
@@ -957,7 +957,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the euler angles in degrees
      * @return this
      */
-    public Quaternion rotateZYX(Vector3f angles) {
+    public Quaternionf rotateZYX(Vector3f angles) {
         return rotateZYX(angles.z, angles.y, angles.x);
     }
 
@@ -980,7 +980,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle to rotate about the z axis
      * @return this
      */
-    public Quaternion rotateXYZ(float angleX, float angleY, float angleZ) {
+    public Quaternionf rotateXYZ(float angleX, float angleY, float angleZ) {
         return rotateX(angleX).rotateY(angleY).rotateZ(angleZ);
     }
 
@@ -1003,7 +1003,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle to rotate about the z axis
      * @return this
      */
-    public Quaternion rotateZYX(float angleX, float angleY, float angleZ) {
+    public Quaternionf rotateZYX(float angleX, float angleY, float angleZ) {
         return rotateZ(angleZ).rotateY(angleY).rotateX(angleX);
     }
 
@@ -1015,7 +1015,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          will hold the euler angles in degrees
      * @return this
      */
-    public Quaternion getEulerAnglesXYZ(Vector3f eulerAngles) {
+    public Quaternionf getEulerAnglesXYZ(Vector3f eulerAngles) {
         eulerAngles.x = (float) Math.toDegrees(Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y)));
         eulerAngles.y = (float) Math.toDegrees(Math.asin(2.0 * (x*z + y*w)));
         eulerAngles.z = (float) Math.toDegrees(Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z)));
@@ -1036,7 +1036,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return the length
      */
-    public static float length(Quaternion q) {
+    public static float length(Quaternionf q) {
         return q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w;
     }
 
@@ -1047,7 +1047,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion setEulerAnglesRadXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+    public Quaternionf setEulerAnglesRadXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         float sx = (float) Math.sin(rotationAboutX * 0.5f);
         float cx = (float) Math.cos(rotationAboutX * 0.5f);
         float sy = (float) Math.sin(rotationAboutY * 0.5f);
@@ -1070,7 +1070,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion setEulerAnglesRadZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+    public Quaternionf setEulerAnglesRadZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         float sx = (float) Math.sin(rotationAboutX * 0.5f);
         float cx = (float) Math.cos(rotationAboutX * 0.5f);
         float sy = (float) Math.sin(rotationAboutY * 0.5f);
@@ -1096,7 +1096,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the interpolation factor, within <tt>[0..1]</tt>
      * @return this
      */
-    public Quaternion slerp(Quaternion target, float alpha) {
+    public Quaternionf slerp(Quaternionf target, float alpha) {
         return slerp(target, alpha, this);
     }
 
@@ -1113,7 +1113,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Quaternion slerp(Quaternion target, float alpha, Quaternion dest) {
+    public Quaternionf slerp(Quaternionf target, float alpha, Quaternionf dest) {
         double q2, q3;
         double q4 = (x * target.x) + (y * target.y) + (z * target.z) + (w * target.w);
         boolean flag = false;
@@ -1147,7 +1147,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the interpolation factor. It is between 0.0 and 1.0
      * @return this
      */
-    public Quaternion nlerp(Quaternion q, float factor) {
+    public Quaternionf nlerp(Quaternionf q, float factor) {
         return nlerp(q, factor, this);
     }
 
@@ -1163,7 +1163,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Quaternion nlerp(Quaternion q, float factor, Quaternion dest) {
+    public Quaternionf nlerp(Quaternionf q, float factor, Quaternionf dest) {
         float dot = this.dot(q);
         float blendI = 1.0f - factor;
         if (dot < 0.0f) {
@@ -1194,7 +1194,7 @@ public class Quaternion implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #lookRotate(float, float, float, float, float, float, Quaternion)
+     * @see #lookRotate(float, float, float, float, float, float, Quaternionf)
      * 
      * @param dir
      *              the direction to map to the positive Z axis
@@ -1203,7 +1203,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              spanned by the given <code>dir</code> and <code>up</code>
      * @return this
      */
-    public Quaternion lookRotate(Vector3f dir, Vector3f up) {
+    public Quaternionf lookRotate(Vector3f dir, Vector3f up) {
         return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
     }
 
@@ -1220,7 +1220,7 @@ public class Quaternion implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #lookRotate(float, float, float, float, float, float, Quaternion)
+     * @see #lookRotate(float, float, float, float, float, float, Quaternionf)
      * 
      * @param dir
      *              the direction to map to the positive Z axis
@@ -1231,7 +1231,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              will hold the result
      * @return this
      */
-    public Quaternion lookRotate(Vector3f dir, Vector3f up, Quaternion dest) {
+    public Quaternionf lookRotate(Vector3f dir, Vector3f up, Quaternionf dest) {
         return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
     }
 
@@ -1248,11 +1248,11 @@ public class Quaternion implements Serializable, Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #lookRotate(float, float, float, float, float, float, Quaternion)
+     * @see #lookRotate(float, float, float, float, float, float, Quaternionf)
      * 
      * @return this
      */
-    public Quaternion lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
+    public Quaternionf lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         return lookRotate(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
@@ -1273,7 +1273,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              will hold the result
      * @return this
      */
-    public Quaternion lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternion dest) {
+    public Quaternionf lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternionf dest) {
         // Normalize direction
         float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float dirnX = dirX / dirLength;
@@ -1348,7 +1348,7 @@ public class Quaternion implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternion rotationTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
+    public Quaternionf rotationTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
         double fromLength = Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
         double fromX = fromDirX / fromLength;
         double fromY = fromDirY / fromLength;
@@ -1409,7 +1409,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the destination direction
      * @return this
      */
-    public Quaternion rotationTo(Vector3f fromDir, Vector3f toDir) {
+    public Quaternionf rotationTo(Vector3f fromDir, Vector3f toDir) {
         return rotationTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z);
     }
 
@@ -1428,7 +1428,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Quaternion rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ, Quaternion dest) {
+    public Quaternionf rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
         double fromLength = Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
         double fromX = fromDirX / fromLength;
         double fromY = fromDirY / fromLength;
@@ -1492,11 +1492,11 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotateTo(float, float, float, float, float, float, Quaternion)
+     * @see #rotateTo(float, float, float, float, float, float, Quaternionf)
      * 
      * @return this
      */
-    public Quaternion rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
+    public Quaternionf rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
         return rotateTo(fromDirX, fromDirY, fromDirZ, toDirX, toDirY, toDirZ, this);
     }
 
@@ -1511,7 +1511,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotateTo(float, float, float, float, float, float, Quaternion)
+     * @see #rotateTo(float, float, float, float, float, float, Quaternionf)
      * 
      * @param fromDir
      *          the starting direction
@@ -1521,7 +1521,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Quaternion rotateTo(Vector3f fromDir, Vector3f toDir, Quaternion dest) {
+    public Quaternionf rotateTo(Vector3f fromDir, Vector3f toDir, Quaternionf dest) {
         return rotateTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z, dest);
     }
 
@@ -1535,7 +1535,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotateTo(float, float, float, float, float, float, Quaternion)
+     * @see #rotateTo(float, float, float, float, float, float, Quaternionf)
      * 
      * @param fromDir
      *          the starting direction
@@ -1543,7 +1543,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the destination direction
      * @return this
      */
-    public Quaternion rotateTo(Vector3f fromDir, Vector3f toDir) {
+    public Quaternionf rotateTo(Vector3f fromDir, Vector3f toDir) {
         return rotateTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z, this);
     }
 
@@ -1556,7 +1556,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param anglesXYZ
      *              the angles in degrees to rotate about the x, y and z axes, respectively
@@ -1564,7 +1564,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              will hold the result
      * @return this
      */
-    public Quaternion rotate(Vector3f anglesXYZ, Quaternion dest) {
+    public Quaternionf rotate(Vector3f anglesXYZ, Quaternionf dest) {
         return rotate(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z, dest);
     }
 
@@ -1577,13 +1577,13 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param anglesXYZ
      *              the angles in degrees to rotate about the x, y and z axes, respectively
      * @return this
      */
-    public Quaternion rotate(Vector3f anglesXYZ) {
+    public Quaternionf rotate(Vector3f anglesXYZ) {
         return rotate(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z, this);
     }
 
@@ -1595,7 +1595,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angleX
      *              the angle in degrees to rotate about the x axis
@@ -1605,7 +1605,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the angle in degrees to rotate about the z axis
      * @return this
      */
-    public Quaternion rotate(float angleX, float angleY, float angleZ) {
+    public Quaternionf rotate(float angleX, float angleY, float angleZ) {
         return rotate(angleX, angleY, angleZ, this);
     }
 
@@ -1618,7 +1618,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angleX
      *              the angle in degrees to rotate about the x axis
@@ -1630,7 +1630,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              will hold the result
      * @return this
      */
-    public Quaternion rotate(float angleX, float angleY, float angleZ, Quaternion dest) {
+    public Quaternionf rotate(float angleX, float angleY, float angleZ, Quaternionf dest) {
         double thetaX = Math.toRadians(angleX) * 0.5;
         double thetaY = Math.toRadians(angleY) * 0.5;
         double thetaZ = Math.toRadians(angleZ) * 0.5;
@@ -1669,13 +1669,13 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in degrees to rotate about the x axis
      * @return this
      */
-    public Quaternion rotateX(float angle) {
+    public Quaternionf rotateX(float angle) {
         return rotate(angle, 0.0f, 0.0f, this);
     }
 
@@ -1688,7 +1688,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in degrees to rotate about the x axis
@@ -1696,7 +1696,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              will hold the result
      * @return this
      */
-    public Quaternion rotateX(float angle, Quaternion dest) {
+    public Quaternionf rotateX(float angle, Quaternionf dest) {
         return rotate(angle, 0.0f, 0.0f, dest);
     }
 
@@ -1708,13 +1708,13 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in degrees to rotate about the y axis
      * @return this
      */
-    public Quaternion rotateY(float angle) {
+    public Quaternionf rotateY(float angle) {
         return rotate(0.0f, angle, 0.0f, this);
     }
 
@@ -1727,7 +1727,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in degrees to rotate about the y axis
@@ -1735,7 +1735,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              will hold the result
      * @return this
      */
-    public Quaternion rotateY(float angle, Quaternion dest) {
+    public Quaternionf rotateY(float angle, Quaternionf dest) {
         return rotate(0.0f, angle, 0.0f, dest);
     }
 
@@ -1747,13 +1747,13 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in degrees to rotate about the z axis
      * @return this
      */
-    public Quaternion rotateZ(float angle) {
+    public Quaternionf rotateZ(float angle) {
         return rotate(0.0f, 0.0f, angle, this);
     }
 
@@ -1766,7 +1766,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(float, float, float, Quaternion)
+     * @see #rotate(float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in degrees to rotate about the z axis
@@ -1774,7 +1774,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              will hold the result
      * @return this
      */
-    public Quaternion rotateZ(float angle, Quaternion dest) {
+    public Quaternionf rotateZ(float angle, Quaternionf dest) {
         return rotate(0.0f, 0.0f, angle, dest);
     }
 
@@ -1799,7 +1799,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              will hold the result
      * @return this
      */
-    public Quaternion rotateAxis(float angle, float axisX, float axisY, float axisZ, Quaternion dest) {
+    public Quaternionf rotateAxis(float angle, float axisX, float axisY, float axisZ, Quaternionf dest) {
         double hangle = Math.toRadians(angle / 2.0);
         double sinAngle = Math.sin(hangle);
         double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
@@ -1825,7 +1825,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotateAxis(float, float, float, float, Quaternion)
+     * @see #rotateAxis(float, float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in degrees to rotate about the specified axis
@@ -1835,7 +1835,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              will hold the result
      * @return this
      */
-    public Quaternion rotateAxis(float angle, Vector3f axis, Quaternion dest) {
+    public Quaternionf rotateAxis(float angle, Vector3f axis, Quaternionf dest) {
         return rotateAxis(angle, axis.x, axis.y, axis.z, dest);
     }
 
@@ -1847,7 +1847,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotateAxis(float, float, float, float, Quaternion)
+     * @see #rotateAxis(float, float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in degrees to rotate about the specified axis
@@ -1855,7 +1855,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the rotation axis
      * @return this
      */
-    public Quaternion rotateAxis(float angle, Vector3f axis) {
+    public Quaternionf rotateAxis(float angle, Vector3f axis) {
         return rotateAxis(angle, axis.x, axis.y, axis.z, this);
     }
 
@@ -1867,7 +1867,7 @@ public class Quaternion implements Serializable, Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotateAxis(float, float, float, float, Quaternion)
+     * @see #rotateAxis(float, float, float, float, Quaternionf)
      * 
      * @param angle
      *              the angle in degrees to rotate about the specified axis
@@ -1879,7 +1879,7 @@ public class Quaternion implements Serializable, Externalizable {
      *              the z coordinate of the rotation axis
      * @return this
      */
-    public Quaternion rotateAxis(float angle, float axisX, float axisY, float axisZ) {
+    public Quaternionf rotateAxis(float angle, float axisX, float axisY, float axisZ) {
         return rotateAxis(angle, axisX, axisY, axisZ, this);
     }
 
@@ -1938,7 +1938,7 @@ public class Quaternion implements Serializable, Externalizable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Quaternion other = (Quaternion) obj;
+        Quaternionf other = (Quaternionf) obj;
         if (Float.floatToIntBits(w) != Float.floatToIntBits(other.w))
             return false;
         if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
@@ -1966,7 +1966,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          the other quaternion
      * @return this
      */
-    public Quaternion difference(Quaternion other) {
+    public Quaternionf difference(Quaternionf other) {
         return difference(other, this);
     }
 
@@ -1988,7 +1988,7 @@ public class Quaternion implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Quaternion difference(Quaternion other, Quaternion dest) {
+    public Quaternionf difference(Quaternionf other, Quaternionf dest) {
         float norm = x * x + y * y + z * z + w * w;
         float x = -this.x / norm;
         float y = -this.y / norm;
@@ -2030,16 +2030,16 @@ public class Quaternion implements Serializable, Externalizable {
     }
 
     /**
-     * Return the specified {@link Quaternion}.
+     * Return the specified {@link Quaternionf}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
      * 
      * @param q
-     *          the {@link Quaternion} to return
+     *          the {@link Quaternionf} to return
      * @return that quaternion
      */
-    public Quaternion with(Quaternion q) {
+    public Quaternionf with(Quaternionf q) {
         return q;
     }
 

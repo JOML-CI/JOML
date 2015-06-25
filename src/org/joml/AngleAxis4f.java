@@ -81,7 +81,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Create a new {@link AngleAxis4f} from the given {@link Quaternion}.
+     * Create a new {@link AngleAxis4f} from the given {@link Quaternionf}.
      * <p>
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
@@ -90,7 +90,7 @@ public class AngleAxis4f implements Serializable, Externalizable {
      * @param q
      *            the quaternion from which to create the new AngleAxis4f
      */
-    public AngleAxis4f(Quaternion q) {
+    public AngleAxis4f(Quaternionf q) {
         float acos = (float) Math.acos(q.w);
         float sqrt = (float) Math.sqrt(1.0 - q.w * q.w);
         this.x = q.x / sqrt;
@@ -156,13 +156,13 @@ public class AngleAxis4f implements Serializable, Externalizable {
 
     /**
      * Set this {@link AngleAxis4f} to be equivalent to the given
-     * {@link Quaternion}.
+     * {@link Quaternionf}.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4f from
      * @return this
      */
-    public AngleAxis4f set(Quaternion q) {
+    public AngleAxis4f set(Quaternionf q) {
         float acos = (float) Math.acos(q.w);
         float sqrt = (float) Math.sqrt(1.0 - q.w * q.w);
         this.x = q.x / sqrt;
@@ -209,15 +209,15 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the given {@link Quaternion} to be equivalent to this {@link AngleAxis4f} rotation.
+     * Set the given {@link Quaternionf} to be equivalent to this {@link AngleAxis4f} rotation.
      * 
-     * @see Quaternion#set(AngleAxis4f)
+     * @see Quaternionf#set(AngleAxis4f)
      * 
      * @param q
      *          the quaternion to set
      * @return this
      */
-    public AngleAxis4f get(Quaternion q) {
+    public AngleAxis4f get(Quaternionf q) {
         q.set(this);
         return this;
     }
@@ -421,16 +421,16 @@ public class AngleAxis4f implements Serializable, Externalizable {
     }
 
     /**
-     * Return the specified {@link Quaternion}.
+     * Return the specified {@link Quaternionf}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
      * 
      * @param q
-     *          the {@link Quaternion} to return
+     *          the {@link Quaternionf} to return
      * @return that quaternion
      */
-    public Quaternion with(Quaternion q) {
+    public Quaternionf with(Quaternionf q) {
         return q;
     }
 

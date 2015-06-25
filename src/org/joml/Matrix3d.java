@@ -790,13 +790,13 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link QuaternionD} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix.
      * 
      * @param quat
-     *          the {@link QuaternionD}
+     *          the {@link Quaterniond}
      * @return this
      */
-    public Matrix3d mul(QuaternionD quat) {
+    public Matrix3d mul(Quaterniond quat) {
         double q00 = 2.0 * quat.x * quat.x;
         double q11 = 2.0 * quat.y * quat.y;
         double q22 = 2.0 * quat.z * quat.z;

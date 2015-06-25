@@ -452,7 +452,7 @@ public class MatrixStack implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternion} to the
+     * Apply the rotation transformation of the given {@link Quaternionf} to the
      * current matrix.
      * <p>
      * If <code>C</code> is the current matrix and <code>R</code> the rotation
@@ -461,10 +461,10 @@ public class MatrixStack implements Serializable, Externalizable {
      * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @param quat
-     *            the {@link Quaternion}
+     *            the {@link Quaternionf}
      * @return this
      */
-    public MatrixStack rotate(Quaternion quat) {
+    public MatrixStack rotate(Quaternionf quat) {
         if (quat == null) {
             throw new IllegalArgumentException("quat must not be null");
         }
@@ -823,7 +823,7 @@ public class MatrixStack implements Serializable, Externalizable {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternion} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionf} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * <p>
      * If <code>C</code> is the current matrix and <code>R</code> the reflection matrix,
@@ -831,7 +831,7 @@ public class MatrixStack implements Serializable, Externalizable {
      * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
      * reflection will be applied first!
      * 
-     * @see Matrix4f#reflect(Quaternion, Vector3f)
+     * @see Matrix4f#reflect(Quaternionf, Vector3f)
      * 
      * @param orientation
      *          the plane orientation
@@ -839,7 +839,7 @@ public class MatrixStack implements Serializable, Externalizable {
      *          a point on the plane
      * @return this
      */
-    public MatrixStack reflect(Quaternion orientation, Vector3f point) {
+    public MatrixStack reflect(Quaternionf orientation, Vector3f point) {
         mats[curr].reflect(orientation, point);
         return this;
     }

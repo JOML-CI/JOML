@@ -1321,7 +1321,7 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link QuaternionD} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
@@ -1329,10 +1329,10 @@ public class Matrix4d implements Serializable, Externalizable {
      * the quaternion rotation will be applied first!
      * 
      * @param quat
-     *          the {@link QuaternionD}
+     *          the {@link Quaterniond}
      * @return this
      */
-    public Matrix4d rotate(QuaternionD quat) {
+    public Matrix4d rotate(Quaterniond quat) {
         double q00 = 2.0 * quat.x * quat.x;
         double q11 = 2.0 * quat.y * quat.y;
         double q22 = 2.0 * quat.z * quat.z;

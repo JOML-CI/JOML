@@ -96,7 +96,7 @@ public class TestUtil {
 	 * @param precision if abs(a.[comp] - b.[comp]) <= precision for every component comp (x, y, z, w), a and b are considered equal
 	 * @return whether a and b are equal
 	 */
-	public static boolean quatEqual(Quaternion a, Quaternion b, float precision) {
+	public static boolean quatEqual(Quaternionf a, Quaternionf b, float precision) {
 		return floatEqual(a.x, b.x, precision)
 			&& floatEqual(a.y, b.y, precision)
 			&& floatEqual(a.z, b.z, precision)
@@ -112,7 +112,7 @@ public class TestUtil {
 	 * @param precision if abs(a.[comp] - b.[comp]) <= precision for every component comp (x, y, z, w), a and b are considered equal
 	 * @return whether a and b are equal
 	 */
-	public static boolean quatEqual(QuaternionD a, QuaternionD b, double precision) {
+	public static boolean quatEqual(Quaterniond a, Quaterniond b, double precision) {
 		return doubleEqual(a.x, b.x, precision)
 			&& doubleEqual(a.y, b.y, precision)
 			&& doubleEqual(a.z, b.z, precision)

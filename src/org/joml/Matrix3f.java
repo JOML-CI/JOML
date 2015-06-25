@@ -158,15 +158,15 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternion}.
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
      * 
-     * @see Quaternion#get(Matrix3f)
+     * @see Quaternionf#get(Matrix3f)
      * 
      * @param q
-     *          the {@link Quaternion}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix3f set(Quaternion q) {
+    public Matrix3f set(Quaternionf q) {
         q.get(this);
         return this;
     }
@@ -506,13 +506,13 @@ public class Matrix3f implements Serializable, Externalizable {
 
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaternion}.
+     * into the given {@link Quaternionf}.
      * 
      * @param dest
-     *          the destination {@link Quaternion}
+     *          the destination {@link Quaternionf}
      * @return this
      */
-    public Matrix3f get(Quaternion dest) {
+    public Matrix3f get(Quaternionf dest) {
         dest.set(this);
         return this;
     }
@@ -878,23 +878,23 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to the rotation transformation of the given {@link Quaternion}.
+     * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(Quaternion) rotate()} instead.
+     * use {@link #rotate(Quaternionf) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotate(Quaternion)
+     * @see #rotate(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternion}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix3f rotation(Quaternion quat) {
+    public Matrix3f rotation(Quaternionf quat) {
         float q00 = 2.0f * quat.x * quat.x;
         float q11 = 2.0f * quat.y * quat.y;
         float q22 = 2.0f * quat.z * quat.z;
@@ -1255,7 +1255,7 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternion} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
@@ -1263,22 +1263,22 @@ public class Matrix3f implements Serializable, Externalizable {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternion)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternion)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternion}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix3f rotate(Quaternion quat) {
+    public Matrix3f rotate(Quaternionf quat) {
         return rotate(quat, this);
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternion} to this matrix and store
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
@@ -1287,19 +1287,19 @@ public class Matrix3f implements Serializable, Externalizable {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternion)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternion)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternion}
+     *          the {@link Quaternionf}
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Matrix3f rotate(Quaternion quat, Matrix3f dest) {
+    public Matrix3f rotate(Quaternionf quat, Matrix3f dest) {
         float q00 = 2.0f * quat.x * quat.x;
         float q11 = 2.0f * quat.y * quat.y;
         float q22 = 2.0f * quat.z * quat.z;
@@ -1775,16 +1775,16 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Return the specified {@link Quaternion}.
+     * Return the specified {@link Quaternionf}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
      * 
      * @param q
-     *          the {@link Quaternion} to return
+     *          the {@link Quaternionf} to return
      * @return that quaternion
      */
-    public Quaternion with(Quaternion q) {
+    public Quaternionf with(Quaternionf q) {
         return q;
     }
 

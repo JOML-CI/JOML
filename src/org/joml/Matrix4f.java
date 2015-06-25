@@ -300,15 +300,15 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternion}.
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
      * 
-     * @see Quaternion#get(Matrix4f)
+     * @see Quaternionf#get(Matrix4f)
      * 
      * @param q
-     *          the {@link Quaternion}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix4f set(Quaternion q) {
+    public Matrix4f set(Quaternionf q) {
         q.get(this);
         return this;
     }
@@ -1244,23 +1244,23 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set this matrix to the rotation transformation of the given {@link Quaternion}.
+     * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(Quaternion) rotate()} instead.
+     * use {@link #rotate(Quaternionf) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotate(Quaternion)
+     * @see #rotate(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternion}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix4f rotation(Quaternion quat) {
+    public Matrix4f rotation(Quaternionf quat) {
         float q00 = 2.0f * quat.x * quat.x;
         float q11 = 2.0f * quat.y * quat.y;
         float q22 = 2.0f * quat.z * quat.z;
@@ -2829,7 +2829,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternion} to this matrix and store
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
@@ -2838,19 +2838,19 @@ public class Matrix4f implements Serializable, Externalizable {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternion)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternion)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternion}
+     *          the {@link Quaternionf}
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Matrix4f rotate(Quaternion quat, Matrix4f dest) {
+    public Matrix4f rotate(Quaternionf quat, Matrix4f dest) {
         float q00 = 2.0f * quat.x * quat.x;
         float q11 = 2.0f * quat.y * quat.y;
         float q22 = 2.0f * quat.z * quat.z;
@@ -2900,7 +2900,7 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternion} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
@@ -2908,17 +2908,17 @@ public class Matrix4f implements Serializable, Externalizable {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternion)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternion)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternion}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix4f rotate(Quaternion quat) {
+    public Matrix4f rotate(Quaternionf quat) {
         return rotate(quat, this);
     }
 
@@ -3651,7 +3651,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternion} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionf} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
@@ -3665,7 +3665,7 @@ public class Matrix4f implements Serializable, Externalizable {
      *          a point on the plane
      * @return this
      */
-    public Matrix4f reflect(Quaternion orientation, Vector3f point) {
+    public Matrix4f reflect(Quaternionf orientation, Vector3f point) {
         return reflect(orientation, point, this);
     }
 
@@ -3674,7 +3674,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * specified via the plane orientation and a point on the plane, and store the result in <code>dest</code>.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternion} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionf} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
@@ -3690,7 +3690,7 @@ public class Matrix4f implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Matrix4f reflect(Quaternion orientation, Vector3f point, Matrix4f dest) {
+    public Matrix4f reflect(Quaternionf orientation, Vector3f point, Matrix4f dest) {
         double num1 = orientation.x * 2.0;
         double num2 = orientation.y * 2.0;
         double num3 = orientation.z * 2.0;
@@ -3805,7 +3805,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternion} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionf} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * 
      * @param orientation
@@ -3814,7 +3814,7 @@ public class Matrix4f implements Serializable, Externalizable {
      *          a point on the plane
      * @return this
      */
-    public Matrix4f reflection(Quaternion orientation, Vector3f point) {
+    public Matrix4f reflection(Quaternionf orientation, Vector3f point) {
         double num1 = orientation.x * 2.0;
         double num2 = orientation.y * 2.0;
         double num3 = orientation.z * 2.0;
@@ -3963,16 +3963,16 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Return the specified {@link Quaternion}.
+     * Return the specified {@link Quaternionf}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
      * 
      * @param q
-     *          the {@link Quaternion} to return
+     *          the {@link Quaternionf} to return
      * @return that quaternion
      */
-    public Quaternion with(Quaternion q) {
+    public Quaternionf with(Quaternionf q) {
         return q;
     }
 

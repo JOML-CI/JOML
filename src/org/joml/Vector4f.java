@@ -334,13 +334,13 @@ public class Vector4f implements Serializable, Externalizable {
     /**
      * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
      * 
-     * @see Quaternion#transform(Vector4f)
+     * @see Quaternionf#transform(Vector4f)
      * 
      * @param quat
      *          the quaternion to multiply this vector by
      * @return this
      */
-    public Vector4f mul(Quaternion quat) {
+    public Vector4f mul(Quaternionf quat) {
         mul(this, quat, this);
         return this;
     }
@@ -348,7 +348,7 @@ public class Vector4f implements Serializable, Externalizable {
     /**
      * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
      * 
-     * @see Quaternion#transform(Vector4f)
+     * @see Quaternionf#transform(Vector4f)
      * 
      * @param quat
      *          the quaternion to multiply this vector by
@@ -356,7 +356,7 @@ public class Vector4f implements Serializable, Externalizable {
      *          will hold the result
      * @return this
      */
-    public Vector4f mul(Quaternion quat, Vector4f dest) {
+    public Vector4f mul(Quaternionf quat, Vector4f dest) {
         mul(this, quat, dest);
         return this;
     }
@@ -364,7 +364,7 @@ public class Vector4f implements Serializable, Externalizable {
     /**
      * Multiply the vector <code>v</code> by the given quaternion <code>mat</code> and store the result in <code>dest</code>.
      * 
-     * @see Quaternion#transform(Vector4f)
+     * @see Quaternionf#transform(Vector4f)
      * 
      * @param v
      *          the vector to multiply
@@ -373,7 +373,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @param dest
      *          will hold the result
      */
-    public static void mul(Vector4f v, Quaternion quat, Vector4f dest) {
+    public static void mul(Vector4f v, Quaternionf quat, Vector4f dest) {
         quat.transform(v, dest);
     }
 
@@ -724,16 +724,16 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Return the specified {@link Quaternion}.
+     * Return the specified {@link Quaternionf}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
      * 
      * @param q
-     *          the {@link Quaternion} to return
+     *          the {@link Quaternionf} to return
      * @return that quaternion
      */
-    public Quaternion with(Quaternion q) {
+    public Quaternionf with(Quaternionf q) {
         return q;
     }
 
