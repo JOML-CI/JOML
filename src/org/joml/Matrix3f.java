@@ -311,54 +311,43 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f invert() {
+    	return invert(this);
+    }
+
+    /**
+     * Invert the <code>this</code> matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     * 			will hold the result
+     */
+    public Matrix3f invert(Matrix3f dest) {
         float s = determinant();
-        
         if (s == 0.0f) {
             return this;
         }
         s = 1.0f / s;
-
-        return set(((m11 * m22) - (m21 * m12)) * s,
-                 - ((m01 * m22) - (m21 * m02)) * s,
-                   ((m01 * m12) - (m11 * m02)) * s,
-                  -((m10 * m22) - (m20 * m12)) * s,
-                   ((m00 * m22) - (m20 * m02)) * s,
-                  -((m00 * m12) - (m10 * m02)) * s,
-                   ((m10 * m21) - (m20 * m11)) * s,
-                  -((m00 * m21) - (m20 * m01)) * s,
-                   ((m00 * m11) - (m10 * m01)) * s);
-    }
-    
-    /**
-     * Invert the <code>source</code> matrix and store the result in <code>dest</code>.
-     */
-    public static void invert(Matrix3f source, Matrix3f dest) {
-        float s = source.determinant();
-        if (s == 0.0f) {
-            return;
-        }
-        s = 1.0f / s;
-        if (source != dest) {
-            dest.m00 = ((source.m11 * source.m22) - (source.m21 * source.m12)) * s;
-            dest.m01 = -((source.m01 * source.m22) - (source.m21 * source.m02)) * s;
-            dest.m02 = ((source.m01 * source.m12) - (source.m11 * source.m02)) * s;
-            dest.m10 = -((source.m10 * source.m22) - (source.m20 * source.m12)) * s;
-            dest.m11 = ((source.m00 * source.m22) - (source.m20 * source.m02)) * s;
-            dest.m12 = -((source.m00 * source.m12) - (source.m10 * source.m02)) * s;
-            dest.m20 = ((source.m10 * source.m21) - (source.m20 * source.m11)) * s;
-            dest.m21 = -((source.m00 * source.m21) - (source.m20 * source.m01)) * s;
-            dest.m22 = ((source.m00 * source.m11) - (source.m10 * source.m01)) * s;
+        if (this != dest) {
+            dest.m00 =  ((m11 * m22) - (m21 * m12)) * s;
+            dest.m01 = -((m01 * m22) - (m21 * m02)) * s;
+            dest.m02 =  ((m01 * m12) - (m11 * m02)) * s;
+            dest.m10 = -((m10 * m22) - (m20 * m12)) * s;
+            dest.m11 =  ((m00 * m22) - (m20 * m02)) * s;
+            dest.m12 = -((m00 * m12) - (m10 * m02)) * s;
+            dest.m20 =  ((m10 * m21) - (m20 * m11)) * s;
+            dest.m21 = -((m00 * m21) - (m20 * m01)) * s;
+            dest.m22 =  ((m00 * m11) - (m10 * m01)) * s;
         } else {
-            dest.set(  ((source.m11 * source.m22) - (source.m21 * source.m12)) * s,
-                      -((source.m01 * source.m22) - (source.m21 * source.m02)) * s,
-                       ((source.m01 * source.m12) - (source.m11 * source.m02)) * s,
-                      -((source.m10 * source.m22) - (source.m20 * source.m12)) * s,
-                       ((source.m00 * source.m22) - (source.m20 * source.m02)) * s,
-                      -((source.m00 * source.m12) - (source.m10 * source.m02)) * s,
-                       ((source.m10 * source.m21) - (source.m20 * source.m11)) * s,
-                      -((source.m00 * source.m21) - (source.m20 * source.m01)) * s,
-                       ((source.m00 * source.m11) - (source.m10 * source.m01)) * s  );
+            dest.set( ((m11 * m22) - (m21 * m12)) * s,
+                     -((m01 * m22) - (m21 * m02)) * s,
+                      ((m01 * m12) - (m11 * m02)) * s,
+                     -((m10 * m22) - (m20 * m12)) * s,
+                      ((m00 * m22) - (m20 * m02)) * s,
+                     -((m00 * m12) - (m10 * m02)) * s,
+                      ((m10 * m21) - (m20 * m11)) * s,
+                     -((m00 * m21) - (m20 * m01)) * s,
+                      ((m00 * m11) - (m10 * m01)) * s);
         }
+        return this;
     }
 
     /**

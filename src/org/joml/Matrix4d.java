@@ -607,6 +607,10 @@ public class Matrix4d implements Serializable, Externalizable {
 
     /**
      * Invert <code>this</code> matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     * 			will hold the result
+     * @return this
      */
     public Matrix4d invert(Matrix4d dest) {
         double s = determinant();
@@ -658,49 +662,41 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d transpose() {
-        transpose(this, this);
-        return this;
+        return transpose(this);
     }
 
     /**
-     * Transpose the original matrix and store the result into the destination matrix.
+     * Transpose <code>this</code> matrix and store the result into <code>dest</code>.
+     * 
+     * @param dest
+     * 			will hold the result
+     * @return this
      */
-    public static void transpose(Matrix4d original, Matrix4d dest) {
-        if (original != dest) {
-            dest.m00 = original.m00;
-            dest.m01 = original.m10;
-            dest.m02 = original.m20;
-            dest.m03 = original.m30;
-            dest.m10 = original.m01;
-            dest.m11 = original.m11;
-            dest.m12 = original.m21;
-            dest.m13 = original.m31;
-            dest.m20 = original.m02;
-            dest.m21 = original.m12;
-            dest.m22 = original.m22;
-            dest.m23 = original.m32;
-            dest.m30 = original.m03;
-            dest.m31 = original.m13;
-            dest.m32 = original.m23;
-            dest.m33 = original.m33;
+    public Matrix4d transpose(Matrix4d dest) {
+        if (this != dest) {
+            dest.m00 = m00;
+            dest.m01 = m10;
+            dest.m02 = m20;
+            dest.m03 = m30;
+            dest.m10 = m01;
+            dest.m11 = m11;
+            dest.m12 = m21;
+            dest.m13 = m31;
+            dest.m20 = m02;
+            dest.m21 = m12;
+            dest.m22 = m22;
+            dest.m23 = m32;
+            dest.m30 = m03;
+            dest.m31 = m13;
+            dest.m32 = m23;
+            dest.m33 = m33;
         } else {
-            dest.set(original.m00,
-                     original.m10,
-                     original.m20,
-                     original.m30,
-                     original.m01,
-                     original.m11,
-                     original.m21,
-                     original.m31,
-                     original.m02,
-                     original.m12,
-                     original.m22,
-                     original.m32,
-                     original.m03,
-                     original.m13,
-                     original.m23,
-                     original.m33);
+            dest.set(m00, m10, m20, m30,
+                     m01, m11, m21, m31,
+                     m02, m12, m22, m32,
+                     m03, m13, m23, m33);
         }
+        return this;
     }
 
     /**
