@@ -363,7 +363,7 @@ public class Matrix3f implements Serializable, Externalizable {
 
     /**
      * Transpose this matrix.
-     *
+     * 
      * @return this
      */
     public Matrix3f transpose() {
@@ -371,7 +371,11 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Transpose the supplied <code>original</code> matrix and store the result in <code>dest</code>.
+     * Transpose <code>this</code> matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     * 			will hold the result
+     * @return this
      */
     public Matrix3f transpose(Matrix3f dest) {
         if (this != dest) {

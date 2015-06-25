@@ -608,6 +608,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * Transpose this matrix and store the result in <code>dest</code>.
      * 
      * @param dest
+     * 			will hold the result
      * @return this
      */
     public Matrix4f transpose(Matrix4f dest) {

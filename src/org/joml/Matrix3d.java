@@ -389,29 +389,33 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d transpose() {
-        transpose(this, this);
-        return this;
+        return transpose(this);
     }
 
     /**
-     * Transpose the supplied original matrix and store the result in dest.
+     * Transpose <code>this</code> matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     * 			will hold the result
+     * @return this
      */
-    public static void transpose(Matrix3d original, Matrix3d dest) {
-        if (original != dest) {
-            dest.m00 = original.m00;
-            dest.m01 = original.m10;
-            dest.m02 = original.m20;
-            dest.m10 = original.m01;
-            dest.m11 = original.m11;
-            dest.m12 = original.m21;
-            dest.m20 = original.m02;
-            dest.m21 = original.m12;
-            dest.m22 = original.m22;
+    public Matrix3d transpose(Matrix3d dest) {
+        if (this != dest) {
+            dest.m00 = m00;
+            dest.m01 = m10;
+            dest.m02 = m20;
+            dest.m10 = m01;
+            dest.m11 = m11;
+            dest.m12 = m21;
+            dest.m20 = m02;
+            dest.m21 = m12;
+            dest.m22 = m22;
         } else {
-            dest.set(original.m00, original.m10, original.m20,
-                     original.m01, original.m11, original.m21,
-                     original.m02, original.m12, original.m22);
+            dest.set(m00, m10, m20,
+                     m01, m11, m21,
+                     m02, m12, m22);
         }
+        return this;
     }
 
     /**
@@ -895,4 +899,35 @@ public class Matrix3d implements Serializable, Externalizable {
         }
         return;
     }
+
+    /**
+     * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
+     * 
+     * @param dest
+     * 			will hold the result
+     * @return this
+     */
+    public Matrix3d normal(Matrix3d dest) {
+    	// see: http://mathworld.wolfram.com/OrthogonalMatrix.html
+    	double det = determinant();
+    	double diff = Math.abs(Math.abs(det) - 1.0);
+    	if (diff < 1E-8) {
+    		/* The fast path, if only 1:1:1 scaling is being used */
+    		return this.transpose(dest);
+    	}
+    	/* The general case */
+    	double s = 1.0 / det;
+        /* Invert and transpose in one go */
+        dest.set(((m11 * m22) - (m21 * m12)) * s,
+        		-((m10 * m22) - (m20 * m12)) * s,
+	             ((m10 * m21) - (m20 * m11)) * s,
+	            -((m01 * m22) - (m21 * m02)) * s,
+	             ((m00 * m22) - (m20 * m02)) * s,
+	            -((m00 * m21) - (m20 * m01)) * s,
+	             ((m01 * m12) - (m11 * m02)) * s,
+	            -((m00 * m12) - (m10 * m02)) * s,
+	             ((m00 * m11) - (m10 * m01)) * s);
+    	return this;
+    }
+
 }
