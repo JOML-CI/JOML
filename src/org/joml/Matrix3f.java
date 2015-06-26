@@ -1511,25 +1511,20 @@ public class Matrix3f implements Serializable, Externalizable {
         float dirnX = dirX / dirLength;
         float dirnY = dirY / dirLength;
         float dirnZ = dirZ / dirLength;
-        // normalize up
-        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        float upnX = upX / upLength;
-        float upnY = upY / upLength;
-        float upnZ = upZ / upLength;
         // right = direction x up
         float rightX, rightY, rightZ;
-        rightX = dirnY * upnZ - dirnZ * upnY;
-        rightY = dirnZ * upnX - dirnX * upnZ;
-        rightZ = dirnX * upnY - dirnY * upnX;
+        rightX = dirnY * upZ - dirnZ * upY;
+        rightY = dirnZ * upX - dirnX * upZ;
+        rightZ = dirnX * upY - dirnY * upX;
         // normalize right
         float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX /= rightLength;
         rightY /= rightLength;
         rightZ /= rightLength;
         // up = right x direction
-        upnX = rightY * dirnZ - rightZ * dirnY;
-        upnY = rightZ * dirnX - rightX * dirnZ;
-        upnZ = rightX * dirnY - rightY * dirnX;
+        float upnX = rightY * dirnZ - rightZ * dirnY;
+        float upnY = rightZ * dirnX - rightX * dirnZ;
+        float upnZ = rightX * dirnY - rightY * dirnX;
 
         // calculate right matrix elements
         float rm00 = rightX;
@@ -1623,20 +1618,15 @@ public class Matrix3f implements Serializable, Externalizable {
         float dirnX = dirX / dirLength;
         float dirnY = dirY / dirLength;
         float dirnZ = dirZ / dirLength;
-        // normalize up
-        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        float upnX = upX / upLength;
-        float upnY = upY / upLength;
-        float upnZ = upZ / upLength;
         // right = direction x up
         float rightX, rightY, rightZ;
-        rightX = dirnY * upnZ - dirnZ * upnY;
-        rightY = dirnZ * upnX - dirnX * upnZ;
-        rightZ = dirnX * upnY - dirnY * upnX;
+        rightX = dirnY * upZ - dirnZ * upY;
+        rightY = dirnZ * upX - dirnX * upZ;
+        rightZ = dirnX * upY - dirnY * upX;
         // up = right x direction
-        upnX = rightY * dirnZ - rightZ * dirnY;
-        upnY = rightZ * dirnX - rightX * dirnZ;
-        upnZ = rightX * dirnY - rightY * dirnX;
+        float upnX = rightY * dirnZ - rightZ * dirnY;
+        float upnY = rightZ * dirnX - rightX * dirnZ;
+        float upnZ = rightX * dirnY - rightY * dirnX;
 
         m00 = rightX;
         m01 = upnX;

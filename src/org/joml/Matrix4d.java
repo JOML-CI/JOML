@@ -3305,25 +3305,20 @@ public class Matrix4d implements Serializable, Externalizable {
         double dirnX = dirX / dirLength;
         double dirnY = dirY / dirLength;
         double dirnZ = dirZ / dirLength;
-        // normalize up
-        double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        double upnX = upX / upLength;
-        double upnY = upY / upLength;
-        double upnZ = upZ / upLength;
         // right = direction x up
         double rightX, rightY, rightZ;
-        rightX = dirnY * upnZ - dirnZ * upnY;
-        rightY = dirnZ * upnX - dirnX * upnZ;
-        rightZ = dirnX * upnY - dirnY * upnX;
+        rightX = dirnY * upZ - dirnZ * upY;
+        rightY = dirnZ * upX - dirnX * upZ;
+        rightZ = dirnX * upY - dirnY * upX;
         // normalize right
         double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX /= rightLength;
         rightY /= rightLength;
         rightZ /= rightLength;
         // up = right x direction
-        upnX = rightY * dirnZ - rightZ * dirnY;
-        upnY = rightZ * dirnX - rightX * dirnZ;
-        upnZ = rightX * dirnY - rightY * dirnX;
+        double upnX = rightY * dirnZ - rightZ * dirnY;
+        double upnY = rightZ * dirnX - rightX * dirnZ;
+        double upnZ = rightX * dirnY - rightY * dirnX;
 
         // calculate right matrix elements
         double rm00 = rightX;
@@ -3439,25 +3434,20 @@ public class Matrix4d implements Serializable, Externalizable {
         double dirnX = dirX / dirLength;
         double dirnY = dirY / dirLength;
         double dirnZ = dirZ / dirLength;
-        // normalize up
-        double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        double upnX = upX / upLength;
-        double upnY = upY / upLength;
-        double upnZ = upZ / upLength;
         // right = direction x up
         double rightX, rightY, rightZ;
-        rightX = dirnY * upnZ - dirnZ * upnY;
-        rightY = dirnZ * upnX - dirnX * upnZ;
-        rightZ = dirnX * upnY - dirnY * upnX;
+        rightX = dirnY * upZ - dirnZ * upY;
+        rightY = dirnZ * upX - dirnX * upZ;
+        rightZ = dirnX * upY - dirnY * upX;
         // normalize right
         double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX /= rightLength;
         rightY /= rightLength;
         rightZ /= rightLength;
         // up = right x direction
-        upnX = rightY * dirnZ - rightZ * dirnY;
-        upnY = rightZ * dirnX - rightX * dirnZ;
-        upnZ = rightX * dirnY - rightY * dirnX;
+        double upnX = rightY * dirnZ - rightZ * dirnY;
+        double upnY = rightZ * dirnX - rightX * dirnZ;
+        double upnZ = rightX * dirnY - rightY * dirnX;
 
         m00 = rightX;
         m01 = upnX;
@@ -3534,25 +3524,20 @@ public class Matrix4d implements Serializable, Externalizable {
         dirX /= dirLength;
         dirY /= dirLength;
         dirZ /= dirLength;
-        // Normalize up
-        double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        double upnX = upX / upLength;
-        double upnY = upY / upLength;
-        double upnZ = upZ / upLength;
         // right = direction x up
         double rightX, rightY, rightZ;
-        rightX = dirY * upnZ - dirZ * upnY;
-        rightY = dirZ * upnX - dirX * upnZ;
-        rightZ = dirX * upnY - dirY * upnX;
+        rightX = dirY * upZ - dirZ * upY;
+        rightY = dirZ * upX - dirX * upZ;
+        rightZ = dirX * upY - dirY * upX;
         // normalize right
         double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX /= rightLength;
         rightY /= rightLength;
         rightZ /= rightLength;
         // up = right x direction
-        upnX = rightY * dirZ - rightZ * dirY;
-        upnY = rightZ * dirX - rightX * dirZ;
-        upnZ = rightX * dirY - rightY * dirX;
+        double upnX = rightY * dirZ - rightZ * dirY;
+        double upnY = rightZ * dirX - rightX * dirZ;
+        double upnZ = rightX * dirY - rightY * dirX;
 
         m00 = rightX;
         m01 = upnX;
@@ -3665,25 +3650,20 @@ public class Matrix4d implements Serializable, Externalizable {
         dirX /= dirLength;
         dirY /= dirLength;
         dirZ /= dirLength;
-        // Normalize up
-        double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        double upnX = upX / upLength;
-        double upnY = upY / upLength;
-        double upnZ = upZ / upLength;
         // right = direction x up
         double rightX, rightY, rightZ;
-        rightX = dirY * upnZ - dirZ * upnY;
-        rightY = dirZ * upnX - dirX * upnZ;
-        rightZ = dirX * upnY - dirY * upnX;
+        rightX = dirY * upZ - dirZ * upY;
+        rightY = dirZ * upX - dirX * upZ;
+        rightZ = dirX * upY - dirY * upX;
         // normalize right
         double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX /= rightLength;
         rightY /= rightLength;
         rightZ /= rightLength;
         // up = right x direction
-        upnX = rightY * dirZ - rightZ * dirY;
-        upnY = rightZ * dirX - rightX * dirZ;
-        upnZ = rightX * dirY - rightY * dirX;
+        double upnX = rightY * dirZ - rightZ * dirY;
+        double upnY = rightZ * dirX - rightX * dirZ;
+        double upnZ = rightX * dirY - rightY * dirX;
 
         // calculate right matrix elements
         double rm00 = rightX;
