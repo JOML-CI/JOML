@@ -304,8 +304,7 @@ public class Vector3f implements Serializable, Externalizable {
      * @return this
      */
     public Vector3f mul(Matrix3f mat) {
-        mul(this, mat, this);
-        return this;
+        return mul(mat, this);
     }
 
     /**
@@ -318,30 +317,16 @@ public class Vector3f implements Serializable, Externalizable {
      * @return this
      */
     public Vector3f mul(Matrix3f mat, Vector3f dest) {
-        mul(this, mat, dest);
-        return this;
-    }
-
-    /**
-     * Multiply Vector3f v by the given matrix and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to multiply
-     * @param mat
-     *          the matrix
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul(Vector3f v, Matrix3f mat, Vector3f dest) {
-        if (v != dest) {
-            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
-            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
-            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
+        if (this != dest) {
+            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
+            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
+            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
         } else {
-            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                     mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                     mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
+            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
         }
+        return this;
     }
 
     /**

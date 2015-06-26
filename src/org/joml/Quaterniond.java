@@ -678,6 +678,52 @@ public class Quaterniond implements Serializable, Externalizable {
     }
 
     /**
+     * Transform the given vector by this quaternion.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and modified.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @return this
+     */
+    public Quaterniond transform(Vector4d vec){
+        return transform(vec, vec);
+    }
+
+    /**
+     * Transform the given vector by this quaternion and store the result in <code>dest</code>.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * <p>
+     * Only the first three components of the given 4D vector are being used and set on the destination.
+     * 
+     * @param vec
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaterniond transform(Vector4d vec, Vector4d dest) {
+        double num = x * 2.0;
+        double num2 = y * 2.0;
+        double num3 = z * 2.0;
+        double num4 = x * num;
+        double num5 = y * num2;
+        double num6 = z * num3;
+        double num7 = x * num2;
+        double num8 = x * num3;
+        double num9 = y * num3;
+        double num10 = w * num;
+        double num11 = w * num2;
+        double num12 = w * num3;
+        dest.set((1.0 - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z,
+                 (num7 + num12) * vec.x + (1.0 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z,
+                 (num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0 - (num4 + num5)) * vec.z,
+                 dest.w);
+        return this;
+    }
+
+    /**
      * Invert this Quaternion.
      * 
      * @return this

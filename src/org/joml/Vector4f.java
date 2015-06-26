@@ -286,8 +286,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @return this
      */
     public Vector4f mul(Matrix4f mat) {
-        mul(this, mat, this);
-        return this;
+        return mul(mat, this);
     }
 
     /**
@@ -301,33 +300,18 @@ public class Vector4f implements Serializable, Externalizable {
      * @return this
      */
     public Vector4f mul(Matrix4f mat, Vector4f dest) {
-        mul(this, mat, dest);
-        return this;
-    }
-
-    /**
-     * Multiply <code>v</code> by the given matrix <code>mat</code> and store
-     * the result in <code>dest</code>.
-     * 
-     * @param v
-     *            the vector to multiply the matrix with
-     * @param mat
-     *            the matrix
-     * @param dest
-     *            will hold the result
-     */
-    public static void mul(Vector4f v, Matrix4f mat, Vector4f dest) {
-        if (v != dest) {
-            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w;
-            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w;
-            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w;
-            dest.w = mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w;
+        if (this != dest) {
+            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w;
+            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w;
+            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w;
+            dest.w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w;
         } else {
-            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z + mat.m30 * v.w,
-                     mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z + mat.m31 * v.w,
-                     mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z + mat.m32 * v.w,
-                     mat.m03 * v.x + mat.m13 * v.y + mat.m23 * v.z + mat.m33 * v.w);
+            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
+                     mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
+                     mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w,
+                     mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
         }
+        return this;
     }
 
     /**
@@ -378,8 +362,7 @@ public class Vector4f implements Serializable, Externalizable {
      * @return this
      */
     public Vector4f mul(Quaternionf quat) {
-        mul(this, quat, this);
-        return this;
+        return mul(quat, this);
     }
 
     /**
@@ -394,24 +377,8 @@ public class Vector4f implements Serializable, Externalizable {
      * @return this
      */
     public Vector4f mul(Quaternionf quat, Vector4f dest) {
-        mul(this, quat, dest);
+        quat.transform(this, dest);
         return this;
-    }
-
-    /**
-     * Multiply the vector <code>v</code> by the given quaternion <code>mat</code> and store the result in <code>dest</code>.
-     * 
-     * @see Quaternionf#transform(Vector4f)
-     * 
-     * @param v
-     *          the vector to multiply
-     * @param quat
-     *          the quaternion to multiply the vector by
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul(Vector4f v, Quaternionf quat, Vector4f dest) {
-        quat.transform(v, dest);
     }
 
     /**
