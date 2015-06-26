@@ -86,8 +86,9 @@ public class Matrix3f implements Serializable, Externalizable {
      * Create a new 3x3 matrix using the supplied float values. The order of the parameter is column-major, 
      * so the first three parameters specify the three elements of the first column.
      */
-    public Matrix3f(float m00, float m01, float m02, float m10, float m11,
-                    float m12, float m20, float m21, float m22) {
+    public Matrix3f(float m00, float m01, float m02,
+                    float m10, float m11, float m12, 
+                    float m20, float m21, float m22) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
@@ -184,8 +185,7 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f mul(Matrix3f right) {
-        mul(this, right, this);
-        return this;
+        return mul(right, this);
     }
 
     /**
@@ -203,49 +203,30 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f mul(Matrix3f right, Matrix3f dest) {
-        mul(this, right, dest);
+        if (this != dest && right != dest) {
+            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        } else {
+            dest.set( m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
+                      m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
+                      m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
+                      m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
+                      m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
+                      m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
+                      m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
+                      m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
+                      m02 * right.m20 + m12 * right.m21 + m22 * right.m22 );
+        }
         return this;
     }
 
-    /**
-     * Multiply the <code>left</code> matrix by the <code>right</code>, and store the result in <code>dest</code>.
-     * <p>
-     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>L * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     * 
-     * @param left
-     *          the left operand
-     * @param right
-     *          the right operand
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul(Matrix3f left, Matrix3f right, Matrix3f dest) {
-        if (left != dest && right != dest) {
-            dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
-            dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
-            dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
-            dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
-            dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
-            dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
-            dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
-            dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
-            dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
-        } else {
-            dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
-                      left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
-                      left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
-                      left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
-                      left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
-                      left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
-                      left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
-                      left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
-                      left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
-        }
-    }
-    
     /**
      * Set the values within this matrix to the supplied float values. The result looks like this:
      * <p>
@@ -255,8 +236,9 @@ public class Matrix3f implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Matrix3f set(float m00, float m01, float m02, float m10, float m11,
-                    float m12, float m20, float m21, float m22) {
+    public Matrix3f set(float m00, float m01, float m02,
+                        float m10, float m11, float m12, 
+                        float m20, float m21, float m22) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;

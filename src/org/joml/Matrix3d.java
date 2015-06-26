@@ -104,7 +104,9 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Create a new {@link Matrix3d} and initialize its elements with the given values.
      */
-    public Matrix3d(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22) {
+    public Matrix3d(double m00, double m01, double m02,
+                    double m10, double m11, double m12, 
+                    double m20, double m21, double m22) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
@@ -155,58 +157,131 @@ public class Matrix3d implements Serializable, Externalizable {
     /**
      * Multiply this matrix by the supplied matrix.
      * This matrix will be the left one.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
      * 
      * @param right
      *          the right operand
      * @return this
      */
     public Matrix3d mul(Matrix3d right) {
-        mul(this, right, this);
+        return mul(right, this);
+    }
+
+    /**
+     * Multiply this matrix by the supplied matrix and store the result in <code>dest</code>.
+     * This matrix will be the left one.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param right
+     *          the right operand
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix3d mul(Matrix3d right, Matrix3d dest) {
+        if (this != dest && right != dest) {
+            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        } else {
+            dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
+                     m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
+                     m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
+                     m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
+                     m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
+                     m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
+                     m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
+                     m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
+                     m02 * right.m20 + m12 * right.m21 + m22 * right.m22 );
+        }
         return this;
     }
 
     /**
      * Multiply this matrix by the supplied matrix.
      * This matrix will be the left one.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
      * 
      * @param right
      *          the right operand
      * @return this
      */
     public Matrix3d mul(Matrix3f right) {
-        mul(this, right, this);
+        return mul(right, this);
+    }
+
+    /**
+     * Multiply this matrix by the supplied matrix and store the result in <code>dest</code>.
+     * This matrix will be the left one.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param right
+     *          the right operand
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix3d mul(Matrix3f right, Matrix3d dest) {
+        if (this != dest) {
+            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        } else {
+            dest.set( m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
+                      m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
+                      m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
+                      m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
+                      m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
+                      m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
+                      m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
+                      m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
+                      m02 * right.m20 + m12 * right.m21 + m22 * right.m22 );
+        }
         return this;
     }
 
     /**
-     * Multiply the left matrix by the right and store the result in dest.
-     */
-    public static void mul(Matrix3d left, Matrix3d right, Matrix3d dest) {
-        if (left != dest && right != dest) {
-            dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
-            dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
-            dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
-            dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
-            dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
-            dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
-            dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
-            dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
-            dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
-        } else {
-            dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
-                      left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
-                      left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
-                      left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
-                      left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
-                      left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
-                      left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
-                      left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
-                      left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
-        }
-    }
-
-    /**
-     * Multiply the left matrix by the right and store the result in dest.
+     * Multiply the <code>left</code> matrix by the <code>right</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param left
+     *          the left matrix
+     * @param right
+     *          the right matrix
+     * @param dest
+     *          will hold the result
      */
     public static void mul(Matrix3f left, Matrix3d right, Matrix3d dest) {
         if (right != dest) {
@@ -220,42 +295,15 @@ public class Matrix3d implements Serializable, Externalizable {
             dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
             dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
         } else {
-            dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
-                      left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
-                      left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
-                      left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
-                      left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
-                      left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
-                      left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
-                      left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
-                      left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
-        }
-    }
-
-    /**
-     * Multiply the left matrix by the right and store the result in dest.
-     */
-    public static void mul(Matrix3d left, Matrix3f right, Matrix3d dest) {
-        if (left != dest) {
-            dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
-            dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
-            dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
-            dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
-            dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
-            dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
-            dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
-            dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
-            dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
-        } else {
-            dest.set( left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
-                      left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
-                      left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
-                      left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
-                      left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
-                      left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
-                      left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
-                      left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
-                      left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
+            dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
+                     left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
+                     left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
+                     left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
+                     left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
+                     left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
+                     left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
+                     left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
+                     left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
         }
     }
 
@@ -268,8 +316,9 @@ public class Matrix3d implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Matrix3d set(double m00, double m01, double m02, double m10, double m11,
-                    double m12, double m20, double m21, double m22) {
+    public Matrix3d set(double m00, double m01, double m02, 
+                        double m10, double m11, double m12, 
+                        double m20, double m21, double m22) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
@@ -806,6 +855,47 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
+     * Set this matrix to the rotation transformation of the given {@link Quaterniond}.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional rotation.
+     * <p>
+     * In order to apply the rotation transformation to an existing transformation,
+     * use {@link #rotate(Quaterniond) rotate()} instead.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotate(Quaterniond)
+     * 
+     * @param quat
+     *          the {@link Quaterniond}
+     * @return this
+     */
+    public Matrix3d rotation(Quaterniond quat) {
+        double q00 = 2.0 * quat.x * quat.x;
+        double q11 = 2.0 * quat.y * quat.y;
+        double q22 = 2.0 * quat.z * quat.z;
+        double q01 = 2.0 * quat.x * quat.y;
+        double q02 = 2.0 * quat.x * quat.z;
+        double q03 = 2.0 * quat.x * quat.w;
+        double q12 = 2.0 * quat.y * quat.z;
+        double q13 = 2.0 * quat.y * quat.w;
+        double q23 = 2.0 * quat.z * quat.w;
+
+        m00 = 1.0 - q11 - q22;
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m10 = q01 - q23;
+        m11 = 1.0 - q22 - q00;
+        m12 = q12 + q03;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0 - q11 - q00;
+
+        return this;
+    }
+
+    /**
      * Transform the given vector by this matrix.
      * 
      * @param v
@@ -853,12 +943,24 @@ public class Matrix3d implements Serializable, Externalizable {
 
     /**
      * Apply the rotation transformation of the given {@link Quaterniond} to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaterniond)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaterniond)
      * 
      * @param quat
      *          the {@link Quaterniond}
      * @return this
      */
-    public Matrix3d mul(Quaterniond quat) {
+    public Matrix3d rotate(Quaterniond quat) {
         double q00 = 2.0 * quat.x * quat.x;
         double q11 = 2.0 * quat.y * quat.y;
         double q22 = 2.0 * quat.z * quat.z;

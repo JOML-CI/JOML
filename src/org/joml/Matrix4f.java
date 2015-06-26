@@ -121,8 +121,10 @@ public class Matrix4f implements Serializable, Externalizable {
     /**
      * Create a new 4x4 matrix using the supplied float values.
      */
-    public Matrix4f(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
-            float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
+    public Matrix4f(float m00, float m01, float m02, float m03, 
+                    float m10, float m11, float m12, float m13, 
+                    float m20, float m21, float m22, float m23,
+                    float m30, float m31, float m32, float m33) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
@@ -326,8 +328,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f mul(Matrix4f right) {
-       mul(this, right, this);
-       return this;
+       return mul(right, this);
     }
 
     /**
@@ -345,61 +346,42 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
-       mul(this, right, dest);
-       return this;
-    }
-
-    /**
-     * Multiply the supplied left matrix by the right and store the result into dest.
-     * <p>
-     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>L * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     *
-     * @param left
-     *          the left matrix
-     * @param right
-     *          the right matrix
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul(Matrix4f left, Matrix4f right, Matrix4f dest) {
-        if (left != dest && right != dest) {
-            dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03;
-            dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03;
-            dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03;
-            dest.m03 = left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02 + left.m33 * right.m03;
-            dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12 + left.m30 * right.m13;
-            dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12 + left.m31 * right.m13;
-            dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12 + left.m32 * right.m13;
-            dest.m13 = left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12 + left.m33 * right.m13;
-            dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22 + left.m30 * right.m23;
-            dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22 + left.m31 * right.m23;
-            dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 + left.m32 * right.m23;
-            dest.m23 = left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22 + left.m33 * right.m23;
-            dest.m30 = left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30 * right.m33;
-            dest.m31 = left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31 * right.m33;
-            dest.m32 = left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32 * right.m33;
-            dest.m33 = left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33;
+        if (this != dest && right != dest) {
+            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03;
+            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03;
+            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03;
+            dest.m03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03;
+            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13;
+            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13;
+            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13;
+            dest.m13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13;
+            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23;
+            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23;
+            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23;
+            dest.m23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23;
+            dest.m30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33;
+            dest.m31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33;
+            dest.m32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33;
+            dest.m33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33;
         } else {
-            dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03,
-                     left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03,
-                     left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03,
-                     left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02 + left.m33 * right.m03,
-                     left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12 + left.m30 * right.m13,
-                     left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12 + left.m31 * right.m13,
-                     left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12 + left.m32 * right.m13,
-                     left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12 + left.m33 * right.m13,
-                     left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22 + left.m30 * right.m23,
-                     left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22 + left.m31 * right.m23,
-                     left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 + left.m32 * right.m23,
-                     left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22 + left.m33 * right.m23,
-                     left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30 * right.m33,
-                     left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31 * right.m33,
-                     left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32 * right.m33,
-                     left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33);
+            dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03,
+                     m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03,
+                     m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03,
+                     m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03,
+                     m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13,
+                     m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13,
+                     m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13,
+                     m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13,
+                     m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23,
+                     m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23,
+                     m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23,
+                     m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23,
+                     m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33,
+                     m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33,
+                     m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33,
+                     m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33);
         }
+        return this;
     }
 
     /**
@@ -416,8 +398,7 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f mul4x3(Matrix4f right) {
-       mul4x3(this, right, this);
-       return this;
+       return mul4x3(right, this);
     }
 
     /**
@@ -435,62 +416,42 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f mul4x3(Matrix4f right, Matrix4f dest) {
-       mul4x3(this, right, dest);
-       return this;
-    }
-
-    /**
-     * Multiply the supplied <code>left</code> matrix by the top 4x3 submatrix of the supplied <code>right</code> and store the result into <code>dest</code>.
-     * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
-     * <p>
-     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>L * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     *
-     * @param left
-     *          the left matrix
-     * @param right
-     *          the right matrix (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul4x3(Matrix4f left, Matrix4f right, Matrix4f dest) {
-        if (left != dest && right != dest) {
-            dest.m00 = left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02;
-            dest.m01 = left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02;
-            dest.m02 = left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02;
-            dest.m03 = left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02;
-            dest.m10 = left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12;
-            dest.m11 = left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12;
-            dest.m12 = left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12;
-            dest.m13 = left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12;
-            dest.m20 = left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22;
-            dest.m21 = left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22;
-            dest.m22 = left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22;
-            dest.m23 = left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22;
-            dest.m30 = left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30;
-            dest.m31 = left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31;
-            dest.m32 = left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32;
-            dest.m33 = left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33;
+        if (this != dest && right != dest) {
+            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+            dest.m03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02;
+            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+            dest.m13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12;
+            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+            dest.m23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22;
+            dest.m30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
+            dest.m31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
+            dest.m32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
+            dest.m33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33;
         } else {
-            dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
-                     left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
-                     left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
-                     left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02,
-                     left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
-                     left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
-                     left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
-                     left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12,
-                     left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
-                     left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
-                     left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22,
-                     left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22,
-                     left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30,
-                     left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31,
-                     left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32,
-                     left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33);
+            dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
+                     m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
+                     m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
+                     m03 * right.m00 + m13 * right.m01 + m23 * right.m02,
+                     m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
+                     m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
+                     m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
+                     m03 * right.m10 + m13 * right.m11 + m23 * right.m12,
+                     m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
+                     m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
+                     m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
+                     m03 * right.m20 + m13 * right.m21 + m23 * right.m22,
+                     m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
+                     m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
+                     m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
+                     m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33);
         }
+        return this;
     }
 
     /**
@@ -503,8 +464,10 @@ public class Matrix4f implements Serializable, Externalizable {
      *   
      * @return this
      */
-    public Matrix4f set(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
-            float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
+    public Matrix4f set(float m00, float m01, float m02, float m03,
+                        float m10, float m11, float m12, float m13,
+                        float m20, float m21, float m22, float m23, 
+                        float m30, float m31, float m32, float m33) {
         this.m00 = m00;
         this.m01 = m01;
         this.m02 = m02;
