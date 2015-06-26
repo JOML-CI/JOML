@@ -1201,7 +1201,25 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Set the upper 3x3 matrix of the given <code>dest</code> {@link Matrix4d} to the given {@link Matrix3d} and the rest to the identity.
+     * Set the upper 3x3 matrix of this {@link Matrix4d} to the given {@link Matrix3d} and the rest to the identity.
+     * 
+     * @param mat
+     *          the 3x3 matrix
+     * @return this
+     */
+    public Matrix4d fromMatrix3(Matrix3d mat) {
+        fromMatrix3(mat, this);
+        return this;
+    }
+
+    /**
+     * Set the upper 3x3 matrix of the given <code>dest</code> {@link Matrix4d}
+     * to the given {@link Matrix3d} and the rest to the identity.
+     * 
+     * @param mat
+     *          the 3x3 matrix
+     * @param dest
+     *          the destination matrix whose upper left 3x3 submatrix will be set to <code>mat</code>
      */
     public static void fromMatrix3(Matrix3d mat, Matrix4d dest) {
         dest.m00 = mat.m00;
@@ -1221,7 +1239,6 @@ public class Matrix4d implements Serializable, Externalizable {
         dest.m32 = 0.0;
         dest.m33 = 1.0;
     }
-    
 
     /**
      * Apply scaling to the this matrix by scaling the unit axes by the given x,
