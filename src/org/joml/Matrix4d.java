@@ -3086,7 +3086,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * In order to set the matrix to an orthographic projection without post-multiplying it,
      * use {@link #setOrtho(double, double, double, double, double, double) setOrtho()}.
      * <p>
-     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
      * 
      * @see #setOrtho(double, double, double, double, double, double)
      * 
@@ -3148,7 +3148,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * In order to set the matrix to an orthographic projection without post-multiplying it,
      * use {@link #setOrtho(double, double, double, double, double, double) setOrtho()}.
      * <p>
-     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
      * 
      * @see #setOrtho(double, double, double, double, double, double)
      * 
@@ -3176,7 +3176,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * In order to apply the orthographic projection to an already existing transformation,
      * use {@link #ortho(double, double, double, double, double, double) ortho()}.
      * <p>
-     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
      * 
      * @see #ortho(double, double, double, double, double, double)
      * 
@@ -3849,7 +3849,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
      * use {@link #setFrustum(double, double, double, double, double, double) setFrustum()}.
      * <p>
-     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
      * 
      * @see #setFrustum(double, double, double, double, double, double)
      * 
@@ -3918,7 +3918,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
      * use {@link #setFrustum(double, double, double, double, double, double) setFrustum()}.
      * <p>
-     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
      * 
      * @see #setFrustum(double, double, double, double, double, double)
      * 
@@ -3946,7 +3946,7 @@ public class Matrix4d implements Serializable, Externalizable {
      * In order to apply the perspective frustum transformation to an existing transformation,
      * use {@link #frustum(double, double, double, double, double, double) frustum()}.
      * <p>
-     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
      * 
      * @see #frustum(double, double, double, double, double, double)
      * 
