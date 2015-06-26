@@ -786,7 +786,7 @@ public class Matrix4f implements Serializable, Externalizable {
         m13 = 0.0f;
         m20 = 0.0f;
         m21 = 0.0f;
-        m22 = 0.0f;
+        m22 = 1.0f;
         m23 = 0.0f;
         m30 = x;
         m31 = y;
