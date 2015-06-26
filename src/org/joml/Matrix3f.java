@@ -682,12 +682,17 @@ public class Matrix3f implements Serializable, Externalizable {
      *             the scale applied to each dimension
      */
     public static void scaling(Vector3f scale, Matrix3f dest) {
-        dest.identity();
         dest.m00 = scale.x;
+        dest.m01 = 0.0f;
+        dest.m02 = 0.0f;
+        dest.m10 = 0.0f;
         dest.m11 = scale.y;
+        dest.m12 = 0.0f;
+        dest.m20 = 0.0f;
+        dest.m21 = 0.0f;
         dest.m22 = scale.z;
     }
-    
+
     /**
      * Set this matrix to be a simple scale matrix.
      * 
@@ -700,9 +705,14 @@ public class Matrix3f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3f scaling(float x, float y, float z, Matrix3f dest) {
-        dest.identity();
         dest.m00 = x;
+        dest.m01 = 0.0f;
+        dest.m02 = 0.0f;
+        dest.m10 = 0.0f;
         dest.m11 = y;
+        dest.m12 = 0.0f;
+        dest.m20 = 0.0f;
+        dest.m21 = 0.0f;
         dest.m22 = z;
         return this;
     }

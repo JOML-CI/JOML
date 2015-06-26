@@ -356,10 +356,10 @@ public class Matrix3d implements Serializable, Externalizable {
      */
     public static void invert(Matrix3d source, Matrix3d dest) {
         double s = source.determinant();
-        if (s == 0.0f) {
+        if (s == 0.0) {
             return;
         }
-        s = 1.0f / s;
+        s = 1.0 / s;
         if (source != dest) {
             dest.m00 = ((source.m11 * source.m22) - (source.m21 * source.m12)) * s;
             dest.m01 = -((source.m01 * source.m22) - (source.m21 * source.m02)) * s;
@@ -649,13 +649,18 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d scale(double x, double y, double z) {
-        identity();
         m00 = x;
+        m01 = 0.0;
+        m02 = 0.0;
+        m10 = 0.0;
         m11 = y;
+        m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
         m22 = z;
         return this;
     }
-    
+
     /**
      * Set this matrix to be a simple scale matrix.
      * 
@@ -664,9 +669,14 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d scale(Vector3d scale) {
-        identity();
         m00 = scale.x;
+        m01 = 0.0;
+        m02 = 0.0;
+        m10 = 0.0;
         m11 = scale.y;
+        m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
         m22 = scale.z;
         return this;
     }

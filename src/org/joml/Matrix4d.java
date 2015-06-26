@@ -805,10 +805,22 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d translation(double x, double y, double z) {
-        identity();
+        m00 = 1.0;
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = 1.0;
+        m23 = 0.0;
         m30 = x;
         m31 = y;
         m32 = z;
+        m33 = 1.0;
         return this;
     }
 
@@ -976,14 +988,25 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d zero() {
-        identity();
         m00 = 0.0;
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
         m11 = 0.0;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
         m22 = 0.0;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
         m33 = 0.0;
         return this;
     }
-    
+
     /**
      * Set this matrix to be a simple scale matrix.
      * 
@@ -996,10 +1019,22 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d scaling(double x, double y, double z) {
-        identity();
         m00 = x;
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
         m11 = y;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
         m22 = z;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
         return this;
     }
 
@@ -1027,10 +1062,22 @@ public class Matrix4d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4d scaling(Vector3d scale) {
-        identity();
         m00 = scale.x;
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
         m11 = scale.y;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
         m22 = scale.z;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
         return this;
     }
 
