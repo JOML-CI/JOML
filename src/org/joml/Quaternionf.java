@@ -1304,20 +1304,21 @@ public class Quaternionf implements Serializable, Externalizable {
         float dirnX = dirX / dirLength;
         float dirnY = dirY / dirLength;
         float dirnZ = dirZ / dirLength;
-        float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
-        float upnX = upX / upLength;
-        float upnY = upY / upLength;
-        float upnZ = upZ / upLength;
         // left = up x dir
         float leftX, leftY, leftZ;
-        leftX = upnY * dirnZ - upnZ * dirnY;
-        leftY = upnZ * dirnX - upnX * dirnZ;
-        leftZ = upnX * dirnY - upnY * dirnX;
+        leftX = upY * dirnZ - upZ * dirnY;
+        leftY = upZ * dirnX - upX * dirnZ;
+        leftZ = upX * dirnY - upY * dirnX;
+        // normalize left
+        float leftLength = (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX /= leftLength;
+        leftY /= leftLength;
+        leftZ /= leftLength;
         // up = direction x left
-        upnX = dirnY * leftZ - dirnZ * leftY;
-        upnY = dirnZ * leftX - dirnX * leftZ;
-        upnZ = dirnX * leftY - dirnY * leftX;
-        
+        float upnX = dirnY * leftZ - dirnZ * leftY;
+        float upnY = dirnZ * leftX - dirnX * leftZ;
+        float upnZ = dirnX * leftY - dirnY * leftX;
+
         /* Convert orthonormal basis vectors to quaternion */
         float x, y, z, w;
         double t;

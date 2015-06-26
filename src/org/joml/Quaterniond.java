@@ -1085,100 +1085,164 @@ public class Quaterniond implements Serializable, Externalizable {
         return this;
     }
 
-    
-    /** Rotates dest to point towards destPoint, from the supplied sourcePoint */
-    public static void lookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward, Quaterniond dest) {
-        double dirX = destPoint.x - sourcePoint.x;
-        double dirY = destPoint.y - sourcePoint.y;
-        double dirZ = destPoint.z - sourcePoint.z;
-
-        double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-
-        dirX /= length;
-        dirY /= length;
-        dirZ /= length;
-
-        double dot = (forward.x * dirX) + (forward.y * dirY) + (forward.z * dirZ);
-
-        if (Math.abs(dot + 1.0) < 0.000001) {
-            dest.x = up.x;
-            dest.y = up.y;
-            dest.z = up.z;
-            dest.w = Math.PI;
-            return;
-        }
-
-        if (Math.abs(dot - 1.0) < 0.000001) {
-            dest.x = 0.0;
-            dest.y = 0.0;
-            dest.z = 0.0;
-            dest.w = 1.0;
-            return;
-        }
-
-        double rotAngle = Math.acos(dot);
-        
-        double rotAxisX = forward.y * dirZ - forward.z * dirY;
-        double rotAxisY = forward.z * dirX - forward.x * dirZ;
-        double rotAxisZ = forward.x * dirY - forward.y * dirX;
-
-        length = Math.sqrt(rotAxisX * rotAxisX + rotAxisY * rotAxisY + rotAxisZ * rotAxisZ);
-
-        rotAxisX /= length;
-        rotAxisY /= length;
-        rotAxisZ /= length;
-
-        dest.fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
-    }
-    
     /**
-     * Rotate <code>dest</code> to point towards <code>destPoint</code>, from the supplied <code>sourcePoint</code>.
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
+     * <p>
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
+     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * 
+     * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
+     * 
+     * @param dir
+     *              the direction to map to the positive Z axis
+     * @param up
+     *              the vector which will be mapped to a vector parallel to the plane
+     *              spanned by the given <code>dir</code> and <code>up</code>
+     * @return this
+     */
+    public Quaterniond lookRotate(Vector3d dir, Vector3d up) {
+        return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    }
+
+    /**
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
+     * <p>
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
+     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * 
+     * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
+     * 
+     * @param dir
+     *              the direction to map to the positive Z axis
+     * @param up
+     *              the vector which will be mapped to a vector parallel to the plane 
+     *              spanned by the given <code>dir</code> and <code>up</code>
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaterniond lookRotate(Vector3d dir, Vector3d up, Quaterniond dest) {
+        return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
+     * <p>
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
+     * parallel to the plane spanned by the <tt>up and <tt>dir</tt> vectors. 
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * 
+     * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
      * 
      * @return this
      */
-    public Quaterniond lookAt(Vector3d sourcePoint, Vector3d destPoint, Vector3d up, Vector3d forward) {
-        double dirX = destPoint.x - sourcePoint.x;
-        double dirY = destPoint.y - sourcePoint.y;
-        double dirZ = destPoint.z - sourcePoint.z;
+    public Quaterniond lookRotate(double dirX, double dirY, double dirZ, double upX, double upY, double upZ) {
+        return lookRotate(dirX, dirY, dirZ, upX, upY, upZ, this);
+    }
 
-        double length = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+    /**
+     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
+     * <p>
+     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
+     * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors. 
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
+     * 
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Quaterniond lookRotate(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Quaterniond dest) {
+        // Normalize direction
+        double dirLength = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX / dirLength;
+        double dirnY = dirY / dirLength;
+        double dirnZ = dirZ / dirLength;
+        // left = up x dir
+        double leftX, leftY, leftZ;
+        leftX = upY * dirnZ - upZ * dirnY;
+        leftY = upZ * dirnX - upX * dirnZ;
+        leftZ = upX * dirnY - upY * dirnX;
+        // normalize left
+        double leftLength = Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX /= leftLength;
+        leftY /= leftLength;
+        leftZ /= leftLength;
+        // up = direction x left
+        double upnX = dirnY * leftZ - dirnZ * leftY;
+        double upnY = dirnZ * leftX - dirnX * leftZ;
+        double upnZ = dirnX * leftY - dirnY * leftX;
 
-        dirX /= length;
-        dirY /= length;
-        dirZ /= length;
-
-        double dot = (forward.x * dirX) + (forward.y * dirY) + (forward.z * dirZ);
-
-        if (Math.abs(dot + 1.0) < 0.000001) {
-            x = up.x;
-            y = up.y;
-            z = up.z;
-            w = Math.PI;
-            return this;
+        /* Convert orthonormal basis vectors to quaternion */
+        double x, y, z, w;
+        double t;
+        double tr = leftX + upnY + dirnZ;
+        if (tr >= 0.0) {
+            t = Math.sqrt(tr + 1.0);
+            w = t * 0.5;
+            t = 0.5 / t;
+            x = (dirnY - upnZ) * t;
+            y = (leftZ - dirnX) * t;
+            z = (upnX - leftY) * t;
+        } else {
+            if (leftX > upnY && leftX > dirnZ) {
+                t = Math.sqrt(1.0 + leftX - upnY - dirnZ);
+                x = t * 0.5;
+                t = 0.5 / t;
+                y = (leftY + upnX) * t;
+                z = (dirnX + leftZ) * t;
+                w = (dirnY - upnZ) * t;
+            } else if (upnY > dirnZ) {
+                t = Math.sqrt(1.0 + upnY - leftX - dirnZ);
+                y = t * 0.5;
+                t = 0.5 / t;
+                x = (leftY + upnX) * t;
+                z = (upnZ + dirnY) * t;
+                w = (leftZ - dirnX) * t;
+            } else {
+                t = Math.sqrt(1.0 + dirnZ - leftX - upnY);
+                z = t * 0.5;
+                t = 0.5 / t;
+                x = (dirnX + leftZ) * t;
+                y = (upnZ + dirnY) * t;
+                w = (upnX - leftY) * t;
+            }
         }
-
-        if (Math.abs(dot - 1.0) < 0.000001) {
-            x = 0.0f;
-            y = 0.0f;
-            z = 0.0f;
-            w = 1.0f;
-            return this;
-        }
-
-        double rotAngle = Math.acos(dot);
-        
-        double rotAxisX = forward.y * dirZ - forward.z * dirY;
-        double rotAxisY = forward.z * dirX - forward.x * dirZ;
-        double rotAxisZ = forward.x * dirY - forward.y * dirX;
-
-        length = Math.sqrt(rotAxisX * rotAxisX + rotAxisY * rotAxisY + rotAxisZ * rotAxisZ);
-
-        rotAxisX /= length;
-        rotAxisY /= length;
-        rotAxisZ /= length;
-
-        fromAxisAngleRad(rotAxisX, rotAxisY, rotAxisZ, rotAngle);
-        
+        double norm = Math.sqrt(x * x + y * y + z * z + w * w);
+        x /= norm;
+        y /= norm;
+        z /= norm;
+        w /= norm;
+        /* Multiply */
+        dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
+                 this.w * y - this.x * z + this.y * w + this.z * x,
+                 this.w * z + this.x * y - this.y * x + this.z * w,
+                 this.w * w - this.x * x - this.y * y - this.z * z);
         return this;
     }
 
