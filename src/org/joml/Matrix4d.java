@@ -2617,4 +2617,1267 @@ public class Matrix4d implements Serializable, Externalizable {
         project(position.x, position.y, position.z, projection, view, viewport, winCoordsDest);
     }
 
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt> and store the result in <code>dest</code>.
+     * <p>
+     * The vector <tt>(a, b, c)</tt> must be a unit vector.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
+     * 
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4d reflect(double a, double b, double c, double d, Matrix4d dest) {
+        double rm00 = 1.0 - 2.0 * a * a;
+        double rm01 = -2.0 * a * b;
+        double rm02 = -2.0 * a * c;
+        double rm10 = -2.0 * a * b;
+        double rm11 = 1.0 - 2.0 * b * b;
+        double rm12 = -2.0 * b * c;
+        double rm20 = -2.0 * a * c;
+        double rm21 = -2.0 * b * c;
+        double rm22 = 1.0 - 2.0 * c * c;
+        double rm30 = -2.0 * a * d;
+        double rm31 = -2.0 * b * d;
+        double rm32 = -2.0 * c * d;
+
+        // matrix multiplication
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+
+        return this;
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
+     * <p>
+     * The vector <tt>(a, b, c)</tt> must be a unit vector.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
+     * 
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @return this
+     */
+    public Matrix4d reflect(double a, double b, double c, double d) {
+        return reflect(a, b, c, d, this);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @param px
+     *          the x-coordinate of a point on the plane
+     * @param py
+     *          the y-coordinate of a point on the plane
+     * @param pz
+     *          the z-coordinate of a point on the plane
+     * @return this
+     */
+    public Matrix4d reflect(double nx, double ny, double nz, double px, double py, double pz) {
+        return reflect(nx, ny, nz, px, py, pz, this);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @param px
+     *          the x-coordinate of a point on the plane
+     * @param py
+     *          the y-coordinate of a point on the plane
+     * @param pz
+     *          the z-coordinate of a point on the plane
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4d reflect(double nx, double ny, double nz, double px, double py, double pz, Matrix4d dest) {
+        double length = Math.sqrt(nx * nx + ny * ny + nz * nz);
+        double nnx = nx / length;
+        double nny = ny / length;
+        double nnz = nz / length;
+        /* See: http://mathworld.wolfram.com/Plane.html */
+        return reflect(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz, dest);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param normal
+     *          the plane normal
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public Matrix4d reflect(Vector3d normal, Vector3d point) {
+        return reflect(normal.x, normal.y, normal.z, point.x, point.y, point.z);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about a plane
+     * specified via the plane orientation and a point on the plane.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniond} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public Matrix4d reflect(Quaterniond orientation, Vector3d point) {
+        return reflect(orientation, point, this);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about a plane
+     * specified via the plane orientation and a point on the plane, and store the result in <code>dest</code>.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniond} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @param point
+     *          a point on the plane
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4d reflect(Quaterniond orientation, Vector3d point, Matrix4d dest) {
+        double num1 = orientation.x * 2.0;
+        double num2 = orientation.y * 2.0;
+        double num3 = orientation.z * 2.0;
+        double normalX = orientation.x * num3 + orientation.w * num2;
+        double normalY = orientation.y * num3 - orientation.w * num1;
+        double normalZ = 1.0 - (orientation.x * num1 + orientation.y * num2);
+        return reflect(normalX, normalY, normalZ, point.x, point.y, point.z, dest);
+    }
+
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param normal
+     *          the plane normal
+     * @param point
+     *          a point on the plane
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4d reflect(Vector3d normal, Vector3d point, Matrix4d dest) {
+        return reflect(normal.x, normal.y, normal.z, point.x, point.y, point.z, dest);
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects about the given plane
+     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
+     * <p>
+     * The vector <tt>(a, b, c)</tt> must be a unit vector.
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
+     * 
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @return this
+     */
+    public Matrix4d reflection(double a, double b, double c, double d) {
+        m00 = 1.0 - 2.0 * a * a;
+        m01 = -2.0 * a * b;
+        m02 = -2.0 * a * c;
+        m03 = 0.0;
+        m10 = -2.0 * a * b;
+        m11 = 1.0 - 2.0 * b * b;
+        m12 = -2.0 * b * c;
+        m13 = 0.0;
+        m20 = -2.0 * a * c;
+        m21 = -2.0 * b * c;
+        m22 = 1.0 - 2.0 * c * c;
+        m23 = 0.0;
+        m30 = -2.0 * a * d;
+        m31 = -2.0 * b * d;
+        m32 = -2.0 * c * d;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @param px
+     *          the x-coordinate of a point on the plane
+     * @param py
+     *          the y-coordinate of a point on the plane
+     * @param pz
+     *          the z-coordinate of a point on the plane
+     * @return this
+     */
+    public Matrix4d reflection(double nx, double ny, double nz, double px, double py, double pz) {
+        double length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+        double nnx = nx / length;
+        double nny = ny / length;
+        double nnz = nz / length;
+        /* See: http://mathworld.wolfram.com/Plane.html */
+        return reflection(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz);
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects about the given plane
+     * specified via the plane normal and a point on the plane.
+     * 
+     * @param normal
+     *          the plane normal
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public Matrix4d reflection(Vector3d normal, Vector3d point) {
+        return reflection(normal.x, normal.y, normal.z, point.x, point.y, point.z);
+    }
+
+    /**
+     * Set this matrix to a mirror/reflection transformation that reflects about a plane
+     * specified via the plane orientation and a point on the plane.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniond} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @param point
+     *          a point on the plane
+     * @return this
+     */
+    public Matrix4d reflection(Quaterniond orientation, Vector3d point) {
+        double num1 = orientation.x * 2.0;
+        double num2 = orientation.y * 2.0;
+        double num3 = orientation.z * 2.0;
+        double normalX = orientation.x * num3 + orientation.w * num2;
+        double normalY = orientation.y * num3 - orientation.w * num1;
+        double normalZ = 1.0 - (orientation.x * num1 + orientation.y * num2);
+        return reflection(normalX, normalY, normalZ, point.x, point.y, point.z);
+    }
+    
+
+    /**
+     * Apply an orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(double, double, double, double, double, double) setOrtho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
+        // calculate right matrix elements
+        double rm00 = 2.0 / (right - left);
+        double rm11 = 2.0 / (top - bottom);
+        double rm22 = -2.0 / (zFar - zNear);
+        double rm30 = -(right + left) / (right - left);
+        double rm31 = -(top + bottom) / (top - bottom);
+        double rm32 = -(zFar + zNear) / (zFar - zNear);
+
+        // perform optimized multiplication
+        // compute the last column first, because other rows do not depend on it
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m20 = m20 * rm22;
+        dest.m21 = m21 * rm22;
+        dest.m22 = m22 * rm22;
+        dest.m23 = m23 * rm22;
+
+        return this;
+    }
+
+    /**
+     * Apply an orthographic projection transformation to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(double, double, double, double, double, double) setOrtho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar) {
+        return ortho(left, right, bottom, top, zNear, zFar, this);
+    }
+
+    /**
+     * Set this matrix to be an orthographic projection transformation.
+     * <p>
+     * In order to apply the orthographic projection to an already existing transformation,
+     * use {@link #ortho(double, double, double, double, double, double) ortho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #ortho(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4d setOrtho(double left, double right, double bottom, double top, double zNear, double zFar) {
+        m00 = 2.0 / (right - left);
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 2.0 / (top - bottom);
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = -2.0 / (zFar - zNear);
+        m23 = 0.0;
+        m30 = -(right + left) / (right - left);
+        m31 = -(top + bottom) / (top - bottom);
+        m32 = -(zFar + zNear) / (zFar - zNear);
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(Vector3d, Vector3d, Vector3d) lookAt}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(Vector3d, Vector3d) setLookAlong()}.
+     * 
+     * @see #lookAlong(double, double, double, double, double, double)
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
+     * @see #setLookAlong(Vector3d, Vector3d)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix4d lookAlong(Vector3d dir, Vector3d up) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
+     * and store the result in <code>dest</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(Vector3d, Vector3d, Vector3d) lookAt}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(Vector3d, Vector3d) setLookAlong()}.
+     * 
+     * @see #lookAlong(double, double, double, double, double, double)
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
+     * @see #setLookAlong(Vector3d, Vector3d)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d lookAlong(Vector3d dir, Vector3d up, Matrix4d dest) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
+     * and store the result in <code>dest</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt()}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
+     * 
+     * @see #lookAt(double, double, double, double, double, double, double, double, double)
+     * @see #setLookAlong(double, double, double, double, double, double)
+     * 
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Matrix4d lookAlong(double dirX, double dirY, double dirZ,
+                              double upX, double upY, double upZ, Matrix4d dest) {
+        // Normalize direction
+        double dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX / dirLength;
+        double dirnY = dirY / dirLength;
+        double dirnZ = dirZ / dirLength;
+        double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
+        double upnX = upX / upLength;
+        double upnY = upY / upLength;
+        double upnZ = upZ / upLength;
+        // right = direction x up
+        double rightX, rightY, rightZ;
+        rightX = dirnY * upnZ - dirnZ * upnY;
+        rightY = dirnZ * upnX - dirnX * upnZ;
+        rightZ = dirnX * upnY - dirnY * upnX;
+        // up = right x direction
+        upnX = rightY * dirnZ - rightZ * dirnY;
+        upnY = rightZ * dirnX - rightX * dirnZ;
+        upnZ = rightX * dirnY - rightY * dirnX;
+
+        // calculate right matrix elements
+        double rm00 = rightX;
+        double rm01 = upnX;
+        double rm02 = -dirnX;
+        double rm10 = rightY;
+        double rm11 = upnY;
+        double rm12 = -dirnY;
+        double rm20 = rightZ;
+        double rm21 = upnZ;
+        double rm22 = -dirnZ;
+
+        // perform optimized matrix multiplication
+        // introduce temporaries for dependent results
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        // set the rest of the matrix elements
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+
+        return this;
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * This is equivalent to calling
+     * {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt()}
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
+     * 
+     * @see #lookAt(double, double, double, double, double, double, double, double, double)
+     * @see #setLookAlong(double, double, double, double, double, double)
+     * 
+     * @return this
+     */
+    public Matrix4d lookAlong(double dirX, double dirY, double dirZ,
+                              double upX, double upY, double upZ) {
+        return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Set this matrix to a rotation transformation to make <code>-z</code>
+     * point along <code>dir</code>.
+     * <p>
+     * This is equivalent to calling
+     * {@link #setLookAt(Vector3d, Vector3d, Vector3d) setLookAt()} 
+     * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to apply the lookalong transformation to any previous existing transformation,
+     * use {@link #lookAlong(Vector3d, Vector3d)}.
+     * 
+     * @see #setLookAlong(Vector3d, Vector3d)
+     * @see #lookAlong(Vector3d, Vector3d)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix4d setLookAlong(Vector3d dir, Vector3d up) {
+        return setLookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Set this matrix to a rotation transformation to make <code>-z</code>
+     * point along <code>dir</code>.
+     * <p>
+     * This is equivalent to calling
+     * {@link #setLookAt(double, double, double, double, double, double, double, double, double)
+     * setLookAt()} with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
+     * <p>
+     * In order to apply the lookalong transformation to any previous existing transformation,
+     * use {@link #lookAlong(double, double, double, double, double, double) lookAlong()}
+     * 
+     * @see #setLookAlong(double, double, double, double, double, double)
+     * @see #lookAlong(double, double, double, double, double, double)
+     * 
+     * @return this
+     */
+    public Matrix4d setLookAlong(double dirX, double dirY, double dirZ,
+                                 double upX, double upY, double upZ) {
+        // Normalize direction
+        double dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX / dirLength;
+        double dirnY = dirY / dirLength;
+        double dirnZ = dirZ / dirLength;
+        double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
+        double upnX = upX / upLength;
+        double upnY = upY / upLength;
+        double upnZ = upZ / upLength;
+        // right = direction x up
+        double rightX, rightY, rightZ;
+        rightX = dirnY * upnZ - dirnZ * upnY;
+        rightY = dirnZ * upnX - dirnX * upnZ;
+        rightZ = dirnX * upnY - dirnY * upnX;
+        // up = right x direction
+        upnX = rightY * dirnZ - rightZ * dirnY;
+        upnY = rightZ * dirnX - rightX * dirnZ;
+        upnZ = rightX * dirnY - rightY * dirnX;
+
+        m00 = rightX;
+        m01 = upnX;
+        m02 = -dirnX;
+        m03 = 0.0;
+        m10 = rightY;
+        m11 = upnY;
+        m12 = -dirnY;
+        m13 = 0.0;
+        m20 = rightZ;
+        m21 = upnZ;
+        m22 = -dirnZ;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+
+        return this;
+    }
+
+    /**
+     * Set this matrix to be a "lookat" transformation for a right-handed coordinate system, that aligns
+     * <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * If you do not want to use {@link Vector3d} instances but simple floats
+     * like in the GLU function, you can use
+     * {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt()}
+     * instead.
+     * <p>
+     * In order to apply the lookat transformation to a previous existing transformation,
+     * use {@link #lookAt(Vector3d, Vector3d, Vector3d) lookAt()}.
+     * 
+     * @see #setLookAt(double, double, double, double, double, double, double, double, double)
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
+     * 
+     * @param eye
+     *            the position of the camera
+     * @param center
+     *            the point in space to look at
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix4d setLookAt(Vector3d eye, Vector3d center, Vector3d up) {
+        return setLookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Set this matrix to be a "lookat" transformation for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * In order to apply the lookat transformation to a previous existing transformation,
+     * use {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt}.
+     * 
+     * @see #setLookAt(Vector3d, Vector3d, Vector3d)
+     * @see #lookAt(double, double, double, double, double, double, double, double, double)
+     * 
+     * @return this
+     */
+    public Matrix4d setLookAt(double eyeX, double eyeY, double eyeZ,
+                              double centerX, double centerY, double centerZ,
+                              double upX, double upY, double upZ) {
+        // Compute direction from position to lookAt
+        double dirX, dirY, dirZ;
+        dirX = centerX - eyeX;
+        dirY = centerY - eyeY;
+        dirZ = centerZ - eyeZ;
+        // Normalize direction
+        double dirLength = (float) Math.sqrt(
+                  (eyeX - centerX) * (eyeX - centerX)
+                + (eyeY - centerY) * (eyeY - centerY)
+                + (eyeZ - centerZ) * (eyeZ - centerZ));
+        dirX /= dirLength;
+        dirY /= dirLength;
+        dirZ /= dirLength;
+        // Normalize up
+        double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
+        double upnX = upX / upLength;
+        double upnY = upY / upLength;
+        double upnZ = upZ / upLength;
+        // right = direction x up
+        double rightX, rightY, rightZ;
+        rightX = dirY * upnZ - dirZ * upnY;
+        rightY = dirZ * upnX - dirX * upnZ;
+        rightZ = dirX * upnY - dirY * upnX;
+        // up = right x direction
+        upnX = rightY * dirZ - rightZ * dirY;
+        upnY = rightZ * dirX - rightX * dirZ;
+        upnZ = rightX * dirY - rightY * dirX;
+
+        m00 = rightX;
+        m01 = upnX;
+        m02 = -dirX;
+        m03 = 0.0;
+        m10 = rightY;
+        m11 = upnY;
+        m12 = -dirY;
+        m13 = 0.0;
+        m20 = rightZ;
+        m21 = upnZ;
+        m22 = -dirZ;
+        m23 = 0.0;
+        m30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
+        m31 = -upnX * eyeX - upnY * eyeY - upnZ * eyeZ;
+        m32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
+        m33 = 1.0;
+
+        return this;
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAt(Vector3d, Vector3d, Vector3d)}.
+     * 
+     * @see #lookAt(double, double, double, double, double, double, double, double, double)
+     * @see #setLookAlong(Vector3d, Vector3d)
+     * 
+     * @param eye
+     *            the position of the camera
+     * @param center
+     *            the point in space to look at
+     * @param up
+     *            the direction of 'up'
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d lookAt(Vector3d eye, Vector3d center, Vector3d up, Matrix4d dest) {
+        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAt(Vector3d, Vector3d, Vector3d)}.
+     * 
+     * @see #lookAt(double, double, double, double, double, double, double, double, double)
+     * @see #setLookAlong(Vector3d, Vector3d)
+     * 
+     * @param eye
+     *            the position of the camera
+     * @param center
+     *            the point in space to look at
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix4d lookAt(Vector3d eye, Vector3d center, Vector3d up) {
+        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, this);
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt()}.
+     * 
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
+     * @see #setLookAt(double, double, double, double, double, double, double, double, double)
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4d lookAt(double eyeX, double eyeY, double eyeZ,
+                           double centerX, double centerY, double centerZ,
+                           double upX, double upY, double upZ, Matrix4d dest) {
+        // Compute direction from position to lookAt
+        double dirX, dirY, dirZ;
+        dirX = centerX - eyeX;
+        dirY = centerY - eyeY;
+        dirZ = centerZ - eyeZ;
+        // Normalize direction
+        double dirLength = (float) Math.sqrt(
+                  (eyeX - centerX) * (eyeX - centerX)
+                + (eyeY - centerY) * (eyeY - centerY)
+                + (eyeZ - centerZ) * (eyeZ - centerZ));
+        dirX /= dirLength;
+        dirY /= dirLength;
+        dirZ /= dirLength;
+        // Normalize up
+        double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
+        double upnX = upX / upLength;
+        double upnY = upY / upLength;
+        double upnZ = upZ / upLength;
+        // right = direction x up
+        double rightX, rightY, rightZ;
+        rightX = dirY * upnZ - dirZ * upnY;
+        rightY = dirZ * upnX - dirX * upnZ;
+        rightZ = dirX * upnY - dirY * upnX;
+        // up = right x direction
+        upnX = rightY * dirZ - rightZ * dirY;
+        upnY = rightZ * dirX - rightX * dirZ;
+        upnZ = rightX * dirY - rightY * dirX;
+
+        // calculate right matrix elements
+        double rm00 = rightX;
+        double rm01 = upnX;
+        double rm02 = -dirX;
+        double rm10 = rightY;
+        double rm11 = upnY;
+        double rm12 = -dirY;
+        double rm20 = rightZ;
+        double rm21 = upnZ;
+        double rm22 = -dirZ;
+        double rm30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
+        double rm31 = -upnX * eyeX - upnY * eyeY - upnZ * eyeZ;
+        double rm32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
+
+        // perform optimized matrix multiplication
+        // compute last column first, because others do not depend on it
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        // introduce temporaries for dependent results
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        // set the rest of the matrix elements
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+
+        return this;
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt()}.
+     * 
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
+     * @see #setLookAt(double, double, double, double, double, double, double, double, double)
+     * 
+     * @return this
+     */
+    public Matrix4d lookAt(double eyeX, double eyeY, double eyeZ,
+                           double centerX, double centerY, double centerZ,
+                           double upX, double upY, double upZ) {
+        return lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * This method first computes the frustum corners using the specified parameters and then makes use of
+     * {@link #frustum(double, double, double, double, double, double) frustum()} to finally apply the frustum
+     * transformation.
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspective(double, double, double, double) setPerspective}.
+     * 
+     * @see #frustum(double, double, double, double, double, double)
+     * @see #setPerspective(double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in degrees
+     * @param aspect
+     *            the aspect ratio (i.e. width / height)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
+        double h = Math.tan(Math.toRadians(fovy) * 0.5) * zNear;
+        double w = h * aspect;
+        double fl = -w;
+        double fr = +w;
+        double fb = -h;
+        double ft = +h;
+        return frustum(fl, fr, fb, ft, zNear, zFar, dest);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * This method first computes the frustum corners using the specified parameters and then makes use of
+     * {@link #frustum(double, double, double, double, double, double) frustum()} to finally apply the frustum
+     * transformation.
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspective(double, double, double, double) setPerspective}.
+     * 
+     * @see #frustum(double, double, double, double, double, double)
+     * @see #setPerspective(double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in degrees
+     * @param aspect
+     *            the aspect ratio (i.e. width / height)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar) {
+        return perspective(fovy, aspect, zNear, zFar, this);
+    }
+
+    /**
+     * Set this matrix to be a symmetric perspective projection frustum transformation.
+     * <p>
+     * This method first computes the frustum corners using the specified parameters and then makes use of
+     * {@link #setFrustum(double, double, double, double, double, double) setFrustum()} to finally apply the frustum
+     * transformation.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspective(double, double, double, double) perspective()}.
+     * 
+     * @see #setFrustum(double, double, double, double, double, double)
+     * @see #perspective(double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in degrees
+     * @param aspect
+     *            the aspect ratio (i.e. width / height)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4d setPerspective(double fovy, double aspect, double zNear, double zFar) {
+        double h = Math.tan(Math.toRadians(fovy) * 0.5) * zNear;
+        double w = h * aspect;
+        double fl = -w;
+        double fr = +w;
+        double fb = -h;
+        double ft = +h;
+        return setFrustum(fl, fr, fb, ft, zNear, zFar);
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation to this matrix 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustum(double, double, double, double, double, double) setFrustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #setFrustum(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
+        // calculate right matrix elements
+        double rm00 = 2.0 * zNear / (right - left);
+        double rm11 = 2.0 * zNear / (top - bottom);
+        double rm20 = (right + left) / (right - left);
+        double rm21 = (top + bottom) / (top - bottom);
+        double rm22 = -(zFar + zNear) / (zFar - zNear);
+        double rm32 = -2.0 * zFar * zNear / (zFar - zNear);
+
+        // perform optimized matrix multiplication
+        double nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
+        double nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 - m31;
+        double nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 - m32;
+        double nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 - m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m30 = m20 * rm32;
+        dest.m31 = m21 * rm32;
+        dest.m32 = m22 * rm32;
+        dest.m33 = m23 * rm32;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+
+        return this;
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustum(double, double, double, double, double, double) setFrustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #setFrustum(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @return this
+     */
+    public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar) {
+        return frustum(left, right, bottom, top, zNear, zFar, this);
+    }
+
+    /**
+     * Set this matrix to be an arbitrary perspective projection frustum transformation.
+     * <p>
+     * In order to apply the perspective frustum transformation to an existing transformation,
+     * use {@link #frustum(double, double, double, double, double, double) frustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html">http://www.songho.ca</a>
+     * 
+     * @see #frustum(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @return this
+     */
+    public Matrix4d setFrustum(double left, double right, double bottom, double top, double zNear, double zFar) {
+        m00 = 2.0 * zNear / (right - left);
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 2.0 * zNear / (top - bottom);
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = (right + left) / (right - left);
+        m21 = (top + bottom) / (top - bottom);
+        m22 = -(zFar + zNear) / (zFar - zNear);
+        m23 = -1.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = -2.0 * zFar * zNear / (zFar - zNear);
+        m33 = 0.0;
+        return this;
+    }
+
 }
