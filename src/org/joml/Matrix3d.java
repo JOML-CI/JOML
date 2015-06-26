@@ -28,6 +28,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
 import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -572,6 +573,57 @@ public class Matrix3d implements Serializable, Externalizable {
         buffer.put(index+6, m20);
         buffer.put(index+7, m21);
         buffer.put(index+8, m22);
+        return this;
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * 
+     * @see #get(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
+    public Matrix3d get(FloatBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix3d get(int index, FloatBuffer buffer) {
+        buffer.put(index, (float) m00);
+        buffer.put(index+1, (float) m01);
+        buffer.put(index+2, (float) m02);
+        buffer.put(index+3, (float) m10);
+        buffer.put(index+4, (float) m11);
+        buffer.put(index+5, (float) m12);
+        buffer.put(index+6, (float) m20);
+        buffer.put(index+7, (float) m21);
+        buffer.put(index+8, (float) m22);
         return this;
     }
 
