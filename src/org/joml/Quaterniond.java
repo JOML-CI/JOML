@@ -147,8 +147,12 @@ public class Quaterniond implements Serializable, Externalizable {
     }
 
     /**
-     * Normalizes the supplied Quaternion source and stores the results in dest.
-     * Does not modify the source
+     * Normalize the supplied {@link Quaterniond} <code>source</code> and store the result in <code>dest</code>.
+     * 
+     * @param source
+     *          the quaternion to normalize
+     * @param dest
+     *          will hold the result
      */
     public static void normalize(Quaterniond source, Quaterniond dest) {
         double norm = Math.sqrt(source.x * source.x + source.y * source.y + source.z * source.z + source.w * source.w);
@@ -160,8 +164,10 @@ public class Quaterniond implements Serializable, Externalizable {
     }
 
     /**
-     * Add q2 to this quaternion.
+     * Add <code>q2</code> to <code>this</code> quaternion.
      * 
+     * @param q2
+     *          the quaternion to add to this
      * @return this
      */
     public Quaterniond add(Quaterniond q2) {
@@ -173,7 +179,14 @@ public class Quaterniond implements Serializable, Externalizable {
     }
 
     /**
-     * Add q2 to q1 and store the results in dest. Does not modify q1 or q2
+     * Add <code>q2</code> to <code>q1</code> and store the result in <code>dest</code>.
+     * 
+     * @param q1
+     *          the first quaternion
+     * @param q2
+     *          the second quaternion
+     * @param dest
+     *          will hold the result
      */
     public static void add(Quaterniond q1, Quaterniond q2, Quaterniond dest) {
         dest.x = q1.x + q2.x;
@@ -183,14 +196,24 @@ public class Quaterniond implements Serializable, Externalizable {
     }
 
     /**
-     * Returns the dot of this Quaternion and otherQuat
+     * Return the dot product of this {@link Quaterniond} and <code>otherQuat</code>.
+     * 
+     * @param otherQuat
+     *          the other quaternion
+     * @return the dot product
      */
     public double dot(Quaterniond otherQuat) {
         return this.x * otherQuat.x + this.y * otherQuat.y + this.z * otherQuat.z + this.w * otherQuat.w;
     }
 
     /**
-     * Returns the dot product of a and b
+     * Return the dot product of the given <code>a</code> and <code>b</code> quaternions.
+     * 
+     * @param a
+     *          the first quaternion
+     * @param b
+     *          the second quaternion
+     * @return the dot product
      */
     public static double dot(Quaterniond a, Quaterniond b) {
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
@@ -198,21 +221,31 @@ public class Quaterniond implements Serializable, Externalizable {
 
     /**
      * Return the angle represented by this quaternion rotation in degrees.
+     * 
+     * @return the angle in degrees
      */
     public double angle() {
         double angle = 2.0 * Math.acos(w);
-        return (angle <= Math.PI) ? angle : 2.0f * Math.PI - angle;
+        return Math.toDegrees(angle <= Math.PI ? angle : 2.0f * Math.PI - angle);
     }
 
     /**
      * Return the angle represented by <code>q</code> in degrees.
+     * 
+     * @return the angle in degrees
      */
     public static double angle(Quaterniond q) {
         double angle = 2.0 * Math.acos(q.w);
-        return (angle <= Math.PI) ? angle : 2.0 * Math.PI - angle;
+        return Math.toDegrees(angle <= Math.PI ? angle : 2.0 * Math.PI - angle);
     }
+
     /**
-     * Set the given destination matrix to the rotation represented by <code>q</code>.
+     * Set the given <code>dest</code> matrix to the rotation represented by <code>q</code>.
+     * 
+     * @param q
+     *          the quaternion
+     * @param dest
+     *          the matrix to store the rotation of the given quaternion to
      */
     public static void get(Quaterniond q, Matrix3d dest) {
         double q00 = 2.0 * q.x * q.x;
@@ -242,6 +275,8 @@ public class Quaterniond implements Serializable, Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
+     * @param dest
+     *          the matrix to store the rotation of this quaternion to
      * @return this
      */
     public Quaterniond get(Matrix3d dest) {

@@ -151,8 +151,12 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Normalizes the supplied quaternion source and stores the results in dest.
-     * Does not modify the source
+     * Normalize the supplied quaternion <code>source</code> and store the result in <code>dest</code>.
+     * 
+     * @param source
+     *          the source to normalize
+     * @param dest
+     *          will hold the result
      */
     public static void normalize(Quaternionf source, Quaternionf dest) {
         float norm = (float) Math.sqrt(source.x * source.x + source.y * source.y + source.z * source.z + source.w * source.w);
@@ -166,6 +170,8 @@ public class Quaternionf implements Serializable, Externalizable {
     /**
      * Add <code>q2</code> to this quaternion.
      * 
+     * @param q2
+     *          the quaternion to add to this
      * @return this
      */
     public Quaternionf add(Quaternionf q2) {
@@ -177,7 +183,12 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Add q2 to q1 and store the results in dest. Does not modify q1 or q2
+     * Add <code>q2</code> to <code>q1</code> and store the result in <code>dest</code>.
+     * 
+     * @param q1
+     *          the first quaternion
+     * @param q2
+     *          the second quaternion
      */
     public static void add(Quaternionf q1, Quaternionf q2, Quaternionf dest) {
         dest.x = q1.x + q2.x;
@@ -187,14 +198,24 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Returns the dot of this quaternion and otherQuat
+     * Return the dot of this quaternion and <code>otherQuat</code>.
+     * 
+     * @param otherQuat
+     *          the other quaternion
+     * @return the dot product
      */
     public float dot(Quaternionf otherQuat) {
         return this.x * otherQuat.x + this.y * otherQuat.y + this.z * otherQuat.z + this.w * otherQuat.w;
     }
 
     /**
-     * Returns the dot product of a and b
+     * Return the dot product of a and b.
+     * 
+     * @param a
+     *          the first quaternion
+     * @param b
+     *          the second quaternion
+     * @return the dot product
      */
     public static float dot(Quaternionf a, Quaternionf b) {
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
@@ -202,18 +223,22 @@ public class Quaternionf implements Serializable, Externalizable {
 
     /**
      * Return the angle represented by this quaternion rotation in degrees.
+     * 
+     * @return the angle in degrees
      */
     public float angle() {
-        float angle = 2.0f * (float) Math.acos(w);
-        return (angle <= Math.PI) ? angle : 2.0f * (float) Math.PI - angle;
+        float angle = (float) (2.0 * Math.acos(w));
+        return (float) Math.toDegrees(angle <= Math.PI ? angle : 2.0 * Math.PI - angle);
     }
 
     /**
      * Return the angle represented by <code>q</code> in degrees.
+     * 
+     * @return the angle in degrees
      */
-    public static float angle(Quaternionf q) {
-        float angle = 2.0f * (float) Math.acos(q.w);
-        return (angle <= Math.PI) ? angle : 2.0f * (float) Math.PI - angle;
+    public static float angle(Quaterniond q) {
+        float angle = (float) (2.0 * Math.acos(q.w));
+        return (float) Math.toDegrees(angle <= Math.PI ? angle : 2.0 * Math.PI - angle);
     }
 
     /**
