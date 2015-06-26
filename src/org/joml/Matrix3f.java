@@ -1520,6 +1520,11 @@ public class Matrix3f implements Serializable, Externalizable {
         rightX = dirnY * upnZ - dirnZ * upnY;
         rightY = dirnZ * upnX - dirnX * upnZ;
         rightZ = dirnX * upnY - dirnY * upnX;
+        // normalize right
+        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
         // up = right x direction
         upnX = rightY * dirnZ - rightZ * dirnY;
         upnY = rightZ * dirnX - rightX * dirnZ;

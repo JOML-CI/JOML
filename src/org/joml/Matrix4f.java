@@ -2146,6 +2146,11 @@ public class Matrix4f implements Serializable, Externalizable {
         rightX = dirnY * upnZ - dirnZ * upnY;
         rightY = dirnZ * upnX - dirnX * upnZ;
         rightZ = dirnX * upnY - dirnY * upnX;
+        // normalize right
+        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
         // up = right x direction
         upnX = rightY * dirnZ - rightZ * dirnY;
         upnY = rightZ * dirnX - rightX * dirnZ;
@@ -2274,6 +2279,11 @@ public class Matrix4f implements Serializable, Externalizable {
         rightX = dirnY * upnZ - dirnZ * upnY;
         rightY = dirnZ * upnX - dirnX * upnZ;
         rightZ = dirnX * upnY - dirnY * upnX;
+        // normalize right
+        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
         // up = right x direction
         upnX = rightY * dirnZ - rightZ * dirnY;
         upnY = rightZ * dirnX - rightX * dirnZ;
@@ -2348,9 +2358,9 @@ public class Matrix4f implements Serializable, Externalizable {
         dirZ = centerZ - eyeZ;
         // Normalize direction
         float dirLength = (float) Math.sqrt(
-                  (eyeX - centerX) * (eyeX - centerX)
-                + (eyeY - centerY) * (eyeY - centerY)
-                + (eyeZ - centerZ) * (eyeZ - centerZ));
+                  (centerX - eyeX) * (centerX - eyeX)
+                + (centerY - eyeY) * (centerY - eyeY)
+                + (centerZ - eyeZ) * (centerZ - eyeZ));
         dirX /= dirLength;
         dirY /= dirLength;
         dirZ /= dirLength;
@@ -2364,6 +2374,11 @@ public class Matrix4f implements Serializable, Externalizable {
         rightX = dirY * upnZ - dirZ * upnY;
         rightY = dirZ * upnX - dirX * upnZ;
         rightZ = dirX * upnY - dirY * upnX;
+        // normalize right
+        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
         // up = right x direction
         upnX = rightY * dirZ - rightZ * dirY;
         upnY = rightZ * dirX - rightX * dirZ;
@@ -2490,6 +2505,11 @@ public class Matrix4f implements Serializable, Externalizable {
         rightX = dirY * upnZ - dirZ * upnY;
         rightY = dirZ * upnX - dirX * upnZ;
         rightZ = dirX * upnY - dirY * upnX;
+        // normalize right
+        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
         // up = right x direction
         upnX = rightY * dirZ - rightZ * dirY;
         upnY = rightZ * dirX - rightX * dirZ;

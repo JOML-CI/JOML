@@ -3314,6 +3314,11 @@ public class Matrix4d implements Serializable, Externalizable {
         rightX = dirnY * upnZ - dirnZ * upnY;
         rightY = dirnZ * upnX - dirnX * upnZ;
         rightZ = dirnX * upnY - dirnY * upnX;
+        // normalize right
+        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
         // up = right x direction
         upnX = rightY * dirnZ - rightZ * dirnY;
         upnY = rightZ * dirnX - rightX * dirnZ;
@@ -3442,6 +3447,11 @@ public class Matrix4d implements Serializable, Externalizable {
         rightX = dirnY * upnZ - dirnZ * upnY;
         rightY = dirnZ * upnX - dirnX * upnZ;
         rightZ = dirnX * upnY - dirnY * upnX;
+        // normalize right
+        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
         // up = right x direction
         upnX = rightY * dirnZ - rightZ * dirnY;
         upnY = rightZ * dirnX - rightX * dirnZ;
@@ -3532,6 +3542,11 @@ public class Matrix4d implements Serializable, Externalizable {
         rightX = dirY * upnZ - dirZ * upnY;
         rightY = dirZ * upnX - dirX * upnZ;
         rightZ = dirX * upnY - dirY * upnX;
+        // normalize right
+        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
         // up = right x direction
         upnX = rightY * dirZ - rightZ * dirY;
         upnY = rightZ * dirX - rightX * dirZ;
@@ -3658,6 +3673,11 @@ public class Matrix4d implements Serializable, Externalizable {
         rightX = dirY * upnZ - dirZ * upnY;
         rightY = dirZ * upnX - dirX * upnZ;
         rightZ = dirX * upnY - dirY * upnX;
+        // normalize right
+        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
         // up = right x direction
         upnX = rightY * dirZ - rightZ * dirY;
         upnY = rightZ * dirX - rightX * dirZ;
