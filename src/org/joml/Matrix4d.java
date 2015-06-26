@@ -3305,6 +3305,7 @@ public class Matrix4d implements Serializable, Externalizable {
         double dirnX = dirX / dirLength;
         double dirnY = dirY / dirLength;
         double dirnZ = dirZ / dirLength;
+        // normalize up
         double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
         double upnX = upX / upLength;
         double upnY = upY / upLength;
@@ -3438,6 +3439,7 @@ public class Matrix4d implements Serializable, Externalizable {
         double dirnX = dirX / dirLength;
         double dirnY = dirY / dirLength;
         double dirnZ = dirZ / dirLength;
+        // normalize up
         double upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
         double upnX = upX / upLength;
         double upnY = upY / upLength;

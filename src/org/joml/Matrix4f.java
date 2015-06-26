@@ -2137,6 +2137,7 @@ public class Matrix4f implements Serializable, Externalizable {
         float dirnX = dirX / dirLength;
         float dirnY = dirY / dirLength;
         float dirnZ = dirZ / dirLength;
+        // normalize up
         float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
         float upnX = upX / upLength;
         float upnY = upY / upLength;
@@ -2270,6 +2271,7 @@ public class Matrix4f implements Serializable, Externalizable {
         float dirnX = dirX / dirLength;
         float dirnY = dirY / dirLength;
         float dirnZ = dirZ / dirLength;
+        // normalize up
         float upLength = (float) Math.sqrt(upX * upX + upY * upY + upZ * upZ);
         float upnX = upX / upLength;
         float upnY = upY / upLength;
