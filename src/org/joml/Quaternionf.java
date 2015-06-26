@@ -1354,11 +1354,6 @@ public class Quaternionf implements Serializable, Externalizable {
                 w = (float) ((upnX - leftY) * t);
             }
         }
-        float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
-        x /= norm;
-        y /= norm;
-        z /= norm;
-        w /= norm;
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
