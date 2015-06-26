@@ -1094,4 +1094,215 @@ public class Matrix3d implements Serializable, Externalizable {
         return this;
     }
 
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(Vector3d, Vector3d) setLookAlong()}.
+     * 
+     * @see #lookAlong(double, double, double, double, double, double)
+     * @see #setLookAlong(Vector3d, Vector3d)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix3d lookAlong(Vector3d dir, Vector3d up) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
+     * and store the result in <code>dest</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(Vector3d, Vector3d) setLookAlong()}.
+     * 
+     * @see #lookAlong(double, double, double, double, double, double)
+     * @see #setLookAlong(Vector3d, Vector3d)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3d lookAlong(Vector3d dir, Vector3d up, Matrix3d dest) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
+     * and store the result in <code>dest</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
+     * 
+     * @see #setLookAlong(double, double, double, double, double, double)
+     * 
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Matrix3d lookAlong(double dirX, double dirY, double dirZ,
+                              double upX, double upY, double upZ, Matrix3d dest) {
+        // Normalize direction
+        double dirLength = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX / dirLength;
+        double dirnY = dirY / dirLength;
+        double dirnZ = dirZ / dirLength;
+        // right = direction x up
+        double rightX, rightY, rightZ;
+        rightX = dirnY * upZ - dirnZ * upY;
+        rightY = dirnZ * upX - dirnX * upZ;
+        rightZ = dirnX * upY - dirnY * upX;
+        // normalize right
+        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
+        // up = right x direction
+        double upnX = rightY * dirnZ - rightZ * dirnY;
+        double upnY = rightZ * dirnX - rightX * dirnZ;
+        double upnZ = rightX * dirnY - rightY * dirnX;
+
+        // calculate right matrix elements
+        double rm00 = rightX;
+        double rm01 = upnX;
+        double rm02 = -dirnX;
+        double rm10 = rightY;
+        double rm11 = upnY;
+        double rm12 = -dirnY;
+        double rm20 = rightZ;
+        double rm21 = upnZ;
+        double rm22 = -dirnZ;
+
+        // perform optimized matrix multiplication
+        // introduce temporaries for dependent results
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        // set the rest of the matrix elements
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+
+        return this;
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
+     * lookalong rotation transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookalong transformation without post-multiplying it,
+     * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
+     * 
+     * @see #setLookAlong(double, double, double, double, double, double)
+     * 
+     * @return this
+     */
+    public Matrix3d lookAlong(double dirX, double dirY, double dirZ,
+                              double upX, double upY, double upZ) {
+        return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Set this matrix to a rotation transformation to make <code>-z</code>
+     * point along <code>dir</code>.
+     * <p>
+     * In order to apply the lookalong transformation to any previous existing transformation,
+     * use {@link #lookAlong(Vector3d, Vector3d)}.
+     * 
+     * @see #setLookAlong(Vector3d, Vector3d)
+     * @see #lookAlong(Vector3d, Vector3d)
+     * 
+     * @param dir
+     *            the direction in space to look along
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix3d setLookAlong(Vector3d dir, Vector3d up) {
+        return setLookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Set this matrix to a rotation transformation to make <code>-z</code>
+     * point along <code>dir</code>.
+     * <p>
+     * In order to apply the lookalong transformation to any previous existing transformation,
+     * use {@link #lookAlong(double, double, double, double, double, double) lookAlong()}
+     * 
+     * @see #setLookAlong(double, double, double, double, double, double)
+     * @see #lookAlong(double, double, double, double, double, double)
+     * 
+     * @return this
+     */
+    public Matrix3d setLookAlong(double dirX, double dirY, double dirZ,
+                                 double upX, double upY, double upZ) {
+        // Normalize direction
+        double dirLength = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX / dirLength;
+        double dirnY = dirY / dirLength;
+        double dirnZ = dirZ / dirLength;
+        // right = direction x up
+        double rightX, rightY, rightZ;
+        rightX = dirnY * upZ - dirnZ * upY;
+        rightY = dirnZ * upX - dirnX * upZ;
+        rightZ = dirnX * upY - dirnY * upX;
+        // normalize right
+        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX /= rightLength;
+        rightY /= rightLength;
+        rightZ /= rightLength;
+        // up = right x direction
+        double upnX = rightY * dirnZ - rightZ * dirnY;
+        double upnY = rightZ * dirnX - rightX * dirnZ;
+        double upnZ = rightX * dirnY - rightY * dirnX;
+
+        m00 = rightX;
+        m01 = upnX;
+        m02 = -dirnX;
+        m10 = rightY;
+        m11 = upnY;
+        m12 = -dirnY;
+        m20 = rightZ;
+        m21 = upnZ;
+        m22 = -dirnZ;
+
+        return this;
+    }
+
 }
