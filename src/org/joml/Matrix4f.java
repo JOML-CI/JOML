@@ -3164,7 +3164,14 @@ public class Matrix4f implements Externalizable {
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
      * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.  
+     * and does not modify the buffer's position.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>projection * view</code> and stores
+     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
+     * invocation, the inverse of both matrices can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
+     * can be invoked on it.
+     * 
+     * @see #unprojectInv(float, float, float, IntBuffer, Vector4f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -3196,9 +3203,14 @@ public class Matrix4f implements Externalizable {
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
      * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.  
+     * and does not modify the buffer's position.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>projection * view</code> and stores
+     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
+     * invocation, the inverse of both matrices can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
+     * can be invoked on it.
      * 
-     * @see #unproject(float, float, float, Matrix4f, Matrix4f, IntBuffer, Matrix4f, Vector4f)
+     * @see #unprojectInv(float, float, float, IntBuffer, Vector4f)
      * 
      * @param winCoords
      *          the window coordinate to unproject
