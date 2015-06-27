@@ -1292,7 +1292,7 @@ public class Matrix3d implements Serializable, Externalizable {
     public Matrix3d rotate(double ang, double x, double y, double z, Matrix3d dest) {
         double s = Math.sin(Math.toRadians(ang));
         double c = Math.cos(Math.toRadians(ang));
-        double C = 1.0f - c;
+        double C = 1.0 - c;
 
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
@@ -1374,25 +1374,25 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d rotate(Quaterniond quat, Matrix3d dest) {
-        double q00 = 2.0f * quat.x * quat.x;
-        double q11 = 2.0f * quat.y * quat.y;
-        double q22 = 2.0f * quat.z * quat.z;
-        double q01 = 2.0f * quat.x * quat.y;
-        double q02 = 2.0f * quat.x * quat.z;
-        double q03 = 2.0f * quat.x * quat.w;
-        double q12 = 2.0f * quat.y * quat.z;
-        double q13 = 2.0f * quat.y * quat.w;
-        double q23 = 2.0f * quat.z * quat.w;
+        double q00 = 2.0 * quat.x * quat.x;
+        double q11 = 2.0 * quat.y * quat.y;
+        double q22 = 2.0 * quat.z * quat.z;
+        double q01 = 2.0 * quat.x * quat.y;
+        double q02 = 2.0 * quat.x * quat.z;
+        double q03 = 2.0 * quat.x * quat.w;
+        double q12 = 2.0 * quat.y * quat.z;
+        double q13 = 2.0 * quat.y * quat.w;
+        double q23 = 2.0 * quat.z * quat.w;
 
-        double rm00 = 1.0f - q11 - q22;
+        double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
         double rm02 = q02 - q13;
         double rm10 = q01 - q23;
-        double rm11 = 1.0f - q22 - q00;
+        double rm11 = 1.0 - q22 - q00;
         double rm12 = q12 + q03;
         double rm20 = q02 + q13;
         double rm21 = q12 - q03;
-        double rm22 = 1.0f - q11 - q00;
+        double rm22 = 1.0 - q11 - q00;
 
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
