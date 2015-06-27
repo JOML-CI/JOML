@@ -26,6 +26,7 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.text.DecimalFormat;
@@ -2936,6 +2937,9 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
+     * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
      * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
@@ -2971,6 +2975,9 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
+     * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
      * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
@@ -3004,7 +3011,10 @@ public class Matrix4f implements Externalizable {
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
      * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
      * <p>
-     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
      * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
@@ -3034,7 +3044,10 @@ public class Matrix4f implements Externalizable {
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
      * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
      * <p>
-     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
      * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
@@ -3069,6 +3082,9 @@ public class Matrix4f implements Externalizable {
      * and then transforms those NDC coordinates by <code>this</code> matrix.  
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
      * 
      * @see #unproject(float, float, float, IntBuffer, Matrix4f, Vector4f)
      * 
@@ -3108,6 +3124,9 @@ public class Matrix4f implements Externalizable {
      * and then transforms those NDC coordinates by <code>this</code> matrix.  
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
      * 
      * @see #unproject(float, float, float, IntBuffer, Matrix4f, Vector3f)
      * 
@@ -3142,7 +3161,10 @@ public class Matrix4f implements Externalizable {
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
      * and then transforms those NDC coordinates by the inverse of <code>projection * view</code>.
      * <p>
-     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.  
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -3171,7 +3193,10 @@ public class Matrix4f implements Externalizable {
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
      * and then transforms those NDC coordinates by the inverse of <code>projection * view</code>.
      * <p>
-     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.  
      * 
      * @see #unproject(float, float, float, Matrix4f, Matrix4f, IntBuffer, Matrix4f, Vector4f)
      * 
@@ -3199,6 +3224,9 @@ public class Matrix4f implements Externalizable {
      * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
      * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
@@ -3235,6 +3263,9 @@ public class Matrix4f implements Externalizable {
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
      * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
+     * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
      * @param x
@@ -3270,6 +3301,9 @@ public class Matrix4f implements Externalizable {
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
      * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
+     * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
      * @see #project(float, float, float, IntBuffer, Vector4f)
@@ -3294,6 +3328,9 @@ public class Matrix4f implements Externalizable {
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
      * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
+     * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
      * @see #project(float, float, float, IntBuffer, Vector4f)
@@ -3317,6 +3354,9 @@ public class Matrix4f implements Externalizable {
      * This method transforms the given coordinates by <code>projection * view</code> including perspective division to 
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
      * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
@@ -3353,6 +3393,9 @@ public class Matrix4f implements Externalizable {
      * This method transforms the given coordinates by <code>projection * view</code> including perspective division to 
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * and does not modify the buffer's position.
      * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
