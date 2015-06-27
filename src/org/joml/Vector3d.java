@@ -303,12 +303,15 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply v1 by v2 component-wise and store the result into dest.
+     * Multiply this by <code>v</code> component-wise and store the result into <code>dest</code>.
+     * 
+     * @return this
      */
-    public static void mul(Vector3d v1, Vector3d v2, Vector3d dest) {
-        dest.x = v1.x * v2.x;
-        dest.y = v1.y * v2.y;
-        dest.z = v1.z * v2.z;
+    public Vector3d mul(Vector3d v, Vector3d dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        dest.z = z * v.z;
+        return this;
     }
 
     /**
@@ -378,24 +381,26 @@ public class Vector3d implements Serializable, Externalizable {
      * @return this
      */
     public Vector3d mul(Matrix3d mat) {
-        mul(this, mat, this);
-        return this;
+        return mul(mat, this);
     }
 
     /**
-     * Multiply <code>v</code> by the given matrix <code>mat</code> and store the
+     * Multiply <code>this</code> by the given matrix <code>mat</code> and store the
      * result in <code>dest</code>.
+     * 
+     * @return this
      */
-    public static void mul(Vector3d v, Matrix3d mat, Vector3d dest) {
-        if (v != dest) {
-            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
-            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
-            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
+    public Vector3d mul(Matrix3d mat, Vector3d dest) {
+        if (this != dest) {
+            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
+            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
+            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
         } else {
-            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                    mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                    mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
+            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
         }
+        return this;
     }
 
     /**

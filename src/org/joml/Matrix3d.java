@@ -397,40 +397,45 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d invert() {
-        invert(this, this);
-        return this;
+        return invert(this);
     }
 
     /**
-     * Invert the source matrix and store the result in dest.
+     * Invert <code>this</code> matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void invert(Matrix3d source, Matrix3d dest) {
-        double s = source.determinant();
+    public Matrix3d invert(Matrix3d dest) {
+        double s = determinant();
         if (s == 0.0) {
-            return;
+            dest.set(this);
+            return this;
         }
         s = 1.0 / s;
-        if (source != dest) {
-            dest.m00 = ((source.m11 * source.m22) - (source.m21 * source.m12)) * s;
-            dest.m01 = -((source.m01 * source.m22) - (source.m21 * source.m02)) * s;
-            dest.m02 = ((source.m01 * source.m12) - (source.m11 * source.m02)) * s;
-            dest.m10 = -((source.m10 * source.m22) - (source.m20 * source.m12)) * s;
-            dest.m11 = ((source.m00 * source.m22) - (source.m20 * source.m02)) * s;
-            dest.m12 = -((source.m00 * source.m12) - (source.m10 * source.m02)) * s;
-            dest.m20 = ((source.m10 * source.m21) - (source.m20 * source.m11)) * s;
-            dest.m21 = -((source.m00 * source.m21) - (source.m20 * source.m01)) * s;
-            dest.m22 = ((source.m00 * source.m11) - (source.m10 * source.m01)) * s;
+        if (this != dest) {
+            dest.m00 = ((m11 * m22) - (m21 * m12)) * s;
+            dest.m01 = -((m01 * m22) - (m21 * m02)) * s;
+            dest.m02 = ((m01 * m12) - (m11 * m02)) * s;
+            dest.m10 = -((m10 * m22) - (m20 * m12)) * s;
+            dest.m11 = ((m00 * m22) - (m20 * m02)) * s;
+            dest.m12 = -((m00 * m12) - (m10 * m02)) * s;
+            dest.m20 = ((m10 * m21) - (m20 * m11)) * s;
+            dest.m21 = -((m00 * m21) - (m20 * m01)) * s;
+            dest.m22 = ((m00 * m11) - (m10 * m01)) * s;
         } else {
-            dest.set(  ((source.m11 * source.m22) - (source.m21 * source.m12)) * s,
-                      -((source.m01 * source.m22) - (source.m21 * source.m02)) * s,
-                       ((source.m01 * source.m12) - (source.m11 * source.m02)) * s,
-                      -((source.m10 * source.m22) - (source.m20 * source.m12)) * s,
-                       ((source.m00 * source.m22) - (source.m20 * source.m02)) * s,
-                      -((source.m00 * source.m12) - (source.m10 * source.m02)) * s,
-                       ((source.m10 * source.m21) - (source.m20 * source.m11)) * s,
-                      -((source.m00 * source.m21) - (source.m20 * source.m01)) * s,
-                       ((source.m00 * source.m11) - (source.m10 * source.m01)) * s  );
+            dest.set(  ((m11 * m22) - (m21 * m12)) * s,
+                      -((m01 * m22) - (m21 * m02)) * s,
+                       ((m01 * m12) - (m11 * m02)) * s,
+                      -((m10 * m22) - (m20 * m12)) * s,
+                       ((m00 * m22) - (m20 * m02)) * s,
+                      -((m00 * m12) - (m10 * m02)) * s,
+                       ((m10 * m21) - (m20 * m11)) * s,
+                      -((m00 * m21) - (m20 * m01)) * s,
+                       ((m00 * m11) - (m10 * m01)) * s  );
         }
+        return this;
     }
 
     /**
@@ -488,16 +493,6 @@ public class Matrix3d implements Serializable, Externalizable {
         m22 = 1.0;
         return this;
     }
- 
-    /**
-     * Set the given matrix to be a simple translation matrix.
-     * <p>
-     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
-     * matrix to obtain an additional translation.
-     */
-    public static void translation(double x, double y, Matrix3d dest) {
-        dest.translation(x, y);
-    }
 
     /**
      * Set this matrix to be a simple translation matrix.
@@ -510,16 +505,6 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
-     * Set the given matrix to be a simple translation matrix.
-     * <p>
-     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
-     * matrix to obtain an additional translation.
-     */
-    public static void translation(Vector2d position, Matrix3d dest) {
-        dest.translation(position.x, position.y);
-    }
-
-    /**
      * Set this matrix to be a simple translation matrix.
      * <p>
      * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
@@ -527,16 +512,6 @@ public class Matrix3d implements Serializable, Externalizable {
      */
     public Matrix3d translation(Vector2f position) {
         return translation(position.x, position.y);
-    }
-
-    /**
-     * Set the given matrix to be a simple translation matrix.
-     * <p>
-     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
-     * matrix to obtain an additional translation.
-     */
-    public static void translation(Vector2f position, Matrix3d dest) {
-        dest.translation(position.x, position.y);
     }
 
     /**
@@ -749,7 +724,7 @@ public class Matrix3d implements Serializable, Externalizable {
      *             the scale in z
      * @return this
      */
-    public Matrix3d scale(double x, double y, double z) {
+    public Matrix3d scaling(double x, double y, double z) {
         m00 = x;
         m01 = 0.0;
         m02 = 0.0;
@@ -769,7 +744,7 @@ public class Matrix3d implements Serializable, Externalizable {
      *             the scale applied to each dimension
      * @return this
      */
-    public Matrix3d scale(Vector3d scale) {
+    public Matrix3d scaling(Vector3d scale) {
         m00 = scale.x;
         m01 = 0.0;
         m02 = 0.0;
@@ -783,35 +758,54 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
-     * Set the given matrix <code>dest</code> to be a simple scale matrix.
-     * 
-     * @param scale
-     *             the scale applied to each dimension
-     */
-    public static void scale(Vector3d scale, Matrix3d dest) {
-        dest.identity();
-        dest.m00 = scale.x;
-        dest.m11 = scale.y;
-        dest.m22 = scale.z;
-    }
-    
-    /**
-     * Set this matrix to be a simple scale matrix.
+     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * y and z factors.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
      * 
      * @param x
-     *             the scale in x
+     *            the factor of the x component
      * @param y
-     *             the scale in y
+     *            the factor of the y component
      * @param z
-     *             the scale in z
+     *            the factor of the z component
      * @return this
      */
-    public Matrix3d scale(double x, double y, double z, Matrix3d dest) {
-        dest.identity();
-        dest.m00 = x;
-        dest.m11 = y;
-        dest.m22 = z;
+    public Matrix3d scale(double x, double y, double z) {
+        // scale matrix elements:
+        // m00 = x, m11 = y, m22 = z
+        // all others = 0
+        m00 = m00 * x;
+        m01 = m01 * x;
+        m02 = m02 * x;
+        m10 = m10 * y;
+        m11 = m11 * y;
+        m12 = m12 * y;
+        m20 = m20 * z;
+        m21 = m21 * z;
+        m22 = m22 * z;
         return this;
+    }
+
+    /**
+     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @see #scale(double, double, double)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @return this
+     */
+    public Matrix3d scale(double xyz) {
+        return scale(xyz, xyz, xyz);
     }
 
     /**
@@ -824,34 +818,18 @@ public class Matrix3d implements Serializable, Externalizable {
      * @return this
      */
     public Matrix3d rotation(double angle, Vector3d axis) {
-        rotation(angle, axis, this);
-        return this;
-    }
-
-    /**
-     * Set the destination matrix to a rotation matrix which rotates the given degrees about a given axis.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
-     * 
-     * @param angle
-     *          the angle in degrees
-     * @param axis
-     *          the rotation axis
-     * @param dest
-     *          will hold the result
-     */
-    public static void rotation(double angle, Vector3d axis, Matrix3d dest) {
         double cos = Math.cos(Math.toRadians(angle));
         double sin = Math.sin(Math.toRadians(angle));
-        dest.m00 = cos + axis.x * axis.x * (1.0 - cos);
-        dest.m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
-        dest.m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
-        dest.m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
-        dest.m11 = cos + axis.y * axis.y * (1.0 - cos);
-        dest.m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
-        dest.m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
-        dest.m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
-        dest.m22 = cos + axis.z * axis.z * (1.0 - cos);
+        m00 = cos + axis.x * axis.x * (1.0 - cos);
+        m10 = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
+        m20 = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
+        m01 = axis.y * axis.x * (1.0 - cos) + axis.z * sin;
+        m11 = cos + axis.y * axis.y * (1.0 - cos);
+        m21 = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
+        m02 = axis.z * axis.x * (1.0 - cos) - axis.y * sin;
+        m12 = axis.z * axis.y * (1.0 - cos) + axis.x * sin;
+        m22 = cos + axis.z * axis.z * (1.0 - cos);
+        return this;
     }
 
     /**
@@ -899,6 +877,7 @@ public class Matrix3d implements Serializable, Externalizable {
      * Transform the given vector by this matrix.
      * 
      * @param v
+     *          the vector to transform
      * @return this
      */
     public Matrix3d transform(Vector3d v) {
@@ -907,13 +886,17 @@ public class Matrix3d implements Serializable, Externalizable {
     }
 
     /**
-     * Transform the given vector by the given matrix.
+     * Transform the given vector by this matrix and store the result in <code>dest</code>.
      * 
-     * @param mat
      * @param v
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void transform(Matrix3d mat, Vector3d v) {
-        v.mul(mat);
+    public Matrix3d transform(Vector3d v, Vector3d dest) {
+        v.mul(this, v);
+        return this;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

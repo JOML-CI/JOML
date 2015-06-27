@@ -578,22 +578,53 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Return the determinant of the supplied matrix.
-     */
-    public static float determinant(Matrix4f source) {
-        return (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
-             + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
-             - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
-    }
-
-    /**
      * Invert this matrix and write the result into <code>dest</code>.
      * 
      * @param dest
      * @return this 
      */
     public Matrix4f invert(Matrix4f dest) {
-        invert(this, dest);
+        float s = determinant();
+        if (s == 0.0f) {
+            dest.set(this);
+            return this;
+        }
+        s = 1.0f / s;
+        if (this != dest) {
+            dest.m00 = (m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s;
+            dest.m01 = (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s;
+            dest.m02 = (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s;
+            dest.m03 = (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s;
+            dest.m10 = (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s;
+            dest.m11 = (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s;
+            dest.m12 = (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s;
+            dest.m13 = (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s;
+            dest.m20 = (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s;
+            dest.m21 = (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s;
+            dest.m22 = (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s;
+            dest.m23 = (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s;
+            dest.m30 = (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s;
+            dest.m31 = (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s;
+            dest.m32 = (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s;
+            dest.m33 = (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s;
+        } else {
+            dest.set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
+                     (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s,
+                     (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s,
+                     (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s,
+                     (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s,
+                     (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s,
+                     (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s,
+                     (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s,
+                     (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s,
+                     (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s,
+                     (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s,
+                     (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s,
+                     (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
+                     (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
+                     (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
+                     (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s );
+        }
         return this;
     }
 
@@ -607,58 +638,6 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Invert the supplied matrix and store the result in <code>dest</code>.
-     * 
-     * @param source
-     *          the matrix to invert
-     * @param dest
-     *          the matrix to hold the result
-     */
-    public static void invert(Matrix4f source, Matrix4f dest) {
-        float s = source.determinant();
-        if (s == 0.0f) {
-            dest.set(source);
-            return;
-        }
-        s = 1.0f / s;
-        if (source != dest) {
-            dest.m00 = (source.m11 * (source.m22 * source.m33 - source.m23 * source.m32) + source.m12 * (source.m23 * source.m31 - source.m21 * source.m33) + source.m13 * (source.m21 * source.m32 - source.m22 * source.m31)) * s;
-            dest.m01 = (source.m21 * (source.m02 * source.m33 - source.m03 * source.m32) + source.m22 * (source.m03 * source.m31 - source.m01 * source.m33) + source.m23 * (source.m01 * source.m32 - source.m02 * source.m31)) * s;
-            dest.m02 = (source.m31 * (source.m02 * source.m13 - source.m03 * source.m12) + source.m32 * (source.m03 * source.m11 - source.m01 * source.m13) + source.m33 * (source.m01 * source.m12 - source.m02 * source.m11)) * s;
-            dest.m03 = (source.m01 * (source.m13 * source.m22 - source.m12 * source.m23) + source.m02 * (source.m11 * source.m23 - source.m13 * source.m21) + source.m03 * (source.m12 * source.m21 - source.m11 * source.m22)) * s;
-            dest.m10 = (source.m12 * (source.m20 * source.m33 - source.m23 * source.m30) + source.m13 * (source.m22 * source.m30 - source.m20 * source.m32) + source.m10 * (source.m23 * source.m32 - source.m22 * source.m33)) * s;
-            dest.m11 = (source.m22 * (source.m00 * source.m33 - source.m03 * source.m30) + source.m23 * (source.m02 * source.m30 - source.m00 * source.m32) + source.m20 * (source.m03 * source.m32 - source.m02 * source.m33)) * s;
-            dest.m12 = (source.m32 * (source.m00 * source.m13 - source.m03 * source.m10) + source.m33 * (source.m02 * source.m10 - source.m00 * source.m12) + source.m30 * (source.m03 * source.m12 - source.m02 * source.m13)) * s;
-            dest.m13 = (source.m02 * (source.m13 * source.m20 - source.m10 * source.m23) + source.m03 * (source.m10 * source.m22 - source.m12 * source.m20) + source.m00 * (source.m12 * source.m23 - source.m13 * source.m22)) * s;
-            dest.m20 = (source.m13 * (source.m20 * source.m31 - source.m21 * source.m30) + source.m10 * (source.m21 * source.m33 - source.m23 * source.m31) + source.m11 * (source.m23 * source.m30 - source.m20 * source.m33)) * s;
-            dest.m21 = (source.m23 * (source.m00 * source.m31 - source.m01 * source.m30) + source.m20 * (source.m01 * source.m33 - source.m03 * source.m31) + source.m21 * (source.m03 * source.m30 - source.m00 * source.m33)) * s;
-            dest.m22 = (source.m33 * (source.m00 * source.m11 - source.m01 * source.m10) + source.m30 * (source.m01 * source.m13 - source.m03 * source.m11) + source.m31 * (source.m03 * source.m10 - source.m00 * source.m13)) * s;
-            dest.m23 = (source.m03 * (source.m11 * source.m20 - source.m10 * source.m21) + source.m00 * (source.m13 * source.m21 - source.m11 * source.m23) + source.m01 * (source.m10 * source.m23 - source.m13 * source.m20)) * s;
-            dest.m30 = (source.m10 * (source.m22 * source.m31 - source.m21 * source.m32) + source.m11 * (source.m20 * source.m32 - source.m22 * source.m30) + source.m12 * (source.m21 * source.m30 - source.m20 * source.m31)) * s;
-            dest.m31 = (source.m20 * (source.m02 * source.m31 - source.m01 * source.m32) + source.m21 * (source.m00 * source.m32 - source.m02 * source.m30) + source.m22 * (source.m01 * source.m30 - source.m00 * source.m31)) * s;
-            dest.m32 = (source.m30 * (source.m02 * source.m11 - source.m01 * source.m12) + source.m31 * (source.m00 * source.m12 - source.m02 * source.m10) + source.m32 * (source.m01 * source.m10 - source.m00 * source.m11)) * s;
-            dest.m33 = (source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s;
-        } else {
-            dest.set((source.m11 * (source.m22 * source.m33 - source.m23 * source.m32) + source.m12 * (source.m23 * source.m31 - source.m21 * source.m33) + source.m13 * (source.m21 * source.m32 - source.m22 * source.m31)) * s,
-                     (source.m21 * (source.m02 * source.m33 - source.m03 * source.m32) + source.m22 * (source.m03 * source.m31 - source.m01 * source.m33) + source.m23 * (source.m01 * source.m32 - source.m02 * source.m31)) * s,
-                     (source.m31 * (source.m02 * source.m13 - source.m03 * source.m12) + source.m32 * (source.m03 * source.m11 - source.m01 * source.m13) + source.m33 * (source.m01 * source.m12 - source.m02 * source.m11)) * s,
-                     (source.m01 * (source.m13 * source.m22 - source.m12 * source.m23) + source.m02 * (source.m11 * source.m23 - source.m13 * source.m21) + source.m03 * (source.m12 * source.m21 - source.m11 * source.m22)) * s,
-                     (source.m12 * (source.m20 * source.m33 - source.m23 * source.m30) + source.m13 * (source.m22 * source.m30 - source.m20 * source.m32) + source.m10 * (source.m23 * source.m32 - source.m22 * source.m33)) * s,
-                     (source.m22 * (source.m00 * source.m33 - source.m03 * source.m30) + source.m23 * (source.m02 * source.m30 - source.m00 * source.m32) + source.m20 * (source.m03 * source.m32 - source.m02 * source.m33)) * s,
-                     (source.m32 * (source.m00 * source.m13 - source.m03 * source.m10) + source.m33 * (source.m02 * source.m10 - source.m00 * source.m12) + source.m30 * (source.m03 * source.m12 - source.m02 * source.m13)) * s,
-                     (source.m02 * (source.m13 * source.m20 - source.m10 * source.m23) + source.m03 * (source.m10 * source.m22 - source.m12 * source.m20) + source.m00 * (source.m12 * source.m23 - source.m13 * source.m22)) * s,
-                     (source.m13 * (source.m20 * source.m31 - source.m21 * source.m30) + source.m10 * (source.m21 * source.m33 - source.m23 * source.m31) + source.m11 * (source.m23 * source.m30 - source.m20 * source.m33)) * s,
-                     (source.m23 * (source.m00 * source.m31 - source.m01 * source.m30) + source.m20 * (source.m01 * source.m33 - source.m03 * source.m31) + source.m21 * (source.m03 * source.m30 - source.m00 * source.m33)) * s,
-                     (source.m33 * (source.m00 * source.m11 - source.m01 * source.m10) + source.m30 * (source.m01 * source.m13 - source.m03 * source.m11) + source.m31 * (source.m03 * source.m10 - source.m00 * source.m13)) * s,
-                     (source.m03 * (source.m11 * source.m20 - source.m10 * source.m21) + source.m00 * (source.m13 * source.m21 - source.m11 * source.m23) + source.m01 * (source.m10 * source.m23 - source.m13 * source.m20)) * s,
-                     (source.m10 * (source.m22 * source.m31 - source.m21 * source.m32) + source.m11 * (source.m20 * source.m32 - source.m22 * source.m30) + source.m12 * (source.m21 * source.m30 - source.m20 * source.m31)) * s,
-                     (source.m20 * (source.m02 * source.m31 - source.m01 * source.m32) + source.m21 * (source.m00 * source.m32 - source.m02 * source.m30) + source.m22 * (source.m01 * source.m30 - source.m00 * source.m31)) * s,
-                     (source.m30 * (source.m02 * source.m11 - source.m01 * source.m12) + source.m31 * (source.m00 * source.m12 - source.m02 * source.m10) + source.m32 * (source.m01 * source.m10 - source.m00 * source.m11)) * s,
-                     (source.m00 * (source.m11 * source.m22 - source.m12 * source.m21) + source.m01 * (source.m12 * source.m20 - source.m10 * source.m22) + source.m02 * (source.m10 * source.m21 - source.m11 * source.m20)) * s );
-        }
-    }
-
-    /**
      * Transpose this matrix and store the result in <code>dest</code>.
      * 
      * @param dest
@@ -666,7 +645,29 @@ public class Matrix4f implements Serializable, Externalizable {
      * @return this
      */
     public Matrix4f transpose(Matrix4f dest) {
-        transpose(this, dest);
+        if (this != dest) {
+            dest.m00 = m00;
+            dest.m01 = m10;
+            dest.m02 = m20;
+            dest.m03 = m30;
+            dest.m10 = m01;
+            dest.m11 = m11;
+            dest.m12 = m21;
+            dest.m13 = m31;
+            dest.m20 = m02;
+            dest.m21 = m12;
+            dest.m22 = m22;
+            dest.m23 = m32;
+            dest.m30 = m03;
+            dest.m31 = m13;
+            dest.m32 = m23;
+            dest.m33 = m33;
+        } else {
+            dest.set(m00, m10, m20, m30,
+                     m01, m11, m21, m31,
+                     m02, m12, m22, m32,
+                     m03, m13, m23, m33);
+        }
         return this;
     }
 
@@ -677,52 +678,6 @@ public class Matrix4f implements Serializable, Externalizable {
      */
     public Matrix4f transpose() {
         return transpose(this);
-    }
-
-    /**
-     * Transpose the <code>original</code> matrix and store the result in <code>dest</code>.
-     * 
-     * @param original
-     *              the matrix to transpose
-     * @param dest
-     *              will contain the result
-     */
-    public static void transpose(Matrix4f original, Matrix4f dest) {
-        if (original != dest) {
-            dest.m00 = original.m00;
-            dest.m01 = original.m10;
-            dest.m02 = original.m20;
-            dest.m03 = original.m30;
-            dest.m10 = original.m01;
-            dest.m11 = original.m11;
-            dest.m12 = original.m21;
-            dest.m13 = original.m31;
-            dest.m20 = original.m02;
-            dest.m21 = original.m12;
-            dest.m22 = original.m22;
-            dest.m23 = original.m32;
-            dest.m30 = original.m03;
-            dest.m31 = original.m13;
-            dest.m32 = original.m23;
-            dest.m33 = original.m33;
-        } else {
-            dest.set(original.m00,
-                     original.m10,
-                     original.m20,
-                     original.m30,
-                     original.m01,
-                     original.m11,
-                     original.m21,
-                     original.m31,
-                     original.m02,
-                     original.m12,
-                     original.m22,
-                     original.m32,
-                     original.m03,
-                     original.m13,
-                     original.m23,
-                     original.m33);
-        }
     }
 
     /**
@@ -1030,22 +985,6 @@ public class Matrix4f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the <code>dest</code> matrix to be a simple scaling transformation.
-     * 
-     * @param x
-     *             the scale in x
-     * @param y
-     *             the scale in y
-     * @param z
-     *             the scale in z
-     * @return this
-     */
-    public Matrix4f scaling(float x, float y, float z, Matrix4f dest) {
-        dest.scaling(x, y, z);
-        return this;
-    }
-
-    /**
      * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
      * <p>
      * The resulting matrix can be multiplied against another transformation
@@ -1283,37 +1222,24 @@ public class Matrix4f implements Serializable, Externalizable {
      *          the 3x3 matrix
      * @return this
      */
-    public Matrix4f fromMatrix3(Matrix3f mat) {
-        fromMatrix3(mat, this);
+    public Matrix4f setMatrix3(Matrix3f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m03 = 0.0f;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m13 = 0.0f;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
         return this;
-    }
-
-    /**
-     * Set the upper 3x3 matrix of the given <code>dest</code> {@link Matrix4f}
-     * to the given {@link Matrix3f} and the rest to the identity.
-     * 
-     * @param mat
-     *          the 3x3 matrix
-     * @param dest
-     *          the destination matrix whose upper left 3x3 submatrix will be set to <code>mat</code>
-     */
-    public static void fromMatrix3(Matrix3f mat, Matrix4f dest) {
-        dest.m00 = mat.m00;
-        dest.m01 = mat.m01;
-        dest.m02 = mat.m02;
-        dest.m03 = 0.0f;
-        dest.m10 = mat.m10;
-        dest.m11 = mat.m11;
-        dest.m12 = mat.m12;
-        dest.m13 = 0.0f;
-        dest.m20 = mat.m20;
-        dest.m21 = mat.m21;
-        dest.m22 = mat.m22;
-        dest.m23 = 0.0f;
-        dest.m30 = 0.0f;
-        dest.m31 = 0.0f;
-        dest.m32 = 0.0f;
-        dest.m33 = 1.0f;
     }
 
     /**
@@ -1344,20 +1270,6 @@ public class Matrix4f implements Serializable, Externalizable {
     public Matrix4f transform(Vector4f v, Vector4f dest) {
         v.mul(this, dest);
         return this;
-    }
-
-    /**
-     * Transform/multiply the given vector by the given matrix and store the result in that vector.
-     * 
-     * @see Vector4f#mul(Matrix4f)
-     * 
-     * @param mat
-     *          the matrix
-     * @param v
-     *          the vector to transform and to hold the final result
-     */
-    public static void transform(Matrix4f mat, Vector4f v) {
-        v.mul(mat);
     }
 
     /**

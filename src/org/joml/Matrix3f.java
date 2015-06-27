@@ -301,6 +301,7 @@ public class Matrix3f implements Serializable, Externalizable {
      * 
      * @param dest
      *             will hold the result
+     * @return this
      */
     public Matrix3f invert(Matrix3f dest) {
         float s = determinant();
@@ -386,26 +387,6 @@ public class Matrix3f implements Serializable, Externalizable {
         m21 = y;
         m22 = 1.0f;
         return this;
-    }
-
-    /**
-     * Set the given matrix to be a simple translation matrix in a two-dimensional coordinate system.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional translation.
-     */
-    public static void translation(Vector2f position, Matrix3f dest) {
-        dest.translation(position.x, position.y);
-    }
-
-    /**
-     * Set the given matrix to be a simple translation matrix in a two-dimensional coordinate system.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional translation.
-     */
-    public static void translation(float x, float y, Matrix3f dest) {
-        dest.translation(x, y);
     }
 
     /**
@@ -658,24 +639,6 @@ public class Matrix3f implements Serializable, Externalizable {
     }
 
     /**
-     * Set the given matrix <code>dest</code> to be a simple scale matrix.
-     * 
-     * @param scale
-     *             the scale applied to each dimension
-     */
-    public static void scaling(Vector3f scale, Matrix3f dest) {
-        dest.m00 = scale.x;
-        dest.m01 = 0.0f;
-        dest.m02 = 0.0f;
-        dest.m10 = 0.0f;
-        dest.m11 = scale.y;
-        dest.m12 = 0.0f;
-        dest.m20 = 0.0f;
-        dest.m21 = 0.0f;
-        dest.m22 = scale.z;
-    }
-
-    /**
      * Set this matrix to be a simple scale matrix.
      * 
      * @param x
@@ -686,16 +649,36 @@ public class Matrix3f implements Serializable, Externalizable {
      *             the scale in z
      * @return this
      */
-    public Matrix3f scaling(float x, float y, float z, Matrix3f dest) {
-        dest.m00 = x;
-        dest.m01 = 0.0f;
-        dest.m02 = 0.0f;
-        dest.m10 = 0.0f;
-        dest.m11 = y;
-        dest.m12 = 0.0f;
-        dest.m20 = 0.0f;
-        dest.m21 = 0.0f;
-        dest.m22 = z;
+    public Matrix3f scaling(float x, float y, float z) {
+        m00 = x;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m10 = 0.0f;
+        m11 = y;
+        m12 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = z;
+        return this;
+    }
+
+    /**
+     * Set this matrix to be a simple scale matrix.
+     * 
+     * @param xyz
+     *             contains the scaling factors for x, y and z, respectively
+     * @return this
+     */
+    public Matrix3f scaling(Vector3f xyz) {
+        m00 = xyz.x;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m10 = 0.0f;
+        m11 = xyz.y;
+        m12 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = xyz.z;
         return this;
     }
 
@@ -780,21 +763,6 @@ public class Matrix3f implements Serializable, Externalizable {
         m12 = z * y * C + x * sin;
         m22 = cos + z * z * C;
         return this;
-    }
-
-    /**
-     * Set the destination matrix to a rotation matrix which rotates the given degrees about the specified axis.
-     * The result will be stored in <code>dest</code>.
-     * 
-     * @param angle
-     *          the angle in degrees
-     * @param axis
-     *          the axis to rotate about
-     * @param dest
-     *          will hold the result
-     */
-    public static void rotation(float angle, Vector3f axis, Matrix3f dest) {
-        dest.rotation(angle, axis);
     }
 
     /**
@@ -934,18 +902,6 @@ public class Matrix3f implements Serializable, Externalizable {
     public Matrix3f transform(Vector3f v, Vector3f dest) {
         v.mul(this, dest);
         return this;
-    }
-
-    /**
-     * Transform the given vector by the given matrix.
-     * 
-     * @param mat
-     *          the matrix to transform the vector by
-     * @param v
-     *          the vector to transform
-     */
-    public static void transform(Matrix3f mat, Vector3f v) {
-        v.mul(mat);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

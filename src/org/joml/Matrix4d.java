@@ -658,15 +658,6 @@ public class Matrix4d implements Serializable, Externalizable {
              + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
              - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
-    
-    /**
-     * Return the determinant of the supplied matrix.
-     */
-    public static double determinant(Matrix4d source) {
-        return (source.m00 * source.m11 - source.m01 * source.m10) * (source.m22 * source.m33 - source.m23 * source.m32) - (source.m00 * source.m12 - source.m02 * source.m10) * (source.m21 * source.m33 - source.m23 * source.m31)
-             + (source.m00 * source.m13 - source.m03 * source.m10) * (source.m21 * source.m32 - source.m22 * source.m31) + (source.m01 * source.m12 - source.m02 * source.m11) * (source.m20 * source.m33 - source.m23 * source.m30)
-             - (source.m01 * source.m13 - source.m03 * source.m11) * (source.m20 * source.m32 - source.m22 * source.m30) + (source.m02 * source.m13 - source.m03 * source.m12) * (source.m20 * source.m31 - source.m21 * source.m30);
-    }
 
     /**
      * Invert this matrix.
@@ -1079,22 +1070,6 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Set the <code>dest</code> matrix to be a simple scaling transformation.
-     * 
-     * @param x
-     *          the scale in x
-     * @param y
-     *          the scale in y
-     * @param z
-     *          the scale in z
-     * @return this
-     */
-    public Matrix4d scaling(double x, double y, double z, Matrix4d dest) {
-        dest.scaling(x, y, z);
-        return this;
-    }
-
-    /**
      * Set this matrix to be a simple scale matrix.
      * 
      * @param scale
@@ -1278,53 +1253,30 @@ public class Matrix4d implements Serializable, Externalizable {
     }
 
     /**
-     * Transform the given vector by the given matrix.
-     * 
-     * @param mat
-     * @param v
-     */
-    public static void transform(Matrix4d mat, Vector4d v) {
-        v.mul(mat);
-    }
-
-    /**
      * Set the upper 3x3 matrix of this {@link Matrix4d} to the given {@link Matrix3d} and the rest to the identity.
      * 
      * @param mat
      *          the 3x3 matrix
      * @return this
      */
-    public Matrix4d fromMatrix3(Matrix3d mat) {
-        fromMatrix3(mat, this);
+    public Matrix4d setMatrix3(Matrix3d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m03 = 0.0;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m13 = 0.0;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
         return this;
-    }
-
-    /**
-     * Set the upper 3x3 matrix of the given <code>dest</code> {@link Matrix4d}
-     * to the given {@link Matrix3d} and the rest to the identity.
-     * 
-     * @param mat
-     *          the 3x3 matrix
-     * @param dest
-     *          the destination matrix whose upper left 3x3 submatrix will be set to <code>mat</code>
-     */
-    public static void fromMatrix3(Matrix3d mat, Matrix4d dest) {
-        dest.m00 = mat.m00;
-        dest.m01 = mat.m01;
-        dest.m02 = mat.m02;
-        dest.m03 = 0.0;
-        dest.m10 = mat.m10;
-        dest.m11 = mat.m11;
-        dest.m12 = mat.m12;
-        dest.m13 = 0.0;
-        dest.m20 = mat.m20;
-        dest.m21 = mat.m21;
-        dest.m22 = mat.m22;
-        dest.m23 = 0.0;
-        dest.m30 = 0.0;
-        dest.m31 = 0.0;
-        dest.m32 = 0.0;
-        dest.m33 = 1.0;
     }
 
     /**
