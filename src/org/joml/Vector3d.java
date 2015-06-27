@@ -142,6 +142,22 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract from <code>this</code>
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3d sub(Vector3d v, Vector3d dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        dest.z = z - v.z;
+        return this;
+    }
+
+    /**
      * Subtract the supplied vector from this one.
      * 
      * @return this
@@ -154,7 +170,23 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Subtract <tt>(x, y, z)</tt> from this Vector2d.
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract from <code>this</code>
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3d sub(Vector3f v, Vector3d dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        dest.z = z - v.z;
+        return this;
+    }
+
+    /**
+     * Subtract <tt>(x, y, z)</tt> from this vector.
      * 
      * @return this
      */
@@ -166,21 +198,17 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Subtract v2 from v1 and store the result in dest.
+     * Subtract <tt>(x, y, z)</tt> from this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void sub(Vector3d v1, Vector3d v2, Vector3d dest) {
-        dest.x = v1.x - v2.x;
-        dest.y = v1.y - v2.y;
-        dest.z = v1.z - v2.z;
-    }
-
-    /**
-     * Subtract v2 from v1 and store the result in dest.
-     */
-    public static void sub(Vector3d v1, Vector3f v2, Vector3d dest) {
-        dest.x = v1.x - v2.x;
-        dest.y = v1.y - v2.y;
-        dest.z = v1.z - v2.z;
+    public Vector3d sub(double x, double y, double z, Vector3d dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        dest.z = this.z - z;
+        return this;
     }
 
     /**
@@ -205,6 +233,22 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
+     * Add the supplied vector to this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3d add(Vector3d v, Vector3d dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        dest.z = z + v.z;
+        return this;
+    }
+
+    /**
      * Add the supplied vector to this one.
      * 
      * @return this
@@ -217,21 +261,19 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Add v2 to v1 and store the result in dest.
+     * Add the supplied vector to this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void add(Vector3d v1, Vector3d v2, Vector3d dest) {
-        dest.x = v1.x + v2.x;
-        dest.y = v1.y + v2.y;
-        dest.z = v1.z + v2.z;
-    }
-
-    /**
-     * Add v2 to v1 and store the result in dest.
-     */
-    public static void add(Vector3d v1, Vector3f v2, Vector3d dest) {
-        dest.x = v1.x + v2.x;
-        dest.y = v1.y + v2.y;
-        dest.z = v1.z + v2.z;
+    public Vector3d add(Vector3f v, Vector3d dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        dest.z = z + v.z;
+        return this;
     }
 
     /**
@@ -315,54 +357,73 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector3d by the given matrix <code>mat</code>.
+     * Multiply this Vector3d by the given matrix <code>mat</code> and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
      * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
      * @return this
      */
-    public Vector3d mul(Matrix4f mat) {
-        mul(this, mat, this);
+    public Vector3d mul(Matrix4d mat, Vector3d dest) {
+        if (this != dest) {
+            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
+            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
+            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
+        } else {
+            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
+        }
         return this;
     }
 
     /**
      * Multiply this Vector3d by the given matrix <code>mat</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
      * 
      * @return this
      */
     public Vector3d mul(Matrix4d mat) {
-        mul(this, mat, this);
+        return mul(mat, this);
+    }
+
+    /**
+     * Multiply this Vector3d by the given matrix <code>mat</code> and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3d mul(Matrix4f mat, Vector3d dest) {
+        if (this != dest) {
+            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
+            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
+            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
+        } else {
+            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
+        }
         return this;
     }
 
     /**
-     * Multiply Vector3d v by the given matrix <code>mat</code> and store the
-     * result in <code>dest</code>.
+     * Multiply this Vector3d by the given matrix <code>mat</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @return this
      */
-    public static void mul(Vector3d v, Matrix4d mat, Vector3d dest) {
-        if (v != dest) {
-            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
-            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
-            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
-        } else {
-            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                     mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                     mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
-        }
-    }
-
-    /**
-     * Multiply v by the given matrix mat and store the result in dest.
-     */
-    public static void mul(Vector3d v, Matrix4f mat, Vector3d dest) {
-        if (v != dest) {
-            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
-            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
-            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
-        } else {
-            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                     mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                     mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
-        }
+    public Vector3d mul(Matrix4f mat) {
+        return mul(mat, this);
     }
 
     /**
@@ -371,8 +432,7 @@ public class Vector3d implements Serializable, Externalizable {
      * @return this
      */
     public Vector3d mul(Matrix3f mat) {
-        mul(this, mat, this);
-        return this;
+        return mul(this, this);
     }
 
     /**
@@ -404,19 +464,20 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply <code>v</code> by the given matrix <code>mat</code> and store the
+     * Multiply <code>this</code> by the given matrix <code>mat</code> and store the
      * result in <code>dest</code>.
      */
-    public static void mul(Vector3d v, Matrix3f mat, Vector3d dest) {
-        if (v != dest) {
-            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
-            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
-            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
+    public Vector3d mul(Matrix3f mat, Vector3d dest) {
+        if (this != dest) {
+            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
+            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
+            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
         } else {
-            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                    mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                    mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
+            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
         }
+        return this;
     }
 
     /**
@@ -432,12 +493,19 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply <code>v</code> by the <code>scalar</code> value and store the result in <code>dest</code>.
+     * Multiply this Vector3d by the given scalar value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *          the scalar factor
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void mul(Vector3d v, double scalar, Vector3d dest) {
-        dest.x = v.x * scalar;
-        dest.y = v.y * scalar;
-        dest.z = v.z * scalar;
+    public Vector3d mul(double scalar, Vector3d dest) {
+        dest.x = x * scalar;
+        dest.y = y * scalar;
+        dest.z = z * scalar;
+        return this;
     }
 
     /**
@@ -492,44 +560,33 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Normalize the original vector and store the result in dest.
-     */
-    public static void normalize(Vector3d original, Vector3d dest) {
-        double d = original.length();
-        dest.set(original.x / d,
-                 original.y / d,
-                 original.z / d);
-    }
-
-    /**
-     * Set this vector to be the cross product of v1 and v2.
+     * Set this vector to be the cross product of this and v2.
      * 
+     * @param v
+     *          the other vector
      * @return this
      */
-    public Vector3d cross(Vector3d v1, Vector3d v2) {
-        set(v1.y * v2.z - v1.z * v2.y,
-            v1.z * v2.x - v1.x * v2.z,
-            v1.x * v2.y - v1.y * v2.x);
+    public Vector3d cross(Vector3d v) {
+        set(y * v.z - z * v.y,
+            z * v.x - x * v.z,
+            x * v.y - y * v.x);
         return this;
     }
 
     /**
-     * Calculate the cross product of v1 and v2 and store the result in dest.
+     * Calculate the cross product of this and v2 and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void cross(Vector3d v1, Vector3d v2, Vector3d dest) {
-        dest.set(v1.y * v2.z - v1.z * v2.y,
-                 v1.z * v2.x - v1.x * v2.z,
-                 v1.x * v2.y - v1.y * v2.x);
-    }
-
-    /**
-     * Return the distance between the start and end vectors.
-     */
-    public static double distance(Vector3d start, Vector3d end) {
-        return Math.sqrt(
-                  (end.x - start.x) * (end.x - start.x)
-                + (end.y - start.y) * (end.y - start.y)
-                + (end.z - start.z) * (end.z - start.z));
+    public Vector3d cross(Vector3d v, Vector3d dest) {
+        dest.set(y * v.z - z * v.y,
+                 z * v.x - x * v.z,
+                 x * v.y - y * v.x);
+        return this;
     }
     
     /**
@@ -543,13 +600,6 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Return the dot product of the supplied v1 and v2 vectors.
-     */
-    public static double dot(Vector3d v1, Vector3d v2) {
-        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-    }
-
-    /**
      * Return the dot product of this vector and the supplied vector.
      */
     public double dot(Vector3d v) {
@@ -557,42 +607,29 @@ public class Vector3d implements Serializable, Externalizable {
     }
 
     /**
-     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
-     * @return the cosinus of the angle
+     * Return the cosine of the angle between <code>this</code> vector and
+     * the supplied vector. Use this instead of <tt>Math.cos(angle(v))</tt>.
+     * 
      * @see #angle(Vector3d)
+     * 
+     * @return the cosine of the angle
      */
     public double angleCos(Vector3d v) {
-        return angleCos(this, v);
-    }
-    
-    /**
-     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
-     * @return the cosinus of the angle
-     * @see #angle(Vector3d, Vector3d)
-     */
-    public static double angleCos(Vector3d v1, Vector3d v2) {
-        double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z));
-        double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z));
-        double dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+        double length1 = Math.sqrt((x * x) + (y * y) + (z * z));
+        double length2 = Math.sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
+        double dot = (x * v.x) + (y * v.y) + (z * v.z);
         return dot / (length1 * length2);
     }
-    
+
     /**
      * Return the angle between this vector and the supplied vector.
-     * @return the angle, in radians
+     * 
      * @see #angleCos(Vector3d)
+     * 
+     * @return the angle, in radians
      */
     public double angle(Vector3d v) {
-        return angle(this, v);
-    }
-    
-    /**
-     * Return the angle between the supplied vectors.
-     * @return the angle, in radians
-     * @see #angleCos(Vector3d, Vector3d)
-     */
-    public static double angle(Vector3d v1, Vector3d v2) {
-        double cos = angleCos(v1, v2);
+        double cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = Math.min(cos, 1);
         cos = Math.max(cos, -1);
@@ -658,14 +695,19 @@ public class Vector3d implements Serializable, Externalizable {
         z = -z;
         return this;
     }
-    
+
     /**
-     * Negate original and store the result in dest.
+     * Negate this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void negate(Vector3d original, Vector3d dest) {
-        dest.x = -original.x;
-        dest.y = -original.y;
-        dest.z = -original.z;
+    public Vector3d negate(Vector3d dest) {
+        dest.x = -x;
+        dest.y = -y;
+        dest.z = -z;
+        return this;
     }
 
     public int hashCode() {

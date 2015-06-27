@@ -38,9 +38,16 @@ public class Matrix4fTest extends TestCase {
     }
 
     public void testLookAt() {
+        {
         Matrix4f m1 = new Matrix4f().lookAt(0.0f, 2.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
         Matrix4f m2 = new Matrix4f().translate(0.0f, 0.0f, -(float) Math.sqrt(2*2 + 3*3)).rotateX((float) Math.toDegrees(Math.atan2(2, 3)));
-        TestUtil.assertMatrix4fEquals(m1, m2, TestUtil.STANDARD_AROUND_ZERO_PRECISION_FLOAT);
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-15f);
+        }
+        {
+        Matrix4f m1 = new Matrix4f().lookAt(3.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+        Matrix4f m2 = new Matrix4f().translate(0.0f, 0.0f, -(float) Math.sqrt(2*2 + 3*3)).rotateX((float) Math.toDegrees(Math.atan2(2, 3))).rotateY(-90.0f);
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-15f);
+        }
     }
 
 }
