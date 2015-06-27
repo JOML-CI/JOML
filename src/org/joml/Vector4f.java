@@ -159,26 +159,20 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Decrement the components of this vector by the given values.
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
      * 
+     * @param v
+     *          the vector to subtract from <code>this</code>
+     * @param dest
+     *          will hold the result
      * @return this
      */
-    public Vector4f sub(float x, float y, float z, float w) {
-        this.x -= x;
-        this.y -= y;
-        this.z -= z;
-        this.w -= w;
+    public Vector4f sub(Vector4f v, Vector4f dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        dest.z = z - v.z;
+        dest.w = w - v.w;
         return this;
-    }
-
-    /**
-     * Subtract v2 from v1 and store the result in dest.
-     */
-    public static void sub(Vector4f v1, Vector4f v2, Vector4f dest) {
-        dest.x = v1.x - v2.x;
-        dest.y = v1.y - v2.y;
-        dest.z = v1.z - v2.z;
-        dest.w = v1.w - v2.w;
     }
 
     /**
@@ -191,6 +185,23 @@ public class Vector4f implements Serializable, Externalizable {
         y += v.y;
         z += v.z;
         w += v.w;
+        return this;
+    }
+
+    /**
+     * Add the supplied vector to this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4f add(Vector4f v, Vector4f dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        dest.z = z + v.z;
+        dest.w = w + v.w;
         return this;
     }
 
@@ -208,13 +219,18 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Add v2 to v1 and store the result in <code>dest</code>.
+     * Increment the components of this vector by the given values and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void add(Vector4f v1, Vector4f v2, Vector4f dest) {
-        dest.x = v1.x + v2.x;
-        dest.y = v1.y + v2.y;
-        dest.z = v1.z + v2.z;
-        dest.w = v1.w + v2.w;
+    public Vector4f add(float x, float y, float z, float w, Vector4f dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        dest.z = this.z + z;
+        dest.w = this.w + w;
+        return this;
     }
 
     /**
@@ -255,26 +271,35 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by another Vector4f.
+     * Multiply this Vector4f component-wise by another Vector4f.
      * 
+     * @param v
+     *          the other vector
      * @return this
      */
     public Vector4f mul(Vector4f v) {
         x *= v.x;
         y *= v.y;
         z *= v.z;
-        z *= v.w;
+        w *= v.w;
         return this;
     }
 
     /**
-     * Multiply v1 by v2 component-wise and store the result into dest.
+     * Multiply this Vector4f component-wise by another Vector4f and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void mul(Vector4f v1, Vector4f v2, Vector4f dest) {
-        dest.x = v1.x * v2.x;
-        dest.y = v1.y * v2.y;
-        dest.z = v1.z * v2.z;
-        dest.w = v1.w * v2.w;
+    public Vector4f mul(Vector4f v, Vector4f dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        dest.z = z * v.z;
+        dest.w = w * v.w;
+        return this;
     }
 
     /**
@@ -329,6 +354,22 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
+     * Multiply all components of this {@link Vector4f} by the given scalar
+     * value and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4f mul(float scalar, Vector4f dest) {
+        dest.x = x * scalar;
+        dest.y = y * scalar;
+        dest.z = z * scalar;
+        dest.w = w * scalar;
+        return this;
+    }
+
+    /**
      * Multiply the components of this Vector4f by the given scalar values and store the result in <code>this</code>.
      * 
      * @return this
@@ -342,14 +383,18 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply the given Vector4f v by the scalar value, and store the result
-     * in dest.
+     * Multiply the components of this Vector4f by the given scalar values and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void mul(Vector4f v, float scalar, Vector4f dest) {
-        dest.x = v.x * scalar;
-        dest.y = v.y * scalar;
-        dest.z = v.z * scalar;
-        dest.w = v.w * scalar;
+    public Vector4f mul(float x, float y, float z, float w, Vector4f dest) {
+        dest.x = this.x * x;
+        dest.y = this.y * y;
+        dest.z = this.z * z;
+        dest.w = this.w * w;
+        return this;
     }
 
     /**
@@ -414,34 +459,19 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Normalize the <code>original</code> vector and store the result in
-     * <code>dest</code>.
+     * Normalizes this vector and store the result in <code>dest</code>.
      * 
-     * @param original
-     *            the vector to normalize
      * @param dest
-     *            will hold the result
+     *          will hold the result
+     * @return this
      */
-    public static void normalize(Vector4f original, Vector4f dest) {
-        float d = original.length();
-        dest.set(original.x / d, original.y / d, original.z / d, original.w / d);
-    }
-
-    /**
-     * Return the distance between <code>start</code> and <code>end</code>.
-     * 
-     * @param start
-     *            the first vector
-     * @param end
-     *            the second vector
-     * @return the euclidean distance
-     */
-    public static float distance(Vector4f start, Vector4f end) {
-        return (float) Math.sqrt(
-                  (end.x - start.x) * (end.x - start.x)
-                + (end.y - start.y) * (end.y - start.y)
-                + (end.z - start.z) * (end.z - start.z)
-                + (end.w - start.w) * (end.w - start.w));
+    public Vector4f normalize(Vector4f dest) {
+        float d = length();
+        dest.x = x / d;
+        dest.y = y / d;
+        dest.z = z / d;
+        dest.w = w / d;
+        return this;
     }
 
     /**
@@ -450,7 +480,11 @@ public class Vector4f implements Serializable, Externalizable {
      * @return the euclidean distance
      */
     public float distance(Vector4f v) {
-        return distance(this, v);
+        return (float) Math.sqrt(
+                (v.x - x) * (v.x - x)
+              + (v.y - y) * (v.y - y)
+              + (v.z - z) * (v.z - z)
+              + (v.w - w) * (v.w - w));
     }
 
     /**
@@ -466,52 +500,24 @@ public class Vector4f implements Serializable, Externalizable {
     }
 
     /**
-     * Return the dot product of the supplied <code>v1</code> and
-     * <code>v2</code> vectors.
-     * 
-     * @return the dot product
-     */
-    public static float dot(Vector4f v1, Vector4f v2) {
-        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
-    }
-    
-    /**
      * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
      * @return the cosinus of the angle
      * @see #angle(Vector4f)
      */
     public float angleCos(Vector4f v) {
-        return angleCos(this, v);
-    }
-    
-    /**
-     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
-     * @return the cosinus of the angle
-     * @see #angle(Vector4f, Vector4f)
-     */
-    public static float angleCos(Vector4f v1, Vector4f v2) {
-        float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z) + (v1.w * v1.w));
-        float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z) + (v2.w * v2.w));
-        float dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
+        float length1 = (float) Math.sqrt((x * x) + (y * y) + (z * z) + (w * w));
+        float length2 = (float) Math.sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z) + (v.w * v.w));
+        float dot = (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w);
         return dot / (length1 * length2);
     }
-    
+
     /**
      * Return the angle between this vector and the supplied vector.
      * @return the angle, in radians
      * @see #angleCos(Vector4f)
      */
     public float angle(Vector4f v) {
-        return angle(this, v);
-    }
-    
-    /**
-     * Return the angle between the supplied vectors.
-     * @return the angle, in radians
-     * @see #angleCos(Vector4f, Vector4f)
-     */
-    public static float angle(Vector4f v1, Vector4f v2) {
-        float cos = angleCos(v1, v2);
+        float cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = Math.min(cos, 1);
         cos = Math.max(cos, -1);
@@ -530,7 +536,7 @@ public class Vector4f implements Serializable, Externalizable {
         this.w = 0.0f;
         return this;
     }
-    
+
     /**
      * Negate this vector.
      * 
@@ -543,15 +549,20 @@ public class Vector4f implements Serializable, Externalizable {
         w = -w;
         return this;
     }
-    
+
     /**
-     * Negate original and store the result in dest.
+     * Negate this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void negate(Vector4f original, Vector4f dest) {
-        dest.x = -original.x;
-        dest.y = -original.y;
-        dest.z = -original.z;
-        dest.w = -original.w;
+    public Vector4f negate(Vector4f dest) {
+        dest.x = -x;
+        dest.y = -y;
+        dest.z = -z;
+        dest.w = -w;
+        return this;
     }
 
     /**

@@ -13,12 +13,12 @@ public class Vector4fTest extends TestCase {
 		Vector4f testVec2 = new Vector4f();
 		
 		// angle(v, v) should give 0
-		float angle = Vector4f.angle(testVec1, testVec1);
+		float angle = testVec1.angle(testVec1);
 		assertEquals(angle, 0, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
 		
 		// angle(v, -v) should give PI
-		Vector4f.negate(testVec1, testVec2);
-		angle = Vector4f.angle(testVec1, testVec2);
+		testVec1.negate(testVec2);
+		angle = testVec1.angle(testVec2);
 		assertEquals(angle, Math.PI, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
 	}
 }
