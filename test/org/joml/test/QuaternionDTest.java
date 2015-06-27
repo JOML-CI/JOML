@@ -15,16 +15,16 @@ public class QuaternionDTest extends TestCase {
 		Quaterniond identityQuat = new Quaterniond().identity();
 		Quaterniond resultQuat = new Quaterniond();
 		
-		Quaterniond.mul(testQuat, identityQuat, resultQuat);
+		testQuat.mul(identityQuat, resultQuat);
 		assertTrue(TestUtil.quatEqual(testQuat, resultQuat, TestUtil.STANDARD_AROUND_ZERO_PRECISION_DOUBLE));
 		
-		Quaterniond.mul(identityQuat, testQuat, resultQuat);
+		identityQuat.mul(testQuat, resultQuat);
 		assertTrue(TestUtil.quatEqual(testQuat, resultQuat, TestUtil.STANDARD_AROUND_ZERO_PRECISION_DOUBLE));
 		
 		// Multiplication with conjugate should give (0, 0, 0, dot(this, this))
 		Quaterniond conjugate = new Quaterniond();
-		Quaterniond.conjugate(testQuat, conjugate);
-		Quaterniond.mul(testQuat, conjugate, resultQuat);
+		testQuat.conjugate(conjugate);
+		testQuat.mul(conjugate, resultQuat);
 		
 		Quaterniond wantedResultQuat = new Quaterniond(0, 0, 0, testQuat.dot(testQuat));
 		assertTrue(TestUtil.quatEqual(resultQuat, wantedResultQuat, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE));

@@ -767,7 +767,7 @@ public class Quaternionf implements Serializable, Externalizable {
      * @return this
      */
     public Quaternionf invert(Quaternionf dest) {
-        float norm = (x * x + y * y + z * z + w * w);
+        float norm = x * x + y * y + z * z + w * w;
         dest.x = -x / norm;
         dest.y = -y / norm;
         dest.z = -z / norm;
