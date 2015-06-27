@@ -55,8 +55,11 @@ public class Vector3d implements Externalizable {
      * Create a new {@link Vector3d} with the given component values.
      * 
      * @param x
+     *          the value of x
      * @param y
+     *          the value of y
      * @param z
+     *          the value of z
      */
     public Vector3d(double x, double y, double z) {
         this.x = x;

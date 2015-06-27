@@ -438,7 +438,9 @@ public class Vector4d implements Externalizable {
      * Multiply this {@link Vector4d} by the given matrix mat and store the result in <code>dest</code>.
      * 
      * @param mat
+     *          the matrix to multiply <code>this</code> by
      * @param dest
+     *          will hold the result
      * @return this
      */
     public Vector4d mul(Matrix4d mat, Vector4d dest) {
@@ -467,9 +469,11 @@ public class Vector4d implements Externalizable {
 
     /**
      * Multiply this Vector4d by the given matrix mat and store the result in <code>dest</code>.
-     * 
+     *
      * @param mat
+     *          the matrix to multiply <code>this</code> by
      * @param dest
+     *          will hold the result
      * @return this
      */
     public Vector4d mul(Matrix4f mat, Vector4d dest) {

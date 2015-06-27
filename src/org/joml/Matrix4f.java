@@ -580,6 +580,7 @@ public class Matrix4f implements Externalizable {
      * Invert this matrix and write the result into <code>dest</code>.
      * 
      * @param dest
+     *          will hold the result
      * @return this 
      */
     public Matrix4f invert(Matrix4f dest) {

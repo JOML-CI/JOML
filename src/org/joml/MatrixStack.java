@@ -244,7 +244,7 @@ public class MatrixStack implements Serializable {
         if (dest.remaining() < 16) {
             throw new IllegalArgumentException("dest does not have enough space"); //$NON-NLS-1$
         }
-        mats[curr].get(dest);
+        mats[curr].get(index, dest);
         return this;
     }
 
@@ -298,8 +298,11 @@ public class MatrixStack implements Serializable {
      * applied first!
      * 
      * @param x
+     *          the offset in x
      * @param y
+     *          the offset in y
      * @param z
+     *          the offset in z
      * @return this
      */
     public MatrixStack translate(float x, float y, float z) {

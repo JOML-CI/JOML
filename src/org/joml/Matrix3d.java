@@ -1025,7 +1025,7 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d transform(Vector3d v, Vector3d dest) {
-        v.mul(this, v);
+        v.mul(this, dest);
         return this;
     }
 
@@ -1545,7 +1545,6 @@ public class Matrix3d implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        return;
     }
 
     /**
@@ -1577,7 +1576,6 @@ public class Matrix3d implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        return;
     }
 
     /**

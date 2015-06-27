@@ -76,6 +76,7 @@ public class Vector3f implements Externalizable {
      * Set the x, y and z attributes to match the supplied vector.
      * 
      * @param v
+     *          contains the values of x, y and z to set
      * @return this
      */
     public Vector3f set(Vector3f v) {
@@ -89,8 +90,11 @@ public class Vector3f implements Externalizable {
      * Set the x, y and z attributes to the supplied float values.
      * 
      * @param x
+     *          the value of x
      * @param y
+     *          the value of y
      * @param z
+     *          the value of z
      * @return this
      */
     public Vector3f set(float x, float y, float z) {

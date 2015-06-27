@@ -1230,6 +1230,7 @@ public class Matrix4d implements Externalizable {
      * Transform the given vector by this matrix.
      * 
      * @param v
+     *          the vector to transform
      * @return this
      */
     public Matrix4d transform(Vector4d v) {
@@ -2074,7 +2075,6 @@ public class Matrix4d implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        return;
     }
 
     /**
@@ -2115,7 +2115,6 @@ public class Matrix4d implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        return;
     }
 
     /**
