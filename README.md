@@ -61,7 +61,7 @@ Vector3f offset = new Vector3f(1.0f, 0.0f, 0.0f);
 m.translation(offset).transform(point);
 ```
 In the above example, the matrix _m_ is being set to a translation, instead of applying the translation to it.
-These methods are useful when the same matrix is being used repeatedly in a loop in order to reset it to a defined transformation.
+These methods are useful when the same matrix is being used in a sequence of consecutive operations or repeatedly in a loop without having to set it to the identity each time.
 
 Building a camera transformation
 --------------------------------
