@@ -105,12 +105,29 @@ public class Vector3f implements Serializable, Externalizable {
      * Subtract the supplied vector from this one and store the result in <code>this</code>.
      * 
      * @param v
+     *          the other vector
      * @return this
      */
     public Vector3f sub(Vector3f v) {
         x -= v.x;
         y -= v.y;
         z -= v.z;
+        return this;
+    }
+
+    /**
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f sub(Vector3f v, Vector3f dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        dest.z = z - v.z;
         return this;
     }
 
@@ -123,6 +140,20 @@ public class Vector3f implements Serializable, Externalizable {
         this.x -= x;
         this.y -= y;
         this.z -= z;
+        return this;
+    }
+
+    /**
+     * Decrement the components of this vector by the given values and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f sub(float x, float y, float z, Vector3f dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        dest.z = this.z - z;
         return this;
     }
 
@@ -143,16 +174,30 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Add the supplied vector to this one and store the result in <code>this</code>.
+     * Add the supplied vector to this one.
      * 
-     * @param v
-     *          the vector to add
      * @return this
      */
     public Vector3f add(Vector3f v) {
         x += v.x;
         y += v.y;
         z += v.z;
+        return this;
+    }
+
+    /**
+     * Add the supplied vector to this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f add(Vector3f v, Vector3f dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        dest.z = z + v.z;
         return this;
     }
 
@@ -169,19 +214,17 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Add v2 to v1 and store the result in <code>dest</code>.
+     * Increment the components of this vector by the given values and store the result in <code>dest</code>.
      * 
-     * @param v1
-     *          the first vector
-     * @param v2
-     *          the second vector
      * @param dest
      *          will hold the result
+     * @return this
      */
-    public static void add(Vector3f v1, Vector3f v2, Vector3f dest) {
-        dest.x = v1.x + v2.x;
-        dest.y = v1.y + v2.y;
-        dest.z = v1.z + v2.z;
+    public Vector3f add(float x, float y, float z, Vector3f dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        dest.z = this.z + z;
+        return this;
     }
 
     /**
@@ -220,7 +263,7 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the given vector component-wise and store the result in <code>this</code>.
+     * Multiply this Vector3f component-wise by another Vector3f.
      * 
      * @param v
      *          the other vector
@@ -234,19 +277,19 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply v1 by v2 component-wise and store the result in dest.
+     * Multiply this Vector3f component-wise by another Vector3f and store the result in <code>dest</code>.
      * 
-     * @param v1
-     *          the first vector
-     * @param v2
-     *          the second vector
+     * @param v
+     *          the other vector
      * @param dest
      *          will hold the result
+     * @return this
      */
-    public static void mul(Vector3f v1, Vector3f v2, Vector3f dest) {
-        dest.x = v1.x * v2.x;
-        dest.y = v1.y * v2.y;
-        dest.z = v1.z * v2.z;
+    public Vector3f mul(Vector3f v, Vector3f dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        dest.z = z * v.z;
+        return this;
     }
 
     /**
@@ -257,8 +300,7 @@ public class Vector3f implements Serializable, Externalizable {
      * @return this
      */
     public Vector3f mul(Matrix4f mat) {
-        mul(this, mat, this);
-        return this;
+        return mul(mat, this);
     }
 
     /**
@@ -271,29 +313,16 @@ public class Vector3f implements Serializable, Externalizable {
      * @return this
      */
     public Vector3f mul(Matrix4f mat, Vector3f dest) {
-        mul(this, mat, dest);
-        return this;
-    }
-
-    /**
-     * Multiply Vector3f v by the given matrix <code>mat</code> and store the result in dest.
-     * 
-     * @param v
-     *          the vector to multiply
-     * @param mat
-     *          the matrix
-     * @param dest will hold the result
-     */
-    public static void mul(Vector3f v, Matrix4f mat, Vector3f dest) {
-        if (v != dest) {
-            dest.x = mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z;
-            dest.y = mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z;
-            dest.z = mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z;
+        if (this != dest) {
+            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
+            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
+            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
         } else {
-            dest.set(mat.m00 * v.x + mat.m10 * v.y + mat.m20 * v.z,
-                     mat.m01 * v.x + mat.m11 * v.y + mat.m21 * v.z,
-                     mat.m02 * v.x + mat.m12 * v.y + mat.m22 * v.z);
+            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
         }
+        return this;
     }
 
     /**
@@ -330,16 +359,30 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the given scalar value and store the result in <code>this</code>.
+     * Multiply all components of this {@link Vector3f} by the given scalar
+     * value.
      * 
-     * @param scalar
-     *          the scalar factor
      * @return this
      */
     public Vector3f mul(float scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
+        return this;
+    }
+
+    /**
+     * Multiply all components of this {@link Vector3f} by the given scalar
+     * value and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f mul(float scalar, Vector3f dest) {
+        dest.x = x * scalar;
+        dest.y = y * scalar;
+        dest.z = z * scalar;
         return this;
     }
 
@@ -356,19 +399,17 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Multiply the given Vector3f <code>v</code> by the scalar value and store the result in <code>dest</code>.
+     * Multiply the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
      * 
-     * @param v
-     *          the vector to scale
-     * @param scalar
-     *          the scalar factor
      * @param dest
      *          will hold the result
+     * @return this
      */
-    public static void mul(Vector3f v, float scalar, Vector3f dest) {
-        dest.x = v.x * scalar;
-        dest.y = v.y * scalar;
-        dest.z = v.z * scalar;
+    public Vector3f mul(float x, float y, float z, Vector3f dest) {
+        dest.x = this.x * x;
+        dest.y = this.y * y;
+        dest.z = this.z * z;
+        return this;
     }
 
     /**
@@ -381,7 +422,7 @@ public class Vector3f implements Serializable, Externalizable {
      * @return this
      */
     public Vector3f mul(Quaternionf quat) {
-        mul(this, quat, this);
+        quat.transform(this, this);
         return this;
     }
 
@@ -397,24 +438,8 @@ public class Vector3f implements Serializable, Externalizable {
      * @return this
      */
     public Vector3f mul(Quaternionf quat, Vector3f dest) {
-        mul(this, quat, dest);
+        quat.transform(this, dest);
         return this;
-    }
-
-    /**
-     * Multiply the vector <code>v</code> by the given quaternion <code>mat</code> and store the result in <code>dest</code>.
-     * 
-     * @see Quaternionf#transform(Vector3f)
-     * 
-     * @param v
-     *          the vector to multiply
-     * @param quat
-     *          the quaternion to multiply the vector by
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul(Vector3f v, Quaternionf quat, Vector3f dest) {
-        quat.transform(v, dest);
     }
 
     /**
@@ -486,32 +511,18 @@ public class Vector3f implements Serializable, Externalizable {
     }
     
     /**
-     * Set this vector to be the cross product of <code>v1</code> and <code>v2</code>.
+     * Compute the cross product of this vector and <code>v</code> and store the result in <code>dest</code>.
      * 
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
      * @return this
      */
-    public Vector3f cross(Vector3f v1, Vector3f v2) {
-        return set(v1.y * v2.z - v1.z * v2.y,
-                   v1.z * v2.x - v1.x * v2.z,
-                   v1.x * v2.y - v1.y * v2.x);
-    }
-
-    /**
-     * Calculate the cross product of <code>v1</code> and <code>v2</code> and store the result in <code>dest</code>.
-     */
-    public static void cross(Vector3f v1, Vector3f v2, Vector3f dest) {
-        dest.set(v1.y * v2.z - v1.z * v2.y,
-                 v1.z * v2.x - v1.x * v2.z,
-                 v1.x * v2.y - v1.y * v2.x);
-    }
-
-    /**
-     * Return the distance between <code>start</code> and <code>end</code>.
-     */
-    public static float distance(Vector3f start, Vector3f end) {
-        return (float) Math.sqrt((end.x - start.x) * (end.x - start.x)
-                + (end.y - start.y) * (end.y - start.y)
-                + (end.z - start.z) * (end.z - start.z));
+    public Vector3f cross(Vector3f v, Vector3f dest) {
+        return dest.set(y * v.z - z * v.y,
+                        z * v.x - x * v.z,
+                        x * v.y - y * v.x);
     }
 
     /**
@@ -531,49 +542,28 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Return the dot product of the supplied v1 and v2 vectors.
-     */
-    public static float dot(Vector3f v1, Vector3f v2) {
-        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-    }
-    
-    /**
      * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
-     * @return the cosinus of the angle
+     * 
      * @see #angle(Vector3f)
+     * 
+     * @return the cosinus of the angle
      */
     public float angleCos(Vector3f v) {
-        return angleCos(this, v);
-    }
-    
-    /**
-     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
-     * @return the cosinus of the angle
-     * @see #angle(Vector3f, Vector3f)
-     */
-    public static float angleCos(Vector3f v1, Vector3f v2) {
-        float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z));
-        float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z));
-        float dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+        float length1 = (float) Math.sqrt((x * x) + (y * y) + (z * z));
+        float length2 = (float) Math.sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
+        float dot = (x * v.x) + (y * v.y) + (z * v.z);
         return dot / (length1 * length2);
     }
     
     /**
      * Return the angle between this vector and the supplied vector.
-     * @return the angle, in radians
+     * 
      * @see #angleCos(Vector3f)
+     * 
+     * @return the angle, in radians
      */
     public float angle(Vector3f v) {
-        return angle(this, v);
-    }
-    
-    /**
-     * Return the angle between the supplied vectors.
-     * @return the angle, in radians
-     * @see #angleCos(Vector3f, Vector3f)
-     */
-    public static float angle(Vector3f v1, Vector3f v2) {
-        float cos = angleCos(v1, v2);
+        float cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = Math.min(cos, 1);
         cos = Math.max(cos, -1);
@@ -667,14 +657,19 @@ public class Vector3f implements Serializable, Externalizable {
         z = -z;
         return this;
     }
-    
+
     /**
-     * Negate original and store the result in dest.
+     * Negate this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void negate(Vector3f original, Vector3f dest) {
-        dest.x = -original.x;
-        dest.y = -original.y;
-        dest.z = -original.z;
+    public Vector3f negate(Vector3f dest) {
+        dest.x = -x;
+        dest.y = -y;
+        dest.z = -z;
+        return this;
     }
 
     public int hashCode() {
