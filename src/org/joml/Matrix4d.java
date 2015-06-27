@@ -26,7 +26,6 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.Serializable;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -45,7 +44,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Matrix4d implements Serializable, Externalizable {
+public class Matrix4d implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -2172,17 +2171,17 @@ public class Matrix4d implements Serializable, Externalizable {
         /* The general case */
         double s = 1.0 / det;
         /* Invert and transpose in one go */
-        dest.set(((m11 * m22) - (m21 * m12)) * s,
-                -((m10 * m22) - (m20 * m12)) * s,
-                 ((m10 * m21) - (m20 * m11)) * s,
+        dest.set((m11 * m22 - m21 * m12) * s,
+                -(m10 * m22 - m20 * m12) * s,
+                 (m10 * m21 - m20 * m11) * s,
                  0.0,
-                -((m01 * m22) - (m21 * m02)) * s,
-                 ((m00 * m22) - (m20 * m02)) * s,
-                -((m00 * m21) - (m20 * m01)) * s,
+                -(m01 * m22 - m21 * m02) * s,
+                 (m00 * m22 - m20 * m02) * s,
+                -(m00 * m21 - m20 * m01) * s,
                  0.0,
-                 ((m01 * m12) - (m11 * m02)) * s,
-                -((m00 * m12) - (m10 * m02)) * s,
-                 ((m00 * m11) - (m10 * m01)) * s,
+                 (m01 * m12 - m11 * m02) * s,
+                -(m00 * m12 - m10 * m02) * s,
+                 (m00 * m11 - m10 * m01) * s,
                  0.0,
                  0.0, 0.0, 0.0, 1.0);
         return this;
@@ -2226,15 +2225,15 @@ public class Matrix4d implements Serializable, Externalizable {
         /* The general case */
         double s = 1.0 / det;
         /* Invert and transpose in one go */
-        dest.m00 =  ((m11 * m22) - (m21 * m12)) * s;
-        dest.m01 = -((m10 * m22) - (m20 * m12)) * s;
-        dest.m02 =  ((m10 * m21) - (m20 * m11)) * s;
-        dest.m10 = -((m01 * m22) - (m21 * m02)) * s;
-        dest.m11 =  ((m00 * m22) - (m20 * m02)) * s;
-        dest.m12 = -((m00 * m21) - (m20 * m01)) * s;
-        dest.m20 =  ((m01 * m12) - (m11 * m02)) * s;
-        dest.m21 = -((m00 * m12) - (m10 * m02)) * s;
-        dest.m22 =  ((m00 * m11) - (m10 * m01)) * s;
+        dest.m00 =  (m11 * m22 - m21 * m12) * s;
+        dest.m01 = -(m10 * m22 - m20 * m12) * s;
+        dest.m02 =  (m10 * m21 - m20 * m11) * s;
+        dest.m10 = -(m01 * m22 - m21 * m02) * s;
+        dest.m11 =  (m00 * m22 - m20 * m02) * s;
+        dest.m12 = -(m00 * m21 - m20 * m01) * s;
+        dest.m20 =  (m01 * m12 - m11 * m02) * s;
+        dest.m21 = -(m00 * m12 - m10 * m02) * s;
+        dest.m22 =  (m00 * m11 - m10 * m01) * s;
         return this;
     }
 

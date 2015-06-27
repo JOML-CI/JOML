@@ -26,7 +26,6 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.Serializable;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -42,7 +41,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Matrix3f implements Serializable, Externalizable {
+public class Matrix3f implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -1779,20 +1778,20 @@ public class Matrix3f implements Serializable, Externalizable {
         float diff = Math.abs(Math.abs(det) - 1.0f);
         if (diff < 1E-8f) {
             /* The fast path, if only 1:1:1 scaling is being used */
-            return this.transpose(dest);
+            return transpose(dest);
         }
         /* The general case */
         float s = 1.0f / det;
         /* Invert and transpose in one go */
-        dest.set(((m11 * m22) - (m21 * m12)) * s,
-                -((m10 * m22) - (m20 * m12)) * s,
-                 ((m10 * m21) - (m20 * m11)) * s,
-                -((m01 * m22) - (m21 * m02)) * s,
-                 ((m00 * m22) - (m20 * m02)) * s,
-                -((m00 * m21) - (m20 * m01)) * s,
-                 ((m01 * m12) - (m11 * m02)) * s,
-                -((m00 * m12) - (m10 * m02)) * s,
-                 ((m00 * m11) - (m10 * m01)) * s);
+        dest.set((m11 * m22 - m21 * m12) * s,
+                -(m10 * m22 - m20 * m12) * s,
+                 (m10 * m21 - m20 * m11) * s,
+                -(m01 * m22 - m21 * m02) * s,
+                 (m00 * m22 - m20 * m02) * s,
+                -(m00 * m21 - m20 * m01) * s,
+                 (m01 * m12 - m11 * m02) * s,
+                -(m00 * m12 - m10 * m02) * s,
+                 (m00 * m11 - m10 * m01) * s);
         return this;
     }
 

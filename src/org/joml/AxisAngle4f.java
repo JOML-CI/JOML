@@ -26,7 +26,6 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -36,7 +35,7 @@ import java.text.NumberFormat;
  * 
  * @author Kai Burjack
  */
-public class AxisAngle4f implements Serializable, Externalizable {
+public class AxisAngle4f implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -182,9 +181,9 @@ public class AxisAngle4f implements Serializable, Externalizable {
      */
     public AxisAngle4f set(Matrix3f m) {
         double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
-        x = (float)(m.m12 - m.m21);
-        y = (float)(m.m20 - m.m02);
-        z = (float)(m.m01 - m.m10);
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = (float) Math.toDegrees(Math.atan2(sin, cos));
         return this;
@@ -200,9 +199,9 @@ public class AxisAngle4f implements Serializable, Externalizable {
      */
     public AxisAngle4f set(Matrix4f m) {
         double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
-        x = (float)(m.m12 - m.m21);
-        y = (float)(m.m20 - m.m02);
-        z = (float)(m.m01 - m.m10);
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = (float) Math.toDegrees(Math.atan2(sin, cos));
         return this;

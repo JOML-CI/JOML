@@ -26,7 +26,6 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -36,7 +35,7 @@ import java.text.NumberFormat;
  * @author RGreenlees
  * @author Kai Burjack
  */
-public class Vector2d implements Serializable, Externalizable {
+public class Vector2d implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 

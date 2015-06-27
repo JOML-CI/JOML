@@ -26,7 +26,6 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -37,7 +36,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Quaterniond implements Serializable, Externalizable {
+public class Quaterniond implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -346,9 +345,9 @@ public class Quaterniond implements Serializable, Externalizable {
         double sinAngle = Math.sin(hangle);
         double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
-        x = (axisX / vLength) * sinAngle;
-        y = (axisY / vLength) * sinAngle;
-        z = (axisZ / vLength) * sinAngle;
+        x = axisX / vLength * sinAngle;
+        y = axisY / vLength * sinAngle;
+        z = axisZ / vLength * sinAngle;
         w = Math.cos(hangle);
 
         return this;
@@ -467,9 +466,9 @@ public class Quaterniond implements Serializable, Externalizable {
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
 
-        x = (axis.x / vLength) * sinAngle;
-        y = (axis.y / vLength) * sinAngle;
-        z = (axis.z / vLength) * sinAngle;
+        x = axis.x / vLength * sinAngle;
+        y = axis.y / vLength * sinAngle;
+        z = axis.z / vLength * sinAngle;
         w = Math.cos(hangle);
         
         return this;
@@ -494,9 +493,9 @@ public class Quaterniond implements Serializable, Externalizable {
         double sinAngle = Math.sin(hangle);
         double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
-        x = (axisX / vLength) * sinAngle;
-        y = (axisY / vLength) * sinAngle;
-        z = (axisZ / vLength) * sinAngle;
+        x = axisX / vLength * sinAngle;
+        y = axisY / vLength * sinAngle;
+        z = axisZ / vLength * sinAngle;
         w = Math.cos(hangle);
         
         return this;
@@ -517,9 +516,9 @@ public class Quaterniond implements Serializable, Externalizable {
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
 
-        x = (axis.x / vLength) * sinAngle;
-        y = (axis.y / vLength) * sinAngle;
-        z = (axis.z / vLength) * sinAngle;
+        x = axis.x / vLength * sinAngle;
+        y = axis.y / vLength * sinAngle;
+        z = axis.z / vLength * sinAngle;
         w = Math.cos(hangle);
         
         return this;
@@ -702,7 +701,7 @@ public class Quaterniond implements Serializable, Externalizable {
      * @return this
      */
     public Quaterniond div(Quaterniond b, Quaterniond dest) {
-        double norm = (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
+        double norm = b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w;
         double x = -b.x / norm;
         double y = -b.y / norm;
         double z = -b.z / norm;
@@ -937,7 +936,7 @@ public class Quaterniond implements Serializable, Externalizable {
      */
     public Quaterniond slerp(Quaterniond target, double alpha, Quaterniond dest) {
         double q2, q3;
-        double q4 = (x * target.x) + (y * target.y) + (z * target.z) + (w * target.w);
+        double q4 = x * target.x + y * target.y + z * target.z + w * target.w;
         boolean flag = false;
         if (q4 < 0.0) {
             flag = true;
@@ -949,7 +948,7 @@ public class Quaterniond implements Serializable, Externalizable {
         } else {
             double q5 = Math.acos(q4);
             double q6 = 1.0 / Math.sin(q5);
-            q3 = Math.sin(((1.0 - alpha) * q5)) * q6;
+            q3 = Math.sin((1.0 - alpha) * q5) * q6;
             q2 = flag ? -Math.sin(alpha * q5) * q6 : Math.sin(alpha * q5) * q6;
         }
         dest.x = q3 * x + q2 * target.x;

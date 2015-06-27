@@ -26,7 +26,6 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.Serializable;
 import java.nio.FloatBuffer;
 
 /**
@@ -41,7 +40,7 @@ import java.nio.FloatBuffer;
  * 
  * @author Kai Burjack
  */
-public class MatrixStack implements Serializable, Externalizable {
+public class MatrixStack implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
