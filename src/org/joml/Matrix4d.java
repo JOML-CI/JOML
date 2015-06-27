@@ -1986,10 +1986,10 @@ public class Matrix4d implements Serializable, Externalizable {
     /**
      * Apply a rotation transformation, rotating the given degree about the specified axis, to this matrix.
      * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle and axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the {@link AxisAngle4f} rotation will be applied first!
+     * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
      * use {@link #rotation(double, Vector3d)}.
@@ -2012,10 +2012,10 @@ public class Matrix4d implements Serializable, Externalizable {
     /**
      * Apply a rotation transformation, rotating the given degree about the specified axis and store the result in <code>dest</code>.
      * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle and axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the {@link AxisAngle4f} rotation will be applied first!
+     * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
      * use {@link #rotation(double, Vector3d)}.
