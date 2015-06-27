@@ -31,7 +31,7 @@ import java.text.NumberFormat;
 
 
 /**
- * Contains the definition of a Vector comprising 4 floats and associated transformations.
+ * Contains the definition of a Vector comprising 4 doubles and associated transformations.
  * 
  * @author Richard Greenlees
  * @author Kai Burjack
@@ -559,111 +559,93 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Normalizes this vector
+     * Normalizes this vector.
+     * 
+     * @return this
      */
-    public void normalize() {
+    public Vector4d normalize() {
         double d = length();
         x /= d;
         y /= d;
         z /= d;
         w /= d;
+        return this;
     }
 
     /**
-     * Normalize the original vector and store the result in <code>dest</code>.
+     * Normalizes this vector and store the result in <code>dest</code>.
      * 
-     * @param original
-     *          the vector to normalize
      * @param dest
      *          will hold the result
+     * @return this
      */
-    public static void normalize(Vector4d original, Vector4d dest) {
-        double d = original.length();
-        dest.set(original.x / d,
-                original.y / d,
-                original.z / d,
-                original.w / d);
+    public Vector4d normalize(Vector4d dest) {
+        double d = length();
+        dest.x = x / d;
+        dest.y = y / d;
+        dest.z = z / d;
+        dest.w = w / d;
+        return this;
     }
 
     /**
-     * Return the euclidean distance between <code>start</code> and <code>end</code>.
-     */
-    public static double distance(Vector4d start, Vector4d end) {
-        return Math.sqrt((end.x - start.x) * (end.x - start.x)
-                + (end.y - start.y) * (end.y - start.y)
-                + (end.z - start.z) * (end.z - start.z)
-                + (end.w - start.w) * (end.w - start.w));
-    }
-
-    /**
-     * Return the euclidean distance between <code>this</code> and <code>v</code>.
+     * Return the distance between <code>this</code> vector and <code>v</code>.
+     * 
+     * @return the euclidean distance
      */
     public double distance(Vector4d v) {
-        return Math.sqrt((v.x - this.x) * (v.x - this.x)
-                + (v.y - this.y) * (v.y - this.y)
-                + (v.z - this.z) * (v.z - this.z)
-                + (v.w - this.w) * (v.w - this.w));
+        return Math.sqrt(
+                (v.x - x) * (v.x - x)
+              + (v.y - y) * (v.y - y)
+              + (v.z - z) * (v.z - z)
+              + (v.w - w) * (v.w - w));
     }
 
     /**
-     * Return the dot product of the supplied <code>v1</code> and
-     * <code>v2</code> vectors.
-     */
-    public static double dot(Vector4d v1, Vector4d v2) {
-        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
-    }
-
-    /**
-     * Return the dot product of the supplied <code>v1</code> and
-     * <code>v2</code> vectors.
+     * Compute the dot product (inner product) of this vector and <code>v</code>
+     * .
      * 
+     * @param v
+     *            the other vector
      * @return the dot product
      */
-    public static float dot(Vector4f v1, Vector4f v2) {
-        return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
+    public double dot(Vector4f v) {
+        return x * v.x + y * v.y + z * v.z + w * v.w;
     }
-    
+
     /**
-     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
-     * @return the cosinus of the angle
+     * Return the cosine of the angle between this vector and the supplied vector.
+     * <p>
+     * Use this instead of <code>Math.cos(angle(v))</code>.
+     * 
      * @see #angle(Vector4d)
+     * 
+     * @param v
+     *          the other vector
+     * @return the cosine of the angle
      */
     public double angleCos(Vector4d v) {
-        return angleCos(this, v);
-    }
-    
-    /**
-     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
-     * @return the cosinus of the angle
-     * @see #angle(Vector4d, Vector4d)
-     */
-    public static double angleCos(Vector4d v1, Vector4d v2) {
-        double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y) + (v1.z * v1.z) + (v1.w * v1.w));
-        double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y) + (v2.z * v2.z) + (v2.w * v2.w));
-        double dot = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z) + (v1.w * v2.w);
+        double length1 = Math.sqrt(x * x + y * y + z * z + w * w);
+        double length2 = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
+        double dot = x * v.x + y * v.y + z * v.z + w * v.w;
         return dot / (length1 * length2);
     }
-    
+
     /**
      * Return the angle between this vector and the supplied vector.
-     * @return the angle, in radians
+     * 
      * @see #angleCos(Vector4d)
+     * 
+     * @param v
+     *          the other vector
+     * @return the angle, in degrees
      */
     public double angle(Vector4d v) {
-        return angle(this, v);
-    }
-    
-    /**
-     * Return the angle between the supplied vectors.
-     * @return the angle, in radians
-     * @see #angleCos(Vector4d, Vector4d)
-     */
-    public static double angle(Vector4d v1, Vector4d v2) {
-        double cos = angleCos(v1, v2);
+        double cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = Math.min(cos, 1);
         cos = Math.max(cos, -1);
-        return Math.acos(cos);
+        return Math.toDegrees(Math.acos(cos));
     }
 
     /**

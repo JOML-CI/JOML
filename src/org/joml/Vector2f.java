@@ -162,69 +162,45 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Return the dot product of <code>a</code> and <code>b</code>.
-     */
-    public static float dot(Vector2f a, Vector2f b) {
-        return a.x * b.x + a.y * b.y;
-    }
-
-    /**
      * Return the dot product of this vector and <code>v</code>
      */
     public float dot(Vector2f v) {
         return x * v.x + y * v.y;
     }
-    
+
     /**
-     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
-     * @return the cosinus of the angle
+     * Return the cosine of the angle between this vector and the supplied vector. Use this instead of <code>Math.cos(angle(v))</code>.
+     * 
      * @see #angle(Vector2f)
+     * 
+     * @param v
+     *          the other vector
+     * @return the cosine of the angle
      */
     public float angleCos(Vector2f v) {
-        return angleCos(this, v);
+        double length1 = Math.sqrt(x * x + y * y);
+        double length2 = Math.sqrt(v.x * v.x + v.y * v.y);
+        double dot = x * v.x + y * v.y;
+        return (float) (dot / (length1 * length2));
     }
-    
-    /**
-     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
-     * @return the cosinus of the angle
-     * @see #angle(Vector2f, Vector2f)
-     */
-    public static float angleCos(Vector2f v1, Vector2f v2) {
-        float length1 = (float) Math.sqrt((v1.x * v1.x) + (v1.y * v1.y));
-        float length2 = (float) Math.sqrt((v2.x * v2.x) + (v2.y * v2.y));
-        float dot = (v1.x * v2.x) + (v1.y * v2.y);
-        return dot / (length1 * length2);
-    }
-    
+
     /**
      * Return the angle between this vector and the supplied vector.
-     * @return the angle, in radians
+     * 
      * @see #angleCos(Vector2f)
+     * 
+     * @param v
+     *          the other vector
+     * @return the angle, in degrees
      */
     public float angle(Vector2f v) {
-        return angle(this, v);
-    }
-    
-    /**
-     * Return the angle between the supplied vectors.
-     * @return the angle, in radians
-     * @see #angleCos(Vector2f, Vector2f)
-     */
-    public static float angle(Vector2f v1, Vector2f v2) {
-        float cos = angleCos(v1, v2);
+        float cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = Math.min(cos, 1);
         cos = Math.max(cos, -1);
-        return (float) Math.acos(cos);
+        return (float) Math.toDegrees(Math.acos(cos));
     }
-
-    /**
-     * Return the length of a.
-     */
-    public static float length(Vector2f a) {
-        return (float) Math.sqrt((a.x * a.x) + (a.y * a.y));
-    }
-
+    
     /**
      * Return the length of this vector.
      */
@@ -240,28 +216,11 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Return the distance between <code>start</code> and <code>end</code>.
-     */
-    public static float distance(Vector2f start, Vector2f end) {
-        return (float) Math.sqrt((end.x - start.x) * (end.x - start.x)
-                + (end.y - start.y) * (end.y - start.y));
-    }
-
-    /**
      * Return the distance between this and <code>v</code>.
      */
     public float distance(Vector2f v) {
         return (float) Math.sqrt((v.x - x) * (v.x - x)
                 + (v.y - y) * (v.y - y));
-    }
-
-    /**
-     * Normalize <code>a</code> and store the result in <code>dest</code>.
-     */
-    public static void normalize(Vector2f a, Vector2f dest) {
-        float length = (float) Math.sqrt((a.x * a.x) + (a.y * a.y));
-        dest.x = a.x / length;
-        dest.y = a.y / length;
     }
 
     /**
@@ -273,6 +232,20 @@ public class Vector2f implements Externalizable {
         float length = (float) Math.sqrt((x * x) + (y * y));
         x /= length;
         y /= length;
+        return this;
+    }
+
+    /**
+     * Normalize this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector2f normalize(Vector2f dest) {
+        float length = (float) Math.sqrt((x * x) + (y * y));
+        dest.x = x / length;
+        dest.y = y / length;
         return this;
     }
 
@@ -329,11 +302,16 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Negate original and store the result in dest.
+     * Negate this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void negate(Vector2f original, Vector2f dest) {
-        dest.x = -original.x;
-        dest.y = -original.y;
+    public Vector2f negate(Vector2f dest) {
+        dest.x = -x;
+        dest.y = -y;
+        return this;
     }
 
     /**

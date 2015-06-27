@@ -14,11 +14,11 @@ public class Vector3dTest extends TestCase {
 		
 		// angle(v, v) should give 0
 		double angle = testVec1.angle(testVec1);
-		assertEquals(angle, 0, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
+		assertEquals(0, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
 		
 		// angle(v, -v) should give PI
 		testVec1.negate(testVec2);
 		angle = testVec1.angle(testVec2);
-		assertEquals(angle, Math.PI, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
+		assertEquals(180.0f, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
 	}
 }

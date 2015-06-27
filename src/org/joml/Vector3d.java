@@ -617,9 +617,9 @@ public class Vector3d implements Externalizable {
      * @return the cosine of the angle
      */
     public double angleCos(Vector3d v) {
-        double length1 = Math.sqrt((x * x) + (y * y) + (z * z));
-        double length2 = Math.sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
-        double dot = (x * v.x) + (y * v.y) + (z * v.z);
+        double length1 = Math.sqrt(x * x + y * y + z * z);
+        double length2 = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        double dot = x * v.x + y * v.y + z * v.z;
         return dot / (length1 * length2);
     }
 
@@ -628,14 +628,14 @@ public class Vector3d implements Externalizable {
      * 
      * @see #angleCos(Vector3d)
      * 
-     * @return the angle, in radians
+     * @return the angle, in degrees
      */
     public double angle(Vector3d v) {
         double cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = Math.min(cos, 1);
         cos = Math.max(cos, -1);
-        return Math.acos(cos);
+        return Math.toDegrees(Math.acos(cos));
     }
 
     /**

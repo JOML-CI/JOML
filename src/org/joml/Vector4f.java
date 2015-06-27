@@ -499,28 +499,36 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
-     * @return the cosinus of the angle
+     * Return the cosine of the angle between this vector and the supplied vector. Use this instead of <code>Math.cos(angle(v))</code>.
+     * 
      * @see #angle(Vector4f)
+     * 
+     * @param v
+     *          the other vector
+     * @return the cosine of the angle
      */
     public float angleCos(Vector4f v) {
-        float length1 = (float) Math.sqrt((x * x) + (y * y) + (z * z) + (w * w));
-        float length2 = (float) Math.sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z) + (v.w * v.w));
-        float dot = (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w);
-        return dot / (length1 * length2);
+        double length1 = Math.sqrt(x * x + y * y + z * z + w * w);
+        double length2 = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
+        double dot = x * v.x + y * v.y + z * v.z + w * v.w;
+        return (float) (dot / (length1 * length2));
     }
 
     /**
      * Return the angle between this vector and the supplied vector.
-     * @return the angle, in radians
+     * 
      * @see #angleCos(Vector4f)
+     * 
+     * @param v
+     *          the other vector
+     * @return the angle, in degrees
      */
     public float angle(Vector4f v) {
         float cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = Math.min(cos, 1);
         cos = Math.max(cos, -1);
-        return (float) Math.acos(cos);
+        return (float) Math.toDegrees(Math.acos(cos));
     }
 
     /**
