@@ -2135,7 +2135,12 @@ public class Matrix4d implements Serializable, Externalizable {
      */
     public Matrix4d normal(Matrix4d dest) {
         // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
-        double det = determinant();
+        double det = m00 * m11 * m22
+                   + m10 * m21 * m02
+                   + m20 * m01 * m12
+                   - m20 * m11 * m02
+                   - m00 * m21 * m12
+                   - m10 * m01 * m22;
         double diff = Math.abs(Math.abs(det) - 1.0);
         if (diff < 1E-8) {
             /* The fast path, if only 1:1:1 scaling is being used */
@@ -2198,7 +2203,12 @@ public class Matrix4d implements Serializable, Externalizable {
      */
     public Matrix4d normal(Matrix3d dest) {
         // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
-        double det = determinant();
+        double det = m00 * m11 * m22
+                   + m10 * m21 * m02
+                   + m20 * m01 * m12
+                   - m20 * m11 * m02
+                   - m00 * m21 * m12
+                   - m10 * m01 * m22;
         double diff = Math.abs(Math.abs(det) - 1.0);
         if (diff < 1E-8) {
             /* The fast path, if only 1:1:1 scaling is being used */
