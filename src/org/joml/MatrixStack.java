@@ -63,7 +63,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack(int stackSize) {
         if (stackSize < 1) {
-            throw new IllegalArgumentException("stackSize must be >= 1");
+            throw new IllegalArgumentException("stackSize must be >= 1"); //$NON-NLS-1$
         }
         mats = new Matrix4f[stackSize];
         // Allocate all matrices up front to keep the promise of being
@@ -95,7 +95,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack loadMatrix(Matrix4f mat) {
         if (mat == null) {
-            throw new IllegalArgumentException("mat must not be null");
+            throw new IllegalArgumentException("mat must not be null"); //$NON-NLS-1$
         }
         mats[curr].set(mat);
         return this;
@@ -113,7 +113,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack loadMatrix(FloatBuffer columnMajorArray) {
         if (columnMajorArray == null) {
-            throw new IllegalArgumentException("columnMajorArray must not be null");
+            throw new IllegalArgumentException("columnMajorArray must not be null"); //$NON-NLS-1$
         }
         mats[curr].set(columnMajorArray);
         return this;
@@ -132,10 +132,10 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack loadMatrix(float[] columnMajorArray, int offset) {
         if (columnMajorArray == null) {
-            throw new IllegalArgumentException("columnMajorArray must not be null");
+            throw new IllegalArgumentException("columnMajorArray must not be null"); //$NON-NLS-1$
         }
         if (columnMajorArray.length - offset < 16) {
-            throw new IllegalArgumentException("columnMajorArray does not have enough elements");
+            throw new IllegalArgumentException("columnMajorArray does not have enough elements"); //$NON-NLS-1$
         }
         mats[curr].set(columnMajorArray, offset);
         return this;
@@ -149,7 +149,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack pushMatrix() {
         if (curr == mats.length - 1) {
-            throw new IllegalStateException("max stack size of " + (curr + 1) + " reached");
+            throw new IllegalStateException("max stack size of " + (curr + 1) + " reached"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         mats[curr + 1].set(mats[curr]);
         curr++;
@@ -165,7 +165,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack popMatrix() {
         if (curr == 0) {
-            throw new IllegalStateException("already at the buttom of the stack");
+            throw new IllegalStateException("already at the buttom of the stack"); //$NON-NLS-1$
         }
         curr--;
         return this;
@@ -182,7 +182,7 @@ public class MatrixStack implements Serializable {
      */
     public Matrix4f get(Matrix4f dest) {
         if (dest == null) {
-            throw new IllegalArgumentException("dest must not be null");
+            throw new IllegalArgumentException("dest must not be null"); //$NON-NLS-1$
         }
         dest.set(mats[curr]);
         return dest;
@@ -209,10 +209,10 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack get(FloatBuffer dest) {
         if (dest == null) {
-            throw new IllegalArgumentException("dest must not be null");
+            throw new IllegalArgumentException("dest must not be null"); //$NON-NLS-1$
         }
         if (dest.remaining() < 16) {
-            throw new IllegalArgumentException("dest does not have enough space");
+            throw new IllegalArgumentException("dest does not have enough space"); //$NON-NLS-1$
         }
         mats[curr].get(dest);
         return this;
@@ -239,10 +239,10 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack get(int index, FloatBuffer dest) {
         if (dest == null) {
-            throw new IllegalArgumentException("dest must not be null");
+            throw new IllegalArgumentException("dest must not be null"); //$NON-NLS-1$
         }
         if (dest.remaining() < 16) {
-            throw new IllegalArgumentException("dest does not have enough space");
+            throw new IllegalArgumentException("dest does not have enough space"); //$NON-NLS-1$
         }
         mats[curr].get(dest);
         return this;
@@ -261,13 +261,13 @@ public class MatrixStack implements Serializable {
      */
     public float[] get(float[] dest, int offset) {
         if (dest == null) {
-            throw new IllegalArgumentException("dest must not be null");
+            throw new IllegalArgumentException("dest must not be null"); //$NON-NLS-1$
         }
         if (offset < 0) {
-            throw new IllegalArgumentException("offset must not be negative");
+            throw new IllegalArgumentException("offset must not be negative"); //$NON-NLS-1$
         }
         if (dest.length - offset < 16) {
-            throw new IllegalArgumentException("dest does not have enough elements");
+            throw new IllegalArgumentException("dest does not have enough elements"); //$NON-NLS-1$
         }
         mats[curr].get(dest, offset);
         return dest;
@@ -325,7 +325,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack translate(Vector3f xyz) {
         if (xyz == null) {
-            throw new IllegalArgumentException("xyz must not be null");
+            throw new IllegalArgumentException("xyz must not be null"); //$NON-NLS-1$
         }
         translate(xyz.x, xyz.y, xyz.z);
         return this;
@@ -371,7 +371,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack scale(Vector3f xyz) {
         if (xyz == null) {
-            throw new IllegalArgumentException("xyz must not be null");
+            throw new IllegalArgumentException("xyz must not be null"); //$NON-NLS-1$
         }
         this.scale(xyz.x, xyz.y, xyz.z);
         return this;
@@ -441,7 +441,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack rotate(float ang, Vector3f axis) {
         if (axis == null) {
-            throw new IllegalArgumentException("axis must not be null");
+            throw new IllegalArgumentException("axis must not be null"); //$NON-NLS-1$
         }
         rotate(ang, axis.x, axis.y, axis.z);
         return this;
@@ -462,7 +462,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack rotate(Quaternionf quat) {
         if (quat == null) {
-            throw new IllegalArgumentException("quat must not be null");
+            throw new IllegalArgumentException("quat must not be null"); //$NON-NLS-1$
         }
         mats[curr].rotate(quat);
         return this;
@@ -484,7 +484,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack rotate(AxisAngle4f angleAxis) {
         if (angleAxis == null) {
-            throw new IllegalArgumentException("angleAxis must not be null");
+            throw new IllegalArgumentException("angleAxis must not be null"); //$NON-NLS-1$
         }
         mats[curr].rotate(angleAxis);
         return this;
@@ -570,7 +570,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack multMatrix(Matrix4f mat) {
         if (mat == null) {
-            throw new IllegalArgumentException("mat must not be null");
+            throw new IllegalArgumentException("mat must not be null"); //$NON-NLS-1$
         }
         mats[curr].mul(mat);
         return this;

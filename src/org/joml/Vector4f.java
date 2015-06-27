@@ -572,8 +572,8 @@ public class Vector4f implements Externalizable {
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-"); //$NON-NLS-1$
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -584,7 +584,7 @@ public class Vector4f implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + " " + formatter.format(w) + ")";
+        return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + " " + formatter.format(w) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

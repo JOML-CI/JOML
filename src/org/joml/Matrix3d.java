@@ -521,8 +521,8 @@ public class Matrix3d implements Externalizable {
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat("  0.000E0; -");
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1");
+        DecimalFormat formatter = new DecimalFormat("  0.000E0; -"); //$NON-NLS-1$
+        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -533,9 +533,9 @@ public class Matrix3d implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return formatter.format(m00) + formatter.format(m10) + formatter.format(m20) + "\n"
-             + formatter.format(m01) + formatter.format(m11) + formatter.format(m21) + "\n"
-             + formatter.format(m02) + formatter.format(m12) + formatter.format(m22) + "\n";
+        return formatter.format(m00) + formatter.format(m10) + formatter.format(m20) + "\n" //$NON-NLS-1$
+             + formatter.format(m01) + formatter.format(m11) + formatter.format(m21) + "\n" //$NON-NLS-1$
+             + formatter.format(m02) + formatter.format(m12) + formatter.format(m22) + "\n"; //$NON-NLS-1$
     }
 
     /**
