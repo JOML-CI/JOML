@@ -22,10 +22,7 @@
  */
 package org.joml;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.nio.FloatBuffer;
 
 /**
@@ -40,7 +37,7 @@ import java.nio.FloatBuffer;
  * 
  * @author Kai Burjack
  */
-public class MatrixStack implements Externalizable {
+public class MatrixStack implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -577,23 +574,6 @@ public class MatrixStack implements Externalizable {
         }
         mats[curr].mul(mat);
         return this;
-    }
-
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeInt(curr);
-        out.writeInt(mats.length);
-        for (int i = 0; i < mats.length; i++) {
-            out.writeObject(mats[i]);
-        }
-    }
-
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        curr = in.readInt();
-        int len = in.readInt();
-        mats = new Matrix4f[len];
-        for (int i = 0; i < len; i++) {
-            mats[i] = (Matrix4f) in.readObject();
-        }
     }
 
     /**
