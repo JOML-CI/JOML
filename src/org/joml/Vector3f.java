@@ -158,22 +158,6 @@ public class Vector3f implements Serializable, Externalizable {
     }
 
     /**
-     * Subtract v2 from v1 and store the result in <code>dest</code>.
-     * 
-     * @param v1
-     *          the left operand
-     * @param v2
-     *          the right operand
-     * @param dest
-     *          will hold the result
-     */
-    public static void sub(Vector3f v1, Vector3f v2, Vector3f dest) {
-        dest.x = v1.x - v2.x;
-        dest.y = v1.y - v2.y;
-        dest.z = v1.z - v2.z;
-    }
-
-    /**
      * Add the supplied vector to this one.
      * 
      * @return this
@@ -482,21 +466,6 @@ public class Vector3f implements Serializable, Externalizable {
         dest.y = y / d;
         dest.z = z / d;
         return this;
-    }
-
-    /**
-     * Normalize the <code>original</code> vector and store the result in <code>dest</code>.
-     * 
-     * @param original
-     *          the vector to normalize
-     * @param dest
-     *          will hold the result
-     */
-    public static void normalize(Vector3f original, Vector3f dest) {
-        float d = original.length();
-        dest.set(original.x / d,
-                 original.y / d,
-                 original.z / d);
     }
 
     /**

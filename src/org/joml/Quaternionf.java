@@ -151,20 +151,19 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Normalize the supplied quaternion <code>source</code> and store the result in <code>dest</code>.
+     * Normalize this quaternion and store the result in <code>dest</code>.
      * 
-     * @param source
-     *          the source to normalize
      * @param dest
      *          will hold the result
+     * @return this
      */
-    public static void normalize(Quaternionf source, Quaternionf dest) {
-        float norm = (float) Math.sqrt(source.x * source.x + source.y * source.y + source.z * source.z + source.w * source.w);
-
-        dest.x = source.x / norm;
-        dest.y = source.y / norm;
-        dest.z = source.z / norm;
-        dest.w = source.w / norm;
+    public Quaternionf normalize(Quaternionf dest) {
+        float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
+        dest.x = x / norm;
+        dest.y = y / norm;
+        dest.z = z / norm;
+        dest.w = w / norm;
+        return this;
     }
 
     /**
@@ -183,18 +182,20 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Add <code>q2</code> to <code>q1</code> and store the result in <code>dest</code>.
+     * Add <code>q2</code> to this quaternion and store the result in <code>dest</code>.
      * 
-     * @param q1
-     *          the first quaternion
      * @param q2
-     *          the second quaternion
+     *          the quaternion to add to this
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void add(Quaternionf q1, Quaternionf q2, Quaternionf dest) {
-        dest.x = q1.x + q2.x;
-        dest.y = q1.y + q2.y;
-        dest.z = q1.z + q2.z;
-        dest.w = q1.w + q2.w;
+    public Quaternionf add(Quaternionf q2, Quaternionf dest) {
+        dest.x = x + q2.x;
+        dest.y = y + q2.y;
+        dest.z = z + q2.z;
+        dest.w = w + q2.w;
+        return this;
     }
 
     /**
@@ -209,19 +210,6 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Return the dot product of a and b.
-     * 
-     * @param a
-     *          the first quaternion
-     * @param b
-     *          the second quaternion
-     * @return the dot product
-     */
-    public static float dot(Quaternionf a, Quaternionf b) {
-        return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
-    }
-
-    /**
      * Return the angle represented by this quaternion rotation in degrees.
      * 
      * @return the angle in degrees
@@ -232,31 +220,23 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Return the angle represented by <code>q</code> in degrees.
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
-     * @return the angle in degrees
+     * @return this
      */
-    public static float angle(Quaterniond q) {
-        float angle = (float) (2.0 * Math.acos(q.w));
-        return (float) Math.toDegrees(angle <= Math.PI ? angle : 2.0 * Math.PI - angle);
-    }
+    public Quaternionf get(Matrix3f dest) {
+        float q00 = 2.0f * x * x;
+        float q11 = 2.0f * y * y;
+        float q22 = 2.0f * z * z;
 
-    /**
-     * Set the given destination matrix to the rotation represented by <code>q</code>.
-     */
-    public static void get(Quaternionf q, Matrix3f dest) {
-        float q00 = 2.0f * q.x * q.x;
-        float q11 = 2.0f * q.y * q.y;
-        float q22 = 2.0f * q.z * q.z;
+        float q01 = 2.0f * x * y;
+        float q02 = 2.0f * x * z;
+        float q03 = 2.0f * x * w;
 
-        float q01 = 2.0f * q.x * q.y;
-        float q02 = 2.0f * q.x * q.z;
-        float q03 = 2.0f * q.x * q.w;
+        float q12 = 2.0f * y * z;
+        float q13 = 2.0f * y * w;
 
-        float q12 = 2.0f * q.y * q.z;
-        float q13 = 2.0f * q.y * q.w;
-
-        float q23 = 2.0f * q.z * q.w;
+        float q23 = 2.0f * z * w;
 
         dest.m00 = 1.0f - q11 - q22;
         dest.m01 = q01 + q23;
@@ -267,6 +247,7 @@ public class Quaternionf implements Serializable, Externalizable {
         dest.m20 = q02 + q13;
         dest.m21 = q12 - q03;
         dest.m22 = 1.0f - q11 - q00;
+        return this;
     }
 
     /**
@@ -274,27 +255,19 @@ public class Quaternionf implements Serializable, Externalizable {
      * 
      * @return this
      */
-    public Quaternionf get(Matrix3f dest) {
-        get(this, dest);
-        return this;
-    }
+    public Quaternionf get(Matrix4f dest) {
+        float q00 = 2.0f * x * x;
+        float q11 = 2.0f * y * y;
+        float q22 = 2.0f * z * z;
 
-    /**
-     * Set the given destination matrix to the rotation represented by <code>q</code>.
-     */
-    public static void get(Quaternionf q, Matrix4f dest) {
-        float q00 = 2.0f * q.x * q.x;
-        float q11 = 2.0f * q.y * q.y;
-        float q22 = 2.0f * q.z * q.z;
+        float q01 = 2.0f * x * y;
+        float q02 = 2.0f * x * z;
+        float q03 = 2.0f * x * w;
 
-        float q01 = 2.0f * q.x * q.y;
-        float q02 = 2.0f * q.x * q.z;
-        float q03 = 2.0f * q.x * q.w;
+        float q12 = 2.0f * y * z;
+        float q13 = 2.0f * y * w;
 
-        float q12 = 2.0f * q.y * q.z;
-        float q13 = 2.0f * q.y * q.w;
-
-        float q23 = 2.0f * q.z * q.w;
+        float q23 = 2.0f * z * w;
 
         dest.m00 = 1.0f - q11 - q22;
         dest.m01 = q01 + q23;
@@ -311,15 +284,6 @@ public class Quaternionf implements Serializable, Externalizable {
         dest.m31 = 0.0f;
         dest.m32 = 0.0f;
         dest.m33 = 1.0f;
-    }
-
-    /**
-     * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
-     * @return this
-     */
-    public Quaternionf get(Matrix4f dest) {
-        get(this, dest);
         return this;
     }
 
@@ -673,8 +637,7 @@ public class Quaternionf implements Serializable, Externalizable {
      * @return this
      */
     public Quaternionf mul(Quaternionf q) {
-        mul(this, q, this);
-        return this;
+        return mul(q, this);
     }
 
     /**
@@ -695,32 +658,18 @@ public class Quaternionf implements Serializable, Externalizable {
      * @return this
      */
     public Quaternionf mul(Quaternionf q, Quaternionf dest) {
-        mul(this, q, dest);
-        return this;
-    }
-
-    /**
-     * Multiply <code>a</code> by <code>b</code> and store the result in <code>dest</code>.
-     * <p>
-     * The result <tt>R</tt> of the multiplication is then defined as:
-     * <p>
-     * <tt>R = a * b</tt>
-     * <p>
-     * So, this method uses post-multiplication like the matrix classes, resulting in a
-     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
-     */
-    public static void mul(Quaternionf a, Quaternionf b, Quaternionf dest) {
-        if (a != dest && b != dest) {
-            dest.x = a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y;
-            dest.y = a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x;
-            dest.z = a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w;
-            dest.w = a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z;
+        if (this != dest && q != dest) {
+            dest.x = w * q.x + x * q.w + y * q.z - z * q.y;
+            dest.y = w * q.y - x * q.z + y * q.w + z * q.x;
+            dest.z = w * q.z + x * q.y - y * q.x + z * q.w;
+            dest.w = w * q.w - x * q.x - y * q.y - z * q.z;
         } else {
-            dest.set(a.w * b.x + a.x * b.w + a.y * b.z - a.z * b.y,
-                     a.w * b.y - a.x * b.z + a.y * b.w + a.z * b.x,
-                     a.w * b.z + a.x * b.y - a.y * b.x + a.z * b.w,
-                     a.w * b.w - a.x * b.x - a.y * b.y - a.z * b.z);
+            dest.set(w * q.x + x * q.w + y * q.z - z * q.y,
+                     w * q.y - x * q.z + y * q.w + z * q.x,
+                     w * q.z + x * q.y - y * q.x + z * q.w,
+                     w * q.w - x * q.x - y * q.y - z * q.z);
         }
+        return this;
     }
 
     /**
@@ -818,7 +767,11 @@ public class Quaternionf implements Serializable, Externalizable {
      * @return this
      */
     public Quaternionf invert(Quaternionf dest) {
-        invert(this, dest);
+        float norm = (x * x + y * y + z * z + w * w);
+        dest.x = -x / norm;
+        dest.y = -y / norm;
+        dest.z = -z / norm;
+        dest.w = w / norm;
         return this;
     }
 
@@ -828,28 +781,7 @@ public class Quaternionf implements Serializable, Externalizable {
      * @return this
      */
     public Quaternionf invert() {
-        float norm = (x * x + y * y + z * z + w * w);
-        x = -x / norm;
-        y = -y / norm;
-        z = -z / norm;
-        w = w / norm;
-        return this;
-    }
-
-    /**
-     * Invert <code>q</code> and store the result in <code>dest</code>.
-     * 
-     * @param q
-     *          the quaternion to invert
-     * @param dest
-     *          will hold the result
-     */
-    public static void invert(Quaternionf q, Quaternionf dest) {
-        float norm = (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
-        dest.x = -q.x / norm;
-        dest.y = -q.y / norm;
-        dest.z = -q.z / norm;
-        dest.w = q.w / norm;
+        return invert(this);
     }
 
     /**
@@ -866,7 +798,15 @@ public class Quaternionf implements Serializable, Externalizable {
      * @return this
      */
     public Quaternionf div(Quaternionf b, Quaternionf dest) {
-        div(this, b, dest);
+        float norm = (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
+        float x = -b.x / norm;
+        float y = -b.y / norm;
+        float z = -b.z / norm;
+        float w = b.w / norm;
+        dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
+                 this.w * y - this.x * z + this.y * w + this.z * x,
+                 this.w * z + this.x * y - this.y * x + this.z * w,
+                 this.w * w - this.x * x - this.y * y - this.z * z);
         return this;
     }
 
@@ -882,30 +822,7 @@ public class Quaternionf implements Serializable, Externalizable {
      * @return this
      */
     public Quaternionf div(Quaternionf b) {
-        div(this, b, this);
-        return this;
-    }
-
-    /**
-     * Divide <code>a</code> by <code>b</code> and store the result in <code>dest</code>.
-     * <p>
-     * The division expressed with the inverse is performed in the following way:
-     * <p>
-     * <tt>dest = a * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     */
-    public static void div(Quaternionf a, Quaternionf b, Quaternionf dest) {
-        float norm = (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
-        float x = -b.x / norm;
-        float y = -b.y / norm;
-        float z = -b.z / norm;
-        float w = b.w / norm;
-        dest.set(a.w * x + a.x * w + a.y * z - a.z * y,
-                 a.w * y - a.x * z + a.y * w + a.z * x,
-                 a.w * z + a.x * y - a.y * x + a.z * w,
-                 a.w * w - a.x * x - a.y * y - a.z * z);
+        return div(b, this);
     }
 
     /**
@@ -921,18 +838,18 @@ public class Quaternionf implements Serializable, Externalizable {
     }
 
     /**
-     * Conjugate <code>a</code> and store the result in <code>dest</code>.
+     * Conjugate this quaternion and store the result in <code>dest</code>.
      * 
-     * @param a
-     *          the quaternion to conjugate
      * @param dest
      *          will hold the result
+     * @return this
      */
-    public static void conjugate(Quaternionf a, Quaternionf dest) {
-        dest.x = -a.x;
-        dest.y = -a.y;
-        dest.z = -a.z;
-        dest.w = a.w;
+    public Quaternionf conjugate(Quaternionf dest) {
+        dest.x = -x;
+        dest.y = -y;
+        dest.z = -z;
+        dest.w = w;
+        return this;
     }
 
     /**
@@ -1054,15 +971,6 @@ public class Quaternionf implements Serializable, Externalizable {
      */
     public float length() {
         return x * x + y * y + z * z + w * w;
-    }
-
-    /**
-     * Return the length of q.
-     * 
-     * @return the length
-     */
-    public static float length(Quaternionf q) {
-        return q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w;
     }
 
     /**
