@@ -123,12 +123,11 @@ Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
 JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
-Matrix4f m = new Matrix4f()
-     .perspective(45.0f, 1.0f, 0.01f, 100.0f)
-     .lookAt(0.0f, 0.0f, 10.0f,
-             0.0f, 0.0f, 0.0f,
-             0.0f, 1.0f, 0.0f)
-     .get(fb);
+new Matrix4f().perspective(45.0f, 1.0f, 0.01f, 100.0f)
+              .lookAt(0.0f, 0.0f, 10.0f,
+                      0.0f, 0.0f, 0.0f,
+                      0.0f, 1.0f, 0.0f)
+              .get(fb);
 glUniformMatrix4fv(mat4Location, false, fb);
 ```
 The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method [*glUniformMatrix4fv*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv%28int,%20boolean,%20java.nio.FloatBuffer%29).
@@ -153,7 +152,7 @@ JOML is designed to be completely allocation-free for all methods. That means JO
 
 *JOML also does not allocate any unexpected internal helper/temporary/working objects itself, neither in instance nor static fields, thus giving you full control over object allocations.*
 
-Since you have to create a matrix or a vector at some point in order to make any computations with JOML on them, you are advised to do so once at the initialization of your program. Those objects will then be the *working memory/objects* for JOML. These working objects can then be reused in your hot path of your application without incurring any additional allocations. The following example shows a typical usecase with LWJGL:
+Since you have to create a matrix or a vector at some point in order to make any computations with JOML on them, you are advised to do so once at the initialization of your program. Those objects will then be the *working memory/objects* for JOML. These working objects can then be reused in the hot path of your application without incurring any additional allocations. The following example shows a typical usecase with LWJGL:
 
 ```Java
 FloatBuffer fb;
@@ -167,11 +166,16 @@ void init() {
 
 void frame() {
   ...
+  // compute view-projection matrix
   m.identity()
    .perspective(45.0f, (float)width/height, 0.01f, 100.0f)
    .lookAt(0.0f, 0.0f, 10.0f,
            0.0f, 0.0f, 0.0f,
-           0.0f, 1.0f, 0.0f).get(fb);
+           0.0f, 1.0f, 0.0f);
+  // possibly apply more model transformations
+  m.rotateY(angle);
+  // get matrix into FloatBuffer and upload to OpenGL
+  m.get(fb);
   glUniformMatrix4fv(mat4Location, false, fb);
   ...
 }
