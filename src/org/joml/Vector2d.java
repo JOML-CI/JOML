@@ -164,7 +164,7 @@ public class Vector2d implements Externalizable {
      * 
      * @param x
      *          the x-coordinate to subtract
-     * @param x
+     * @param y
      *          the y-coordinate to subtract
      * @param dest
      *          will hold the result         
