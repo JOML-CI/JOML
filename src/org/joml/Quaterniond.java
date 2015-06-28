@@ -769,7 +769,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Calculate this quaternion using the supplied Vector3f angles (in degrees) with rotation order XYZ.
+     * Calculate this quaternion using the supplied Vector3d angles (in degrees) with rotation order XYZ.
      * 
      * @return this
      */
@@ -778,7 +778,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Calculate this quaternion using the supplied Vector3f angles (in radians) with rotation order XYZ.
+     * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order XYZ.
      * 
      * @return this
      */
@@ -787,7 +787,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Calculate this quaternion using the supplied Vector3f angles (in degrees) with rotation order ZYX.
+     * Calculate this quaternion using the supplied Vector3d angles (in degrees) with rotation order ZYX.
      * 
      * @return this
      */
@@ -796,7 +796,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Calculate this quaternion using the supplied Vector3f angles (in radians) with rotation order ZYX.
+     * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order ZYX.
      * 
      * @return this
      */
@@ -1713,6 +1713,105 @@ public class Quaterniond implements Externalizable {
      */
     public Quaterniond rotateZ(double angle, Quaterniond dest) {
         return rotate(0.0, 0.0, angle, dest);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>XYZ</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angles
+     *              the euler angles in degrees
+     * @return this
+     */
+    public Quaterniond rotateXYZ(Vector3d angles) {
+        return rotateXYZ(angles.x, angles.y, angles.z);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>ZYX</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angles
+     *              the euler angles in degrees
+     * @return this
+     */
+    public Quaterniond rotateZYX(Vector3d angles) {
+        return rotateZYX(angles.z, angles.y, angles.x);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>XYZ</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angleX
+     *              the angle to rotate about the x axis
+     * @param angleY
+     *              the angle to rotate about the y axis
+     * @param angleZ
+     *              the angle to rotate about the z axis
+     * @return this
+     */
+    public Quaterniond rotateXYZ(double angleX, double angleY, double angleZ) {
+        return rotateX(angleX).rotateY(angleY).rotateZ(angleZ);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * called the euler angles, using the rotation sequence <tt>ZYX</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angleX
+     *              the angle to rotate about the x axis
+     * @param angleY
+     *              the angle to rotate about the y axis
+     * @param angleZ
+     *              the angle to rotate about the z axis
+     * @return this
+     */
+    public Quaterniond rotateZYX(double angleX, double angleY, double angleZ) {
+        return rotateZ(angleZ).rotateY(angleY).rotateX(angleX);
+    }
+
+    /**
+     * Get the euler angles in degrees in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the 
+     * provided parameter <code>eulerAngles</code>.
+     * 
+     * @param eulerAngles
+     *          will hold the euler angles in degrees
+     * @return this
+     */
+    public Quaterniond getEulerAnglesXYZ(Vector3d eulerAngles) {
+        eulerAngles.x = Math.toDegrees(Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y)));
+        eulerAngles.y = Math.toDegrees(Math.asin(2.0 * (x*z + y*w)));
+        eulerAngles.z = Math.toDegrees(Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z)));
+        return this;
     }
 
     /**
