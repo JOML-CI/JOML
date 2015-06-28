@@ -16,8 +16,8 @@ public class Vector4dTest extends TestCase {
 		double angle = testVec1.angle(testVec1);
 		assertEquals(0, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
 		
-		// angle(v, -v) should give PI
-		Vector4d.negate(testVec1, testVec2);
+		// angle(v, -v) should give 180
+		testVec1.negate(testVec2);
 		angle = testVec1.angle(testVec2);
 		assertEquals(180.0f, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
 	}

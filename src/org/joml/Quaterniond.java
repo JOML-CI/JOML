@@ -824,7 +824,7 @@ public class Quaterniond implements Externalizable {
         y = sx*cy*cz - cx*sy*sz;
         z = cx*sy*cz + sx*cy*sz;
         w = cx*cy*sz - sx*sy*cz;
-        
+
         return this;
     }
 
@@ -848,7 +848,7 @@ public class Quaterniond implements Externalizable {
         y = sx*cy*cz + cx*sy*sz;
         z = cx*sy*cz - sx*cy*sz;
         w = cx*cy*sz + sx*sy*cz;
-        
+
         return this;
     }
 
@@ -879,7 +879,7 @@ public class Quaterniond implements Externalizable {
         y = sx*cy*cz - cx*sy*sz;
         z = cx*sy*cz + sx*cy*sz;
         w = cx*cy*sz - sx*sy*cz;
-        
+
         return this;
     }
 
@@ -903,7 +903,7 @@ public class Quaterniond implements Externalizable {
         y = sx*cy*cz + cx*sy*sz;
         z = cx*sy*cz - sx*cy*sz;
         w = cx*cy*sz + sx*sy*cz;
-        
+
         return this;
     }
 

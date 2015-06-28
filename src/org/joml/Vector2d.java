@@ -136,71 +136,13 @@ public class Vector2d implements Externalizable {
     }
 
     /**
-     * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
-     * 
-     * @param a
-     *          the first operand
-     * @param b
-     *          the second operand
-     * @param dest
-     *          will hold the result of <code>a - b</code>
-     */
-    public static void sub(Vector2d a, Vector2d b, Vector2d dest) {
-        dest.x = a.x - b.x;
-        dest.y = a.y - b.y;
-    }
-
-    /**
-     * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
-     * 
-     * @param a
-     *          the first operand
-     * @param b
-     *          the second operand
-     * @param dest
-     *          will hold the result of <code>a - b</code>
-     */
-    public static void sub(Vector2f a, Vector2d b, Vector2d dest) {
-        dest.x = a.x - b.x;
-        dest.y = a.y - b.y;
-    }
-
-    /**
-     * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
-     * 
-     * @param a
-     *          the first operand
-     * @param b
-     *          the second operand
-     * @param dest
-     *          will hold the result of <code>a - b</code>
-     */
-    public static void sub(Vector2d a, Vector2f b, Vector2d dest) {
-        dest.x = a.x - b.x;
-        dest.y = a.y - b.y;
-    }
-
-    /**
      * Subtract <code>v</code> from this vector.
      * 
      * @param v
-     *          the vector to subtract from this
+     *          the vector to subtract
      * @return this
      */
     public Vector2d sub(Vector2d v) {
-        x -= v.x;
-        y -= v.y;
-        return this;
-    }
-
-    /**
-     * Subtract <code>v</code> from this vector.
-     * 
-     * @param v
-     *          the vector to subtract from this
-     * @return this
-     */
-    public Vector2d sub(Vector2f v) {
         x -= v.x;
         y -= v.y;
         return this;
@@ -218,10 +160,71 @@ public class Vector2d implements Externalizable {
     }
 
     /**
-     * Return the dot product of <code>a</code> and <code>b</code>.
+     * Subtract <tt>(x, y)</tt> from this vector and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param x
+     *          the y-coordinate to subtract
+     * @param dest
+     *          will hold the result         
+     * @return this
      */
-    public static double dot(Vector2d a, Vector2d b) {
-        return a.x * b.x + a.y * b.y;
+    public Vector2d sub(double x, double y, Vector2d dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        return this;
+    }
+
+    /**
+     * Subtract <code>v</code> from this vector.
+     * 
+     * @param v
+     *          the vector to subtract
+     * @return this
+     */
+    public Vector2d sub(Vector2f v) {
+        x -= v.x;
+        y -= v.y;
+        return this;
+    }
+
+    /**
+     * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector2d sub(Vector2d v, Vector2d dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        return this;
+    }
+
+    /**
+     * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector2d sub(Vector2f v, Vector2d dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        return this;
+    }
+
+    /**
+     * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
+     */
+    public static void sub(Vector2f a, Vector2d b, Vector2d dest) {
+        dest.x = a.x - b.x;
+        dest.y = a.y - b.y;
     }
 
     /**
@@ -230,55 +233,36 @@ public class Vector2d implements Externalizable {
     public double dot(Vector2d v) {
         return x * v.x + y * v.y;
     }
-    
+
     /**
-     * Return the cosinus of the angle between this vector and the supplied vector. Use this instead of Math.cos(this.angle(v)).
-     * @return the cosinus of the angle
+     * Return the cosine of the angle between this vector and the supplied vector. Use this instead of <code>Math.cos(angle(v))</code>.
+     * 
      * @see #angle(Vector2d)
+     * 
+     * @return the cosine of the angle
      */
     public double angleCos(Vector2d v) {
-        return angleCos(this, v);
-    }
-    
-    /**
-     * Return the cosinus of the angle between the supplied vectors. Use this instead of Math.cos(angle(v1, v2)).
-     * @return the cosinus of the angle
-     * @see #angle(Vector2d, Vector2d)
-     */
-    public static double angleCos(Vector2d v1, Vector2d v2) {
-        double length1 = Math.sqrt((v1.x * v1.x) + (v1.y * v1.y));
-        double length2 = Math.sqrt((v2.x * v2.x) + (v2.y * v2.y));
-        double dot = (v1.x * v2.x) + (v1.y * v2.y);
+        double length1 = Math.sqrt(x * x + y * y);
+        double length2 = Math.sqrt(v.x * v.x + v.y * v.y);
+        double dot = (x * v.x) + (y * v.y);
         return dot / (length1 * length2);
-    }
-    
-    /**
-     * Return the angle between this vector and the supplied vector.
-     * @return the angle, in radians
-     * @see #angleCos(Vector2d)
-     */
-    public double angle(Vector2d v) {
-        return angle(this, v);
-    }
-    
-    /**
-     * Return the angle between the supplied vectors.
-     * @return the angle, in radians
-     * @see #angleCos(Vector2d, Vector2d)
-     */
-    public static double angle(Vector2d v1, Vector2d v2) {
-        double cos = angleCos(v1, v2);
-        // This is because sometimes cos goes above 1 or below -1 because of lost precision
-        cos = Math.min(cos, 1);
-        cos = Math.max(cos, -1);
-        return Math.acos(cos);
     }
 
     /**
-     * Return the length of a.
+     * Return the angle between this vector and the supplied vector.
+     * 
+     * @see #angleCos(Vector2d)
+     *
+     * @param v
+     *          the other vector
+     * @return the angle, in degrees
      */
-    public static double length(Vector2d a) {
-        return Math.sqrt((a.x * a.x) + (a.y * a.y));
+    public double angle(Vector2d v) {
+        double cos = angleCos(v);
+        // This is because sometimes cos goes above 1 or below -1 because of lost precision
+        cos = Math.min(cos, 1);
+        cos = Math.max(cos, -1);
+        return Math.toDegrees(Math.acos(cos));
     }
 
     /**
@@ -289,53 +273,27 @@ public class Vector2d implements Externalizable {
     }
 
     /**
-     * Return the distance between <code>start</code> and <code>end</code>.
-     */
-    public static double distance(Vector2d start, Vector2d end) {
-        return Math.sqrt((end.x - start.x) * (end.x - start.x)
-                + (end.y - start.y) * (end.y - start.y));
-    }
-
-    /**
-     * Return the distance between <code>start</code> and <code>end</code>.
-     */
-    public static double distance(Vector2d start, Vector2f end) {
-        return Math.sqrt((end.x - start.x) * (end.x - start.x)
-                + (end.y - start.y) * (end.y - start.y));
-    }
-
-    /**
-     * Return the distance between <code>start</code> and <code>end</code>.
-     */
-    public static double distance(Vector2f start, Vector2d end) {
-        return Math.sqrt((end.x - start.x) * (end.x - start.x)
-                + (end.y - start.y) * (end.y - start.y));
-    }
-
-    /**
-     * Return the distance between this and <code>v</code>.
+     * Return the distance between <code>this</code> and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the euclidean distance
      */
     public double distance(Vector2d v) {
         return Math.sqrt((v.x - x) * (v.x - x)
-                + (v.y - y) * (v.y - y));
+                       + (v.y - y) * (v.y - y));
     }
 
     /**
-     * Normalize <code>a</code> and store the result in <code>dest</code>.
+     * Return the distance between <code>this</code> and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the euclidean distance
      */
-    public static void normalize(Vector2d a, Vector2d dest) {
-        double length = Math.sqrt((a.x * a.x) + (a.y * a.y));
-        dest.x = a.x / length;
-        dest.y = a.y / length;
-    }
-
-    /**
-     * Normalize <code>a</code> and store the result in <code>dest</code>.
-     */
-    public static void normalize(Vector2f a, Vector2d dest) {
-        double length = Math.sqrt((a.x * a.x) + (a.y * a.y));
-        dest.x = a.x / length;
-        dest.y = a.y / length;
+    public double distance(Vector2f v) {
+        return Math.sqrt((v.x - x) * (v.x - x)
+                       + (v.y - y) * (v.y - y));
     }
 
     /**
@@ -351,8 +309,24 @@ public class Vector2d implements Externalizable {
     }
 
     /**
+     * Normalize this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector2d normalize(Vector2d dest) {
+        double length = Math.sqrt((x * x) + (y * y));
+        dest.x = x / length;
+        dest.y = y / length;
+        return this;
+    }
+
+    /**
      * Add <code>v</code> to this vector.
      * 
+     * @param v
+     *          the vector to add
      * @return this
      */
     public Vector2d add(Vector2d v) {
@@ -362,8 +336,42 @@ public class Vector2d implements Externalizable {
     }
 
     /**
+     * Add <code>(x, y)</code> to this vector.
+     * 
+     * @param x
+     *          the x-coordinate to add
+     * @param y
+     *          the y-coordinate to add
+     * @return this
+     */
+    public Vector2d add(double x, double y) {
+        this.x += x;
+        this.y += y;
+        return this;
+    }
+
+    /**
+     * Add <code>(x, y)</code> to this vector and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x-coordinate to add
+     * @param y
+     *          the y-coordinate to add
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector2d add(double x, double y, Vector2d dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        return this;
+    }
+
+    /**
      * Add <code>v</code> to this vector.
      * 
+     * @param v
+     *          the vector to add
      * @return this
      */
     public Vector2d add(Vector2f v) {
@@ -373,19 +381,33 @@ public class Vector2d implements Externalizable {
     }
 
     /**
-     * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
+     * Add <code>v</code> to this vector and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void add(Vector2d a, Vector2d b, Vector2d dest) {
-        dest.x = a.x + b.x;
-        dest.y = a.y + b.y;
+    public Vector2d add(Vector2d v, Vector2d dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        return this;
     }
 
     /**
-     * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
+     * Add <code>v</code> to this vector and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void add(Vector2d a, Vector2f b, Vector2d dest) {
-        dest.x = a.x + b.x;
-        dest.y = a.y + b.y;
+    public Vector2d add(Vector2f v, Vector2d dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        return this;
     }
 
     /**
@@ -428,13 +450,18 @@ public class Vector2d implements Externalizable {
         y = -y;
         return this;
     }
-    
+
     /**
-     * Negate original and store the result in dest.
+     * Negate this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void negate(Vector2d original, Vector2d dest) {
-        dest.x = -original.x;
-        dest.y = -original.y;
+    public Vector2d negate(Vector2d dest) {
+        dest.x = -x;
+        dest.y = -y;
+        return this;
     }
 
     public int hashCode() {

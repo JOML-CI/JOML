@@ -675,13 +675,18 @@ public class Vector4d implements Externalizable {
     }
     
     /**
-     * Negate original and store the result in dest.
+     * Negate this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
      */
-    public static void negate(Vector4d original, Vector4d dest) {
-        dest.x = -original.x;
-        dest.y = -original.y;
-        dest.z = -original.z;
-        dest.w = -original.w;
+    public Vector4d negate(Vector4d dest) {
+        dest.x = -x;
+        dest.y = -y;
+        dest.z = -z;
+        dest.w = -w;
+        return this;
     }
 
     /**
