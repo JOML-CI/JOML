@@ -2199,6 +2199,18 @@ public class Matrix4f implements Externalizable {
      * @see #lookAt(float, float, float, float, float, float, float, float, float)
      * @see #setLookAlong(float, float, float, float, float, float)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @param dest
      *              will hold the result
      * @return this
@@ -2285,6 +2297,18 @@ public class Matrix4f implements Externalizable {
      * @see #lookAt(float, float, float, float, float, float, float, float, float)
      * @see #setLookAlong(float, float, float, float, float, float)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix4f lookAlong(float dirX, float dirY, float dirZ,
@@ -2330,6 +2354,18 @@ public class Matrix4f implements Externalizable {
      * @see #setLookAlong(float, float, float, float, float, float)
      * @see #lookAlong(float, float, float, float, float, float)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix4f setLookAlong(float dirX, float dirY, float dirZ,
@@ -2411,6 +2447,24 @@ public class Matrix4f implements Externalizable {
      * @see #setLookAt(Vector3f, Vector3f, Vector3f)
      * @see #lookAt(float, float, float, float, float, float, float, float, float)
      * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix4f setLookAt(float eyeX, float eyeY, float eyeZ,
@@ -2535,6 +2589,24 @@ public class Matrix4f implements Externalizable {
      * @see #lookAt(Vector3f, Vector3f, Vector3f)
      * @see #setLookAt(float, float, float, float, float, float, float, float, float)
      * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @param dest
      *          will hold the result
      * @return this
@@ -2631,6 +2703,24 @@ public class Matrix4f implements Externalizable {
      * @see #lookAt(Vector3f, Vector3f, Vector3f)
      * @see #setLookAt(float, float, float, float, float, float, float, float, float)
      * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix4f lookAt(float eyeX, float eyeY, float eyeZ,

@@ -1724,6 +1724,18 @@ public class Matrix3d implements Externalizable {
      * 
      * @see #setLookAlong(double, double, double, double, double, double)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @param dest
      *              will hold the result
      * @return this
@@ -1796,6 +1808,18 @@ public class Matrix3d implements Externalizable {
      * 
      * @see #setLookAlong(double, double, double, double, double, double)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix3d lookAlong(double dirX, double dirY, double dirZ,
@@ -1833,6 +1857,18 @@ public class Matrix3d implements Externalizable {
      * @see #setLookAlong(double, double, double, double, double, double)
      * @see #lookAlong(double, double, double, double, double, double)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix3d setLookAlong(double dirX, double dirY, double dirZ,

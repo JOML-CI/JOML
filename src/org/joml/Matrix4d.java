@@ -3583,6 +3583,24 @@ public class Matrix4d implements Externalizable {
      * @see #setLookAt(Vector3d, Vector3d, Vector3d)
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
      * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix4d setLookAt(double eyeX, double eyeY, double eyeZ,
@@ -3707,6 +3725,24 @@ public class Matrix4d implements Externalizable {
      * @see #lookAt(Vector3d, Vector3d, Vector3d)
      * @see #setLookAt(double, double, double, double, double, double, double, double, double)
      * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @param dest
      *          will hold the result
      * @return this
@@ -3803,6 +3839,24 @@ public class Matrix4d implements Externalizable {
      * @see #lookAt(Vector3d, Vector3d, Vector3d)
      * @see #setLookAt(double, double, double, double, double, double, double, double, double)
      * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix4d lookAt(double eyeX, double eyeY, double eyeZ,
