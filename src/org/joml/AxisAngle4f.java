@@ -76,7 +76,7 @@ public class AxisAngle4f implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = a.angle;
+        angle = (a.angle < 0.0 ? 360.0f + a.angle % 360.0f : a.angle) % 360.0f;
     }
 
     /**
@@ -114,7 +114,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = angle;
+        this.angle = angle % 360.0f;
     }
 
     /**
@@ -128,7 +128,7 @@ public class AxisAngle4f implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = a.angle;
+        angle = (a.angle < 0.0 ? 360.0f + a.angle % 360.0f : a.angle) % 360.0f;
         return this;
     }
 
@@ -149,7 +149,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = angle;
+        this.angle = (angle < 0.0 ? 360.0f + angle % 360.0f : angle) % 360.0f;
         return this;
     }
 
@@ -277,6 +277,21 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
+     * Increase the rotation angle by the given amount.
+     * <p>
+     * This method also takes care of wrapping around.
+     * 
+     * @param ang
+     *          the angle increase
+     * @return
+     */
+    public AxisAngle4f rotate(float ang) {
+        angle += ang;
+        angle = (angle < 0.0 ? 360.0f + angle % 360.0f : angle) % 360.0f;
+        return this;
+    }
+
+    /**
      * Transform the given vector by the rotation transformation described by this {@link AxisAngle4f}.
      * 
      * @param v
@@ -365,7 +380,8 @@ public class AxisAngle4f implements Externalizable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Float.floatToIntBits(angle);
+        float nangle = (angle < 0.0 ? 360.0f + angle % 360.0f : angle) % 360.0f;
+        result = prime * result + Float.floatToIntBits(nangle);
         result = prime * result + Float.floatToIntBits(x);
         result = prime * result + Float.floatToIntBits(y);
         result = prime * result + Float.floatToIntBits(z);
@@ -380,7 +396,9 @@ public class AxisAngle4f implements Externalizable {
         if (getClass() != obj.getClass())
             return false;
         AxisAngle4f other = (AxisAngle4f) obj;
-        if (Float.floatToIntBits(angle) != Float.floatToIntBits(other.angle))
+        float nangle = (angle < 0.0 ? 360.0f + angle % 360.0f : angle) % 360.0f;
+        float nangleOther = (other.angle < 0.0 ? 360.0f + other.angle % 360.0f : other.angle) % 360.0f;
+        if (Float.floatToIntBits(nangle) != Float.floatToIntBits(nangleOther))
             return false;
         if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
             return false;
