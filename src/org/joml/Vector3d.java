@@ -279,15 +279,6 @@ public class Vector3d implements Externalizable {
     }
 
     /**
-     * Add v2 to v1 and store the result in dest.
-     */
-    public static void add(Vector3f v1, Vector3d v2, Vector3d dest) {
-        dest.x = v1.x + v2.x;
-        dest.y = v1.y + v2.y;
-        dest.z = v1.z + v2.z;
-    }
-
-    /**
      * Add the component-wise multiplication of <code>a * b</code> to this vector.
      * 
      * @param a
@@ -347,6 +338,20 @@ public class Vector3d implements Externalizable {
     }
 
     /**
+     * Multiply this Vector3d component-wise by another Vector3f and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     * 			will hold the result
+     * @return this
+     */
+    public Vector3d mul(Vector3f v, Vector3d dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        dest.z = z * v.z;
+        return this;
+    }
+
+    /**
      * Multiply this by <code>v</code> component-wise and store the result into <code>dest</code>.
      * 
      * @return this
@@ -355,6 +360,56 @@ public class Vector3d implements Externalizable {
         dest.x = x * v.x;
         dest.y = y * v.y;
         dest.z = z * v.z;
+        return this;
+    }
+
+    /**
+     * Divide this Vector3d component-wise by another Vector3d.
+     * 
+     * @return this
+     */
+    public Vector3d div(Vector3d v) {
+        x /= v.x;
+        y /= v.y;
+        z /= v.z;
+        return this;
+    }
+
+    /**
+     * Divide this Vector3d component-wise by another Vector3f.
+     * 
+     * @return this
+     */
+    public Vector3d div(Vector3f v) {
+        x /= v.x;
+        y /= v.y;
+        z /= v.z;
+        return this;
+    }
+
+    /**
+     * Divide this Vector3d component-wise by another Vector3f and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     * 			will hold the result
+     * @return this
+     */
+    public Vector3d div(Vector3f v, Vector3d dest) {
+        dest.x = x / v.x;
+        dest.y = y / v.y;
+        dest.z = z / v.z;
+        return this;
+    }
+
+    /**
+     * Divide this by <code>v</code> component-wise and store the result into <code>dest</code>.
+     * 
+     * @return this
+     */
+    public Vector3d div(Vector3d v, Vector3d dest) {
+        dest.x = x / v.x;
+        dest.y = y / v.y;
+        dest.z = z / v.z;
         return this;
     }
 
@@ -507,6 +562,34 @@ public class Vector3d implements Externalizable {
         dest.x = x * scalar;
         dest.y = y * scalar;
         dest.z = z * scalar;
+        return this;
+    }
+
+    /**
+     * Divide this Vector3d by the given scalar value.
+     * 
+     * @return this
+     */
+    public Vector3d div(double scalar) {
+        x /= scalar;
+        y /= scalar;
+        z /= scalar;
+        return this;
+    }
+
+    /**
+     * Divide this Vector3d by the given scalar value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *          the scalar factor
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3d div(double scalar, Vector3d dest) {
+        dest.x = x / scalar;
+        dest.y = y / scalar;
+        dest.z = z / scalar;
         return this;
     }
 

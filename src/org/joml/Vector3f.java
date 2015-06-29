@@ -280,6 +280,36 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Divide this Vector3f component-wise by another Vector3f.
+     * 
+     * @param v
+     *          the other vector
+     * @return this
+     */
+    public Vector3f div(Vector3f v) {
+        x /= v.x;
+        y /= v.y;
+        z /= v.z;
+        return this;
+    }
+
+    /**
+     * Divide this Vector3f component-wise by another Vector3f and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f div(Vector3f v, Vector3f dest) {
+        dest.x = x / v.x;
+        dest.y = y / v.y;
+        dest.z = z / v.z;
+        return this;
+    }
+
+    /**
      * Multiply this Vector3f by the given matrix <code>mat</code> and store the result in <code>this</code>.
      * 
      * @param mat
@@ -396,6 +426,61 @@ public class Vector3f implements Externalizable {
         dest.x = this.x * x;
         dest.y = this.y * y;
         dest.z = this.z * z;
+        return this;
+    }
+    
+
+    /**
+     * Divide all components of this {@link Vector3f} by the given scalar
+     * value.
+     * 
+     * @return this
+     */
+    public Vector3f div(float scalar) {
+        x /= scalar;
+        y /= scalar;
+        z /= scalar;
+        return this;
+    }
+
+    /**
+     * Divide all components of this {@link Vector3f} by the given scalar
+     * value and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f div(float scalar, Vector3f dest) {
+        dest.x = x / scalar;
+        dest.y = y / scalar;
+        dest.z = z / scalar;
+        return this;
+    }
+
+    /**
+     * Divide the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
+     * 
+     * @return this
+     */
+    public Vector3f div(float x, float y, float z) {
+        this.x /= x;
+        this.y /= y;
+        this.z /= z;
+        return this;
+    }
+
+    /**
+     * Divide the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f div(float x, float y, float z, Vector3f dest) {
+        dest.x = this.x / x;
+        dest.y = this.y / y;
+        dest.z = this.z / z;
         return this;
     }
 
