@@ -403,6 +403,53 @@ public class Vector4d implements Externalizable {
     }
 
     /**
+     * Multiply this {@link Vector4d} component-wise by the given {@link Vector4d} and store the result in <code>dest</code>.
+     * 
+     * @param v
+     * 			the vector to multiply this by
+     * @param dest
+     * 			will hold the result
+     * @return this
+     */
+    public Vector4d mul(Vector4d v, Vector4d dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        dest.z = z * v.z;
+        dest.w = w * v.w;
+        return this;
+    }
+
+    /**
+     * Divide this {@link Vector4d} component-wise by the given {@link Vector4d}.
+     * 
+     * @return this
+     */
+    public Vector4d div(Vector4d v) {
+        x /= v.x;
+        y /= v.y;
+        z /= v.z;
+        z /= v.w;
+        return this;
+    }
+
+    /**
+     * Divide this {@link Vector4d} component-wise by the given {@link Vector4d} and store the result in <code>dest</code>.
+     * 
+     * @param v
+     * 			the vector to divide this by
+     * @param dest
+     * 			will hold the result
+     * @return this
+     */
+    public Vector4d div(Vector4d v, Vector4d dest) {
+        dest.x = x / v.x;
+        dest.y = y / v.y;
+        dest.z = z / v.z;
+        dest.w = w / v.w;
+        return this;
+    }
+
+    /**
      * Multiply this {@link Vector4d} component-wise by the given {@link Vector4f}.
      * 
      * @return this
@@ -413,16 +460,6 @@ public class Vector4d implements Externalizable {
         z *= v.z;
         z *= v.w;
         return this;
-    }
-
-    /**
-     * Multiply <code>v1</code> component-wise by <code>v2</code> and store the result in <code>dest</code>.
-     */
-    public static void mul(Vector4d v1, Vector4d v2, Vector4d dest) {
-        dest.x = v1.x * v2.x;
-        dest.y = v1.y * v2.y;
-        dest.z = v1.z * v2.z;
-        dest.w = v1.w * v2.w;
     }
 
     /**
@@ -501,6 +538,53 @@ public class Vector4d implements Externalizable {
         y *= scalar;
         z *= scalar;
         w *= scalar;
+        return this;
+    }
+
+    /**
+     * Multiply this Vector4d by the given scalar value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *              the factor to multiply by
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Vector4d mul(double scalar, Vector4d dest) {
+        x *= scalar;
+        y *= scalar;
+        z *= scalar;
+        w *= scalar;
+        return this;
+    }
+
+    /**
+     * Divide this Vector4d by the given scalar value.
+     * 
+     * @return this
+     */
+    public Vector4d div(double scalar) {
+        x /= scalar;
+        y /= scalar;
+        z /= scalar;
+        w /= scalar;
+        return this;
+    }
+
+    /**
+     * Divide this Vector4d by the given scalar value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *              the factor to divide by
+     * @param dest
+     *              will hold the result
+     * @return this
+     */
+    public Vector4d div(double scalar, Vector4d dest) {
+        x /= scalar;
+        y /= scalar;
+        z /= scalar;
+        w /= scalar;
         return this;
     }
 

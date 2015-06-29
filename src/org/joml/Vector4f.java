@@ -302,6 +302,38 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Divide this Vector4f component-wise by another Vector4f.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @return this
+     */
+    public Vector4f div(Vector4f v) {
+        x /= v.x;
+        y /= v.y;
+        z /= v.z;
+        w /= v.w;
+        return this;
+    }
+
+    /**
+     * Divide this Vector4f component-wise by another Vector4f and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4f div(Vector4f v, Vector4f dest) {
+        dest.x = x / v.x;
+        dest.y = y / v.y;
+        dest.z = z / v.z;
+        dest.w = w / v.w;
+        return this;
+    }
+
+    /**
      * Multiply this Vector4f by the given matrix mat and store the result in
      * <code>this</code>.
      * 
@@ -393,6 +425,64 @@ public class Vector4f implements Externalizable {
         dest.y = this.y * y;
         dest.z = this.z * z;
         dest.w = this.w * w;
+        return this;
+    }
+
+    /**
+     * Divide all components of this {@link Vector4f} by the given scalar
+     * value.
+     * 
+     * @return this
+     */
+    public Vector4f div(float scalar) {
+        x /= scalar;
+        y /= scalar;
+        z /= scalar;
+        w /= scalar;
+        return this;
+    }
+
+    /**
+     * Divide all components of this {@link Vector4f} by the given scalar
+     * value and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4f div(float scalar, Vector4f dest) {
+        dest.x = x / scalar;
+        dest.y = y / scalar;
+        dest.z = z / scalar;
+        dest.w = w / scalar;
+        return this;
+    }
+
+    /**
+     * Divide the components of this Vector4f by the given scalar values and store the result in <code>this</code>.
+     * 
+     * @return this
+     */
+    public Vector4f div(float x, float y, float z, float w) {
+        this.x /= x;
+        this.y /= y;
+        this.z /= z;
+        this.w /= w;
+        return this;
+    }
+
+    /**
+     * Divide the components of this Vector4f by the given scalar values and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4f div(float x, float y, float z, float w, Vector4f dest) {
+        dest.x = this.x / x;
+        dest.y = this.y / y;
+        dest.z = this.z / z;
+        dest.w = this.w / w;
         return this;
     }
 
