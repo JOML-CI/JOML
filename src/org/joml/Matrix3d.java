@@ -191,6 +191,34 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Set this matrix to a rotation equivalent to the given quaternion.
+     * 
+     * @see Quaternionf#get(Matrix3d)
+     * 
+     * @param q
+     *          the quaternion
+     * @return this
+     */
+    public Matrix3d set(Quaternionf q) {
+        q.get(this);
+        return this;
+    }
+
+    /**
+     * Set this matrix to a rotation equivalent to the given quaternion.
+     * 
+     * @see Quaterniond#get(Matrix3d)
+     * 
+     * @param q
+     *          the quaternion
+     * @return this
+     */
+    public Matrix3d set(Quaterniond q) {
+        q.get(this);
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied matrix.
      * This matrix will be the left one.
      * <p>

@@ -254,6 +254,37 @@ public class Quaternionf implements Externalizable {
      * 
      * @return this
      */
+    public Quaternionf get(Matrix3d dest) {
+        double q00 = 2.0 * x * x;
+        double q11 = 2.0 * y * y;
+        double q22 = 2.0 * z * z;
+
+        double q01 = 2.0 * x * y;
+        double q02 = 2.0 * x * z;
+        double q03 = 2.0 * x * w;
+
+        double q12 = 2.0 * y * z;
+        double q13 = 2.0 * y * w;
+
+        double q23 = 2.0 * z * w;
+
+        dest.m00 = 1.0 - q11 - q22;
+        dest.m01 = q01 + q23;
+        dest.m02 = q02 - q13;
+        dest.m10 = q01 - q23;
+        dest.m11 = 1.0 - q22 - q00;
+        dest.m12 = q12 + q03;
+        dest.m20 = q02 + q13;
+        dest.m21 = q12 - q03;
+        dest.m22 = 1.0 - q11 - q00;
+        return this;
+    }
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @return this
+     */
     public Quaternionf get(Matrix4f dest) {
         float q00 = 2.0f * x * x;
         float q11 = 2.0f * y * y;

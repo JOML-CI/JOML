@@ -171,6 +171,20 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Set this matrix to a rotation equivalent to the given quaternion.
+     * 
+     * @see Quaterniond#get(Matrix3f)
+     * 
+     * @param q
+     *          the quaternion
+     * @return this
+     */
+    public Matrix3f set(Quaterniond q) {
+        q.get(this);
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
