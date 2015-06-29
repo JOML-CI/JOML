@@ -290,11 +290,11 @@ public class Quaternionf implements Externalizable {
      * Set the given {@link AxisAngle4f} to represent the rotation of
      * <code>this</code> quaternion.
      * 
-     * @param angleAxis
+     * @param axisAngle
      *            the {@link AxisAngle4f} to set
      * @return this
      */
-    public Quaternionf get(AxisAngle4f angleAxis) {
+    public Quaternionf get(AxisAngle4f axisAngle) {
         float x = this.x;
         float y = this.y;
         float z = this.z;
@@ -306,16 +306,16 @@ public class Quaternionf implements Externalizable {
             z /= norm;
             w /= norm;
         }
-        angleAxis.angle = (float) (2.0f * Math.acos(w));
+        axisAngle.angle = (float) (2.0f * Math.acos(w));
         float s = (float) Math.sqrt(1.0 - w * w);
         if (s < 0.001f) {
-            angleAxis.x = x;
-            angleAxis.y = y;
-            angleAxis.z = z;
+            axisAngle.x = x;
+            axisAngle.y = y;
+            axisAngle.z = z;
         } else {
-            angleAxis.x = x / s;
-            angleAxis.y = y / s;
-            angleAxis.z = z / s;
+            axisAngle.x = x / s;
+            axisAngle.y = y / s;
+            axisAngle.z = z / s;
         }
         return this;
     }
@@ -361,16 +361,16 @@ public class Quaternionf implements Externalizable {
     /**
      * Set this quaternion to a rotation equivalent to the given {@link AxisAngle4f}.
      * 
-     * @param angleAxis
+     * @param axisAngle
      *          the {@link AxisAngle4f}
      * @return this
      */
-    public Quaternionf set(AxisAngle4f angleAxis) {
-        double angle = Math.toRadians(angleAxis.angle);
+    public Quaternionf set(AxisAngle4f axisAngle) {
+        double angle = Math.toRadians(axisAngle.angle);
         double s = Math.sin(angle / 2.0);
-        x = (float) (angleAxis.x * s);
-        y = (float) (angleAxis.y * s);
-        z = (float) (angleAxis.z * s);
+        x = (float) (axisAngle.x * s);
+        y = (float) (axisAngle.y * s);
+        z = (float) (axisAngle.z * s);
         w = (float) Math.cos(angle / 2.0);
         return this;
     }
@@ -404,12 +404,12 @@ public class Quaternionf implements Externalizable {
      * 
      * @see #rotationAxis(float, float, float, float)
      * 
-     * @param angleAxis
+     * @param axisAngle
      *            the {@link AxisAngle4f} giving the rotation angle in degrees and the axis to rotate about
      * @return this
      */
-    public Quaternionf rotationAxis(AxisAngle4f angleAxis) {
-        return rotationAxis(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    public Quaternionf rotationAxis(AxisAngle4f axisAngle) {
+        return rotationAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**

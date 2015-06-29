@@ -249,6 +249,34 @@ public class AxisAngle4f implements Externalizable {
         return this;
     }
 
+    /**
+     * Set the given {@link Matrix4d} to a rotation transformation equivalent to this {@link AxisAngle4f}.
+     * 
+     * @see Matrix4f#set(AxisAngle4f)
+     * 
+     * @param m
+     *          the matrix to set
+     * @return this
+     */
+    public AxisAngle4f get(Matrix4d m) {
+        m.set(this);
+        return this;
+    }
+
+    /**
+     * Set the given {@link Matrix3d} to a rotation transformation equivalent to this {@link AxisAngle4f}.
+     * 
+     * @see Matrix3f#set(AxisAngle4f)
+     * 
+     * @param m
+     *          the matrix to set
+     * @return this
+     */
+    public AxisAngle4f get(Matrix3d m) {
+        m.set(this);
+        return this;
+    }
+
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeFloat(angle);
         out.writeFloat(x);

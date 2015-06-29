@@ -262,15 +262,15 @@ public class Matrix4f implements Externalizable {
     /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
      * 
-     * @param angleAxis
+     * @param axisAngle
      *          the {@link AxisAngle4f}
      * @return this
      */
-    public Matrix4f set(AxisAngle4f angleAxis) {
-        float x = angleAxis.x;
-        float y = angleAxis.y;
-        float z = angleAxis.z;
-        double angle = Math.toRadians(angleAxis.angle);
+    public Matrix4f set(AxisAngle4f axisAngle) {
+        float x = axisAngle.x;
+        float y = axisAngle.y;
+        float z = axisAngle.z;
+        double angle = Math.toRadians(axisAngle.angle);
         double n = Math.sqrt(x*x + y*y + z*z);
         n = 1/n;
         x *= n;
@@ -1056,12 +1056,12 @@ public class Matrix4f implements Externalizable {
      *
      * @see #rotate(AxisAngle4f)
      * 
-     * @param angleAxis
+     * @param axisAngle
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @return this
      */
-    public Matrix4f rotation(AxisAngle4f angleAxis) {
-        return rotation(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    public Matrix4f rotation(AxisAngle4f axisAngle) {
+        return rotation(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
@@ -3091,12 +3091,12 @@ public class Matrix4f implements Externalizable {
      * @see #rotate(float, float, float, float)
      * @see #rotation(AxisAngle4f)
      * 
-     * @param angleAxis
+     * @param axisAngle
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @return this
      */
-    public Matrix4f rotate(AxisAngle4f angleAxis) {
-        return rotate(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    public Matrix4f rotate(AxisAngle4f axisAngle) {
+        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
@@ -3115,14 +3115,14 @@ public class Matrix4f implements Externalizable {
      * @see #rotate(float, float, float, float)
      * @see #rotation(AxisAngle4f)
      * 
-     * @param angleAxis
+     * @param axisAngle
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Matrix4f rotate(AxisAngle4f angleAxis, Matrix4f dest) {
-        return rotate(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z, dest);
+    public Matrix4f rotate(AxisAngle4f axisAngle, Matrix4f dest) {
+        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z, dest);
     }
 
     /**

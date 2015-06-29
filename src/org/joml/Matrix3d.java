@@ -154,6 +154,43 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
+     * 
+     * @param axisAngle
+     *          the {@link AxisAngle4f}
+     * @return this
+     */
+    public Matrix3d set(AxisAngle4f axisAngle) {
+        double x = axisAngle.x;
+        double y = axisAngle.y;
+        double z = axisAngle.z;
+        double angle = Math.toRadians(axisAngle.angle);
+        double n = Math.sqrt(x*x + y*y + z*z);
+        x /= n;
+        y /= n;
+        z /= n;
+        double c = Math.cos(angle);
+        double s = Math.sin(angle);
+        double omc = 1.0 - c;
+        m00 = c + x*x*omc;
+        m11 = c + y*y*omc;
+        m22 = c + z*z*omc;
+        double tmp1 = x*y*omc;
+        double tmp2 = z*s;
+        m10 = tmp1 - tmp2;
+        m01 = tmp1 + tmp2;
+        tmp1 = x*z*omc;
+        tmp2 = y*s;
+        m20 = tmp1 + tmp2;
+        m02 = tmp1 - tmp2;
+        tmp1 = y*z*omc;
+        tmp2 = x*s;
+        m21 = tmp1 - tmp2;
+        m12 = tmp1 + tmp2;
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied matrix.
      * This matrix will be the left one.
      * <p>
@@ -892,12 +929,12 @@ public class Matrix3d implements Externalizable {
      *
      * @see #rotate(AxisAngle4f)
      * 
-     * @param angleAxis
+     * @param axisAngle
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @return this
      */
-    public Matrix3d rotation(AxisAngle4f angleAxis) {
-        return rotation(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    public Matrix3d rotation(AxisAngle4f axisAngle) {
+        return rotation(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
@@ -1479,12 +1516,12 @@ public class Matrix3d implements Externalizable {
      * @see #rotate(double, double, double, double)
      * @see #rotation(AxisAngle4f)
      * 
-     * @param angleAxis
+     * @param axisAngle
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @return this
      */
-    public Matrix3d rotate(AxisAngle4f angleAxis) {
-        return rotate(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    public Matrix3d rotate(AxisAngle4f axisAngle) {
+        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
@@ -1503,14 +1540,14 @@ public class Matrix3d implements Externalizable {
      * @see #rotate(double, double, double, double)
      * @see #rotation(AxisAngle4f)
      * 
-     * @param angleAxis
+     * @param axisAngle
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Matrix3d rotate(AxisAngle4f angleAxis, Matrix3d dest) {
-        return rotate(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z, dest);
+    public Matrix3d rotate(AxisAngle4f axisAngle, Matrix3d dest) {
+        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z, dest);
     }
 
     /**

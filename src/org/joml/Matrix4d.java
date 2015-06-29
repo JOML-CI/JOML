@@ -234,6 +234,47 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
+     * 
+     * @param axisAngle
+     *          the {@link AxisAngle4f}
+     * @return this
+     */
+    public Matrix4d set(AxisAngle4f axisAngle) {
+        double x = axisAngle.x;
+        double y = axisAngle.y;
+        double z = axisAngle.z;
+        double angle = Math.toRadians(axisAngle.angle);
+        double n = Math.sqrt(x*x + y*y + z*z);
+        x /= n;
+        y /= n;
+        z /= n;
+        double c = Math.cos(angle);
+        double s = Math.sin(angle);
+        double omc = 1.0 - c;
+        m00 = c + x*x*omc;
+        m11 = c + y*y*omc;
+        m22 = c + z*z*omc;
+        double tmp1 = x*y*omc;
+        double tmp2 = z*s;
+        m10 = tmp1 - tmp2;
+        m01 = tmp1 + tmp2;
+        tmp1 = x*z*omc;
+        tmp2 = y*s;
+        m20 = tmp1 + tmp2;
+        m02 = tmp1 - tmp2;
+        tmp1 = y*z*omc;
+        tmp2 = x*s;
+        m21 = tmp1 - tmp2;
+        m12 = tmp1 + tmp2;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,

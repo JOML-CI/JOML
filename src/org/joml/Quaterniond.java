@@ -326,12 +326,12 @@ public class Quaterniond implements Externalizable {
      * Set this {@link Quaterniond} to be equivalent to the given
      * {@link AxisAngle4f}.
      * 
-     * @param angleAxis
+     * @param axisAngle
      *            the {@link AxisAngle4f}
      * @return this
      */
-    public Quaterniond set(AxisAngle4f angleAxis) {
-        return setAngleAxis(angleAxis.angle, angleAxis.x, angleAxis.y, angleAxis.z);
+    public Quaterniond set(AxisAngle4f axisAngle) {
+        return setAngleAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
