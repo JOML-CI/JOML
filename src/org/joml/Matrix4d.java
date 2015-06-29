@@ -934,6 +934,8 @@ public class Matrix4d implements Externalizable {
      * This is the reverse method of {@link #set(Matrix4d)} and allows to obtain
      * intermediate calculation results when chaining multiple transformations.
      * 
+     * @see #set(Matrix4d)
+     * 
      * @param dest
      *          the destination matrix
      * @return this

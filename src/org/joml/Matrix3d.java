@@ -610,6 +610,8 @@ public class Matrix3d implements Externalizable {
      * This is the reverse method of {@link #set(Matrix3d)} and allows to obtain
      * intermediate calculation results when chaining multiple transformations.
      * 
+     * @see #set(Matrix3d)
+     * 
      * @param dest
      *          the destination matrix
      * @return this
@@ -622,6 +624,8 @@ public class Matrix3d implements Externalizable {
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link AxisAngle4f}.
+     * 
+     * @see AxisAngle4f#set(Matrix3d)
      * 
      * @param dest
      *          the destination {@link AxisAngle4f}
@@ -636,6 +640,8 @@ public class Matrix3d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
      * 
+     * @see Quaternionf#set(Matrix3d)
+     * 
      * @param dest
      *          the destination {@link Quaternionf}
      * @return this
@@ -648,6 +654,8 @@ public class Matrix3d implements Externalizable {
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaterniond}.
+     * 
+     * @see Quaterniond#set(Matrix3d)
      * 
      * @param dest
      *          the destination {@link Quaterniond}

@@ -354,6 +354,8 @@ public class Quaternionf implements Externalizable {
     /**
      * Set the given {@link Quaterniond} to the values of <code>this</code>.
      * 
+     * @see Quaterniond#set(Quaternionf)
+     * 
      * @param dest
      *          the {@link Quaterniond} to set
      * @return this
@@ -365,6 +367,8 @@ public class Quaternionf implements Externalizable {
 
     /**
      * Set the given {@link Quaternionf} to the values of <code>this</code>.
+     * 
+     * @see #set(Quaternionf)
      * 
      * @param dest
      *          the {@link Quaternionf} to set

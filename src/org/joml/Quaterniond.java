@@ -316,6 +316,8 @@ public class Quaterniond implements Externalizable {
     /**
      * Set the given {@link Quaterniond} to the values of <code>this</code>.
      * 
+     * @see #set(Quaterniond)
+     * 
      * @param dest
      *          the {@link Quaterniond} to set
      * @return this
