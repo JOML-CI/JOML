@@ -932,6 +932,41 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set this matrix to be a simple scale matrix, which scales all axes uniformly by the given factor.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional scaling.
+     * <p>
+     * If you want to post-multiply a scaling transformation directly to a
+     * matrix, you can use {@link #scale(float) scale()} instead.
+     * 
+     * @see #scale(float)
+     * 
+     * @param factor
+     *             the scale factor in x, y and z
+     * @return this
+     */
+    public Matrix4f scaling(float factor) {
+        m00 = factor;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = factor;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = factor;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Set this matrix to be a simple scale matrix.
      * <p>
      * The resulting matrix can be multiplied against another transformation
@@ -939,6 +974,8 @@ public class Matrix4f implements Externalizable {
      * <p>
      * If you want to post-multiply a scaling transformation directly to a
      * matrix, you can use {@link #scale(float, float, float) scale()} instead.
+     * 
+     * @see #scale(float, float, float)
      * 
      * @param x
      *             the scale in x
@@ -1328,6 +1365,49 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply scaling to the this matrix by scaling the unit axes by the given x,
+     * y and z factors and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f scale(float x, float y, float z, Matrix4f dest) {
+        // scale matrix elements:
+        // m00 = x, m11 = y, m22 = z
+        // m33 = 1
+        // all others = 0
+        dest.m00 = m00 * x;
+        dest.m01 = m01 * x;
+        dest.m02 = m02 * x;
+        dest.m03 = m03 * x;
+        dest.m10 = m10 * y;
+        dest.m11 = m11 * y;
+        dest.m12 = m12 * y;
+        dest.m13 = m13 * y;
+        dest.m20 = m20 * z;
+        dest.m21 = m21 * z;
+        dest.m22 = m22 * z;
+        dest.m23 = m23 * z;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return this;
+    }
+
+    /**
      * Apply scaling to this matrix by scaling the unit axes by the given x,
      * y and z factors.
      * <p>
@@ -1345,23 +1425,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f scale(float x, float y, float z) {
-        // scale matrix elements:
-        // m00 = x, m11 = y, m22 = z
-        // m33 = 1
-        // all others = 0
-        m00 = m00 * x;
-        m01 = m01 * x;
-        m02 = m02 * x;
-        m03 = m03 * x;
-        m10 = m10 * y;
-        m11 = m11 * y;
-        m12 = m12 * y;
-        m13 = m13 * y;
-        m20 = m20 * z;
-        m21 = m21 * z;
-        m22 = m22 * z;
-        m23 = m23 * z;
-        return this;
+        return scale(x, y, z, this);
     }
 
     /**
@@ -1384,6 +1448,30 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f scale(Vector3f xyz) {
         return scale(xyz.x, xyz.y, xyz.z);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * y and z components of the given {@link Vector3f} and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * In order to set the matrix to a scaling transformation without post-multiplying it,
+     * use {@link #scaling(Vector3f)}.
+     * 
+     * @see #scaling(Vector3f)
+     * 
+     * @param xyz
+     *            the factor for all components as {@link Vector3f}
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f scale(Vector3f xyz, Matrix4f dest) {
+        return scale(xyz.x, xyz.y, xyz.z, dest);
     }
 
     /**
@@ -1744,6 +1832,78 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f translate(Vector3f offset) {
         return translate(offset.x, offset.y, offset.z);
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of
+     * units in x, y and z and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(Vector3f)}.
+     * 
+     * @see #translation(Vector3f)
+     * 
+     * @param offset
+     *          the number of units in x, y and z by which to translate
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f translate(Vector3f offset, Matrix4f dest) {
+        return translate(offset.x, offset.y, offset.z, dest);
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of
+     * units in x, y and z and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(float, float, float)}.
+     * 
+     * @see #translation(float, float, float)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param z
+     *          the offset to translate in z
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f translate(float x, float y, float z, Matrix4f dest) {
+        // translation matrix elements:
+        // m00, m11, m22, m33 = 1
+        // m30 = x, m31 = y, m32 = z
+        // all others = 0
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m03 = m03;
+        dest.m10 = m10;
+        dest.m11 = m11;
+        dest.m12 = m12;
+        dest.m13 = m13;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
+        dest.m23 = m23;
+        dest.m30 = m00 * x + m10 * y + m20 * z + m30;
+        dest.m31 = m01 * x + m11 * y + m21 * z + m31;
+        dest.m32 = m02 * x + m12 * y + m22 * z + m32;
+        dest.m33 = m03 * x + m13 * y + m23 * z + m33;
+        return this;
     }
 
     /**

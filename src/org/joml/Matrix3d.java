@@ -713,6 +713,34 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Set this matrix to be a simple scale matrix, which scales all axes uniformly by the given factor.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional scaling.
+     * <p>
+     * If you want to post-multiply a scaling transformation directly to a
+     * matrix, you can use {@link #scale(double) scale()} instead.
+     * 
+     * @see #scale(double)
+     * 
+     * @param factor
+     *             the scale factor in x, y and z
+     * @return this
+     */
+    public Matrix3d scaling(double factor) {
+        m00 = factor;
+        m01 = 0.0;
+        m02 = 0.0;
+        m10 = 0.0;
+        m11 = factor;
+        m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = factor;
+        return this;
+    }
+
+    /**
      * Set this matrix to be a simple scale matrix.
      * 
      * @param x
@@ -758,6 +786,41 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * y and z factors and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3d scale(double x, double y, double z, Matrix3d dest) {
+        // scale matrix elements:
+        // m00 = x, m11 = y, m22 = z
+        // all others = 0
+        dest.m00 = m00 * x;
+        dest.m01 = m01 * x;
+        dest.m02 = m02 * x;
+        dest.m10 = m10 * y;
+        dest.m11 = m11 * y;
+        dest.m12 = m12 * y;
+        dest.m20 = m20 * z;
+        dest.m21 = m21 * z;
+        dest.m22 = m22 * z;
+        return this;
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the unit axes by the given x,
      * y and z factors.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -774,19 +837,7 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d scale(double x, double y, double z) {
-        // scale matrix elements:
-        // m00 = x, m11 = y, m22 = z
-        // all others = 0
-        m00 = m00 * x;
-        m01 = m01 * x;
-        m02 = m02 * x;
-        m10 = m10 * y;
-        m11 = m11 * y;
-        m12 = m12 * y;
-        m20 = m20 * z;
-        m21 = m21 * z;
-        m22 = m22 * z;
-        return this;
+        return scale(x, y, z, this);
     }
 
     /**
