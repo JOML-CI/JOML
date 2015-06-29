@@ -1425,6 +1425,123 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Set this {@link Quaterniond} to a rotation of the given angle in degrees about the supplied
+     * axis, all of which are specified via the {@link AxisAngle4f}.
+     * 
+     * @see #rotationAxis(double, double, double, double)
+     * 
+     * @param axisAngle
+     *            the {@link AxisAngle4f} giving the rotation angle in degrees and the axis to rotate about
+     * @return this
+     */
+    public Quaterniond rotationAxis(AxisAngle4f axisAngle) {
+        return rotationAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
+    }
+
+    /**
+     * Set this quaternion to a rotation of the given angle in degrees about the supplied axis.
+     * 
+     * @param angle
+     *          the rotation angle in degrees
+     * @return this
+     */
+    public Quaterniond rotationAxis(double angle, double axisX, double axisY, double axisZ) {
+        double hangle = Math.toRadians(angle / 2.0);
+        double sinAngle = Math.sin(hangle);
+        double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+
+        x = (axisX / vLength) * sinAngle;
+        y = (axisY / vLength) * sinAngle;
+        z = (axisZ / vLength) * sinAngle;
+        w = (float) Math.cos(hangle);
+
+        return this;
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given angles in degrees about the basis unit axes of the cartesian space.
+     * 
+     * @see #rotation(double, double, double)
+     * 
+     * @param anglesXYZ
+     *              the angles in degrees to rotate about the basis unit axes of the cartesian space
+     * @return this
+     */
+    public Quaterniond rotation(Vector3d anglesXYZ) {
+        return rotation(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z);
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given angles in degrees about the basis unit axes of the cartesian space.
+     * 
+     * @param angleX
+     *              the angle in degrees to rotate about the x axis
+     * @param angleY
+     *              the angle in degrees to rotate about the y axis
+     * @param angleZ
+     *              the angle in degrees to rotate about the z axis
+     * @return this
+     */
+    public Quaterniond rotation(double angleX, double angleY, double angleZ) {
+        double thetaX = Math.toRadians(angleX) * 0.5;
+        double thetaY = Math.toRadians(angleY) * 0.5;
+        double thetaZ = Math.toRadians(angleZ) * 0.5;
+        double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
+        double s;
+        if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
+            w = 1.0 - thetaMagSq / 2.0;
+            s = 1.0 - thetaMagSq / 6.0;
+        } else {
+            double thetaMag = Math.sqrt(thetaMagSq);
+            w = Math.cos(thetaMag);
+            s = Math.sin(thetaMag) / thetaMag;
+        }
+        x = thetaX * s;
+        y = thetaY * s;
+        z = thetaZ * s;
+        return this;
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given degrees about the x axis.
+     * 
+     * @see #rotation(double, double, double)
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the x axis
+     * @return this
+     */
+    public Quaterniond rotationX(double angle) {
+        return rotation(angle, 0.0, 0.0);
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given degrees about the y axis.
+     * 
+     * @see #rotation(double, double, double)
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the y axis
+     * @return this
+     */
+    public Quaterniond rotationY(double angle) {
+        return rotation(0.0, angle, 0.0);
+    }
+
+    /**
+     * Set this quaternion to represent a rotation of the given degrees about the z axis.
+     * 
+     * @see #rotation(double, double, double)
+     * 
+     * @param angle
+     *              the angle in degrees to rotate about the z axis
+     * @return this
+     */
+    public Quaterniond rotationZ(double angle) {
+        return rotation(0.0, 0.0, angle);
+    }
+
+    /**
      * Apply a rotation to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
