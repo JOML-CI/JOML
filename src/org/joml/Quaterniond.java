@@ -283,6 +283,18 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Set the given {@link Quaterniond} to the values of <code>this</code>.
+     * 
+     * @param dest
+     *          the {@link Quaterniond} to set
+     * @return this
+     */
+    public Quaterniond get(Quaterniond dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
      * Set this quaternion to the new values.
      * 
      * @return this
@@ -315,6 +327,21 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond set(Quaterniond q) {
+        x = q.x;
+        y = q.y;
+        z = q.z;
+        w = q.w;
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a copy of q.
+     * 
+     * @param q
+     *          the {@link Quaternionf} to copy
+     * @return this
+     */
+    public Quaterniond set(Quaternionf q) {
         x = q.x;
         y = q.y;
         z = q.z;

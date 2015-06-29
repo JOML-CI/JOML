@@ -321,6 +321,30 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Set the given {@link Quaterniond} to the values of <code>this</code>.
+     * 
+     * @param dest
+     *          the {@link Quaterniond} to set
+     * @return this
+     */
+    public Quaternionf get(Quaterniond dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
+     * Set the given {@link Quaternionf} to the values of <code>this</code>.
+     * 
+     * @param dest
+     *          the {@link Quaternionf} to set
+     * @return this
+     */
+    public Quaternionf get(Quaternionf dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
      * Set this quaternion to the given values.
      * 
      * @return this
