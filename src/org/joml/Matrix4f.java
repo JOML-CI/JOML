@@ -4184,6 +4184,20 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Return the specified {@link Quaterniond}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
+     * 
+     * @param q
+     *          the {@link Quaterniond} to return
+     * @return that quaternion
+     */
+    public Quaterniond with(Quaterniond q) {
+        return q;
+    }
+
+    /**
      * Return the specified {@link AxisAngle4f}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
