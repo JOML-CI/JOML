@@ -2025,18 +2025,32 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Return the specified {@link Matrix3f}.
+     * Return the specified {@link Matrix3d}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
+     * 
+     * @param m
+     *          the {@link Matrix3d} to return
+     * @return that matrix
+     */
+    public Matrix3d with(Matrix3d m) {
+        return m;
+    }
+
+    /**
+     * Return the specified {@link Matrix3d}.
      * <p>
      * This method mainly exists for symmetry with operation chaining when using the
-     * {@link #with(Matrix3f)} instance call in a fluent interface style.
+     * {@link #with(Matrix3d)} instance call in a fluent interface style.
      * <p>
      * It purposely breaks with Java's camelCase naming convention.
      * 
      * @param other
-     *          the {@link Matrix3f} to return
+     *          the {@link Matrix3d} to return
      * @return that matrix
      */
-    public static Matrix3f With(Matrix3f other) {
+    public static Matrix3d With(Matrix3d other) {
         return other;
     }
 

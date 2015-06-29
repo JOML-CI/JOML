@@ -4156,6 +4156,20 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Return the specified {@link Matrix4d}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
+     * 
+     * @param other
+     *          the {@link Matrix4d} to return
+     * @return that matrix
+     */
+    public Matrix4d with(Matrix4d other) {
+        return other;
+    }
+
+    /**
      * Return the specified {@link Matrix4f}.
      * <p>
      * This method mainly exists for symmetry with operation chaining when using the

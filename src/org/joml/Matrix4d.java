@@ -4218,18 +4218,32 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Return the specified {@link Matrix4f}.
+     * Return the specified {@link Matrix4d}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
+     * 
+     * @param other
+     *          the {@link Matrix4d} to return
+     * @return that matrix
+     */
+    public Matrix4d with(Matrix4d other) {
+        return other;
+    }
+
+    /**
+     * Return the specified {@link Matrix4d}.
      * <p>
      * This method mainly exists for symmetry with operation chaining when using the
-     * {@link #with(Matrix4f)} instance call in a fluent interface style.
+     * {@link #with(Matrix4d)} instance call in a fluent interface style.
      * <p>
      * It purposely breaks with Java's camelCase naming convention.
      * 
      * @param other
-     *          the {@link Matrix4f} to return
+     *          the {@link Matrix4d} to return
      * @return that matrix
      */
-    public static Matrix4f With(Matrix4f other) {
+    public static Matrix4d With(Matrix4d other) {
         return other;
     }
 

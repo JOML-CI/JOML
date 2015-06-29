@@ -603,4 +603,32 @@ public class AxisAngle4f implements Externalizable {
         return m;
     }
 
+    /**
+     * Return the specified {@link Matrix3d}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
+     * 
+     * @param m
+     *          the {@link Matrix3d} to return
+     * @return that matrix
+     */
+    public Matrix3d with(Matrix3d m) {
+        return m;
+    }
+
+    /**
+     * Return the specified {@link Matrix4d}.
+     * <p>
+     * When using method chaining in a fluent interface style, this method can be used to switch
+     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
+     * 
+     * @param m
+     *          the {@link Matrix4d} to return
+     * @return that matrix
+     */
+    public Matrix4d with(Matrix4d m) {
+        return m;
+    }
+
 }
