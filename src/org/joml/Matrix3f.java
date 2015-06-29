@@ -493,6 +493,19 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return this
+     */
+    public Matrix3f get(Quaterniond dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
      * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
      * <p>

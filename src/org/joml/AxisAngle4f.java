@@ -208,6 +208,24 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
+     * Set this {@link AxisAngle4f} to be equivalent to the rotation 
+     * of the given {@link Matrix3d}.
+     * 
+     * @param m
+     *            the Matrix3d to set this AngleAxis4f from
+     * @return this
+     */
+    public AxisAngle4f set(Matrix3d m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = (float) (m.m12 - m.m21);
+        y = (float) (m.m20 - m.m02);
+        z = (float) (m.m01 - m.m10);
+        double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
+        angle = (float) Math.toDegrees(Math.atan2(sin, cos));
+        return this;
+    }
+
+    /**
      * Set this {@link AxisAngle4f} to be equivalent to the rotational component 
      * of the given {@link Matrix4f}.
      * 
@@ -220,6 +238,24 @@ public class AxisAngle4f implements Externalizable {
         x = m.m12 - m.m21;
         y = m.m20 - m.m02;
         z = m.m01 - m.m10;
+        double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
+        angle = (float) Math.toDegrees(Math.atan2(sin, cos));
+        return this;
+    }
+
+    /**
+     * Set this {@link AxisAngle4f} to be equivalent to the rotational component 
+     * of the given {@link Matrix4d}.
+     * 
+     * @param m
+     *            the Matrix4d to set this AngleAxis4f from
+     * @return this
+     */
+    public AxisAngle4f set(Matrix4d m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = (float) (m.m12 - m.m21);
+        y = (float) (m.m20 - m.m02);
+        z = (float) (m.m01 - m.m10);
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = (float) Math.toDegrees(Math.atan2(sin, cos));
         return this;

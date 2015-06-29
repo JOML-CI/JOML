@@ -472,7 +472,95 @@ public class Quaterniond implements Externalizable {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
+    public Quaterniond set(Matrix4f mat) {
+        double t;
+        double tr = mat.m00 + mat.m11 + mat.m22;
+        if (tr >= 0.0) {
+            t = Math.sqrt(tr + 1.0);
+            w = t * 0.5;
+            t = 0.5 / t;
+            x = (mat.m12 - mat.m21) * t;
+            y = (mat.m20 - mat.m02) * t;
+            z = (mat.m01 - mat.m10) * t;
+        } else {
+            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
+                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
+                x = t * 0.5;
+                t = 0.5 / t;
+                y = (mat.m10 + mat.m01) * t;
+                z = (mat.m02 + mat.m20) * t;
+                w = (mat.m12 - mat.m21) * t;
+            } else if (mat.m11 > mat.m22) {
+                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
+                y = t * 0.5;
+                t = 0.5 / t;
+                z = (mat.m21 + mat.m12) * t;
+                x = (mat.m10 + mat.m01) * t;
+                w = (mat.m20 - mat.m02) * t;
+            } else {
+                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
+                z = t * 0.5;
+                t = 0.5 / t;
+                x = (mat.m02 + mat.m20) * t;
+                y = (mat.m21 + mat.m12) * t;
+                w = (mat.m01 - mat.m10) * t;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
     public Quaterniond set(Matrix3d mat) {
+        double t;
+        double tr = mat.m00 + mat.m11 + mat.m22;
+        if (tr >= 0.0) {
+            t = Math.sqrt(tr + 1.0);
+            w = t * 0.5;
+            t = 0.5 / t;
+            x = (mat.m12 - mat.m21) * t;
+            y = (mat.m20 - mat.m02) * t;
+            z = (mat.m01 - mat.m10) * t;
+        } else {
+            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
+                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
+                x = t * 0.5;
+                t = 0.5 / t;
+                y = (mat.m10 + mat.m01) * t;
+                z = (mat.m02 + mat.m20) * t;
+                w = (mat.m12 - mat.m21) * t;
+            } else if (mat.m11 > mat.m22) {
+                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
+                y = t * 0.5;
+                t = 0.5 / t;
+                z = (mat.m21 + mat.m12) * t;
+                x = (mat.m10 + mat.m01) * t;
+                w = (mat.m20 - mat.m02) * t;
+            } else {
+                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
+                z = t * 0.5;
+                t = 0.5 / t;
+                x = (mat.m02 + mat.m20) * t;
+                y = (mat.m21 + mat.m12) * t;
+                w = (mat.m01 - mat.m10) * t;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaterniond set(Matrix3f mat) {
         double t;
         double tr = mat.m00 + mat.m11 + mat.m22;
         if (tr >= 0.0) {

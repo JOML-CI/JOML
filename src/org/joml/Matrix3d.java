@@ -620,6 +620,45 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link AxisAngle4f}.
+     * 
+     * @param dest
+     *          the destination {@link AxisAngle4f}
+     * @return this
+     */
+    public Matrix3d get(AxisAngle4f dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaternionf}.
+     * 
+     * @param dest
+     *          the destination {@link Quaternionf}
+     * @return this
+     */
+    public Matrix3d get(Quaternionf dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return this
+     */
+    public Matrix3d get(Quaterniond dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
      * Store this matrix into the supplied {@link DoubleBuffer} at the current
      * buffer {@link DoubleBuffer#position() position} using column-major order.
      * <p>

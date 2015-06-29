@@ -827,6 +827,36 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Get the rotational component of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaternionf}.
+     * 
+     * @see Quaternionf#set(Matrix4f)
+     * 
+     * @param dest
+     *          the destination {@link Quaternionf}
+     * @return this
+     */
+    public Matrix4f get(Quaternionf dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
+     * Get the rotational component of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * 
+     * @see Quaterniond#set(Matrix4f)
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return this
+     */
+    public Matrix4f get(Quaterniond dest) {
+        dest.set(this);
+        return this;
+    }
+
+    /**
      * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
      * <p>
