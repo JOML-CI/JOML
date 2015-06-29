@@ -311,7 +311,7 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param ang
      *          the angle increase
-     * @return
+     * @return this
      */
     public AxisAngle4f rotate(float ang) {
         angle += ang;
