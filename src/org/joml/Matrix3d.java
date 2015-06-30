@@ -35,9 +35,9 @@ import java.text.NumberFormat;
  * Contains the definition of a 3x3 Matrix of doubles, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
- *      m00  m10  m20</br>
- *      m01  m11  m21</br>
- *      m02  m12  m22</br>
+ *      m00  m10  m20<br>
+ *      m01  m11  m21<br>
+ *      m02  m12  m22<br>
  * 
  * @author Richard Greenlees
  * @author Kai Burjack
@@ -102,6 +102,25 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Create a new {@link Matrix3d} and initialize its elements with the given values.
+     * 
+     * @param m00
+     *          the value of m00
+     * @param m01
+     *          the value of m01
+     * @param m02
+     *          the value of m02
+     * @param m10
+     *          the value of m10
+     * @param m11
+     *          the value of m11
+     * @param m12
+     *          the value of m12
+     * @param m20
+     *          the value of m20
+     * @param m21
+     *          the value of m21
+     * @param m22
+     *          the value of m22
      */
     public Matrix3d(double m00, double m01, double m02,
                     double m10, double m11, double m12, 
@@ -120,6 +139,8 @@ public class Matrix3d implements Externalizable {
     /**
      * Set the values in this matrix to the ones in m.
      * 
+     * @param m
+     *          the matrix whose values will be copied
      * @return this
      */
     public Matrix3d set(Matrix3d m) {
@@ -138,6 +159,8 @@ public class Matrix3d implements Externalizable {
     /**
      * Set the values in this matrix to the ones in m.
      * 
+     * @param m
+     *          the matrix whose values will be copied
      * @return this
      */
     public Matrix3d set(Matrix3f m) {
@@ -374,10 +397,28 @@ public class Matrix3d implements Externalizable {
     /**
      * Set the values within this matrix to the supplied double values. The result looks like this:
      * <p>
-     * m00, m10, m20</br>
-     * m01, m11, m21</br>
-     * m02, m12, m22</br>
+     * m00, m10, m20<br>
+     * m01, m11, m21<br>
+     * m02, m12, m22<br>
      * 
+     * @param m00
+     *          the new value of m00
+     * @param m01
+     *          the new value of m01
+     * @param m02
+     *          the new value of m02
+     * @param m10
+     *          the new value of m10
+     * @param m11
+     *          the new value of m11
+     * @param m12
+     *          the new value of m12
+     * @param m20
+     *          the new value of m20
+     * @param m21
+     *          the new value of m21
+     * @param m22
+     *          the new value of m22
      * @return this
      */
     public Matrix3d set(double m00, double m01, double m02, 
@@ -398,12 +439,14 @@ public class Matrix3d implements Externalizable {
     /**
      * Set the values in this matrix based on the supplied double array. The result looks like this:
      * <p>
-     * 0, 3, 6</br>
-     * 1, 4, 7</br>
-     * 2, 5, 8</br>
+     * 0, 3, 6<br>
+     * 1, 4, 7<br>
+     * 2, 5, 8<br>
      * <p>
      * Only uses the first 9 values, all others are ignored.
      * 
+     * @param m
+     *          the array to read the matrix values from
      * @return this
      */
     public Matrix3d set(double m[]) {
@@ -422,12 +465,14 @@ public class Matrix3d implements Externalizable {
     /**
      * Set the values in this matrix based on the supplied double array. The result looks like this:
      * <p>
-     * 0, 3, 6</br>
-     * 1, 4, 7</br>
-     * 2, 5, 8</br>
+     * 0, 3, 6<br>
+     * 1, 4, 7<br>
+     * 2, 5, 8<br>
      * <p>
      * Only uses the first 9 values, all others are ignored
-     * 
+     *
+     * @param m
+     *          the array to read the matrix values from
      * @return this
      */
     public Matrix3d set(float m[]) {
@@ -445,6 +490,8 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Return the determinant of this matrix.
+     * 
+     * @return the determinant
      */
     public double determinant() {
         return m00 * m11 * m22
@@ -543,6 +590,10 @@ public class Matrix3d implements Externalizable {
      * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
      * matrix to obtain an additional translation.
      * 
+     * @param x
+     *          the units to translate in x
+     * @param y
+     *          the units to translate in y
      * @return this
      */
     public Matrix3d translation(double x, double y) {
@@ -563,6 +614,10 @@ public class Matrix3d implements Externalizable {
      * <p>
      * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @param position
+     *          the units to translate in <tt>(x, y)</tt>
+     * @return this
      */
     public Matrix3d translation(Vector2d position) {
         return translation(position.x, position.y);
@@ -573,6 +628,10 @@ public class Matrix3d implements Externalizable {
      * <p>
      * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @param position
+     *          the units to translate in <tt>(x, y)</tt>
+     * @return this
      */
     public Matrix3d translation(Vector2f position) {
         return translation(position.x, position.y);

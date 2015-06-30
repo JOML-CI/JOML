@@ -151,6 +151,10 @@ public class Vector2d implements Externalizable {
     /**
      * Subtract <tt>(x, y)</tt> from this vector.
      * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
      * @return this
      */
     public Vector2d sub(double x, double y) {
@@ -221,6 +225,13 @@ public class Vector2d implements Externalizable {
 
     /**
      * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the vector to subtract from
+     * @param b
+     *          the vector to subtract
+     * @param dest
+     *          will hold the result
      */
     public static void sub(Vector2f a, Vector2d b, Vector2d dest) {
         dest.x = a.x - b.x;
@@ -228,7 +239,11 @@ public class Vector2d implements Externalizable {
     }
 
     /**
-     * Return the dot product of this vector and <code>v</code>
+     * Return the dot product of this vector and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the dot product
      */
     public double dot(Vector2d v) {
         return x * v.x + y * v.y;
@@ -239,6 +254,8 @@ public class Vector2d implements Externalizable {
      * 
      * @see #angle(Vector2d)
      * 
+     * @param v
+     *          the other vector
      * @return the cosine of the angle
      */
     public double angleCos(Vector2d v) {
@@ -267,6 +284,8 @@ public class Vector2d implements Externalizable {
 
     /**
      * Return the length of this vector.
+     * 
+     * @return the length
      */
     public double length() {
         return Math.sqrt((x * x) + (y * y));
@@ -412,6 +431,13 @@ public class Vector2d implements Externalizable {
 
     /**
      * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first addend
+     * @param b
+     *          the second addend
+     * @param dest
+     *          will hold the result
      */
     public static void add(Vector2f a, Vector2d b, Vector2d dest) {
         dest.x = a.x + b.x;

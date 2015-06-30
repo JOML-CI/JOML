@@ -153,6 +153,10 @@ public class Vector2f implements Externalizable {
     /**
      * Subtract <tt>(x, y)</tt> from this vector.
      * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
      * @return this
      */
     public Vector2f sub(float x, float y) {
@@ -162,7 +166,11 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Return the dot product of this vector and <code>v</code>
+     * Return the dot product of this vector and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the dot product
      */
     public float dot(Vector2f v) {
         return x * v.x + y * v.y;
@@ -203,6 +211,8 @@ public class Vector2f implements Externalizable {
     
     /**
      * Return the length of this vector.
+     * 
+     * @return the length
      */
     public float length() {
         return (float) Math.sqrt((x * x) + (y * y));
@@ -210,6 +220,8 @@ public class Vector2f implements Externalizable {
 
     /**
      * Return the length squared of this vector.
+     * 
+     * @return the length squared
      */
     public float lengthSquared() {
         return x * x + y * y;
@@ -217,6 +229,10 @@ public class Vector2f implements Externalizable {
 
     /**
      * Return the distance between this and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the distance
      */
     public float distance(Vector2f v) {
         return (float) Math.sqrt((v.x - x) * (v.x - x)
@@ -252,6 +268,8 @@ public class Vector2f implements Externalizable {
     /**
      * Add <code>v</code> to this vector.
      * 
+     * @param v
+     *          the vector to add
      * @return this
      */
     public Vector2f add(Vector2f v) {
@@ -262,6 +280,13 @@ public class Vector2f implements Externalizable {
 
     /**
      * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first addend
+     * @param b
+     *          the second addend
+     * @param dest
+     *          will hold the result
      */
     public static void add(Vector2f a, Vector2f b, Vector2f dest) {
         dest.x = a.x + b.x;

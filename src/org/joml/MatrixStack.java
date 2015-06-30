@@ -92,6 +92,7 @@ public class MatrixStack implements Serializable {
      * 
      * @param mat
      *            the matrix which is stored in the current stack matrix
+     * @return this
      */
     public MatrixStack loadMatrix(Matrix4f mat) {
         if (mat == null) {
@@ -613,6 +614,24 @@ public class MatrixStack implements Serializable {
      * 
      * @see #lookAt(Vector3f, Vector3f, Vector3f)
      * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public MatrixStack lookAt(float eyeX, float eyeY, float eyeZ, float centerX, float centerY, float centerZ,
@@ -635,6 +654,18 @@ public class MatrixStack implements Serializable {
      * {@link #lookAt(float, float, float, float, float, float, float, float, float)
      * lookAt} with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public MatrixStack lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {

@@ -34,9 +34,9 @@ import java.text.NumberFormat;
  * Contains the definition of a 3x3 Matrix of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
- *      m00  m10  m20</br>
- *      m01  m11  m21</br>
- *      m02  m12  m22</br>
+ *      m00  m10  m20<br>
+ *      m01  m11  m21<br>
+ *      m02  m12  m22<br>
  * 
  * @author Richard Greenlees
  * @author Kai Burjack
@@ -84,6 +84,25 @@ public class Matrix3f implements Externalizable {
     /**
      * Create a new 3x3 matrix using the supplied float values. The order of the parameter is column-major, 
      * so the first three parameters specify the three elements of the first column.
+     * 
+     * @param m00
+     *          the value of m00
+     * @param m01
+     *          the value of m01
+     * @param m02
+     *          the value of m02
+     * @param m10
+     *          the value of m10
+     * @param m11
+     *          the value of m11
+     * @param m12
+     *          the value of m12
+     * @param m20
+     *          the value of m20
+     * @param m21
+     *          the value of m21
+     * @param m22
+     *          the value of m22
      */
     public Matrix3f(float m00, float m01, float m02,
                     float m10, float m11, float m12, 
@@ -242,10 +261,28 @@ public class Matrix3f implements Externalizable {
     /**
      * Set the values within this matrix to the supplied float values. The result looks like this:
      * <p>
-     * m00, m10, m20</br>
-     * m01, m11, m21</br>
-     * m02, m12, m22</br>
+     * m00, m10, m20<br>
+     * m01, m11, m21<br>
+     * m02, m12, m22<br>
      * 
+     * @param m00
+     *          the new value of m00
+     * @param m01
+     *          the new value of m01
+     * @param m02
+     *          the new value of m02
+     * @param m10
+     *          the new value of m10
+     * @param m11
+     *          the new value of m11
+     * @param m12
+     *          the new value of m12
+     * @param m20
+     *          the new value of m20
+     * @param m21
+     *          the new value of m21
+     * @param m22
+     *          the new value of m22
      * @return this
      */
     public Matrix3f set(float m00, float m01, float m02,
@@ -266,12 +303,14 @@ public class Matrix3f implements Externalizable {
     /**
      * Set the values in this matrix based on the supplied float array. The result looks like this:
      * <p>
-     * 0, 3, 6</br>
-     * 1, 4, 7</br>
-     * 2, 5, 8</br>
+     * 0, 3, 6<br>
+     * 1, 4, 7<br>
+     * 2, 5, 8<br>
      * 
      * This method only uses the first 9 values, all others are ignored.
      * 
+     * @param m
+     *          the array to read the matrix values from
      * @return this
      */
     public Matrix3f set(float m[]) {
@@ -289,6 +328,8 @@ public class Matrix3f implements Externalizable {
 
     /**
      * Return the determinant of this matrix.
+     * 
+     * @return the determinant
      */
     public float determinant() {
         return m00 * m11 * m22
@@ -386,6 +427,10 @@ public class Matrix3f implements Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      * 
+     * @param x
+     *          the units to translate in x
+     * @param y
+     *          the units to translate in y
      * @return this
      */
     public Matrix3f translation(float x, float y) {
@@ -406,6 +451,10 @@ public class Matrix3f implements Externalizable {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * 
+     * @param position
+     *          the units to translate in <tt>(x, y)</tt>
+     * @return this
      */
     public Matrix3f translation(Vector2f position) {
         return translation(position.x, position.y);

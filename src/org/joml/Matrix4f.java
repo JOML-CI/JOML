@@ -36,10 +36,10 @@ import java.text.NumberFormat;
  * Contains the definition of a 4x4 Matrix of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
- *      m00  m10  m20  m30</br>
- *      m01  m11  m21  m31</br>
- *      m02  m12  m22  m32</br>
- *      m03  m13  m23  m33</br>
+ *      m00  m10  m20  m30<br>
+ *      m01  m11  m21  m31<br>
+ *      m02  m12  m22  m32<br>
+ *      m03  m13  m23  m33<br>
  * 
  * @author Richard Greenlees
  * @author Kai Burjack
@@ -120,6 +120,39 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Create a new 4x4 matrix using the supplied float values.
+     * 
+     * @param m00
+     *          the value of m00
+     * @param m01
+     *          the value of m01
+     * @param m02
+     *          the value of m02
+     * @param m03
+     *          the value of m03
+     * @param m10
+     *          the value of m10
+     * @param m11
+     *          the value of m11
+     * @param m12
+     *          the value of m12
+     * @param m13
+     *          the value of m13
+     * @param m20
+     *          the value of m20
+     * @param m21
+     *          the value of m21
+     * @param m22
+     *          the value of m22
+     * @param m23
+     *          the value of m23
+     * @param m30
+     *          the value of m30
+     * @param m31
+     *          the value of m31
+     * @param m32
+     *          the value of m32
+     * @param m33
+     *          the value of m33
      */
     public Matrix4f(float m00, float m01, float m02, float m03, 
                     float m10, float m11, float m12, float m13, 
@@ -461,7 +494,39 @@ public class Matrix4f implements Externalizable {
      *  m01, m11, m21, m31<br>
      *  m02, m12, m22, m32<br>
      *  m03, m13, m23, m33
-     *   
+     * 
+     * @param m00
+     *          the new value of m00
+     * @param m01
+     *          the new value of m01
+     * @param m02
+     *          the new value of m02
+     * @param m03
+     *          the new value of m03
+     * @param m10
+     *          the new value of m10
+     * @param m11
+     *          the new value of m11
+     * @param m12
+     *          the new value of m12
+     * @param m13
+     *          the new value of m13
+     * @param m20
+     *          the new value of m20
+     * @param m21
+     *          the new value of m21
+     * @param m22
+     *          the new value of m22
+     * @param m23
+     *          the new value of m23
+     * @param m30
+     *          the new value of m30
+     * @param m31
+     *          the new value of m31
+     * @param m32
+     *          the new value of m32
+     * @param m33
+     *          the new value of m33
      * @return this
      */
     public Matrix4f set(float m00, float m01, float m02, float m03,
@@ -497,6 +562,10 @@ public class Matrix4f implements Externalizable {
      * 
      * @see #set(float[])
      * 
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
      * @return this
      */
     public Matrix4f set(float m[], int off) {
@@ -529,6 +598,8 @@ public class Matrix4f implements Externalizable {
      * 
      * @see #set(float[], int)
      * 
+     * @param m
+     *          the array to read the matrix values from
      * @return this
      */
     public Matrix4f set(float m[]) {
@@ -570,6 +641,8 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Return the determinant of this matrix.
+     * 
+     * @return the determinant
      */
     public float determinant() {
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
@@ -692,6 +765,12 @@ public class Matrix4f implements Externalizable {
      * 
      * @see #translate(float, float, float)
      * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param z
+     *          the offset to translate in z
      * @return this
      */
     public Matrix4f translation(float x, float y, float z) {
@@ -725,10 +804,12 @@ public class Matrix4f implements Externalizable {
      * 
      * @see #translate(float, float, float)
      * 
+     * @param offset
+     *              the offsets in x, y and z to translate
      * @return this
      */
-    public Matrix4f translation(Vector3f position) {
-        return translation(position.x, position.y, position.z);
+    public Matrix4f translation(Vector3f offset) {
+        return translation(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -740,6 +821,12 @@ public class Matrix4f implements Externalizable {
      * @see #translation(float, float, float)
      * @see #translate(float, float, float)
      * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param z
+     *          the offset to translate in z
      * @return this
      */
     public Matrix4f setTranslation(float x, float y, float z) {
@@ -758,6 +845,8 @@ public class Matrix4f implements Externalizable {
      * @see #translation(Vector3f)
      * @see #translate(Vector3f)
      * 
+     * @param xyz
+     *          the units to translate in <tt>(x, y, z)</tt>
      * @return this
      */
     public Matrix4f setTranslation(Vector3f xyz) {
@@ -914,6 +1003,10 @@ public class Matrix4f implements Externalizable {
      * 
      * @see #get(float[], int)
      * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
      * @return this
      */
     public Matrix4f get(float[] arr, int offset) {

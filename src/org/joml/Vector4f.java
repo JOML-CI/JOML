@@ -82,6 +82,15 @@ public class Vector4f implements Externalizable {
 
     /**
      * Create a new {@link Vector4f} with the given component values.
+     * 
+     * @param x
+     *          the value of x
+     * @param y
+     *          the value of y
+     * @param z
+     *          the value of z
+     * @param w
+     *          the value of w
      */
     public Vector4f(float x, float y, float z, float w) {
         this.x = x;
@@ -147,6 +156,8 @@ public class Vector4f implements Externalizable {
     /**
      * Subtract the supplied vector from this one.
      * 
+     * @param v
+     *          the vector to subtract
      * @return this
      */
     public Vector4f sub(Vector4f v) {
@@ -177,6 +188,8 @@ public class Vector4f implements Externalizable {
     /**
      * Add the supplied vector to this one.
      * 
+     * @param v
+     *          the vector to add
      * @return this
      */
     public Vector4f add(Vector4f v) {
@@ -191,7 +204,7 @@ public class Vector4f implements Externalizable {
      * Add the supplied vector to this one and store the result in <code>dest</code>.
      * 
      * @param v
-     *          the other vector
+     *          the vector to add
      * @param dest
      *          will hold the result
      * @return this
@@ -207,6 +220,14 @@ public class Vector4f implements Externalizable {
     /**
      * Increment the components of this vector by the given values.
      * 
+     * @param x
+     *          the x-coordinate to add
+     * @param y
+     *          the y-coordinate to add
+     * @param z
+     *          the z-coordinate to add
+     * @param w
+     *          the w-coordinate to add
      * @return this
      */
     public Vector4f add(float x, float y, float z, float w) {
@@ -220,6 +241,14 @@ public class Vector4f implements Externalizable {
     /**
      * Increment the components of this vector by the given values and store the result in <code>dest</code>.
      * 
+     * @param x
+     *          the x-coordinate to add
+     * @param y
+     *          the y-coordinate to add
+     * @param z
+     *          the z-coordinate to add
+     * @param w
+     *          the w-coordinate to add
      * @param dest
      *          will hold the result
      * @return this
@@ -374,6 +403,8 @@ public class Vector4f implements Externalizable {
      * Multiply all components of this {@link Vector4f} by the given scalar
      * value.
      * 
+     * @param scalar
+     *          the scalar to multiply by
      * @return this
      */
     public Vector4f mul(float scalar) {
@@ -388,6 +419,8 @@ public class Vector4f implements Externalizable {
      * Multiply all components of this {@link Vector4f} by the given scalar
      * value and store the result in <code>dest</code>.
      * 
+     * @param scalar
+     *          the scalar to multiply by
      * @param dest
      *          will hold the result
      * @return this
@@ -403,6 +436,14 @@ public class Vector4f implements Externalizable {
     /**
      * Multiply the components of this Vector4f by the given scalar values and store the result in <code>this</code>.
      * 
+     * @param x
+     *          the x-coordinate to multiply by
+     * @param y
+     *          the y-coordinate to multiply by
+     * @param z
+     *          the z-coordinate to multiply by
+     * @param w
+     *          the w-coordinate to multiply by
      * @return this
      */
     public Vector4f mul(float x, float y, float z, float w) {
@@ -416,6 +457,14 @@ public class Vector4f implements Externalizable {
     /**
      * Multiply the components of this Vector4f by the given scalar values and store the result in <code>dest</code>.
      * 
+     * @param x
+     *          the x-coordinate to multiply by
+     * @param y
+     *          the y-coordinate to multiply by
+     * @param z
+     *          the z-coordinate to multiply by
+     * @param w
+     *          the w-coordinate to multiply by
      * @param dest
      *          will hold the result
      * @return this
@@ -432,6 +481,8 @@ public class Vector4f implements Externalizable {
      * Divide all components of this {@link Vector4f} by the given scalar
      * value.
      * 
+     * @param scalar
+     *          the scalar to divide by
      * @return this
      */
     public Vector4f div(float scalar) {
@@ -446,6 +497,8 @@ public class Vector4f implements Externalizable {
      * Divide all components of this {@link Vector4f} by the given scalar
      * value and store the result in <code>dest</code>.
      * 
+     * @param scalar
+     *          the scalar to divide by
      * @param dest
      *          will hold the result
      * @return this
@@ -461,6 +514,14 @@ public class Vector4f implements Externalizable {
     /**
      * Divide the components of this Vector4f by the given scalar values and store the result in <code>this</code>.
      * 
+     * @param x
+     *          the x-coordinate to divide by
+     * @param y
+     *          the y-coordinate to divide by
+     * @param z
+     *          the z-coordinate to divide by
+     * @param w
+     *          the w-coordinate to divide by
      * @return this
      */
     public Vector4f div(float x, float y, float z, float w) {
@@ -474,6 +535,14 @@ public class Vector4f implements Externalizable {
     /**
      * Divide the components of this Vector4f by the given scalar values and store the result in <code>dest</code>.
      * 
+     * @param x
+     *          the x-coordinate to divide by
+     * @param y
+     *          the y-coordinate to divide by
+     * @param z
+     *          the z-coordinate to divide by
+     * @param w
+     *          the w-coordinate to divide by
      * @param dest
      *          will hold the result
      * @return this
@@ -566,6 +635,8 @@ public class Vector4f implements Externalizable {
     /**
      * Return the distance between <code>this</code> vector and <code>v</code>.
      * 
+     * @param v
+     *          the other vector
      * @return the euclidean distance
      */
     public float distance(Vector4f v) {
@@ -797,6 +868,7 @@ public class Vector4f implements Externalizable {
      *            the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *            will hold the result
+     * @return this
      */
     public Vector4f hermite(Vector4f t0, Vector4f v1, Vector4f t1, double t, Vector4f dest) {
         dest.x = (float) Interpolate.hermite(x, t0.x, v1.x, t1.x, t);

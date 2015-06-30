@@ -31,8 +31,17 @@ package org.joml;
 public class SurfaceMath {
 
     /**
-     * Calculates the normal of a surface defined by points v1, v2 and v3 and
-     * stores it in dest. v1, v2 and v3 are not modified
+     * Calculate the normal of a surface defined by points <code>v1</code>, <code>v2</code> and <code>v3</code> and
+     * store it in <code>dest</code>.
+     * 
+     * @param v1
+     *          the first position
+     * @param v2
+     *          the second position
+     * @param v3
+     *          the third position
+     * @param dest
+     *          will hold the result
      */
     public static void normal(Vector3f v1, Vector3f v2, Vector3f v3, Vector3f dest) {
         dest.x = ((v2.y - v1.y) * (v3.z - v1.z)) - ((v2.z - v1.z) * (v3.y - v1.y));

@@ -217,6 +217,8 @@ public class Quaterniond implements Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
+     * @param dest
+     *          the matrix to write the rotation into
      * @return this
      */
     public Quaterniond get(Matrix3d dest) {
@@ -248,6 +250,8 @@ public class Quaterniond implements Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
+     * @param dest
+     *          the matrix to write the rotation into
      * @return this
      */
     public Quaterniond get(Matrix3f dest) {
@@ -279,6 +283,8 @@ public class Quaterniond implements Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
+     * @param dest
+     *          the matrix to write the rotation into
      * @return this
      */
     public Quaterniond get(Matrix4d dest) {
@@ -330,6 +336,14 @@ public class Quaterniond implements Externalizable {
     /**
      * Set this quaternion to the new values.
      * 
+     * @param x
+     *          the new value of x
+     * @param y
+     *          the new value of y
+     * @param z
+     *          the new value of z
+     * @param w
+     *          the new value of w
      * @return this
      */
     public Quaterniond set(double x, double y, double z, double w) {
@@ -343,6 +357,12 @@ public class Quaterniond implements Externalizable {
     /**
      * Set the x, y and z components of this quaternion to the new values.
      * 
+     * @param x
+     *          the new value of x
+     * @param y
+     *          the new value of y
+     * @param z
+     *          the new value of z
      * @return this
      */
     public Quaterniond set(double x, double y, double z) {
@@ -398,6 +418,14 @@ public class Quaterniond implements Externalizable {
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in degrees).
      * 
+     * @param angle
+     *          the angle in degrees
+     * @param axisX
+     *          the x-coordinate of the rotation axis
+     * @param axisY
+     *          the y-coordinate of the rotation axis
+     * @param axisZ
+     *          the z-coordinate of the rotation axis
      * @return this
      */
     public Quaterniond setAngleAxis(double angle, double axisX, double axisY, double axisZ) {
@@ -417,6 +445,10 @@ public class Quaterniond implements Externalizable {
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in degrees).
      * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the rotation axis
      * @return this
      */
     public Quaterniond setAngleAxis(double angle, Vector3d axis) {
@@ -919,6 +951,8 @@ public class Quaterniond implements Externalizable {
     /**
      * Calculate this quaternion using the supplied Vector3d angles (in degrees) with rotation order XYZ.
      * 
+     * @param angles
+     *          the angles in degrees for the <tt>(x, y, z)</tt> axes
      * @return this
      */
     public Quaterniond setEulerAnglesDegXYZ(Vector3d angles) {
@@ -928,6 +962,8 @@ public class Quaterniond implements Externalizable {
     /**
      * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order XYZ.
      * 
+     * @param angles
+     *          the angles in radians for the <tt>(x, y, z)</tt> axes
      * @return this
      */
     public Quaterniond setEulerAnglesRadXYZ(Vector3d angles) {
@@ -937,6 +973,8 @@ public class Quaterniond implements Externalizable {
     /**
      * Calculate this quaternion using the supplied Vector3d angles (in degrees) with rotation order ZYX.
      * 
+     * @param angles
+     *          the angles in degrees for the <tt>(x, y, z)</tt> axes
      * @return this
      */
     public Quaterniond setEulerAnglesDegZYX(Vector3d angles) {
@@ -946,6 +984,8 @@ public class Quaterniond implements Externalizable {
     /**
      * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order ZYX.
      * 
+     * @param angles
+     *          the angles in radians for the <tt>(x, y, z)</tt> axes
      * @return this
      */
     public Quaterniond setEulerAnglesRadZYX(Vector3d angles) {
@@ -958,6 +998,12 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
+     * @param rotationAboutX
+     *          the angle in degrees to rotate about x
+     * @param rotationAboutY
+     *          the angle in degrees to rotate about y
+     * @param rotationAboutZ
+     *          the angle in degrees to rotate about z
      * @return this
      */
     public Quaterniond setEulerAnglesDegXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
@@ -982,6 +1028,12 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
+     * @param rotationAboutX
+     *          the angle in degrees to rotate about x
+     * @param rotationAboutY
+     *          the angle in degrees to rotate about y
+     * @param rotationAboutZ
+     *          the angle in degrees to rotate about z
      * @return this
      */
     public Quaterniond setEulerAnglesDegZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
@@ -1001,7 +1053,9 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Returns the length of this quaternion
+     * Return the length of this quaternion.
+     * 
+     * @return the length
      */
     public double length() {
         return x * x + y * y + z * z + w * w;
@@ -1013,6 +1067,12 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
+     * @param rotationAboutX
+     *          the angle in radians to rotate about x
+     * @param rotationAboutY
+     *          the angle in radians to rotate about y
+     * @param rotationAboutZ
+     *          the angle in radians to rotate about z
      * @return this
      */
     public Quaterniond setEulerAnglesRadXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
@@ -1037,6 +1097,12 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
+     * @param rotationAboutX
+     *          the angle in radians to rotate about x
+     * @param rotationAboutY
+     *          the angle in radians to rotate about y
+     * @param rotationAboutZ
+     *          the angle in radians to rotate about z
      * @return this
      */
     public Quaterniond setEulerAnglesRadZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
@@ -1219,6 +1285,18 @@ public class Quaterniond implements Externalizable {
      * 
      * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Quaterniond lookRotate(double dirX, double dirY, double dirZ, double upX, double upY, double upZ) {
@@ -1238,6 +1316,18 @@ public class Quaterniond implements Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @param dest
      *              will hold the result
      * @return this
@@ -1435,6 +1525,18 @@ public class Quaterniond implements Externalizable {
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * 
+     * @param fromDirX
+     *              the x-coordinate of the direction to rotate into the destination direction
+     * @param fromDirY
+     *              the y-coordinate of the direction to rotate into the destination direction
+     * @param fromDirZ
+     *              the z-coordinate of the direction to rotate into the destination direction
+     * @param toDirX
+     *              the x-coordinate of the direction to rotate to
+     * @param toDirY
+     *              the y-coordinate of the direction to rotate to
+     * @param toDirZ
+     *              the z-coordinate of the direction to rotate to
      * @return this
      */
     public Quaterniond rotationTo(double fromDirX, double fromDirY, double fromDirZ, double toDirX, double toDirY, double toDirZ) {
@@ -1513,6 +1615,18 @@ public class Quaterniond implements Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
+     * @param fromDirX
+     *              the x-coordinate of the direction to rotate into the destination direction
+     * @param fromDirY
+     *              the y-coordinate of the direction to rotate into the destination direction
+     * @param fromDirZ
+     *              the z-coordinate of the direction to rotate into the destination direction
+     * @param toDirX
+     *              the x-coordinate of the direction to rotate to
+     * @param toDirY
+     *              the y-coordinate of the direction to rotate to
+     * @param toDirZ
+     *              the z-coordinate of the direction to rotate to
      * @param dest
      *          will hold the result
      * @return this
@@ -1591,6 +1705,12 @@ public class Quaterniond implements Externalizable {
      * 
      * @param angle
      *          the rotation angle in degrees
+     * @param axisX
+     *          the x-coordinate of the rotation axis
+     * @param axisY
+     *          the y-coordinate of the rotation axis
+     * @param axisZ
+     *          the z-coordinate of the rotation axis
      * @return this
      */
     public Quaterniond rotationAxis(double angle, double axisX, double axisY, double axisZ) {
@@ -1701,6 +1821,18 @@ public class Quaterniond implements Externalizable {
      * 
      * @see #rotateTo(double, double, double, double, double, double, Quaterniond)
      * 
+     * @param fromDirX
+     *              the x-coordinate of the direction to rotate into the destination direction
+     * @param fromDirY
+     *              the y-coordinate of the direction to rotate into the destination direction
+     * @param fromDirZ
+     *              the z-coordinate of the direction to rotate into the destination direction
+     * @param toDirX
+     *              the x-coordinate of the direction to rotate to
+     * @param toDirY
+     *              the y-coordinate of the direction to rotate to
+     * @param toDirZ
+     *              the z-coordinate of the direction to rotate to
      * @return this
      */
     public Quaterniond rotateTo(double fromDirX, double fromDirY, double fromDirZ, double toDirX, double toDirY, double toDirZ) {

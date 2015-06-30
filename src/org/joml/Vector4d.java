@@ -111,6 +111,15 @@ public class Vector4d implements Externalizable {
 
     /**
      * Create a new {@link Vector4f} with the given component values.
+     * 
+     * @param x
+     *          the value of x
+     * @param y
+     *          the value of y
+     * @param z
+     *          the value of z
+     * @param w
+     *          the value of w
      */
     public Vector4d(double x, double y, double z, double w) {
         this.x = x;
@@ -209,6 +218,8 @@ public class Vector4d implements Externalizable {
     /**
      * Subtract the supplied vector from this one.
      * 
+     * @param v
+     *          the vector to subtract
      * @return this
      */
     public Vector4d sub(Vector4d v) {
@@ -222,6 +233,8 @@ public class Vector4d implements Externalizable {
     /**
      * Subtract the supplied vector from this one.
      * 
+     * @param v
+     *          the vector to subtract
      * @return this
      */
     public Vector4d sub(Vector4f v) {
@@ -235,6 +248,14 @@ public class Vector4d implements Externalizable {
     /**
      * Subtract <tt>(x, y, z, w)</tt> vector from this one.
      * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
+     * @param z
+     *          the z-coordinate to subtract
+     * @param w
+     *          the w-coordinate to subtract
      * @return this
      */
     public Vector4d sub(double x, double y, double z, double w) {
@@ -299,6 +320,8 @@ public class Vector4d implements Externalizable {
     /**
      * Add the supplied vector to this one.
      * 
+     * @param v
+     *          the vector to add
      * @return this
      */
     public Vector4d add(Vector4d v) {
@@ -312,6 +335,8 @@ public class Vector4d implements Externalizable {
     /**
      * Add the supplied vector to this one.
      * 
+     * @param v
+     *          the vector to add
      * @return this
      */
     public Vector4d add(Vector4f v) {
@@ -324,6 +349,13 @@ public class Vector4d implements Externalizable {
 
     /**
      * Add <code>v2</code> to <code>v1</code> and store the result in <code>dest</code>.
+     * 
+     * @param v1
+     *          the first addend
+     * @param v2
+     *          the second addend
+     * @param dest
+     *          will hold the result
      */
     public static void add(Vector4d v1, Vector4d v2, Vector4d dest) {
         dest.x = v1.x + v2.x;
@@ -334,6 +366,13 @@ public class Vector4d implements Externalizable {
 
     /**
      * Add <code>v2</code> to <code>v1</code> and store the result in <code>dest</code>.
+     * 
+     * @param v1
+     *          the first addend
+     * @param v2
+     *          the second addend
+     * @param dest
+     *          will hold the result
      */
     public static void add(Vector4d v1, Vector4f v2, Vector4d dest) {
         dest.x = v1.x + v2.x;
@@ -344,6 +383,13 @@ public class Vector4d implements Externalizable {
 
     /**
      * Add <code>v2</code> to <code>v1</code> and store the result in <code>dest</code>.
+     * 
+     * @param v1
+     *          the first addend
+     * @param v2
+     *          the second addend
+     * @param dest
+     *          will hold the result
      */
     public static void add(Vector4f v1, Vector4d v2, Vector4d dest) {
         dest.x = v1.x + v2.x;
@@ -392,6 +438,8 @@ public class Vector4d implements Externalizable {
     /**
      * Multiply this {@link Vector4d} component-wise by the given {@link Vector4d}.
      * 
+     * @param v
+     *          the vector to multiply by
      * @return this
      */
     public Vector4d mul(Vector4d v) {
@@ -422,6 +470,8 @@ public class Vector4d implements Externalizable {
     /**
      * Divide this {@link Vector4d} component-wise by the given {@link Vector4d}.
      * 
+     * @param v
+     *          the vector to divide by
      * @return this
      */
     public Vector4d div(Vector4d v) {
@@ -452,6 +502,8 @@ public class Vector4d implements Externalizable {
     /**
      * Multiply this {@link Vector4d} component-wise by the given {@link Vector4f}.
      * 
+     * @param v
+     *          the vector to multiply by
      * @return this
      */
     public Vector4d mul(Vector4f v) {
@@ -465,6 +517,8 @@ public class Vector4d implements Externalizable {
     /**
      * Multiply this {@link Vector4d} by the given matrix <code>mat</code>.
      * 
+     * @param mat
+     *          the matrix to multiply by
      * @return this
      */
     public Vector4d mul(Matrix4d mat) {
@@ -498,6 +552,8 @@ public class Vector4d implements Externalizable {
     /**
      * Multiply this {@link Vector4d} by the given matrix <code>mat</code>.
      * 
+     * @param mat
+     *          the matrix to multiply by
      * @return this
      */
     public Vector4d mul(Matrix4f mat) {
@@ -531,6 +587,8 @@ public class Vector4d implements Externalizable {
     /**
      * Multiply this Vector4d by the given scalar value.
      * 
+     * @param scalar
+     *          the scalar to multiply by
      * @return this
      */
     public Vector4d mul(double scalar) {
@@ -561,6 +619,8 @@ public class Vector4d implements Externalizable {
     /**
      * Divide this Vector4d by the given scalar value.
      * 
+     * @param scalar
+     *          the scalar to divide by
      * @return this
      */
     public Vector4d div(double scalar) {
@@ -586,17 +646,6 @@ public class Vector4d implements Externalizable {
         z /= scalar;
         w /= scalar;
         return this;
-    }
-
-    /**
-     * Multiply the given Vector4d <code>v</code> component-wise by the <code>scalar</code> value,
-     * and store the result in <code>dest</code>.
-     */
-    public static void mul(Vector4d v, double scalar, Vector4d dest) {
-        dest.x = v.x * scalar;
-        dest.y = v.y * scalar;
-        dest.z = v.z * scalar;
-        dest.w = v.w * scalar;
     }
 
     /**
@@ -630,6 +679,8 @@ public class Vector4d implements Externalizable {
 
     /**
      * Return the length squared of this vector.
+     * 
+     * @return the length squared
      */
     public double lengthSquared() {
         return x * x + y * y + z * z + w * w;
@@ -637,6 +688,8 @@ public class Vector4d implements Externalizable {
 
     /**
      * Return the length of this vector.
+     * 
+     * @return the length
      */
     public double length() {
         return Math.sqrt(lengthSquared());
@@ -675,6 +728,8 @@ public class Vector4d implements Externalizable {
     /**
      * Return the distance between <code>this</code> vector and <code>v</code>.
      * 
+     * @param v
+     *          the other vector
      * @return the euclidean distance
      */
     public double distance(Vector4d v) {
@@ -880,6 +935,7 @@ public class Vector4d implements Externalizable {
      *            the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *            will hold the result
+     * @return this
      */
     public Vector4d hermite(Vector4d t0, Vector4d v1, Vector4d t1, double t, Vector4d dest) {
         dest.x = Interpolate.hermite(x, t0.x, v1.x, t1.x, t);

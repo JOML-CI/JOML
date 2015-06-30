@@ -37,10 +37,10 @@ import java.text.NumberFormat;
  * Contains the definition of a 4x4 Matrix of doubles, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
- *      m00  m10  m20  m30</br>
- *      m01  m11  m21  m31</br>
- *      m02  m12  m22  m32</br>
- *      m03  m13  m23  m33</br>
+ *      m00  m10  m20  m30<br>
+ *      m01  m11  m21  m31<br>
+ *      m02  m12  m22  m32<br>
+ *      m03  m13  m23  m33<br>
  * 
  * @author Richard Greenlees
  * @author Kai Burjack
@@ -126,6 +126,39 @@ public class Matrix4d implements Externalizable {
     
     /**
      * Create a new 4x4 matrix using the supplied double values.
+     * 
+     * @param m00
+     *          the value of m00
+     * @param m01
+     *          the value of m01
+     * @param m02
+     *          the value of m02
+     * @param m03
+     *          the value of m03
+     * @param m10
+     *          the value of m10
+     * @param m11
+     *          the value of m11
+     * @param m12
+     *          the value of m12
+     * @param m13
+     *          the value of m13
+     * @param m20
+     *          the value of m20
+     * @param m21
+     *          the value of m21
+     * @param m22
+     *          the value of m22
+     * @param m23
+     *          the value of m23
+     * @param m30
+     *          the value of m30
+     * @param m31
+     *          the value of m31
+     * @param m32
+     *          the value of m32
+     * @param m33
+     *          the value of m33
      */
     public Matrix4d(double m00, double m01, double m02, double m03,
                     double m10, double m11, double m12, double m13, 
@@ -536,13 +569,45 @@ public class Matrix4d implements Externalizable {
     }
 
     /** Set the values within this matrix to the supplied double values. The matrix will look like this:<br><br>
-        
-        m00, m10, m20, m30<br>
-        m01, m11, m21, m31<br>
-        m02, m12, m22, m32<br>
-        m03, m13, m23, m33
-      
-        @return this
+     *  
+     * m00, m10, m20, m30<br>
+     * m01, m11, m21, m31<br>
+     * m02, m12, m22, m32<br>
+     * m03, m13, m23, m33
+     *
+     * @param m00
+     *          the new value of m00
+     * @param m01
+     *          the new value of m01
+     * @param m02
+     *          the new value of m02
+     * @param m03
+     *          the new value of m03
+     * @param m10
+     *          the new value of m10
+     * @param m11
+     *          the new value of m11
+     * @param m12
+     *          the new value of m12
+     * @param m13
+     *          the new value of m13
+     * @param m20
+     *          the new value of m20
+     * @param m21
+     *          the new value of m21
+     * @param m22
+     *          the new value of m22
+     * @param m23
+     *          the new value of m23
+     * @param m30
+     *          the new value of m30
+     * @param m31
+     *          the new value of m31
+     * @param m32
+     *          the new value of m32
+     * @param m33
+     *          the new value of m33
+     * @return this
      */
     public Matrix4d set(double m00, double m01, double m02,double m03,
                         double m10, double m11, double m12, double m13,
@@ -574,6 +639,8 @@ public class Matrix4d implements Externalizable {
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      * 
+     * @param m
+     *          the array to read the matrix values from
      * @return this
      */
     public Matrix4d set(double m[]) {
@@ -603,6 +670,8 @@ public class Matrix4d implements Externalizable {
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      * 
+     * @param m
+     *          the array to read the matrix values from
      * @return this
      */
     public Matrix4d set(float m[]) {
@@ -693,6 +762,8 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Return the determinant of this matrix.
+     * 
+     * @return the determinant
      */
     public double determinant() {
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
@@ -874,6 +945,12 @@ public class Matrix4d implements Externalizable {
      * @see #translation(double, double, double)
      * @see #translate(double, double, double)
      * 
+     * @param x
+     *          the units to translate in x
+     * @param y
+     *          the units to translate in y
+     * @param z
+     *          the units to translate in z
      * @return this
      */
     public Matrix4d setTranslation(double x, double y, double z) {
@@ -892,6 +969,8 @@ public class Matrix4d implements Externalizable {
      * @see #translation(Vector3d)
      * @see #translate(Vector3d)
      * 
+     * @param xyz
+     *          the units to translate in <tt>(x, y, z)</tt>
      * @return this
      */
     public Matrix4d setTranslation(Vector3d xyz) {
@@ -1221,9 +1300,17 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
-     * 
+     * <p>
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
      * 
+     * @param angle
+     *          the angle in degrees
+     * @param x
+     *          the x-coordinate of the axis to rotate about
+     * @param y
+     *          the y-coordinate of the axis to rotate about
+     * @param z
+     *          the z-coordinate of the axis to rotate about
      * @return this
      */
     public Matrix4d rotation(double angle, double x, double y, double z) {
@@ -1344,6 +1431,10 @@ public class Matrix4d implements Externalizable {
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * 
+     * @param angle
+     *          the angle in degrees
+     * @param axis
+     *          the axis to rotate about
      * @return this
      */
     public Matrix4d rotation(double angle, Vector3d axis) {
@@ -3459,6 +3550,18 @@ public class Matrix4d implements Externalizable {
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
      * @see #setLookAlong(double, double, double, double, double, double)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @param dest
      *              will hold the result
      * @return this
@@ -3545,6 +3648,18 @@ public class Matrix4d implements Externalizable {
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
      * @see #setLookAlong(double, double, double, double, double, double)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix4d lookAlong(double dirX, double dirY, double dirZ,
@@ -3590,6 +3705,18 @@ public class Matrix4d implements Externalizable {
      * @see #setLookAlong(double, double, double, double, double, double)
      * @see #lookAlong(double, double, double, double, double, double)
      * 
+     * @param dirX
+     *              the x-coordinate of the direction to look along
+     * @param dirY
+     *              the y-coordinate of the direction to look along
+     * @param dirZ
+     *              the z-coordinate of the direction to look along
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
      * @return this
      */
     public Matrix4d setLookAlong(double dirX, double dirY, double dirZ,

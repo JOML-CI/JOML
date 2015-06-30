@@ -53,6 +53,13 @@ public class Vector3f implements Externalizable {
 
     /**
      * Create a new {@link Vector4f} with the given component values.
+     * 
+     * @param x
+     *          the value of x
+     * @param y
+     *          the value of y
+     * @param z
+     *          the value of z
      */
     public Vector3f(float x, float y, float z) {
         this.x = x;
@@ -108,7 +115,7 @@ public class Vector3f implements Externalizable {
      * Subtract the supplied vector from this one and store the result in <code>this</code>.
      * 
      * @param v
-     *          the other vector
+     *          the vector to subtract
      * @return this
      */
     public Vector3f sub(Vector3f v) {
@@ -122,7 +129,7 @@ public class Vector3f implements Externalizable {
      * Subtract the supplied vector from this one and store the result in <code>dest</code>.
      * 
      * @param v
-     *          the other vector
+     *          the vector to subtract
      * @param dest
      *          will hold the result
      * @return this
@@ -137,6 +144,12 @@ public class Vector3f implements Externalizable {
     /**
      * Decrement the components of this vector by the given values.
      * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
+     * @param z
+     *          the z-coordinate to subtract
      * @return this
      */
     public Vector3f sub(float x, float y, float z) {
@@ -149,6 +162,12 @@ public class Vector3f implements Externalizable {
     /**
      * Decrement the components of this vector by the given values and store the result in <code>dest</code>.
      * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
+     * @param z
+     *          the z-coordinate to subtract
      * @param dest
      *          will hold the result
      * @return this
@@ -163,6 +182,8 @@ public class Vector3f implements Externalizable {
     /**
      * Add the supplied vector to this one.
      * 
+     * @param v
+     *          the vector to add
      * @return this
      */
     public Vector3f add(Vector3f v) {
@@ -176,7 +197,7 @@ public class Vector3f implements Externalizable {
      * Add the supplied vector to this one and store the result in <code>dest</code>.
      * 
      * @param v
-     *          the other vector
+     *          the vector to add
      * @param dest
      *          will hold the result
      * @return this
@@ -191,6 +212,12 @@ public class Vector3f implements Externalizable {
     /**
      * Increment the components of this vector by the given values.
      * 
+     * @param x
+     *          the x-coordinate to add
+     * @param y
+     *          the y-coordinate to add
+     * @param z
+     *          the z-coordinate to add
      * @return this
      */
     public Vector3f add(float x, float y, float z) {
@@ -203,6 +230,12 @@ public class Vector3f implements Externalizable {
     /**
      * Increment the components of this vector by the given values and store the result in <code>dest</code>.
      * 
+     * @param x
+     *          the x-coordinate to add
+     * @param y
+     *          the y-coordinate to add
+     * @param z
+     *          the z-coordinate to add
      * @param dest
      *          will hold the result
      * @return this
@@ -253,7 +286,7 @@ public class Vector3f implements Externalizable {
      * Multiply this Vector3f component-wise by another Vector3f.
      * 
      * @param v
-     *          the other vector
+     *          the vector to multiply by
      * @return this
      */
     public Vector3f mul(Vector3f v) {
@@ -267,7 +300,7 @@ public class Vector3f implements Externalizable {
      * Multiply this Vector3f component-wise by another Vector3f and store the result in <code>dest</code>.
      * 
      * @param v
-     *          the other vector
+     *          the vector to multiply by
      * @param dest
      *          will hold the result
      * @return this
@@ -283,7 +316,7 @@ public class Vector3f implements Externalizable {
      * Divide this Vector3f component-wise by another Vector3f.
      * 
      * @param v
-     *          the other vector
+     *          the vector to divide by
      * @return this
      */
     public Vector3f div(Vector3f v) {
@@ -297,7 +330,7 @@ public class Vector3f implements Externalizable {
      * Divide this Vector3f component-wise by another Vector3f and store the result in <code>dest</code>.
      * 
      * @param v
-     *          the other vector
+     *          the vector to divide by
      * @param dest
      *          will hold the result
      * @return this
@@ -379,6 +412,8 @@ public class Vector3f implements Externalizable {
      * Multiply all components of this {@link Vector3f} by the given scalar
      * value.
      * 
+     * @param scalar
+     *          the scalar to multiply this vector by
      * @return this
      */
     public Vector3f mul(float scalar) {
@@ -392,6 +427,8 @@ public class Vector3f implements Externalizable {
      * Multiply all components of this {@link Vector3f} by the given scalar
      * value and store the result in <code>dest</code>.
      * 
+     * @param scalar
+     *          the scalar to multiply this vector by
      * @param dest
      *          will hold the result
      * @return this
@@ -406,6 +443,12 @@ public class Vector3f implements Externalizable {
     /**
      * Multiply the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
      * 
+     * @param x
+     *          the x-coordinate to multiply this vector by
+     * @param y
+     *          the y-coordinate to multiply this vector by
+     * @param z
+     *          the z-coordinate to multiply this vector by
      * @return this
      */
     public Vector3f mul(float x, float y, float z) {
@@ -418,6 +461,12 @@ public class Vector3f implements Externalizable {
     /**
      * Multiply the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
      * 
+     * @param x
+     *          the x-coordinate to multiply this vector by
+     * @param y
+     *          the y-coordinate to multiply this vector by
+     * @param z
+     *          the z-coordinate to multiply this vector by
      * @param dest
      *          will hold the result
      * @return this
@@ -434,6 +483,8 @@ public class Vector3f implements Externalizable {
      * Divide all components of this {@link Vector3f} by the given scalar
      * value.
      * 
+     * @param scalar
+     *          the scalar to divide by
      * @return this
      */
     public Vector3f div(float scalar) {
@@ -447,6 +498,8 @@ public class Vector3f implements Externalizable {
      * Divide all components of this {@link Vector3f} by the given scalar
      * value and store the result in <code>dest</code>.
      * 
+     * @param scalar
+     *          the scalar to divide by
      * @param dest
      *          will hold the result
      * @return this
@@ -461,6 +514,12 @@ public class Vector3f implements Externalizable {
     /**
      * Divide the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
      * 
+     * @param x
+     *          the x-coordinate to divide this vector by
+     * @param y
+     *          the y-coordinate to divide this vector by
+     * @param z
+     *          the z-coordinate to divide this vector by
      * @return this
      */
     public Vector3f div(float x, float y, float z) {
@@ -473,6 +532,12 @@ public class Vector3f implements Externalizable {
     /**
      * Divide the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
      * 
+     * @param x
+     *          the x-coordinate to divide this vector by
+     * @param y
+     *          the y-coordinate to divide this vector by
+     * @param z
+     *          the z-coordinate to divide this vector by
      * @param dest
      *          will hold the result
      * @return this
@@ -516,6 +581,8 @@ public class Vector3f implements Externalizable {
 
     /**
      * Return the length squared of this vector.
+     * 
+     * @return the length squared
      */
     public float lengthSquared() {
         return x * x + y * y + z * z;
@@ -523,6 +590,8 @@ public class Vector3f implements Externalizable {
 
     /**
      * Return the length of this vector.
+     * 
+     * @return the length
      */
     public float length() {
         return (float) Math.sqrt(lengthSquared());
@@ -559,6 +628,8 @@ public class Vector3f implements Externalizable {
     /**
      * Set this vector to be the cross product of itself and <code>v</code>.
      * 
+     * @param v
+     *          the other vector
      * @return this
      */
     public Vector3f cross(Vector3f v) {
@@ -584,6 +655,10 @@ public class Vector3f implements Externalizable {
 
     /**
      * Return the distance between this Vector and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the distance
      */
     public float distance(Vector3f v) {
         return (float) Math.sqrt(
@@ -594,6 +669,10 @@ public class Vector3f implements Externalizable {
 
     /**
      * Return the dot product of this vector and the supplied vector.
+     * 
+     * @param v
+     *          the other vector
+     * @return the dot product
      */
     public float dot(Vector3f v) {
         return x * v.x + y * v.y + z * v.z;
@@ -604,6 +683,8 @@ public class Vector3f implements Externalizable {
      * 
      * @see #angle(Vector3f)
      * 
+     * @param v
+     *          the other vector
      * @return the cosine of the angle
      */
     public float angleCos(Vector3f v) {
@@ -618,6 +699,8 @@ public class Vector3f implements Externalizable {
      * 
      * @see #angleCos(Vector3f)
      * 
+     * @param v
+     *          the other vector
      * @return the angle, in degrees
      */
     public float angle(Vector3f v) {
@@ -849,6 +932,7 @@ public class Vector3f implements Externalizable {
      *            the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *            will hold the result
+     * @return this
      */
     public Vector3f hermite(Vector3f t0, Vector3f v1, Vector3f t1, float t, Vector3f dest) {
         dest.x = (float) Interpolate.hermite(x, t0.x, v1.x, t1.x, t);
