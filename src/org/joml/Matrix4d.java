@@ -772,6 +772,20 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Return the determinant of the top-left 3x3 submatrix of this matrix.
+     * 
+     * @return the determinant
+     */
+    public double determinant3x3() {
+        return m00 * m11 * m22
+             + m10 * m21 * m02
+             + m20 * m01 * m12
+             - m20 * m11 * m02
+             - m00 * m21 * m12
+             - m10 * m01 * m22;
+    }
+
+    /**
      * Invert this matrix.
      * 
      * @return this
@@ -871,6 +885,71 @@ public class Matrix4d implements Externalizable {
                      m02, m12, m22, m32,
                      m03, m13, m23, m33);
         }
+        return this;
+    }
+
+    /**
+     * Transpose only the top-left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
+     * 
+     * @return this 
+     */
+    public Matrix4d transpose3x3() {
+        return transpose3x3(this);
+    }
+
+    /**
+     * Transpose only the top-left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * All other matrix elements of <code>dest</code> will be set to identity.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return this
+     */
+    public Matrix4d transpose3x3(Matrix4d dest) {
+        if (this != dest) {
+            dest.m00 = m00;
+            dest.m01 = m10;
+            dest.m02 = m20;
+            dest.m03 = 0.0;
+            dest.m10 = m01;
+            dest.m11 = m11;
+            dest.m12 = m21;
+            dest.m13 = 0.0;
+            dest.m20 = m02;
+            dest.m21 = m12;
+            dest.m22 = m22;
+            dest.m23 = 0.0;
+            dest.m30 = 0.0;
+            dest.m31 = 0.0;
+            dest.m32 = 0.0;
+            dest.m33 = 1.0;
+        } else {
+            dest.set(m00, m10, m20, 0.0,
+                     m01, m11, m21, 0.0,
+                     m02, m12, m22, 0.0,
+                     0.0, 0.0, 0.0, 1.0);
+        }
+        return this;
+    }
+
+    /**
+     * Transpose only the top-left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return this
+     */
+    public Matrix4d transpose3x3(Matrix3d dest) {
+        dest.m00 = m00;
+        dest.m01 = m10;
+        dest.m02 = m20;
+        dest.m10 = m01;
+        dest.m11 = m11;
+        dest.m12 = m21;
+        dest.m20 = m02;
+        dest.m21 = m12;
+        dest.m22 = m22;
         return this;
     }
 
@@ -2375,39 +2454,11 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d normal(Matrix4d dest) {
         // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
-        double det = m00 * m11 * m22
-                   + m10 * m21 * m02
-                   + m20 * m01 * m12
-                   - m20 * m11 * m02
-                   - m00 * m21 * m12
-                   - m10 * m01 * m22;
+        double det = determinant3x3();
         double diff = Math.abs(Math.abs(det) - 1.0);
         if (diff < 1E-8) {
             /* The fast path, if only 1:1:1 scaling is being used */
-            if (this != dest) {
-                dest.m00 = m00;
-                dest.m01 = m10;
-                dest.m02 = m20;
-                dest.m03 = 0.0;
-                dest.m10 = m01;
-                dest.m11 = m11;
-                dest.m12 = m21;
-                dest.m13 = 0.0;
-                dest.m20 = m02;
-                dest.m21 = m12;
-                dest.m22 = m22;
-                dest.m23 = 0.0;
-                dest.m30 = 0.0;
-                dest.m31 = 0.0;
-                dest.m32 = 0.0;
-                dest.m33 = 1.0;
-            } else {
-                dest.set(m00, m10, m20, 0.0,
-                         m01, m11, m21, 0.0,
-                         m02, m12, m22, 0.0,
-                         0.0, 0.0, 0.0, 1.0);
-            }
-            return this;
+            return transpose3x3(dest);
         }
         /* The general case */
         double s = 1.0 / det;
@@ -2443,25 +2494,11 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d normal(Matrix3d dest) {
         // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
-        double det = m00 * m11 * m22
-                   + m10 * m21 * m02
-                   + m20 * m01 * m12
-                   - m20 * m11 * m02
-                   - m00 * m21 * m12
-                   - m10 * m01 * m22;
+        double det = determinant3x3();
         double diff = Math.abs(Math.abs(det) - 1.0);
         if (diff < 1E-8) {
             /* The fast path, if only 1:1:1 scaling is being used */
-            dest.m00 = m00;
-            dest.m01 = m10;
-            dest.m02 = m20;
-            dest.m10 = m01;
-            dest.m11 = m11;
-            dest.m12 = m21;
-            dest.m20 = m02;
-            dest.m21 = m12;
-            dest.m22 = m22;
-            return this;
+            return transpose3x3(dest);
         }
         /* The general case */
         double s = 1.0 / det;
