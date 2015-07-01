@@ -2243,6 +2243,140 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply a symmetric orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling {@link #ortho(float, float, float, float, float, float, Matrix4f) ortho()} with
+     * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a symmetric orthographic projection without post-multiplying it,
+     * use {@link #setOrthoSymmetric(float, float, float, float) setOrthoSymmetric()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrthoSymmetric(float, float, float, float)
+     * 
+     * @param width
+     *            the distance between the right and left frustum edges
+     * @param height
+     *            the distance between the top and bottom frustum edges
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f orthoSymmetric(float width, float height, float zNear, float zFar, Matrix4f dest) {
+        // calculate right matrix elements
+        float rm00 = 2.0f / width;
+        float rm11 = 2.0f / height;
+        float rm22 = -2.0f / (zFar - zNear);
+        float rm32 = -(zFar + zNear) / (zFar - zNear);
+
+        // perform optimized multiplication
+        // compute the last column first, because other rows do not depend on it
+        dest.m30 = m20 * rm32 + m30;
+        dest.m31 = m21 * rm32 + m31;
+        dest.m32 = m22 * rm32 + m32;
+        dest.m33 = m23 * rm32 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m20 = m20 * rm22;
+        dest.m21 = m21 * rm22;
+        dest.m22 = m22 * rm22;
+        dest.m23 = m23 * rm22;
+
+        return this;
+    }
+
+    /**
+     * Apply a symmetric orthographic projection transformation to this matrix.
+     * <p>
+     * This method is equivalent to calling {@link #ortho(float, float, float, float, float, float) ortho()} with
+     * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a symmetric orthographic projection without post-multiplying it,
+     * use {@link #setOrthoSymmetric(float, float, float, float) setOrthoSymmetric()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrthoSymmetric(float, float, float, float)
+     * 
+     * @param width
+     *            the distance between the right and left frustum edges
+     * @param height
+     *            the distance between the top and bottom frustum edges
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4f orthoSymmetric(float width, float height, float zNear, float zFar) {
+        return orthoSymmetric(width, height, zNear, zFar, this);
+    }
+
+    /**
+     * Set this matrix to be a symmetric orthographic projection transformation.
+     * <p>
+     * This method is equivalent to calling {@link #setOrtho(float, float, float, float, float, float) setOrtho()} with
+     * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
+     * <p>
+     * In order to apply the symmetric orthographic projection to an already existing transformation,
+     * use {@link #orthoSymmetric(float, float, float, float) orthoSymmetric()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #orthoSymmetric(float, float, float, float)
+     * 
+     * @param width
+     *            the distance between the right and left frustum edges
+     * @param height
+     *            the distance between the top and bottom frustum edges
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4f setOrthoSymmetric(float width, float height, float zNear, float zFar) {
+        m00 = 2.0f / width;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 2.0f / height;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = -2.0f / (zFar - zNear);
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = -(zFar + zNear) / (zFar - zNear);
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
