@@ -2893,14 +2893,10 @@ public class Matrix4f implements Externalizable {
         float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
 
         // perform optimized matrix multiplication
-        dest.m30 = m20 * rm32;
-        dest.m31 = m21 * rm32;
-        dest.m32 = m22 * rm32;
-        dest.m33 = m23 * rm32;
-        dest.m20 = m20 * rm22 - m30;
-        dest.m21 = m21 * rm22 - m31;
-        dest.m22 = m22 * rm22 - m32;
-        dest.m23 = m23 * rm22 - m33;
+        float nm20 = m20 * rm22 - m30;
+        float nm21 = m21 * rm22 - m31;
+        float nm22 = m22 * rm22 - m32;
+        float nm23 = m23 * rm22 - m33;
         dest.m00 = m00 * rm00;
         dest.m01 = m01 * rm00;
         dest.m02 = m02 * rm00;
@@ -2909,6 +2905,14 @@ public class Matrix4f implements Externalizable {
         dest.m11 = m11 * rm11;
         dest.m12 = m12 * rm11;
         dest.m13 = m13 * rm11;
+        dest.m30 = m20 * rm32;
+        dest.m31 = m21 * rm32;
+        dest.m32 = m22 * rm32;
+        dest.m33 = m23 * rm32;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
 
         return this;
     }
