@@ -9,7 +9,7 @@
 	<inceptionYear>2015</inceptionYear>
 	<organization>
 		<name>JOML</name>
-		<url>https://github.com/JOML-CI</url>
+		<url>http://joml.org</url>
 	</organization>
 	<licenses>
 		<license>
@@ -19,25 +19,36 @@
 	</licenses>
 	<scm>
 		<url>https://github.com/JOML-CI/JOML</url>
-		<connection>https://github.com/JOML-CI/JOML.git</connection>
-		<developerConnection>https://github.com/JOML-CI/JOML.git</developerConnection>
+		<connection>scm:git:https://github.com/JOML-CI/JOML.git</connection>
+		<developerConnection>scm:git:https://github.com/JOML-CI/JOML.git</developerConnection>
 	</scm>
 	<developers>
 		<developer>
 			<id>rgreenlees</id>
 			<name>Richard Greenlees</name>
 			<email>r_ja_greenlees@hotmail.com</email>
+			<organization>JOML</organization>
+			<organizationUrl>http://joml.org</organizationUrl>
 		</developer>
 		<developer>
 			<id>kburjack</id>
 			<name>Kai Burjack</name>
 			<email>kburjack@googlemail.com</email>
+			<organization>JOML</organization>
+			<organizationUrl>http://joml.org</organizationUrl>
 		</developer>
 	</developers>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+	<distributionManagement>
+		<repository>
+			<id>oss.sonatype.org</id>
+			<name>Sonatype Snapshot Repository</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+	</distributionManagement>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
@@ -70,6 +81,19 @@
 						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
