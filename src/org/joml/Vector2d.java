@@ -73,6 +73,17 @@ public class Vector2d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector2d} and initialize its components to the one of the given vector.
+     * 
+     * @param v
+     *          the {@link Vector2f} to copy the values from
+     */
+    public Vector2d(Vector2f v) {
+        x = v.x;
+        y = v.y;
+    }
+
+    /**
      * Set the x and y attributes to the supplied values.
      * 
      * @param x

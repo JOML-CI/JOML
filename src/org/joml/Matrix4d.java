@@ -4113,11 +4113,32 @@ public class Matrix4d implements Externalizable {
     public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
         double h = Math.tan(Math.toRadians(fovy) * 0.5) * zNear;
         double w = h * aspect;
-        double fl = -w;
-        double fr = +w;
-        double fb = -h;
-        double ft = +h;
-        return frustum(fl, fr, fb, ft, zNear, zFar, dest);
+
+        // calculate right matrix elements
+        double rm00 = 2.0 * zNear / (2.0 * w);
+        double rm11 = 2.0 * zNear / (2.0 * h);
+        double rm22 = -(zFar + zNear) / (zFar - zNear);
+        double rm32 = -2.0 * zFar * zNear / (zFar - zNear);
+
+        // perform optimized matrix multiplication
+        dest.m30 = m20 * rm32;
+        dest.m31 = m21 * rm32;
+        dest.m32 = m22 * rm32;
+        dest.m33 = m23 * rm32;
+        dest.m20 = m20 * rm22 - m30;
+        dest.m21 = m21 * rm22 - m31;
+        dest.m22 = m22 * rm22 - m32;
+        dest.m23 = m23 * rm22 - m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+
+        return this;
     }
 
     /**
@@ -4178,11 +4199,23 @@ public class Matrix4d implements Externalizable {
     public Matrix4d setPerspective(double fovy, double aspect, double zNear, double zFar) {
         double h = Math.tan(Math.toRadians(fovy) * 0.5) * zNear;
         double w = h * aspect;
-        double fl = -w;
-        double fr = +w;
-        double fb = -h;
-        double ft = +h;
-        return setFrustum(fl, fr, fb, ft, zNear, zFar);
+        m00 = 2.0 * zNear / (2.0 * w);
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 2.0 * zNear / (2.0 * h);
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = -(zFar + zNear) / (zFar - zNear);
+        m23 = -1.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = -2.0 * zFar * zNear / (zFar - zNear);
+        m33 = 0.0;
+        return this;
     }
 
     /**

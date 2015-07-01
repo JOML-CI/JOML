@@ -2885,11 +2885,32 @@ public class Matrix4f implements Externalizable {
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, Matrix4f dest) {
         float h = (float) Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
         float w = h * aspect;
-        float fl = -w;
-        float fr = +w;
-        float fb = -h;
-        float ft = +h;
-        return frustum(fl, fr, fb, ft, zNear, zFar, dest);
+
+        // calculate right matrix elements
+        float rm00 = 2.0f * zNear / (2.0f * w);
+        float rm11 = 2.0f * zNear / (2.0f * h);
+        float rm22 = -(zFar + zNear) / (zFar - zNear);
+        float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
+
+        // perform optimized matrix multiplication
+        dest.m30 = m20 * rm32;
+        dest.m31 = m21 * rm32;
+        dest.m32 = m22 * rm32;
+        dest.m33 = m23 * rm32;
+        dest.m20 = m20 * rm22 - m30;
+        dest.m21 = m21 * rm22 - m31;
+        dest.m22 = m22 * rm22 - m32;
+        dest.m23 = m23 * rm22 - m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+
+        return this;
     }
 
     /**
@@ -2950,11 +2971,23 @@ public class Matrix4f implements Externalizable {
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar) {
         float h = (float) Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
         float w = h * aspect;
-        float fl = -w;
-        float fr = +w;
-        float fb = -h;
-        float ft = +h;
-        return setFrustum(fl, fr, fb, ft, zNear, zFar);
+        m00 = 2.0f * zNear / (2.0f * w);
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 2.0f * zNear / (2.0f * h);
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = -(zFar + zNear) / (zFar - zNear);
+        m23 = -1.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = -2.0f * zFar * zNear / (zFar - zNear);
+        m33 = 0.0f;
+        return this;
     }
 
     /**
