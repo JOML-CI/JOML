@@ -2377,6 +2377,140 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply an orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling {@link #ortho(float, float, float, float, float, float, Matrix4f) ortho()} with
+     * <code>zNear=-1</code> and <code>zFar=+1</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho2D(float, float, float, float) setOrtho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho2D(float, float, float, float)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f ortho2D(float left, float right, float bottom, float top, Matrix4f dest) {
+        // calculate right matrix elements
+        float rm00 = 2.0f / (right - left);
+        float rm11 = 2.0f / (top - bottom);
+        float rm30 = -(right + left) / (right - left);
+        float rm31 = -(top + bottom) / (top - bottom);
+
+        // perform optimized multiplication
+        // compute the last column first, because other rows do not depend on it
+        dest.m30 = m00 * rm30 + m10 * rm31 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m32;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m20 = -m20;
+        dest.m21 = -m21;
+        dest.m22 = -m22;
+        dest.m23 = -m23;
+
+        return this;
+    }
+
+    /**
+     * Apply an orthographic projection transformation to this matrix.
+     * <p>
+     * This method is equivalent to calling {@link #ortho(float, float, float, float, float, float) ortho()} with
+     * <code>zNear=-1</code> and <code>zFar=+1</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho2D(float, float, float, float) setOrtho2D()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho2D(float, float, float, float)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @return this
+     */
+    public Matrix4f ortho2D(float left, float right, float bottom, float top) {
+        return ortho2D(left, right, bottom, top, this);
+    }
+
+    /**
+     * Set this matrix to be an orthographic projection transformation.
+     * <p>
+     * This method is equivalent to calling {@link #setOrtho(float, float, float, float, float, float) setOrtho()} with
+     * <code>zNear=-1</code> and <code>zFar=+1</code>.
+     * <p>
+     * In order to apply the orthographic projection to an already existing transformation,
+     * use {@link #ortho2D(float, float, float, float) ortho2D()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #ortho2D(float, float, float, float)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @return this
+     */
+    public Matrix4f setOrtho2D(float left, float right, float bottom, float top) {
+        m00 = 2.0f / (right - left);
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 2.0f / (top - bottom);
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = -1.0f;
+        m23 = 0.0f;
+        m30 = -(right + left) / (right - left);
+        m31 = -(top + bottom) / (top - bottom);
+        m32 = 0.0f;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
