@@ -41,8 +41,17 @@ public class Vector3f implements Externalizable {
 
     private static final long serialVersionUID = 1L;    
 
+    /**
+     * The x-coordinate of the vector.
+     */
     public float x;
+    /**
+     * The y-coordinate of the vector.
+     */
     public float y;
+    /**
+     * The z-coordinate of the vector.
+     */
     public float z;
 
     /**

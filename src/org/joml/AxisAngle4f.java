@@ -43,17 +43,14 @@ public class AxisAngle4f implements Externalizable {
      * The angle in degrees.
      */
     public float angle;
-
     /**
      * The x-component of the rotation axis.
      */
     public float x;
-
     /**
      * The y-component of the rotation axis.
      */
     public float y;
-
     /**
      * The z-component of the rotation axis.
      */

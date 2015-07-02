@@ -40,9 +40,21 @@ public class Vector4d implements Externalizable {
 
     private static final long serialVersionUID = 1L;   
 
+    /**
+     * The x-coordinate of the vector.
+     */
     public double x;
+    /**
+     * The y-coordinate of the vector.
+     */
     public double y;
+    /**
+     * The z-coordinate of the vector.
+     */
     public double z;
+    /**
+     * The w-coordinate of the vector.
+     */
     public double w = 1.0;
 
     /**
