@@ -738,6 +738,36 @@ public class Vector4d implements Externalizable {
     }
 
     /**
+     * Normalize this vector by computing only the norm of <tt>(x, y, z)</tt>.
+     * 
+     * @return this
+     */
+    public Vector4d normalize3() {
+        double d = Math.sqrt(x * x + y * y + z * z);
+        x /= d;
+        y /= d;
+        z /= d;
+        w /= d;
+        return this;
+    }
+
+    /**
+     * Normalize this vector by computing only the norm of <tt>(x, y, z)</tt> and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4d normalize3(Vector4d dest) {
+        double d = Math.sqrt(x * x + y * y + z * z);
+        dest.x = x / d;
+        dest.y = y / d;
+        dest.z = z / d;
+        dest.w = w / d;
+        return this;
+    }
+
+    /**
      * Return the distance between <code>this</code> vector and <code>v</code>.
      * 
      * @param v

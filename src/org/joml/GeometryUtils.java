@@ -57,10 +57,10 @@ public class GeometryUtils {
     public static void calculateFrustumPlanes(Matrix4f mvp, Vector4f left, Vector4f right, Vector4f bottom, Vector4f top) {
         // "http://web.archive.org/web/20120531231005/http://crazyjoke.free.fr/doc/3D/plane%20extraction.pdf"
         // changed to use OpenGL's right-handed coordinate system
-        right.set(-mvp.m03 + mvp.m00, -mvp.m13 + mvp.m10, -mvp.m23 + mvp.m20, mvp.m33 - mvp.m30);
-        left.set(-mvp.m03 - mvp.m00, -mvp.m13 - mvp.m10, -mvp.m23 - mvp.m20, mvp.m33 + mvp.m30);
-        bottom.set(-mvp.m03 - mvp.m01, -mvp.m13 - mvp.m11, -mvp.m23 - mvp.m21, mvp.m33 + mvp.m31);
-        top.set(-mvp.m03 + mvp.m01, -mvp.m13 + mvp.m11, -mvp.m23 + mvp.m21, mvp.m33 - mvp.m31);
+        right.set(-mvp.m03 + mvp.m00, -mvp.m13 + mvp.m10, -mvp.m23 + mvp.m20, mvp.m33 - mvp.m30).normalize3();
+        left.set(-mvp.m03 - mvp.m00, -mvp.m13 - mvp.m10, -mvp.m23 - mvp.m20, mvp.m33 + mvp.m30).normalize3();
+        bottom.set(-mvp.m03 - mvp.m01, -mvp.m13 - mvp.m11, -mvp.m23 - mvp.m21, mvp.m33 + mvp.m31).normalize3();
+        top.set(-mvp.m03 + mvp.m01, -mvp.m13 + mvp.m11, -mvp.m23 + mvp.m21, mvp.m33 - mvp.m31).normalize3();
     }
 
 }
