@@ -48,6 +48,13 @@ public class Matrix4f implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
+    public static final int PLANE_LEFT = 0;
+    public static final int PLANE_RIGHT = 1;
+    public static final int PLANE_BOTTOM = 2;
+    public static final int PLANE_TOP = 3;
+    public static final int PLANE_NEAR = 4;
+    public static final int PLANE_FAR = 5;
+
     public float m00;
     public float m01;
     public float m02;
@@ -4862,6 +4869,57 @@ public class Matrix4f implements Externalizable {
         dest.m20 =  (m01 * m12 - m11 * m02) * s;
         dest.m21 = -(m00 * m12 - m10 * m02) * s;
         dest.m22 =  (m00 * m11 - m10 * m01) * s;
+        return this;
+    }
+
+    /**
+     * Calculate a frustum plane of the this matrix, which
+     * can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>planeEquation</code>.
+     * <p>
+     * Generally, this method computes the frustum plane in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it to yield homogeneous clipping space.
+     * <p>
+     * The frustum plane will the will be given in the form of a general plane equation:
+     * <tt>a*x + b*y + c*z + d = 0</tt>, where the {@link Vector4f} components
+     * hold the <tt>(a, b, c, d)</tt> values of the equation.
+     * <p>
+     * The plane normal, which is <tt>(a, b, c)</tt>, is directed "inwards" of the frustum.
+     * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
+     * if the point is within the frustum (i.e. at the <i>positive</i> side of the frustum plane).
+     *
+     * @param plane
+     *          one of the six possible planes, given as numeric constants
+     *          {@link #PLANE_LEFT}, {@link #PLANE_RIGHT}, {@link #PLANE_BOTTOM}, {@link #PLANE_TOP}, {@link #PLANE_NEAR} and {@link #PLANE_FAR}
+     * @param planeEquation
+     *          will hold the computed plane equation.
+     *          The plane equation will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector
+     * @return this
+     */
+    public Matrix4f frustumPlane(int plane, Vector4f planeEquation) {
+        switch (plane) {
+        case PLANE_LEFT:
+            planeEquation.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
+            break;
+        case PLANE_RIGHT:
+            planeEquation.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3();
+            break;
+        case PLANE_BOTTOM:
+            planeEquation.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3();
+            break;
+        case PLANE_TOP:
+            planeEquation.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3();
+            break;
+        case PLANE_NEAR:
+            planeEquation.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3();
+            break;
+        case PLANE_FAR:
+            planeEquation.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3();
+            break;
+        default:
+            throw new IllegalArgumentException("plane"); //$NON-NLS-1$
+        }
         return this;
     }
 

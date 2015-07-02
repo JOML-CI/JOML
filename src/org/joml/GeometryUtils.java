@@ -43,6 +43,7 @@ public class GeometryUtils {
      * are given in plane equations:
      * <tt>a*x + b*y + c*z + d = 0</tt>, where the {@link Vector4f} components
      * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
+     * All plane equations will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector.
      * <p>
      * The plane normals, which are the <tt>(a, b, c)</tt> parameters, are directed "inwards" of the frustum.
      * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
@@ -108,6 +109,7 @@ public class GeometryUtils {
      * are given in plane equations:
      * <tt>a*x + b*y + c*z + d = 0</tt>, where the {@link Vector4d} components
      * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
+     * All plane equations will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector.
      * <p>
      * The plane normals, which are the <tt>(a, b, c)</tt> parameters, are directed "inwards" of the frustum.
      * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
