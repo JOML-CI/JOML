@@ -115,10 +115,10 @@ Using the same method you can also specify both the view and projection matrices
 ```Java
 Matrix4f proj = new Matrix4f();
 Matrix4f view = new Matrix4f();
-Matrix4f.With(proj).perspective(45.0f, 1.0f, 0.01f, 100.0f)
-        .with(view).lookAt(0.0f, 1.0f, 5.0f,
-                           0.0f, 0.0f, 0.0f,
-                           0.0f, 1.0f, 0.0f);
+proj.perspective(45.0f, 1.0f, 0.01f, 100.0f)
+    .with(view).lookAt(0.0f, 1.0f, 5.0f,
+                       0.0f, 0.0f, 0.0f,
+                       0.0f, 1.0f, 0.0f);
 ```
 
 Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
