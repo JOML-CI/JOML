@@ -1864,22 +1864,6 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Return the specified {@link Matrix3f}.
-     * <p>
-     * This method mainly exists for symmetry with operation chaining when using the
-     * {@link #with(Matrix3f)} instance call in a fluent interface style.
-     * <p>
-     * It purposely breaks with Java's camelCase naming convention.
-     * 
-     * @param other
-     *          the {@link Matrix3f} to return
-     * @return that matrix
-     */
-    public static Matrix3f With(Matrix3f other) {
-        return other;
-    }
-
-    /**
      * Return the specified {@link Vector3f}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
