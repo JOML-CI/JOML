@@ -3895,7 +3895,7 @@ public class Matrix4f implements Externalizable {
         dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
         dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
         dest.w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
-        dest.mul(1.0f / dest.w);
+        dest.div(dest.w);
         return this;
     }
 
@@ -3966,7 +3966,7 @@ public class Matrix4f implements Externalizable {
         dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
         dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
         float w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
-        dest.mul(1.0f / w);
+        dest.div(w);
         return this;
     }
 
@@ -4075,7 +4075,7 @@ public class Matrix4f implements Externalizable {
         winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
         winCoordsDest.w = m03 * x + m13 * y + m23 * z + m33;
         int pos = viewport.position();
-        winCoordsDest.mul(1.0f / winCoordsDest.w);
+        winCoordsDest.div(winCoordsDest.w);
         winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
         winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport.get(pos+3) + viewport.get(pos+1);
         winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
@@ -4113,7 +4113,7 @@ public class Matrix4f implements Externalizable {
         winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
         float w = m03 * x + m13 * y + m23 * z + m33;
         int pos = viewport.position();
-        winCoordsDest.mul(1.0f / w);
+        winCoordsDest.div(w);
         winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
         winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport.get(pos+3) + viewport.get(pos+1);
         winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
@@ -4207,7 +4207,7 @@ public class Matrix4f implements Externalizable {
         view.transform(winCoordsDest);
         projection.transform(winCoordsDest);
         int pos = viewport.position();
-        winCoordsDest.mul(1.0f / winCoordsDest.w);
+        winCoordsDest.div(winCoordsDest.w);
         winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
         winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport.get(pos+3) + viewport.get(pos+1);
         winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
