@@ -37,7 +37,7 @@ public class GeometryUtils {
      * <p>
      * Generally, this method computes the frustum planes in the local frame of
      * any coordinate system that existed before the given <code>mvp</code>
-     * transformation was applied to it.
+     * transformation was applied to it to yield homogeneous clipping space.
      * <p>
      * Each of the six planes <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code>
      * are given in plane equations:
@@ -65,6 +65,71 @@ public class GeometryUtils {
      *            will hold the plane equation components of the far frustum plane
      */
     public static void calculateFrustumPlanes(Matrix4f mvp, Vector4f left, Vector4f right, Vector4f bottom, Vector4f top, Vector4f near, Vector4f far) {
+        // "http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf"
+        // changed to use OpenGL's right-handed coordinate system
+        // (and use column-major matrix indices, which the paper did not use,
+        //  although it said it would in the code-section at the end).
+        right.set(mvp.m03 - mvp.m00,
+                  mvp.m13 - mvp.m10,
+                  mvp.m23 - mvp.m20,
+                  mvp.m33 - mvp.m30).normalize3();
+        left.set(mvp.m03 + mvp.m00,
+                 mvp.m13 + mvp.m10,
+                 mvp.m23 + mvp.m20,
+                 mvp.m33 + mvp.m30).normalize3();
+        bottom.set(mvp.m03 + mvp.m01,
+                   mvp.m13 + mvp.m11,
+                   mvp.m23 + mvp.m21,
+                   mvp.m33 + mvp.m31).normalize3();
+        top.set(mvp.m03 - mvp.m01,
+                mvp.m13 - mvp.m11,
+                mvp.m23 - mvp.m21,
+                mvp.m33 - mvp.m31).normalize3();
+        near.set(mvp.m03 + mvp.m02,
+                 mvp.m13 + mvp.m12,
+                 mvp.m23 + mvp.m22,
+                 mvp.m33 + mvp.m32).normalize3();
+        far.set(mvp.m03 - mvp.m02,
+                mvp.m13 - mvp.m12,
+                mvp.m23 - mvp.m22,
+                mvp.m33 - mvp.m32).normalize3();
+    }
+
+    /**
+     * Calculate the frustum planes of the given transformation matrix, which
+     * can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code> parameters.
+     * <p>
+     * Generally, this method computes the frustum planes in the local frame of
+     * any coordinate system that existed before the given <code>mvp</code>
+     * transformation was applied to it to yield homogeneous clipping space.
+     * <p>
+     * Each of the six planes <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code>
+     * are given in plane equations:
+     * <tt>a*x + b*y + c*z + d = 0</tt>, where the {@link Vector4d} components
+     * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
+     * <p>
+     * The plane normals, which are the <tt>(a, b, c)</tt> parameters, are directed "inwards" of the frustum.
+     * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
+     * if the point is within the frustum (i.e. at the <i>positive</i> side of each frustum plane).
+     * 
+     * @param mvp
+     *            the transformation matrix whose frustum planes should be
+     *            computed
+     * @param left
+     *            will hold the plane equation components of the left frustum plane
+     * @param right
+     *            will hold the plane equation components of the right frustum plane
+     * @param bottom
+     *            will hold the plane equation components of the bottom frustum plane
+     * @param top
+     *            will hold the plane equation components of the top frustum plane
+     * @param near
+     *            will hold the plane equation components of the near frustum plane
+     * @param far
+     *            will hold the plane equation components of the far frustum plane
+     */
+    public static void calculateFrustumPlanes(Matrix4d mvp, Vector4d left, Vector4d right, Vector4d bottom, Vector4d top, Vector4d near, Vector4d far) {
         // "http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf"
         // changed to use OpenGL's right-handed coordinate system
         // (and use column-major matrix indices, which the paper did not use,
