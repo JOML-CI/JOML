@@ -32,14 +32,15 @@ public class GeometryUtils {
 
     /**
      * Calculate the frustum planes of the given transformation matrix, which
-     * can be a projection matrix or a combined modelview-projection matrix.
+     * can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code> parameters.
      * <p>
      * Generally, this method computes the frustum planes in the local frame of
      * any coordinate system that existed before the given <code>mvp</code>
      * transformation was applied to it.
      * <p>
-     * Each of the four planes <code>left</code>, <code>right</code>,
-     * <code>bottom</code> and <code>top</code> are given in plane equations:
+     * Each of the six planes <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code>
+     * are given in plane equations:
      * <tt>a*x + b*y + c*z + d = 0</tt>, where the {@link Vector4f} components
      * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
      * <p>
@@ -51,16 +52,20 @@ public class GeometryUtils {
      *            the transformation matrix whose frustum planes should be
      *            computed
      * @param left
-     *            the plane equation components of the left frustum plane
+     *            will hold the plane equation components of the left frustum plane
      * @param right
-     *            the plane equation components of the right frustum plane
+     *            will hold the plane equation components of the right frustum plane
      * @param bottom
-     *            the plane equation components of the bottom frustum plane
+     *            will hold the plane equation components of the bottom frustum plane
      * @param top
-     *            the plane equation components of the top frustum plane
+     *            will hold the plane equation components of the top frustum plane
+     * @param near
+     *            will hold the plane equation components of the near frustum plane
+     * @param far
+     *            will hold the plane equation components of the far frustum plane
      */
-    public static void calculateFrustumPlanes(Matrix4f mvp, Vector4f left, Vector4f right, Vector4f bottom, Vector4f top) {
-        // "http://web.archive.org/web/20120531231005/http://crazyjoke.free.fr/doc/3D/plane%20extraction.pdf"
+    public static void calculateFrustumPlanes(Matrix4f mvp, Vector4f left, Vector4f right, Vector4f bottom, Vector4f top, Vector4f near, Vector4f far) {
+        // "http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf"
         // changed to use OpenGL's right-handed coordinate system
         // (and use column-major matrix indices, which the paper did not use,
         //  although it said it would in the code-section at the end).
@@ -80,6 +85,14 @@ public class GeometryUtils {
                 mvp.m13 - mvp.m11,
                 mvp.m23 - mvp.m21,
                 mvp.m33 - mvp.m31).normalize3();
+        near.set(mvp.m03 + mvp.m02,
+                 mvp.m13 + mvp.m12,
+                 mvp.m23 + mvp.m22,
+                 mvp.m33 + mvp.m32).normalize3();
+        far.set(mvp.m03 - mvp.m02,
+                mvp.m13 - mvp.m12,
+                mvp.m23 - mvp.m22,
+                mvp.m33 - mvp.m32).normalize3();
     }
 
     /**
