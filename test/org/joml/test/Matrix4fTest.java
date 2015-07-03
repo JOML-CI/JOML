@@ -105,8 +105,8 @@ public class Matrix4fTest extends TestCase {
         Matrix4f m = new Matrix4f()
                 .perspective(90.0f, 1.0f, 0.1f, 100.0f)
                 .rotateY(90);
-        m.frustumRayDir(0, 0, dir);
         Vector3f expectedDir;
+        m.frustumRayDir(0, 0, dir);
         expectedDir = new Vector3f(1, -1, -1).normalize();
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(1, 0, dir);
@@ -120,11 +120,24 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
     }
 
-    public void testDirectionOfZ() {
-        Matrix4f m = new Matrix4f().ortho2D(-1, 1, -1, 1);
-        Vector3f z = new Vector3f();
-        m.directionOfZ(z);
-        System.err.println(z);
+    public void testFrustumRay2() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .perspective(90.0f, 1.0f, 0.1f, 100.0f)
+                .rotateZ(45);
+        Vector3f expectedDir;
+        m.frustumRayDir(0, 0, dir);
+        expectedDir = new Vector3f(-(float)Math.sqrt(2), 0, -1).normalize();
+        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        m.frustumRayDir(1, 0, dir);
+        expectedDir = new Vector3f(0, -(float)Math.sqrt(2), -1).normalize();
+        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        m.frustumRayDir(0, 1, dir);
+        expectedDir = new Vector3f(0, (float)Math.sqrt(2), -1).normalize();
+        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        m.frustumRayDir(1, 1, dir);
+        expectedDir = new Vector3f((float)Math.sqrt(2), 0, -1).normalize();
+        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
     }
 
     public void testIsSphereInFrustumPlaneOrtho() {
