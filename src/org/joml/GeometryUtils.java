@@ -33,6 +33,78 @@ public class GeometryUtils {
     /**
      * Calculate the frustum planes of the given transformation matrix, which
      * can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>planes</code> vectors.
+     * <p>
+     * Generally, this method computes the frustum planes in the local frame of
+     * any coordinate system that existed before the given <code>mvp</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * Each of the six planes will be given as plane equations:
+     * <tt>a*x + b*y + c*z + d = 0</tt>, where the given {@link Vector4f} components will
+     * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
+     * All plane equations will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector.
+     * <p>
+     * The plane normals, which are the <tt>(a, b, c)</tt> parameters, are directed "inwards" of the frustum.
+     * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
+     * if the point is within the frustum (i.e. at the <i>positive</i> side of each frustum plane).
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param mvp
+     *            the transformation matrix whose frustum planes should be
+     *            computed
+     * @param planes
+     *            holds the six vectors to store the plane equations in.
+     *            The order of the array elements is:
+     *            <i>left</i>, <i>right</i>, <i>bottom</i>, <i>top</i>, <i>near</i> and <i>far</i>
+     */
+    public static void calculateFrustumPlanes(Matrix4f mvp, Vector4f[] planes) {
+        if (planes == null || planes.length < 6) {
+            throw new IllegalArgumentException("planes must not be null and must have a length of at least 6");
+        }
+        calculateFrustumPlanes(mvp, planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]);
+    }
+
+    /**
+     * Calculate the frustum planes of the given transformation matrix, which
+     * can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>planes</code> vectors.
+     * <p>
+     * Generally, this method computes the frustum planes in the local frame of
+     * any coordinate system that existed before the given <code>mvp</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * Each of the six planes will be given as plane equations:
+     * <tt>a*x + b*y + c*z + d = 0</tt>, where the given {@link Vector4d} components will
+     * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
+     * All plane equations will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector.
+     * <p>
+     * The plane normals, which are the <tt>(a, b, c)</tt> parameters, are directed "inwards" of the frustum.
+     * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
+     * if the point is within the frustum (i.e. at the <i>positive</i> side of each frustum plane).
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param mvp
+     *            the transformation matrix whose frustum planes should be
+     *            computed
+     * @param planes
+     *            holds the six vectors to store the plane equations in.
+     *            The order of the array elements is:
+     *            <i>left</i>, <i>right</i>, <i>bottom</i>, <i>top</i>, <i>near</i> and <i>far</i>
+     */
+    public static void calculateFrustumPlanes(Matrix4d mvp, Vector4d[] planes) {
+        if (planes == null || planes.length < 6) {
+            throw new IllegalArgumentException("planes must not be null and must have a length of at least 6");
+        }
+        calculateFrustumPlanes(mvp, planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]);
+    }
+
+    /**
+     * Calculate the frustum planes of the given transformation matrix, which
+     * can be a projection matrix or a combined modelview-projection matrix, and store the result
      * in the given <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code> parameters.
      * <p>
      * Generally, this method computes the frustum planes in the local frame of
@@ -40,7 +112,7 @@ public class GeometryUtils {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * Each of the six planes <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code>
-     * are given in plane equations:
+     * will be given as plane equations:
      * <tt>a*x + b*y + c*z + d = 0</tt>, where the given {@link Vector4f} components will
      * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
      * All plane equations will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector.
@@ -109,7 +181,7 @@ public class GeometryUtils {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * Each of the six planes <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code>
-     * are given in plane equations:
+     * will be given as plane equations:
      * <tt>a*x + b*y + c*z + d = 0</tt>, where the given {@link Vector4d} components will
      * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
      * All plane equations will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector.
