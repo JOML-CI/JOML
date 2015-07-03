@@ -5246,10 +5246,11 @@ public class Matrix4f implements Externalizable {
      * @param y
      *          the interpolation factor along the bottom-to-top frustum planes, within <tt>[0..1]</tt>
      * @param dir
-     *          will hold the ray direction in the local frame of the coordinate system before 
-     *          transforming to homoegenous clipping space using <code>this</code> matrix
+     *          will hold the normalized ray direction in the local frame of the coordinate system before 
+     *          transforming to homogenous clipping space using <code>this</code> matrix
+     * @return this
      */
-    public void frustumRayDir(float x, float y, Vector3f dir) {
+    public Matrix4f frustumRayDir(float x, float y, Vector3f dir) {
         float a = m10 * m23, b = m13 * m21, c = m10 * m21, d = m11 * m23;
         float e = m13 * m20, f = m11 * m20, g = m03 * m20, h = m01 * m23;
         float i = m01 * m20, j = m03 * m21, k = m00 * m23, l = m00 * m21;
@@ -5268,6 +5269,25 @@ public class Matrix4f implements Externalizable {
         dir.y = m1y * (1.0f - x) + m2y * x;
         dir.z = m1z * (1.0f - x) + m2z * x;
         dir.normalize();
+        return this;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method assumes that <code>this</code> represents an orthogonal transformation.
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return this
+     */
+    public Matrix4f directionOfZ(Vector3f dir) {
+        dir.x = (m11 * m20 - m10 * m21);
+        dir.y = (m00 * m21 - m01 * m20);
+        dir.z = (m01 * m10 - m00 * m11);
+        dir.negate().normalize();
+        return this;
     }
 
 }
