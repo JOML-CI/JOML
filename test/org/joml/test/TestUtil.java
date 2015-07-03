@@ -157,4 +157,17 @@ public class TestUtil {
         Assert.assertEquals(expected.w, actual.w, delta);
     }
 
+    /**
+     * Assert that both vectors are equal with respect to the given delta.
+     * 
+     * @param expected
+     * @param actual
+     * @param delta
+     */
+    public static void assertVector3fEquals(Vector3f expected, Vector3f actual, float delta) {
+        Assert.assertEquals(expected.x, actual.x, delta);
+        Assert.assertEquals(expected.y, actual.y, delta);
+        Assert.assertEquals(expected.z, actual.z, delta);
+    }
+
 }
