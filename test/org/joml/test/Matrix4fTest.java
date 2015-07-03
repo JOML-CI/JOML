@@ -92,28 +92,22 @@ public class Matrix4fTest extends TestCase {
     public void testIsPointInFrustumPlanePerspectiveRotate() {
         Matrix4f m = new Matrix4f().perspective(90.0f, 1.0f, 0.1f, 100.0f)
                 .rotateY(90);
-        Vector4f p = new Vector4f(50.0f, 0.0f, 0.0f, 1.0f);
-        Assert.assertTrue(m.isPointInsideFrustum(p));
-        p = new Vector4f(50.0f, 51.0f, 0.0f, 1.0f);
-        Assert.assertFalse(m.isPointInsideFrustum(p));
+        Assert.assertTrue(m.isPointInsideFrustum(50, 0, 0));
+        Assert.assertFalse(m.isPointInsideFrustum(50, 51, 0));
     }
 
     public void testIsSphereInFrustumPlaneOrtho() {
         Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
-        Vector4f sphere = new Vector4f(1f, 0, 0, 0.1f);
-        Assert.assertTrue(m.isSphereInsideFrustum(sphere));
-        sphere = new Vector4f(1.2f, 0, 0, 0.1f);
-        Assert.assertFalse(m.isSphereInsideFrustum(sphere));
+        Assert.assertTrue(m.isSphereInsideFrustum(1, 0, 0, 0.1f));
+        Assert.assertFalse(m.isSphereInsideFrustum(1.2f, 0, 0, 0.1f));
     }
 
     public void testIsAabInFrustumPlaneOrtho() {
         Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
-        Vector4f bmin = new Vector4f(0, 0, 0, 0);
-        Vector4f bmax = new Vector4f(2, 2, 2, 0);
-        Assert.assertTrue(m.isAabInsideFrustum(bmin, bmax));
-        bmin = new Vector4f(1.1f, 0, 0, 0);
-        bmax = new Vector4f(2, 2, 2, 0);
-        Assert.assertFalse(m.isAabInsideFrustum(bmin, bmax));
+        for (int i = 0; i < 500 * 500; i++)
+        Assert.assertTrue(m.isAabInsideFrustum(0, 0, 0, 2, 2, 2));
+        for (int i = 0; i < 500 * 500; i++)
+        Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
     }
 
 }
