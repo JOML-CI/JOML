@@ -5207,9 +5207,8 @@ public class Matrix4d implements Externalizable {
      * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method assumes that <code>this</code> represents an orthogonal transformation. If this 
-     * matrix represents a perspective transformation then it is being treated as an orthographic
-     * projection.
+     * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
+     * in that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -5229,9 +5228,8 @@ public class Matrix4d implements Externalizable {
      * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method assumes that <code>this</code> represents an orthogonal transformation. If this 
-     * matrix represents a perspective transformation then it is being treated as an orthographic
-     * projection.
+     * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
+     * in that is transformed to <tt>+X</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -5251,9 +5249,8 @@ public class Matrix4d implements Externalizable {
      * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method assumes that <code>this</code> represents an orthogonal transformation. If this 
-     * matrix represents a perspective transformation then it is being treated as an orthographic
-     * projection.
+     * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
+     * in that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
