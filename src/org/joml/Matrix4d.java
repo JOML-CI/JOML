@@ -5216,6 +5216,11 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The parameters <code>x</code> and <code>y</code> are used to interpolate the generated ray direction
      * from the bottom-left to the top-right frustum corners.
+     * <p>
+     * For optimal efficiency when building many ray directions over the whole frustum,
+     * it is recommended to use this method only in order to compute the four corner rays at
+     * <tt>(0, 0)</tt>, <tt>(1, 0)</tt>, <tt>(0, 1)</tt> and <tt>(1, 1)</tt>
+     * and then bilinearly interpolating between them.
      * 
      * @param x
      *          the interpolation factor along the left-to-right frustum planes, within <tt>[0..1]</tt>
