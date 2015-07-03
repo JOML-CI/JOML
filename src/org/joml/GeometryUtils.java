@@ -48,6 +48,9 @@ public class GeometryUtils {
      * The plane normals, which are the <tt>(a, b, c)</tt> parameters, are directed "inwards" of the frustum.
      * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
      * if the point is within the frustum (i.e. at the <i>positive</i> side of each frustum plane).
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param mvp
      *            the transformation matrix whose frustum planes should be
@@ -114,6 +117,9 @@ public class GeometryUtils {
      * The plane normals, which are the <tt>(a, b, c)</tt> parameters, are directed "inwards" of the frustum.
      * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
      * if the point is within the frustum (i.e. at the <i>positive</i> side of each frustum plane).
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param mvp
      *            the transformation matrix whose frustum planes should be

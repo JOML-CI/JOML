@@ -4888,6 +4888,9 @@ public class Matrix4f implements Externalizable {
      * The plane normal, which is <tt>(a, b, c)</tt>, is directed "inwards" of the frustum.
      * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
      * if the point is within the frustum (i.e. at the <i>positive</i> side of the frustum plane).
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      *
      * @param plane
      *          one of the six possible planes, given as numeric constants
