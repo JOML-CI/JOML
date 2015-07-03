@@ -90,10 +90,30 @@ public class Matrix4fTest extends TestCase {
     }
 
     public void testIsPointInFrustumPlanePerspectiveRotate() {
-        Matrix4f m = new Matrix4f().perspective(90.0f, 1.0f, 0.1f, 100.0f)
-                .rotateY(90);
+        Matrix4f m = new Matrix4f()
+        .perspective(90.0f, 1.0f, 0.1f, 100.0f)
+        .rotateY(90);
         Assert.assertTrue(m.isPointInsideFrustum(50, 0, 0));
         Assert.assertFalse(m.isPointInsideFrustum(50, 51, 0));
+    }
+
+    public void testFrustumRay() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .perspective(90.0f, 1.0f, 0.1f, 100.0f)
+                .rotateY(90);
+        m.frustumRayDir(0, 0, dir);
+        Vector3f expectedDir = new Vector3f(1.0f, -1.0f, -1.0f).normalize();
+        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        m.frustumRayDir(1, 0, dir);
+        expectedDir = new Vector3f(1.0f, -1.0f, 1.0f).normalize();
+        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        m.frustumRayDir(0, 1, dir);
+        expectedDir = new Vector3f(1.0f, 1.0f, -1.0f).normalize();
+        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+        m.frustumRayDir(1, 1, dir);
+        expectedDir = new Vector3f(1.0f, 1.0f, 1.0f).normalize();
+        TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
     }
 
     public void testIsSphereInFrustumPlaneOrtho() {

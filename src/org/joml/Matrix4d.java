@@ -5207,13 +5207,14 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Obtain a ray starting at the center of the coordinate system through the near frustum plane.
+     * Obtain the direction of a ray starting at the center of the coordinate system and going
+     * through the near frustum plane.
      * <p>
-     * This method computes the <code>dir</code> vectors in the local frame of
+     * This method computes the <code>dir</code> vector in the local frame of
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * The factors <code>x</code> and <code>y</code> are used to interpolate the generated ray direction
+     * The parameters <code>x</code> and <code>y</code> are used to interpolate the generated ray direction
      * from the bottom-left to the top-right frustum corners.
      * 
      * @param x
@@ -5224,7 +5225,7 @@ public class Matrix4d implements Externalizable {
      *          will hold the ray direction in the local frame of the coordinate system before 
      *          transforming to homoegenous clipping space using <code>this</code> matrix
      */
-    public void frustumRay(double x, double y, Vector3d dir) {
+    public void frustumRayDir(double x, double y, Vector3d dir) {
         double tlx, tly, tlz;
         tlx = m10 * m23 - m13 * m21 - m10 * m21 + m23 * m11 - m20 * m13 + m20 * m11;
         tly = m20 * m03 - m23 * m01 - m20 * m01 + m03 * m21 - m00 * m23 + m00 * m21;
