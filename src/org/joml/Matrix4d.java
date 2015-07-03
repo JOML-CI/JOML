@@ -5226,36 +5226,20 @@ public class Matrix4d implements Externalizable {
      *          transforming to homoegenous clipping space using <code>this</code> matrix
      */
     public void frustumRayDir(double x, double y, Vector3d dir) {
-        double tlx, tly, tlz;
         double a = m10 * m23, b = m13 * m21, c = m10 * m21, d = m11 * m23;
         double e = m13 * m20, f = m11 * m20, g = m03 * m20, h = m01 * m23;
         double i = m01 * m20, j = m03 * m21, k = m00 * m23, l = m00 * m21;
         double m = m00 * m13, n = m03 * m11, o = m00 * m11, p = m01 * m13;
         double q = m03 * m10, r = m01 * m10;
-        tlx = a - b - c + d - e + f;
-        tly = g - h - i + j - k + l;
-        tlz = m - n - o + p - q + r;
-        double blx, bly, blz;
-        blx = f + e - c - b - a + d;
-        bly = j - i - g + l + k - h;
-        blz = r + q - o - n - m + p;
-        double brx, bry, brz;
-        brx = f + e - c + b - a - d;
-        bry = l - i - g - j + k + h;
-        brz = r + q - o + n - m - p;
-        double trx, trY, trz;
-        trx = b - e - c + f - d + a;
-        trY = l - i + g - j - k + h;
-        trz = r - q - o + n + m - p;
         /* Build dir vector using bi-linear interpolation */
         double m1x, m1y, m1z;
-        m1x = blx * (1.0 - y) + tlx * y;
-        m1y = bly * (1.0 - y) + tly * y;
-        m1z = blz * (1.0 - y) + tlz * y;
+        m1x = (f + e - c - b - a + d) * (1.0 - y) + (a - b - c + d - e + f) * y;
+        m1y = (j - i - g + l + k - h) * (1.0 - y) + (g - h - i + j - k + l) * y;
+        m1z = (r + q - o - n - m + p) * (1.0 - y) + (m - n - o + p - q + r) * y;
         double m2x, m2y, m2z;
-        m2x = brx * (1.0 - y) + trx * y;
-        m2y = bry * (1.0 - y) + trY * y;
-        m2z = brz * (1.0 - y) + trz * y;
+        m2x = (f + e - c + b - a - d) * (1.0 - y) + (b - e - c + f - d + a) * y;
+        m2y = (l - i - g - j + k + h) * (1.0 - y) + (l - i + g - j - k + h) * y;
+        m2z = (r + q - o + n - m - p) * (1.0 - y) + (r - q - o + n + m - p) * y;
         dir.x = m1x * (1.0 - x) + m2x * x;
         dir.y = m1y * (1.0 - x) + m2y * x;
         dir.z = m1z * (1.0 - x) + m2z * x;
