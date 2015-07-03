@@ -4974,7 +4974,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @see #frustumPlane(int, Vector4f)
      * 
-     * @param point
+     * @param centerAndRadius
      *          the sphere to test. It is specified as <tt>(center.x, center.y, center.z, radius)</tt>
      * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
      *         <code>false</code> otherwise

@@ -4950,11 +4950,11 @@ public class Matrix4d implements Externalizable {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * If multiple points are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the spheres, instead of using this method.
+     * {@link #frustumPlane(int, Vector4d)} and then tested against the spheres, instead of using this method.
      * 
-     * @see #frustumPlane(int, Vector4f)
+     * @see #frustumPlane(int, Vector4d)
      * 
-     * @param point
+     * @param centerAndRadius
      *          the sphere to test. It is specified as <tt>(center.x, center.y, center.z, radius)</tt>
      * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
      *         <code>false</code> otherwise
@@ -4989,9 +4989,9 @@ public class Matrix4d implements Externalizable {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the boxes, instead of using this method.
+     * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.
      * 
-     * @see #frustumPlane(int, Vector4f)
+     * @see #frustumPlane(int, Vector4d)
      * 
      * @param min
      *          the minimum corner coordinates of the axis-aligned box
