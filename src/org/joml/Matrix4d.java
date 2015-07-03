@@ -5227,21 +5227,26 @@ public class Matrix4d implements Externalizable {
      */
     public void frustumRayDir(double x, double y, Vector3d dir) {
         double tlx, tly, tlz;
-        tlx = m10 * m23 - m13 * m21 - m10 * m21 + m23 * m11 - m20 * m13 + m20 * m11;
-        tly = m20 * m03 - m23 * m01 - m20 * m01 + m03 * m21 - m00 * m23 + m00 * m21;
-        tlz = m00 * m13 - m03 * m11 - m00 * m11 + m13 * m01 - m10 * m03 + m10 * m01;
+        double a = m10 * m23, b = m13 * m21, c = m10 * m21, d = m11 * m23;
+        double e = m13 * m20, f = m11 * m20, g = m03 * m20, h = m01 * m23;
+        double i = m01 * m20, j = m03 * m21, k = m00 * m23, l = m00 * m21;
+        double m = m00 * m13, n = m03 * m11, o = m00 * m11, p = m01 * m13;
+        double q = m03 * m10, r = m01 * m10;
+        tlx = a - b - c + d - e + f;
+        tly = g - h - i + j - k + l;
+        tlz = m - n - o + p - q + r;
         double blx, bly, blz;
-        blx = m11 * m20 + m13 * m20 - m10 * m21 - m13 * m21 - m10 * m23 + m11 * m23;
-        bly = m03 * m21 - m01 * m20 - m03 * m20 + m00 * m21 + m00 * m23 - m01 * m23;
-        blz = m01 * m10 + m03 * m10 - m00 * m11 - m03 * m11 - m00 * m13 + m01 * m13;
+        blx = f + e - c - b - a + d;
+        bly = j - i - g + l + k - h;
+        blz = r + q - o - n - m + p;
         double brx, bry, brz;
-        brx = m11 * m20 + m13 * m20 - m10 * m21 + m13 * m21 - m10 * m23 - m11 * m23;
-        bry = m00 * m21 - m01 * m20 - m03 * m20 - m03 * m21 + m00 * m23 + m01 * m23;
-        brz = m01 * m10 + m03 * m10 - m00 * m11 + m03 * m11 - m00 * m13 - m01 * m13;
+        brx = f + e - c + b - a - d;
+        bry = l - i - g - j + k + h;
+        brz = r + q - o + n - m - p;
         double trx, trY, trz;
-        trx = m13 * m21 - m13 * m20 - m10 * m21 + m11 * m20 - m11 * m23 + m10 * m23;
-        trY = m00 * m21 - m01 * m20 + m03 * m20 - m03 * m21 - m00 * m23 + m01 * m23;
-        trz = m01 * m10 - m03 * m10 - m00 * m11 + m03 * m11 + m00 * m13 - m01 * m13;
+        trx = b - e - c + f - d + a;
+        trY = l - i + g - j - k + h;
+        trz = r - q - o + n + m - p;
         /* Build dir vector using bi-linear interpolation */
         double m1x, m1y, m1z;
         m1x = blx * (1.0 - y) + tlx * y;
