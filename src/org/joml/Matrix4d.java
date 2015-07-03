@@ -5228,22 +5228,28 @@ public class Matrix4d implements Externalizable {
      *          the interpolation factor along the bottom-to-top frustum planes, within <tt>[0..1]</tt>
      * @param dir
      *          will hold the normalized ray direction in the local frame of the coordinate system before 
-     *          transforming to homogenous clipping space using <code>this</code> matrix
+     *          transforming to homogeneous clipping space using <code>this</code> matrix
      * @return this
      */
     public Matrix4d frustumRayDir(double x, double y, Vector3d dir) {
+        /*
+         * This method works by first obtaining the frustum plane normals,
+         * then building the cross product to obtain the corner rays,
+         * and finall bilinearly interpolating to obtain the desired direction.
+         * The code below uses a condense form of doing all this making use 
+         * of some mathematical identities to simplify the overall expression.
+         */
         double a = m10 * m23, b = m13 * m21, c = m10 * m21, d = m11 * m23, e = m13 * m20, f = m11 * m20;
         double g = m03 * m20, h = m01 * m23, i = m01 * m20, j = m03 * m21, k = m00 * m23, l = m00 * m21;
         double m = m00 * m13, n = m03 * m11, o = m00 * m11, p = m01 * m13, q = m03 * m10, r = m01 * m10;
-        /* Build dir vector using bi-linear interpolation */
         double m1x, m1y, m1z;
-        m1x = (f + e - c - b - a + d) * (1.0 - y) + (a - b - c + d - e + f) * y;
-        m1y = (j - i - g + l + k - h) * (1.0 - y) + (g - h - i + j - k + l) * y;
-        m1z = (r + q - o - n - m + p) * (1.0 - y) + (m - n - o + p - q + r) * y;
+        m1x = (d + e + f - a - b - c) * (1.0 - y) + (a - b - c + d - e + f) * y;
+        m1y = (j + k + l - g - h - i) * (1.0 - y) + (g - h - i + j - k + l) * y;
+        m1z = (p + q + r - m - n - o) * (1.0 - y) + (m - n - o + p - q + r) * y;
         double m2x, m2y, m2z;
-        m2x = (f + e - c + b - a - d) * (1.0 - y) + (b - e - c + f - d + a) * y;
-        m2y = (l - i - g - j + k + h) * (1.0 - y) + (l - i + g - j - k + h) * y;
-        m2z = (r + q - o + n - m - p) * (1.0 - y) + (r - q - o + n + m - p) * y;
+        m2x = (b - c - d + e + f - a) * (1.0 - y) + (a + b - c - d - e + f) * y;
+        m2y = (h - i - j + k + l - g) * (1.0 - y) + (g + h - i - j - k + l) * y;
+        m2z = (n - o - p + q + r - m) * (1.0 - y) + (m + n - o - p - q + r) * y;
         dir.x = m1x * (1.0 - x) + m2x * x;
         dir.y = m1y * (1.0 - x) + m2y * x;
         dir.z = m1z * (1.0 - x) + m2z * x;
