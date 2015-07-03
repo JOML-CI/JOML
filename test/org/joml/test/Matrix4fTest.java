@@ -40,29 +40,32 @@ public class Matrix4fTest extends TestCase {
     }
 
     public void testLookAt() {
-        {
-        Matrix4f m1 = new Matrix4f().lookAt(0.0f, 2.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix4f m2 = new Matrix4f().translate(0.0f, 0.0f, -(float) Math.sqrt(2*2 + 3*3)).rotateX((float) Math.toDegrees(Math.atan2(2, 3)));
+        Matrix4f m1, m2;
+        m1 = new Matrix4f().lookAt(0, 2, 3, 0, 0, 0, 0, 1, 0);
+        m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3)).rotateX(
+                (float) Math.toDegrees(Math.atan2(2, 3)));
         TestUtil.assertMatrix4fEquals(m1, m2, 1E-15f);
-        }
-        {
-        Matrix4f m1 = new Matrix4f().lookAt(3.0f, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        Matrix4f m2 = new Matrix4f().translate(0.0f, 0.0f, -(float) Math.sqrt(2*2 + 3*3)).rotateX((float) Math.toDegrees(Math.atan2(2, 3))).rotateY(-90.0f);
+        m1 = new Matrix4f().lookAt(3, 2, 0, 0, 0, 0, 0, 1, 0);
+        m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3))
+                .rotateX((float) Math.toDegrees(Math.atan2(2, 3))).rotateY(-90.0f);
         TestUtil.assertMatrix4fEquals(m1, m2, 1E-15f);
-        }
     }
 
     /**
      * Test computing the frustum planes with a combined view-projection matrix with translation.
      */
     public void testFrustumPlanePerspectiveRotateTranslate() {
-        /* Move the camera 5 units "up" and rotate it clock-wise 90 degrees around Y */
         Vector4f left = new Vector4f();
         Vector4f right = new Vector4f();
         Vector4f top = new Vector4f();
         Vector4f bottom = new Vector4f();
         Vector4f near = new Vector4f();
         Vector4f far = new Vector4f();
+
+        /*
+         * Build a perspective transformation and
+         * move the camera 5 units "up" and rotate it clock-wise 90 degrees around Y.
+         */
         new Matrix4f()
         .perspective(90.0f, 1.0f, 0.1f, 100.0f)
         .rotateY(90)
@@ -103,17 +106,25 @@ public class Matrix4fTest extends TestCase {
                 .perspective(90.0f, 1.0f, 0.1f, 100.0f)
                 .rotateY(90);
         m.frustumRayDir(0, 0, dir);
-        Vector3f expectedDir = new Vector3f(1.0f, -1.0f, -1.0f).normalize();
+        Vector3f expectedDir;
+        expectedDir = new Vector3f(1, -1, -1).normalize();
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(1, 0, dir);
-        expectedDir = new Vector3f(1.0f, -1.0f, 1.0f).normalize();
+        expectedDir = new Vector3f(1, -1, 1).normalize();
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(0, 1, dir);
-        expectedDir = new Vector3f(1.0f, 1.0f, -1.0f).normalize();
+        expectedDir = new Vector3f(1, 1, -1).normalize();
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
         m.frustumRayDir(1, 1, dir);
-        expectedDir = new Vector3f(1.0f, 1.0f, 1.0f).normalize();
+        expectedDir = new Vector3f(1, 1, 1).normalize();
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
+    }
+
+    public void testDirectionOfZ() {
+        Matrix4f m = new Matrix4f().ortho2D(-1, 1, -1, 1);
+        Vector3f z = new Vector3f();
+        m.directionOfZ(z);
+        System.err.println(z);
     }
 
     public void testIsSphereInFrustumPlaneOrtho() {
@@ -124,9 +135,7 @@ public class Matrix4fTest extends TestCase {
 
     public void testIsAabInFrustumPlaneOrtho() {
         Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
-        for (int i = 0; i < 500 * 500; i++)
         Assert.assertTrue(m.isAabInsideFrustum(0, 0, 0, 2, 2, 2));
-        for (int i = 0; i < 500 * 500; i++)
         Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
     }
 

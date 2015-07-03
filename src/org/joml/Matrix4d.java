@@ -5232,11 +5232,9 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d frustumRayDir(double x, double y, Vector3d dir) {
-        double a = m10 * m23, b = m13 * m21, c = m10 * m21, d = m11 * m23;
-        double e = m13 * m20, f = m11 * m20, g = m03 * m20, h = m01 * m23;
-        double i = m01 * m20, j = m03 * m21, k = m00 * m23, l = m00 * m21;
-        double m = m00 * m13, n = m03 * m11, o = m00 * m11, p = m01 * m13;
-        double q = m03 * m10, r = m01 * m10;
+        double a = m10 * m23, b = m13 * m21, c = m10 * m21, d = m11 * m23, e = m13 * m20, f = m11 * m20;
+        double g = m03 * m20, h = m01 * m23, i = m01 * m20, j = m03 * m21, k = m00 * m23, l = m00 * m21;
+        double m = m00 * m13, n = m03 * m11, o = m00 * m11, p = m01 * m13, q = m03 * m10, r = m01 * m10;
         /* Build dir vector using bi-linear interpolation */
         double m1x, m1y, m1z;
         m1x = (f + e - c - b - a + d) * (1.0 - y) + (a - b - c + d - e + f) * y;
