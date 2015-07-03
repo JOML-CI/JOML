@@ -4953,40 +4953,22 @@ public class Matrix4d implements Externalizable {
         for (int i = PLANE_LEFT; i <= PLANE_FAR; i++) {
             switch (i) {
             case PLANE_LEFT:
-                a = m03 + m00;
-                b = m13 + m10;
-                c = m23 + m20;
-                d = m33 + m30;
+                a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
                 break;
             case PLANE_RIGHT:
-                a = m03 - m00;
-                b = m13 - m10;
-                c = m23 - m20;
-                d = m33 - m30;
+                a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
                 break;
             case PLANE_BOTTOM:
-                a = m03 + m01;
-                b = m13 + m11;
-                c = m23 + m21;
-                d = m33 + m31;
+                a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
                 break;
             case PLANE_TOP:
-                a = m03 - m01;
-                b = m13 - m11;
-                c = m23 - m21;
-                d = m33 - m31;
+                a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
                 break;
             case PLANE_NEAR:
-                a = m03 + m02;
-                b = m13 + m12;
-                c = m23 + m22;
-                d = m33 + m32;
+                a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
                 break;
             case PLANE_FAR:
-                a = m03 - m02;
-                b = m13 - m12;
-                c = m23 - m22;
-                d = m33 - m32;
+                a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
                 break;
             default:
                 return false;
@@ -5049,40 +5031,22 @@ public class Matrix4d implements Externalizable {
         for (int i = PLANE_LEFT; i <= PLANE_FAR; i++) {
             switch (i) {
             case PLANE_LEFT:
-                a = m03 + m00;
-                b = m13 + m10;
-                c = m23 + m20;
-                d = m33 + m30;
+                a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
                 break;
             case PLANE_RIGHT:
-                a = m03 - m00;
-                b = m13 - m10;
-                c = m23 - m20;
-                d = m33 - m30;
+                a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
                 break;
             case PLANE_BOTTOM:
-                a = m03 + m01;
-                b = m13 + m11;
-                c = m23 + m21;
-                d = m33 + m31;
+                a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
                 break;
             case PLANE_TOP:
-                a = m03 - m01;
-                b = m13 - m11;
-                c = m23 - m21;
-                d = m33 - m31;
+                a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
                 break;
             case PLANE_NEAR:
-                a = m03 + m02;
-                b = m13 + m12;
-                c = m23 + m22;
-                d = m33 + m32;
+                a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
                 break;
             case PLANE_FAR:
-                a = m03 - m02;
-                b = m13 - m12;
-                c = m23 - m22;
-                d = m33 - m32;
+                a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
                 break;
             default:
                 return false;
@@ -5159,40 +5123,22 @@ public class Matrix4d implements Externalizable {
         for (int i = PLANE_LEFT; i <= PLANE_FAR; i++) {
             switch (i) {
             case PLANE_LEFT:
-                a = m03 + m00;
-                b = m13 + m10;
-                c = m23 + m20;
-                d = m33 + m30;
+                a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
                 break;
             case PLANE_RIGHT:
-                a = m03 - m00;
-                b = m13 - m10;
-                c = m23 - m20;
-                d = m33 - m30;
+                a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
                 break;
             case PLANE_BOTTOM:
-                a = m03 + m01;
-                b = m13 + m11;
-                c = m23 + m21;
-                d = m33 + m31;
+                a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
                 break;
             case PLANE_TOP:
-                a = m03 - m01;
-                b = m13 - m11;
-                c = m23 - m21;
-                d = m33 - m31;
+                a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
                 break;
             case PLANE_NEAR:
-                a = m03 + m02;
-                b = m13 + m12;
-                c = m23 + m22;
-                d = m33 + m32;
+                a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
                 break;
             case PLANE_FAR:
-                a = m03 - m02;
-                b = m13 - m12;
-                c = m23 - m22;
-                d = m33 - m32;
+                a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
                 break;
             default:
                 return false;
@@ -5264,15 +5210,61 @@ public class Matrix4d implements Externalizable {
      * This method assumes that <code>this</code> represents an orthogonal transformation. If this 
      * matrix represents a perspective transformation then it is being treated as an orthographic
      * projection.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
      *          will hold the direction of <tt>+Z</tt>
      * @return this
      */
-    public Matrix4d directionOfZ(Vector3d dir) {
+    public Matrix4d positiveZ(Vector3d dir) {
         dir.x = m10 * m21 - m11 * m20;
-        dir.y = m01 * m20 - m00 * m21;
+        dir.y = m20 * m01 - m21 * m00;
         dir.z = m00 * m11 - m01 * m10;
+        dir.normalize();
+        return this;
+    }
+
+    /**
+     * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method assumes that <code>this</code> represents an orthogonal transformation. If this 
+     * matrix represents a perspective transformation then it is being treated as an orthographic
+     * projection.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return this
+     */
+    public Matrix4d positiveX(Vector3d dir) {
+        dir.x = m11 * m22 - m12 * m21;
+        dir.y = m02 * m21 - m01 * m22;
+        dir.z = m01 * m12 - m02 * m11;
+        dir.normalize();
+        return this;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method assumes that <code>this</code> represents an orthogonal transformation. If this 
+     * matrix represents a perspective transformation then it is being treated as an orthographic
+     * projection.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return this
+     */
+    public Matrix4d positiveY(Vector3d dir) {
+        dir.x = m12 * m20 - m10 * m22;
+        dir.y = m00 * m22 - m02 * m20;
+        dir.z = m02 * m10 - m00 * m12;
         dir.normalize();
         return this;
     }
