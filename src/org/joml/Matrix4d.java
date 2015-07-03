@@ -5206,4 +5206,56 @@ public class Matrix4d implements Externalizable {
         return true;
     }
 
+    /**
+     * Obtain a ray starting at the center of the coordinate system through the near frustum plane.
+     * <p>
+     * This method computes the <code>origin</code> and <code>dir</code> vectors in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * The factors <code>x</code> and <code>y</code> are used to interpolate the generated ray direction
+     * from the bottom-left to the top-right frustum corners.
+     * 
+     * @param x
+     *          the interpolation factor along the left-to-right frustum planes, within <tt>[0..1]</tt>
+     * @param y
+     *          the interpolation factor along the bottom-to-top frustum planes, within <tt>[0..1]</tt>
+     * @param origin
+     *          the ray origin in the local frame of the coordinate system before transforming to homoegenous clipping space using <code>this</code> matrix
+     * @param dir
+     *          the ray direction in the local frame of the coordinate system before transforming to homoegenous clipping space using <code>this</code> matrix
+     */
+    public void frustumRay(double x, double y, Vector3d origin, Vector3d dir) {
+        origin.set(m30, m31, m32);
+        double tlx, tly, tlz;
+        tlx = m10 * m23 - m13 * m21 - m10 * m21 + m23 * m11 - m20 * m13 + m20 * m11;
+        tly = m20 * m03 - m23 * m01 - m20 * m01 + m03 * m21 - m00 * m23 + m00 * m21;
+        tlz = m00 * m13 - m03 * m11 - m00 * m11 + m13 * m01 - m10 * m03 + m10 * m01;
+        double blx, bly, blz;
+        blx = m11 * m20 + m13 * m20 - m10 * m21 - m13 * m21 - m10 * m23 + m11 * m23;
+        bly = m03 * m21 - m01 * m20 - m03 * m20 + m00 * m21 + m00 * m23 - m01 * m23;
+        blz = m01 * m10 + m03 * m10 - m00 * m11 - m03 * m11 - m00 * m13 + m01 * m13;
+        double brx, bry, brz;
+        brx = m11 * m20 + m13 * m20 - m10 * m21 + m13 * m21 - m10 * m23 - m11 * m23;
+        bry = m00 * m21 - m01 * m20 - m03 * m20 - m03 * m21 + m00 * m23 + m01 * m23;
+        brz = m01 * m10 + m03 * m10 - m00 * m11 + m03 * m11 - m00 * m13 - m01 * m13;
+        double trx, trY, trz;
+        trx = m13 * m21 - m13 * m20 - m10 * m21 + m11 * m20 - m11 * m23 + m10 * m23;
+        trY = m00 * m21 - m01 * m20 + m03 * m20 - m03 * m21 - m00 * m23 + m01 * m23;
+        trz = m01 * m10 - m03 * m10 - m00 * m11 + m03 * m11 + m00 * m13 - m01 * m13;
+        /* Build dir vector using bi-linear interpolation */
+        double m1x, m1y, m1z;
+        m1x = blx * (1.0 - y) + tlx * y;
+        m1y = bly * (1.0 - y) + tly * y;
+        m1z = blz * (1.0 - y) + tlz * y;
+        double m2x, m2y, m2z;
+        m2x = brx * (1.0 - y) + trx * y;
+        m2y = bry * (1.0 - y) + trY * y;
+        m2z = brz * (1.0 - y) + trz * y;
+        dir.x = m1x * (1.0 - x) + m2x * x;
+        dir.y = m1y * (1.0 - x) + m2y * x;
+        dir.z = m1z * (1.0 - x) + m2z * x;
+        dir.normalize();
+    }
+
 }
