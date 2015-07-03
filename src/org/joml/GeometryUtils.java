@@ -37,11 +37,11 @@ public class GeometryUtils {
      * <p>
      * Generally, this method computes the frustum planes in the local frame of
      * any coordinate system that existed before the given <code>mvp</code>
-     * transformation was applied to it to yield homogeneous clipping space.
+     * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * Each of the six planes <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code>
      * are given in plane equations:
-     * <tt>a*x + b*y + c*z + d = 0</tt>, where the {@link Vector4f} components
+     * <tt>a*x + b*y + c*z + d = 0</tt>, where the given {@link Vector4f} components will
      * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
      * All plane equations will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector.
      * <p>
@@ -103,11 +103,11 @@ public class GeometryUtils {
      * <p>
      * Generally, this method computes the frustum planes in the local frame of
      * any coordinate system that existed before the given <code>mvp</code>
-     * transformation was applied to it to yield homogeneous clipping space.
+     * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * Each of the six planes <code>left</code>, <code>right</code>, <code>bottom</code>, <code>top</code>, <code>near</code> and <code>far</code>
      * are given in plane equations:
-     * <tt>a*x + b*y + c*z + d = 0</tt>, where the {@link Vector4d} components
+     * <tt>a*x + b*y + c*z + d = 0</tt>, where the given {@link Vector4d} components will
      * hold the <tt>(a, b, c, d)</tt> values of each plane equation.
      * All plane equations will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector.
      * <p>

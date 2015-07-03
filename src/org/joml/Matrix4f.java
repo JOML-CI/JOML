@@ -4873,16 +4873,16 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Calculate a frustum plane of the this matrix, which
+     * Calculate a frustum plane of <code>this</code> matrix, which
      * can be a projection matrix or a combined modelview-projection matrix, and store the result
      * in the given <code>planeEquation</code>.
      * <p>
      * Generally, this method computes the frustum plane in the local frame of
      * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it to yield homogeneous clipping space.
+     * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * The frustum plane will the will be given in the form of a general plane equation:
-     * <tt>a*x + b*y + c*z + d = 0</tt>, where the {@link Vector4f} components
+     * The frustum plane will be given in the form of a general plane equation:
+     * <tt>a*x + b*y + c*z + d = 0</tt>, where the given {@link Vector4f} components will
      * hold the <tt>(a, b, c, d)</tt> values of the equation.
      * <p>
      * The plane normal, which is <tt>(a, b, c)</tt>, is directed "inwards" of the frustum.
@@ -4921,6 +4921,133 @@ public class Matrix4f implements Externalizable {
             throw new IllegalArgumentException("plane"); //$NON-NLS-1$
         }
         return this;
+    }
+
+    /**
+     * Determine whether the given point, specified as <tt>(x, y, z, _)</tt> vector, is within the viewing frustum
+     * defined by <code>this</code> matrix. The vector's <tt>w</tt> component is ignored by this method.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * If multiple points are to be tested on the same frustum, the frustum planes should be computed first using 
+     * {@link #frustumPlane(int, Vector4f)} and then tested against the spheres, instead of using this method.
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * 
+     * @param point
+     *          the point to test
+     * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
+     */
+    public boolean isPointInsideFrustum(Vector4f point) {
+        // save the point components
+        float px = point.x;
+        float py = point.y;
+        float pz = point.z;
+        float pw = point.w;
+        for (int i = PLANE_LEFT; i <= PLANE_FAR; i++) {
+            // store plane equation into point
+            frustumPlane(i, point);
+            if (px * point.x + py * point.y + pz * point.z + point.w < 0) {
+                // restore the point components
+                point.set(px, py, pz, pw);
+                return false;
+            }
+        }
+        // restore the point components
+        point.set(px, py, pz, pw);
+        return true;
+    }
+
+    /**
+     * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> matrix.
+     * The vector's <tt>(x, y, z)</tt> components are the sphere's center and its
+     * <tt>w</tt> component is the sphere's radius.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * If multiple spheres are to be tested on the same frustum, the frustum planes should be computed first using 
+     * {@link #frustumPlane(int, Vector4f)} and then tested against the spheres, instead of using this method.
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * 
+     * @param point
+     *          the sphere to test. It is specified as <tt>(center.x, center.y, center.z, radius)</tt>
+     * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
+     *         <code>false</code> otherwise
+     */
+    public boolean isSphereInsideFrustum(Vector4f centerAndRadius) {
+        // save the components
+        float px = centerAndRadius.x;
+        float py = centerAndRadius.y;
+        float pz = centerAndRadius.z;
+        float pw = centerAndRadius.w;
+        for (int i = PLANE_LEFT; i <= PLANE_FAR; i++) {
+            // store plane equation into point
+            frustumPlane(i, centerAndRadius);
+            if (px * centerAndRadius.x + py * centerAndRadius.y + pz * centerAndRadius.z + centerAndRadius.w < -pw) {
+                // restore the components
+                centerAndRadius.set(px, py, pz, pw);
+                return false;
+            }
+        }
+        // restore the components
+        centerAndRadius.set(px, py, pz, pw);
+        return true;
+    }
+
+    /**
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix.
+     * The box is specified via its <tt>min=(x, y, z, _)</tt> and <tt>max=(x, y, z, _)</tt> corner coordinates. The
+     * <tt>w</tt> coordinate of both corners is not used by this method.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
+     * {@link #frustumPlane(int, Vector4f)} and then tested against the boxes, instead of using this method.
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * 
+     * @param min
+     *          the minimum corner coordinates of the axis-aligned box
+     * @param max
+     *          the maximum corner coordinates of the axis-aligned box
+     * @return <code>true</code> if the given axis-aligned box is partly or completely inside the clipping frustum;
+     *         <code>false</code> otherwise
+     */
+    public boolean isAabInsideFrustum(Vector4f min, Vector4f max) {
+        // save the components
+        float minx = min.x;
+        float miny = min.y;
+        float minz = min.z;
+        float minw = min.w;
+        // compute box's center
+        float cx = (max.x + min.x) / 2.0f;
+        float cy = (max.y + min.y) / 2.0f;
+        float cz = (max.z + min.z) / 2.0f;
+        // compute box's half-size
+        float hx = (max.x - min.x) / 2.0f;
+        float hy = (max.y - min.y) / 2.0f;
+        float hz = (max.z - min.z) / 2.0f;
+        for (int i = PLANE_LEFT; i <= PLANE_FAR; i++) {
+            // store plane equation into min
+            frustumPlane(i, min);
+            float m = cx * min.x + cy * min.y + cz * min.z + min.w;
+            float n = hx * Math.abs(min.x) + hy * Math.abs(min.y) + hz * Math.abs(min.z);
+            if (m + n < 0) {
+                // restore the components
+                min.set(minx, miny, minz, minw);
+                return false;
+            }
+        }
+        // restore the components
+        min.set(minx, miny, minz, minw);
+        return true;
     }
 
 }
