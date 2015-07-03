@@ -61,7 +61,7 @@ public class GeometryUtils {
      */
     public static void calculateFrustumPlanes(Matrix4f mvp, Vector4f[] planes) {
         if (planes == null || planes.length < 6) {
-            throw new IllegalArgumentException("planes must not be null and must have a length of at least 6");
+            throw new IllegalArgumentException("planes must not be null and must have a length of at least 6"); //$NON-NLS-1$
         }
         calculateFrustumPlanes(mvp, planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]);
     }
@@ -97,7 +97,7 @@ public class GeometryUtils {
      */
     public static void calculateFrustumPlanes(Matrix4d mvp, Vector4d[] planes) {
         if (planes == null || planes.length < 6) {
-            throw new IllegalArgumentException("planes must not be null and must have a length of at least 6");
+            throw new IllegalArgumentException("planes must not be null and must have a length of at least 6"); //$NON-NLS-1$
         }
         calculateFrustumPlanes(mvp, planes[0], planes[1], planes[2], planes[3], planes[4], planes[5]);
     }

@@ -5257,17 +5257,19 @@ public class Matrix4d implements Externalizable {
      * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method assumes that <code>this</code> represents an orthogonal transformation.
+     * This method assumes that <code>this</code> represents an orthogonal transformation. If this 
+     * matrix represents a perspective transformation then it is being treated as an orthographic
+     * projection.
      * 
      * @param dir
      *          will hold the direction of <tt>+Z</tt>
      * @return this
      */
     public Matrix4d directionOfZ(Vector3d dir) {
-        dir.x = (m11 * m20 - m10 * m21);
-        dir.y = (m00 * m21 - m01 * m20);
-        dir.z = (m01 * m10 - m00 * m11);
-        dir.negate().normalize();
+        dir.x = m10 * m21 - m11 * m20;
+        dir.y = m01 * m20 - m00 * m21;
+        dir.z = m00 * m11 - m01 * m10;
+        dir.normalize();
         return this;
     }
 
