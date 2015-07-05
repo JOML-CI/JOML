@@ -14,7 +14,6 @@
       <h1 class="project-name">Joml</h1>
       <h2 class="project-tagline">A Java-based math library for OpenGL rendering calculations</h2>
       <a href="https://github.com/JOML-CI/JOML" class="btn">View on GitHub</a>
-      <a href="apidocs/index.html" class="btn">View JavaDocs</a>
       <a href="https://github.com/JOML-CI/JOML/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/JOML-CI/JOML/tarball/master" class="btn">Download .tar.gz</a>
     </section>
@@ -60,7 +59,7 @@ and then translates x by 2.0:</p>
 <div class="highlight highlight-Java"><pre><span class="pl-smi">Vector3f</span> center <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">0.0f</span>, <span class="pl-c1">3.0f</span>, <span class="pl-c1">4.0f</span>);
 <span class="pl-smi">Vector3f</span> pointToRotate <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">0.0f</span>, <span class="pl-c1">4.0f</span>, <span class="pl-c1">4.0f</span>);
 <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()<span class="pl-k">.</span>translate(center)
-              .rotate(<span class="pl-c1">90.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>)
+              .rotate((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">90.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>)
               .translate(center<span class="pl-k">.</span>negate())
               .transform(pointToRotate);</pre></div>
 
@@ -92,7 +91,7 @@ These methods are useful when the same matrix is being used in a sequence of con
 Those methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):</p>
 
 <div class="highlight highlight-Java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()
-     .perspective(<span class="pl-c1">45.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
+     .perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
      .lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">10.0f</span>,
              <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
              <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>);
@@ -108,7 +107,7 @@ This can be useful for computing the view-projection matrix and its inverse in o
 
 <div class="highlight highlight-Java"><pre><span class="pl-smi">Matrix4f</span> viewProj <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
 <span class="pl-smi">Matrix4f</span> invViewProj <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
-viewProj<span class="pl-k">.</span>perspective(<span class="pl-c1">45.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
+viewProj<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
         .lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">3.0f</span>,
                 <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
                 <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>)
@@ -136,10 +135,10 @@ Now, because the context after this call is still <em>q1</em>, the <em>with()</e
 
 <div class="highlight highlight-Java"><pre><span class="pl-smi">Matrix4f</span> proj <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
 <span class="pl-smi">Matrix4f</span> view <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
-<span class="pl-smi">Matrix4f</span><span class="pl-k">.</span>With(proj)<span class="pl-k">.</span>perspective(<span class="pl-c1">45.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
-        .with(view)<span class="pl-k">.</span>lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">5.0f</span>,
-                           <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
-                           <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>);</pre></div>
+proj<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
+    .with(view)<span class="pl-k">.</span>lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">5.0f</span>,
+                       <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
+                       <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>);</pre></div>
 
 <h2>
 <a id="using-with-lwjgl" class="anchor" href="#using-with-lwjgl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using with <a href="https://github.com/LWJGL/lwjgl3">LWJGL</a>
@@ -148,7 +147,7 @@ Now, because the context after this call is still <em>q1</em>, the <em>with()</e
 <p>JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:</p>
 
 <div class="highlight highlight-Java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
-<span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()<span class="pl-k">.</span>perspective(<span class="pl-c1">45.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
+<span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
               .lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">10.0f</span>,
                       <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
                       <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>)
@@ -161,7 +160,7 @@ glUniformMatrix4fv(mat4Location, <span class="pl-c1">false</span>, fb);</pre></d
 
 <div class="highlight highlight-Java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
 <span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
-m<span class="pl-k">.</span>setPerspective(<span class="pl-c1">45.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)<span class="pl-k">.</span>get(fb);
+m<span class="pl-k">.</span>setPerspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)<span class="pl-k">.</span>get(fb);
 glMatrixMode(<span class="pl-c1">GL_PROJECTION</span>);
 glLoadMatrixf(fb);
 m<span class="pl-k">.</span>setLookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">10.0f</span>,
@@ -192,7 +191,7 @@ glLoadMatrixf(fb);</pre></div>
   <span class="pl-c1">...</span>
   <span class="pl-c">// compute view-projection matrix</span>
   m<span class="pl-k">.</span>identity()
-   .perspective(<span class="pl-c1">45.0f</span>, (<span class="pl-k">float</span>)width<span class="pl-k">/</span>height, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
+   .perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), (<span class="pl-k">float</span>)width<span class="pl-k">/</span>height, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
    .lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">10.0f</span>,
            <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
            <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>);
@@ -229,7 +228,7 @@ s<span class="pl-k">.</span>pushMatrix();
   <span class="pl-c">// do something with result</span>
 }
 s<span class="pl-k">.</span>popMatrix();
-s<span class="pl-k">.</span>rotate(<span class="pl-c1">45.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>);
+s<span class="pl-k">.</span>rotate((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>);
 s<span class="pl-k">.</span>get(result);
 <span class="pl-c">// do something with result</span></pre></div>
 
