@@ -41,7 +41,7 @@ Common transformation idioms, such as rotating about a given axis using a specif
 Vector3f center = new Vector3f(0.0f, 3.0f, 4.0f);
 Vector3f pointToRotate = new Vector3f(0.0f, 4.0f, 4.0f);
 new Matrix4f().translate(center)
-              .rotate(90.0f, 1.0f, 0.0f, 0.0f)
+              .rotate((float) Math.toRadians(90.0f), 1.0f, 0.0f, 0.0f)
               .translate(center.negate())
               .transform(pointToRotate);
 ```
@@ -72,7 +72,7 @@ In the same way that you can concatenate multiple simple affine transformations,
 Those methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):
 ```Java
 Matrix4f m = new Matrix4f()
-     .perspective(45.0f, 1.0f, 0.01f, 100.0f)
+     .perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
      .lookAt(0.0f, 0.0f, 10.0f,
              0.0f, 0.0f, 0.0f,
              0.0f, 1.0f, 0.0f);
@@ -87,7 +87,7 @@ This can be useful for computing the view-projection matrix and its inverse in o
 ```Java
 Matrix4f viewProj = new Matrix4f();
 Matrix4f invViewProj = new Matrix4f();
-viewProj.perspective(45.0f, 1.0f, 0.01f, 100.0f)
+viewProj.perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
         .lookAt(0.0f, 1.0f, 3.0f,
                 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f, 0.0f)
@@ -115,7 +115,7 @@ Using the same method you can also specify both the view and projection matrices
 ```Java
 Matrix4f proj = new Matrix4f();
 Matrix4f view = new Matrix4f();
-proj.perspective(45.0f, 1.0f, 0.01f, 100.0f)
+proj.perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
     .with(view).lookAt(0.0f, 1.0f, 5.0f,
                        0.0f, 0.0f, 0.0f,
                        0.0f, 1.0f, 0.0f);
@@ -126,7 +126,7 @@ Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
 JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
-new Matrix4f().perspective(45.0f, 1.0f, 0.01f, 100.0f)
+new Matrix4f().perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
               .lookAt(0.0f, 0.0f, 10.0f,
                       0.0f, 0.0f, 0.0f,
                       0.0f, 1.0f, 0.0f)
@@ -139,7 +139,7 @@ If you prefer not to use shaders but the fixed-function pipeline and want to use
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f();
-m.setPerspective(45.0f, 1.0f, 0.01f, 100.0f).get(fb);
+m.setPerspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f).get(fb);
 glMatrixMode(GL_PROJECTION);
 glLoadMatrixf(fb);
 m.setLookAt(0.0f, 0.0f, 10.0f,
@@ -171,7 +171,7 @@ void frame() {
   ...
   // compute view-projection matrix
   m.identity()
-   .perspective(45.0f, (float)width/height, 0.01f, 100.0f)
+   .perspective((float) Math.toRadians(45.0f), (float)width/height, 0.01f, 100.0f)
    .lookAt(0.0f, 0.0f, 10.0f,
            0.0f, 0.0f, 0.0f,
            0.0f, 1.0f, 0.0f);
@@ -206,7 +206,7 @@ s.pushMatrix();
   // do something with result
 }
 s.popMatrix();
-s.rotate(45.0f, 0.0f, 0.0f, 1.0f);
+s.rotate((float) Math.toRadians(45.0f), 0.0f, 0.0f, 1.0f);
 s.get(result);
 // do something with result
 ```
