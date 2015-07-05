@@ -30,7 +30,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * Represents a 3D rotation of a given degree about an axis represented as an
+ * Represents a 3D rotation of a given radians about an axis represented as an
  * unit 3D vector.
  * 
  * @author Kai Burjack
@@ -40,7 +40,7 @@ public class AxisAngle4f implements Externalizable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The angle in degrees.
+     * The angle in radians.
      */
     public float angle;
     /**
@@ -73,7 +73,7 @@ public class AxisAngle4f implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 360.0f + a.angle % 360.0f : a.angle) % 360.0f;
+        angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
     }
 
     /**
@@ -92,14 +92,14 @@ public class AxisAngle4f implements Externalizable {
         this.x = q.x / sqrt;
         this.y = q.y / sqrt;
         this.z = q.z / sqrt;
-        this.angle = (float) Math.toDegrees(2.0 * acos);
+        this.angle = (float) 2.0 * acos;
     }
 
     /**
      * Create a new {@link AxisAngle4f} with the given values.
      *
      * @param angle
-     *            the angle in degrees
+     *            the angle in radians
      * @param x
      *            the x-coordinate of the rotation axis
      * @param y
@@ -125,7 +125,7 @@ public class AxisAngle4f implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 360.0f + a.angle % 360.0f : a.angle) % 360.0f;
+        angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
         return this;
     }
 
@@ -146,7 +146,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = (angle < 0.0 ? 360.0f + angle % 360.0f : angle) % 360.0f;
+        this.angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
         return this;
     }
 
@@ -164,7 +164,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = (float) (q.x / sqrt);
         this.y = (float) (q.y / sqrt);
         this.z = (float) (q.z / sqrt);
-        this.angle = (float) Math.toDegrees(2.0f * acos);
+        this.angle = (float) (2.0f * acos);
         return this;
     }
 
@@ -182,7 +182,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = (float) (q.x / sqrt);
         this.y = (float) (q.y / sqrt);
         this.z = (float) (q.z / sqrt);
-        this.angle = (float) Math.toDegrees(2.0f * acos);
+        this.angle = (float) (2.0f * acos);
         return this;
     }
 
@@ -200,7 +200,7 @@ public class AxisAngle4f implements Externalizable {
         y = m.m20 - m.m02;
         z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = (float) Math.toDegrees(Math.atan2(sin, cos));
+        angle = (float) Math.atan2(sin, cos);
         return this;
     }
 
@@ -218,7 +218,7 @@ public class AxisAngle4f implements Externalizable {
         y = (float) (m.m20 - m.m02);
         z = (float) (m.m01 - m.m10);
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = (float) Math.toDegrees(Math.atan2(sin, cos));
+        angle = (float) Math.atan2(sin, cos);
         return this;
     }
 
@@ -236,7 +236,7 @@ public class AxisAngle4f implements Externalizable {
         y = m.m20 - m.m02;
         z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = (float) Math.toDegrees(Math.atan2(sin, cos));
+        angle = (float) Math.atan2(sin, cos);
         return this;
     }
 
@@ -254,7 +254,7 @@ public class AxisAngle4f implements Externalizable {
         y = (float) (m.m20 - m.m02);
         z = (float) (m.m01 - m.m10);
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = (float) Math.toDegrees(Math.atan2(sin, cos));
+        angle = (float) Math.atan2(sin, cos);
         return this;
     }
 
@@ -380,7 +380,7 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f rotate(float ang) {
         angle += ang;
-        angle = (angle < 0.0 ? 360.0f + angle % 360.0f : angle) % 360.0f;
+        angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
         return this;
     }
 
@@ -406,8 +406,8 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f transform(Vector3f v, Vector3f dest) {
-        double cos = Math.cos(Math.toRadians(angle));
-        double sin = Math.sin(Math.toRadians(angle));
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
         float dot = x * v.x + y * v.y + z * v.z;
         dest.set((float) (v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x),
                  (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
@@ -437,8 +437,8 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f transform(Vector4f v, Vector4f dest) {
-        double cos = Math.cos(Math.toRadians(angle));
-        double sin = Math.sin(Math.toRadians(angle));
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
         float dot = x * v.x + y * v.y + z * v.z;
         dest.set((float) (v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x),
                  (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
@@ -473,7 +473,7 @@ public class AxisAngle4f implements Externalizable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        float nangle = (angle < 0.0 ? 360.0f + angle % 360.0f : angle) % 360.0f;
+        float nangle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
         result = prime * result + Float.floatToIntBits(nangle);
         result = prime * result + Float.floatToIntBits(x);
         result = prime * result + Float.floatToIntBits(y);
@@ -489,8 +489,8 @@ public class AxisAngle4f implements Externalizable {
         if (getClass() != obj.getClass())
             return false;
         AxisAngle4f other = (AxisAngle4f) obj;
-        float nangle = (angle < 0.0 ? 360.0f + angle % 360.0f : angle) % 360.0f;
-        float nangleOther = (other.angle < 0.0 ? 360.0f + other.angle % 360.0f : other.angle) % 360.0f;
+        float nangle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        float nangleOther = (float) ((other.angle < 0.0 ? 2.0 * Math.PI + other.angle % (2.0 * Math.PI) : other.angle) % (2.0 * Math.PI));
         if (Float.floatToIntBits(nangle) != Float.floatToIntBits(nangleOther))
             return false;
         if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))

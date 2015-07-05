@@ -187,7 +187,7 @@ public class Matrix3d implements Externalizable {
         double x = axisAngle.x;
         double y = axisAngle.y;
         double z = axisAngle.z;
-        double angle = Math.toRadians(axisAngle.angle);
+        double angle = axisAngle.angle;
         double n = Math.sqrt(x*x + y*y + z*z);
         x /= n;
         y /= n;
@@ -1030,7 +1030,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
+     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
@@ -1041,7 +1041,7 @@ public class Matrix3d implements Externalizable {
      * @see #rotate(double, Vector3d)
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param axis
      *          the axis to rotate about (needs to be {@link Vector3d#normalize() normalized})
      * @return this
@@ -1072,7 +1072,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
+     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -1087,7 +1087,7 @@ public class Matrix3d implements Externalizable {
      * @see #rotate(double, double, double, double)
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param x
      *          the x-component of the rotation axis
      * @param y
@@ -1097,8 +1097,8 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d rotation(double angle, double x, double y, double z) {
-        double cos = Math.cos(Math.toRadians(angle));
-        double sin = Math.sin(Math.toRadians(angle));
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
         double C = 1.0 - cos;
         m00 = cos + x * x * C;
         m10 = x * y * C - z * sin;
@@ -1118,12 +1118,12 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix3d rotationX(double ang) {
-        double cos = Math.cos(Math.toRadians(ang));
-        double sin = Math.sin(Math.toRadians(ang));
+        double cos = Math.cos(ang);
+        double sin = Math.sin(ang);
         m00 = 1.0;
         m01 = 0.0;
         m02 = 0.0;
@@ -1142,12 +1142,12 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix3d rotationY(double ang) {
-        double cos = Math.cos(Math.toRadians(ang));
-        double sin = Math.sin(Math.toRadians(ang));
+        double cos = Math.cos(ang);
+        double sin = Math.sin(ang);
         m00 = cos;
         m01 = 0.0;
         m02 = -sin;
@@ -1166,12 +1166,12 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix3d rotationZ(double ang) {
-        double cos = Math.cos(Math.toRadians(ang));
-        double sin = Math.sin(Math.toRadians(ang));
+        double cos = Math.cos(ang);
+        double sin = Math.sin(ang);
         m00 = cos;
         m01 = sin;
         m02 = 0.0;
@@ -1277,7 +1277,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees
+     * Apply rotation about the X axis to this matrix by rotating the given amount of radians
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1288,14 +1288,14 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param dest
      *            will hold the result
      * @return this
      */
     public Matrix3d rotateX(double ang, Matrix3d dest) {
-        double cos = Math.cos(Math.toRadians(ang));
-        double sin = Math.sin(Math.toRadians(ang));
+        double cos = Math.cos(ang);
+        double sin = Math.sin(ang);
         double rm11 = cos;
         double rm21 = -sin;
         double rm12 = sin;
@@ -1321,7 +1321,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees.
+     * Apply rotation about the X axis to this matrix by rotating the given amount of radians.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1331,7 +1331,7 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix3d rotateX(double ang) {
@@ -1339,7 +1339,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of radians
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1350,14 +1350,14 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param dest
      *            will hold the result
      * @return this
      */
     public Matrix3d rotateY(double ang, Matrix3d dest) {
-        double cos = Math.cos(Math.toRadians(ang));
-        double sin = Math.sin(Math.toRadians(ang));
+        double cos = Math.cos(ang);
+        double sin = Math.sin(ang);
         double rm00 = cos;
         double rm20 = sin;
         double rm02 = -sin;
@@ -1383,7 +1383,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees.
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of radians.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1393,7 +1393,7 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix3d rotateY(double ang) {
@@ -1401,7 +1401,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of radians
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1412,14 +1412,14 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param dest
      *            will hold the result
      * @return this
      */
     public Matrix3d rotateZ(double ang, Matrix3d dest) {
-        double cos = Math.cos(Math.toRadians(ang));
-        double sin = Math.sin(Math.toRadians(ang));
+        double cos = Math.cos(ang);
+        double sin = Math.sin(ang);
         double rm00 = cos;
         double rm10 = -sin;
         double rm01 = sin;
@@ -1445,7 +1445,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees.
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of radians.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1455,7 +1455,7 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix3d rotateZ(double ang) {
@@ -1463,7 +1463,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation to this matrix by rotating the given amount of degrees
+     * Apply rotation to this matrix by rotating the given amount of radians
      * about the given axis specified as x, y and z components.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1474,7 +1474,7 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param x
      *            the x component of the axis
      * @param y
@@ -1488,7 +1488,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation to this matrix by rotating the given amount of degrees
+     * Apply rotation to this matrix by rotating the given amount of radians
      * about the given axis specified as x, y and z components, and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1499,7 +1499,7 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param x
      *            the x component of the axis
      * @param y
@@ -1511,8 +1511,8 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d rotate(double ang, double x, double y, double z, Matrix3d dest) {
-        double s = Math.sin(Math.toRadians(ang));
-        double c = Math.cos(Math.toRadians(ang));
+        double s = Math.sin(ang);
+        double c = Math.cos(ang);
         double C = 1.0 - c;
 
         // rotation matrix elements:
@@ -1685,7 +1685,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation, rotating the given degree about the specified axis, to this matrix.
+     * Apply a rotation transformation, rotating the given radians about the specified axis, to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle and axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a
@@ -1701,7 +1701,7 @@ public class Matrix3d implements Externalizable {
      * @see #rotation(double, Vector3d)
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param axis
      *          the rotation axis (needs to be {@link Vector3d#normalize() normalized})
      * @return this
@@ -1711,7 +1711,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation, rotating the given degree about the specified axis and store the result in <code>dest</code>.
+     * Apply a rotation transformation, rotating the given radians about the specified axis and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given axis and angle,
      * then the new matrix will be <code>M * A</code>. So when transforming a
@@ -1727,7 +1727,7 @@ public class Matrix3d implements Externalizable {
      * @see #rotation(double, Vector3d)
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param axis
      *          the rotation axis (needs to be {@link Vector3d#normalize() normalized})
      * @param dest

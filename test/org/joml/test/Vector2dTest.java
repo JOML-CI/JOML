@@ -1,6 +1,7 @@
 package org.joml.test;
 
 import junit.framework.TestCase;
+
 import org.joml.*;
 
 /**
@@ -16,9 +17,9 @@ public class Vector2dTest extends TestCase {
 		double angle = testVec1.angle(testVec1);
 		assertEquals(0, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
 		
-		// angle(v, -v) should give 180
+		// angle(v, -v) should give Math.PI
 		testVec1.negate(testVec2);
 		angle = testVec1.angle(testVec2);
-		assertEquals(180.0, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
+		assertEquals(Math.PI, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
 	}
 }

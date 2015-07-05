@@ -310,7 +310,7 @@ public class Matrix4f implements Externalizable {
         float x = axisAngle.x;
         float y = axisAngle.y;
         float z = axisAngle.z;
-        double angle = Math.toRadians(axisAngle.angle);
+        double angle = axisAngle.angle;
         double n = Math.sqrt(x*x + y*y + z*z);
         n = 1/n;
         x *= n;
@@ -1236,7 +1236,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
+     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
@@ -1247,7 +1247,7 @@ public class Matrix4f implements Externalizable {
      * @see #rotate(float, Vector3f)
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param axis
      *          the axis to rotate about (needs to be {@link Vector3f#normalize() normalized})
      * @return this
@@ -1278,7 +1278,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given degrees about a given axis.
+     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -1293,7 +1293,7 @@ public class Matrix4f implements Externalizable {
      * @see #rotate(float, float, float, float)
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param x
      *          the x-component of the rotation axis
      * @param y
@@ -1303,8 +1303,8 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotation(float angle, float x, float y, float z) {
-        float cos = (float) Math.cos(Math.toRadians(angle));
-        float sin = (float) Math.sin(Math.toRadians(angle));
+        float cos = (float) Math.cos(angle);
+        float sin = (float) Math.sin(angle);
         float C = 1.0f - cos;
         m00 = cos + x * x * C;
         m10 = x * y * C - z * sin;
@@ -1331,12 +1331,12 @@ public class Matrix4f implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix4f rotationX(float ang) {
-        float cos = (float) Math.cos(Math.toRadians(ang));
-        float sin = (float) Math.sin(Math.toRadians(ang));
+        float cos = (float) Math.cos(ang);
+        float sin = (float) Math.sin(ang);
         m00 = 1.0f;
         m01 = 0.0f;
         m02 = 0.0f;
@@ -1362,12 +1362,12 @@ public class Matrix4f implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix4f rotationY(float ang) {
-        float cos = (float) Math.cos(Math.toRadians(ang));
-        float sin = (float) Math.sin(Math.toRadians(ang));
+        float cos = (float) Math.cos(ang);
+        float sin = (float) Math.sin(ang);
         m00 = cos;
         m01 = 0.0f;
         m02 = -sin;
@@ -1393,12 +1393,12 @@ public class Matrix4f implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix4f rotationZ(float ang) {
-        float cos = (float) Math.cos(Math.toRadians(ang));
-        float sin = (float) Math.sin(Math.toRadians(ang));
+        float cos = (float) Math.cos(ang);
+        float sin = (float) Math.sin(ang);
         m00 = cos;
         m01 = sin;
         m02 = 0.0f;
@@ -1708,7 +1708,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees 
+     * Apply rotation about the X axis to this matrix by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1719,14 +1719,14 @@ public class Matrix4f implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param dest
      *            will hold the result
      * @return this
      */
     public Matrix4f rotateX(float ang, Matrix4f dest) {
-        float cos = (float) Math.cos(Math.toRadians(ang));
-        float sin = (float) Math.sin(Math.toRadians(ang));
+        float cos = (float) Math.cos(ang);
+        float sin = (float) Math.sin(ang);
         float rm11 = cos;
         float rm12 = sin;
         float rm21 = -sin;
@@ -1759,7 +1759,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply rotation about the X axis to this matrix by rotating the given amount of degrees.
+     * Apply rotation about the X axis to this matrix by rotating the given amount of radians.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1769,7 +1769,7 @@ public class Matrix4f implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix4f rotateX(float ang) {
@@ -1777,7 +1777,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees 
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1788,14 +1788,14 @@ public class Matrix4f implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param dest
      *            will hold the result
      * @return this
      */
     public Matrix4f rotateY(float ang, Matrix4f dest) {
-        float cos = (float) Math.cos(Math.toRadians(ang));
-        float sin = (float) Math.sin(Math.toRadians(ang));
+        float cos = (float) Math.cos(ang);
+        float sin = (float) Math.sin(ang);
         float rm00 = cos;
         float rm02 = -sin;
         float rm20 = sin;
@@ -1828,7 +1828,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply rotation about the Y axis to this matrix by rotating the given amount of degrees.
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of radians.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1838,7 +1838,7 @@ public class Matrix4f implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix4f rotateY(float ang) {
@@ -1846,7 +1846,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees 
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
@@ -1857,14 +1857,14 @@ public class Matrix4f implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param dest
      *            will hold the result
      * @return this
      */
     public Matrix4f rotateZ(float ang, Matrix4f dest) {
-        float cos = (float) Math.cos(Math.toRadians(ang));
-        float sin = (float) Math.sin(Math.toRadians(ang));
+        float cos = (float) Math.cos(ang);
+        float sin = (float) Math.sin(ang);
         float rm00 = cos;
         float rm01 = sin;
         float rm10 = -sin;
@@ -1897,7 +1897,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply rotation about the Z axis to this matrix by rotating the given amount of degrees.
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of radians.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1907,7 +1907,7 @@ public class Matrix4f implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @return this
      */
     public Matrix4f rotateZ(float ang) {
@@ -1915,7 +1915,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply rotation to this matrix by rotating the given amount of degrees
+     * Apply rotation to this matrix by rotating the given amount of radians
      * about the given axis specified as x, y and z components and store the result in <code>dest</code>.
      * <p>
      * The axis described by the three components needs to be a unit vector.
@@ -1933,7 +1933,7 @@ public class Matrix4f implements Externalizable {
      * @see #rotation(float, float, float, float)
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param x
      *            the x component of the axis
      * @param y
@@ -1945,8 +1945,8 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotate(float ang, float x, float y, float z, Matrix4f dest) {
-        float s = (float) Math.sin(Math.toRadians(ang));
-        float c = (float) Math.cos(Math.toRadians(ang));
+        float s = (float) Math.sin(ang);
+        float c = (float) Math.cos(ang);
         float C = 1.0f - c;
 
         // rotation matrix elements:
@@ -1994,7 +1994,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply rotation to this matrix by rotating the given amount of degrees
+     * Apply rotation to this matrix by rotating the given amount of radians
      * about the given axis specified as x, y and z components.
      * <p>
      * The axis described by the three components needs to be a unit vector.
@@ -2012,7 +2012,7 @@ public class Matrix4f implements Externalizable {
      * @see #rotation(float, float, float, float)
      * 
      * @param ang
-     *            the angle in degrees
+     *            the angle in radians
      * @param x
      *            the x component of the axis
      * @param y
@@ -3229,7 +3229,7 @@ public class Matrix4f implements Externalizable {
      * @see #setPerspective(float, float, float, float)
      * 
      * @param fovy
-     *            the vertical field of view in degrees
+     *            the vertical field of view in radians
      * @param aspect
      *            the aspect ratio (i.e. width / height)
      * @param zNear
@@ -3241,7 +3241,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, Matrix4f dest) {
-        float h = (float) Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
+        float h = (float) Math.tan(fovy * 0.5f) * zNear;
         float w = h * aspect;
 
         // calculate right matrix elements
@@ -3294,7 +3294,7 @@ public class Matrix4f implements Externalizable {
      * @see #setPerspective(float, float, float, float)
      * 
      * @param fovy
-     *            the vertical field of view in degrees
+     *            the vertical field of view in radians
      * @param aspect
      *            the aspect ratio (i.e. width / height)
      * @param zNear
@@ -3321,7 +3321,7 @@ public class Matrix4f implements Externalizable {
      * @see #perspective(float, float, float, float)
      * 
      * @param fovy
-     *            the vertical field of view in degrees
+     *            the vertical field of view in radians
      * @param aspect
      *            the aspect ratio (i.e. width / height)
      * @param zNear
@@ -3331,7 +3331,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar) {
-        float h = (float) Math.tan(Math.toRadians(fovy) * 0.5f) * zNear;
+        float h = (float) Math.tan(fovy * 0.5f) * zNear;
         float w = h * aspect;
         m00 = zNear / w;
         m01 = 0.0f;
@@ -3644,7 +3644,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation, rotating the given degree about the specified axis, to this matrix.
+     * Apply a rotation transformation, rotating the given radians about the specified axis, to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
      * then the new matrix will be <code>M * A</code>. So when transforming a
@@ -3660,7 +3660,7 @@ public class Matrix4f implements Externalizable {
      * @see #rotation(float, Vector3f)
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param axis
      *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
      * @return this
@@ -3670,7 +3670,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation, rotating the given degree about the specified axis and store the result in <code>dest</code>.
+     * Apply a rotation transformation, rotating the given radians about the specified axis and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
      * then the new matrix will be <code>M * A</code>. So when transforming a
@@ -3686,7 +3686,7 @@ public class Matrix4f implements Externalizable {
      * @see #rotation(float, Vector3f)
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param axis
      *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
      * @param dest
@@ -5045,7 +5045,7 @@ public class Matrix4f implements Externalizable {
      * @param z
      *          the z-coordinate of the sphere's center
      * @param r
-     *          the sphere's center radius
+     *          the sphere's radius
      * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
      *         <code>false</code> otherwise
      */
@@ -5231,7 +5231,7 @@ public class Matrix4f implements Externalizable {
      * <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
-     * in that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
+     * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -5252,7 +5252,7 @@ public class Matrix4f implements Externalizable {
      * <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
-     * in that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -5273,7 +5273,7 @@ public class Matrix4f implements Externalizable {
      * <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
-     * in that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
+     * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 

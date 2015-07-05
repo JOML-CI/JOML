@@ -205,13 +205,13 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Return the angle represented by this quaternion rotation in degrees.
+     * Return the angle represented by this quaternion rotation in radians.
      * 
-     * @return the angle in degrees
+     * @return the angle in radians
      */
     public double angle() {
         double angle = 2.0 * Math.acos(w);
-        return Math.toDegrees(angle <= Math.PI ? angle : 2.0 * Math.PI - angle);
+        return angle <= Math.PI ? angle : 2.0 * Math.PI - angle;
     }
 
     /**
@@ -416,10 +416,10 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a representation of the supplied axis and
-     * angle (in degrees).
+     * angle (in radians).
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param axisX
      *          the x-coordinate of the rotation axis
      * @param axisY
@@ -429,7 +429,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond setAngleAxis(double angle, double axisX, double axisY, double axisZ) {
-        double hangle = Math.toRadians(angle / 2.0);
+        double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
@@ -443,10 +443,10 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a representation of the supplied axis and
-     * angle (in degrees).
+     * angle (in radians).
      * 
      * @param angle
-     *          the angle in degrees
+     *          the angle in radians
      * @param axis
      *          the rotation axis
      * @return this
@@ -683,7 +683,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a representation of the supplied axis and
-     * angle (in degrees).
+     * angle (in radians).
      * 
      * @param axis
      *          the rotation axis
@@ -692,7 +692,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond fromAxisAngleDeg(Vector3d axis, double angle) {
-        double hangle = Math.toRadians(angle) / 2.0;
+        double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
 
@@ -949,10 +949,10 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Calculate this quaternion using the supplied Vector3d angles (in degrees) with rotation order XYZ.
+     * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order XYZ.
      * 
      * @param angles
-     *          the angles in degrees for the <tt>(x, y, z)</tt> axes
+     *          the angles in radians for the <tt>(x, y, z)</tt> axes
      * @return this
      */
     public Quaterniond setEulerAnglesDegXYZ(Vector3d angles) {
@@ -971,10 +971,10 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Calculate this quaternion using the supplied Vector3d angles (in degrees) with rotation order ZYX.
+     * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order ZYX.
      * 
      * @param angles
-     *          the angles in degrees for the <tt>(x, y, z)</tt> axes
+     *          the angles in radians for the <tt>(x, y, z)</tt> axes
      * @return this
      */
     public Quaterniond setEulerAnglesDegZYX(Vector3d angles) {
@@ -994,25 +994,25 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Calculate this quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
-     * (in degrees) with rotation order XYZ.
+     * (in radians) with rotation order XYZ.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
      * @param rotationAboutX
-     *          the angle in degrees to rotate about x
+     *          the angle in radians to rotate about x
      * @param rotationAboutY
-     *          the angle in degrees to rotate about y
+     *          the angle in radians to rotate about y
      * @param rotationAboutZ
-     *          the angle in degrees to rotate about z
+     *          the angle in radians to rotate about z
      * @return this
      */
     public Quaterniond setEulerAnglesDegXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        double sx = Math.sin(Math.toRadians(rotationAboutX) * 0.5);
-        double cx = Math.cos(Math.toRadians(rotationAboutX) * 0.5);
-        double sy = Math.sin(Math.toRadians(rotationAboutY) * 0.5);
-        double cy = Math.cos(Math.toRadians(rotationAboutY) * 0.5);
-        double sz = Math.sin(Math.toRadians(rotationAboutZ) * 0.5);
-        double cz = Math.cos(Math.toRadians(rotationAboutZ) * 0.5);
+        double sx = Math.sin(rotationAboutX * 0.5);
+        double cx = Math.cos(rotationAboutX * 0.5);
+        double sy = Math.sin(rotationAboutY * 0.5);
+        double cy = Math.cos(rotationAboutY * 0.5);
+        double sz = Math.sin(rotationAboutZ * 0.5);
+        double cz = Math.cos(rotationAboutZ * 0.5);
 
         x = cx*cy*cz + sx*sy*sz;
         y = sx*cy*cz - cx*sy*sz;
@@ -1024,25 +1024,25 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Calculate this quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
-     * (in degrees) with rotation order ZYX.
+     * (in radians) with rotation order ZYX.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
      * @param rotationAboutX
-     *          the angle in degrees to rotate about x
+     *          the angle in radians to rotate about x
      * @param rotationAboutY
-     *          the angle in degrees to rotate about y
+     *          the angle in radians to rotate about y
      * @param rotationAboutZ
-     *          the angle in degrees to rotate about z
+     *          the angle in radians to rotate about z
      * @return this
      */
     public Quaterniond setEulerAnglesDegZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        double sx = Math.sin(Math.toRadians(rotationAboutX) * 0.5);
-        double cx = Math.cos(Math.toRadians(rotationAboutX) * 0.5);
-        double sy = Math.sin(Math.toRadians(rotationAboutY) * 0.5);
-        double cy = Math.cos(Math.toRadians(rotationAboutY) * 0.5);
-        double sz = Math.sin(Math.toRadians(rotationAboutZ) * 0.5);
-        double cz = Math.cos(Math.toRadians(rotationAboutZ) * 0.5);
+        double sx = Math.sin(rotationAboutX * 0.5);
+        double cx = Math.cos(rotationAboutX * 0.5);
+        double sy = Math.sin(rotationAboutY * 0.5);
+        double cy = Math.cos(rotationAboutY * 0.5);
+        double sz = Math.sin(rotationAboutZ * 0.5);
+        double cz = Math.cos(rotationAboutZ * 0.5);
 
         x = cx*cy*cz - sx*sy*sz;
         y = sx*cy*cz + cx*sy*sz;
@@ -1559,7 +1559,7 @@ public class Quaterniond implements Externalizable {
                 axisY = 0.0;
                 axisZ = -fromX;
             }
-            double angleR = Math.toRadians(180.0);
+            double angleR = Math.PI;
             double s = Math.sin(angleR / 2.0);
             x = axisX * s;
             y = axisY * s;
@@ -1653,7 +1653,7 @@ public class Quaterniond implements Externalizable {
                 axisY = 0.0;
                 axisZ = -fromX;
             }
-            double angleR = Math.toRadians(180.0);
+            double angleR = Math.PI;
             double s = Math.sin(angleR / 2.0);
             x = axisX * s;
             y = axisY * s;
@@ -1687,13 +1687,13 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Set this {@link Quaterniond} to a rotation of the given angle in degrees about the supplied
+     * Set this {@link Quaterniond} to a rotation of the given angle in radians about the supplied
      * axis, all of which are specified via the {@link AxisAngle4f}.
      * 
      * @see #rotationAxis(double, double, double, double)
      * 
      * @param axisAngle
-     *            the {@link AxisAngle4f} giving the rotation angle in degrees and the axis to rotate about
+     *            the {@link AxisAngle4f} giving the rotation angle in radians and the axis to rotate about
      * @return this
      */
     public Quaterniond rotationAxis(AxisAngle4f axisAngle) {
@@ -1701,10 +1701,10 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Set this quaternion to a rotation of the given angle in degrees about the supplied axis.
+     * Set this quaternion to a rotation of the given angle in radians about the supplied axis.
      * 
      * @param angle
-     *          the rotation angle in degrees
+     *          the rotation angle in radians
      * @param axisX
      *          the x-coordinate of the rotation axis
      * @param axisY
@@ -1714,7 +1714,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond rotationAxis(double angle, double axisX, double axisY, double axisZ) {
-        double hangle = Math.toRadians(angle / 2.0);
+        double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
@@ -1727,12 +1727,12 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Set this quaternion to represent a rotation of the given angles in degrees about the basis unit axes of the cartesian space.
+     * Set this quaternion to represent a rotation of the given angles in radians about the basis unit axes of the cartesian space.
      * 
      * @see #rotation(double, double, double)
      * 
      * @param anglesXYZ
-     *              the angles in degrees to rotate about the basis unit axes of the cartesian space
+     *              the angles in radians to rotate about the basis unit axes of the cartesian space
      * @return this
      */
     public Quaterniond rotation(Vector3d anglesXYZ) {
@@ -1740,20 +1740,20 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Set this quaternion to represent a rotation of the given angles in degrees about the basis unit axes of the cartesian space.
+     * Set this quaternion to represent a rotation of the given angles in radians about the basis unit axes of the cartesian space.
      * 
      * @param angleX
-     *              the angle in degrees to rotate about the x axis
+     *              the angle in radians to rotate about the x axis
      * @param angleY
-     *              the angle in degrees to rotate about the y axis
+     *              the angle in radians to rotate about the y axis
      * @param angleZ
-     *              the angle in degrees to rotate about the z axis
+     *              the angle in radians to rotate about the z axis
      * @return this
      */
     public Quaterniond rotation(double angleX, double angleY, double angleZ) {
-        double thetaX = Math.toRadians(angleX) * 0.5;
-        double thetaY = Math.toRadians(angleY) * 0.5;
-        double thetaZ = Math.toRadians(angleZ) * 0.5;
+        double thetaX = angleX * 0.5;
+        double thetaY = angleY * 0.5;
+        double thetaZ = angleZ * 0.5;
         double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
         double s;
         if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
@@ -1771,12 +1771,12 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Set this quaternion to represent a rotation of the given degrees about the x axis.
+     * Set this quaternion to represent a rotation of the given radians about the x axis.
      * 
      * @see #rotation(double, double, double)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the x axis
+     *              the angle in radians to rotate about the x axis
      * @return this
      */
     public Quaterniond rotationX(double angle) {
@@ -1784,12 +1784,12 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Set this quaternion to represent a rotation of the given degrees about the y axis.
+     * Set this quaternion to represent a rotation of the given radians about the y axis.
      * 
      * @see #rotation(double, double, double)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the y axis
+     *              the angle in radians to rotate about the y axis
      * @return this
      */
     public Quaterniond rotationY(double angle) {
@@ -1797,12 +1797,12 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Set this quaternion to represent a rotation of the given degrees about the z axis.
+     * Set this quaternion to represent a rotation of the given radians about the z axis.
      * 
      * @see #rotation(double, double, double)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the z axis
+     *              the angle in radians to rotate about the z axis
      * @return this
      */
     public Quaterniond rotationZ(double angle) {
@@ -1887,7 +1887,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the basis unit axes of the
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
      * cartesian space and store the result in <code>dest</code>.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -1898,7 +1898,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param anglesXYZ
-     *              the angles in degrees to rotate about the x, y and z axes, respectively
+     *              the angles in radians to rotate about the x, y and z axes, respectively
      * @param dest
      *              will hold the result
      * @return this
@@ -1908,7 +1908,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the basis unit axes
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes
      * of the cartesian space.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -1919,7 +1919,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param anglesXYZ
-     *              the angles in degrees to rotate about the x, y and z axes, respectively
+     *              the angles in radians to rotate about the x, y and z axes, respectively
      * @return this
      */
     public Quaterniond rotate(Vector3d anglesXYZ) {
@@ -1927,7 +1927,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the basis unit axes of the cartesian space.
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the cartesian space.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -1937,11 +1937,11 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param angleX
-     *              the angle in degrees to rotate about the x axis
+     *              the angle in radians to rotate about the x axis
      * @param angleY
-     *              the angle in degrees to rotate about the y axis
+     *              the angle in radians to rotate about the y axis
      * @param angleZ
-     *              the angle in degrees to rotate about the z axis
+     *              the angle in radians to rotate about the z axis
      * @return this
      */
     public Quaterniond rotate(double angleX, double angleY, double angleZ) {
@@ -1949,7 +1949,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the basis unit axes of the
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
      * cartesian space and store the result in <code>dest</code>.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -1960,19 +1960,19 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param angleX
-     *              the angle in degrees to rotate about the x axis
+     *              the angle in radians to rotate about the x axis
      * @param angleY
-     *              the angle in degrees to rotate about the y axis
+     *              the angle in radians to rotate about the y axis
      * @param angleZ
-     *              the angle in degrees to rotate about the z axis
+     *              the angle in radians to rotate about the z axis
      * @param dest
      *              will hold the result
      * @return this
      */
     public Quaterniond rotate(double angleX, double angleY, double angleZ, Quaterniond dest) {
-        double thetaX = Math.toRadians(angleX) * 0.5;
-        double thetaY = Math.toRadians(angleY) * 0.5;
-        double thetaZ = Math.toRadians(angleZ) * 0.5;
+        double thetaX = angleX * 0.5;
+        double thetaY = angleY * 0.5;
+        double thetaZ = angleZ * 0.5;
         double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
         double s;
         double dqX, dqY, dqZ, dqW;
@@ -1996,7 +1996,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the x axis.
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the x axis.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -2006,7 +2006,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the x axis
+     *              the angle in radians to rotate about the x axis
      * @return this
      */
     public Quaterniond rotateX(double angle) {
@@ -2014,7 +2014,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the x axis
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the x axis
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -2025,7 +2025,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the x axis
+     *              the angle in radians to rotate about the x axis
      * @param dest
      *              will hold the result
      * @return this
@@ -2035,7 +2035,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the y axis.
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the y axis.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -2045,7 +2045,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the y axis
+     *              the angle in radians to rotate about the y axis
      * @return this
      */
     public Quaterniond rotateY(double angle) {
@@ -2053,7 +2053,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the y axis
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the y axis
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -2064,7 +2064,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the y axis
+     *              the angle in radians to rotate about the y axis
      * @param dest
      *              will hold the result
      * @return this
@@ -2074,7 +2074,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the z axis.
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the z axis.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -2084,7 +2084,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the z axis
+     *              the angle in radians to rotate about the z axis
      * @return this
      */
     public Quaterniond rotateZ(double angle) {
@@ -2092,7 +2092,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the z axis
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the z axis
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -2103,7 +2103,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotate(double, double, double, Quaterniond)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the z axis
+     *              the angle in radians to rotate about the z axis
      * @param dest
      *              will hold the result
      * @return this
@@ -2113,7 +2113,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>XYZ</tt>.
      * <p>
      * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
@@ -2124,7 +2124,7 @@ public class Quaterniond implements Externalizable {
      * rotation added by this method will be applied first!
      * 
      * @param angles
-     *              the euler angles in degrees
+     *              the euler angles in radians
      * @return this
      */
     public Quaterniond rotateXYZ(Vector3d angles) {
@@ -2132,7 +2132,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>ZYX</tt>.
      * <p>
      * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
@@ -2143,7 +2143,7 @@ public class Quaterniond implements Externalizable {
      * rotation added by this method will be applied first!
      * 
      * @param angles
-     *              the euler angles in degrees
+     *              the euler angles in radians
      * @return this
      */
     public Quaterniond rotateZYX(Vector3d angles) {
@@ -2151,7 +2151,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>XYZ</tt>.
      * <p>
      * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
@@ -2174,7 +2174,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the cartesian base unit axes,
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles, using the rotation sequence <tt>ZYX</tt>.
      * <p>
      * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
@@ -2197,22 +2197,22 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Get the euler angles in degrees in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the 
+     * Get the euler angles in radians in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the 
      * provided parameter <code>eulerAngles</code>.
      * 
      * @param eulerAngles
-     *          will hold the euler angles in degrees
+     *          will hold the euler angles in radians
      * @return this
      */
     public Quaterniond getEulerAnglesXYZ(Vector3d eulerAngles) {
-        eulerAngles.x = Math.toDegrees(Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y)));
-        eulerAngles.y = Math.toDegrees(Math.asin(2.0 * (x*z + y*w)));
-        eulerAngles.z = Math.toDegrees(Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z)));
+        eulerAngles.x = Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y));
+        eulerAngles.y = Math.asin(2.0 * (x*z + y*w));
+        eulerAngles.z = Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z));
         return this;
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the specified axis
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -2221,7 +2221,7 @@ public class Quaterniond implements Externalizable {
      * rotation added by this method will be applied first!
      * 
      * @param angle
-     *              the angle in degrees to rotate about the specified axis
+     *              the angle in radians to rotate about the specified axis
      * @param axisX
      *              the x coordinate of the rotation axis
      * @param axisY
@@ -2233,7 +2233,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond rotateAxis(double angle, double axisX, double axisY, double axisZ, Quaterniond dest) {
-        double hangle = Math.toRadians(angle / 2.0);
+        double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
@@ -2250,7 +2250,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the specified axis
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -2261,7 +2261,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotateAxis(double, double, double, double, Quaterniond)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the specified axis
+     *              the angle in radians to rotate about the specified axis
      * @param axis
      *              the rotation axis
      * @param dest
@@ -2273,7 +2273,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the specified axis.
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -2283,7 +2283,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotateAxis(double, double, double, double, Quaterniond)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the specified axis
+     *              the angle in radians to rotate about the specified axis
      * @param axis
      *              the rotation axis
      * @return this
@@ -2293,7 +2293,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given degrees about the specified axis.
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis.
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -2303,7 +2303,7 @@ public class Quaterniond implements Externalizable {
      * @see #rotateAxis(double, double, double, double, Quaterniond)
      * 
      * @param angle
-     *              the angle in degrees to rotate about the specified axis
+     *              the angle in radians to rotate about the specified axis
      * @param axisX
      *              the x coordinate of the rotation axis
      * @param axisY

@@ -818,14 +818,14 @@ public class Vector3d implements Externalizable {
      * 
      * @param v
      *          the other vector
-     * @return the angle, in degrees
+     * @return the angle, in radians
      */
     public double angle(Vector3d v) {
         double cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = Math.min(cos, 1);
         cos = Math.max(cos, -1);
-        return Math.toDegrees(Math.acos(cos));
+        return Math.acos(cos);
     }
 
     /**

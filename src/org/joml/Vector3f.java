@@ -710,14 +710,14 @@ public class Vector3f implements Externalizable {
      * 
      * @param v
      *          the other vector
-     * @return the angle, in degrees
+     * @return the angle, in radians
      */
     public float angle(Vector3f v) {
         float cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = Math.min(cos, 1);
         cos = Math.max(cos, -1);
-        return (float) Math.toDegrees(Math.acos(cos));
+        return (float) Math.acos(cos);
     }
 
     /**

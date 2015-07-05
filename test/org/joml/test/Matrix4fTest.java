@@ -43,12 +43,12 @@ public class Matrix4fTest extends TestCase {
         Matrix4f m1, m2;
         m1 = new Matrix4f().lookAt(0, 2, 3, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3)).rotateX(
-                (float) Math.toDegrees(Math.atan2(2, 3)));
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-15f);
+                (float) Math.atan2(2, 3));
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-5f);
         m1 = new Matrix4f().lookAt(3, 2, 0, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3))
-                .rotateX((float) Math.toDegrees(Math.atan2(2, 3))).rotateY(-90.0f);
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-15f);
+                .rotateX((float) Math.atan2(2, 3)).rotateY((float) Math.toRadians(-90));
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-4f);
     }
 
     /**
@@ -67,8 +67,8 @@ public class Matrix4fTest extends TestCase {
          * move the camera 5 units "up" and rotate it clock-wise 90 degrees around Y.
          */
         new Matrix4f()
-        .perspective(90.0f, 1.0f, 0.1f, 100.0f)
-        .rotateY(90)
+        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .rotateY((float) Math.toRadians(90))
         .translate(0, -5, 0)
             .frustumPlane(Matrix4f.PLANE_LEFT, left)
             .frustumPlane(Matrix4f.PLANE_RIGHT, right)
@@ -94,8 +94,8 @@ public class Matrix4fTest extends TestCase {
 
     public void testIsPointInFrustumPlanePerspectiveRotate() {
         Matrix4f m = new Matrix4f()
-        .perspective(90.0f, 1.0f, 0.1f, 100.0f)
-        .rotateY(90);
+        .perspective((float) Math.toRadians(90.0f), 1.0f, 0.1f, 100.0f)
+        .rotateY((float) Math.toRadians(90));
         Assert.assertTrue(m.isPointInsideFrustum(50, 0, 0));
         Assert.assertFalse(m.isPointInsideFrustum(50, 51, 0));
     }
@@ -103,8 +103,8 @@ public class Matrix4fTest extends TestCase {
     public void testFrustumRay() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
-                .perspective(90.0f, 1.0f, 0.1f, 100.0f)
-                .rotateY(90);
+                .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+                .rotateY((float) Math.toRadians(90));
         Vector3f expectedDir;
         m.frustumRayDir(0, 0, dir);
         expectedDir = new Vector3f(1, -1, -1).normalize();
@@ -123,8 +123,8 @@ public class Matrix4fTest extends TestCase {
     public void testFrustumRay2() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
-                .perspective(90.0f, 1.0f, 0.1f, 100.0f)
-                .rotateZ(45);
+                .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+                .rotateZ((float) Math.toRadians(45));
         Vector3f expectedDir;
         m.frustumRayDir(0, 0, dir);
         expectedDir = new Vector3f(-(float)Math.sqrt(2), 0, -1).normalize();

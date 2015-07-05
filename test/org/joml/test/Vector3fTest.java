@@ -17,9 +17,9 @@ public class Vector3fTest extends TestCase {
 		float angle = testVec1.angle(testVec1);
 		assertEquals(0, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
 		
-		// angle(v, -v) should give 180
+		// angle(v, -v) should give Math.PI
 		testVec1.negate(testVec2);
 		angle = testVec1.angle(testVec2);
-		assertEquals(180.0, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+		assertEquals(Math.PI, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
 	}
 }

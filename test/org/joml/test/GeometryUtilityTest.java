@@ -45,7 +45,7 @@ public class GeometryUtilityTest extends TestCase {
      * Test computing the frustum planes with a simple perspective projection matrix.
      */
     public void testCalculateFrustumPerspective() {
-        Matrix4f m = new Matrix4f().perspective(90.0f, 1.0f, 0.1f, 100.0f);
+        Matrix4f m = new Matrix4f().perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f);
         Vector4f left = new Vector4f();
         Vector4f right = new Vector4f();
         Vector4f top = new Vector4f();
@@ -74,7 +74,9 @@ public class GeometryUtilityTest extends TestCase {
      */
     public void testCalcluateFrustumPerspectiveRotate() {
         /* Rotate the camera clock-wise 90 degrees around Y */
-        Matrix4f m = new Matrix4f().perspective(90.0f, 1.0f, 0.1f, 100.0f).rotateY(90);
+        Matrix4f m = new Matrix4f()
+                .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+                .rotateY((float) Math.toRadians(90));
         Vector4f left = new Vector4f();
         Vector4f right = new Vector4f();
         Vector4f top = new Vector4f();
@@ -103,7 +105,10 @@ public class GeometryUtilityTest extends TestCase {
      */
     public void testCalcluateFrustumPerspectiveRotateTranslate() {
         /* Move the camera 5 units "up" and rotate it clock-wise 90 degrees around Y */
-        Matrix4f m = new Matrix4f().perspective(90.0f, 1.0f, 0.1f, 100.0f).rotateY(90).translate(0, -5, 0);
+        Matrix4f m = new Matrix4f()
+        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .rotateY((float) Math.toRadians(90))
+        .translate(0, -5, 0);
         Vector4f left = new Vector4f();
         Vector4f right = new Vector4f();
         Vector4f top = new Vector4f();
