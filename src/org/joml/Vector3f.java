@@ -486,7 +486,6 @@ public class Vector3f implements Externalizable {
         dest.z = this.z * z;
         return this;
     }
-    
 
     /**
      * Divide all components of this {@link Vector3f} by the given scalar
@@ -559,31 +558,31 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
+     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
      * 
      * @see Quaternionf#transform(Vector3f)
      * 
      * @param quat
-     *          the quaternion to multiply this vector by
+     *          the quaternion to rotate this vector
      * @return this
      */
-    public Vector3f mul(Quaternionf quat) {
+    public Vector3f rotate(Quaternionf quat) {
         quat.transform(this, this);
         return this;
     }
 
     /**
-     * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
+     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
      * 
      * @see Quaternionf#transform(Vector3f)
      * 
      * @param quat
-     *          the quaternion to multiply this vector by
+     *          the quaternion to rotate this vector
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Vector3f mul(Quaternionf quat, Vector3f dest) {
+    public Vector3f rotate(Quaternionf quat, Vector3f dest) {
         quat.transform(this, dest);
         return this;
     }
@@ -646,7 +645,24 @@ public class Vector3f implements Externalizable {
                    z * v.x - x * v.z,
                    x * v.y - y * v.x);
     }
-    
+
+    /**
+     * Set this vector to be the cross product of itself and <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *          the x-coordinate of the other vector
+     * @param y
+     *          the y-coordinate of the other vector
+     * @param z
+     *          the z-coordinate of the other vector
+     * @return this
+     */
+    public Vector3f cross(float x, float y, float z) {
+        return set(this.y * z - this.z * y,
+                   this.z * x - this.x * z,
+                   this.x * y - this.y * x);
+    }
+
     /**
      * Compute the cross product of this vector and <code>v</code> and store the result in <code>dest</code>.
      * 
@@ -660,6 +676,25 @@ public class Vector3f implements Externalizable {
         return dest.set(y * v.z - z * v.y,
                         z * v.x - x * v.z,
                         x * v.y - y * v.x);
+    }
+
+    /**
+     * Compute the cross product of this vector and <tt>(x, y, z)</tt> and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x-coordinate of the other vector
+     * @param y
+     *          the y-coordinate of the other vector
+     * @param z
+     *          the z-coordinate of the other vector
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f cross(float x, float y, float z, Vector3f dest) {
+        return dest.set(this.y * z - this.z * y,
+                        this.z * x - this.x * z,
+                        this.x * y - this.y * x);
     }
 
     /**
@@ -677,6 +712,24 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Return the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *            the x-coordinate of the other vector
+     * @param y
+     *            the y-coordinate of the other vector
+     * @param z
+     *            the z-coordinate of the other vector
+     * @return the euclidean distance
+     */
+    public float distance(float x, float y, float z) {
+        return (float) Math.sqrt(
+                (x - this.x) * (x - this.x)
+              + (y - this.y) * (y - this.y)
+              + (z - this.z) * (z - this.z));
+    }
+
+    /**
      * Return the dot product of this vector and the supplied vector.
      * 
      * @param v
@@ -685,6 +738,21 @@ public class Vector3f implements Externalizable {
      */
     public float dot(Vector3f v) {
         return x * v.x + y * v.y + z * v.z;
+    }
+
+    /**
+     * Return the dot product of this vector and the vector <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *          the x-coordinate of the other vector
+     * @param y
+     *          the y-coordinate of the other vector
+     * @param z
+     *          the z-coordinate of the other vector
+     * @return the dot product
+     */
+    public float dot(float x, float y, float z) {
+        return this.x * x + this.y * y + this.z * z;
     }
 
     /**
@@ -864,6 +932,25 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Reflect this vector about the given normal vector.
+     * 
+     * @param x
+     *             the x-coordinate of the normal
+     * @param y
+     *             the y-coordinate of the normal
+     * @param z
+     *             the z-coordinate of the normal
+     * @return this
+     */
+    public Vector3f reflect(float x, float y, float z) {
+        float dot = this.dot(x, y, z);
+        this.x = this.x - 2.0f * dot * x;
+        this.y = this.y - 2.0f * dot * y;
+        this.z = this.z - 2.0f * dot * z;
+        return this;
+    }
+
+    /**
      * Reflect this vector about the given <code>normal</code> vector and store the result in <code>dest</code>.
      * 
      * @param normal
@@ -881,6 +968,27 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Reflect this vector about the given normal vector and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *             the x-coordinate of the normal
+     * @param y
+     *             the y-coordinate of the normal
+     * @param z
+     *             the z-coordinate of the normal
+     * @param dest
+     *             will hold the result
+     * @return this
+     */
+    public Vector3f reflect(float x, float y, float z, Vector3f dest) {
+        float dot = this.dot(x, y, z);
+        dest.x = this.x - 2.0f * dot * x;
+        dest.y = this.y - 2.0f * dot * y;
+        dest.z = this.z - 2.0f * dot * z;
+        return this;
+    }
+
+    /**
      * Compute the half vector between this and the other vector.
      * 
      * @param other
@@ -889,6 +997,21 @@ public class Vector3f implements Externalizable {
      */
     public Vector3f half(Vector3f other) {
         return this.add(other).normalize();
+    }
+
+    /**
+     * Compute the half vector between this and the vector <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *             the x-coordinate of the other vector
+     * @param y
+     *             the y-coordinate of the other vector
+     * @param z
+     *             the z-coordinate of the other vector
+     * @return this
+     */
+    public Vector3f half(float x, float y, float z) {
+        return this.add(x, y, z).normalize();
     }
 
     /**
@@ -902,6 +1025,25 @@ public class Vector3f implements Externalizable {
      */
     public Vector3f half(Vector3f other, Vector3f dest) {
         dest.set(this).add(other).normalize();
+        return this;
+    }
+
+    /**
+     * Compute the half vector between this and the vector <tt>(x, y, z)</tt> 
+     * and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *             the x-coordinate of the other vector
+     * @param y
+     *             the y-coordinate of the other vector
+     * @param z
+     *             the z-coordinate of the other vector
+     * @param dest
+     *             will hold the result
+     * @return this
+     */
+    public Vector3f half(float x, float y, float z, Vector3f dest) {
+        dest.set(this).add(x, y, z).normalize();
         return this;
     }
 

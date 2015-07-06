@@ -258,7 +258,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Subtract <tt>(x, y, z, w)</tt> vector from this one.
+     * Subtract <tt>(x, y, z, w)</tt> from this.
      * 
      * @param x
      *          the x-coordinate to subtract
@@ -275,6 +275,29 @@ public class Vector4d implements Externalizable {
         this.y -= y;
         this.z -= z;
         this.w -= w;
+        return this;
+    }
+
+    /**
+     * Subtract <tt>(x, y, z, w)</tt> from this and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
+     * @param z
+     *          the z-coordinate to subtract
+     * @param w
+     *          the w-coordinate to subtract
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4d sub(double x, double y, double z, double w, Vector4d dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        dest.z = this.z - z;
+        dest.w = this.w - w;
         return this;
     }
 
@@ -341,6 +364,50 @@ public class Vector4d implements Externalizable {
         y += v.y;
         z += v.z;
         w += v.w;
+        return this;
+    }
+
+    /**
+     * Add <tt>(x, y, z, w)</tt> to this.
+     * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
+     * @param z
+     *          the z-coordinate to subtract
+     * @param w
+     *          the w-coordinate to subtract
+     * @return this
+     */
+    public Vector4d add(double x, double y, double z, double w) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+        this.w += w;
+        return this;
+    }
+
+    /**
+     * Add <tt>(x, y, z, w)</tt> to this and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
+     * @param z
+     *          the z-coordinate to subtract
+     * @param w
+     *          the w-coordinate to subtract
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4d add(double x, double y, double z, double w, Vector4d dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        dest.z = this.z - z;
+        dest.w = this.w - w;
         return this;
     }
 
@@ -661,30 +728,30 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
+     * Transform this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
      * 
      * @see Quaterniond#transform(Vector4d)
      * 
      * @param quat
-     *          the quaternion to multiply this vector by
+     *          the quaternion to transform this vector
      * @return this
      */
-    public Vector4d mul(Quaterniond quat) {
-        return mul(quat, this);
+    public Vector4d rotate(Quaterniond quat) {
+        return rotate(quat, this);
     }
 
     /**
-     * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
+     * Transform this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
      * 
      * @see Quaterniond#transform(Vector4d)
      * 
      * @param quat
-     *          the quaternion to multiply this vector by
+     *          the quaternion to transform this vector
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Vector4d mul(Quaterniond quat, Vector4d dest) {
+    public Vector4d rotate(Quaterniond quat, Vector4d dest) {
         quat.transform(this, dest);
         return this;
     }
@@ -783,15 +850,52 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Compute the dot product (inner product) of this vector and <code>v</code>
-     * .
+     * Return the distance between <code>this</code> vector and <tt>(x, y, z, w)</tt>.
+     * 
+     * @param x
+     *            the x-coordinate of the other vector
+     * @param y
+     *            the y-coordinate of the other vector
+     * @param z
+     *            the z-coordinate of the other vector
+     * @param w
+     *            the w-coordinate of the other vector
+     * @return the euclidean distance
+     */
+    public double distance(double x, double y, double z, double w) {
+        return Math.sqrt(
+                (x - this.x) * (x - this.x)
+              + (y - this.y) * (y - this.y)
+              + (z - this.z) * (z - this.z)
+              + (w - this.w) * (w - this.w));
+    }
+
+    /**
+     * Compute the dot product (inner product) of this vector and <code>v</code>.
      * 
      * @param v
      *            the other vector
      * @return the dot product
      */
-    public double dot(Vector4f v) {
+    public double dot(Vector4d v) {
         return x * v.x + y * v.y + z * v.z + w * v.w;
+    }
+
+    /**
+     * Compute the dot product (inner product) of this vector and <tt>(x, y, z, w)</tt>.
+     * 
+     * @param x
+     *            the x-coordinate of the other vector
+     * @param y
+     *            the y-coordinate of the other vector
+     * @param z
+     *            the z-coordinate of the other vector
+     * @param w
+     *            the w-coordinate of the other vector
+     * @return the dot product
+     */
+    public double dot(double x, double y, double z, double w) {
+        return this.x * x + this.y * y + this.z * z + this.w * w;
     }
 
     /**
@@ -841,7 +945,7 @@ public class Vector4d implements Externalizable {
         this.w = 0.0;
         return this;
     }
-    
+
     /**
      * Negate this vector.
      * 
@@ -854,7 +958,7 @@ public class Vector4d implements Externalizable {
         w = -w;
         return this;
     }
-    
+
     /**
      * Negate this vector and store the result in <code>dest</code>.
      * 

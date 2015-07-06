@@ -241,7 +241,8 @@ public class Vector2f implements Externalizable {
      * @return the distance
      */
     public float distance(Vector2f v) {
-        return (float) Math.sqrt((v.x - x) * (v.x - x)
+        return (float) Math.sqrt(
+                  (v.x - x) * (v.x - x)
                 + (v.y - y) * (v.y - y));
     }
 

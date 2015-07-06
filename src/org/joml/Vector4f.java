@@ -181,6 +181,27 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Subtract <tt>(x, y, z, w)</tt> from this.
+     * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
+     * @param z
+     *          the z-coordinate to subtract
+     * @param w
+     *          the w-coordinate to subtract
+     * @return this
+     */
+    public Vector4f sub(float x, float y, float z, float w) {
+        this.x -= x;
+        this.y -= y;
+        this.z -= z;
+        this.w -= w;
+        return this;
+    }
+
+    /**
      * Subtract the supplied vector from this one and store the result in <code>dest</code>.
      * 
      * @param v
@@ -194,6 +215,29 @@ public class Vector4f implements Externalizable {
         dest.y = y - v.y;
         dest.z = z - v.z;
         dest.w = w - v.w;
+        return this;
+    }
+
+    /**
+     * Subtract <tt>(x, y, z, w)</tt> from this and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x-coordinate to subtract
+     * @param y
+     *          the y-coordinate to subtract
+     * @param z
+     *          the z-coordinate to subtract
+     * @param w
+     *          the w-coordinate to subtract
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4f sub(float x, float y, float z, float w, Vector4f dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        dest.z = this.z - z;
+        dest.w = this.w - w;
         return this;
     }
 
@@ -568,30 +612,30 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
+     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
      * 
      * @see Quaternionf#transform(Vector4f)
      * 
      * @param quat
-     *          the quaternion to multiply this vector by
+     *          the quaternion to rotate this vector
      * @return this
      */
-    public Vector4f mul(Quaternionf quat) {
-        return mul(quat, this);
+    public Vector4f rotate(Quaternionf quat) {
+        return rotate(quat, this);
     }
 
     /**
-     * Multiply this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
+     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
      * 
      * @see Quaternionf#transform(Vector4f)
      * 
      * @param quat
-     *          the quaternion to multiply this vector by
+     *          the quaternion to rotate this vector
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Vector4f mul(Quaternionf quat, Vector4f dest) {
+    public Vector4f rotate(Quaternionf quat, Vector4f dest) {
         quat.transform(this, dest);
         return this;
     }
@@ -690,6 +734,27 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Return the distance between <code>this</code> vector and <tt>(x, y, z, w)</tt>.
+     * 
+     * @param x
+     *            the x-coordinate of the other vector
+     * @param y
+     *            the y-coordinate of the other vector
+     * @param z
+     *            the z-coordinate of the other vector
+     * @param w
+     *            the w-coordinate of the other vector
+     * @return the euclidean distance
+     */
+    public float distance(float x, float y, float z, float w) {
+        return (float) Math.sqrt(
+                (x - this.x) * (x - this.x)
+              + (y - this.y) * (y - this.y)
+              + (z - this.z) * (z - this.z)
+              + (w - this.w) * (w - this.w));
+    }
+
+    /**
      * Compute the dot product (inner product) of this vector and <code>v</code>
      * .
      * 
@@ -699,6 +764,23 @@ public class Vector4f implements Externalizable {
      */
     public float dot(Vector4f v) {
         return x * v.x + y * v.y + z * v.z + w * v.w;
+    }
+
+    /**
+     * Compute the dot product (inner product) of this vector and <tt>(x, y, z, w)</tt>.
+     * 
+     * @param x
+     *            the x-coordinate of the other vector
+     * @param y
+     *            the y-coordinate of the other vector
+     * @param z
+     *            the z-coordinate of the other vector
+     * @param w
+     *            the w-coordinate of the other vector
+     * @return the dot product
+     */
+    public float dot(float x, float y, float z, float w) {
+        return this.x * x + this.y * y + this.z * z + this.w * w;
     }
 
     /**
