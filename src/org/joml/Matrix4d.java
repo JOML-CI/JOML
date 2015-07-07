@@ -5012,6 +5012,7 @@ public class Matrix4d implements Externalizable {
      * {@link #frustumPlane(int, Vector4d)} and then tested against the spheres, instead of using this method.
      * 
      * @see #frustumPlane(int, Vector4d)
+     * @see #isPointInsideFrustum(double, double, double)
      * 
      * @param point
      *          the point to test
@@ -5032,6 +5033,7 @@ public class Matrix4d implements Externalizable {
      * {@link #frustumPlane(int, Vector4d)} and then tested against the spheres, instead of using this method.
      * 
      * @see #frustumPlane(int, Vector4d)
+     * @see #isPointInsideFrustum(Vector3f)
      * 
      * @param x
      *          the x-coordinate of the point
@@ -5084,6 +5086,7 @@ public class Matrix4d implements Externalizable {
      * {@link #frustumPlane(int, Vector4d)} and then tested against the spheres, instead of using this method.
      * 
      * @see #frustumPlane(int, Vector4d)
+     * @see #isSphereInsideFrustum(double, double, double, double)
      * 
      * @param center
      *          the sphere's center
@@ -5107,6 +5110,7 @@ public class Matrix4d implements Externalizable {
      * {@link #frustumPlane(int, Vector4d)} and then tested against the spheres, instead of using this method.
      * 
      * @see #frustumPlane(int, Vector4d)
+     * @see #isSphereInsideFrustum(Vector3d, double)
      * 
      * @param x
      *          the x-coordinate of the sphere's center
@@ -5163,6 +5167,7 @@ public class Matrix4d implements Externalizable {
      * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.
      * 
      * @see #frustumPlane(int, Vector4d)
+     * @see #isAabInsideFrustum(double, double, double, double, double, double)
      * 
      * @param min
      *          the minimum corner coordinates of the axis-aligned box
@@ -5187,6 +5192,7 @@ public class Matrix4d implements Externalizable {
      * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.
      * 
      * @see #frustumPlane(int, Vector4d)
+     * @see #isAabInsideFrustum(Vector3d, Vector3d)
      * 
      * @param minX
      *          the x-coordinate of the minimum corner
