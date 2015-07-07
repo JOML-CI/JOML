@@ -55,6 +55,15 @@ public class Matrix4f implements Externalizable {
     public static final int PLANE_NEAR = 4;
     public static final int PLANE_FAR = 5;
 
+    public static final int CORNER_NXNYNZ = 0;
+    public static final int CORNER_PXNYNZ = 1;
+    public static final int CORNER_PXPYNZ = 2;
+    public static final int CORNER_NXPYNZ = 3;
+    public static final int CORNER_PXNYPZ = 4;
+    public static final int CORNER_NXNYPZ = 5;
+    public static final int CORNER_NXPYPZ = 6;
+    public static final int CORNER_PXPYPZ = 7;
+
     public float m00;
     public float m01;
     public float m02;
@@ -4927,6 +4936,85 @@ public class Matrix4f implements Externalizable {
         default:
             throw new IllegalArgumentException("plane"); //$NON-NLS-1$
         }
+        return this;
+    }
+
+    /**
+     * Compute the corner coordinates of the frustum defined by <code>this</code> matrix, which
+     * can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>point</code>.
+     * <p>
+     * Generally, this method computes the frustum corners in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
+     * 
+     * @param corner
+     *          one of the eight possible corners, given as numeric constants
+     *          {@link #CORNER_NXNYNZ}, {@link #CORNER_PXNYNZ}, {@link #CORNER_PXPYNZ}, {@link #CORNER_NXPYNZ},
+     *          {@link #CORNER_PXNYPZ}, {@link #CORNER_NXNYPZ}, {@link #CORNER_NXPYPZ}, {@link #CORNER_PXPYPZ}
+     * @param point
+     *          will hold the resulting corner point coordinates
+     * @return this
+     */
+    public Matrix4f frustumCorner(int corner, Vector3f point) {
+        float d1, d2, d3;
+        float n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
+        switch (corner) {
+        case CORNER_NXNYNZ: // left, bottom, near
+            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
+            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
+            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
+            break;
+        case CORNER_PXNYNZ: // right, bottom, near
+            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
+            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
+            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
+            break;
+        case CORNER_PXPYNZ: // right, top, near
+            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
+            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
+            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
+            break;
+        case CORNER_NXPYNZ: // left, top, near
+            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
+            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
+            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
+            break;
+        case CORNER_PXNYPZ: // right, bottom, far
+            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
+            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
+            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
+            break;
+        case CORNER_NXNYPZ: // left, bottom, far
+            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
+            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
+            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
+            break;
+        case CORNER_NXPYPZ: // left, top, far
+            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
+            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
+            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
+            break;
+        case CORNER_PXPYPZ: // right, top, far
+            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
+            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
+            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
+            break;
+        default:
+            throw new IllegalArgumentException("corner"); //$NON-NLS-1$
+        }
+        float c23x, c23y, c23z;
+        c23x = n2y * n3z - n2z * n3y; c23y = n2z * n3x - n2x * n3z; c23z = n2x * n3y - n2y * n3x;
+        float c31x, c31y, c31z;
+        c31x = n3y * n1z - n3z * n1y; c31y = n3z * n1x - n3x * n1z; c31z = n3x * n1y - n3y * n1x;
+        float c12x, c12y, c12z;
+        c12x = n1y * n2z - n1z * n2y; c12y = n1z * n2x - n1x * n2z; c12z = n1x * n2y - n1y * n2x;
+        float dot = n1x * c23x + n1y * c23y + n1z * c23z;
+        point.set(-c23x * d1 - c31x * d2 - c12x * d3,
+                  -c23y * d1 - c31y * d2 - c12y * d3,
+                  -c23z * d1 - c31z * d2 - c12z * d3).div(dot);
         return this;
     }
 
