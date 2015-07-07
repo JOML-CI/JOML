@@ -29,7 +29,7 @@ public class Matrix4fTest extends TestCase {
 
         /* Build a perspective projection and then project and unproject. */
         new Matrix4f()
-        .perspective(45.0f, 1.0f, 0.01f, 100.0f)
+        .perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
         .project(expected, viewport, actual)
         .unproject(actual, viewport, inverse, actual);
 
@@ -140,16 +140,69 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
     }
 
-    public void testIsSphereInFrustumPlaneOrtho() {
+    public void testIsSphereInFrustumOrtho() {
         Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
         Assert.assertTrue(m.isSphereInsideFrustum(1, 0, 0, 0.1f));
         Assert.assertFalse(m.isSphereInsideFrustum(1.2f, 0, 0, 0.1f));
     }
 
-    public void testIsAabInFrustumPlaneOrtho() {
+    public void testIsAabInFrustumOrtho() {
         Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
         Assert.assertTrue(m.isAabInsideFrustum(0, 0, 0, 2, 2, 2));
         Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
+    }
+
+    public void testIsAabInFrustumOrthoNoVertexInside() {
+        Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
+        Assert.assertTrue(m.isAabInsideFrustum(-20, -1, 0, 20, 0, 0));
+        Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
+    }
+
+    public void testPositiveXRotateY() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .rotateY((float) Math.toRadians(90));
+        m.positiveX(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 0, 1), dir, 1E-7f);
+    }
+
+    public void testPositiveXRotateXY() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .rotateY((float) Math.toRadians(90)).rotateX((float) Math.toRadians(45));
+        m.positiveX(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 1, 1).normalize(), dir, 1E-7f);
+    }
+
+    public void testPositiveXPerspectiveRotateY() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+                .rotateY((float) Math.toRadians(90));
+        m.positiveX(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 0, -1), dir, 1E-7f);
+    }
+
+    public void testPositiveXPerspectiveRotateXY() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+                .rotateY((float) Math.toRadians(90)).rotateX((float) Math.toRadians(45));
+        m.positiveX(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, -1, -1).normalize(), dir, 1E-7f);
+    }
+
+    public void testFrustumCorner() {
+        Matrix4f m = new Matrix4f()
+        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .lookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
+        Vector3f corner = new Vector3f();
+        m.frustumCorner(Matrix4f.CORNER_NXNYNZ, corner); // left, bottom, near
+        TestUtil.assertVector3fEquals(new Vector3f(-0.1f, -0.1f, 10 - 0.1f), corner, 1E-6f);
+        m.frustumCorner(Matrix4f.CORNER_PXNYNZ, corner); // right, bottom, near
+        TestUtil.assertVector3fEquals(new Vector3f(0.1f, -0.1f, 10 - 0.1f), corner, 1E-6f);
+        m.frustumCorner(Matrix4f.CORNER_PXNYPZ, corner); // right, bottom, far
+        TestUtil.assertVector3fEquals(new Vector3f(100.0f, -100, 10 - 100f), corner, 1E-3f);
     }
 
 }
