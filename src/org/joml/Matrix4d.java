@@ -4988,9 +4988,9 @@ public class Matrix4d implements Externalizable {
         double c12x, c12y, c12z;
         c12x = n1y * n2z - n1z * n2y; c12y = n1z * n2x - n1x * n2z; c12z = n1x * n2y - n1y * n2x;
         double dot = n1x * c23x + n1y * c23y + n1z * c23z;
-        point.set(-c23x * d1 - c31x * d2 - c12x * d3,
-                  -c23y * d1 - c31y * d2 - c12y * d3,
-                  -c23z * d1 - c31z * d2 - c12z * d3).div(dot);
+        point.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
+        point.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
+        point.z = (-c23z * d1 - c31z * d2 - c12z * d3) / dot;
         return this;
     }
 
