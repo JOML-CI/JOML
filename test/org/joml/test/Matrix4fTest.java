@@ -205,4 +205,17 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(100.0f, -100, 10 - 100f), corner, 1E-3f);
     }
 
+    public void testFrustumCornerRotate() {
+        Matrix4f m = new Matrix4f()
+        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .lookAt(10, 0, 0, 0, 0, 0, 0, 1, 0);
+        Vector3f corner = new Vector3f();
+        m.frustumCorner(Matrix4f.CORNER_NXNYNZ, corner); // left, bottom, near
+        TestUtil.assertVector3fEquals(new Vector3f(10 - 0.1f, -0.1f, 0.1f), corner, 1E-6f);
+        m.frustumCorner(Matrix4f.CORNER_PXNYNZ, corner); // right, bottom, near
+        TestUtil.assertVector3fEquals(new Vector3f(10 - 0.1f, -0.1f, -0.1f), corner, 1E-6f);
+        m.frustumCorner(Matrix4f.CORNER_PXNYPZ, corner); // right, bottom, far
+        TestUtil.assertVector3fEquals(new Vector3f(-100.0f + 10, -100, -100f), corner, 1E-3f);
+    }
+
 }
