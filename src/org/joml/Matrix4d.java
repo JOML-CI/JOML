@@ -4982,11 +4982,17 @@ public class Matrix4d implements Externalizable {
             throw new IllegalArgumentException("corner"); //$NON-NLS-1$
         }
         double c23x, c23y, c23z;
-        c23x = n2y * n3z - n2z * n3y; c23y = n2z * n3x - n2x * n3z; c23z = n2x * n3y - n2y * n3x;
+        c23x = n2y * n3z - n2z * n3y;
+        c23y = n2z * n3x - n2x * n3z;
+        c23z = n2x * n3y - n2y * n3x;
         double c31x, c31y, c31z;
-        c31x = n3y * n1z - n3z * n1y; c31y = n3z * n1x - n3x * n1z; c31z = n3x * n1y - n3y * n1x;
+        c31x = n3y * n1z - n3z * n1y;
+        c31y = n3z * n1x - n3x * n1z;
+        c31z = n3x * n1y - n3y * n1x;
         double c12x, c12y, c12z;
-        c12x = n1y * n2z - n1z * n2y; c12y = n1z * n2x - n1x * n2z; c12z = n1x * n2y - n1y * n2x;
+        c12x = n1y * n2z - n1z * n2y;
+        c12y = n1z * n2x - n1x * n2z;
+        c12z = n1x * n2y - n1y * n2x;
         double dot = n1x * c23x + n1y * c23y + n1z * c23z;
         point.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
         point.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
