@@ -2491,6 +2491,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
      * 
+     * @see #ortho(float, float, float, float, float, float, Matrix4f)
      * @see #setOrtho2D(float, float, float, float)
      * 
      * @param left
@@ -2550,6 +2551,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
      * 
+     * @see #ortho(float, float, float, float, float, float)
      * @see #setOrtho2D(float, float, float, float)
      * 
      * @param left
@@ -2577,6 +2579,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
      * 
+     * @see #setOrtho(float, float, float, float, float, float)
      * @see #ortho2D(float, float, float, float)
      * 
      * @param left
