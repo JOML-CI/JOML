@@ -111,7 +111,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = angle % 360.0f;
+        this.angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
     }
 
     /**
