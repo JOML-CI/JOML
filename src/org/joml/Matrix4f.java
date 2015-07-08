@@ -5089,7 +5089,7 @@ public class Matrix4f implements Externalizable {
     public float perspectiveFov() {
         float n1x, n1y, n1z, n2x, n2y, n2z;
         n1x = m03 + m01; n1y = m13 + m11; n1z = m23 + m21; // bottom
-        n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; // top
+        n2x = m10 - m03; n2y = m11 - m13; n2z = m21 - m23; // top
         float n1len = (float) Math.sqrt(n1x * n1x + n1y * n1y + n1z * n1z);
         n1x /= n1len;
         n1y /= n1len;
@@ -5098,7 +5098,7 @@ public class Matrix4f implements Externalizable {
         n2x /= n2len;
         n2y /= n2len;
         n2z /= n2len;
-        return (float) (Math.PI - Math.acos(n1x * n2x + n1y * n2y + n1z * n2z));
+        return (float) Math.acos(n1x * n2x + n1y * n2y + n1z * n2z);
     }
 
     /**
