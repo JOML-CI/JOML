@@ -661,9 +661,12 @@ public class Matrix4f implements Externalizable {
      * @return the determinant
      */
     public float determinant() {
-        return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32) - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
-             + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31) + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
-             - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30) + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
+        return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32)
+             - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
+             + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31)
+             + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
+             - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30)
+             + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
 
     /**
@@ -5024,6 +5027,51 @@ public class Matrix4f implements Externalizable {
         point.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
         point.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
         point.z = (-c23z * d1 - c31z * d2 - c12z * d3) / dot;
+        return this;
+    }
+
+    /**
+     * Compute the eye/origin of the perspective frustum transformation defined by <code>this</code> matrix, 
+     * which can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>origin</code>.
+     * <p>
+     * Note that this method will only work using perspective projections obtained via one of the
+     * perspective methods, such as {@link #perspective(float, float, float, float) perspective()}
+     * or {@link #frustum(float, float, float, float, float, float) frustum()}.
+     * <p>
+     * Generally, this method computes the origin in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
+     * 
+     * @param origin
+     *          will hold the origin of the coordinate system before applying <code>this</code>
+     *          perspective projection transformation
+     * @return this
+     */
+    public Matrix4f perspectiveOrigin(Vector3f origin) {
+        float d1, d2, d3;
+        float n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
+        n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
+        n2x = m03 - m00; n2y = m13 - m10; n2z = m23 - m20; d2 = m33 - m30; // right
+        n3x = m03 - m01; n3y = m13 - m11; n3z = m23 - m21; d3 = m33 - m31; // top
+        float c23x, c23y, c23z;
+        c23x = n2y * n3z - n2z * n3y;
+        c23y = n2z * n3x - n2x * n3z;
+        c23z = n2x * n3y - n2y * n3x;
+        float c31x, c31y, c31z;
+        c31x = n3y * n1z - n3z * n1y;
+        c31y = n3z * n1x - n3x * n1z;
+        c31z = n3x * n1y - n3y * n1x;
+        float c12x, c12y, c12z;
+        c12x = n1y * n2z - n1z * n2y;
+        c12y = n1z * n2x - n1x * n2z;
+        c12z = n1x * n2y - n1y * n2x;
+        float dot = n1x * c23x + n1y * c23y + n1z * c23z;
+        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
+        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
+        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) / dot;
         return this;
     }
 

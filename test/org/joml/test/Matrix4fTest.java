@@ -263,4 +263,23 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(-100.0f + 10, -100, -100f), corner, 1E-3f);
     }
 
+    public void testPerspectiveOrigin() {
+        Matrix4f m = new Matrix4f()
+        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .lookAt(6, 0, 1, 
+                0, 0, 0, 
+                0, 1, 0);
+        Vector3f origin = new Vector3f();
+        m.perspectiveOrigin(origin);
+        TestUtil.assertVector3fEquals(new Vector3f(6, 0, 1), origin, 1E-5f);
+
+        m = new Matrix4f()
+        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .lookAt(-5, 2, 1, 
+                0, 1, 0, 
+                0, 1, 0);
+        m.perspectiveOrigin(origin);
+        TestUtil.assertVector3fEquals(new Vector3f(-5, 2, 1), origin, 1E-5f);
+    }
+
 }
