@@ -1107,8 +1107,6 @@ public class Matrix4f implements Externalizable {
     /**
      * Store this matrix into the supplied float array in column-major order.
      * 
-     * @see #get(float[], int)
-     * 
      * @param arr
      *          the array to write the matrix values into
      * @param offset
@@ -5055,6 +5053,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f perspectiveOrigin(Vector3f origin) {
+        /*
+         * Simply compute the intersection point of the left, right and top frustum plane.
+         */
         float d1, d2, d3;
         float n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
         n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
@@ -5091,6 +5092,9 @@ public class Matrix4f implements Externalizable {
      * @return the vertical field-of-view angle in radians
      */
     public float perspectiveFov() {
+        /*
+         * Compute the angle between the bottom and top frustum plane normals.
+         */
         float n1x, n1y, n1z, n2x, n2y, n2z;
         n1x = m03 + m01; n1y = m13 + m11; n1z = m23 + m21; // bottom
         n2x = m10 - m03; n2y = m11 - m13; n2z = m21 - m23; // top
