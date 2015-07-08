@@ -5087,7 +5087,18 @@ public class Matrix4f implements Externalizable {
      * @return the vertical field-of-view angle in radians
      */
     public float perspectiveFov() {
-        return (float) Math.acos((m03 - m01) * (m03 + m01) + (m13 - m11) * (m13 + m11) + (m23 - m21) * (m23 + m21));
+        float n1x, n1y, n1z, n2x, n2y, n2z;
+        n1x = m03 + m01; n1y = m13 + m11; n1z = m23 + m21; // bottom
+        n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; // top
+        float n1len = (float) Math.sqrt(n1x * n1x + n1y * n1y + n1z * n1z);
+        n1x /= n1len;
+        n1y /= n1len;
+        n1z /= n1len;
+        float n2len = (float) Math.sqrt(n2x * n2x + n2y * n2y + n2z * n2z);
+        n2x /= n2len;
+        n2y /= n2len;
+        n2z /= n2len;
+        return (float) (Math.PI - Math.acos(n1x * n2x + n1y * n2y + n1z * n2z));
     }
 
     /**

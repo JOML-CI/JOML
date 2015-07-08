@@ -282,4 +282,19 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(-5, 2, 1), origin, 1E-5f);
     }
 
+    public void testPerspectiveFov() {
+        Matrix4f m = new Matrix4f()
+        .perspective((float) Math.toRadians(45), 1.0f, 0.1f, 100.0f);
+        float fov = m.perspectiveFov();
+        assertEquals(Math.toRadians(45), fov, 1E-5);
+
+        m = new Matrix4f()
+        .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .lookAt(6, 0, 1, 
+                0, 0, 0, 
+                0, 1, 0);
+        fov = m.perspectiveFov();
+        assertEquals(Math.toRadians(90), fov, 1E-5);
+    }
+
 }
