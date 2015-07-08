@@ -648,7 +648,10 @@ public class Matrix4d implements Externalizable {
         return this;
     }
 
-    /** Set the values in the matrix using a double array. The results will look like this:<br><br>
+    /**
+     * Set the values in the matrix using a double array that contains the matrix elements in column-major order.
+     * <p>
+     * The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
@@ -679,7 +682,10 @@ public class Matrix4d implements Externalizable {
         return this;
     }
 
-    /** Set the values in the matrix using a float array. The results will look like this:<br><br>
+    /**
+     * Set the values in the matrix using a float array that contains the matrix elements in column-major order.
+     * <p>
+     * The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
@@ -1275,6 +1281,37 @@ public class Matrix4d implements Externalizable {
         buffer.put(index+13, (float) m31);
         buffer.put(index+14, (float) m32);
         buffer.put(index+15, (float) m33);
+        return this;
+    }
+
+    /**
+     * Store this matrix into the supplied double array in column-major order.
+     * 
+     * @see #get(double[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix4d get(double[] arr, int offset) {
+        arr[offset+0] = m00;
+        arr[offset+1] = m01;
+        arr[offset+2] = m02;
+        arr[offset+3] = m03;
+        arr[offset+4] = m10;
+        arr[offset+5] = m11;
+        arr[offset+6] = m12;
+        arr[offset+7] = m13;
+        arr[offset+8] = m20;
+        arr[offset+9] = m21;
+        arr[offset+10] = m22;
+        arr[offset+11] = m23;
+        arr[offset+12] = m30;
+        arr[offset+13] = m31;
+        arr[offset+14] = m32;
+        arr[offset+15] = m33;
         return this;
     }
 

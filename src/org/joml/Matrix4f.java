@@ -569,7 +569,9 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set the values in the matrix using a float array. The results will look like this:<br><br>
+     * Set the values in the matrix using a float array that contains the matrix elements in column-major order.
+     * <p>
+     * The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
@@ -605,7 +607,9 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set the values in the matrix using a float array. The results will look like this:<br><br>
+     * Set the values in the matrix using a float array that contains the matrix elements in column-major order.
+     * <p>
+     * The results will look like this:<br><br>
      * 
      * 0, 4, 8, 12<br>
      * 1, 5, 9, 13<br>
@@ -1101,7 +1105,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied float array.
+     * Store this matrix into the supplied float array in column-major order.
      * 
      * @see #get(float[], int)
      * 
