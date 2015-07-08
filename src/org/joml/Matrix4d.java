@@ -5055,8 +5055,10 @@ public class Matrix4d implements Externalizable {
      * Return the vertical field-of-view angle in radians of this perspective transformation matrix.
      * <p>
      * Note that this method will only work using perspective projections obtained via one of the
-     * perspective methods, such as {@link #perspective(float, float, float, float) perspective()}
-     * or {@link #frustum(float, float, float, float, float, float) frustum()}.
+     * perspective methods, such as {@link #perspective(double, double, double, double) perspective()}
+     * or {@link #frustum(double, double, double, double, double, double) frustum()}.
+     * <p>
+     * For orthogonal transformations this method will return <tt>0.0</tt>.
      * 
      * @return the vertical field-of-view angle in radians
      */
