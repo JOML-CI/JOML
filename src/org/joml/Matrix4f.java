@@ -5076,6 +5076,19 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Return the vertical field-of-view angle in radians of this perspective transformation matrix.
+     * <p>
+     * Note that this method will only work using perspective projections obtained via one of the
+     * perspective methods, such as {@link #perspective(float, float, float, float) perspective()}
+     * or {@link #frustum(float, float, float, float, float, float) frustum()}.
+     * 
+     * @return the vertical field-of-view angle in radians
+     */
+    public float perspectiveFov() {
+        return (float) Math.acos((m03 - m01) * (m03 + m01) + (m13 - m11) * (m13 + m11) + (m23 - m21) * (m23 + m21));
+    }
+
+    /**
      * Determine whether the given point is within the viewing frustum
      * defined by <code>this</code> matrix.
      * <p>
