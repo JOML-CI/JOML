@@ -265,6 +265,7 @@ public class Matrix4fTest extends TestCase {
 
     public void testPerspectiveOrigin() {
         Matrix4f m = new Matrix4f()
+        // test symmetric frustum with some modelview translation and rotation
         .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .lookAt(6, 0, 1, 
                 0, 0, 0, 
@@ -273,8 +274,18 @@ public class Matrix4fTest extends TestCase {
         m.perspectiveOrigin(origin);
         TestUtil.assertVector3fEquals(new Vector3f(6, 0, 1), origin, 1E-5f);
 
+        // test symmetric frustum with some modelview translation and rotation
         m = new Matrix4f()
         .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
+        .lookAt(-5, 2, 1, 
+                0, 1, 0, 
+                0, 1, 0);
+        m.perspectiveOrigin(origin);
+        TestUtil.assertVector3fEquals(new Vector3f(-5, 2, 1), origin, 1E-5f);
+
+        // test asymmetric frustum
+        m = new Matrix4f()
+        .frustum(-0.1f, 0.5f, -0.1f, 0.1f, 0.1f, 100.0f)
         .lookAt(-5, 2, 1, 
                 0, 1, 0, 
                 0, 1, 0);
