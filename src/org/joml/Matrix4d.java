@@ -5340,20 +5340,38 @@ public class Matrix4d implements Externalizable {
      *         <code>false</code> otherwise
      */
     public boolean isAabInsideFrustum(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
-        // compute box's center
-        double cx = (maxX + minX) / 2.0;
-        double cy = (maxY + minY) / 2.0;
-        double cz = (maxZ + minZ) / 2.0;
-        double n = (maxX - minX) / 2.0 * Math.abs(minX) +
-                   (maxY - minY) / 2.0 * Math.abs(minY) +
-                   (maxZ - minZ) / 2.0 * Math.abs(minZ);
-        if ((m03 + m00) * cx + (m13 + m10) * cy + (m23 + m20) * cz + (m33 + m30) + n < 0 ||
-            (m03 - m00) * cx + (m13 - m10) * cy + (m23 - m20) * cz + (m33 - m30) + n < 0 ||
-            (m03 + m01) * cx + (m13 + m11) * cy + (m23 + m21) * cz + (m33 + m31) + n < 0 ||
-            (m03 - m01) * cx + (m13 - m11) * cy + (m23 - m21) * cz + (m33 - m31) + n < 0 ||
-            (m03 + m02) * cx + (m13 + m12) * cy + (m23 + m22) * cz + (m33 + m32) + n < 0 ||
-            (m03 - m02) * cx + (m13 - m12) * cy + (m23 - m22) * cz + (m33 - m32) + n < 0) {
-            return false;
+        double nx, ny, nz;
+        double a, b, c, d;
+        for (int i = PLANE_NX; i <= PLANE_PZ; i++) {
+            switch (i) {
+            case PLANE_NX:
+                a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
+                break;
+            case PLANE_PX:
+                a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
+                break;
+            case PLANE_NY:
+                a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
+                break;
+            case PLANE_PY:
+                a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
+                break;
+            case PLANE_NZ:
+                a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
+                break;
+            case PLANE_PZ:
+                a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
+                break;
+            default:
+                return false;
+            }
+            nx = a < 0 ? minX : maxX;
+            ny = b < 0 ? minY : maxY;
+            nz = c < 0 ? minZ : maxZ;
+            double m = a * nx + b * ny + c * nz;
+            if (m < -d) {
+                return false;
+            }
         }
         return true;
     }
