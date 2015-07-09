@@ -5333,38 +5333,13 @@ public class Matrix4f implements Externalizable {
      *         <code>false</code> otherwise
      */
     public boolean isAabInsideFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
-        float nx, ny, nz;
-        float a, b, c, d;
-        for (int i = PLANE_NX; i <= PLANE_PZ; i++) {
-            switch (i) {
-            case PLANE_NX:
-                a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
-                break;
-            case PLANE_PX:
-                a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
-                break;
-            case PLANE_NY:
-                a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
-                break;
-            case PLANE_PY:
-                a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
-                break;
-            case PLANE_NZ:
-                a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
-                break;
-            case PLANE_PZ:
-                a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
-                break;
-            default:
-                return false;
-            }
-            nx = a < 0 ? minX : maxX;
-            ny = b < 0 ? minY : maxY;
-            nz = c < 0 ? minZ : maxZ;
-            float m = a * nx + b * ny + c * nz;
-            if (m < -d) {
-                return false;
-            }
+        if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) < -m33 - m30 ||
+            (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) < -m33 + m30 ||
+            (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) < -m33 - m31 ||
+            (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) < -m33 + m31 ||
+            (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) < -m33 - m32 ||
+            (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) < -m33 + m32) {
+            return false;
         }
         return true;
     }
