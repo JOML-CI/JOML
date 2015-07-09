@@ -5294,33 +5294,13 @@ public class Matrix4d implements Externalizable {
      *         <code>false</code> otherwise
      */
     public boolean isSphereInsideFrustum(double x, double y, double z, double r) {
-        double a, b, c, d;
-        for (int i = PLANE_NX; i <= PLANE_PZ; i++) {
-            switch (i) {
-            case PLANE_NX:
-                a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
-                break;
-            case PLANE_PX:
-                a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
-                break;
-            case PLANE_NY:
-                a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
-                break;
-            case PLANE_PY:
-                a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
-                break;
-            case PLANE_NZ:
-                a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
-                break;
-            case PLANE_PZ:
-                a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
-                break;
-            default:
-                return false;
-            }
-            if (a * x + b * y + c * z + d < -r) {
-                return false;
-            }
+        if ((m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) < -r ||
+            (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) < -r ||
+            (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) < -r ||
+            (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) < -r ||
+            (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) < -r ||
+            (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) < -r) {
+            return false;
         }
         return true;
     }
