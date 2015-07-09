@@ -5320,6 +5320,8 @@ public class Matrix4d implements Externalizable {
      * <p>
      * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
      * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.
+     * <p>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
      * @see #frustumPlane(int, Vector4d)
      * @see #isAabInsideFrustum(Vector3d, Vector3d)
@@ -5340,6 +5342,10 @@ public class Matrix4d implements Externalizable {
      *         <code>false</code> otherwise
      */
     public boolean isAabInsideFrustum(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+        /*
+         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
+         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         */
         if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) < -m33 - m30 ||
             (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) < -m33 + m30 ||
             (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) < -m33 - m31 ||

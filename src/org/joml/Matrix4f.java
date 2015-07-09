@@ -5333,6 +5333,10 @@ public class Matrix4f implements Externalizable {
      *         <code>false</code> otherwise
      */
     public boolean isAabInsideFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+        /*
+         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
+         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         */
         if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) < -m33 - m30 ||
             (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) < -m33 + m30 ||
             (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) < -m33 - m31 ||
