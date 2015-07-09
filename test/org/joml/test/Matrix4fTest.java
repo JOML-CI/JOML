@@ -156,6 +156,8 @@ public class Matrix4fTest extends TestCase {
         m = new Matrix4f();
         Assert.assertTrue(m.isAabInsideFrustum(0.5f, 0.5f, 0.5f, 2, 2, 2));
         Assert.assertFalse(m.isAabInsideFrustum(1.5f, 0.5f, 0.5f, 2, 2, 2));
+        Assert.assertFalse(m.isAabInsideFrustum(-2.5f, 0.5f, 0.5f, -1.5f, 2, 2));
+        Assert.assertFalse(m.isAabInsideFrustum(-0.5f, -2.5f, 0.5f, 1.5f, -2, 2));
     }
 
     public void testIsAabInPerspective() {
@@ -163,6 +165,7 @@ public class Matrix4fTest extends TestCase {
         Assert.assertTrue(m.isAabInsideFrustum(0, 0, -7, 1, 1, -5));
         Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
         Assert.assertFalse(m.isAabInsideFrustum(4, 4, -3, 5, 5, -5));
+        Assert.assertFalse(m.isAabInsideFrustum(-6, -6, -2, -1, -4, -4));
     }
 
     public void testIsPointInPerspective() {
