@@ -5015,6 +5015,9 @@ public class Matrix4f implements Externalizable {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param corner
      *          one of the eight possible corners, given as numeric constants
@@ -5104,6 +5107,9 @@ public class Matrix4f implements Externalizable {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param origin
      *          will hold the origin of the coordinate system before applying <code>this</code>
@@ -5146,6 +5152,9 @@ public class Matrix4f implements Externalizable {
      * or {@link #frustum(float, float, float, float, float, float) frustum()}.
      * <p>
      * For orthogonal transformations this method will return <tt>0.0</tt>.
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @return the vertical field-of-view angle in radians
      */
@@ -5192,6 +5201,9 @@ public class Matrix4f implements Externalizable {
      * <p>
      * If multiple points are to be tested on the same frustum, the frustum planes should be computed first using 
      * {@link #frustumPlane(int, Vector4f)} and then tested against the spheres, instead of using this method.
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isPointInsideFrustum(Vector3f)
@@ -5249,6 +5261,9 @@ public class Matrix4f implements Externalizable {
      * <p>
      * If multiple spheres are to be tested on the same frustum, the frustum planes should be computed first using 
      * {@link #frustumPlane(int, Vector4f)} and then tested against the spheres, instead of using this method.
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isSphereInsideFrustum(Vector3f, float)
@@ -5313,6 +5328,9 @@ public class Matrix4f implements Externalizable {
      * {@link #frustumPlane(int, Vector4f)} and then tested against the boxes, instead of using this method.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isAabInsideFrustum(Vector3f, Vector3f)
@@ -5363,6 +5381,9 @@ public class Matrix4f implements Externalizable {
      * it is recommended to use this method only in order to compute the four corner rays at
      * <tt>(0, 0)</tt>, <tt>(1, 0)</tt>, <tt>(0, 1)</tt> and <tt>(1, 1)</tt>
      * and then bilinearly interpolating between them.
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param x
      *          the interpolation factor along the left-to-right frustum planes, within <tt>[0..1]</tt>
