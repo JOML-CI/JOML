@@ -70,12 +70,12 @@ public class Matrix4fTest extends TestCase {
         .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .rotateY((float) Math.toRadians(90))
         .translate(0, -5, 0)
-            .frustumPlane(Matrix4f.PLANE_LEFT, left)
-            .frustumPlane(Matrix4f.PLANE_RIGHT, right)
-            .frustumPlane(Matrix4f.PLANE_BOTTOM, bottom)
-            .frustumPlane(Matrix4f.PLANE_TOP, top)
-            .frustumPlane(Matrix4f.PLANE_NEAR, near)
-            .frustumPlane(Matrix4f.PLANE_FAR, far);
+            .frustumPlane(Matrix4f.PLANE_NX, left)
+            .frustumPlane(Matrix4f.PLANE_PX, right)
+            .frustumPlane(Matrix4f.PLANE_NY, bottom)
+            .frustumPlane(Matrix4f.PLANE_PY, top)
+            .frustumPlane(Matrix4f.PLANE_NZ, near)
+            .frustumPlane(Matrix4f.PLANE_PZ, far);
 
         Vector4f expectedLeft = new Vector4f(1, 0, 1, 0).normalize3();
         Vector4f expectedRight = new Vector4f(1, 0, -1, 0).normalize3();

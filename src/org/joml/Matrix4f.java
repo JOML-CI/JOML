@@ -48,20 +48,76 @@ public class Matrix4f implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final int PLANE_LEFT = 0;
-    public static final int PLANE_RIGHT = 1;
-    public static final int PLANE_BOTTOM = 2;
-    public static final int PLANE_TOP = 3;
-    public static final int PLANE_NEAR = 4;
-    public static final int PLANE_FAR = 5;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * identifying the plane with equation <tt>x=-1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_NX = 0;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * identifying the plane with equation <tt>x=1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_PX = 1;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * identifying the plane with equation <tt>y=-1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_NY= 2;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * identifying the plane with equation <tt>y=1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_PY = 3;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * identifying the plane with equation <tt>z=-1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_NZ = 4;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * identifying the plane with equation <tt>z=1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_PZ = 5;
 
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
+     * identifying the corner <tt>(-1, -1, -1)</tt> when using the identity matrix.
+     */
     public static final int CORNER_NXNYNZ = 0;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
+     * identifying the corner <tt>(1, -1, -1)</tt> when using the identity matrix.
+     */
     public static final int CORNER_PXNYNZ = 1;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
+     * identifying the corner <tt>(1, 1, -1)</tt> when using the identity matrix.
+     */
     public static final int CORNER_PXPYNZ = 2;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
+     * identifying the corner <tt>(-1, 1, -1)</tt> when using the identity matrix.
+     */
     public static final int CORNER_NXPYNZ = 3;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
+     * identifying the corner <tt>(1, -1, 1)</tt> when using the identity matrix.
+     */
     public static final int CORNER_PXNYPZ = 4;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
+     * identifying the corner <tt>(-1, -1, 1)</tt> when using the identity matrix.
+     */
     public static final int CORNER_NXNYPZ = 5;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
+     * identifying the corner <tt>(-1, 1, 1)</tt> when using the identity matrix.
+     */
     public static final int CORNER_NXPYPZ = 6;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
+     * identifying the corner <tt>(1, 1, 1)</tt> when using the identity matrix.
+     */
     public static final int CORNER_PXPYPZ = 7;
 
     public float m00;
@@ -4915,7 +4971,9 @@ public class Matrix4f implements Externalizable {
      *
      * @param plane
      *          one of the six possible planes, given as numeric constants
-     *          {@link #PLANE_LEFT}, {@link #PLANE_RIGHT}, {@link #PLANE_BOTTOM}, {@link #PLANE_TOP}, {@link #PLANE_NEAR} and {@link #PLANE_FAR}
+     *          {@link #PLANE_NX}, {@link #PLANE_PX},
+     *          {@link #PLANE_NY}, {@link #PLANE_PY},
+     *          {@link #PLANE_NZ} and {@link #PLANE_PZ}
      * @param planeEquation
      *          will hold the computed plane equation.
      *          The plane equation will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector
@@ -4923,22 +4981,22 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f frustumPlane(int plane, Vector4f planeEquation) {
         switch (plane) {
-        case PLANE_LEFT:
+        case PLANE_NX:
             planeEquation.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
             break;
-        case PLANE_RIGHT:
+        case PLANE_PX:
             planeEquation.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3();
             break;
-        case PLANE_BOTTOM:
+        case PLANE_NY:
             planeEquation.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3();
             break;
-        case PLANE_TOP:
+        case PLANE_PY:
             planeEquation.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3();
             break;
-        case PLANE_NEAR:
+        case PLANE_NZ:
             planeEquation.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3();
             break;
-        case PLANE_FAR:
+        case PLANE_PZ:
             planeEquation.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3();
             break;
         default:
@@ -5148,24 +5206,24 @@ public class Matrix4f implements Externalizable {
      */
     public boolean isPointInsideFrustum(float x, float y, float z) {
         float a, b, c, d;
-        for (int i = PLANE_LEFT; i <= PLANE_FAR; i++) {
+        for (int i = PLANE_NX; i <= PLANE_PZ; i++) {
             switch (i) {
-            case PLANE_LEFT:
+            case PLANE_NX:
                 a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
                 break;
-            case PLANE_RIGHT:
+            case PLANE_PX:
                 a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
                 break;
-            case PLANE_BOTTOM:
+            case PLANE_NY:
                 a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
                 break;
-            case PLANE_TOP:
+            case PLANE_PY:
                 a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
                 break;
-            case PLANE_NEAR:
+            case PLANE_NZ:
                 a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
                 break;
-            case PLANE_FAR:
+            case PLANE_PZ:
                 a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
                 break;
             default:
@@ -5228,24 +5286,24 @@ public class Matrix4f implements Externalizable {
      */
     public boolean isSphereInsideFrustum(float x, float y, float z, float r) {
         float a, b, c, d;
-        for (int i = PLANE_LEFT; i <= PLANE_FAR; i++) {
+        for (int i = PLANE_NX; i <= PLANE_PZ; i++) {
             switch (i) {
-            case PLANE_LEFT:
+            case PLANE_NX:
                 a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
                 break;
-            case PLANE_RIGHT:
+            case PLANE_PX:
                 a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
                 break;
-            case PLANE_BOTTOM:
+            case PLANE_NY:
                 a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
                 break;
-            case PLANE_TOP:
+            case PLANE_PY:
                 a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
                 break;
-            case PLANE_NEAR:
+            case PLANE_NZ:
                 a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
                 break;
-            case PLANE_FAR:
+            case PLANE_PZ:
                 a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
                 break;
             default:
@@ -5322,24 +5380,24 @@ public class Matrix4f implements Externalizable {
         float hy = (maxY - minY) / 2.0f;
         float hz = (maxZ - minZ) / 2.0f;
         float a, b, c, d;
-        for (int i = PLANE_LEFT; i <= PLANE_FAR; i++) {
+        for (int i = PLANE_NX; i <= PLANE_PZ; i++) {
             switch (i) {
-            case PLANE_LEFT:
+            case PLANE_NX:
                 a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
                 break;
-            case PLANE_RIGHT:
+            case PLANE_PX:
                 a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
                 break;
-            case PLANE_BOTTOM:
+            case PLANE_NY:
                 a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
                 break;
-            case PLANE_TOP:
+            case PLANE_PY:
                 a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
                 break;
-            case PLANE_NEAR:
+            case PLANE_NZ:
                 a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
                 break;
-            case PLANE_FAR:
+            case PLANE_PZ:
                 a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
                 break;
             default:
