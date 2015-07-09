@@ -5188,7 +5188,7 @@ public class Matrix4d implements Externalizable {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * If multiple points are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4d)} and then tested against the spheres, instead of using this method.
+     * {@link #frustumPlane(int, Vector4d)} and then tested against the points, instead of using this method.
      * 
      * @see #frustumPlane(int, Vector4d)
      * @see #isPointInsideFrustum(double, double, double)
@@ -5209,7 +5209,7 @@ public class Matrix4d implements Externalizable {
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
      * If multiple points are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4d)} and then tested against the spheres, instead of using this method.
+     * {@link #frustumPlane(int, Vector4d)} and then tested against the points, instead of using this method.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
