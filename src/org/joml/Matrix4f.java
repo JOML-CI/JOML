@@ -5205,33 +5205,13 @@ public class Matrix4f implements Externalizable {
      * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
      */
     public boolean isPointInsideFrustum(float x, float y, float z) {
-        float a, b, c, d;
-        for (int i = PLANE_NX; i <= PLANE_PZ; i++) {
-            switch (i) {
-            case PLANE_NX:
-                a = m03 + m00; b = m13 + m10; c = m23 + m20; d = m33 + m30;
-                break;
-            case PLANE_PX:
-                a = m03 - m00; b = m13 - m10; c = m23 - m20; d = m33 - m30;
-                break;
-            case PLANE_NY:
-                a = m03 + m01; b = m13 + m11; c = m23 + m21; d = m33 + m31;
-                break;
-            case PLANE_PY:
-                a = m03 - m01; b = m13 - m11; c = m23 - m21; d = m33 - m31;
-                break;
-            case PLANE_NZ:
-                a = m03 + m02; b = m13 + m12; c = m23 + m22; d = m33 + m32;
-                break;
-            case PLANE_PZ:
-                a = m03 - m02; b = m13 - m12; c = m23 - m22; d = m33 - m32;
-                break;
-            default:
-                return false;
-            }
-            if (a * x + b * y + c * z + d < 0) {
-                return false;
-            }
+        if ((m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) < 0 ||
+            (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) < 0 ||
+            (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) < 0 ||
+            (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) < 0 ||
+            (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) < 0 ||
+            (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) < 0) {
+            return false;
         }
         return true;
     }
