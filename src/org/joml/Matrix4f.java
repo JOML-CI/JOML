@@ -470,6 +470,23 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Update the given {@link Culler} with <code>this</code> matrix.
+     * <p>
+     * This will result in the culler recalculating <code>this</code> matrix's frustum planes via {@link #frustumPlane(int, Vector4f)}.
+     * 
+     * @see Culler#set(Matrix4f)
+     * @see #frustumPlane(int, Vector4f)
+     * 
+     * @param culler
+     *          the {@link Culler} to update
+     * @return this
+     */
+    public Matrix4f set(Culler culler) {
+        culler.set(this);
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
@@ -5374,8 +5391,7 @@ public class Matrix4f implements Externalizable {
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * If multiple points are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the points, instead of using this method.
+     * If multiple points are to be tested on the same frustum, create a {@link Culler} from this matrix instead.
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isPointInsideFrustum(float, float, float)
@@ -5395,8 +5411,7 @@ public class Matrix4f implements Externalizable {
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * If multiple points are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the points, instead of using this method.
+     * If multiple points are to be tested on the same frustum, create a {@link Culler} from this matrix instead.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -5428,8 +5443,7 @@ public class Matrix4f implements Externalizable {
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * If multiple spheres are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the spheres, instead of using this method.
+     * If multiple spheres are to be tested on the same frustum, create a {@link Culler} from this matrix instead.
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isSphereInsideFrustum(float, float, float, float)
@@ -5452,8 +5466,7 @@ public class Matrix4f implements Externalizable {
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * If multiple spheres are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the spheres, instead of using this method.
+     * If multiple spheres are to be tested on the same frustum, create a {@link Culler} from this matrix instead.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -5496,8 +5509,7 @@ public class Matrix4f implements Externalizable {
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the boxes, instead of using this method.
+     * If multiple boxes are to be tested on the same frustum, create a {@link Culler} from this matrix instead.
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isAabInsideFrustum(float, float, float, float, float, float)
@@ -5525,8 +5537,7 @@ public class Matrix4f implements Externalizable {
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the boxes, instead of using this method.
+     * If multiple boxes are to be tested on the same frustum, create a {@link Culler} from this matrix instead.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * <p>
@@ -5604,8 +5615,7 @@ public class Matrix4f implements Externalizable {
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the boxes, instead of using this method.
+     * If multiple boxes are to be tested on the same frustum, create a {@link Culler} from this matrix instead.
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isAabInsideFrustumMasked(float, float, float, float, float, float, int)
@@ -5643,8 +5653,7 @@ public class Matrix4f implements Externalizable {
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
      * <p>
-     * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
-     * {@link #frustumPlane(int, Vector4f)} and then tested against the boxes, instead of using this method.
+     * If multiple boxes are to be tested on the same frustum, create a {@link Culler} from this matrix instead.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * <p>
