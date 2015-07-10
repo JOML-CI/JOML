@@ -106,12 +106,12 @@ public class Culler {
      */
     public static final int PLANE_MASK_PZ = 1<<5;
 
-    private final Vector4f nx = new Vector4f();
-    private final Vector4f px = new Vector4f();
-    private final Vector4f ny = new Vector4f();
-    private final Vector4f py = new Vector4f();
-    private final Vector4f nz = new Vector4f();
-    private final Vector4f pz = new Vector4f();
+    private float nxX, nxY, nxZ, nxW;
+    private float pxX, pxY, pxZ, pxW;
+    private float nyX, nyY, nyZ, nyW;
+    private float pyX, pyY, pyZ, pyW;
+    private float nzX, nzY, nzZ, nzW;
+    private float pzX, pzY, pzZ, pzW;
 
     /**
      * Create a new {@link Culler} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
@@ -120,12 +120,7 @@ public class Culler {
      *          the {@link Matrix4f} to create the culler from
      */
     public Culler(Matrix4f m) {
-        nx.set(m.m03 + m.m00, m.m13 + m.m10, m.m23 + m.m20, m.m33 + m.m30).normalize3();
-        px.set(m.m03 - m.m00, m.m13 - m.m10, m.m23 - m.m20, m.m33 - m.m30).normalize3();
-        ny.set(m.m03 + m.m01, m.m13 + m.m11, m.m23 + m.m21, m.m33 + m.m31).normalize3();
-        py.set(m.m03 - m.m01, m.m13 - m.m11, m.m23 - m.m21, m.m33 - m.m31).normalize3();
-        nz.set(m.m03 + m.m02, m.m13 + m.m12, m.m23 + m.m22, m.m33 + m.m32).normalize3();
-        pz.set(m.m03 - m.m02, m.m13 - m.m12, m.m23 - m.m22, m.m33 - m.m32).normalize3();
+        set(m);
     }
 
     /**
@@ -136,12 +131,25 @@ public class Culler {
      * @return this
      */
     public Culler set(Matrix4f m) {
-        nx.set(m.m03 + m.m00, m.m13 + m.m10, m.m23 + m.m20, m.m33 + m.m30).normalize3();
-        px.set(m.m03 - m.m00, m.m13 - m.m10, m.m23 - m.m20, m.m33 - m.m30).normalize3();
-        ny.set(m.m03 + m.m01, m.m13 + m.m11, m.m23 + m.m21, m.m33 + m.m31).normalize3();
-        py.set(m.m03 - m.m01, m.m13 - m.m11, m.m23 - m.m21, m.m33 - m.m31).normalize3();
-        nz.set(m.m03 + m.m02, m.m13 + m.m12, m.m23 + m.m22, m.m33 + m.m32).normalize3();
-        pz.set(m.m03 - m.m02, m.m13 - m.m12, m.m23 - m.m22, m.m33 - m.m32).normalize3();
+        float l;
+        nxX = m.m03 + m.m00; nxY = m.m13 + m.m10; nxZ = m.m23 + m.m20; nxW = m.m33 + m.m30;
+        l = (float) Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ);
+        nxX /= l; nxY /= l; nxZ /= l; nxW /= l;
+        pxX = m.m03 - m.m00; pxY = m.m13 - m.m10; pxZ = m.m23 - m.m20; pxW = m.m33 - m.m30;
+        l = (float) Math.sqrt(pxX * pxX + pxY * pxY + pxZ * pxZ);
+        pxX /= l; pxY /= l; pxZ /= l; pxW /= l;
+        nyX = m.m03 + m.m01; nyY = m.m13 + m.m11; nyZ = m.m23 + m.m21; nyW = m.m33 + m.m31;
+        l = (float) Math.sqrt(nyX * nyX + nyY * nyY + nyZ * nyZ);
+        nyX /= l; nyY /= l; nyZ /= l; nyW /= l;
+        pyX = m.m03 - m.m01; pyY = m.m13 - m.m11; pyZ = m.m23 - m.m21; pyW = m.m33 - m.m31;
+        l = (float) Math.sqrt(pyX * pyX + pyY * pyY + pyZ * pyZ);
+        pyX /= l; pyY /= l; pyZ /= l; pyW /= l;
+        nzX = m.m03 + m.m02; nzY = m.m13 + m.m12; nzZ = m.m23 + m.m22; nzW = m.m33 + m.m32;
+        l = (float) Math.sqrt(nzX * nzX + nzY * nzY + nzZ * nzZ);
+        nzX /= l; nzY /= l; nzZ /= l; nzW /= l;
+        pzX = m.m03 - m.m02; pzY = m.m13 - m.m12; pzZ = m.m23 - m.m22; pzW = m.m33 - m.m32;
+        l = (float) Math.sqrt(pzX * pzX + pzY * pzY + pzZ * pzZ);
+        pzX /= l; pzY /= l; pzZ /= l; pzW /= l;
         return this;
     }
 
@@ -172,12 +180,12 @@ public class Culler {
      * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
      */
     public boolean isPointInsideFrustum(float x, float y, float z) {
-        return (nx.x * x + nx.y * y + nx.z * z + nx.w >= 0 &&
-                px.x * x + px.y * y + px.z * z + px.w >= 0 &&
-                ny.x * x + ny.y * y + ny.z * z + ny.w >= 0 &&
-                py.x * x + py.y * y + py.z * z + py.w >= 0 &&
-                nz.x * x + nz.y * y + nz.z * z + nz.w >= 0 &&
-                pz.x * x + pz.y * y + pz.z * z + pz.w >= 0);
+        return (nxX * x + nxY * y + nxZ * z + nxW >= 0 &&
+                pxX * x + pxY * y + pxZ * z + pxW >= 0 &&
+                nyX * x + nyY * y + nyZ * z + nyW >= 0 &&
+                pyX * x + pyY * y + pyZ * z + pyW >= 0 &&
+                nzX * x + nzY * y + nzZ * z + nzW >= 0 &&
+                pzX * x + pzY * y + pzZ * z + pzW >= 0);
     }
 
     /**
@@ -212,12 +220,12 @@ public class Culler {
      *         <code>false</code> otherwise
      */
     public boolean isSphereInsideFrustum(float x, float y, float z, float r) {
-        return nx.x * x + nx.y * y + nx.z * z + nx.w >= -r &&
-               px.x * x + px.y * y + px.z * z + px.w >= -r &&
-               ny.x * x + ny.y * y + ny.z * z + ny.w >= -r &&
-               py.x * x + py.y * y + py.z * z + py.w >= -r &&
-               nz.x * x + nz.y * y + nz.z * z + nz.w >= -r &&
-               pz.x * x + pz.y * y + pz.z * z + pz.w >= -r;
+        return nxX * x + nxY * y + nxZ * z + nxW >= -r &&
+               pxX * x + pxY * y + pxZ * z + pxW >= -r &&
+               nyX * x + nyY * y + nyZ * z + nyW >= -r &&
+               pyX * x + pyY * y + pyZ * z + pyW >= -r &&
+               nzX * x + nzY * y + nzZ * z + nzW >= -r &&
+               pzX * x + pzY * y + pzZ * z + pzW >= -r;
     }
 
     /**
@@ -278,12 +286,12 @@ public class Culler {
          * or -1 if the box intersects the frustum.
          */
         int plane = 0;
-        if (nx.x * (nx.x < 0 ? minX : maxX) + nx.y * (nx.y < 0 ? minY : maxY) + nx.z * (nx.z < 0 ? minZ : maxZ) >= -nx.w && ++plane != 0 &&
-            px.x * (px.x < 0 ? minX : maxX) + px.y * (px.y < 0 ? minY : maxY) + px.z * (px.z < 0 ? minZ : maxZ) >= -px.w && ++plane != 0 &&
-            ny.x * (ny.x < 0 ? minX : maxX) + ny.y * (ny.y < 0 ? minY : maxY) + ny.z * (ny.z < 0 ? minZ : maxZ) >= -ny.w && ++plane != 0 &&
-            py.x * (py.x < 0 ? minX : maxX) + py.y * (py.y < 0 ? minY : maxY) + py.z * (py.z < 0 ? minZ : maxZ) >= -py.w && ++plane != 0 &&
-            nz.x * (nz.x < 0 ? minX : maxX) + nz.y * (nz.y < 0 ? minY : maxY) + nz.z * (nz.z < 0 ? minZ : maxZ) >= -nz.w && ++plane != 0 &&
-            pz.x * (pz.x < 0 ? minX : maxX) + pz.y * (pz.y < 0 ? minY : maxY) + pz.z * (pz.z < 0 ? minZ : maxZ) >= -pz.w)
+        if (nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW && ++plane != 0 &&
+            pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW && ++plane != 0 &&
+            nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW && ++plane != 0 &&
+            pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW && ++plane != 0 &&
+            nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW && ++plane != 0 &&
+            pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW)
             return -1;
         return plane;
     }
@@ -368,12 +376,12 @@ public class Culler {
          * or -1 if the box intersects the frustum.
          */
         int plane = 0;
-        if (((mask & Matrix4f.PLANE_MASK_NX) == 0 || nx.x * (nx.x < 0 ? minX : maxX) + nx.y * (nx.y < 0 ? minY : maxY) + nx.z * (nx.z < 0 ? minZ : maxZ) >= -nx.w) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_PX) == 0 || px.x * (px.x < 0 ? minX : maxX) + px.y * (px.y < 0 ? minY : maxY) + px.z * (px.z < 0 ? minZ : maxZ) >= -px.w) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_NY) == 0 || ny.x * (ny.x < 0 ? minX : maxX) + ny.y * (ny.y < 0 ? minY : maxY) + ny.z * (ny.z < 0 ? minZ : maxZ) >= -ny.w) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_PY) == 0 || py.x * (py.x < 0 ? minX : maxX) + py.y * (py.y < 0 ? minY : maxY) + py.z * (py.z < 0 ? minZ : maxZ) >= -py.w) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_NZ) == 0 || nz.x * (nz.x < 0 ? minX : maxX) + nz.y * (nz.y < 0 ? minY : maxY) + nz.z * (nz.z < 0 ? minZ : maxZ) >= -nz.w) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_PZ) == 0 || pz.x * (pz.x < 0 ? minX : maxX) + pz.y * (pz.y < 0 ? minY : maxY) + pz.z * (pz.z < 0 ? minZ : maxZ) >= -pz.w))
+        if (((mask & Matrix4f.PLANE_MASK_NX) == 0 || nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW) && ++plane != 0 &&
+            ((mask & Matrix4f.PLANE_MASK_PX) == 0 || pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW) && ++plane != 0 &&
+            ((mask & Matrix4f.PLANE_MASK_NY) == 0 || nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW) && ++plane != 0 &&
+            ((mask & Matrix4f.PLANE_MASK_PY) == 0 || pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW) && ++plane != 0 &&
+            ((mask & Matrix4f.PLANE_MASK_NZ) == 0 || nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW) && ++plane != 0 &&
+            ((mask & Matrix4f.PLANE_MASK_PZ) == 0 || pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW))
             return -1;
         return plane;
     }
