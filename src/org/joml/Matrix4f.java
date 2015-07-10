@@ -5595,20 +5595,6 @@ public class Matrix4f implements Externalizable {
         return plane;
     }
 
-    public static void main(String[] args) {
-        Matrix4f m = new Matrix4f();
-        {
-            long time1 = System.nanoTime();
-            int res = -1;
-            for (int i = 0; i < 9000000; i++)
-                res = m.isAabInsideFrustumMasked(0.5f, 0.5f, -5.5f,
-                                                 0.7f, 0.6f, -4.6f, 1<<4);
-            long time2 = System.nanoTime();
-            System.err.println("Took " + (time2 - time1) / 1E6);
-            System.err.println(res);
-        }
-    }
-
     /**
      * Obtain the direction of a ray starting at the center of the coordinate system and going 
      * through the near frustum plane.
