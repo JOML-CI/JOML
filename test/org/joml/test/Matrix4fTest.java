@@ -154,24 +154,24 @@ public class Matrix4fTest extends TestCase {
 
     public void testIsAabInFrustumOrtho() {
         Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
-        Assert.assertTrue(m.isAabInsideFrustum(-20, -2, 0, 20, 2, 0));
-        Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
+        Assert.assertEquals(-1, m.isAabInsideFrustum(-20, -2, 0, 20, 2, 0));
+        Assert.assertEquals(1, m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
         m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
-        Assert.assertTrue(m.isAabInsideFrustum(0, 0, 0, 2, 2, 2));
-        Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
+        Assert.assertEquals(-1, m.isAabInsideFrustum(0, 0, 0, 2, 2, 2));
+        Assert.assertEquals(1, m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
         m = new Matrix4f();
-        Assert.assertTrue(m.isAabInsideFrustum(0.5f, 0.5f, 0.5f, 2, 2, 2));
-        Assert.assertFalse(m.isAabInsideFrustum(1.5f, 0.5f, 0.5f, 2, 2, 2));
-        Assert.assertFalse(m.isAabInsideFrustum(-2.5f, 0.5f, 0.5f, -1.5f, 2, 2));
-        Assert.assertFalse(m.isAabInsideFrustum(-0.5f, -2.5f, 0.5f, 1.5f, -2, 2));
+        Assert.assertEquals(-1, m.isAabInsideFrustum(0.5f, 0.5f, 0.5f, 2, 2, 2));
+        Assert.assertEquals(1, m.isAabInsideFrustum(1.5f, 0.5f, 0.5f, 2, 2, 2));
+        Assert.assertEquals(0, m.isAabInsideFrustum(-2.5f, 0.5f, 0.5f, -1.5f, 2, 2));
+        Assert.assertEquals(2, m.isAabInsideFrustum(-0.5f, -2.5f, 0.5f, 1.5f, -2, 2));
     }
 
     public void testIsAabInPerspective() {
         Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f); 
-        Assert.assertTrue(m.isAabInsideFrustum(0, 0, -7, 1, 1, -5));
-        Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
-        Assert.assertFalse(m.isAabInsideFrustum(4, 4, -3, 5, 5, -5));
-        Assert.assertFalse(m.isAabInsideFrustum(-6, -6, -2, -1, -4, -4));
+        Assert.assertTrue(m.isAabInsideFrustum(0, 0, -7, 1, 1, -5) == -1);
+        Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2) == -1);
+        Assert.assertFalse(m.isAabInsideFrustum(4, 4, -3, 5, 5, -5) == -1);
+        Assert.assertFalse(m.isAabInsideFrustum(-6, -6, -2, -1, -4, -4) == -1);
     }
 
     public void testIsPointInPerspective() {
@@ -182,9 +182,9 @@ public class Matrix4fTest extends TestCase {
 
     public void testIsAabInPerspectiveMask() {
         Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f); 
-        Assert.assertTrue(m.isAabInsideFrustumMasked(5.1f, 0, -3, 8, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_PX));
-        Assert.assertTrue(m.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_NX));
-        Assert.assertFalse(m.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, Matrix4f.PLANE_MASK_NX));
+        Assert.assertEquals(-1, m.isAabInsideFrustumMasked(5.1f, 0, -3, 8, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_PX));
+        Assert.assertEquals(-1, m.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_NX));
+        Assert.assertEquals(0, m.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, Matrix4f.PLANE_MASK_NX));
     }
 
     public void testPositiveXRotateY() {

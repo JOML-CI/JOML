@@ -5404,7 +5404,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix.
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
+     * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
      * This method computes the frustum planes in the local frame of
@@ -5421,15 +5422,19 @@ public class Matrix4f implements Externalizable {
      *          the minimum corner coordinates of the axis-aligned box
      * @param max
      *          the maximum corner coordinates of the axis-aligned box
-     * @return <code>true</code> if the given axis-aligned box is partly or completely inside the clipping frustum;
-     *         <code>false</code> otherwise
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
+     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
+     *         {@link #PLANE_NX}, {@link #PLANE_PX},
+     *         {@link #PLANE_NY}, {@link #PLANE_PY},
+     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public boolean isAabInsideFrustum(Vector3f min, Vector3f max) {
+    public int isAabInsideFrustum(Vector3f min, Vector3f max) {
         return isAabInsideFrustum(min.x, min.y, min.z, max.x, max.y, max.z);
     }
 
     /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix.
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
+     * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its min and max corner coordinates.
      * <p>
      * This method computes the frustum planes in the local frame of
@@ -5459,25 +5464,31 @@ public class Matrix4f implements Externalizable {
      *          the y-coordinate of the maximum corner
      * @param maxZ
      *          the z-coordinate of the maximum corner
-     * @return <code>true</code> if the given axis-aligned box is partly or completely inside the clipping frustum;
-     *         <code>false</code> otherwise
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
+     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
+     *         {@link #PLANE_NX}, {@link #PLANE_PX},
+     *         {@link #PLANE_NY}, {@link #PLANE_PY},
+     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public boolean isAabInsideFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    public int isAabInsideFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
         /*
          * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
          * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
          */
-        return ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30 &&
-                (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30 &&
-                (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31 &&
-                (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31 &&
-                (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32 &&
-                (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32);
+        int plane = 0;
+        if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30 && ++plane != 0 &&
+            (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30 && ++plane != 0 &&
+            (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31 && ++plane != 0 &&
+            (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31 && ++plane != 0 &&
+            (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32 && ++plane != 0 &&
+            (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32)
+            return -1;
+        return plane;
     }
 
     /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix,
-     * while only taking the frustum planes specified by the given <code>mask</code> into account.
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
+     * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
      * This method differs from {@link #isAabInsideFrustum(Vector3f min, Vector3f max) isAabInsideFrustum()} in that
@@ -5504,16 +5515,19 @@ public class Matrix4f implements Externalizable {
      *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
      *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
      *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
-     * @return <code>true</code> if the given axis-aligned box is partly or completely inside the clipping frustum;
-     *         <code>false</code> otherwise
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
+     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
+     *         {@link #PLANE_NX}, {@link #PLANE_PX},
+     *         {@link #PLANE_NY}, {@link #PLANE_PY},
+     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public boolean isAabInsideFrustumMasked(Vector3f min, Vector3f max, int mask) {
+    public int isAabInsideFrustumMasked(Vector3f min, Vector3f max, int mask) {
         return isAabInsideFrustumMasked(min.x, min.y, min.z, max.x, max.y, max.z, mask);
     }
 
     /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix,
-     * while only taking the frustum planes specified by the given <code>mask</code> into account.
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
+     * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its min and max corner coordinates.
      * <p>
      * This method differs from {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} in that
@@ -5553,20 +5567,26 @@ public class Matrix4f implements Externalizable {
      *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
      *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
      *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
-     * @return <code>true</code> if the given axis-aligned box is partly or completely inside the clipping frustum;
-     *         <code>false</code> otherwise
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
+     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
+     *         {@link #PLANE_NX}, {@link #PLANE_PX},
+     *         {@link #PLANE_NY}, {@link #PLANE_PY},
+     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public boolean isAabInsideFrustumMasked(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, int mask) {
+    public int isAabInsideFrustumMasked(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, int mask) {
         /*
          * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
          * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
          */
-        return (((mask & PLANE_MASK_NX) == 0 || (m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30) &&
-                ((mask & PLANE_MASK_PX) == 0 || (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30) &&
-                ((mask & PLANE_MASK_NY) == 0 || (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31) &&
-                ((mask & PLANE_MASK_PY) == 0 || (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31) &&
-                ((mask & PLANE_MASK_NZ) == 0 || (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32) &&
-                ((mask & PLANE_MASK_PZ) == 0 || (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32));
+        int plane = 0;
+        if (((mask & PLANE_MASK_NX) == 0 || (m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30) && ++plane != 0 &&
+            ((mask & PLANE_MASK_PX) == 0 || (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30) && ++plane != 0 &&
+            ((mask & PLANE_MASK_NY) == 0 || (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31) && ++plane != 0 &&
+            ((mask & PLANE_MASK_PY) == 0 || (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31) && ++plane != 0 &&
+            ((mask & PLANE_MASK_NZ) == 0 || (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32) && ++plane != 0 &&
+            ((mask & PLANE_MASK_PZ) == 0 || (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32))
+            return -1;
+        return plane;
     }
 
     /**
