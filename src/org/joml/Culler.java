@@ -114,6 +114,14 @@ public class Culler {
     private float pzX, pzY, pzZ, pzW;
 
     /**
+     * Create a new {@link Culler} with undefined frustum planes.
+     * <p>
+     * Before using any of the frustum culling methods, make sure to define the frustum planes using {@link #set(Matrix4f)}.
+     */
+    public Culler() {
+    }
+
+    /**
      * Create a new {@link Culler} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
      * 
      * @param m
