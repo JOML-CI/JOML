@@ -149,7 +149,7 @@ public class Matrix4fTest extends TestCase {
     public void testIsSphereInFrustumPerspective() {
         Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
         Assert.assertTrue(m.isSphereInsideFrustum(1, 0, -2, 0.1f));
-        Assert.assertFalse(m.isSphereInsideFrustum(4f, 0, -2, 1.9f));
+        Assert.assertFalse(m.isSphereInsideFrustum(4f, 0, -2, 1.0f));
     }
 
     public void testIsAabInFrustumOrtho() {
