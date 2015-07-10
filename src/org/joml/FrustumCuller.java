@@ -30,7 +30,7 @@ package org.joml;
  * 
  * @author Kai Burjack
  */
-public class Culler {
+public class FrustumCuller {
 
     /**
      * Return value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
@@ -114,31 +114,31 @@ public class Culler {
     private float pzX, pzY, pzZ, pzW;
 
     /**
-     * Create a new {@link Culler} with undefined frustum planes.
+     * Create a new {@link FrustumCuller} with undefined frustum planes.
      * <p>
      * Before using any of the frustum culling methods, make sure to define the frustum planes using {@link #set(Matrix4f)}.
      */
-    public Culler() {
+    public FrustumCuller() {
     }
 
     /**
-     * Create a new {@link Culler} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
+     * Create a new {@link FrustumCuller} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
      * 
      * @param m
-     *          the {@link Matrix4f} to create the culler from
+     *          the {@link Matrix4f} to create the frustum culler from
      */
-    public Culler(Matrix4f m) {
+    public FrustumCuller(Matrix4f m) {
         set(m);
     }
 
     /**
-     * Update the stored frustum planes of <code>this</code> {@link Culler} with the given {@link Matrix4f matrix}.
+     * Update the stored frustum planes of <code>this</code> {@link FrustumCuller} with the given {@link Matrix4f matrix}.
      * 
      * @param m
-     *          the {@link Matrix4f matrix} to update <code>this</code> culler's frustum planes from
+     *          the {@link Matrix4f matrix} to update <code>this</code> frustum culler's frustum planes from
      * @return this
      */
-    public Culler set(Matrix4f m) {
+    public FrustumCuller set(Matrix4f m) {
         float l;
         nxX = m.m03 + m.m00; nxY = m.m13 + m.m10; nxZ = m.m23 + m.m20; nxW = m.m33 + m.m30;
         l = (float) Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ);
@@ -163,7 +163,7 @@ public class Culler {
 
     /**
      * Determine whether the given point is within the viewing frustum
-     * defined by <code>this</code> culler.
+     * defined by <code>this</code> frustum culler.
      * 
      * @param point
      *          the point to test
@@ -174,7 +174,7 @@ public class Culler {
     }
 
     /**
-     * Determine whether the given point <tt>(x, y, z)</tt> is within the viewing frustum defined by <code>this</code> culler.
+     * Determine whether the given point <tt>(x, y, z)</tt> is within the viewing frustum defined by <code>this</code> frustum culler.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -197,7 +197,7 @@ public class Culler {
     }
 
     /**
-     * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> culler.
+     * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> frustum culler.
      * 
      * @param center
      *          the sphere's center
@@ -211,7 +211,7 @@ public class Culler {
     }
 
     /**
-     * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> culler.
+     * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> frustum culler.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -237,7 +237,7 @@ public class Culler {
     }
 
     /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> culler
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> frustum culler
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * 
@@ -257,7 +257,7 @@ public class Culler {
     }
 
     /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> culler
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> frustum culler
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its min and max corner coordinates.
      * <p>
@@ -305,7 +305,7 @@ public class Culler {
     }
 
     /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> culler
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> frustum culler
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
@@ -336,7 +336,7 @@ public class Culler {
     }
 
     /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> culler
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> frustum culler
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its min and max corner coordinates.
      * <p>
