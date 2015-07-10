@@ -5477,6 +5477,9 @@ public class Matrix4d implements Externalizable {
         /*
          * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
          * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         * 
+         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
+         * or -1 if the box intersects the frustum.
          */
         int plane = 0;
         if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30 && ++plane != 0 &&
@@ -5494,7 +5497,7 @@ public class Matrix4d implements Externalizable {
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
-     * This method differs from {@link #isAabInsideFrustum(Vector3d min, Vector3d max) isAabInsideFrustum()} in that
+     * This method differs from {@link #isAabInsideFrustum(Vector3d, Vector3d) isAabInsideFrustum()} in that
      * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
@@ -5580,6 +5583,9 @@ public class Matrix4d implements Externalizable {
         /*
          * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
          * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         * 
+         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
+         * or -1 if the box intersects the frustum.
          */
         int plane = 0;
         if (((mask & PLANE_MASK_NX) == 0 || (m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30) && ++plane != 0 &&
