@@ -470,23 +470,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Update the given {@link Culler} with <code>this</code> matrix.
-     * <p>
-     * This will result in the culler recalculating <code>this</code> matrix's frustum planes via {@link #frustumPlane(int, Vector4f)}.
-     * 
-     * @see Culler#set(Matrix4f)
-     * @see #frustumPlane(int, Vector4f)
-     * 
-     * @param culler
-     *          the {@link Culler} to update
-     * @return this
-     */
-    public Matrix4f set(Culler culler) {
-        culler.set(this);
-        return this;
-    }
-
-    /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
@@ -1252,6 +1235,22 @@ public class Matrix4f implements Externalizable {
         arr[offset+13] = m31;
         arr[offset+14] = m32;
         arr[offset+15] = m33;
+        return this;
+    }
+
+    /**
+     * Update the given {@link Culler} with <code>this</code> matrix.
+     * <p>
+     * This will result in the culler recalculating <code>this</code> matrix's frustum planes.
+     * 
+     * @see Culler#set(Matrix4f)
+     * 
+     * @param culler
+     *          the {@link Culler} to update
+     * @return this
+     */
+    public Matrix4f get(Culler culler) {
+        culler.set(this);
         return this;
     }
 
