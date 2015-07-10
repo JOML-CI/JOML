@@ -175,9 +175,6 @@ public class FrustumCuller {
 
     /**
      * Determine whether the given point <tt>(x, y, z)</tt> is within the viewing frustum defined by <code>this</code> frustum culler.
-     * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param x
      *          the x-coordinate of the point
@@ -198,6 +195,10 @@ public class FrustumCuller {
 
     /**
      * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> frustum culler.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
      * 
      * @param center
      *          the sphere's center
@@ -213,8 +214,9 @@ public class FrustumCuller {
     /**
      * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> frustum culler.
      * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
      * 
      * @param x
      *          the x-coordinate of the sphere's center
@@ -240,6 +242,10 @@ public class FrustumCuller {
      * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> frustum culler
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
      * 
      * @param min
      *          the minimum corner coordinates of the axis-aligned box
@@ -261,10 +267,11 @@ public class FrustumCuller {
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its min and max corner coordinates.
      * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
      * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
      * @param minX
      *          the x-coordinate of the minimum corner
@@ -313,6 +320,10 @@ public class FrustumCuller {
      * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
      * 
      * @param min
      *          the minimum corner coordinates of the axis-aligned box
@@ -345,10 +356,11 @@ public class FrustumCuller {
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
      * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
      * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
      * @param minX
      *          the x-coordinate of the minimum corner
@@ -384,12 +396,12 @@ public class FrustumCuller {
          * or -1 if the box intersects the frustum.
          */
         int plane = 0;
-        if (((mask & Matrix4f.PLANE_MASK_NX) == 0 || nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_PX) == 0 || pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_NY) == 0 || nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_PY) == 0 || pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_NZ) == 0 || nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW) && ++plane != 0 &&
-            ((mask & Matrix4f.PLANE_MASK_PZ) == 0 || pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW))
+        if (((mask & PLANE_MASK_NX) == 0 || nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW) && ++plane != 0 &&
+            ((mask & PLANE_MASK_PX) == 0 || pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW) && ++plane != 0 &&
+            ((mask & PLANE_MASK_NY) == 0 || nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW) && ++plane != 0 &&
+            ((mask & PLANE_MASK_PY) == 0 || pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW) && ++plane != 0 &&
+            ((mask & PLANE_MASK_NZ) == 0 || nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW) && ++plane != 0 &&
+            ((mask & PLANE_MASK_PZ) == 0 || pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW))
             return -1;
         return plane;
     }
