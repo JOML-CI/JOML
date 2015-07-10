@@ -5637,7 +5637,7 @@ public class Matrix4f implements Externalizable {
      */
     public int isAabInsideFrustumMasked(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, int mask) {
         /*
-         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
+         * This is an implementation of the "2.5 Plane masking and coherency" of the mentioned site.
          * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
          * 
          * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
