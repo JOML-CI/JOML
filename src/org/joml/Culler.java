@@ -114,40 +114,35 @@ public class Culler {
     private final Vector4f pz = new Vector4f();
 
     /**
-     * Create a new {@link Culler} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes
-     * via {@link Matrix4f#frustumPlane(int, Vector4f)}.
-     * 
-     * @see Matrix4f#frustumPlane(int, Vector4f)
+     * Create a new {@link Culler} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
      * 
      * @param m
      *          the {@link Matrix4f} to create the culler from
      */
     public Culler(Matrix4f m) {
-        m.frustumPlane(Matrix4f.PLANE_NX, nx);
-        m.frustumPlane(Matrix4f.PLANE_PX, px);
-        m.frustumPlane(Matrix4f.PLANE_NY, ny);
-        m.frustumPlane(Matrix4f.PLANE_PY, py);
-        m.frustumPlane(Matrix4f.PLANE_NZ, nz);
-        m.frustumPlane(Matrix4f.PLANE_PZ, pz);
+        nx.set(m.m03 + m.m00, m.m13 + m.m10, m.m23 + m.m20, m.m33 + m.m30).normalize3();
+        px.set(m.m03 - m.m00, m.m13 - m.m10, m.m23 - m.m20, m.m33 - m.m30).normalize3();
+        ny.set(m.m03 + m.m01, m.m13 + m.m11, m.m23 + m.m21, m.m33 + m.m31).normalize3();
+        py.set(m.m03 - m.m01, m.m13 - m.m11, m.m23 - m.m21, m.m33 - m.m31).normalize3();
+        nz.set(m.m03 + m.m02, m.m13 + m.m12, m.m23 + m.m22, m.m33 + m.m32).normalize3();
+        pz.set(m.m03 - m.m02, m.m13 - m.m12, m.m23 - m.m22, m.m33 - m.m32).normalize3();
     }
 
     /**
      * Update the stored frustum planes of <code>this</code> {@link Culler} with the given {@link Matrix4f matrix}.
-     * <p>
-     * The frustum planes are updated using {@link Matrix4f#frustumPlane(int, Vector4f)}.
-     * 
-     * @see Matrix4f#frustumPlane(int, Vector4f)
      * 
      * @param m
      *          the {@link Matrix4f matrix} to update <code>this</code> culler's frustum planes from
+     * @return this
      */
-    public void set(Matrix4f m) {
-        m.frustumPlane(Matrix4f.PLANE_NX, nx);
-        m.frustumPlane(Matrix4f.PLANE_PX, px);
-        m.frustumPlane(Matrix4f.PLANE_NY, ny);
-        m.frustumPlane(Matrix4f.PLANE_PX, py);
-        m.frustumPlane(Matrix4f.PLANE_NZ, nz);
-        m.frustumPlane(Matrix4f.PLANE_PZ, pz);
+    public Culler set(Matrix4f m) {
+        nx.set(m.m03 + m.m00, m.m13 + m.m10, m.m23 + m.m20, m.m33 + m.m30).normalize3();
+        px.set(m.m03 - m.m00, m.m13 - m.m10, m.m23 - m.m20, m.m33 - m.m30).normalize3();
+        ny.set(m.m03 + m.m01, m.m13 + m.m11, m.m23 + m.m21, m.m33 + m.m31).normalize3();
+        py.set(m.m03 - m.m01, m.m13 - m.m11, m.m23 - m.m21, m.m33 - m.m31).normalize3();
+        nz.set(m.m03 + m.m02, m.m13 + m.m12, m.m23 + m.m22, m.m33 + m.m32).normalize3();
+        pz.set(m.m03 - m.m02, m.m13 - m.m12, m.m23 - m.m22, m.m33 - m.m32).normalize3();
+        return this;
     }
 
     /**
@@ -221,7 +216,8 @@ public class Culler {
                px.x * x + px.y * y + px.z * z + px.w >= -r &&
                ny.x * x + ny.y * y + ny.z * z + ny.w >= -r &&
                py.x * x + py.y * y + py.z * z + py.w >= -r &&
-               nz.x * x + nz.y * y + nz.z * z + nz.w >= -r;
+               nz.x * x + nz.y * y + nz.z * z + nz.w >= -r &&
+               pz.x * x + pz.y * y + pz.z * z + pz.w >= -r;
     }
 
     /**
