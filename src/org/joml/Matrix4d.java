@@ -5524,12 +5524,29 @@ public class Matrix4d implements Externalizable {
          * or -1 if the box intersects the frustum.
          */
         int plane = 0;
-        if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30 && ++plane != 0 &&
-            (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30 && ++plane != 0 &&
-            (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31 && ++plane != 0 &&
-            (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31 && ++plane != 0 &&
-            (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32 && ++plane != 0 &&
-            (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32)
+        if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) 
+          + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) 
+          + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30 
+          && ++plane != 0 &&
+            (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) 
+          + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) 
+          + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30 
+          && ++plane != 0 &&
+            (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) 
+          + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) 
+          + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31 
+          && ++plane != 0 &&
+            (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) 
+          + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) 
+          + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31 
+          && ++plane != 0 &&
+            (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) 
+          + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) 
+          + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32 
+          && ++plane != 0 &&
+            (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) 
+          + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) 
+          + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32)
             return -1;
         return plane;
     }
@@ -5630,12 +5647,35 @@ public class Matrix4d implements Externalizable {
          * or -1 if the box intersects the frustum.
          */
         int plane = 0;
-        if (((mask & PLANE_MASK_NX) == 0 || (m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30) && ++plane != 0 &&
-            ((mask & PLANE_MASK_PX) == 0 || (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30) && ++plane != 0 &&
-            ((mask & PLANE_MASK_NY) == 0 || (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31) && ++plane != 0 &&
-            ((mask & PLANE_MASK_PY) == 0 || (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31) && ++plane != 0 &&
-            ((mask & PLANE_MASK_NZ) == 0 || (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32) && ++plane != 0 &&
-            ((mask & PLANE_MASK_PZ) == 0 || (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32))
+        if (((mask & PLANE_MASK_NX) == 0 ||
+                (m03 + m00) * (m03 + m00 < 0 ? minX : maxX)
+              + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) 
+              + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_PX) == 0 || 
+                (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) 
+              + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) 
+              + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_NY) == 0 || 
+                (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) 
+              + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) 
+              + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_PY) == 0 || 
+                (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) 
+              + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) 
+              + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_NZ) == 0 || 
+                (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) 
+              + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) 
+              + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_PZ) == 0 || 
+                (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) 
+              + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) 
+              + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32))
             return -1;
         return plane;
     }
