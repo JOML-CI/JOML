@@ -1537,6 +1537,66 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt>.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(x, y, z).rotate(quat).scale(sx, sy, sz)</tt>
+     * 
+     * @see #translation(float, float, float)
+     * @see #rotate(Quaternionf)
+     * @see #scale(float, float, float)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param sx
+     *          the scaling factor for the x-axis
+     * @param sy
+     *          the scaling factor for the y-axis
+     * @param sz
+     *          the scaling factor for the z-axis
+     * @return this
+     */
+    public Matrix4f translationRotateScale(float tx, float ty, float tz, Quaternionf quat, float sx, float sy, float sz) {
+        float qx = 2.0f * quat.x, qy = 2.0f * quat.y, qz = 2.0f * quat.z;
+        float q00 = qx * quat.x;
+        float q11 = qy * quat.y;
+        float q22 = qz * quat.z;
+        float q01 = qx * quat.y;
+        float q02 = qx * quat.z;
+        float q03 = qx * quat.w;
+        float q12 = qy * quat.z;
+        float q13 = qy * quat.w;
+        float q23 = qz * quat.w;
+        m00 = sx - (q11 + q22) * sx;
+        m01 = (q01 + q23) * sx;
+        m02 = (q02 - q13) * sx;
+        m03 = 0.0f;
+        m10 = (q01 - q23) * sy;
+        m11 = sy - (q22 + q00) * sy;
+        m12 = (q12 + q03) * sy;
+        m13 = 0.0f;
+        m20 = (q02 + q13) * sz;
+        m21 = (q12 - q03) * sz;
+        m22 = sz - (q11 + q00) * sz;
+        m23 = 0.0f;
+        m30 = tx;
+        m31 = ty;
+        m32 = tz;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
      * 
      * @param mat

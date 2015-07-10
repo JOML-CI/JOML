@@ -2271,6 +2271,66 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt>.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(x, y, z).rotate(quat).scale(sx, sy, sz)</tt>
+     * 
+     * @see #translation(double, double, double)
+     * @see #rotate(Quaterniond)
+     * @see #scale(double, double, double)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param sx
+     *          the scaling factor for the x-axis
+     * @param sy
+     *          the scaling factor for the y-axis
+     * @param sz
+     *          the scaling factor for the z-axis
+     * @return this
+     */
+    public Matrix4d translationRotateScale(double tx, double ty, double tz, Quaterniond quat, double sx, double sy, double sz) {
+        double qx = 2.0f * quat.x, qy = 2.0f * quat.y, qz = 2.0f * quat.z;
+        double q00 = qx * quat.x;
+        double q11 = qy * quat.y;
+        double q22 = qz * quat.z;
+        double q01 = qx * quat.y;
+        double q02 = qx * quat.z;
+        double q03 = qx * quat.w;
+        double q12 = qy * quat.z;
+        double q13 = qy * quat.w;
+        double q23 = qz * quat.w;
+        m00 = sx - (q11 + q22) * sx;
+        m01 = (q01 + q23) * sx;
+        m02 = (q02 - q13) * sx;
+        m03 = 0.0;
+        m10 = (q01 - q23) * sy;
+        m11 = sy - (q22 + q00) * sy;
+        m12 = (q12 + q03) * sy;
+        m13 = 0.0;
+        m20 = (q02 + q13) * sz;
+        m21 = (q12 - q03) * sz;
+        m22 = sz - (q11 + q00) * sz;
+        m23 = 0.0;
+        m30 = tx;
+        m31 = ty;
+        m32 = tz;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
      * Apply the rotation transformation of the given {@link Quaterniond} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
