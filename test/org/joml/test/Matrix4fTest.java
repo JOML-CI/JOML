@@ -180,6 +180,13 @@ public class Matrix4fTest extends TestCase {
         Assert.assertFalse(m.isPointInsideFrustum(0, 6, -5));
     }
 
+    public void testIsAabInPerspectiveMask() {
+        Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f); 
+        Assert.assertTrue(m.isAabInsideFrustumMasked(5.1f, 0, -3, 8, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_PX));
+        Assert.assertTrue(m.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_NX));
+        Assert.assertFalse(m.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, Matrix4f.PLANE_MASK_NX));
+    }
+
     public void testPositiveXRotateY() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()

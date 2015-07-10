@@ -80,6 +80,13 @@ public class Matrix4d implements Externalizable {
      */
     public static final int PLANE_PZ = 5;
 
+    public static final int PLANE_MASK_NX = 1<<0;
+    public static final int PLANE_MASK_PX = 1<<1;
+    public static final int PLANE_MASK_NY = 1<<2;
+    public static final int PLANE_MASK_PY = 1<<3;
+    public static final int PLANE_MASK_NZ = 1<<4;
+    public static final int PLANE_MASK_PZ = 1<<5;
+
     /**
      * Argument to the first parameter of {@link #frustumCorner(int, Vector3d)}
      * identifying the corner <tt>(-1, -1, -1)</tt> when using the identity matrix.
@@ -5418,6 +5425,100 @@ public class Matrix4d implements Externalizable {
                 (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31 &&
                 (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32 &&
                 (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32);
+    }
+
+    /**
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix,
+     * while only taking the frustum planes specified by the given <code>mask</code> into account.
+     * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
+     * <p>
+     * This method differs from {@link #isAabInsideFrustum(Vector3d, Vector3d) isAabInsideFrustum()} in that
+     * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
+     * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
+     * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
+     * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.
+     * 
+     * @see #frustumPlane(int, Vector4d)
+     * @see #isAabInsideFrustumMasked(double, double, double, double, double, double, int)
+     * 
+     * @param min
+     *          the minimum corner coordinates of the axis-aligned box
+     * @param max
+     *          the maximum corner coordinates of the axis-aligned box
+     * @param mask
+     *          contains as bitset all the planes that should be tested. This value can be any combination of 
+     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
+     *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
+     *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
+     * @return <code>true</code> if the given axis-aligned box is partly or completely inside the clipping frustum;
+     *         <code>false</code> otherwise
+     */
+    public boolean isAabInsideFrustumMasked(Vector3d min, Vector3d max, int mask) {
+        return isAabInsideFrustumMasked(min.x, min.y, min.z, max.x, max.y, max.z, mask);
+    }
+
+    /**
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix,
+     * while only taking the frustum planes specified by the given <code>mask</code> into account.
+     * The box is specified via its min and max corner coordinates.
+     * <p>
+     * This method differs from {@link #isAabInsideFrustum(double, double, double, double, double, double) isAabInsideFrustum()} in that
+     * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
+     * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
+     * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
+     * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.
+     * <p>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @see #frustumPlane(int, Vector4d)
+     * @see #isAabInsideFrustumMasked(Vector3d, Vector3d, int)
+     * 
+     * @param minX
+     *          the x-coordinate of the minimum corner
+     * @param minY
+     *          the y-coordinate of the minimum corner
+     * @param minZ
+     *          the z-coordinate of the minimum corner
+     * @param maxX
+     *          the x-coordinate of the maximum corner
+     * @param maxY
+     *          the y-coordinate of the maximum corner
+     * @param maxZ
+     *          the z-coordinate of the maximum corner
+     * @param mask
+     *          contains as bitset all the planes that should be tested. This value can be any combination of 
+     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
+     *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
+     *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
+     * @return <code>true</code> if the given axis-aligned box is partly or completely inside the clipping frustum;
+     *         <code>false</code> otherwise
+     */
+    public boolean isAabInsideFrustumMasked(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, int mask) {
+        /*
+         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
+         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         */
+        return (((mask & PLANE_MASK_NX) == 0 || (m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30) &&
+                ((mask & PLANE_MASK_PX) == 0 || (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30) &&
+                ((mask & PLANE_MASK_NY) == 0 || (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31) &&
+                ((mask & PLANE_MASK_PY) == 0 || (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31) &&
+                ((mask & PLANE_MASK_NZ) == 0 || (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32) &&
+                ((mask & PLANE_MASK_PZ) == 0 || (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32));
     }
 
     /**
