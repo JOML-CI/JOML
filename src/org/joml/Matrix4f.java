@@ -49,41 +49,83 @@ public class Matrix4f implements Externalizable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} or return
+     * value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>x=-1</tt> when using the identity matrix.  
      */
     public static final int PLANE_NX = 0;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} or return
+     * value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>x=1</tt> when using the identity matrix.  
      */
     public static final int PLANE_PX = 1;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} or return
+     * value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>y=-1</tt> when using the identity matrix.  
      */
     public static final int PLANE_NY= 2;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} or return
+     * value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>y=1</tt> when using the identity matrix.  
      */
     public static final int PLANE_PY = 3;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} or return
+     * value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>z=-1</tt> when using the identity matrix.  
      */
     public static final int PLANE_NZ = 4;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)} or return
+     * value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>z=1</tt> when using the identity matrix.  
      */
     public static final int PLANE_PZ = 5;
 
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>x=-1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_NX = 1<<0;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>x=1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_PX = 1<<1;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>y=-1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_NY = 1<<2;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>y=1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_PY = 1<<3;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>z=-1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_NZ = 1<<4;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>z=1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_PZ = 1<<5;
 
     /**
@@ -5593,6 +5635,20 @@ public class Matrix4f implements Externalizable {
             ((mask & PLANE_MASK_PZ) == 0 || (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32))
             return -1;
         return plane;
+    }
+
+    public static void main(String[] args) {
+        Matrix4f m = new Matrix4f();
+        {
+            long time1 = System.nanoTime();
+            int res = -1;
+            for (int i = 0; i < 9000000; i++)
+                res = m.isAabInsideFrustumMasked(0.5f, 0.5f, 4.5f,
+                                                 0.7f, 0.6f, 5.6f, 1<<5);
+            long time2 = System.nanoTime();
+            System.err.println("Took " + (time2 - time1) / 1E6);
+            System.err.println(res);
+        }
     }
 
     /**

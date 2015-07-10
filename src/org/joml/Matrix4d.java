@@ -50,41 +50,83 @@ public class Matrix4d implements Externalizable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} or return
+     * value of {@link #isAabInsideFrustum(double, double, double, double, double, double) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>x=-1</tt> when using the identity matrix.  
      */
     public static final int PLANE_NX = 0;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} or return
+     * value of {@link #isAabInsideFrustum(double, double, double, double, double, double) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>x=1</tt> when using the identity matrix.  
      */
     public static final int PLANE_PX = 1;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} or return
+     * value of {@link #isAabInsideFrustum(double, double, double, double, double, double) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>y=-1</tt> when using the identity matrix.  
      */
     public static final int PLANE_NY= 2;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} or return
+     * value of {@link #isAabInsideFrustum(double, double, double, double, double, double) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>y=1</tt> when using the identity matrix.  
      */
     public static final int PLANE_PY = 3;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} or return
+     * value of {@link #isAabInsideFrustum(double, double, double, double, double, double) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>z=-1</tt> when using the identity matrix.  
      */
     public static final int PLANE_NZ = 4;
     /**
-     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)} or return
+     * value of {@link #isAabInsideFrustum(double, double, double, double, double, double) isAabInsideFrustum()} or
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
      * identifying the plane with equation <tt>z=1</tt> when using the identity matrix.  
      */
     public static final int PLANE_PZ = 5;
 
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>x=-1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_NX = 1<<0;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>x=1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_PX = 1<<1;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>y=-1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_NY = 1<<2;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>y=1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_PY = 1<<3;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>z=-1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_NZ = 1<<4;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(double, double, double, double, double, double, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>z=1</tt> when using the identity matrix.
+     */
     public static final int PLANE_MASK_PZ = 1<<5;
 
     /**
