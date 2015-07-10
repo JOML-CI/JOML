@@ -2321,7 +2321,7 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, and <tt>S</tt> is a scaling transformation
      * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt>.
      * <p>
      * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
@@ -2339,8 +2339,14 @@ public class Matrix4d implements Externalizable {
      *          the number of units by which to translate the y-component
      * @param tz
      *          the number of units by which to translate the z-component
-     * @param quat
-     *          the quaternion representing a rotation
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
      * @param sx
      *          the scaling factor for the x-axis
      * @param sy
@@ -2349,11 +2355,19 @@ public class Matrix4d implements Externalizable {
      *          the scaling factor for the z-axis
      * @return this
      */
-    public Matrix4d translationRotateScale(double tx, double ty, double tz, Quaterniond quat, double sx, double sy, double sz) {
-        double qx = 2.0f * quat.x, qy = 2.0f * quat.y, qz = 2.0f * quat.z;
-        double q00 = qx * quat.x, q11 = qy * quat.y, q22 = qz * quat.z;
-        double q01 = qx * quat.y, q02 = qx * quat.z, q03 = qx * quat.w;
-        double q12 = qy * quat.z, q13 = qy * quat.w, q23 = qz * quat.w;
+    public Matrix4d translationRotateScale(double tx, double ty, double tz, 
+                                           double qx, double qy, double qz, double qw, 
+                                           double sx, double sy, double sz) {
+        double dqx = 2.0 * qx, dqy = 2.0 * qy, dqz = 2.0 * qz;
+        double q00 = dqx * qx;
+        double q11 = dqy * qy;
+        double q22 = dqz * qz;
+        double q01 = dqx * qy;
+        double q02 = dqx * qz;
+        double q03 = dqx * qw;
+        double q12 = dqy * qz;
+        double q13 = dqy * qw;
+        double q23 = dqz * qw;
         m00 = sx - (q11 + q22) * sx;
         m01 = (q01 + q23) * sx;
         m02 = (q02 - q13) * sx;
@@ -2371,6 +2385,34 @@ public class Matrix4d implements Externalizable {
         m32 = tz;
         m33 = 1.0;
         return this;
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code>.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
+     * 
+     * @see #translation(Vector3d)
+     * @see #rotate(Quaterniond)
+     * @see #scale(Vector3d)
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @return this
+     */
+    public Matrix4d translationRotateScale(Vector3f translation, 
+                                           Quaternionf quat, 
+                                           Vector3f scale) {
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
     }
 
     /**

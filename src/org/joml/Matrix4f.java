@@ -1587,7 +1587,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, and <tt>S</tt> is a scaling transformation
      * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt>.
      * <p>
      * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
@@ -1605,8 +1605,14 @@ public class Matrix4f implements Externalizable {
      *          the number of units by which to translate the y-component
      * @param tz
      *          the number of units by which to translate the z-component
-     * @param quat
-     *          the quaternion representing a rotation
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
      * @param sx
      *          the scaling factor for the x-axis
      * @param sy
@@ -1615,17 +1621,19 @@ public class Matrix4f implements Externalizable {
      *          the scaling factor for the z-axis
      * @return this
      */
-    public Matrix4f translationRotateScale(float tx, float ty, float tz, Quaternionf quat, float sx, float sy, float sz) {
-        float qx = 2.0f * quat.x, qy = 2.0f * quat.y, qz = 2.0f * quat.z;
-        float q00 = qx * quat.x;
-        float q11 = qy * quat.y;
-        float q22 = qz * quat.z;
-        float q01 = qx * quat.y;
-        float q02 = qx * quat.z;
-        float q03 = qx * quat.w;
-        float q12 = qy * quat.z;
-        float q13 = qy * quat.w;
-        float q23 = qz * quat.w;
+    public Matrix4f translationRotateScale(float tx, float ty, float tz, 
+                                           float qx, float qy, float qz, float qw, 
+                                           float sx, float sy, float sz) {
+        float dqx = 2.0f * qx, dqy = 2.0f * qy, dqz = 2.0f * qz;
+        float q00 = dqx * qx;
+        float q11 = dqy * qy;
+        float q22 = dqz * qz;
+        float q01 = dqx * qy;
+        float q02 = dqx * qz;
+        float q03 = dqx * qw;
+        float q12 = dqy * qz;
+        float q13 = dqy * qw;
+        float q23 = dqz * qw;
         m00 = sx - (q11 + q22) * sx;
         m01 = (q01 + q23) * sx;
         m02 = (q02 - q13) * sx;
@@ -1643,6 +1651,34 @@ public class Matrix4f implements Externalizable {
         m32 = tz;
         m33 = 1.0f;
         return this;
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code>.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
+     * 
+     * @see #translation(Vector3f)
+     * @see #rotate(Quaternionf)
+     * @see #scale(Vector3f)
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @return this
+     */
+    public Matrix4f translationRotateScale(Vector3f translation, 
+                                           Quaternionf quat, 
+                                           Vector3f scale) {
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
     }
 
     /**
