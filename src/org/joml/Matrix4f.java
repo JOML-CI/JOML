@@ -169,22 +169,10 @@ public class Matrix4f implements Externalizable {
      */
     public static final int CORNER_PXPYPZ = 7;
 
-    public float m00;
-    public float m01;
-    public float m02;
-    public float m03;
-    public float m10;
-    public float m11;
-    public float m12;
-    public float m13;
-    public float m20;
-    public float m21;
-    public float m22;
-    public float m23;
-    public float m30;
-    public float m31;
-    public float m32;
-    public float m33;
+    public float m00, m10, m20, m30;
+    public float m01, m11, m21, m31;
+    public float m02, m12, m22, m32;
+    public float m03, m13, m23, m33;
 
     /**
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.

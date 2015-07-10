@@ -46,15 +46,9 @@ public class Matrix3d implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
-    public double m00;
-    public double m01;
-    public double m02;
-    public double m10;
-    public double m11;
-    public double m12;
-    public double m20;
-    public double m21;
-    public double m22;
+    public double m00, m10, m20;
+    public double m01, m11, m21;
+    public double m02, m12, m22;
 
     /**
      * Create a new {@link Matrix3d} and initialize it to {@link #identity() identity}.

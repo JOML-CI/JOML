@@ -170,22 +170,10 @@ public class Matrix4d implements Externalizable {
      */
     public static final int CORNER_PXPYPZ = 7;
 
-    public double m00;
-    public double m01;
-    public double m02;
-    public double m03;
-    public double m10;
-    public double m11;
-    public double m12;
-    public double m13;
-    public double m20;
-    public double m21;
-    public double m22;
-    public double m23;
-    public double m30;
-    public double m31;
-    public double m32;
-    public double m33;
+    public double m00, m10, m20, m30;
+    public double m01, m11, m21, m31;
+    public double m02, m12, m22, m32;
+    public double m03, m13, m23, m33;
 
     /**
      * Create a new {@link Matrix4d} and set it to {@link #identity() identity}.

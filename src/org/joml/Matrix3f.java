@@ -45,15 +45,9 @@ public class Matrix3f implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
-    public float m00;
-    public float m01;
-    public float m02;
-    public float m10;
-    public float m11;
-    public float m12;
-    public float m20;
-    public float m21;
-    public float m22;
+    public float m00, m10, m20;
+    public float m01, m11, m21;
+    public float m02, m12, m22;
 
     /**
      * Create a new {@link Matrix3f} and set it to {@link #identity() identity}.
