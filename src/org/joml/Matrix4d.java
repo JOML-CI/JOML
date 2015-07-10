@@ -2332,6 +2332,57 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion.
+     * <p>
+     * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
+     * 
+     * @see #translation(double, double, double)
+     * @see #rotate(Quaterniond)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param quat
+     *          the quaternion representing a rotation
+     * @return this
+     */
+    public Matrix4d translationRotate(double tx, double ty, double tz, Quaterniond quat) {
+        double qx = 2.0 * quat.x, qy = 2.0 * quat.y, qz = 2.0 * quat.z;
+        double q00 = qx * quat.x;
+        double q11 = qy * quat.y;
+        double q22 = qz * quat.z;
+        double q01 = qx * quat.y;
+        double q02 = qx * quat.z;
+        double q03 = qx * quat.w;
+        double q12 = qy * quat.z;
+        double q13 = qy * quat.w;
+        double q23 = qz * quat.w;
+        m00 = 1.0 - (q11 + q22);
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m03 = 0.0;
+        m10 = q01 - q23;
+        m11 = 1.0 - (q22 + q00);
+        m12 = q12 + q03;
+        m13 = 0.0;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0 - (q11 + q00);
+        m23 = 0.0;
+        m30 = tx;
+        m31 = ty;
+        m32 = tz;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
      * Apply the rotation transformation of the given {@link Quaterniond} to this matrix and store
      * the result in <code>dest</code>.
      * <p>

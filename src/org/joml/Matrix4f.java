@@ -1604,6 +1604,57 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion.
+     * <p>
+     * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
+     * 
+     * @see #translation(float, float, float)
+     * @see #rotate(Quaternionf)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param quat
+     *          the quaternion representing a rotation
+     * @return this
+     */
+    public Matrix4f translationRotate(float tx, float ty, float tz, Quaternionf quat) {
+        float qx = 2.0f * quat.x, qy = 2.0f * quat.y, qz = 2.0f * quat.z;
+        float q00 = qx * quat.x;
+        float q11 = qy * quat.y;
+        float q22 = qz * quat.z;
+        float q01 = qx * quat.y;
+        float q02 = qx * quat.z;
+        float q03 = qx * quat.w;
+        float q12 = qy * quat.z;
+        float q13 = qy * quat.w;
+        float q23 = qz * quat.w;
+        m00 = 1.0f - (q11 + q22);
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m03 = 0.0f;
+        m10 = q01 - q23;
+        m11 = 1.0f - (q22 + q00);
+        m12 = q12 + q03;
+        m13 = 0.0f;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0f - (q11 + q00);
+        m23 = 0.0f;
+        m30 = tx;
+        m31 = ty;
+        m32 = tz;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
      * 
      * @param mat
@@ -5516,6 +5567,25 @@ public class Matrix4f implements Externalizable {
                 ((mask & PLANE_MASK_PY) == 0 || (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31) &&
                 ((mask & PLANE_MASK_NZ) == 0 || (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32) &&
                 ((mask & PLANE_MASK_PZ) == 0 || (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32));
+    }
+
+    public static void main(String[] args) {
+        Matrix4f m = new Matrix4f();
+        Quaternionf q = new Quaternionf().rotateX(0.1f).rotateY(2.0f).rotateZ(3.0f);
+        {
+            long time1 = System.nanoTime();
+            for (int i = 0; i < 90000000; i++)
+                m.translationRotate(2, 3, 4, q);
+            long time2 = System.nanoTime();
+            System.err.println("Took " + (time2 - time1) / 1E6);
+        }
+        {
+            long time1 = System.nanoTime();
+            for (int i = 0; i < 90000000; i++)
+                m.translation(2, 3, 4).rotate(q);
+            long time2 = System.nanoTime();
+            System.err.println("Took " + (time2 - time1) / 1E6);
+        }
     }
 
     /**
