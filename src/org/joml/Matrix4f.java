@@ -1544,7 +1544,7 @@ public class Matrix4f implements Externalizable {
      * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
      * at last the translation.
      * <p>
-     * This method is equivalent to calling: <tt>translation(x, y, z).rotate(quat).scale(sx, sy, sz)</tt>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz)</tt>
      * 
      * @see #translation(float, float, float)
      * @see #rotate(Quaternionf)
