@@ -96,37 +96,37 @@ public class Matrix4f implements Externalizable {
      * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * that identifies the plane with equation <tt>x=-1</tt> when using the identity matrix.
      */
-    public static final int PLANE_MASK_NX = 1<<0;
+    public static final int PLANE_MASK_NX = 1<<PLANE_NX;
     /**
      * The value in a bitmask for
      * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * that identifies the plane with equation <tt>x=1</tt> when using the identity matrix.
      */
-    public static final int PLANE_MASK_PX = 1<<1;
+    public static final int PLANE_MASK_PX = 1<<PLANE_PX;
     /**
      * The value in a bitmask for
      * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * that identifies the plane with equation <tt>y=-1</tt> when using the identity matrix.
      */
-    public static final int PLANE_MASK_NY = 1<<2;
+    public static final int PLANE_MASK_NY = 1<<PLANE_NY;
     /**
      * The value in a bitmask for
      * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * that identifies the plane with equation <tt>y=1</tt> when using the identity matrix.
      */
-    public static final int PLANE_MASK_PY = 1<<3;
+    public static final int PLANE_MASK_PY = 1<<PLANE_PY;
     /**
      * The value in a bitmask for
      * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * that identifies the plane with equation <tt>z=-1</tt> when using the identity matrix.
      */
-    public static final int PLANE_MASK_NZ = 1<<4;
+    public static final int PLANE_MASK_NZ = 1<<PLANE_NZ;
     /**
      * The value in a bitmask for
      * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
      * that identifies the plane with equation <tt>z=1</tt> when using the identity matrix.
      */
-    public static final int PLANE_MASK_PZ = 1<<5;
+    public static final int PLANE_MASK_PZ = 1<<PLANE_PZ;
 
     /**
      * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
