@@ -5569,25 +5569,6 @@ public class Matrix4f implements Externalizable {
                 ((mask & PLANE_MASK_PZ) == 0 || (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32));
     }
 
-    public static void main(String[] args) {
-        Matrix4f m = new Matrix4f();
-        Quaternionf q = new Quaternionf().rotateX(0.1f).rotateY(2.0f).rotateZ(3.0f);
-        {
-            long time1 = System.nanoTime();
-            for (int i = 0; i < 90000000; i++)
-                m.translationRotate(2, 3, 4, q);
-            long time2 = System.nanoTime();
-            System.err.println("Took " + (time2 - time1) / 1E6);
-        }
-        {
-            long time1 = System.nanoTime();
-            for (int i = 0; i < 90000000; i++)
-                m.translation(2, 3, 4).rotate(q);
-            long time2 = System.nanoTime();
-            System.err.println("Took " + (time2 - time1) / 1E6);
-        }
-    }
-
     /**
      * Obtain the direction of a ray starting at the center of the coordinate system and going 
      * through the near frustum plane.
