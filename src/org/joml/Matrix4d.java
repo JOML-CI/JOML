@@ -2302,15 +2302,9 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d translationRotateScale(double tx, double ty, double tz, Quaterniond quat, double sx, double sy, double sz) {
         double qx = 2.0f * quat.x, qy = 2.0f * quat.y, qz = 2.0f * quat.z;
-        double q00 = qx * quat.x;
-        double q11 = qy * quat.y;
-        double q22 = qz * quat.z;
-        double q01 = qx * quat.y;
-        double q02 = qx * quat.z;
-        double q03 = qx * quat.w;
-        double q12 = qy * quat.z;
-        double q13 = qy * quat.w;
-        double q23 = qz * quat.w;
+        double q00 = qx * quat.x, q11 = qy * quat.y, q22 = qz * quat.z;
+        double q01 = qx * quat.y, q02 = qx * quat.z, q03 = qx * quat.w;
+        double q12 = qy * quat.z, q13 = qy * quat.w, q23 = qz * quat.w;
         m00 = sx - (q11 + q22) * sx;
         m01 = (q01 + q23) * sx;
         m02 = (q02 - q13) * sx;
@@ -5286,15 +5280,12 @@ public class Matrix4d implements Externalizable {
      * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
      */
     public boolean isPointInsideFrustum(double x, double y, double z) {
-        if ((m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) < 0 ||
-            (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) < 0 ||
-            (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) < 0 ||
-            (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) < 0 ||
-            (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) < 0 ||
-            (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) < 0) {
-            return false;
-        }
-        return true;
+        return ((m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >= 0 &&
+                (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= 0 &&
+                (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= 0 &&
+                (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= 0 &&
+                (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= 0 &&
+                (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= 0);
     }
 
     /**
@@ -5349,15 +5340,12 @@ public class Matrix4d implements Externalizable {
      *         <code>false</code> otherwise
      */
     public boolean isSphereInsideFrustum(double x, double y, double z, double r) {
-        if ((m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) < -r ||
-            (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) < -r ||
-            (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) < -r ||
-            (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) < -r ||
-            (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) < -r ||
-            (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) < -r) {
-            return false;
-        }
-        return true;
+        return ((m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >= -r &&
+                (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= -r &&
+                (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= -r &&
+                (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= -r &&
+                (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= -r &&
+                (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= -r);
     }
 
     /**
@@ -5424,15 +5412,12 @@ public class Matrix4d implements Externalizable {
          * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
          * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
          */
-        if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) < -m33 - m30 ||
-            (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) < -m33 + m30 ||
-            (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) < -m33 - m31 ||
-            (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) < -m33 + m31 ||
-            (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) < -m33 - m32 ||
-            (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) < -m33 + m32) {
-            return false;
-        }
-        return true;
+        return ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30 &&
+                (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30 &&
+                (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31 &&
+                (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31 &&
+                (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32 &&
+                (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32);
     }
 
     /**
