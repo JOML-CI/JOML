@@ -1043,26 +1043,19 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf slerp(Quaternionf target, float alpha, Quaternionf dest) {
-        double q2, q3;
-        double q4 = (x * target.x) + (y * target.y) + (z * target.z) + (w * target.w);
-        boolean flag = false;
-        if (q4 < 0.0) {
-            flag = true;
-            q4 = -q4;
-        }
-        if (q4 > 0.999999) {
-            q3 = 1.0F - alpha;
-            q2 = flag ? -alpha : alpha;
-        } else {
-            double q5 = Math.acos(q4);
-            double q6 = 1.0 / Math.sin(q5);
-            q3 = Math.sin(((1.0 - alpha) * q5)) * q6;
-            q2 = flag ? -Math.sin(alpha * q5) * q6 : Math.sin(alpha * q5) * q6;
-        }
-        dest.x = (float) (q3 * x + q2 * target.x);
-        dest.y = (float) (q3 * y + q2 * target.y);
-        dest.z = (float) (q3 * z + q2 * target.z);
-        dest.w = (float) (q3 * w + q2 * target.w);
+        float dot = x * target.x + y * target.y + z * target.z + w * target.w;
+        float alpha2 = alpha / 2.0f;
+        float theta = (float) Math.acos(dot);
+        if (theta < 0.0f) theta = -theta;
+        float sint = (float) Math.sin(theta);
+        float sinlt = (float) Math.sin(alpha2 * theta);
+        float sin1mlt = (float) Math.sin(theta - alpha2 * theta);
+        float q1 = sin1mlt / sint;
+        float q2 = sinlt / sint;
+        dest.x = q1 * x + q2 * target.x;
+        dest.y = q1 * y + q2 * target.y;
+        dest.z = q1 * z + q2 * target.z;
+        dest.w = q1 * w + q2 * target.w;
         return this;
     }
 
