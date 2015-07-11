@@ -960,11 +960,10 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf unitInvert(Quaternionf dest) {
-        float norm = x * x + y * y + z * z + w * w;
-        dest.x = -x / norm;
-        dest.y = -y / norm;
-        dest.z = -z / norm;
-        dest.w = w / norm;
+        dest.x = -x;
+        dest.y = -y;
+        dest.z = -z;
+        dest.w = w;
         return this;
     }
 
