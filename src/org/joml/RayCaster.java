@@ -86,14 +86,15 @@ public class RayCaster {
         pxpyX = pyY * pxZ - pyZ * pxY;
         pxpyY = pyZ * pxX - pyX * pxZ;
         pxpyZ = pyX * pxY - pyY * pxX;
-        float c12x, c12y, c12z;
-        c12x = pxY * nxZ - pxZ * nxY;
-        c12y = pxZ * nxX - pxX * nxZ;
-        c12z = pxX * nxY - pxY * nxX;
+        // compute origin
+        float pxnxX, pxnxY, pxnxZ;
+        pxnxX = pxY * nxZ - pxZ * nxY;
+        pxnxY = pxZ * nxX - pxX * nxZ;
+        pxnxZ = pxX * nxY - pxY * nxX;
         float dot = nxX * pxpyX + nxY * pxpyY + nxZ * pxpyZ;
-        cx = (-pxpyX * d1 - nxpyX * d2 - c12x * d3) / dot;
-        cy = (-pxpyY * d1 - nxpyY * d2 - c12y * d3) / dot;
-        cz = (-pxpyZ * d1 - nxpyZ * d2 - c12z * d3) / dot;
+        cx = (-pxpyX * d1 - nxpyX * d2 - pxnxX * d3) / dot;
+        cy = (-pxpyY * d1 - nxpyY * d2 - pxnxY * d3) / dot;
+        cz = (-pxpyZ * d1 - nxpyZ * d2 - pxnxZ * d3) / dot;
         return this;
     }
 
