@@ -209,7 +209,7 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Return the angle in radians represented by this quaternion rotation in radians.
+     * Return the angle in radians represented by this quaternion rotation.
      * 
      * @return the angle in radians
      */
