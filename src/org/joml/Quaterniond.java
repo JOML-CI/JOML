@@ -205,7 +205,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Return the angle represented by this quaternion rotation in radians.
+     * Return the angle in radians represented by this quaternion rotation in radians.
      * 
      * @return the angle in radians
      */
@@ -2096,11 +2096,11 @@ public class Quaterniond implements Externalizable {
      * rotation added by this method will be applied first!
      * 
      * @param angleX
-     *              the angle to rotate about the x axis
+     *              the angle in radians to rotate about the x axis
      * @param angleY
-     *              the angle to rotate about the y axis
+     *              the angle in radians to rotate about the y axis
      * @param angleZ
-     *              the angle to rotate about the z axis
+     *              the angle in radians to rotate about the z axis
      * @return this
      */
     public Quaterniond rotateXYZ(double angleX, double angleY, double angleZ) {
@@ -2119,11 +2119,11 @@ public class Quaterniond implements Externalizable {
      * rotation added by this method will be applied first!
      * 
      * @param angleX
-     *              the angle to rotate about the x axis
+     *              the angle in radians to rotate about the x axis
      * @param angleY
-     *              the angle to rotate about the y axis
+     *              the angle in radians to rotate about the y axis
      * @param angleZ
-     *              the angle to rotate about the z axis
+     *              the angle in radians to rotate about the z axis
      * @return this
      */
     public Quaterniond rotateZYX(double angleX, double angleY, double angleZ) {
