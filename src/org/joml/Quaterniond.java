@@ -843,7 +843,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Invert this quaternion and store the result in <code>dest</code>.
+     * Invert this quaternion and store the {@link #normalize() normalized} result in <code>dest</code>.
      * 
      * @param dest
      *          will hold the result
@@ -859,12 +859,37 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Invert this quaternion.
+     * Invert this quaternion by assuming that it is already {@link #normalize() normalized} and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaterniond unitInvert(Quaterniond dest) {
+        double norm = x * x + y * y + z * z + w * w;
+        dest.x = -x / norm;
+        dest.y = -y / norm;
+        dest.z = -z / norm;
+        dest.w = w / norm;
+        return this;
+    }
+
+    /**
+     * Invert this quaternion and {@link #normalize() normalize} it.
      * 
      * @return this
      */
     public Quaterniond invert() {
         return invert(this);
+    }
+
+    /**
+     * Invert this quaternion by assuming that it is already {@link #normalize() normalized}.
+     * 
+     * @return this
+     */
+    public Quaterniond unitInvert() {
+        return unitInvert(this);
     }
 
     /**
