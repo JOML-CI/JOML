@@ -1174,12 +1174,11 @@ public class Quaterniond implements Externalizable {
      */
     public Quaterniond slerp(Quaterniond target, double alpha, Quaterniond dest) {
         double dot = x * target.x + y * target.y + z * target.z + w * target.w;
-        double alpha2 = alpha / 2.0;
         double theta = Math.acos(dot);
         if (theta < 0.0) theta = -theta;
         double sint = Math.sin(theta);
-        double sinlt = Math.sin(alpha2 * theta);
-        double sin1mlt = Math.sin(theta - alpha2 * theta);
+        double sinlt = Math.sin(alpha * theta);
+        double sin1mlt = Math.sin(theta - alpha * theta);
         double q1 = sin1mlt / sint;
         double q2 = sinlt / sint;
         dest.x = q1 * x + q2 * target.x;

@@ -1261,12 +1261,11 @@ public class Quaternionf implements Externalizable {
      */
     public Quaternionf slerp(Quaternionf target, float alpha, Quaternionf dest) {
         float dot = x * target.x + y * target.y + z * target.z + w * target.w;
-        float alpha2 = alpha / 2.0f;
         float theta = (float) Math.acos(dot);
         if (theta < 0.0f) theta = -theta;
         float sint = (float) Math.sin(theta);
-        float sinlt = (float) Math.sin(alpha2 * theta);
-        float sin1mlt = (float) Math.sin(theta - alpha2 * theta);
+        float sinlt = (float) Math.sin(alpha * theta);
+        float sin1mlt = (float) Math.sin(theta - alpha * theta);
         float q1 = sin1mlt / sint;
         float q2 = sinlt / sint;
         dest.x = q1 * x + q2 * target.x;
