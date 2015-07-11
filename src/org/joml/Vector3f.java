@@ -273,6 +273,22 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @return this
+     */
+    public Vector3f fma(float a, Vector3f b) {
+        x += a * b.x;
+        y += a * b.y;
+        z += a * b.z;
+        return this;
+    }
+
+    /**
      * Add the component-wise multiplication of <code>a * b</code> to this vector
      * and store the result in <code>dest</code>.
      * 
@@ -288,6 +304,25 @@ public class Vector3f implements Externalizable {
         dest.x = x + a.x * b.x;
         dest.y = y + a.y * b.y;
         dest.z = z + a.z * b.z;
+        return this;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector3f fma(float a, Vector3f b, Vector3f dest) {
+        dest.x = x + a * b.x;
+        dest.y = y + a * b.y;
+        dest.z = z + a * b.z;
         return this;
     }
 
