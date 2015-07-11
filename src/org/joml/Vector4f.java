@@ -335,6 +335,23 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @return this
+     */
+    public Vector4f fma(float a, Vector4f b) {
+        x += a * b.x;
+        y += a * b.y;
+        z += a * b.z;
+        w += a * b.w;
+        return this;
+    }
+
+    /**
      * Add the component-wise multiplication of <code>a * b</code> to this vector
      * and store the result in <code>dest</code>.
      * 
@@ -351,6 +368,26 @@ public class Vector4f implements Externalizable {
         dest.y = y + a.y * b.y;
         dest.z = z + a.z * b.z;
         dest.w = w + a.w * b.w;
+        return this;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Vector4f fma(float a, Vector4f b, Vector4f dest) {
+        dest.x = x + a * b.x;
+        dest.y = y + a * b.y;
+        dest.z = z + a * b.z;
+        dest.w = w + a * b.w;
         return this;
     }
 
