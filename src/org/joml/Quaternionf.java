@@ -360,7 +360,7 @@ public class Quaternionf implements Externalizable {
     /**
      * Set the given {@link Quaterniond} to the values of <code>this</code>.
      * 
-     * @see Quaterniond#set(Quaternionf)
+     * @see Quaterniond#set(Quaterniond)
      * 
      * @param dest
      *          the {@link Quaterniond} to set
@@ -428,7 +428,7 @@ public class Quaternionf implements Externalizable {
      * Set this quaternion to be a copy of q.
      * 
      * @param q
-     *          the {@link Quaterniond} to copy
+     *          the {@link Quaternionf} to copy
      * @return this
      */
     public Quaternionf set(Quaternionf q) {
@@ -457,7 +457,8 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Set this quaternion to a rotation equivalent to the given {@link AxisAngle4f}.
+     * Set this quaternion to a rotation equivalent to the supplied axis and
+     * angle (in radians).
      * 
      * @param angle
      *          the angle in radians
