@@ -973,107 +973,25 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order XYZ.
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
      * 
      * @param angles
      *          the angles in radians for the <tt>(x, y, z)</tt> axes
      * @return this
      */
-    public Quaterniond setEulerAnglesDegXYZ(Vector3d angles) {
-        return setEulerAnglesDegXYZ(angles.x, angles.y, angles.z);
+    public Quaterniond setEulerAnglesXYZ(Vector3d angles) {
+        return setEulerAnglesXYZ(angles.x, angles.y, angles.z);
     }
 
     /**
-     * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order XYZ.
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order ZYX.
      * 
      * @param angles
      *          the angles in radians for the <tt>(x, y, z)</tt> axes
      * @return this
      */
-    public Quaterniond setEulerAnglesRadXYZ(Vector3d angles) {
-        return setEulerAnglesRadXYZ(angles.x, angles.y, angles.z);
-    }
-
-    /**
-     * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order ZYX.
-     * 
-     * @param angles
-     *          the angles in radians for the <tt>(x, y, z)</tt> axes
-     * @return this
-     */
-    public Quaterniond setEulerAnglesDegZYX(Vector3d angles) {
-        return setEulerAnglesDegZYX(angles.x, angles.y, angles.z);
-    }
-
-    /**
-     * Calculate this quaternion using the supplied Vector3d angles (in radians) with rotation order ZYX.
-     * 
-     * @param angles
-     *          the angles in radians for the <tt>(x, y, z)</tt> axes
-     * @return this
-     */
-    public Quaterniond setEulerAnglesRadZYX(Vector3d angles) {
-        return setEulerAnglesRadZYX(angles.x, angles.y, angles.z);
-    }
-
-    /**
-     * Calculate this quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
-     * (in radians) with rotation order XYZ.
-     * <p>
-     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
-     * 
-     * @param rotationAboutX
-     *          the angle in radians to rotate about x
-     * @param rotationAboutY
-     *          the angle in radians to rotate about y
-     * @param rotationAboutZ
-     *          the angle in radians to rotate about z
-     * @return this
-     */
-    public Quaterniond setEulerAnglesDegXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        double sx = Math.sin(rotationAboutX * 0.5);
-        double cx = Math.cos(rotationAboutX * 0.5);
-        double sy = Math.sin(rotationAboutY * 0.5);
-        double cy = Math.cos(rotationAboutY * 0.5);
-        double sz = Math.sin(rotationAboutZ * 0.5);
-        double cz = Math.cos(rotationAboutZ * 0.5);
-
-        x = cx*cy*cz + sx*sy*sz;
-        y = sx*cy*cz - cx*sy*sz;
-        z = cx*sy*cz + sx*cy*sz;
-        w = cx*cy*sz - sx*sy*cz;
-
-        return this;
-    }
-
-    /**
-     * Calculate this quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
-     * (in radians) with rotation order ZYX.
-     * <p>
-     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
-     * 
-     * @param rotationAboutX
-     *          the angle in radians to rotate about x
-     * @param rotationAboutY
-     *          the angle in radians to rotate about y
-     * @param rotationAboutZ
-     *          the angle in radians to rotate about z
-     * @return this
-     */
-    public Quaterniond setEulerAnglesDegZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        double sx = Math.sin(rotationAboutX * 0.5);
-        double cx = Math.cos(rotationAboutX * 0.5);
-        double sy = Math.sin(rotationAboutY * 0.5);
-        double cy = Math.cos(rotationAboutY * 0.5);
-        double sz = Math.sin(rotationAboutZ * 0.5);
-        double cz = Math.cos(rotationAboutZ * 0.5);
-
-        x = cx*cy*cz - sx*sy*sz;
-        y = sx*cy*cz + cx*sy*sz;
-        z = cx*sy*cz - sx*cy*sz;
-        w = cx*cy*sz + sx*sy*cz;
-
-        return this;
+    public Quaterniond setEulerAnglesZYX(Vector3d angles) {
+        return setEulerAnglesZYX(angles.x, angles.y, angles.z);
     }
 
     /**
@@ -1099,7 +1017,7 @@ public class Quaterniond implements Externalizable {
      *          the angle in radians to rotate about z
      * @return this
      */
-    public Quaterniond setEulerAnglesRadXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+    public Quaterniond setEulerAnglesXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
         double sx = Math.sin(rotationAboutX * 0.5);
         double cx = Math.cos(rotationAboutX * 0.5);
         double sy = Math.sin(rotationAboutY * 0.5);
@@ -1129,7 +1047,7 @@ public class Quaterniond implements Externalizable {
      *          the angle in radians to rotate about z
      * @return this
      */
-    public Quaterniond setEulerAnglesRadZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
+    public Quaterniond setEulerAnglesZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
         double sx = Math.sin(rotationAboutX * 0.5);
         double cx = Math.cos(rotationAboutX * 0.5);
         double sy = Math.sin(rotationAboutY * 0.5);

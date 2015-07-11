@@ -1176,6 +1176,28 @@ public class Quaternionf implements Externalizable {
 
     /**
      * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
+     * 
+     * @param angles
+     *          the angles in radians for the <tt>(x, y, z)</tt> axes
+     * @return this
+     */
+    public Quaternionf setEulerAnglesXYZ(Vector3f angles) {
+        return setEulerAnglesXYZ(angles.x, angles.y, angles.z);
+    }
+
+    /**
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order ZYX.
+     * 
+     * @param angles
+     *          the angles in radians for the <tt>(x, y, z)</tt> axes
+     * @return this
+     */
+    public Quaternionf setEulerAnglesZYX(Vector3f angles) {
+        return setEulerAnglesZYX(angles.x, angles.y, angles.z);
+    }
+
+    /**
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
      * 
@@ -1187,7 +1209,7 @@ public class Quaternionf implements Externalizable {
      *          the angle in radians to rotate about z
      * @return this
      */
-    public Quaternionf setEulerAnglesRadXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+    public Quaternionf setEulerAnglesXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         float sx = (float) Math.sin(rotationAboutX * 0.5f);
         float cx = (float) Math.cos(rotationAboutX * 0.5f);
         float sy = (float) Math.sin(rotationAboutY * 0.5f);
@@ -1216,7 +1238,7 @@ public class Quaternionf implements Externalizable {
      *          the angle in radians to rotate about z
      * @return this
      */
-    public Quaternionf setEulerAnglesRadZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+    public Quaternionf setEulerAnglesZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         float sx = (float) Math.sin(rotationAboutX * 0.5f);
         float cx = (float) Math.cos(rotationAboutX * 0.5f);
         float sy = (float) Math.sin(rotationAboutY * 0.5f);
