@@ -2,7 +2,6 @@ package org.joml.test;
 
 import java.nio.IntBuffer;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.joml.Matrix4f;
@@ -92,14 +91,6 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector4fEquals(expectedFar, far, 1E-4f);
     }
 
-    public void testIsPointInFrustumPlanePerspectiveRotate() {
-        Matrix4f m = new Matrix4f()
-        .perspective((float) Math.toRadians(90.0f), 1.0f, 0.1f, 100.0f)
-        .rotateY((float) Math.toRadians(90));
-        Assert.assertTrue(m.isPointInsideFrustum(50, 0, 0));
-        Assert.assertFalse(m.isPointInsideFrustum(50, 51, 0));
-    }
-
     public void testFrustumRay() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
@@ -138,53 +129,6 @@ public class Matrix4fTest extends TestCase {
         m.frustumRayDir(1, 1, dir);
         expectedDir = new Vector3f((float)Math.sqrt(2), 0, -1).normalize();
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
-    }
-
-    public void testIsSphereInFrustumOrtho() {
-        Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
-        Assert.assertTrue(m.isSphereInsideFrustum(1, 0, 0, 0.1f));
-        Assert.assertFalse(m.isSphereInsideFrustum(1.2f, 0, 0, 0.1f));
-    }
-
-    public void testIsSphereInFrustumPerspective() {
-        Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
-        Assert.assertTrue(m.isSphereInsideFrustum(1, 0, -2, 0.1f));
-        Assert.assertFalse(m.isSphereInsideFrustum(4f, 0, -2, 1.0f));
-    }
-
-    public void testIsAabInFrustumOrtho() {
-        Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
-        Assert.assertEquals(-1, m.isAabInsideFrustum(-20, -2, 0, 20, 2, 0));
-        Assert.assertEquals(Matrix4f.PLANE_PX, m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
-        m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
-        Assert.assertEquals(-1, m.isAabInsideFrustum(0, 0, 0, 2, 2, 2));
-        Assert.assertEquals(Matrix4f.PLANE_PX, m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
-        m = new Matrix4f();
-        Assert.assertEquals(-1, m.isAabInsideFrustum(0.5f, 0.5f, 0.5f, 2, 2, 2));
-        Assert.assertEquals(Matrix4f.PLANE_PX, m.isAabInsideFrustum(1.5f, 0.5f, 0.5f, 2, 2, 2));
-        Assert.assertEquals(Matrix4f.PLANE_NX, m.isAabInsideFrustum(-2.5f, 0.5f, 0.5f, -1.5f, 2, 2));
-        Assert.assertEquals(Matrix4f.PLANE_NY, m.isAabInsideFrustum(-0.5f, -2.5f, 0.5f, 1.5f, -2, 2));
-    }
-
-    public void testIsAabInPerspective() {
-        Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f); 
-        Assert.assertTrue(m.isAabInsideFrustum(0, 0, -7, 1, 1, -5) == -1);
-        Assert.assertFalse(m.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2) == -1);
-        Assert.assertFalse(m.isAabInsideFrustum(4, 4, -3, 5, 5, -5) == -1);
-        Assert.assertFalse(m.isAabInsideFrustum(-6, -6, -2, -1, -4, -4) == -1);
-    }
-
-    public void testIsPointInPerspective() {
-        Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f); 
-        Assert.assertTrue(m.isPointInsideFrustum(0, 0, -5));
-        Assert.assertFalse(m.isPointInsideFrustum(0, 6, -5));
-    }
-
-    public void testIsAabInPerspectiveMask() {
-        Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f); 
-        Assert.assertEquals(-1, m.isAabInsideFrustumMasked(5.1f, 0, -3, 8, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_PX));
-        Assert.assertEquals(-1, m.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_NX));
-        Assert.assertEquals(Matrix4f.PLANE_NX, m.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, Matrix4f.PLANE_MASK_NX));
     }
 
     public void testPositiveXRotateY() {
