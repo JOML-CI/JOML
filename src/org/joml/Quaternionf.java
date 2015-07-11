@@ -970,7 +970,7 @@ public class Quaternionf implements Externalizable {
      *          the angle in radians to rotate about z
      * @return this
      */
-    public Quaternionf setEulerAnglesRadXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+    public Quaternionf setEulerAnglesXYZ(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         float sx = (float) Math.sin(rotationAboutX * 0.5f);
         float cx = (float) Math.cos(rotationAboutX * 0.5f);
         float sy = (float) Math.sin(rotationAboutY * 0.5f);
@@ -999,7 +999,7 @@ public class Quaternionf implements Externalizable {
      *          the angle in radians to rotate about z
      * @return this
      */
-    public Quaternionf setEulerAnglesRadZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
+    public Quaternionf setEulerAnglesZYX(float rotationAboutX, float rotationAboutY, float rotationAboutZ) {
         float sx = (float) Math.sin(rotationAboutX * 0.5f);
         float cx = (float) Math.cos(rotationAboutX * 0.5f);
         float sy = (float) Math.sin(rotationAboutY * 0.5f);
