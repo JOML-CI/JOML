@@ -1173,26 +1173,19 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond slerp(Quaterniond target, double alpha, Quaterniond dest) {
-        double q2, q3;
-        double q4 = x * target.x + y * target.y + z * target.z + w * target.w;
-        boolean flag = false;
-        if (q4 < 0.0) {
-            flag = true;
-            q4 = -q4;
-        }
-        if (q4 > 0.999999) {
-            q3 = 1.0 - alpha;
-            q2 = flag ? -alpha : alpha;
-        } else {
-            double q5 = Math.acos(q4);
-            double q6 = 1.0 / Math.sin(q5);
-            q3 = Math.sin((1.0 - alpha) * q5) * q6;
-            q2 = flag ? -Math.sin(alpha * q5) * q6 : Math.sin(alpha * q5) * q6;
-        }
-        dest.x = q3 * x + q2 * target.x;
-        dest.y = q3 * y + q2 * target.y;
-        dest.z = q3 * z + q2 * target.z;
-        dest.w = q3 * w + q2 * target.w;
+        double dot = x * target.x + y * target.y + z * target.z + w * target.w;
+        double alpha2 = alpha / 2.0;
+        double theta = Math.acos(dot);
+        if (theta < 0.0) theta = -theta;
+        double sint = Math.sin(theta);
+        double sinlt = Math.sin(alpha2 * theta);
+        double sin1mlt = Math.sin(theta - alpha2 * theta);
+        double q1 = sin1mlt / sint;
+        double q2 = sinlt / sint;
+        dest.x = q1 * x + q2 * target.x;
+        dest.y = q1 * y + q2 * target.y;
+        dest.z = q1 * z + q2 * target.z;
+        dest.w = q1 * w + q2 * target.w;
         return this;
     }
 
