@@ -5427,7 +5427,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple spheres are to be tested on the same frustum, the frustum planes should be computed first using 
      * {@link #frustumPlane(int, Vector4d)} and then tested against the spheres, instead of using this method.
@@ -5455,7 +5455,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple spheres are to be tested on the same frustum, the frustum planes should be computed first using 
      * {@link #frustumPlane(int, Vector4d)} and then tested against the spheres, instead of using this method.
@@ -5503,7 +5503,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
      * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.
@@ -5536,7 +5536,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
      * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.
@@ -5619,7 +5619,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
      * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.
@@ -5662,7 +5662,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple boxes are to be tested on the same frustum, the frustum planes should be computed first using 
      * {@link #frustumPlane(int, Vector4d)} and then tested against the boxes, instead of using this method.

@@ -198,7 +198,7 @@ public class FrustumCuller {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param center
      *          the sphere's center
@@ -216,7 +216,7 @@ public class FrustumCuller {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param x
      *          the x-coordinate of the sphere's center
@@ -245,7 +245,7 @@ public class FrustumCuller {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
      *          the minimum corner coordinates of the axis-aligned box
@@ -269,7 +269,7 @@ public class FrustumCuller {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 
@@ -323,7 +323,7 @@ public class FrustumCuller {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
      *          the minimum corner coordinates of the axis-aligned box
@@ -358,7 +358,7 @@ public class FrustumCuller {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * 

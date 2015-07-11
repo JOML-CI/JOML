@@ -5455,7 +5455,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple spheres are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * <p>
@@ -5502,7 +5502,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple boxes are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * 
@@ -5534,7 +5534,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple boxes are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * <p>
@@ -5616,7 +5616,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple boxes are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * 
@@ -5658,7 +5658,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">this site</a> for an examination of this problem.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * If multiple boxes are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * <p>
