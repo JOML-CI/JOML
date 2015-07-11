@@ -32,7 +32,7 @@ package org.joml;
  * 
  * @author Kai Burjack
  */
-public class RayCaster {
+public class FrustumRayBuilder {
 
     private float nxnyX, nxnyY, nxnyZ;
     private float pxnyX, pxnyY, pxnyZ;
@@ -41,31 +41,31 @@ public class RayCaster {
     private float cx, cy, cz;
 
     /**
-     * Create a new {@link RayCaster} with an undefined frustum.
+     * Create a new {@link FrustumRayBuilder} with an undefined frustum.
      * <p>
      * Before obtaining ray directions, make sure to define the frustum using {@link #set(Matrix4f)}.
      */
-    public RayCaster() {
+    public FrustumRayBuilder() {
     }
 
     /**
-     * Create a new {@link RayCaster} from the given {@link Matrix4f matrix} by extracing the matrix's frustum.
+     * Create a new {@link FrustumRayBuilder} from the given {@link Matrix4f matrix} by extracing the matrix's frustum.
      * 
      * @param m
-     *          the {@link Matrix4f} to create the ray caster from
+     *          the {@link Matrix4f} to create the frustum from
      */
-    public RayCaster(Matrix4f m) {
+    public FrustumRayBuilder(Matrix4f m) {
         set(m);
     }
 
     /**
-     * Update the stored frustum corner rays and origin of <code>this</code> {@link RayCaster} with the given {@link Matrix4f matrix}.
+     * Update the stored frustum corner rays and origin of <code>this</code> {@link FrustumRayBuilder} with the given {@link Matrix4f matrix}.
      * 
      * @param m
-     *          the {@link Matrix4f matrix} to update <code>this</code> ray caster's frustum corner rays and origin with
+     *          the {@link Matrix4f matrix} to update the frustum corner rays and origin with
      * @return this
      */
-    public RayCaster set(Matrix4f m) {
+    public FrustumRayBuilder set(Matrix4f m) {
         float nxX = m.m03 + m.m00, nxY = m.m13 + m.m10, nxZ = m.m23 + m.m20, d1 = m.m33 + m.m30;
         float pxX = m.m03 - m.m00, pxY = m.m13 - m.m10, pxZ = m.m23 - m.m20, d2 = m.m33 - m.m30;
         float nyX = m.m03 + m.m01, nyY = m.m13 + m.m11, nyZ = m.m23 + m.m21;
@@ -105,7 +105,7 @@ public class RayCaster {
      *          will hold the perspective origin
      * @return this
      */
-    public RayCaster origin(Vector3f origin) {
+    public FrustumRayBuilder origin(Vector3f origin) {
         origin.x = cx;
         origin.y = cy;
         origin.z = cz;
@@ -127,7 +127,7 @@ public class RayCaster {
      *          will hold the normalized ray direction
      * @return this
      */
-    public RayCaster dir(float x, float y, Vector3f dir) {
+    public FrustumRayBuilder dir(float x, float y, Vector3f dir) {
         float oneMinusY = 1.0f - y, oneMinusX = 1.0f - x;
         float y1x = nxnyX * oneMinusY + nxpyX * y;
         float y1y = nxnyY * oneMinusY + nxpyY * y;

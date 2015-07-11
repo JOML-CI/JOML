@@ -1243,6 +1243,22 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Update the given {@link FrustumRayBuilder} with <code>this</code> matrix.
+     * <p>
+     * This will result in the recalculation of <code>this</code> matrix's frustum.
+     * 
+     * @see FrustumRayBuilder#set(Matrix4f)
+     * 
+     * @param frustumRayBuilder
+     *          the {@link FrustumRayBuilder} to update
+     * @return this
+     */
+    public Matrix4f get(FrustumRayBuilder frustumRayBuilder) {
+        frustumRayBuilder.set(this);
+        return this;
+    }
+
+    /**
      * Set all the values within this matrix to <code>0</code>.
      * 
      * @return this
@@ -5749,7 +5765,7 @@ public class Matrix4f implements Externalizable {
      * For optimal efficiency when building many ray directions over the whole frustum,
      * it is recommended to use this method only in order to compute the four corner rays at
      * <tt>(0, 0)</tt>, <tt>(1, 0)</tt>, <tt>(0, 1)</tt> and <tt>(1, 1)</tt>
-     * and then bilinearly interpolating between them; or to use the {@link RayCaster}.
+     * and then bilinearly interpolating between them; or to use the {@link FrustumRayBuilder}.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
