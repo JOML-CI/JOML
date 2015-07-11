@@ -103,21 +103,6 @@ public class TestUtil {
     }
 
     /**
-     * Return whether two quaternions are equal. They are considered equal when their difference is 
-     * less than or equal to the precision.
-     * @param a the first quaternion
-     * @param b the second quaternion
-     * @param precision if abs(a.[comp] - b.[comp]) <= precision for every component comp (x, y, z, w), a and b are considered equal
-     * @return whether a and b are equal
-     */
-    public static boolean quatEqual(Quaterniond a, Quaterniond b, double precision) {
-        return doubleEqual(a.x, b.x, precision)
-            && doubleEqual(a.y, b.y, precision)
-            && doubleEqual(a.z, b.z, precision)
-            && doubleEqual(a.w, b.w, precision);
-    }
-
-    /**
      * Assert that both matrices are equal with respect to the given delta.
      * 
      * @param m1

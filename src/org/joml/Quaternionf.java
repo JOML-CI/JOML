@@ -119,21 +119,6 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Create a new {@link Quaternionf} which represents the rotation of the given {@link AxisAngle4f}.
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f}
-     */
-    public Quaternionf(AxisAngle4f axisAngle) {
-        float sin = (float) Math.sin(axisAngle.angle / 2.0);
-        float cos = (float) Math.cos(axisAngle.angle / 2.0);
-        x = axisAngle.x * sin;
-        x = axisAngle.y * sin;
-        x = axisAngle.z * sin;
-        w = cos;
-    }
-
-    /**
      * Normalize this quaternion.
      * 
      * @return this
@@ -258,39 +243,6 @@ public class Quaternionf implements Externalizable {
      *          the matrix to write the rotation into
      * @return this
      */
-    public Quaternionf get(Matrix3d dest) {
-        double q00 = 2.0 * x * x;
-        double q11 = 2.0 * y * y;
-        double q22 = 2.0 * z * z;
-
-        double q01 = 2.0 * x * y;
-        double q02 = 2.0 * x * z;
-        double q03 = 2.0 * x * w;
-
-        double q12 = 2.0 * y * z;
-        double q13 = 2.0 * y * w;
-
-        double q23 = 2.0 * z * w;
-
-        dest.m00 = 1.0 - q11 - q22;
-        dest.m01 = q01 + q23;
-        dest.m02 = q02 - q13;
-        dest.m10 = q01 - q23;
-        dest.m11 = 1.0 - q22 - q00;
-        dest.m12 = q12 + q03;
-        dest.m20 = q02 + q13;
-        dest.m21 = q12 - q03;
-        dest.m22 = 1.0 - q11 - q00;
-        return this;
-    }
-
-    /**
-     * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
-     * @param dest
-     *          the matrix to write the rotation into
-     * @return this
-     */
     public Quaternionf get(Matrix4f dest) {
         float q00 = 2.0f * x * x;
         float q11 = 2.0f * y * y;
@@ -320,54 +272,6 @@ public class Quaternionf implements Externalizable {
         dest.m31 = 0.0f;
         dest.m32 = 0.0f;
         dest.m33 = 1.0f;
-        return this;
-    }
-
-    /**
-     * Set the given {@link AxisAngle4f} to represent the rotation of
-     * <code>this</code> quaternion.
-     * 
-     * @param axisAngle
-     *            the {@link AxisAngle4f} to set
-     * @return this
-     */
-    public Quaternionf get(AxisAngle4f axisAngle) {
-        float x = this.x;
-        float y = this.y;
-        float z = this.z;
-        float w = this.w;
-        if (w > 1.0f) {
-            float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
-            x /= norm;
-            y /= norm;
-            z /= norm;
-            w /= norm;
-        }
-        axisAngle.angle = (float) (2.0f * Math.acos(w));
-        float s = (float) Math.sqrt(1.0 - w * w);
-        if (s < 0.001f) {
-            axisAngle.x = x;
-            axisAngle.y = y;
-            axisAngle.z = z;
-        } else {
-            axisAngle.x = x / s;
-            axisAngle.y = y / s;
-            axisAngle.z = z / s;
-        }
-        return this;
-    }
-
-    /**
-     * Set the given {@link Quaterniond} to the values of <code>this</code>.
-     * 
-     * @see Quaterniond#set(Quaterniond)
-     * 
-     * @param dest
-     *          the {@link Quaterniond} to set
-     * @return this
-     */
-    public Quaternionf get(Quaterniond dest) {
-        dest.set(this);
         return this;
     }
 
@@ -440,23 +344,6 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Set this quaternion to a rotation equivalent to the given {@link AxisAngle4f}.
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f}
-     * @return this
-     */
-    public Quaternionf set(AxisAngle4f axisAngle) {
-        double angle = axisAngle.angle;
-        double s = Math.sin(angle / 2.0);
-        x = (float) (axisAngle.x * s);
-        y = (float) (axisAngle.y * s);
-        z = (float) (axisAngle.z * s);
-        w = (float) Math.cos(angle / 2.0);
-        return this;
-    }
-
-    /**
      * Set this quaternion to a rotation equivalent to the supplied axis and
      * angle (in radians).
      * 
@@ -478,20 +365,6 @@ public class Quaternionf implements Externalizable {
         this.z = (float) (z * s);
         this.w = (float) Math.cos(angleR / 2.0);
         return this;
-    }
-
-    /**
-     * Set this {@link Quaternionf} to a rotation of the given angle in radians about the supplied
-     * axis, all of which are specified via the {@link AxisAngle4f}.
-     * 
-     * @see #rotationAxis(float, float, float, float)
-     * 
-     * @param axisAngle
-     *            the {@link AxisAngle4f} giving the rotation angle in radians and the axis to rotate about
-     * @return this
-     */
-    public Quaternionf rotationAxis(AxisAngle4f axisAngle) {
-        return rotationAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
@@ -670,97 +543,7 @@ public class Quaternionf implements Externalizable {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaternionf set(Matrix4d mat) {
-        double t;
-        double tr = mat.m00 + mat.m11 + mat.m22;
-        if (tr >= 0.0) {
-            t = Math.sqrt(tr + 1.0);
-            w = (float) (t * 0.5);
-            t = 0.5 / t;
-            x = (float) ((mat.m12 - mat.m21) * t);
-            y = (float) ((mat.m20 - mat.m02) * t);
-            z = (float) ((mat.m01 - mat.m10) * t);
-        } else {
-            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
-                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
-                x = (float) (t * 0.5);
-                t = 0.5 / t;
-                y = (float) ((mat.m10 + mat.m01) * t);
-                z = (float) ((mat.m02 + mat.m20) * t);
-                w = (float) ((mat.m12 - mat.m21) * t);
-            } else if (mat.m11 > mat.m22) {
-                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
-                y = (float) (t * 0.5);
-                t = 0.5 / t;
-                z = (float) ((mat.m21 + mat.m12) * t);
-                x = (float) ((mat.m10 + mat.m01) * t);
-                w = (float) ((mat.m20 - mat.m02) * t);
-            } else {
-                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
-                z = (float) (t * 0.5);
-                t = 0.5 / t;
-                x = (float) ((mat.m02 + mat.m20) * t);
-                y = (float) ((mat.m21 + mat.m12) * t);
-                w = (float) ((mat.m01 - mat.m10) * t);
-            }
-        }
-        normalize();
-        return this;
-    }
-
-    /**
-     * Set this quaternion to be a representation of the rotational component of the given matrix.
-     * 
-     * @param mat
-     *          the matrix whose rotational component is used to set this quaternion
-     * @return this
-     */
     public Quaternionf set(Matrix3f mat) {
-        double t;
-        double tr = mat.m00 + mat.m11 + mat.m22;
-        if (tr >= 0.0) {
-            t = Math.sqrt(tr + 1.0);
-            w = (float) (t * 0.5);
-            t = 0.5 / t;
-            x = (float) ((mat.m12 - mat.m21) * t);
-            y = (float) ((mat.m20 - mat.m02) * t);
-            z = (float) ((mat.m01 - mat.m10) * t);
-        } else {
-            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
-                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
-                x = (float) (t * 0.5);
-                t = 0.5 / t;
-                y = (float) ((mat.m10 + mat.m01) * t);
-                z = (float) ((mat.m02 + mat.m20) * t);
-                w = (float) ((mat.m12 - mat.m21) * t);
-            } else if (mat.m11 > mat.m22) {
-                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
-                y = (float) (t * 0.5);
-                t = 0.5 / t;
-                z = (float) ((mat.m21 + mat.m12) * t);
-                x = (float) ((mat.m10 + mat.m01) * t);
-                w = (float) ((mat.m20 - mat.m02) * t);
-            } else {
-                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
-                z = (float) (t * 0.5);
-                t = 0.5 / t;
-                x = (float) ((mat.m02 + mat.m20) * t);
-                y = (float) ((mat.m21 + mat.m12) * t);
-                w = (float) ((mat.m01 - mat.m10) * t);
-            }
-        }
-        normalize();
-        return this;
-    }
-
-    /**
-     * Set this quaternion to be a representation of the rotational component of the given matrix.
-     * 
-     * @param mat
-     *          the matrix whose rotational component is used to set this quaternion
-     * @return this
-     */
-    public Quaternionf set(Matrix3d mat) {
         double t;
         double tr = mat.m00 + mat.m11 + mat.m22;
         if (tr >= 0.0) {
@@ -2177,104 +1960,6 @@ public class Quaternionf implements Externalizable {
                  w * other.z + x * other.y - y * other.x + z * other.w,
                  w * other.w - x * other.x - y * other.y - z * other.z);
         return this;
-    }
-
-    /**
-     * Return the specified {@link Vector3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector3f} to return
-     * @return that vector
-     */
-    public Vector3f with(Vector3f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Vector4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector4f} to return
-     * @return that vector
-     */
-    public Vector4f with(Vector4f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Quaternionf}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaternionf} to return
-     * @return that quaternion
-     */
-    public Quaternionf with(Quaternionf q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link Quaterniond}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaterniond} to return
-     * @return that quaternion
-     */
-    public Quaterniond with(Quaterniond q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link AxisAngle4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
-     * 
-     * @param a
-     *          the {@link AxisAngle4f} to return
-     * @return that quaternion
-     */
-    public AxisAngle4f with(AxisAngle4f a) {
-        return a;
-    }
-
-    /**
-     * Return the specified {@link Matrix3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix3f} to return
-     * @return that matrix
-     */
-    public Matrix3f with(Matrix3f m) {
-        return m;
-    }
-
-    /**
-     * Return the specified {@link Matrix4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix4f} to return
-     * @return that matrix
-     */
-    public Matrix4f with(Matrix4f m) {
-        return m;
     }
 
 }

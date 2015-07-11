@@ -402,48 +402,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f}
-     * @return this
-     */
-    public Matrix4f set(AxisAngle4f axisAngle) {
-        float x = axisAngle.x;
-        float y = axisAngle.y;
-        float z = axisAngle.z;
-        double angle = axisAngle.angle;
-        double n = Math.sqrt(x*x + y*y + z*z);
-        n = 1/n;
-        x *= n;
-        y *= n;
-        z *= n;
-        double c = Math.cos(angle);
-        double s = Math.sin(angle);
-        double omc = 1.0 - c;
-        m00 = (float)(c + x*x*omc);
-        m11 = (float)(c + y*y*omc);
-        m22 = (float)(c + z*z*omc);
-        double tmp1 = x*y*omc;
-        double tmp2 = z*s;
-        m10 = (float)(tmp1 - tmp2);
-        m01 = (float)(tmp1 + tmp2);
-        tmp1 = x*z*omc;
-        tmp2 = y*s;
-        m20 = (float)(tmp1 + tmp2);
-        m02 = (float)(tmp1 - tmp2);
-        tmp1 = y*z*omc;
-        tmp2 = x*s;
-        m21 = (float)(tmp1 - tmp2);
-        m12 = (float)(tmp1 + tmp2);
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
-        return this;
-    }
-
-    /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
      * 
      * @see Quaternionf#get(Matrix4f)
@@ -1101,21 +1059,6 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Get the rotational component of <code>this</code> matrix and store the represented rotation
-     * into the given {@link AxisAngle4f}.
-     * 
-     * @see AxisAngle4f#set(Matrix4f)
-     * 
-     * @param dest
-     *          the destination {@link AxisAngle4f}
-     * @return this
-     */
-    public Matrix4f get(AxisAngle4f dest) {
-        dest.set(this);
-        return this;
-    }
-
-    /**
-     * Get the rotational component of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
      * 
      * @see Quaternionf#set(Matrix4f)
@@ -1125,21 +1068,6 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f get(Quaternionf dest) {
-        dest.set(this);
-        return this;
-    }
-
-    /**
-     * Get the rotational component of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaterniond}.
-     * 
-     * @see Quaterniond#set(Matrix4f)
-     * 
-     * @param dest
-     *          the destination {@link Quaterniond}
-     * @return this
-     */
-    public Matrix4f get(Quaterniond dest) {
         dest.set(this);
         return this;
     }
@@ -1223,38 +1151,6 @@ public class Matrix4f implements Externalizable {
         arr[offset+13] = m31;
         arr[offset+14] = m32;
         arr[offset+15] = m33;
-        return this;
-    }
-
-    /**
-     * Update the given {@link FrustumCuller} with <code>this</code> matrix.
-     * <p>
-     * This will result in the frustum culler recalculating <code>this</code> matrix's frustum planes.
-     * 
-     * @see FrustumCuller#set(Matrix4f)
-     * 
-     * @param culler
-     *          the {@link FrustumCuller} to update
-     * @return this
-     */
-    public Matrix4f get(FrustumCuller culler) {
-        culler.set(this);
-        return this;
-    }
-
-    /**
-     * Update the given {@link FrustumRayBuilder} with <code>this</code> matrix.
-     * <p>
-     * This will result in the recalculation of <code>this</code> matrix's frustum.
-     * 
-     * @see FrustumRayBuilder#set(Matrix4f)
-     * 
-     * @param frustumRayBuilder
-     *          the {@link FrustumRayBuilder} to update
-     * @return this
-     */
-    public Matrix4f get(FrustumRayBuilder frustumRayBuilder) {
-        frustumRayBuilder.set(this);
         return this;
     }
 
@@ -1393,27 +1289,6 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f rotation(float angle, Vector3f axis) {
         return rotation(angle, axis.x, axis.y, axis.z);
-    }
-
-    /**
-     * Set this matrix to a rotation transformation using the given {@link AxisAngle4f}.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional rotation.
-     * <p>
-     * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(AxisAngle4f) rotate()} instead.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     *
-     * @see #rotate(AxisAngle4f)
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
-     * @return this
-     */
-    public Matrix4f rotation(AxisAngle4f axisAngle) {
-        return rotation(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
@@ -3883,56 +3758,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation, rotating about the given {@link AxisAngle4f}, to this matrix.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
-     * then the new matrix will be <code>M * A</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the {@link AxisAngle4f} rotation will be applied first!
-     * <p>
-     * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(AxisAngle4f)}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @see #rotate(float, float, float, float)
-     * @see #rotation(AxisAngle4f)
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
-     * @return this
-     */
-    public Matrix4f rotate(AxisAngle4f axisAngle) {
-        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
-    }
-
-    /**
-     * Apply a rotation transformation, rotating about the given {@link AxisAngle4f} and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
-     * then the new matrix will be <code>M * A</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the {@link AxisAngle4f} rotation will be applied first!
-     * <p>
-     * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(AxisAngle4f)}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @see #rotate(float, float, float, float)
-     * @see #rotation(AxisAngle4f)
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
-     * @param dest
-     *          will hold the result
-     * @return this
-     */
-    public Matrix4f rotate(AxisAngle4f axisAngle, Matrix4f dest) {
-        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z, dest);
-    }
-
-    /**
      * Apply a rotation transformation, rotating the given radians about the specified axis, to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given axis-angle,
@@ -4977,118 +4802,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Return the specified {@link Matrix4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param other
-     *          the {@link Matrix4f} to return
-     * @return that matrix
-     */
-    public Matrix4f with(Matrix4f other) {
-        return other;
-    }
-
-    /**
-     * Return the specified {@link Matrix4d}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param other
-     *          the {@link Matrix4d} to return
-     * @return that matrix
-     */
-    public Matrix4d with(Matrix4d other) {
-        return other;
-    }
-
-    /**
-     * Return the specified {@link Vector3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector3f} to return
-     * @return that vector
-     */
-    public Vector3f with(Vector3f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Vector4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector4f} to return
-     * @return that vector
-     */
-    public Vector4f with(Vector4f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Quaternionf}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaternionf} to return
-     * @return that quaternion
-     */
-    public Quaternionf with(Quaternionf q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link Quaterniond}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaterniond} to return
-     * @return that quaternion
-     */
-    public Quaterniond with(Quaterniond q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link AxisAngle4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
-     * 
-     * @param a
-     *          the {@link AxisAngle4f} to return
-     * @return that quaternion
-     */
-    public AxisAngle4f with(AxisAngle4f a) {
-        return a;
-    }
-
-    /**
-     * Return the specified {@link Matrix3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix3f} to return
-     * @return that matrix
-     */
-    public Matrix3f with(Matrix3f m) {
-        return m;
-    }
-
-    /**
      * Compute a normal matrix from the top-left 3x3 submatrix of <code>this</code>
      * and store it into the top-left 3x3 submatrix of <code>dest</code>.
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
@@ -5393,8 +5106,6 @@ public class Matrix4f implements Externalizable {
      * This method computes the frustum planes in the local frame of
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * If multiple points are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isPointInsideFrustum(float, float, float)
@@ -5413,8 +5124,6 @@ public class Matrix4f implements Externalizable {
      * This method computes the frustum planes in the local frame of
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * If multiple points are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -5445,8 +5154,6 @@ public class Matrix4f implements Externalizable {
      * This method computes the frustum planes in the local frame of
      * any coordinate system that existed before <code>this</code>
      * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * If multiple spheres are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isSphereInsideFrustum(float, float, float, float)
@@ -5472,8 +5179,6 @@ public class Matrix4f implements Externalizable {
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * <p>
-     * If multiple spheres are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -5519,8 +5224,6 @@ public class Matrix4f implements Externalizable {
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * <p>
-     * If multiple boxes are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isAabInsideFrustum(float, float, float, float, float, float)
@@ -5551,8 +5254,6 @@ public class Matrix4f implements Externalizable {
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * <p>
-     * If multiple boxes are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * <p>
@@ -5633,8 +5334,6 @@ public class Matrix4f implements Externalizable {
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * <p>
-     * If multiple boxes are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * 
      * @see #frustumPlane(int, Vector4f)
      * @see #isAabInsideFrustumMasked(float, float, float, float, float, float, int)
@@ -5675,8 +5374,6 @@ public class Matrix4f implements Externalizable {
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * <p>
-     * If multiple boxes are to be tested on the same frustum, create a {@link FrustumCuller} from this matrix instead.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
      * <p>
@@ -5765,7 +5462,7 @@ public class Matrix4f implements Externalizable {
      * For optimal efficiency when building many ray directions over the whole frustum,
      * it is recommended to use this method only in order to compute the four corner rays at
      * <tt>(0, 0)</tt>, <tt>(1, 0)</tt>, <tt>(0, 1)</tt> and <tt>(1, 1)</tt>
-     * and then bilinearly interpolating between them; or to use the {@link FrustumRayBuilder}.
+     * and then bilinearly interpolating between them.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
