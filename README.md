@@ -95,32 +95,6 @@ viewProj.perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
 ```
 The *invViewProj* matrix now contains the inverse of the *viewProj* matrix, but the latter is still intact.
 
-Method chaining and context switching
--------------------------------------
-With the possibility of chaining multiple transformations and writing computation results in designated _destination_ objects, it is convenient to be able to switch the context object in order to apply further operations on different objects.
-This can be done easily using the _with()_ methods.
-The following example shows how a spherical linear interpolation can be built and the result be used to transform a vector:
-
-```Java
-Quaternion q1 = ...;
-Quaternion q2 = ...;
-Quaternion dest = new Quaternion();
-Vector3f v = ...;
-q1.slerp(q2, alpha, dest).with(dest).transform(v);
-```
-Here, the spherical linear interpolation is computed using the Quaternion's _slerp()_ method taking a _dest_ parameter. This method is preferred because it does not change the original context quaternion _q1_.
-Now, because the context after this call is still _q1_, the _with()_ method is used to switch over to _dest_ and then transform the vector _v_ by this interpolated quaternion.
-
-Using the same method you can also specify both the view and projection matrices in one go:
-```Java
-Matrix4f proj = new Matrix4f();
-Matrix4f view = new Matrix4f();
-proj.perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
-    .with(view).lookAt(0.0f, 1.0f, 5.0f,
-                       0.0f, 0.0f, 0.0f,
-                       0.0f, 1.0f, 0.0f);
-```
-
 Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
 ---------------------------------------------------
 JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
@@ -188,25 +162,3 @@ In the example above, a single Matrix4f is allocated during some initialization 
 Multithreading
 --------------
 Due to JOML not using any internal temporary objects during any computations, you can use JOML in a multithreaded application. You only need to make sure not to call a method modifying the same matrix or vector from two different threads. Other than that, there is no internal or external synchronization necessary.
-
-Matrix stack
-------------
-JOML also features an interface that resembles the matrix stack from legacy OpenGL.
-This allows you to use all of the legacy OpenGL matrix stack operations even in modern OpenGL applications,
-but without the otherwise necessary JNI calls into the graphics driver.
-*Note that JOML does not interface in any way with the OpenGL API. It merely provides matrix and vector arithmetics.*
-```Java
-MatrixStack s = new MatrixStack(2);
-Matrix4f result = new Matrix4f();
-s.translate(2.0f, 0.0f, 0.0f);
-s.pushMatrix();
-{
-  s.scale(0.5f, 0.5f, 0.5f);
-  s.get(result);
-  // do something with result
-}
-s.popMatrix();
-s.rotate((float) Math.toRadians(45.0f), 0.0f, 0.0f, 1.0f);
-s.get(result);
-// do something with result
-```
