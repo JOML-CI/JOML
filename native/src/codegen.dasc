@@ -30,7 +30,8 @@ sequence_func_t codegen(void) {
   status = dasm_link(&state, &code_size);
   code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);
-  VirtualProtect(code, code_size, PAGE_EXECUTE_READ, &dwOld);
+  VirtualProtect(code, code_size, PAGE_EXECUTE, &dwOld);
+  FlushInstructionCache(GetCurrentProcess(), code, code_size);
   dasm_free(&state);
   return (sequence_func_t) code;
 }
