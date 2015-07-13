@@ -56,12 +56,11 @@ JNIEXPORT void JNICALL Java_org_joml_NativeVector4f_set
 /*
  * Class:     org_joml_NativeVector4f
  * Method:    jit
- * Signature: (JJI)V
+ * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_org_joml_NativeVector4f_jit
-  (JNIEnv * env, jclass clazz, jlong id, jlong opsAddr, int opsLen) {
+  (JNIEnv * env, jclass clazz, jlong id) {
   vector* v = (vector*) (intptr_t) id;
-  const char* opcodes = (const char*) (intptr_t) opsAddr;
   sequence_func_t func = codegen();
   v->jittedFunc = func;
 }

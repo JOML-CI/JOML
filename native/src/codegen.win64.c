@@ -2,10 +2,10 @@
 ** This file has been pre-processed with DynASM.
 ** http://luajit.org/dynasm.html
 ** DynASM version 1.3.0, DynASM x64 version 1.3.0
-** DO NOT EDIT! The original file is in "codegen.c".
+** DO NOT EDIT! The original file is in "codegen.dasc".
 */
 
-#line 1 "codegen.c"
+#line 1 "codegen.dasc"
 #include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
@@ -18,22 +18,22 @@
 #if DASM_VERSION != 10300
 #error "Version mismatch between DynASM and included encoding engine"
 #endif
-#line 10 "codegen.c"
+#line 10 "codegen.dasc"
 //|.section code
 #define DASM_SECTION_CODE	0
 #define DASM_MAXSECTION		1
-#line 11 "codegen.c"
+#line 11 "codegen.dasc"
 //|.globals GLOB_
 enum {
   GLOB__MAX
 };
-#line 12 "codegen.c"
+#line 12 "codegen.dasc"
 //|.actionlist actionlist
 static const unsigned char actionlist[17] = {
   15,40,1,15,198,192,0,15,41,1,184,10,0,0,0,195,255
 };
 
-#line 13 "codegen.c"
+#line 13 "codegen.dasc"
 
 sequence_func_t codegen(void) {
   dasm_State* state;
@@ -52,7 +52,7 @@ sequence_func_t codegen(void) {
   //| mov eax, 10
   //| ret
   dasm_put(Dst, 0);
-#line 30 "codegen.c"
+#line 30 "codegen.dasc"
   status = dasm_link(&state, &code_size);
   code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);
