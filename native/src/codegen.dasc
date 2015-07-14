@@ -44,8 +44,6 @@ static void matrix_transpose(dasm_State** Dst) {
   | movaps [r8+4*4], xmm2
   | movaps [r8+8*4], xmm1
   | movaps [r8+12*4], xmm4
-  // jump to next operation
-  | jmp rdx
 }
 
 static void linearProduct(dasm_State** Dst) {
@@ -105,8 +103,6 @@ static void mul_matrix_matrix(dasm_State** Dst) {
       | movaps [r8+12*4], xmm0
     }
   }
-  // jump to next operation
-  | jmp rdx
 }
 
 /**
@@ -155,8 +151,6 @@ static void mul_matrix_vector(dasm_State** Dst) {
 
   // write final result in xmm0 back into vector
   | movaps [r8], xmm0
-  // jump to next operation
-  | jmp rdx
 }
 
 batch_func_t codegen(const char* opcodes, int opcodesLength) {
@@ -182,6 +176,8 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       | jmp ->mul_matrix_matrix
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
+        // jump to next operation
+        | jmp rdx
         op_generated[0] = 1;
       }
       // define the label that we just jumped to above
@@ -194,6 +190,8 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       | jmp ->mul_matrix_vector
       if (!op_generated[1]) {
         mul_matrix_vector(&state);
+        // jump to next operation
+        | jmp rdx
         op_generated[1] = 1;
       }
       |=>next_pc:
@@ -204,6 +202,8 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       | jmp ->matrix_transpose
       if (!op_generated[2]) {
         matrix_transpose(&state);
+        // jump to next operation
+        | jmp rdx
         op_generated[2] = 1;
       }
       |=>next_pc:
