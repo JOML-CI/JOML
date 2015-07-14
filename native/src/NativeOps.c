@@ -1,8 +1,4 @@
 #include <jni.h>
-#include <malloc.h>
-#include <string.h>
-#include <Windows.h>
-
 #include "codegen.h"
 
 JNIEXPORT jlong JNICALL Java_org_joml_Jit_jit

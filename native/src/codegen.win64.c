@@ -6,7 +6,6 @@
 */
 
 #line 1 "codegen.dasc"
-#include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
 
@@ -18,11 +17,11 @@
 #if DASM_VERSION != 10300
 #error "Version mismatch between DynASM and included encoding engine"
 #endif
-#line 10 "codegen.dasc"
+#line 9 "codegen.dasc"
 //|.section code
 #define DASM_SECTION_CODE	0
 #define DASM_MAXSECTION		1
-#line 11 "codegen.dasc"
+#line 10 "codegen.dasc"
 //|.globals GLOB_
 enum {
   GLOB_matrix_transpose,
@@ -30,7 +29,7 @@ enum {
   GLOB_mul_matrix_vector,
   GLOB__MAX
 };
-#line 12 "codegen.dasc"
+#line 11 "codegen.dasc"
 //|.actionlist actionlist
 static const unsigned char actionlist[336] = {
   248,10,255,76,139,1,72,129,193,239,255,65,15,40,0,15,40,208,65,15,40,136,
@@ -51,7 +50,7 @@ static const unsigned char actionlist[336] = {
   252,233,244,12,255,72,199,194,247,252,233,244,10,255,195,255
 };
 
-#line 13 "codegen.dasc"
+#line 12 "codegen.dasc"
 
 #ifndef _MM_SHUFFLE
 #define _MM_SHUFFLE(x,y,z,w) ((z << 6) | (y <<4) | (x << 2) | (w))
@@ -63,12 +62,12 @@ static const unsigned char actionlist[336] = {
 static void matrix_transpose(dasm_State** Dst) {
   //|->matrix_transpose:
   dasm_put(Dst, 0);
-#line 23 "codegen.dasc"
+#line 22 "codegen.dasc"
   // obtain matrix from [rcx]
   //| mov r8, [rcx]
   //| add rcx, sizeof(char*)
   dasm_put(Dst, 3, sizeof(char*));
-#line 26 "codegen.dasc"
+#line 25 "codegen.dasc"
   // shuffle around a bit
   //| movaps xmm0, [r8]
   //| movaps xmm2, xmm0
@@ -87,18 +86,18 @@ static void matrix_transpose(dasm_State** Dst) {
   //| shufps xmm1, xmm3, 0xdd
   //| shufps xmm4, xmm6, 0xdd
   dasm_put(Dst, 11, 4*4, 8*4, 12*4);
-#line 43 "codegen.dasc"
+#line 42 "codegen.dasc"
   // store back into matrix at [r8]
   //| movaps [r8], xmm0
   //| movaps [r8+4*4], xmm2
   //| movaps [r8+8*4], xmm1
   //| movaps [r8+12*4], xmm4
   dasm_put(Dst, 77, 4*4, 8*4, 12*4);
-#line 48 "codegen.dasc"
+#line 47 "codegen.dasc"
   // jump to next operation
   //| jmp rdx
   dasm_put(Dst, 97);
-#line 50 "codegen.dasc"
+#line 49 "codegen.dasc"
 }
 
 static void linearProduct(dasm_State** Dst) {
@@ -123,29 +122,29 @@ static void linearProduct(dasm_State** Dst) {
   //| addps xmm2, xmm3
   //| addps xmm0, xmm2
   dasm_put(Dst, 101, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3), 4*4, 4*8, 4*12);
-#line 73 "codegen.dasc"
+#line 72 "codegen.dasc"
   // result is in xmm0
 }
 
 static void mul_matrix_matrix(dasm_State** Dst) {
   //|->mul_matrix_matrix:
   dasm_put(Dst, 170);
-#line 78 "codegen.dasc"
+#line 77 "codegen.dasc"
   // obtain first matrix
   //| mov r8, [rcx]
   //| add rcx, sizeof(char*)
   dasm_put(Dst, 3, sizeof(char*));
-#line 81 "codegen.dasc"
+#line 80 "codegen.dasc"
   // obtain second matrix
   //| mov r9, [rcx]
   //| add rcx, sizeof(char*)
   dasm_put(Dst, 173, sizeof(char*));
-#line 84 "codegen.dasc"
+#line 83 "codegen.dasc"
   for (int i = 0; i < 4; i++) {
     // get i-th column of second matrix
     //| movaps xmm0, [r9+4*4*i]
     dasm_put(Dst, 181, 4*4*i);
-#line 87 "codegen.dasc"
+#line 86 "codegen.dasc"
     linearProduct(Dst);
     /* We must be careful to not overwrite the destination
        matrix with the column results, since that matrix
@@ -158,28 +157,28 @@ static void mul_matrix_matrix(dasm_State** Dst) {
     if (i == 0) {
       //| movaps xmm5, xmm0
       dasm_put(Dst, 187);
-#line 98 "codegen.dasc"
+#line 97 "codegen.dasc"
     } else if (i == 1) {
       //| movaps xmm6, xmm0
       dasm_put(Dst, 191);
-#line 100 "codegen.dasc"
+#line 99 "codegen.dasc"
     } else if (i == 2) {
       //| movaps xmm7, xmm0
       dasm_put(Dst, 196);
-#line 102 "codegen.dasc"
+#line 101 "codegen.dasc"
     } else if (i == 3) {
       //| movaps [r8], xmm5
       //| movaps [r8+4*4], xmm6
       //| movaps [r8+8*4], xmm7
       //| movaps [r8+12*4], xmm0
       dasm_put(Dst, 201, 4*4, 8*4, 12*4);
-#line 107 "codegen.dasc"
+#line 106 "codegen.dasc"
     }
   }
   // jump to next operation
   //| jmp rdx
   dasm_put(Dst, 97);
-#line 111 "codegen.dasc"
+#line 110 "codegen.dasc"
 }
 
 /**
@@ -191,13 +190,13 @@ static void mul_matrix_matrix(dasm_State** Dst) {
 static void mul_matrix_vector(dasm_State** Dst) {
   //|->mul_matrix_vector:
   dasm_put(Dst, 221);
-#line 121 "codegen.dasc"
+#line 120 "codegen.dasc"
   // obtain vector
   //| mov r8, [rcx]
   //| add rcx, sizeof(char*)
   //| movaps xmm0, [r8]
   dasm_put(Dst, 224, sizeof(char*));
-#line 125 "codegen.dasc"
+#line 124 "codegen.dasc"
 
   // create xmm1-xmm4 containing the vectors to be multiplied
   //| movaps xmm1, xmm0
@@ -209,49 +208,49 @@ static void mul_matrix_vector(dasm_State** Dst) {
   //| movaps xmm4, xmm0
   //| shufps xmm4, xmm4, _MM_SHUFFLE(3, 3, 3, 3)
   dasm_put(Dst, 236, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3));
-#line 135 "codegen.dasc"
+#line 134 "codegen.dasc"
 
   // obtain matrix
   //| mov r9, [rcx]
   //| add rcx, sizeof(char*)
   dasm_put(Dst, 173, sizeof(char*));
-#line 139 "codegen.dasc"
+#line 138 "codegen.dasc"
 
   // load first matrix column and multiply with xmm1
   //| movaps xmm0, [r9]
   //| mulps xmm0, xmm1
   dasm_put(Dst, 265);
-#line 143 "codegen.dasc"
+#line 142 "codegen.dasc"
   // load second matrix column and multiply with xmm2
   //| movaps xmm1, [r9+4*4]
   //| mulps xmm1, xmm2
   dasm_put(Dst, 273, 4*4);
-#line 146 "codegen.dasc"
+#line 145 "codegen.dasc"
   // load third matrix column and multiply with xmm3
   //| movaps xmm2, [r9+4*8]
   //| mulps xmm2, xmm3
   dasm_put(Dst, 282, 4*8);
-#line 149 "codegen.dasc"
+#line 148 "codegen.dasc"
   // load fourth matrix column and multiply with xmm4
   //| movaps xmm3, [r9+4*12]
   //| mulps xmm3, xmm4
   dasm_put(Dst, 291, 4*12);
-#line 152 "codegen.dasc"
+#line 151 "codegen.dasc"
   // now the results are in xmm0-xmm3 and need to be added
   //| addps xmm0, xmm1
   //| addps xmm2, xmm3
   //| addps xmm0, xmm2
   dasm_put(Dst, 160);
-#line 156 "codegen.dasc"
+#line 155 "codegen.dasc"
 
   // write final result in xmm0 back into vector
   //| movaps [r8], xmm0
   dasm_put(Dst, 300);
-#line 159 "codegen.dasc"
+#line 158 "codegen.dasc"
   // jump to next operation
   //| jmp rdx
   dasm_put(Dst, 97);
-#line 161 "codegen.dasc"
+#line 160 "codegen.dasc"
 }
 
 batch_func_t codegen(const char* opcodes, int opcodesLength) {
@@ -281,7 +280,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       //| mov rdx, =>next_pc
       //| jmp ->mul_matrix_matrix
       dasm_put(Dst, 305, next_pc);
-#line 189 "codegen.dasc"
+#line 188 "codegen.dasc"
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
         op_generated[0] = 1;
@@ -289,7 +288,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       // define the label that we just jumped to above
       //|=>next_pc:
       dasm_put(Dst, 314, next_pc);
-#line 195 "codegen.dasc"
+#line 194 "codegen.dasc"
       // use a new fresh label "index" for the next label
       next_pc++;
       break;
@@ -297,28 +296,28 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       //| mov rdx, =>next_pc
       //| jmp ->mul_matrix_vector
       dasm_put(Dst, 316, next_pc);
-#line 201 "codegen.dasc"
+#line 200 "codegen.dasc"
       if (!op_generated[1]) {
         mul_matrix_vector(&state);
         op_generated[1] = 1;
       }
       //|=>next_pc:
       dasm_put(Dst, 314, next_pc);
-#line 206 "codegen.dasc"
+#line 205 "codegen.dasc"
       next_pc++;
       break;
     case 0x03: // OPCODE_MATRIX_TRANSPOSE
       //| mov rdx, =>next_pc
       //| jmp ->matrix_transpose
       dasm_put(Dst, 325, next_pc);
-#line 211 "codegen.dasc"
+#line 210 "codegen.dasc"
       if (!op_generated[2]) {
         matrix_transpose(&state);
         op_generated[2] = 1;
       }
       //|=>next_pc:
       dasm_put(Dst, 314, next_pc);
-#line 216 "codegen.dasc"
+#line 215 "codegen.dasc"
       next_pc++;
       break;
     default:
@@ -327,7 +326,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   }
   //| ret
   dasm_put(Dst, 334);
-#line 223 "codegen.dasc"
+#line 222 "codegen.dasc"
   status = dasm_link(&state, &code_size);
   code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);
