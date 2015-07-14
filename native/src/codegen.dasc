@@ -21,7 +21,7 @@ static void matrix_transpose(dasm_State** Dst) {
   |->matrix_transpose:
   // obtain matrix from [rcx]
   | mov r8, [rcx]
-  | add rcx, sizeof(char*)
+  | add rcx, 16
   // shuffle around a bit
   | movaps xmm0, [r8]
   | movaps xmm2, xmm0
