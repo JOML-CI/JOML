@@ -26,11 +26,11 @@ public class NativeMatrix4f {
     public NativeMatrix4f mulVector(long vectorId) {
         jit(id);
         long time1 = System.nanoTime();
-        for (int i = 0; i < 1E8; i++)
+        for (int i = 0; i < 1E7; i++)
         mulVector(id, vectorId);
         long time2 = System.nanoTime();
         System.err.println("Took: " + (time2 - time1) / 1E6 + " ms.");
-        System.err.println((time2 - time1) / 1E8 + " ns. per invocation");
+        System.err.println((time2 - time1) / 1E7 + " ns. per invocation");
         return this;
     }
     public NativeMatrix4f set(FloatBuffer orig) {

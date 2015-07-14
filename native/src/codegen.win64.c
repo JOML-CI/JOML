@@ -29,11 +29,11 @@ enum {
 };
 #line 12 "codegen.dasc"
 //|.actionlist actionlist
-static const unsigned char actionlist[75] = {
+static const unsigned char actionlist[79] = {
   15,40,2,15,40,200,15,198,201,235,15,40,208,15,198,210,235,15,40,216,15,198,
-  219,235,15,40,224,15,198,228,235,255,15,40,1,15,89,193,15,40,137,233,15,89,
-  202,15,40,145,233,15,89,211,15,40,153,233,15,89,220,255,15,88,193,15,88,211,
-  15,88,194,255,15,41,2,195,255
+  219,235,15,40,224,15,198,228,235,255,15,40,1,15,89,193,255,15,40,137,233,
+  15,89,202,255,15,40,145,233,15,89,211,255,15,40,153,233,15,89,220,255,15,
+  88,193,15,88,211,15,88,194,255,15,41,2,255,195,255
 };
 
 #line 13 "codegen.dasc"
@@ -65,25 +65,33 @@ static void gen_mul_matrix_vector(dasm_State** Dst) {
   // load first matrix column and multiply with xmm1
   //| movaps xmm0, [rcx]
   //| mulps xmm0, xmm1
+  dasm_put(Dst, 32);
+#line 39 "codegen.dasc"
+  // load second matrix column and multiply with xmm2
   //| movaps xmm1, [rcx+4*4]
   //| mulps xmm1, xmm2
+  dasm_put(Dst, 39, 4*4);
+#line 42 "codegen.dasc"
+  // load third matrix column and multiply with xmm3
   //| movaps xmm2, [rcx+4*8]
   //| mulps xmm2, xmm3
+  dasm_put(Dst, 47, 4*8);
+#line 45 "codegen.dasc"
+  // load fourth matrix column and multiply with xmm4
   //| movaps xmm3, [rcx+4*12]
   //| mulps xmm3, xmm4
-  dasm_put(Dst, 32, 4*4, 4*8, 4*12);
-#line 45 "codegen.dasc"
+  dasm_put(Dst, 55, 4*12);
+#line 48 "codegen.dasc"
   // now the results are in xmm0-xmm3 and need to be added
   //| addps xmm0, xmm1
   //| addps xmm2, xmm3
   //| addps xmm0, xmm2
-  dasm_put(Dst, 60);
-#line 49 "codegen.dasc"
+  dasm_put(Dst, 63);
+#line 52 "codegen.dasc"
   // the result vector is in xmm0
   //| movaps [rdx], xmm0
-  //| ret
-  dasm_put(Dst, 70);
-#line 52 "codegen.dasc"
+  dasm_put(Dst, 73);
+#line 54 "codegen.dasc"
 }
 
 mul_matrix_vector_func_t codegen(void) {
@@ -97,7 +105,11 @@ mul_matrix_vector_func_t codegen(void) {
   dasm_init(&state, DASM_MAXSECTION);
   dasm_setupglobal(&state, global_labels, GLOB__MAX);
   dasm_setup(&state, actionlist);
+  for (int i = 0; i < 10; i++)
   gen_mul_matrix_vector(&state);
+  //| ret
+  dasm_put(Dst, 77);
+#line 70 "codegen.dasc"
   status = dasm_link(&state, &code_size);
   code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);

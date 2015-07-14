@@ -51,7 +51,6 @@ static void gen_mul_matrix_vector(dasm_State** Dst) {
   | addps xmm0, xmm2
   // the result vector is in xmm0
   | movaps [rdx], xmm0
-  | ret
 }
 
 mul_matrix_vector_func_t codegen(void) {
@@ -65,7 +64,9 @@ mul_matrix_vector_func_t codegen(void) {
   dasm_init(&state, DASM_MAXSECTION);
   dasm_setupglobal(&state, global_labels, GLOB__MAX);
   dasm_setup(&state, actionlist);
+  for (int i = 0; i < 10; i++)
   gen_mul_matrix_vector(&state);
+  | ret
   status = dasm_link(&state, &code_size);
   code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);
