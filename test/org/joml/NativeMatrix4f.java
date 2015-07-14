@@ -107,26 +107,33 @@ public class NativeMatrix4f {
 
     public static void main(String[] args) {
         FloatBuffer matrix = ByteBuffer.allocateDirect(4 * 16).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        Matrix4f m = new Matrix4f().rotateZ((float) Math.PI);
+        FloatBuffer matrix2 = ByteBuffer.allocateDirect(4 * 16).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        Matrix4f m = new Matrix4f().rotateZ((float) Math.PI / 3.0f).rotateY((float) Math.PI / 1.6f).rotateZ((float)Math.PI / 5.3f);
+        System.err.println("Origin matrix:");
         System.err.println(m);
+        Matrix4f m2 = new Matrix4f().translate(1, 2, 3);
         m.get(matrix);
+        m2.get(matrix2);
         NativeMatrix4f nm = new NativeMatrix4f(matrix);
-        for (int i = 0; i < 1E2; i++)
-        nm.transpose();
+        NativeMatrix4f nm2 = new NativeMatrix4f(matrix2);
+        for (int i = 0; i < 100; i++)
+        nm.mul(nm2);
         Sequence seq = nm.terminate();
         seq.setArguments(nm.arguments);
         long time1 = System.nanoTime();
-        for (int i = 0; i < 1E5; i++)
-        seq.call();
+        for (int i = 0; i < 1E3; i++)
+            seq.call();
         long time2 = System.nanoTime();
-        System.err.println("Took " + (time2- time1) / 1E6f + " ms.");
-        m.set(matrix);
-        System.err.println(m);
+        System.err.println("SSE result (" + (time2 - time1) / 1E3 + "):");
+        Matrix4f res = new Matrix4f();
+        res.set(matrix);
+        System.err.println(res);
         time1 = System.nanoTime();
-        for (int i = 0; i < 1E7; i++)
-        m.transpose();
+        for (int i = 0; i < 1E5; i++)
+            m.mul(m2);
         time2 = System.nanoTime();
-        System.err.println("Took " + (time2- time1) / 1E6f + " ms.");
+        System.err.println("JOML result (" + (time2 - time1) / 1E3 + "):");
+        System.err.println(m);
     }
 
 }
