@@ -32,7 +32,7 @@ enum {
 };
 #line 12 "codegen.dasc"
 //|.actionlist actionlist
-static const unsigned char actionlist[333] = {
+static const unsigned char actionlist[336] = {
   248,10,255,76,139,1,72,129,193,239,255,65,15,40,0,15,40,208,65,15,40,136,
   233,15,198,193,136,15,198,209,221,65,15,40,152,233,15,40,252,235,65,15,40,
   176,233,15,198,222,136,15,198,252,238,221,15,40,200,15,198,195,136,15,40,
@@ -43,12 +43,12 @@ static const unsigned char actionlist[333] = {
   233,15,89,211,65,15,40,152,233,15,89,220,15,88,193,15,88,211,15,88,194,255,
   248,11,255,76,139,9,72,129,193,239,255,65,15,40,129,233,255,15,40,232,255,
   15,40,252,240,255,15,40,252,248,255,65,15,41,40,65,15,41,176,233,65,15,41,
-  184,233,65,15,41,128,233,255,76,139,1,72,129,193,239,65,15,40,0,255,15,40,
-  200,15,198,201,235,15,40,208,15,198,210,235,15,40,216,15,198,219,235,15,40,
-  224,15,198,228,235,255,65,15,40,1,15,89,193,255,65,15,40,137,233,15,89,202,
-  255,65,15,40,145,233,15,89,211,255,65,15,40,153,233,15,89,220,255,65,15,41,
-  0,255,72,199,194,247,252,233,244,11,255,249,255,72,199,194,247,252,233,244,
-  12,255,72,199,194,247,252,233,244,10,255,195,255
+  184,233,65,15,41,128,233,255,248,12,255,76,139,1,72,129,193,239,65,15,40,
+  0,255,15,40,200,15,198,201,235,15,40,208,15,198,210,235,15,40,216,15,198,
+  219,235,15,40,224,15,198,228,235,255,65,15,40,1,15,89,193,255,65,15,40,137,
+  233,15,89,202,255,65,15,40,145,233,15,89,211,255,65,15,40,153,233,15,89,220,
+  255,65,15,41,0,255,72,199,194,247,252,233,244,11,255,249,255,72,199,194,247,
+  252,233,244,12,255,72,199,194,247,252,233,244,10,255,195,255
 };
 
 #line 13 "codegen.dasc"
@@ -189,12 +189,15 @@ static void mul_matrix_matrix(dasm_State** Dst) {
  * http://stackoverflow.com/questions/14967969/efficient-4x4-matrix-vector-multiplication-with-sse-horizontal-add-and-dot-prod
  */
 static void mul_matrix_vector(dasm_State** Dst) {
+  //|->mul_matrix_vector:
+  dasm_put(Dst, 221);
+#line 121 "codegen.dasc"
   // obtain vector
   //| mov r8, [rcx]
   //| add rcx, sizeof(char*)
   //| movaps xmm0, [r8]
-  dasm_put(Dst, 221, sizeof(char*));
-#line 124 "codegen.dasc"
+  dasm_put(Dst, 224, sizeof(char*));
+#line 125 "codegen.dasc"
 
   // create xmm1-xmm4 containing the vectors to be multiplied
   //| movaps xmm1, xmm0
@@ -205,50 +208,50 @@ static void mul_matrix_vector(dasm_State** Dst) {
   //| shufps xmm3, xmm3, _MM_SHUFFLE(2, 2, 2, 2)
   //| movaps xmm4, xmm0
   //| shufps xmm4, xmm4, _MM_SHUFFLE(3, 3, 3, 3)
-  dasm_put(Dst, 233, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3));
-#line 134 "codegen.dasc"
+  dasm_put(Dst, 236, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3));
+#line 135 "codegen.dasc"
 
   // obtain matrix
   //| mov r9, [rcx]
   //| add rcx, sizeof(char*)
   dasm_put(Dst, 173, sizeof(char*));
-#line 138 "codegen.dasc"
+#line 139 "codegen.dasc"
 
   // load first matrix column and multiply with xmm1
   //| movaps xmm0, [r9]
   //| mulps xmm0, xmm1
-  dasm_put(Dst, 262);
-#line 142 "codegen.dasc"
+  dasm_put(Dst, 265);
+#line 143 "codegen.dasc"
   // load second matrix column and multiply with xmm2
   //| movaps xmm1, [r9+4*4]
   //| mulps xmm1, xmm2
-  dasm_put(Dst, 270, 4*4);
-#line 145 "codegen.dasc"
+  dasm_put(Dst, 273, 4*4);
+#line 146 "codegen.dasc"
   // load third matrix column and multiply with xmm3
   //| movaps xmm2, [r9+4*8]
   //| mulps xmm2, xmm3
-  dasm_put(Dst, 279, 4*8);
-#line 148 "codegen.dasc"
+  dasm_put(Dst, 282, 4*8);
+#line 149 "codegen.dasc"
   // load fourth matrix column and multiply with xmm4
   //| movaps xmm3, [r9+4*12]
   //| mulps xmm3, xmm4
-  dasm_put(Dst, 288, 4*12);
-#line 151 "codegen.dasc"
+  dasm_put(Dst, 291, 4*12);
+#line 152 "codegen.dasc"
   // now the results are in xmm0-xmm3 and need to be added
   //| addps xmm0, xmm1
   //| addps xmm2, xmm3
   //| addps xmm0, xmm2
   dasm_put(Dst, 160);
-#line 155 "codegen.dasc"
+#line 156 "codegen.dasc"
 
   // write final result in xmm0 back into vector
   //| movaps [r8], xmm0
-  dasm_put(Dst, 297);
-#line 158 "codegen.dasc"
+  dasm_put(Dst, 300);
+#line 159 "codegen.dasc"
   // jump to next operation
   //| jmp rdx
   dasm_put(Dst, 97);
-#line 160 "codegen.dasc"
+#line 161 "codegen.dasc"
 }
 
 batch_func_t codegen(const char* opcodes, int opcodesLength) {
@@ -277,45 +280,45 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       // in order to execute the next operation
       //| mov rdx, =>next_pc
       //| jmp ->mul_matrix_matrix
-      dasm_put(Dst, 302, next_pc);
-#line 188 "codegen.dasc"
+      dasm_put(Dst, 305, next_pc);
+#line 189 "codegen.dasc"
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
         op_generated[0] = 1;
       }
       // define the label that we just jumped to above
       //|=>next_pc:
-      dasm_put(Dst, 311, next_pc);
-#line 194 "codegen.dasc"
+      dasm_put(Dst, 314, next_pc);
+#line 195 "codegen.dasc"
       // use a new fresh label "index" for the next label
       next_pc++;
       break;
     case 0x02: // OPCODE_MATRIX_MUL_VECTOR
       //| mov rdx, =>next_pc
       //| jmp ->mul_matrix_vector
-      dasm_put(Dst, 313, next_pc);
-#line 200 "codegen.dasc"
+      dasm_put(Dst, 316, next_pc);
+#line 201 "codegen.dasc"
       if (!op_generated[1]) {
         mul_matrix_vector(&state);
         op_generated[1] = 1;
       }
       //|=>next_pc:
-      dasm_put(Dst, 311, next_pc);
-#line 205 "codegen.dasc"
+      dasm_put(Dst, 314, next_pc);
+#line 206 "codegen.dasc"
       next_pc++;
       break;
     case 0x03: // OPCODE_MATRIX_TRANSPOSE
       //| mov rdx, =>next_pc
       //| jmp ->matrix_transpose
-      dasm_put(Dst, 322, next_pc);
-#line 210 "codegen.dasc"
+      dasm_put(Dst, 325, next_pc);
+#line 211 "codegen.dasc"
       if (!op_generated[2]) {
         matrix_transpose(&state);
         op_generated[2] = 1;
       }
       //|=>next_pc:
-      dasm_put(Dst, 311, next_pc);
-#line 215 "codegen.dasc"
+      dasm_put(Dst, 314, next_pc);
+#line 216 "codegen.dasc"
       next_pc++;
       break;
     default:
@@ -323,8 +326,8 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
     }
   }
   //| ret
-  dasm_put(Dst, 331);
-#line 222 "codegen.dasc"
+  dasm_put(Dst, 334);
+#line 223 "codegen.dasc"
   status = dasm_link(&state, &code_size);
   code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);

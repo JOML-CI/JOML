@@ -117,6 +117,7 @@ static void mul_matrix_matrix(dasm_State** Dst) {
  * http://stackoverflow.com/questions/14967969/efficient-4x4-matrix-vector-multiplication-with-sse-horizontal-add-and-dot-prod
  */
 static void mul_matrix_vector(dasm_State** Dst) {
+  |->mul_matrix_vector:
   // obtain vector
   | mov r8, [rcx]
   | add rcx, sizeof(char*)
