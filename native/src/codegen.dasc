@@ -22,6 +22,38 @@ static void epilogue(dasm_State** Dst) {
 }
 
 /**
+ * Transpose a matrix using raw SSE shufps instructions.
+ */
+static void matrix_transpose(dasm_State** Dst) {
+  // obtain matrix from [rcx]
+  | mov r8, [rcx]
+  // shuffle around a bit
+  | movaps xmm0, [r8]
+  | movaps xmm2, xmm0
+  | movaps xmm1, [r8+4*4]
+  | shufps xmm0, xmm1, 0x88
+  | shufps xmm2, xmm1, 0xdd
+  | movaps xmm4, [r8+8*4]
+  | movaps xmm6, xmm4
+  | movaps xmm5, [r8+12*4]
+  | shufps xmm4, xmm5, 0x88
+  | shufps xmm6, xmm5, 0xdd
+  | movaps xmm1, xmm0
+  | shufps xmm0, xmm4, 0x88
+  | movaps xmm3, xmm2
+  | shufps xmm2, xmm6, 0x88
+  | shufps xmm1, xmm4, 0xdd
+  | shufps xmm3, xmm6, 0xdd
+  // store back into matrix at [r8]
+  | movaps [r8], xmm0
+  | movaps [r8+4*4], xmm2
+  | movaps [r8+8*4], xmm1
+  | movaps [r8+12*4], xmm3
+  // increase args pointer
+  | add rcx, sizeof(char*)
+}
+
+/**
  * Fast matrix-vector multiplication.
  * 
  * Adapted from GCC intrinsics of:
@@ -65,6 +97,8 @@ static void mul_matrix_vector(dasm_State** Dst) {
 
   // write final result in xmm0 back into vector
   | movaps [r8], xmm0
+  // increase args pointer
+  | add rcx, sizeof(char*)
 }
 
 batch_func_t codegen(const char* opcodes, int opcodesLength) {
@@ -81,8 +115,11 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   preamble(&state);
   for (int i = 0; i < opcodesLength; i++) {
     switch (opcodes[i]) {
-    case 0x02: // OPCODE_MUL_VECTOR
+    case 0x02: // OPCODE_MATRIX_MUL_VECTOR
       mul_matrix_vector(&state);
+      break;
+    case 0x03: // OPCODE_MATRIX_TRANSPOSE
+      matrix_transpose(&state);
       break;
     default:
       break;

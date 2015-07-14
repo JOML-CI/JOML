@@ -61,7 +61,7 @@ public class NativeMatrix4f {
     private void ensureArgumentsSize(int size) {
         if (arguments.remaining() < size) {
             int newCap = arguments.capacity() * 2;
-            ByteBuffer newArguments = ByteBuffer.allocateDirect(newCap);
+            ByteBuffer newArguments = ByteBuffer.allocateDirect(newCap).order(ByteOrder.nativeOrder());
             arguments.rewind();
             newArguments.put(arguments);
             arguments = newArguments;
@@ -93,6 +93,12 @@ public class NativeMatrix4f {
         return this;
     }
 
+    public NativeMatrix4f transpose() {
+        putOperation(OPCODE_TRANSPOSE);
+        putArg(matrixBufferAddr);
+        return this;
+    }
+
     public Sequence terminate() {
         operations.flip();
         sequenceFunction = Jit.jit(NativeUtil.addressOf(operations) + operations.position(), operations.remaining());
@@ -102,35 +108,23 @@ public class NativeMatrix4f {
     public static void main(String[] args) {
         FloatBuffer matrix = ByteBuffer.allocateDirect(4 * 16).order(ByteOrder.nativeOrder()).asFloatBuffer();
         Matrix4f m = new Matrix4f().rotateZ((float) Math.PI);
+        System.err.println(m);
         m.get(matrix);
-        FloatBuffer vector = ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        vector.put(1.0f).put(0.0f).put(0.0f).put(1.0f);
-        NativeVector4f v = new NativeVector4f(vector);
-        for (int i = 0; i < 4; i++)
-            System.err.print(vector.get(i) + " ");
-        System.err.println();
         NativeMatrix4f nm = new NativeMatrix4f(matrix);
-        nm.mul(v);
+        nm.transpose();
         Sequence seq = nm.terminate();
         seq.setArguments(nm.arguments);
         long time1 = System.nanoTime();
-        for (int i = 0; i < 1E8; i++)
-            seq.call();
+        seq.call();
         long time2 = System.nanoTime();
-        System.err.println("Took: " + (time2 - time1) / 1E6 + " ms.");
-        System.err.println((time2 - time1) / 1E8 + " ns. per invocation");
-        for (int i = 0; i < 4; i++)
-            System.err.print(vector.get(i) + " ");
-        System.err.println();
-
-        Vector4f vec = new Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+        System.err.println("Took " + (time2- time1) / 1E6f + " ms.");
+        m.set(matrix);
+        System.err.println(m);
         time1 = System.nanoTime();
-        for (int i = 0; i < 1E8; i++)
-            m.transform(vec);
+        for (int i = 0; i < 1E7; i++)
+        m.transpose();
         time2 = System.nanoTime();
-        System.err.println("Took: " + (time2 - time1) / 1E6 + " ms.");
-        System.err.println((time2 - time1) / 1E8 + " ns. per invocation");
-        System.err.println(vec);
+        System.err.println("Took " + (time2- time1) / 1E6f + " ms.");
     }
 
 }
