@@ -43,8 +43,10 @@ static void matrix_transpose(dasm_State** Dst) {
   | movaps [r8+4*4], xmm2
   | movaps [r8+8*4], xmm1
   | movaps [r8+12*4], xmm4
-  // increase args pointer
+  // advance args pointer
   | add rcx, sizeof(char*)
+  // jump to next operation
+  | jmp rdx
 }
 
 static void linearProduct(dasm_State** Dst) {
@@ -97,6 +99,7 @@ static void mul_matrix_matrix(dasm_State** Dst) {
   }
   // advance args pointer
   | add rcx, sizeof(char*)
+  // jump to next operation
   | jmp rdx
 }
 
@@ -144,16 +147,16 @@ static void mul_matrix_vector(dasm_State** Dst) {
 
   // write final result in xmm0 back into vector
   | movaps [r8], xmm0
-  // increase args pointer
+  // advance args pointer
   | add rcx, sizeof(char*)
+  // jump to next operation
+  | jmp rdx
 }
 
 batch_func_t codegen(const char* opcodes, int opcodesLength) {
   dasm_State* state;
   dasm_State** Dst = &state;
   int max_dynamic_labels = 128;
-  int dynamic_labels[max_dynamic_labels];
-  int dynamic_label = 0;
   int status;
   void* code;
   int next_pc = 0;
@@ -170,20 +173,35 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   for (int i = 0; i < opcodesLength; i++) {
     switch (opcodes[i]) {
     case 0x01: // OPCODE_MATRIX_MUL_MATRIX
+      // tell the matrix function where to jump to
+      // in order to execute the next operation
       | mov rdx, =>next_pc
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
         op_generated[0] = 1;
       }
+      // define the label that we just jumped to above
       |=>next_pc:
-      dynamic_labels[dynamic_label++] = next_pc;
+      // use a new fresh label "index" for the next label
       next_pc++;
       break;
     case 0x02: // OPCODE_MATRIX_MUL_VECTOR
-      mul_matrix_vector(&state);
+      | mov rdx, =>next_pc
+      if (!op_generated[1]) {
+        mul_matrix_vector(&state);
+        op_generated[1] = 1;
+      }
+      |=>next_pc:
+      next_pc++;
       break;
     case 0x03: // OPCODE_MATRIX_TRANSPOSE
-      matrix_transpose(&state);
+      | mov rdx, =>next_pc
+      if (!op_generated[2]) {
+        matrix_transpose(&state);
+        op_generated[2] = 1;
+      }
+      |=>next_pc:
+      next_pc++;
       break;
     default:
       break;
