@@ -5,6 +5,21 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+/**
+ * This is a representation of a 4x4 matrix using the new JIT execution
+ * environment in JOML's 2.
+ * <p>
+ * The API is almost identical to the {@link Matrix4f}, only that the
+ * {@link NativeMatrix4f} does not execute the operations immediately but
+ * instead stores them for subsequent batch execution by a runtime-generated
+ * native function.
+ * <p>
+ * The {@link NativeMatrix4f} is therefore a convenient interface to the
+ * underlying JIT engine in order to generate native functions using known
+ * matrix operations.
+ * 
+ * @author Kai Burjack
+ */
 public class NativeMatrix4f {
     static {
         System.loadLibrary("joml");
@@ -18,22 +33,12 @@ public class NativeMatrix4f {
     long sequenceFunction;
     long argumentsAddr;
 
-    static native long alloc();
-
-    static native long free();
-
-    static native long jit(long opcodesAddr, int opcodesLength);
-
-    static native void call(long id, long argumentsAddr);
-
     ByteBuffer operations;
     ByteBuffer arguments;
-    Buffer matrixBuffer;
     long matrixBufferAddr;
 
     public NativeMatrix4f(Buffer matrixBuffer) {
         super();
-        this.matrixBuffer = matrixBuffer;
         this.matrixBufferAddr = NativeUtil.addressOf(matrixBuffer) + matrixBuffer.position() * 4;
         int initialNumOfOperations = 8;
         operations = ByteBuffer.allocateDirect(initialNumOfOperations);
@@ -74,36 +79,24 @@ public class NativeMatrix4f {
         return this;
     }
 
-    private NativeMatrix4f putArg(float val) {
-        ensureArgumentsSize(4);
-        arguments.putFloat(val);
-        return this;
-    }
-
-    public NativeMatrix4f mulMatrix(long bufferAddress) {
+    public NativeMatrix4f mul(NativeMatrix4f m) {
         putOperation(OPCODE_MUL_MATRIX);
-        putArg(bufferAddress); // <- the Buffer address storing the other matrix
+        putArg(matrixBufferAddr);
+        putArg(m.matrixBufferAddr);
         return this;
     }
 
-    public NativeMatrix4f mulVector(long vectorBufferAddress) {
+    public NativeMatrix4f mul(NativeVector4f v) {
         putOperation(OPCODE_MUL_VECTOR);
-        putArg(vectorBufferAddress); // the Buffer address storing the vector elements
-        putArg(matrixBufferAddr); // the Buffer address of the matrix elements
+        putArg(v.bufferAddress);
+        putArg(matrixBufferAddr);
         return this;
     }
 
-    public NativeMatrix4f call() {
-        if (arguments.position() > 0) {
-            arguments.rewind();
-            call(sequenceFunction, argumentsAddr);
-        }
-        return this;
-    }
-
-    public void terminate() {
+    public Sequence terminate() {
         operations.flip();
-        sequenceFunction = jit(NativeUtil.addressOf(operations) + operations.position(), operations.remaining());
+        sequenceFunction = Jit.jit(NativeUtil.addressOf(operations) + operations.position(), operations.remaining());
+        return new Sequence(sequenceFunction);
     }
 
     public static void main(String[] args) {
@@ -112,25 +105,32 @@ public class NativeMatrix4f {
         m.get(matrix);
         FloatBuffer vector = ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         vector.put(1.0f).put(0.0f).put(0.0f).put(1.0f);
+        NativeVector4f v = new NativeVector4f(vector);
         for (int i = 0; i < 4; i++)
-        System.err.print(vector.get(i) + " ");
+            System.err.print(vector.get(i) + " ");
         System.err.println();
         NativeMatrix4f nm = new NativeMatrix4f(matrix);
-        nm.mulVector(NativeUtil.addressOf(vector));
-        nm.terminate();
-        nm.call();
-        for (int i = 0; i < 4; i++)
-        System.err.print(vector.get(i) + " ");
-        System.err.println();
-
-        Vector4f v = new Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+        nm.mul(v);
+        Sequence seq = nm.terminate();
+        seq.setArguments(nm.arguments);
         long time1 = System.nanoTime();
         for (int i = 0; i < 1E8; i++)
-            m.transform(v);
+            seq.call();
         long time2 = System.nanoTime();
         System.err.println("Took: " + (time2 - time1) / 1E6 + " ms.");
         System.err.println((time2 - time1) / 1E8 + " ns. per invocation");
-        System.err.println(v);
+        for (int i = 0; i < 4; i++)
+            System.err.print(vector.get(i) + " ");
+        System.err.println();
+
+        Vector4f vec = new Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+        time1 = System.nanoTime();
+        for (int i = 0; i < 1E8; i++)
+            m.transform(vec);
+        time2 = System.nanoTime();
+        System.err.println("Took: " + (time2 - time1) / 1E6 + " ms.");
+        System.err.println((time2 - time1) / 1E8 + " ns. per invocation");
+        System.err.println(vec);
     }
 
 }

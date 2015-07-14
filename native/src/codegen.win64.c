@@ -79,7 +79,7 @@ static void mul_matrix_vector(dasm_State** Dst) {
   //| mov r9, [rcx]
   dasm_put(Dst, 37, sizeof(char*));
 #line 48 "codegen.dasc"
-  
+
   // load first matrix column and multiply with xmm1
   //| movaps xmm0, [r9]
   //| mulps xmm0, xmm1
