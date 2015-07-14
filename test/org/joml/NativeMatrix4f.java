@@ -111,10 +111,12 @@ public class NativeMatrix4f {
         System.err.println(m);
         m.get(matrix);
         NativeMatrix4f nm = new NativeMatrix4f(matrix);
+        for (int i = 0; i < 1E2; i++)
         nm.transpose();
         Sequence seq = nm.terminate();
         seq.setArguments(nm.arguments);
         long time1 = System.nanoTime();
+        for (int i = 0; i < 1E5; i++)
         seq.call();
         long time2 = System.nanoTime();
         System.err.println("Took " + (time2- time1) / 1E6f + " ms.");
