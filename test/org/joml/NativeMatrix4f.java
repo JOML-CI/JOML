@@ -7,7 +7,7 @@ import java.nio.FloatBuffer;
 
 /**
  * This is a representation of a 4x4 matrix using the new JIT execution
- * environment in JOML's 2.
+ * environment in JOML 2.0.
  * <p>
  * The API is almost identical to the {@link Matrix4f}, only that the
  * {@link NativeMatrix4f} does not execute the operations immediately but

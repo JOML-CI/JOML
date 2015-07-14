@@ -72,6 +72,7 @@ static void linearProduct(dasm_State** Dst) {
 }
 
 static void mul_matrix_matrix(dasm_State** Dst) {
+  |->mul_matrix_matrix:
   // obtain first matrix
   | mov r8, [rcx]
   | add rcx, sizeof(char*)
@@ -96,6 +97,7 @@ static void mul_matrix_matrix(dasm_State** Dst) {
   }
   // advance args pointer
   | add rcx, sizeof(char*)
+  | jmp rdx
 }
 
 /**
@@ -149,18 +151,33 @@ static void mul_matrix_vector(dasm_State** Dst) {
 batch_func_t codegen(const char* opcodes, int opcodesLength) {
   dasm_State* state;
   dasm_State** Dst = &state;
+  int max_dynamic_labels = 128;
+  int dynamic_labels[max_dynamic_labels];
+  int dynamic_label = 0;
   int status;
   void* code;
+  int next_pc = 0;
   size_t code_size;
   DWORD dwOld;
   void* global_labels[GLOB__MAX];
+  char op_generated[3] = {0, 0, 0};
   dasm_init(&state, DASM_MAXSECTION);
   dasm_setupglobal(&state, global_labels, GLOB__MAX);
   dasm_setup(&state, actionlist);
+  dasm_growpc(&state, max_dynamic_labels);
+  | jmp ->decode_and_execute
+  |->decode_and_execute:
   for (int i = 0; i < opcodesLength; i++) {
     switch (opcodes[i]) {
     case 0x01: // OPCODE_MATRIX_MUL_MATRIX
-      mul_matrix_matrix(&state);
+      | mov rdx, =>next_pc
+      if (!op_generated[0]) {
+        mul_matrix_matrix(&state);
+        op_generated[0] = 1;
+      }
+      |=>next_pc:
+      dynamic_labels[dynamic_label++] = next_pc;
+      next_pc++;
       break;
     case 0x02: // OPCODE_MATRIX_MUL_VECTOR
       mul_matrix_vector(&state);
