@@ -29,11 +29,12 @@ enum {
 };
 #line 12 "codegen.dasc"
 //|.actionlist actionlist
-static const unsigned char actionlist[79] = {
-  15,40,2,15,40,200,15,198,201,235,15,40,208,15,198,210,235,15,40,216,15,198,
-  219,235,15,40,224,15,198,228,235,255,15,40,1,15,89,193,255,15,40,137,233,
-  15,89,202,255,15,40,145,233,15,89,211,255,15,40,153,233,15,89,220,255,15,
-  88,193,15,88,211,15,88,194,255,15,41,2,255,195,255
+static const unsigned char actionlist[97] = {
+  76,139,1,65,15,40,0,255,15,40,200,15,198,201,235,15,40,208,15,198,210,235,
+  15,40,216,15,198,219,235,15,40,224,15,198,228,235,255,72,129,193,239,76,139,
+  9,255,65,15,40,1,15,89,193,255,65,15,40,137,233,15,89,202,255,65,15,40,145,
+  233,15,89,211,255,65,15,40,153,233,15,89,220,255,15,88,193,15,88,211,15,88,
+  194,255,65,15,41,0,255,195,255
 };
 
 #line 13 "codegen.dasc"
@@ -42,16 +43,26 @@ static const unsigned char actionlist[79] = {
 #define _MM_SHUFFLE(x,y,z,w) ((z << 6) | (y <<4) | (x << 2) | (w))
 #endif
 
+static void preamble(dasm_State** Dst) {
+}
+
+static void epilogue(dasm_State** Dst) {
+}
+
 /**
  * Fast matrix-vector multiplication.
  * 
- * Adapted from GCC inline assembly from:
- * Reference: http://stackoverflow.com/questions/14967969/efficient-4x4-matrix-vector-multiplication-with-sse-horizontal-add-and-dot-prod
+ * Adapted from GCC intrinsics of:
+ * http://stackoverflow.com/questions/14967969/efficient-4x4-matrix-vector-multiplication-with-sse-horizontal-add-and-dot-prod
  */
-static void gen_mul_matrix_vector(dasm_State** Dst) {
-  /* matrix float[16] is given in rcx, vector float[4] is given in rdx */
+static void mul_matrix_vector(dasm_State** Dst) {
+  // obtain vector
+  //| mov r8, [rcx]
+  //| movaps xmm0, [r8]
+  dasm_put(Dst, 0);
+#line 34 "codegen.dasc"
+
   // create xmm1-xmm4 containing the vectors to be multiplied
-  //| movaps xmm0, [rdx]
   //| movaps xmm1, xmm0
   //| shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   //| movaps xmm2, xmm0
@@ -60,41 +71,49 @@ static void gen_mul_matrix_vector(dasm_State** Dst) {
   //| shufps xmm3, xmm3, _MM_SHUFFLE(2, 2, 2, 2)
   //| movaps xmm4, xmm0
   //| shufps xmm4, xmm4, _MM_SHUFFLE(3, 3, 3, 3)
-  dasm_put(Dst, 0, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3));
-#line 36 "codegen.dasc"
-  // load first matrix column and multiply with xmm1
-  //| movaps xmm0, [rcx]
-  //| mulps xmm0, xmm1
-  dasm_put(Dst, 32);
-#line 39 "codegen.dasc"
-  // load second matrix column and multiply with xmm2
-  //| movaps xmm1, [rcx+4*4]
-  //| mulps xmm1, xmm2
-  dasm_put(Dst, 39, 4*4);
-#line 42 "codegen.dasc"
-  // load third matrix column and multiply with xmm3
-  //| movaps xmm2, [rcx+4*8]
-  //| mulps xmm2, xmm3
-  dasm_put(Dst, 47, 4*8);
-#line 45 "codegen.dasc"
-  // load fourth matrix column and multiply with xmm4
-  //| movaps xmm3, [rcx+4*12]
-  //| mulps xmm3, xmm4
-  dasm_put(Dst, 55, 4*12);
+  dasm_put(Dst, 8, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3));
+#line 44 "codegen.dasc"
+
+  // move to matrix
+  //| add rcx, sizeof(char*)
+  //| mov r9, [rcx]
+  dasm_put(Dst, 37, sizeof(char*));
 #line 48 "codegen.dasc"
+  
+  // load first matrix column and multiply with xmm1
+  //| movaps xmm0, [r9]
+  //| mulps xmm0, xmm1
+  dasm_put(Dst, 45);
+#line 52 "codegen.dasc"
+  // load second matrix column and multiply with xmm2
+  //| movaps xmm1, [r9+4*4]
+  //| mulps xmm1, xmm2
+  dasm_put(Dst, 53, 4*4);
+#line 55 "codegen.dasc"
+  // load third matrix column and multiply with xmm3
+  //| movaps xmm2, [r9+4*8]
+  //| mulps xmm2, xmm3
+  dasm_put(Dst, 62, 4*8);
+#line 58 "codegen.dasc"
+  // load fourth matrix column and multiply with xmm4
+  //| movaps xmm3, [r9+4*12]
+  //| mulps xmm3, xmm4
+  dasm_put(Dst, 71, 4*12);
+#line 61 "codegen.dasc"
   // now the results are in xmm0-xmm3 and need to be added
   //| addps xmm0, xmm1
   //| addps xmm2, xmm3
   //| addps xmm0, xmm2
-  dasm_put(Dst, 63);
-#line 52 "codegen.dasc"
-  // the result vector is in xmm0
-  //| movaps [rdx], xmm0
-  dasm_put(Dst, 73);
-#line 54 "codegen.dasc"
+  dasm_put(Dst, 80);
+#line 65 "codegen.dasc"
+
+  // write final result in xmm0 back into vector
+  //| movaps [r8], xmm0
+  dasm_put(Dst, 90);
+#line 68 "codegen.dasc"
 }
 
-mul_matrix_vector_func_t codegen(void) {
+batch_func_t codegen(const char* opcodes, int opcodesLength) {
   dasm_State* state;
   dasm_State** Dst = &state;
   int status;
@@ -105,16 +124,25 @@ mul_matrix_vector_func_t codegen(void) {
   dasm_init(&state, DASM_MAXSECTION);
   dasm_setupglobal(&state, global_labels, GLOB__MAX);
   dasm_setup(&state, actionlist);
-  for (int i = 0; i < 10; i++)
-  gen_mul_matrix_vector(&state);
+  preamble(&state);
+  for (int i = 0; i < opcodesLength; i++) {
+    switch (opcodes[i]) {
+    case 0x02: // OPCODE_MUL_VECTOR
+      mul_matrix_vector(&state);
+      break;
+    default:
+      break;
+    }
+  }
+  epilogue(&state);
   //| ret
-  dasm_put(Dst, 77);
-#line 70 "codegen.dasc"
+  dasm_put(Dst, 95);
+#line 93 "codegen.dasc"
   status = dasm_link(&state, &code_size);
   code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);
   VirtualProtect(code, code_size, PAGE_EXECUTE, &dwOld);
   FlushInstructionCache(GetCurrentProcess(), code, code_size);
   dasm_free(&state);
-  return (mul_matrix_vector_func_t) code;
+  return (batch_func_t) code;
 }
