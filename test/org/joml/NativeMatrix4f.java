@@ -29,6 +29,7 @@ public class NativeMatrix4f {
     public static final byte OPCODE_MUL_VECTOR = 0x02;
     public static final byte OPCODE_TRANSPOSE = 0x03;
     public static final byte OPCODE_INVERT = 0x04;
+    public static final byte OPCODE_TRANSLATION_ROTATE_SCALE = 0x05;
 
     long sequenceFunction;
 
@@ -77,6 +78,12 @@ public class NativeMatrix4f {
         return this;
     }
 
+    private NativeMatrix4f putArg(float val) {
+        ensureArgumentsSize(4);
+        arguments.putFloat(val);
+        return this;
+    }
+
     public NativeMatrix4f mul(NativeMatrix4f m) {
         putOperation(OPCODE_MUL_MATRIX);
         putArg(matrixBufferAddr);
@@ -94,6 +101,23 @@ public class NativeMatrix4f {
     public NativeMatrix4f transpose() {
         putOperation(OPCODE_TRANSPOSE);
         putArg(matrixBufferAddr);
+        // pad to ensure 16 byte alignment (some operations need it!)
+        putArg(0L);
+        return this;
+    }
+
+    public NativeMatrix4f translationRotateScale(
+            float tx, float ty, float tz, 
+            float qx, float qy, float qz, float qw, 
+            float sx, float sy, float sz) {
+        putOperation(OPCODE_TRANSLATION_ROTATE_SCALE);
+        putArg(matrixBufferAddr);
+        // pad to ensure 16 byte alignment
+        putArg(0L);
+        // always put 4 floats for nice alignment for movaps
+        putArg(tx).putArg(ty).putArg(tz).putArg(0.0f);
+        putArg(qx).putArg(qy).putArg(qz).putArg(qw);
+        putArg(sx).putArg(sy).putArg(sz).putArg(0.0f);
         return this;
     }
 
@@ -114,9 +138,10 @@ public class NativeMatrix4f {
         m2.get(matrix2);
         NativeMatrix4f nm = new NativeMatrix4f(matrix);
         NativeMatrix4f nm2 = new NativeMatrix4f(matrix2);
-        for (int i = 0; i < 1000; i++) {
-            nm.transpose();
-        }
+        nm.translationRotateScale(1.0f, 1.0f, 0.0f,
+                                  0.0f, 0.0f, 0.0f, 1.0f, 
+                                  1.0f, 1.0f, 1.0f);
+        nm.transpose();
         Sequence seq = nm.terminate();
         seq.setArguments(nm.arguments);
         long time1 = System.nanoTime();

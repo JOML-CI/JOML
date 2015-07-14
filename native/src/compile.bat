@@ -1,5 +1,5 @@
 :: Make sure to have
-:: - MinGW-64's gcc.exe in PATH
+:: - MinGW-w64's gcc.exe in PATH
 :: - upx.exe in PATH
 :: - JAVA_HOME pointing to a JDK
 
