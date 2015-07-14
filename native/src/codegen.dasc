@@ -36,10 +36,13 @@ static void gen_mul_matrix_vector(dasm_State** Dst) {
   // load first matrix column and multiply with xmm1
   | movaps xmm0, [rcx]
   | mulps xmm0, xmm1
+  // load second matrix column and multiply with xmm2
   | movaps xmm1, [rcx+4*4]
   | mulps xmm1, xmm2
+  // load third matrix column and multiply with xmm3
   | movaps xmm2, [rcx+4*8]
   | mulps xmm2, xmm3
+  // load fourth matrix column and multiply with xmm4
   | movaps xmm3, [rcx+4*12]
   | mulps xmm3, xmm4
   // now the results are in xmm0-xmm3 and need to be added

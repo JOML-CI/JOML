@@ -61,6 +61,7 @@ public class NativeMatrix4f {
         long time2 = System.nanoTime();
         System.err.println("Took: " + (time2 - time1) / 1E6 + " ms.");
         System.err.println((time2 - time1) / 1E8 + " ns. per invocation");
+        System.err.println(v);
     }
 
 }
