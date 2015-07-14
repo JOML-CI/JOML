@@ -31,7 +31,6 @@ public class NativeMatrix4f {
     public static final byte OPCODE_INVERT = 0x04;
 
     long sequenceFunction;
-    long argumentsAddr;
 
     ByteBuffer operations;
     ByteBuffer arguments;
@@ -45,7 +44,6 @@ public class NativeMatrix4f {
         int avgArgumentSizePerOperation = 2 * 8;
         arguments = ByteBuffer.allocateDirect(avgArgumentSizePerOperation * initialNumOfOperations).order(
                 ByteOrder.nativeOrder());
-        argumentsAddr = NativeUtil.addressOf(arguments);
     }
 
     private void ensureOperationsSize(int size) {
@@ -116,12 +114,13 @@ public class NativeMatrix4f {
         m2.get(matrix2);
         NativeMatrix4f nm = new NativeMatrix4f(matrix);
         NativeMatrix4f nm2 = new NativeMatrix4f(matrix2);
-        for (int i = 0; i < 1000; i++)
-        nm.mul(nm2);
+        for (int i = 0; i < 1000; i++) {
+            nm.transpose();
+        }
         Sequence seq = nm.terminate();
         seq.setArguments(nm.arguments);
         long time1 = System.nanoTime();
-        for (int i = 0; i < 1E2; i++)
+        for (int i = 0; i < 1000; i++)
             seq.call();
         long time2 = System.nanoTime();
         System.err.println("SSE result (" + (time2 - time1) / 1E3 + "):");
@@ -129,8 +128,9 @@ public class NativeMatrix4f {
         res.set(matrix);
         System.err.println(res);
         time1 = System.nanoTime();
-        for (int i = 0; i < 1E5; i++)
-            m.mul(m2);
+        for (int i = 0; i < 1E6; i++) {
+            m.transpose();
+        }
         time2 = System.nanoTime();
         System.err.println("JOML result (" + (time2 - time1) / 1E3 + "):");
         System.err.println(m);

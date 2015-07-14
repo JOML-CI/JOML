@@ -19,6 +19,7 @@
  * Transpose a matrix using raw SSE shufps instructions.
  */
 static void matrix_transpose(dasm_State** Dst) {
+  |->matrix_transpose:
   // obtain matrix from [rcx]
   | mov r8, [rcx]
   | add rcx, sizeof(char*)
@@ -183,11 +184,11 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       // tell the matrix function where to jump to
       // in order to execute the next operation
       | mov rdx, =>next_pc
+      | jmp ->mul_matrix_matrix
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
         op_generated[0] = 1;
       }
-      | jmp ->mul_matrix_matrix
       // define the label that we just jumped to above
       |=>next_pc:
       // use a new fresh label "index" for the next label
@@ -195,21 +196,21 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       break;
     case 0x02: // OPCODE_MATRIX_MUL_VECTOR
       | mov rdx, =>next_pc
+      | jmp ->mul_matrix_vector
       if (!op_generated[1]) {
         mul_matrix_vector(&state);
         op_generated[1] = 1;
       }
-      | jmp ->mul_matrix_vector
       |=>next_pc:
       next_pc++;
       break;
     case 0x03: // OPCODE_MATRIX_TRANSPOSE
       | mov rdx, =>next_pc
+      | jmp ->matrix_transpose
       if (!op_generated[2]) {
         matrix_transpose(&state);
         op_generated[2] = 1;
       }
-      | jmp ->matrix_transpose
       |=>next_pc:
       next_pc++;
       break;
