@@ -26,12 +26,13 @@
 //|.globals GLOB_
 enum {
   GLOB_mul_matrix_matrix,
-  GLOB_decode_and_execute,
+  GLOB_mul_matrix_vector,
+  GLOB_matrix_transpose,
   GLOB__MAX
 };
 #line 12 "codegen.dasc"
 //|.actionlist actionlist
-static const unsigned char actionlist[324] = {
+static const unsigned char actionlist[334] = {
   76,139,1,255,65,15,40,0,15,40,208,65,15,40,136,233,15,198,193,136,15,198,
   209,221,65,15,40,152,233,15,40,252,235,65,15,40,176,233,15,198,222,136,15,
   198,252,238,221,15,40,200,15,198,195,136,15,40,226,15,198,213,136,15,198,
@@ -46,8 +47,8 @@ static const unsigned char actionlist[324] = {
   235,15,40,208,15,198,210,235,15,40,216,15,198,219,235,15,40,224,15,198,228,
   235,255,72,129,193,239,76,139,9,255,65,15,40,1,15,89,193,255,65,15,40,137,
   233,15,89,202,255,65,15,40,145,233,15,89,211,255,65,15,40,153,233,15,89,220,
-  255,65,15,41,0,255,252,233,244,11,248,11,255,72,199,194,247,255,249,255,195,
-  255
+  255,65,15,41,0,255,72,199,194,247,255,252,233,244,10,255,249,255,252,233,
+  244,11,249,255,252,233,244,12,249,255,195,255
 };
 
 #line 13 "codegen.dasc"
@@ -263,37 +264,37 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   dasm_setupglobal(&state, global_labels, GLOB__MAX);
   dasm_setup(&state, actionlist);
   dasm_growpc(&state, max_dynamic_labels);
-  //| jmp ->decode_and_execute
-  //|->decode_and_execute:
-  dasm_put(Dst, 308);
-#line 173 "codegen.dasc"
   for (int i = 0; i < opcodesLength; i++) {
     switch (opcodes[i]) {
     case 0x01: // OPCODE_MATRIX_MUL_MATRIX
       // tell the matrix function where to jump to
       // in order to execute the next operation
       //| mov rdx, =>next_pc
-      dasm_put(Dst, 315, next_pc);
-#line 179 "codegen.dasc"
+      dasm_put(Dst, 308, next_pc);
+#line 177 "codegen.dasc"
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
         op_generated[0] = 1;
       }
+      //| jmp ->mul_matrix_matrix
+      dasm_put(Dst, 313);
+#line 182 "codegen.dasc"
       // define the label that we just jumped to above
       //|=>next_pc:
-      dasm_put(Dst, 320, next_pc);
-#line 185 "codegen.dasc"
+      dasm_put(Dst, 318, next_pc);
+#line 184 "codegen.dasc"
       // use a new fresh label "index" for the next label
       next_pc++;
       break;
     case 0x02: // OPCODE_MATRIX_MUL_VECTOR
       //| mov rdx, =>next_pc
-      dasm_put(Dst, 315, next_pc);
-#line 190 "codegen.dasc"
+      dasm_put(Dst, 308, next_pc);
+#line 189 "codegen.dasc"
       if (!op_generated[1]) {
         mul_matrix_vector(&state);
         op_generated[1] = 1;
       }
+      //| jmp ->mul_matrix_vector
       //|=>next_pc:
       dasm_put(Dst, 320, next_pc);
 #line 195 "codegen.dasc"
@@ -301,15 +302,16 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       break;
     case 0x03: // OPCODE_MATRIX_TRANSPOSE
       //| mov rdx, =>next_pc
-      dasm_put(Dst, 315, next_pc);
+      dasm_put(Dst, 308, next_pc);
 #line 199 "codegen.dasc"
       if (!op_generated[2]) {
         matrix_transpose(&state);
         op_generated[2] = 1;
       }
+      //| jmp ->matrix_transpose
       //|=>next_pc:
-      dasm_put(Dst, 320, next_pc);
-#line 204 "codegen.dasc"
+      dasm_put(Dst, 326, next_pc);
+#line 205 "codegen.dasc"
       next_pc++;
       break;
     default:
@@ -317,8 +319,8 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
     }
   }
   //| ret
-  dasm_put(Dst, 322);
-#line 211 "codegen.dasc"
+  dasm_put(Dst, 332);
+#line 212 "codegen.dasc"
   status = dasm_link(&state, &code_size);
   code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);
