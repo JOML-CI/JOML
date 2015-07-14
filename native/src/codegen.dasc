@@ -156,9 +156,9 @@ static void mul_matrix_vector(dasm_State** Dst) {
 batch_func_t codegen(const char* opcodes, int opcodesLength) {
   dasm_State* state;
   dasm_State** Dst = &state;
-  int max_dynamic_labels = 128;
   int status;
   void* code;
+  int num_pc_allocated = 8;
   int next_pc = 0;
   size_t code_size;
   DWORD dwOld;
@@ -167,8 +167,12 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   dasm_init(&state, DASM_MAXSECTION);
   dasm_setupglobal(&state, global_labels, GLOB__MAX);
   dasm_setup(&state, actionlist);
-  dasm_growpc(&state, max_dynamic_labels);
+  dasm_growpc(&state, num_pc_allocated);
   for (int i = 0; i < opcodesLength; i++) {
+    if (next_pc == num_pc_allocated) {
+      num_pc_allocated *= 2;
+      dasm_growpc(&state, num_pc_allocated);
+    }
     switch (opcodes[i]) {
     case 0x01: // OPCODE_MATRIX_MUL_MATRIX
       // tell the matrix function where to jump to
