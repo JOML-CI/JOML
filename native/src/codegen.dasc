@@ -21,6 +21,7 @@
 static void matrix_transpose(dasm_State** Dst) {
   // obtain matrix from [rcx]
   | mov r8, [rcx]
+  | add rcx, sizeof(char*)
   // shuffle around a bit
   | movaps xmm0, [r8]
   | movaps xmm2, xmm0
@@ -43,8 +44,6 @@ static void matrix_transpose(dasm_State** Dst) {
   | movaps [r8+4*4], xmm2
   | movaps [r8+8*4], xmm1
   | movaps [r8+12*4], xmm4
-  // advance args pointer
-  | add rcx, sizeof(char*)
   // jump to next operation
   | jmp rdx
 }
@@ -80,10 +79,19 @@ static void mul_matrix_matrix(dasm_State** Dst) {
   | add rcx, sizeof(char*)
   // obtain second matrix
   | mov r9, [rcx]
+  | add rcx, sizeof(char*)
   for (int i = 0; i < 4; i++) {
     // get i-th column of second matrix
     | movaps xmm0, [r9+4*4*i]
     linearProduct(Dst);
+    /* We must be careful to not overwrite the destination
+       matrix with the column results, since that matrix
+       is needed in subsequence linearProducts.
+       Luckily, we have 8 XMM registers, and can 
+       buffer the first three results into them and
+       during the last iteration we store all of them
+       including xmm0 of that computation into the destination
+       matrix. */
     if (i == 0) {
       | movaps xmm5, xmm0
     } else if (i == 1) {
@@ -97,8 +105,6 @@ static void mul_matrix_matrix(dasm_State** Dst) {
       | movaps [r8+12*4], xmm0
     }
   }
-  // advance args pointer
-  | add rcx, sizeof(char*)
   // jump to next operation
   | jmp rdx
 }
@@ -112,6 +118,7 @@ static void mul_matrix_matrix(dasm_State** Dst) {
 static void mul_matrix_vector(dasm_State** Dst) {
   // obtain vector
   | mov r8, [rcx]
+  | add rcx, sizeof(char*)
   | movaps xmm0, [r8]
 
   // create xmm1-xmm4 containing the vectors to be multiplied
@@ -124,9 +131,9 @@ static void mul_matrix_vector(dasm_State** Dst) {
   | movaps xmm4, xmm0
   | shufps xmm4, xmm4, _MM_SHUFFLE(3, 3, 3, 3)
 
-  // move to matrix
-  | add rcx, sizeof(char*)
+  // obtain matrix
   | mov r9, [rcx]
+  | add rcx, sizeof(char*)
 
   // load first matrix column and multiply with xmm1
   | movaps xmm0, [r9]
@@ -147,8 +154,6 @@ static void mul_matrix_vector(dasm_State** Dst) {
 
   // write final result in xmm0 back into vector
   | movaps [r8], xmm0
-  // advance args pointer
-  | add rcx, sizeof(char*)
   // jump to next operation
   | jmp rdx
 }

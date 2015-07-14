@@ -111,17 +111,17 @@ public class NativeMatrix4f {
         Matrix4f m = new Matrix4f().rotateZ((float) Math.PI / 3.0f).rotateY((float) Math.PI / 1.6f).rotateZ((float)Math.PI / 5.3f);
         System.err.println("Origin matrix:");
         System.err.println(m);
-        Matrix4f m2 = new Matrix4f().translate(1, 2, 3);
+        Matrix4f m2 = new Matrix4f().rotateX(0.152f).rotateY(0.0123f).translate(1, 2, 3);
         m.get(matrix);
         m2.get(matrix2);
         NativeMatrix4f nm = new NativeMatrix4f(matrix);
         NativeMatrix4f nm2 = new NativeMatrix4f(matrix2);
-        for (int i = 0; i < 10000; i++)
+        for (int i = 0; i < 1000; i++)
         nm.mul(nm2);
         Sequence seq = nm.terminate();
         seq.setArguments(nm.arguments);
         long time1 = System.nanoTime();
-        for (int i = 0; i < 1E1; i++)
+        for (int i = 0; i < 1E2; i++)
             seq.call();
         long time2 = System.nanoTime();
         System.err.println("SSE result (" + (time2 - time1) / 1E3 + "):");
