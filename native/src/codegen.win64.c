@@ -258,7 +258,6 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   dasm_State** Dst = &state;
   int status;
   void* code;
-  int num_pc_allocated = 8;
   int next_pc = 0;
   size_t code_size;
   DWORD dwOld;
@@ -267,12 +266,8 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   dasm_init(&state, DASM_MAXSECTION);
   dasm_setupglobal(&state, global_labels, GLOB__MAX);
   dasm_setup(&state, actionlist);
-  dasm_growpc(&state, num_pc_allocated);
+  dasm_growpc(&state, opcodesLength);
   for (int i = 0; i < opcodesLength; i++) {
-    if (next_pc == num_pc_allocated) {
-      num_pc_allocated *= 2;
-      dasm_growpc(&state, num_pc_allocated);
-    }
     switch (opcodes[i]) {
     case 0x01: // OPCODE_MATRIX_MUL_MATRIX
       // tell the matrix function where to jump to
@@ -280,7 +275,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       //| mov rdx, =>next_pc
       //| jmp ->mul_matrix_matrix
       dasm_put(Dst, 305, next_pc);
-#line 188 "codegen.dasc"
+#line 183 "codegen.dasc"
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
         op_generated[0] = 1;
@@ -288,7 +283,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       // define the label that we just jumped to above
       //|=>next_pc:
       dasm_put(Dst, 314, next_pc);
-#line 194 "codegen.dasc"
+#line 189 "codegen.dasc"
       // use a new fresh label "index" for the next label
       next_pc++;
       break;
@@ -296,28 +291,28 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
       //| mov rdx, =>next_pc
       //| jmp ->mul_matrix_vector
       dasm_put(Dst, 316, next_pc);
-#line 200 "codegen.dasc"
+#line 195 "codegen.dasc"
       if (!op_generated[1]) {
         mul_matrix_vector(&state);
         op_generated[1] = 1;
       }
       //|=>next_pc:
       dasm_put(Dst, 314, next_pc);
-#line 205 "codegen.dasc"
+#line 200 "codegen.dasc"
       next_pc++;
       break;
     case 0x03: // OPCODE_MATRIX_TRANSPOSE
       //| mov rdx, =>next_pc
       //| jmp ->matrix_transpose
       dasm_put(Dst, 325, next_pc);
-#line 210 "codegen.dasc"
+#line 205 "codegen.dasc"
       if (!op_generated[2]) {
         matrix_transpose(&state);
         op_generated[2] = 1;
       }
       //|=>next_pc:
       dasm_put(Dst, 314, next_pc);
-#line 215 "codegen.dasc"
+#line 210 "codegen.dasc"
       next_pc++;
       break;
     default:
@@ -326,7 +321,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   }
   //| ret
   dasm_put(Dst, 334);
-#line 222 "codegen.dasc"
+#line 217 "codegen.dasc"
   status = dasm_link(&state, &code_size);
   code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);
