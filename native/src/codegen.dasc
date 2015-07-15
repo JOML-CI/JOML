@@ -168,10 +168,32 @@ static void translation_rotate_scale(dasm_State** Dst) {
   | movaps xmm2, [rcx]
   | add rcx, 16
 
-  
-
   // TODO: Here we need to actually do what Matrix4f.translationRotateScale() does,
   //       just only better.
+  | movaps xmm3, xmm1
+  | addps xmm3, xmm3 // dqX
+  | movaps xmm4, xmm3
+  | shufps xmm4, xmm4, _MM_SHUFFLE(0, 1, 2, 0)
+  | mulps xmm4, xmm1 // qNN
+  | movaps xmm5, xmm1
+  | shufps xmm5, xmm5, _MM_SHUFFLE(1, 2, 3, 0)
+  | mulps xmm5, xmm1 // q0N
+  | movaps xmm6, xmm1
+  | movaps xmm7, xmm3
+  | shufps xmm6, xmm6, _MM_SHUFFLE(2, 3, 3, 2)
+  | shufps xmm7, xmm7, _MM_SHUFFLE(1, 1, 2, 2)
+  | mulps xmm6, xmm7 // q12-23
+  // xmm1, xmm3, xmm7 are free here!
+  // the above covers the computation of the qXX floats
+  // from the Java sources.
+  // now comes the computation of the final matrix elements
+  /*
+        m00 = sx - (q11 + q22) * sx;
+        m11 = sy - (q22 + q00) * sy;
+        m22 = sz - (q11 + q00) * sz;
+        m33 = 1.0f;
+  */
+  
 }
 
 
@@ -227,88 +249,64 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   dasm_setup(&state, actionlist);
   dasm_growpc(&state, opcodesLength);
   for (int i = 0; i < opcodesLength; i++) {
+    | mov rdx, =>next_pc
     switch (opcodes[i]) {
     case 0x01: // OPCODE_MATRIX_MUL_MATRIX
-      // tell the matrix function where to jump to
-      // in order to execute the next operation
-      | mov rdx, =>next_pc
       | jmp ->mul_matrix_matrix
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
-        // jump to next operation
         | jmp rdx
         op_generated[0] = 1;
       }
-      // define the label that we just jumped to above
-      |=>next_pc:
-      // use a new fresh label "index" for the next label
-      next_pc++;
       break;
     case 0x02: // OPCODE_MATRIX_MUL_VECTOR
-      | mov rdx, =>next_pc
       | jmp ->mul_matrix_vector
       if (!op_generated[1]) {
         mul_matrix_vector(&state);
-        // jump to next operation
         | jmp rdx
         op_generated[1] = 1;
       }
-      |=>next_pc:
-      next_pc++;
       break;
     case 0x03: // OPCODE_MATRIX_TRANSPOSE
-      | mov rdx, =>next_pc
       | jmp ->matrix_transpose
       if (!op_generated[2]) {
         matrix_transpose(&state);
-        // jump to next operation
         | jmp rdx
         op_generated[2] = 1;
       }
-      |=>next_pc:
-      next_pc++;
       break;
     case 0x04: // OPCODE_MATRIX_INVERT
       // Not yet implemented!
       break;
     case 0x05: // OPCODE_TRANSLATION_ROTATE_SCALE
-      | mov rdx, =>next_pc
       | jmp ->translation_rotate_scale
       if (!op_generated[4]) {
         translation_rotate_scale(&state);
-        // jump to next operation
         | jmp rdx
         op_generated[4] = 1;
       }
-      |=>next_pc:
-      next_pc++;
       break;
     case 0x06: // OPCODE_ROTATEZ
-      | mov rdx, =>next_pc
       | jmp ->rotateZ
       if (!op_generated[5]) {
         rotateZ(&state);
-        // jump to next operation
         | jmp rdx
         op_generated[5] = 1;
       }
-      |=>next_pc:
-      next_pc++;
       break;
     case 0x07: // OPCODE_VECTOR_NEGATE
-      | mov rdx, =>next_pc
       | jmp ->vector_negate
       if (!op_generated[6]) {
         vector_negate(&state);
         | jmp rdx
         op_generated[6] = 1;
       }
-      |=>next_pc:
-      next_pc++;
       break;
     default:
       break;
     }
+    |=>next_pc:
+    next_pc++;
   }
   | ret
   status = dasm_link(&state, &code_size);
