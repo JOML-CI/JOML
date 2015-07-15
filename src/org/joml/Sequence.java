@@ -91,6 +91,11 @@ public class Sequence {
 
     public Sequence putOperation(byte opcode) {
         if (terminated) {
+            // validate opcode instead of writing it.
+            byte written = operations.get();
+            if (written != opcode) {
+                throw new IllegalStateException("wrong sequence");
+            }
             return this;
         }
         ensureOperationsSize(1);
@@ -255,6 +260,7 @@ public class Sequence {
         if (!terminated) {
             throw new IllegalStateException("not yet terminated");
         }
+        operations.rewind();
         Native.call(functionAddr, argumentsAddr);
         return this;
     }

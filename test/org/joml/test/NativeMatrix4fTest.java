@@ -1,5 +1,6 @@
 package org.joml.test;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.joml.Matrix4f;
@@ -81,6 +82,22 @@ public class NativeMatrix4fTest extends TestCase {
           .rotateZ(0.123f)
           .mul(new Matrix4f().rotateZ(0.23f), expected);
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
+    }
+
+    public void testWrongSequence() {
+        Sequence seq = new Sequence();
+        NativeMatrix4f nm = new NativeMatrix4f(seq);
+        {
+            nm.identity();
+        }
+        seq.terminate().call();
+        {
+            try {
+                nm.rotateX(0.0f);
+                Assert.fail("Should have thrown IllegalStateException: wrong sequence");
+            } catch (IllegalStateException e) {
+            }
+        }
     }
 
 }
