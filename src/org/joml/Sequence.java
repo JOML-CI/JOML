@@ -92,8 +92,7 @@ public class Sequence {
     public Sequence putOperation(byte opcode) {
         if (terminated) {
             // validate opcode instead of writing it.
-            byte written = operations.get();
-            if (written != opcode) {
+            if (!operations.hasRemaining() || operations.get() != opcode) {
                 throw new IllegalStateException("wrong sequence");
             }
             return this;
@@ -251,7 +250,6 @@ public class Sequence {
         terminated = true;
         operations.flip();
         functionAddr = Native.jit(operationsAddr + operations.position(), operations.remaining());
-        operations.clear();
         arguments.flip();
         return this;
     }

@@ -99,6 +99,23 @@ public class NativeMatrix4fTest extends TestCase {
         }
     }
 
+    public void testWrongSequenceMore() {
+        Sequence seq = new Sequence();
+        NativeMatrix4f nm = new NativeMatrix4f(seq);
+        {
+            nm.identity();
+        }
+        seq.call();
+        {
+            try {
+                nm.identity();
+                nm.rotateX(0.0f);
+                Assert.fail("Should have thrown IllegalStateException: wrong sequence");
+            } catch (IllegalStateException e) {
+            }
+        }
+    }
+
     /**
      * Calls a sequence of matrix operations on the same {@link Sequence} twice.
      * <p>
