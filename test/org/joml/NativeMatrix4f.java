@@ -111,39 +111,60 @@ public class NativeMatrix4f {
     }
 
     public NativeMatrix4f mul(NativeMatrix4f m) {
+        return mul(m, this);
+    }
+
+    public NativeMatrix4f mul(NativeMatrix4f m, NativeMatrix4f dest) {
         putOperation(OPCODE_MUL_MATRIX);
         putArg(matrixBufferAddr);
         putArg(m.matrixBufferAddr);
+        putArg(dest.matrixBufferAddr);
+        putArg(0L);
         return this;
     }
 
-    public NativeMatrix4f mul(NativeVector4f v) {
+    public NativeMatrix4f transform(NativeVector4f v) {
+        return mul(v, v);
+    }
+
+    public NativeMatrix4f mul(NativeVector4f v, NativeVector4f dest) {
         putOperation(OPCODE_MUL_VECTOR);
         putArg(v.bufferAddress);
         putArg(matrixBufferAddr);
+        putArg(dest.bufferAddress);
+        putArg(0L);
         return this;
     }
 
     public NativeMatrix4f rotateZ(float angle) {
+        return rotateZ(angle, this);
+    }
+
+    public NativeMatrix4f rotateZ(float angle, NativeMatrix4f dest) {
         putOperation(OPCODE_ROTATEZ);
         putArg(matrixBufferAddr);
         putArg((float) Math.sin(angle));
         putArg((float) Math.cos(angle));
+        putArg(dest.matrixBufferAddr);
+        putArg(0L);
         return this;
     }
 
     public NativeMatrix4f transpose() {
+        return transpose(this);
+    }
+
+    public NativeMatrix4f transpose(NativeMatrix4f dest) {
         putOperation(OPCODE_TRANSPOSE);
         putArg(matrixBufferAddr);
-        // pad to ensure 16 byte alignment (some operations need it!)
-        putArg(0L);
+        putArg(dest.matrixBufferAddr);
         return this;
     }
 
     public NativeMatrix4f negate(NativeVector4f v) {
         putOperation(OPCODE_VECTOR_NEGATE);
         putArg(v.bufferAddress);
-        putArg(0L);
+        putArg(v.bufferAddress);
         return this;
     }
 
@@ -159,6 +180,8 @@ public class NativeMatrix4f {
         putArg(tx).putArg(ty).putArg(tz).putArg(0.0f);
         putArg(qx).putArg(qy).putArg(qz).putArg(qw);
         putArg(sx).putArg(sy).putArg(sz).putArg(1.0f);
+        putArg(matrixBufferAddr);
+        putArg(0L);
         return this;
     }
 
@@ -199,7 +222,7 @@ public class NativeMatrix4f {
         NativeVector4f nv = new NativeVector4f(1.0f, 2.0f, 3.0f);
         NativeMatrix4f nm = new NativeMatrix4f();
         for (int i = 0; i < 1000; i++)
-        nm.rotateZ(0.1263f);
+            nm.rotateZ(0.1263f);
         Sequence seq = nm.terminate();
         long time1 = System.nanoTime();
         for (int i = 0; i < 100; i++)

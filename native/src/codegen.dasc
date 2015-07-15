@@ -21,7 +21,10 @@ static void matrix_transpose(dasm_State** Dst) {
   |->matrix_transpose:
   // obtain matrix from [rcx]
   | mov r8, [rcx]
-  | add rcx, 16
+  | add rcx, 8
+  // obtain dest matrix
+  | mov r9, [rcx]
+  | add rcx, 8
   // shuffle around a bit
   | movaps xmm0, [r8]
   | movaps xmm2, xmm0
@@ -39,11 +42,11 @@ static void matrix_transpose(dasm_State** Dst) {
   | shufps xmm2, xmm5, 0x88
   | shufps xmm1, xmm3, 0xdd
   | shufps xmm4, xmm6, 0xdd
-  // store back into matrix at [r8]
-  | movaps [r8], xmm0
-  | movaps [r8+4*4], xmm2
-  | movaps [r8+8*4], xmm1
-  | movaps [r8+12*4], xmm4
+  // store back into dest matrix at [r9]
+  | movaps [r9], xmm0
+  | movaps [r9+4*4], xmm2
+  | movaps [r9+8*4], xmm1
+  | movaps [r9+12*4], xmm4
 }
 
 static void linearProduct(dasm_State** Dst) {
@@ -97,6 +100,9 @@ static void mul_matrix_matrix(dasm_State** Dst) {
     } else if (i == 2) {
       | movaps xmm7, xmm0
     } else if (i == 3) {
+      // obtain dest matrix
+      | mov r8, [rcx]
+      | add rcx, 16
       | movaps [r8], xmm5
       | movaps [r8+4*4], xmm6
       | movaps [r8+8*4], xmm7
@@ -149,7 +155,9 @@ static void mul_matrix_vector(dasm_State** Dst) {
   | addps xmm2, xmm3
   | addps xmm0, xmm2
 
-  // write final result in xmm0 back into vector
+  // write final result in xmm0 to dest vector
+  | mov r8, [rcx]
+  | add rcx, 16
   | movaps [r8], xmm0
 }
 
@@ -193,8 +201,10 @@ static void translation_rotate_scale(dasm_State** Dst) {
         m02 = 0  + (q02 - q13) * sx;
         m03 = 0  + (q02 + q13) * 0;
   */
+  // TODO: store result in dest matrix
+  | mov r8, [rcx]
+  | add rcx, 16
 }
-
 
 static void rotateZ(dasm_State** Dst) {
   |->rotateZ:
@@ -218,18 +228,28 @@ static void rotateZ(dasm_State** Dst) {
   | movaps xmm5, [r8+4*4]
   | mulps xmm5, xmm1 // m1X * rm11
   | addps xmm4, xmm5
-  | movaps [r8], xmm3
-  | movaps [r8+4*4], xmm4
+  // obtain dest matrix
+  | mov r9, [rcx]
+  | add rcx, 16
+  | movaps [r9], xmm3
+  | movaps [r9+4*4], xmm4
+  | movaps xmm0, [r8+4*8]
+  | movaps [r9+4*8], xmm0
+  | movaps xmm1, [r8+4*12]
+  | movaps [r9+4*12], xmm1
 }
 
 static void vector_negate(dasm_State** Dst) {
   |->vector_negate:
   // obtain vector
   | mov r8, [rcx]
-  | add rcx, 16
+  | add rcx, 8
   | movaps xmm0, [r8]
   | xorps xmm1, xmm1 // make it zero
   | subps xmm1, xmm0 // xmm1 = xmm1 - xmm0
+  // obtain dest vector
+  | mov r8, [rcx]
+  | add rcx, 8
   | movaps [r8], xmm1
 }
 
