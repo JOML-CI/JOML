@@ -45,6 +45,7 @@ public class Sequence {
     public static final byte OPCODE_MATRIX_ROTATE_QUATERNION = 0x08;
     public static final byte OPCODE_MATRIX_GET = 0x09;
     public static final byte OPCODE_MATRIX_IDENTITY = 0x0A;
+    public static final byte OPCODE_MATRIX_ROTATEX = 0x0B;
 
     ByteBuffer operations;
     long operationsAddr;
@@ -201,6 +202,20 @@ public class Sequence {
     public Sequence identity(NativeMatrix4f matrix) {
         putOperation(OPCODE_MATRIX_IDENTITY);
         putArg(matrix.matrixBufferAddr);
+        putArg(0L);
+        return this;
+    }
+
+    public Sequence rotateX(NativeMatrix4f matrix, float angle) {
+        return rotateX(matrix, angle, matrix);
+    }
+
+    public Sequence rotateX(NativeMatrix4f matrix, float angle, NativeMatrix4f dest) {
+        putOperation(OPCODE_MATRIX_ROTATEX);
+        putArg(matrix.matrixBufferAddr);
+        putArg((float) Math.sin(angle));
+        putArg((float) Math.cos(angle));
+        putArg(dest.matrixBufferAddr);
         putArg(0L);
         return this;
     }

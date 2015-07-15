@@ -205,6 +205,53 @@ static void translation_rotate_scale(dasm_State** Dst) {
   | add rcx, 16
 }
 
+static void rotateX(dasm_State** Dst) {
+/* Java code:
+        float rm11 = cos;
+        float rm12 = sin;
+        float rm21 = -sin;
+        float rm22 = cos;
+        float nm10 = m10 * rm11 + m20 * rm12;
+        float nm11 = m11 * rm11 + m21 * rm12;
+        float nm12 = m12 * rm11 + m22 * rm12;
+        float nm13 = m13 * rm11 + m23 * rm12;
+        dest.m20 = m10 * rm21 + m20 * rm22;
+        dest.m21 = m11 * rm21 + m21 * rm22;
+        dest.m22 = m12 * rm21 + m22 * rm22;
+        dest.m23 = m13 * rm21 + m23 * rm22;
+*/
+  |->rotateX:
+  | mov r8, [rcx]
+  | add rcx, 8
+  | movss xmm0, dword [rcx] // sin
+  | add rcx, 4
+  | movss xmm1, dword [rcx] // cos
+  | add rcx, 4
+  | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
+  | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
+  | xorps xmm2, xmm2
+  | subps xmm2, xmm0 // -sin
+  | movaps xmm3, [r8+4*4]
+  | mulps xmm3, xmm1 // m1X * rm11
+  | movaps xmm4, [r8+4*8]
+  | mulps xmm4, xmm0 // m2X * rm12
+  | addps xmm3, xmm4
+  | movaps xmm4, [r8+4*4]
+  | mulps xmm4, xmm2 // m1X * rm21
+  | movaps xmm5, [r8+4*8]
+  | mulps xmm5, xmm1 // m2X * rm22
+  | addps xmm4, xmm5
+  // obtain dest matrix
+  | mov r9, [rcx]
+  | add rcx, 16
+  | movaps [r9+4*4], xmm3
+  | movaps [r9+4*8], xmm4
+  | movaps xmm0, [r8]
+  | movaps [r9], xmm0
+  | movaps xmm1, [r8+4*12]
+  | movaps [r9+4*12], xmm1
+}
+
 static void rotateZ(dasm_State** Dst) {
   |->rotateZ:
   | mov r8, [rcx]
@@ -332,7 +379,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   size_t code_size;
   DWORD dwOld;
   void* global_labels[GLOB__MAX];
-  char op_generated[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  char op_generated[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   dasm_init(&state, DASM_MAXSECTION);
   dasm_setupglobal(&state, global_labels, GLOB__MAX);
   dasm_setup(&state, actionlist);
@@ -413,6 +460,14 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
         matrix_identity(&state);
         | jmp rdx
         op_generated[9] = 1;
+      }
+      break;
+    case 0x0B: // OPCODE_ROTATEX
+      | jmp ->rotateX
+      if (!op_generated[10]) {
+        rotateX(&state);
+        | jmp rdx
+        op_generated[10] = 1;
       }
       break;
     default:

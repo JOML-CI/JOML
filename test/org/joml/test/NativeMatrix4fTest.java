@@ -37,6 +37,21 @@ public class NativeMatrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
     }
 
+    public void testRotateX() {
+        Sequence seq = new Sequence();
+        NativeMatrix4f nm = new NativeMatrix4f(seq);
+        {
+            nm.identity();
+            nm.rotateX((float) Math.PI);
+        }
+        seq.terminate();
+        seq.call();
+        Matrix4f actual = new Matrix4f();
+        nm.get(actual);
+        Matrix4f expected = new Matrix4f().rotateX((float) Math.PI);
+        TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
+    }
+
     public void testMulMatrix() {
         Sequence seq = new Sequence();
         NativeMatrix4f nm = new NativeMatrix4f(seq);
