@@ -29,8 +29,7 @@ public class NativeMatrix4fTest extends TestCase {
             nm.identity();
             nm.rotateZ((float) Math.PI);
         }
-        seq.terminate();
-        seq.call();
+        seq.terminate().call();
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
         Matrix4f expected = new Matrix4f().rotateZ((float) Math.PI);
@@ -44,8 +43,7 @@ public class NativeMatrix4fTest extends TestCase {
             nm.identity();
             nm.rotateX((float) Math.PI);
         }
-        seq.terminate();
-        seq.call();
+        seq.terminate().call();
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
         Matrix4f expected = new Matrix4f().rotateX((float) Math.PI);
@@ -59,8 +57,7 @@ public class NativeMatrix4fTest extends TestCase {
             nm.identity();
             nm.rotateY((float) Math.PI);
         }
-        seq.terminate();
-        seq.call();
+        seq.terminate().call();
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
         Matrix4f expected = new Matrix4f().rotateY((float) Math.PI);
@@ -76,8 +73,7 @@ public class NativeMatrix4fTest extends TestCase {
             nm2.identity().rotateZ(0.23f);
             nm.mul(nm2);
         }
-        seq.terminate();
-        seq.call();
+        seq.terminate().call();
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
         Matrix4f expected = new Matrix4f();

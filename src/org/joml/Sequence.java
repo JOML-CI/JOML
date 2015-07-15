@@ -53,6 +53,7 @@ public class Sequence {
     ByteBuffer arguments;
     long argumentsAddr;
     long functionAddr;
+    boolean terminated;
 
     public Sequence() {
         operations = ByteBuffer.allocateDirect(32 * 16);
@@ -89,6 +90,9 @@ public class Sequence {
     }
 
     public Sequence putOperation(byte opcode) {
+        if (terminated) {
+            return this;
+        }
         ensureOperationsSize(1);
         operations.put(opcode);
         return this;
@@ -236,6 +240,10 @@ public class Sequence {
     }
 
     public Sequence terminate() {
+        if (terminated) {
+            return this;
+        }
+        terminated = true;
         operations.flip();
         functionAddr = Native.jit(operationsAddr + operations.position(), operations.remaining());
         operations.clear();
@@ -244,6 +252,9 @@ public class Sequence {
     }
 
     public Sequence call() {
+        if (!terminated) {
+            throw new IllegalStateException("not yet terminated");
+        }
         Native.call(functionAddr, argumentsAddr);
         return this;
     }
