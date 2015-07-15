@@ -258,7 +258,7 @@ public class Sequence {
 
     public Sequence call() {
         if (!terminated) {
-            throw new IllegalStateException("not yet terminated");
+            terminate();
         }
         operations.rewind();
         Native.call(functionAddr, argumentsAddr);
