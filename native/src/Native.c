@@ -2,9 +2,10 @@
 #include "codegen.h"
 
 JNIEXPORT jlong JNICALL Java_org_joml_Native_jit
-  (JNIEnv * env, jclass clazz, jlong opcodesAddr, jint opcodesLength) {
+  (JNIEnv * env, jclass clazz, jlong opcodesAddr, jint opcodesLength, jlong codeSizeAddr) {
   const char* opcodes = (const char*) (intptr_t) opcodesAddr;
-  batch_func_t func = codegen(opcodes, opcodesLength);
+  size_t* codeSize = (size_t*) (intptr_t) codeSizeAddr;
+  batch_func_t func = codegen(opcodes, opcodesLength, codeSize);
   return (jlong) (intptr_t) func;
 }
 
@@ -18,4 +19,9 @@ JNIEXPORT void JNICALL Java_org_joml_Native_call
 JNIEXPORT jlong JNICALL Java_org_joml_Native_addressOf
   (JNIEnv * env, jclass clazz, jobject buffer) {
   return (jlong) (intptr_t) (*env)->GetDirectBufferAddress(env, buffer);  
+}
+
+JNIEXPORT jint JNICALL Java_org_joml_Native_free
+  (JNIEnv * env, jclass clazz, jlong codeAddr, jint codeSize) {
+  return (jint) free_code((void*) (intptr_t) codeAddr, codeSize);
 }

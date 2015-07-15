@@ -37,7 +37,8 @@ public class Native {
     }
 
     public static native long addressOf(Buffer buffer);
-    public static native long jit(long opcodesAddr, int opcodesLength);
+    public static native long jit(long opcodesAddr, int opcodesLength, long codeSizeAddr);
     public static native void call(long functionAddr, long argumentsAddr);
+    public static native int free(long functionAddr, int codeSize);
 
 }

@@ -638,13 +638,12 @@ static void matrix_scale(dasm_State** Dst) {
 #line 448 "codegen.dasc"
 }
 
-batch_func_t codegen(const char* opcodes, int opcodesLength) {
+batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
   dasm_State* state;
   dasm_State** Dst = &state;
   int status;
   void* code;
   int next_pc = 0;
-  size_t code_size;
   DWORD dwOld;
   void* global_labels[GLOB__MAX];
   char op_generated[] =
@@ -658,41 +657,41 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
   for (int i = 0; i < opcodesLength; i++) {
     //| mov rdx, =>next_pc
     dasm_put(Dst, 972, next_pc);
-#line 469 "codegen.dasc"
+#line 468 "codegen.dasc"
     switch (opcodes[i]) {
     case 0x01: // OPCODE_MATRIX_MUL_MATRIX
       //| jmp ->mul_matrix_matrix
       dasm_put(Dst, 977);
-#line 472 "codegen.dasc"
+#line 471 "codegen.dasc"
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 475 "codegen.dasc"
+#line 474 "codegen.dasc"
         op_generated[0] = 1;
       }
       break;
     case 0x02: // OPCODE_MATRIX_MUL_VECTOR
       //| jmp ->mul_matrix_vector
       dasm_put(Dst, 986);
-#line 480 "codegen.dasc"
+#line 479 "codegen.dasc"
       if (!op_generated[1]) {
         mul_matrix_vector(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 483 "codegen.dasc"
+#line 482 "codegen.dasc"
         op_generated[1] = 1;
       }
       break;
     case 0x03: // OPCODE_MATRIX_TRANSPOSE
       //| jmp ->matrix_transpose
       dasm_put(Dst, 991);
-#line 488 "codegen.dasc"
+#line 487 "codegen.dasc"
       if (!op_generated[2]) {
         matrix_transpose(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 491 "codegen.dasc"
+#line 490 "codegen.dasc"
         op_generated[2] = 1;
       }
       break;
@@ -702,108 +701,108 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
     case 0x05: // OPCODE_TRANSLATION_ROTATE_SCALE
       //| jmp ->translation_rotate_scale
       dasm_put(Dst, 996);
-#line 499 "codegen.dasc"
+#line 498 "codegen.dasc"
       if (!op_generated[4]) {
         translation_rotate_scale(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 502 "codegen.dasc"
+#line 501 "codegen.dasc"
         op_generated[4] = 1;
       }
       break;
     case 0x06: // OPCODE_ROTATEZ
       //| jmp ->rotateZ
       dasm_put(Dst, 1001);
-#line 507 "codegen.dasc"
+#line 506 "codegen.dasc"
       if (!op_generated[5]) {
         rotateZ(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 510 "codegen.dasc"
+#line 509 "codegen.dasc"
         op_generated[5] = 1;
       }
       break;
     case 0x07: // OPCODE_VECTOR_NEGATE
       //| jmp ->vector_negate
       dasm_put(Dst, 1006);
-#line 515 "codegen.dasc"
+#line 514 "codegen.dasc"
       if (!op_generated[6]) {
         vector_negate(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 518 "codegen.dasc"
+#line 517 "codegen.dasc"
         op_generated[6] = 1;
       }
       break;
     case 0x08: // OPCODE_MATRIX_ROTATE_QUATERNION
       //| jmp ->matrix_rotate_quaternion
       dasm_put(Dst, 1011);
-#line 523 "codegen.dasc"
+#line 522 "codegen.dasc"
       if (!op_generated[7]) {
         matrix_rotate_quaternion(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 526 "codegen.dasc"
+#line 525 "codegen.dasc"
         op_generated[7] = 1;
       }
       break;
     case 0x09: // OPCODE_MATRIX_GET
       //| jmp ->matrix_get
       dasm_put(Dst, 1016);
-#line 531 "codegen.dasc"
+#line 530 "codegen.dasc"
       if (!op_generated[8]) {
         matrix_get(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 534 "codegen.dasc"
+#line 533 "codegen.dasc"
         op_generated[8] = 1;
       }
       break;
     case 0x0A: // OPCODE_MATRIX_IDENTITY
       //| jmp ->matrix_identity
       dasm_put(Dst, 1021);
-#line 539 "codegen.dasc"
+#line 538 "codegen.dasc"
       if (!op_generated[9]) {
         matrix_identity(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 542 "codegen.dasc"
+#line 541 "codegen.dasc"
         op_generated[9] = 1;
       }
       break;
     case 0x0B: // OPCODE_ROTATEX
       //| jmp ->rotateX
       dasm_put(Dst, 1026);
-#line 547 "codegen.dasc"
+#line 546 "codegen.dasc"
       if (!op_generated[10]) {
         rotateX(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 550 "codegen.dasc"
+#line 549 "codegen.dasc"
         op_generated[10] = 1;
       }
       break;
     case 0x0C: // OPCODE_ROTATEY
       //| jmp ->rotateY
       dasm_put(Dst, 1031);
-#line 555 "codegen.dasc"
+#line 554 "codegen.dasc"
       if (!op_generated[11]) {
         rotateY(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 558 "codegen.dasc"
+#line 557 "codegen.dasc"
         op_generated[11] = 1;
       }
       break;
     case 0x0D: // OPCODE_MATRIX_SCALE
       //| jmp ->matrix_scale
       dasm_put(Dst, 1036);
-#line 563 "codegen.dasc"
+#line 562 "codegen.dasc"
       if (!op_generated[12]) {
         matrix_scale(&state);
         //| jmp rdx
         dasm_put(Dst, 982);
-#line 566 "codegen.dasc"
+#line 565 "codegen.dasc"
         op_generated[12] = 1;
       }
       break;
@@ -812,17 +811,21 @@ batch_func_t codegen(const char* opcodes, int opcodesLength) {
     }
     //|=>next_pc:
     dasm_put(Dst, 1041, next_pc);
-#line 573 "codegen.dasc"
+#line 572 "codegen.dasc"
     next_pc++;
   }
   //| ret
   dasm_put(Dst, 1043);
-#line 576 "codegen.dasc"
-  status = dasm_link(&state, &code_size);
-  code = VirtualAlloc(0, code_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+#line 575 "codegen.dasc"
+  status = dasm_link(&state, codeSize);
+  code = VirtualAlloc(0, *codeSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
   status = dasm_encode(&state, code);
-  VirtualProtect(code, code_size, PAGE_EXECUTE, &dwOld);
-  FlushInstructionCache(GetCurrentProcess(), code, code_size);
+  VirtualProtect(code, *codeSize, PAGE_EXECUTE, &dwOld);
+  FlushInstructionCache(GetCurrentProcess(), code, *codeSize);
   dasm_free(&state);
   return (batch_func_t) code;
+}
+
+int free_code(void* code, size_t codeSize) {
+  return VirtualFree(code, 0, MEM_RELEASE);
 }

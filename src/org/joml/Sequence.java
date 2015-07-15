@@ -54,6 +54,7 @@ public class Sequence {
     ByteBuffer arguments;
     long argumentsAddr;
     long functionAddr;
+    int codeSize;
     boolean terminated;
 
     public Sequence() {
@@ -262,7 +263,9 @@ public class Sequence {
         }
         terminated = true;
         operations.flip();
-        functionAddr = Native.jit(operationsAddr + operations.position(), operations.remaining());
+        ByteBuffer codeSizeBuffer = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder());
+        functionAddr = Native.jit(operationsAddr + operations.position(), operations.remaining(), Native.addressOf(codeSizeBuffer));
+        codeSize = codeSizeBuffer.getInt(0);
         arguments.flip();
         return this;
     }
@@ -274,6 +277,17 @@ public class Sequence {
         operations.rewind();
         Native.call(functionAddr, argumentsAddr);
         return this;
+    }
+
+    public void free() {
+        if (Native.free(functionAddr, codeSize) != 1) {
+            throw new IllegalStateException("could not free Sequence");
+        }
+        functionAddr = 0L;
+        terminated = false;
+        operations.clear();
+        arguments.clear();
+        codeSize = 0;
     }
 
 }
