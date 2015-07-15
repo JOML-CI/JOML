@@ -189,11 +189,10 @@ static void translation_rotate_scale(dasm_State** Dst) {
   // now comes the computation of the final matrix elements
   /*
         m00 = sx - (q11 + q22) * sx;
-        m11 = sy - (q22 + q00) * sy;
-        m22 = sz - (q11 + q00) * sz;
-        m33 = 1.0f;
+        m01 = 0  + (q01 + q23) * sx;
+        m02 = 0  + (q02 - q13) * sx;
+        m03 = 0  + (q02 + q13) * 0;
   */
-  
 }
 
 

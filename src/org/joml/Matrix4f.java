@@ -1553,21 +1553,24 @@ public class Matrix4f implements Externalizable {
         float q__ = dqz * qz;
 
         m00 = sx - (q11 + q22) * sx;
+        m01 = 0  + (q01 + q23) * sx;
+        m02 = 0  + (q02 - q13) * sx;
+        m03 = 0  + (q02 + q13) * 0;
+
+        m10 = 0  + (q01 - q23) * sy;
         m11 = sy - (q22 + q00) * sy;
+        m12 = 0  + (q12 + q03) * sy;
+        m13 = 0  + (q12 + q03) * 0;
+
+        m20 = 0  + (q02 + q13) * sz;
+        m21 = 0  + (q12 - q03) * sz;
         m22 = sz - (q11 + q00) * sz;
-        m33 = 1.0f;
-        m01 = (q01 + q23) * sx;
-        m02 = (q02 - q13) * sx;
-        m03 = 0.0f;
-        m10 = (q01 - q23) * sy;
-        m12 = (q12 + q03) * sy;
-        m13 = 0.0f;
-        m20 = (q02 + q13) * sz;
-        m21 = (q12 - q03) * sz;
-        m23 = 0.0f;
+        m23 = 0  + (q11 + q00) * 0;
+
         m30 = tx;
         m31 = ty;
         m32 = tz;
+        m33 = 1.0f;
         return this;
     }
 
