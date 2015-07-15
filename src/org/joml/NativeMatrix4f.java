@@ -131,6 +131,16 @@ public class NativeMatrix4f {
         return this;
     }
 
+    public NativeMatrix4f rotateY(float angle) {
+        sequence.rotateY(this, angle);
+        return this;
+    }
+
+    public NativeMatrix4f rotateY(float angle, NativeMatrix4f dest) {
+        sequence.rotateY(this, angle, dest);
+        return this;
+    }
+
     public NativeMatrix4f set(Matrix4f m) {
         if (matrixBuffer instanceof ByteBuffer) {
             ByteBuffer byteBuffer = (ByteBuffer) matrixBuffer;
