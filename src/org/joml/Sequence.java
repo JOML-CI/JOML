@@ -49,6 +49,7 @@ public class Sequence {
     public static final byte OPCODE_MATRIX_ROTATEY = 0x0C;
     public static final byte OPCODE_MATRIX_SCALE = 0x0D;
 
+    ByteBuffer codeSizeBuffer = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder());
     ByteBuffer operations;
     long operationsAddr;
     ByteBuffer arguments;
@@ -263,7 +264,6 @@ public class Sequence {
         }
         terminated = true;
         operations.flip();
-        ByteBuffer codeSizeBuffer = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder());
         functionAddr = Native.jit(operationsAddr + operations.position(), operations.remaining(), Native.addressOf(codeSizeBuffer));
         codeSize = codeSizeBuffer.getInt(0);
         arguments.flip();

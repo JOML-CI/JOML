@@ -38,31 +38,29 @@ import java.nio.FloatBuffer;
 public class NativeVector4f {
 
     Buffer buffer;
-    long offset;
     long bufferAddress;
+    Sequence sequence;
 
-    public NativeVector4f() {
-        this.buffer = ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder());
-        this.bufferAddress = Native.addressOf(buffer);
+    public NativeVector4f(Sequence sequence) {
+        this(0.0f, 0.0f, 0.0f, 0.0f, sequence);
     }
 
-    public NativeVector4f(float x, float y, float z, float w) {
+    public NativeVector4f(float x, float y, float z, float w, Sequence sequence) {
         ByteBuffer bb = ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder());
         bb.putFloat(x).putFloat(y).putFloat(z).putFloat(w).rewind();
         this.buffer = bb;
         this.bufferAddress = Native.addressOf(buffer);
+        this.sequence = sequence;
     }
 
-    public NativeVector4f(float x, float y, float z) {
-        ByteBuffer bb = ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder());
-        bb.putFloat(x).putFloat(y).putFloat(z).putFloat(1.0f).rewind();
-        this.buffer = bb;
-        this.bufferAddress = Native.addressOf(buffer);
+    public NativeVector4f(float x, float y, float z, Sequence sequence) {
+        this(x, y, z, 1.0f, sequence);
     }
 
-    public NativeVector4f(Buffer buffer, long offsetIn16Bytes) {
+    public NativeVector4f(Buffer buffer, long offsetIn16Bytes, Sequence sequence) {
         this.buffer = buffer;
-        bufferAddress = Native.addressOf(buffer) + 16 * offsetIn16Bytes;
+        this.bufferAddress = Native.addressOf(buffer) + 16 * offsetIn16Bytes;
+        this.sequence = sequence;
     }
 
     public String toString() {
