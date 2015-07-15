@@ -141,6 +141,26 @@ public class NativeMatrix4f {
         return this;
     }
 
+    public NativeMatrix4f scale(float xyz) {
+        sequence.scale(this, xyz, xyz, xyz);
+        return this;
+    }
+
+    public NativeMatrix4f scale(float xyz, NativeMatrix4f dest) {
+        sequence.scale(this, xyz, xyz, xyz, dest);
+        return this;
+    }
+
+    public NativeMatrix4f scale(float x, float y, float z) {
+        sequence.scale(this, x, y, z);
+        return this;
+    }
+
+    public NativeMatrix4f scale(float x, float y, float z, NativeMatrix4f dest) {
+        sequence.scale(this, x, y, z, dest);
+        return this;
+    }
+
     public NativeMatrix4f set(Matrix4f m) {
         if (matrixBuffer instanceof ByteBuffer) {
             ByteBuffer byteBuffer = (ByteBuffer) matrixBuffer;

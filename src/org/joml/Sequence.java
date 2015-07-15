@@ -47,6 +47,7 @@ public class Sequence {
     public static final byte OPCODE_MATRIX_IDENTITY = 0x0A;
     public static final byte OPCODE_MATRIX_ROTATEX = 0x0B;
     public static final byte OPCODE_MATRIX_ROTATEY = 0x0C;
+    public static final byte OPCODE_MATRIX_SCALE = 0x0D;
 
     ByteBuffer operations;
     long operationsAddr;
@@ -240,6 +241,18 @@ public class Sequence {
         putArg((float) Math.cos(angle));
         putArg(dest.matrixBufferAddr);
         putArg(0L);
+        return this;
+    }
+
+    public Sequence scale(NativeMatrix4f matrix, float x, float y, float z) {
+        return scale(matrix, x, y, z, matrix);
+    }
+
+    public Sequence scale(NativeMatrix4f matrix, float x, float y, float z, NativeMatrix4f dest) {
+        putOperation(OPCODE_MATRIX_SCALE);
+        putArg(matrix.matrixBufferAddr);
+        putArg(dest.matrixBufferAddr);
+        putArg(x).putArg(y).putArg(z).putArg(1.0f);
         return this;
     }
 
