@@ -32,6 +32,7 @@ public class NativeMatrix4f {
     public static final byte OPCODE_TRANSLATION_ROTATE_SCALE = 0x05;
     public static final byte OPCODE_ROTATEZ = 0x06;
     public static final byte OPCODE_VECTOR_NEGATE = 0x07;
+    public static final byte OPCODE_MATRIX_ROTATE_QUATERNION = 0x08;
 
     long sequenceFunction;
 
@@ -182,6 +183,14 @@ public class NativeMatrix4f {
         putArg(sx).putArg(sy).putArg(sz).putArg(1.0f);
         putArg(matrixBufferAddr);
         putArg(0L);
+        return this;
+    }
+
+    public NativeMatrix4f rotate(float qx, float qy, float qz, float qw, NativeMatrix4f dest) {
+        putOperation(OPCODE_MATRIX_ROTATE_QUATERNION);
+        putArg(matrixBufferAddr);
+        putArg(0L);
+        putArg(qx).putArg(qy).putArg(qz).putArg(qw);
         return this;
     }
 

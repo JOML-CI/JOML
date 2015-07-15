@@ -1527,12 +1527,11 @@ public class Matrix4f implements Externalizable {
         float dqw = qw + qw;
 
         // | movaps qm, q2
-        // | shufps qm, qm, _MM_SHUFFLE(0, 1, 2, 0)
         // | mulps qm, q
         float q00 = dqx * qx;
         float q11 = dqy * qy;
         float q22 = dqz * qz;
-        float q04 = dqx * qw;
+        float q04 = dqw * qw;
 
         // | movaps qs, q
         // | shufps qs, qs, _MM_SHUFFLE(1, 2, 3, 0)
@@ -3712,25 +3711,40 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotate(Quaternionf quat, Matrix4f dest) {
-        float q00 = 2.0f * quat.x * quat.x;
-        float q11 = 2.0f * quat.y * quat.y;
-        float q22 = 2.0f * quat.z * quat.z;
-        float q01 = 2.0f * quat.x * quat.y;
-        float q02 = 2.0f * quat.x * quat.z;
-        float q03 = 2.0f * quat.x * quat.w;
-        float q12 = 2.0f * quat.y * quat.z;
-        float q13 = 2.0f * quat.y * quat.w;
-        float q23 = 2.0f * quat.z * quat.w;
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
+        float dqw = quat.w + quat.w;
+
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q_  = dqw * quat.w;
+
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q__ = dqx * quat.x;
+
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
+        float q_2 = dqw * quat.z;
 
         float rm00 = 1.0f - q11 - q22;
-        float rm01 = q01 + q23;
-        float rm02 = q02 - q13;
-        float rm10 = q01 - q23;
+        float rm01 = 0.0f + q01 + q23;
+        float rm02 = 0.0f + q02 - q13;
+        float rm0_ = 0.0f + q02 - q13;
+
+        float rm10 = 0.0f + q01 - q23;
         float rm11 = 1.0f - q22 - q00;
-        float rm12 = q12 + q03;
-        float rm20 = q02 + q13;
-        float rm21 = q12 - q03;
+        float rm12 = 0.0f + q12 + q03;
+        float rm1_ = 0.0f + q12 + q03;
+
+        float rm20 = 0.0f + q02 + q13;
+        float rm21 = 0.0f + q12 - q03;
         float rm22 = 1.0f - q11 - q00;
+        float rm2_ = 0.0f - q11 - q00;
 
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
