@@ -41,7 +41,13 @@ public class NativeMatrix4f {
     long matrixBufferAddr;
 
     public NativeMatrix4f() {
-        this.matrixBuffer = ByteBuffer.allocateDirect(4 * 16).order(ByteOrder.nativeOrder());
+        ByteBuffer bb = ByteBuffer.allocateDirect(4 * 16).order(ByteOrder.nativeOrder());
+        FloatBuffer fb = bb.asFloatBuffer();
+        fb.put(0, 1.0f);
+        fb.put(5, 1.0f);
+        fb.put(10, 1.0f);
+        fb.put(15, 1.0f);
+        this.matrixBuffer = bb;
         this.matrixBufferAddr = NativeUtil.addressOf(matrixBuffer);
         int initialNumOfOperations = 8;
         operations = ByteBuffer.allocateDirect(initialNumOfOperations);
@@ -168,6 +174,18 @@ public class NativeMatrix4f {
         return this;
     }
 
+    public NativeMatrix4f get(Matrix4f m) {
+        if (matrixBuffer instanceof ByteBuffer) {
+            ByteBuffer byteBuffer = (ByteBuffer) matrixBuffer;
+            FloatBuffer fb = byteBuffer.asFloatBuffer();
+            m.set(fb);
+        } else if (matrixBuffer instanceof FloatBuffer) {
+            FloatBuffer floatBuffer = (FloatBuffer) matrixBuffer;
+            m.set(floatBuffer);
+        }
+        return this;
+    }
+
     public Sequence terminate() {
         operations.flip();
         sequenceFunction = Jit.jit(NativeUtil.addressOf(operations) + operations.position(), operations.remaining());
@@ -180,13 +198,23 @@ public class NativeMatrix4f {
     public static void main(String[] args) {
         NativeVector4f nv = new NativeVector4f(1.0f, 2.0f, 3.0f);
         NativeMatrix4f nm = new NativeMatrix4f();
-        nm.negate(nv);
+        nm.rotateZ(0.1263f);
         Sequence seq = nm.terminate();
         long time1 = System.nanoTime();
         seq.call();
-        System.err.println(nv.toString());
+        Matrix4f m = new Matrix4f().rotateZ(0.1263f);
+        System.err.println(m);
+        nm.get(m);
+        System.err.println(m.toString());
         long time2 = System.nanoTime();
         System.err.println("SSE result (" + (time2 - time1) / 1E3 + " µs):");
+        
+        Vector4f v = new Vector4f(1, 2, 3, 1);
+        time1 = System.nanoTime();
+        for (int i = 0; i < 500000; i++)
+            v.negate();
+        time2 = System.nanoTime();
+        System.err.println("JOML result (" + (time2 - time1) / 1E3 + " µs):");
     }
 
 }

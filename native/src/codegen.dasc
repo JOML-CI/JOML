@@ -172,49 +172,31 @@ static void translation_rotate_scale(dasm_State** Dst) {
   //       just only better.
 }
 
-/*
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
-        float rm00 = cos;
-        float rm01 = sin;
-        float rm10 = -sin;
-        float rm11 = cos;
 
-        // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m10 * rm01;
-        float nm01 = m01 * rm00 + m11 * rm01;
-        float nm02 = m02 * rm00 + m12 * rm01;
-        float nm03 = m03 * rm00 + m13 * rm01;
-        // set non-dependent values directly
-        dest.m10 = m00 * rm10 + m10 * rm11;
-        dest.m11 = m01 * rm10 + m11 * rm11;
-        dest.m12 = m02 * rm10 + m12 * rm11;
-        dest.m13 = m03 * rm10 + m13 * rm11;
-*/
 static void rotateZ(dasm_State** Dst) {
-  float val = 0.0f;
   |->rotateZ:
-  // obtain matrix
   | mov r8, [rcx]
   | add rcx, 8
   | movss xmm0, dword [rcx] // sin
   | add rcx, 4
   | movss xmm1, dword [rcx] // cos
   | add rcx, 4
-  | movaps xmm2, xmm1 // cos
-  | shufps xmm2, xmm2, _MM_SHUFFLE(0, 0, 0, 0)
-  | movaps xmm3, xmm0 // sin
-  | shufps xmm3, xmm3, _MM_SHUFFLE(0, 0, 0, 0)
-  | movaps xmm4, [r8] // first column
-  | mulps xmm2, xmm4 // m0X * rm00
-  | movaps xmm5, [r8+4*4] // second column
-  | mulps xmm3, xmm5 // m1X * rm01
-  | addps xmm2, xmm3
-  | movaps xmm3, xmm0
-  | movss xmm5, dword [val]
-  | subss xmm3, xmm5
-  | shufps xmm3, xmm3, _MM_SHUFFLE(0, 0, 0, 0)
-  // TODO: incomplete yet!!!!
+  | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
+  | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
+  | xorps xmm2, xmm2
+  | subps xmm2, xmm0 // -sin
+  | movaps xmm3, [r8]
+  | mulps xmm3, xmm1 // m0X * rm00
+  | movaps xmm4, [r8+4*4]
+  | mulps xmm4, xmm0 // m1X * rm01
+  | addps xmm3, xmm4
+  | movaps xmm4, [r8]
+  | mulps xmm4, xmm2 // m0X * rm10
+  | movaps xmm5, [r8+4*4]
+  | mulps xmm5, xmm1 // m1X * rm11
+  | addps xmm4, xmm5
+  | movaps [r8], xmm3
+  | movaps [r8+4*4], xmm4
 }
 
 static void vector_negate(dasm_State** Dst) {
