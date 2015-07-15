@@ -279,15 +279,17 @@ public class Sequence {
         return this;
     }
 
-    public void free() {
-        if (Native.free(functionAddr, codeSize) != 1) {
-            throw new IllegalStateException("could not free Sequence");
+    public void clear() {
+        if (terminated) {
+            if (Native.free(functionAddr, codeSize) != 1) {
+                throw new IllegalStateException("could not free Sequence");
+            }
+            functionAddr = 0L;
+            terminated = false;
+            codeSize = 0;
         }
-        functionAddr = 0L;
-        terminated = false;
         operations.clear();
         arguments.clear();
-        codeSize = 0;
     }
 
 }

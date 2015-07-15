@@ -148,7 +148,7 @@ public class NativeMatrix4fTest extends TestCase {
             nm.mul(nm2);
             seq.call();
         }
-        seq.free();
+        seq.clear();
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
         Matrix4f expected = new Matrix4f();
