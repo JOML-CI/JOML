@@ -149,6 +149,34 @@ glMatrixMode(GL_MODELVIEW);
 glLoadMatrixf(fb);
 ```
 
+Using with [JOGL](http://jogamp.org/jogl/www/)
+---------------------------------------------------
+JOML can be used together with JOGL to build a transformation matrix and set it as a uniform mat4 in a shader (for example as a replacement of com.jogamp.opengl.util.glsl.fixedfunc.FixedFuncUtil and com.jogamp.opengl.util.PMVMatrix to emulate the fixed pipeline). For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by JOGL when calling into OpenGL:
+```Java
+FloatBuffer fb = Buffers.newDirectFloatBuffer(16);
+new Matrix4f().perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
+              .lookAt(0.0f, 0.0f, 10.0f,
+                      0.0f, 0.0f, 0.0f,
+                      0.0f, 1.0f, 0.0f)
+              .get(fb);
+gl.glUniformMatrix4fv(mat4Location, 16, false, fb);
+```
+The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the JOGL 2 method [*glUniformMatrix4fv*](http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/GL2ES2.html#glUniformMatrix4fv(int,%20int,%20boolean,%20java.nio.FloatBuffer)).
+
+If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call [*glLoadMatrixf()*](http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/fixedfunc/GLMatrixFunc.html#glLoadMatrixf(java.nio.FloatBuffer)) provided by JOGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
+```Java
+FloatBuffer fb = Buffers.newDirectFloatBuffer(16);
+Matrix4f m = new Matrix4f();
+m.setPerspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f).get(fb);
+gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
+gl.glLoadMatrixf(fb);
+m.setLookAt(0.0f, 0.0f, 10.0f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f).get(fb);
+gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
+gl.glLoadMatrixf(fb);
+```
+
 Staying allocation-free
 -----------------------
 JOML is designed to be completely allocation-free for all methods. That means JOML will never allocate Java objects on the heap unless you as the client specifically requests to do so via the *new* keyword when creating a new matrix or vector or calling the *toString()* method on them.
