@@ -198,21 +198,23 @@ public class NativeMatrix4f {
     public static void main(String[] args) {
         NativeVector4f nv = new NativeVector4f(1.0f, 2.0f, 3.0f);
         NativeMatrix4f nm = new NativeMatrix4f();
+        for (int i = 0; i < 1000; i++)
         nm.rotateZ(0.1263f);
         Sequence seq = nm.terminate();
         long time1 = System.nanoTime();
         seq.call();
+        long time2 = System.nanoTime();
         Matrix4f m = new Matrix4f().rotateZ(0.1263f);
         System.err.println(m);
         nm.get(m);
         System.err.println(m.toString());
-        long time2 = System.nanoTime();
         System.err.println("SSE result (" + (time2 - time1) / 1E3 + " µs):");
         
         Vector4f v = new Vector4f(1, 2, 3, 1);
         time1 = System.nanoTime();
-        for (int i = 0; i < 500000; i++)
-            v.negate();
+        Matrix4f m2 = new Matrix4f();
+        for (int i = 0; i < 1000; i++)
+            m2.rotateZ(0.1263f);
         time2 = System.nanoTime();
         System.err.println("JOML result (" + (time2 - time1) / 1E3 + " µs):");
     }
