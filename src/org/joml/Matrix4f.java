@@ -1519,32 +1519,55 @@ public class Matrix4f implements Externalizable {
     public Matrix4f translationRotateScale(float tx, float ty, float tz, 
                                            float qx, float qy, float qz, float qw, 
                                            float sx, float sy, float sz) {
-        float dqx = 2.0f * qx, dqy = 2.0f * qy, dqz = 2.0f * qz;
+        // | movaps q2, q
+        // | addps q2, q2
+        float dqx = 2.0f * qx;
+        float dqy = 2.0f * qy;
+        float dqz = 2.0f * qz;
+        float dqw = 2.0f * qw;
+
+        // | movaps qm, q2
+        // | shufps qm, qm, _MM_SHUFFLE(0, 1, 2, 0)
+        // | mulps qm, q
         float q00 = dqx * qx;
         float q11 = dqy * qy;
         float q22 = dqz * qz;
+        float q04 = dqx * qw;
+
+        // | movaps qs, q
+        // | shufps qs, qs, _MM_SHUFFLE(1, 2, 3, 0)
+        // | mulaps qs, q
         float q01 = dqx * qy;
         float q02 = dqx * qz;
         float q03 = dqx * qw;
+        float q_  = dqx * qx;
+
+        // | movaps qp, q
+        // | movaps qr, q2
+        // | shufps qp, qp, _MM_SHUFFLE(2, 3, 3, 2)
+        // | shufps qr, qr, _MM_SHUFFLE(1, 1, 2, 2)
+        // | mulaps qr, qp
         float q12 = dqy * qz;
         float q13 = dqy * qw;
         float q23 = dqz * qw;
+        float q__ = dqz * qz;
+
         m00 = sx - (q11 + q22) * sx;
+        m11 = sy - (q22 + q00) * sy;
+        m22 = sz - (q11 + q00) * sz;
+        m33 = 1.0f;
         m01 = (q01 + q23) * sx;
         m02 = (q02 - q13) * sx;
         m03 = 0.0f;
         m10 = (q01 - q23) * sy;
-        m11 = sy - (q22 + q00) * sy;
         m12 = (q12 + q03) * sy;
         m13 = 0.0f;
         m20 = (q02 + q13) * sz;
         m21 = (q12 - q03) * sz;
-        m22 = sz - (q11 + q00) * sz;
         m23 = 0.0f;
         m30 = tx;
         m31 = ty;
         m32 = tz;
-        m33 = 1.0f;
         return this;
     }
 

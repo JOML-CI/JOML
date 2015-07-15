@@ -160,14 +160,16 @@ static void translation_rotate_scale(dasm_State** Dst) {
   | add rcx, 16
   // store translation in xmm0
   | movaps xmm0, [rcx]
-  | add rcx, sizeof(float)*4
+  | add rcx, 16
   // store quaternion in xmm1
   | movaps xmm1, [rcx]
-  | add rcx, sizeof(float)*4
+  | add rcx, 16
   // store scale in xmm2
   | movaps xmm2, [rcx]
-  | add rcx, sizeof(float)*4
+  | add rcx, 16
+
   
+
   // TODO: Here we need to actually do what Matrix4f.translationRotateScale() does,
   //       just only better.
 }
