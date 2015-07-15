@@ -427,6 +427,7 @@ static void matrix_scale(dasm_State** Dst) {
   | add rcx, 8
   // get scale factor (x, y, z, 1)
   | movaps xmm0, [rcx]
+  | add rcx, 16
   | movaps xmm1, xmm0
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   | movaps xmm2, [r8]
