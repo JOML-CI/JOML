@@ -13,26 +13,26 @@ public class NativeVector4f {
 
     public NativeVector4f() {
         this.buffer = ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder());
-        this.bufferAddress = NativeUtil.addressOf(buffer);
+        this.bufferAddress = Native.addressOf(buffer);
     }
 
     public NativeVector4f(float x, float y, float z, float w) {
         ByteBuffer bb = ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder());
         bb.putFloat(x).putFloat(y).putFloat(z).putFloat(w).rewind();
         this.buffer = bb;
-        this.bufferAddress = NativeUtil.addressOf(buffer);
+        this.bufferAddress = Native.addressOf(buffer);
     }
 
     public NativeVector4f(float x, float y, float z) {
         ByteBuffer bb = ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder());
         bb.putFloat(x).putFloat(y).putFloat(z).putFloat(1.0f).rewind();
         this.buffer = bb;
-        this.bufferAddress = NativeUtil.addressOf(buffer);
+        this.bufferAddress = Native.addressOf(buffer);
     }
 
     public NativeVector4f(Buffer buffer, long offsetIn16Bytes) {
         this.buffer = buffer;
-        bufferAddress = NativeUtil.addressOf(buffer) + 16 * offsetIn16Bytes;
+        bufferAddress = Native.addressOf(buffer) + 16 * offsetIn16Bytes;
     }
 
     public String toString() {

@@ -21,27 +21,11 @@ import java.nio.FloatBuffer;
  * @author Kai Burjack
  */
 public class NativeMatrix4f {
-    static {
-        System.loadLibrary("joml");
-    }
-
-    public static final byte OPCODE_MUL_MATRIX = 0x01;
-    public static final byte OPCODE_MUL_VECTOR = 0x02;
-    public static final byte OPCODE_TRANSPOSE = 0x03;
-    public static final byte OPCODE_INVERT = 0x04;
-    public static final byte OPCODE_TRANSLATION_ROTATE_SCALE = 0x05;
-    public static final byte OPCODE_ROTATEZ = 0x06;
-    public static final byte OPCODE_VECTOR_NEGATE = 0x07;
-    public static final byte OPCODE_MATRIX_ROTATE_QUATERNION = 0x08;
-
-    long sequenceFunction;
-
-    ByteBuffer operations;
-    ByteBuffer arguments;
     Buffer matrixBuffer;
     long matrixBufferAddr;
+    Sequence sequence;
 
-    public NativeMatrix4f() {
+    public NativeMatrix4f(Sequence sequence) {
         ByteBuffer bb = ByteBuffer.allocateDirect(4 * 16).order(ByteOrder.nativeOrder());
         FloatBuffer fb = bb.asFloatBuffer();
         fb.put(0, 1.0f);
@@ -49,148 +33,72 @@ public class NativeMatrix4f {
         fb.put(10, 1.0f);
         fb.put(15, 1.0f);
         this.matrixBuffer = bb;
-        this.matrixBufferAddr = NativeUtil.addressOf(matrixBuffer);
-        int initialNumOfOperations = 8;
-        operations = ByteBuffer.allocateDirect(initialNumOfOperations);
-        int avgArgumentSizePerOperation = 2 * 8;
-        arguments = ByteBuffer.allocateDirect(avgArgumentSizePerOperation * initialNumOfOperations).order(
-                ByteOrder.nativeOrder());
+        this.matrixBufferAddr = Native.addressOf(matrixBuffer);
+        this.sequence = sequence;
     }
 
-    public NativeMatrix4f(Buffer matrixBuffer, long offsetIn16Bytes) {
+    public NativeMatrix4f(Buffer matrixBuffer, long offsetIn16Bytes, Sequence sequence) {
         super();
         this.matrixBuffer = matrixBuffer;
-        this.matrixBufferAddr = NativeUtil.addressOf(matrixBuffer) + offsetIn16Bytes * 16;
-        int initialNumOfOperations = 8;
-        operations = ByteBuffer.allocateDirect(initialNumOfOperations);
-        int avgArgumentSizePerOperation = 2 * 8;
-        arguments = ByteBuffer.allocateDirect(avgArgumentSizePerOperation * initialNumOfOperations).order(
-                ByteOrder.nativeOrder());
-    }
-
-    private void ensureOperationsSize(int size) {
-        if (operations.remaining() < size) {
-            int newCap = operations.capacity() * 2;
-            ByteBuffer newOperations = ByteBuffer.allocateDirect(newCap);
-            operations.rewind();
-            newOperations.put(operations);
-            operations = newOperations;
-        }
-    }
-
-    private void ensureArgumentsSize(int size) {
-        if (arguments.remaining() < size) {
-            int newCap = arguments.capacity() * 2;
-            ByteBuffer newArguments = ByteBuffer.allocateDirect(newCap).order(ByteOrder.nativeOrder());
-            arguments.rewind();
-            newArguments.put(arguments);
-            arguments = newArguments;
-        }
-    }
-
-    private void putOperation(byte opcode) {
-        ensureOperationsSize(1);
-        operations.put(opcode);
-    }
-
-    private NativeMatrix4f putArg(long val) {
-        ensureArgumentsSize(8);
-        arguments.putLong(val);
-        return this;
-    }
-
-    private NativeMatrix4f putArg(int val) {
-        ensureArgumentsSize(4);
-        arguments.putInt(val);
-        return this;
-    }
-
-    private NativeMatrix4f putArg(float val) {
-        ensureArgumentsSize(4);
-        arguments.putFloat(val);
-        return this;
+        this.matrixBufferAddr = Native.addressOf(matrixBuffer) + offsetIn16Bytes * 16;
+        this.sequence = sequence;
     }
 
     public NativeMatrix4f mul(NativeMatrix4f m) {
-        return mul(m, this);
+        sequence.mul(this, m);
+        return this;
     }
 
     public NativeMatrix4f mul(NativeMatrix4f m, NativeMatrix4f dest) {
-        putOperation(OPCODE_MUL_MATRIX);
-        putArg(matrixBufferAddr);
-        putArg(m.matrixBufferAddr);
-        putArg(dest.matrixBufferAddr);
-        putArg(0L);
+        sequence.mul(this, m, dest);
         return this;
     }
 
     public NativeMatrix4f transform(NativeVector4f v) {
-        return mul(v, v);
+        sequence.transform(this, v);
+        return this;
     }
 
-    public NativeMatrix4f mul(NativeVector4f v, NativeVector4f dest) {
-        putOperation(OPCODE_MUL_VECTOR);
-        putArg(v.bufferAddress);
-        putArg(matrixBufferAddr);
-        putArg(dest.bufferAddress);
-        putArg(0L);
+    public NativeMatrix4f transform(NativeVector4f v, NativeVector4f dest) {
+        sequence.transform(this, v, dest);
         return this;
     }
 
     public NativeMatrix4f rotateZ(float angle) {
-        return rotateZ(angle, this);
+        sequence.rotateZ(this, angle);
+        return this;
     }
 
     public NativeMatrix4f rotateZ(float angle, NativeMatrix4f dest) {
-        putOperation(OPCODE_ROTATEZ);
-        putArg(matrixBufferAddr);
-        putArg((float) Math.sin(angle));
-        putArg((float) Math.cos(angle));
-        putArg(dest.matrixBufferAddr);
-        putArg(0L);
+        sequence.rotateZ(this, angle, dest);
         return this;
     }
 
     public NativeMatrix4f transpose() {
-        return transpose(this);
-    }
-
-    public NativeMatrix4f transpose(NativeMatrix4f dest) {
-        putOperation(OPCODE_TRANSPOSE);
-        putArg(matrixBufferAddr);
-        putArg(dest.matrixBufferAddr);
+        sequence.transpose(this);
         return this;
     }
 
-    public NativeMatrix4f negate(NativeVector4f v) {
-        putOperation(OPCODE_VECTOR_NEGATE);
-        putArg(v.bufferAddress);
-        putArg(v.bufferAddress);
+    public NativeMatrix4f transpose(NativeMatrix4f dest) {
+        sequence.transpose(this, dest);
         return this;
     }
 
     public NativeMatrix4f translationRotateScale(
             float tx, float ty, float tz, 
-            float qx, float qy, float qz, float qw, 
+            float qx, float qy, float qz, float qw,
             float sx, float sy, float sz) {
-        putOperation(OPCODE_TRANSLATION_ROTATE_SCALE);
-        putArg(matrixBufferAddr);
-        // pad to ensure 16 byte alignment
-        putArg(0L);
-        // always put 4 floats for nice alignment for movaps
-        putArg(tx).putArg(ty).putArg(tz).putArg(0.0f);
-        putArg(qx).putArg(qy).putArg(qz).putArg(qw);
-        putArg(sx).putArg(sy).putArg(sz).putArg(1.0f);
-        putArg(matrixBufferAddr);
-        putArg(0L);
+        sequence.translationRotateScale(this, tx, ty, tz, qx, qy, qz, qw, sx, sy, sz);
+        return this;
+    }
+
+    public NativeMatrix4f rotate(float qx, float qy, float qz, float qw) {
+        sequence.rotate(this, qx, qy, qz, qw);
         return this;
     }
 
     public NativeMatrix4f rotate(float qx, float qy, float qz, float qw, NativeMatrix4f dest) {
-        putOperation(OPCODE_MATRIX_ROTATE_QUATERNION);
-        putArg(matrixBufferAddr);
-        putArg(0L);
-        putArg(qx).putArg(qy).putArg(qz).putArg(qw);
+        sequence.rotate(this, qx, qy, qz, qw, dest);
         return this;
     }
 
@@ -218,31 +126,21 @@ public class NativeMatrix4f {
         return this;
     }
 
-    public Sequence terminate() {
-        operations.flip();
-        sequenceFunction = Jit.jit(NativeUtil.addressOf(operations) + operations.position(), operations.remaining());
-        operations.clear();
-        Sequence seq = new Sequence(sequenceFunction);
-        seq.setArguments(arguments);
-        return seq;
-    }
-
     public static void main(String[] args) {
-        NativeVector4f nv = new NativeVector4f(1.0f, 2.0f, 3.0f);
-        NativeMatrix4f nm = new NativeMatrix4f();
+        Sequence seq = new Sequence();
+        NativeMatrix4f nm = new NativeMatrix4f(seq);
         for (int i = 0; i < 1000; i++)
             nm.rotateZ(0.1263f);
-        Sequence seq = nm.terminate();
+        seq.terminate();
         long time1 = System.nanoTime();
         for (int i = 0; i < 100; i++)
-        seq.call();
+            seq.call();
         long time2 = System.nanoTime();
         Matrix4f m = new Matrix4f();
         nm.get(m);
         System.err.println("SSE result (" + (time2 - time1) / 1E3 + " µs):");
         System.err.println(m.toString());
-        
-        Vector4f v = new Vector4f(1, 2, 3, 1);
+
         time1 = System.nanoTime();
         Matrix4f m2 = new Matrix4f();
         for (int i = 0; i < 1000 * 100; i++)
