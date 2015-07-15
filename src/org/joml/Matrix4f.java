@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.text.DecimalFormat;
@@ -707,6 +708,39 @@ public class Matrix4f implements Externalizable {
         m31 = buffer.get(pos+13);
         m32 = buffer.get(pos+14);
         m33 = buffer.get(pos+15);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 16 float values from the given {@link ByteBuffer} in column-major order,
+     * starting at its current position.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix4f set(ByteBuffer buffer) {
+        int pos = buffer.position();
+        m00 = buffer.getFloat(pos);
+        m01 = buffer.getFloat(pos+4);
+        m02 = buffer.getFloat(pos+8);
+        m03 = buffer.getFloat(pos+12);
+        m10 = buffer.getFloat(pos+16);
+        m11 = buffer.getFloat(pos+20);
+        m12 = buffer.getFloat(pos+24);
+        m13 = buffer.getFloat(pos+28);
+        m20 = buffer.getFloat(pos+32);
+        m21 = buffer.getFloat(pos+36);
+        m22 = buffer.getFloat(pos+40);
+        m23 = buffer.getFloat(pos+44);
+        m30 = buffer.getFloat(pos+48);
+        m31 = buffer.getFloat(pos+52);
+        m32 = buffer.getFloat(pos+56);
+        m33 = buffer.getFloat(pos+60);
         return this;
     }
 
