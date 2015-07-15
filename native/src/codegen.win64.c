@@ -466,7 +466,7 @@ static void matrix_identity(dasm_State** Dst) {
   // obtain matrix address
   //| mov r8, [rcx]
   //| add rcx, 16
-  //| mov r9, 0x3f800000
+  //| mov r9, 0x3f800000 // int representation of 1.0f
   //| movd xmm0, r9
   //| movaps xmm1, xmm0
   //| shufps xmm1, xmm1, 0x93
