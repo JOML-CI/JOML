@@ -131,12 +131,18 @@ public class NativeMatrix4f {
         return this;
     }
 
+    public NativeMatrix4f identity() {
+        sequence.identity(this);
+        return this;
+    }
+
     public static void main(String[] args) {
         Sequence seq = new Sequence();
         ByteBuffer bb = ByteBuffer.allocateDirect(4 * 16).order(ByteOrder.nativeOrder());
         NativeMatrix4f nm = new NativeMatrix4f(seq);
         {
-            nm.rotateZ(0.1263f);
+            //nm.rotateZ(0.1263f);
+            nm.identity();
             nm.get(bb);
         }
         seq.terminate();

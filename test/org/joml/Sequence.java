@@ -14,6 +14,7 @@ public class Sequence {
     public static final byte OPCODE_VECTOR_NEGATE = 0x07;
     public static final byte OPCODE_MATRIX_ROTATE_QUATERNION = 0x08;
     public static final byte OPCODE_MATRIX_GET = 0x09;
+    public static final byte OPCODE_MATRIX_IDENTITY = 0x0A;
 
     ByteBuffer operations;
     long operationsAddr;
@@ -164,6 +165,13 @@ public class Sequence {
         putOperation(OPCODE_MATRIX_GET);
         putArg(matrix.matrixBufferAddr);
         putArg(Native.addressOf(buffer) + buffer.position());
+        return this;
+    }
+
+    public Sequence identity(NativeMatrix4f matrix) {
+        putOperation(OPCODE_MATRIX_IDENTITY);
+        putArg(matrix.matrixBufferAddr);
+        putArg(0L);
         return this;
     }
 

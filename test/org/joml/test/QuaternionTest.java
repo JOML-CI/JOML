@@ -31,4 +31,8 @@ public class QuaternionTest extends TestCase {
 		assertTrue(TestUtil.quatEqual(resultQuat, wantedResultQuat, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT));
 	}
 
+	public static void main(String[] args) {
+        System.err.println(Integer.toString(Float.floatToRawIntBits(1.0f), 16));
+    }
+	
 }
