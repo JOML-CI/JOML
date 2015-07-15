@@ -126,24 +126,31 @@ public class NativeMatrix4f {
         return this;
     }
 
+    public NativeMatrix4f get(ByteBuffer buffer) {
+        sequence.get(this, buffer);
+        return this;
+    }
+
     public static void main(String[] args) {
         Sequence seq = new Sequence();
+        ByteBuffer bb = ByteBuffer.allocateDirect(4 * 16).order(ByteOrder.nativeOrder());
         NativeMatrix4f nm = new NativeMatrix4f(seq);
-        for (int i = 0; i < 1000; i++)
+        {
             nm.rotateZ(0.1263f);
+            nm.get(bb);
+        }
         seq.terminate();
         long time1 = System.nanoTime();
         for (int i = 0; i < 100; i++)
             seq.call();
         long time2 = System.nanoTime();
-        Matrix4f m = new Matrix4f();
-        nm.get(m);
+        Matrix4f m = new Matrix4f(bb.asFloatBuffer());
         System.err.println("SSE result (" + (time2 - time1) / 1E3 + " µs):");
         System.err.println(m.toString());
 
         time1 = System.nanoTime();
         Matrix4f m2 = new Matrix4f();
-        for (int i = 0; i < 1000 * 100; i++)
+        for (int i = 0; i < 100; i++)
             m2.rotateZ(0.1263f);
         time2 = System.nanoTime();
         System.err.println("JOML result (" + (time2 - time1) / 1E3 + " µs):");
