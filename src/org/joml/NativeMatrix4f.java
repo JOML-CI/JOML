@@ -124,8 +124,7 @@ public class NativeMatrix4f {
     public NativeMatrix4f set(Matrix4f m) {
         if (matrixBuffer instanceof ByteBuffer) {
             ByteBuffer byteBuffer = (ByteBuffer) matrixBuffer;
-            FloatBuffer fb = byteBuffer.asFloatBuffer();
-            m.get(fb);
+            m.get(byteBuffer);
         } else if (matrixBuffer instanceof FloatBuffer) {
             FloatBuffer floatBuffer = (FloatBuffer) matrixBuffer;
             m.get(floatBuffer);

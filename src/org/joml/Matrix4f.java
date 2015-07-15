@@ -1160,6 +1160,59 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given
+     * ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
+    public Matrix4f get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix4f get(int index, ByteBuffer buffer) {
+        buffer.putFloat(index, m00);
+        buffer.putFloat(index+4, m01);
+        buffer.putFloat(index+8, m02);
+        buffer.putFloat(index+12, m03);
+        buffer.putFloat(index+16, m10);
+        buffer.putFloat(index+20, m11);
+        buffer.putFloat(index+24, m12);
+        buffer.putFloat(index+28, m13);
+        buffer.putFloat(index+32, m20);
+        buffer.putFloat(index+36, m21);
+        buffer.putFloat(index+40, m22);
+        buffer.putFloat(index+44, m23);
+        buffer.putFloat(index+48, m30);
+        buffer.putFloat(index+52, m31);
+        buffer.putFloat(index+56, m32);
+        buffer.putFloat(index+60, m33);
+        return this;
+    }
+
+    /**
      * Store this matrix into the supplied float array in column-major order.
      * 
      * @param arr
