@@ -447,6 +447,48 @@ static void matrix_scale(dasm_State** Dst) {
   | movaps [r9+4*12], xmm1
 }
 
+static void matrix_translate(dasm_State** Dst) {
+/*
+        dest.m30 = m00 * x + m10 * y + m20 * z + m30;
+        dest.m31 = m01 * x + m11 * y + m21 * z + m31;
+        dest.m32 = m02 * x + m12 * y + m22 * z + m32;
+        dest.m33 = m03 * x + m13 * y + m23 * z + m33;
+*/
+  |->matrix_translate:
+  // obtain matrix address
+  | mov r8, [rcx]
+  | add rcx, 8
+  // obtain dest matrix address
+  | mov r9, [rcx]
+  | add rcx, 8
+  // get translation (x, y, z, 1)
+  | movaps xmm0, [rcx]
+  | add rcx, 16
+  | movaps xmm1, xmm0
+  | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
+  | movaps xmm2, [r8]
+  | mulps xmm2, xmm1 // m0X * x
+  | movaps xmm1, xmm0
+  | shufps xmm1, xmm1, _MM_SHUFFLE(1, 1, 1, 1)
+  | movaps xmm3, [r8+4*4]
+  | mulps xmm3, xmm1 // m1X * y
+  | addps xmm2, xmm3 // +
+  | movaps xmm1, xmm0
+  | shufps xmm1, xmm1, _MM_SHUFFLE(2, 2, 2, 2)
+  | movaps xmm3, [r8+4*8]
+  | mulps xmm3, xmm1 // m2X * z
+  | addps xmm2, xmm3 // +
+  | movaps xmm1, [r8+4*12]
+  | addps xmm2, xmm1 // + m3N
+  | movaps xmm0, [r8]
+  | movaps [r9], xmm0
+  | movaps xmm1, [r8+4*4]
+  | movaps [r9+4*4], xmm1
+  | movaps xmm0, [r8+4*8]
+  | movaps [r9+4*8], xmm0
+  | movaps [r9+4*12], xmm2
+}
+
 batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
   dasm_State* state;
   dasm_State** Dst = &state;
@@ -458,7 +500,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
   char op_generated[] =
   {0, 0, 0, 0, 0,
    0, 0, 0, 0, 0, 
-   0, 0, 0};
+   0, 0, 0, 0};
   dasm_init(&state, DASM_MAXSECTION);
   dasm_setupglobal(&state, global_labels, GLOB__MAX);
   dasm_setup(&state, actionlist);
@@ -563,6 +605,14 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         matrix_scale(&state);
         | jmp rdx
         op_generated[12] = 1;
+      }
+      break;
+    case 0x0E: // OPCODE_MATRIX_TRANSLATE
+      | jmp ->matrix_translate
+      if (!op_generated[13]) {
+        matrix_translate(&state);
+        | jmp rdx
+        op_generated[13] = 1;
       }
       break;
     default:

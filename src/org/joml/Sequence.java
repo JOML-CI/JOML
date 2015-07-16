@@ -48,6 +48,7 @@ public class Sequence {
     public static final byte OPCODE_MATRIX_ROTATEX = 0x0B;
     public static final byte OPCODE_MATRIX_ROTATEY = 0x0C;
     public static final byte OPCODE_MATRIX_SCALE = 0x0D;
+    public static final byte OPCODE_MATRIX_TRANSLATE = 0x0E;
 
     int maxOperationsCount = 8192;
     ByteBuffer codeSizeBuffer = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder());
@@ -297,6 +298,18 @@ public class Sequence {
 
     public Sequence scale(NativeMatrix4f matrix, float x, float y, float z, NativeMatrix4f dest) {
         putOperation(OPCODE_MATRIX_SCALE);
+        putArg(matrix.matrixBufferAddr);
+        putArg(dest.matrixBufferAddr);
+        putArg(x).putArg(y).putArg(z).putArg(1.0f);
+        return this;
+    }
+
+    public Sequence translate(NativeMatrix4f matrix, float x, float y, float z) {
+        return translate(matrix, x, y, z, matrix);
+    }
+
+    public Sequence translate(NativeMatrix4f matrix, float x, float y, float z, NativeMatrix4f dest) {
+        putOperation(OPCODE_MATRIX_TRANSLATE);
         putArg(matrix.matrixBufferAddr);
         putArg(dest.matrixBufferAddr);
         putArg(x).putArg(y).putArg(z).putArg(1.0f);
