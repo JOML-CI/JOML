@@ -159,7 +159,7 @@ new Matrix4f().perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
                       0.0f, 0.0f, 0.0f,
                       0.0f, 1.0f, 0.0f)
               .get(fb);
-gl.glUniformMatrix4fv(mat4Location, 16, false, fb);
+gl.glUniformMatrix4fv(mat4Location, 1, false, fb);
 ```
 The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the JOGL 2 method [*glUniformMatrix4fv*](http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/GL2ES2.html#glUniformMatrix4fv(int,%20int,%20boolean,%20java.nio.FloatBuffer)).
 
