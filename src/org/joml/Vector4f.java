@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015 The JOML Authors
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
