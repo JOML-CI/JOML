@@ -49,6 +49,7 @@ public class Sequence {
     public static final byte OPCODE_MATRIX_ROTATEY = 0x0C;
     public static final byte OPCODE_MATRIX_SCALE = 0x0D;
 
+    int maxOperationsCount = 8192;
     ByteBuffer codeSizeBuffer = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder());
     ByteBuffer operations;
     long operationsAddr;
@@ -59,10 +60,18 @@ public class Sequence {
     boolean terminated;
 
     public Sequence() {
-        operations = ByteBuffer.allocateDirect(32 * 16);
+        operations = ByteBuffer.allocateDirect(32);
         operationsAddr = Native.addressOf(operations);
         arguments = ByteBuffer.allocateDirect(32 * 16 * 4).order(ByteOrder.nativeOrder());
         argumentsAddr = Native.addressOf(arguments);
+    }
+
+    public int getMaxNumOperations() {
+        return maxOperationsCount;
+    }
+
+    public void setMaxOperationsCount(int maxOperationsCount) {
+        this.maxOperationsCount = maxOperationsCount;
     }
 
     private void ensureOperationsSize(int size) {
@@ -99,6 +108,9 @@ public class Sequence {
                 throw new IllegalStateException("wrong sequence");
             }
             return this;
+        }
+        if (operations.position() >= maxOperationsCount) {
+            throw new IllegalStateException("max operations reached");
         }
         ensureOperationsSize(1);
         operations.put(opcode);
