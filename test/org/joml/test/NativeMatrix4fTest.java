@@ -1,5 +1,7 @@
 package org.joml.test;
 
+import java.nio.ByteBuffer;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -125,6 +127,21 @@ public class NativeMatrix4fTest extends TestCase {
                 nm.identity();
                 nm.rotateX(0.0f);
                 Assert.fail("Should have thrown IllegalStateException: wrong sequence");
+            } catch (IllegalStateException e) {
+            }
+        }
+    }
+
+    public void testUserSuppliedByteBufferOverFull() {
+        ByteBuffer operations = ByteBuffer.allocateDirect(1);
+        ByteBuffer arguments = ByteBuffer.allocateDirect(16);
+        Sequence seq = new Sequence(operations, arguments);
+        NativeMatrix4f nm = new NativeMatrix4f(seq);
+        {
+            try {
+                nm.identity();
+                nm.identity();
+                Assert.fail("Should have thrown IllegalStateException: operations buffer full");
             } catch (IllegalStateException e) {
             }
         }

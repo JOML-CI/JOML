@@ -58,12 +58,39 @@ public class Sequence {
     long functionAddr;
     int codeSize;
     boolean terminated;
+    boolean mayExpand;
 
+    /**
+     * Create a new {@link Sequence} using the given {@link ByteBuffer} to store the <code>operations</code> as well as another to store the <code>arguments</code>.
+     * <p>
+     * The Sequence will not allocate a new ByteBuffer for either of them once their limit is reached.
+     * For the operations and arguments to be able to grow dynamically, use the no-args constructor {@link #Sequence()}.
+     * 
+     * @param operations
+     *              a user-provided ByteBuffer to hold the operation opcodes
+     * @param arguments
+     *              a user-provided ByteBuffer for the operation's actual arguments
+     */
+    public Sequence(ByteBuffer operations, ByteBuffer arguments) {
+        this.operations = operations.slice();
+        this.arguments = arguments.slice();
+    }
+
+    /**
+     * Create a new {@link Sequence} by allocating a {@link ByteBuffer} to hold the operations and one to hold
+     * the actual arguments.
+     * <p>
+     * Each ByteBuffer can grow dynamically.
+     * <p>
+     * It is also possible to make the Sequence use provided ByteBuffers by using the {@link #Sequence(ByteBuffer, ByteBuffer)}
+     * constructor.  
+     */
     public Sequence() {
         operations = ByteBuffer.allocateDirect(32);
         operationsAddr = Native.addressOf(operations);
         arguments = ByteBuffer.allocateDirect(32 * 16 * 4).order(ByteOrder.nativeOrder());
         argumentsAddr = Native.addressOf(arguments);
+        mayExpand = true;
     }
 
     public int getMaxNumOperations() {
@@ -76,6 +103,9 @@ public class Sequence {
 
     private void ensureOperationsSize(int size) {
         if (operations.remaining() < size) {
+            if (!mayExpand) {
+                throw new IllegalStateException("operations buffer full");
+            }
             int newCap = operations.capacity() * 2;
             ByteBuffer newOperations = ByteBuffer.allocateDirect(newCap);
             operations.rewind();
@@ -87,6 +117,9 @@ public class Sequence {
 
     private void ensureArgumentsSize(int size) {
         if (arguments.remaining() < size) {
+            if (!mayExpand) {
+                throw new IllegalStateException("arguments buffer full");
+            }
             int newCap = arguments.capacity() * 2;
             ByteBuffer newArguments = ByteBuffer.allocateDirect(newCap).order(ByteOrder.nativeOrder());
             arguments.rewind();
@@ -286,7 +319,7 @@ public class Sequence {
         if (!terminated) {
             terminate();
         }
-        operations.rewind();
+        operations.clear();
         Native.call(functionAddr, argumentsAddr);
         return this;
     }
