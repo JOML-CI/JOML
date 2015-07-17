@@ -100,12 +100,12 @@ public class NativeMatrix4fTest extends TestCase {
         NativeMatrix4f nm = new NativeMatrix4f(seq);
         {
             nm.identity();
-            nm.translate(2.0f, 3.0f, 4.0f);
+            nm.translate(2.0f, 3.0f, 4.0f).translate(1.0f, -5.0f, 0.5f);
         }
         seq.call();
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
-        Matrix4f expected = new Matrix4f().translate(2.0f, 3.0f, 4.0f);
+        Matrix4f expected = new Matrix4f().translate(2.0f, 3.0f, 4.0f).translate(1.0f, -5.0f, 0.5f);
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
     }
 

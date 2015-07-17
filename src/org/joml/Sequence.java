@@ -415,26 +415,42 @@ public class Sequence {
         return this;
     }
 
-    public Sequence scale(NativeMatrix4f matrix, float x, float y, float z) {
-        return scale(matrix, x, y, z, matrix);
-    }
-
-    public Sequence scale(NativeMatrix4f matrix, float x, float y, float z, NativeMatrix4f dest) {
-        putOperation(OPCODE_MATRIX_SCALE);
-        putArg(matrix.matrixBufferAddr);
-        putArg(dest.matrixBufferAddr);
-        putArg(x).putArg(y).putArg(z).putArg(1.0f);
-        return this;
-    }
-
     public Sequence translate(NativeMatrix4f matrix, float x, float y, float z) {
         return translate(matrix, x, y, z, matrix);
     }
 
     public Sequence translate(NativeMatrix4f matrix, float x, float y, float z, NativeMatrix4f dest) {
-        putOperation(OPCODE_MATRIX_TRANSLATE);
-        putArg(matrix.matrixBufferAddr);
-        putArg(dest.matrixBufferAddr);
+        byte mask = 0x00;
+        loadFirst(matrix.matrixBufferAddr);
+        if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
+            mask |= OPCODE_MASK_TO_SECOND;
+            storeSecond();
+            second = dest.matrixBufferAddr;
+            secondInSync = false;
+        } else {
+            firstInSync = false;
+        }
+        putOperation((byte) (OPCODE_MATRIX_TRANSLATE | mask));
+        putArg(x).putArg(y).putArg(z).putArg(0.0f);
+        return this;
+    }
+
+    public Sequence scale(NativeMatrix4f matrix, float x, float y, float z) {
+        return scale(matrix, x, y, z, matrix);
+    }
+
+    public Sequence scale(NativeMatrix4f matrix, float x, float y, float z, NativeMatrix4f dest) {
+        byte mask = 0x00;
+        loadFirst(matrix.matrixBufferAddr);
+        if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
+            mask |= OPCODE_MASK_TO_SECOND;
+            storeSecond();
+            second = dest.matrixBufferAddr;
+            secondInSync = false;
+        } else {
+            firstInSync = false;
+        }
+        putOperation((byte) (OPCODE_MATRIX_SCALE | mask));
         putArg(x).putArg(y).putArg(z).putArg(1.0f);
         return this;
     }
