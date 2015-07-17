@@ -265,35 +265,35 @@ static void prologue(dasm_State** Dst) {
   // save all non-volatile registers that we use
   //| sub rsp, 4*16*10 // xmm6-xmm15 are non-volatile
   //| movdqu [rsp], xmm6
-  //| movdqu [rsp-4*16], xmm7
-  //| movdqu [rsp-4*16*2], xmm8
-  //| movdqu [rsp-4*16*3], xmm9
-  //| movdqu [rsp-4*16*4], xmm10
-  //| movdqu [rsp-4*16*5], xmm11
-  //| movdqu [rsp-4*16*6], xmm12
-  //| movdqu [rsp-4*16*7], xmm13
-  //| movdqu [rsp-4*16*8], xmm14
-  //| movdqu [rsp-4*16*9], xmm15
-  dasm_put(Dst, 444, 4*16*10, -4*16, -4*16*2, -4*16*3, -4*16*4, -4*16*5, -4*16*6, -4*16*7, -4*16*8, -4*16*9);
+  //| movdqu [rsp+4*16], xmm7
+  //| movdqu [rsp+4*16*2], xmm8
+  //| movdqu [rsp+4*16*3], xmm9
+  //| movdqu [rsp+4*16*4], xmm10
+  //| movdqu [rsp+4*16*5], xmm11
+  //| movdqu [rsp+4*16*6], xmm12
+  //| movdqu [rsp+4*16*7], xmm13
+  //| movdqu [rsp+4*16*8], xmm14
+  //| movdqu [rsp+4*16*9], xmm15
+  dasm_put(Dst, 444, 4*16*10, 4*16, 4*16*2, 4*16*3, 4*16*4, 4*16*5, 4*16*6, 4*16*7, 4*16*8, 4*16*9);
 #line 186 "codegen_linear.dasc"
 }
 
 static void epilogue(dasm_State** Dst) {
   //| movdqu xmm6, [rsp]
-  //| movdqu xmm7, [rsp-4*16]
-  //| movdqu xmm8, [rsp-4*16*2]
-  //| movdqu xmm9, [rsp-4*16*3]
-  //| movdqu xmm10, [rsp-4*16*4]
-  //| movdqu xmm11, [rsp-4*16*5]
-  //| movdqu xmm12, [rsp-4*16*6]
-  //| movdqu xmm13, [rsp-4*16*7]
-  //| movdqu xmm14, [rsp-4*16*8]
-  //| movdqu xmm15, [rsp-4*16*9]
+  //| movdqu xmm7, [rsp+4*16]
+  //| movdqu xmm8, [rsp+4*16*2]
+  //| movdqu xmm9, [rsp+4*16*3]
+  //| movdqu xmm10, [rsp+4*16*4]
+  //| movdqu xmm11, [rsp+4*16*5]
+  //| movdqu xmm12, [rsp+4*16*6]
+  //| movdqu xmm13, [rsp+4*16*7]
+  //| movdqu xmm14, [rsp+4*16*8]
+  //| movdqu xmm15, [rsp+4*16*9]
   //| add rsp, 4*16*10
   //| mov rsp, rbp
   //| pop rbp
   //| ret
-  dasm_put(Dst, 536, -4*16, -4*16*2, -4*16*3, -4*16*4, -4*16*5, -4*16*6, -4*16*7, -4*16*8, -4*16*9, 4*16*10);
+  dasm_put(Dst, 536, 4*16, 4*16*2, 4*16*3, 4*16*4, 4*16*5, 4*16*6, 4*16*7, 4*16*8, 4*16*9, 4*16*10);
 #line 203 "codegen_linear.dasc"
 }
 
