@@ -248,6 +248,9 @@ public class Sequence {
         putOperation(OPCODE_STORE_FIRST);
         putArg(addr);
         putArg(0L);
+        if (addr == first) {
+            firstInSync = true;
+        }
     }
 
     private void storeSecond() {
@@ -261,6 +264,9 @@ public class Sequence {
         putOperation(OPCODE_STORE_SECOND);
         putArg(addr);
         putArg(0L);
+        if (addr == second) {
+            secondInSync = true;
+        }
     }
 
     public void set(NativeMatrix4f dst, NativeMatrix4f src) {
@@ -279,8 +285,8 @@ public class Sequence {
         } else {
             /* Neither of them is in registers */
             putOperation(OPCODE_COPY_MEM);
-            putArg(dst.matrixBufferAddr);
             putArg(src.matrixBufferAddr);
+            putArg(dst.matrixBufferAddr);
         }
     }
 
