@@ -12,12 +12,27 @@ import org.joml.Sequence;
 public class NativeMatrix4fTest extends TestCase {
 
     public void testIdentity() {
-        Sequence seq = new Sequence();
+        Sequence seq = new Sequence(90002);
         NativeMatrix4f nm = new NativeMatrix4f(seq);
         {
+            for (int i = 0; i < 90000; i++)
             nm.identity();
         }
         seq.call();
+        long time1 = System.nanoTime();
+        for (int i = 0; i < 10; i++) {
+        seq.call();
+        }
+        long time2 = System.nanoTime();
+        System.err.println((time2 - time1) / 1E3);
+        
+        Matrix4f m = new Matrix4f();
+        time1 = System.nanoTime();
+        for (int i = 0; i < 90000 * 10; i++)
+        m.identity();
+        time2 = System.nanoTime();
+        System.err.println((time2 - time1) / 1E3);
+        
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
         Matrix4f expected = new Matrix4f();
@@ -111,22 +126,31 @@ public class NativeMatrix4fTest extends TestCase {
     }
 
     public void testMulMatrix() {
-        Sequence seq = new Sequence();
+        Sequence seq = new Sequence(90008);
         NativeMatrix4f nm = new NativeMatrix4f(seq);
         NativeMatrix4f nm2 = new NativeMatrix4f(seq);
         {
-            nm.identity().rotateZ(0.123f);
-            nm2.identity().rotateZ(0.23f);
+            nm.identity();
+            nm2.identity();
+            for (int i = 0; i < 8192; i++)
             nm.mul(nm2);
         }
         seq.call();
-        Matrix4f actual = new Matrix4f();
-        nm.get(actual);
-        Matrix4f expected = new Matrix4f();
-        new Matrix4f()
-          .rotateZ(0.123f)
-          .mul(new Matrix4f().rotateZ(0.23f), expected);
-        TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
+        long time1 = System.nanoTime();
+        for (int i = 0; i < 1; i++) {
+        seq.call();
+        }
+        long time2 = System.nanoTime();
+        System.err.println((time2 - time1) / 1E3);
+        Matrix4f m = new Matrix4f();
+        Matrix4f m2 = new Matrix4f();
+        for (int i = 0; i < 10000000; i++)
+            m.mul(m2);
+        time1 = System.nanoTime();
+        for (int i = 0; i < 8192; i++)
+          m.mul(m2);
+        time2 = System.nanoTime();
+        System.err.println((time2 - time1) / 1E3);
     }
 
     public void testWrongSequence() {

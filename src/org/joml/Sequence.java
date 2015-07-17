@@ -96,7 +96,7 @@ public class Sequence {
 
     /**
      * Create a new {@link Sequence} by allocating a {@link ByteBuffer} to hold the operations and one to hold
-     * the actual arguments.
+     * the actual arguments and limiting the maximum number of operations to 8192.
      * <p>
      * Each ByteBuffer can grow dynamically.
      * <p>
@@ -109,6 +109,23 @@ public class Sequence {
         arguments = ByteBuffer.allocateDirect(32 * 16 * 4).order(ByteOrder.nativeOrder());
         argumentsAddr = Native.addressOf(arguments);
         mayExpand = true;
+    }
+
+    /**
+     * Create a new {@link Sequence} by allocating a {@link ByteBuffer} to hold the operations and one to hold
+     * the actual arguments and limiting the maximum operations to the given number.
+     * <p>
+     * Each ByteBuffer can grow dynamically.
+     * <p>
+     * It is also possible to make the Sequence use provided ByteBuffers by using the {@link #Sequence(ByteBuffer, ByteBuffer)}
+     * constructor.  
+     * 
+     * @param maxOperationCount
+     *          the maximum number of operations allowed
+     */
+    public Sequence(int maxOperationCount) {
+        this();
+        this.maxOperationsCount = maxOperationCount;
     }
 
     public int getMaxNumOperations() {
