@@ -36,7 +36,7 @@ import java.nio.ByteOrder;
 public class Sequence {
 
     // Opcode masks
-    public static final byte OPCODE_MASK_TO_SECOND = (byte) 0xF0;
+    public static final byte OPCODE_MASK_TO_SECOND = (byte) 0x80;
 
     // Arithmetic opcodes
     public static final byte OPCODE_MATRIX_IDENTITY = 0x01;

@@ -2,7 +2,7 @@
 #define _OPCODES_H_
 
 // Opcode masks
-#define OPCODE_MASK_TO_SECOND 0xF0
+#define OPCODE_MASK_TO_SECOND 0x80
 
 // Arithmetic opcodes
 #define OPCODE_MATRIX_IDENTITY 0x01
