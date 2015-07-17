@@ -34,25 +34,25 @@ static const unsigned char actionlist[686] = {
   218,15,40,252,235,65,15,40,252,243,15,198,222,136,15,198,252,238,221,15,40,
   200,15,198,195,136,15,40,226,15,198,213,136,15,198,203,221,15,198,230,221,
   255,68,15,40,192,68,15,40,202,68,15,40,209,68,15,40,220,255,68,15,40,224,
-  68,15,40,252,234,68,15,40,252,241,68,15,40,252,252,255,15,40,200,15,198,201,
-  235,15,40,208,15,198,210,235,15,40,216,15,198,219,235,15,40,224,15,198,228,
-  235,65,15,40,192,15,89,193,65,15,40,201,15,89,202,65,15,40,210,15,89,211,
-  65,15,40,219,15,89,220,15,88,193,15,88,211,15,88,194,255,69,15,40,196,69,
-  15,40,205,69,15,40,214,69,15,40,223,255,76,139,1,72,131,193,16,69,15,40,32,
-  69,15,40,168,233,69,15,40,176,233,69,15,40,184,233,255,76,139,1,72,131,193,
-  16,69,15,40,0,69,15,40,136,233,69,15,40,144,233,69,15,40,152,233,255,76,139,
+  68,15,40,252,234,68,15,40,252,241,68,15,40,252,252,255,69,15,40,196,69,15,
+  40,205,69,15,40,214,69,15,40,223,255,76,139,1,72,131,193,16,69,15,40,32,69,
+  15,40,168,233,69,15,40,176,233,69,15,40,184,233,255,76,139,1,72,131,193,16,
+  69,15,40,0,69,15,40,136,233,69,15,40,144,233,69,15,40,152,233,255,76,139,
   1,72,131,193,16,69,15,41,32,69,15,41,168,233,69,15,41,176,233,69,15,41,184,
   233,255,76,139,1,72,131,193,16,69,15,41,0,69,15,41,136,233,69,15,41,144,233,
-  69,15,41,152,233,255,65,15,40,196,255,65,15,40,197,255,65,15,40,198,255,65,
-  15,40,199,255,68,15,40,192,255,68,15,40,200,255,68,15,40,208,255,68,15,40,
-  216,255,68,15,40,224,255,68,15,40,232,255,68,15,40,252,240,255,68,15,40,252,
-  248,255,252,243,15,16,1,72,131,193,4,252,243,15,16,9,72,131,193,12,15,198,
-  192,235,15,198,201,235,15,87,210,15,92,208,65,15,40,216,15,89,217,65,15,40,
-  226,15,89,226,15,88,220,65,15,40,224,15,89,224,65,15,40,252,234,15,89,252,
-  233,15,88,229,255,68,15,40,195,68,15,40,212,255,68,15,40,227,69,15,40,252,
-  233,68,15,40,252,244,69,15,40,252,251,255,73,199,193,0,0,128,63,102,77,15,
-  110,193,69,15,40,200,69,15,198,201,147,69,15,40,209,69,15,198,210,147,69,
-  15,40,218,69,15,198,219,147,255,85,72,137,229,255,72,129,252,236,239,252,
+  69,15,41,152,233,255,15,40,200,15,198,201,235,15,40,208,15,198,210,235,15,
+  40,216,15,198,219,235,15,40,224,15,198,228,235,65,15,40,192,15,89,193,65,
+  15,40,201,15,89,202,65,15,40,210,15,89,211,65,15,40,219,15,89,220,15,88,193,
+  15,88,211,15,88,194,255,65,15,40,196,255,65,15,40,197,255,65,15,40,198,255,
+  65,15,40,199,255,68,15,40,192,255,68,15,40,200,255,68,15,40,208,255,68,15,
+  40,216,255,68,15,40,224,255,68,15,40,232,255,68,15,40,252,240,255,68,15,40,
+  252,248,255,252,243,15,16,1,72,131,193,4,252,243,15,16,9,72,131,193,12,15,
+  198,192,235,15,198,201,235,15,87,210,15,92,208,65,15,40,216,15,89,217,65,
+  15,40,226,15,89,226,15,88,220,65,15,40,224,15,89,224,65,15,40,252,234,15,
+  89,252,233,15,88,229,255,68,15,40,195,68,15,40,212,255,68,15,40,227,69,15,
+  40,252,233,68,15,40,252,244,69,15,40,252,251,255,73,199,193,0,0,128,63,102,
+  77,15,110,193,69,15,40,200,69,15,198,201,147,69,15,40,209,69,15,198,210,147,
+  69,15,40,218,69,15,198,219,147,255,85,72,137,229,255,72,129,252,236,239,252,
   243,15,127,52,36,252,243,15,127,188,253,36,233,252,243,68,15,127,132,253,
   36,233,252,243,68,15,127,140,253,36,233,252,243,68,15,127,148,253,36,233,
   252,243,68,15,127,156,253,36,233,252,243,68,15,127,164,253,36,233,252,243,
@@ -72,7 +72,8 @@ static const unsigned char actionlist[686] = {
 #endif
 
 static void matrix_transpose(dasm_State** Dst, char intoSecond) {
-  // expect matrix to be in xmm8-xmm11
+  // requires matrix to be in first (xmm8-xmm11)
+  // will store in either first or second (xmm12-xmm15)
   //| movaps xmm0, xmm8
   //| movaps xmm2, xmm0
   //| movaps xmm1, xmm9
@@ -90,7 +91,7 @@ static void matrix_transpose(dasm_State** Dst, char intoSecond) {
   //| shufps xmm1, xmm3, 0xdd
   //| shufps xmm4, xmm6, 0xdd
   dasm_put(Dst, 0);
-#line 36 "codegen_linear.dasc"
+#line 37 "codegen_linear.dasc"
   if (!intoSecond) {
     // store back into first
     //| movaps xmm8, xmm0
@@ -98,7 +99,7 @@ static void matrix_transpose(dasm_State** Dst, char intoSecond) {
     //| movaps xmm10, xmm1
     //| movaps xmm11, xmm4
     dasm_put(Dst, 64);
-#line 42 "codegen_linear.dasc"
+#line 43 "codegen_linear.dasc"
   } else {
     // store back into second
     //| movaps xmm12, xmm0
@@ -106,12 +107,65 @@ static void matrix_transpose(dasm_State** Dst, char intoSecond) {
     //| movaps xmm14, xmm1
     //| movaps xmm15, xmm4
     dasm_put(Dst, 81);
-#line 48 "codegen_linear.dasc"
+#line 49 "codegen_linear.dasc"
   }
 }
 
+static void copy_first_from_second(dasm_State** Dst) {
+  //| movaps xmm8, xmm12
+  //| movaps xmm9, xmm13
+  //| movaps xmm10, xmm14
+  //| movaps xmm11, xmm15
+  dasm_put(Dst, 101);
+#line 57 "codegen_linear.dasc"
+}
+
+static void load_second(dasm_State** Dst) {
+  //| mov r8, [rcx]
+  //| add rcx, 16
+  //| movaps xmm12, [r8]
+  //| movaps xmm13, [r8+4*4]
+  //| movaps xmm14, [r8+4*8]
+  //| movaps xmm15, [r8+4*12]
+  dasm_put(Dst, 118, 4*4, 4*8, 4*12);
+#line 66 "codegen_linear.dasc"
+}
+
+static void load_first(dasm_State** Dst) {
+  //| mov r8, [rcx]
+  //| add rcx, 16
+  //| movaps xmm8, [r8]
+  //| movaps xmm9, [r8+4*4]
+  //| movaps xmm10, [r8+4*8]
+  //| movaps xmm11, [r8+4*12]
+  dasm_put(Dst, 145, 4*4, 4*8, 4*12);
+#line 75 "codegen_linear.dasc"
+}
+
+static void store_second(dasm_State** Dst) {
+  //| mov r8, [rcx]
+  //| add rcx, 16
+  //| movaps [r8], xmm12
+  //| movaps [r8+4*4], xmm13
+  //| movaps [r8+4*8], xmm14
+  //| movaps [r8+4*12], xmm15
+  dasm_put(Dst, 172, 4*4, 4*8, 4*12);
+#line 84 "codegen_linear.dasc"
+}
+
+static void store_first(dasm_State** Dst) {
+  //| mov r8, [rcx]
+  //| add rcx, 16
+  //| movaps [r8], xmm8
+  //| movaps [r8+4*4], xmm9
+  //| movaps [r8+4*8], xmm10
+  //| movaps [r8+4*12], xmm11
+  dasm_put(Dst, 199, 4*4, 4*8, 4*12);
+#line 93 "codegen_linear.dasc"
+}
+
 static void linearProduct(dasm_State** Dst) {
-  // assume matrix to be in xmm8-xmm11
+  // vector is in xmm0, matrix in xmm8-xmm11
   //| movaps xmm1, xmm0
   //| shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   //| movaps xmm2, xmm0
@@ -131,82 +185,33 @@ static void linearProduct(dasm_State** Dst) {
   //| addps xmm0, xmm1
   //| addps xmm2, xmm3
   //| addps xmm0, xmm2
-  dasm_put(Dst, 101, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3));
-#line 72 "codegen_linear.dasc"
+  dasm_put(Dst, 226, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3));
+#line 116 "codegen_linear.dasc"
 }
 
-static void copy_first_from_second(dasm_State** Dst) {
-  //| movaps xmm8, xmm12
-  //| movaps xmm9, xmm13
-  //| movaps xmm10, xmm14
-  //| movaps xmm11, xmm15
-  dasm_put(Dst, 167);
-#line 79 "codegen_linear.dasc"
-}
-
-static void load_second(dasm_State** Dst) {
-  //| mov r8, [rcx]
-  //| add rcx, 16
-  //| movaps xmm12, [r8]
-  //| movaps xmm13, [r8+4*4]
-  //| movaps xmm14, [r8+4*8]
-  //| movaps xmm15, [r8+4*12]
-  dasm_put(Dst, 184, 4*4, 4*8, 4*12);
-#line 88 "codegen_linear.dasc"
-}
-
-static void load_first(dasm_State** Dst) {
-  //| mov r8, [rcx]
-  //| add rcx, 16
-  //| movaps xmm8, [r8]
-  //| movaps xmm9, [r8+4*4]
-  //| movaps xmm10, [r8+4*8]
-  //| movaps xmm11, [r8+4*12]
-  dasm_put(Dst, 211, 4*4, 4*8, 4*12);
-#line 97 "codegen_linear.dasc"
-}
-
-static void store_second(dasm_State** Dst) {
-  //| mov r8, [rcx]
-  //| add rcx, 16
-  //| movaps [r8], xmm12
-  //| movaps [r8+4*4], xmm13
-  //| movaps [r8+4*8], xmm14
-  //| movaps [r8+4*12], xmm15
-  dasm_put(Dst, 238, 4*4, 4*8, 4*12);
-#line 106 "codegen_linear.dasc"
-}
-
-static void store_first(dasm_State** Dst) {
-  //| mov r8, [rcx]
-  //| add rcx, 16
-  //| movaps [r8], xmm8
-  //| movaps [r8+4*4], xmm9
-  //| movaps [r8+4*8], xmm10
-  //| movaps [r8+4*12], xmm11
-  dasm_put(Dst, 265, 4*4, 4*8, 4*12);
-#line 115 "codegen_linear.dasc"
-}
-
-static void mul_matrix_matrix(dasm_State** Dst, char intoSecond) {
+static void matrix_mul_matrix(dasm_State** Dst, char intoSecond) {
+  // requires:
+  // left matrix in xmm8-xmm11 (aka. first)
+  // right matrix in xmm12-xmm15 (aka. second)
+  // will store in either first or second
   for (int i = 0; i < 4; i++) {
-    // load from second
+    // load column/vector from second
     if (i == 0) {
       //| movaps xmm0, xmm12
       dasm_put(Dst, 292);
-#line 122 "codegen_linear.dasc"
+#line 127 "codegen_linear.dasc"
     } else if (i == 1) {
       //| movaps xmm0, xmm13
       dasm_put(Dst, 297);
-#line 124 "codegen_linear.dasc"
+#line 129 "codegen_linear.dasc"
     } else if (i == 2) {
       //| movaps xmm0, xmm14
       dasm_put(Dst, 302);
-#line 126 "codegen_linear.dasc"
+#line 131 "codegen_linear.dasc"
     } else if (i == 3) {
       //| movaps xmm0, xmm15
       dasm_put(Dst, 307);
-#line 128 "codegen_linear.dasc"
+#line 133 "codegen_linear.dasc"
     }
     linearProduct(Dst);
     if (!intoSecond) {
@@ -214,44 +219,46 @@ static void mul_matrix_matrix(dasm_State** Dst, char intoSecond) {
       if (i == 0) {
         //| movaps xmm8, xmm0
         dasm_put(Dst, 312);
-#line 134 "codegen_linear.dasc"
+#line 139 "codegen_linear.dasc"
       } else if (i == 1) {
         //| movaps xmm9, xmm0
         dasm_put(Dst, 317);
-#line 136 "codegen_linear.dasc"
+#line 141 "codegen_linear.dasc"
       } else if (i == 2) {
         //| movaps xmm10, xmm0
         dasm_put(Dst, 322);
-#line 138 "codegen_linear.dasc"
+#line 143 "codegen_linear.dasc"
       } else if (i == 3) {
         //| movaps xmm11, xmm0
         dasm_put(Dst, 327);
-#line 140 "codegen_linear.dasc"
+#line 145 "codegen_linear.dasc"
       }
     } else {
       // store into second
       if (i == 0) {
         //| movaps xmm12, xmm0
         dasm_put(Dst, 332);
-#line 145 "codegen_linear.dasc"
+#line 150 "codegen_linear.dasc"
       } else if (i == 1) {
         //| movaps xmm13, xmm0
         dasm_put(Dst, 337);
-#line 147 "codegen_linear.dasc"
+#line 152 "codegen_linear.dasc"
       } else if (i == 2) {
         //| movaps xmm14, xmm0
         dasm_put(Dst, 342);
-#line 149 "codegen_linear.dasc"
+#line 154 "codegen_linear.dasc"
       } else if (i == 3) {
         //| movaps xmm15, xmm0
         dasm_put(Dst, 348);
-#line 151 "codegen_linear.dasc"
+#line 156 "codegen_linear.dasc"
       }
     }
   }
 }
 
 static void rotateY(dasm_State** Dst, char intoSecond) {
+  // requires matrix to be in xmm8-xmm11 (aka. first)
+  // will store in either first or second (xmm12-xmm15)
   //| movss xmm0, dword [rcx] // sin
   //| add rcx, 4
   //| movss xmm1, dword [rcx] // cos
@@ -271,34 +278,25 @@ static void rotateY(dasm_State** Dst, char intoSecond) {
   //| mulps xmm5, xmm1 // m2X * rm22
   //| addps xmm4, xmm5
   dasm_put(Dst, 354, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(0, 0, 0, 0));
-#line 175 "codegen_linear.dasc"
+#line 182 "codegen_linear.dasc"
   if (!intoSecond) {
     //| movaps xmm8, xmm3
     //| movaps xmm10, xmm4
     dasm_put(Dst, 423);
-#line 178 "codegen_linear.dasc"
+#line 185 "codegen_linear.dasc"
   } else {
     //| movaps xmm12, xmm3
     //| movaps xmm13, xmm9
     //| movaps xmm14, xmm4
     //| movaps xmm15, xmm11
     dasm_put(Dst, 432);
-#line 183 "codegen_linear.dasc"
+#line 190 "codegen_linear.dasc"
   }
 }
 
-static void matrix_get(dasm_State** Dst) {
-  //| mov r8, [rcx]
-  //| add rcx, 16
-  //| movaps [r8], xmm8
-  //| movaps [r8+4*4], xmm9
-  //| movaps [r8+4*8], xmm10
-  //| movaps [r8+4*12], xmm11
-  dasm_put(Dst, 265, 4*4, 4*8, 4*12);
-#line 193 "codegen_linear.dasc"
-}
-
 static void matrix_identity(dasm_State** Dst) {
+  // requires matrix to be in first (xmm8-xmm11)
+  // will store in first
   //| mov r9, 0x3f800000 // int representation of 1.0f
   //| movd xmm8, r9
   //| movaps xmm9, xmm8
@@ -367,7 +365,7 @@ batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* co
     char toSecond = (opcode & OPCODE_MASK_TO_SECOND) != 0;
     switch (opcode) {
     case OPCODE_MATRIX_MUL_MATRIX:
-      mul_matrix_matrix(&state, toSecond); break;
+      matrix_mul_matrix(&state, toSecond); break;
     case OPCODE_MATRIX_TRANSPOSE:
       matrix_transpose(&state, toSecond); break;
     case OPCODE_MATRIX_IDENTITY:

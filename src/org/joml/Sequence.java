@@ -35,6 +35,9 @@ import java.nio.ByteOrder;
  */
 public class Sequence {
 
+    // Opcode masks
+    public static final byte OPCODE_MASK_TO_SECOND = (byte) 0xF0;
+
     // Arithmetic opcodes
     public static final byte OPCODE_MATRIX_IDENTITY = 0x01;
     public static final byte OPCODE_MATRIX_MUL_MATRIX = 0x02;
@@ -181,13 +184,45 @@ public class Sequence {
         return this;
     }
 
-    private void loadFirst(NativeMatrix4f mat) {
-        if (first == mat.matrixBufferAddr) {
+    private void loadFirst(long addr) {
+        if (first == addr) {
             // Already loaded
             return;
         }
+        if (first != 0L) {
+            // spill to memory
+            storeFirst(addr);
+        }
         putOperation(OPCODE_LOAD_FIRST);
-        putArg(mat.matrixBufferAddr);
+        putArg(addr);
+        putArg(0L);
+        first = addr;
+    }
+
+    private void loadSecond(long addr) {
+        if (second == addr) {
+            // Already loaded
+            return;
+        }
+        if (second != 0L) {
+            // spill to memory
+            storeSecond(addr);
+        }
+        putOperation(OPCODE_LOAD_SECOND);
+        putArg(addr);
+        putArg(0L);
+        second = addr;
+    }
+
+    private void storeFirst(long addr) {
+        putOperation(OPCODE_STORE_FIRST);
+        putArg(addr);
+        putArg(0L);
+    }
+
+    private void storeSecond(long addr) {
+        putOperation(OPCODE_STORE_SECOND);
+        putArg(addr);
         putArg(0L);
     }
 
@@ -196,7 +231,15 @@ public class Sequence {
     }
 
     public Sequence mul(NativeMatrix4f left, NativeMatrix4f right, NativeMatrix4f dest) {
-        putOperation(OPCODE_MATRIX_MUL_MATRIX);
+        loadFirst(left.matrixBufferAddr);
+        loadSecond(right.matrixBufferAddr);
+        byte mask = 0x00;
+        if (left.matrixBufferAddr != dest.matrixBufferAddr) {
+            mask |= OPCODE_MASK_TO_SECOND;
+            storeSecond(second);
+            second = dest.matrixBufferAddr;
+        }
+        putOperation((byte) (OPCODE_MATRIX_MUL_MATRIX | mask));
         putArg(left.matrixBufferAddr);
         putArg(right.matrixBufferAddr);
         putArg(dest.matrixBufferAddr);
@@ -236,8 +279,13 @@ public class Sequence {
     }
 
     public Sequence transpose(NativeMatrix4f matrix, NativeMatrix4f dest) {
-        loadFirst(matrix);
-        putOperation(OPCODE_MATRIX_TRANSPOSE);
+        byte mask = 0x00;
+        if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
+            mask |= OPCODE_MASK_TO_SECOND;
+            storeSecond(second);
+            second = dest.matrixBufferAddr;
+        }
+        putOperation((byte) (OPCODE_MATRIX_TRANSPOSE | mask));
         putArg(matrix.matrixBufferAddr);
         putArg(dest.matrixBufferAddr);
         return this;
@@ -313,7 +361,13 @@ public class Sequence {
     }
 
     public Sequence rotateY(NativeMatrix4f matrix, float angle, NativeMatrix4f dest) {
-        putOperation(OPCODE_MATRIX_ROTATEY);
+        byte mask = 0x00;
+        if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
+            mask |= OPCODE_MASK_TO_SECOND;
+            storeSecond(second);
+            second = dest.matrixBufferAddr;
+        }
+        putOperation((byte) (OPCODE_MATRIX_ROTATEY | mask));
         putArg(matrix.matrixBufferAddr);
         putArg((float) Math.sin(angle));
         putArg((float) Math.cos(angle));
