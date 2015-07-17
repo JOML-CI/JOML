@@ -30,9 +30,9 @@ enum {
 #line 12 "codegen_linear.dasc"
 //|.actionlist actionlist
 static const unsigned char actionlist[1133] = {
-  65,15,40,192,15,40,208,65,15,40,201,15,198,193,136,15,198,209,221,65,15,40,
-  218,15,40,252,235,65,15,40,252,243,15,198,222,136,15,198,252,238,221,15,40,
-  200,15,198,195,136,15,40,226,15,198,213,136,15,198,203,221,15,198,230,221,
+  65,15,40,192,15,40,208,65,15,40,201,15,198,193,235,15,198,209,235,65,15,40,
+  218,15,40,252,235,65,15,40,252,243,15,198,222,235,15,198,252,238,235,15,40,
+  200,15,198,195,235,15,40,226,15,198,213,235,15,198,203,235,15,198,230,235,
   255,68,15,40,192,68,15,40,202,68,15,40,209,68,15,40,220,255,68,15,40,224,
   68,15,40,252,234,68,15,40,252,241,68,15,40,252,252,255,69,15,40,196,69,15,
   40,205,69,15,40,214,69,15,40,223,255,69,15,40,224,69,15,40,252,233,69,15,
@@ -97,20 +97,20 @@ static void matrix_transpose(dasm_State** Dst, char storeIntoSecond) {
   //| movaps xmm0, xmm8
   //| movaps xmm2, xmm0
   //| movaps xmm1, xmm9
-  //| shufps xmm0, xmm1, 0x88
-  //| shufps xmm2, xmm1, 0xdd
+  //| shufps xmm0, xmm1, _MM_SHUFFLE(2, 0, 2, 0)
+  //| shufps xmm2, xmm1, _MM_SHUFFLE(3, 1, 3, 1)
   //| movaps xmm3, xmm10
   //| movaps xmm5, xmm3
   //| movaps xmm6, xmm11
-  //| shufps xmm3, xmm6, 0x88
-  //| shufps xmm5, xmm6, 0xdd
+  //| shufps xmm3, xmm6, _MM_SHUFFLE(2, 0, 2, 0)
+  //| shufps xmm5, xmm6, _MM_SHUFFLE(3, 1, 3, 1)
   //| movaps xmm1, xmm0
-  //| shufps xmm0, xmm3, 0x88
+  //| shufps xmm0, xmm3, _MM_SHUFFLE(2, 0, 2, 0)
   //| movaps xmm4, xmm2
-  //| shufps xmm2, xmm5, 0x88
-  //| shufps xmm1, xmm3, 0xdd
-  //| shufps xmm4, xmm6, 0xdd
-  dasm_put(Dst, 0);
+  //| shufps xmm2, xmm5, _MM_SHUFFLE(2, 0, 2, 0)
+  //| shufps xmm1, xmm3, _MM_SHUFFLE(3, 1, 3, 1)
+  //| shufps xmm4, xmm6, _MM_SHUFFLE(3, 1, 3, 1)
+  dasm_put(Dst, 0, _MM_SHUFFLE(2, 0, 2, 0), _MM_SHUFFLE(3, 1, 3, 1), _MM_SHUFFLE(2, 0, 2, 0), _MM_SHUFFLE(3, 1, 3, 1), _MM_SHUFFLE(2, 0, 2, 0), _MM_SHUFFLE(2, 0, 2, 0), _MM_SHUFFLE(3, 1, 3, 1), _MM_SHUFFLE(3, 1, 3, 1));
 #line 37 "codegen_linear.dasc"
   if (!storeIntoSecond) {
     // store back into first
