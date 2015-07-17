@@ -361,8 +361,6 @@ static void matrix_translate(dasm_State** Dst, char storeIntoSecond) {
 }
 
 static void prologue(dasm_State** Dst) {
-  | push rbp
-  | mov rbp, rsp
   // save all non-volatile registers that we use
   | sub rsp, 4*16*10 // xmm6-xmm15 are non-volatile
   | movdqu [rsp], xmm6
@@ -389,8 +387,6 @@ static void epilogue(dasm_State** Dst) {
   | movdqu xmm14, [rsp+4*16*8]
   | movdqu xmm15, [rsp+4*16*9]
   | add rsp, 4*16*10
-  | mov rsp, rbp
-  | pop rbp
   | ret
 }
 
