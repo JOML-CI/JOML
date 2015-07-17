@@ -12,7 +12,8 @@
 |.actionlist actionlist
 
 #ifndef _MM_SHUFFLE
-#define _MM_SHUFFLE(x,y,z,w) ((z << 6) | (y <<4) | (x << 2) | (w))
+#define _MM_SHUFFLE(fp3,fp2,fp1,fp0) \
+ (((fp3) << 6) | ((fp2) << 4) | ((fp1) << 2) | (fp0))
 #endif
 
 static void matrix_transpose(dasm_State** Dst, char storeIntoSecond) {
@@ -285,11 +286,11 @@ static void matrix_identity(dasm_State** Dst) {
   | mov r9, 0x3f800000 // int representation of 1.0f
   | movd xmm8, r9
   | movaps xmm9, xmm8
-  | shufps xmm9, xmm9, 0x93
+  | shufps xmm9, xmm9, _MM_SHUFFLE(2, 1, 0, 3)
   | movaps xmm10, xmm9
-  | shufps xmm10, xmm10, 0x93
+  | shufps xmm10, xmm10, _MM_SHUFFLE(2, 1, 0, 3)
   | movaps xmm11, xmm10
-  | shufps xmm11, xmm11, 0x93
+  | shufps xmm11, xmm11, _MM_SHUFFLE(2, 1, 0, 3)
 }
 
 static void matrix_scale(dasm_State** Dst, char storeIntoSecond) {
@@ -300,29 +301,26 @@ static void matrix_scale(dasm_State** Dst, char storeIntoSecond) {
   | add rcx, 16
   | movaps xmm1, xmm0
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
-  | movaps xmm2, xmm8
-  | mulps xmm2, xmm1
   if (!storeIntoSecond) {
-    | movaps xmm8, xmm2
+    | mulps xmm8, xmm1
   } else {
+    | mulps xmm2, xmm1
     | movaps xmm12, xmm2
   }
   | movaps xmm1, xmm0
   | shufps xmm1, xmm1, _MM_SHUFFLE(1, 1, 1, 1)
-  | movaps xmm2, xmm9
-  | mulps xmm2, xmm1
   if (!storeIntoSecond) {
-    | movaps xmm9, xmm2
+    | mulps xmm9, xmm1
   } else {
+    | mulps xmm2, xmm1
     | movaps xmm13, xmm2
   }
   | movaps xmm1, xmm0
   | shufps xmm1, xmm1, _MM_SHUFFLE(2, 2, 2, 2)
-  | movaps xmm2, xmm10
-  | mulps xmm2, xmm1
   if (!storeIntoSecond) {
-    | movaps xmm10, xmm2
+    | mulps xmm10, xmm1
   } else {
+    | mulps xmm2, xmm1
     | movaps xmm14, xmm2
     | movaps xmm15, xmm11
   }
