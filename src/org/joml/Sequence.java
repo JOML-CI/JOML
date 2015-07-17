@@ -74,7 +74,9 @@ public class Sequence {
 
     /* State when building the sequence */
     long first = 0L;
+    boolean firstInSync;
     long second = 0L;
+    boolean secondInSync;
 
     /**
      * Create a new {@link Sequence} using the given {@link ByteBuffer} to store the <code>operations</code> as well as another to store the <code>arguments</code>.
@@ -190,13 +192,14 @@ public class Sequence {
             return;
         }
         if (first != 0L) {
-            // spill to memory
-            storeFirst(addr);
+            // spill current 'first' to memory
+            storeFirst();
         }
         putOperation(OPCODE_LOAD_FIRST);
         putArg(addr);
         putArg(0L);
         first = addr;
+        firstInSync = true;
     }
 
     private void loadSecond(long addr) {
@@ -205,25 +208,28 @@ public class Sequence {
             return;
         }
         if (second != 0L) {
-            // spill to memory
-            storeSecond(addr);
+            // spill current 'second' to memory
+            storeSecond();
         }
         putOperation(OPCODE_LOAD_SECOND);
         putArg(addr);
         putArg(0L);
         second = addr;
+        secondInSync = true;
     }
 
-    private void storeFirst(long addr) {
+    private void storeFirst() {
         putOperation(OPCODE_STORE_FIRST);
-        putArg(addr);
+        putArg(first);
         putArg(0L);
+        firstInSync = true;
     }
 
-    private void storeSecond(long addr) {
+    private void storeSecond() {
         putOperation(OPCODE_STORE_SECOND);
-        putArg(addr);
+        putArg(second);
         putArg(0L);
+        secondInSync = true;
     }
 
     public Sequence mul(NativeMatrix4f left, NativeMatrix4f right) {
@@ -236,7 +242,7 @@ public class Sequence {
         byte mask = 0x00;
         if (left.matrixBufferAddr != dest.matrixBufferAddr) {
             mask |= OPCODE_MASK_TO_SECOND;
-            storeSecond(second);
+            storeSecond();
             second = dest.matrixBufferAddr;
         }
         putOperation((byte) (OPCODE_MATRIX_MUL_MATRIX | mask));
@@ -282,8 +288,11 @@ public class Sequence {
         byte mask = 0x00;
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
             mask |= OPCODE_MASK_TO_SECOND;
-            storeSecond(second);
+            storeSecond();
             second = dest.matrixBufferAddr;
+            secondInSync = false;
+        } else {
+            firstInSync = false;
         }
         putOperation((byte) (OPCODE_MATRIX_TRANSPOSE | mask));
         putArg(matrix.matrixBufferAddr);
@@ -364,8 +373,11 @@ public class Sequence {
         byte mask = 0x00;
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
             mask |= OPCODE_MASK_TO_SECOND;
-            storeSecond(second);
+            storeSecond();
             second = dest.matrixBufferAddr;
+            secondInSync = false;
+        } else {
+            firstInSync = false;
         }
         putOperation((byte) (OPCODE_MATRIX_ROTATEY | mask));
         putArg(matrix.matrixBufferAddr);
@@ -403,6 +415,12 @@ public class Sequence {
     public Sequence terminate() {
         if (terminated) {
             return this;
+        }
+        if (first != 0L && !firstInSync) {
+            storeFirst();
+        }
+        if (second != 0L && !secondInSync) {
+            storeSecond();
         }
         terminated = true;
         operations.flip();
