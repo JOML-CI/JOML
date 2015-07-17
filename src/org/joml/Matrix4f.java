@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.text.DecimalFormat;
@@ -662,6 +663,39 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set the values of this matrix by reading 16 float values from the given {@link ByteBuffer} in column-major order,
+     * starting at its current position.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix4f set(ByteBuffer buffer) {
+        int pos = buffer.position();
+        m00 = buffer.getFloat(pos);
+        m01 = buffer.getFloat(pos+4);
+        m02 = buffer.getFloat(pos+8);
+        m03 = buffer.getFloat(pos+12);
+        m10 = buffer.getFloat(pos+16);
+        m11 = buffer.getFloat(pos+20);
+        m12 = buffer.getFloat(pos+24);
+        m13 = buffer.getFloat(pos+28);
+        m20 = buffer.getFloat(pos+32);
+        m21 = buffer.getFloat(pos+36);
+        m22 = buffer.getFloat(pos+40);
+        m23 = buffer.getFloat(pos+44);
+        m30 = buffer.getFloat(pos+48);
+        m31 = buffer.getFloat(pos+52);
+        m32 = buffer.getFloat(pos+56);
+        m33 = buffer.getFloat(pos+60);
+        return this;
+    }
+
+    /**
      * Return the determinant of this matrix.
      * 
      * @return the determinant
@@ -1073,6 +1107,59 @@ public class Matrix4f implements Externalizable {
         buffer.put(index+13, m31);
         buffer.put(index+14, m32);
         buffer.put(index+15, m33);
+        return this;
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given
+     * ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
+    public Matrix4f get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix4f get(int index, ByteBuffer buffer) {
+        buffer.putFloat(index, m00);
+        buffer.putFloat(index+4, m01);
+        buffer.putFloat(index+8, m02);
+        buffer.putFloat(index+12, m03);
+        buffer.putFloat(index+16, m10);
+        buffer.putFloat(index+20, m11);
+        buffer.putFloat(index+24, m12);
+        buffer.putFloat(index+28, m13);
+        buffer.putFloat(index+32, m20);
+        buffer.putFloat(index+36, m21);
+        buffer.putFloat(index+40, m22);
+        buffer.putFloat(index+44, m23);
+        buffer.putFloat(index+48, m30);
+        buffer.putFloat(index+52, m31);
+        buffer.putFloat(index+56, m32);
+        buffer.putFloat(index+60, m33);
         return this;
     }
 
