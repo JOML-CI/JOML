@@ -126,13 +126,14 @@ public class NativeMatrix4fTest extends TestCase {
     }
 
     public void testMulMatrix() {
-        Sequence seq = new Sequence(90008);
+        int num = 50;
+        Sequence seq = new Sequence(8192 * 10);
         NativeMatrix4f nm = new NativeMatrix4f(seq);
         NativeMatrix4f nm2 = new NativeMatrix4f(seq);
         {
             nm.identity();
             nm2.identity();
-            for (int i = 0; i < 8192; i++)
+            for (int i = 0; i < num; i++)
             nm.mul(nm2);
         }
         seq.call();
@@ -141,16 +142,19 @@ public class NativeMatrix4fTest extends TestCase {
         seq.call();
         }
         long time2 = System.nanoTime();
-        System.err.println((time2 - time1) / 1E3);
+        System.err.println((time2 - time1));
         Matrix4f m = new Matrix4f();
         Matrix4f m2 = new Matrix4f();
         for (int i = 0; i < 10000000; i++)
             m.mul(m2);
         time1 = System.nanoTime();
-        for (int i = 0; i < 8192; i++)
+        for (int i = 0; i < num; i++)
           m.mul(m2);
         time2 = System.nanoTime();
-        System.err.println((time2 - time1) / 1E3);
+        System.err.println((time2 - time1));
+        Matrix4f m3 = new Matrix4f();
+        nm.get(m3);
+        TestUtil.assertMatrix4fEquals(m, m3, 0.0f);
     }
 
     public void testWrongSequence() {

@@ -135,12 +135,15 @@ static void matrix_mul_matrix(dasm_State** Dst, char intoSecond) {
     if (!intoSecond) {
       // store into first
       if (i == 0) {
-        | movaps xmm8, xmm0
+        | movaps xmm5, xmm0
       } else if (i == 1) {
-        | movaps xmm9, xmm0
+        | movaps xmm6, xmm0
       } else if (i == 2) {
-        | movaps xmm10, xmm0
+        | movaps xmm7, xmm0
       } else if (i == 3) {
+        | movaps xmm8, xmm5
+        | movaps xmm9, xmm6
+        | movaps xmm10, xmm7
         | movaps xmm11, xmm0
       }
     } else {

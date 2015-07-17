@@ -208,7 +208,7 @@ public class Sequence {
             // Already loaded
             return;
         }
-        if (first != 0L) {
+        if (first != 0L && !firstInSync) {
             // spill current 'first' to memory
             storeFirst();
         }
@@ -224,7 +224,7 @@ public class Sequence {
             // Already loaded
             return;
         }
-        if (second != 0L) {
+        if (second != 0L && !secondInSync) {
             // spill current 'second' to memory
             storeSecond();
         }
