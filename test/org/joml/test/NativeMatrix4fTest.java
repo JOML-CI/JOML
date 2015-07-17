@@ -145,7 +145,7 @@ public class NativeMatrix4fTest extends TestCase {
         System.err.println((time2 - time1));
         Matrix4f m = new Matrix4f();
         Matrix4f m2 = new Matrix4f();
-        for (int i = 0; i < 10000000; i++)
+        for (int i = 0; i < 100000000; i++)
             m.mul(m2);
         time1 = System.nanoTime();
         for (int i = 0; i < num; i++)

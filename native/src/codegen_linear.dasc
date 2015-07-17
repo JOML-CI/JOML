@@ -15,7 +15,7 @@
 #define _MM_SHUFFLE(x,y,z,w) ((z << 6) | (y <<4) | (x << 2) | (w))
 #endif
 
-static void matrix_transpose(dasm_State** Dst, char intoSecond) {
+static void matrix_transpose(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in first (xmm8-xmm11)
   // will store in either first or second (xmm12-xmm15)
   | movaps xmm0, xmm8
@@ -34,7 +34,7 @@ static void matrix_transpose(dasm_State** Dst, char intoSecond) {
   | shufps xmm2, xmm5, 0x88
   | shufps xmm1, xmm3, 0xdd
   | shufps xmm4, xmm6, 0xdd
-  if (!intoSecond) {
+  if (!storeIntoSecond) {
     // store back into first
     | movaps xmm8, xmm0
     | movaps xmm9, xmm2
@@ -115,7 +115,7 @@ static void linearProduct(dasm_State** Dst) {
   | addps xmm0, xmm2
 }
 
-static void matrix_mul_matrix(dasm_State** Dst, char intoSecond) {
+static void matrix_mul_matrix(dasm_State** Dst, char storeIntoSecond) {
   // requires:
   // left matrix in xmm8-xmm11 (aka. first)
   // right matrix in xmm12-xmm15 (aka. second)
@@ -132,7 +132,7 @@ static void matrix_mul_matrix(dasm_State** Dst, char intoSecond) {
       | movaps xmm0, xmm15
     }
     linearProduct(Dst);
-    if (!intoSecond) {
+    if (!storeIntoSecond) {
       // store into first
       if (i == 0) {
         | movaps xmm5, xmm0
@@ -161,7 +161,39 @@ static void matrix_mul_matrix(dasm_State** Dst, char intoSecond) {
   }
 }
 
-static void rotateY(dasm_State** Dst, char intoSecond) {
+static void rotateX(dasm_State** Dst, char storeIntoSecond) {
+  // requires matrix to be in xmm8-xmm11 (aka. first)
+  // will store in either first or second (xmm12-xmm15)
+  | movss xmm0, dword [rcx] // sin
+  | add rcx, 4
+  | movss xmm1, dword [rcx] // cos
+  | add rcx, 12
+  | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
+  | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
+  | xorps xmm2, xmm2
+  | subps xmm2, xmm0 // -sin
+  | movaps xmm3, xmm9
+  | mulps xmm3, xmm1 // m1X * rm11
+  | movaps xmm4, xmm10
+  | mulps xmm4, xmm0 // m2X * rm12
+  | addps xmm3, xmm4
+  | movaps xmm4, xmm9
+  | mulps xmm4, xmm2 // m1X * rm21
+  | movaps xmm5, xmm10
+  | mulps xmm5, xmm1 // m2X * rm22
+  | addps xmm4, xmm5
+  if (!storeIntoSecond) {
+    | movaps xmm9, xmm3
+    | movaps xmm10, xmm4
+  } else {
+    | movaps xmm12, xmm8
+    | movaps xmm13, xmm3
+    | movaps xmm14, xmm4
+    | movaps xmm15, xmm11
+  }
+}
+
+static void rotateY(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in xmm8-xmm11 (aka. first)
   // will store in either first or second (xmm12-xmm15)
   | movss xmm0, dword [rcx] // sin
@@ -182,13 +214,45 @@ static void rotateY(dasm_State** Dst, char intoSecond) {
   | movaps xmm5, xmm10
   | mulps xmm5, xmm1 // m2X * rm22
   | addps xmm4, xmm5
-  if (!intoSecond) {
+  if (!storeIntoSecond) {
     | movaps xmm8, xmm3
     | movaps xmm10, xmm4
   } else {
     | movaps xmm12, xmm3
     | movaps xmm13, xmm9
     | movaps xmm14, xmm4
+    | movaps xmm15, xmm11
+  }
+}
+
+static void rotateZ(dasm_State** Dst, char storeIntoSecond) {
+  // requires matrix to be in xmm8-xmm11 (aka. first)
+  // will store in either first or second (xmm12-xmm15)
+  | movss xmm0, dword [rcx] // sin
+  | add rcx, 4
+  | movss xmm1, dword [rcx] // cos
+  | add rcx, 12
+  | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
+  | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
+  | xorps xmm2, xmm2
+  | subps xmm2, xmm0 // -sin
+  | movaps xmm3, xmm8
+  | mulps xmm3, xmm1 // m0X * rm00
+  | movaps xmm4, xmm9
+  | mulps xmm4, xmm0 // m1X * rm01
+  | addps xmm3, xmm4
+  | movaps xmm4, xmm8
+  | mulps xmm4, xmm2 // m0X * rm10
+  | movaps xmm5, xmm9
+  | mulps xmm5, xmm1 // m1X * rm11
+  | addps xmm4, xmm5
+  if (!storeIntoSecond) {
+    | movaps xmm8, xmm3
+    | movaps xmm9, xmm4
+  } else {
+    | movaps xmm12, xmm3
+    | movaps xmm13, xmm4
+    | movaps xmm14, xmm10
     | movaps xmm15, xmm11
   }
 }
@@ -261,8 +325,12 @@ batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* co
       matrix_transpose(&state, toSecond); break;
     case OPCODE_MATRIX_IDENTITY:
       matrix_identity(&state); break;
+    case OPCODE_ROTATEX:
+      rotateX(&state, toSecond); break;
     case OPCODE_ROTATEY:
       rotateY(&state, toSecond); break;
+    case OPCODE_ROTATEZ:
+      rotateZ(&state, toSecond); break;
     case OPCODE_STORE_FIRST:
       store_first(&state); break;
     case OPCODE_STORE_SECOND:

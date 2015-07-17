@@ -279,20 +279,6 @@ public class Sequence {
         return this;
     }
 
-    public Sequence rotateZ(NativeMatrix4f matrix, float angle) {
-        return rotateZ(matrix, angle, matrix);
-    }
-
-    public Sequence rotateZ(NativeMatrix4f matrix, float angle, NativeMatrix4f dest) {
-        putOperation(OPCODE_MATRIX_ROTATEZ);
-        putArg(matrix.matrixBufferAddr);
-        putArg((float) Math.sin(angle));
-        putArg((float) Math.cos(angle));
-        putArg(dest.matrixBufferAddr);
-        putArg(0L);
-        return this;
-    }
-
     public Sequence transpose(NativeMatrix4f matrix) {
         return transpose(matrix, matrix);
     }
@@ -368,11 +354,19 @@ public class Sequence {
     }
 
     public Sequence rotateX(NativeMatrix4f matrix, float angle, NativeMatrix4f dest) {
-        putOperation(OPCODE_MATRIX_ROTATEX);
-        putArg(matrix.matrixBufferAddr);
+        byte mask = 0x00;
+        loadFirst(matrix.matrixBufferAddr);
+        if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
+            mask |= OPCODE_MASK_TO_SECOND;
+            storeSecond();
+            second = dest.matrixBufferAddr;
+            secondInSync = false;
+        } else {
+            firstInSync = false;
+        }
+        putOperation((byte) (OPCODE_MATRIX_ROTATEX | mask));
         putArg((float) Math.sin(angle));
         putArg((float) Math.cos(angle));
-        putArg(dest.matrixBufferAddr);
         putArg(0L);
         return this;
     }
@@ -383,6 +377,7 @@ public class Sequence {
 
     public Sequence rotateY(NativeMatrix4f matrix, float angle, NativeMatrix4f dest) {
         byte mask = 0x00;
+        loadFirst(matrix.matrixBufferAddr);
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
             mask |= OPCODE_MASK_TO_SECOND;
             storeSecond();
@@ -392,6 +387,28 @@ public class Sequence {
             firstInSync = false;
         }
         putOperation((byte) (OPCODE_MATRIX_ROTATEY | mask));
+        putArg((float) Math.sin(angle));
+        putArg((float) Math.cos(angle));
+        putArg(0L);
+        return this;
+    }
+
+    public Sequence rotateZ(NativeMatrix4f matrix, float angle) {
+        return rotateZ(matrix, angle, matrix);
+    }
+
+    public Sequence rotateZ(NativeMatrix4f matrix, float angle, NativeMatrix4f dest) {
+        byte mask = 0x00;
+        loadFirst(matrix.matrixBufferAddr);
+        if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
+            mask |= OPCODE_MASK_TO_SECOND;
+            storeSecond();
+            second = dest.matrixBufferAddr;
+            secondInSync = false;
+        } else {
+            firstInSync = false;
+        }
+        putOperation((byte) (OPCODE_MATRIX_ROTATEZ | mask));
         putArg((float) Math.sin(angle));
         putArg((float) Math.cos(angle));
         putArg(0L);
