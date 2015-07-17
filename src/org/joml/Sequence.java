@@ -444,6 +444,10 @@ public class Sequence {
         if (!terminated) {
             terminate();
         }
+        first = 0L;
+        firstInSync = false;
+        second = 0L;
+        secondInSync = false;
         operations.clear();
         Native.call(functionAddr, argumentsAddr);
         return this;
@@ -458,6 +462,10 @@ public class Sequence {
             terminated = false;
             codeSize = 0;
         }
+        first = 0L;
+        firstInSync = false;
+        second = 0L;
+        secondInSync = false;
         operations.clear();
         arguments.clear();
     }
