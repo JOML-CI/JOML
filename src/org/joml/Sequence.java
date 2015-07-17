@@ -269,25 +269,38 @@ public class Sequence {
         }
     }
 
-    public void set(NativeMatrix4f dst, NativeMatrix4f src) {
-        if (first == dst.matrixBufferAddr && second == src.matrixBufferAddr) {
+    public Sequence set(NativeMatrix4f src, NativeMatrix4f dst) {
+        return copy(src.matrixBufferAddr, dst.matrixBufferAddr);
+    }
+
+    public Sequence set(NativeMatrix4f src, ByteBuffer dst) {
+        return copy(src.matrixBufferAddr, Native.addressOf(dst) + dst.position());
+    }
+
+    public Sequence set(ByteBuffer src, NativeMatrix4f dst) {
+        return copy(Native.addressOf(src) + src.position(), dst.matrixBufferAddr);
+    }
+
+    public Sequence copy(long src, long dst) {
+        if (first == dst && second == src) {
             putOperation(OPCODE_COPY_FIRST_FROM_SECOND);
-        } else if (second == dst.matrixBufferAddr && first == src.matrixBufferAddr) {
+        } else if (second == dst && first == src) {
             putOperation(OPCODE_COPY_SECOND_FROM_FIRST);
-        } else if (first == dst.matrixBufferAddr) {
-            loadFirst(src.matrixBufferAddr);
-        } else if (second == dst.matrixBufferAddr) {
-            loadSecond(src.matrixBufferAddr);
-        } else if (first == src.matrixBufferAddr) {
-            storeFirst(dst.matrixBufferAddr);
-        } else if (second == src.matrixBufferAddr) {
-            storeSecond(dst.matrixBufferAddr);
+        } else if (first == dst) {
+            loadFirst(src);
+        } else if (second == dst) {
+            loadSecond(src);
+        } else if (first == src) {
+            storeFirst(dst);
+        } else if (second == src) {
+            storeSecond(dst);
         } else {
             /* Neither of them is in registers */
             putOperation(OPCODE_COPY_MEM);
-            putArg(src.matrixBufferAddr);
-            putArg(dst.matrixBufferAddr);
+            putArg(src);
+            putArg(dst);
         }
+        return this;
     }
 
     public Sequence mul(NativeMatrix4f left, NativeMatrix4f right) {
@@ -366,20 +379,6 @@ public class Sequence {
         putArg(matrix.matrixBufferAddr);
         putArg(dest.matrixBufferAddr);
         putArg(qx).putArg(qy).putArg(qz).putArg(qw);
-        return this;
-    }
-
-    public Sequence get(NativeMatrix4f matrix, ByteBuffer buffer) {
-        if (first == matrix.matrixBufferAddr) {
-            putOperation(OPCODE_STORE_FIRST);
-            putArg(Native.addressOf(buffer));
-        } else if (second == matrix.matrixBufferAddr) {
-            putOperation(OPCODE_STORE_SECOND);
-            putArg(Native.addressOf(buffer));
-        } else {
-            throw new IllegalStateException("no matrix to get");
-        }
-        putArg(0L); // pad to 16 bytes
         return this;
     }
 
