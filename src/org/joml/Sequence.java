@@ -246,10 +246,6 @@ public class Sequence {
             second = dest.matrixBufferAddr;
         }
         putOperation((byte) (OPCODE_MATRIX_MUL_MATRIX | mask));
-        putArg(left.matrixBufferAddr);
-        putArg(right.matrixBufferAddr);
-        putArg(dest.matrixBufferAddr);
-        putArg(0L);
         return this;
     }
 
@@ -295,8 +291,6 @@ public class Sequence {
             firstInSync = false;
         }
         putOperation((byte) (OPCODE_MATRIX_TRANSPOSE | mask));
-        putArg(matrix.matrixBufferAddr);
-        putArg(dest.matrixBufferAddr);
         return this;
     }
 
@@ -380,10 +374,8 @@ public class Sequence {
             firstInSync = false;
         }
         putOperation((byte) (OPCODE_MATRIX_ROTATEY | mask));
-        putArg(matrix.matrixBufferAddr);
         putArg((float) Math.sin(angle));
         putArg((float) Math.cos(angle));
-        putArg(dest.matrixBufferAddr);
         putArg(0L);
         return this;
     }
