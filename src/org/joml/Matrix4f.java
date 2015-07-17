@@ -3803,10 +3803,10 @@ public class Matrix4f implements Externalizable {
         float dqz = quat.z + quat.z;
         float dqw = quat.w + quat.w;
 
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q_  = dqw * quat.w;
+        float q00 = dqx * quat.x * -1;
+        float q11 = dqy * quat.y * -1;
+        float q22 = dqz * quat.z * -1;
+        float q_  = dqw * quat.w * -1;
 
         float q01 = dqx * quat.y;
         float q02 = dqx * quat.z;
@@ -3818,20 +3818,20 @@ public class Matrix4f implements Externalizable {
         float q23 = dqz * quat.w;
         float q_2 = dqw * quat.z;
 
-        float rm00 = 1.0f - q11 - q22;
-        float rm01 = 0.0f + q01 + q23;
-        float rm02 = 0.0f + q02 - q13;
-        float rm0_ = 0.0f + q02 - q13;
+        float rm00 = 1.0f + q11 + q22 *  1;
+        float rm01 = 0.0f + q01 + q23 *  1;
+        float rm02 = 0.0f + q02 + q13 * -1;
+        float rm0_ = 0.0f + q02 + q13 * -1;
 
-        float rm10 = 0.0f + q01 - q23;
-        float rm11 = 1.0f - q22 - q00;
-        float rm12 = 0.0f + q12 + q03;
-        float rm1_ = 0.0f + q12 + q03;
+        float rm10 = 0.0f + q01 + q23 * -1;
+        float rm11 = 1.0f + q22 + q00 *  1;
+        float rm12 = 0.0f + q12 + q03 *  1;
+        float rm1_ = 0.0f + q12 + q03 *  1;
 
-        float rm20 = 0.0f + q02 + q13;
-        float rm21 = 0.0f + q12 - q03;
-        float rm22 = 1.0f - q11 - q00;
-        float rm2_ = 0.0f - q11 - q00;
+        float rm20 = 0.0f + q02 + q13 *  1;
+        float rm21 = 0.0f + q12 + q03 * -1;
+        float rm22 = 1.0f + q11 + q00 *  1;
+        float rm2_ = 0.0f + q11 + q00 *  1;
 
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
