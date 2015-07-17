@@ -15,7 +15,7 @@
 #define _MM_SHUFFLE(x,y,z,w) ((z << 6) | (y <<4) | (x << 2) | (w))
 #endif
 
-static void matrix_transpose(dasm_State** Dst) {
+static void matrix_transpose(dasm_State** Dst, char intoSecond) {
   // expect matrix to be in xmm8-xmm11
   | movaps xmm0, xmm8
   | movaps xmm2, xmm0
@@ -33,11 +33,19 @@ static void matrix_transpose(dasm_State** Dst) {
   | shufps xmm2, xmm5, 0x88
   | shufps xmm1, xmm3, 0xdd
   | shufps xmm4, xmm6, 0xdd
-  // store back into first
-  | movaps xmm8, xmm0
-  | movaps xmm9, xmm2
-  | movaps xmm10, xmm1
-  | movaps xmm11, xmm4
+  if (!intoSecond) {
+    // store back into first
+    | movaps xmm8, xmm0
+    | movaps xmm9, xmm2
+    | movaps xmm10, xmm1
+    | movaps xmm11, xmm4
+  } else {
+    // store back into second
+    | movaps xmm12, xmm0
+    | movaps xmm13, xmm2
+    | movaps xmm14, xmm1
+    | movaps xmm15, xmm4
+  }
 }
 
 static void linearProduct(dasm_State** Dst) {
@@ -63,43 +71,50 @@ static void linearProduct(dasm_State** Dst) {
   | addps xmm0, xmm2
 }
 
+static void copy_first_from_second(dasm_State** Dst) {
+  | movaps xmm8, xmm12
+  | movaps xmm9, xmm13
+  | movaps xmm10, xmm14
+  | movaps xmm11, xmm15
+}
+
 static void load_second(dasm_State** Dst) {
   | mov r8, [rcx]
   | add rcx, 16
-  | movaps xmm12, [rcx]
-  | movaps xmm13, [rcx+4*4]
-  | movaps xmm14, [rcx+4*8]
-  | movaps xmm15, [rcx+4*12]
+  | movaps xmm12, [r8]
+  | movaps xmm13, [r8+4*4]
+  | movaps xmm14, [r8+4*8]
+  | movaps xmm15, [r8+4*12]
 }
 
 static void load_first(dasm_State** Dst) {
   | mov r8, [rcx]
   | add rcx, 16
-  | movaps xmm8, [rcx]
-  | movaps xmm9, [rcx+4*4]
-  | movaps xmm10, [rcx+4*8]
-  | movaps xmm11, [rcx+4*12]
+  | movaps xmm8, [r8]
+  | movaps xmm9, [r8+4*4]
+  | movaps xmm10, [r8+4*8]
+  | movaps xmm11, [r8+4*12]
 }
 
 static void store_second(dasm_State** Dst) {
   | mov r8, [rcx]
   | add rcx, 16
-  | movaps [rcx], xmm12
-  | movaps [rcx+4*4], xmm13
-  | movaps [rcx+4*8], xmm14
-  | movaps [rcx+4*12], xmm15
+  | movaps [r8], xmm12
+  | movaps [r8+4*4], xmm13
+  | movaps [r8+4*8], xmm14
+  | movaps [r8+4*12], xmm15
 }
 
 static void store_first(dasm_State** Dst) {
   | mov r8, [rcx]
   | add rcx, 16
-  | movaps [rcx], xmm8
-  | movaps [rcx+4*4], xmm9
-  | movaps [rcx+4*8], xmm10
-  | movaps [rcx+4*12], xmm11
+  | movaps [r8], xmm8
+  | movaps [r8+4*4], xmm9
+  | movaps [r8+4*8], xmm10
+  | movaps [r8+4*12], xmm11
 }
 
-static void mul_matrix_matrix(dasm_State** Dst) {
+static void mul_matrix_matrix(dasm_State** Dst, char intoSecond) {
   for (int i = 0; i < 4; i++) {
     // load from second
     if (i == 0) {
@@ -112,20 +127,33 @@ static void mul_matrix_matrix(dasm_State** Dst) {
       | movaps xmm0, xmm15
     }
     linearProduct(Dst);
-    // store into first
-    if (i == 0) {
-      | movaps xmm8, xmm0
-    } else if (i == 1) {
-      | movaps xmm9, xmm0
-    } else if (i == 2) {
-      | movaps xmm10, xmm0
-    } else if (i == 3) {
-      | movaps xmm11, xmm0
+    if (!intoSecond) {
+      // store into first
+      if (i == 0) {
+        | movaps xmm8, xmm0
+      } else if (i == 1) {
+        | movaps xmm9, xmm0
+      } else if (i == 2) {
+        | movaps xmm10, xmm0
+      } else if (i == 3) {
+        | movaps xmm11, xmm0
+      }
+    } else {
+      // store into second
+      if (i == 0) {
+        | movaps xmm12, xmm0
+      } else if (i == 1) {
+        | movaps xmm13, xmm0
+      } else if (i == 2) {
+        | movaps xmm14, xmm0
+      } else if (i == 3) {
+        | movaps xmm15, xmm0
+      }
     }
   }
 }
 
-static void rotateY(dasm_State** Dst) {
+static void rotateY(dasm_State** Dst, char intoSecond) {
   | movss xmm0, dword [rcx] // sin
   | add rcx, 4
   | movss xmm1, dword [rcx] // cos
@@ -144,8 +172,15 @@ static void rotateY(dasm_State** Dst) {
   | movaps xmm5, xmm10
   | mulps xmm5, xmm1 // m2X * rm22
   | addps xmm4, xmm5
-  | movaps xmm8, xmm3
-  | movaps xmm10, xmm4
+  if (!intoSecond) {
+    | movaps xmm8, xmm3
+    | movaps xmm10, xmm4
+  } else {
+    | movaps xmm12, xmm3
+    | movaps xmm13, xmm9
+    | movaps xmm14, xmm4
+    | movaps xmm15, xmm11
+  }
 }
 
 static void matrix_get(dasm_State** Dst) {
@@ -202,7 +237,7 @@ static void epilogue(dasm_State** Dst) {
   | ret
 }
 
-batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
+batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* codeSize) {
   dasm_State* state;
   dasm_State** Dst = &state;
   int status;
@@ -214,17 +249,27 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
   dasm_setup(&state, actionlist);
   prologue(Dst);
   for (int i = 0; i < opcodesLength; i++) {
-    switch (opcodes[i]) {
+    unsigned char opcode = opcodes[i];
+    char toSecond = (opcode & OPCODE_MASK_TO_SECOND) != 0;
+    switch (opcode) {
     case OPCODE_MATRIX_MUL_MATRIX:
-      mul_matrix_matrix(&state); break;
+      mul_matrix_matrix(&state, toSecond); break;
     case OPCODE_MATRIX_TRANSPOSE:
-      matrix_transpose(&state); break;
-    case OPCODE_MATRIX_GET:
-      matrix_get(&state); break;
+      matrix_transpose(&state, toSecond); break;
     case OPCODE_MATRIX_IDENTITY:
       matrix_identity(&state); break;
     case OPCODE_ROTATEY:
-      rotateY(&state); break;
+      rotateY(&state, toSecond); break;
+    case OPCODE_STORE_FIRST:
+      store_first(&state); break;
+    case OPCODE_STORE_SECOND:
+      store_second(&state); break;
+    case OPCODE_LOAD_FIRST:
+      load_first(&state); break;
+    case OPCODE_LOAD_SECOND:
+      load_second(&state); break;
+    case OPCODE_COPY_FIRST_FROM_SECOND:
+      copy_first_from_second(&state); break;
     default:
       break;
     }

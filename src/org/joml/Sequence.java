@@ -35,20 +35,28 @@ import java.nio.ByteOrder;
  */
 public class Sequence {
 
-    public static final byte OPCODE_MATRIX_MUL_MATRIX = 0x01;
-    public static final byte OPCODE_MATRIX_TRANSFORM_VECTOR = 0x02;
+    // Arithmetic opcodes
+    public static final byte OPCODE_MATRIX_IDENTITY = 0x01;
+    public static final byte OPCODE_MATRIX_MUL_MATRIX = 0x02;
     public static final byte OPCODE_MATRIX_TRANSPOSE = 0x03;
-    public static final byte OPCODE_MATRIX_INVERT = 0x04;
-    public static final byte OPCODE_MATRIX_TRANSLATION_ROTATE_SCALE = 0x05;
+    public static final byte OPCODE_MATRIX_ROTATEX = 0x04;
+    public static final byte OPCODE_MATRIX_ROTATEY = 0x05;
     public static final byte OPCODE_MATRIX_ROTATEZ = 0x06;
-    public static final byte OPCODE_VECTOR_NEGATE = 0x07;
-    public static final byte OPCODE_MATRIX_ROTATE_QUATERNION = 0x08;
-    public static final byte OPCODE_MATRIX_GET = 0x09;
-    public static final byte OPCODE_MATRIX_IDENTITY = 0x0A;
-    public static final byte OPCODE_MATRIX_ROTATEX = 0x0B;
-    public static final byte OPCODE_MATRIX_ROTATEY = 0x0C;
-    public static final byte OPCODE_MATRIX_SCALE = 0x0D;
-    public static final byte OPCODE_MATRIX_TRANSLATE = 0x0E;
+    public static final byte OPCODE_MATRIX_TRANSLATE = 0x07;
+    public static final byte OPCODE_MATRIX_SCALE = 0x08;
+    public static final byte OPCODE_MATRIX_INVERT = 0x09;
+    public static final byte OPCODE_MATRIX_TRANSFORM_VECTOR = 0x0A;
+    public static final byte OPCODE_MATRIX_ROTATE_QUATERNION = 0x0B;
+    public static final byte OPCODE_MATRIX_TRANSLATION_ROTATE_SCALE = 0x0C;
+    public static final byte OPCODE_VECTOR_NEGATE = 0x0D;
+
+    // Memory management opcodes
+    public static final byte OPCODE_STORE_FIRST = (byte) 0xC0;
+    public static final byte OPCODE_STORE_SECOND = (byte) 0xC1;
+    public static final byte OPCODE_LOAD_FIRST = (byte) 0xC2;
+    public static final byte OPCODE_LOAD_SECOND = (byte) 0xC3;
+    public static final byte OPCODE_EXCHANGE = (byte) 0xC4;
+    public static final byte OPCODE_COPY_FIRST_FROM_SECOND = (byte) 0xC5;
 
     int maxOperationsCount = 8192;
     ByteBuffer codeSizeBuffer = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder());
@@ -60,6 +68,10 @@ public class Sequence {
     int codeSize;
     boolean terminated;
     boolean mayExpand;
+
+    /* State when building the sequence */
+    long first = 0L;
+    long second = 0L;
 
     /**
      * Create a new {@link Sequence} using the given {@link ByteBuffer} to store the <code>operations</code> as well as another to store the <code>arguments</code>.
@@ -169,6 +181,16 @@ public class Sequence {
         return this;
     }
 
+    private void loadFirst(NativeMatrix4f mat) {
+        if (first == mat.matrixBufferAddr) {
+            // Already loaded
+            return;
+        }
+        putOperation(OPCODE_LOAD_FIRST);
+        putArg(mat.matrixBufferAddr);
+        putArg(0L);
+    }
+
     public Sequence mul(NativeMatrix4f left, NativeMatrix4f right) {
         return mul(left, right, left);
     }
@@ -214,6 +236,7 @@ public class Sequence {
     }
 
     public Sequence transpose(NativeMatrix4f matrix, NativeMatrix4f dest) {
+        loadFirst(matrix);
         putOperation(OPCODE_MATRIX_TRANSPOSE);
         putArg(matrix.matrixBufferAddr);
         putArg(dest.matrixBufferAddr);
@@ -251,9 +274,16 @@ public class Sequence {
     }
 
     public Sequence get(NativeMatrix4f matrix, ByteBuffer buffer) {
-        putOperation(OPCODE_MATRIX_GET);
-        putArg(matrix.matrixBufferAddr);
-        putArg(Native.addressOf(buffer) + buffer.position());
+        if (first == matrix.matrixBufferAddr) {
+            putOperation(OPCODE_STORE_FIRST);
+            putArg(Native.addressOf(buffer));
+        } else if (second == matrix.matrixBufferAddr) {
+            putOperation(OPCODE_STORE_SECOND);
+            putArg(Native.addressOf(buffer));
+        } else {
+            throw new IllegalStateException("no matrix to get");
+        }
+        putArg(0L); // pad to 16 bytes
         return this;
     }
 

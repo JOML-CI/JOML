@@ -489,7 +489,7 @@ static void matrix_translate(dasm_State** Dst) {
   | movaps [r9+4*12], xmm2
 }
 
-batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
+batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* codeSize) {
   dasm_State* state;
   dasm_State** Dst = &state;
   int status;
@@ -508,7 +508,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
   for (int i = 0; i < opcodesLength; i++) {
     | mov rdx, =>next_pc
     switch (opcodes[i]) {
-    case 0x01: // OPCODE_MATRIX_MUL_MATRIX
+    case OPCODE_MATRIX_MUL_MATRIX:
       | jmp ->mul_matrix_matrix
       if (!op_generated[0]) {
         mul_matrix_matrix(&state);
@@ -516,7 +516,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[0] = 1;
       }
       break;
-    case 0x02: // OPCODE_MATRIX_MUL_VECTOR
+    case OPCODE_MATRIX_MUL_VECTOR:
       | jmp ->mul_matrix_vector
       if (!op_generated[1]) {
         mul_matrix_vector(&state);
@@ -524,7 +524,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[1] = 1;
       }
       break;
-    case 0x03: // OPCODE_MATRIX_TRANSPOSE
+    case OPCODE_MATRIX_TRANSPOSE:
       | jmp ->matrix_transpose
       if (!op_generated[2]) {
         matrix_transpose(&state);
@@ -532,10 +532,10 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[2] = 1;
       }
       break;
-    case 0x04: // OPCODE_MATRIX_INVERT
+    case OPCODE_MATRIX_INVERT:
       // Not yet implemented!
       break;
-    case 0x05: // OPCODE_TRANSLATION_ROTATE_SCALE
+    case OPCODE_TRANSLATION_ROTATE_SCALE:
       | jmp ->translation_rotate_scale
       if (!op_generated[4]) {
         translation_rotate_scale(&state);
@@ -543,7 +543,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[4] = 1;
       }
       break;
-    case 0x06: // OPCODE_ROTATEZ
+    case OPCODE_ROTATEZ:
       | jmp ->rotateZ
       if (!op_generated[5]) {
         rotateZ(&state);
@@ -551,7 +551,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[5] = 1;
       }
       break;
-    case 0x07: // OPCODE_VECTOR_NEGATE
+    case OPCODE_VECTOR_NEGATE:
       | jmp ->vector_negate
       if (!op_generated[6]) {
         vector_negate(&state);
@@ -559,7 +559,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[6] = 1;
       }
       break;
-    case 0x08: // OPCODE_MATRIX_ROTATE_QUATERNION
+    case OPCODE_MATRIX_ROTATE_QUATERNION:
       | jmp ->matrix_rotate_quaternion
       if (!op_generated[7]) {
         matrix_rotate_quaternion(&state);
@@ -567,15 +567,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[7] = 1;
       }
       break;
-    case 0x09: // OPCODE_MATRIX_GET
-      | jmp ->matrix_get
-      if (!op_generated[8]) {
-        matrix_get(&state);
-        | jmp rdx
-        op_generated[8] = 1;
-      }
-      break;
-    case 0x0A: // OPCODE_MATRIX_IDENTITY
+    case OPCODE_MATRIX_IDENTITY:
       | jmp ->matrix_identity
       if (!op_generated[9]) {
         matrix_identity(&state);
@@ -583,7 +575,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[9] = 1;
       }
       break;
-    case 0x0B: // OPCODE_ROTATEX
+    case OPCODE_ROTATEX:
       | jmp ->rotateX
       if (!op_generated[10]) {
         rotateX(&state);
@@ -591,7 +583,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[10] = 1;
       }
       break;
-    case 0x0C: // OPCODE_ROTATEY
+    case OPCODE_ROTATEY:
       | jmp ->rotateY
       if (!op_generated[11]) {
         rotateY(&state);
@@ -599,7 +591,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[11] = 1;
       }
       break;
-    case 0x0D: // OPCODE_MATRIX_SCALE
+    case OPCODE_MATRIX_SCALE:
       | jmp ->matrix_scale
       if (!op_generated[12]) {
         matrix_scale(&state);
@@ -607,7 +599,7 @@ batch_func_t codegen(const char* opcodes, int opcodesLength, size_t* codeSize) {
         op_generated[12] = 1;
       }
       break;
-    case 0x0E: // OPCODE_MATRIX_TRANSLATE
+    case OPCODE_MATRIX_TRANSLATE:
       | jmp ->matrix_translate
       if (!op_generated[13]) {
         matrix_translate(&state);
