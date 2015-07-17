@@ -282,6 +282,7 @@ public class Sequence {
 
     public Sequence transpose(NativeMatrix4f matrix, NativeMatrix4f dest) {
         byte mask = 0x00;
+        loadFirst(matrix.matrixBufferAddr);
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
             mask |= OPCODE_MASK_TO_SECOND;
             storeSecond();
@@ -339,9 +340,9 @@ public class Sequence {
     }
 
     public Sequence identity(NativeMatrix4f matrix) {
+        loadFirst(matrix.matrixBufferAddr);
         putOperation(OPCODE_MATRIX_IDENTITY);
-        putArg(matrix.matrixBufferAddr);
-        putArg(0L);
+        firstInSync = false;
         return this;
     }
 

@@ -104,7 +104,9 @@ public class NativeMatrix4fTest extends TestCase {
         seq.call();
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
+        System.err.println(actual);
         Matrix4f expected = m.transpose();
+        System.err.println(expected);
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
     }
 
