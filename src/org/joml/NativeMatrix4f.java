@@ -63,6 +63,11 @@ public class NativeMatrix4f {
         this.sequence = sequence;
     }
 
+    public NativeMatrix4f set(NativeMatrix4f m) {
+        sequence.set(this, m);
+        return this;
+    }
+
     public NativeMatrix4f mul(NativeMatrix4f m) {
         sequence.mul(this, m);
         return this;

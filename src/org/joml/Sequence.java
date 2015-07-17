@@ -60,6 +60,8 @@ public class Sequence {
     public static final byte OPCODE_LOAD_SECOND = (byte) 0xC3;
     public static final byte OPCODE_EXCHANGE = (byte) 0xC4;
     public static final byte OPCODE_COPY_FIRST_FROM_SECOND = (byte) 0xC5;
+    public static final byte OPCODE_COPY_SECOND_FROM_FIRST = (byte) 0xC6;
+    public static final byte OPCODE_COPY_MEM = (byte) 0xC7;
 
     int maxOperationsCount = 8192;
     ByteBuffer codeSizeBuffer = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder());
@@ -247,6 +249,23 @@ public class Sequence {
         putArg(second);
         putArg(0L);
         secondInSync = true;
+    }
+
+    public void set(NativeMatrix4f dst, NativeMatrix4f src) {
+        if (first == dst.matrixBufferAddr && second == src.matrixBufferAddr) {
+            putOperation(OPCODE_COPY_FIRST_FROM_SECOND);
+        } else if (second == dst.matrixBufferAddr && first == src.matrixBufferAddr) {
+            putOperation(OPCODE_COPY_SECOND_FROM_FIRST);
+        } else if (first == dst.matrixBufferAddr) {
+            loadFirst(src.matrixBufferAddr);
+        } else if (second == dst.matrixBufferAddr) {
+            loadSecond(src.matrixBufferAddr);
+        } else {
+            /* Neither of them is in registers */
+            putOperation(OPCODE_COPY_MEM);
+            putArg(dst.matrixBufferAddr);
+            putArg(src.matrixBufferAddr);
+        }
     }
 
     public Sequence mul(NativeMatrix4f left, NativeMatrix4f right) {
