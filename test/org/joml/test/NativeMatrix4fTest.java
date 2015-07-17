@@ -109,6 +109,21 @@ public class NativeMatrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
     }
 
+    public void testSetCopy() {
+        Sequence seq = new Sequence();
+        NativeMatrix4f nm = new NativeMatrix4f(seq);
+        NativeMatrix4f nm2 = new NativeMatrix4f(seq);
+        {
+            nm.identity().rotateX(0.123f);
+            nm2.set(nm);
+        }
+        seq.call();
+        Matrix4f actual = new Matrix4f();
+        nm2.get(actual);
+        Matrix4f expected = new Matrix4f().rotateX(0.123f);
+        TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
+    }
+
     public void testTranspose() {
         Sequence seq = new Sequence();
         Matrix4f m = new Matrix4f().rotateX((float) Math.PI);
