@@ -469,22 +469,11 @@ static void matrix_translate(dasm_State** Dst, char storeIntoSecond) {
 static void vector_negate(dasm_State** Dst) {
   | mov r8, [rcx]
   | add rcx, 16
-/*
   | movaps xmm0, [r8]
   | mov r9, 0x80000000
   | movd xmm1, r9
   | shufps xmm1, xmm1, 0x0
   | xorps xmm0, xmm1
-*/
-  | mov r9, rsp
-  | and r9, -16
-  | sub r9, 16
-  | mov dword [r9], 0x0
-  | mov dword [r9+4], 0x80000000
-  | mov dword [r9+8], 0x80000000
-  | mov dword [r9+12], 0x0
-  | movaps xmm0, [r9]
-
   | movaps [r8], xmm0
 }
 
