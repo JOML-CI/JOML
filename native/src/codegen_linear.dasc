@@ -16,16 +16,118 @@
  (((fp3) << 6) | ((fp2) << 4) | ((fp1) << 2) | (fp0))
 #endif
 
+/**
+ * Reference: http://www.gamedev.net/topic/621951-sse-4x4-matrix-transpose-and-invert/
+ */
+static void matrix_invert(dasm_State** Dst, char storeIntoSecond) {
+  // Make (0, -0, -0, 0) ready in stack at [r8]
+  | mov r8, rsp
+  | and r8, -16
+  | sub r8, 16
+  | mov dword [r8], 0x0
+  | mov dword [r8+4], 0x80000000
+  | mov dword [r8+8], 0x80000000
+  | mov dword [r8+12], 0x0
+  // Save xmm8 to stack at [r9]
+  | mov r9, r8
+  | sub r9, 16
+  | movaps [r9], xmm8 // <- save xmm8 to stack, because we need it for computations!
+
+  // Vec4 const & m11 = _mm_movelh_ps(c0, c1);
+  // Vec4 const & m21 = _mm_movehl_ps(c1, c0);
+  // Vec4 const & m12 = _mm_movelh_ps(c2, c3);
+  // Vec4 const & m22 = _mm_movehl_ps(c3, c2);
+
+  | movaps xmm0, xmm8
+  | movlhps xmm0, xmm9
+  | movaps xmm1, xmm9
+  | movhlps xmm1, xmm8
+  | movaps xmm2, xmm10
+  | movlhps xmm2, xmm11
+  | movaps xmm3, xmm11
+  | movhlps xmm3, xmm10
+
+  // inv2x2(m): return adj2x2(m) * det2x2(m).rcp();
+  // adj2x2(m): _mm_xor_ps(m.swizzle<3,1,2,0>(), (0.0f, -0.0f, -0.0f, 0.0f));
+  // det2x2(m): temp = m.swizzle<0,0,1,1>() * m.swizzle<3,3,2,2>();
+  //            return _mm_sub_ps(_mm_unpacklo_ps(temp, temp), _mm_unpackhi_ps(temp, temp));
+
+  // inv2x2(m11 = xmm0):
+    // adj2x2(m11 = xmm0):
+  | movaps xmm4, xmm0
+  | shufps xmm4, xmm4, _MM_SHUFFLE(3, 1, 2, 0)
+  | movaps xmm5, [r8] // <- load (0, -0, -0, 0)
+  | xorps xmm4, xmm5 // <- _mm_xor_ps(m.swizzle<3,1,2,0>(), (0.0f, -0.0f, -0.0f, 0.0f));
+    // det2x2(m11 = xmm0):
+  | movaps xmm5, xmm0
+  | shufps xmm5, xmm5, _MM_SHUFFLE(0, 0, 1, 1)
+  | movaps xmm6, xmm0
+  | shufps xmm6, xmm6, _MM_SHUFFLE(3, 3, 2, 2)
+  | mulps xmm5, xmm6 // <- temp = m.swizzle<0,0,1,1>() * m.swizzle<3,3,2,2>();
+  | movaps xmm6, xmm5
+  | unpcklps xmm5, xmm5
+  | unpckhps xmm6, xmm6
+  | subps xmm5, xmm6 // <- _mm_sub_ps(_mm_unpacklo_ps(temp, temp), _mm_unpackhi_ps(temp, temp));
+  | rcpps xmm5, xmm5 // <- det2x2(m).rcp();
+  | mulps xmm4, xmm5 // <- inv11 = inv2x2(m11 = xmm0)
+
+  // free: xmm5, xmm6, xmm7
+
+  // inv2x2(m22 = xmm3):
+    // adj2x2(m22 = xmm3):
+  | movaps xmm5, xmm3
+  | shufps xmm5, xmm5, _MM_SHUFFLE(3, 1, 2, 0)
+  | movaps xmm6, [r8] // <- load (0, -0, -0, 0)
+  | xorps xmm5, xmm6 // <- _mm_xor_ps(m.swizzle<3,1,2,0>(), (0.0f, -0.0f, -0.0f, 0.0f));
+    // det2x2(m22 = xmm3):
+  | movaps xmm6, xmm3
+  | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 1, 1)
+  | movaps xmm7, xmm3
+  | shufps xmm7, xmm7, _MM_SHUFFLE(3, 3, 2, 2)
+  | mulps xmm6, xmm7 // <- temp = m.swizzle<0,0,1,1>() * m.swizzle<3,3,2,2>();
+  | movaps xmm7, xmm6
+  | unpcklps xmm6, xmm6
+  | unpckhps xmm7, xmm7
+  | subps xmm6, xmm7 // <- _mm_sub_ps(_mm_unpacklo_ps(temp, temp), _mm_unpackhi_ps(temp, temp));
+  | rcpps xmm6, xmm6 // <- det2x2(m).rcp();
+  | mulps xmm5, xmm6 // <- inv22 = inv2x2(m22 = xmm3)
+
+  // free: xmm6, xmm7
+
+  // mul2x2(a, b): b.swizzle<0,0,2,2>() * _mm_movelh_ps(a, a) + b.swizzle<1,1,3,3>() * _mm_movehl_ps(a, a);
+  
+  // _m11 = inv2x2(m11 - mul2x2(mul2x2(m12, inv22), m21)):
+    // mul2x2(m12, inv22):
+  | movaps xmm6, xmm5
+  | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 2, 2)
+  | movaps xmm7, xmm2
+  | movlhps xmm7, xmm7
+  | mulps xmm6, xmm7
+  | movaps xmm7, xmm5
+  | shufps xmm7, xmm7, _MM_SHUFFLE(1, 1, 3, 3)
+  | movaps xmm8, xmm2  // <-!!!!!- We need xmm8 here, so save it to stack before!
+  | movhlps xmm8, xmm8
+  | mulps xmm7, xmm8 // <- mul2x2(m12, inv22)
+  | addps xmm6, xmm7
+
+  // free: xmm7
+
+  // TODO: Proceed further
+  
+  // restore xmm8 (for the time being)
+  | movaps xmm8, [r9]
+}
+
 static void matrix_transpose(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in first (xmm8-xmm11)
   // will store in either first or second (xmm12-xmm15)
   | movaps xmm0, xmm8
-  | movaps xmm2, xmm0
+  | movaps xmm2, xmm8
   | movaps xmm1, xmm9
   | shufps xmm0, xmm1, _MM_SHUFFLE(2, 0, 2, 0)
   | shufps xmm2, xmm1, _MM_SHUFFLE(3, 1, 3, 1)
   | movaps xmm3, xmm10
-  | movaps xmm5, xmm3
+  | movaps xmm5, xmm10
   | movaps xmm6, xmm11
   | shufps xmm3, xmm6, _MM_SHUFFLE(2, 0, 2, 0)
   | shufps xmm5, xmm6, _MM_SHUFFLE(3, 1, 3, 1)
@@ -367,11 +469,22 @@ static void matrix_translate(dasm_State** Dst, char storeIntoSecond) {
 static void vector_negate(dasm_State** Dst) {
   | mov r8, [rcx]
   | add rcx, 16
+/*
   | movaps xmm0, [r8]
   | mov r9, 0x80000000
   | movd xmm1, r9
   | shufps xmm1, xmm1, 0x0
   | xorps xmm0, xmm1
+*/
+  | mov r9, rsp
+  | and r9, -16
+  | sub r9, 16
+  | mov dword [r9], 0x0
+  | mov dword [r9+4], 0x80000000
+  | mov dword [r9+8], 0x80000000
+  | mov dword [r9+12], 0x0
+  | movaps xmm0, [r9]
+
   | movaps [r8], xmm0
 }
 
@@ -440,6 +553,8 @@ batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* co
       matrix_translate(&state, second); break;
     case OPCODE_MATRIX_SCALE:
       matrix_scale(&state, second); break;
+    case OPCODE_MATRIX_INVERT:
+      matrix_invert(&state, second); break;
     case OPCODE_VECTOR_NEGATE:
       vector_negate(&state); break;
     case OPCODE_STORE:

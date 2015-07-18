@@ -222,4 +222,8 @@ public class NativeMatrix4f {
         return "[" + matrixBufferAddr + "]";
     }
 
+    public void invert() {
+        sequence.invert(this);
+    }
+
 }

@@ -493,9 +493,10 @@ public class Sequence {
         return this;
     }
 
-    public Sequence test(NativeMatrix4f matrix) {
-        loadSecond(matrix.matrixBufferAddr);
-        storeSecond();
+    public Sequence invert(NativeMatrix4f matrix) {
+        loadFirst(matrix.matrixBufferAddr);
+        firstInSync = false;
+        putOperation(OPCODE_MATRIX_INVERT);
         return this;
     }
 
