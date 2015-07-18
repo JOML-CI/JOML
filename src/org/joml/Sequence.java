@@ -533,7 +533,8 @@ public class Sequence {
         firstInSync = false;
         second = 0L;
         secondInSync = false;
-        operations.clear();
+        operations.rewind();
+        arguments.rewind();
         Native.call(functionAddr, argumentsAddr);
         return this;
     }
