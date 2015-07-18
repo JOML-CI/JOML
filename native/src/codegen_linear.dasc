@@ -193,8 +193,10 @@ static void matrix_rotateX(dasm_State** Dst, char storeIntoSecond) {
   | add rcx, 12
   | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
-  | xorps xmm2, xmm2
-  | subps xmm2, xmm0 // -sin
+  | mov r9, 0x80000000
+  | movd xmm2, r9
+  | shufps xmm2, xmm2, 0x0
+  | xorps xmm2, xmm0 // -sin
   | movaps xmm3, xmm9
   | mulps xmm3, xmm1 // m1X * rm11
   | movaps xmm4, xmm10
@@ -225,8 +227,10 @@ static void matrix_rotateY(dasm_State** Dst, char storeIntoSecond) {
   | add rcx, 12
   | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
-  | xorps xmm2, xmm2
-  | subps xmm2, xmm0 // -sin
+  | mov r9, 0x80000000
+  | movd xmm2, r9
+  | shufps xmm2, xmm2, 0x0
+  | xorps xmm2, xmm0 // -sin
   | movaps xmm3, xmm8
   | mulps xmm3, xmm1 // m0X * rm00
   | movaps xmm4, xmm10
@@ -257,8 +261,10 @@ static void matrix_rotateZ(dasm_State** Dst, char storeIntoSecond) {
   | add rcx, 12
   | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
-  | xorps xmm2, xmm2
-  | subps xmm2, xmm0 // -sin
+  | mov r9, 0x80000000
+  | movd xmm2, r9
+  | shufps xmm2, xmm2, 0x0
+  | xorps xmm2, xmm0 // -sin
   | movaps xmm3, xmm8
   | mulps xmm3, xmm1 // m0X * rm00
   | movaps xmm4, xmm9
