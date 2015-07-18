@@ -3817,7 +3817,7 @@ public class Matrix4f implements Externalizable {
         float q_  = dqw * quat.w * -1;
 
         // | movaps xmm3, xmm0
-        // | shufps xmm3, xmm3, _MM_SHUFFLE(1, 3, 2, 1)
+        // | shufps xmm3, xmm3, _MM_SHUFFLE(0, 3, 2, 1)
         // | mulps xmm3, xmm1(dqX) // q0N
         float q01 = dqx * quat.y;
         float q02 = dqx * quat.z;
