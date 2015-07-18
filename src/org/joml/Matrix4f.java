@@ -3840,38 +3840,48 @@ public class Matrix4f implements Externalizable {
         // bf800000 - int pattern of -1
 
         // | movaps xmm0, xmm2
-        // | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 2)
+        // | shufps xmm0, xmm0, _MM_SHUFFLE(2, 2, 2, 2)
         // | movaps xmm1, xmm2
-        // | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 3)
-        // | addss xmm0, xmm1
+        // | shufps xmm1, xmm1, _MM_SHUFFLE(3, 3, 3, 3)
+        // | addps xmm0, xmm1
         // | mov r8, 3f800000
         // | movd xmm1, r8
-        // | addss xmm0, xmm1 // rm00
+        // | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
+        // | addps xmm0, xmm1 // rm00
         float rm00 = 1.0f + q11 + q22;
+        // | mulps xmm0, xmm8 // m0X * rm00
 
-        float rm01 = 0.0f + q01 + q23;
+        // free: xmm1, xmm5, xmm6, xmm7
 
-        float rm02 = 0.0f + q02 + q13 * -1;
+        // | movaps xmm1, xmm3
+        // | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
+        // | movaps xmm5, xmm4
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(2, 2, 2, 2)
+        // | addps xmm1, xmm5
+        float rm01 = q01 + q23;
+        // | mulps xmm1, xmm9 // m1X * rm01
+
+        float rm02 = q02 + q13 * -1;
         
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
         float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
 
-        float rm10 = 0.0f + q01 + q23 * -1;
+        float rm10 = q01 + q23 * -1;
 
         float rm11 = 1.0f + q22 + q00;
 
-        float rm12 = 0.0f + q12 + q03;
+        float rm12 = q12 + q03;
 
         float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
         float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
 
-        float rm20 = 0.0f + q02 + q13;
+        float rm20 = q02 + q13;
 
-        float rm21 = 0.0f + q12 + q03 * -1;
+        float rm21 = q12 + q03 * -1;
 
         float rm22 = 1.0f + q11 + q00;
 
