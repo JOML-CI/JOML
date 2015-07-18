@@ -29,7 +29,7 @@ enum {
 };
 #line 12 "codegen_linear.dasc"
 //|.actionlist actionlist
-static const unsigned char actionlist[1105] = {
+static const unsigned char actionlist[1127] = {
   65,15,40,192,15,40,208,65,15,40,201,15,198,193,235,15,198,209,235,65,15,40,
   218,15,40,252,235,65,15,40,252,243,15,198,222,235,15,198,252,238,235,15,40,
   200,15,198,195,235,15,40,226,15,198,213,235,15,198,203,235,15,198,230,235,
@@ -72,9 +72,10 @@ static const unsigned char actionlist[1105] = {
   15,40,200,15,198,201,235,65,15,40,217,15,89,217,15,88,211,15,40,200,15,198,
   201,235,65,15,40,218,15,89,217,15,88,211,65,15,40,203,15,88,209,255,68,15,
   40,218,255,69,15,40,224,69,15,40,252,233,69,15,40,252,242,68,15,40,252,250,
-  255,72,129,252,236,239,252,243,15,127,52,36,252,243,15,127,188,253,36,233,
-  252,243,68,15,127,132,253,36,233,252,243,68,15,127,140,253,36,233,252,243,
-  68,15,127,148,253,36,233,252,243,68,15,127,156,253,36,233,252,243,68,15,127,
+  255,76,139,1,72,131,193,16,65,15,40,0,15,87,201,15,92,200,65,15,41,8,255,
+  72,129,252,236,239,252,243,15,127,52,36,252,243,15,127,188,253,36,233,252,
+  243,68,15,127,132,253,36,233,252,243,68,15,127,140,253,36,233,252,243,68,
+  15,127,148,253,36,233,252,243,68,15,127,156,253,36,233,252,243,68,15,127,
   164,253,36,233,252,243,68,15,127,172,253,36,233,252,243,68,15,127,180,253,
   36,233,252,243,68,15,127,188,253,36,233,255,252,243,15,111,52,36,252,243,
   15,111,188,253,36,233,252,243,68,15,111,132,253,36,233,252,243,68,15,111,
@@ -523,6 +524,17 @@ static void matrix_translate(dasm_State** Dst, char storeIntoSecond) {
   }
 }
 
+static void vector_negate(dasm_State** Dst) {
+  //| mov r8, [rcx]
+  //| add rcx, 16
+  //| movaps xmm0, [r8]
+  //| xorps xmm1, xmm1
+  //| subps xmm1, xmm0
+  //| movaps [r8], xmm1
+  dasm_put(Dst, 921);
+#line 368 "codegen_linear.dasc"
+}
+
 static void prologue(dasm_State** Dst) {
   // save all non-volatile registers that we use
   //| sub rsp, 4*16*10 // xmm6-xmm15 are non-volatile
@@ -536,8 +548,8 @@ static void prologue(dasm_State** Dst) {
   //| movdqu [rsp+4*16*7], xmm13
   //| movdqu [rsp+4*16*8], xmm14
   //| movdqu [rsp+4*16*9], xmm15
-  dasm_put(Dst, 921, 4*16*10, 4*16, 4*16*2, 4*16*3, 4*16*4, 4*16*5, 4*16*6, 4*16*7, 4*16*8, 4*16*9);
-#line 374 "codegen_linear.dasc"
+  dasm_put(Dst, 943, 4*16*10, 4*16, 4*16*2, 4*16*3, 4*16*4, 4*16*5, 4*16*6, 4*16*7, 4*16*8, 4*16*9);
+#line 383 "codegen_linear.dasc"
 }
 
 static void epilogue(dasm_State** Dst) {
@@ -553,8 +565,8 @@ static void epilogue(dasm_State** Dst) {
   //| movdqu xmm15, [rsp+4*16*9]
   //| add rsp, 4*16*10
   //| ret
-  dasm_put(Dst, 1013, 4*16, 4*16*2, 4*16*3, 4*16*4, 4*16*5, 4*16*6, 4*16*7, 4*16*8, 4*16*9, 4*16*10);
-#line 389 "codegen_linear.dasc"
+  dasm_put(Dst, 1035, 4*16, 4*16*2, 4*16*3, 4*16*4, 4*16*5, 4*16*6, 4*16*7, 4*16*8, 4*16*9, 4*16*10);
+#line 398 "codegen_linear.dasc"
 }
 
 batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* codeSize) {
@@ -588,6 +600,8 @@ batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* co
       matrix_translate(&state, toSecond); break;
     case OPCODE_MATRIX_SCALE:
       matrix_scale(&state, toSecond); break;
+    case OPCODE_VECTOR_NEGATE:
+      vector_negate(&state); break;
     case OPCODE_STORE_FIRST:
       store_first(&state); break;
     case OPCODE_STORE_SECOND:

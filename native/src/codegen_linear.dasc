@@ -358,6 +358,15 @@ static void matrix_translate(dasm_State** Dst, char storeIntoSecond) {
   }
 }
 
+static void vector_negate(dasm_State** Dst) {
+  | mov r8, [rcx]
+  | add rcx, 16
+  | movaps xmm0, [r8]
+  | xorps xmm1, xmm1
+  | subps xmm1, xmm0
+  | movaps [r8], xmm1
+}
+
 static void prologue(dasm_State** Dst) {
   // save all non-volatile registers that we use
   | sub rsp, 4*16*10 // xmm6-xmm15 are non-volatile
@@ -419,6 +428,8 @@ batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* co
       matrix_translate(&state, toSecond); break;
     case OPCODE_MATRIX_SCALE:
       matrix_scale(&state, toSecond); break;
+    case OPCODE_VECTOR_NEGATE:
+      vector_negate(&state); break;
     case OPCODE_STORE_FIRST:
       store_first(&state); break;
     case OPCODE_STORE_SECOND:

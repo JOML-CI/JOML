@@ -3798,49 +3798,83 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotate(Quaternionf quat, Matrix4f dest) {
+        // | movaps xmm0, quat.xyzw
+        // | movaps xmm1, xmm0
+        // | addps xmm1, xmm1 // dqX
         float dqx = quat.x + quat.x;
         float dqy = quat.y + quat.y;
         float dqz = quat.z + quat.z;
         float dqw = quat.w + quat.w;
 
+        // | movaps xmm2, xmm1(dqX)
+        // | mulps xmm2, xmm0(quat) // qNN
+        // | mov r8, 0x80000000 // sign mask
+        // | movd xmm3, r9
+        // | xorps xmm2, xmm3
         float q00 = dqx * quat.x * -1;
         float q11 = dqy * quat.y * -1;
         float q22 = dqz * quat.z * -1;
         float q_  = dqw * quat.w * -1;
 
+        // | movaps xmm3, xmm0
+        // | shufps xmm3, xmm3, _MM_SHUFFLE(1, 3, 2, 1)
+        // | mulps xmm3, xmm1(dqX) // q0N
         float q01 = dqx * quat.y;
         float q02 = dqx * quat.z;
         float q03 = dqx * quat.w;
         float q__ = dqx * quat.x;
 
+        // | movaps xmm4, xmm0
+        // | movaps xmm5, xmm1(dqX)
+        // | shufps xmm4, xmm4, _MM_SHUFFLE(2, 3, 3, 2)
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(2, 2, 1, 1)
+        // | mulps xmm4, xmm5 // q12-23
         float q12 = dqy * quat.z;
         float q13 = dqy * quat.w;
         float q23 = dqz * quat.w;
-        float q_2 = dqw * quat.z;
+        float q_2 = dqz * quat.z;
 
-        float rm00 = 1.0f + q11 + q22 *  1;
-        float rm01 = 0.0f + q01 + q23 *  1;
+        // free: xmm0, xmm1, xmm5, xmm6, xmm7
+
+        // 3f800000 - int pattern of 1
+        // bf800000 - int pattern of -1
+
+        // | movaps xmm0, xmm2
+        // | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 2)
+        // | movaps xmm1, xmm2
+        // | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 3)
+        // | addss xmm0, xmm1
+        // | mov r8, 3f800000
+        // | movd xmm1, r8
+        // | addss xmm0, xmm1 // rm00
+        float rm00 = 1.0f + q11 + q22;
+
+        float rm01 = 0.0f + q01 + q23;
+
         float rm02 = 0.0f + q02 + q13 * -1;
-        float rm0_ = 0.0f + q02 + q13 * -1;
-
-        float rm10 = 0.0f + q01 + q23 * -1;
-        float rm11 = 1.0f + q22 + q00 *  1;
-        float rm12 = 0.0f + q12 + q03 *  1;
-        float rm1_ = 0.0f + q12 + q03 *  1;
-
-        float rm20 = 0.0f + q02 + q13 *  1;
-        float rm21 = 0.0f + q12 + q03 * -1;
-        float rm22 = 1.0f + q11 + q00 *  1;
-        float rm2_ = 0.0f + q11 + q00 *  1;
-
+        
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
         float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+
+        float rm10 = 0.0f + q01 + q23 * -1;
+
+        float rm11 = 1.0f + q22 + q00;
+
+        float rm12 = 0.0f + q12 + q03;
+
         float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
         float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+
+        float rm20 = 0.0f + q02 + q13;
+
+        float rm21 = 0.0f + q12 + q03 * -1;
+
+        float rm22 = 1.0f + q11 + q00;
+
         dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
         dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
         dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;

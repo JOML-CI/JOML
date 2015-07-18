@@ -495,6 +495,13 @@ public class Sequence {
         return this;
     }
 
+    public Sequence negate(NativeVector4f vector) {
+        putOperation(OPCODE_VECTOR_NEGATE);
+        putArg(vector.bufferAddress);
+        putArg(0L);
+        return this;
+    }
+
     public Sequence terminate() {
         if (terminated) {
             return this;

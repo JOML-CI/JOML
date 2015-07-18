@@ -63,6 +63,11 @@ public class NativeVector4f {
         this.sequence = sequence;
     }
 
+    public NativeVector4f negate() {
+        sequence.negate(this);
+        return this;
+    }
+
     public String toString() {
         if (buffer instanceof ByteBuffer) {
             ByteBuffer bb = (ByteBuffer) buffer;
@@ -78,6 +83,22 @@ public class NativeVector4f {
                    bb.get(3);
         }
         return null;
+    }
+
+    public void get(Vector4f v) {
+        if (buffer instanceof ByteBuffer) {
+            ByteBuffer byteBuffer = (ByteBuffer) buffer;
+            v.x = byteBuffer.getFloat(0);
+            v.y = byteBuffer.getFloat(4);
+            v.z = byteBuffer.getFloat(8);
+            v.w = byteBuffer.getFloat(12);
+        } else if (buffer instanceof FloatBuffer) {
+            FloatBuffer floatBuffer = (FloatBuffer) buffer;
+            v.x = floatBuffer.get(0);
+            v.y = floatBuffer.get(1);
+            v.z = floatBuffer.get(2);
+            v.w = floatBuffer.get(3);
+        }
     }
 
 }
