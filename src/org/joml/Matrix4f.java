@@ -3810,6 +3810,7 @@ public class Matrix4f implements Externalizable {
         // | mulps xmm2, xmm0(quat) // qNN
         // | mov r8, 0x80000000 // sign mask
         // | movd xmm3, r9
+        // | shufps xmm3, xmm3, _MM_SHUFFLE(0, 0, 0, 0)
         // | xorps xmm2, xmm3
         float q00 = dqx * quat.x * -1;
         float q11 = dqy * quat.y * -1;
@@ -3866,10 +3867,10 @@ public class Matrix4f implements Externalizable {
 
         // | movaps xmm5, xmm4
         // | shufps xmm5, xmm5, _MM_SHUFFLE(1, 1, 1, 1)
-        // | mov r8, bf800000
+        // | mov r8, 0x80000000
         // | movd xmm6, r8
         // | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 0, 0)
-        // | mulaps xmm5, xmm6
+        // | xorps xmm5, xmm6
         // | movaps xmm6, xmm3
         // | shufps xmm6, xmm6, _MM_SHUFFLE(1, 1, 1, 1)
         // | addps xmm5, xmm6
@@ -3887,10 +3888,10 @@ public class Matrix4f implements Externalizable {
 
         // | movaps xmm1, xmm4
         // | shufps xmm1, xmm1, _MM_SHUFFLE(2, 2, 2, 2)
-        // | mov r8, bf800000
+        // | mov r8, 0x80000000
         // | movd xmm5, r8
         // | shufps xmm5, xmm5, _MM_SHUFFLE(0, 0, 0, 0)
-        // | mulps xmm1, xmm5
+        // | xorps xmm1, xmm5
         // | movaps xmm5, xmm3
         // | shufps xmm5, xmm5, _MM_SHUFFLE(0, 0, 0, 0)
         // | addps xmm1, xmm5
@@ -3960,10 +3961,10 @@ public class Matrix4f implements Externalizable {
 
         // | movaps xmm5, xmm3
         // | shufps xmm5, xmm5, _MM_SHUFFLE(2, 2, 2, 2)
-        // | mov r8, bf800000
+        // | mov r8, 0x80000000
         // | movd xmm6, r8
         // | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 0, 0)
-        // | mulps xmm5, xmm6
+        // | xorps xmm5, xmm6
         // | movaps xmm6, xmm4
         // | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 0, 0)
         // | addps xmm5, xmm6
@@ -3996,6 +3997,10 @@ public class Matrix4f implements Externalizable {
         dest.m33 = m33;
 
         return this;
+    }
+
+    public static void main(String[] args) {
+        System.err.println(Long.toString(Float.floatToRawIntBits(-0.f) & 0xFFFFFFFFL, 16));
     }
 
     /**
