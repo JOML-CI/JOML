@@ -218,4 +218,8 @@ public class NativeMatrix4f {
         return this;
     }
 
+    public String toString() {
+        return "[" + matrixBufferAddr + "]";
+    }
+
 }
