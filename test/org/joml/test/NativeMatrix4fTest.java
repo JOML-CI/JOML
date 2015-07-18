@@ -7,35 +7,22 @@ import junit.framework.TestCase;
 
 import org.joml.Matrix4f;
 import org.joml.NativeMatrix4f;
+import org.joml.NativeVector4f;
 import org.joml.Sequence;
+import org.joml.Vector4f;
 
 public class NativeMatrix4fTest extends TestCase {
 
     public void testIdentity() {
-        Sequence seq = new Sequence(90002);
+        Sequence seq = new Sequence();
         NativeMatrix4f nm = new NativeMatrix4f(seq);
         {
-            for (int i = 0; i < 90000; i++)
             nm.identity();
         }
         seq.call();
-        long time1 = System.nanoTime();
-        for (int i = 0; i < 10; i++) {
-        seq.call();
-        }
-        long time2 = System.nanoTime();
-        System.err.println((time2 - time1) / 1E3);
-        
-        Matrix4f m = new Matrix4f();
-        time1 = System.nanoTime();
-        for (int i = 0; i < 90000 * 10; i++)
-        m.identity();
-        time2 = System.nanoTime();
-        System.err.println((time2 - time1) / 1E3);
-        
+        Matrix4f expected = new Matrix4f();
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
-        Matrix4f expected = new Matrix4f();
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
     }
 
@@ -95,6 +82,32 @@ public class NativeMatrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
     }
 
+    public void testScaleDest() {
+        Sequence seq = new Sequence();
+        NativeMatrix4f nm = new NativeMatrix4f(seq);
+        NativeMatrix4f nm2 = new NativeMatrix4f(seq);
+        {
+            nm.identity().scale(2.0f).scale(3.0f, nm2);
+        }
+        seq.call();
+        Matrix4f actual = new Matrix4f();
+        nm2.get(actual);
+        Matrix4f expected = new Matrix4f().scale(2.0f).scale(3.0f);
+        TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
+    }
+
+    public void testVectorNegate() {
+        Sequence seq = new Sequence();
+        NativeVector4f nv = new NativeVector4f(1.0f, 2.0f, 3.0f, 4.0f, seq);
+        {
+            nv.negate();
+        }
+        seq.call();
+        Vector4f v = new Vector4f();
+        nv.get(v);
+        TestUtil.assertVector4fEquals(new Vector4f(-1.0f, -2.0f, -3.0f, -4.0f), v, 0.0f);
+    }
+
     public void testTranslate() {
         Sequence seq = new Sequence();
         NativeMatrix4f nm = new NativeMatrix4f(seq);
@@ -134,42 +147,24 @@ public class NativeMatrix4fTest extends TestCase {
         seq.call();
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
-        System.err.println(actual);
         Matrix4f expected = m.transpose();
-        System.err.println(expected);
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
     }
 
     public void testMulMatrix() {
-        int num = 50;
-        Sequence seq = new Sequence(8192 * 10);
-        NativeMatrix4f nm = new NativeMatrix4f(seq);
-        NativeMatrix4f nm2 = new NativeMatrix4f(seq);
+        Sequence seq = new Sequence();
+        Matrix4f m1 = new Matrix4f().rotateX(0.345f).translate(12, -4, 5).scale(1.2f, 0.5f, 1.5f);
+        Matrix4f m2 = new Matrix4f().rotateX(-0.715f).translate(61, 1, -0.5f).scale(0.2f, 15.4f, 13.2f);
+        NativeMatrix4f nm = new NativeMatrix4f(seq).set(m1);
+        NativeMatrix4f nm2 = new NativeMatrix4f(seq).set(m2);
         {
-            nm.identity();
-            nm2.identity();
-            for (int i = 0; i < num; i++)
             nm.mul(nm2);
         }
         seq.call();
-        long time1 = System.nanoTime();
-        for (int i = 0; i < 1; i++) {
-        seq.call();
-        }
-        long time2 = System.nanoTime();
-        System.err.println((time2 - time1));
-        Matrix4f m = new Matrix4f();
-        Matrix4f m2 = new Matrix4f();
-        for (int i = 0; i < 100000000; i++)
-            m.mul(m2);
-        time1 = System.nanoTime();
-        for (int i = 0; i < num; i++)
-          m.mul(m2);
-        time2 = System.nanoTime();
-        System.err.println((time2 - time1));
-        Matrix4f m3 = new Matrix4f();
-        nm.get(m3);
-        TestUtil.assertMatrix4fEquals(m, m3, 0.0f);
+        Matrix4f actual = new Matrix4f();
+        Matrix4f expected = new Matrix4f(m1).mul(m2);
+        nm.get(actual);
+        TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
     }
 
     public void testWrongSequence() {
