@@ -365,9 +365,11 @@ static void vector_negate(dasm_State** Dst) {
   | mov r8, [rcx]
   | add rcx, 16
   | movaps xmm0, [r8]
-  | xorps xmm1, xmm1
-  | subps xmm1, xmm0
-  | movaps [r8], xmm1
+  | mov r9, 0x80000000
+  | movd xmm1, r9
+  | shufps xmm1, xmm1, 0x0
+  | xorps xmm0, xmm1
+  | movaps [r8], xmm0
 }
 
 static void prologue(dasm_State** Dst) {
