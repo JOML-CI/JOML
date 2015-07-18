@@ -290,6 +290,7 @@ static void matrix_identity(dasm_State** Dst) {
   // requires matrix to be in first (xmm8-xmm11)
   // will store in first
   | mov r9, 0x3f800000 // int representation of 1.0f
+  | xorps xmm8, xmm8 // zero it out first
   | movd xmm8, r9
   | movaps xmm9, xmm8
   | shufps xmm9, xmm9, _MM_SHUFFLE(2, 1, 0, 3)
