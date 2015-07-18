@@ -29,7 +29,7 @@ enum {
 };
 #line 12 "codegen_linear.dasc"
 //|.actionlist actionlist
-static const unsigned char actionlist[1201] = {
+static const unsigned char actionlist[1181] = {
   65,15,40,192,15,40,208,65,15,40,201,15,198,193,235,15,198,209,235,65,15,40,
   218,15,40,252,235,65,15,40,252,243,15,198,222,235,15,198,252,238,235,15,40,
   200,15,198,195,235,15,40,226,15,198,213,235,15,198,203,235,15,198,230,235,
@@ -39,53 +39,52 @@ static const unsigned char actionlist[1201] = {
   40,252,242,69,15,40,252,251,255,76,139,1,72,131,193,8,76,139,9,72,131,193,
   8,65,15,40,0,65,15,41,1,65,15,40,136,233,65,15,41,137,233,65,15,40,144,233,
   65,15,41,145,233,65,15,40,152,233,65,15,41,153,233,255,76,139,1,72,131,193,
-  16,69,15,40,32,69,15,40,168,233,69,15,40,176,233,69,15,40,184,233,255,76,
-  139,1,72,131,193,16,69,15,40,0,69,15,40,136,233,69,15,40,144,233,69,15,40,
-  152,233,255,76,139,1,72,131,193,16,69,15,41,32,69,15,41,168,233,69,15,41,
-  176,233,69,15,41,184,233,255,76,139,1,72,131,193,16,69,15,41,0,69,15,41,136,
-  233,69,15,41,144,233,69,15,41,152,233,255,15,40,200,15,198,201,235,15,40,
-  208,15,198,210,235,15,40,216,15,198,219,235,15,40,224,15,198,228,235,65,15,
-  40,192,15,89,193,65,15,40,201,15,89,202,65,15,40,210,15,89,211,65,15,40,219,
-  15,89,220,15,88,193,15,88,211,15,88,194,255,65,15,40,196,255,65,15,40,197,
-  255,65,15,40,198,255,65,15,40,199,255,15,40,232,255,15,40,252,240,255,15,
-  40,252,248,255,68,15,40,197,68,15,40,206,68,15,40,215,68,15,40,216,255,68,
-  15,40,224,255,68,15,40,232,255,68,15,40,252,240,255,68,15,40,252,248,255,
-  252,243,15,16,1,72,131,193,4,252,243,15,16,9,72,131,193,12,15,198,192,235,
-  15,198,201,235,73,199,193,0,0,0,128,102,73,15,110,209,15,198,210,0,15,87,
-  208,65,15,40,217,15,89,217,65,15,40,226,15,89,224,15,88,220,65,15,40,225,
-  15,89,226,65,15,40,252,234,15,89,252,233,15,88,229,255,68,15,40,203,68,15,
-  40,212,255,69,15,40,224,68,15,40,252,235,68,15,40,252,244,69,15,40,252,251,
-  255,252,243,15,16,1,72,131,193,4,252,243,15,16,9,72,131,193,12,15,198,192,
-  235,15,198,201,235,73,199,193,0,0,0,128,102,73,15,110,209,15,198,210,0,15,
-  87,208,65,15,40,216,15,89,217,65,15,40,226,15,89,226,15,88,220,65,15,40,224,
-  15,89,224,65,15,40,252,234,15,89,252,233,15,88,229,255,68,15,40,195,68,15,
-  40,212,255,68,15,40,227,69,15,40,252,233,68,15,40,252,244,69,15,40,252,251,
-  255,252,243,15,16,1,72,131,193,4,252,243,15,16,9,72,131,193,12,15,198,192,
-  235,15,198,201,235,73,199,193,0,0,0,128,102,73,15,110,209,15,198,210,0,15,
-  87,208,65,15,40,216,15,89,217,65,15,40,225,15,89,224,15,88,220,65,15,40,224,
-  15,89,226,65,15,40,252,233,15,89,252,233,15,88,229,255,68,15,40,195,68,15,
-  40,204,255,68,15,40,227,68,15,40,252,236,69,15,40,252,242,69,15,40,252,251,
-  255,73,199,193,0,0,128,63,69,15,87,192,102,77,15,110,193,69,15,40,200,69,
-  15,198,201,235,69,15,40,209,69,15,198,210,235,69,15,40,218,69,15,198,219,
-  235,255,15,40,1,72,131,193,16,15,40,200,15,198,201,235,255,68,15,89,193,255,
-  65,15,40,208,15,89,209,68,15,40,226,255,68,15,89,201,255,65,15,40,209,15,
-  89,209,68,15,40,252,234,255,68,15,89,209,255,65,15,40,210,15,89,209,68,15,
-  40,252,242,69,15,40,252,251,255,15,40,1,72,131,193,16,15,40,200,15,198,201,
-  235,65,15,40,208,15,89,209,15,40,200,15,198,201,235,65,15,40,217,15,89,217,
-  15,88,211,15,40,200,15,198,201,235,65,15,40,218,15,89,217,15,88,211,65,15,
-  40,203,15,88,209,255,68,15,40,218,255,69,15,40,224,69,15,40,252,233,69,15,
-  40,252,242,68,15,40,252,250,255,76,139,1,72,131,193,16,65,15,40,0,73,199,
-  193,0,0,0,128,102,73,15,110,201,15,198,201,0,15,87,193,65,15,41,0,255,85,
-  72,137,229,72,129,252,236,239,255,252,243,68,15,127,60,36,252,243,68,15,127,
-  180,253,36,233,252,243,68,15,127,172,253,36,233,252,243,68,15,127,164,253,
-  36,233,252,243,68,15,127,156,253,36,233,252,243,68,15,127,148,253,36,233,
-  252,243,68,15,127,140,253,36,233,252,243,68,15,127,132,253,36,233,252,243,
-  15,127,188,253,36,233,252,243,15,127,180,253,36,233,255,252,243,68,15,111,
-  60,36,252,243,68,15,111,180,253,36,233,252,243,68,15,111,172,253,36,233,252,
-  243,68,15,111,164,253,36,233,252,243,68,15,111,156,253,36,233,252,243,68,
-  15,111,148,253,36,233,252,243,68,15,111,140,253,36,233,252,243,68,15,111,
-  132,253,36,233,252,243,15,111,188,253,36,233,252,243,15,111,180,253,36,233,
-  72,137,252,236,93,195,255
+  16,255,69,15,40,0,69,15,40,136,233,69,15,40,144,233,69,15,40,152,233,255,
+  69,15,40,32,69,15,40,168,233,69,15,40,176,233,69,15,40,184,233,255,69,15,
+  41,0,69,15,41,136,233,69,15,41,144,233,69,15,41,152,233,255,69,15,41,32,69,
+  15,41,168,233,69,15,41,176,233,69,15,41,184,233,255,15,40,200,15,198,201,
+  235,15,40,208,15,198,210,235,15,40,216,15,198,219,235,15,40,224,15,198,228,
+  235,65,15,40,192,15,89,193,65,15,40,201,15,89,202,65,15,40,210,15,89,211,
+  65,15,40,219,15,89,220,15,88,193,15,88,211,15,88,194,255,65,15,40,196,255,
+  65,15,40,197,255,65,15,40,198,255,65,15,40,199,255,15,40,232,255,15,40,252,
+  240,255,15,40,252,248,255,68,15,40,197,68,15,40,206,68,15,40,215,68,15,40,
+  216,255,68,15,40,224,255,68,15,40,232,255,68,15,40,252,240,255,68,15,40,252,
+  248,255,252,243,15,16,1,72,131,193,4,252,243,15,16,9,72,131,193,12,15,198,
+  192,235,15,198,201,235,73,199,193,0,0,0,128,102,73,15,110,209,15,198,210,
+  0,15,87,208,65,15,40,217,15,89,217,65,15,40,226,15,89,224,15,88,220,65,15,
+  40,225,15,89,226,65,15,40,252,234,15,89,252,233,15,88,229,255,68,15,40,203,
+  68,15,40,212,255,69,15,40,224,68,15,40,252,235,68,15,40,252,244,69,15,40,
+  252,251,255,252,243,15,16,1,72,131,193,4,252,243,15,16,9,72,131,193,12,15,
+  198,192,235,15,198,201,235,73,199,193,0,0,0,128,102,73,15,110,209,15,198,
+  210,0,15,87,208,65,15,40,216,15,89,217,65,15,40,226,15,89,226,15,88,220,65,
+  15,40,224,15,89,224,65,15,40,252,234,15,89,252,233,15,88,229,255,68,15,40,
+  195,68,15,40,212,255,68,15,40,227,69,15,40,252,233,68,15,40,252,244,69,15,
+  40,252,251,255,252,243,15,16,1,72,131,193,4,252,243,15,16,9,72,131,193,12,
+  15,198,192,235,15,198,201,235,73,199,193,0,0,0,128,102,73,15,110,209,15,198,
+  210,0,15,87,208,65,15,40,216,15,89,217,65,15,40,225,15,89,224,15,88,220,65,
+  15,40,224,15,89,226,65,15,40,252,233,15,89,252,233,15,88,229,255,68,15,40,
+  195,68,15,40,204,255,68,15,40,227,68,15,40,252,236,69,15,40,252,242,69,15,
+  40,252,251,255,73,199,193,0,0,128,63,69,15,87,192,102,77,15,110,193,69,15,
+  40,200,69,15,198,201,235,69,15,40,209,69,15,198,210,235,69,15,40,218,69,15,
+  198,219,235,255,15,40,1,72,131,193,16,15,40,200,15,198,201,235,255,68,15,
+  89,193,255,65,15,40,208,15,89,209,68,15,40,226,255,68,15,89,201,255,65,15,
+  40,209,15,89,209,68,15,40,252,234,255,68,15,89,209,255,65,15,40,210,15,89,
+  209,68,15,40,252,242,69,15,40,252,251,255,15,40,1,72,131,193,16,15,40,200,
+  15,198,201,235,65,15,40,208,15,89,209,15,40,200,15,198,201,235,65,15,40,217,
+  15,89,217,15,88,211,15,40,200,15,198,201,235,65,15,40,218,15,89,217,15,88,
+  211,65,15,40,203,15,88,209,255,68,15,40,218,255,69,15,40,224,69,15,40,252,
+  233,69,15,40,252,242,68,15,40,252,250,255,76,139,1,72,131,193,16,65,15,40,
+  0,73,199,193,0,0,0,128,102,73,15,110,201,15,198,201,0,15,87,193,65,15,41,
+  0,255,85,72,137,229,72,129,252,236,239,255,252,243,68,15,127,60,36,252,243,
+  68,15,127,180,253,36,233,252,243,68,15,127,172,253,36,233,252,243,68,15,127,
+  164,253,36,233,252,243,68,15,127,156,253,36,233,252,243,68,15,127,148,253,
+  36,233,252,243,68,15,127,140,253,36,233,252,243,68,15,127,132,253,36,233,
+  252,243,15,127,188,253,36,233,252,243,15,127,180,253,36,233,255,252,243,68,
+  15,111,60,36,252,243,68,15,111,180,253,36,233,252,243,68,15,111,172,253,36,
+  233,252,243,68,15,111,164,253,36,233,252,243,68,15,111,156,253,36,233,252,
+  243,68,15,111,148,253,36,233,252,243,68,15,111,140,253,36,233,252,243,68,
+  15,111,132,253,36,233,252,243,15,111,188,253,36,233,252,243,15,111,180,253,
+  36,233,72,137,252,236,93,195,255
 };
 
 #line 13 "codegen_linear.dasc"
@@ -135,22 +134,22 @@ static void matrix_transpose(dasm_State** Dst, char storeIntoSecond) {
   }
 }
 
-static void copy_first_from_second(dasm_State** Dst) {
+static void copy(dasm_State** Dst, char storeIntoSecond) {
+if (!storeIntoSecond) {
   //| movaps xmm8, xmm12
   //| movaps xmm9, xmm13
   //| movaps xmm10, xmm14
   //| movaps xmm11, xmm15
   dasm_put(Dst, 101);
-#line 58 "codegen_linear.dasc"
-}
-
-static void copy_second_from_first(dasm_State** Dst) {
+#line 59 "codegen_linear.dasc"
+} else {
   //| movaps xmm12, xmm8
   //| movaps xmm13, xmm9
   //| movaps xmm14, xmm10
   //| movaps xmm15, xmm11
   dasm_put(Dst, 118);
-#line 65 "codegen_linear.dasc"
+#line 64 "codegen_linear.dasc"
+}
 }
 
 static void copy_mem(dasm_State** Dst) {
@@ -170,48 +169,48 @@ static void copy_mem(dasm_State** Dst) {
 #line 80 "codegen_linear.dasc"
 }
 
-static void load_second(dasm_State** Dst) {
+static void load(dasm_State** Dst, char storeIntoSecond) {
   //| mov r8, [rcx]
   //| add rcx, 16
-  //| movaps xmm12, [r8]
-  //| movaps xmm13, [r8+4*4]
-  //| movaps xmm14, [r8+4*8]
-  //| movaps xmm15, [r8+4*12]
-  dasm_put(Dst, 191, 4*4, 4*8, 4*12);
-#line 89 "codegen_linear.dasc"
-}
-
-static void load_first(dasm_State** Dst) {
-  //| mov r8, [rcx]
-  //| add rcx, 16
+  dasm_put(Dst, 191);
+#line 85 "codegen_linear.dasc"
+if (!storeIntoSecond) {
   //| movaps xmm8, [r8]
   //| movaps xmm9, [r8+4*4]
   //| movaps xmm10, [r8+4*8]
   //| movaps xmm11, [r8+4*12]
-  dasm_put(Dst, 218, 4*4, 4*8, 4*12);
-#line 98 "codegen_linear.dasc"
+  dasm_put(Dst, 199, 4*4, 4*8, 4*12);
+#line 90 "codegen_linear.dasc"
+} else {
+  //| movaps xmm12, [r8]
+  //| movaps xmm13, [r8+4*4]
+  //| movaps xmm14, [r8+4*8]
+  //| movaps xmm15, [r8+4*12]
+  dasm_put(Dst, 219, 4*4, 4*8, 4*12);
+#line 95 "codegen_linear.dasc"
+}
 }
 
-static void store_second(dasm_State** Dst) {
+static void store(dasm_State** Dst, char fromSecond) {
   //| mov r8, [rcx]
   //| add rcx, 16
-  //| movaps [r8], xmm12
-  //| movaps [r8+4*4], xmm13
-  //| movaps [r8+4*8], xmm14
-  //| movaps [r8+4*12], xmm15
-  dasm_put(Dst, 245, 4*4, 4*8, 4*12);
-#line 107 "codegen_linear.dasc"
-}
-
-static void store_first(dasm_State** Dst) {
-  //| mov r8, [rcx]
-  //| add rcx, 16
+  dasm_put(Dst, 191);
+#line 101 "codegen_linear.dasc"
+if (!fromSecond) {
   //| movaps [r8], xmm8
   //| movaps [r8+4*4], xmm9
   //| movaps [r8+4*8], xmm10
   //| movaps [r8+4*12], xmm11
-  dasm_put(Dst, 272, 4*4, 4*8, 4*12);
-#line 116 "codegen_linear.dasc"
+  dasm_put(Dst, 239, 4*4, 4*8, 4*12);
+#line 106 "codegen_linear.dasc"
+} else {
+  //| movaps [r8], xmm12
+  //| movaps [r8+4*4], xmm13
+  //| movaps [r8+4*8], xmm14
+  //| movaps [r8+4*12], xmm15
+  dasm_put(Dst, 259, 4*4, 4*8, 4*12);
+#line 111 "codegen_linear.dasc"
+}
 }
 
 static void linearProduct(dasm_State** Dst) {
@@ -235,8 +234,8 @@ static void linearProduct(dasm_State** Dst) {
   //| addps xmm0, xmm1
   //| addps xmm2, xmm3
   //| addps xmm0, xmm2
-  dasm_put(Dst, 299, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3));
-#line 139 "codegen_linear.dasc"
+  dasm_put(Dst, 279, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2), _MM_SHUFFLE(3, 3, 3, 3));
+#line 135 "codegen_linear.dasc"
 }
 
 static void matrix_mul_matrix(dasm_State** Dst, char storeIntoSecond) {
@@ -248,62 +247,62 @@ static void matrix_mul_matrix(dasm_State** Dst, char storeIntoSecond) {
     // load column/vector from second
     if (i == 0) {
       //| movaps xmm0, xmm12
-      dasm_put(Dst, 365);
-#line 150 "codegen_linear.dasc"
+      dasm_put(Dst, 345);
+#line 146 "codegen_linear.dasc"
     } else if (i == 1) {
       //| movaps xmm0, xmm13
-      dasm_put(Dst, 370);
-#line 152 "codegen_linear.dasc"
+      dasm_put(Dst, 350);
+#line 148 "codegen_linear.dasc"
     } else if (i == 2) {
       //| movaps xmm0, xmm14
-      dasm_put(Dst, 375);
-#line 154 "codegen_linear.dasc"
+      dasm_put(Dst, 355);
+#line 150 "codegen_linear.dasc"
     } else if (i == 3) {
       //| movaps xmm0, xmm15
-      dasm_put(Dst, 380);
-#line 156 "codegen_linear.dasc"
+      dasm_put(Dst, 360);
+#line 152 "codegen_linear.dasc"
     }
     linearProduct(Dst);
     if (!storeIntoSecond) {
       // store into first
       if (i == 0) {
         //| movaps xmm5, xmm0
-        dasm_put(Dst, 385);
-#line 162 "codegen_linear.dasc"
+        dasm_put(Dst, 365);
+#line 158 "codegen_linear.dasc"
       } else if (i == 1) {
         //| movaps xmm6, xmm0
-        dasm_put(Dst, 389);
-#line 164 "codegen_linear.dasc"
+        dasm_put(Dst, 369);
+#line 160 "codegen_linear.dasc"
       } else if (i == 2) {
         //| movaps xmm7, xmm0
-        dasm_put(Dst, 394);
-#line 166 "codegen_linear.dasc"
+        dasm_put(Dst, 374);
+#line 162 "codegen_linear.dasc"
       } else if (i == 3) {
         //| movaps xmm8, xmm5
         //| movaps xmm9, xmm6
         //| movaps xmm10, xmm7
         //| movaps xmm11, xmm0
-        dasm_put(Dst, 399);
-#line 171 "codegen_linear.dasc"
+        dasm_put(Dst, 379);
+#line 167 "codegen_linear.dasc"
       }
     } else {
       // store into second
       if (i == 0) {
         //| movaps xmm12, xmm0
-        dasm_put(Dst, 416);
-#line 176 "codegen_linear.dasc"
+        dasm_put(Dst, 396);
+#line 172 "codegen_linear.dasc"
       } else if (i == 1) {
         //| movaps xmm13, xmm0
-        dasm_put(Dst, 421);
-#line 178 "codegen_linear.dasc"
+        dasm_put(Dst, 401);
+#line 174 "codegen_linear.dasc"
       } else if (i == 2) {
         //| movaps xmm14, xmm0
-        dasm_put(Dst, 426);
-#line 180 "codegen_linear.dasc"
+        dasm_put(Dst, 406);
+#line 176 "codegen_linear.dasc"
       } else if (i == 3) {
         //| movaps xmm15, xmm0
-        dasm_put(Dst, 432);
-#line 182 "codegen_linear.dasc"
+        dasm_put(Dst, 412);
+#line 178 "codegen_linear.dasc"
       }
     }
   }
@@ -332,20 +331,20 @@ static void matrix_rotateX(dasm_State** Dst, char storeIntoSecond) {
   //| movaps xmm5, xmm10
   //| mulps xmm5, xmm1 // m2X * rm22
   //| addps xmm4, xmm5
-  dasm_put(Dst, 438, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(0, 0, 0, 0));
-#line 210 "codegen_linear.dasc"
+  dasm_put(Dst, 418, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(0, 0, 0, 0));
+#line 206 "codegen_linear.dasc"
   if (!storeIntoSecond) {
     //| movaps xmm9, xmm3
     //| movaps xmm10, xmm4
-    dasm_put(Dst, 520);
-#line 213 "codegen_linear.dasc"
+    dasm_put(Dst, 500);
+#line 209 "codegen_linear.dasc"
   } else {
     //| movaps xmm12, xmm8
     //| movaps xmm13, xmm3
     //| movaps xmm14, xmm4
     //| movaps xmm15, xmm11
-    dasm_put(Dst, 529);
-#line 218 "codegen_linear.dasc"
+    dasm_put(Dst, 509);
+#line 214 "codegen_linear.dasc"
   }
 }
 
@@ -372,20 +371,20 @@ static void matrix_rotateY(dasm_State** Dst, char storeIntoSecond) {
   //| movaps xmm5, xmm10
   //| mulps xmm5, xmm1 // m2X * rm22
   //| addps xmm4, xmm5
-  dasm_put(Dst, 549, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(0, 0, 0, 0));
-#line 244 "codegen_linear.dasc"
+  dasm_put(Dst, 529, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(0, 0, 0, 0));
+#line 240 "codegen_linear.dasc"
   if (!storeIntoSecond) {
     //| movaps xmm8, xmm3
     //| movaps xmm10, xmm4
-    dasm_put(Dst, 631);
-#line 247 "codegen_linear.dasc"
+    dasm_put(Dst, 611);
+#line 243 "codegen_linear.dasc"
   } else {
     //| movaps xmm12, xmm3
     //| movaps xmm13, xmm9
     //| movaps xmm14, xmm4
     //| movaps xmm15, xmm11
-    dasm_put(Dst, 640);
-#line 252 "codegen_linear.dasc"
+    dasm_put(Dst, 620);
+#line 248 "codegen_linear.dasc"
   }
 }
 
@@ -412,20 +411,20 @@ static void matrix_rotateZ(dasm_State** Dst, char storeIntoSecond) {
   //| movaps xmm5, xmm9
   //| mulps xmm5, xmm1 // m1X * rm11
   //| addps xmm4, xmm5
-  dasm_put(Dst, 660, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(0, 0, 0, 0));
-#line 278 "codegen_linear.dasc"
+  dasm_put(Dst, 640, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(0, 0, 0, 0));
+#line 274 "codegen_linear.dasc"
   if (!storeIntoSecond) {
     //| movaps xmm8, xmm3
     //| movaps xmm9, xmm4
-    dasm_put(Dst, 742);
-#line 281 "codegen_linear.dasc"
+    dasm_put(Dst, 722);
+#line 277 "codegen_linear.dasc"
   } else {
     //| movaps xmm12, xmm3
     //| movaps xmm13, xmm4
     //| movaps xmm14, xmm10
     //| movaps xmm15, xmm11
-    dasm_put(Dst, 751);
-#line 286 "codegen_linear.dasc"
+    dasm_put(Dst, 731);
+#line 282 "codegen_linear.dasc"
   }
 }
 
@@ -441,8 +440,8 @@ static void matrix_identity(dasm_State** Dst) {
   //| shufps xmm10, xmm10, _MM_SHUFFLE(2, 1, 0, 3)
   //| movaps xmm11, xmm10
   //| shufps xmm11, xmm11, _MM_SHUFFLE(2, 1, 0, 3)
-  dasm_put(Dst, 771, _MM_SHUFFLE(2, 1, 0, 3), _MM_SHUFFLE(2, 1, 0, 3), _MM_SHUFFLE(2, 1, 0, 3));
-#line 301 "codegen_linear.dasc"
+  dasm_put(Dst, 751, _MM_SHUFFLE(2, 1, 0, 3), _MM_SHUFFLE(2, 1, 0, 3), _MM_SHUFFLE(2, 1, 0, 3));
+#line 297 "codegen_linear.dasc"
 }
 
 static void matrix_scale(dasm_State** Dst, char storeIntoSecond) {
@@ -453,49 +452,49 @@ static void matrix_scale(dasm_State** Dst, char storeIntoSecond) {
   //| add rcx, 16
   //| movaps xmm1, xmm0
   //| shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
-  dasm_put(Dst, 815, _MM_SHUFFLE(0, 0, 0, 0));
-#line 311 "codegen_linear.dasc"
+  dasm_put(Dst, 795, _MM_SHUFFLE(0, 0, 0, 0));
+#line 307 "codegen_linear.dasc"
   if (!storeIntoSecond) {
     //| mulps xmm8, xmm1
-    dasm_put(Dst, 830);
-#line 313 "codegen_linear.dasc"
+    dasm_put(Dst, 810);
+#line 309 "codegen_linear.dasc"
   } else {
     //| movaps xmm2, xmm8
     //| mulps xmm2, xmm1
     //| movaps xmm12, xmm2
-    dasm_put(Dst, 835);
-#line 317 "codegen_linear.dasc"
+    dasm_put(Dst, 815);
+#line 313 "codegen_linear.dasc"
   }
   //| movaps xmm1, xmm0
   //| shufps xmm1, xmm1, _MM_SHUFFLE(1, 1, 1, 1)
-  dasm_put(Dst, 822, _MM_SHUFFLE(1, 1, 1, 1));
-#line 320 "codegen_linear.dasc"
+  dasm_put(Dst, 802, _MM_SHUFFLE(1, 1, 1, 1));
+#line 316 "codegen_linear.dasc"
   if (!storeIntoSecond) {
     //| mulps xmm9, xmm1
-    dasm_put(Dst, 847);
-#line 322 "codegen_linear.dasc"
+    dasm_put(Dst, 827);
+#line 318 "codegen_linear.dasc"
   } else {
     //| movaps xmm2, xmm9
     //| mulps xmm2, xmm1
     //| movaps xmm13, xmm2
-    dasm_put(Dst, 852);
-#line 326 "codegen_linear.dasc"
+    dasm_put(Dst, 832);
+#line 322 "codegen_linear.dasc"
   }
   //| movaps xmm1, xmm0
   //| shufps xmm1, xmm1, _MM_SHUFFLE(2, 2, 2, 2)
-  dasm_put(Dst, 822, _MM_SHUFFLE(2, 2, 2, 2));
-#line 329 "codegen_linear.dasc"
+  dasm_put(Dst, 802, _MM_SHUFFLE(2, 2, 2, 2));
+#line 325 "codegen_linear.dasc"
   if (!storeIntoSecond) {
     //| mulps xmm10, xmm1
-    dasm_put(Dst, 865);
-#line 331 "codegen_linear.dasc"
+    dasm_put(Dst, 845);
+#line 327 "codegen_linear.dasc"
   } else {
     //| movaps xmm2, xmm10
     //| mulps xmm2, xmm1
     //| movaps xmm14, xmm2
     //| movaps xmm15, xmm11
-    dasm_put(Dst, 870);
-#line 336 "codegen_linear.dasc"
+    dasm_put(Dst, 850);
+#line 332 "codegen_linear.dasc"
   }
 }
 
@@ -521,19 +520,19 @@ static void matrix_translate(dasm_State** Dst, char storeIntoSecond) {
   //| addps xmm2, xmm3 // +
   //| movaps xmm1, xmm11
   //| addps xmm2, xmm1 // + m3N
-  dasm_put(Dst, 888, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2));
-#line 361 "codegen_linear.dasc"
+  dasm_put(Dst, 868, _MM_SHUFFLE(0, 0, 0, 0), _MM_SHUFFLE(1, 1, 1, 1), _MM_SHUFFLE(2, 2, 2, 2));
+#line 357 "codegen_linear.dasc"
   if (!storeIntoSecond) {
     //| movaps xmm11, xmm2
-    dasm_put(Dst, 951);
-#line 363 "codegen_linear.dasc"
+    dasm_put(Dst, 931);
+#line 359 "codegen_linear.dasc"
   } else {
     //| movaps xmm12, xmm8
     //| movaps xmm13, xmm9
     //| movaps xmm14, xmm10
     //| movaps xmm15, xmm2
-    dasm_put(Dst, 956);
-#line 368 "codegen_linear.dasc"
+    dasm_put(Dst, 936);
+#line 364 "codegen_linear.dasc"
   }
 }
 
@@ -546,16 +545,16 @@ static void vector_negate(dasm_State** Dst) {
   //| shufps xmm1, xmm1, 0x0
   //| xorps xmm0, xmm1
   //| movaps [r8], xmm0
-  dasm_put(Dst, 976);
-#line 380 "codegen_linear.dasc"
+  dasm_put(Dst, 956);
+#line 376 "codegen_linear.dasc"
 }
 
 static void prologue(dasm_State** Dst) {
   //| push rbp
   //| mov rbp, rsp
   //| sub rsp, 16*10
-  dasm_put(Dst, 1011, 16*10);
-#line 386 "codegen_linear.dasc"
+  dasm_put(Dst, 991, 16*10);
+#line 382 "codegen_linear.dasc"
   // save all non-volatile registers that we use
   //| movdqu [rsp], xmm15
   //| movdqu [rsp+4*4], xmm14
@@ -567,8 +566,8 @@ static void prologue(dasm_State** Dst) {
   //| movdqu [rsp+4*4*7], xmm8
   //| movdqu [rsp+4*4*8], xmm7
   //| movdqu [rsp+4*4*9], xmm6
-  dasm_put(Dst, 1021, 4*4, 4*4*2, 4*4*3, 4*4*4, 4*4*5, 4*4*6, 4*4*7, 4*4*8, 4*4*9);
-#line 397 "codegen_linear.dasc"
+  dasm_put(Dst, 1001, 4*4, 4*4*2, 4*4*3, 4*4*4, 4*4*5, 4*4*6, 4*4*7, 4*4*8, 4*4*9);
+#line 393 "codegen_linear.dasc"
 }
 
 static void epilogue(dasm_State** Dst) {
@@ -585,8 +584,8 @@ static void epilogue(dasm_State** Dst) {
   //| mov rsp, rbp
   //| pop rbp
   //| ret
-  dasm_put(Dst, 1108, 4*4, 4*4*2, 4*4*3, 4*4*4, 4*4*5, 4*4*6, 4*4*7, 4*4*8, 4*4*9);
-#line 413 "codegen_linear.dasc"
+  dasm_put(Dst, 1088, 4*4, 4*4*2, 4*4*3, 4*4*4, 4*4*5, 4*4*6, 4*4*7, 4*4*8, 4*4*9);
+#line 409 "codegen_linear.dasc"
 }
 
 batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* codeSize) {
@@ -602,39 +601,33 @@ batch_func_t codegen(const unsigned char* opcodes, int opcodesLength, size_t* co
   prologue(Dst);
   for (int i = 0; i < opcodesLength; i++) {
     unsigned char opcode = opcodes[i];
-    char toSecond = (opcode & OPCODE_MASK_TO_SECOND) == OPCODE_MASK_TO_SECOND;
+    char second = (opcode & OPCODE_MASK_SECOND) == OPCODE_MASK_SECOND;
     opcode &= 0x7F;
     switch (opcode) {
     case OPCODE_MATRIX_MUL_MATRIX:
-      matrix_mul_matrix(&state, toSecond); break;
+      matrix_mul_matrix(&state, second); break;
     case OPCODE_MATRIX_TRANSPOSE:
-      matrix_transpose(&state, toSecond); break;
+      matrix_transpose(&state, second); break;
     case OPCODE_MATRIX_IDENTITY:
       matrix_identity(&state); break;
     case OPCODE_MATRIX_ROTATEX:
-      matrix_rotateX(&state, toSecond); break;
+      matrix_rotateX(&state, second); break;
     case OPCODE_MATRIX_ROTATEY:
-      matrix_rotateY(&state, toSecond); break;
+      matrix_rotateY(&state, second); break;
     case OPCODE_MATRIX_ROTATEZ:
-      matrix_rotateZ(&state, toSecond); break;
+      matrix_rotateZ(&state, second); break;
     case OPCODE_MATRIX_TRANSLATE:
-      matrix_translate(&state, toSecond); break;
+      matrix_translate(&state, second); break;
     case OPCODE_MATRIX_SCALE:
-      matrix_scale(&state, toSecond); break;
+      matrix_scale(&state, second); break;
     case OPCODE_VECTOR_NEGATE:
       vector_negate(&state); break;
-    case OPCODE_STORE_FIRST:
-      store_first(&state); break;
-    case OPCODE_STORE_SECOND:
-      store_second(&state); break;
-    case OPCODE_LOAD_FIRST:
-      load_first(&state); break;
-    case OPCODE_LOAD_SECOND:
-      load_second(&state); break;
-    case OPCODE_COPY_FIRST_FROM_SECOND:
-      copy_first_from_second(&state); break;
-    case OPCODE_COPY_SECOND_FROM_FIRST:
-      copy_second_from_first(&state); break;
+    case OPCODE_STORE:
+      store(&state, second); break;
+    case OPCODE_LOAD:
+      load(&state, second); break;
+    case OPCODE_COPY:
+      copy(&state, second); break;
     case OPCODE_COPY_MEM:
       copy_mem(&state); break;
     default:

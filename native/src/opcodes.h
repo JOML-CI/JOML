@@ -2,7 +2,7 @@
 #define _OPCODES_H_
 
 // Opcode masks
-#define OPCODE_MASK_TO_SECOND 0x80
+#define OPCODE_MASK_SECOND 0x80
 
 // Arithmetic opcodes
 #define OPCODE_MATRIX_IDENTITY 0x01
@@ -20,13 +20,10 @@
 #define OPCODE_VECTOR_NEGATE 0x0D
 
 // Memory management opcodes
-#define OPCODE_STORE_FIRST 0x40
-#define OPCODE_STORE_SECOND 0x41
-#define OPCODE_LOAD_FIRST 0x42
-#define OPCODE_LOAD_SECOND 0x43
-#define OPCODE_EXCHANGE 0x44
-#define OPCODE_COPY_FIRST_FROM_SECOND 0x45
-#define OPCODE_COPY_SECOND_FROM_FIRST 0x46
-#define OPCODE_COPY_MEM 0x47
+#define OPCODE_STORE 0x40
+#define OPCODE_LOAD 0x41
+#define OPCODE_EXCHANGE 0x42
+#define OPCODE_COPY 0x43
+#define OPCODE_COPY_MEM 0x44
 
 #endif

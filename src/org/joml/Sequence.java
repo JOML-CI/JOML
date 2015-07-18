@@ -36,7 +36,7 @@ import java.nio.ByteOrder;
 public class Sequence {
 
     // Opcode masks
-    public static final byte OPCODE_MASK_TO_SECOND = (byte) 0x80;
+    public static final byte OPCODE_MASK_SECOND = (byte) 0x80;
 
     // Arithmetic opcodes
     public static final byte OPCODE_MATRIX_IDENTITY = 0x01;
@@ -54,14 +54,11 @@ public class Sequence {
     public static final byte OPCODE_VECTOR_NEGATE = 0x0D;
 
     // Memory management opcodes
-    public static final byte OPCODE_STORE_FIRST = (byte) 0x40;
-    public static final byte OPCODE_STORE_SECOND = (byte) 0x41;
-    public static final byte OPCODE_LOAD_FIRST = (byte) 0x42;
-    public static final byte OPCODE_LOAD_SECOND = (byte) 0x43;
-    public static final byte OPCODE_EXCHANGE = (byte) 0x44;
-    public static final byte OPCODE_COPY_FIRST_FROM_SECOND = (byte) 0x45;
-    public static final byte OPCODE_COPY_SECOND_FROM_FIRST = (byte) 0x46;
-    public static final byte OPCODE_COPY_MEM = (byte) 0x47;
+    public static final byte OPCODE_STORE = (byte) 0x40;
+    public static final byte OPCODE_LOAD = (byte) 0x41;
+    public static final byte OPCODE_EXCHANGE = (byte) 0x42;
+    public static final byte OPCODE_COPY = (byte) 0x43;
+    public static final byte OPCODE_COPY_MEM = (byte) 0x44;
 
     int maxOperationsCount = 8192;
     ByteBuffer codeSizeBuffer = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder());
@@ -214,7 +211,7 @@ public class Sequence {
             // spill current 'first' to memory
             storeFirst();
         }
-        putOperation(OPCODE_LOAD_FIRST);
+        putOperation(OPCODE_LOAD);
         putArg(addr);
         putArg(0L);
         first = addr;
@@ -230,7 +227,7 @@ public class Sequence {
             // spill current 'second' to memory
             storeSecond();
         }
-        putOperation(OPCODE_LOAD_SECOND);
+        putOperation((byte) (OPCODE_LOAD | OPCODE_MASK_SECOND));
         putArg(addr);
         putArg(0L);
         second = addr;
@@ -239,7 +236,7 @@ public class Sequence {
 
     private void storeFirst() {
         if (first != 0L) {
-            putOperation(OPCODE_STORE_FIRST);
+            putOperation(OPCODE_STORE);
             putArg(first);
             putArg(0L);
             firstInSync = true;
@@ -247,7 +244,7 @@ public class Sequence {
     }
 
     private void storeFirst(long addr) {
-        putOperation(OPCODE_STORE_FIRST);
+        putOperation(OPCODE_STORE);
         putArg(addr);
         putArg(0L);
         if (addr == first) {
@@ -257,7 +254,7 @@ public class Sequence {
 
     private void storeSecond() {
         if (second != 0L) {
-            putOperation(OPCODE_STORE_SECOND);
+            putOperation((byte) (OPCODE_STORE | OPCODE_MASK_SECOND));
             putArg(second);
             putArg(0L);
             secondInSync = true;
@@ -266,7 +263,7 @@ public class Sequence {
 
     private void storeSecond(long addr) {
         if (addr != 0L) {
-            putOperation(OPCODE_STORE_SECOND);
+            putOperation((byte) (OPCODE_STORE | OPCODE_MASK_SECOND));
             putArg(addr);
             putArg(0L);
             if (addr == second) {
@@ -289,9 +286,9 @@ public class Sequence {
 
     public Sequence copy(long src, long dst) {
         if (first == dst && second == src) {
-            putOperation(OPCODE_COPY_FIRST_FROM_SECOND);
+            putOperation(OPCODE_COPY);
         } else if (second == dst && first == src) {
-            putOperation(OPCODE_COPY_SECOND_FROM_FIRST);
+            putOperation((byte) (OPCODE_COPY | OPCODE_MASK_SECOND));
         } else if (first == dst) {
             loadFirst(src);
         } else if (second == dst) {
@@ -318,7 +315,7 @@ public class Sequence {
         loadSecond(right.matrixBufferAddr);
         byte mask = 0x00;
         if (left.matrixBufferAddr != dest.matrixBufferAddr) {
-            mask |= OPCODE_MASK_TO_SECOND;
+            mask |= OPCODE_MASK_SECOND;
             secondInSync = false;
         } else {
             firstInSync = false;
@@ -348,7 +345,7 @@ public class Sequence {
         byte mask = 0x00;
         loadFirst(matrix.matrixBufferAddr);
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
-            mask |= OPCODE_MASK_TO_SECOND;
+            mask |= OPCODE_MASK_SECOND;
             loadSecond(dest.matrixBufferAddr);
             secondInSync = false;
         } else {
@@ -403,7 +400,7 @@ public class Sequence {
         byte mask = 0x00;
         loadFirst(matrix.matrixBufferAddr);
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
-            mask |= OPCODE_MASK_TO_SECOND;
+            mask |= OPCODE_MASK_SECOND;
             loadSecond(dest.matrixBufferAddr);
             secondInSync = false;
         } else {
@@ -424,7 +421,7 @@ public class Sequence {
         byte mask = 0x00;
         loadFirst(matrix.matrixBufferAddr);
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
-            mask |= OPCODE_MASK_TO_SECOND;
+            mask |= OPCODE_MASK_SECOND;
             loadSecond(dest.matrixBufferAddr);
             secondInSync = false;
         } else {
@@ -445,7 +442,7 @@ public class Sequence {
         byte mask = 0x00;
         loadFirst(matrix.matrixBufferAddr);
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
-            mask |= OPCODE_MASK_TO_SECOND;
+            mask |= OPCODE_MASK_SECOND;
             loadSecond(dest.matrixBufferAddr);
             secondInSync = false;
         } else {
@@ -466,7 +463,7 @@ public class Sequence {
         byte mask = 0x00;
         loadFirst(matrix.matrixBufferAddr);
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
-            mask |= OPCODE_MASK_TO_SECOND;
+            mask |= OPCODE_MASK_SECOND;
             loadSecond(dest.matrixBufferAddr);
             secondInSync = false;
         } else {
@@ -485,7 +482,7 @@ public class Sequence {
         byte mask = 0x00;
         loadFirst(matrix.matrixBufferAddr);
         if (matrix.matrixBufferAddr != dest.matrixBufferAddr) {
-            mask |= OPCODE_MASK_TO_SECOND;
+            mask |= OPCODE_MASK_SECOND;
             loadSecond(dest.matrixBufferAddr);
             secondInSync = false;
         } else {
