@@ -3840,9 +3840,9 @@ public class Matrix4f implements Externalizable {
         // bf800000 - int pattern of -1
 
         // | movaps xmm0, xmm2
-        // | shufps xmm0, xmm0, _MM_SHUFFLE(2, 2, 2, 2)
+        // | shufps xmm0, xmm0, _MM_SHUFFLE(1, 1, 1, 1)
         // | movaps xmm1, xmm2
-        // | shufps xmm1, xmm1, _MM_SHUFFLE(3, 3, 3, 3)
+        // | shufps xmm1, xmm1, _MM_SHUFFLE(2, 2, 2, 2)
         // | addps xmm0, xmm1
         // | mov r8, 3f800000
         // | movd xmm1, r8
@@ -3860,6 +3860,9 @@ public class Matrix4f implements Externalizable {
         // | addps xmm1, xmm5
         float rm01 = q01 + q23;
         // | mulps xmm1, xmm9 // m1X * rm01
+        // | addps xmm0, xmm1
+
+        // free: xmm1, xmm5, xmm6, xmm7
 
         // | movaps xmm5, xmm4
         // | shufps xmm5, xmm5, _MM_SHUFFLE(1, 1, 1, 1)
@@ -3872,10 +3875,8 @@ public class Matrix4f implements Externalizable {
         // | addps xmm5, xmm6
         float rm02 = q02 + q13 * -1;
         // | mulps xmm5, xmm10 // m2X * rm02
+        // | addps xmm0, xmm5
 
-        // add together
-        // | addps xmm0 xmm1
-        // | addps xmm0 xmm5
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
@@ -3884,35 +3885,111 @@ public class Matrix4f implements Externalizable {
 
         // free: xmm1, xmm5, xmm6, xmm7
 
+        // | movaps xmm1, xmm4
+        // | shufps xmm1, xmm1, _MM_SHUFFLE(2, 2, 2, 2)
+        // | mov r8, bf800000
+        // | movd xmm5, r8
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(0, 0, 0, 0)
+        // | mulps xmm1, xmm5
+        // | movaps xmm5, xmm3
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(0, 0, 0, 0)
+        // | addps xmm1, xmm5
         float rm10 = q01 + q23 * -1;
+        // | mulps xmm1, xmm8 // m0X * rm10
 
+        // free: xmm5, xmm6, xmm7
+
+        // | movaps xmm5, xmm2
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(2, 2, 2, 2)
+        // | movaps xmm6, xmm2
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(2, 2, 2, 2)
+        // | addps xmm5, xmm6
+        // | mov r8, 3f800000
+        // | movd xmm6, r8
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 0, 0)
+        // | addps xmm5, xmm6
         float rm11 = 1.0f + q22 + q00;
+        // | mulps xmm5, xmm9 // m1X * rm11
+        // | addps xmm1, xmm5
 
+        // free: xmm5, xmm6, xmm7
+
+        // | movaps xmm5, xmm4
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(0, 0, 0, 0)
+        // | movaps xmm6, xmm3,
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(2, 2, 2, 2)
+        // | addps xmm5, xmm6
         float rm12 = q12 + q03;
+        // | mulps xmm5, xmm10 // m2X * rm12
+        // | addps xmm1, xmm5
+
+        // free: xmm5, xmm6, xmm7
 
         float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
         float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        // xmm1 = nm1X
 
-        float rm20 = q02 + q13;
+        // free: xmm5, xmm6, xmm7
 
-        float rm21 = q12 + q03 * -1;
-
+        // | movaps xmm5, xmm2
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(1, 1, 1, 1)
+        // | movaps xmm6, xmm2
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 0, 0)
+        // | addps xmm5, xmm6
+        // | mov r8, 3f800000
+        // | movd xmm2, r8
+        // | shufps xmm2, xmm2, _MM_SHUFFLE(0, 0, 0, 0)
+        // | addps xmm2, xmm5
         float rm22 = 1.0f + q11 + q00;
+        // | mulps xmm2, xmm10 // m2X * rm22
+
+        // free: xmm5, xmm6, xmm7  <- xmm5 is free again, because xmm2 is free, since we don't need q00, q11, q22 anymore!
+
+        // | movaps xmm5, xmm3
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(1, 1, 1, 1)
+        // | movaps xmm6, xmm4
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(1, 1, 1, 1)
+        // | addps xmm5, xmm6
+        float rm20 = q02 + q13;
+        // | mulps xmm5, xmm8 // m0X * rm20
+        // | addps xmm2, xmm5
+
+        // free: xmm5, xmm6, xmm7
+
+        // | movaps xmm5, xmm3
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(2, 2, 2, 2)
+        // | mov r8, bf800000
+        // | movd xmm6, r8
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 0, 0)
+        // | mulps xmm5, xmm6
+        // | movaps xmm6, xmm4
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 0, 0)
+        // | addps xmm5, xmm6
+        float rm21 = q12 + q03 * -1;
+        // | mulps xmm5, xmm9 // m1X * rm21
+        // | addps xmm2, xmm5
+
+        // free: xmm5, xmm6, xmm7
 
         dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
         dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
         dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
         dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        // xmm2 = dest.m2X
+
+        // | movaps xmm8, xmm0
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
         dest.m03 = nm03;
+        // | movaps xmm9, xmm1
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
+        // 
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
