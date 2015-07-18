@@ -3861,12 +3861,28 @@ public class Matrix4f implements Externalizable {
         float rm01 = q01 + q23;
         // | mulps xmm1, xmm9 // m1X * rm01
 
+        // | movaps xmm5, xmm4
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(1, 1, 1, 1)
+        // | mov r8, bf800000
+        // | movd xmm6, r8
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 0, 0)
+        // | mulaps xmm5, xmm6
+        // | movaps xmm6, xmm3
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(1, 1, 1, 1)
+        // | addps xmm5, xmm6
         float rm02 = q02 + q13 * -1;
-        
+        // | mulps xmm5, xmm10 // m2X * rm02
+
+        // add together
+        // | addps xmm0 xmm1
+        // | addps xmm0 xmm5
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
         float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        // xmm0 = nm0X
+
+        // free: xmm1, xmm5, xmm6, xmm7
 
         float rm10 = q01 + q23 * -1;
 
