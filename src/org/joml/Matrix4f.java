@@ -1672,10 +1672,10 @@ public class Matrix4f implements Externalizable {
         // | shufps xmm7, xmm2, _MM_SHUFFLE(0, 0, 0, 2)
         // | addps xmm6, xmm7
         // | movaps xmm7, [sx, sy, sz, 0]
-        // | shufps xmm7, xmm7, _MM_SHUFFLE(1, 1, 1, 1)
+        // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 1, 1, 1)
         // | mulps xmm6, xmm7
         // | movaps xmm7, [sx, sy, sz, 0]
-        // | shufps xmm7, xmm7, _MM_SHUFFLE(0, 1, 0, 0)
+        // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 1, 3, 3)
         // | addps xmm6, xmm7
         // | shufps xmm6, xmm6, _MM_SHUFFLE(3, 0, 2, 1)
         // | movaps xmm8, xmm6
@@ -1686,16 +1686,46 @@ public class Matrix4f implements Externalizable {
 
         // free: xmm6, xmm7
 
+        // | movaps xmm6, xmm3
+        // | shufps xmm6, xmm2, _MM_SHUFFLE(0, 0, 2, 1)
+        // | mulps xmm6, xmm5
+        // | movaps xmm7, xmm4
+        // | shufps xmm7, xmm2, _MM_SHUFFLE(1, 1, 0, 1)
+        // | addps xmm6, xmm7
+        // | movaps xmm7, [sx, sy, sz, 0]
+        // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 2, 2, 2)
+        // | mulps xmm6, xmm7
+        // | movaps xmm7, [sx, sy, sz, 0]
+        // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 2, 3, 3)
+        // | addps xmm6, xmm7
+        // | movaps xmm9, xmm6
         m20 = 0  + (q13 + q02 * 1) * sz;
         m21 = 0  + (q12 + q03 *-1) * sz;
         m22 = sz + (q11 + q00 * 1) * sz;
         m23 = 0;
 
-        m00 = sx + (q11 + q22 * 1) * sx;
+        // free: xmm6, xmm7
+
+        // | movaps xmm6, xmm4
+        // | shufps xmm6, xmm2, _MM_SHUFFLE(2, 2, 1, 2)
+        // | mulps xmm6, xmm5
+        // | movaps xmm7, xmm3
+        // | shufps xmm7, xmm2, _MM_SHUFFLE(1, 1, 1, 0)
+        // | addps xmm6, xmm7
+        // | movaps xmm7, [sx, sy, sz, 0]
+        // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 0, 0, 0)
+        // | mulps xmm6, xmm7
+        // | movaps xmm7, [sx, sy, sz, 0]
+        // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 0, 3, 3)
+        // | addps xmm6, xmm7
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(3, 0, 2, 1)
+        // | movaps xmm10, xmm6
         m01 = 0  + (q01 + q23 * 1) * sx;
         m02 = 0  + (q02 + q13 *-1) * sx;
+        m00 = sx + (q11 + q22 * 1) * sx;
         m03 = 0;
 
+        // | movaps xmm11, [tx, ty, tz, 1]
         m30 = tx;
         m31 = ty;
         m32 = tz;
@@ -4040,10 +4070,6 @@ public class Matrix4f implements Externalizable {
         dest.m33 = m33;
 
         return this;
-    }
-
-    public static void main(String[] args) {
-        System.err.println(Long.toString(Float.floatToRawIntBits(-0.f) & 0xFFFFFFFFL, 16));
     }
 
     /**
