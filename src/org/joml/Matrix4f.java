@@ -1606,52 +1606,95 @@ public class Matrix4f implements Externalizable {
     public Matrix4f translationRotateScale(float tx, float ty, float tz, 
                                            float qx, float qy, float qz, float qw, 
                                            float sx, float sy, float sz) {
-        // | movaps q2, q
-        // | addps q2, q2
+        // | movaps xmm0, [qx, qy, qz, qw]
+        // | movaps xmm1, xmm0
+        // | addps xmm1, xmm1 // dqX
         float dqx = qx + qx;
         float dqy = qy + qy;
         float dqz = qz + qz;
         float dqw = qw + qw;
 
-        // | movaps qm, q2
-        // | mulps qm, q
-        float q00 = dqx * qx;
-        float q11 = dqy * qy;
-        float q22 = dqz * qz;
-        float q04 = dqw * qw;
+        // free: xmm2, xmm3, xmm4, xmm5, xmm6, xmm7
 
-        // | movaps qs, q
-        // | shufps qs, qs, _MM_SHUFFLE(1, 2, 3, 0)
-        // | mulps qs, q
+        // | movaps xmm2, xmm1(dqX)
+        // | mulps xmm2, xmm0(quat) // qNN
+        // | mov r8, 0x80000000 // sign mask
+        // | movd xmm3, r8
+        // | shufps xmm3, xmm3, _MM_SHUFFLE(0, 0, 0, 0)
+        // | xorps xmm2, xmm3 // * -1
+        float q00 = dqx * qx * -1;
+        float q11 = dqy * qy * -1;
+        float q22 = dqz * qz * -1;
+        float q_ = dqw * qw * -1;
+
+        // free: xmm3, xmm4, xmm5, xmm6, xmm7
+
+        // | movaps xmm3, xmm0
+        // | shufps xmm3, xmm3, _MM_SHUFFLE(0, 3, 2, 1)
+        // | mulps xmm3, xmm1(dqX) // q0N
         float q01 = dqx * qy;
         float q02 = dqx * qz;
         float q03 = dqx * qw;
-        float q_  = dqx * qx;
+        float q__  = dqx * qx;
 
-        // | movaps qp, q
-        // | movaps qr, q2
-        // | shufps qp, qp, _MM_SHUFFLE(2, 3, 3, 2)
-        // | shufps qr, qr, _MM_SHUFFLE(1, 1, 2, 2)
-        // | mulps qp, qr
-        float q12 = dqy * qz;
-        float q13 = dqy * qw;
-        float q23 = dqz * qw;
-        float q__ = dqz * qz;
+        // free: xmm4, xmm5, xmm6, xmm7
 
-        m00 = sx - (q11 + q22) * sx;
-        m01 = 0  + (q01 + q23) * sx;
-        m02 = 0  + (q02 - q13) * sx;
-        m03 = 0  + (q02 + q13) * 0;
+        // | movaps xmm4, xmm0
+        // | movaps xmm5, xmm1(dqX)
+        // | shufps xmm4, xmm4, _MM_SHUFFLE(2, 3, 3, 2)
+        // | shufps xmm5, xmm5, _MM_SHUFFLE(2, 2, 1, 1)
+        // | mulps xmm4, xmm5 // q12-23
+        float q12  = dqy * qz;
+        float q13  = dqy * qw;
+        float q23  = dqz * qw;
+        float q___ = dqz * qz; // <- ignored
 
-        m10 = 0  + (q01 - q23) * sy;
-        m11 = sy - (q22 + q00) * sy;
-        m12 = 0  + (q12 + q03) * sy;
-        m13 = 0  + (q12 + q03) * 0;
+        // free: xmm5, xmm6, xmm7
 
-        m20 = 0  + (q02 + q13) * sz;
-        m21 = 0  + (q12 - q03) * sz;
-        m22 = sz - (q11 + q00) * sz;
-        m23 = 0  + (q11 + q00) * 0;
+        // Make (1, -1, 1, 1) ready in xmm5
+        // 3f800000 - int pattern of 1
+        // bf800000 - int pattern of -1
+        // | mov r8, rsp
+        // | and r8, -16
+        // | sub r8, 16
+        // | mov dword [r8], 3f800000
+        // | mov dword [r8+4], bf800000
+        // | mov dword [r8+8], 3f800000
+        // | mov dword [r8+12], 3f800000
+        // | movaps xmm5, [r8]
+
+        // free: xmm6, xmm7
+
+        // | movaps xmm6, xmm4
+        // | shufps xmm6, xmm2, _MM_SHUFFLE(2, 2, 2, 0)
+        // | mulps xmm6, xmm5
+        // | movaps xmm7, xmm3
+        // | shufps xmm7, xmm2, _MM_SHUFFLE(0, 0, 0, 2)
+        // | addps xmm6, xmm7
+        // | movaps xmm7, [sx, sy, sz, 0]
+        // | shufps xmm7, xmm7, _MM_SHUFFLE(1, 1, 1, 1)
+        // | mulps xmm6, xmm7
+        // | movaps xmm7, [sx, sy, sz, 0]
+        // | shufps xmm7, xmm7, _MM_SHUFFLE(0, 1, 0, 0)
+        // | addps xmm6, xmm7
+        // | shufps xmm6, xmm6, _MM_SHUFFLE(3, 0, 2, 1)
+        // | movaps xmm8, xmm6
+        m12 = 0  + (q12 * 1 + q03) * sy;
+        m10 = 0  + (q23 *-1 + q01) * sy;
+        m11 = sy + (q22 * 1 + q00) * sy;
+        m13 = 0;
+
+        // free: xmm6, xmm7
+
+        m20 = 0  + (q13 + q02 * 1) * sz;
+        m21 = 0  + (q12 + q03 *-1) * sz;
+        m22 = sz + (q11 + q00 * 1) * sz;
+        m23 = 0;
+
+        m00 = sx + (q11 + q22 * 1) * sx;
+        m01 = 0  + (q01 + q23 * 1) * sx;
+        m02 = 0  + (q02 + q13 *-1) * sx;
+        m03 = 0;
 
         m30 = tx;
         m31 = ty;
@@ -3809,7 +3852,7 @@ public class Matrix4f implements Externalizable {
         // | movaps xmm2, xmm1(dqX)
         // | mulps xmm2, xmm0(quat) // qNN
         // | mov r8, 0x80000000 // sign mask
-        // | movd xmm3, r9
+        // | movd xmm3, r8
         // | shufps xmm3, xmm3, _MM_SHUFFLE(0, 0, 0, 0)
         // | xorps xmm2, xmm3
         float q00 = dqx * quat.x * -1;
