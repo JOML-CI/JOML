@@ -360,16 +360,13 @@ public class Sequence {
             float tx, float ty, float tz,
             float qx, float qy, float qz, float qw,
             float sx, float sy, float sz) {
+        loadFirst(matrix.matrixBufferAddr);
+        firstInSync = false;
         putOperation(OPCODE_MATRIX_TRANSLATION_ROTATE_SCALE);
-        putArg(matrix.matrixBufferAddr);
-        // pad to ensure 16 byte alignment
-        putArg(0L);
         // always put 4 floats for nice alignment for movaps
         putArg(tx).putArg(ty).putArg(tz).putArg(1.0f);
         putArg(qx).putArg(qy).putArg(qz).putArg(qw);
         putArg(sx).putArg(sy).putArg(sz).putArg(0.0f);
-        putArg(matrix.matrixBufferAddr);
-        putArg(0L);
         return this;
     }
 

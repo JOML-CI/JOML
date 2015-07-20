@@ -1603,7 +1603,7 @@ public class Matrix4f implements Externalizable {
      *          the scaling factor for the z-axis
      * @return this
      */
-    public Matrix4f translationRotateScale(float tx, float ty, float tz, 
+    public Matrix4f translationRotateScale(float tx, float ty, float tz,
                                            float qx, float qy, float qz, float qw, 
                                            float sx, float sy, float sz) {
         // | movaps xmm0, [qx, qy, qz, qw]
@@ -1637,7 +1637,12 @@ public class Matrix4f implements Externalizable {
         float q03 = dqx * qw;
         float q__  = dqx * qx;
 
-        // free: xmm4, xmm5, xmm6, xmm7
+        // free: xmm0, xmm1, xmm4, xmm5, xmm6, xmm7
+
+        // load (tx, ty, tz, 1) directly into xmm11
+        // | movaps xmm11, [rcx]
+        // load (sx, sy, sz, 0) directly into xmm0
+        // | movaps xmm0, [rcx+32]
 
         // | movaps xmm4, xmm0
         // | movaps xmm5, xmm1(dqX)
@@ -1656,7 +1661,7 @@ public class Matrix4f implements Externalizable {
         // bf800000 - int pattern of -1
         // | mov r8, rsp
         // | and r8, -16
-        // | sub r8, 16
+        // | sub r8, 32
         // | mov dword [r8], 3f800000
         // | mov dword [r8+4], bf800000
         // | mov dword [r8+8], 3f800000
@@ -1671,10 +1676,10 @@ public class Matrix4f implements Externalizable {
         // | movaps xmm7, xmm3
         // | shufps xmm7, xmm2, _MM_SHUFFLE(0, 0, 0, 2)
         // | addps xmm6, xmm7
-        // | movaps xmm7, [sx, sy, sz, 0]
+        // | movaps xmm7, xmm0
         // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 1, 1, 1)
         // | mulps xmm6, xmm7
-        // | movaps xmm7, [sx, sy, sz, 0]
+        // | movaps xmm7, xmm0
         // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 1, 3, 3)
         // | addps xmm6, xmm7
         // | shufps xmm6, xmm6, _MM_SHUFFLE(3, 0, 2, 1)
@@ -1692,10 +1697,10 @@ public class Matrix4f implements Externalizable {
         // | movaps xmm7, xmm4
         // | shufps xmm7, xmm2, _MM_SHUFFLE(1, 1, 0, 1)
         // | addps xmm6, xmm7
-        // | movaps xmm7, [sx, sy, sz, 0]
+        // | movaps xmm7, xmm0
         // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 2, 2, 2)
         // | mulps xmm6, xmm7
-        // | movaps xmm7, [sx, sy, sz, 0]
+        // | movaps xmm7, xmm0
         // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 2, 3, 3)
         // | addps xmm6, xmm7
         // | movaps xmm9, xmm6
@@ -1712,10 +1717,10 @@ public class Matrix4f implements Externalizable {
         // | movaps xmm7, xmm3
         // | shufps xmm7, xmm2, _MM_SHUFFLE(1, 1, 1, 0)
         // | addps xmm6, xmm7
-        // | movaps xmm7, [sx, sy, sz, 0]
+        // | movaps xmm7, xmm0
         // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 0, 0, 0)
         // | mulps xmm6, xmm7
-        // | movaps xmm7, [sx, sy, sz, 0]
+        // | movaps xmm7, xmm0
         // | shufps xmm7, xmm7, _MM_SHUFFLE(3, 0, 3, 3)
         // | addps xmm6, xmm7
         // | shufps xmm6, xmm6, _MM_SHUFFLE(3, 0, 2, 1)
@@ -1725,7 +1730,7 @@ public class Matrix4f implements Externalizable {
         m00 = sx + (q11 + q22 * 1) * sx;
         m03 = 0;
 
-        // | movaps xmm11, [tx, ty, tz, 1]
+        // | movaps xmm11, xmm0
         m30 = tx;
         m31 = ty;
         m32 = tz;
