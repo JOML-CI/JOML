@@ -1857,7 +1857,6 @@ public class Matrix4f implements Externalizable {
      * 
      * @see #translation(Vector3f)
      * @see #rotate(Quaternionf)
-     * @see #scale(Vector3f)
      * 
      * @param translation
      *          the translation

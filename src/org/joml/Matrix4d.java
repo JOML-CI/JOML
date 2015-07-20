@@ -2348,7 +2348,6 @@ public class Matrix4d implements Externalizable {
      * 
      * @see #translation(Vector3d)
      * @see #rotate(Quaterniond)
-     * @see #scale(Vector3d)
      * 
      * @param translation
      *          the translation
