@@ -28,10 +28,12 @@ static void matrix_invert(dasm_State** Dst, char storeIntoSecond) {
   | mov dword [r8+4], 0x80000000
   | mov dword [r8+8], 0x80000000
   | mov dword [r8+12], 0x0
-  // Save xmm8 to stack at [r9]
+  // Save xmm8, xmm9, xmm10 to stack at [r9], [r9+16], [r9+32]
   | mov r9, r8
-  | sub r9, 16
+  | sub r9, 16*3
   | movaps [r9], xmm8 // <- save xmm8 to stack, because we need it for computations!
+  | movaps [r9+16], xmm9
+  | movaps [r9+32], xmm10
 
   // Vec4 const & m11 = _mm_movelh_ps(c0, c1);
   // Vec4 const & m21 = _mm_movehl_ps(c1, c0);
@@ -98,24 +100,74 @@ static void matrix_invert(dasm_State** Dst, char storeIntoSecond) {
   
   // _m11 = inv2x2(m11 - mul2x2(mul2x2(m12, inv22), m21)):
     // mul2x2(m12, inv22):
-  | movaps xmm6, xmm5
+  | movaps xmm6, xmm5 // <- copy inv22
   | shufps xmm6, xmm6, _MM_SHUFFLE(0, 0, 2, 2)
-  | movaps xmm7, xmm2
+  | movaps xmm7, xmm2 // <- copy xmm2/m12
   | movlhps xmm7, xmm7
   | mulps xmm6, xmm7
-  | movaps xmm7, xmm5
+  | movaps xmm7, xmm5 // <- copy inv22
   | shufps xmm7, xmm7, _MM_SHUFFLE(1, 1, 3, 3)
   | movaps xmm8, xmm2  // <-!!!!!- We need xmm8 here, so save it to stack before!
   | movhlps xmm8, xmm8
-  | mulps xmm7, xmm8 // <- mul2x2(m12, inv22)
-  | addps xmm6, xmm7
+  | mulps xmm7, xmm8
+  | addps xmm6, xmm7 // <- mul2x2(m12, inv22)
 
   // free: xmm7
 
-  // TODO: Proceed further
+  // mul2x2(mul2x2(m12, inv22), m21):
+  //        mul2x2(m12, inv22) = xmm6
+  //                       m21 = xmm1
+  // -> mul2x2(xmm6, xmm1)
+  | movaps xmm7, xmm1 // <- copy xmm1/m21
+  | shufps xmm7, xmm7, _MM_SHUFFLE(0, 0, 2, 2)
+  | movaps xmm8, xmm6 // <- copy xmm6/mul2x2(m12, inv22)
+  | movlhps xmm8, xmm8
+  | mulps xmm7, xmm8
+  | movaps xmm8, xmm1 // <- copy xmm1/m21
+  | shufps xmm8, xmm8, _MM_SHUFFLE(1, 1, 3, 3)
+  | movaps xmm9, xmm6  // <-!!!!!- We need xmm9 here, so save it to stack before!
+  | movhlps xmm9, xmm9
+  | mulps xmm8, xmm9
+  | addps xmm7, xmm8 // <- mul2x2(mul2x2(m12, inv22), m21)
+
+  // free: none (will overuse xmm8-xmm15)
+
+  // m11 - mul2x2(mul2x2(m12, inv22), m21)
+  // = xmm0 - xmm7
+  // swap xmm0 and xmm7 with XOR swap
+  // since we want the result to be in xmm7
+  | xorps xmm0, xmm7
+  | xorps xmm7, xmm0
+  | xorps xmm0, xmm7
+  // now subtract
+  | subps xmm7, xmm0
   
-  // restore xmm8 (for the time being)
+  // inv2x2(m11 - mul2x2(mul2x2(m12, inv22), m21)):
+  // = inv2x2(xmm7)
+    // adj2x2(xmm7):
+  | movaps xmm8, xmm7
+  | shufps xmm8, xmm8, _MM_SHUFFLE(3, 1, 2, 0)
+  | movaps xmm9, [r8] // <- load (0, -0, -0, 0)
+  | xorps xmm8, xmm9 // <- _mm_xor_ps(m.swizzle<3,1,2,0>(), (0.0f, -0.0f, -0.0f, 0.0f));
+    // det2x2(xmm7):
+  | movaps xmm9, xmm7
+  | shufps xmm9, xmm9, _MM_SHUFFLE(0, 0, 1, 1)
+  | movaps xmm10, xmm7
+  | shufps xmm10, xmm10, _MM_SHUFFLE(3, 3, 2, 2)
+  | mulps xmm9, xmm10 // <- temp = m.swizzle<0,0,1,1>() * m.swizzle<3,3,2,2>();
+  | movaps xmm10, xmm9
+  | unpcklps xmm9, xmm9
+  | unpckhps xmm10, xmm10
+  | subps xmm9, xmm10 // <- _mm_sub_ps(_mm_unpacklo_ps(temp, temp), _mm_unpackhi_ps(temp, temp));
+  | rcpps xmm9, xmm9 // <- det2x2(m).rcp();
+  | mulps xmm8, xmm9 // <- _m11 = inv2x2(m11 - mul2x2(mul2x2(m12, inv22), m21))
+
+  
+
+  // restore xmm8, xmm9 (for the time being)
   | movaps xmm8, [r9]
+  | movaps xmm9, [r9+16]
+  | movaps xmm10, [r9+32]
 }
 
 static void matrix_transpose(dasm_State** Dst, char storeIntoSecond) {
@@ -168,9 +220,8 @@ if (!storeIntoSecond) {
 
 static void copy_mem(dasm_State** Dst) {
   | mov r8, [rcx]
-  | add rcx, 8
-  | mov r9, [rcx]
-  | add rcx, 8
+  | mov r9, [rcx+8]
+  | add rcx, 16
   | movaps xmm0, [r8]
   | movaps [r9], xmm0
   | movaps xmm1, [r8+4*4]
@@ -286,9 +337,8 @@ static void matrix_rotateX(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in xmm8-xmm11 (aka. first)
   // will store in either first or second (xmm12-xmm15)
   | movss xmm0, dword [rcx] // sin
-  | add rcx, 4
-  | movss xmm1, dword [rcx] // cos
-  | add rcx, 12
+  | movss xmm1, dword [rcx+4] // cos
+  | add rcx, 16
   | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   | mov r9, 0x80000000
@@ -320,9 +370,8 @@ static void matrix_rotateY(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in xmm8-xmm11 (aka. first)
   // will store in either first or second (xmm12-xmm15)
   | movss xmm0, dword [rcx] // sin
-  | add rcx, 4
-  | movss xmm1, dword [rcx] // cos
-  | add rcx, 12
+  | movss xmm1, dword [rcx+4] // cos
+  | add rcx, 16
   | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   | mov r9, 0x80000000
@@ -354,9 +403,8 @@ static void matrix_rotateZ(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in xmm8-xmm11 (aka. first)
   // will store in either first or second (xmm12-xmm15)
   | movss xmm0, dword [rcx] // sin
-  | add rcx, 4
-  | movss xmm1, dword [rcx] // cos
-  | add rcx, 12
+  | movss xmm1, dword [rcx+4] // cos
+  | add rcx, 16
   | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   | mov r9, 0x80000000
