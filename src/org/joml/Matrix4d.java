@@ -1498,33 +1498,6 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set this matrix to be a simple scale matrix.
-     * 
-     * @param scale
-     *             the scale applied to each dimension
-     * @return this
-     */
-    public Matrix4d scaling(Vector3d scale) {
-        m00 = scale.x;
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
-        m11 = scale.y;
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = scale.z;
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
-        return this;
-    }
-
-    /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * From <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">Wikipedia</a>
@@ -1785,36 +1758,24 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the unit axes by the given x,
-     * y and z factors.
+     * Apply scaling to this matrix by uniformly scaling all unit axes by the given xyz factor
+     * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
      * 
+     * @see #scale(double, double, double, Matrix4d)
+     * 
      * @param xyz
-     *            the factors of the x, y and z components, respectively
+     *            the factor for all components
+     * @param dest
+     *            will hold the result
      * @return this
      */
-    public Matrix4d scale(Vector3d xyz) {
-        // scale matrix elements:
-        // m00 = x, m11 = y, m22 = z
-        // m33 = 1
-        // all others = 0
-        m00 = m00 * xyz.x;
-        m01 = m01 * xyz.x;
-        m02 = m02 * xyz.x;
-        m03 = m03 * xyz.x;
-        m10 = m10 * xyz.y;
-        m11 = m11 * xyz.y;
-        m12 = m12 * xyz.y;
-        m13 = m13 * xyz.y;
-        m20 = m20 * xyz.z;
-        m21 = m21 * xyz.z;
-        m22 = m22 * xyz.z;
-        m23 = m23 * xyz.z;
-        return this;
+    public Matrix4d scale(double xyz, Matrix4d dest) {
+        return scale(xyz, xyz, xyz, dest);
     }
 
     /**

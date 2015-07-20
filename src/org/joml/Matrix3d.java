@@ -1006,6 +1006,27 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @see #scale(double, double, double, Matrix3d)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3d scale(double xyz, Matrix3d dest) {
+        return scale(xyz, xyz, xyz, dest);
+    }
+
+    /**
      * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,

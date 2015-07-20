@@ -973,28 +973,6 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
-     * 
-     * @param angles
-     *          the angles in radians for the <tt>(x, y, z)</tt> axes
-     * @return this
-     */
-    public Quaterniond setEulerAnglesXYZ(Vector3d angles) {
-        return setEulerAnglesXYZ(angles.x, angles.y, angles.z);
-    }
-
-    /**
-     * Set this quaternion from the supplied euler angles (in radians) with rotation order ZYX.
-     * 
-     * @param angles
-     *          the angles in radians for the <tt>(x, y, z)</tt> axes
-     * @return this
-     */
-    public Quaterniond setEulerAnglesZYX(Vector3d angles) {
-        return setEulerAnglesZYX(angles.x, angles.y, angles.z);
-    }
-
-    /**
      * Return the length of this quaternion.
      * 
      * @return the length
@@ -1658,19 +1636,6 @@ public class Quaterniond implements Externalizable {
         w = (float) Math.cos(hangle);
 
         return this;
-    }
-
-    /**
-     * Set this quaternion to represent a rotation of the given angles in radians about the basis unit axes of the cartesian space.
-     * 
-     * @see #rotation(double, double, double)
-     * 
-     * @param anglesXYZ
-     *              the angles in radians to rotate about the basis unit axes of the cartesian space
-     * @return this
-     */
-    public Quaterniond rotation(Vector3d anglesXYZ) {
-        return rotation(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z);
     }
 
     /**

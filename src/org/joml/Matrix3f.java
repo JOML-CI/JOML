@@ -814,6 +814,27 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @see #scale(float, float, float, Matrix3f)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f scale(float xyz, Matrix3f dest) {
+        return scale(xyz, xyz, xyz, dest);
+    }
+
+    /**
      * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -880,26 +901,6 @@ public class Matrix3f implements Externalizable {
         m20 = 0.0f;
         m21 = 0.0f;
         m22 = z;
-        return this;
-    }
-
-    /**
-     * Set this matrix to be a simple scale matrix.
-     * 
-     * @param xyz
-     *             contains the scaling factors for x, y and z, respectively
-     * @return this
-     */
-    public Matrix3f scaling(Vector3f xyz) {
-        m00 = xyz.x;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m10 = 0.0f;
-        m11 = xyz.y;
-        m12 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = xyz.z;
         return this;
     }
 
