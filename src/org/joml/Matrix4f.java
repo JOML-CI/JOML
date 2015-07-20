@@ -1164,6 +1164,110 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the matrix is stored, you can use {@link #getTransposed(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
+    public Matrix4f getTransposed(FloatBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix4f getTransposed(int index, FloatBuffer buffer) {
+        buffer.put(index,    m00);
+        buffer.put(index+1,  m10);
+        buffer.put(index+2,  m20);
+        buffer.put(index+3,  m30);
+        buffer.put(index+4,  m01);
+        buffer.put(index+5,  m11);
+        buffer.put(index+6,  m21);
+        buffer.put(index+7,  m31);
+        buffer.put(index+8,  m02);
+        buffer.put(index+9,  m12);
+        buffer.put(index+10, m22);
+        buffer.put(index+11, m32);
+        buffer.put(index+12, m03);
+        buffer.put(index+13, m13);
+        buffer.put(index+14, m23);
+        buffer.put(index+15, m33);
+        return this;
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the matrix is stored, you can use {@link #getTransposed(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
+    public Matrix4f getTransposed(ByteBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix4f getTransposed(int index, ByteBuffer buffer) {
+        buffer.putFloat(index,    m00);
+        buffer.putFloat(index+4,  m10);
+        buffer.putFloat(index+8,  m20);
+        buffer.putFloat(index+12, m30);
+        buffer.putFloat(index+16, m01);
+        buffer.putFloat(index+20, m11);
+        buffer.putFloat(index+24, m21);
+        buffer.putFloat(index+28, m31);
+        buffer.putFloat(index+32, m02);
+        buffer.putFloat(index+36, m12);
+        buffer.putFloat(index+40, m22);
+        buffer.putFloat(index+44, m32);
+        buffer.putFloat(index+48, m03);
+        buffer.putFloat(index+52, m13);
+        buffer.putFloat(index+56, m23);
+        buffer.putFloat(index+60, m33);
+        return this;
+    }
+
+    /**
      * Store this matrix into the supplied float array in column-major order.
      * 
      * @param arr
