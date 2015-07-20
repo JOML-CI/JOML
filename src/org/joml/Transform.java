@@ -229,9 +229,6 @@ public final class Transform {
 	}
 
 	public Vector3f transformInverseVector(final Vector3f in, Vector3f store) {
-		if (store == null)
-			store = new Vector3f();
-
 		in.sub(translation, store);
 		rot.invert().transform(store, store);
 		store.div(scale);
