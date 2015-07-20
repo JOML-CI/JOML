@@ -1641,7 +1641,7 @@ public class Matrix4f implements Externalizable {
 
         // load (tx, ty, tz, 1) directly into xmm11
         // | movaps xmm11, [rcx]
-        // load (sx, sy, sz, 0) directly into xmm0
+        // load (sx, sy, sz, 0) into xmm0
         // | movaps xmm0, [rcx+32]
 
         // | movaps xmm4, xmm0
@@ -1730,7 +1730,7 @@ public class Matrix4f implements Externalizable {
         m00 = sx + (q11 + q22 * 1) * sx;
         m03 = 0;
 
-        // | movaps xmm11, xmm0
+        // | translation has already been moved into xmm11
         m30 = tx;
         m31 = ty;
         m32 = tz;
