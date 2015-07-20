@@ -1396,23 +1396,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to be a simple scale matrix.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional scaling.
-     * <p>
-     * If you want to post-multiply a scaling transformation directly to a
-     * matrix, you can use {@link #scale(Vector3f) scale()} instead.
-     * 
-     * @param scale
-     *             the scale applied to each dimension
-     * @return this
-     */
-    public Matrix4f scaling(Vector3f scale) {
-        return scaling(scale.x, scale.y, scale.z);
-    }
-
-    /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * The resulting matrix can be multiplied against another transformation
@@ -1798,49 +1781,26 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
-     * y and z components of the given {@link Vector3f}.
+     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor
+     * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * scaling will be applied first!
      * <p>
-     * In order to set the matrix to a scaling transformation without post-multiplying it,
-     * use {@link #scaling(Vector3f)}.
+     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float, Matrix4f)}. 
      * 
-     * @see #scaling(Vector3f)
-     * 
-     * @param xyz
-     *            the factor for all components as {@link Vector3f}
-     * @return this
-     */
-    public Matrix4f scale(Vector3f xyz) {
-        return scale(xyz.x, xyz.y, xyz.z);
-    }
-
-    /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
-     * y and z components of the given {@link Vector3f} and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * scaling will be applied first!
-     * <p>
-     * In order to set the matrix to a scaling transformation without post-multiplying it,
-     * use {@link #scaling(Vector3f)}.
-     * 
-     * @see #scaling(Vector3f)
+     * @see #scale(float, float, float, Matrix4f)
      * 
      * @param xyz
-     *            the factor for all components as {@link Vector3f}
+     *            the factor for all components
      * @param dest
      *            will hold the result
      * @return this
      */
-    public Matrix4f scale(Vector3f xyz, Matrix4f dest) {
-        return scale(xyz.x, xyz.y, xyz.z, dest);
+    public Matrix4f scale(float xyz, Matrix4f dest) {
+        return scale(xyz, xyz, xyz, dest);
     }
 
     /**
