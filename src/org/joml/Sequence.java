@@ -367,7 +367,7 @@ public class Sequence {
         // always put 4 floats for nice alignment for movaps
         putArg(tx).putArg(ty).putArg(tz).putArg(0.0f);
         putArg(qx).putArg(qy).putArg(qz).putArg(qw);
-        putArg(sx).putArg(sy).putArg(sz).putArg(1.0f);
+        putArg(sx).putArg(sy).putArg(sz).putArg(0.0f);
         putArg(matrix.matrixBufferAddr);
         putArg(0L);
         return this;
