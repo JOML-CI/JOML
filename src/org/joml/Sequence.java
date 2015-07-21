@@ -364,6 +364,9 @@ public class Sequence {
         firstInSync = false;
         putOperation(OPCODE_MATRIX_TRANSLATION_ROTATE_SCALE);
         // always put 4 floats for nice alignment for movaps
+        // also use 1.0f for the w-component of the translation
+        // and 0.0f as the w-component for scaling
+        // this will come in handy when vectorizing the function.
         putArg(tx).putArg(ty).putArg(tz).putArg(1.0f);
         putArg(qx).putArg(qy).putArg(qz).putArg(qw);
         putArg(sx).putArg(sy).putArg(sz).putArg(0.0f);

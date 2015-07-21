@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 import org.joml.Matrix4f;
 import org.joml.NativeMatrix4f;
 import org.joml.NativeVector4f;
+import org.joml.Quaternionf;
 import org.joml.Sequence;
 import org.joml.Vector4f;
 
@@ -163,6 +164,20 @@ public class NativeMatrix4fTest extends TestCase {
         seq.call();
         Matrix4f actual = new Matrix4f();
         Matrix4f expected = new Matrix4f(m1).mul(m2);
+        nm.get(actual);
+        TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
+    }
+
+    public void testMatrixTranslationRotateScale() {
+        Sequence seq = new Sequence();
+        Quaternionf q = new Quaternionf().rotateX(0.1234f).rotateY(0.5124f).rotateZ(0.01623f);
+        Matrix4f expected = new Matrix4f().translationRotateScale(4.5f, 6.0f, 1.0f, q.x, q.y, q.z, q.w, 1.0f, 1.0f, 1.0f);
+        NativeMatrix4f nm = new NativeMatrix4f(seq);
+        {
+            nm.translationRotateScale(4.5f, 6.0f, 1.0f, q.x, q.y, q.z, q.w, 1.0f, 1.0f, 1.0f);
+        }
+        seq.call();
+        Matrix4f actual = new Matrix4f();
         nm.get(actual);
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
     }
