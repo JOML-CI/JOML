@@ -219,9 +219,9 @@ if (!storeIntoSecond) {
 }
 
 static void copy_mem(dasm_State** Dst) {
-  | mov r8, [rcx]
-  | mov r9, [rcx+8]
-  | add rcx, 16
+  | mov r8, [rdi]
+  | mov r9, [rdi+8]
+  | add rdi, 16
   | movaps xmm0, [r8]
   | movaps [r9], xmm0
   | movaps xmm1, [r8+4*4]
@@ -233,8 +233,8 @@ static void copy_mem(dasm_State** Dst) {
 }
 
 static void load(dasm_State** Dst, char storeIntoSecond) {
-  | mov r8, [rcx]
-  | add rcx, 16
+  | mov r8, [rdi]
+  | add rdi, 16
 if (!storeIntoSecond) {
   | movaps xmm8, [r8]
   | movaps xmm9, [r8+4*4]
@@ -249,8 +249,8 @@ if (!storeIntoSecond) {
 }
 
 static void store(dasm_State** Dst, char fromSecond) {
-  | mov r8, [rcx]
-  | add rcx, 16
+  | mov r8, [rdi]
+  | add rdi, 16
 if (!fromSecond) {
   | movaps [r8], xmm8
   | movaps [r8+4*4], xmm9
@@ -336,9 +336,9 @@ static void matrix_mul_matrix(dasm_State** Dst, char storeIntoSecond) {
 static void matrix_rotateX(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in xmm8-xmm11 (aka. first)
   // will store in either first or second (xmm12-xmm15)
-  | movss xmm0, dword [rcx] // sin
-  | movss xmm1, dword [rcx+4] // cos
-  | add rcx, 16
+  | movss xmm0, dword [rdi] // sin
+  | movss xmm1, dword [rdi+4] // cos
+  | add rdi, 16
   | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   | mov r9, 0x80000000
@@ -369,9 +369,9 @@ static void matrix_rotateX(dasm_State** Dst, char storeIntoSecond) {
 static void matrix_rotateY(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in xmm8-xmm11 (aka. first)
   // will store in either first or second (xmm12-xmm15)
-  | movss xmm0, dword [rcx] // sin
-  | movss xmm1, dword [rcx+4] // cos
-  | add rcx, 16
+  | movss xmm0, dword [rdi] // sin
+  | movss xmm1, dword [rdi+4] // cos
+  | add rdi, 16
   | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   | mov r9, 0x80000000
@@ -402,9 +402,9 @@ static void matrix_rotateY(dasm_State** Dst, char storeIntoSecond) {
 static void matrix_rotateZ(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in xmm8-xmm11 (aka. first)
   // will store in either first or second (xmm12-xmm15)
-  | movss xmm0, dword [rcx] // sin
-  | movss xmm1, dword [rcx+4] // cos
-  | add rcx, 16
+  | movss xmm0, dword [rdi] // sin
+  | movss xmm1, dword [rdi+4] // cos
+  | add rdi, 16
   | shufps xmm0, xmm0, _MM_SHUFFLE(0, 0, 0, 0)
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   | mov r9, 0x80000000
@@ -450,8 +450,8 @@ static void matrix_scale(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in xmm8-xmm11 (aka. first)
   // will store in either first or second (xmm12-xmm15)
   // get scale factor (x, y, z, 1)
-  | movaps xmm0, [rcx]
-  | add rcx, 16
+  | movaps xmm0, [rdi]
+  | add rdi, 16
   | movaps xmm1, xmm0
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   if (!storeIntoSecond) {
@@ -486,8 +486,8 @@ static void matrix_translate(dasm_State** Dst, char storeIntoSecond) {
   // requires matrix to be in xmm8-xmm11 (aka. first)
   // will store in either first or second (xmm12-xmm15)
   // get translation (x, y, z, 0)
-  | movaps xmm0, [rcx]
-  | add rcx, 16
+  | movaps xmm0, [rdi]
+  | add rdi, 16
   | movaps xmm1, xmm0
   | shufps xmm1, xmm1, _MM_SHUFFLE(0, 0, 0, 0)
   | movaps xmm2, xmm8
@@ -516,7 +516,7 @@ static void matrix_translate(dasm_State** Dst, char storeIntoSecond) {
 
 static void matrix_translationRotateScale(dasm_State** Dst) {
  // load (qx, qy, qz, qw) into xmm0
- | movaps xmm0, [rcx+16]
+ | movaps xmm0, [rdi+16]
  // compute dqX
  | movaps xmm1, xmm0
  | addps xmm1, xmm1 // <- dqX
@@ -534,7 +534,7 @@ static void matrix_translationRotateScale(dasm_State** Dst) {
  | shufps xmm4, xmm4, _MM_SHUFFLE(0, 0, 0, 0)
  | mulps xmm3, xmm4 // <- q0N
  // load (tx, ty, tz, 1) directly into xmm11
- | movaps xmm11, [rcx]
+ | movaps xmm11, [rdi]
  // compute q12-23
  | movaps xmm4, xmm0
  | movaps xmm5, xmm1
@@ -554,7 +554,7 @@ static void matrix_translationRotateScale(dasm_State** Dst) {
  | movaps xmm5, [r8]
  // compute m1N = xmm9
  // load (sx, sy, sz, 0) into xmm0
- | movaps xmm0, [rcx+32] 
+ | movaps xmm0, [rdi+32] 
  | movaps xmm6, xmm4
  | shufps xmm6, xmm2, _MM_SHUFFLE(2, 2, 2, 0)
  | mulps xmm6, xmm5
@@ -598,13 +598,13 @@ static void matrix_translationRotateScale(dasm_State** Dst) {
  | addps xmm6, xmm7
  | shufps xmm6, xmm6, _MM_SHUFFLE(3, 1, 0, 2)
  | movaps xmm8, xmm6
- // advance rcx pointer
- | add rcx, 48
+ // advance rdi pointer
+ | add rdi, 48
 }
 
 static void vector_negate(dasm_State** Dst) {
-  | mov r8, [rcx]
-  | add rcx, 16
+  | mov r8, [rdi]
+  | add rdi, 16
   | movaps xmm0, [r8]
   | mov r9, 0x80000000
   | movd xmm1, r9

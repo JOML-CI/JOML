@@ -8,3 +8,4 @@
 gcc -fPIC -D_GNU_SOURCE -std=c99 -O3 -shared -o libjoml.so -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" codegen_linear.linux64.c Native.c
 strip -x -s libjoml.so
 upx libjoml.so
+
