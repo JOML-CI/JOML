@@ -1,4 +1,5 @@
 #include <jni.h>
+#include <stdint.h>
 #include "codegen.h"
 
 JNIEXPORT jlong JNICALL Java_org_joml_Native_jit
