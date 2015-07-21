@@ -3880,7 +3880,6 @@ public class Matrix4f implements Externalizable {
         float dqx = quat.x + quat.x;
         float dqy = quat.y + quat.y;
         float dqz = quat.z + quat.z;
-        float dqw = quat.w + quat.w;
 
         // | movaps xmm2, xmm1(dqX)
         // | mulps xmm2, xmm0(quat) // qNN
@@ -3891,7 +3890,6 @@ public class Matrix4f implements Externalizable {
         float q00 = dqx * quat.x * -1;
         float q11 = dqy * quat.y * -1;
         float q22 = dqz * quat.z * -1;
-        float q_  = dqw * quat.w * -1;
 
         // | movaps xmm3, xmm0
         // | shufps xmm3, xmm3, _MM_SHUFFLE(0, 3, 2, 1)
@@ -3899,7 +3897,6 @@ public class Matrix4f implements Externalizable {
         float q01 = dqx * quat.y;
         float q02 = dqx * quat.z;
         float q03 = dqx * quat.w;
-        float q__ = dqx * quat.x;
 
         // | movaps xmm4, xmm0
         // | movaps xmm5, xmm1(dqX)
@@ -3909,7 +3906,6 @@ public class Matrix4f implements Externalizable {
         float q12 = dqy * quat.z;
         float q13 = dqy * quat.w;
         float q23 = dqz * quat.w;
-        float q_2 = dqz * quat.z;
 
         // free: xmm0, xmm1, xmm5, xmm6, xmm7
 
