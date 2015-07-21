@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -335,6 +336,14 @@ public class Matrix4fTest extends TestCase {
                 0, 1, 0);
         fov = m.perspectiveFov();
         assertEquals(Math.toRadians(90), fov, 1E-5);
+    }
+
+    public void testTranslationRotateScale() {
+        Quaternionf q = new Quaternionf().rotateX(0.1234f).rotateY(0.5124f).rotateZ(0.01623f);
+        Matrix4f m1 = new Matrix4f().translationRotateScale(4.5f, 6.0f, 1.0f, q.x, q.y, q.z, q.w, 1.0f, 1.0f, 1.0f);
+        Matrix4f m2 = new Matrix4f().translation(4.5f, 6.0f, 1.0f).rotate(q);
+        System.err.println(m1);
+        System.err.println(m2);
     }
 
 }

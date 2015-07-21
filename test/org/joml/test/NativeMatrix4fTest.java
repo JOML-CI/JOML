@@ -169,14 +169,29 @@ public class NativeMatrix4fTest extends TestCase {
     }
 
     public void testMatrixTranslationRotateScale() {
-        Sequence seq = new Sequence();
+        Sequence seq = new Sequence(20002);
         Quaternionf q = new Quaternionf().rotateX(0.1234f).rotateY(0.5124f).rotateZ(0.01623f);
-        Matrix4f expected = new Matrix4f().translationRotateScale(4.5f, 6.0f, 1.0f, q.x, q.y, q.z, q.w, 1.0f, 1.0f, 1.0f);
+        Matrix4f expected = new Matrix4f();
+        for (int i = 1; i < 1000000; i++)
+        expected.translationRotateScale(i/100.0f+1, i/50.0f, i, q.x+0.001f*i, q.y, q.z, q.w-0.001f*i, 1.0f, 1.0f, 1.0f);
+
+        long hstime1 = System.nanoTime();
+        for (int i = 0; i < 20000; i++)
+        expected.translationRotateScale(i/100.0f+1, i/50.0f, i, q.x+0.001f*i, q.y, q.z, q.w-0.001f*i, 1.0f, 1.0f, 1.0f);
+        long hstime2 = System.nanoTime();
+        System.err.println("Took: " + (hstime2 - hstime1) / 1E3 + " µs.");
+
         NativeMatrix4f nm = new NativeMatrix4f(seq);
         {
-            nm.translationRotateScale(4.5f, 6.0f, 1.0f, q.x, q.y, q.z, q.w, 1.0f, 1.0f, 1.0f);
+            for (int i = 0; i < 20000; i++)
+            nm.translationRotateScale(i/100.0f+1, i/50.0f, i, q.x+0.001f*i, q.y, q.z, q.w-0.001f*i, 1.0f, 1.0f, 1.0f);
         }
         seq.call();
+        long ntime1 = System.nanoTime();
+        seq.call();
+        long ntime2 = System.nanoTime();
+        System.err.println("Took: " + (ntime2 - ntime1) / 1E3 + " µs.");
+        System.err.println(((float)(hstime2-hstime1) - (float)(ntime2-ntime1)) / (ntime2-ntime1)*100.0f + "% faster");
         Matrix4f actual = new Matrix4f();
         nm.get(actual);
         TestUtil.assertMatrix4fEquals(expected, actual, 0.0f);
