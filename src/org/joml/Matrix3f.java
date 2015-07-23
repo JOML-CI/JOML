@@ -649,6 +649,32 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Set the values of this matrix by reading 9 float values from the given {@link ByteBuffer} in column-major order,
+     * starting at its current position.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3f set(ByteBuffer buffer) {
+        int pos = buffer.position();
+        m00 = buffer.getFloat(pos);
+        m01 = buffer.getFloat(pos+4);
+        m02 = buffer.getFloat(pos+8);
+        m10 = buffer.getFloat(pos+12);
+        m11 = buffer.getFloat(pos+16);
+        m12 = buffer.getFloat(pos+20);
+        m20 = buffer.getFloat(pos+24);
+        m21 = buffer.getFloat(pos+28);
+        m22 = buffer.getFloat(pos+32);
+        return this;
+    }
+
+    /**
      * Set all values within this matrix to zero.
      * 
      * @return this
