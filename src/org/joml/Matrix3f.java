@@ -605,7 +605,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
-     * If you want to specify the offset into the FloatBuffer at which
+     * If you want to specify the offset into the ByteBuffer at which
      * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      * 
