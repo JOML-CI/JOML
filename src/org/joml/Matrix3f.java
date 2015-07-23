@@ -484,6 +484,8 @@ public class Matrix3f implements Externalizable {
      * 
      * @param offset
      *          the offset to translate
+     * @param dest
+     *          will hold the result
      * @return this
      */
     public Matrix3f translate(Vector2f offset, Matrix3f dest) {
@@ -1000,6 +1002,44 @@ public class Matrix3f implements Externalizable {
         dest.m21 = m21;
         dest.m22 = m22;
         return this;
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix that rotates the given <code>fromDir</code> direction vector
+     * to point along <code>toDir</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
+     * 
+     * @param fromDir
+     *            the direction which should be rotate to point along <code>toDir</code>
+     * @param toDir
+     *            the destination direction
+     * @return this
+     */
+    public Matrix3f rotateTo(Vector2f fromDir, Vector2f toDir) {
+        return rotate(fromDir.angle(toDir));
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix that rotates the given <code>fromDir</code> direction vector
+     * to point along <code>toDir</code>, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
+     * 
+     * @param fromDir
+     *            the direction which should be rotate to point along <code>toDir</code>
+     * @param toDir
+     *            the destination direction
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f rotateTo(Vector2f fromDir, Vector2f toDir, Matrix3f dest) {
+        return rotate(fromDir.angle(toDir), dest);
     }
 
     /**
