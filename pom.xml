@@ -5,7 +5,7 @@
 	<artifactId>joml-2d</artifactId>
 	<version>1.4.1-SNAPSHOT</version>
 	<name>JOML</name>
-	<description>Java OpenGL Math Library - Minimal</description>
+	<description>Java OpenGL Math Library - 2D</description>
 	<inceptionYear>2015</inceptionYear>
 	<url>http://joml.org</url>
 	<organization>
