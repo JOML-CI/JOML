@@ -1003,31 +1003,29 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply an orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * Apply a "view" transformation to this matrix that maps the given (left, bottom) and (right, top) corners
+     * to (-1, -1) and (1, 1) respectively and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
      * orthographic projection transformation will be applied first!
-     * <p>
-     * In order to set the matrix to an orthographic projection without post-multiplying it,
-     * use {@link #setOrtho(float, float, float, float) setOrtho()}.
      * 
-     * @see #setOrtho(float, float, float, float)
+     * @see #setView(float, float, float, float)
      * 
      * @param left
-     *            the distance from the center to the left frustum edge
+     *            the distance from the center to the left view edge
      * @param right
-     *            the distance from the center to the right frustum edge
+     *            the distance from the center to the right view edge
      * @param bottom
-     *            the distance from the center to the bottom frustum edge
+     *            the distance from the center to the bottom view edge
      * @param top
-     *            the distance from the center to the top frustum edge
+     *            the distance from the center to the top view edge
      * @param dest
      *            will hold the result
      * @return this
      */
-    public Matrix3f ortho(float left, float right, float bottom, float top, Matrix3f dest) {
+    public Matrix3f view(float left, float right, float bottom, float top, Matrix3f dest) {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
@@ -1051,51 +1049,47 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply an orthographic projection transformation to this matrix.
+     * Apply a "view" transformation to this matrix that maps the given (left, bottom) and (right, top) corners
+     * to (-1, -1) and (1, 1) respectively.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
      * orthographic projection transformation will be applied first!
-     * <p>
-     * In order to set the matrix to an orthographic projection without post-multiplying it,
-     * use {@link #setOrtho(float, float, float, float) setOrtho()}.
      * 
-     * @see #setOrtho(float, float, float, float)
+     * @see #setView(float, float, float, float)
      * 
      * @param left
-     *            the distance from the center to the left frustum edge
+     *            the distance from the center to the left view edge
      * @param right
-     *            the distance from the center to the right frustum edge
+     *            the distance from the center to the right view edge
      * @param bottom
-     *            the distance from the center to the bottom frustum edge
+     *            the distance from the center to the bottom view edge
      * @param top
-     *            the distance from the center to the top frustum edge
+     *            the distance from the center to the top view edge
      * @return this
      */
-    public Matrix3f ortho(float left, float right, float bottom, float top) {
-        return ortho(left, right, bottom, top, this);
+    public Matrix3f view(float left, float right, float bottom, float top) {
+        return view(left, right, bottom, top, this);
     }
 
     /**
-     * Set this matrix to be an orthographic projection transformation.
-     * <p>
-     * In order to apply the orthographic projection to an already existing transformation,
-     * use {@link #ortho(float, float, float, float) ortho()}.
+     * Set this matrix to define a "view" transformation that maps the given (left, bottom) and (right, top) corners
+     * to (-1, -1) and (1, 1) respectively.
      * 
-     * @see #ortho(float, float, float, float)
+     * @see #view(float, float, float, float)
      * 
      * @param left
-     *            the distance from the center to the left frustum edge
+     *            the distance from the center to the left view edge
      * @param right
-     *            the distance from the center to the right frustum edge
+     *            the distance from the center to the right view edge
      * @param bottom
-     *            the distance from the center to the bottom frustum edge
+     *            the distance from the center to the bottom view edge
      * @param top
-     *            the distance from the center to the top frustum edge
+     *            the distance from the center to the top view edge
      * @return this
      */
-    public Matrix3f setOrtho(float left, float right, float bottom, float top) {
+    public Matrix3f setView(float left, float right, float bottom, float top) {
         m00 = 2.0f / (right - left);
         m01 = 0.0f;
         m02 = 0.0f;
