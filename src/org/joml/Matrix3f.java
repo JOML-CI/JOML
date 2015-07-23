@@ -715,8 +715,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the scaling will be applied first!
      * 
      * @param x
      *            the factor of the x component
@@ -747,8 +746,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the scaling will be applied first!
      * 
      * @param x
      *            the factor of the x component
@@ -766,8 +764,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the scaling will be applied first!
      * 
      * @see #scale(float, float, Matrix3f)
      * 
@@ -786,8 +783,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the scaling will be applied first!
      * 
      * @see #scale(float, float)
      * 
@@ -805,8 +801,7 @@ public class Matrix3f implements Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional scaling.
      * <p>
-     * If you want to post-multiply a scaling transformation directly to a
-     * matrix, you can use {@link #scale(float) scale()} instead.
+     * If you want to post-multiply a scaling transformation directly to a matrix, you can use {@link #scale(float) scale()} instead.
      * 
      * @see #scale(float)
      * 
@@ -857,8 +852,6 @@ public class Matrix3f implements Externalizable {
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
      * use {@link #rotate(float) rotate()} instead.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(float)
      * 
@@ -939,8 +932,6 @@ public class Matrix3f implements Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in radians
@@ -955,10 +946,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
      * 
      * @param ang
      *            the angle in radians
@@ -989,6 +977,112 @@ public class Matrix3f implements Externalizable {
         dest.m20 = m20;
         dest.m21 = m21;
         dest.m22 = m22;
+        return this;
+    }
+
+    /**
+     * Apply an orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(float, float, float, float) setOrtho()}.
+     * 
+     * @see #setOrtho(float, float, float, float)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f ortho(float left, float right, float bottom, float top, Matrix3f dest) {
+        // calculate right matrix elements
+        float rm00 = 2.0f / (right - left);
+        float rm11 = 2.0f / (top - bottom);
+        float rm20 = -(right + left) / (right - left);
+        float rm21 = -(top + bottom) / (top - bottom);
+        float rm22 = -1.0f;
+
+        // perform optimized multiplication
+        // compute the last column first, because other rows do not depend on it
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22 + m20;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22 + m21;
+        dest.m22 = 1.0f;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+
+        return this;
+    }
+
+    /**
+     * Apply an orthographic projection transformation to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(float, float, float, float) setOrtho()}.
+     * 
+     * @see #setOrtho(float, float, float, float)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @return this
+     */
+    public Matrix3f ortho(float left, float right, float bottom, float top) {
+        return ortho(left, right, bottom, top, this);
+    }
+
+    /**
+     * Set this matrix to be an orthographic projection transformation.
+     * <p>
+     * In order to apply the orthographic projection to an already existing transformation,
+     * use {@link #ortho(float, float, float, float) ortho()}.
+     * 
+     * @see #ortho(float, float, float, float)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @return this
+     */
+    public Matrix3f setOrtho(float left, float right, float bottom, float top) {
+        m00 = 2.0f / (right - left);
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m10 = 0.0f;
+        m11 = 2.0f / (top - bottom);
+        m12 = 0.0f;
+        m20 = -(right + left) / (right - left);
+        m21 = -(top + bottom) / (top - bottom);
+        m22 = -1.0f;
         return this;
     }
 
