@@ -1036,6 +1036,9 @@ public class Matrix3f implements Externalizable {
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
         return this;
     }
 
