@@ -417,45 +417,6 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Set this matrix to be a simple translation matrix in a two-dimensional coordinate system.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional translation.
-     * 
-     * @param x
-     *          the units to translate in x
-     * @param y
-     *          the units to translate in y
-     * @return this
-     */
-    public Matrix3f translation(float x, float y) {
-        m00 = 1.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m10 = 0.0f;
-        m11 = 1.0f;
-        m12 = 0.0f;
-        m20 = x;
-        m21 = y;
-        m22 = 1.0f;
-        return this;
-    }
-
-    /**
-     * Set this matrix to be a simple translation matrix in a two-dimensional coordinate system.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional translation.
-     * 
-     * @param position
-     *          the units to translate in <tt>(x, y)</tt>
-     * @return this
-     */
-    public Matrix3f translation(Vector2f position) {
-        return translation(position.x, position.y);
-    }
-    
-    /**
      * Return a string representation of this matrix.
      * <p>
      * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>  0.000E0; -</tt>".
