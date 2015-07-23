@@ -28,7 +28,7 @@ package org.joml;
  * This can be used to compute the eye-rays in simple software-based raycasting/raytracing.
  * <p>
  * To obtain the origin of the rays call {@link #origin(Vector3f)}.
- * Then to compute the directions of subsequent rays {@link #dir(float, float, Vector3f)}.
+ * Then to compute the directions of subsequent rays use {@link #dir(float, float, Vector3f)}.
  * 
  * @author Kai Burjack
  */

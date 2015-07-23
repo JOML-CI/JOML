@@ -185,12 +185,12 @@ public class FrustumCuller {
      * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
      */
     public boolean isPointInsideFrustum(float x, float y, float z) {
-        return (nxX * x + nxY * y + nxZ * z + nxW >= 0 &&
-                pxX * x + pxY * y + pxZ * z + pxW >= 0 &&
-                nyX * x + nyY * y + nyZ * z + nyW >= 0 &&
-                pyX * x + pyY * y + pyZ * z + pyW >= 0 &&
-                nzX * x + nzY * y + nzZ * z + nzW >= 0 &&
-                pzX * x + pzY * y + pzZ * z + pzW >= 0);
+        return nxX * x + nxY * y + nxZ * z + nxW >= 0 &&
+               pxX * x + pxY * y + pxZ * z + pxW >= 0 &&
+               nyX * x + nyY * y + nyZ * z + nyW >= 0 &&
+               pyX * x + pyY * y + pyZ * z + pyW >= 0 &&
+               nzX * x + nzY * y + nzZ * z + nzW >= 0 &&
+               pzX * x + pzY * y + pzZ * z + pzW >= 0;
     }
 
     /**

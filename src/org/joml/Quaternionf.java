@@ -128,8 +128,8 @@ public class Quaternionf implements Externalizable {
         float sin = (float) Math.sin(axisAngle.angle / 2.0);
         float cos = (float) Math.cos(axisAngle.angle / 2.0);
         x = axisAngle.x * sin;
-        x = axisAngle.y * sin;
-        x = axisAngle.z * sin;
+        y = axisAngle.y * sin;
+        z = axisAngle.z * sin;
         w = cos;
     }
 
