@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015 Kai Burjack
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -38,7 +39,6 @@ import java.text.NumberFormat;
  *      m01  m11  m21<br>
  *      m02  m12  m22<br>
  * 
- * @author Richard Greenlees
  * @author Kai Burjack
  */
 public class Matrix3f implements Externalizable {
@@ -129,20 +129,6 @@ public class Matrix3f implements Externalizable {
         m20 = m.m20;
         m21 = m.m21;
         m22 = m.m22;
-        return this;
-    }
-
-    /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
-     * 
-     * @see Quaternionf#get(Matrix3f)
-     * 
-     * @param q
-     *          the {@link Quaternionf}
-     * @return this
-     */
-    public Matrix3f set(Quaternionf q) {
-        q.get(this);
         return this;
     }
 
@@ -369,6 +355,11 @@ public class Matrix3f implements Externalizable {
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
+     * <p>
+     * In order to apply a translation via to an already existing transformation
+     * matrix, use {@link #translate(float, float) translate()} instead.
+     * 
+     * @see #translate(float, float)
      * 
      * @param x
      *          the units to translate in x
@@ -388,7 +379,116 @@ public class Matrix3f implements Externalizable {
         m22 = 1.0f;
         return this;
     }
-    
+
+    /**
+     * Set this matrix to be a simple translation matrix in a two-dimensional coordinate system.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional translation.
+     * <p>
+     * In order to apply a translation via to an already existing transformation
+     * matrix, use {@link #translate(Vector2f) translate()} instead.
+     * 
+     * @see #translate(Vector2f)
+     * 
+     * @param offset
+     *          the translation
+     * @return this
+     */
+    public Matrix3f translation(Vector2f offset) {
+        m00 = 1.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m10 = 0.0f;
+        m11 = 1.0f;
+        m12 = 0.0f;
+        m20 = offset.x;
+        m21 = offset.y;
+        m22 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of units in x and y and store the result
+     * in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(float, float)}.
+     * 
+     * @see #translation(float, float)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix3f translate(float x, float y, Matrix3f dest) {
+        float rm20 = x;
+        float rm21 = y;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22;
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m10 = m10;
+        dest.m11 = m11;
+        dest.m12 = m12;
+        return this;
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of units in x and y.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(float, float)}.
+     * 
+     * @see #translation(float, float)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @return this
+     */
+    public Matrix3f translate(float x, float y) {
+        return translate(x, y, this);
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of units in x and y.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(float, float)}.
+     * 
+     * @see #translation(Vector2f)
+     * 
+     * @param offset
+     *          the offset to translate
+     * @return this
+     */
+    public Matrix3f translate(Vector2f offset) {
+        return translate(offset.y, offset.y, this);
+    }
+
     /**
      * Return a string representation of this matrix.
      * <p>
@@ -428,37 +528,6 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f get(Matrix3f dest) {
-        dest.set(this);
-        return this;
-    }
-
-    /**
-     * Get the current values of <code>this</code> matrix and store them as
-     * the rotational component of <code>dest</code>. All other values of <code>dest</code> will
-     * be set to identity.
-     * 
-     * @see Matrix4f#set(Matrix3f)
-     * 
-     * @param dest
-     *          the destination matrix
-     * @return this
-     */
-    public Matrix3f get(Matrix4f dest) {
-        dest.set(this);
-        return this;
-    }
-
-    /**
-     * Get the current values of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaternionf}.
-     * 
-     * @see Quaternionf#set(Matrix3f)
-     * 
-     * @param dest
-     *          the destination {@link Quaternionf}
-     * @return this
-     */
-    public Matrix3f get(Quaternionf dest) {
         dest.set(this);
         return this;
     }
@@ -505,6 +574,51 @@ public class Matrix3f implements Externalizable {
         buffer.put(index+6, m20);
         buffer.put(index+7, m21);
         buffer.put(index+8, m22);
+        return this;
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
+    public Matrix3f get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix3f get(int index, ByteBuffer buffer) {
+        buffer.putFloat(index, m00);
+        buffer.putFloat(index+4, m01);
+        buffer.putFloat(index+8, m02);
+        buffer.putFloat(index+12, m10);
+        buffer.putFloat(index+16, m11);
+        buffer.putFloat(index+20, m12);
+        buffer.putFloat(index+24, m20);
+        buffer.putFloat(index+28, m21);
+        buffer.putFloat(index+32, m22);
         return this;
     }
 
@@ -571,8 +685,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
-     * y and z factors and store the result in <code>dest</code>.
+     * Apply scaling to this matrix by scaling the unit axes by the given x and y and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -583,15 +696,13 @@ public class Matrix3f implements Externalizable {
      *            the factor of the x component
      * @param y
      *            the factor of the y component
-     * @param z
-     *            the factor of the z component
      * @param dest
      *            will hold the result
      * @return this
      */
-    public Matrix3f scale(float x, float y, float z, Matrix3f dest) {
+    public Matrix3f scale(float x, float y, Matrix3f dest) {
         // scale matrix elements:
-        // m00 = x, m11 = y, m22 = z
+        // m00 = x, m11 = y, m22 = 1
         // all others = 0
         dest.m00 = m00 * x;
         dest.m01 = m01 * x;
@@ -599,15 +710,14 @@ public class Matrix3f implements Externalizable {
         dest.m10 = m10 * y;
         dest.m11 = m11 * y;
         dest.m12 = m12 * y;
-        dest.m20 = m20 * z;
-        dest.m21 = m21 * z;
-        dest.m22 = m22 * z;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
         return this;
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
-     * y and z factors.
+     * Apply scaling to this matrix by scaling the unit axes by the given x and y factors.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -618,16 +728,14 @@ public class Matrix3f implements Externalizable {
      *            the factor of the x component
      * @param y
      *            the factor of the y component
-     * @param z
-     *            the factor of the z component
      * @return this
      */
-    public Matrix3f scale(float x, float y, float z) {
-        return scale(x, y, z, this);
+    public Matrix3f scale(float x, float y) {
+        return scale(x, y, this);
     }
 
     /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor
+     * Apply scaling to this matrix by uniformly scaling the two base axes by the given <code>xy</code> factor
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -635,38 +743,38 @@ public class Matrix3f implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
      * 
-     * @see #scale(float, float, float, Matrix3f)
+     * @see #scale(float, float, Matrix3f)
      * 
-     * @param xyz
-     *            the factor for all components
+     * @param xy
+     *            the factor for the two components
      * @param dest
      *            will hold the result
      * @return this
      */
-    public Matrix3f scale(float xyz, Matrix3f dest) {
-        return scale(xyz, xyz, xyz, dest);
+    public Matrix3f scale(float xy, Matrix3f dest) {
+        return scale(xy, xy, dest);
     }
 
     /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
+     * Apply scaling to this matrix by uniformly scaling the two base axes by the given <code>xyz</code> factor.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
      * 
-     * @see #scale(float, float, float)
+     * @see #scale(float, float)
      * 
-     * @param xyz
-     *            the factor for all components
+     * @param xy
+     *            the factor for the two components
      * @return this
      */
-    public Matrix3f scale(float xyz) {
-        return scale(xyz, xyz, xyz);
+    public Matrix3f scale(float xy) {
+        return scale(xy, xy);
     }
 
     /**
-     * Set this matrix to be a simple scale matrix, which scales all axes uniformly by the given factor.
+     * Set this matrix to be a simple scale matrix, which scales the two base axes uniformly by the given factor.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional scaling.
@@ -677,7 +785,7 @@ public class Matrix3f implements Externalizable {
      * @see #scale(float)
      * 
      * @param factor
-     *             the scale factor in x, y and z
+     *             the scale factor in x and y
      * @return this
      */
     public Matrix3f scaling(float factor) {
@@ -689,7 +797,7 @@ public class Matrix3f implements Externalizable {
         m12 = 0.0f;
         m20 = 0.0f;
         m21 = 0.0f;
-        m22 = factor;
+        m22 = 1.0f;
         return this;
     }
 
@@ -700,11 +808,9 @@ public class Matrix3f implements Externalizable {
      *             the scale in x
      * @param y
      *             the scale in y
-     * @param z
-     *             the scale in z
      * @return this
      */
-    public Matrix3f scaling(float x, float y, float z) {
+    public Matrix3f scaling(float x, float y) {
         m00 = x;
         m01 = 0.0f;
         m02 = 0.0f;
@@ -713,182 +819,39 @@ public class Matrix3f implements Externalizable {
         m12 = 0.0f;
         m20 = 0.0f;
         m21 = 0.0f;
-        m22 = z;
+        m22 = 1.0f;
         return this;
     }
 
     /**
-     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional rotation.
-     * <p>
-     * If you want to post-multiply a rotation transformation directly to a
-     * matrix, you can use {@link #rotate(float, Vector3f) rotate()} instead.
-     * 
-     * @see #rotate(float, Vector3f)
-     * 
-     * @param angle
-     *          the angle in radians
-     * @param axis
-     *          the axis to rotate about (needs to be {@link Vector3f#normalize() normalized})
-     * @return this
-     */
-    public Matrix3f rotation(float angle, Vector3f axis) {
-        return rotation(angle, axis.x, axis.y, axis.z);
-    }
-
-    /**
-     * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
-     * <p>
-     * The axis described by the three components needs to be a unit vector.
+     * Set this matrix to a rotation matrix which rotates the given radians.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(float, float, float, float) rotate()} instead.
+     * use {@link #rotate(float) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
-     * @see #rotate(float, float, float, float)
+     * @see #rotate(float)
      * 
      * @param angle
      *          the angle in radians
-     * @param x
-     *          the x-component of the rotation axis
-     * @param y
-     *          the y-component of the rotation axis
-     * @param z
-     *          the z-component of the rotation axis
      * @return this
      */
-    public Matrix3f rotation(float angle, float x, float y, float z) {
+    public Matrix3f rotation(float angle) {
         float cos = (float) Math.cos(angle);
         float sin = (float) Math.sin(angle);
-        float C = 1.0f - cos;
-        m00 = cos + x * x * C;
-        m10 = x * y * C - z * sin;
-        m20 = x * z * C + y * sin;
-        m01 = y * x * C + z * sin;
-        m11 = cos + y * y * C;
-        m21 = y * z * C - x * sin;
-        m02 = z * x * C - y * sin;
-        m12 = z * y * C + x * sin;
-        m22 = cos + z * z * C;
-        return this;
-    }
-
-    /**
-     * Set this matrix to a rotation transformation about the X axis.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @return this
-     */
-    public Matrix3f rotationX(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
-        m00 = 1.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m10 = 0.0f;
-        m11 = cos;
-        m12 = sin;
-        m20 = 0.0f;
-        m21 = -sin;
-        m22 = cos;
-        return this;
-    }
-
-    /**
-     * Set this matrix to a rotation transformation about the Y axis.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @return this
-     */
-    public Matrix3f rotationY(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
         m00 = cos;
-        m01 = 0.0f;
-        m02 = -sin;
-        m10 = 0.0f;
-        m11 = 1.0f;
-        m12 = 0.0f;
-        m20 = sin;
-        m21 = 0.0f;
-        m22 = cos;
-        return this;
-    }
-
-    /**
-     * Set this matrix to a rotation transformation about the Z axis.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @return this
-     */
-    public Matrix3f rotationZ(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
-        m00 = cos;
-        m01 = sin;
-        m02 = 0.0f;
         m10 = -sin;
-        m11 = cos;
-        m12 = 0.0f;
         m20 = 0.0f;
+        m01 = sin;
+        m11 = cos;
         m21 = 0.0f;
-        m22 = 0.0f;
-        return this;
-    }
-
-    /**
-     * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional rotation.
-     * <p>
-     * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(Quaternionf) rotate()} instead.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
-     * 
-     * @see #rotate(Quaternionf)
-     * 
-     * @param quat
-     *          the {@link Quaternionf}
-     * @return this
-     */
-    public Matrix3f rotation(Quaternionf quat) {
-        float q00 = 2.0f * quat.x * quat.x;
-        float q11 = 2.0f * quat.y * quat.y;
-        float q22 = 2.0f * quat.z * quat.z;
-        float q01 = 2.0f * quat.x * quat.y;
-        float q02 = 2.0f * quat.x * quat.z;
-        float q03 = 2.0f * quat.x * quat.w;
-        float q12 = 2.0f * quat.y * quat.z;
-        float q13 = 2.0f * quat.y * quat.w;
-        float q23 = 2.0f * quat.z * quat.w;
-
-        m00 = 1.0f - q11 - q22;
-        m01 = q01 + q23;
-        m02 = q02 - q13;
-        m10 = q01 - q23;
-        m11 = 1.0f - q22 - q00;
-        m12 = q12 + q03;
-        m20 = q02 + q13;
-        m21 = q12 - q03;
-        m22 = 1.0f - q11 - q00;
-
+        m02 = 0.0f;
+        m12 = 0.0f;
+        m22 = 1.0f;
         return this;
     }
 
@@ -899,7 +862,7 @@ public class Matrix3f implements Externalizable {
      *          the vector to transform
      * @return this
      */
-    public Matrix3f transform(Vector3f v) {
+    public Matrix3f transform(Vector2f v) {
         v.mul(this);
         return this;
     }
@@ -913,7 +876,7 @@ public class Matrix3f implements Externalizable {
      *          will hold the result
      * @return this
      */
-    public Matrix3f transform(Vector3f v, Vector3f dest) {
+    public Matrix3f transform(Vector2f v, Vector2f dest) {
         v.mul(this, dest);
         return this;
     }
@@ -944,15 +907,32 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply rotation about the X axis to this matrix by rotating the given amount of radians
-     * and store the result in <code>dest</code>.
+     * Apply a rotation transformation to this matrix by rotating the given amount of radians.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
      * , the rotation will be applied first!
      * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in radians
+     * @return this
+     */
+    public Matrix3f rotate(float ang) {
+        return rotate(ang, this);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix by rotating the given amount of radians and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @param ang
      *            the angle in radians
@@ -960,136 +940,12 @@ public class Matrix3f implements Externalizable {
      *            will hold the result
      * @return this
      */
-    public Matrix3f rotateX(float ang, Matrix3f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
-        float rm11 = cos;
-        float rm21 = -sin;
-        float rm12 = sin;
-        float rm22 = cos;
-
-        // add temporaries for dependent values
-        float nm10 = m10 * rm11 + m20 * rm12;
-        float nm11 = m11 * rm11 + m21 * rm12;
-        float nm12 = m12 * rm11 + m22 * rm12;
-        // set non-dependent values directly
-        dest.m20 = m10 * rm21 + m20 * rm22;
-        dest.m21 = m11 * rm21 + m21 * rm22;
-        dest.m22 = m12 * rm21 + m22 * rm22;
-        // set other values
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m00 = m00;
-        dest.m01 = m01;
-        dest.m02 = m02;
-
-        return this;
-    }
-
-    /**
-     * Apply rotation about the X axis to this matrix by rotating the given amount of radians.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @return this
-     */
-    public Matrix3f rotateX(float ang) {
-        return rotateX(ang, this);
-    }
-
-    /**
-     * Apply rotation about the Y axis to this matrix by rotating the given amount of radians
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param dest
-     *            will hold the result
-     * @return this
-     */
-    public Matrix3f rotateY(float ang, Matrix3f dest) {
+    public Matrix3f rotate(float ang, Matrix3f dest) {
         float cos = (float) Math.cos(ang);
         float sin = (float) Math.sin(ang);
         float rm00 = cos;
-        float rm20 = sin;
-        float rm02 = -sin;
-        float rm22 = cos;
-
-        // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m20 * rm02;
-        float nm01 = m01 * rm00 + m21 * rm02;
-        float nm02 = m02 * rm00 + m22 * rm02;
-        // set non-dependent values directly
-        dest.m20 = m00 * rm20 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m22 * rm22;
-        // set other values
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m10 = m10;
-        dest.m11 = m11;
-        dest.m12 = m12;
-
-        return this;
-    }
-
-    /**
-     * Apply rotation about the Y axis to this matrix by rotating the given amount of radians.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @return this
-     */
-    public Matrix3f rotateY(float ang) {
-        return rotateY(ang, this);
-    }
-
-    /**
-     * Apply rotation about the Z axis to this matrix by rotating the given amount of radians
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param dest
-     *            will hold the result
-     * @return this
-     */
-    public Matrix3f rotateZ(float ang, Matrix3f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
-        float rm00 = cos;
-        float rm10 = -sin;
         float rm01 = sin;
+        float rm10 = -sin;
         float rm11 = cos;
 
         // add temporaries for dependent values
@@ -1107,590 +963,6 @@ public class Matrix3f implements Externalizable {
         dest.m20 = m20;
         dest.m21 = m21;
         dest.m22 = m22;
-
-        return this;
-    }
-
-    /**
-     * Apply rotation about the Z axis to this matrix by rotating the given amount of radians.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @return this
-     */
-    public Matrix3f rotateZ(float ang) {
-        return rotateZ(ang, this);
-    }
-
-    /**
-     * Apply rotation to this matrix by rotating the given amount of radians
-     * about the given axis specified as x, y and z components.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param x
-     *            the x component of the axis
-     * @param y
-     *            the y component of the axis
-     * @param z
-     *            the z component of the axis
-     * @return this
-     */
-    public Matrix3f rotate(float ang, float x, float y, float z) {
-        return rotate(ang, x, y, z, this);
-    }
-
-    /**
-     * Apply rotation to this matrix by rotating the given amount of radians
-     * about the given axis specified as x, y and z components, and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param x
-     *            the x component of the axis
-     * @param y
-     *            the y component of the axis
-     * @param z
-     *            the z component of the axis
-     * @param dest
-     *            will hold the result
-     * @return this
-     */
-    public Matrix3f rotate(float ang, float x, float y, float z, Matrix3f dest) {
-        float s = (float) Math.sin(ang);
-        float c = (float) Math.cos(ang);
-        float C = 1.0f - c;
-
-        // rotation matrix elements:
-        // m30, m31, m32, m03, m13, m23 = 0
-        float rm00 = x * x * C + c;
-        float rm01 = y * x * C + z * s;
-        float rm02 = z * x * C - y * s;
-        float rm10 = x * y * C - z * s;
-        float rm11 = y * y * C + c;
-        float rm12 = z * y * C + x * s;
-        float rm20 = x * z * C + y * s;
-        float rm21 = y * z * C - x * s;
-        float rm22 = z * z * C + c;
-
-        // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        // set non-dependent values directly
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        // set other values
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-
-        return this;
-    }
-
-    /**
-     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
-     * then the new matrix will be <code>M * Q</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
-     * the quaternion rotation will be applied first!
-     * <p>
-     * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionf)}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
-     * 
-     * @see #rotation(Quaternionf)
-     * 
-     * @param quat
-     *          the {@link Quaternionf}
-     * @return this
-     */
-    public Matrix3f rotate(Quaternionf quat) {
-        return rotate(quat, this);
-    }
-
-    /**
-     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix and store
-     * the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
-     * then the new matrix will be <code>M * Q</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
-     * the quaternion rotation will be applied first!
-     * <p>
-     * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionf)}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
-     * 
-     * @see #rotation(Quaternionf)
-     * 
-     * @param quat
-     *          the {@link Quaternionf}
-     * @param dest
-     *          will hold the result
-     * @return this
-     */
-    public Matrix3f rotate(Quaternionf quat, Matrix3f dest) {
-        float q00 = 2.0f * quat.x * quat.x;
-        float q11 = 2.0f * quat.y * quat.y;
-        float q22 = 2.0f * quat.z * quat.z;
-        float q01 = 2.0f * quat.x * quat.y;
-        float q02 = 2.0f * quat.x * quat.z;
-        float q03 = 2.0f * quat.x * quat.w;
-        float q12 = 2.0f * quat.y * quat.z;
-        float q13 = 2.0f * quat.y * quat.w;
-        float q23 = 2.0f * quat.z * quat.w;
-
-        float rm00 = 1.0f - q11 - q22;
-        float rm01 = q01 + q23;
-        float rm02 = q02 - q13;
-        float rm10 = q01 - q23;
-        float rm11 = 1.0f - q22 - q00;
-        float rm12 = q12 + q03;
-        float rm20 = q02 + q13;
-        float rm21 = q12 - q03;
-        float rm22 = 1.0f - q11 - q00;
-
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-
-        return this;
-    }
-
-    /**
-     * Apply a rotation transformation, rotating the given radians about the specified axis, to this matrix.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle and axis,
-     * then the new matrix will be <code>M * A</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the axis-angle rotation will be applied first!
-     * <p>
-     * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(float, Vector3f)}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @see #rotate(float, float, float, float)
-     * @see #rotation(float, Vector3f)
-     * 
-     * @param angle
-     *          the angle in radians
-     * @param axis
-     *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
-     * @return this
-     */
-    public Matrix3f rotate(float angle, Vector3f axis) {
-        return rotate(angle, axis.x, axis.y, axis.z);
-    }
-
-    /**
-     * Apply a rotation transformation, rotating the given radians about the specified axis and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle and axis,
-     * then the new matrix will be <code>M * A</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the axis-angle rotation will be applied first!
-     * <p>
-     * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(float, Vector3f)}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @see #rotate(float, float, float, float)
-     * @see #rotation(float, Vector3f)
-     * 
-     * @param angle
-     *          the angle in radians
-     * @param axis
-     *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
-     * @param dest
-     *          will hold the result
-     * @return this
-     */
-    public Matrix3f rotate(float angle, Vector3f axis, Matrix3f dest) {
-        return rotate(angle, axis.x, axis.y, axis.z, dest);
-    }
-
-    /**
-     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
-     * then the new matrix will be <code>M * L</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
-     * lookalong rotation transformation will be applied first!
-     * <p>
-     * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
-     * 
-     * @see #lookAlong(float, float, float, float, float, float)
-     * @see #setLookAlong(Vector3f, Vector3f)
-     * 
-     * @param dir
-     *            the direction in space to look along
-     * @param up
-     *            the direction of 'up'
-     * @return this
-     */
-    public Matrix3f lookAlong(Vector3f dir, Vector3f up) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
-    }
-
-    /**
-     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
-     * and store the result in <code>dest</code>. 
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
-     * then the new matrix will be <code>M * L</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
-     * lookalong rotation transformation will be applied first!
-     * <p>
-     * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
-     * 
-     * @see #lookAlong(float, float, float, float, float, float)
-     * @see #setLookAlong(Vector3f, Vector3f)
-     * 
-     * @param dir
-     *            the direction in space to look along
-     * @param up
-     *            the direction of 'up'
-     * @param dest
-     *            will hold the result
-     * @return this
-     */
-    public Matrix3f lookAlong(Vector3f dir, Vector3f up, Matrix3f dest) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
-    }
-
-    /**
-     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
-     * and store the result in <code>dest</code>. 
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
-     * then the new matrix will be <code>M * L</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
-     * lookalong rotation transformation will be applied first!
-     * <p>
-     * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(float, float, float, float, float, float) setLookAlong()}
-     * 
-     * @see #setLookAlong(float, float, float, float, float, float)
-     * 
-     * @param dirX
-     *              the x-coordinate of the direction to look along
-     * @param dirY
-     *              the y-coordinate of the direction to look along
-     * @param dirZ
-     *              the z-coordinate of the direction to look along
-     * @param upX
-     *              the x-coordinate of the up vector
-     * @param upY
-     *              the y-coordinate of the up vector
-     * @param upZ
-     *              the z-coordinate of the up vector
-     * @param dest
-     *              will hold the result
-     * @return this
-     */
-    public Matrix3f lookAlong(float dirX, float dirY, float dirZ,
-                              float upX, float upY, float upZ, Matrix3f dest) {
-        // Normalize direction
-        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX / dirLength;
-        float dirnY = dirY / dirLength;
-        float dirnZ = dirZ / dirLength;
-        // right = direction x up
-        float rightX, rightY, rightZ;
-        rightX = dirnY * upZ - dirnZ * upY;
-        rightY = dirnZ * upX - dirnX * upZ;
-        rightZ = dirnX * upY - dirnY * upX;
-        // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
-        // up = right x direction
-        float upnX = rightY * dirnZ - rightZ * dirnY;
-        float upnY = rightZ * dirnX - rightX * dirnZ;
-        float upnZ = rightX * dirnY - rightY * dirnX;
-
-        // calculate right matrix elements
-        float rm00 = rightX;
-        float rm01 = upnX;
-        float rm02 = -dirnX;
-        float rm10 = rightY;
-        float rm11 = upnY;
-        float rm12 = -dirnY;
-        float rm20 = rightZ;
-        float rm21 = upnZ;
-        float rm22 = -dirnZ;
-
-        // perform optimized matrix multiplication
-        // introduce temporaries for dependent results
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        // set the rest of the matrix elements
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-
-        return this;
-    }
-
-    /**
-     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
-     * then the new matrix will be <code>M * L</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>, the
-     * lookalong rotation transformation will be applied first!
-     * <p>
-     * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(float, float, float, float, float, float) setLookAlong()}
-     * 
-     * @see #setLookAlong(float, float, float, float, float, float)
-     * 
-     * @param dirX
-     *              the x-coordinate of the direction to look along
-     * @param dirY
-     *              the y-coordinate of the direction to look along
-     * @param dirZ
-     *              the z-coordinate of the direction to look along
-     * @param upX
-     *              the x-coordinate of the up vector
-     * @param upY
-     *              the y-coordinate of the up vector
-     * @param upZ
-     *              the z-coordinate of the up vector
-     * @return this
-     */
-    public Matrix3f lookAlong(float dirX, float dirY, float dirZ,
-                              float upX, float upY, float upZ) {
-        return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
-    }
-
-    /**
-     * Set this matrix to a rotation transformation to make <code>-z</code>
-     * point along <code>dir</code>.
-     * <p>
-     * In order to apply the lookalong transformation to any previous existing transformation,
-     * use {@link #lookAlong(Vector3f, Vector3f)}.
-     * 
-     * @see #setLookAlong(Vector3f, Vector3f)
-     * @see #lookAlong(Vector3f, Vector3f)
-     * 
-     * @param dir
-     *            the direction in space to look along
-     * @param up
-     *            the direction of 'up'
-     * @return this
-     */
-    public Matrix3f setLookAlong(Vector3f dir, Vector3f up) {
-        return setLookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
-    }
-
-    /**
-     * Set this matrix to a rotation transformation to make <code>-z</code>
-     * point along <code>dir</code>.
-     * <p>
-     * In order to apply the lookalong transformation to any previous existing transformation,
-     * use {@link #lookAlong(float, float, float, float, float, float) lookAlong()}
-     * 
-     * @see #setLookAlong(float, float, float, float, float, float)
-     * @see #lookAlong(float, float, float, float, float, float)
-     * 
-     * @param dirX
-     *              the x-coordinate of the direction to look along
-     * @param dirY
-     *              the y-coordinate of the direction to look along
-     * @param dirZ
-     *              the z-coordinate of the direction to look along
-     * @param upX
-     *              the x-coordinate of the up vector
-     * @param upY
-     *              the y-coordinate of the up vector
-     * @param upZ
-     *              the z-coordinate of the up vector
-     * @return this
-     */
-    public Matrix3f setLookAlong(float dirX, float dirY, float dirZ,
-                                 float upX, float upY, float upZ) {
-        // Normalize direction
-        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX / dirLength;
-        float dirnY = dirY / dirLength;
-        float dirnZ = dirZ / dirLength;
-        // right = direction x up
-        float rightX, rightY, rightZ;
-        rightX = dirnY * upZ - dirnZ * upY;
-        rightY = dirnZ * upX - dirnX * upZ;
-        rightZ = dirnX * upY - dirnY * upX;
-        // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
-        // up = right x direction
-        float upnX = rightY * dirnZ - rightZ * dirnY;
-        float upnY = rightZ * dirnX - rightX * dirnZ;
-        float upnZ = rightX * dirnY - rightY * dirnX;
-
-        m00 = rightX;
-        m01 = upnX;
-        m02 = -dirnX;
-        m10 = rightY;
-        m11 = upnY;
-        m12 = -dirnY;
-        m20 = rightZ;
-        m21 = upnZ;
-        m22 = -dirnZ;
-
-        return this;
-    }
-
-    /**
-     * Get the row at the given <code>row</code> index, starting with <code>0</code>.
-     * 
-     * @param row
-     *          the row index in <tt>[0..2]</tt>
-     * @param dest
-     *          will hold the row components
-     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
-     */
-    public void getRow(int row, Vector3f dest) throws IndexOutOfBoundsException {
-        switch (row) {
-        case 0:
-            dest.x = m00;
-            dest.y = m10;
-            dest.z = m20;
-            break;
-        case 1:
-            dest.x = m01;
-            dest.y = m11;
-            dest.z = m21;
-            break;
-        case 2:
-            dest.x = m02;
-            dest.y = m12;
-            dest.z = m22;
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
-        }
-    }
-
-    /**
-     * Get the column at the given <code>column</code> index, starting with <code>0</code>.
-     * 
-     * @param column
-     *          the column index in <tt>[0..2]</tt>
-     * @param dest
-     *          will hold the column components
-     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..2]</tt>
-     */
-    public void getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException {
-        switch (column) {
-        case 0:
-            dest.x = m00;
-            dest.y = m01;
-            dest.z = m02;
-            break;
-        case 1:
-            dest.x = m10;
-            dest.y = m11;
-            dest.z = m12;
-            break;
-        case 2:
-            dest.x = m20;
-            dest.y = m21;
-            dest.z = m22;
-            break;
-        default:
-            throw new IndexOutOfBoundsException();
-        }
-    }
-
-    /**
-     * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
-     * 
-     * @param dest
-     *             will hold the result
-     * @return this
-     */
-    public Matrix3f normal(Matrix3f dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
-        float det = determinant();
-        float diff = Math.abs(Math.abs(det) - 1.0f);
-        if (diff < 1E-8f) {
-            /* The fast path, if only 1:1:1 scaling is being used */
-            return transpose(dest);
-        }
-        /* The general case */
-        float s = 1.0f / det;
-        /* Invert and transpose in one go */
-        dest.set((m11 * m22 - m21 * m12) * s,
-                -(m10 * m22 - m20 * m12) * s,
-                 (m10 * m21 - m20 * m11) * s,
-                -(m01 * m22 - m21 * m02) * s,
-                 (m00 * m22 - m20 * m02) * s,
-                -(m00 * m21 - m20 * m01) * s,
-                 (m01 * m12 - m11 * m02) * s,
-                -(m00 * m12 - m10 * m02) * s,
-                 (m00 * m11 - m10 * m01) * s);
         return this;
     }
 
