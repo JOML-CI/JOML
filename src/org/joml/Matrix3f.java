@@ -469,6 +469,28 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Apply a translation to this matrix by translating by the given number of units in x and y, and
+     * store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(float, float)}.
+     * 
+     * @see #translation(Vector2f)
+     * 
+     * @param offset
+     *          the offset to translate
+     * @return this
+     */
+    public Matrix3f translate(Vector2f offset, Matrix3f dest) {
+        return translate(offset.y, offset.y, dest);
+    }
+
+    /**
      * Apply a translation to this matrix by translating by the given number of units in x and y.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
