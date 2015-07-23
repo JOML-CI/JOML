@@ -1003,8 +1003,8 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply a "view" transformation to this matrix that maps the given (left, bottom) and (right, top) corners
-     * to (-1, -1) and (1, 1) respectively and store the result in <code>dest</code>.
+     * Apply a "view" transformation to this matrix that maps the given <tt>(left, bottom)</tt> and
+     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -1049,8 +1049,8 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply a "view" transformation to this matrix that maps the given (left, bottom) and (right, top) corners
-     * to (-1, -1) and (1, 1) respectively.
+     * Apply a "view" transformation to this matrix that maps the given <tt>(left, bottom)</tt> and
+     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -1074,8 +1074,8 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Set this matrix to define a "view" transformation that maps the given (left, bottom) and (right, top) corners
-     * to (-1, -1) and (1, 1) respectively.
+     * Set this matrix to define a "view" transformation that maps the given <tt>(left, bottom)</tt> and
+     * <tt>(right, top)</tt> corners to <tt>(-1, -1)</tt> and <tt>(1, 1)</tt> respectively.
      * 
      * @see #view(float, float, float, float)
      * 
