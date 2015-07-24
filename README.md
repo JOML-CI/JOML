@@ -36,14 +36,14 @@ new Matrix3f().translate(2.0f, 0.0f)
 
 Common transformation idioms, such as rotating using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 3) and uses (3, 3) as the rotation center:
 ```Java
-Vector2f center = new Vector2f(3.0f, 3.0f);
+Vector2f center = new Vector2f(3.0f, 0.0f);
 Vector2f pointToRotate = new Vector2f(0.0f, 3.0f);
 new Matrix3f().translate(center)
               .rotate((float) Math.toRadians(90.0f))
               .translate(center.negate())
               .transform(pointToRotate);
 ```
-The vector *pointToRotate* will now represent (3, 0).
+The vector *pointToRotate* will now represent (-3, 0).
 
 Post-multiplication
 -------------------
