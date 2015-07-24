@@ -43,7 +43,7 @@ new Matrix3f().translate(center)
               .translate(center.negate())
               .transform(pointToRotate);
 ```
-The vector *pointToRotate* will now represent (-3, 0).
+The vector *pointToRotate* will now represent (0, -3).
 
 Post-multiplication
 -------------------
