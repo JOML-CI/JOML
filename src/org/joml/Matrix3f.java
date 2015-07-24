@@ -409,6 +409,46 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Set only the translation components of this matrix <tt>(m20, m21)</tt> to the given values <tt>(x, y)</tt>.
+     * <p>
+     * To build a translation matrix instead, use {@link #translation(float, float)}.
+     * To apply a translation to another matrix, use {@link #translate(float, float)}.
+     * 
+     * @see #translation(float, float)
+     * @see #translate(float, float)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @return this
+     */
+    public Matrix3f setTranslation(float x, float y) {
+        m20 = x;
+        m21 = y;
+        return this;
+    }
+
+    /**
+     * Set only the translation components of this matrix <tt>(m20, m21)</tt> to the given values <tt>(offset.x, offset.y)</tt>.
+     * <p>
+     * To build a translation matrix instead, use {@link #translation(Vector2f)}.
+     * To apply a translation to another matrix, use {@link #translate(Vector2f)}.
+     * 
+     * @see #translation(Vector2f)
+     * @see #translate(Vector2f)
+     * 
+     * @param offset
+     *          the new translation to set
+     * @return this
+     */
+    public Matrix3f setTranslation(Vector2f offset) {
+        m20 = offset.x;
+        m21 = offset.y;
+        return this;
+    }
+
+    /**
      * Apply a translation to this matrix by translating by the given number of units in x and y and store the result
      * in <code>dest</code>.
      * <p>
