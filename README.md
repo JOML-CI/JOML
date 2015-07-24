@@ -34,7 +34,7 @@ new Matrix3f().translate(2.0f, 0.0f)
 // v is now transformed by the specified transformation
 ```
 
-Common transformation idioms, such as rotating using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 3) and uses (3, 3) as the rotation center:
+Common transformation idioms, such as rotating using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 3) and uses (3, 0) as the rotation center:
 ```Java
 Vector2f center = new Vector2f(3.0f, 0.0f);
 Vector2f pointToRotate = new Vector2f(0.0f, 3.0f);
