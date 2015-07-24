@@ -63,6 +63,18 @@ m.translation(offset).transform(point);
 In the above example, the matrix _m_ is being set to a translation, instead of applying the translation to it.
 These methods are useful when the same matrix is being used in a sequence of consecutive operations or repeatedly in a loop without having to set it to the identity each time.
 
+Building a camera transformation
+--------------------------------
+In the same way that you can concatenate multiple simple translations and rotations, you can use the method view() to specify the visible extents of the scene via the bottom-left and top-right corner coordinates.
+This method resembles the _gluOrtho2D_ known from GLU and acts in the same way (i.e. they apply their transformations to an already existing transformation) although it does not do a projection:
+```Java
+Matrix4f m = new Matrix4f()
+     .view(-10.0f, 10.0f, -10.0f, 10.0f)
+     .translate(1.0f, 2.0f);
+// the view transformation is now in m
+```
+The above transformation defines a visible view ranging from -10 to 10 in each dimension and then translates the camera by (-1, -2).
+
 Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
 ---------------------------------------------------
 JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat3 in a shader. For this, the Matrix3f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
