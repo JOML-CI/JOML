@@ -1005,17 +1005,17 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation to this matrix that rotates the given <code>fromDir</code> direction vector
-     * to point along <code>toDir</code>, and store the result in <code>dest</code>.
+     * Apply a rotation transformation to this matrix that rotates the given normalized <code>fromDir</code> direction vector
+     * to point along the normalized <code>toDir</code>, and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
      * 
      * @param fromDir
-     *            the direction which should be rotate to point along <code>toDir</code>
+     *            the normalized direction which should be rotate to point along <code>toDir</code>
      * @param toDir
-     *            the destination direction
+     *            the normalized destination direction
      * @param dest
      *            will hold the result
      * @return this
@@ -1043,17 +1043,17 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation to this matrix that rotates the given <code>fromDir</code> direction vector
-     * to point along <code>toDir</code>
+     * Apply a rotation transformation to this matrix that rotates the given normalized <code>fromDir</code> direction vector
+     * to point along the normalized <code>toDir</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
      * 
      * @param fromDir
-     *            the direction which should be rotate to point along <code>toDir</code>
+     *            the normalized direction which should be rotate to point along <code>toDir</code>
      * @param toDir
-     *            the destination direction
+     *            the normalized destination direction
      * @return this
      */
     public Matrix3f rotateTo(Vector2f fromDir, Vector2f toDir) {

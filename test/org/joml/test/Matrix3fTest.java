@@ -17,6 +17,24 @@ public class Matrix3fTest extends TestCase {
         Assert.assertEquals(expected.y, actual.y, 1E-7f);
     }
 
+    public void testRotateTo() {
+        Vector2f from = new Vector2f(1.0f, 1.0f).normalize();
+        Vector2f to = new Vector2f(-1.0f, 1.0f).normalize();
+        Matrix3f m = new Matrix3f().rotateTo(from, to);
+        m.transform(from);
+        Assert.assertEquals(to.x, from.x, 1E-7f);
+        Assert.assertEquals(to.y, from.y, 1E-7f);
+    }
+
+    public void testRotateTo2() {
+        Vector2f from = new Vector2f(-1.0f, 1.0f).normalize();
+        Vector2f to = new Vector2f(1.0f, 1.0f).normalize();
+        Matrix3f m = new Matrix3f().rotateTo(from, to);
+        m.transform(from);
+        Assert.assertEquals(to.x, from.x, 1E-7f);
+        Assert.assertEquals(to.y, from.y, 1E-7f);
+    }
+
     public void testTranslate() {
         Matrix3f m = new Matrix3f().translate(3.0f, -7.0f);
         Vector2f expected = new Vector2f(4.0f, -6.0f);
