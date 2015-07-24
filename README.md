@@ -57,7 +57,7 @@ When invoking transformation methods in JOML's matrix classes, a convenient way 
 In addition to the post-multiplying methods, there are still ways to set a matrix or quaternion to a given transformation regardless of what that matrix or quaternion was before:
 
 ```Java
-Matrix m = new Matrix();
+Matrix4f m = new Matrix4f();
 Vector3f point = new Vector3f(1.0f, 2.0f, 3.0f);
 Vector3f offset = new Vector3f(1.0f, 0.0f, 0.0f);
 ...
