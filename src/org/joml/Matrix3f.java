@@ -529,7 +529,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f translate(Vector2f offset, Matrix3f dest) {
-        return translate(offset.y, offset.y, dest);
+        return translate(offset.x, offset.y, dest);
     }
 
     /**
@@ -550,7 +550,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f translate(Vector2f offset) {
-        return translate(offset.y, offset.y, this);
+        return translate(offset.x, offset.y, this);
     }
 
     /**
