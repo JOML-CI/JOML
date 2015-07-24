@@ -267,36 +267,16 @@ public class Vector2d implements Externalizable {
     }
 
     /**
-     * Return the cosine of the angle between this vector and the supplied vector. Use this instead of <code>Math.cos(angle(v))</code>.
-     * 
-     * @see #angle(Vector2d)
-     * 
-     * @param v
-     *          the other vector
-     * @return the cosine of the angle
-     */
-    public double angleCos(Vector2d v) {
-        double length1 = Math.sqrt(x * x + y * y);
-        double length2 = Math.sqrt(v.x * v.x + v.y * v.y);
-        double dot = (x * v.x) + (y * v.y);
-        return dot / (length1 * length2);
-    }
-
-    /**
      * Return the angle between this vector and the supplied vector.
      * 
-     * @see #angleCos(Vector2d)
-     *
      * @param v
      *          the other vector
      * @return the angle, in radians
      */
     public double angle(Vector2d v) {
-        double cos = angleCos(v);
-        // This is because sometimes cos goes above 1 or below -1 because of lost precision
-        cos = Math.min(cos, 1);
-        cos = Math.max(cos, -1);
-        return Math.acos(cos);
+        double dot = x*v.x + y*v.y;
+        double det = x*v.y - y*v.x;
+        return Math.atan2(det, dot);
     }
 
     /**
