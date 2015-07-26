@@ -119,12 +119,12 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Create a new {@link Quaternionf} which represents the rotation of the given {@link AxisAngle4f}.
+     * Create a new {@link Quaternionf} which represents the rotation of the given {@link AngleAxis4f}.
      * 
      * @param axisAngle
-     *          the {@link AxisAngle4f}
+     *          the {@link AngleAxis4f}
      */
-    public Quaternionf(AxisAngle4f axisAngle) {
+    public Quaternionf(AngleAxis4f axisAngle) {
         float sin = (float) Math.sin(axisAngle.angle / 2.0);
         float cos = (float) Math.cos(axisAngle.angle / 2.0);
         x = axisAngle.x * sin;
@@ -324,14 +324,14 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Set the given {@link AxisAngle4f} to represent the rotation of
+     * Set the given {@link AngleAxis4f} to represent the rotation of
      * <code>this</code> quaternion.
      * 
      * @param axisAngle
-     *            the {@link AxisAngle4f} to set
+     *            the {@link AngleAxis4f} to set
      * @return this
      */
-    public Quaternionf get(AxisAngle4f axisAngle) {
+    public Quaternionf get(AngleAxis4f axisAngle) {
         float x = this.x;
         float y = this.y;
         float z = this.z;
@@ -440,13 +440,13 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Set this quaternion to a rotation equivalent to the given {@link AxisAngle4f}.
+     * Set this quaternion to a rotation equivalent to the given {@link AngleAxis4f}.
      * 
      * @param axisAngle
-     *          the {@link AxisAngle4f}
+     *          the {@link AngleAxis4f}
      * @return this
      */
-    public Quaternionf set(AxisAngle4f axisAngle) {
+    public Quaternionf set(AngleAxis4f axisAngle) {
         double angle = axisAngle.angle;
         double s = Math.sin(angle / 2.0);
         x = (float) (axisAngle.x * s);
@@ -482,15 +482,15 @@ public class Quaternionf implements Externalizable {
 
     /**
      * Set this {@link Quaternionf} to a rotation of the given angle in radians about the supplied
-     * axis, all of which are specified via the {@link AxisAngle4f}.
+     * axis, all of which are specified via the {@link AngleAxis4f}.
      * 
      * @see #rotationAxis(float, float, float, float)
      * 
      * @param axisAngle
-     *            the {@link AxisAngle4f} giving the rotation angle in radians and the axis to rotate about
+     *            the {@link AngleAxis4f} giving the rotation angle in radians and the axis to rotate about
      * @return this
      */
-    public Quaternionf rotationAxis(AxisAngle4f axisAngle) {
+    public Quaternionf rotationAxis(AngleAxis4f axisAngle) {
         return rotationAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
@@ -2161,16 +2161,16 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Return the specified {@link AxisAngle4f}.
+     * Return the specified {@link AngleAxis4f}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
+     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AngleAxis4f}.
      * 
      * @param a
-     *          the {@link AxisAngle4f} to return
+     *          the {@link AngleAxis4f} to return
      * @return that quaternion
      */
-    public AxisAngle4f with(AxisAngle4f a) {
+    public AngleAxis4f with(AngleAxis4f a) {
         return a;
     }
 
