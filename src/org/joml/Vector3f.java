@@ -91,6 +91,21 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector3f} with the first two components from the
+     * given <code>v</code> and the given <code>z</code>
+     * 
+     * @param v
+     *            the {@link Vector2f} to copy the values from
+     * @param z
+     *            the z value
+     */
+    public Vector3f(Vector2f v, float z) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
+    }
+
+    /**
      * Set the x, y and z attributes to match the supplied vector.
      * 
      * @param v

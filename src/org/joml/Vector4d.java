@@ -26,6 +26,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -93,6 +95,24 @@ public class Vector4d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector4d} with the first three components from the
+     * given <code>v</code> and the given <code>z</code> and <code>w</code>.
+     *
+     * @param v
+     *            the {@link Vector2d}
+     * @param z
+     *            the z value
+     * @param w
+     *            the w value
+     */
+    public Vector4d(Vector2d v, double z, double w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
+        this.w = w;
+    }
+
+    /**
      * Create a new {@link Vector4d} with the same values as <code>v</code>.
      * 
      * @param v
@@ -118,6 +138,24 @@ public class Vector4d implements Externalizable {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
+        this.w = w;
+    }
+
+    /**
+     * Create a new {@link Vector4d} with the first three components from the
+     * given <code>v</code> and the given <code>z</code> and <code>w</code>.
+     *
+     * @param v
+     *            the {@link Vector2f}
+     * @param z
+     *            the z value
+     * @param w
+     *            the w value
+     */
+    public Vector4d(Vector2f v, double z, double w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
         this.w = w;
     }
 
@@ -224,6 +262,78 @@ public class Vector4d implements Externalizable {
         this.y = y;
         this.z = z;
         this.w = w;
+        return this;
+    }
+
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p/>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p/>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return this
+     * @see #get(int, ByteBuffer)
+     */
+    public Vector4d get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p/>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return this
+     */
+    public Vector4d get(int index, ByteBuffer buffer) {
+        buffer.putDouble(index,      x);
+        buffer.putDouble(index + 8,  y);
+        buffer.putDouble(index + 16,  z);
+        buffer.putDouble(index + 24,  w);
+        return this;
+    }
+
+    /**
+     * Store this vector into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p/>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p/>
+     * If you want to specify the offset into the DoubleBuffer at which
+     * the vector is stored, you can use {@link #get(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return this
+     * @see #get(int, DoubleBuffer)
+     */
+    public Vector4d get(DoubleBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p/>
+     * This method will not increment the position of the given DoubleBuffer.
+     *
+     * @param index  the absolute position into the DoubleBuffer
+     * @param buffer will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return this
+     */
+    public Vector4d get(int index, DoubleBuffer buffer) {
+        buffer.put(index,      x);
+        buffer.put(index + 1,  y);
+        buffer.put(index + 2,  z);
+        buffer.put(index + 3,  w);
         return this;
     }
 

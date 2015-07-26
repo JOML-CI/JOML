@@ -95,6 +95,24 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector4f} with the first two components from the
+     * given <code>v</code> and the given <code>z</code>, and <code>w</code>.
+     * 
+     * @param v
+     *            the {@link Vector2f}
+     * @param z
+     *            the z value
+     * @param w
+     *            the w value
+     */
+    public Vector4f(Vector2f v, float z, float w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
+        this.w = w;
+    }
+
+    /**
      * Create a new {@link Vector4f} with the given component values.
      * 
      * @param x
@@ -142,6 +160,26 @@ public class Vector4f implements Externalizable {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
+        this.w = w;
+        return this;
+    }
+
+    /**
+     * Sets the first two components of this to the components of
+     * given <code>v</code> and last two components to the given
+     * <code>z</code>, and <code>w</code>.
+     *
+     * @param v
+     *            the {@link Vector2f}
+     * @param z
+     *            the z value
+     * @param w
+     *            the w value
+     */
+    public Vector4f set(Vector2f v, float z, float w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
         this.w = w;
         return this;
     }

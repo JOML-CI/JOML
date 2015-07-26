@@ -26,6 +26,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -77,7 +79,7 @@ public class Vector2f implements Externalizable {
         x = v.x;
         y = v.y;
     }
-
+    
     /**
      * Set the x and y attributes to the supplied values.
      * 
@@ -103,6 +105,74 @@ public class Vector2f implements Externalizable {
     public Vector2f set(Vector2f v) {
         x = v.x;
         y = v.y;
+        return this;
+    }
+    
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p/>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p/>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     * @see #get(int, ByteBuffer)
+     */
+    public Vector2f get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p/>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2f get(int index, ByteBuffer buffer) {
+        buffer.putFloat(index,      x);
+        buffer.putFloat(index + 4,  y);
+        return this;
+    }
+
+    /**
+     * Store this vector into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p/>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p/>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the vector is stored, you can use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     * @see #get(int, FloatBuffer)
+     */
+    public Vector2f get(FloatBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p/>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index  the absolute position into the FloatBuffer
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2f get(int index, FloatBuffer buffer) {
+        buffer.put(index,      x);
+        buffer.put(index + 1,  y);
         return this;
     }
 
