@@ -179,8 +179,8 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4f} and read this vector from the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
+     * Create a new {@link Vector4f} and read this vector from the supplied {@link ByteBuffer}
+     * at the current buffer {@link ByteBuffer#position() position}.
      * <p/>
      * This method will not increment the position of the given ByteBuffer.
      * <p/>
@@ -196,8 +196,8 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4f} and read this vector from the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
+     * Create a new {@link Vector4f} and read this vector from the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
      * <p/>
      * This method will not increment the position of the given ByteBuffer.
      *
@@ -208,12 +208,12 @@ public class Vector4d implements Externalizable {
         x = buffer.getDouble(index);
         y = buffer.getDouble(index + 8);
         z = buffer.getDouble(index + 16);
-        w = buffer.getDouble(index + 24);;
+        w = buffer.getDouble(index + 24);
     }
 
     /**
-     * Create a new {@link Vector4f} and read this vector from the supplied {@link DoubleBuffer} at the current
-     * buffer {@link DoubleBuffer#position() position}.
+     * Create a new {@link Vector4f} and read this vector from the supplied {@link DoubleBuffer}
+     * at the current buffer {@link DoubleBuffer#position() position}.
      * <p/>
      * This method will not increment the position of the given DoubleBuffer.
      * <p/>
@@ -229,8 +229,8 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4f} and read this vector from the supplied {@link DoubleBuffer} starting at the specified
-     * absolute buffer position/index.
+     * Create a new {@link Vector4f} and read this vector from the supplied {@link DoubleBuffer}
+     * starting at the specified absolute buffer position/index.
      * <p/>
      * This method will not increment the position of the given DoubleBuffer.
      *
@@ -241,7 +241,7 @@ public class Vector4d implements Externalizable {
         x = buffer.get(index);
         y = buffer.get(index + 1);
         z = buffer.get(index + 2);
-        w = buffer.get(index + 3);;
+        w = buffer.get(index + 3);
     }
 
     /**

@@ -106,8 +106,8 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
+     * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer}
+     * at the current buffer {@link ByteBuffer#position() position}.
      * <p/>
      * This method will not increment the position of the given ByteBuffer.
      * <p/>
@@ -123,8 +123,8 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
+     * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
      * <p/>
      * This method will not increment the position of the given ByteBuffer.
      *
@@ -134,12 +134,12 @@ public class Vector3f implements Externalizable {
     public Vector3f(int index, ByteBuffer buffer) {
         x = buffer.getFloat(index);
         y = buffer.getFloat(index + 4);
-        z = buffer.getFloat(index + 8);;
+        z = buffer.getFloat(index + 8);
     }
 
     /**
-     * Create a new {@link Vector3f} and read this vector from the supplied {@link FloatBuffer} at the current
-     * buffer {@link FloatBuffer#position() position}.
+     * Create a new {@link Vector3f} and read this vector from the supplied {@link FloatBuffer}
+     * at the current buffer {@link FloatBuffer#position() position}.
      * <p/>
      * This method will not increment the position of the given FloatBuffer.
      * <p/>
@@ -155,8 +155,8 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector3f} and read this vector from the supplied {@link FloatBuffer} starting at the specified
-     * absolute buffer position/index.
+     * Create a new {@link Vector3f} and read this vector from the supplied {@link FloatBuffer}
+     * starting at the specified absolute buffer position/index.
      * <p/>
      * This method will not increment the position of the given FloatBuffer.
      *
@@ -166,7 +166,7 @@ public class Vector3f implements Externalizable {
     public Vector3f(int index, FloatBuffer buffer) {
         x = buffer.get(index);
         y = buffer.get(index + 1);
-        z = buffer.get(index + 2);;
+        z = buffer.get(index + 2);
     }
 
     /**
