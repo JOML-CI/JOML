@@ -94,15 +94,15 @@ public class Vector2d implements Externalizable {
     /**
      * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
      * at the current buffer {@link ByteBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the ByteBuffer at which
-     * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
+     * the vector is read, you can use {@link #Vector2d(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer values will be read in <tt>x, y</tt> orderthis
-     * @see #set(int, ByteBuffer)
+     * @see #Vector2d(int, ByteBuffer)
      */
     public Vector2d(ByteBuffer buffer) {
         this(buffer.position(), buffer);
@@ -111,7 +111,7 @@ public class Vector2d implements Externalizable {
     /**
      * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
      * starting at the specified absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
      * @param index  the absolute position into the ByteBuffer
@@ -125,15 +125,15 @@ public class Vector2d implements Externalizable {
     /**
      * Create a new {@link Vector2d} and read this vector from the supplied {@link DoubleBuffer}
      * at the current buffer {@link DoubleBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given DoubleBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the DoubleBuffer at which
-     * the vector is read, you can use {@link #set(int, DoubleBuffer)}, taking
+     * the vector is read, you can use {@link #Vector2d(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer values will be read in <tt>x, y</tt> orderthis
-     * @see #set(int, DoubleBuffer)
+     * @see #Vector2d(int, DoubleBuffer)
      */
     public Vector2d(DoubleBuffer buffer) {
         this(buffer.position(), buffer);
@@ -142,7 +142,7 @@ public class Vector2d implements Externalizable {
     /**
      * Create a new {@link Vector2d} and read this vector from the supplied {@link DoubleBuffer}
      * starting at the specified absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given DoubleBuffer.
      *
      * @param index  the absolute position into the DoubleBuffer
@@ -197,9 +197,9 @@ public class Vector2d implements Externalizable {
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the ByteBuffer at which
      * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
      * the absolute position as parameter.
@@ -215,7 +215,7 @@ public class Vector2d implements Externalizable {
     /**
      * Read this vector from the supplied {@link ByteBuffer} starting at the specified
      * absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
      * @param index  the absolute position into the ByteBuffer
@@ -231,9 +231,9 @@ public class Vector2d implements Externalizable {
     /**
      * Read this vector from the supplied {@link DoubleBuffer} at the current
      * buffer {@link DoubleBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given DoubleBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the DoubleBuffer at which
      * the vector is read, you can use {@link #set(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
@@ -249,7 +249,7 @@ public class Vector2d implements Externalizable {
     /**
      * Read this vector from the supplied {@link DoubleBuffer} starting at the specified
      * absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given DoubleBuffer.
      *
      * @param index  the absolute position into the DoubleBuffer
@@ -265,9 +265,9 @@ public class Vector2d implements Externalizable {
     /**
      * Store this vector into the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the ByteBuffer at which
      * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
      * the absolute position as parameter.
@@ -283,7 +283,7 @@ public class Vector2d implements Externalizable {
     /**
      * Store this vector into the supplied {@link ByteBuffer} starting at the specified
      * absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
      * @param index  the absolute position into the ByteBuffer
@@ -299,9 +299,9 @@ public class Vector2d implements Externalizable {
     /**
      * Store this vector into the supplied {@link DoubleBuffer} at the current
      * buffer {@link DoubleBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given DoubleBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the DoubleBuffer at which
      * the vector is stored, you can use {@link #get(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
@@ -317,7 +317,7 @@ public class Vector2d implements Externalizable {
     /**
      * Store this vector into the supplied {@link DoubleBuffer} starting at the specified
      * absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given DoubleBuffer.
      *
      * @param index  the absolute position into the DoubleBuffer

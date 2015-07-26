@@ -108,15 +108,15 @@ public class Vector3f implements Externalizable {
     /**
      * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer}
      * at the current buffer {@link ByteBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the ByteBuffer at which
-     * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
+     * the vector is read, you can use {@link #Vector3f(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer values will be read in <tt>x, y, z</tt> order
-     * @see #set(int, ByteBuffer)
+     * @see #Vector3f(int, ByteBuffer)
      */
     public Vector3f(ByteBuffer buffer) {
         this(buffer.position(), buffer);
@@ -125,7 +125,7 @@ public class Vector3f implements Externalizable {
     /**
      * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer}
      * starting at the specified absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
      * @param index  the absolute position into the ByteBuffer
@@ -140,15 +140,15 @@ public class Vector3f implements Externalizable {
     /**
      * Create a new {@link Vector3f} and read this vector from the supplied {@link FloatBuffer}
      * at the current buffer {@link FloatBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given FloatBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the FloatBuffer at which
-     * the vector is read, you can use {@link #set(int, FloatBuffer)}, taking
+     * the vector is read, you can use {@link #Vector3f(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer values will be read in <tt>x, y, z</tt> order
-     * @see #set(int, FloatBuffer)
+     * @see #Vector3f(int, FloatBuffer)
      */
     public Vector3f(FloatBuffer buffer) {
         this(buffer.position(), buffer);
@@ -157,7 +157,7 @@ public class Vector3f implements Externalizable {
     /**
      * Create a new {@link Vector3f} and read this vector from the supplied {@link FloatBuffer}
      * starting at the specified absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given FloatBuffer.
      *
      * @param index  the absolute position into the FloatBuffer
@@ -220,9 +220,9 @@ public class Vector3f implements Externalizable {
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the ByteBuffer at which
      * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
      * the absolute position as parameter.
@@ -238,7 +238,7 @@ public class Vector3f implements Externalizable {
     /**
      * Read this vector from the supplied {@link ByteBuffer} starting at the specified
      * absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
      * @param index  the absolute position into the ByteBuffer
@@ -255,9 +255,9 @@ public class Vector3f implements Externalizable {
     /**
      * Read this vector from the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given FloatBuffer.
-     * <p/>
+     * <p>
      * If you want to specify the offset into the FloatBuffer at which
      * the vector is read, you can use {@link #set(int, FloatBuffer)}, taking
      * the absolute position as parameter.
@@ -273,7 +273,7 @@ public class Vector3f implements Externalizable {
     /**
      * Read this vector from the supplied {@link FloatBuffer} starting at the specified
      * absolute buffer position/index.
-     * <p/>
+     * <p>
      * This method will not increment the position of the given FloatBuffer.
      *
      * @param index  the absolute position into the FloatBuffer
