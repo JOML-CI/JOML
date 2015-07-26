@@ -211,6 +211,76 @@ public class Vector3d implements Externalizable {
     }
 
     /**
+     * Read this vector from the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p/>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p/>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @return this
+     * @see #set(int, ByteBuffer)
+     */
+    public Vector3d set(ByteBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p/>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @return this
+     */
+    public Vector3d set(int index, ByteBuffer buffer) {
+        x = buffer.getDouble(index);
+        y = buffer.getDouble(index + 8);
+        z = buffer.getDouble(index + 16);
+        return this;
+    }
+
+    /**
+     * Read this vector from the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p/>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p/>
+     * If you want to specify the offset into the DoubleBuffer at which
+     * the vector is read, you can use {@link #set(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @return this
+     * @see #set(int, DoubleBuffer)
+     */
+    public Vector3d set(DoubleBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p/>
+     * This method will not increment the position of the given DoubleBuffer.
+     *
+     * @param index  the absolute position into the DoubleBuffer
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @return this
+     */
+    public Vector3d set(int index, DoubleBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+        z = buffer.get(index + 2);
+        return this;
+    }
+
+    /**
      * Store this vector into the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
      * <p/>

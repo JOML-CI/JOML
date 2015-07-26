@@ -205,6 +205,78 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Read this vector from the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p/>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p/>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @return this
+     * @see #set(int, ByteBuffer)
+     */
+    public Vector4f set(ByteBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p/>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @return this
+     */
+    public Vector4f set(int index, ByteBuffer buffer) {
+        x = buffer.getFloat(index);
+        y = buffer.getFloat(index + 4);
+        z = buffer.getFloat(index + 8);
+        w = buffer.getFloat(index + 12);
+        return this;
+    }
+
+    /**
+     * Read this vector from the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p/>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p/>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the vector is read, you can use {@link #set(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @return this
+     * @see #set(int, FloatBuffer)
+     */
+    public Vector4f set(FloatBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p/>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index  the absolute position into the FloatBuffer
+     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @return this
+     */
+    public Vector4f set(int index, FloatBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+        z = buffer.get(index + 2);
+        w = buffer.get(index + 3);
+        return this;
+    }
+
+    /**
      * Store this vector into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
      * <p>
