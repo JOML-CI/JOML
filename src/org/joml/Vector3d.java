@@ -147,6 +147,22 @@ public class Vector3d implements Externalizable {
     }
 
     /**
+     * Set the first two components from the given <code>v</code>
+     * and the z component from the given <code>z</code>
+     *
+     * @param v
+     *            the {@link Vector2d} to copy the values from
+     * @param z
+     *            the z value
+     */
+    public Vector3d set(Vector2d v, double z) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
+        return this;
+    }
+
+    /**
      * Set the x, y and z attributes to match the supplied vector.
      * 
      * @param v
@@ -157,6 +173,22 @@ public class Vector3d implements Externalizable {
         x = v.x;
         y = v.y;
         z = v.z;
+        return this;
+    }
+
+    /**
+     * Set the first two components from the given <code>v</code>
+     * and the z component from the given <code>z</code>
+     *
+     * @param v
+     *            the {@link Vector2f} to copy the values from
+     * @param z
+     *            the z value
+     */
+    public Vector3d set(Vector2f v, double z) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
         return this;
     }
 

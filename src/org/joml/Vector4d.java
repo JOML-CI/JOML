@@ -95,7 +95,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4d} with the first three components from the
+     * Create a new {@link Vector4d} with the first two components from the
      * given <code>v</code> and the given <code>z</code> and <code>w</code>.
      *
      * @param v
@@ -142,7 +142,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4d} with the first three components from the
+     * Create a new {@link Vector4d} with the first two components from the
      * given <code>v</code> and the given <code>z</code> and <code>w</code>.
      *
      * @param v
@@ -240,6 +240,41 @@ public class Vector4d implements Externalizable {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
+        this.w = w;
+        return this;
+    }
+
+    /**
+     * Set the first two components from the given <code>v</code>
+     * and the last two components from the given <code>z</code> and <code>w</code>.
+     *
+     * @param v
+     *            the {@link Vector2d}
+     * @param z
+     *            the z value
+     * @param w
+     *            the w value
+     */
+    public Vector4d set(Vector2d v, double z, double w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
+        this.w = w;
+        return this;
+    }
+    
+    /**
+     * Set the first two components from the given <code>v</code>
+     * and the last two components from the given <code>z</code> and <code>w</code>.
+     *
+     * @param v the {@link Vector2f}
+     * @param z the z value
+     * @param w the w value
+     */
+    public Vector4d set(Vector2f v, double z, double w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
         this.w = w;
         return this;
     }

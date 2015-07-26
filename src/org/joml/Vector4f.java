@@ -165,9 +165,8 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Sets the first two components of this to the components of
-     * given <code>v</code> and last two components to the given
-     * <code>z</code>, and <code>w</code>.
+     * Sets the first two components of this to the components of given <code>v</code>
+     * and last two components to the given <code>z</code>, and <code>w</code>.
      *
      * @param v
      *            the {@link Vector2f}

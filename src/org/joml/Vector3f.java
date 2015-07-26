@@ -120,6 +120,22 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Set the first two components from the given <code>v</code>
+     * and the z component from the given <code>z</code>
+     *
+     * @param v
+     *            the {@link Vector2f} to copy the values from
+     * @param z
+     *            the z value
+     */
+    public Vector3f set(Vector2f v, float z) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
+        return this;
+    }
+
+    /**
      * Set the x, y and z attributes to the supplied float values.
      * 
      * @param x
