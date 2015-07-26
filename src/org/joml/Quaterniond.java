@@ -404,13 +404,13 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this {@link Quaterniond} to be equivalent to the given
-     * {@link AxisAngle4f}.
+     * {@link AngleAxis4f}.
      * 
      * @param axisAngle
-     *            the {@link AxisAngle4f}
+     *            the {@link AngleAxis4f}
      * @return this
      */
-    public Quaterniond set(AxisAngle4f axisAngle) {
+    public Quaterniond set(AngleAxis4f axisAngle) {
         return setAngleAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
@@ -1600,15 +1600,15 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this {@link Quaterniond} to a rotation of the given angle in radians about the supplied
-     * axis, all of which are specified via the {@link AxisAngle4f}.
+     * axis, all of which are specified via the {@link AngleAxis4f}.
      * 
      * @see #rotationAxis(double, double, double, double)
      * 
      * @param axisAngle
-     *            the {@link AxisAngle4f} giving the rotation angle in radians and the axis to rotate about
+     *            the {@link AngleAxis4f} giving the rotation angle in radians and the axis to rotate about
      * @return this
      */
-    public Quaterniond rotationAxis(AxisAngle4f axisAngle) {
+    public Quaterniond rotationAxis(AngleAxis4f axisAngle) {
         return rotationAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
@@ -2272,16 +2272,16 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Return the specified {@link AxisAngle4f}.
+     * Return the specified {@link AngleAxis4f}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
+     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AngleAxis4f}.
      * 
      * @param a
-     *          the {@link AxisAngle4f} to return
+     *          the {@link AngleAxis4f} to return
      * @return that quaternion
      */
-    public AxisAngle4f with(AxisAngle4f a) {
+    public AngleAxis4f with(AngleAxis4f a) {
         return a;
     }
 

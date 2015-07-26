@@ -403,13 +403,13 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
+     * Set this matrix to be equivalent to the rotation specified by the given {@link AngleAxis4f}.
      * 
      * @param axisAngle
-     *          the {@link AxisAngle4f}
+     *          the {@link AngleAxis4f}
      * @return this
      */
-    public Matrix4f set(AxisAngle4f axisAngle) {
+    public Matrix4f set(AngleAxis4f axisAngle) {
         float x = axisAngle.x;
         float y = axisAngle.y;
         float z = axisAngle.z;
@@ -1135,15 +1135,15 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Get the rotational component of <code>this</code> matrix and store the represented rotation
-     * into the given {@link AxisAngle4f}.
+     * into the given {@link AngleAxis4f}.
      * 
-     * @see AxisAngle4f#set(Matrix4f)
+     * @see AngleAxis4f#set(Matrix4f)
      * 
      * @param dest
-     *          the destination {@link AxisAngle4f}
+     *          the destination {@link AngleAxis4f}
      * @return this
      */
-    public Matrix4f get(AxisAngle4f dest) {
+    public Matrix4f get(AngleAxis4f dest) {
         dest.set(this);
         return this;
     }
@@ -1568,23 +1568,23 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation transformation using the given {@link AxisAngle4f}.
+     * Set this matrix to a rotation transformation using the given {@link AngleAxis4f}.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(AxisAngle4f) rotate()} instead.
+     * use {@link #rotate(AngleAxis4f) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      *
-     * @see #rotate(AxisAngle4f)
+     * @see #rotate(AngleAxis4f)
      * 
      * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
      * @return this
      */
-    public Matrix4f rotation(AxisAngle4f axisAngle) {
+    public Matrix4f rotation(AngleAxis4f axisAngle) {
         return rotation(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
@@ -4031,52 +4031,52 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation, rotating about the given {@link AxisAngle4f}, to this matrix.
+     * Apply a rotation transformation, rotating about the given {@link AngleAxis4f}, to this matrix.
      * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AngleAxis4f},
      * then the new matrix will be <code>M * A</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the {@link AxisAngle4f} rotation will be applied first!
+     * the {@link AngleAxis4f} rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(AxisAngle4f)}.
+     * use {@link #rotation(AngleAxis4f)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(float, float, float, float)
-     * @see #rotation(AxisAngle4f)
+     * @see #rotation(AngleAxis4f)
      * 
      * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
      * @return this
      */
-    public Matrix4f rotate(AxisAngle4f axisAngle) {
+    public Matrix4f rotate(AngleAxis4f axisAngle) {
         return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
-     * Apply a rotation transformation, rotating about the given {@link AxisAngle4f} and store the result in <code>dest</code>.
+     * Apply a rotation transformation, rotating about the given {@link AngleAxis4f} and store the result in <code>dest</code>.
      * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
+     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AngleAxis4f},
      * then the new matrix will be <code>M * A</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the {@link AxisAngle4f} rotation will be applied first!
+     * the {@link AngleAxis4f} rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(AxisAngle4f)}.
+     * use {@link #rotation(AngleAxis4f)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(float, float, float, float)
-     * @see #rotation(AxisAngle4f)
+     * @see #rotation(AngleAxis4f)
      * 
      * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
+     *          the {@link AngleAxis4f} (needs to be {@link AngleAxis4f#normalize() normalized})
      * @param dest
      *          will hold the result
      * @return this
      */
-    public Matrix4f rotate(AxisAngle4f axisAngle, Matrix4f dest) {
+    public Matrix4f rotate(AngleAxis4f axisAngle, Matrix4f dest) {
         return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z, dest);
     }
 
@@ -5209,16 +5209,16 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Return the specified {@link AxisAngle4f}.
+     * Return the specified {@link AngleAxis4f}.
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
+     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AngleAxis4f}.
      * 
      * @param a
-     *          the {@link AxisAngle4f} to return
+     *          the {@link AngleAxis4f} to return
      * @return that quaternion
      */
-    public AxisAngle4f with(AxisAngle4f a) {
+    public AngleAxis4f with(AngleAxis4f a) {
         return a;
     }
 
