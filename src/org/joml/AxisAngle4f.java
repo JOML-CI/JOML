@@ -115,6 +115,16 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
+     * Create a new {@link AxisAngle4f} with the given values.
+     *
+     * @param angle the angle in radians
+     * @param v     the rotation axis as a {@link Vector3f}
+     */
+    public AxisAngle4f(float angle, Vector3f v) {
+        this(angle, v.x, v.y, v.z);
+    }
+
+    /**
      * Set this {@link AxisAngle4f} to the values of <code>a</code>.
      * 
      * @param a
@@ -148,6 +158,19 @@ public class AxisAngle4f implements Externalizable {
         this.z = z;
         this.angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
         return this;
+    }
+
+    /**
+     * Set this {@link AxisAngle4f} to the given values.
+     *
+     * @param angle
+     *            the angle in radians
+     * @param v    
+     *            the rotation axis as a {@link Vector3f}
+     * @return this
+     */
+    public AxisAngle4f set(float angle, Vector3f v) {
+        return set(angle, v.x, v.y, v.z);
     }
 
     /**

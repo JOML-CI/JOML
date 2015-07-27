@@ -579,59 +579,6 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Set this matrix to be a simple translation matrix.
-     * <p>
-     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
-     * matrix to obtain an additional translation.
-     * 
-     * @param x
-     *          the units to translate in x
-     * @param y
-     *          the units to translate in y
-     * @return this
-     */
-    public Matrix3d translation(double x, double y) {
-        m00 = 1.0;
-        m01 = 0.0;
-        m02 = 0.0;
-        m10 = 0.0;
-        m11 = 1.0;
-        m12 = 0.0;
-        m20 = x;
-        m21 = y;
-        m22 = 1.0;
-        return this;
-    }
-
-    /**
-     * Set this matrix to be a simple translation matrix.
-     * <p>
-     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
-     * matrix to obtain an additional translation.
-     * 
-     * @param position
-     *          the units to translate in <tt>(x, y)</tt>
-     * @return this
-     */
-    public Matrix3d translation(Vector2d position) {
-        return translation(position.x, position.y);
-    }
-
-    /**
-     * Set this matrix to be a simple translation matrix.
-     * <p>
-     * The resulting matrix can be {@link #mul(Matrix3d) multiplied} against another transformation
-     * matrix to obtain an additional translation.
-     * 
-     * @param position
-     *          the units to translate in <tt>(x, y)</tt>
-     * @return this
-     */
-    public Matrix3d translation(Vector2f position) {
-        return translation(position.x, position.y);
-    }
-
-    /**
      * Return a string representation of this matrix.
      * <p>
      * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>  0.000E0; -</tt>".

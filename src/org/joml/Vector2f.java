@@ -26,6 +26,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -79,6 +81,68 @@ public class Vector2f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
+     * at the current buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is read, you can use {@link #Vector2f(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @see #Vector2f(int, ByteBuffer)
+     */
+    public Vector2f(ByteBuffer buffer) {
+        this(buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
+     */
+    public Vector2f(int index, ByteBuffer buffer) {
+        x = buffer.getFloat(index);
+        y = buffer.getFloat(index + 4);
+    }
+
+    /**
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link FloatBuffer}
+     * at the current buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the vector is read, you can use {@link #Vector2f(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @see #Vector2f(int, FloatBuffer)
+     */
+    public Vector2f(FloatBuffer buffer) {
+        this(buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link FloatBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index  the absolute position into the FloatBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
+     */
+    public Vector2f(int index, FloatBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+    }
+    
+    /**
      * Set the x and y attributes to the supplied values.
      * 
      * @param x
@@ -103,6 +167,142 @@ public class Vector2f implements Externalizable {
     public Vector2f set(Vector2f v) {
         x = v.x;
         y = v.y;
+        return this;
+    }
+
+    /**
+     * Read this vector from the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @return this
+     * @see #set(int, ByteBuffer)
+     */
+    public Vector2f set(ByteBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2f set(int index, ByteBuffer buffer) {
+        x = buffer.getFloat(index);
+        y = buffer.getFloat(index + 4);
+        return this;
+    }
+
+    /**
+     * Read this vector from the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the vector is read, you can use {@link #set(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @return this
+     * @see #set(int, FloatBuffer)
+     */
+    public Vector2f set(FloatBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index  the absolute position into the FloatBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2f set(int index, FloatBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+        return this;
+    }
+    
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     * @see #get(int, ByteBuffer)
+     */
+    public Vector2f get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2f get(int index, ByteBuffer buffer) {
+        buffer.putFloat(index,      x);
+        buffer.putFloat(index + 4,  y);
+        return this;
+    }
+
+    /**
+     * Store this vector into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the vector is stored, you can use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     * @see #get(int, FloatBuffer)
+     */
+    public Vector2f get(FloatBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index  the absolute position into the FloatBuffer
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2f get(int index, FloatBuffer buffer) {
+        buffer.put(index,      x);
+        buffer.put(index + 1,  y);
         return this;
     }
 
@@ -183,38 +383,18 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Return the cosine of the angle between this vector and the supplied vector. Use this instead of <code>Math.cos(angle(v))</code>.
-     * 
-     * @see #angle(Vector2f)
-     * 
-     * @param v
-     *          the other vector
-     * @return the cosine of the angle
-     */
-    public float angleCos(Vector2f v) {
-        double length1 = Math.sqrt(x * x + y * y);
-        double length2 = Math.sqrt(v.x * v.x + v.y * v.y);
-        double dot = x * v.x + y * v.y;
-        return (float) (dot / (length1 * length2));
-    }
-
-    /**
      * Return the angle between this vector and the supplied vector.
-     * 
-     * @see #angleCos(Vector2f)
      * 
      * @param v
      *          the other vector
      * @return the angle, in radians
      */
     public float angle(Vector2f v) {
-        float cos = angleCos(v);
-        // This is because sometimes cos goes above 1 or below -1 because of lost precision
-        cos = Math.min(cos, 1);
-        cos = Math.max(cos, -1);
-        return (float) Math.acos(cos);
+        float dot = x*v.x + y*v.y;
+        float det = x*v.y - y*v.x;
+        return (float) Math.atan2(det, dot);
     }
-    
+
     /**
      * Return the length of this vector.
      * 
