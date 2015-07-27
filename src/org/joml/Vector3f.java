@@ -91,6 +91,85 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector3f} with the first two components from the
+     * given <code>v</code> and the given <code>z</code>
+     * 
+     * @param v
+     *            the {@link Vector2f} to copy the values from
+     * @param z
+     *            the z value
+     */
+    public Vector3f(Vector2f v, float z) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
+    }
+
+    /**
+     * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer}
+     * at the current buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is read, you can use {@link #Vector3f(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @see #Vector3f(int, ByteBuffer)
+     */
+    public Vector3f(ByteBuffer buffer) {
+        this(buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     */
+    public Vector3f(int index, ByteBuffer buffer) {
+        x = buffer.getFloat(index);
+        y = buffer.getFloat(index + 4);
+        z = buffer.getFloat(index + 8);
+    }
+
+    /**
+     * Create a new {@link Vector3f} and read this vector from the supplied {@link FloatBuffer}
+     * at the current buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the vector is read, you can use {@link #Vector3f(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @see #Vector3f(int, FloatBuffer)
+     */
+    public Vector3f(FloatBuffer buffer) {
+        this(buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Vector3f} and read this vector from the supplied {@link FloatBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index  the absolute position into the FloatBuffer
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     */
+    public Vector3f(int index, FloatBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+        z = buffer.get(index + 2);
+    }
+
+    /**
      * Set the x, y and z attributes to match the supplied vector.
      * 
      * @param v
@@ -101,6 +180,23 @@ public class Vector3f implements Externalizable {
         x = v.x;
         y = v.y;
         z = v.z;
+        return this;
+    }
+
+    /**
+     * Set the first two components from the given <code>v</code>
+     * and the z component from the given <code>z</code>
+     *
+     * @param v
+     *            the {@link Vector2f} to copy the values from
+     * @param z
+     *            the z value
+     * @return this
+     */
+    public Vector3f set(Vector2f v, float z) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
         return this;
     }
 
@@ -119,6 +215,76 @@ public class Vector3f implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
+        return this;
+    }
+
+    /**
+     * Read this vector from the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @return this
+     * @see #set(int, ByteBuffer)
+     */
+    public Vector3f set(ByteBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @return this
+     */
+    public Vector3f set(int index, ByteBuffer buffer) {
+        x = buffer.getFloat(index);
+        y = buffer.getFloat(index + 4);
+        z = buffer.getFloat(index + 8);
+        return this;
+    }
+
+    /**
+     * Read this vector from the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * If you want to specify the offset into the FloatBuffer at which
+     * the vector is read, you can use {@link #set(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @return this
+     * @see #set(int, FloatBuffer)
+     */
+    public Vector3f set(FloatBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index  the absolute position into the FloatBuffer
+     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @return this
+     */
+    public Vector3f set(int index, FloatBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+        z = buffer.get(index + 2);
         return this;
     }
 

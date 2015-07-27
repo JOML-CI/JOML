@@ -26,6 +26,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -90,6 +92,68 @@ public class Vector2d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
+     * at the current buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is read, you can use {@link #Vector2d(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @see #Vector2d(int, ByteBuffer)
+     */
+    public Vector2d(ByteBuffer buffer) {
+        this(buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
+     */
+    public Vector2d(int index, ByteBuffer buffer) {
+        x = buffer.getDouble(index);
+        y = buffer.getDouble(index + 8);
+    }
+
+    /**
+     * Create a new {@link Vector2d} and read this vector from the supplied {@link DoubleBuffer}
+     * at the current buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * If you want to specify the offset into the DoubleBuffer at which
+     * the vector is read, you can use {@link #Vector2d(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @see #Vector2d(int, DoubleBuffer)
+     */
+    public Vector2d(DoubleBuffer buffer) {
+        this(buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Vector2d} and read this vector from the supplied {@link DoubleBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     *
+     * @param index  the absolute position into the DoubleBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
+     */
+    public Vector2d(int index, DoubleBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+    }
+
+    /**
      * Set the x and y attributes to the supplied values.
      * 
      * @param x
@@ -127,6 +191,142 @@ public class Vector2d implements Externalizable {
     public Vector2d set(Vector2f v) {
         x = v.x;
         y = v.y;
+        return this;
+    }
+
+    /**
+     * Read this vector from the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @return this
+     * @see #set(int, ByteBuffer)
+     */
+    public Vector2d set(ByteBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2d set(int index, ByteBuffer buffer) {
+        x = buffer.getDouble(index);
+        y = buffer.getDouble(index + 8);
+        return this;
+    }
+
+    /**
+     * Read this vector from the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * If you want to specify the offset into the DoubleBuffer at which
+     * the vector is read, you can use {@link #set(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @return this
+     * @see #set(int, DoubleBuffer)
+     */
+    public Vector2d set(DoubleBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     *
+     * @param index  the absolute position into the DoubleBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2d set(int index, DoubleBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+        return this;
+    }
+    
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     * @see #get(int, ByteBuffer)
+     */
+    public Vector2d get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index  the absolute position into the ByteBuffer
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2d get(int index, ByteBuffer buffer) {
+        buffer.putDouble(index,      x);
+        buffer.putDouble(index + 8,  y);
+        return this;
+    }
+
+    /**
+     * Store this vector into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * If you want to specify the offset into the DoubleBuffer at which
+     * the vector is stored, you can use {@link #get(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     * @see #get(int, DoubleBuffer)
+     */
+    public Vector2d get(DoubleBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     *
+     * @param index  the absolute position into the DoubleBuffer
+     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2d get(int index, DoubleBuffer buffer) {
+        buffer.put(index,      x);
+        buffer.put(index + 1,  y);
         return this;
     }
 
