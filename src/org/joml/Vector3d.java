@@ -218,6 +218,7 @@ public class Vector3d implements Externalizable {
      *            the {@link Vector2d} to copy the values from
      * @param z
      *            the z value
+     * @return this
      */
     public Vector3d set(Vector2d v, double z) {
         this.x = v.x;
@@ -248,6 +249,7 @@ public class Vector3d implements Externalizable {
      *            the {@link Vector2f} to copy the values from
      * @param z
      *            the z value
+     * @return this
      */
     public Vector3d set(Vector2f v, double z) {
         this.x = v.x;

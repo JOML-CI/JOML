@@ -191,6 +191,7 @@ public class Vector3f implements Externalizable {
      *            the {@link Vector2f} to copy the values from
      * @param z
      *            the z value
+     * @return this
      */
     public Vector3f set(Vector2f v, float z) {
         this.x = v.x;

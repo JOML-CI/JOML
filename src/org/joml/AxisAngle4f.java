@@ -167,6 +167,7 @@ public class AxisAngle4f implements Externalizable {
      *            the angle in radians
      * @param v    
      *            the rotation axis as a {@link Vector3f}
+     * @return this
      */
     public AxisAngle4f set(float angle, Vector3f v) {
         return set(angle, v.x, v.y, v.z);

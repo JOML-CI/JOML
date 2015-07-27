@@ -320,6 +320,7 @@ public class Vector4d implements Externalizable {
      *            the z value
      * @param w
      *            the w value
+     * @return this
      */
     public Vector4d set(Vector2d v, double z, double w) {
         this.x = v.x;
@@ -336,6 +337,7 @@ public class Vector4d implements Externalizable {
      * @param v the {@link Vector2f}
      * @param z the z value
      * @param w the w value
+     * @return this
      */
     public Vector4d set(Vector2f v, double z, double w) {
         this.x = v.x;

@@ -240,6 +240,7 @@ public class Vector4f implements Externalizable {
      *            the z value
      * @param w
      *            the w value
+     * @return this
      */
     public Vector4f set(Vector2f v, float z, float w) {
         this.x = v.x;
