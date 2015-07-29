@@ -5817,4 +5817,195 @@ public class Matrix4d implements Externalizable {
         return this;
     }
 
+    /**
+     * Apply a shadow transformation to this matrix that projects the "shadow" cast by a mesh when being lit by the given
+     * light vector <code>light</tt> on the plane specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
+     * <p>
+     * If the <code>light</code>'s w-component is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281752(v=vs.85).aspx">msdn.microsoft.com</a>
+     * 
+     * @param light
+     *          the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @return this
+     */
+    public Matrix4d shadow(Vector4d light, double a, double b, double c, double d) {
+        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, this);
+    }
+
+    /**
+     * Apply a shadow transformation to this matrix that projects the "shadow" cast by a mesh when being lit by the given
+     * light vector <code>light</tt> on the plane specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If the <code>light</code>'s w-component is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281752(v=vs.85).aspx">msdn.microsoft.com</a>
+     * 
+     * @param light
+     *          the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4d shadow(Vector4d light, double a, double b, double c, double d, Matrix4d dest) {
+        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+    }
+
+    /**
+     * Apply a shadow transformation to this matrix that projects the "shadow" cast by a mesh when being lit by the given
+     * light vector <tt>(lightX, lightY, lightZ, lightW)</tt> on the plane specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281752(v=vs.85).aspx">msdn.microsoft.com</a>
+     * 
+     * @param lightX
+     *          the x-component of the light's vector
+     * @param lightY
+     *          the y-component of the light's vector
+     * @param lightZ
+     *          the z-component of the light's vector
+     * @param lightW
+     *          the w-component of the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @return this
+     */
+    public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, double a, double b, double c, double d) {
+        return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, this);
+    }
+
+    /**
+     * Apply a shadow transformation to this matrix that projects the "shadow" cast by a mesh when being lit by the given
+     * light vector <tt>(lightX, lightY, lightZ, lightW)</tt> on the plane specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281752(v=vs.85).aspx">msdn.microsoft.com</a>
+     * 
+     * @param lightX
+     *          the x-component of the light's vector
+     * @param lightY
+     *          the y-component of the light's vector
+     * @param lightZ
+     *          the z-component of the light's vector
+     * @param lightW
+     *          the w-component of the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, double a, double b, double c, double d, Matrix4d dest) {
+        // normalize plane
+        double planeLen = Math.sqrt(a*a + b*b + c*c);
+        double an = a / planeLen;
+        double bn = b / planeLen;
+        double cn = c / planeLen;
+        double dn = d / planeLen;
+
+        double dot = an * lightX + bn * lightY + cn * lightZ + dn * lightW;
+
+        // compute right matrix elements
+        double rm00 = an * lightX + dot;
+        double rm01 = an * lightY;
+        double rm02 = an * lightZ;
+        double rm03 = an * lightW;
+        double rm10 = bn * lightX;
+        double rm11 = bn * lightY + dot;
+        double rm12 = bn * lightZ;
+        double rm13 = bn * lightW;
+        double rm20 = cn * lightX;
+        double rm21 = cn * lightY;
+        double rm22 = cn * lightZ + dot;
+        double rm23 = cn * lightW;
+        double rm30 = dn * lightX;
+        double rm31 = dn * lightY;
+        double rm32 = dn * lightZ;
+        double rm33 = dn * lightW + dot;
+
+        // matrix multiplication
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02 + m30 * rm03;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02 + m31 * rm03;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02 + m32 * rm03;
+        double nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02 + m33 * rm03;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12 + m30 * rm13;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12 + m31 * rm13;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12 + m32 * rm13;
+        double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12 + m33 * rm13;
+        double nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 + m30 * rm23;
+        double nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 + m31 * rm23;
+        double nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 + m32 * rm23;
+        double nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 + m33 * rm23;
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30 * rm33;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31 * rm33;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32 * rm33;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33 * rm33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+
+        return this;
+    }
+
 }
