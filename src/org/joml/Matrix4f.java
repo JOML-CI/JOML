@@ -6017,8 +6017,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a shadow transformation to this matrix that projects the "shadow" cast by a mesh when being lit by the given
-     * light vector <code>light</code> on the plane specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
      * <p>
      * If the <code>light</code>'s w-component is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
      * <p>
@@ -6046,8 +6046,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a shadow transformation to this matrix that projects the "shadow" cast by a mesh when being lit by the given
-     * light vector <code>light</code> on the plane specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
      * and store the result in <code>dest</code>.
      * <p>
      * If the <code>light</code>'s w-component is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
@@ -6078,8 +6078,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a shadow transformation to this matrix that projects the "shadow" cast by a mesh when being lit by the given
-     * light vector <tt>(lightX, lightY, lightZ, lightW)</tt> on the plane specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>.
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>.
      * <p>
      * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
      * <p>
@@ -6113,8 +6113,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a shadow transformation to this matrix that projects the "shadow" cast by a mesh when being lit by the given
-     * light vector <tt>(lightX, lightY, lightZ, lightW)</tt> on the plane specified via the equation <tt>x*a + y*b + z*c + d = 0</tt>
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
