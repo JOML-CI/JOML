@@ -4,7 +4,7 @@
 	<groupId>org.joml</groupId>
 	<artifactId>joml-mini</artifactId>
 	<version>1.4.1-SNAPSHOT</version>
-	<name>JOML</name>
+	<name>JOML Mini</name>
 	<description>Java OpenGL Math Library - Minimal</description>
 	<inceptionYear>2015</inceptionYear>
 	<url>http://joml.org</url>
