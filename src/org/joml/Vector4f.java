@@ -271,6 +271,7 @@ public class Vector4f implements Externalizable {
      *
      * @param d
      *          the value of all four components
+     * @return this
      */
     public Vector4f set(float d) {
         return set(d, d, d, d);

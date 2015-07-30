@@ -215,6 +215,7 @@ public class Vector3f implements Externalizable {
      *
      * @param d
      *          the value of all three components
+     * @return this
      */
     public Vector3f set(float d) {
         return set(d, d, d);

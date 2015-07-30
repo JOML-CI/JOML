@@ -162,6 +162,7 @@ public class Vector2f implements Externalizable {
      *
      * @param d
      *        the value of both components
+     * @return this
      */
     public Vector2f set(float d) {
         return set(d, d);

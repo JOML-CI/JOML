@@ -174,6 +174,7 @@ public class Vector2d implements Externalizable {
      *
      * @param d
      *          the value of both components
+     * @return this
      */
     public Vector2d set(double d) {
         return set(d, d);

@@ -322,7 +322,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Set the x and y components from the given <code>v</code>>
+     * Set the x and y components from the given <code>v</code>
      * and the z and w components to the given <code>z</code> and <code>w</code>.
      *
      * @param v
@@ -366,6 +366,7 @@ public class Vector4d implements Externalizable {
      *
      * @param d
      *          the value of all four components
+     * @return this
      */
     public Vector4d set(double d) {
         return set(d, d, d, d);

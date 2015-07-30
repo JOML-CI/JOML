@@ -273,6 +273,7 @@ public class Vector3d implements Externalizable {
      *
      * @param d
      *          the value of all three components
+     * @return this
      */
     public Vector3d set(double d) {
         return set(d, d, d);
