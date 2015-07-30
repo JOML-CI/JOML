@@ -95,6 +95,40 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3d} and make it a copy of the upper left 3x3 of the give {@link Matrix4f}.
+     *
+     * @param mat the {@link Matrix4f} to copy the values from
+     */
+    public Matrix3d(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+    }
+
+    /**
+     * Create a new {@link Matrix3d} and make it a copy of the upper left 3x3 of the give {@link Matrix4d}.
+     *
+     * @param mat the {@link Matrix4d} to copy the values from
+     */
+    public Matrix3d(Matrix4d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+    }
+
+    /**
      * Create a new {@link Matrix3d} and initialize its elements with the given values.
      * 
      * @param m00
@@ -170,6 +204,45 @@ public class Matrix3d implements Externalizable {
         return this;
     }
 
+    /**
+     * Set the elements of this matrix to the upper left 3x3 of the give {@link Matrix4f}.
+     *
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     * @return this
+     */
+    public Matrix3d set(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        return this;
+    }
+
+    /**
+     * Set the elements of this matrix to the upper left 3x3 of the give {@link Matrix4d}.
+     *
+     * @param mat the {@link Matrix4d} to copy the values from
+     * @return this
+     */
+    public Matrix3d set(Matrix4d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        return this;
+    }
+    
     /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
      * 
