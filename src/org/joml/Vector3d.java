@@ -44,15 +44,15 @@ public class Vector3d implements Externalizable {
     private static final long serialVersionUID = 1L;   
 
     /**
-     * The x-coordinate of the vector.
+     * The x component of the vector.
      */
     public double x;
     /**
-     * The y-coordinate of the vector.
+     * The y component of the vector.
      */
     public double y;
     /**
-     * The z-coordinate of the vector.
+     * The z component of the vector.
      */
     public double z;
 
@@ -105,9 +105,9 @@ public class Vector3d implements Externalizable {
      * given <code>v</code> and the given <code>z</code>
      *
      * @param v
-     *            the {@link Vector2f} to copy the values from
+     *          the {@link Vector2f} to copy the values from
      * @param z
-     *            the z value
+     *          the z component
      */
     public Vector3d(Vector2f v, double z) {
         this.x = v.x;
@@ -132,9 +132,9 @@ public class Vector3d implements Externalizable {
      * given <code>v</code> and the given <code>z</code>
      *
      * @param v
-     *            the {@link Vector2d} to copy the values from
+     *          the {@link Vector2d} to copy the values from
      * @param z
-     *            the z value
+     *          the z component
      */
     public Vector3d(Vector2d v, double z) {
         this.x = v.x;
@@ -225,9 +225,9 @@ public class Vector3d implements Externalizable {
      * and the z component from the given <code>z</code>
      *
      * @param v
-     *            the {@link Vector2d} to copy the values from
+     *          the {@link Vector2d} to copy the values from
      * @param z
-     *            the z value
+     *          the z component
      * @return this
      */
     public Vector3d set(Vector2d v, double z) {
@@ -256,9 +256,9 @@ public class Vector3d implements Externalizable {
      * and the z component from the given <code>z</code>
      *
      * @param v
-     *            the {@link Vector2f} to copy the values from
+     *          the {@link Vector2f} to copy the values from
      * @param z
-     *            the z value
+     *          the z component
      * @return this
      */
     public Vector3d set(Vector2f v, double z) {
@@ -282,11 +282,11 @@ public class Vector3d implements Externalizable {
      * Set the x, y and z attributes to the supplied values.
      * 
      * @param x
-     *          the x value
+     *          the x component
      * @param y
-     *          the y value
+     *          the y component
      * @param z
-     *          the z value
+     *          the z component
      * @return this
      */
     public Vector3d set(double x, double y, double z) {
@@ -500,11 +500,11 @@ public class Vector3d implements Externalizable {
      * Subtract <tt>(x, y, z)</tt> from this vector.
      * 
      * @param x
-     *          the x-coordinate to subtract
+     *          the x component to subtract
      * @param y
-     *          the y-coordinate to subtract
+     *          the y component to subtract
      * @param z
-     *          the z-coordinate to subtract
+     *          the z component to subtract
      * @return this
      */
     public Vector3d sub(double x, double y, double z) {
@@ -518,11 +518,11 @@ public class Vector3d implements Externalizable {
      * Subtract <tt>(x, y, z)</tt> from this vector and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to subtract
+     *          the x component to subtract
      * @param y
-     *          the y-coordinate to subtract
+     *          the y component to subtract
      * @param z
-     *          the z-coordinate to subtract
+     *          the z component to subtract
      * @param dest
      *          will hold the result
      * @return this
@@ -614,11 +614,11 @@ public class Vector3d implements Externalizable {
      * Increment the components of this vector by the given values.
      * 
      * @param x
-     *          the x-coordinate to add
+     *          the x component to add
      * @param y
-     *          the y-coordinate to add
+     *          the y component to add
      * @param z
-     *          the z-coordinate to add
+     *          the z component to add
      * @return this
      */
     public Vector3d add(double x, double y, double z) {
@@ -632,11 +632,11 @@ public class Vector3d implements Externalizable {
      * Increment the components of this vector by the given values and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to add
+     *          the x component to add
      * @param y
-     *          the y-coordinate to add
+     *          the y component to add
      * @param z
-     *          the z-coordinate to add
+     *          the z component to add
      * @param dest
      *          will hold the result
      * @return this
@@ -1014,11 +1014,11 @@ public class Vector3d implements Externalizable {
      * Multiply the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
-     *          the x-coordinate to multiply this vector by
+     *          the x component to multiply this vector by
      * @param y
-     *          the y-coordinate to multiply this vector by
+     *          the y component to multiply this vector by
      * @param z
-     *          the z-coordinate to multiply this vector by
+     *          the z component to multiply this vector by
      * @return this
      */
     public Vector3d mul(double x, double y, double z) {
@@ -1032,11 +1032,11 @@ public class Vector3d implements Externalizable {
      * Multiply the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to multiply this vector by
+     *          the x component to multiply this vector by
      * @param y
-     *          the y-coordinate to multiply this vector by
+     *          the y component to multiply this vector by
      * @param z
-     *          the z-coordinate to multiply this vector by
+     *          the z component to multiply this vector by
      * @param dest
      *          will hold the result
      * @return this
@@ -1112,11 +1112,11 @@ public class Vector3d implements Externalizable {
      * Divide the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
-     *          the x-coordinate to divide this vector by
+     *          the x component to divide this vector by
      * @param y
-     *          the y-coordinate to divide this vector by
+     *          the y component to divide this vector by
      * @param z
-     *          the z-coordinate to divide this vector by
+     *          the z component to divide this vector by
      * @return this
      */
     public Vector3d div(double x, double y, double z) {
@@ -1130,11 +1130,11 @@ public class Vector3d implements Externalizable {
      * Divide the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to divide this vector by
+     *          the x component to divide this vector by
      * @param y
-     *          the y-coordinate to divide this vector by
+     *          the y component to divide this vector by
      * @param z
-     *          the z-coordinate to divide this vector by
+     *          the z component to divide this vector by
      * @param dest
      *          will hold the result
      * @return this
@@ -1226,11 +1226,11 @@ public class Vector3d implements Externalizable {
      * Set this vector to be the cross product of itself and <tt>(x, y, z)</tt>.
      * 
      * @param x
-     *          the x-coordinate of the other vector
+     *          the x component of the other vector
      * @param y
-     *          the y-coordinate of the other vector
+     *          the y component of the other vector
      * @param z
-     *          the z-coordinate of the other vector
+     *          the z component of the other vector
      * @return this
      */
     public Vector3d cross(double x, double y, double z) {
@@ -1259,11 +1259,11 @@ public class Vector3d implements Externalizable {
      * Compute the cross product of this vector and <tt>(x, y, z)</tt> and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate of the other vector
+     *          the x component of the other vector
      * @param y
-     *          the y-coordinate of the other vector
+     *          the y component of the other vector
      * @param z
-     *          the z-coordinate of the other vector
+     *          the z component of the other vector
      * @param dest
      *          will hold the result
      * @return this
@@ -1292,11 +1292,11 @@ public class Vector3d implements Externalizable {
      * Return the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
      * 
      * @param x
-     *            the x-coordinate of the other vector
+     *          the x component of the other vector
      * @param y
-     *            the y-coordinate of the other vector
+     *          the y component of the other vector
      * @param z
-     *            the z-coordinate of the other vector
+     *          the z component of the other vector
      * @return the euclidean distance
      */
     public double distance(double x, double y, double z) {
@@ -1321,11 +1321,11 @@ public class Vector3d implements Externalizable {
      * Return the dot product of this vector and the vector <tt>(x, y, z)</tt>.
      * 
      * @param x
-     *          the x-coordinate of the other vector
+     *          the x component of the other vector
      * @param y
-     *          the y-coordinate of the other vector
+     *          the y component of the other vector
      * @param z
-     *          the z-coordinate of the other vector
+     *          the z component of the other vector
      * @return the dot product
      */
     public double dot(double x, double y, double z) {
@@ -1474,7 +1474,7 @@ public class Vector3d implements Externalizable {
      * Reflect this vector about the given normal vector.
      * 
      * @param normal
-     *             the vector to reflect about
+     *          the vector to reflect about
      * @return this
      */
     public Vector3d reflect(Vector3d normal) {
@@ -1489,11 +1489,11 @@ public class Vector3d implements Externalizable {
      * Reflect this vector about the given normal vector.
      * 
      * @param x
-     *             the x-coordinate of the normal
+     *          the x component of the normal
      * @param y
-     *             the y-coordinate of the normal
+     *          the y component of the normal
      * @param z
-     *             the z-coordinate of the normal
+     *          the z component of the normal
      * @return this
      */
     public Vector3d reflect(double x, double y, double z) {
@@ -1508,9 +1508,9 @@ public class Vector3d implements Externalizable {
      * Reflect this vector about the given normal vector and store the result in <code>dest</code>.
      * 
      * @param normal
-     *             the vector to reflect about
+     *          the vector to reflect about
      * @param dest
-     *             will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector3d reflect(Vector3d normal, Vector3d dest) {
@@ -1525,13 +1525,13 @@ public class Vector3d implements Externalizable {
      * Reflect this vector about the given normal vector and store the result in <code>dest</code>.
      * 
      * @param x
-     *             the x-coordinate of the normal
+     *          the x component of the normal
      * @param y
-     *             the y-coordinate of the normal
+     *          the y component of the normal
      * @param z
-     *             the z-coordinate of the normal
+     *          the z component of the normal
      * @param dest
-     *             will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector3d reflect(double x, double y, double z, Vector3d dest) {
@@ -1546,7 +1546,7 @@ public class Vector3d implements Externalizable {
      * Compute the half vector between this and the other vector.
      * 
      * @param other
-     *             the other vector
+     *          the other vector
      * @return this
      */
     public Vector3d half(Vector3d other) {
@@ -1557,11 +1557,11 @@ public class Vector3d implements Externalizable {
      * Compute the half vector between this and the vector <tt>(x, y, z)</tt>.
      * 
      * @param x
-     *             the x-coordinate of the other vector
+     *          the x component of the other vector
      * @param y
-     *             the y-coordinate of the other vector
+     *          the y component of the other vector
      * @param z
-     *             the z-coordinate of the other vector
+     *          the z component of the other vector
      * @return this
      */
     public Vector3d half(double x, double y, double z) {
@@ -1572,9 +1572,9 @@ public class Vector3d implements Externalizable {
      * Compute the half vector between this and the other vector and store the result in <code>dest</code>.
      * 
      * @param other
-     *             the other vector
+     *          the other vector
      * @param dest
-     *             will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector3d half(Vector3d other, Vector3d dest) {
@@ -1587,13 +1587,13 @@ public class Vector3d implements Externalizable {
      * and store the result in <code>dest</code>.
      * 
      * @param x
-     *             the x-coordinate of the other vector
+     *          the x component of the other vector
      * @param y
-     *             the y-coordinate of the other vector
+     *          the y component of the other vector
      * @param z
-     *             the z-coordinate of the other vector
+     *          the z component of the other vector
      * @param dest
-     *             will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector3d half(double x, double y, double z, Vector3d dest) {
@@ -1607,11 +1607,11 @@ public class Vector3d implements Externalizable {
      * store the result in <code>dest</code>.
      * 
      * @param v
-     *            the other vector
+     *          the other vector
      * @param t
-     *            the interpolation factor, within <tt>[0..1]</tt>
+     *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
-     *            will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector3d smoothStep(Vector3d v, double t, Vector3d dest) {
@@ -1628,15 +1628,15 @@ public class Vector3d implements Externalizable {
      * <code>dest</code>.
      * 
      * @param t0
-     *            the tangent of <code>this</code> vector
+     *          the tangent of <code>this</code> vector
      * @param v1
-     *            the other vector
+     *          the other vector
      * @param t1
-     *            the tangent of the other vector
+     *          the tangent of the other vector
      * @param t
-     *            the interpolation factor, within <tt>[0..1]</tt>
+     *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
-     *            will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector3d hermite(Vector3d t0, Vector3d v1, Vector3d t1, double t, Vector3d dest) {

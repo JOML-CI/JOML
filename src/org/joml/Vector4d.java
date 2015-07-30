@@ -43,19 +43,19 @@ public class Vector4d implements Externalizable {
     private static final long serialVersionUID = 1L;   
 
     /**
-     * The x-coordinate of the vector.
+     * The x component of the vector.
      */
     public double x;
     /**
-     * The y-coordinate of the vector.
+     * The y component of the vector.
      */
     public double y;
     /**
-     * The z-coordinate of the vector.
+     * The z component of the vector.
      */
     public double z;
     /**
-     * The w-coordinate of the vector.
+     * The w component of the vector.
      */
     public double w = 1.0;
 
@@ -69,7 +69,7 @@ public class Vector4d implements Externalizable {
      * Create a new {@link Vector4d} with the same values as <code>v</code>.
      * 
      * @param v
-     *            the {@link Vector4d} to copy the values from
+     *          the {@link Vector4d} to copy the values from
      */
     public Vector4d(Vector4d v) {
         this.x = v.x;
@@ -83,9 +83,9 @@ public class Vector4d implements Externalizable {
      * given <code>v</code> and the given <code>w</code>.
      * 
      * @param v
-     *            the {@link Vector3d}
+     *          the {@link Vector3d}
      * @param w
-     *            the w component
+     *          the w component
      */
     public Vector4d(Vector3d v, double w) {
         this.x = v.x;
@@ -99,11 +99,11 @@ public class Vector4d implements Externalizable {
      * given <code>v</code> and the given <code>z</code> and <code>w</code>.
      *
      * @param v
-     *            the {@link Vector2d}
+     *          the {@link Vector2d}
      * @param z
-     *            the z component
+     *          the z component
      * @param w
-     *            the w component
+     *          the w component
      */
     public Vector4d(Vector2d v, double z, double w) {
         this.x = v.x;
@@ -116,7 +116,7 @@ public class Vector4d implements Externalizable {
      * Create a new {@link Vector4d} with the same values as <code>v</code>.
      * 
      * @param v
-     *            the {@link Vector4f} to copy the values from
+     *          the {@link Vector4f} to copy the values from
      */
     public Vector4d(Vector4f v) {
         this.x = v.x;
@@ -130,9 +130,9 @@ public class Vector4d implements Externalizable {
      * given <code>v</code> and the w component from the given <code>w</code>.
      * 
      * @param v
-     *            the {@link Vector3f}
+     *          the {@link Vector3f}
      * @param w
-     *            the w component
+     *          the w component
      */
     public Vector4d(Vector3f v, double w) {
         this.x = v.x;
@@ -146,11 +146,11 @@ public class Vector4d implements Externalizable {
      * given <code>v</code> and the z and w components from the given <code>z</code> and <code>w</code>.
      *
      * @param v
-     *            the {@link Vector2f}
+     *          the {@link Vector2f}
      * @param z
-     *            the z component
+     *          the z component
      * @param w
-     *            the w component
+     *          the w component
      */
     public Vector4d(Vector2f v, double z, double w) {
         this.x = v.x;
@@ -163,7 +163,7 @@ public class Vector4d implements Externalizable {
      * Create a new {@link Vector4d} and initialize all four components with the given value.
      *
      * @param d
-     *            the value of all four components
+     *          the value of all four components
      */
     public Vector4d(double d) {
         this(d, d, d, d);
@@ -173,13 +173,13 @@ public class Vector4d implements Externalizable {
      * Create a new {@link Vector4f} with the given component values.
      * 
      * @param x    
-     *            the x component
+     *          the x component
      * @param y
-     *            the y component
+     *          the y component
      * @param z
-     *            the z component
+     *          the z component
      * @param w
-     *            the w component
+     *          the w component
      */
     public Vector4d(double x, double y, double z, double w) {
         this.x = x;
@@ -199,7 +199,7 @@ public class Vector4d implements Externalizable {
      * the absolute position as parameter.
      *
      * @param buffer
-     *            values will be read in <tt>x, y, z, w</tt> order
+     *          values will be read in <tt>x, y, z, w</tt> order
      * @see #Vector4d(int, ByteBuffer)
      */
     public Vector4d(ByteBuffer buffer) {
@@ -259,7 +259,7 @@ public class Vector4d implements Externalizable {
      * Set this {@link Vector4d} to the values of the given <code>v</code>.
      * 
      * @param v
-     *            the vector whose values will be copied into this
+     *          the vector whose values will be copied into this
      * @return this
      */
     public Vector4d set(Vector4d v) {
@@ -274,7 +274,7 @@ public class Vector4d implements Externalizable {
      * Set this {@link Vector4d} to the values of the given <code>v</code>.
      * 
      * @param v
-     *            the vector whose values will be copied into this
+     *          the vector whose values will be copied into this
      * @return this
      */
     public Vector4d set(Vector4f v) {
@@ -290,9 +290,9 @@ public class Vector4d implements Externalizable {
      * <code>v</code> and the w component to <code>w</code>.
      * 
      * @param v
-     *            the {@link Vector3d} to copy
+     *          the {@link Vector3d} to copy
      * @param w
-     *            the w component
+     *          the w component
      * @return this
      */
     public Vector4d set(Vector3d v, double w) {
@@ -308,9 +308,9 @@ public class Vector4d implements Externalizable {
      * <code>v</code> and the w component to <code>w</code>.
      * 
      * @param v
-     *            the {@link Vector3f} to copy
+     *          the {@link Vector3f} to copy
      * @param w
-     *            the w component
+     *          the w component
      * @return this
      */
     public Vector4d set(Vector3f v, double w) {
@@ -326,11 +326,11 @@ public class Vector4d implements Externalizable {
      * and the z and w components to the given <code>z</code> and <code>w</code>.
      *
      * @param v
-     *            the {@link Vector2d}
+     *          the {@link Vector2d}
      * @param z
-     *            the z component
+     *          the z component
      * @param w
-     *            the w component
+     *          the w component
      * @return this
      */
     public Vector4d set(Vector2d v, double z, double w) {
@@ -346,11 +346,11 @@ public class Vector4d implements Externalizable {
      * and the z and w components to the given <code>z</code> and <code>w</code>.
      *
      * @param v
-     *            the {@link Vector2f}
+     *          the {@link Vector2f}
      * @param z
-     *            the z components
+     *          the z components
      * @param w
-     *            the w components
+     *          the w components
      * @return this
      */
     public Vector4d set(Vector2f v, double z, double w) {
@@ -375,13 +375,13 @@ public class Vector4d implements Externalizable {
      * Set the x, y, z, and w attributes to the supplied values.
      * 
      * @param x
-     *            the x component
+     *          the x component
      * @param y
-     *            the y component
+     *          the y component
      * @param z
-     *            the z component
+     *          the z component
      * @param w
-     *            the w component
+     *          the w component
      * @return this
      */
     public Vector4d set(double x, double y, double z, double w) {
@@ -570,13 +570,13 @@ public class Vector4d implements Externalizable {
      * Subtract <tt>(x, y, z, w)</tt> from this.
      * 
      * @param x
-     *          the x-coordinate to subtract
+     *          the x component to subtract
      * @param y
-     *          the y-coordinate to subtract
+     *          the y component to subtract
      * @param z
-     *          the z-coordinate to subtract
+     *          the z component to subtract
      * @param w
-     *          the w-coordinate to subtract
+     *          the w component to subtract
      * @return this
      */
     public Vector4d sub(double x, double y, double z, double w) {
@@ -591,13 +591,13 @@ public class Vector4d implements Externalizable {
      * Subtract <tt>(x, y, z, w)</tt> from this and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to subtract
+     *          the x component to subtract
      * @param y
-     *          the y-coordinate to subtract
+     *          the y component to subtract
      * @param z
-     *          the z-coordinate to subtract
+     *          the z component to subtract
      * @param w
-     *          the w-coordinate to subtract
+     *          the w component to subtract
      * @param dest
      *          will hold the result
      * @return this
@@ -680,13 +680,13 @@ public class Vector4d implements Externalizable {
      * Add <tt>(x, y, z, w)</tt> to this.
      * 
      * @param x
-     *          the x-coordinate to subtract
+     *          the x component to subtract
      * @param y
-     *          the y-coordinate to subtract
+     *          the y component to subtract
      * @param z
-     *          the z-coordinate to subtract
+     *          the z component to subtract
      * @param w
-     *          the w-coordinate to subtract
+     *          the w component to subtract
      * @return this
      */
     public Vector4d add(double x, double y, double z, double w) {
@@ -701,13 +701,13 @@ public class Vector4d implements Externalizable {
      * Add <tt>(x, y, z, w)</tt> to this and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to subtract
+     *          the x component to subtract
      * @param y
-     *          the y-coordinate to subtract
+     *          the y component to subtract
      * @param z
-     *          the z-coordinate to subtract
+     *          the z component to subtract
      * @param w
-     *          the w-coordinate to subtract
+     *          the w component to subtract
      * @param dest
      *          will hold the result
      * @return this
@@ -1028,9 +1028,9 @@ public class Vector4d implements Externalizable {
      * Multiply this Vector4d by the given scalar value and store the result in <code>dest</code>.
      * 
      * @param scalar
-     *              the factor to multiply by
+     *          the factor to multiply by
      * @param dest
-     *              will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector4d mul(double scalar, Vector4d dest) {
@@ -1060,9 +1060,9 @@ public class Vector4d implements Externalizable {
      * Divide this Vector4d by the given scalar value and store the result in <code>dest</code>.
      * 
      * @param scalar
-     *              the factor to divide by
+     *          the factor to divide by
      * @param dest
-     *              will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector4d div(double scalar, Vector4d dest) {
@@ -1199,13 +1199,13 @@ public class Vector4d implements Externalizable {
      * Return the distance between <code>this</code> vector and <tt>(x, y, z, w)</tt>.
      * 
      * @param x
-     *            the x-coordinate of the other vector
+     *          the x component of the other vector
      * @param y
-     *            the y-coordinate of the other vector
+     *          the y component of the other vector
      * @param z
-     *            the z-coordinate of the other vector
+     *          the z component of the other vector
      * @param w
-     *            the w-coordinate of the other vector
+     *          the w component of the other vector
      * @return the euclidean distance
      */
     public double distance(double x, double y, double z, double w) {
@@ -1220,7 +1220,7 @@ public class Vector4d implements Externalizable {
      * Compute the dot product (inner product) of this vector and <code>v</code>.
      * 
      * @param v
-     *            the other vector
+     *          the other vector
      * @return the dot product
      */
     public double dot(Vector4d v) {
@@ -1231,13 +1231,13 @@ public class Vector4d implements Externalizable {
      * Compute the dot product (inner product) of this vector and <tt>(x, y, z, w)</tt>.
      * 
      * @param x
-     *            the x-coordinate of the other vector
+     *          the x component of the other vector
      * @param y
-     *            the y-coordinate of the other vector
+     *          the y component of the other vector
      * @param z
-     *            the z-coordinate of the other vector
+     *          the z component of the other vector
      * @param w
-     *            the w-coordinate of the other vector
+     *          the w component of the other vector
      * @return the dot product
      */
     public double dot(double x, double y, double z, double w) {
@@ -1396,11 +1396,11 @@ public class Vector4d implements Externalizable {
      * store the result in <code>dest</code>.
      * 
      * @param v
-     *            the other vector
+     *          the other vector
      * @param t
-     *            the interpolation factor, within <tt>[0..1]</tt>
+     *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
-     *            will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector4d smoothStep(Vector4d v, double t, Vector4d dest) {
@@ -1418,15 +1418,15 @@ public class Vector4d implements Externalizable {
      * <code>dest</code>.
      * 
      * @param t0
-     *            the tangent of <code>this</code> vector
+     *          the tangent of <code>this</code> vector
      * @param v1
-     *            the other vector
+     *          the other vector
      * @param t1
-     *            the tangent of the other vector
+     *          the tangent of the other vector
      * @param t
-     *            the interpolation factor, within <tt>[0..1]</tt>
+     *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
-     *            will hold the result
+     *          will hold the result
      * @return this
      */
     public Vector4d hermite(Vector4d t0, Vector4d v1, Vector4d t1, double t, Vector4d dest) {
