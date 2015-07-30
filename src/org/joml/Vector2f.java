@@ -57,6 +57,16 @@ public class Vector2f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector2f} and initialize both of its components with the given value.
+     *
+     * @param d
+     *          the value of both components
+     */
+    public Vector2f(float d) {
+        this(d, d);
+    }
+
+    /**
      * Create a new {@link Vector2f} and initialize its components to the given values.
      * 
      * @param x
@@ -141,14 +151,24 @@ public class Vector2f implements Externalizable {
         x = buffer.get(index);
         y = buffer.get(index + 1);
     }
+
+    /**
+     * Set the x and y attributes to the supplied value.
+     *
+     * @param d
+     *          the value of both components
+     */
+    public Vector2f set(float d) {
+        return set(d, d);
+    }
     
     /**
      * Set the x and y attributes to the supplied values.
      * 
      * @param x
-     *          the x value to set
+     *          the x value
      * @param y
-     *          the y value to set
+     *          the y value
      * @return this
      */
     public Vector2f set(float x, float y) {

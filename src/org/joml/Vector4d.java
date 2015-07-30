@@ -85,7 +85,7 @@ public class Vector4d implements Externalizable {
      * @param v
      *            the {@link Vector3d}
      * @param w
-     *            the w value
+     *            the w component
      */
     public Vector4d(Vector3d v, double w) {
         this.x = v.x;
@@ -101,9 +101,9 @@ public class Vector4d implements Externalizable {
      * @param v
      *            the {@link Vector2d}
      * @param z
-     *            the z value
+     *            the z component
      * @param w
-     *            the w value
+     *            the w component
      */
     public Vector4d(Vector2d v, double z, double w) {
         this.x = v.x;
@@ -126,13 +126,13 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4d} with the first three components from the
-     * given <code>v</code> and the given <code>w</code>.
+     * Create a new {@link Vector4d} with the x, y, and z components from the
+     * given <code>v</code> and the w component from the given <code>w</code>.
      * 
      * @param v
      *            the {@link Vector3f}
      * @param w
-     *            the w value
+     *            the w component
      */
     public Vector4d(Vector3f v, double w) {
         this.x = v.x;
@@ -142,15 +142,15 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4d} with the first two components from the
-     * given <code>v</code> and the given <code>z</code> and <code>w</code>.
+     * Create a new {@link Vector4d} with the x and y components from the
+     * given <code>v</code> and the z and w components from the given <code>z</code> and <code>w</code>.
      *
      * @param v
      *            the {@link Vector2f}
      * @param z
-     *            the z value
+     *            the z component
      * @param w
-     *            the w value
+     *            the w component
      */
     public Vector4d(Vector2f v, double z, double w) {
         this.x = v.x;
@@ -160,16 +160,26 @@ public class Vector4d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector4d} and initialize all four components with the given value.
+     *
+     * @param d
+     *            the value of all four components
+     */
+    public Vector4d(double d) {
+        this(d, d, d, d);
+    }
+
+    /**
      * Create a new {@link Vector4f} with the given component values.
      * 
-     * @param x
-     *          the value of x
+     * @param x    
+     *            the x component
      * @param y
-     *          the value of y
+     *            the y component
      * @param z
-     *          the value of z
+     *            the z component
      * @param w
-     *          the value of w
+     *            the w component
      */
     public Vector4d(double x, double y, double z, double w) {
         this.x = x;
@@ -188,7 +198,8 @@ public class Vector4d implements Externalizable {
      * the vector is read, you can use {@link #Vector4d(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y, z, w</tt> order
      * @see #Vector4d(int, ByteBuffer)
      */
     public Vector4d(ByteBuffer buffer) {
@@ -275,8 +286,8 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Set the first three components of this to the components of
-     * <code>v</code> and the last component to <code>w</code>.
+     * Set the x, y, and z components of this to the components of
+     * <code>v</code> and the w component to <code>w</code>.
      * 
      * @param v
      *            the {@link Vector3d} to copy
@@ -293,8 +304,8 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Set the first three components of this to the components of
-     * <code>v</code> and the last component to <code>w</code>.
+     * Set the x, y, and z components of this to the components of
+     * <code>v</code> and the w component to <code>w</code>.
      * 
      * @param v
      *            the {@link Vector3f} to copy
@@ -311,15 +322,15 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Set the first two components from the given <code>v</code>
-     * and the last two components from the given <code>z</code> and <code>w</code>.
+     * Set the x and y components from the given <code>v</code>>
+     * and the z and w components to the given <code>z</code> and <code>w</code>.
      *
      * @param v
      *            the {@link Vector2d}
      * @param z
-     *            the z value
+     *            the z component
      * @param w
-     *            the w value
+     *            the w component
      * @return this
      */
     public Vector4d set(Vector2d v, double z, double w) {
@@ -331,12 +342,15 @@ public class Vector4d implements Externalizable {
     }
     
     /**
-     * Set the first two components from the given <code>v</code>
-     * and the last two components from the given <code>z</code> and <code>w</code>.
+     * Set the x and y components from the given <code>v</code>
+     * and the z and w components to the given <code>z</code> and <code>w</code>.
      *
-     * @param v the {@link Vector2f}
-     * @param z the z value
-     * @param w the w value
+     * @param v
+     *            the {@link Vector2f}
+     * @param z
+     *            the z components
+     * @param w
+     *            the w components
      * @return this
      */
     public Vector4d set(Vector2f v, double z, double w) {
@@ -348,14 +362,24 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Set the components of this vector to the given values.
+     * Set the x, y, z, and w attributes to the supplied value.
+     *
+     * @param d
+     *          the value of all four components
+     */
+    public Vector4d set(double d) {
+        return set(d, d, d, d);
+    }
+
+    /**
+     * Set the x, y, z, and w attributes to the supplied values.
      * 
      * @param x
-     *            the x-component
+     *            the x component
      * @param y
-     *            the y-component
+     *            the y component
      * @param z
-     *            the z-component
+     *            the z component
      * @param w
      *            the w component
      * @return this

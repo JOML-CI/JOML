@@ -57,6 +57,16 @@ public class Vector2d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector2d} and initialize both of its components with the given value.
+     * 
+     * @param d    
+     *          the value of both components
+     */
+    public Vector2d(double d) {
+        this(d, d);
+    }
+
+    /**
      * Create a new {@link Vector2d} and initialize its components to the given values.
      * 
      * @param x
@@ -101,7 +111,8 @@ public class Vector2d implements Externalizable {
      * the vector is read, you can use {@link #Vector2d(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y</tt> order
      * @see #Vector2d(int, ByteBuffer)
      */
     public Vector2d(ByteBuffer buffer) {
@@ -114,8 +125,10 @@ public class Vector2d implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index  the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y</tt> order
      */
     public Vector2d(int index, ByteBuffer buffer) {
         x = buffer.getDouble(index);
@@ -132,7 +145,8 @@ public class Vector2d implements Externalizable {
      * the vector is read, you can use {@link #Vector2d(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y</tt> order
      * @see #Vector2d(int, DoubleBuffer)
      */
     public Vector2d(DoubleBuffer buffer) {
@@ -145,8 +159,10 @@ public class Vector2d implements Externalizable {
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
      *
-     * @param index  the absolute position into the DoubleBuffer
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param index
+     *            the absolute position into the DoubleBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y</tt> order
      */
     public Vector2d(int index, DoubleBuffer buffer) {
         x = buffer.get(index);
@@ -154,12 +170,22 @@ public class Vector2d implements Externalizable {
     }
 
     /**
+     * Set the x and y attributes to the supplied value.
+     *
+     * @param d
+     *          the value of both components
+     */
+    public Vector2d set(double d) {
+        return set(d, d);
+    }
+
+    /**
      * Set the x and y attributes to the supplied values.
      * 
      * @param x
-     *          the x value to set
+     *          the x value
      * @param y
-     *          the y value to set
+     *          the y value
      * @return this
      */
     public Vector2d set(double x, double y) {
@@ -204,7 +230,8 @@ public class Vector2d implements Externalizable {
      * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param buffer
+     *                values will be read in <tt>x, y</tt> order
      * @return this
      * @see #set(int, ByteBuffer)
      */
@@ -218,8 +245,10 @@ public class Vector2d implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index  the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y</tt> order
      * @return this
      */
     public Vector2d set(int index, ByteBuffer buffer) {
@@ -238,7 +267,8 @@ public class Vector2d implements Externalizable {
      * the vector is read, you can use {@link #set(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y</tt> order
      * @return this
      * @see #set(int, DoubleBuffer)
      */
@@ -252,8 +282,10 @@ public class Vector2d implements Externalizable {
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
      *
-     * @param index  the absolute position into the DoubleBuffer
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param index 
+     *            the absolute position into the DoubleBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y</tt> order
      * @return this
      */
     public Vector2d set(int index, DoubleBuffer buffer) {
@@ -272,7 +304,8 @@ public class Vector2d implements Externalizable {
      * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @param buffer
+     *            will receive the values of this vector in <tt>x, y</tt> order
      * @return this
      * @see #get(int, ByteBuffer)
      */
@@ -286,8 +319,10 @@ public class Vector2d implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index  the absolute position into the ByteBuffer
-     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @param index 
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this vector in <tt>x, y</tt> order
      * @return this
      */
     public Vector2d get(int index, ByteBuffer buffer) {
@@ -306,7 +341,8 @@ public class Vector2d implements Externalizable {
      * the vector is stored, you can use {@link #get(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @param buffer
+     *            will receive the values of this vector in <tt>x, y</tt> order
      * @return this
      * @see #get(int, DoubleBuffer)
      */
@@ -320,8 +356,10 @@ public class Vector2d implements Externalizable {
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
      *
-     * @param index  the absolute position into the DoubleBuffer
-     * @param buffer will receive the values of this vector in <tt>x, y</tt> order
+     * @param index
+     *            the absolute position into the DoubleBuffer
+     * @param buffer
+     *            will receive the values of this vector in <tt>x, y</tt> order
      * @return this
      */
     public Vector2d get(int index, DoubleBuffer buffer) {

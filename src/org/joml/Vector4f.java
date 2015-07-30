@@ -43,19 +43,19 @@ public class Vector4f implements Externalizable {
     private static final long serialVersionUID = 1L;   
 
     /**
-     * The x-coordinate of the vector.
+     * The x component of the vector.
      */
     public float x;
     /**
-     * The y-coordinate of the vector.
+     * The y component of the vector.
      */
     public float y;
     /**
-     * The z-coordinate of the vector.
+     * The z component of the vector.
      */
     public float z;
     /**
-     * The w-coordinate of the vector.
+     * The w component of the vector.
      */
     public float w = 1.0f;
 
@@ -85,7 +85,7 @@ public class Vector4f implements Externalizable {
      * @param v
      *            the {@link Vector3f}
      * @param w
-     *            the w value
+     *            the w component
      */
     public Vector4f(Vector3f v, float w) {
         this.x = v.x;
@@ -101,9 +101,9 @@ public class Vector4f implements Externalizable {
      * @param v
      *            the {@link Vector2f}
      * @param z
-     *            the z value
+     *            the z component
      * @param w
-     *            the w value
+     *            the w component
      */
     public Vector4f(Vector2f v, float z, float w) {
         this.x = v.x;
@@ -113,16 +113,26 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector4f} and initialize all four components with the given value.
+     *
+     * @param d
+     *            the value of all four components
+     */
+    public Vector4f(float d) {
+        this(d, d, d, d);
+    }
+    
+    /**
      * Create a new {@link Vector4f} with the given component values.
      * 
      * @param x
-     *          the value of x
+     *            the x component
      * @param y
-     *          the value of y
+     *            the y component
      * @param z
-     *          the value of z
+     *            the z component
      * @param w
-     *          the value of w
+     *            the w component
      */
     public Vector4f(float x, float y, float z, float w) {
         this.x = x;
@@ -141,7 +151,8 @@ public class Vector4f implements Externalizable {
      * the vector is read, you can use {@link #Vector4f(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y, z, w</tt> order
      * @see #Vector4f(int, ByteBuffer)
      */
     public Vector4f(ByteBuffer buffer) {
@@ -154,8 +165,10 @@ public class Vector4f implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index  the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index 
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4f(int index, ByteBuffer buffer) {
         x = buffer.getFloat(index);
@@ -174,7 +187,8 @@ public class Vector4f implements Externalizable {
      * the vector is read, you can use {@link #Vector4f(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y, z, w</tt> order
      * @see #Vector4f(int, FloatBuffer)
      */
     public Vector4f(FloatBuffer buffer) {
@@ -187,8 +201,10 @@ public class Vector4f implements Externalizable {
      * <p>
      * This method will not increment the position of the given FloatBuffer.
      *
-     * @param index  the absolute position into the FloatBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index 
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4f(int index, FloatBuffer buffer) {
         x = buffer.get(index);
@@ -237,9 +253,9 @@ public class Vector4f implements Externalizable {
      * @param v
      *            the {@link Vector2f}
      * @param z
-     *            the z value
+     *            the z component
      * @param w
-     *            the w value
+     *            the w component
      * @return this
      */
     public Vector4f set(Vector2f v, float z, float w) {
@@ -251,14 +267,24 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Set the components of this vector to the given values.
+     * Set the x, y, z, and w components to the supplied value.
+     *
+     * @param d
+     *            the value of all four components
+     */
+    public Vector4f set(float d) {
+        return set(d, d, d, d);
+    }
+
+    /**
+     * Set the x, y, z, and w components to the supplied values.
      * 
      * @param x
-     *            the x-component
+     *            the x component
      * @param y
-     *            the y-component
+     *            the y component
      * @param z
-     *            the z-component
+     *            the z component
      * @param w
      *            the w component
      * @return this
@@ -281,7 +307,8 @@ public class Vector4f implements Externalizable {
      * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y, z, w</tt> order
      * @return this
      * @see #set(int, ByteBuffer)
      */
@@ -295,8 +322,10 @@ public class Vector4f implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index  the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y, z, w</tt> order
      * @return this
      */
     public Vector4f set(int index, ByteBuffer buffer) {
@@ -317,7 +346,8 @@ public class Vector4f implements Externalizable {
      * the vector is read, you can use {@link #set(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y, z, w</tt> order
      * @return this
      * @see #set(int, FloatBuffer)
      */
@@ -331,8 +361,10 @@ public class Vector4f implements Externalizable {
      * <p>
      * This method will not increment the position of the given FloatBuffer.
      *
-     * @param index  the absolute position into the FloatBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index 
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y, z, w</tt> order
      * @return this
      */
     public Vector4f set(int index, FloatBuffer buffer) {
@@ -427,7 +459,7 @@ public class Vector4f implements Externalizable {
      * Subtract the supplied vector from this one.
      * 
      * @param v
-     *          the vector to subtract
+     *            the vector to subtract
      * @return this
      */
     public Vector4f sub(Vector4f v) {
@@ -442,13 +474,13 @@ public class Vector4f implements Externalizable {
      * Subtract <tt>(x, y, z, w)</tt> from this.
      * 
      * @param x
-     *          the x-coordinate to subtract
+     *            the x component to subtract
      * @param y
-     *          the y-coordinate to subtract
+     *            the y component to subtract
      * @param z
-     *          the z-coordinate to subtract
+     *            the z component to subtract
      * @param w
-     *          the w-coordinate to subtract
+     *            the w component to subtract
      * @return this
      */
     public Vector4f sub(float x, float y, float z, float w) {
@@ -463,9 +495,9 @@ public class Vector4f implements Externalizable {
      * Subtract the supplied vector from this one and store the result in <code>dest</code>.
      * 
      * @param v
-     *          the vector to subtract from <code>this</code>
+     *            the vector to subtract from <code>this</code>
      * @param dest
-     *          will hold the result
+     *            will hold the result
      * @return this
      */
     public Vector4f sub(Vector4f v, Vector4f dest) {
@@ -480,13 +512,13 @@ public class Vector4f implements Externalizable {
      * Subtract <tt>(x, y, z, w)</tt> from this and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to subtract
+     *            the x component to subtract
      * @param y
-     *          the y-coordinate to subtract
+     *            the y component to subtract
      * @param z
-     *          the z-coordinate to subtract
+     *            the z component to subtract
      * @param w
-     *          the w-coordinate to subtract
+     *            the w component to subtract
      * @param dest
      *          will hold the result
      * @return this
@@ -535,13 +567,13 @@ public class Vector4f implements Externalizable {
      * Increment the components of this vector by the given values.
      * 
      * @param x
-     *          the x-coordinate to add
+     *          the x component to add
      * @param y
-     *          the y-coordinate to add
+     *          the y component to add
      * @param z
-     *          the z-coordinate to add
+     *          the z component to add
      * @param w
-     *          the w-coordinate to add
+     *          the w component to add
      * @return this
      */
     public Vector4f add(float x, float y, float z, float w) {
@@ -556,13 +588,13 @@ public class Vector4f implements Externalizable {
      * Increment the components of this vector by the given values and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to add
+     *          the x component to add
      * @param y
-     *          the y-coordinate to add
+     *          the y component to add
      * @param z
-     *          the z-coordinate to add
+     *          the z component to add
      * @param w
-     *          the w-coordinate to add
+     *          the w component to add
      * @param dest
      *          will hold the result
      * @return this
@@ -788,13 +820,13 @@ public class Vector4f implements Externalizable {
      * Multiply the components of this Vector4f by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
-     *          the x-coordinate to multiply by
+     *          the x component to multiply by
      * @param y
-     *          the y-coordinate to multiply by
+     *          the y component to multiply by
      * @param z
-     *          the z-coordinate to multiply by
+     *          the z component to multiply by
      * @param w
-     *          the w-coordinate to multiply by
+     *          the w component to multiply by
      * @return this
      */
     public Vector4f mul(float x, float y, float z, float w) {
@@ -809,13 +841,13 @@ public class Vector4f implements Externalizable {
      * Multiply the components of this Vector4f by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to multiply by
+     *          the x component to multiply by
      * @param y
-     *          the y-coordinate to multiply by
+     *          the y component to multiply by
      * @param z
-     *          the z-coordinate to multiply by
+     *          the z component to multiply by
      * @param w
-     *          the w-coordinate to multiply by
+     *          the w component to multiply by
      * @param dest
      *          will hold the result
      * @return this
@@ -866,13 +898,13 @@ public class Vector4f implements Externalizable {
      * Divide the components of this Vector4f by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
-     *          the x-coordinate to divide by
+     *          the x component to divide by
      * @param y
-     *          the y-coordinate to divide by
+     *          the y component to divide by
      * @param z
-     *          the z-coordinate to divide by
+     *          the z component to divide by
      * @param w
-     *          the w-coordinate to divide by
+     *          the w component to divide by
      * @return this
      */
     public Vector4f div(float x, float y, float z, float w) {
@@ -887,13 +919,13 @@ public class Vector4f implements Externalizable {
      * Divide the components of this Vector4f by the given scalar values and store the result in <code>dest</code>.
      * 
      * @param x
-     *          the x-coordinate to divide by
+     *          the x component to divide by
      * @param y
-     *          the y-coordinate to divide by
+     *          the y component to divide by
      * @param z
-     *          the z-coordinate to divide by
+     *          the z component to divide by
      * @param w
-     *          the w-coordinate to divide by
+     *          the w component to divide by
      * @param dest
      *          will hold the result
      * @return this
@@ -1032,13 +1064,13 @@ public class Vector4f implements Externalizable {
      * Return the distance between <code>this</code> vector and <tt>(x, y, z, w)</tt>.
      * 
      * @param x
-     *            the x-coordinate of the other vector
+     *            the x component of the other vector
      * @param y
-     *            the y-coordinate of the other vector
+     *            the y component of the other vector
      * @param z
-     *            the z-coordinate of the other vector
+     *            the z component of the other vector
      * @param w
-     *            the w-coordinate of the other vector
+     *            the w component of the other vector
      * @return the euclidean distance
      */
     public float distance(float x, float y, float z, float w) {
@@ -1065,13 +1097,13 @@ public class Vector4f implements Externalizable {
      * Compute the dot product (inner product) of this vector and <tt>(x, y, z, w)</tt>.
      * 
      * @param x
-     *            the x-coordinate of the other vector
+     *            the x component of the other vector
      * @param y
-     *            the y-coordinate of the other vector
+     *            the y component of the other vector
      * @param z
-     *            the z-coordinate of the other vector
+     *            the z component of the other vector
      * @param w
-     *            the w-coordinate of the other vector
+     *            the w component of the other vector
      * @return the dot product
      */
     public float dot(float x, float y, float z, float w) {

@@ -63,6 +63,16 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector3f} and initialize all three components with the given value.
+     *
+     * @param d
+     *          the value of all three components
+     */
+    public Vector3f(float d) {
+        this(d, d, d);
+    }
+
+    /**
      * Create a new {@link Vector4f} with the given component values.
      * 
      * @param x
@@ -97,7 +107,7 @@ public class Vector3f implements Externalizable {
      * @param v
      *            the {@link Vector2f} to copy the values from
      * @param z
-     *            the z value
+     *            the z component
      */
     public Vector3f(Vector2f v, float z) {
         this.x = v.x;
@@ -190,7 +200,7 @@ public class Vector3f implements Externalizable {
      * @param v
      *            the {@link Vector2f} to copy the values from
      * @param z
-     *            the z value
+     *            the z component
      * @return this
      */
     public Vector3f set(Vector2f v, float z) {
@@ -201,14 +211,24 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Set the x, y and z attributes to the supplied float values.
+     * Set the x, y, and z attributes to the supplied value.
+     *
+     * @param d
+     *          the value of all three components
+     */
+    public Vector3f set(float d) {
+        return set(d, d, d);
+    }
+
+    /**
+     * Set the x, y and z attributes to the supplied values.
      * 
      * @param x
-     *          the value of x
+     *          the x component
      * @param y
-     *          the value of y
+     *          the y component 
      * @param z
-     *          the value of z
+     *          the z component
      * @return this
      */
     public Vector3f set(float x, float y, float z) {
@@ -228,7 +248,8 @@ public class Vector3f implements Externalizable {
      * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y, z</tt> order
      * @return this
      * @see #set(int, ByteBuffer)
      */
@@ -242,8 +263,10 @@ public class Vector3f implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index  the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y, z</tt> order
      * @return this
      */
     public Vector3f set(int index, ByteBuffer buffer) {
@@ -263,7 +286,8 @@ public class Vector3f implements Externalizable {
      * the vector is read, you can use {@link #set(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @param buffer
+     *            values will be read in <tt>x, y, z</tt> order
      * @return this
      * @see #set(int, FloatBuffer)
      */
@@ -277,8 +301,10 @@ public class Vector3f implements Externalizable {
      * <p>
      * This method will not increment the position of the given FloatBuffer.
      *
-     * @param index  the absolute position into the FloatBuffer
-     * @param buffer values will be read in <tt>x, y, z</tt> order
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            values will be read in <tt>x, y, z</tt> order
      * @return this
      */
     public Vector3f set(int index, FloatBuffer buffer) {

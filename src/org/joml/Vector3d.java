@@ -63,6 +63,16 @@ public class Vector3d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector3d} and initialize all three components with the given value.
+     *
+     * @param d
+     *          the value of all three components
+     */
+    public Vector3d(double d) {
+        this(d, d, d);
+    }
+
+    /**
      * Create a new {@link Vector3d} with the given component values.
      * 
      * @param x
@@ -259,14 +269,24 @@ public class Vector3d implements Externalizable {
     }
 
     /**
-     * Set the x, y and z attributes to the supplied float values.
+     * Set the x, y, and z attributes to the supplied value.
+     *
+     * @param d
+     *          the value of all three components
+     */
+    public Vector3d set(double d) {
+        return set(d, d, d);
+    }
+
+    /**
+     * Set the x, y and z attributes to the supplied values.
      * 
      * @param x
-     *          the new value of x
+     *          the x value
      * @param y
-     *          the new value of y
+     *          the y value
      * @param z
-     *          the new value of z
+     *          the z value
      * @return this
      */
     public Vector3d set(double x, double y, double z) {
