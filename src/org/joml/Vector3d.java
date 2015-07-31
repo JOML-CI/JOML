@@ -831,13 +831,13 @@ public class Vector3d implements Externalizable {
      */
     public Vector3d mul(Matrix4d mat, Vector3d dest) {
         if (this != dest) {
-            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
-            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
-            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
+            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30;
+            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31;
+            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32;
         } else {
-            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
-                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
-                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
+            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                     mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                     mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
         }
         return this;
     }
