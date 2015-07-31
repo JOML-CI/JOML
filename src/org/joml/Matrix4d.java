@@ -5828,7 +5828,7 @@ public class Matrix4d implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * reflection will be applied first!
      * <p>
-     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281752(v=vs.85).aspx">msdn.microsoft.com</a>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
      * 
      * @param light
      *          the light's vector
@@ -5858,7 +5858,7 @@ public class Matrix4d implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * reflection will be applied first!
      * <p>
-     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281752(v=vs.85).aspx">msdn.microsoft.com</a>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
      * 
      * @param light
      *          the light's vector
@@ -5889,7 +5889,7 @@ public class Matrix4d implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * reflection will be applied first!
      * <p>
-     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281752(v=vs.85).aspx">msdn.microsoft.com</a>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
      * 
      * @param lightX
      *          the x-component of the light's vector
@@ -5925,7 +5925,7 @@ public class Matrix4d implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * reflection will be applied first!
      * <p>
-     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281752(v=vs.85).aspx">msdn.microsoft.com</a>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
      * 
      * @param lightX
      *          the x-component of the light's vector
@@ -5958,22 +5958,22 @@ public class Matrix4d implements Externalizable {
         double dot = an * lightX + bn * lightY + cn * lightZ + dn * lightW;
 
         // compute right matrix elements
-        double rm00 = an * lightX + dot;
-        double rm01 = an * lightY;
-        double rm02 = an * lightZ;
-        double rm03 = an * lightW;
-        double rm10 = bn * lightX;
-        double rm11 = bn * lightY + dot;
-        double rm12 = bn * lightZ;
-        double rm13 = bn * lightW;
-        double rm20 = cn * lightX;
-        double rm21 = cn * lightY;
-        double rm22 = cn * lightZ + dot;
-        double rm23 = cn * lightW;
-        double rm30 = dn * lightX;
-        double rm31 = dn * lightY;
-        double rm32 = dn * lightZ;
-        double rm33 = dn * lightW + dot;
+        double rm00 = dot - an * lightX;
+        double rm01 = -an * lightY;
+        double rm02 = -an * lightZ;
+        double rm03 = -an * lightW;
+        double rm10 = -bn * lightX;
+        double rm11 = dot - bn * lightY;
+        double rm12 = -bn * lightZ;
+        double rm13 = -bn * lightW;
+        double rm20 = -cn * lightX;
+        double rm21 = -cn * lightY;
+        double rm22 = dot - cn * lightZ;
+        double rm23 = -cn * lightW;
+        double rm30 = -dn * lightX;
+        double rm31 = -dn * lightY;
+        double rm32 = -dn * lightZ;
+        double rm33 = dot - dn * lightW;
 
         // matrix multiplication
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02 + m30 * rm03;
