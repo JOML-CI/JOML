@@ -4780,7 +4780,22 @@ public class Matrix4f implements Externalizable {
              * In this case, the inverse is the transpose and we can
              * just return 'this'.
              */
-            dest.set(this);
+            dest.m00 = m00;
+            dest.m01 = m01;
+            dest.m02 = m02;
+            dest.m03 = 0.0f;
+            dest.m10 = m10;
+            dest.m11 = m11;
+            dest.m12 = m12;
+            dest.m13 = 0.0f;
+            dest.m20 = m20;
+            dest.m21 = m21;
+            dest.m22 = m22;
+            dest.m23 = 0.0f;
+            dest.m30 = 0.0f;
+            dest.m31 = 0.0f;
+            dest.m32 = 0.0f;
+            dest.m33 = 1.0f;
             return this;
         }
         /* The general case */
