@@ -1818,34 +1818,38 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d rotate(double ang, double x, double y, double z, Matrix4d dest) {
+        double s = Math.sin(ang);
+        double c = Math.cos(ang);
+        double C = 1.0 - c;
+
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
         // m33 = 1
-        double cos = Math.cos(ang);
-        double sin = Math.sin(ang);
-        double m00 = (cos + x * x * (1.0 - cos));
-        double m10 = x * y * (1.0 - cos) - z * sin;
-        double m20 = x * z * (1.0 - cos) + y * sin;
-        double m01 = y * x * (1.0 - cos) + z * sin;
-        double m11 = cos + y * y * (1.0 - cos);
-        double m21 = y * z * (1.0 - cos) - x * sin;
-        double m02 = z * x * (1.0 - cos) - y * sin;
-        double m12 = z * y * (1.0 - cos) + x * sin;
-        double m22 = cos + z * z * (1.0 - cos);
+        double rm00 = x * x * C + c;
+        double rm01 = y * x * C + z * s;
+        double rm02 = z * x * C - y * s;
+        double rm10 = x * y * C - z * s;
+        double rm11 = y * y * C + c;
+        double rm12 = z * y * C + x * s;
+        double rm20 = x * z * C + y * s;
+        double rm21 = y * z * C - x * s;
+        double rm22 = z * z * C + c;
 
-        double nm00 = m00 * m00 + m10 * m01 + m20 * m02;
-        double nm01 = m01 * m00 + m11 * m01 + m21 * m02;
-        double nm02 = m02 * m00 + m12 * m01 + m22 * m02;
-        double nm03 = m03 * m00 + m13 * m01 + m23 * m02;
-        double nm10 = m00 * m10 + m10 * m11 + m20 * m12;
-        double nm11 = m01 * m10 + m11 * m11 + m21 * m12;
-        double nm12 = m02 * m10 + m12 * m11 + m22 * m12;
-        double nm13 = m03 * m10 + m13 * m11 + m23 * m12;
-        double nm20 = m00 * m20 + m10 * m21 + m20 * m22;
-        double nm21 = m01 * m20 + m11 * m21 + m21 * m22;
-        double nm22 = m02 * m20 + m12 * m21 + m22 * m22;
-        double nm23 = m03 * m20 + m13 * m21 + m23 * m22;
-
+        // add temporaries for dependent values
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        // set non-dependent values directly
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        // set other values
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -1854,10 +1858,6 @@ public class Matrix4d implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
-        dest.m22 = nm22;
-        dest.m23 = nm23;
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
@@ -3633,7 +3633,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d reflection(double nx, double ny, double nz, double px, double py, double pz) {
-        double length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+        double length = Math.sqrt(nx * nx + ny * ny + nz * nz);
         double nnx = nx / length;
         double nny = ny / length;
         double nnz = nz / length;
