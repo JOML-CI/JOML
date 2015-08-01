@@ -1774,8 +1774,13 @@ public class Matrix3d implements Externalizable {
         double det = determinant();
         double diff = Math.abs(Math.abs(det) - 1.0);
         if (diff < 1E-8) {
-            /* The fast path, if only 1:1:1 scaling is being used */
-            return transpose(dest);
+            /*
+             * The fast path, if only 1:1:1 scaling is being used.
+             * In this case, the inverse is the transpose and we can
+             * just return 'this'.
+             */
+            dest.set(this);
+            return this;
         }
         /* The general case */
         double s = 1.0 / det;
