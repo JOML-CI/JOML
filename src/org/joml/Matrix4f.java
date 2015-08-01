@@ -4775,8 +4775,13 @@ public class Matrix4f implements Externalizable {
         float det = determinant3x3();
         float diff = Math.abs(Math.abs(det) - 1.0f);
         if (diff < 1E-8f) {
-            /* The fast path, if only 1:1:1 scaling is being used */
-            return transpose(dest);
+            /*
+             * The fast path, if only 1:1:1 scaling is being used.
+             * In this case, the inverse is the transpose and we can
+             * just return 'this'.
+             */
+            dest.set(this);
+            return this;
         }
         /* The general case */
         float s = 1.0f / det;
@@ -4815,8 +4820,21 @@ public class Matrix4f implements Externalizable {
         float det = determinant3x3();
         float diff = Math.abs(Math.abs(det) - 1.0f);
         if (diff < 1E-8f) {
-            /* The fast path, if only 1:1:1 scaling is being used */
-            return transpose3x3(dest);
+            /*
+             * The fast path, if only 1:1:1 scaling is being used.
+             * In this case, the inverse is the transpose and we can
+             * just return 'this'.
+             */
+            dest.m00 = m00;
+            dest.m01 = m01;
+            dest.m02 = m02;
+            dest.m10 = m10;
+            dest.m11 = m11;
+            dest.m12 = m12;
+            dest.m20 = m20;
+            dest.m21 = m21;
+            dest.m22 = m22;
+            return this;
         }
         /* The general case */
         float s = 1.0f / det;
