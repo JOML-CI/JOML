@@ -251,7 +251,7 @@ public class Matrix4d implements Externalizable {
         m20 = mat.m20;
         m21 = mat.m21;
         m22 = mat.m22;
-        m33 = 1.0f;
+        m33 = 1.0;
     }
 
     /**
@@ -488,10 +488,10 @@ public class Matrix4d implements Externalizable {
         tmp2 = x*s;
         m21 = tmp1 - tmp2;
         m12 = tmp1 + tmp2;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
         return this;
     }
 
@@ -4402,9 +4402,9 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d orthoSymmetric(double width, double height, double zNear, double zFar, Matrix4d dest) {
         // calculate right matrix elements
-        double rm00 = 2.0f / width;
-        double rm11 = 2.0f / height;
-        double rm22 = -2.0f / (zFar - zNear);
+        double rm00 = 2.0 / width;
+        double rm11 = 2.0 / height;
+        double rm22 = -2.0 / (zFar - zNear);
         double rm32 = -(zFar + zNear) / (zFar - zNear);
 
         // perform optimized multiplication
