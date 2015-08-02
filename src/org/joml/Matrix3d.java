@@ -1939,7 +1939,6 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d normal(Matrix3d dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         double det = determinant();
         double s = 1.0 / det;
         /* Invert and transpose in one go */

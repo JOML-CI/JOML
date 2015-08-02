@@ -626,7 +626,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
      * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code> and
      * adding that result to <code>this</code>.
      * <p>
@@ -643,7 +643,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
      * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code>,
      * adding that to <code>this</code> and storing the final result in <code>dest</code>.
      * <p>
@@ -760,7 +760,47 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>.
+     * Component-wise multiply <code>this</code> by <code>other</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @return this
+     */
+    public Matrix4f mulComponentWise(Matrix4f other) {
+        return mulComponentWise(other, this);
+    }
+
+    /**
+     * Component-wise multiply <code>this</code> by <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f mulComponentWise(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 * other.m00;
+        dest.m01 = m01 * other.m01;
+        dest.m02 = m02 * other.m02;
+        dest.m03 = m03 * other.m03;
+        dest.m10 = m10 * other.m10;
+        dest.m11 = m11 * other.m11;
+        dest.m12 = m12 * other.m12;
+        dest.m13 = m13 * other.m13;
+        dest.m20 = m20 * other.m20;
+        dest.m21 = m21 * other.m21;
+        dest.m22 = m22 * other.m22;
+        dest.m23 = m23 * other.m23;
+        dest.m30 = m30 * other.m30;
+        dest.m31 = m31 * other.m31;
+        dest.m32 = m32 * other.m32;
+        dest.m33 = m33 * other.m33;
+        return this;
+    }
+
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>.
      * 
      * @param other
      *          the other addend 
@@ -771,8 +811,10 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
      * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
      * 
      * @param other
      *          the other addend
@@ -801,7 +843,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Component-wise subtract the upper left 4x3 submatrices of <code>subtrahend</code> from <code>this</code>.
+     * Component-wise subtract the upper 4x3 submatrices of <code>subtrahend</code> from <code>this</code>.
      * 
      * @param subtrahend
      *          the subtrahend
@@ -812,8 +854,10 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Component-wise subtract the upper left 4x3 submatrices of <code>subtrahend</code> from <code>this</code>
+     * Component-wise subtract the upper 4x3 submatrices of <code>subtrahend</code> from <code>this</code>
      * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
      * 
      * @param subtrahend
      *          the subtrahend
@@ -837,6 +881,49 @@ public class Matrix4f implements Externalizable {
         dest.m30 = m30 - subtrahend.m30;
         dest.m31 = m31 - subtrahend.m31;
         dest.m32 = m32 - subtrahend.m32;
+        dest.m33 = m33;
+        return this;
+    }
+
+    /**
+     * Component-wise multiply the upper 4x3 submatrices of <code>this</code> by <code>other</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @return this
+     */
+    public Matrix4f mul4x3ComponentWise(Matrix4f other) {
+        return mul4x3ComponentWise(other, this);
+    }
+
+    /**
+     * Component-wise multiply the upper 4x3 submatrices of <code>this</code> by <code>other</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f mul4x3ComponentWise(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 * other.m00;
+        dest.m01 = m01 * other.m01;
+        dest.m02 = m02 * other.m02;
+        dest.m03 = m03;
+        dest.m10 = m10 * other.m10;
+        dest.m11 = m11 * other.m11;
+        dest.m12 = m12 * other.m12;
+        dest.m13 = m13;
+        dest.m20 = m20 * other.m20;
+        dest.m21 = m21 * other.m21;
+        dest.m22 = m22 * other.m22;
+        dest.m23 = m23;
+        dest.m30 = m30 * other.m30;
+        dest.m31 = m31 * other.m31;
+        dest.m32 = m32 * other.m32;
         dest.m33 = m33;
         return this;
     }
@@ -1196,7 +1283,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Transpose only the top-left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * 
      * @param dest
      *             will hold the result
@@ -5565,7 +5652,6 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f normal(Matrix4f dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant3x3();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
@@ -5603,7 +5689,6 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f normal(Matrix3f dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant3x3();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
