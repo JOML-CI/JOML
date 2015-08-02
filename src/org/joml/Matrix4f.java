@@ -977,7 +977,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given vector values <tt>(x, y, z)</tt>.
+     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
      * Note that this will only work properly for orthogonal matrices (without any perspective).
      * <p>
@@ -995,6 +995,20 @@ public class Matrix4f implements Externalizable {
         m30 = xyz.x;
         m31 = xyz.y;
         m32 = xyz.z;
+        return this;
+    }
+
+    /**
+     * Get only the translation components of this matrix <tt>(m30, m31, m32)</tt> and store them in the given vector <code>xyz</code>.
+     * 
+     * @param xyz
+     *          will hold the translation components of this matrix
+     * @return this
+     */
+    public Matrix4f getTranslation(Vector3f xyz) {
+        xyz.x = m30;
+        xyz.y = m31;
+        xyz.z = m32;
         return this;
     }
 
