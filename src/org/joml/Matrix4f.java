@@ -630,8 +630,6 @@ public class Matrix4f implements Externalizable {
      * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code> and
      * adding that result to <code>this</code>.
      * <p>
-     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
-     * <p>
      * The matrix <code>other</code> will not be changed.
      * 
      * @param other
@@ -690,6 +688,106 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31 + other.m31 * otherFactor;
         dest.m32 = m32 + other.m32 * otherFactor;
         dest.m33 = m33;
+        return this;
+    }
+
+    /**
+     * Component-wise add <code>this</code> and <code>other</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @return this
+     */
+    public Matrix4f add(Matrix4f other) {
+        m00 += other.m00;
+        m01 += other.m01;
+        m02 += other.m02;
+        m03 += other.m03;
+        m10 += other.m10;
+        m11 += other.m11;
+        m12 += other.m12;
+        m13 += other.m13;
+        m20 += other.m20;
+        m21 += other.m21;
+        m22 += other.m22;
+        m23 += other.m23;
+        m30 += other.m30;
+        m31 += other.m31;
+        m32 += other.m32;
+        m33 += other.m33;
+        return this;
+    }
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @return this
+     */
+    public Matrix4f sub(Matrix4f subtrahend) {
+        m00 -= subtrahend.m00;
+        m01 -= subtrahend.m01;
+        m02 -= subtrahend.m02;
+        m03 -= subtrahend.m03;
+        m10 -= subtrahend.m10;
+        m11 -= subtrahend.m11;
+        m12 -= subtrahend.m12;
+        m13 -= subtrahend.m13;
+        m20 -= subtrahend.m20;
+        m21 -= subtrahend.m21;
+        m22 -= subtrahend.m22;
+        m23 -= subtrahend.m23;
+        m30 -= subtrahend.m30;
+        m31 -= subtrahend.m31;
+        m32 -= subtrahend.m32;
+        m33 -= subtrahend.m33;
+        return this;
+    }
+
+    /**
+     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @return this
+     */
+    public Matrix4f add4x3(Matrix4f other) {
+        m00 += other.m00;
+        m01 += other.m01;
+        m02 += other.m02;
+        m10 += other.m10;
+        m11 += other.m11;
+        m12 += other.m12;
+        m20 += other.m20;
+        m21 += other.m21;
+        m22 += other.m22;
+        m30 += other.m30;
+        m31 += other.m31;
+        m32 += other.m32;
+        return this;
+    }
+
+    /**
+     * Component-wise subtract the upper left 4x3 submatrices of <code>subtrahend</code> from <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @return this
+     */
+    public Matrix4f sub4x3(Matrix4f subtrahend) {
+        m00 -= subtrahend.m00;
+        m01 -= subtrahend.m01;
+        m02 -= subtrahend.m02;
+        m10 -= subtrahend.m10;
+        m11 -= subtrahend.m11;
+        m12 -= subtrahend.m12;
+        m20 -= subtrahend.m20;
+        m21 -= subtrahend.m21;
+        m22 -= subtrahend.m22;
+        m30 -= subtrahend.m30;
+        m31 -= subtrahend.m31;
+        m32 -= subtrahend.m32;
         return this;
     }
 
