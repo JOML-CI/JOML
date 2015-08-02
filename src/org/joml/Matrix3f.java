@@ -592,7 +592,43 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * Apply scaling to the this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z component, respectively
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f scale(Vector3f xyz, Matrix3f dest) {
+        return scale(xyz.x, xyz.y, xyz.z, dest);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z component, respectively
+     * @return this
+     */
+    public Matrix3f scale(Vector3f xyz) {
+        return scale(xyz.x, xyz.y, xyz.z, this);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -627,7 +663,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * Apply scaling to this matrix by scaling the base axes by the given x,
      * y and z factors.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -648,7 +684,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -669,7 +705,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -736,6 +772,25 @@ public class Matrix3f implements Externalizable {
         m21 = 0.0f;
         m22 = z;
         return this;
+    }
+
+    /**
+     * Set this matrix to be a simple scale matrix which scales the base axes by <tt>xyz.x</tt>, <tt>xyz.y</tt> and <tt>xyz.z</tt> respectively.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional scaling.
+     * <p>
+     * In order to post-multiply a scaling transformation directly to a
+     * matrix use {@link #scale(Vector3f) scale()} instead.
+     * 
+     * @see #scale(Vector3f)
+     * 
+     * @param xyz
+     *             the scale in x, y and z respectively
+     * @return this
+     */
+    public Matrix3f scaling(Vector3f xyz) {
+        return scaling(xyz.x, xyz.y, xyz.z);
     }
 
     /**
