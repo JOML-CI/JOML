@@ -232,7 +232,27 @@ public class Matrix4d implements Externalizable {
         m32 = mat.m32;
         m33 = mat.m33;
     }
-    
+
+    /**
+     * Create a new {@link Matrix4d} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3d}
+     * and the rest to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix3d}
+     */
+    public Matrix4d(Matrix3d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m33 = 1.0f;
+    }
+
     /**
      * Create a new 4x4 matrix using the supplied double values.
      * 
@@ -372,6 +392,36 @@ public class Matrix4d implements Externalizable {
         m31 = m.m31;
         m32 = m.m32;
         m33 = m.m33;
+        return this;
+    }
+
+    /**
+     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3d} 
+     * and the rest to identity.
+     * 
+     * @see #Matrix4d(Matrix3d)
+     * 
+     * @param mat
+     *          the {@link Matrix3d}
+     * @return this
+     */
+    public Matrix4d set(Matrix3d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m03 = 0.0;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m13 = 0.0;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
         return this;
     }
 
@@ -1158,7 +1208,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given vector values <tt>(x, y, z)</tt>.
+     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(Vector3d)}.
      * To apply a translation to another matrix, use {@link #translate(Vector3d)}.
@@ -1174,6 +1224,20 @@ public class Matrix4d implements Externalizable {
         m30 = xyz.x;
         m31 = xyz.y;
         m32 = xyz.z;
+        return this;
+    }
+
+    /**
+     * Get only the translation components of this matrix <tt>(m30, m31, m32)</tt> and store them in the given vector <code>xyz</code>.
+     * 
+     * @param xyz
+     *          will hold the translation components of this matrix
+     * @return this
+     */
+    public Matrix4d getTranslation(Vector3d xyz) {
+        xyz.x = m30;
+        xyz.y = m31;
+        xyz.z = m32;
         return this;
     }
 
