@@ -180,7 +180,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Set the x, y and z attributes to match the supplied vector.
+     * Set the x, y and z components to match the supplied vector.
      * 
      * @param v
      *          contains the values of x, y and z to set
@@ -211,7 +211,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Set the x, y, and z attributes to the supplied value.
+     * Set the x, y, and z components to the supplied value.
      *
      * @param d
      *          the value of all three components
@@ -222,7 +222,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Set the x, y and z attributes to the supplied values.
+     * Set the x, y and z components to the supplied values.
      * 
      * @param x
      *          the x component

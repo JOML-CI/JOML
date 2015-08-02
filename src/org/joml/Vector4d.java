@@ -362,7 +362,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Set the x, y, z, and w attributes to the supplied value.
+     * Set the x, y, z, and w components to the supplied value.
      *
      * @param d
      *          the value of all four components
@@ -373,7 +373,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Set the x, y, z, and w attributes to the supplied values.
+     * Set the x, y, z, and w components to the supplied values.
      * 
      * @param x
      *          the x component

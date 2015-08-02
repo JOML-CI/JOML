@@ -158,7 +158,7 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Set the x and y attributes to the supplied value.
+     * Set the x and y components to the supplied value.
      *
      * @param d
      *        the value of both components
@@ -169,7 +169,7 @@ public class Vector2f implements Externalizable {
     }
     
     /**
-     * Set the x and y attributes to the supplied values.
+     * Set the x and y components to the supplied values.
      * 
      * @param x
      *        the x component
