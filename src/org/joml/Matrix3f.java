@@ -365,12 +365,9 @@ public class Matrix3f implements Externalizable {
      * @return the determinant
      */
     public float determinant() {
-        return m00 * m11 * m22
-             + m10 * m21 * m02
-             + m20 * m01 * m12
-             - m20 * m11 * m02
-             - m00 * m21 * m12
-             - m10 * m01 * m22;
+        return m00 * (m11 * m22 - m12 * m21)
+             - m01 * (m10 * m22 - m12 * m20)
+             + m02 * (m01 * m21 - m11 * m20);
     }
 
     /**
@@ -396,25 +393,25 @@ public class Matrix3f implements Externalizable {
         }
         s = 1.0f / s;
         if (this != dest) {
-            dest.m00 =  ((m11 * m22) - (m21 * m12)) * s;
-            dest.m01 = -((m01 * m22) - (m21 * m02)) * s;
-            dest.m02 =  ((m01 * m12) - (m11 * m02)) * s;
-            dest.m10 = -((m10 * m22) - (m20 * m12)) * s;
-            dest.m11 =  ((m00 * m22) - (m20 * m02)) * s;
-            dest.m12 = -((m00 * m12) - (m10 * m02)) * s;
-            dest.m20 =  ((m10 * m21) - (m20 * m11)) * s;
-            dest.m21 = -((m00 * m21) - (m20 * m01)) * s;
-            dest.m22 =  ((m00 * m11) - (m10 * m01)) * s;
+            dest.m00 =  (m11 * m22 - m21 * m12) * s;
+            dest.m01 = -(m01 * m22 - m21 * m02) * s;
+            dest.m02 =  (m01 * m12 - m11 * m02) * s;
+            dest.m10 = -(m10 * m22 - m20 * m12) * s;
+            dest.m11 =  (m00 * m22 - m20 * m02) * s;
+            dest.m12 = -(m00 * m12 - m10 * m02) * s;
+            dest.m20 =  (m10 * m21 - m20 * m11) * s;
+            dest.m21 = -(m00 * m21 - m20 * m01) * s;
+            dest.m22 =  (m00 * m11 - m10 * m01) * s;
         } else {
-            dest.set( ((m11 * m22) - (m21 * m12)) * s,
-                     -((m01 * m22) - (m21 * m02)) * s,
-                      ((m01 * m12) - (m11 * m02)) * s,
-                     -((m10 * m22) - (m20 * m12)) * s,
-                      ((m00 * m22) - (m20 * m02)) * s,
-                     -((m00 * m12) - (m10 * m02)) * s,
-                      ((m10 * m21) - (m20 * m11)) * s,
-                     -((m00 * m21) - (m20 * m01)) * s,
-                      ((m00 * m11) - (m10 * m01)) * s);
+            dest.set( (m11 * m22 - m21 * m12) * s,
+                     -(m01 * m22 - m21 * m02) * s,
+                      (m01 * m12 - m11 * m02) * s,
+                     -(m10 * m22 - m20 * m12) * s,
+                      (m00 * m22 - m20 * m02) * s,
+                     -(m00 * m12 - m10 * m02) * s,
+                      (m10 * m21 - m20 * m11) * s,
+                     -(m00 * m21 - m20 * m01) * s,
+                      (m00 * m11 - m10 * m01) * s);
         }
         return this;
     }
@@ -2134,6 +2131,9 @@ public class Matrix3f implements Externalizable {
 
     /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
      * 
      * @param dest
      *             will hold the result
@@ -2142,17 +2142,6 @@ public class Matrix3f implements Externalizable {
     public Matrix3f normal(Matrix3f dest) {
         // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant();
-        float diff = Math.abs(Math.abs(det) - 1.0f);
-        if (diff < 1E-8f) {
-            /*
-             * The fast path, if only 1:1:1 scaling is being used.
-             * In this case, the inverse is the transpose and we can
-             * just return 'this'.
-             */
-            dest.set(this);
-            return this;
-        }
-        /* The general case */
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,

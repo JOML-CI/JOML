@@ -565,12 +565,9 @@ public class Matrix3d implements Externalizable {
      * @return the determinant
      */
     public double determinant() {
-        return m00 * m11 * m22
-             + m10 * m21 * m02
-             + m20 * m01 * m12
-             - m20 * m11 * m02
-             - m00 * m21 * m12
-             - m10 * m01 * m22;
+        return m00 * (m11 * m22 - m12 * m21)
+             - m01 * (m10 * m22 - m12 * m20)
+             + m02 * (m01 * m21 - m11 * m20);
     }
 
     /**
@@ -1930,6 +1927,9 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
      * 
      * @param dest
      *             will hold the result
@@ -1938,17 +1938,6 @@ public class Matrix3d implements Externalizable {
     public Matrix3d normal(Matrix3d dest) {
         // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         double det = determinant();
-        double diff = Math.abs(Math.abs(det) - 1.0);
-        if (diff < 1E-8) {
-            /*
-             * The fast path, if only 1:1:1 scaling is being used.
-             * In this case, the inverse is the transpose and we can
-             * just return 'this'.
-             */
-            dest.set(this);
-            return this;
-        }
-        /* The general case */
         double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,

@@ -427,6 +427,34 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to that of the given {@link Matrix4d} 
+     * and the rest to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix4d}
+     * @return this
+     */
+    public Matrix4d set3x3(Matrix4d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m03 = 0.0;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m13 = 0.0;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
      * 
      * @param axisAngle
@@ -946,12 +974,9 @@ public class Matrix4d implements Externalizable {
      * @return the determinant
      */
     public double determinant3x3() {
-        return m00 * m11 * m22
-             + m10 * m21 * m02
-             + m20 * m01 * m12
-             - m20 * m11 * m02
-             - m00 * m21 * m12
-             - m10 * m01 * m22;
+        return m00 * (m11 * m22 - m12 * m21)
+             - m01 * (m10 * m22 - m12 * m20)
+             + m02 * (m01 * m21 - m11 * m20);
     }
 
     /**
@@ -2871,9 +2896,13 @@ public class Matrix4d implements Externalizable {
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
      * <p>
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
-     * In the special case of an orthonormal 3x3 matrix (one that maps any two perpendicular 
-     * unit vectors to another pair of perpendicular unit vectors) only the transpose is
-     * computed.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In that case, use {@link #set3x3(Matrix4d)} to set a given Matrix4d to only the upper left 3x3 submatrix
+     * of a given matrix.
+     * 
+     * @see #set3x3(Matrix4d)
      * 
      * @param dest
      *             will hold the result
@@ -2882,32 +2911,6 @@ public class Matrix4d implements Externalizable {
     public Matrix4d normal(Matrix4d dest) {
         // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         double det = determinant3x3();
-        double diff = Math.abs(Math.abs(det) - 1.0);
-        if (diff < 1E-8) {
-            /*
-             * The fast path, if only 1:1:1 scaling is being used.
-             * In this case, the inverse is the transpose and we can
-             * just return 'this'.
-             */
-            dest.m00 = m00;
-            dest.m01 = m01;
-            dest.m02 = m02;
-            dest.m03 = 0.0;
-            dest.m10 = m10;
-            dest.m11 = m11;
-            dest.m12 = m12;
-            dest.m13 = 0.0;
-            dest.m20 = m20;
-            dest.m21 = m21;
-            dest.m22 = m22;
-            dest.m23 = 0.0;
-            dest.m30 = 0.0;
-            dest.m31 = 0.0;
-            dest.m32 = 0.0;
-            dest.m33 = 1.0;
-            return this;
-        }
-        /* The general case */
         double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,
@@ -2931,9 +2934,13 @@ public class Matrix4d implements Externalizable {
      * and store it into <code>dest</code>.
      * <p>
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
-     * In the special case of an orthonormal 3x3 matrix (one that maps any two perpendicular 
-     * unit vectors to another pair of perpendicular unit vectors) only the transpose is
-     * computed.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In that case, use {@link #set3x3(Matrix4d)} to set a given Matrix4d to only the upper left 3x3 submatrix
+     * of a given matrix.
+     * 
+     * @see #set3x3(Matrix4d)
      * 
      * @param dest
      *             will hold the result
@@ -2945,9 +2952,10 @@ public class Matrix4d implements Externalizable {
         double diff = Math.abs(Math.abs(det) - 1.0);
         if (diff < 1E-8) {
             /*
-             * The fast path, if only 1:1:1 scaling is being used.
-             * In this case, the inverse is the transpose and we can
-             * just return 'this'.
+             * The fast path, if orthogonal matrix is being used (the majority of cases).
+             * In this case, the inverse is the transpose and we can just return 'this'.
+             * 
+             * Using abs(det(m)) = 1.0 only works with matrices without skewing!
              */
             dest.m00 = m00;
             dest.m01 = m01;
