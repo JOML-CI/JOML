@@ -912,7 +912,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Transpose only the top-left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
+     * Transpose only the upper left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
      * 
      * @return this 
      */
@@ -4937,7 +4937,6 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f normal(Matrix4f dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant3x3();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
@@ -4975,7 +4974,6 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f normal(Matrix3f dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant3x3();
         float s = 1.0f / det;
         /* Invert and transpose in one go */

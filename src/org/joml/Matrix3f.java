@@ -1751,7 +1751,6 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f normal(Matrix3f dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
