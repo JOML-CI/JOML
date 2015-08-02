@@ -892,6 +892,36 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Return the square of the distance between this vector and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the squared of the distance
+     */
+    public float distanceSquared(Vector3f v) {
+        return (v.x - this.x) * (v.x - this.x)
+             + (v.y - this.y) * (v.y - this.y)
+             + (v.z - this.z) * (v.z - this.z);
+    }
+
+    /**
+     * Return the square of the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @return the square of the distance
+     */
+    public float distanceSquared(float x, float y, float z) {
+        return (x - this.x) * (x - this.x)
+             + (y - this.y) * (y - this.y)
+             + (z - this.z) * (z - this.z);
+    }
+
+    /**
      * Return the dot product of this vector and the supplied vector.
      * 
      * @param v
