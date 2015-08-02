@@ -6466,7 +6466,7 @@ public class Matrix4f implements Externalizable {
      * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
      * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
      * <p>
-     * If the <code>light</code>'s w-component is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -6496,7 +6496,7 @@ public class Matrix4f implements Externalizable {
      * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
      * and store the result in <code>dest</code>.
      * <p>
-     * If the <code>light</code>'s w-component is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -6660,7 +6660,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
      * <p>
-     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -6690,7 +6690,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
      * <p>
-     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -6705,6 +6705,72 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f shadow(Vector4f light, Matrix4f planeTransform) {
         return shadow(light, planeTransform, this);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param lightX
+     *          the x-component of the light vector
+     * @param lightY
+     *          the y-component of the light vector
+     * @param lightZ
+     *          the z-component of the light vector
+     * @param lightW
+     *          the w-component of the light vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4f planeTransform, Matrix4f dest) {
+        // compute plane equation by transforming (y = 0)
+        float a = planeTransform.m10;
+        float b = planeTransform.m11;
+        float c = planeTransform.m12;
+        float d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
+        return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, dest);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param lightX
+     *          the x-component of the light vector
+     * @param lightY
+     *          the y-component of the light vector
+     * @param lightZ
+     *          the z-component of the light vector
+     * @param lightW
+     *          the w-component of the light vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @return this
+     */
+    public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4f planeTransform) {
+        return shadow(lightX, lightY, lightZ, lightW, planeTransform, this);
     }
 
 }
