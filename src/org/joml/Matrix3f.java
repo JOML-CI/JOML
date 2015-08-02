@@ -77,7 +77,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix3f} and make it a copy of the upper left 3x3 of the give {@link Matrix4f}.
+     * Create a new {@link Matrix3f} and make it a copy of the upper left 3x3 of the given {@link Matrix4f}.
      * 
      * @param mat
      *          the {@link Matrix4f} to copy the values from
@@ -152,7 +152,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Set the elements of this matrix to the upper left 3x3 of the give {@link Matrix4f}.
+     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4f}.
      *
      * @param mat
      *          the {@link Matrix4f} to copy the values from
