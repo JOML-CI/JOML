@@ -337,4 +337,13 @@ public class Matrix4fTest extends TestCase {
         assertEquals(Math.toRadians(90), fov, 1E-5);
     }
 
+    public void testNormal() {
+        Matrix4f r = new Matrix4f().rotateY((float) Math.PI / 2);
+        Matrix4f s = new Matrix4f(r).scale(0.2f);
+        Matrix4f n = new Matrix4f();
+        s.normal(n);
+        n.normalize3x3();
+        TestUtil.assertMatrix4fEquals(r, n, 1E-8f);
+    }
+
 }

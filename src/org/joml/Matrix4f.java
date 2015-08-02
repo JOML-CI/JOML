@@ -5416,6 +5416,40 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Normalize the upper left 3x3 submatrix of this matrix.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @return this
+     */
+    public Matrix4f normalize3x3() {
+        return normalize3x3(this);
+    }
+
+    /**
+     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @param dest
+     *             will hold the result
+     * @return this
+     */
+    public Matrix4f normalize3x3(Matrix4f dest) {
+        float xlen = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        float ylen = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        float zlen = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
+        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
+        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
+        return this;
+    }
+
+    /**
      * Calculate a frustum plane of <code>this</code> matrix, which
      * can be a projection matrix or a combined modelview-projection matrix, and store the result
      * in the given <code>planeEquation</code>.
