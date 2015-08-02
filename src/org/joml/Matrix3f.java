@@ -77,6 +77,24 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3f} and make it a copy of the upper left 3x3 of the given {@link Matrix4f}.
+     * 
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     */
+    public Matrix3f(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+    }
+
+    /**
      * Create a new 3x3 matrix using the supplied float values. The order of the parameter is column-major, 
      * so the first three parameters specify the three elements of the first column.
      * 
@@ -130,6 +148,26 @@ public class Matrix3f implements Externalizable {
         m20 = m.m20;
         m21 = m.m21;
         m22 = m.m22;
+        return this;
+    }
+
+    /**
+     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4f}.
+     *
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     * @return this
+     */
+    public Matrix3f set(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
         return this;
     }
 
