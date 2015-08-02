@@ -5386,7 +5386,7 @@ public class Matrix4f implements Externalizable {
      * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
      * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
      * <p>
-     * If the <code>light</code>'s w-component is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -5416,7 +5416,7 @@ public class Matrix4f implements Externalizable {
      * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
      * and store the result in <code>dest</code>.
      * <p>
-     * If the <code>light</code>'s w-component is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
