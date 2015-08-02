@@ -123,6 +123,10 @@ public class FrustumCuller {
 
     /**
      * Create a new {@link FrustumCuller} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
+     * <p>
+     * In order to update the compute frustum planes later on, call {@link #set(Matrix4f)}.
+     * 
+     * @see #set(Matrix4f)
      * 
      * @param m
      *          the {@link Matrix4f} to create the frustum culler from
