@@ -3010,6 +3010,27 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @param dest
+     *             will hold the result
+     * @return this
+     */
+    public Matrix4d normalize3x3(Matrix3d dest) {
+        double xlen = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        double ylen = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        double zlen = Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
+        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
+        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
+        return this;
+    }
+
+    /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
      * <p>
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
