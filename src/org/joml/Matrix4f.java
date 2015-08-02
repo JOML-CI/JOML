@@ -535,6 +535,74 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>
+     * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code> and
+     * adding that result to <code>this</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * <p>
+     * The matrix <code>other</code> will not be changed.
+     * 
+     * @param other
+     *          the other matrix 
+     * @param otherFactor
+     *          the factor to multiply each of the other matrix's 4x3 components
+     * @return this
+     */
+    public Matrix4f fma4x3(Matrix4f other, float otherFactor) {
+        m00 += other.m00 * otherFactor;
+        m01 += other.m01 * otherFactor;
+        m02 += other.m02 * otherFactor;
+        m10 += other.m10 * otherFactor;
+        m11 += other.m11 * otherFactor;
+        m12 += other.m12 * otherFactor;
+        m20 += other.m20 * otherFactor;
+        m21 += other.m21 * otherFactor;
+        m22 += other.m22 * otherFactor;
+        m30 += other.m30 * otherFactor;
+        m31 += other.m31 * otherFactor;
+        m32 += other.m32 * otherFactor;
+        return this;
+    }
+
+    /**
+     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>
+     * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code>,
+     * adding that to <code>this</code> and storing the final result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * <p>
+     * The matrices <code>this</code> and <code>other</code> will not be changed.
+     * 
+     * @param other
+     *          the other matrix 
+     * @param otherFactor
+     *          the factor to multiply each of the other matrix's 4x3 components
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f fma4x3(Matrix4f other, float otherFactor, Matrix4f dest) {
+        dest.m00 = m00 + other.m00 * otherFactor;
+        dest.m01 = m01 + other.m01 * otherFactor;
+        dest.m02 = m02 + other.m02 * otherFactor;
+        dest.m03 = m03;
+        dest.m10 = m10 + other.m10 * otherFactor;
+        dest.m11 = m11 + other.m11 * otherFactor;
+        dest.m12 = m12 + other.m12 * otherFactor;
+        dest.m13 = m13;
+        dest.m20 = m20 + other.m20 * otherFactor;
+        dest.m21 = m21 + other.m21 * otherFactor;
+        dest.m22 = m22 + other.m22 * otherFactor;
+        dest.m23 = m23;
+        dest.m30 = m30 + other.m30 * otherFactor;
+        dest.m31 = m31 + other.m31 * otherFactor;
+        dest.m32 = m32 + other.m32 * otherFactor;
+        dest.m33 = m33;
+        return this;
+    }
+
+    /**
      * Set the values within this matrix to the supplied float values. The matrix will look like this:<br><br>
      *
      *  m00, m10, m20, m30<br>
