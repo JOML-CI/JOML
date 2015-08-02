@@ -639,19 +639,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f fma4x3(Matrix4f other, float otherFactor) {
-        m00 += other.m00 * otherFactor;
-        m01 += other.m01 * otherFactor;
-        m02 += other.m02 * otherFactor;
-        m10 += other.m10 * otherFactor;
-        m11 += other.m11 * otherFactor;
-        m12 += other.m12 * otherFactor;
-        m20 += other.m20 * otherFactor;
-        m21 += other.m21 * otherFactor;
-        m22 += other.m22 * otherFactor;
-        m30 += other.m30 * otherFactor;
-        m31 += other.m31 * otherFactor;
-        m32 += other.m32 * otherFactor;
-        return this;
+        return fma4x3(other, otherFactor, this);
     }
 
     /**
@@ -699,22 +687,35 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f add(Matrix4f other) {
-        m00 += other.m00;
-        m01 += other.m01;
-        m02 += other.m02;
-        m03 += other.m03;
-        m10 += other.m10;
-        m11 += other.m11;
-        m12 += other.m12;
-        m13 += other.m13;
-        m20 += other.m20;
-        m21 += other.m21;
-        m22 += other.m22;
-        m23 += other.m23;
-        m30 += other.m30;
-        m31 += other.m31;
-        m32 += other.m32;
-        m33 += other.m33;
+        return add(other, this);
+    }
+
+    /**
+     * Component-wise add <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f add(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
+        dest.m03 = m03 + other.m03;
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
+        dest.m13 = m13 + other.m13;
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
+        dest.m23 = m23 + other.m23;
+        dest.m30 = m30 + other.m30;
+        dest.m31 = m31 + other.m31;
+        dest.m32 = m32 + other.m32;
+        dest.m33 = m33 + other.m33;
         return this;
     }
 
@@ -726,22 +727,35 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f sub(Matrix4f subtrahend) {
-        m00 -= subtrahend.m00;
-        m01 -= subtrahend.m01;
-        m02 -= subtrahend.m02;
-        m03 -= subtrahend.m03;
-        m10 -= subtrahend.m10;
-        m11 -= subtrahend.m11;
-        m12 -= subtrahend.m12;
-        m13 -= subtrahend.m13;
-        m20 -= subtrahend.m20;
-        m21 -= subtrahend.m21;
-        m22 -= subtrahend.m22;
-        m23 -= subtrahend.m23;
-        m30 -= subtrahend.m30;
-        m31 -= subtrahend.m31;
-        m32 -= subtrahend.m32;
-        m33 -= subtrahend.m33;
+        return sub(subtrahend, this);
+    }
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code> and store the result in <code>dest</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f sub(Matrix4f subtrahend, Matrix4f dest) {
+        dest.m00 = m00 - subtrahend.m00;
+        dest.m01 = m01 - subtrahend.m01;
+        dest.m02 = m02 - subtrahend.m02;
+        dest.m03 = m03 - subtrahend.m03;
+        dest.m10 = m10 - subtrahend.m10;
+        dest.m11 = m11 - subtrahend.m11;
+        dest.m12 = m12 - subtrahend.m12;
+        dest.m13 = m13 - subtrahend.m13;
+        dest.m20 = m20 - subtrahend.m20;
+        dest.m21 = m21 - subtrahend.m21;
+        dest.m22 = m22 - subtrahend.m22;
+        dest.m23 = m23 - subtrahend.m23;
+        dest.m30 = m30 - subtrahend.m30;
+        dest.m31 = m31 - subtrahend.m31;
+        dest.m32 = m32 - subtrahend.m32;
+        dest.m33 = m33 - subtrahend.m33;
         return this;
     }
 
@@ -753,18 +767,36 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f add4x3(Matrix4f other) {
-        m00 += other.m00;
-        m01 += other.m01;
-        m02 += other.m02;
-        m10 += other.m10;
-        m11 += other.m11;
-        m12 += other.m12;
-        m20 += other.m20;
-        m21 += other.m21;
-        m22 += other.m22;
-        m30 += other.m30;
-        m31 += other.m31;
-        m32 += other.m32;
+        return add4x3(other, this);
+    }
+
+    /**
+     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f add4x3(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
+        dest.m03 = m03;
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
+        dest.m13 = m13;
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
+        dest.m23 = m23;
+        dest.m30 = m30 + other.m30;
+        dest.m31 = m31 + other.m31;
+        dest.m32 = m32 + other.m32;
+        dest.m33 = m33;
         return this;
     }
 
@@ -776,18 +808,36 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f sub4x3(Matrix4f subtrahend) {
-        m00 -= subtrahend.m00;
-        m01 -= subtrahend.m01;
-        m02 -= subtrahend.m02;
-        m10 -= subtrahend.m10;
-        m11 -= subtrahend.m11;
-        m12 -= subtrahend.m12;
-        m20 -= subtrahend.m20;
-        m21 -= subtrahend.m21;
-        m22 -= subtrahend.m22;
-        m30 -= subtrahend.m30;
-        m31 -= subtrahend.m31;
-        m32 -= subtrahend.m32;
+        return sub4x3(subtrahend, this);
+    }
+
+    /**
+     * Component-wise subtract the upper left 4x3 submatrices of <code>subtrahend</code> from <code>this</code>
+     * and store the result in <code>dest</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f sub4x3(Matrix4f subtrahend, Matrix4f dest) {
+        dest.m00 = m00 - subtrahend.m00;
+        dest.m01 = m01 - subtrahend.m01;
+        dest.m02 = m02 - subtrahend.m02;
+        dest.m03 = m03;
+        dest.m10 = m10 - subtrahend.m10;
+        dest.m11 = m11 - subtrahend.m11;
+        dest.m12 = m12 - subtrahend.m12;
+        dest.m13 = m13;
+        dest.m20 = m20 - subtrahend.m20;
+        dest.m21 = m21 - subtrahend.m21;
+        dest.m22 = m22 - subtrahend.m22;
+        dest.m23 = m23;
+        dest.m30 = m30 - subtrahend.m30;
+        dest.m31 = m31 - subtrahend.m31;
+        dest.m32 = m32 - subtrahend.m32;
+        dest.m33 = m33;
         return this;
     }
 
