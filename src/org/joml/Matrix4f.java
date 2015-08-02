@@ -6366,7 +6366,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
-     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
      * and store the result in <code>dest</code>.
      * <p>
      * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
@@ -6397,7 +6397,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
-     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>.
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
      * <p>
      * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
      * <p>
