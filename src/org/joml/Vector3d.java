@@ -1402,6 +1402,36 @@ public class Vector3d implements Externalizable {
     }
 
     /**
+     * Return the square of the distance between this vector and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the squared of the distance
+     */
+    public double distanceSquared(Vector3d v) {
+        return (v.x - this.x) * (v.x - this.x)
+             + (v.y - this.y) * (v.y - this.y)
+             + (v.z - this.z) * (v.z - this.z);
+    }
+
+    /**
+     * Return the square of the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @return the square of the distance
+     */
+    public double distanceSquared(double x, double y, double z) {
+        return (x - this.x) * (x - this.x)
+             + (y - this.y) * (y - this.y)
+             + (z - this.z) * (z - this.z);
+    }
+
+    /**
      * Return the dot product of this vector and the supplied vector.
      * 
      * @param v
