@@ -1930,6 +1930,9 @@ public class Matrix3d implements Externalizable {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In this case, use {@link #set(Matrix3d)} to set a given Matrix3d to this matrix.
+     * 
+     * @see #set(Matrix3d)
      * 
      * @param dest
      *             will hold the result

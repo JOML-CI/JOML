@@ -5340,7 +5340,7 @@ public class Matrix4f implements Externalizable {
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
      * In that case, use {@link #set3x3(Matrix4f)} to set a given Matrix4f to only the upper left 3x3 submatrix
-     * of a given matrix.
+     * of this matrix.
      * 
      * @see #set3x3(Matrix4f)
      * 
@@ -5377,10 +5377,10 @@ public class Matrix4f implements Externalizable {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link #set3x3(Matrix4f)} to set a given Matrix4f to only the upper left 3x3 submatrix
-     * of a given matrix.
+     * In that case, use {@link #set(Matrix3f)} to set a given Matrix3f to only the upper left 3x3 submatrix
+     * of this matrix.
      * 
-     * @see #set3x3(Matrix4f)
+     * @see #set(Matrix3f)
      * 
      * @param dest
      *             will hold the result
@@ -5389,26 +5389,6 @@ public class Matrix4f implements Externalizable {
     public Matrix4f normal(Matrix3f dest) {
         // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant3x3();
-        float diff = Math.abs(Math.abs(det) - 1.0f);
-        if (diff < 1E-8f) {
-            /*
-             * The fast path, if orthogonal matrix is being used (the majority of cases).
-             * In this case, the inverse is the transpose and we can just return 'this'.
-             * 
-             * Using abs(det(m)) = 1.0 only works with matrices without skewing!
-             */
-            dest.m00 = m00;
-            dest.m01 = m01;
-            dest.m02 = m02;
-            dest.m10 = m10;
-            dest.m11 = m11;
-            dest.m12 = m12;
-            dest.m20 = m20;
-            dest.m21 = m21;
-            dest.m22 = m22;
-            return this;
-        }
-        /* The general case */
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.m00 =  (m11 * m22 - m21 * m12) * s;

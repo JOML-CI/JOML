@@ -2134,6 +2134,9 @@ public class Matrix3f implements Externalizable {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In this case, use {@link #set(Matrix3f)} to set a given Matrix3f to this matrix.
+     * 
+     * @see #set(Matrix3f)
      * 
      * @param dest
      *             will hold the result
