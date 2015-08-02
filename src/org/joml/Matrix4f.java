@@ -1124,22 +1124,22 @@ public class Matrix4f implements Externalizable {
      */
     public float determinant() {
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32)
-             - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
-             + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31)
-             + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
-             - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30)
-             + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
+              - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
+              + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31)
+              + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
+              - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30)
+              + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
 
     /**
-     * Return the determinant of the top-left 3x3 submatrix of this matrix.
+     * Return the determinant of the upper left 3x3 submatrix of this matrix.
      * 
      * @return the determinant
      */
     public float determinant3x3() {
         return m00 * (m11 * m22 - m12 * m21)
-             - m01 * (m10 * m22 - m12 * m20)
-             + m02 * (m01 * m21 - m11 * m20);
+              - m01 * (m10 * m22 - m12 * m20)
+              + m02 * (m01 * m21 - m11 * m20);
     }
 
     /**
@@ -1238,7 +1238,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Transpose only the top-left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
+     * Transpose only the upper left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
      * 
      * @return this 
      */
@@ -1247,7 +1247,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Transpose only the top-left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
      * All other matrix elements of <code>dest</code> will be set to identity.
      * 
@@ -5634,8 +5634,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Compute a normal matrix from the top-left 3x3 submatrix of <code>this</code>
-     * and store it into the top-left 3x3 submatrix of <code>dest</code>.
+     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
+     * and store it into the upper left 3x3 submatrix of <code>dest</code>.
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
      * <p>
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
@@ -5672,7 +5672,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Compute a normal matrix from the top-left 3x3 submatrix of <code>this</code>
+     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
      * and store it into <code>dest</code>.
      * <p>
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
@@ -6403,7 +6403,7 @@ public class Matrix4f implements Externalizable {
      * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
@@ -6424,7 +6424,7 @@ public class Matrix4f implements Externalizable {
      * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
@@ -6445,7 +6445,7 @@ public class Matrix4f implements Externalizable {
      * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
