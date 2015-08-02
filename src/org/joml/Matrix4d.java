@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -1422,22 +1423,74 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d get(int index, FloatBuffer buffer) {
-        buffer.put(index, (float) m00);
-        buffer.put(index+1, (float) m01);
-        buffer.put(index+2, (float) m02);
-        buffer.put(index+3, (float) m03);
-        buffer.put(index+4, (float) m10);
-        buffer.put(index+5, (float) m11);
-        buffer.put(index+6, (float) m12);
-        buffer.put(index+7, (float) m13);
-        buffer.put(index+8, (float) m20);
-        buffer.put(index+9, (float) m21);
+        buffer.put(index,    (float) m00);
+        buffer.put(index+1,  (float) m01);
+        buffer.put(index+2,  (float) m02);
+        buffer.put(index+3,  (float) m03);
+        buffer.put(index+4,  (float) m10);
+        buffer.put(index+5,  (float) m11);
+        buffer.put(index+6,  (float) m12);
+        buffer.put(index+7,  (float) m13);
+        buffer.put(index+8,  (float) m20);
+        buffer.put(index+9,  (float) m21);
         buffer.put(index+10, (float) m22);
         buffer.put(index+11, (float) m23);
         buffer.put(index+12, (float) m30);
         buffer.put(index+13, (float) m31);
         buffer.put(index+14, (float) m32);
         buffer.put(index+15, (float) m33);
+        return this;
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
+    public Matrix4d get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix4d get(int index, ByteBuffer buffer) {
+        buffer.putDouble(index+8*0,  m00);
+        buffer.putDouble(index+8*1,  m01);
+        buffer.putDouble(index+8*2,  m02);
+        buffer.putDouble(index+8*3,  m03);
+        buffer.putDouble(index+8*4,  m10);
+        buffer.putDouble(index+8*5,  m11);
+        buffer.putDouble(index+8*6,  m12);
+        buffer.putDouble(index+8*7,  m13);
+        buffer.putDouble(index+8*8,  m20);
+        buffer.putDouble(index+8*9,  m21);
+        buffer.putDouble(index+8*10, m22);
+        buffer.putDouble(index+8*11, m23);
+        buffer.putDouble(index+8*12, m30);
+        buffer.putDouble(index+8*13, m31);
+        buffer.putDouble(index+8*14, m32);
+        buffer.putDouble(index+8*15, m33);
         return this;
     }
 
