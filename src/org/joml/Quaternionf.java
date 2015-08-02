@@ -1210,17 +1210,27 @@ public class Quaternionf implements Externalizable {
      */
     public Quaternionf slerp(Quaternionf target, float alpha, Quaternionf dest) {
         float dot = x * target.x + y * target.y + z * target.z + w * target.w;
-        float theta = (float) Math.acos(dot);
-        if (theta < 0.0f) theta = -theta;
-        float sint = (float) Math.sin(theta);
-        float sinlt = (float) Math.sin(alpha * theta);
-        float sin1mlt = (float) Math.sin(theta - alpha * theta);
-        float q1 = sin1mlt / sint;
-        float q2 = sinlt / sint;
-        dest.x = q1 * x + q2 * target.x;
-        dest.y = q1 * y + q2 * target.y;
-        dest.z = q1 * z + q2 * target.z;
-        dest.w = q1 * w + q2 * target.w;
+        // Thresholds to accelerate computations
+        float nlerpThreshold = 0.95f;
+        float sinThetaThreshold = 0.01f;
+        // Check if we must use slerp and cannot get away with simple linear interpolation
+        if (dot > -nlerpThreshold && dot < nlerpThreshold) {
+            float absDot = (float) Math.abs(dot);
+            float theta = (float) Math.acos(absDot);
+            float sinTheta = 1.0f;
+            // Check if we need to compute sinTheta
+            if (dot < -sinThetaThreshold || dot > sinThetaThreshold) {
+                sinTheta = (float) Math.sin(theta);
+            }
+            float q1 = (float) Math.sin(theta * (1.0f - alpha));
+            float q2 = (float) Math.sin(theta * alpha);
+            dest.x = (q1 * x + q2 * target.x) / sinTheta;
+            dest.y = (q1 * y + q2 * target.y) / sinTheta;
+            dest.z = (q1 * z + q2 * target.z) / sinTheta;
+            dest.w = (q1 * w + q2 * target.w) / sinTheta; 
+        } else {
+            nlerp(target, alpha, dest);
+        }
         return this;
     }
 
