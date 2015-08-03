@@ -329,9 +329,10 @@ public class Vector3f implements Externalizable {
      * 
      * @param buffer
      *          will receive the values of this vector in <tt>x, y, z</tt> order
-     * @return this
+     * @return the passed in buffer
+     * @see #get(int, FloatBuffer)
      */
-    public Vector3f get(FloatBuffer buffer) {
+    public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -345,13 +346,13 @@ public class Vector3f implements Externalizable {
      *          the absolute position into the FloatBuffer
      * @param buffer
      *          will receive the values of this vector in <tt>x, y, z</tt> order
-     * @return this
+     * @return the passed in buffer
      */
-    public Vector3f get(int index, FloatBuffer buffer) {
+    public FloatBuffer get(int index, FloatBuffer buffer) {
         buffer.put(index,    x);
         buffer.put(index+1,  y);
         buffer.put(index+2,  z);
-        return this;
+        return buffer;
     }
 
     /**
@@ -368,9 +369,10 @@ public class Vector3f implements Externalizable {
      * 
      * @param buffer
      *          will receive the values of this vector in <tt>x, y, z</tt> order
-     * @return this
+     * @return the passed in buffer
+     * @see #get(int, ByteBuffer)
      */
-    public Vector3f get(ByteBuffer buffer) {
+    public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -384,13 +386,13 @@ public class Vector3f implements Externalizable {
      *          the absolute position into the ByteBuffer
      * @param buffer
      *          will receive the values of this vector in <tt>x, y, z</tt> order
-     * @return this
+     * @return the passed in buffer
      */
-    public Vector3f get(int index, ByteBuffer buffer) {
+    public ByteBuffer get(int index, ByteBuffer buffer) {
         buffer.putFloat(index,    x);
         buffer.putFloat(index+4,  y);
         buffer.putFloat(index+8,  z);
-        return this;
+        return buffer;
     }
 
     /**

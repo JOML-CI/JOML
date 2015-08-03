@@ -219,9 +219,9 @@ public class Quaterniond implements Externalizable {
      * 
      * @param dest
      *          the matrix to write the rotation into
-     * @return this
+     * @return the passed in destination
      */
-    public Quaterniond get(Matrix3d dest) {
+    public Matrix3d get(Matrix3d dest) {
         double q00 = 2.0 * x * x;
         double q11 = 2.0 * y * y;
         double q22 = 2.0 * z * z;
@@ -244,7 +244,7 @@ public class Quaterniond implements Externalizable {
         dest.m20 = q02 + q13;
         dest.m21 = q12 - q03;
         dest.m22 = 1.0 - q11 - q00;
-        return this;
+        return dest;
     }
 
     /**
@@ -252,9 +252,9 @@ public class Quaterniond implements Externalizable {
      * 
      * @param dest
      *          the matrix to write the rotation into
-     * @return this
+     * @return the passed in destination
      */
-    public Quaterniond get(Matrix3f dest) {
+    public Matrix3f get(Matrix3f dest) {
         double q00 = 2.0 * x * x;
         double q11 = 2.0 * y * y;
         double q22 = 2.0 * z * z;
@@ -277,7 +277,7 @@ public class Quaterniond implements Externalizable {
         dest.m20 = (float) (q02 + q13);
         dest.m21 = (float) (q12 - q03);
         dest.m22 = (float) (1.0 - q11 - q00);
-        return this;
+        return dest;
     }
 
     /**
@@ -285,9 +285,9 @@ public class Quaterniond implements Externalizable {
      * 
      * @param dest
      *          the matrix to write the rotation into
-     * @return this
+     * @return the passed in destination
      */
-    public Quaterniond get(Matrix4d dest) {
+    public Matrix4d get(Matrix4d dest) {
         double q00 = 2.0 * x * x;
         double q11 = 2.0 * y * y;
         double q22 = 2.0 * z * z;
@@ -316,7 +316,7 @@ public class Quaterniond implements Externalizable {
         dest.m31 = 0.0;
         dest.m32 = 0.0;
         dest.m33 = 1.0;
-        return this;
+        return dest;
     }
 
     /**
@@ -326,11 +326,10 @@ public class Quaterniond implements Externalizable {
      * 
      * @param dest
      *          the {@link Quaterniond} to set
-     * @return this
+     * @return the passed in destination
      */
     public Quaterniond get(Quaterniond dest) {
-        dest.set(this);
-        return this;
+        return dest.set(this);
     }
 
     /**
@@ -2111,13 +2110,13 @@ public class Quaterniond implements Externalizable {
      * 
      * @param eulerAngles
      *          will hold the euler angles in radians
-     * @return this
+     * @return the passed in vector
      */
-    public Quaterniond getEulerAnglesXYZ(Vector3d eulerAngles) {
+    public Vector3d getEulerAnglesXYZ(Vector3d eulerAngles) {
         eulerAngles.x = Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y));
         eulerAngles.y = Math.asin(2.0 * (x*z + y*w));
         eulerAngles.z = Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z));
-        return this;
+        return eulerAngles;
     }
 
     /**
