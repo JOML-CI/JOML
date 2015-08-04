@@ -77,6 +77,24 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3f} and make it a copy of the upper left 3x3 of the given {@link Matrix4f}.
+     * 
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     */
+    public Matrix3f(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+    }
+
+    /**
      * Create a new 3x3 matrix using the supplied float values. The order of the parameter is column-major, 
      * so the first three parameters specify the three elements of the first column.
      * 
@@ -130,6 +148,26 @@ public class Matrix3f implements Externalizable {
         m20 = m.m20;
         m21 = m.m21;
         m22 = m.m22;
+        return this;
+    }
+
+    /**
+     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4f}.
+     *
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     * @return this
+     */
+    public Matrix3f set(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
         return this;
     }
 
@@ -327,12 +365,9 @@ public class Matrix3f implements Externalizable {
      * @return the determinant
      */
     public float determinant() {
-        return m00 * m11 * m22
-             + m10 * m21 * m02
-             + m20 * m01 * m12
-             - m20 * m11 * m02
-             - m00 * m21 * m12
-             - m10 * m01 * m22;
+        return m00 * (m11 * m22 - m12 * m21)
+             - m01 * (m10 * m22 - m12 * m20)
+             + m02 * (m01 * m21 - m11 * m20);
     }
 
     /**
@@ -358,25 +393,25 @@ public class Matrix3f implements Externalizable {
         }
         s = 1.0f / s;
         if (this != dest) {
-            dest.m00 =  ((m11 * m22) - (m21 * m12)) * s;
-            dest.m01 = -((m01 * m22) - (m21 * m02)) * s;
-            dest.m02 =  ((m01 * m12) - (m11 * m02)) * s;
-            dest.m10 = -((m10 * m22) - (m20 * m12)) * s;
-            dest.m11 =  ((m00 * m22) - (m20 * m02)) * s;
-            dest.m12 = -((m00 * m12) - (m10 * m02)) * s;
-            dest.m20 =  ((m10 * m21) - (m20 * m11)) * s;
-            dest.m21 = -((m00 * m21) - (m20 * m01)) * s;
-            dest.m22 =  ((m00 * m11) - (m10 * m01)) * s;
+            dest.m00 =  (m11 * m22 - m21 * m12) * s;
+            dest.m01 = -(m01 * m22 - m21 * m02) * s;
+            dest.m02 =  (m01 * m12 - m11 * m02) * s;
+            dest.m10 = -(m10 * m22 - m20 * m12) * s;
+            dest.m11 =  (m00 * m22 - m20 * m02) * s;
+            dest.m12 = -(m00 * m12 - m10 * m02) * s;
+            dest.m20 =  (m10 * m21 - m20 * m11) * s;
+            dest.m21 = -(m00 * m21 - m20 * m01) * s;
+            dest.m22 =  (m00 * m11 - m10 * m01) * s;
         } else {
-            dest.set( ((m11 * m22) - (m21 * m12)) * s,
-                     -((m01 * m22) - (m21 * m02)) * s,
-                      ((m01 * m12) - (m11 * m02)) * s,
-                     -((m10 * m22) - (m20 * m12)) * s,
-                      ((m00 * m22) - (m20 * m02)) * s,
-                     -((m00 * m12) - (m10 * m02)) * s,
-                      ((m10 * m21) - (m20 * m11)) * s,
-                     -((m00 * m21) - (m20 * m01)) * s,
-                      ((m00 * m11) - (m10 * m01)) * s);
+            dest.set( (m11 * m22 - m21 * m12) * s,
+                     -(m01 * m22 - m21 * m02) * s,
+                      (m01 * m12 - m11 * m02) * s,
+                     -(m10 * m22 - m20 * m12) * s,
+                      (m00 * m22 - m20 * m02) * s,
+                     -(m00 * m12 - m10 * m02) * s,
+                      (m10 * m21 - m20 * m11) * s,
+                     -(m00 * m21 - m20 * m01) * s,
+                      (m00 * m11 - m10 * m01) * s);
         }
         return this;
     }
@@ -553,7 +588,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f get(int index, FloatBuffer buffer) {
-        buffer.put(index, m00);
+        buffer.put(index,   m00);
         buffer.put(index+1, m01);
         buffer.put(index+2, m02);
         buffer.put(index+3, m10);
@@ -564,7 +599,51 @@ public class Matrix3f implements Externalizable {
         buffer.put(index+8, m22);
         return this;
     }
-    
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
+    public Matrix3f get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix3f get(int index, ByteBuffer buffer) {
+        buffer.putFloat(index,    m00);
+        buffer.putFloat(index+4,  m01);
+        buffer.putFloat(index+8,  m02);
+        buffer.putFloat(index+12, m10);
+        buffer.putFloat(index+16, m11);
+        buffer.putFloat(index+20, m12);
+        buffer.putFloat(index+24, m20);
+        buffer.putFloat(index+28, m21);
+        buffer.putFloat(index+32, m22);
+        return this;
+    }
 
     /**
      * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} at the current
@@ -719,7 +798,43 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * Apply scaling to the this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z component, respectively
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3f scale(Vector3f xyz, Matrix3f dest) {
+        return scale(xyz.x, xyz.y, xyz.z, dest);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z component, respectively
+     * @return this
+     */
+    public Matrix3f scale(Vector3f xyz) {
+        return scale(xyz.x, xyz.y, xyz.z, this);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -754,7 +869,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * Apply scaling to this matrix by scaling the base axes by the given x,
      * y and z factors.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -775,7 +890,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -796,7 +911,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -863,6 +978,25 @@ public class Matrix3f implements Externalizable {
         m21 = 0.0f;
         m22 = z;
         return this;
+    }
+
+    /**
+     * Set this matrix to be a simple scale matrix which scales the base axes by <tt>xyz.x</tt>, <tt>xyz.y</tt> and <tt>xyz.z</tt> respectively.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional scaling.
+     * <p>
+     * In order to post-multiply a scaling transformation directly to a
+     * matrix use {@link #scale(Vector3f) scale()} instead.
+     * 
+     * @see #scale(Vector3f)
+     * 
+     * @param xyz
+     *             the scale in x, y and z respectively
+     * @return this
+     */
+    public Matrix3f scaling(Vector3f xyz) {
+        return scaling(xyz.x, xyz.y, xyz.z);
     }
 
     /**
@@ -1997,20 +2131,19 @@ public class Matrix3f implements Externalizable {
 
     /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In this case, use {@link #set(Matrix3f)} to set a given Matrix3f to this matrix.
+     * 
+     * @see #set(Matrix3f)
      * 
      * @param dest
      *             will hold the result
      * @return this
      */
     public Matrix3f normal(Matrix3f dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant();
-        float diff = Math.abs(Math.abs(det) - 1.0f);
-        if (diff < 1E-8f) {
-            /* The fast path, if only 1:1:1 scaling is being used */
-            return transpose(dest);
-        }
-        /* The general case */
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,

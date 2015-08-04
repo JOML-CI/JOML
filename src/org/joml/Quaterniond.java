@@ -1070,17 +1070,27 @@ public class Quaterniond implements Externalizable {
      */
     public Quaterniond slerp(Quaterniond target, double alpha, Quaterniond dest) {
         double dot = x * target.x + y * target.y + z * target.z + w * target.w;
-        double theta = Math.acos(dot);
-        if (theta < 0.0) theta = -theta;
-        double sint = Math.sin(theta);
-        double sinlt = Math.sin(alpha * theta);
-        double sin1mlt = Math.sin(theta - alpha * theta);
-        double q1 = sin1mlt / sint;
-        double q2 = sinlt / sint;
-        dest.x = q1 * x + q2 * target.x;
-        dest.y = q1 * y + q2 * target.y;
-        dest.z = q1 * z + q2 * target.z;
-        dest.w = q1 * w + q2 * target.w;
+        // Thresholds to accelerate computations
+        double nlerpThreshold = 0.95;
+        double sinThetaThreshold = 0.01;
+        // Check if we must use slerp and cannot get away with simple linear interpolation
+        if (dot > -nlerpThreshold && dot < nlerpThreshold) {
+            double absDot = Math.abs(dot);
+            double theta = Math.acos(absDot);
+            double sinTheta = 1.0f;
+            // Check if we need to compute sinTheta
+            if (dot < -sinThetaThreshold || dot > sinThetaThreshold) {
+                sinTheta = Math.sin(theta);
+            }
+            double q1 = Math.sin(theta * (1.0f - alpha));
+            double q2 = Math.sin(theta * alpha);
+            dest.x = (q1 * x + q2 * target.x) / sinTheta;
+            dest.y = (q1 * y + q2 * target.y) / sinTheta;
+            dest.z = (q1 * z + q2 * target.z) / sinTheta;
+            dest.w = (q1 * w + q2 * target.w) / sinTheta; 
+        } else {
+            nlerp(target, alpha, dest);
+        }
         return this;
     }
 

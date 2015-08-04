@@ -26,6 +26,7 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
@@ -83,6 +84,42 @@ public class Matrix3d implements Externalizable {
      *          the matrix to initialize this matrix with
      */
     public Matrix3d(Matrix3f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+    }
+
+    /**
+     * Create a new {@link Matrix3d} and make it a copy of the upper left 3x3 of the given {@link Matrix4f}.
+     *
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     */
+    public Matrix3d(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+    }
+
+    /**
+     * Create a new {@link Matrix3d} and make it a copy of the upper left 3x3 of the given {@link Matrix4d}.
+     *
+     * @param mat
+     *          the {@link Matrix4d} to copy the values from
+     */
+    public Matrix3d(Matrix4d mat) {
         m00 = mat.m00;
         m01 = mat.m01;
         m02 = mat.m02;
@@ -170,6 +207,46 @@ public class Matrix3d implements Externalizable {
         return this;
     }
 
+    /**
+     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4f}.
+     *
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     * @return this
+     */
+    public Matrix3d set(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        return this;
+    }
+
+    /**
+     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4d}.
+     *
+     * @param mat
+     *          the {@link Matrix4d} to copy the values from
+     * @return this
+     */
+    public Matrix3d set(Matrix4d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        return this;
+    }
+    
     /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
      * 
@@ -488,12 +565,9 @@ public class Matrix3d implements Externalizable {
      * @return the determinant
      */
     public double determinant() {
-        return m00 * m11 * m22
-             + m10 * m21 * m02
-             + m20 * m01 * m12
-             - m20 * m11 * m02
-             - m00 * m21 * m12
-             - m10 * m01 * m22;
+        return m00 * (m11 * m22 - m12 * m21)
+             - m01 * (m10 * m22 - m12 * m20)
+             + m02 * (m01 * m21 - m11 * m20);
     }
 
     /**
@@ -763,6 +837,51 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * If you want to specify the offset into the ByteBuffer at which
+     * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return this
+     */
+    public Matrix3d get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return this
+     */
+    public Matrix3d get(int index, ByteBuffer buffer) {
+        buffer.putDouble(index+8*0, m00);
+        buffer.putDouble(index+8*1, m01);
+        buffer.putDouble(index+8*2, m02);
+        buffer.putDouble(index+8*3, m10);
+        buffer.putDouble(index+8*4, m11);
+        buffer.putDouble(index+8*5, m12);
+        buffer.putDouble(index+8*6, m20);
+        buffer.putDouble(index+8*7, m21);
+        buffer.putDouble(index+8*8, m22);
+        return this;
+    }
+
+    /**
      * Set the values of this matrix by reading 9 double values from the given {@link DoubleBuffer} in column-major order,
      * starting at its current position.
      * <p>
@@ -877,27 +996,71 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Set this matrix to be a simple scale matrix.
+     * Set this matrix to be a simple scale matrix which scales the base axes by <tt>xyz.x</tt>, <tt>xyz.y</tt> and <tt>xyz.z</tt> respectively.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional scaling.
+     * <p>
+     * In order to post-multiply a scaling transformation directly to a
+     * matrix use {@link #scale(Vector3d) scale()} instead.
      * 
-     * @param scale
-     *             the scale applied to each dimension
+     * @see #scale(Vector3d)
+     * 
+     * @param xyz
+     *             the scale in x, y and z respectively
      * @return this
      */
-    public Matrix3d scaling(Vector3d scale) {
-        m00 = scale.x;
+    public Matrix3d scaling(Vector3d xyz) {
+        m00 = xyz.x;
         m01 = 0.0;
         m02 = 0.0;
         m10 = 0.0;
-        m11 = scale.y;
+        m11 = xyz.y;
         m12 = 0.0;
         m20 = 0.0;
         m21 = 0.0;
-        m22 = scale.z;
+        m22 = xyz.z;
         return this;
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * Apply scaling to the this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z component, respectively
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix3d scale(Vector3d xyz, Matrix3d dest) {
+        return scale(xyz.x, xyz.y, xyz.z, dest);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z component, respectively
+     * @return this
+     */
+    public Matrix3d scale(Vector3d xyz) {
+        return scale(xyz.x, xyz.y, xyz.z, this);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -932,7 +1095,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * Apply scaling to this matrix by scaling the base axes by the given x,
      * y and z factors.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -953,7 +1116,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -974,7 +1137,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
@@ -1764,20 +1927,19 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In this case, use {@link #set(Matrix3d)} to set a given Matrix3d to this matrix.
+     * 
+     * @see #set(Matrix3d)
      * 
      * @param dest
      *             will hold the result
      * @return this
      */
     public Matrix3d normal(Matrix3d dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         double det = determinant();
-        double diff = Math.abs(Math.abs(det) - 1.0);
-        if (diff < 1E-8) {
-            /* The fast path, if only 1:1:1 scaling is being used */
-            return transpose(dest);
-        }
-        /* The general case */
         double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,

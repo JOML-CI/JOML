@@ -459,6 +459,34 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to that of the given {@link Matrix4f} 
+     * and the rest to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix4f}
+     * @return this
+     */
+    public Matrix4f set3x3(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m03 = 0.0f;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m13 = 0.0f;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
@@ -594,6 +622,309 @@ public class Matrix4f implements Externalizable {
                      m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
                      m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33);
         }
+        return this;
+    }
+
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
+     * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code> and
+     * adding that result to <code>this</code>.
+     * <p>
+     * The matrix <code>other</code> will not be changed.
+     * 
+     * @param other
+     *          the other matrix 
+     * @param otherFactor
+     *          the factor to multiply each of the other matrix's 4x3 components
+     * @return this
+     */
+    public Matrix4f fma4x3(Matrix4f other, float otherFactor) {
+        return fma4x3(other, otherFactor, this);
+    }
+
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
+     * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code>,
+     * adding that to <code>this</code> and storing the final result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * <p>
+     * The matrices <code>this</code> and <code>other</code> will not be changed.
+     * 
+     * @param other
+     *          the other matrix 
+     * @param otherFactor
+     *          the factor to multiply each of the other matrix's 4x3 components
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f fma4x3(Matrix4f other, float otherFactor, Matrix4f dest) {
+        dest.m00 = m00 + other.m00 * otherFactor;
+        dest.m01 = m01 + other.m01 * otherFactor;
+        dest.m02 = m02 + other.m02 * otherFactor;
+        dest.m03 = m03;
+        dest.m10 = m10 + other.m10 * otherFactor;
+        dest.m11 = m11 + other.m11 * otherFactor;
+        dest.m12 = m12 + other.m12 * otherFactor;
+        dest.m13 = m13;
+        dest.m20 = m20 + other.m20 * otherFactor;
+        dest.m21 = m21 + other.m21 * otherFactor;
+        dest.m22 = m22 + other.m22 * otherFactor;
+        dest.m23 = m23;
+        dest.m30 = m30 + other.m30 * otherFactor;
+        dest.m31 = m31 + other.m31 * otherFactor;
+        dest.m32 = m32 + other.m32 * otherFactor;
+        dest.m33 = m33;
+        return this;
+    }
+
+    /**
+     * Component-wise add <code>this</code> and <code>other</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @return this
+     */
+    public Matrix4f add(Matrix4f other) {
+        return add(other, this);
+    }
+
+    /**
+     * Component-wise add <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f add(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
+        dest.m03 = m03 + other.m03;
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
+        dest.m13 = m13 + other.m13;
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
+        dest.m23 = m23 + other.m23;
+        dest.m30 = m30 + other.m30;
+        dest.m31 = m31 + other.m31;
+        dest.m32 = m32 + other.m32;
+        dest.m33 = m33 + other.m33;
+        return this;
+    }
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @return this
+     */
+    public Matrix4f sub(Matrix4f subtrahend) {
+        return sub(subtrahend, this);
+    }
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code> and store the result in <code>dest</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend 
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f sub(Matrix4f subtrahend, Matrix4f dest) {
+        dest.m00 = m00 - subtrahend.m00;
+        dest.m01 = m01 - subtrahend.m01;
+        dest.m02 = m02 - subtrahend.m02;
+        dest.m03 = m03 - subtrahend.m03;
+        dest.m10 = m10 - subtrahend.m10;
+        dest.m11 = m11 - subtrahend.m11;
+        dest.m12 = m12 - subtrahend.m12;
+        dest.m13 = m13 - subtrahend.m13;
+        dest.m20 = m20 - subtrahend.m20;
+        dest.m21 = m21 - subtrahend.m21;
+        dest.m22 = m22 - subtrahend.m22;
+        dest.m23 = m23 - subtrahend.m23;
+        dest.m30 = m30 - subtrahend.m30;
+        dest.m31 = m31 - subtrahend.m31;
+        dest.m32 = m32 - subtrahend.m32;
+        dest.m33 = m33 - subtrahend.m33;
+        return this;
+    }
+
+    /**
+     * Component-wise multiply <code>this</code> by <code>other</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @return this
+     */
+    public Matrix4f mulComponentWise(Matrix4f other) {
+        return mulComponentWise(other, this);
+    }
+
+    /**
+     * Component-wise multiply <code>this</code> by <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f mulComponentWise(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 * other.m00;
+        dest.m01 = m01 * other.m01;
+        dest.m02 = m02 * other.m02;
+        dest.m03 = m03 * other.m03;
+        dest.m10 = m10 * other.m10;
+        dest.m11 = m11 * other.m11;
+        dest.m12 = m12 * other.m12;
+        dest.m13 = m13 * other.m13;
+        dest.m20 = m20 * other.m20;
+        dest.m21 = m21 * other.m21;
+        dest.m22 = m22 * other.m22;
+        dest.m23 = m23 * other.m23;
+        dest.m30 = m30 * other.m30;
+        dest.m31 = m31 * other.m31;
+        dest.m32 = m32 * other.m32;
+        dest.m33 = m33 * other.m33;
+        return this;
+    }
+
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @return this
+     */
+    public Matrix4f add4x3(Matrix4f other) {
+        return add4x3(other, this);
+    }
+
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f add4x3(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
+        dest.m03 = m03;
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
+        dest.m13 = m13;
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
+        dest.m23 = m23;
+        dest.m30 = m30 + other.m30;
+        dest.m31 = m31 + other.m31;
+        dest.m32 = m32 + other.m32;
+        dest.m33 = m33;
+        return this;
+    }
+
+    /**
+     * Component-wise subtract the upper 4x3 submatrices of <code>subtrahend</code> from <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @return this
+     */
+    public Matrix4f sub4x3(Matrix4f subtrahend) {
+        return sub4x3(subtrahend, this);
+    }
+
+    /**
+     * Component-wise subtract the upper 4x3 submatrices of <code>subtrahend</code> from <code>this</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f sub4x3(Matrix4f subtrahend, Matrix4f dest) {
+        dest.m00 = m00 - subtrahend.m00;
+        dest.m01 = m01 - subtrahend.m01;
+        dest.m02 = m02 - subtrahend.m02;
+        dest.m03 = m03;
+        dest.m10 = m10 - subtrahend.m10;
+        dest.m11 = m11 - subtrahend.m11;
+        dest.m12 = m12 - subtrahend.m12;
+        dest.m13 = m13;
+        dest.m20 = m20 - subtrahend.m20;
+        dest.m21 = m21 - subtrahend.m21;
+        dest.m22 = m22 - subtrahend.m22;
+        dest.m23 = m23;
+        dest.m30 = m30 - subtrahend.m30;
+        dest.m31 = m31 - subtrahend.m31;
+        dest.m32 = m32 - subtrahend.m32;
+        dest.m33 = m33;
+        return this;
+    }
+
+    /**
+     * Component-wise multiply the upper 4x3 submatrices of <code>this</code> by <code>other</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @return this
+     */
+    public Matrix4f mul4x3ComponentWise(Matrix4f other) {
+        return mul4x3ComponentWise(other, this);
+    }
+
+    /**
+     * Component-wise multiply the upper 4x3 submatrices of <code>this</code> by <code>other</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f mul4x3ComponentWise(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 * other.m00;
+        dest.m01 = m01 * other.m01;
+        dest.m02 = m02 * other.m02;
+        dest.m03 = m03;
+        dest.m10 = m10 * other.m10;
+        dest.m11 = m11 * other.m11;
+        dest.m12 = m12 * other.m12;
+        dest.m13 = m13;
+        dest.m20 = m20 * other.m20;
+        dest.m21 = m21 * other.m21;
+        dest.m22 = m22 * other.m22;
+        dest.m23 = m23;
+        dest.m30 = m30 * other.m30;
+        dest.m31 = m31 * other.m31;
+        dest.m32 = m32 * other.m32;
+        dest.m33 = m33;
         return this;
     }
 
@@ -801,17 +1132,14 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Return the determinant of the top-left 3x3 submatrix of this matrix.
+     * Return the determinant of the upper left 3x3 submatrix of this matrix.
      * 
      * @return the determinant
      */
     public float determinant3x3() {
-        return m00 * m11 * m22
-             + m10 * m21 * m02
-             + m20 * m01 * m12
-             - m20 * m11 * m02
-             - m00 * m21 * m12
-             - m10 * m01 * m22;
+        return m00 * (m11 * m22 - m12 * m21)
+             - m01 * (m10 * m22 - m12 * m20)
+             + m02 * (m01 * m21 - m11 * m20);
     }
 
     /**
@@ -910,7 +1238,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Transpose only the top-left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
+     * Transpose only the upper left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
      * 
      * @return this 
      */
@@ -919,7 +1247,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Transpose only the top-left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
      * All other matrix elements of <code>dest</code> will be set to identity.
      * 
@@ -955,7 +1283,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Transpose only the top-left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * 
      * @param dest
      *             will hold the result
@@ -1068,7 +1396,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given vector values <tt>(x, y, z)</tt>.
+     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
      * Note that this will only work properly for orthogonal matrices (without any perspective).
      * <p>
@@ -1086,6 +1414,20 @@ public class Matrix4f implements Externalizable {
         m30 = xyz.x;
         m31 = xyz.y;
         m32 = xyz.z;
+        return this;
+    }
+
+    /**
+     * Get only the translation components of this matrix <tt>(m30, m31, m32)</tt> and store them in the given vector <code>xyz</code>.
+     * 
+     * @param xyz
+     *          will hold the translation components of this matrix
+     * @return this
+     */
+    public Matrix4f getTranslation(Vector3f xyz) {
+        xyz.x = m30;
+        xyz.y = m31;
+        xyz.z = m32;
         return this;
     }
 
@@ -1544,6 +1886,25 @@ public class Matrix4f implements Externalizable {
         m32 = 0.0f;
         m33 = 1.0f;
         return this;
+    }
+    
+    /**
+     * Set this matrix to be a simple scale matrix which scales the base axes by <tt>xyz.x</tt>, <tt>xyz.y</tt> and <tt>xyz.z</tt> respectively.
+     * <p>
+     * The resulting matrix can be multiplied against another transformation
+     * matrix to obtain an additional scaling.
+     * <p>
+     * In order to post-multiply a scaling transformation directly to a
+     * matrix use {@link #scale(Vector3f) scale()} instead.
+     * 
+     * @see #scale(Vector3f)
+     * 
+     * @param xyz
+     *             the scale in x, y and z respectively
+     * @return this
+     */
+    public Matrix4f scaling(Vector3f xyz) {
+        return scaling(xyz.x, xyz.y, xyz.z);
     }
 
     /**
@@ -2035,7 +2396,86 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the unit axes by the given x,
+     * Apply scaling to the this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z component, respectively
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f scale(Vector3f xyz, Matrix4f dest) {
+        return scale(xyz.x, xyz.y, xyz.z, dest);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z component, respectively
+     * @return this
+     */
+    public Matrix4f scale(Vector3f xyz) {
+        return scale(xyz.x, xyz.y, xyz.z, this);
+    }
+
+    /**
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float, Matrix4f)}. 
+     * 
+     * @see #scale(float, float, float, Matrix4f)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4f scale(float xyz, Matrix4f dest) {
+        return scale(xyz, xyz, xyz, dest);
+    }
+
+    /**
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float)}. 
+     * 
+     * @see #scale(float, float, float)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @return this
+     */
+    public Matrix4f scale(float xyz) {
+        return scale(xyz, xyz, xyz);
+    }
+
+    /**
+     * Apply scaling to the this matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -2078,7 +2518,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x,
+     * Apply scaling to this matrix by scaling the base axes by the given x,
      * y and z factors.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -2096,49 +2536,6 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f scale(float x, float y, float z) {
         return scale(x, y, z, this);
-    }
-
-    /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * scaling will be applied first!
-     * <p>
-     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float, Matrix4f)}. 
-     * 
-     * @see #scale(float, float, float, Matrix4f)
-     * 
-     * @param xyz
-     *            the factor for all components
-     * @param dest
-     *            will hold the result
-     * @return this
-     */
-    public Matrix4f scale(float xyz, Matrix4f dest) {
-        return scale(xyz, xyz, xyz, dest);
-    }
-
-    /**
-     * Apply scaling to this matrix by uniformly scaling all unit axes by the given <code>xyz</code> factor.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * scaling will be applied first!
-     * <p>
-     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float)}. 
-     * 
-     * @see #scale(float, float, float)
-     * 
-     * @param xyz
-     *            the factor for all components
-     * @return this
-     */
-    public Matrix4f scale(float xyz) {
-        return scale(xyz, xyz, xyz);
     }
 
     /**
@@ -5237,28 +5634,25 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Compute a normal matrix from the top-left 3x3 submatrix of <code>this</code>
-     * and store it into the top-left 3x3 submatrix of <code>dest</code>.
+     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
+     * and store it into the upper left 3x3 submatrix of <code>dest</code>.
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
      * <p>
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
-     * In the special case of an orthonormal 3x3 matrix (one that maps any two perpendicular 
-     * unit vectors to another pair of perpendicular unit vectors) only the transpose is
-     * computed.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In that case, use {@link #set3x3(Matrix4f)} to set a given Matrix4f to only the upper left 3x3 submatrix
+     * of this matrix.
+     * 
+     * @see #set3x3(Matrix4f)
      * 
      * @param dest
      *             will hold the result
      * @return this
      */
     public Matrix4f normal(Matrix4f dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant3x3();
-        float diff = Math.abs(Math.abs(det) - 1.0f);
-        if (diff < 1E-8f) {
-            /* The fast path, if only 1:1:1 scaling is being used */
-            return transpose(dest);
-        }
-        /* The general case */
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,
@@ -5278,27 +5672,24 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Compute a normal matrix from the top-left 3x3 submatrix of <code>this</code>
+     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
      * and store it into <code>dest</code>.
      * <p>
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
-     * In the special case of an orthonormal 3x3 matrix (one that maps any two perpendicular 
-     * unit vectors to another pair of perpendicular unit vectors) only the transpose is
-     * computed.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In that case, use {@link #set(Matrix3f)} to set a given Matrix3f to only the upper left 3x3 submatrix
+     * of this matrix.
+     * 
+     * @see #set(Matrix3f)
      * 
      * @param dest
      *             will hold the result
      * @return this
      */
     public Matrix4f normal(Matrix3f dest) {
-        // see: http://mathworld.wolfram.com/OrthogonalMatrix.html
         float det = determinant3x3();
-        float diff = Math.abs(Math.abs(det) - 1.0f);
-        if (diff < 1E-8f) {
-            /* The fast path, if only 1:1:1 scaling is being used */
-            return transpose3x3(dest);
-        }
-        /* The general case */
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.m00 =  (m11 * m22 - m21 * m12) * s;
@@ -5310,6 +5701,61 @@ public class Matrix4f implements Externalizable {
         dest.m20 =  (m01 * m12 - m11 * m02) * s;
         dest.m21 = -(m00 * m12 - m10 * m02) * s;
         dest.m22 =  (m00 * m11 - m10 * m01) * s;
+        return this;
+    }
+
+    /**
+     * Normalize the upper left 3x3 submatrix of this matrix.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @return this
+     */
+    public Matrix4f normalize3x3() {
+        return normalize3x3(this);
+    }
+
+    /**
+     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @param dest
+     *             will hold the result
+     * @return this
+     */
+    public Matrix4f normalize3x3(Matrix4f dest) {
+        float xlen = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        float ylen = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        float zlen = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
+        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
+        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
+        return this;
+    }
+
+    /**
+     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @param dest
+     *             will hold the result
+     * @return this
+     */
+    public Matrix4f normalize3x3(Matrix3f dest) {
+        float xlen = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        float ylen = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        float zlen = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
+        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
+        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
         return this;
     }
 
@@ -5957,7 +6403,7 @@ public class Matrix4f implements Externalizable {
      * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
@@ -5978,7 +6424,7 @@ public class Matrix4f implements Externalizable {
      * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
@@ -5999,7 +6445,7 @@ public class Matrix4f implements Externalizable {
      * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
      * <code>this</code> matrix is applied.
      * <p>
-     * This method uses the rotation component of the top-left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
@@ -6014,6 +6460,317 @@ public class Matrix4f implements Externalizable {
         dir.z = m02 * m10 - m00 * m12;
         dir.normalize();
         return this;
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
+     * <p>
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * 
+     * @param light
+     *          the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @return this
+     */
+    public Matrix4f shadow(Vector4f light, float a, float b, float c, float d) {
+        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, this);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * 
+     * @param light
+     *          the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f shadow(Vector4f light, float a, float b, float c, float d, Matrix4f dest) {
+        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * 
+     * @param lightX
+     *          the x-component of the light's vector
+     * @param lightY
+     *          the y-component of the light's vector
+     * @param lightZ
+     *          the z-component of the light's vector
+     * @param lightW
+     *          the w-component of the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @return this
+     */
+    public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, float a, float b, float c, float d) {
+        return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, this);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * 
+     * @param lightX
+     *          the x-component of the light's vector
+     * @param lightY
+     *          the y-component of the light's vector
+     * @param lightZ
+     *          the z-component of the light's vector
+     * @param lightW
+     *          the w-component of the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, float a, float b, float c, float d, Matrix4f dest) {
+        // normalize plane
+        float planeLen = (float) Math.sqrt(a*a + b*b + c*c);
+        float an = a / planeLen;
+        float bn = b / planeLen;
+        float cn = c / planeLen;
+        float dn = d / planeLen;
+
+        float dot = an * lightX + bn * lightY + cn * lightZ + dn * lightW;
+
+        // compute right matrix elements
+        float rm00 = dot - an * lightX;
+        float rm01 = -an * lightY;
+        float rm02 = -an * lightZ;
+        float rm03 = -an * lightW;
+        float rm10 = -bn * lightX;
+        float rm11 = dot - bn * lightY;
+        float rm12 = -bn * lightZ;
+        float rm13 = -bn * lightW;
+        float rm20 = -cn * lightX;
+        float rm21 = -cn * lightY;
+        float rm22 = dot - cn * lightZ;
+        float rm23 = -cn * lightW;
+        float rm30 = -dn * lightX;
+        float rm31 = -dn * lightY;
+        float rm32 = -dn * lightZ;
+        float rm33 = dot - dn * lightW;
+
+        // matrix multiplication
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02 + m30 * rm03;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02 + m31 * rm03;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02 + m32 * rm03;
+        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02 + m33 * rm03;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12 + m30 * rm13;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12 + m31 * rm13;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12 + m32 * rm13;
+        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12 + m33 * rm13;
+        float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 + m30 * rm23;
+        float nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 + m31 * rm23;
+        float nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 + m32 * rm23;
+        float nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 + m33 * rm23;
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30 * rm33;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31 * rm33;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32 * rm33;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33 * rm33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+
+        return this;
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param light
+     *          the light's vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f shadow(Vector4f light, Matrix4f planeTransform, Matrix4f dest) {
+        // compute plane equation by transforming (y = 0)
+        float a = planeTransform.m10;
+        float b = planeTransform.m11;
+        float c = planeTransform.m12;
+        float d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
+        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param light
+     *          the light's vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @return this
+     */
+    public Matrix4f shadow(Vector4f light, Matrix4f planeTransform) {
+        return shadow(light, planeTransform, this);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param lightX
+     *          the x-component of the light vector
+     * @param lightY
+     *          the y-component of the light vector
+     * @param lightZ
+     *          the z-component of the light vector
+     * @param lightW
+     *          the w-component of the light vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4f planeTransform, Matrix4f dest) {
+        // compute plane equation by transforming (y = 0)
+        float a = planeTransform.m10;
+        float b = planeTransform.m11;
+        float c = planeTransform.m12;
+        float d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
+        return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, dest);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param lightX
+     *          the x-component of the light vector
+     * @param lightY
+     *          the y-component of the light vector
+     * @param lightZ
+     *          the z-component of the light vector
+     * @param lightW
+     *          the w-component of the light vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @return this
+     */
+    public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4f planeTransform) {
+        return shadow(lightX, lightY, lightZ, lightW, planeTransform, this);
     }
 
 }
