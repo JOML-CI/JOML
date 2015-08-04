@@ -688,11 +688,10 @@ public class Matrix3d implements Externalizable {
      * 
      * @param dest
      *          the destination matrix
-     * @return this
+     * @return the passed in destination
      */
     public Matrix3d get(Matrix3d dest) {
-        dest.set(this);
-        return this;
+        return dest.set(this);
     }
 
     /**
@@ -703,11 +702,10 @@ public class Matrix3d implements Externalizable {
      * 
      * @param dest
      *          the destination {@link AxisAngle4f}
-     * @return this
+     * @return the passed in destination
      */
-    public Matrix3d get(AxisAngle4f dest) {
-        dest.set(this);
-        return this;
+    public AxisAngle4f get(AxisAngle4f dest) {
+        return dest.set(this);
     }
 
     /**
@@ -718,11 +716,10 @@ public class Matrix3d implements Externalizable {
      * 
      * @param dest
      *          the destination {@link Quaternionf}
-     * @return this
+     * @return the passed in destination
      */
-    public Matrix3d get(Quaternionf dest) {
-        dest.set(this);
-        return this;
+    public Quaternionf get(Quaternionf dest) {
+        return dest.set(this);
     }
 
     /**
@@ -733,11 +730,10 @@ public class Matrix3d implements Externalizable {
      * 
      * @param dest
      *          the destination {@link Quaterniond}
-     * @return this
+     * @return the passed in destination
      */
-    public Matrix3d get(Quaterniond dest) {
-        dest.set(this);
-        return this;
+    public Quaterniond get(Quaterniond dest) {
+        return dest.set(this);
     }
 
     /**
@@ -754,9 +750,9 @@ public class Matrix3d implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3d get(DoubleBuffer buffer) {
+    public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -770,9 +766,9 @@ public class Matrix3d implements Externalizable {
      *            the absolute position into the {@link DoubleBuffer}
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3d get(int index, DoubleBuffer buffer) {
+    public DoubleBuffer get(int index, DoubleBuffer buffer) {
         buffer.put(index, m00);
         buffer.put(index+1, m01);
         buffer.put(index+2, m02);
@@ -782,7 +778,7 @@ public class Matrix3d implements Externalizable {
         buffer.put(index+6, m20);
         buffer.put(index+7, m21);
         buffer.put(index+8, m22);
-        return this;
+        return buffer;
     }
 
     /**
@@ -802,9 +798,9 @@ public class Matrix3d implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3d get(FloatBuffer buffer) {
+    public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -821,9 +817,9 @@ public class Matrix3d implements Externalizable {
      *            the absolute position into the FloatBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3d get(int index, FloatBuffer buffer) {
+    public FloatBuffer get(int index, FloatBuffer buffer) {
         buffer.put(index, (float) m00);
         buffer.put(index+1, (float) m01);
         buffer.put(index+2, (float) m02);
@@ -833,7 +829,7 @@ public class Matrix3d implements Externalizable {
         buffer.put(index+6, (float) m20);
         buffer.put(index+7, (float) m21);
         buffer.put(index+8, (float) m22);
-        return this;
+        return buffer;
     }
 
     /**
@@ -850,9 +846,9 @@ public class Matrix3d implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3d get(ByteBuffer buffer) {
+    public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -866,9 +862,9 @@ public class Matrix3d implements Externalizable {
      *            the absolute position into the ByteBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3d get(int index, ByteBuffer buffer) {
+    public ByteBuffer get(int index, ByteBuffer buffer) {
         buffer.putDouble(index+8*0, m00);
         buffer.putDouble(index+8*1, m01);
         buffer.putDouble(index+8*2, m02);
@@ -878,7 +874,7 @@ public class Matrix3d implements Externalizable {
         buffer.putDouble(index+8*6, m20);
         buffer.putDouble(index+8*7, m21);
         buffer.putDouble(index+8*8, m22);
-        return this;
+        return buffer;
     }
 
     /**
@@ -1870,9 +1866,10 @@ public class Matrix3d implements Externalizable {
      *          the row index in <tt>[0..2]</tt>
      * @param dest
      *          will hold the row components
+     * @return the passed in destination
      * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
      */
-    public void getRow(int row, Vector3d dest) throws IndexOutOfBoundsException {
+    public Vector3d getRow(int row, Vector3d dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
             dest.x = m00;
@@ -1892,6 +1889,8 @@ public class Matrix3d implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
+        
+        return dest;
     }
 
     /**
@@ -1901,9 +1900,10 @@ public class Matrix3d implements Externalizable {
      *          the column index in <tt>[0..2]</tt>
      * @param dest
      *          will hold the column components
+     * @return the passed in destination
      * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..2]</tt>
      */
-    public void getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException {
+    public Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
             dest.x = m00;
@@ -1923,6 +1923,8 @@ public class Matrix3d implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
+        
+        return dest;
     }
 
     /**

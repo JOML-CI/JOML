@@ -223,9 +223,9 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          the matrix to write the rotation into
-     * @return this
+     * @return the passed in destination
      */
-    public Quaternionf get(Matrix3f dest) {
+    public Matrix3f get(Matrix3f dest) {
         float q00 = 2.0f * x * x;
         float q11 = 2.0f * y * y;
         float q22 = 2.0f * z * z;
@@ -248,7 +248,7 @@ public class Quaternionf implements Externalizable {
         dest.m20 = q02 + q13;
         dest.m21 = q12 - q03;
         dest.m22 = 1.0f - q11 - q00;
-        return this;
+        return dest;
     }
 
     /**
@@ -256,9 +256,9 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          the matrix to write the rotation into
-     * @return this
+     * @return the passed in destination
      */
-    public Quaternionf get(Matrix3d dest) {
+    public Matrix3d get(Matrix3d dest) {
         double q00 = 2.0 * x * x;
         double q11 = 2.0 * y * y;
         double q22 = 2.0 * z * z;
@@ -281,7 +281,7 @@ public class Quaternionf implements Externalizable {
         dest.m20 = q02 + q13;
         dest.m21 = q12 - q03;
         dest.m22 = 1.0 - q11 - q00;
-        return this;
+        return dest;
     }
 
     /**
@@ -289,9 +289,9 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          the matrix to write the rotation into
-     * @return this
+     * @return the passed in destination
      */
-    public Quaternionf get(Matrix4f dest) {
+    public Matrix4f get(Matrix4f dest) {
         float q00 = 2.0f * x * x;
         float q11 = 2.0f * y * y;
         float q22 = 2.0f * z * z;
@@ -320,18 +320,18 @@ public class Quaternionf implements Externalizable {
         dest.m31 = 0.0f;
         dest.m32 = 0.0f;
         dest.m33 = 1.0f;
-        return this;
+        return dest;
     }
 
     /**
      * Set the given {@link AxisAngle4f} to represent the rotation of
      * <code>this</code> quaternion.
      * 
-     * @param axisAngle
+     * @param dest
      *            the {@link AxisAngle4f} to set
-     * @return this
+     * @return the passed in destination
      */
-    public Quaternionf get(AxisAngle4f axisAngle) {
+    public AxisAngle4f get(AxisAngle4f dest) {
         float x = this.x;
         float y = this.y;
         float z = this.z;
@@ -343,18 +343,18 @@ public class Quaternionf implements Externalizable {
             z /= norm;
             w /= norm;
         }
-        axisAngle.angle = (float) (2.0f * Math.acos(w));
+        dest.angle = (float) (2.0f * Math.acos(w));
         float s = (float) Math.sqrt(1.0 - w * w);
         if (s < 0.001f) {
-            axisAngle.x = x;
-            axisAngle.y = y;
-            axisAngle.z = z;
+            dest.x = x;
+            dest.y = y;
+            dest.z = z;
         } else {
-            axisAngle.x = x / s;
-            axisAngle.y = y / s;
-            axisAngle.z = z / s;
+            dest.x = x / s;
+            dest.y = y / s;
+            dest.z = z / s;
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -364,11 +364,10 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          the {@link Quaterniond} to set
-     * @return this
+     * @return the passed in destination
      */
-    public Quaternionf get(Quaterniond dest) {
-        dest.set(this);
-        return this;
+    public Quaterniond get(Quaterniond dest) {
+        return dest.set(this);
     }
 
     /**
@@ -378,11 +377,10 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          the {@link Quaternionf} to set
-     * @return this
+     * @return the passed in destination
      */
     public Quaternionf get(Quaternionf dest) {
-        dest.set(this);
-        return this;
+        return dest.set(this);
     }
 
     /**
@@ -1105,13 +1103,13 @@ public class Quaternionf implements Externalizable {
      * 
      * @param eulerAngles
      *          will hold the euler angles in radians
-     * @return this
+     * @return the passed in vector
      */
-    public Quaternionf getEulerAnglesXYZ(Vector3f eulerAngles) {
+    public Vector3f getEulerAnglesXYZ(Vector3f eulerAngles) {
         eulerAngles.x = (float) Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y));
         eulerAngles.y = (float) Math.asin(2.0 * (x*z + y*w));
         eulerAngles.z = (float) Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z));
-        return this;
+        return eulerAngles;
     }
 
     /**

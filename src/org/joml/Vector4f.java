@@ -386,13 +386,12 @@ public class Vector4f implements Externalizable {
      * the vector is stored, you can use {@link #get(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      * 
-     * @see #get(int, FloatBuffer)
-     * 
      * @param buffer
      *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return this
+     * @return the passed in buffer
+     * @see #get(int, FloatBuffer)
      */
-    public Vector4f get(FloatBuffer buffer) {
+    public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -406,14 +405,14 @@ public class Vector4f implements Externalizable {
      *          the absolute position into the FloatBuffer
      * @param buffer
      *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return this
+     * @return the passed in buffer
      */
-    public Vector4f get(int index, FloatBuffer buffer) {
+    public FloatBuffer get(int index, FloatBuffer buffer) {
         buffer.put(index,    x);
         buffer.put(index+1,  y);
         buffer.put(index+2,  z);
         buffer.put(index+3,  w);
-        return this;
+        return buffer;
     }
 
     /**
@@ -426,13 +425,12 @@ public class Vector4f implements Externalizable {
      * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      * 
-     * @see #get(int, ByteBuffer)
-     * 
      * @param buffer
      *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return this
+     * @return the passed in buffer
+     * @see #get(int, ByteBuffer)
      */
-    public Vector4f get(ByteBuffer buffer) {
+    public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -446,14 +444,14 @@ public class Vector4f implements Externalizable {
      *          the absolute position into the ByteBuffer
      * @param buffer
      *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return this
+     * @return the passed in buffer
      */
-    public Vector4f get(int index, ByteBuffer buffer) {
+    public ByteBuffer get(int index, ByteBuffer buffer) {
         buffer.putFloat(index,    x);
         buffer.putFloat(index+4,  y);
         buffer.putFloat(index+8,  z);
         buffer.putFloat(index+12, w);
-        return this;
+        return buffer;
     }
 
     /**

@@ -282,10 +282,10 @@ public class Vector2f implements Externalizable {
      *
      * @param buffer
      *        will receive the values of this vector in <tt>x, y</tt> order
-     * @return this
+     * @return the passed in buffer
      * @see #get(int, ByteBuffer)
      */
-    public Vector2f get(ByteBuffer buffer) {
+    public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -299,12 +299,12 @@ public class Vector2f implements Externalizable {
      *        the absolute position into the ByteBuffer
      * @param buffer
      *        will receive the values of this vector in <tt>x, y</tt> order
-     * @return this
+     * @return the passed in buffer
      */
-    public Vector2f get(int index, ByteBuffer buffer) {
+    public ByteBuffer get(int index, ByteBuffer buffer) {
         buffer.putFloat(index,      x);
         buffer.putFloat(index + 4,  y);
-        return this;
+        return buffer;
     }
 
     /**
@@ -319,10 +319,10 @@ public class Vector2f implements Externalizable {
      *
      * @param buffer
      *        will receive the values of this vector in <tt>x, y</tt> order
-     * @return this
+     * @return the passed in buffer
      * @see #get(int, FloatBuffer)
      */
-    public Vector2f get(FloatBuffer buffer) {
+    public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -336,12 +336,12 @@ public class Vector2f implements Externalizable {
      *        the absolute position into the FloatBuffer
      * @param buffer
      *        will receive the values of this vector in <tt>x, y</tt> order
-     * @return this
+     * @return the passed in buffer
      */
-    public Vector2f get(int index, FloatBuffer buffer) {
+    public FloatBuffer get(int index, FloatBuffer buffer) {
         buffer.put(index,      x);
         buffer.put(index + 1,  y);
-        return this;
+        return buffer;
     }
 
     /**

@@ -487,11 +487,10 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *          the destination matrix
-     * @return this
+     * @return the passed in destination
      */
     public Matrix3f get(Matrix3f dest) {
-        dest.set(this);
-        return this;
+        return dest.set(this);
     }
 
     /**
@@ -503,11 +502,10 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *          the destination matrix
-     * @return this
+     * @return the passed in destination
      */
-    public Matrix3f get(Matrix4f dest) {
-        dest.set(this);
-        return this;
+    public Matrix4f get(Matrix4f dest) {
+        return dest.set(this);
     }
 
     /**
@@ -518,11 +516,10 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *          the destination {@link AxisAngle4f}
-     * @return this
+     * @return the passed in destination
      */
-    public Matrix3f get(AxisAngle4f dest) {
-        dest.set(this);
-        return this;
+    public AxisAngle4f get(AxisAngle4f dest) {
+        return dest.set(this);
     }
 
     /**
@@ -533,11 +530,10 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *          the destination {@link Quaternionf}
-     * @return this
+     * @return the passed in destination
      */
-    public Matrix3f get(Quaternionf dest) {
-        dest.set(this);
-        return this;
+    public Quaternionf get(Quaternionf dest) {
+        return dest.set(this);
     }
 
     /**
@@ -548,11 +544,10 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *          the destination {@link Quaterniond}
-     * @return this
+     * @return the passed in destination
      */
-    public Matrix3f get(Quaterniond dest) {
-        dest.set(this);
-        return this;
+    public Quaterniond get(Quaterniond dest) {
+        return dest.set(this);
     }
 
     /**
@@ -569,9 +564,9 @@ public class Matrix3f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3f get(FloatBuffer buffer) {
+    public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -585,9 +580,9 @@ public class Matrix3f implements Externalizable {
      *            the absolute position into the FloatBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3f get(int index, FloatBuffer buffer) {
+    public FloatBuffer get(int index, FloatBuffer buffer) {
         buffer.put(index,   m00);
         buffer.put(index+1, m01);
         buffer.put(index+2, m02);
@@ -597,7 +592,7 @@ public class Matrix3f implements Externalizable {
         buffer.put(index+6, m20);
         buffer.put(index+7, m21);
         buffer.put(index+8, m22);
-        return this;
+        return buffer;
     }
 
     /**
@@ -614,9 +609,9 @@ public class Matrix3f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3f get(ByteBuffer buffer) {
+    public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -630,9 +625,9 @@ public class Matrix3f implements Externalizable {
      *            the absolute position into the ByteBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3f get(int index, ByteBuffer buffer) {
+    public ByteBuffer get(int index, ByteBuffer buffer) {
         buffer.putFloat(index,    m00);
         buffer.putFloat(index+4,  m01);
         buffer.putFloat(index+8,  m02);
@@ -642,7 +637,7 @@ public class Matrix3f implements Externalizable {
         buffer.putFloat(index+24, m20);
         buffer.putFloat(index+28, m21);
         buffer.putFloat(index+32, m22);
-        return this;
+        return buffer;
     }
 
     /**
@@ -659,9 +654,9 @@ public class Matrix3f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3f getTransposed(FloatBuffer buffer) {
+    public FloatBuffer getTransposed(FloatBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
@@ -675,9 +670,9 @@ public class Matrix3f implements Externalizable {
      *            the absolute position into the FloatBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3f getTransposed(int index, FloatBuffer buffer) {
+    public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
         buffer.put(index,    m00);
         buffer.put(index+1,  m10);
         buffer.put(index+2,  m20);
@@ -687,7 +682,7 @@ public class Matrix3f implements Externalizable {
         buffer.put(index+6,  m02);
         buffer.put(index+7,  m12);
         buffer.put(index+8, m22);
-        return this;
+        return buffer;
     }
 
     /**
@@ -704,9 +699,9 @@ public class Matrix3f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3f getTransposed(ByteBuffer buffer) {
+    public ByteBuffer getTransposed(ByteBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
@@ -720,9 +715,9 @@ public class Matrix3f implements Externalizable {
      *            the absolute position into the ByteBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return this
+     * @return the passed in buffer
      */
-    public Matrix3f getTransposed(int index, ByteBuffer buffer) {
+    public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         buffer.putFloat(index,    m00);
         buffer.putFloat(index+4,  m10);
         buffer.putFloat(index+8,  m20);
@@ -732,7 +727,7 @@ public class Matrix3f implements Externalizable {
         buffer.putFloat(index+24, m02);
         buffer.putFloat(index+28, m12);
         buffer.putFloat(index+32, m22);
-        return this;
+        return buffer;
     }
 
     /**
@@ -1962,9 +1957,10 @@ public class Matrix3f implements Externalizable {
      *          the row index in <tt>[0..2]</tt>
      * @param dest
      *          will hold the row components
+     * @return the passed in destination
      * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
      */
-    public void getRow(int row, Vector3f dest) throws IndexOutOfBoundsException {
+    public Vector3f getRow(int row, Vector3f dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
             dest.x = m00;
@@ -1984,6 +1980,8 @@ public class Matrix3f implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
+        
+        return dest;
     }
 
     /**
@@ -1993,9 +1991,10 @@ public class Matrix3f implements Externalizable {
      *          the column index in <tt>[0..2]</tt>
      * @param dest
      *          will hold the column components
+     * @return the passed in destination
      * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..2]</tt>
      */
-    public void getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException {
+    public Vector3f getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
             dest.x = m00;
@@ -2015,6 +2014,8 @@ public class Matrix3f implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
+        
+        return dest;
     }
 
     /**
