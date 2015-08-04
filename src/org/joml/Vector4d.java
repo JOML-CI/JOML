@@ -403,7 +403,8 @@ public class Vector4d implements Externalizable {
      * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      * @return this
      * @see #set(int, ByteBuffer)
      */
@@ -417,8 +418,10 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index  the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      * @return this
      */
     public Vector4d set(int index, ByteBuffer buffer) {
@@ -439,7 +442,8 @@ public class Vector4d implements Externalizable {
      * the vector is read, you can use {@link #set(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      * @return this
      * @see #set(int, DoubleBuffer)
      */
@@ -453,8 +457,10 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
      *
-     * @param index  the absolute position into the DoubleBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index
+     *          the absolute position into the DoubleBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      * @return this
      */
     public Vector4d set(int index, DoubleBuffer buffer) {
@@ -475,11 +481,12 @@ public class Vector4d implements Externalizable {
      * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return this
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return the passed in buffer
      * @see #get(int, ByteBuffer)
      */
-    public Vector4d get(ByteBuffer buffer) {
+    public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -489,16 +496,18 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index  the absolute position into the ByteBuffer
-     * @param buffer will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return this
+     * @param index 
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return the passed in buffer
      */
-    public Vector4d get(int index, ByteBuffer buffer) {
+    public ByteBuffer get(int index, ByteBuffer buffer) {
         buffer.putDouble(index,      x);
         buffer.putDouble(index + 8,  y);
         buffer.putDouble(index + 16,  z);
         buffer.putDouble(index + 24,  w);
-        return this;
+        return buffer;
     }
 
     /**
@@ -511,11 +520,12 @@ public class Vector4d implements Externalizable {
      * the vector is stored, you can use {@link #get(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
-     * @param buffer will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return this
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return the passed in buffer
      * @see #get(int, DoubleBuffer)
      */
-    public Vector4d get(DoubleBuffer buffer) {
+    public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -525,16 +535,18 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
      *
-     * @param index  the absolute position into the DoubleBuffer
-     * @param buffer will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return this
+     * @param index
+     *          the absolute position into the DoubleBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return the passed in buffer
      */
-    public Vector4d get(int index, DoubleBuffer buffer) {
+    public DoubleBuffer get(int index, DoubleBuffer buffer) {
         buffer.put(index,      x);
         buffer.put(index + 1,  y);
         buffer.put(index + 2,  z);
         buffer.put(index + 3,  w);
-        return this;
+        return buffer;
     }
 
     /**
