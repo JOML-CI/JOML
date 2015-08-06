@@ -22,24 +22,14 @@
  */
 package org.joml;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 /**
  * Represents a 2D vector with double-precision.
  *
  * @author RGreenlees
  * @author Kai Burjack
+ * @author Sri Harsha Chilakapati
  */
-public class Vector2d implements Externalizable {
-
-    private static final long serialVersionUID = 1L;
+public class Vector2d {
 
     /**
      * The x component of the vector.
@@ -58,8 +48,8 @@ public class Vector2d implements Externalizable {
 
     /**
      * Create a new {@link Vector2d} and initialize both of its components with the given value.
-     * 
-     * @param d    
+     *
+     * @param d
      *          the value of both components
      */
     public Vector2d(double d) {
@@ -68,7 +58,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Create a new {@link Vector2d} and initialize its components to the given values.
-     * 
+     *
      * @param x
      *          the x value
      * @param y
@@ -81,7 +71,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Create a new {@link Vector2d} and initialize its components to the one of the given vector.
-     * 
+     *
      * @param v
      *          the {@link Vector2d} to copy the values from
      */
@@ -92,7 +82,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Create a new {@link Vector2d} and initialize its components to the one of the given vector.
-     * 
+     *
      * @param v
      *          the {@link Vector2f} to copy the values from
      */
@@ -102,71 +92,34 @@ public class Vector2d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
-     * at the current buffer {@link ByteBuffer#position() position}.
+     * Create a new {@link Vector2d} and read this vector from the supplied double array starting at position 0.
      * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the vector is read, you can use {@link #Vector2d(int, ByteBuffer)}, taking
+     * If you want to specify the offset into the double array at which
+     * the vector is read, you can use {@link #Vector2d(int, double[])}, taking
      * the absolute position as parameter.
      *
      * @param buffer
      *          values will be read in <tt>x, y</tt> order
-     * @see #Vector2d(int, ByteBuffer)
+     * @see #Vector2d(int, double[])
      */
-    public Vector2d(ByteBuffer buffer) {
-        this(buffer.position(), buffer);
+    public Vector2d(double[] buffer) {
+        this(0, buffer);
     }
 
     /**
-     * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
+     * Create a new {@link Vector2d} and read this vector from the supplied double array
      * starting at the specified absolute buffer position/index.
      * <p>
-     * This method will not increment the position of the given ByteBuffer.
+     * This method will not increment the position of the given double array.
      *
      * @param index
-     *          the absolute position into the ByteBuffer
+     *          the absolute position into the double array
      * @param buffer
      *          values will be read in <tt>x, y</tt> order
      */
-    public Vector2d(int index, ByteBuffer buffer) {
-        x = buffer.getDouble(index);
-        y = buffer.getDouble(index + 8);
-    }
-
-    /**
-     * Create a new {@link Vector2d} and read this vector from the supplied {@link DoubleBuffer}
-     * at the current buffer {@link DoubleBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * <p>
-     * If you want to specify the offset into the DoubleBuffer at which
-     * the vector is read, you can use {@link #Vector2d(int, DoubleBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer
-     *          values will be read in <tt>x, y</tt> order
-     * @see #Vector2d(int, DoubleBuffer)
-     */
-    public Vector2d(DoubleBuffer buffer) {
-        this(buffer.position(), buffer);
-    }
-
-    /**
-     * Create a new {@link Vector2d} and read this vector from the supplied {@link DoubleBuffer}
-     * starting at the specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     *
-     * @param index
-     *          the absolute position into the DoubleBuffer
-     * @param buffer
-     *          values will be read in <tt>x, y</tt> order
-     */
-    public Vector2d(int index, DoubleBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
+    public Vector2d(int index, double[] buffer) {
+        x = buffer[index];
+        y = buffer[index + 1];
     }
 
     /**
@@ -182,7 +135,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Set the x and y components to the supplied values.
-     * 
+     *
      * @param x
      *          the x value
      * @param y
@@ -197,7 +150,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Set this {@link Vector2d} to the values of v.
-     * 
+     *
      * @param v
      *          the vector to copy from
      * @return this
@@ -210,7 +163,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Set this {@link Vector2d} to be a clone of <code>v</code>.
-     * 
+     *
      * @param v
      *          the vector to copy from
      * @return this
@@ -222,156 +175,76 @@ public class Vector2d implements Externalizable {
     }
 
     /**
-     * Read this vector from the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
+     * Read this vector from the supplied double starting at the position 0..
      * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
+     * If you want to specify the offset into the double array at which
+     * the vector is read, you can use {@link #set(int, double[])}, taking
      * the absolute position as parameter.
      *
      * @param buffer
      *          values will be read in <tt>x, y</tt> order
      * @return this
-     * @see #set(int, ByteBuffer)
+     * @see #set(int, double[])
      */
-    public Vector2d set(ByteBuffer buffer) {
-        return set(buffer.position(), buffer);
+    public Vector2d set(double[] buffer) {
+        return set(0, buffer);
     }
 
     /**
-     * Read this vector from the supplied {@link ByteBuffer} starting at the specified
+     * Read this vector from the supplied double array starting at the specified
      * absolute buffer position/index.
      * <p>
-     * This method will not increment the position of the given ByteBuffer.
+     * This method will not increment the position of the given double array.
      *
      * @param index
-     *          the absolute position into the ByteBuffer
+     *          the absolute position into the double array
      * @param buffer
      *          values will be read in <tt>x, y</tt> order
      * @return this
      */
-    public Vector2d set(int index, ByteBuffer buffer) {
-        x = buffer.getDouble(index);
-        y = buffer.getDouble(index + 8);
+    public Vector2d set(int index, double[] buffer) {
+        x = buffer[index];
+        y = buffer[index + 1];
         return this;
     }
 
     /**
-     * Read this vector from the supplied {@link DoubleBuffer} at the current
-     * buffer {@link DoubleBuffer#position() position}.
+     * Store this vector into the supplied double array starting at the position 0.
      * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * <p>
-     * If you want to specify the offset into the DoubleBuffer at which
-     * the vector is read, you can use {@link #set(int, DoubleBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer
-     *          values will be read in <tt>x, y</tt> order
-     * @return this
-     * @see #set(int, DoubleBuffer)
-     */
-    public Vector2d set(DoubleBuffer buffer) {
-        return set(buffer.position(), buffer);
-    }
-
-    /**
-     * Read this vector from the supplied {@link DoubleBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     *
-     * @param index 
-     *          the absolute position into the DoubleBuffer
-     * @param buffer
-     *          values will be read in <tt>x, y</tt> order
-     * @return this
-     */
-    public Vector2d set(int index, DoubleBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        return this;
-    }
-    
-    /**
-     * Store this vector into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * If you want to specify the offset into the double array at which
+     * the vector is stored, you can use {@link #get(int, double[])}, taking
      * the absolute position as parameter.
      *
      * @param buffer
      *          will receive the values of this vector in <tt>x, y</tt> order
      * @return the passed in buffer
-     * @see #get(int, ByteBuffer)
+     * @see #get(int, double[])
      */
-    public ByteBuffer get(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
+    public double[] get(double[] buffer) {
+        return get(0, buffer);
     }
 
     /**
-     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
+     * Store this vector into the supplied double array starting at the specified
      * absolute buffer position/index.
      * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     *
-     * @param index 
-     *          the absolute position into the ByteBuffer
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
-     * @return the passed in buffer
-     */
-    public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putDouble(index,      x);
-        buffer.putDouble(index + 8,  y);
-        return buffer;
-    }
-
-    /**
-     * Store this vector into the supplied {@link DoubleBuffer} at the current
-     * buffer {@link DoubleBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * <p>
-     * If you want to specify the offset into the DoubleBuffer at which
-     * the vector is stored, you can use {@link #get(int, DoubleBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
-     * @return the passed in buffer
-     * @see #get(int, DoubleBuffer)
-     */
-    public DoubleBuffer get(DoubleBuffer buffer) {
-        return get(buffer.position(), buffer);
-    }
-
-    /**
-     * Store this vector into the supplied {@link DoubleBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
+     * This method will not increment the position of the given double array.
      *
      * @param index
-     *          the absolute position into the DoubleBuffer
+     *          the absolute position into the double array.
      * @param buffer
      *          will receive the values of this vector in <tt>x, y</tt> order
      * @return the passed in buffer
      */
-    public DoubleBuffer get(int index, DoubleBuffer buffer) {
-        buffer.put(index,      x);
-        buffer.put(index + 1,  y);
+    public double[] get(int index, double[] buffer) {
+        buffer[index] = x;
+        buffer[index + 1] = y;
         return buffer;
     }
 
     /**
      * Store one perpendicular vector of <code>v</code> in <code>dest</code>.
-     * 
+     *
      * @param v
      *          the vector to build one perpendicular vector of
      * @param dest
@@ -384,7 +257,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Set this vector to be one of its perpendicular vectors.
-     * 
+     *
      * @return this
      */
     public Vector2d perpendicular() {
@@ -393,7 +266,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Subtract <code>v</code> from this vector.
-     * 
+     *
      * @param v
      *          the vector to subtract
      * @return this
@@ -406,7 +279,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Subtract <tt>(x, y)</tt> from this vector.
-     * 
+     *
      * @param x
      *          the x component to subtract
      * @param y
@@ -421,13 +294,13 @@ public class Vector2d implements Externalizable {
 
     /**
      * Subtract <tt>(x, y)</tt> from this vector and store the result in <code>dest</code>.
-     * 
+     *
      * @param x
      *          the x component to subtract
      * @param y
      *          the y component to subtract
      * @param dest
-     *          will hold the result         
+     *          will hold the result
      * @return this
      */
     public Vector2d sub(double x, double y, Vector2d dest) {
@@ -438,7 +311,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Subtract <code>v</code> from this vector.
-     * 
+     *
      * @param v
      *          the vector to subtract
      * @return this
@@ -451,7 +324,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
-     * 
+     *
      * @param v
      *          the vector to subtract
      * @param dest
@@ -466,7 +339,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
-     * 
+     *
      * @param v
      *          the vector to subtract
      * @param dest
@@ -481,7 +354,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
-     * 
+     *
      * @param a
      *          the vector to subtract from
      * @param b
@@ -496,7 +369,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Return the dot product of this vector and <code>v</code>.
-     * 
+     *
      * @param v
      *          the other vector
      * @return the dot product
@@ -507,20 +380,20 @@ public class Vector2d implements Externalizable {
 
     /**
      * Return the angle between this vector and the supplied vector.
-     * 
+     *
      * @param v
      *          the other vector
      * @return the angle, in radians
      */
     public double angle(Vector2d v) {
         double dot = x*v.x + y*v.y;
-        double det = x*v.y - y*v.x;
+        double det = x*v.y - y* v.x;
         return Math.atan2(det, dot);
     }
 
     /**
      * Return the length of this vector.
-     * 
+     *
      * @return the length
      */
     public double length() {
@@ -529,7 +402,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Return the distance between <code>this</code> and <code>v</code>.
-     * 
+     *
      * @param v
      *          the other vector
      * @return the euclidean distance
@@ -541,7 +414,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Return the distance between <code>this</code> and <code>v</code>.
-     * 
+     *
      * @param v
      *          the other vector
      * @return the euclidean distance
@@ -553,7 +426,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Normalize this vector.
-     * 
+     *
      * @return this
      */
     public Vector2d normalize() {
@@ -565,7 +438,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Normalize this vector and store the result in <code>dest</code>.
-     * 
+     *
      * @param dest
      *          will hold the result
      * @return this
@@ -579,7 +452,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Add <code>v</code> to this vector.
-     * 
+     *
      * @param v
      *          the vector to add
      * @return this
@@ -592,7 +465,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Add <code>(x, y)</code> to this vector.
-     * 
+     *
      * @param x
      *          the x component to add
      * @param y
@@ -607,7 +480,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Add <code>(x, y)</code> to this vector and store the result in <code>dest</code>.
-     * 
+     *
      * @param x
      *          the x component to add
      * @param y
@@ -624,7 +497,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Add <code>v</code> to this vector.
-     * 
+     *
      * @param v
      *          the vector to add
      * @return this
@@ -637,7 +510,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Add <code>v</code> to this vector and store the result in <code>dest</code>.
-     * 
+     *
      * @param v
      *          the vector to add
      * @param dest
@@ -652,7 +525,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Add <code>v</code> to this vector and store the result in <code>dest</code>.
-     * 
+     *
      * @param v
      *          the vector to add
      * @param dest
@@ -667,7 +540,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
-     * 
+     *
      * @param a
      *          the first addend
      * @param b
@@ -682,7 +555,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Set all components to zero.
-     * 
+     *
      * @return this
      */
     public Vector2d zero() {
@@ -691,20 +564,9 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeDouble(x);
-        out.writeDouble(y);
-    }
-
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
-        x = in.readDouble();
-        y = in.readDouble();
-    }
-
     /**
      * Negate this vector.
-     * 
+     *
      * @return this
      */
     public Vector2d negate() {
@@ -715,7 +577,7 @@ public class Vector2d implements Externalizable {
 
     /**
      * Negate this vector and store the result in <code>dest</code>.
-     * 
+     *
      * @param dest
      *          will hold the result
      * @return this
@@ -732,7 +594,7 @@ public class Vector2d implements Externalizable {
      * <p>
      * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
-     * 
+     *
      * @param other
      *          the other vector
      * @param t
@@ -749,7 +611,7 @@ public class Vector2d implements Externalizable {
      * <p>
      * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
      * then the result is <code>other</code>.
-     * 
+     *
      * @param other
      *          the other vector
      * @param t
@@ -792,25 +654,11 @@ public class Vector2d implements Externalizable {
 
     /**
      * Return a string representation of this vector.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
-     * 
+     *
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-"); //$NON-NLS-1$
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
-    /**
-     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
-     * 
-     * @param formatter
-     *          the {@link NumberFormat} used to format the vector components with
-     * @return the string representation
-     */
-    public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + " " + formatter.format(y) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        return "(" + (x) + " " + (y) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
 }

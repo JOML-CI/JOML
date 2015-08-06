@@ -22,16 +22,6 @@
  */
 package org.joml;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.nio.ByteBuffer;
-import java.nio.DoubleBuffer;
-import java.nio.FloatBuffer;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 /**
  * Contains the definition of a 3x3 Matrix of doubles, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
@@ -39,13 +29,12 @@ import java.text.NumberFormat;
  *      m00  m10  m20<br>
  *      m01  m11  m21<br>
  *      m02  m12  m22<br>
- * 
+ *
  * @author Richard Greenlees
  * @author Kai Burjack
+ * @author Sri Harsha Chilakapati
  */
-public class Matrix3d implements Externalizable {
-
-    private static final long serialVersionUID = 1L;
+public class Matrix3d {
 
     public double m00, m10, m20;
     public double m01, m11, m21;
@@ -61,7 +50,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Create a new {@link Matrix3d} and initialize it with the values from the given matrix.
-     * 
+     *
      * @param mat
      *          the matrix to initialize this matrix with
      */
@@ -79,7 +68,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Create a new {@link Matrix3d} and initialize it with the values from the given matrix.
-     * 
+     *
      * @param mat
      *          the matrix to initialize this matrix with
      */
@@ -133,7 +122,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Create a new {@link Matrix3d} and initialize its elements with the given values.
-     * 
+     *
      * @param m00
      *          the value of m00
      * @param m01
@@ -154,7 +143,7 @@ public class Matrix3d implements Externalizable {
      *          the value of m22
      */
     public Matrix3d(double m00, double m01, double m02,
-                    double m10, double m11, double m12, 
+                    double m10, double m11, double m12,
                     double m20, double m21, double m22) {
         this.m00 = m00;
         this.m01 = m01;
@@ -169,7 +158,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set the values in this matrix to the ones in m.
-     * 
+     *
      * @param m
      *          the matrix whose values will be copied
      * @return this
@@ -189,7 +178,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set the values in this matrix to the ones in m.
-     * 
+     *
      * @param m
      *          the matrix whose values will be copied
      * @return this
@@ -246,10 +235,10 @@ public class Matrix3d implements Externalizable {
         m22 = mat.m22;
         return this;
     }
-    
+
     /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
-     * 
+     *
      * @param axisAngle
      *          the {@link AxisAngle4f}
      * @return this
@@ -286,9 +275,9 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set this matrix to a rotation equivalent to the given quaternion.
-     * 
+     *
      * @see Quaternionf#get(Matrix3d)
-     * 
+     *
      * @param q
      *          the quaternion
      * @return this
@@ -300,9 +289,9 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set this matrix to a rotation equivalent to the given quaternion.
-     * 
+     *
      * @see Quaterniond#get(Matrix3d)
-     * 
+     *
      * @param q
      *          the quaternion
      * @return this
@@ -320,7 +309,7 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * transformation of the right matrix will be applied first!
-     * 
+     *
      * @param right
      *          the right operand
      * @return this
@@ -337,7 +326,7 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * transformation of the right matrix will be applied first!
-     * 
+     *
      * @param right
      *          the right operand
      * @param dest
@@ -377,7 +366,7 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * transformation of the right matrix will be applied first!
-     * 
+     *
      * @param right
      *          the right operand
      * @return this
@@ -394,7 +383,7 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * transformation of the right matrix will be applied first!
-     * 
+     *
      * @param right
      *          the right operand
      * @param dest
@@ -433,7 +422,7 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * transformation of the right matrix will be applied first!
-     * 
+     *
      * @param left
      *          the left matrix
      * @param right
@@ -471,7 +460,7 @@ public class Matrix3d implements Externalizable {
      * m00, m10, m20<br>
      * m01, m11, m21<br>
      * m02, m12, m22<br>
-     * 
+     *
      * @param m00
      *          the new value of m00
      * @param m01
@@ -492,8 +481,8 @@ public class Matrix3d implements Externalizable {
      *          the new value of m22
      * @return this
      */
-    public Matrix3d set(double m00, double m01, double m02, 
-                        double m10, double m11, double m12, 
+    public Matrix3d set(double m00, double m01, double m02,
+                        double m10, double m11, double m12,
                         double m20, double m21, double m22) {
         this.m00 = m00;
         this.m01 = m01;
@@ -515,7 +504,7 @@ public class Matrix3d implements Externalizable {
      * 2, 5, 8<br>
      * <p>
      * Only uses the first 9 values, all others are ignored.
-     * 
+     *
      * @param m
      *          the array to read the matrix values from
      * @return this
@@ -561,7 +550,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Return the determinant of this matrix.
-     * 
+     *
      * @return the determinant
      */
     public double determinant() {
@@ -572,7 +561,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Invert this matrix.
-     * 
+     *
      * @return this
      */
     public Matrix3d invert() {
@@ -581,7 +570,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Invert <code>this</code> matrix and store the result in <code>dest</code>.
-     * 
+     *
      * @param dest
      *          will hold the result
      * @return this
@@ -619,7 +608,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Transpose this matrix.
-     * 
+     *
      * @return this
      */
     public Matrix3d transpose() {
@@ -628,7 +617,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Transpose <code>this</code> matrix and store the result in <code>dest</code>.
-     * 
+     *
      * @param dest
      *             will hold the result
      * @return this
@@ -654,27 +643,13 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Return a string representation of this matrix.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>  0.000E0; -</tt>".
-     * 
+     *
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat("  0.000E0; -"); //$NON-NLS-1$
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
-    /**
-     * Return a string representation of this matrix by formatting the matrix elements with the given {@link NumberFormat}.
-     * 
-     * @param formatter
-     *          the {@link NumberFormat} used to format the matrix values with
-     * @return the string representation
-     */
-    public String toString(NumberFormat formatter) {
-        return formatter.format(m00) + formatter.format(m10) + formatter.format(m20) + "\n" //$NON-NLS-1$
-             + formatter.format(m01) + formatter.format(m11) + formatter.format(m21) + "\n" //$NON-NLS-1$
-             + formatter.format(m02) + formatter.format(m12) + formatter.format(m22) + "\n"; //$NON-NLS-1$
+        return (m00) + " " + (m10) + " " + (m20) + "\n" //$NON-NLS-1$
+             + (m01) + " " + (m11) + " " + (m21) + "\n" //$NON-NLS-1$
+             + (m02) + " " + (m12) + " " + (m22) + "\n"; //$NON-NLS-1$
     }
 
     /**
@@ -683,9 +658,9 @@ public class Matrix3d implements Externalizable {
      * <p>
      * This is the reverse method of {@link #set(Matrix3d)} and allows to obtain
      * intermediate calculation results when chaining multiple transformations.
-     * 
+     *
      * @see #set(Matrix3d)
-     * 
+     *
      * @param dest
      *          the destination matrix
      * @return the passed in destination
@@ -697,9 +672,9 @@ public class Matrix3d implements Externalizable {
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link AxisAngle4f}.
-     * 
+     *
      * @see AxisAngle4f#set(Matrix3d)
-     * 
+     *
      * @param dest
      *          the destination {@link AxisAngle4f}
      * @return the passed in destination
@@ -711,9 +686,9 @@ public class Matrix3d implements Externalizable {
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
-     * 
+     *
      * @see Quaternionf#set(Matrix3d)
-     * 
+     *
      * @param dest
      *          the destination {@link Quaternionf}
      * @return the passed in destination
@@ -725,9 +700,9 @@ public class Matrix3d implements Externalizable {
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaterniond}.
-     * 
+     *
      * @see Quaterniond#set(Matrix3d)
-     * 
+     *
      * @param dest
      *          the destination {@link Quaterniond}
      * @return the passed in destination
@@ -737,175 +712,118 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied {@link DoubleBuffer} at the current
-     * buffer {@link DoubleBuffer#position() position} using column-major order.
+     * Store this matrix in column-major order into the supplied float array starting at the index 0.
      * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * <p>
-     * If you want to specify the offset into the DoubleBuffer} at which
-     * the matrix is stored, you can use {@link #get(int, DoubleBuffer)}, taking
+     * If you want to specify the offset into the float array at which
+     * the matrix is stored, you can use {@link #get(int, float[])}, taking
      * the absolute position as parameter.
-     * 
-     * @see #get(int, DoubleBuffer)
-     * 
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given float array.
+     *
+     * @see #get(int, float[])
+     *
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
      * @return the passed in buffer
      */
-    public DoubleBuffer get(DoubleBuffer buffer) {
-        return get(buffer.position(), buffer);
+    public float[] get(float[] buffer) {
+        return get(0, buffer);
     }
 
     /**
-     * Store this matrix into the supplied {@link DoubleBuffer} starting at the specified
-     * absolute buffer position/index using column-major order.
-     * <p>
-     * This method will not increment the position of the given {@link DoubleBuffer}.
-     * 
-     * @param index
-     *            the absolute position into the {@link DoubleBuffer}
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
-     */
-    public DoubleBuffer get(int index, DoubleBuffer buffer) {
-        buffer.put(index, m00);
-        buffer.put(index+1, m01);
-        buffer.put(index+2, m02);
-        buffer.put(index+3, m10);
-        buffer.put(index+4, m11);
-        buffer.put(index+5, m12);
-        buffer.put(index+6, m20);
-        buffer.put(index+7, m21);
-        buffer.put(index+8, m22);
-        return buffer;
-    }
-
-    /**
-     * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
-     * buffer {@link FloatBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * If you want to specify the offset into the FloatBuffer at which
-     * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
-     * the absolute position as parameter.
+     * Store this matrix in column-major order into the supplied float array starting at the specified
+     * absolute position/index.
      * <p>
      * Please note that due to this matrix storing double values those values will potentially
-     * lose precision when they are converted to float values before being put into the given FloatBuffer.
-     * 
-     * @see #get(int, FloatBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
-     */
-    public FloatBuffer get(FloatBuffer buffer) {
-        return get(buffer.position(), buffer);
-    }
-
-    /**
-     * Store this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * Please note that due to this matrix storing double values those values will potentially
-     * lose precision when they are converted to float values before being put into the given FloatBuffer.
-     * 
+     * lose precision when they are converted to float values before being put into the given float array.
+     *
      * @param index
      *            the absolute position into the FloatBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
      * @return the passed in buffer
      */
-    public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index, (float) m00);
-        buffer.put(index+1, (float) m01);
-        buffer.put(index+2, (float) m02);
-        buffer.put(index+3, (float) m10);
-        buffer.put(index+4, (float) m11);
-        buffer.put(index+5, (float) m12);
-        buffer.put(index+6, (float) m20);
-        buffer.put(index+7, (float) m21);
-        buffer.put(index+8, (float) m22);
+    public float[] get(int index, float[] buffer) {
+        buffer[index    ] = (float) m00;
+        buffer[index + 1] = (float) m01;
+        buffer[index + 2] = (float) m02;
+        buffer[index + 3] = (float) m10;
+        buffer[index + 4] = (float) m11;
+        buffer[index + 5] = (float) m12;
+        buffer[index + 6] = (float) m20;
+        buffer[index + 7] = (float) m21;
+        buffer[index + 8] = (float) m22;
+
         return buffer;
     }
 
     /**
-     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
+     * Store this matrix in column-major order into the supplied double array starting at the index 0.
      * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * If you want to specify the offset into the double array at which
+     * the matrix is stored, you can use {@link #get(int, double[])}, taking
      * the absolute position as parameter.
-     * 
-     * @see #get(int, ByteBuffer)
-     * 
+     *
+     * @see #get(int, double[])
+     *
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
      * @return the passed in buffer
      */
-    public ByteBuffer get(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
+    public double[] get(double[] buffer) {
+        return get(0, buffer);
     }
 
     /**
-     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * Store this matrix in column-major order into the supplied double array starting at the specified
      * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * 
+     *
      * @param index
-     *            the absolute position into the ByteBuffer
+     *            the absolute position into the double array
      * @param buffer
      *            will receive the values of this matrix in column-major order
      * @return the passed in buffer
      */
-    public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putDouble(index+8*0, m00);
-        buffer.putDouble(index+8*1, m01);
-        buffer.putDouble(index+8*2, m02);
-        buffer.putDouble(index+8*3, m10);
-        buffer.putDouble(index+8*4, m11);
-        buffer.putDouble(index+8*5, m12);
-        buffer.putDouble(index+8*6, m20);
-        buffer.putDouble(index+8*7, m21);
-        buffer.putDouble(index+8*8, m22);
+    public double[] get(int index, double[] buffer) {
+        buffer[index    ] = m00;
+        buffer[index + 1] = m01;
+        buffer[index + 2] = m02;
+        buffer[index + 3] = m10;
+        buffer[index + 4] = m11;
+        buffer[index + 5] = m12;
+        buffer[index + 6] = m20;
+        buffer[index + 7] = m21;
+        buffer[index + 8] = m22;
         return buffer;
     }
 
     /**
-     * Set the values of this matrix by reading 9 double values from the given {@link DoubleBuffer} in column-major order,
-     * starting at its current position.
+     * Set the values of this matrix by reading 9 double values from the given double array in column-major order,
+     * starting at the given index.
      * <p>
-     * The DoubleBuffer is expected to contain the values in column-major order.
-     * <p>
-     * The position of the DoubleBuffer will not be changed by this method.
-     * 
+     * The double array is expected to contain the values in column-major order.
+     *
      * @param buffer
-     *              the DoubleBuffer to read the matrix values from in column-major order
+     *              the double array to read the matrix values from in column-major order
      * @return this
      */
-    public Matrix3d set(DoubleBuffer buffer) {
-        int pos = buffer.position();
-        m00 = buffer.get(pos);
-        m01 = buffer.get(pos+1);
-        m02 = buffer.get(pos+2);
-        m10 = buffer.get(pos+3);
-        m11 = buffer.get(pos+4);
-        m12 = buffer.get(pos+5);
-        m20 = buffer.get(pos+6);
-        m21 = buffer.get(pos+7);
-        m22 = buffer.get(pos+8);
+    public Matrix3d set(int index, double[] buffer) {
+        m00 = buffer[index];
+        m01 = buffer[index + 1];
+        m02 = buffer[index + 2];
+        m10 = buffer[index + 3];
+        m11 = buffer[index + 4];
+        m12 = buffer[index + 5];
+        m20 = buffer[index + 6];
+        m21 = buffer[index + 7];
+        m22 = buffer[index + 8];
         return this;
     }
 
     /**
      * Set all the values within this matrix to 0.
-     * 
+     *
      * @return this
      */
     public Matrix3d zero() {
@@ -920,10 +838,10 @@ public class Matrix3d implements Externalizable {
         m22 = 0.0;
         return this;
     }
-    
+
     /**
      * Set this matrix to the identity.
-     * 
+     *
      * @return this
      */
     public Matrix3d identity() {
@@ -947,9 +865,9 @@ public class Matrix3d implements Externalizable {
      * <p>
      * If you want to post-multiply a scaling transformation directly to a
      * matrix, you can use {@link #scale(double) scale()} instead.
-     * 
+     *
      * @see #scale(double)
-     * 
+     *
      * @param factor
      *             the scale factor in x, y and z
      * @return this
@@ -969,7 +887,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set this matrix to be a simple scale matrix.
-     * 
+     *
      * @param x
      *             the scale in x
      * @param y
@@ -999,9 +917,9 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to post-multiply a scaling transformation directly to a
      * matrix use {@link #scale(Vector3d) scale()} instead.
-     * 
+     *
      * @see #scale(Vector3d)
-     * 
+     *
      * @param xyz
      *             the scale in x, y and z respectively
      * @return this
@@ -1027,7 +945,7 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
-     * 
+     *
      * @param xyz
      *            the factors of the x, y and z component, respectively
      * @param dest
@@ -1046,7 +964,7 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
      * scaling will be applied first!
-     * 
+     *
      * @param xyz
      *            the factors of the x, y and z component, respectively
      * @return this
@@ -1063,7 +981,7 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
-     * 
+     *
      * @param x
      *            the factor of the x component
      * @param y
@@ -1098,7 +1016,7 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
-     * 
+     *
      * @param x
      *            the factor of the x component
      * @param y
@@ -1119,9 +1037,9 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
-     * 
+     *
      * @see #scale(double, double, double, Matrix3d)
-     * 
+     *
      * @param xyz
      *            the factor for all components
      * @param dest
@@ -1139,9 +1057,9 @@ public class Matrix3d implements Externalizable {
      * then the new matrix will be <code>M * S</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
      * , the scaling will be applied first!
-     * 
+     *
      * @see #scale(double, double, double)
-     * 
+     *
      * @param xyz
      *            the factor for all components
      * @return this
@@ -1158,9 +1076,9 @@ public class Matrix3d implements Externalizable {
      * <p>
      * If you want to post-multiply a rotation transformation directly to a
      * matrix, you can use {@link #rotate(double, Vector3d) rotate()} instead.
-     * 
+     *
      * @see #rotate(double, Vector3d)
-     * 
+     *
      * @param angle
      *          the angle in radians
      * @param axis
@@ -1183,7 +1101,7 @@ public class Matrix3d implements Externalizable {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      *
      * @see #rotate(AxisAngle4f)
-     * 
+     *
      * @param axisAngle
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @return this
@@ -1204,9 +1122,9 @@ public class Matrix3d implements Externalizable {
      * use {@link #rotate(double, double, double, double) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
-     * 
+     *
      * @see #rotate(double, double, double, double)
-     * 
+     *
      * @param angle
      *          the angle in radians
      * @param x
@@ -1237,7 +1155,7 @@ public class Matrix3d implements Externalizable {
      * Set this matrix to a rotation transformation about the X axis.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @return this
@@ -1261,7 +1179,7 @@ public class Matrix3d implements Externalizable {
      * Set this matrix to a rotation transformation about the Y axis.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @return this
@@ -1285,7 +1203,7 @@ public class Matrix3d implements Externalizable {
      * Set this matrix to a rotation transformation about the Z axis.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @return this
@@ -1315,9 +1233,9 @@ public class Matrix3d implements Externalizable {
      * use {@link #rotate(Quaterniond) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
-     * 
+     *
      * @see #rotate(Quaterniond)
-     * 
+     *
      * @param quat
      *          the {@link Quaterniond}
      * @return this
@@ -1348,7 +1266,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Transform the given vector by this matrix.
-     * 
+     *
      * @param v
      *          the vector to transform
      * @return this
@@ -1360,7 +1278,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Transform the given vector by this matrix and store the result in <code>dest</code>.
-     * 
+     *
      * @param v
      *          the vector to transform
      * @param dest
@@ -1370,31 +1288,6 @@ public class Matrix3d implements Externalizable {
     public Matrix3d transform(Vector3d v, Vector3d dest) {
         v.mul(this, dest);
         return this;
-    }
-
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeDouble(m00);
-        out.writeDouble(m01);
-        out.writeDouble(m02);
-        out.writeDouble(m10);
-        out.writeDouble(m11);
-        out.writeDouble(m12);
-        out.writeDouble(m20);
-        out.writeDouble(m21);
-        out.writeDouble(m22);
-    }
-
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
-        m00 = in.readDouble();
-        m01 = in.readDouble();
-        m02 = in.readDouble();
-        m10 = in.readDouble();
-        m11 = in.readDouble();
-        m12 = in.readDouble();
-        m20 = in.readDouble();
-        m21 = in.readDouble();
-        m22 = in.readDouble();
     }
 
     /**
@@ -1407,7 +1300,7 @@ public class Matrix3d implements Externalizable {
      * , the rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @param dest
@@ -1450,7 +1343,7 @@ public class Matrix3d implements Externalizable {
      * , the rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @return this
@@ -1469,7 +1362,7 @@ public class Matrix3d implements Externalizable {
      * , the rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @param dest
@@ -1512,7 +1405,7 @@ public class Matrix3d implements Externalizable {
      * , the rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @return this
@@ -1531,7 +1424,7 @@ public class Matrix3d implements Externalizable {
      * , the rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @param dest
@@ -1574,7 +1467,7 @@ public class Matrix3d implements Externalizable {
      * , the rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @return this
@@ -1593,7 +1486,7 @@ public class Matrix3d implements Externalizable {
      * , the rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @param x
@@ -1618,7 +1511,7 @@ public class Matrix3d implements Externalizable {
      * , the rotation will be applied first!
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
-     * 
+     *
      * @param ang
      *            the angle in radians
      * @param x
@@ -1682,9 +1575,9 @@ public class Matrix3d implements Externalizable {
      * use {@link #rotation(Quaterniond)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
-     * 
+     *
      * @see #rotation(Quaterniond)
-     * 
+     *
      * @param quat
      *          the {@link Quaterniond}
      * @return this
@@ -1706,9 +1599,9 @@ public class Matrix3d implements Externalizable {
      * use {@link #rotation(Quaterniond)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
-     * 
+     *
      * @see #rotation(Quaterniond)
-     * 
+     *
      * @param quat
      *          the {@link Quaterniond}
      * @param dest
@@ -1767,10 +1660,10 @@ public class Matrix3d implements Externalizable {
      * use {@link #rotation(AxisAngle4f)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
+     *
      * @see #rotate(double, double, double, double)
      * @see #rotation(AxisAngle4f)
-     * 
+     *
      * @param axisAngle
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @return this
@@ -1791,10 +1684,10 @@ public class Matrix3d implements Externalizable {
      * use {@link #rotation(AxisAngle4f)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
+     *
      * @see #rotate(double, double, double, double)
      * @see #rotation(AxisAngle4f)
-     * 
+     *
      * @param axisAngle
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @param dest
@@ -1817,10 +1710,10 @@ public class Matrix3d implements Externalizable {
      * use {@link #rotation(double, Vector3d)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
+     *
      * @see #rotate(double, double, double, double)
      * @see #rotation(double, Vector3d)
-     * 
+     *
      * @param angle
      *          the angle in radians
      * @param axis
@@ -1843,10 +1736,10 @@ public class Matrix3d implements Externalizable {
      * use {@link #rotation(double, Vector3d)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
+     *
      * @see #rotate(double, double, double, double)
      * @see #rotation(double, Vector3d)
-     * 
+     *
      * @param angle
      *          the angle in radians
      * @param axis
@@ -1861,7 +1754,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Get the row at the given <code>row</code> index, starting with <code>0</code>.
-     * 
+     *
      * @param row
      *          the row index in <tt>[0..2]</tt>
      * @param dest
@@ -1889,13 +1782,13 @@ public class Matrix3d implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        
+
         return dest;
     }
 
     /**
      * Get the column at the given <code>column</code> index, starting with <code>0</code>.
-     * 
+     *
      * @param column
      *          the column index in <tt>[0..2]</tt>
      * @param dest
@@ -1923,19 +1816,19 @@ public class Matrix3d implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        
+
         return dest;
     }
 
     /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
      * <p>
-     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors,
      * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
      * In this case, use {@link #set(Matrix3d)} to set a given Matrix3d to this matrix.
-     * 
+     *
      * @see #set(Matrix3d)
-     * 
+     *
      * @param dest
      *             will hold the result
      * @return this
@@ -1957,7 +1850,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -1966,10 +1859,10 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(Vector3d, Vector3d) setLookAlong()}.
-     * 
+     *
      * @see #lookAlong(double, double, double, double, double, double)
      * @see #setLookAlong(Vector3d, Vector3d)
-     * 
+     *
      * @param dir
      *            the direction in space to look along
      * @param up
@@ -1982,7 +1875,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
-     * and store the result in <code>dest</code>. 
+     * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -1991,10 +1884,10 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(Vector3d, Vector3d) setLookAlong()}.
-     * 
+     *
      * @see #lookAlong(double, double, double, double, double, double)
      * @see #setLookAlong(Vector3d, Vector3d)
-     * 
+     *
      * @param dir
      *            the direction in space to look along
      * @param up
@@ -2009,7 +1902,7 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>
-     * and store the result in <code>dest</code>. 
+     * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -2018,9 +1911,9 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
-     * 
+     *
      * @see #setLookAlong(double, double, double, double, double, double)
-     * 
+     *
      * @param dirX
      *              the x-coordinate of the direction to look along
      * @param dirY
@@ -2093,7 +1986,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>. 
+     * Apply a rotation transformation to this matrix to make <code>-z</code> point along <code>dir</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookalong rotation matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -2102,9 +1995,9 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
      * use {@link #setLookAlong(double, double, double, double, double, double) setLookAlong()}
-     * 
+     *
      * @see #setLookAlong(double, double, double, double, double, double)
-     * 
+     *
      * @param dirX
      *              the x-coordinate of the direction to look along
      * @param dirY
@@ -2130,10 +2023,10 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to apply the lookalong transformation to any previous existing transformation,
      * use {@link #lookAlong(Vector3d, Vector3d)}.
-     * 
+     *
      * @see #setLookAlong(Vector3d, Vector3d)
      * @see #lookAlong(Vector3d, Vector3d)
-     * 
+     *
      * @param dir
      *            the direction in space to look along
      * @param up
@@ -2150,10 +2043,10 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to apply the lookalong transformation to any previous existing transformation,
      * use {@link #lookAlong(double, double, double, double, double, double) lookAlong()}
-     * 
+     *
      * @see #setLookAlong(double, double, double, double, double, double)
      * @see #lookAlong(double, double, double, double, double, double)
-     * 
+     *
      * @param dirX
      *              the x-coordinate of the direction to look along
      * @param dirY
@@ -2208,7 +2101,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
+     *
      * @param m
      *          the {@link Matrix3f} to return
      * @return that matrix
@@ -2222,7 +2115,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
+     *
      * @param m
      *          the {@link Matrix3d} to return
      * @return that matrix
@@ -2236,7 +2129,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
+     *
      * @param v
      *          the {@link Vector3f} to return
      * @return that vector
@@ -2250,7 +2143,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
+     *
      * @param v
      *          the {@link Vector4f} to return
      * @return that vector
@@ -2264,7 +2157,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
+     *
      * @param q
      *          the {@link Quaternionf} to return
      * @return that quaternion
@@ -2278,7 +2171,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
+     *
      * @param q
      *          the {@link Quaterniond} to return
      * @return that quaternion
@@ -2292,7 +2185,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
-     * 
+     *
      * @param a
      *          the {@link AxisAngle4f} to return
      * @return that quaternion
@@ -2306,7 +2199,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
+     *
      * @param m
      *          the {@link Matrix4f} to return
      * @return that matrix
