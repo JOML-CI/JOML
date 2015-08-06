@@ -22,22 +22,14 @@
  */
 package org.joml;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 /**
  * Represents a 3D rotation of a given radians about an axis represented as an
  * unit 3D vector.
- * 
+ *
  * @author Kai Burjack
+ * @author Sri Harsha Chilakapati
  */
-public class AxisAngle4f implements Externalizable {
-
-    private static final long serialVersionUID = 1L;
+public class AxisAngle4f {
 
     /**
      * The angle in radians.
@@ -65,7 +57,7 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Create a new {@link AxisAngle4f} with the same values of <code>a</code>.
-     * 
+     *
      * @param a
      *            the AngleAxis4f to copy the values from
      */
@@ -82,7 +74,7 @@ public class AxisAngle4f implements Externalizable {
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
      * >http://www.euclideanspace.com</a>
-     * 
+     *
      * @param q
      *            the quaternion from which to create the new AngleAxis4f
      */
@@ -126,7 +118,7 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4f} to the values of <code>a</code>.
-     * 
+     *
      * @param a
      *            the AngleAxis4f to copy the values from
      * @return this
@@ -141,7 +133,7 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4f} to the given values.
-     * 
+     *
      * @param angle
      *            the angle in radians
      * @param x
@@ -165,7 +157,7 @@ public class AxisAngle4f implements Externalizable {
      *
      * @param angle
      *            the angle in radians
-     * @param v    
+     * @param v
      *            the rotation axis as a {@link Vector3f}
      * @return this
      */
@@ -176,7 +168,7 @@ public class AxisAngle4f implements Externalizable {
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the given
      * {@link Quaternionf}.
-     * 
+     *
      * @param q
      *            the quaternion to set this AngleAxis4f from
      * @return this
@@ -194,7 +186,7 @@ public class AxisAngle4f implements Externalizable {
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the given
      * {@link Quaterniond}.
-     * 
+     *
      * @param q
      *            the quaternion to set this AngleAxis4f from
      * @return this
@@ -210,9 +202,9 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
-     * Set this {@link AxisAngle4f} to be equivalent to the rotation 
+     * Set this {@link AxisAngle4f} to be equivalent to the rotation
      * of the given {@link Matrix3f}.
-     * 
+     *
      * @param m
      *            the Matrix3f to set this AngleAxis4f from
      * @return this
@@ -228,9 +220,9 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
-     * Set this {@link AxisAngle4f} to be equivalent to the rotation 
+     * Set this {@link AxisAngle4f} to be equivalent to the rotation
      * of the given {@link Matrix3d}.
-     * 
+     *
      * @param m
      *            the Matrix3d to set this AngleAxis4f from
      * @return this
@@ -246,9 +238,9 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
-     * Set this {@link AxisAngle4f} to be equivalent to the rotational component 
+     * Set this {@link AxisAngle4f} to be equivalent to the rotational component
      * of the given {@link Matrix4f}.
-     * 
+     *
      * @param m
      *            the Matrix4f to set this AngleAxis4f from
      * @return this
@@ -264,9 +256,9 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
-     * Set this {@link AxisAngle4f} to be equivalent to the rotational component 
+     * Set this {@link AxisAngle4f} to be equivalent to the rotational component
      * of the given {@link Matrix4d}.
-     * 
+     *
      * @param m
      *            the Matrix4d to set this AngleAxis4f from
      * @return this
@@ -283,9 +275,9 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set the given {@link Quaternionf} to be equivalent to this {@link AxisAngle4f} rotation.
-     * 
+     *
      * @see Quaternionf#set(AxisAngle4f)
-     * 
+     *
      * @param q
      *          the quaternion to set
      * @return this
@@ -297,9 +289,9 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set the given {@link Quaterniond} to be equivalent to this {@link AxisAngle4f} rotation.
-     * 
+     *
      * @see Quaterniond#set(AxisAngle4f)
-     * 
+     *
      * @param q
      *          the quaternion to set
      * @return this
@@ -311,9 +303,9 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set the given {@link Matrix4f} to a rotation transformation equivalent to this {@link AxisAngle4f}.
-     * 
+     *
      * @see Matrix4f#set(AxisAngle4f)
-     * 
+     *
      * @param m
      *          the matrix to set
      * @return this
@@ -325,9 +317,9 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set the given {@link Matrix3f} to a rotation transformation equivalent to this {@link AxisAngle4f}.
-     * 
+     *
      * @see Matrix3f#set(AxisAngle4f)
-     * 
+     *
      * @param m
      *          the matrix to set
      * @return this
@@ -339,9 +331,9 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set the given {@link Matrix4d} to a rotation transformation equivalent to this {@link AxisAngle4f}.
-     * 
+     *
      * @see Matrix4f#set(AxisAngle4f)
-     * 
+     *
      * @param m
      *          the matrix to set
      * @return this
@@ -353,9 +345,9 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set the given {@link Matrix3d} to a rotation transformation equivalent to this {@link AxisAngle4f}.
-     * 
+     *
      * @see Matrix3f#set(AxisAngle4f)
-     * 
+     *
      * @param m
      *          the matrix to set
      * @return this
@@ -365,23 +357,9 @@ public class AxisAngle4f implements Externalizable {
         return this;
     }
 
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeFloat(angle);
-        out.writeFloat(x);
-        out.writeFloat(y);
-        out.writeFloat(z);
-    }
-
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        angle = in.readFloat();
-        x = in.readFloat();
-        y = in.readFloat();
-        z = in.readFloat();
-    }
-
     /**
      * Normalize the axis vector.
-     * 
+     *
      * @return this
      */
     public AxisAngle4f normalize() {
@@ -396,7 +374,7 @@ public class AxisAngle4f implements Externalizable {
      * Increase the rotation angle by the given amount.
      * <p>
      * This method also takes care of wrapping around.
-     * 
+     *
      * @param ang
      *          the angle increase
      * @return this
@@ -409,7 +387,7 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Transform the given vector by the rotation transformation described by this {@link AxisAngle4f}.
-     * 
+     *
      * @param v
      *          the vector to transform
      * @return this
@@ -421,7 +399,7 @@ public class AxisAngle4f implements Externalizable {
     /**
      * Transform the given vector by the rotation transformation described by this {@link AxisAngle4f}
      * and store the result in <code>dest</code>.
-     * 
+     *
      * @param v
      *          the vector to transform
      * @param dest
@@ -440,7 +418,7 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Transform the given vector by the rotation transformation described by this {@link AxisAngle4f}.
-     * 
+     *
      * @param v
      *          the vector to transform
      * @return this
@@ -452,7 +430,7 @@ public class AxisAngle4f implements Externalizable {
     /**
      * Transform the given vector by the rotation transformation described by this {@link AxisAngle4f}
      * and store the result in <code>dest</code>.
-     * 
+     *
      * @param v
      *          the vector to transform
      * @param dest
@@ -472,25 +450,11 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Return a string representation of this {@link AxisAngle4f}.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
-     * 
+     *
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-"); //$NON-NLS-1$
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
-    /**
-     * Return a string representation of this {@link AxisAngle4f} by formatting the components with the given {@link NumberFormat}.
-     * 
-     * @param formatter
-     *          the {@link NumberFormat} used to format the vector components with
-     * @return the string representation
-     */
-    public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + formatter.format(y) + formatter.format(z) + " <|" + formatter.format(angle) + " )"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        return "(" + x + ", " + y + ", " + z + " | " + angle + ")";
     }
 
     public int hashCode() {
@@ -530,7 +494,7 @@ public class AxisAngle4f implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
+     *
      * @param v
      *          the {@link Vector3f} to return
      * @return that vector
@@ -544,7 +508,7 @@ public class AxisAngle4f implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
+     *
      * @param v
      *          the {@link Vector4f} to return
      * @return that vector
@@ -558,7 +522,7 @@ public class AxisAngle4f implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
+     *
      * @param q
      *          the {@link Quaternionf} to return
      * @return that quaternion
@@ -572,7 +536,7 @@ public class AxisAngle4f implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
+     *
      * @param q
      *          the {@link Quaterniond} to return
      * @return that quaternion
@@ -586,7 +550,7 @@ public class AxisAngle4f implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
-     * 
+     *
      * @param a
      *          the {@link AxisAngle4f} to return
      * @return that quaternion
@@ -600,7 +564,7 @@ public class AxisAngle4f implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
+     *
      * @param m
      *          the {@link Matrix3f} to return
      * @return that matrix
@@ -614,7 +578,7 @@ public class AxisAngle4f implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
+     *
      * @param m
      *          the {@link Matrix4f} to return
      * @return that matrix
@@ -628,7 +592,7 @@ public class AxisAngle4f implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
+     *
      * @param m
      *          the {@link Matrix3d} to return
      * @return that matrix
@@ -642,7 +606,7 @@ public class AxisAngle4f implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
+     *
      * @param m
      *          the {@link Matrix4d} to return
      * @return that matrix

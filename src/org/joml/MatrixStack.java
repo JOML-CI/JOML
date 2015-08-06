@@ -22,9 +22,6 @@
  */
 package org.joml;
 
-import java.io.Serializable;
-import java.nio.FloatBuffer;
-
 /**
  * Resembles the matrix stack known from legacy OpenGL.
  * <p>
@@ -34,12 +31,11 @@ import java.nio.FloatBuffer;
  * As with the OpenGL version there is no way to get a hold of any matrix
  * instance within the stack. You can only load the current matrix into a
  * user-supplied {@link Matrix4f} instance.
- * 
+ *
  * @author Kai Burjack
+ * @author Sri Harsha Chilakapati
  */
-public class MatrixStack implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class MatrixStack {
 
     /**
      * The matrix stack as a non-growable array. The size of the stack must be
@@ -57,7 +53,7 @@ public class MatrixStack implements Serializable {
      * <p>
      * Initially the stack pointer is at zero and the current matrix is set to
      * identity.
-     * 
+     *
      * @param stackSize
      *            the size of the stack. This must be at least 1
      */
@@ -78,7 +74,7 @@ public class MatrixStack implements Serializable {
      * counter to zero.
      * <p>
      * The first matrix will also be set to identity.
-     * 
+     *
      * @return this
      */
     public MatrixStack clear() {
@@ -89,7 +85,7 @@ public class MatrixStack implements Serializable {
 
     /**
      * Load the given {@link Matrix4f} into the current matrix of the stack.
-     * 
+     *
      * @param mat
      *            the matrix which is stored in the current stack matrix
      * @return this
@@ -104,15 +100,15 @@ public class MatrixStack implements Serializable {
 
     /**
      * Load the values of a column-major matrix from the given
-     * {@link FloatBuffer} into the current matrix of the stack.
-     * 
+     * float array into the current matrix of the stack.
+     *
      * @param columnMajorArray
      *            the values of the 4x4 matrix as a column-major
-     *            {@link FloatBuffer} containing at least 16 floats starting at
-     *            the relative {@link FloatBuffer#position()}
+     *            float array containing at least 16 floats starting at
+     *            the index 0.
      * @return this
      */
-    public MatrixStack loadMatrix(FloatBuffer columnMajorArray) {
+    public MatrixStack loadMatrix(float[] columnMajorArray) {
         if (columnMajorArray == null) {
             throw new IllegalArgumentException("columnMajorArray must not be null"); //$NON-NLS-1$
         }
@@ -123,29 +119,29 @@ public class MatrixStack implements Serializable {
     /**
      * Load the values of a column-major matrix from the given float array into
      * the current matrix of the stack.
-     * 
+     *
+     * @param offset
+     *            the offset into the array
      * @param columnMajorArray
      *            the values of the 4x4 matrix as a column-major float array of
      *            at least 16 floats
-     * @param offset
-     *            the offset into the array
      * @return this
      */
-    public MatrixStack loadMatrix(float[] columnMajorArray, int offset) {
+    public MatrixStack loadMatrix(int offset, float[] columnMajorArray) {
         if (columnMajorArray == null) {
             throw new IllegalArgumentException("columnMajorArray must not be null"); //$NON-NLS-1$
         }
         if (columnMajorArray.length - offset < 16) {
             throw new IllegalArgumentException("columnMajorArray does not have enough elements"); //$NON-NLS-1$
         }
-        mats[curr].set(columnMajorArray, offset);
+        mats[curr].set(offset, columnMajorArray);
         return this;
     }
 
     /**
      * Increment the stack pointer by one and set the values of the new current
      * matrix to the one directly below it.
-     * 
+     *
      * @return this
      */
     public MatrixStack pushMatrix() {
@@ -161,7 +157,7 @@ public class MatrixStack implements Serializable {
      * Decrement the stack pointer by one.
      * <p>
      * This will effectively dispose of the current matrix.
-     * 
+     *
      * @return this
      */
     public MatrixStack popMatrix() {
@@ -175,7 +171,7 @@ public class MatrixStack implements Serializable {
     /**
      * Store the current matrix of the stack into the supplied <code>dest</code>
      * matrix.
-     * 
+     *
      * @param dest
      *            the destination {@link Matrix4f} into which to store the
      *            current stack matrix
@@ -190,29 +186,25 @@ public class MatrixStack implements Serializable {
     }
 
     /**
-     * Store the current matrix into the supplied {@link FloatBuffer} at the
-     * current buffer {@link FloatBuffer#position() position}.
+     * Store the current matrix into the supplied float array starting at the index 0.
      * <p>
-     * This method will not increment the position of the given
-     * FloatBuffer.
-     * <p>
-     * If you want to specify the offset into the FloatBuffer at which
-     * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
+     * If you want to specify the offset into the float array at which
+     * the matrix is stored, you can use {@link #get(int, float[])}, taking
      * the absolute position as parameter.
-     * 
-     * @see #get(int, FloatBuffer)
-     * @see Matrix4f#get(int, FloatBuffer)
-     * 
+     *
+     * @see #get(int, float[])
+     * @see Matrix4f#get(int, float[])
+     *
      * @param dest
      *            the destination FloatBuffer into which to store the
      *            column-major values of the current stack matrix
      * @return this
      */
-    public MatrixStack get(FloatBuffer dest) {
+    public MatrixStack get(float[] dest) {
         if (dest == null) {
             throw new IllegalArgumentException("dest must not be null"); //$NON-NLS-1$
         }
-        if (dest.remaining() < 16) {
+        if (dest.length < 16) {
             throw new IllegalArgumentException("dest does not have enough space"); //$NON-NLS-1$
         }
         mats[curr].get(dest);
@@ -220,47 +212,17 @@ public class MatrixStack implements Serializable {
     }
 
     /**
-     * Store the current matrix into the supplied {@link FloatBuffer} starting
-     * at the specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given
-     * {@link FloatBuffer}.
-     * <p>
-     * If you want to store the matrix at the current buffer's position, you can
-     * use {@link #get(FloatBuffer)} instead.
-     * 
-     * @see #get(FloatBuffer)
-     * @see Matrix4f#get(FloatBuffer)
-     * 
-     * @param index
-     *            the absolute position into the {@link FloatBuffer}
-     * @param dest
-     *            will receive the values of this matrix in column-major order
-     * @return this
-     */
-    public MatrixStack get(int index, FloatBuffer dest) {
-        if (dest == null) {
-            throw new IllegalArgumentException("dest must not be null"); //$NON-NLS-1$
-        }
-        if (dest.remaining() < 16) {
-            throw new IllegalArgumentException("dest does not have enough space"); //$NON-NLS-1$
-        }
-        mats[curr].get(index, dest);
-        return this;
-    }
-
-    /**
      * Store the column-major values of the current matrix of the stack into the
      * supplied float array at the given offset.
-     * 
+     *
+     * @param offset
+     *            the array offset
      * @param dest
      *            the destination float array into which to store the
      *            column-major values of the current stack matrix
-     * @param offset
-     *            the array offset
      * @return <code>dest</code>
      */
-    public float[] get(float[] dest, int offset) {
+    public float[] get(int offset, float[] dest) {
         if (dest == null) {
             throw new IllegalArgumentException("dest must not be null"); //$NON-NLS-1$
         }
@@ -270,7 +232,7 @@ public class MatrixStack implements Serializable {
         if (dest.length - offset < 16) {
             throw new IllegalArgumentException("dest does not have enough elements"); //$NON-NLS-1$
         }
-        mats[curr].get(dest, offset);
+        mats[curr].get(offset, dest);
         return dest;
     }
 
@@ -297,7 +259,7 @@ public class MatrixStack implements Serializable {
      * <code>C * T</code>. So when transforming a vector <code>v</code> with the
      * new matrix by using <code>C * T * v</code>, the translation will be
      * applied first!
-     * 
+     *
      * @param x
      *          the offset in x
      * @param y
@@ -320,9 +282,9 @@ public class MatrixStack implements Serializable {
      * translation matrix, then the new matrix will be <code>C * T</code>. So
      * when transforming a vector <code>v</code> with the new matrix by using
      * <code>C * T * v</code>, the translation will be applied first!
-     * 
+     *
      * @see #translate(float, float, float)
-     * 
+     *
      * @param xyz
      *            contains the number of units to translate by
      * @return this
@@ -343,7 +305,7 @@ public class MatrixStack implements Serializable {
      * matrix, then the new current matrix will be <code>C * S</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * S * v</code>, the scaling will be applied first!
-     * 
+     *
      * @param x
      *            the factor of the x component
      * @param y
@@ -366,9 +328,9 @@ public class MatrixStack implements Serializable {
      * matrix, then the new matrix will be <code>C * S</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * S * v</code>, the scaling will be applied first!
-     * 
+     *
      * @see #scale(float, float, float)
-     * 
+     *
      * @param xyz
      *            contains the factors to scale by
      * @return this
@@ -389,9 +351,9 @@ public class MatrixStack implements Serializable {
      * matrix, then the new matrix will be <code>C * S</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * S * v</code>, the scaling will be applied first!
-     * 
+     *
      * @see #scale(float, float, float)
-     * 
+     *
      * @param xyz
      *            the factor for all components
      * @return this
@@ -408,7 +370,7 @@ public class MatrixStack implements Serializable {
      * matrix, then the new current matrix will be <code>C * R</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * R * v</code>, the rotation will be applied first!
-     * 
+     *
      * @param ang
      *            the angle is in degrees
      * @param x
@@ -434,9 +396,9 @@ public class MatrixStack implements Serializable {
      * matrix, then the new current matrix will be <code>C * R</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * R * v</code>, the rotation will be applied first!
-     * 
+     *
      * @see #rotate(float, float, float, float)
-     * 
+     *
      * @param ang
      *            the angle in degrees
      * @param axis
@@ -459,7 +421,7 @@ public class MatrixStack implements Serializable {
      * matrix, then the new current matrix will be <code>C * R</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * R * v</code>, the rotation will be applied first!
-     * 
+     *
      * @param quat
      *            the {@link Quaternionf}
      * @return this
@@ -480,7 +442,7 @@ public class MatrixStack implements Serializable {
      * matrix, then the new current matrix will be <code>C * R</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * R * v</code>, the rotation will be applied first!
-     * 
+     *
      * @param angleAxis
      *            the {@link AxisAngle4f} (needs to be
      *            {@link AxisAngle4f#normalize() normalized})
@@ -502,7 +464,7 @@ public class MatrixStack implements Serializable {
      * matrix, then the new current matrix will be <code>C * R</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * R * v</code>, the rotation will be applied first!
-     * 
+     *
      * @param ang
      *            the angle in degrees
      * @return this
@@ -520,7 +482,7 @@ public class MatrixStack implements Serializable {
      * matrix, then the new current matrix will be <code>C * R</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * R * v</code>, the rotation will be applied first!
-     * 
+     *
      * @param ang
      *            the angle in degrees
      * @return this
@@ -538,7 +500,7 @@ public class MatrixStack implements Serializable {
      * matrix, then the new current matrix will be <code>C * R</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * R * v</code>, the rotation will be applied first!
-     * 
+     *
      * @param ang
      *            the angle in degrees
      * @return this
@@ -550,7 +512,7 @@ public class MatrixStack implements Serializable {
 
     /**
      * Set the current matrix to identity.
-     * 
+     *
      * @return this
      */
     public MatrixStack loadIdentity() {
@@ -567,7 +529,7 @@ public class MatrixStack implements Serializable {
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * M * v</code>, the supplied matrix <code>mat</code> will be
      * applied first!
-     * 
+     *
      * @param mat
      *            the matrix to multiply this matrix with
      * @return this
@@ -581,14 +543,14 @@ public class MatrixStack implements Serializable {
     }
 
     /**
-     * Apply a "lookat" transformation to the current matrix for a right-handed coordinate system, 
+     * Apply a "lookat" transformation to the current matrix for a right-handed coordinate system,
      * that aligns <code>-z</code> with <code>center - eye</code>.
      * <p>
      * If <code>C</code> is the current matrix and <code>L</code> the lookat
      * matrix, then the new current matrix will be <code>C * L</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * L * v</code>, the lookat transformation will be applied first!
-     * 
+     *
      * @param position
      *            the position of the camera
      * @param centre
@@ -611,9 +573,9 @@ public class MatrixStack implements Serializable {
      * matrix, then the new current matrix will be <code>C * L</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * L * v</code>, the lookat transformation will be applied first!
-     * 
+     *
      * @see #lookAt(Vector3f, Vector3f, Vector3f)
-     * 
+     *
      * @param eyeX
      *              the x-coordinate of the eye/camera location
      * @param eyeY
@@ -653,7 +615,7 @@ public class MatrixStack implements Serializable {
      * This is equivalent to calling
      * {@link #lookAt(float, float, float, float, float, float, float, float, float)
      * lookAt} with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
-     * 
+     *
      * @param dirX
      *              the x-coordinate of the direction to look along
      * @param dirY
@@ -686,7 +648,7 @@ public class MatrixStack implements Serializable {
      * This is equivalent to calling
      * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt} with
      * <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
-     * 
+     *
      * @param dir
      *            the direction in space to look along
      * @param up
@@ -707,7 +669,7 @@ public class MatrixStack implements Serializable {
      * <code>C * P</code>. So when transforming a vector <code>v</code> with the
      * new matrix by using <code>C * P * v</code>, the perspective projection
      * will be applied first!
-     * 
+     *
      * @param fovy
      *            the vertical field of view in degrees
      * @param aspect
@@ -731,7 +693,7 @@ public class MatrixStack implements Serializable {
      * <code>C * O</code>. So when transforming a vector <code>v</code> with the
      * new matrix by using <code>C * O * v</code>, the orthographic projection
      * will be applied first!
-     * 
+     *
      * @param left
      *            the distance from the center to the left frustum edge
      * @param right
@@ -759,7 +721,7 @@ public class MatrixStack implements Serializable {
      * projection matrix, then the new matrix will be <code>C * F</code>. So
      * when transforming a vector <code>v</code> with the new matrix by using
      * <code>C * F * v</code>, the frustum projection will be applied first!
-     * 
+     *
      * @param left
      *            the distance along the x-axis to the left frustum edge
      * @param right
@@ -787,9 +749,9 @@ public class MatrixStack implements Serializable {
      * then the new matrix will be <code>C * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
      * reflection will be applied first!
-     * 
+     *
      * @see Matrix4f#reflect(float, float, float, float, float, float)
-     * 
+     *
      * @param nx
      *          the x-coordinate of the plane normal
      * @param ny
@@ -817,9 +779,9 @@ public class MatrixStack implements Serializable {
      * then the new matrix will be <code>C * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
      * reflection will be applied first!
-     * 
+     *
      * @see Matrix4f#reflect(Vector3f, Vector3f)
-     * 
+     *
      * @param normal
      *          the plane normal
      * @param point
@@ -843,9 +805,9 @@ public class MatrixStack implements Serializable {
      * then the new matrix will be <code>C * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
      * reflection will be applied first!
-     * 
+     *
      * @see Matrix4f#reflect(Quaternionf, Vector3f)
-     * 
+     *
      * @param orientation
      *          the plane orientation
      * @param point

@@ -22,23 +22,15 @@
  */
 package org.joml;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 /**
  * Contains the definition and functions for rotations expressed as
  * 4-dimensional vectors
  *
  * @author Richard Greenlees
  * @author Kai Burjack
+ * @author Sri Harsha Chilakapati
  */
-public class Quaterniond implements Externalizable {
-
-    private static final long serialVersionUID = 1L;
+public class Quaterniond {
 
     /**
      * The first component of the vector part.
@@ -58,7 +50,7 @@ public class Quaterniond implements Externalizable {
     public double w;
 
     /**
-     * Create a new {@link Quaterniond} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>, 
+     * Create a new {@link Quaterniond} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>,
      * where <tt>(x, y, z)</tt> is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
      */
     public Quaterniond() {
@@ -70,7 +62,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Create a new {@link Quaterniond} and initialize its components to the given values.
-     * 
+     *
      * @param x
      *          the first component of the imaginary part
      * @param y
@@ -90,7 +82,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Create a new {@link Quaterniond} and initialize its imaginary components to the given values,
      * and its real part to <tt>1.0</tt>.
-     * 
+     *
      * @param x
      *          the first component of the imaginary part
      * @param y
@@ -107,7 +99,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Create a new {@link Quaterniond} and initialize its components to the same values as the given {@link Quaterniond}.
-     * 
+     *
      * @param source
      *          the {@link Quaterniond} to take the component values from
      */
@@ -120,7 +112,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Create a new {@link Quaterniond} and initialize its components to the same values as the given {@link Quaternionf}.
-     * 
+     *
      * @param source
      *          the {@link Quaternionf} to take the component values from
      */
@@ -133,7 +125,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Normalize this quaternion.
-     * 
+     *
      * @return this
      */
     public Quaterniond normalize() {
@@ -147,7 +139,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Normalize this quaternion and store the result in <code>dest</code>.
-     * 
+     *
      * @param dest
      *          will hold the result
      * @return this
@@ -163,7 +155,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Add <code>q2</code> to this quaternion.
-     * 
+     *
      * @param q2
      *          the quaternion to add to this
      * @return this
@@ -178,7 +170,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Add <code>q2</code> to this quaternion and store the result in <code>dest</code>.
-     * 
+     *
      * @param q2
      *          the quaternion to add to this
      * @param dest
@@ -195,7 +187,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Return the dot product of this {@link Quaterniond} and <code>otherQuat</code>.
-     * 
+     *
      * @param otherQuat
      *          the other quaternion
      * @return the dot product
@@ -206,7 +198,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Return the angle in radians represented by this quaternion rotation.
-     * 
+     *
      * @return the angle in radians
      */
     public double angle() {
@@ -216,7 +208,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
+     *
      * @param dest
      *          the matrix to write the rotation into
      * @return the passed in destination
@@ -249,7 +241,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
+     *
      * @param dest
      *          the matrix to write the rotation into
      * @return the passed in destination
@@ -282,7 +274,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
+     *
      * @param dest
      *          the matrix to write the rotation into
      * @return the passed in destination
@@ -321,9 +313,9 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set the given {@link Quaterniond} to the values of <code>this</code>.
-     * 
+     *
      * @see #set(Quaterniond)
-     * 
+     *
      * @param dest
      *          the {@link Quaterniond} to set
      * @return the passed in destination
@@ -334,7 +326,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to the new values.
-     * 
+     *
      * @param x
      *          the new value of x
      * @param y
@@ -355,7 +347,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set the x, y and z components of this quaternion to the new values.
-     * 
+     *
      * @param x
      *          the new value of x
      * @param y
@@ -373,7 +365,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a copy of q.
-     * 
+     *
      * @param q
      *          the {@link Quaterniond} to copy
      * @return this
@@ -388,7 +380,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a copy of q.
-     * 
+     *
      * @param q
      *          the {@link Quaternionf} to copy
      * @return this
@@ -404,7 +396,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Set this {@link Quaterniond} to be equivalent to the given
      * {@link AxisAngle4f}.
-     * 
+     *
      * @param axisAngle
      *            the {@link AxisAngle4f}
      * @return this
@@ -416,7 +408,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in radians).
-     * 
+     *
      * @param angle
      *          the angle in radians
      * @param axisX
@@ -443,7 +435,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in radians).
-     * 
+     *
      * @param angle
      *          the angle in radians
      * @param axis
@@ -456,7 +448,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a representation of the rotational component of the given matrix.
-     * 
+     *
      * @param mat
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
@@ -500,7 +492,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a representation of the rotational component of the given matrix.
-     * 
+     *
      * @param mat
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
@@ -544,7 +536,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a representation of the rotational component of the given matrix.
-     * 
+     *
      * @param mat
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
@@ -588,7 +580,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a representation of the rotational component of the given matrix.
-     * 
+     *
      * @param mat
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
@@ -633,7 +625,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in radians).
-     * 
+     *
      * @param axis
      *          the rotation axis
      * @param angle
@@ -649,20 +641,20 @@ public class Quaterniond implements Externalizable {
         y = axis.y / vLength * sinAngle;
         z = axis.z / vLength * sinAngle;
         w = Math.cos(hangle);
-        
+
         return this;
     }
 
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in radians).
-     * 
+     *
      * @param axisX
      *          the x component of the rotation axis
      * @param axisY
      *          the y component of the rotation axis
      * @param axisZ
-     *          the z component of the rotation axis         
+     *          the z component of the rotation axis
      * @param angle
      *          the angle in radians
      * @return this
@@ -676,14 +668,14 @@ public class Quaterniond implements Externalizable {
         y = axisY / vLength * sinAngle;
         z = axisZ / vLength * sinAngle;
         w = Math.cos(hangle);
-        
+
         return this;
     }
 
     /**
      * Set this quaternion to be a representation of the supplied axis and
      * angle (in radians).
-     * 
+     *
      * @param axis
      *          the rotation axis
      * @param angle
@@ -699,7 +691,7 @@ public class Quaterniond implements Externalizable {
         y = axis.y / vLength * sinAngle;
         z = axis.z / vLength * sinAngle;
         w = Math.cos(hangle);
-        
+
         return this;
     }
 
@@ -713,7 +705,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * So, this method uses post-multiplication like the matrix classes, resulting in a
      * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
-     * 
+     *
      * @param q
      *          the quaternion to multiply <code>this</code> by
      * @return this
@@ -732,7 +724,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * So, this method uses post-multiplication like the matrix classes, resulting in a
      * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
-     * 
+     *
      * @param q
      *            the quaternion to multiply <code>this</code> by
      * @param dest
@@ -757,7 +749,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Transform the given vector by this quaternion.
      * This will apply the rotation described by this quaternion to the given vector.
-     * 
+     *
      * @param vec
      *          the vector to transform
      * @return this
@@ -769,7 +761,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Transform the given vector by this quaternion and store the result in <code>dest</code>.
      * This will apply the rotation described by this quaternion to the given vector.
-     * 
+     *
      * @param vec
      *          the vector to transform
      * @param dest
@@ -800,7 +792,7 @@ public class Quaterniond implements Externalizable {
      * This will apply the rotation described by this quaternion to the given vector.
      * <p>
      * Only the first three components of the given 4D vector are being used and modified.
-     * 
+     *
      * @param vec
      *          the vector to transform
      * @return this
@@ -814,7 +806,7 @@ public class Quaterniond implements Externalizable {
      * This will apply the rotation described by this quaternion to the given vector.
      * <p>
      * Only the first three components of the given 4D vector are being used and set on the destination.
-     * 
+     *
      * @param vec
      *          the vector to transform
      * @param dest
@@ -843,7 +835,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Invert this quaternion and store the {@link #normalize() normalized} result in <code>dest</code>.
-     * 
+     *
      * @param dest
      *          will hold the result
      * @return this
@@ -859,7 +851,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Invert this quaternion by assuming that it is already {@link #normalize() normalized} and store the result in <code>dest</code>.
-     * 
+     *
      * @param dest
      *          will hold the result
      * @return this
@@ -874,7 +866,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Invert this quaternion and {@link #normalize() normalize} it.
-     * 
+     *
      * @return this
      */
     public Quaterniond invert() {
@@ -883,7 +875,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Invert this quaternion by assuming that it is already {@link #normalize() normalized}.
-     * 
+     *
      * @return this
      */
     public Quaterniond unitInvert() {
@@ -896,7 +888,7 @@ public class Quaterniond implements Externalizable {
      * The division expressed using the inverse is performed in the following way:
      * <p>
      * <tt>dest = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
-     * 
+     *
      * @param b
      *          the {@link Quaterniond} to divide this by
      * @param dest
@@ -922,7 +914,7 @@ public class Quaterniond implements Externalizable {
      * The division expressed using the inverse is performed in the following way:
      * <p>
      * <tt>this = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
-     * 
+     *
      * @param b
      *          the {@link Quaterniond} to divide this by
      * @return this
@@ -933,7 +925,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Conjugate this quaternion.
-     * 
+     *
      * @return this
      */
     public Quaterniond conjugate() {
@@ -945,7 +937,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Conjugate this quaternion and store the result in <code>dest</code>.
-     * 
+     *
      * @param dest
      *          will hold the result
      * @return this
@@ -960,7 +952,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to the identity.
-     * 
+     *
      * @return this
      */
     public Quaterniond identity() {
@@ -973,7 +965,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Return the length of this quaternion.
-     * 
+     *
      * @return the length
      */
     public double length() {
@@ -985,7 +977,7 @@ public class Quaterniond implements Externalizable {
      * (in radians) with rotation order XYZ.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
-     * 
+     *
      * @param rotationAboutX
      *          the angle in radians to rotate about x
      * @param rotationAboutY
@@ -1015,7 +1007,7 @@ public class Quaterniond implements Externalizable {
      * (in radians) with rotation order ZYX.
      * <p>
      * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
-     * 
+     *
      * @param rotationAboutX
      *          the angle in radians to rotate about x
      * @param rotationAboutY
@@ -1043,7 +1035,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Interpolate between <code>this</code> quaternion and the specified
      * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>.
-     * 
+     *
      * @param target
      *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
      * @param alpha
@@ -1058,7 +1050,7 @@ public class Quaterniond implements Externalizable {
      * Interpolate between <code>this</code> quaternion and the specified
      * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>,
      * and store the result in <code>dest</code>.
-     * 
+     *
      * @param target
      *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
      * @param alpha
@@ -1086,7 +1078,7 @@ public class Quaterniond implements Externalizable {
             dest.x = (q1 * x + q2 * target.x) / sinTheta;
             dest.y = (q1 * y + q2 * target.y) / sinTheta;
             dest.z = (q1 * z + q2 * target.z) / sinTheta;
-            dest.w = (q1 * w + q2 * target.w) / sinTheta; 
+            dest.w = (q1 * w + q2 * target.w) / sinTheta;
         } else {
             nlerp(target, alpha, dest);
         }
@@ -1096,7 +1088,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
      * and store the result in <code>this</code>.
-     * 
+     *
      * @param q
      *          the other quaternion
      * @param factor
@@ -1110,7 +1102,7 @@ public class Quaterniond implements Externalizable {
     /**
      * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
      * and store the result in <code>dest</code>.
-     * 
+     *
      * @param q
      *          the other quaternion
      * @param factor
@@ -1141,17 +1133,17 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
      * <p>
      * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
-     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
+     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
-     * 
+     *
      * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
-     * 
+     *
      * @param dir
      *              the direction to map to the positive Z axis
      * @param up
@@ -1167,21 +1159,21 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
      * <p>
      * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
-     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
+     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
-     * 
+     *
      * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
-     * 
+     *
      * @param dir
      *              the direction to map to the positive Z axis
      * @param up
-     *              the vector which will be mapped to a vector parallel to the plane 
+     *              the vector which will be mapped to a vector parallel to the plane
      *              spanned by the given <code>dir</code> and <code>up</code>
      * @param dest
      *              will hold the result
@@ -1195,17 +1187,17 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis.
      * <p>
      * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
-     * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors. 
+     * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
-     * 
+     *
      * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
-     * 
+     *
      * @param dirX
      *              the x-coordinate of the direction to look along
      * @param dirY
@@ -1228,15 +1220,15 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
      * <p>
      * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
-     * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors. 
+     * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
-     * 
+     *
      * @param dirX
      *              the x-coordinate of the direction to look along
      * @param dirY
@@ -1319,40 +1311,11 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Return a string representation of this quaternion.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
-     * 
+     *
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-"); //$NON-NLS-1$
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
-    /**
-     * Return a string representation of this quaternion by formatting the components with the given {@link NumberFormat}.
-     * 
-     * @param formatter
-     *          the {@link NumberFormat} used to format the quaternion components with
-     * @return the string representation
-     */
-    public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + " " + formatter.format(w) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-    }
-
-    public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeDouble(x);
-        out.writeDouble(y);
-        out.writeDouble(z);
-        out.writeDouble(w);
-    }
-
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
-        x = in.readDouble();
-        y = in.readDouble();
-        z = in.readDouble();
-        w = in.readDouble();
+        return "(" + x + ", " + y + ", " + z + ", " + w + ")";
     }
 
     public int hashCode() {
@@ -1400,7 +1363,7 @@ public class Quaterniond implements Externalizable {
      * <tt>T * D = Q</tt>
      * <p>
      * It is defined as: <tt>D = T^-1 * Q</tt>, where <tt>T^-1</tt> denotes the {@link #invert() inverse} of <tt>T</tt>.
-     * 
+     *
      * @param other
      *          the other quaternion
      * @return this
@@ -1420,7 +1383,7 @@ public class Quaterniond implements Externalizable {
      * <tt>T * D = Q</tt>
      * <p>
      * It is defined as: <tt>D = T^-1 * Q</tt>, where <tt>T^-1</tt> denotes the {@link #invert() inverse} of <tt>T</tt>.
-     * 
+     *
      * @param other
      *          the other quaternion
      * @param dest
@@ -1439,13 +1402,13 @@ public class Quaterniond implements Externalizable {
                  w * other.w - x * other.x - y * other.y - z * other.z);
         return this;
     }
-    
+
 
     /**
      * Set <code>this</code> quaternion to a rotation that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
-     * 
+     *
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction
      * @param fromDirY
@@ -1512,9 +1475,9 @@ public class Quaterniond implements Externalizable {
      * Set <code>this</code> quaternion to a rotation that rotates the <code>fromDir</code> vector to point along <code>toDir</code>.
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
-     * 
+     *
      * @see #rotationTo(double, double, double, double, double, double)
-     * 
+     *
      * @param fromDir
      *          the starting direction
      * @param toDir
@@ -1531,11 +1494,11 @@ public class Quaterniond implements Externalizable {
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction
      * @param fromDirY
@@ -1610,9 +1573,9 @@ public class Quaterniond implements Externalizable {
     /**
      * Set this {@link Quaterniond} to a rotation of the given angle in radians about the supplied
      * axis, all of which are specified via the {@link AxisAngle4f}.
-     * 
+     *
      * @see #rotationAxis(double, double, double, double)
-     * 
+     *
      * @param axisAngle
      *            the {@link AxisAngle4f} giving the rotation angle in radians and the axis to rotate about
      * @return this
@@ -1623,7 +1586,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to a rotation of the given angle in radians about the supplied axis.
-     * 
+     *
      * @param angle
      *          the rotation angle in radians
      * @param axisX
@@ -1649,7 +1612,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to represent a rotation of the given angles in radians about the basis unit axes of the cartesian space.
-     * 
+     *
      * @param angleX
      *              the angle in radians to rotate about the x axis
      * @param angleY
@@ -1680,9 +1643,9 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to represent a rotation of the given radians about the x axis.
-     * 
+     *
      * @see #rotation(double, double, double)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the x axis
      * @return this
@@ -1693,9 +1656,9 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to represent a rotation of the given radians about the y axis.
-     * 
+     *
      * @see #rotation(double, double, double)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the y axis
      * @return this
@@ -1706,9 +1669,9 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to represent a rotation of the given radians about the z axis.
-     * 
+     *
      * @see #rotation(double, double, double)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the z axis
      * @return this
@@ -1722,13 +1685,13 @@ public class Quaterniond implements Externalizable {
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotateTo(double, double, double, double, double, double, Quaterniond)
-     * 
+     *
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction
      * @param fromDirY
@@ -1753,13 +1716,13 @@ public class Quaterniond implements Externalizable {
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotateTo(double, double, double, double, double, double, Quaterniond)
-     * 
+     *
      * @param fromDir
      *          the starting direction
      * @param toDir
@@ -1777,13 +1740,13 @@ public class Quaterniond implements Externalizable {
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotateTo(double, double, double, double, double, double, Quaterniond)
-     * 
+     *
      * @param fromDir
      *          the starting direction
      * @param toDir
@@ -1798,13 +1761,13 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
      * cartesian space and store the result in <code>dest</code>.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param anglesXYZ
      *              the angles in radians to rotate about the x, y and z axes, respectively
      * @param dest
@@ -1819,13 +1782,13 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes
      * of the cartesian space.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param anglesXYZ
      *              the angles in radians to rotate about the x, y and z axes, respectively
      * @return this
@@ -1837,13 +1800,13 @@ public class Quaterniond implements Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the cartesian space.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param angleX
      *              the angle in radians to rotate about the x axis
      * @param angleY
@@ -1860,13 +1823,13 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
      * cartesian space and store the result in <code>dest</code>.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param angleX
      *              the angle in radians to rotate about the x axis
      * @param angleY
@@ -1906,13 +1869,13 @@ public class Quaterniond implements Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the x axis.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the x axis
      * @return this
@@ -1925,13 +1888,13 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the x axis
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the x axis
      * @param dest
@@ -1945,13 +1908,13 @@ public class Quaterniond implements Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the y axis.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the y axis
      * @return this
@@ -1964,13 +1927,13 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the y axis
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the y axis
      * @param dest
@@ -1984,13 +1947,13 @@ public class Quaterniond implements Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the z axis.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the z axis
      * @return this
@@ -2003,13 +1966,13 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the z axis
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotate(double, double, double, Quaterniond)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the z axis
      * @param dest
@@ -2026,11 +1989,11 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @param angles
      *              the euler angles in radians
      * @return this
@@ -2045,11 +2008,11 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @param angles
      *              the euler angles in radians
      * @return this
@@ -2064,11 +2027,11 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @param angleX
      *              the angle in radians to rotate about the x axis
      * @param angleY
@@ -2087,11 +2050,11 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @param angleX
      *              the angle in radians to rotate about the x axis
      * @param angleY
@@ -2105,9 +2068,9 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Get the euler angles in radians in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the 
+     * Get the euler angles in radians in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the
      * provided parameter <code>eulerAngles</code>.
-     * 
+     *
      * @param eulerAngles
      *          will hold the euler angles in radians
      * @return the passed in vector
@@ -2123,11 +2086,11 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the specified axis
      * @param axisX
@@ -2161,13 +2124,13 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis
      * and store the result in <code>dest</code>.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotateAxis(double, double, double, double, Quaterniond)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the specified axis
      * @param axis
@@ -2183,13 +2146,13 @@ public class Quaterniond implements Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotateAxis(double, double, double, double, Quaterniond)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the specified axis
      * @param axis
@@ -2203,13 +2166,13 @@ public class Quaterniond implements Externalizable {
     /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis.
      * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
-     * 
+     *
      * @see #rotateAxis(double, double, double, double, Quaterniond)
-     * 
+     *
      * @param angle
      *              the angle in radians to rotate about the specified axis
      * @param axisX
@@ -2229,7 +2192,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
+     *
      * @param v
      *          the {@link Vector3f} to return
      * @return that vector
@@ -2243,7 +2206,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
+     *
      * @param v
      *          the {@link Vector4f} to return
      * @return that vector
@@ -2257,7 +2220,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
+     *
      * @param q
      *          the {@link Quaternionf} to return
      * @return that quaternion
@@ -2271,7 +2234,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
+     *
      * @param q
      *          the {@link Quaterniond} to return
      * @return that quaternion
@@ -2285,7 +2248,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
-     * 
+     *
      * @param a
      *          the {@link AxisAngle4f} to return
      * @return that quaternion
@@ -2299,7 +2262,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
+     *
      * @param m
      *          the {@link Matrix3f} to return
      * @return that matrix
@@ -2313,7 +2276,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * When using method chaining in a fluent interface style, this method can be used to switch
      * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
+     *
      * @param m
      *          the {@link Matrix4f} to return
      * @return that matrix
