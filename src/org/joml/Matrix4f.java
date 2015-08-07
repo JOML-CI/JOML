@@ -568,12 +568,13 @@ public class Matrix4f implements Externalizable {
      *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
      * @return this
      */
-    public Matrix4f mul4x3(Matrix4f right) {
-       return mul4x3(right, this);
+    public Matrix4f mul4x3r(Matrix4f right) {
+       return mul4x3r(right, this);
     }
 
     /**
      * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -586,7 +587,7 @@ public class Matrix4f implements Externalizable {
      *          the destination matrix, which will hold the result
      * @return this
      */
-    public Matrix4f mul4x3(Matrix4f right, Matrix4f dest) {
+    public Matrix4f mul4x3r(Matrix4f right, Matrix4f dest) {
         if (this != dest && right != dest) {
             dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
             dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
@@ -621,6 +622,77 @@ public class Matrix4f implements Externalizable {
                      m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
                      m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
                      m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33);
+        }
+        return this;
+    }
+
+    /**
+     * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
+     * Also, this method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @return this
+     */
+    public Matrix4f mul4x3(Matrix4f right) {
+       return mul4x3(right, this);
+    }
+
+    /**
+     * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
+     * Also, this method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return this
+     */
+    public Matrix4f mul4x3(Matrix4f right, Matrix4f dest) {
+        if (this != dest && right != dest) {
+            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+            dest.m30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
+            dest.m31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
+            dest.m32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
+        } else {
+            dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
+                     m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
+                     m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
+                     m03,
+                     m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
+                     m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
+                     m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
+                     m13,
+                     m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
+                     m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
+                     m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
+                     m23,
+                     m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
+                     m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
+                     m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
+                     m33);
         }
         return this;
     }
