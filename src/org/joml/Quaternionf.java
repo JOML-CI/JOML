@@ -124,13 +124,11 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf normalize() {
-        float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
-
-        x /= norm;
-        y /= norm;
-        z /= norm;
-        w /= norm;
-
+        float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+        x *= invNorm;
+        y *= invNorm;
+        z *= invNorm;
+        w *= invNorm;
         return this;
     }
 
@@ -139,15 +137,15 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf normalize(Quaternionf dest) {
-        float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
-        dest.x = x / norm;
-        dest.y = y / norm;
-        dest.z = z / norm;
-        dest.w = w / norm;
-        return this;
+        float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+        dest.x = x * invNorm;
+        dest.y = y * invNorm;
+        dest.z = z * invNorm;
+        dest.w = w * invNorm;
+        return dest;
     }
 
     /**
@@ -172,14 +170,14 @@ public class Quaternionf implements Externalizable {
      *          the quaternion to add to this
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf add(Quaternionf q2, Quaternionf dest) {
         dest.x = x + q2.x;
         dest.y = y + q2.y;
         dest.z = z + q2.z;
         dest.w = w + q2.w;
-        return this;
+        return dest;
     }
 
     /**
@@ -208,9 +206,9 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          the matrix to write the rotation into
-     * @return this
+     * @return the passed in destination
      */
-    public Quaternionf get(Matrix3f dest) {
+    public Matrix3f get(Matrix3f dest) {
         float q00 = 2.0f * x * x;
         float q11 = 2.0f * y * y;
         float q22 = 2.0f * z * z;
@@ -233,7 +231,7 @@ public class Quaternionf implements Externalizable {
         dest.m20 = q02 + q13;
         dest.m21 = q12 - q03;
         dest.m22 = 1.0f - q11 - q00;
-        return this;
+        return dest;
     }
 
     /**
@@ -241,9 +239,9 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          the matrix to write the rotation into
-     * @return this
+     * @return the passed in destination
      */
-    public Quaternionf get(Matrix4f dest) {
+    public Matrix4f get(Matrix4f dest) {
         float q00 = 2.0f * x * x;
         float q11 = 2.0f * y * y;
         float q22 = 2.0f * z * z;
@@ -272,7 +270,7 @@ public class Quaternionf implements Externalizable {
         dest.m31 = 0.0f;
         dest.m32 = 0.0f;
         dest.m33 = 1.0f;
-        return this;
+        return dest;
     }
 
     /**
@@ -282,11 +280,10 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          the {@link Quaternionf} to set
-     * @return this
+     * @return the passed in destination
      */
     public Quaternionf get(Quaternionf dest) {
-        dest.set(this);
-        return this;
+        return dest.set(this);
     }
 
     /**
@@ -383,11 +380,11 @@ public class Quaternionf implements Externalizable {
     public Quaternionf rotationAxis(float angle, float axisX, float axisY, float axisZ) {
         float hangle = angle / 2.0f;
         float sinAngle = (float) Math.sin(hangle);
-        float vLength = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        float invVLength = (float) (1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ));
 
-        x = (axisX / vLength) * sinAngle;
-        y = (axisY / vLength) * sinAngle;
-        z = (axisZ / vLength) * sinAngle;
+        x = axisX * invVLength * sinAngle;
+        y = axisY * invVLength * sinAngle;
+        z = axisZ * invVLength * sinAngle;
         w = (float) Math.cos(hangle);
 
         return this;
@@ -602,7 +599,7 @@ public class Quaternionf implements Externalizable {
      *            the quaternion to multiply <code>this</code> by
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf mul(Quaternionf q, Quaternionf dest) {
         if (this != dest && q != dest) {
@@ -616,7 +613,7 @@ public class Quaternionf implements Externalizable {
                      w * q.z + x * q.y - y * q.x + z * q.w,
                      w * q.w - x * q.x - y * q.y - z * q.z);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -625,9 +622,9 @@ public class Quaternionf implements Externalizable {
      * 
      * @param vec
      *          the vector to transform
-     * @return this
+     * @return vec
      */
-    public Quaternionf transform(Vector3f vec){
+    public Vector3f transform(Vector3f vec){
         return transform(vec, vec);
     }
 
@@ -639,9 +636,9 @@ public class Quaternionf implements Externalizable {
      * 
      * @param vec
      *          the vector to transform
-     * @return this
+     * @return vec
      */
-    public Quaternionf transform(Vector4f vec){
+    public Vector4f transform(Vector4f vec){
         return transform(vec, vec);
     }
 
@@ -653,9 +650,9 @@ public class Quaternionf implements Externalizable {
      *          the vector to transform
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
-    public Quaternionf transform(Vector3f vec, Vector3f dest) {
+    public Vector3f transform(Vector3f vec, Vector3f dest) {
         double num = x * 2.0;
         double num2 = y * 2.0;
         double num3 = z * 2.0;
@@ -671,7 +668,7 @@ public class Quaternionf implements Externalizable {
         dest.set((float) ((1.0 - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z),
                  (float) ((num7 + num12) * vec.x + (1.0 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z),
                  (float) ((num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0 - (num4 + num5)) * vec.z));
-        return this;
+        return dest;
     }
 
     /**
@@ -684,9 +681,9 @@ public class Quaternionf implements Externalizable {
      *          the vector to transform
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
-    public Quaternionf transform(Vector4f vec, Vector4f dest) {
+    public Vector4f transform(Vector4f vec, Vector4f dest) {
         double num = x * 2.0;
         double num2 = y * 2.0;
         double num3 = z * 2.0;
@@ -703,7 +700,7 @@ public class Quaternionf implements Externalizable {
                  (float) ((num7 + num12) * vec.x + (1.0 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z),
                  (float) ((num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0 - (num4 + num5)) * vec.z),
                  dest.w);
-        return this;
+        return dest;
     }
 
     /**
@@ -711,15 +708,15 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf invert(Quaternionf dest) {
-        float norm = x * x + y * y + z * z + w * w;
-        dest.x = -x / norm;
-        dest.y = -y / norm;
-        dest.z = -z / norm;
-        dest.w = w / norm;
-        return this;
+        float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        dest.x = -x * invNorm;
+        dest.y = -y * invNorm;
+        dest.z = -z * invNorm;
+        dest.w = w * invNorm;
+        return dest;
     }
 
     /**
@@ -727,14 +724,14 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf unitInvert(Quaternionf dest) {
         dest.x = -x;
         dest.y = -y;
         dest.z = -z;
         dest.w = w;
-        return this;
+        return dest;
     }
 
     /**
@@ -766,19 +763,19 @@ public class Quaternionf implements Externalizable {
      *          the {@link Quaternionf} to divide this by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf div(Quaternionf b, Quaternionf dest) {
-        float norm = (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
-        float x = -b.x / norm;
-        float y = -b.y / norm;
-        float z = -b.z / norm;
-        float w = b.w / norm;
+        float invNorm = 1.0f / (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
+        float x = -b.x * invNorm;
+        float y = -b.y * invNorm;
+        float z = -b.z * invNorm;
+        float w = b.w * invNorm;
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
                  this.w * z + this.x * y - this.y * x + this.z * w,
                  this.w * w - this.x * x - this.y * y - this.z * z);
-        return this;
+        return dest;
     }
 
     /**
@@ -813,14 +810,14 @@ public class Quaternionf implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf conjugate(Quaternionf dest) {
         dest.x = -x;
         dest.y = -y;
         dest.z = -z;
         dest.w = w;
-        return this;
+        return dest;
     }
 
     /**
@@ -888,13 +885,13 @@ public class Quaternionf implements Externalizable {
      * 
      * @param eulerAngles
      *          will hold the euler angles in radians
-     * @return this
+     * @return the passed in vector
      */
-    public Quaternionf getEulerAnglesXYZ(Vector3f eulerAngles) {
+    public Vector3f getEulerAnglesXYZ(Vector3f eulerAngles) {
         eulerAngles.x = (float) Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y));
         eulerAngles.y = (float) Math.asin(2.0 * (x*z + y*w));
         eulerAngles.z = (float) Math.atan2(2.0 * (z*w - x*y), 1.0 - 2.0 * (y*y + z*z));
-        return this;
+        return eulerAngles;
     }
 
     /**
@@ -989,7 +986,7 @@ public class Quaternionf implements Externalizable {
      *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf slerp(Quaternionf target, float alpha, Quaternionf dest) {
         float dot = x * target.x + y * target.y + z * target.z + w * target.w;
@@ -1000,21 +997,21 @@ public class Quaternionf implements Externalizable {
         if (dot > -nlerpThreshold && dot < nlerpThreshold) {
             float absDot = (float) Math.abs(dot);
             float theta = (float) Math.acos(absDot);
-            float sinTheta = 1.0f;
+            float invSinTheta = 1.0f;
             // Check if we need to compute sinTheta
             if (dot < -sinThetaThreshold || dot > sinThetaThreshold) {
-                sinTheta = (float) Math.sin(theta);
+                invSinTheta = (float) (1.0 / Math.sin(theta));
             }
             float q1 = (float) Math.sin(theta * (1.0f - alpha));
             float q2 = (float) Math.sin(theta * alpha);
-            dest.x = (q1 * x + q2 * target.x) / sinTheta;
-            dest.y = (q1 * y + q2 * target.y) / sinTheta;
-            dest.z = (q1 * z + q2 * target.z) / sinTheta;
-            dest.w = (q1 * w + q2 * target.w) / sinTheta; 
+            dest.x = (q1 * x + q2 * target.x) * invSinTheta;
+            dest.y = (q1 * y + q2 * target.y) * invSinTheta;
+            dest.z = (q1 * z + q2 * target.z) * invSinTheta;
+            dest.w = (q1 * w + q2 * target.w) * invSinTheta; 
         } else {
             nlerp(target, alpha, dest);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -1041,7 +1038,7 @@ public class Quaternionf implements Externalizable {
      *          the interpolation factor. It is between 0.0 and 1.0
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf nlerp(Quaternionf q, float factor, Quaternionf dest) {
         float dot = this.dot(q);
@@ -1058,7 +1055,7 @@ public class Quaternionf implements Externalizable {
             dest.z = blendI * z + factor * q.z;
         }
         dest.normalize();
-        return this;
+        return dest;
     }
 
     /**
@@ -1109,7 +1106,7 @@ public class Quaternionf implements Externalizable {
      *              spanned by the given <code>dir</code> and <code>up</code>
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf lookRotate(Vector3f dir, Vector3f up, Quaternionf dest) {
         return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
@@ -1175,24 +1172,24 @@ public class Quaternionf implements Externalizable {
      *              the z-coordinate of the up vector
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternionf dest) {
         // Normalize direction
-        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX / dirLength;
-        float dirnY = dirY / dirLength;
-        float dirnZ = dirZ / dirLength;
+        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
+        float dirnX = dirX * invDirLength;
+        float dirnY = dirY * invDirLength;
+        float dirnZ = dirZ * invDirLength;
         // left = up x dir
         float leftX, leftY, leftZ;
         leftX = upY * dirnZ - upZ * dirnY;
         leftY = upZ * dirnX - upX * dirnZ;
         leftZ = upX * dirnY - upY * dirnX;
         // normalize left
-        float leftLength = (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
-        leftX /= leftLength;
-        leftY /= leftLength;
-        leftZ /= leftLength;
+        float invLeftLength = (float) (1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ));
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
         // up = direction x left
         float upnX = dirnY * leftZ - dirnZ * leftY;
         float upnY = dirnZ * leftX - dirnX * leftZ;
@@ -1238,7 +1235,7 @@ public class Quaternionf implements Externalizable {
                  this.w * y - this.x * z + this.y * w + this.z * x,
                  this.w * z + this.x * y - this.y * x + this.z * w,
                  this.w * w - this.x * x - this.y * y - this.z * z);
-        return this;
+        return dest;
     }
 
     /**
@@ -1261,14 +1258,14 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf rotationTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
-        double fromLength = Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
-        double fromX = fromDirX / fromLength;
-        double fromY = fromDirY / fromLength;
-        double fromZ = fromDirZ / fromLength;
-        double toLength = Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
-        double toX = toDirX / toLength;
-        double toY = toDirY / toLength;
-        double toZ = toDirZ / toLength;
+        double invFromLength = 1.0 / Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
+        double fromX = fromDirX * invFromLength;
+        double fromY = fromDirY * invFromLength;
+        double fromZ = fromDirZ * invFromLength;
+        double invToLength = 1.0 / Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
+        double toX = toDirX * invToLength;
+        double toY = toDirY * invToLength;
+        double toZ = toDirZ * invToLength;
         double dot = fromX * toX + fromY * toY + fromZ * toZ;
         if (dot < 1e-6 - 1.0) {
             /* vectors are negation of each other */
@@ -1296,14 +1293,13 @@ public class Quaternionf implements Externalizable {
             y = (float) (crossY * invs);
             z = (float) (crossZ * invs);
             w = (float) (s * 0.5);
-            float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
-            x /= norm;
-            y /= norm;
-            z /= norm;
-            w /= norm;
+            float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
         } else {
             /* vectors are parallel, don't change anything */
-            return this;
         }
         return this;
     }
@@ -1350,17 +1346,17 @@ public class Quaternionf implements Externalizable {
      *              the z-coordinate of the direction to rotate to
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
-        double fromLength = Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
-        double fromX = fromDirX / fromLength;
-        double fromY = fromDirY / fromLength;
-        double fromZ = fromDirZ / fromLength;
-        double toLength = Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
-        double toX = toDirX / toLength;
-        double toY = toDirY / toLength;
-        double toZ = toDirZ / toLength;
+        double invFromLength = 1.0 / Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
+        double fromX = fromDirX * invFromLength;
+        double fromY = fromDirY * invFromLength;
+        double fromZ = fromDirZ * invFromLength;
+        double invToLength = 1.0 / Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
+        double toX = toDirX * invToLength;
+        double toY = toDirY * invToLength;
+        double toZ = toDirZ * invToLength;
         double dot = fromX * toX + fromY * toY + fromZ * toZ;
         float x, y, z, w;
         if (dot < 1e-6 - 1.0) {
@@ -1389,11 +1385,11 @@ public class Quaternionf implements Externalizable {
             y = (float) (crossY * invs);
             z = (float) (crossZ * invs);
             w = (float) (s * 0.5);
-            float norm = (float) Math.sqrt(x * x + y * y + z * z + w * w);
-            x /= norm;
-            y /= norm;
-            z /= norm;
-            w /= norm;
+            float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
         } else {
             /* vectors are parallel, don't change anything */
             return this;
@@ -1403,7 +1399,7 @@ public class Quaternionf implements Externalizable {
                  this.w * y - this.x * z + this.y * w + this.z * x,
                  this.w * z + this.x * y - this.y * x + this.z * w,
                  this.w * w - this.x * x - this.y * y - this.z * z);
-        return this;
+        return dest;
     }
 
     /**
@@ -1455,7 +1451,7 @@ public class Quaternionf implements Externalizable {
      *          the destination direction
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf rotateTo(Vector3f fromDir, Vector3f toDir, Quaternionf dest) {
         return rotateTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z, dest);
@@ -1524,7 +1520,7 @@ public class Quaternionf implements Externalizable {
      *              the angle in radians to rotate about the z axis
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf rotate(float angleX, float angleY, float angleZ, Quaternionf dest) {
         double thetaX = angleX * 0.5;
@@ -1554,7 +1550,7 @@ public class Quaternionf implements Externalizable {
                  (float) (w * dqY - x * dqZ + y * dqW + z * dqX),
                  (float) (w * dqZ + x * dqY - y * dqX + z * dqW),
                  (float) (w * dqW - x * dqX - y * dqY - z * dqZ));
-        return this;
+        return dest;
     }
 
     /**
@@ -1590,7 +1586,7 @@ public class Quaternionf implements Externalizable {
      *              the angle in radians to rotate about the x axis
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf rotateX(float angle, Quaternionf dest) {
         return rotate(angle, 0.0f, 0.0f, dest);
@@ -1629,7 +1625,7 @@ public class Quaternionf implements Externalizable {
      *              the angle in radians to rotate about the y axis
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf rotateY(float angle, Quaternionf dest) {
         return rotate(0.0f, angle, 0.0f, dest);
@@ -1668,7 +1664,7 @@ public class Quaternionf implements Externalizable {
      *              the angle in radians to rotate about the z axis
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf rotateZ(float angle, Quaternionf dest) {
         return rotate(0.0f, 0.0f, angle, dest);
@@ -1693,23 +1689,23 @@ public class Quaternionf implements Externalizable {
      *              the z coordinate of the rotation axis
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf rotateAxis(float angle, float axisX, float axisY, float axisZ, Quaternionf dest) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
-        double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        double invVLength = 1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
-        double rx = (axisX / vLength) * sinAngle;
-        double ry = (axisY / vLength) * sinAngle;
-        double rz = (axisZ / vLength) * sinAngle;
+        double rx = axisX * invVLength * sinAngle;
+        double ry = axisY * invVLength * sinAngle;
+        double rz = axisZ * invVLength * sinAngle;
         double rw = Math.cos(hangle);
 
         dest.set((float) (w * rx + x * rw + y * rz - z * ry),
                  (float) (w * ry - x * rz + y * rw + z * rx),
                  (float) (w * rz + x * ry - y * rx + z * rw),
                  (float) (w * rw - x * rx - y * ry - z * rz));
-        return this;
+        return dest;
     }
 
     /**
@@ -1729,7 +1725,7 @@ public class Quaternionf implements Externalizable {
      *              the rotation axis
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf rotateAxis(float angle, Vector3f axis, Quaternionf dest) {
         return rotateAxis(angle, axis.x, axis.y, axis.z, dest);
@@ -1882,19 +1878,19 @@ public class Quaternionf implements Externalizable {
      *          the other quaternion
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Quaternionf difference(Quaternionf other, Quaternionf dest) {
-        float norm = x * x + y * y + z * z + w * w;
-        float x = -this.x / norm;
-        float y = -this.y / norm;
-        float z = -this.z / norm;
-        float w = this.w / norm;
+        float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        float x = -this.x * invNorm;
+        float y = -this.y * invNorm;
+        float z = -this.z * invNorm;
+        float w = this.w * invNorm;
         dest.set(w * other.x + x * other.w + y * other.z - z * other.y,
                  w * other.y - x * other.z + y * other.w + z * other.x,
                  w * other.z + x * other.y - y * other.x + z * other.w,
                  w * other.w - x * other.x - y * other.y - z * other.z);
-        return this;
+        return dest;
     }
 
 }

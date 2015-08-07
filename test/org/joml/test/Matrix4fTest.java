@@ -27,10 +27,10 @@ public class Matrix4fTest extends TestCase {
         Matrix4f inverse = new Matrix4f();
 
         /* Build a perspective projection and then project and unproject. */
-        new Matrix4f()
-        .perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
-        .project(expected, viewport, actual)
-        .unproject(actual, viewport, inverse, actual);
+        Matrix4f m = new Matrix4f()
+        .perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f);
+        m.project(expected, viewport, actual);
+        m.unproject(actual, viewport, inverse, actual);
 
         /* Check for equality of the components */
         assertEquals(expected.x, actual.x, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
@@ -65,16 +65,16 @@ public class Matrix4fTest extends TestCase {
          * Build a perspective transformation and
          * move the camera 5 units "up" and rotate it clock-wise 90 degrees around Y.
          */
-        new Matrix4f()
+        Matrix4f m = new Matrix4f()
         .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .rotateY((float) Math.toRadians(90))
-        .translate(0, -5, 0)
-            .frustumPlane(Matrix4f.PLANE_NX, left)
-            .frustumPlane(Matrix4f.PLANE_PX, right)
-            .frustumPlane(Matrix4f.PLANE_NY, bottom)
-            .frustumPlane(Matrix4f.PLANE_PY, top)
-            .frustumPlane(Matrix4f.PLANE_NZ, near)
-            .frustumPlane(Matrix4f.PLANE_PZ, far);
+        .translate(0, -5, 0);
+        m.frustumPlane(Matrix4f.PLANE_NX, left);
+        m.frustumPlane(Matrix4f.PLANE_PX, right);
+        m.frustumPlane(Matrix4f.PLANE_NY, bottom);
+        m.frustumPlane(Matrix4f.PLANE_PY, top);
+        m.frustumPlane(Matrix4f.PLANE_NZ, near);
+        m.frustumPlane(Matrix4f.PLANE_PZ, far);
 
         Vector4f expectedLeft = new Vector4f(1, 0, 1, 0).normalize3();
         Vector4f expectedRight = new Vector4f(1, 0, -1, 0).normalize3();
