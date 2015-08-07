@@ -5234,9 +5234,9 @@ public class Matrix4f implements Externalizable {
         c12y = n1z * n2x - n1x * n2z;
         c12z = n1x * n2y - n1y * n2x;
         float invDot = 1.0f / (n1x * c23x + n1y * c23y + n1z * c23z);
-        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) / invDot;
-        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) / invDot;
-        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) / invDot;
+        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
+        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
+        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
         return origin;
     }
 
