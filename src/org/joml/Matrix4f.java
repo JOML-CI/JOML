@@ -517,41 +517,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
-        if (this != dest && right != dest) {
-            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03;
-            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03;
-            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03;
-            dest.m03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03;
-            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13;
-            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13;
-            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13;
-            dest.m13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13;
-            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23;
-            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23;
-            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23;
-            dest.m23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23;
-            dest.m30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33;
-            dest.m31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33;
-            dest.m32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33;
-            dest.m33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33;
-        } else {
-            dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03,
-                     m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03,
-                     m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03,
-                     m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03,
-                     m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13,
-                     m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13,
-                     m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13,
-                     m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13,
-                     m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23,
-                     m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23,
-                     m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23,
-                     m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23,
-                     m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33,
-                     m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33,
-                     m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33,
-                     m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33);
-        }
+        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03,
+                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03,
+                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03,
+                 m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03,
+                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13,
+                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13,
+                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13,
+                 m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13,
+                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23,
+                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23,
+                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23,
+                 m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23,
+                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33,
+                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33,
+                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33,
+                 m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33);
         return dest;
     }
 
@@ -588,41 +569,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mul4x3r(Matrix4f right, Matrix4f dest) {
-        if (this != dest && right != dest) {
-            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
-            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
-            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
-            dest.m03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02;
-            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
-            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
-            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
-            dest.m13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12;
-            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
-            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
-            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
-            dest.m23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22;
-            dest.m30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
-            dest.m31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
-            dest.m32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
-            dest.m33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33;
-        } else {
-            dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
-                     m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
-                     m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
-                     m03 * right.m00 + m13 * right.m01 + m23 * right.m02,
-                     m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
-                     m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
-                     m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
-                     m03 * right.m10 + m13 * right.m11 + m23 * right.m12,
-                     m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
-                     m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
-                     m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
-                     m03 * right.m20 + m13 * right.m21 + m23 * right.m22,
-                     m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
-                     m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
-                     m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
-                     m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33);
-        }
+        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
+                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
+                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
+                 m03 * right.m00 + m13 * right.m01 + m23 * right.m02,
+                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
+                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
+                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
+                 m03 * right.m10 + m13 * right.m11 + m23 * right.m12,
+                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
+                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
+                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
+                 m03 * right.m20 + m13 * right.m21 + m23 * right.m22,
+                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
+                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
+                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
+                 m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33);
         return dest;
     }
 
@@ -663,41 +625,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mul4x3(Matrix4f right, Matrix4f dest) {
-        if (this != dest && right != dest) {
-            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
-            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
-            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
-            dest.m03 = m03;
-            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
-            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
-            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
-            dest.m13 = m13;
-            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
-            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
-            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
-            dest.m23 = m23;
-            dest.m30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
-            dest.m31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
-            dest.m32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
-            dest.m33 = m33;
-        } else {
-            dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
-                     m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
-                     m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
-                     m03,
-                     m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
-                     m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
-                     m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
-                     m13,
-                     m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
-                     m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
-                     m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
-                     m23,
-                     m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
-                     m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
-                     m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
-                     m33);
-        }
+        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
+                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
+                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
+                 m03,
+                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
+                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
+                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
+                 m13,
+                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
+                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
+                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
+                 m23,
+                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
+                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
+                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
+                 m33);
         return dest;
     }
 
@@ -1243,41 +1186,22 @@ public class Matrix4f implements Externalizable {
             return dest;
         }
         s = 1.0f / s;
-        if (this != dest) {
-            dest.m00 = (m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s;
-            dest.m01 = (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s;
-            dest.m02 = (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s;
-            dest.m03 = (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s;
-            dest.m10 = (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s;
-            dest.m11 = (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s;
-            dest.m12 = (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s;
-            dest.m13 = (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s;
-            dest.m20 = (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s;
-            dest.m21 = (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s;
-            dest.m22 = (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s;
-            dest.m23 = (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s;
-            dest.m30 = (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s;
-            dest.m31 = (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s;
-            dest.m32 = (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s;
-            dest.m33 = (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s;
-        } else {
-            dest.set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
-                     (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s,
-                     (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s,
-                     (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s,
-                     (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s,
-                     (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s,
-                     (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s,
-                     (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s,
-                     (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s,
-                     (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s,
-                     (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s,
-                     (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s,
-                     (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
-                     (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
-                     (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
-                     (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s );
-        }
+        dest.set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
+                 (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s,
+                 (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s,
+                 (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s,
+                 (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s,
+                 (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s,
+                 (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s,
+                 (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s,
+                 (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s,
+                 (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s,
+                 (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s,
+                 (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s,
+                 (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
+                 (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
+                 (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
+                 (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s );
         return dest;
     }
 
@@ -1304,41 +1228,22 @@ public class Matrix4f implements Externalizable {
             return this;
         }
         s = 1.0f / s;
-        if (this != dest) {
-            dest.m00 = (m11 * m22 + m12 * -m21) * s;
-            dest.m01 = (m21 * m02 + m22 * -m01) * s;
-            dest.m02 = (m01 * m12 - m02 * m11) * s;
-            dest.m03 = 0.0f;
-            dest.m10 = (m12 * m20 + m10 * -m22) * s;
-            dest.m11 = (m22 * m00 + m20 * -m02) * s;
-            dest.m12 = (m02 * m10 - m00 * m12) * s;
-            dest.m13 = 0.0f;
-            dest.m20 = (m10 * m21 + m11 * -m20) * s;
-            dest.m21 = (m20 * m01 + m21 * -m00) * s;
-            dest.m22 = (m00 * m11 - m01 * m10) * s;
-            dest.m23 = 0.0f;
-            dest.m30 = (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s;
-            dest.m31 = (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s;
-            dest.m32 = (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s;
-            dest.m33 = 1.0f;
-        } else {
-            dest.set((m11 * m22 + m12 * -m21) * s,
-                     (m21 * m02 + m22 * -m01) * s,
-                     (m01 * m12 - m02 * m11) * s,
-                     0.0f,
-                     (m12 * m20 + m10 * -m22) * s,
-                     (m22 * m00 + m20 * -m02) * s,
-                     (m02 * m10 - m00 * m12) * s,
-                     0.0f,
-                     (m10 * m21 + m11 * -m20) * s,
-                     (m20 * m01 + m21 * -m00) * s,
-                     (m00 * m11 - m01 * m10) * s,
-                     0.0f,
-                     (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
-                     (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
-                     (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
-                     1.0f);
-        }
+        dest.set((m11 * m22 + m12 * -m21) * s,
+                 (m21 * m02 + m22 * -m01) * s,
+                 (m01 * m12 - m02 * m11) * s,
+                 0.0f,
+                 (m12 * m20 + m10 * -m22) * s,
+                 (m22 * m00 + m20 * -m02) * s,
+                 (m02 * m10 - m00 * m12) * s,
+                 0.0f,
+                 (m10 * m21 + m11 * -m20) * s,
+                 (m20 * m01 + m21 * -m00) * s,
+                 (m00 * m11 - m01 * m10) * s,
+                 0.0f,
+                 (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
+                 (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
+                 (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
+                 1.0f);
         return dest;
     }
 
@@ -1359,29 +1264,10 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f transpose(Matrix4f dest) {
-        if (this != dest) {
-            dest.m00 = m00;
-            dest.m01 = m10;
-            dest.m02 = m20;
-            dest.m03 = m30;
-            dest.m10 = m01;
-            dest.m11 = m11;
-            dest.m12 = m21;
-            dest.m13 = m31;
-            dest.m20 = m02;
-            dest.m21 = m12;
-            dest.m22 = m22;
-            dest.m23 = m32;
-            dest.m30 = m03;
-            dest.m31 = m13;
-            dest.m32 = m23;
-            dest.m33 = m33;
-        } else {
-            dest.set(m00, m10, m20, m30,
-                     m01, m11, m21, m31,
-                     m02, m12, m22, m32,
-                     m03, m13, m23, m33);
-        }
+        dest.set(m00, m10, m20, m30,
+                 m01, m11, m21, m31,
+                 m02, m12, m22, m32,
+                 m03, m13, m23, m33);
         return dest;
     }
 
@@ -1404,29 +1290,10 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f transpose3x3(Matrix4f dest) {
-        if (this != dest) {
-            dest.m00 = m00;
-            dest.m01 = m10;
-            dest.m02 = m20;
-            dest.m03 = 0.0f;
-            dest.m10 = m01;
-            dest.m11 = m11;
-            dest.m12 = m21;
-            dest.m13 = 0.0f;
-            dest.m20 = m02;
-            dest.m21 = m12;
-            dest.m22 = m22;
-            dest.m23 = 0.0f;
-            dest.m30 = 0.0f;
-            dest.m31 = 0.0f;
-            dest.m32 = 0.0f;
-            dest.m33 = 1.0f;
-        } else {
-            dest.set(m00,  m10,  m20,  0.0f,
-                     m01,  m11,  m21,  0.0f,
-                     m02,  m12,  m22,  0.0f,
-                     0.0f, 0.0f, 0.0f, 1.0f);
-        }
+        dest.set(m00,  m10,  m20,  0.0f,
+                 m01,  m11,  m21,  0.0f,
+                 m02,  m12,  m22,  0.0f,
+                 0.0f, 0.0f, 0.0f, 1.0f);
         return dest;
     }
 

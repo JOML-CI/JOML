@@ -140,12 +140,9 @@ public class FrustumRayBuilder {
         float dz = y1z * oneMinusX + y2z * x;
         // normalize the vector
         float invLen = (float) (1.0 / Math.sqrt(dx * dx + dy * dy + dz * dz));
-        dx *= invLen;
-        dy *= invLen;
-        dz *= invLen;
-        dir.x = dx;
-        dir.y = dy;
-        dir.z = dz;
+        dir.x = dx * invLen;
+        dir.y = dy * invLen;
+        dir.z = dz * invLen;
         return this;
     }
 
