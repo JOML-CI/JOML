@@ -481,13 +481,13 @@ public class Vector2f implements Externalizable {
      * 
      * @param dest
      *        will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2f normalize(Vector2f dest) {
         float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
         dest.x = x * invLength;
         dest.y = y * invLength;
-        return this;
+        return dest;
     }
 
     /**
@@ -556,12 +556,12 @@ public class Vector2f implements Externalizable {
      * 
      * @param dest
      *        will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2f negate(Vector2f dest) {
         dest.x = -x;
         dest.y = -y;
-        return this;
+        return dest;
     }
 
     /**
@@ -584,12 +584,12 @@ public class Vector2f implements Externalizable {
      *        the value to multiply this vector's components by
      * @param dest
      *        will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2f mul(float scalar, Vector2f dest) {
         dest.x *= scalar;
         dest.y *= scalar;
-        return this;
+        return dest;
     }
 
     /**
@@ -622,12 +622,12 @@ public class Vector2f implements Externalizable {
      *          the interpolation factor between 0.0 and 1.0
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2f lerp(Vector2f other, float t, Vector2f dest) {
         dest.x = (1.0f - t) * x + t * other.x;
         dest.y = (1.0f - t) * y + t * other.y;
-        return this;
+        return dest;
     }
 
     public int hashCode() {

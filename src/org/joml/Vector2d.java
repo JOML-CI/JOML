@@ -428,12 +428,12 @@ public class Vector2d implements Externalizable {
      *          the y component to subtract
      * @param dest
      *          will hold the result         
-     * @return this
+     * @return dest
      */
     public Vector2d sub(double x, double y, Vector2d dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
-        return this;
+        return dest;
     }
 
     /**
@@ -456,12 +456,12 @@ public class Vector2d implements Externalizable {
      *          the vector to subtract
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2d sub(Vector2d v, Vector2d dest) {
         dest.x = x - v.x;
         dest.y = y - v.y;
-        return this;
+        return dest;
     }
 
     /**
@@ -471,12 +471,12 @@ public class Vector2d implements Externalizable {
      *          the vector to subtract
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2d sub(Vector2f v, Vector2d dest) {
         dest.x = x + v.x;
         dest.y = y + v.y;
-        return this;
+        return dest;
     }
 
     /**
@@ -524,7 +524,7 @@ public class Vector2d implements Externalizable {
      * @return the length
      */
     public double length() {
-        return Math.sqrt((x * x) + (y * y));
+        return Math.sqrt(x * x + y * y);
     }
 
     /**
@@ -568,13 +568,13 @@ public class Vector2d implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2d normalize(Vector2d dest) {
         double invLength = 1.0 / Math.sqrt(x * x + y * y);
         dest.x = x * invLength;
         dest.y = y * invLength;
-        return this;
+        return dest;
     }
 
     /**
@@ -614,12 +614,12 @@ public class Vector2d implements Externalizable {
      *          the y component to add
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2d add(double x, double y, Vector2d dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
-        return this;
+        return dest;
     }
 
     /**
@@ -642,12 +642,12 @@ public class Vector2d implements Externalizable {
      *          the vector to add
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2d add(Vector2d v, Vector2d dest) {
         dest.x = x + v.x;
         dest.y = y + v.y;
-        return this;
+        return dest;
     }
 
     /**
@@ -657,12 +657,12 @@ public class Vector2d implements Externalizable {
      *          the vector to add
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2d add(Vector2f v, Vector2d dest) {
         dest.x = x + v.x;
         dest.y = y + v.y;
-        return this;
+        return dest;
     }
 
     /**
@@ -686,8 +686,8 @@ public class Vector2d implements Externalizable {
      * @return this
      */
     public Vector2d zero() {
-        this.x = 0.0;
-        this.y = 0.0;
+        x = 0.0;
+        y = 0.0;
         return this;
     }
 
@@ -718,12 +718,12 @@ public class Vector2d implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2d negate(Vector2d dest) {
         dest.x = -x;
         dest.y = -y;
-        return this;
+        return dest;
     }
 
     /**
@@ -756,12 +756,12 @@ public class Vector2d implements Externalizable {
      *          the interpolation factor between 0.0 and 1.0
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2d lerp(Vector2d other, double t, Vector2d dest) {
         dest.x = (1.0 - t) * x + t * other.x;
         dest.y = (1.0 - t) * y + t * other.y;
-        return this;
+        return dest;
     }
 
     public int hashCode() {

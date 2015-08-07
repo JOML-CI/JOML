@@ -613,14 +613,14 @@ public class Vector4d implements Externalizable {
      *          the w component to subtract
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d sub(double x, double y, double z, double w, Vector4d dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
         dest.z = this.z - z;
         dest.w = this.w - w;
-        return this;
+        return dest;
     }
 
     /**
@@ -723,14 +723,14 @@ public class Vector4d implements Externalizable {
      *          the w component to subtract
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d add(double x, double y, double z, double w, Vector4d dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
         dest.z = this.z - z;
         dest.w = this.w - w;
-        return this;
+        return dest;
     }
 
     /**
@@ -843,14 +843,14 @@ public class Vector4d implements Externalizable {
      *          the second multiplicand
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d fma(Vector4d a, Vector4d b, Vector4d dest) {
         dest.x = x + a.x * b.x;
         dest.y = y + a.y * b.y;
         dest.z = z + a.z * b.z;
         dest.w = w + a.w * b.w;
-        return this;
+        return dest;
     }
 
     /**
@@ -863,14 +863,14 @@ public class Vector4d implements Externalizable {
      *          the second multiplicand
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d fma(double a, Vector4d b, Vector4d dest) {
         dest.x = x + a * b.x;
         dest.y = y + a * b.y;
         dest.z = z + a * b.z;
         dest.w = w + a * b.w;
-        return this;
+        return dest;
     }
 
     /**
@@ -895,14 +895,14 @@ public class Vector4d implements Externalizable {
      * 			the vector to multiply this by
      * @param dest
      * 			will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d mul(Vector4d v, Vector4d dest) {
         dest.x = x * v.x;
         dest.y = y * v.y;
         dest.z = z * v.z;
         dest.w = w * v.w;
-        return this;
+        return dest;
     }
 
     /**
@@ -927,14 +927,14 @@ public class Vector4d implements Externalizable {
      * 			the vector to divide this by
      * @param dest
      * 			will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d div(Vector4d v, Vector4d dest) {
         dest.x = x / v.x;
         dest.y = y / v.y;
         dest.z = z / v.z;
         dest.w = w / v.w;
-        return this;
+        return dest;
     }
 
     /**
@@ -970,7 +970,7 @@ public class Vector4d implements Externalizable {
      *          the matrix to multiply <code>this</code> by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d mul(Matrix4d mat, Vector4d dest) {
         if (this != dest) {
@@ -984,7 +984,7 @@ public class Vector4d implements Externalizable {
                      mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
                      mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -1005,7 +1005,7 @@ public class Vector4d implements Externalizable {
      *          the matrix to multiply <code>this</code> by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d mul(Matrix4f mat, Vector4d dest) {
         if (this != dest) {
@@ -1019,7 +1019,7 @@ public class Vector4d implements Externalizable {
                      mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
                      mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -1044,14 +1044,14 @@ public class Vector4d implements Externalizable {
      *          the factor to multiply by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d mul(double scalar, Vector4d dest) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
         w *= scalar;
-        return this;
+        return dest;
     }
 
     /**
@@ -1076,14 +1076,14 @@ public class Vector4d implements Externalizable {
      *          the factor to divide by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d div(double scalar, Vector4d dest) {
         x /= scalar;
         y /= scalar;
         z /= scalar;
         w /= scalar;
-        return this;
+        return dest;
     }
 
     /**
@@ -1108,11 +1108,11 @@ public class Vector4d implements Externalizable {
      *          the quaternion to transform this vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d rotate(Quaterniond quat, Vector4d dest) {
         quat.transform(this, dest);
-        return this;
+        return dest;
     }
 
     /**
@@ -1152,7 +1152,7 @@ public class Vector4d implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d normalize(Vector4d dest) {
         double invLength = 1.0 / length();
@@ -1160,7 +1160,7 @@ public class Vector4d implements Externalizable {
         dest.y = y * invLength;
         dest.z = z * invLength;
         dest.w = w * invLength;
-        return this;
+        return dest;
     }
 
     /**
@@ -1182,7 +1182,7 @@ public class Vector4d implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d normalize3(Vector4d dest) {
         double invLength = 1.0 / Math.sqrt(x * x + y * y + z * z);
@@ -1190,7 +1190,7 @@ public class Vector4d implements Externalizable {
         dest.y = y * invLength;
         dest.z = z * invLength;
         dest.w = w * invLength;
-        return this;
+        return dest;
     }
 
     /**
@@ -1298,10 +1298,10 @@ public class Vector4d implements Externalizable {
      * @return this
      */
     public Vector4d zero() {
-        this.x = 0.0;
-        this.y = 0.0;
-        this.z = 0.0;
-        this.w = 0.0;
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+        w = 0.0;
         return this;
     }
 
@@ -1323,14 +1323,14 @@ public class Vector4d implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d negate(Vector4d dest) {
         dest.x = -x;
         dest.y = -y;
         dest.z = -z;
         dest.w = -w;
-        return this;
+        return dest;
     }
 
     /**
@@ -1414,14 +1414,14 @@ public class Vector4d implements Externalizable {
      *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d smoothStep(Vector4d v, double t, Vector4d dest) {
         dest.x = Interpolate.smoothStep(x, v.x, t);
         dest.y = Interpolate.smoothStep(y, v.y, t);
         dest.z = Interpolate.smoothStep(x, v.z, t);
         dest.w = Interpolate.smoothStep(w, v.w, t);
-        return this;
+        return dest;
     }
 
     /**
@@ -1440,14 +1440,14 @@ public class Vector4d implements Externalizable {
      *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d hermite(Vector4d t0, Vector4d v1, Vector4d t1, double t, Vector4d dest) {
         dest.x = Interpolate.hermite(x, t0.x, v1.x, t1.x, t);
         dest.y = Interpolate.hermite(y, t0.y, v1.y, t1.y, t);
         dest.z = Interpolate.hermite(z, t0.z, v1.z, t1.z, t);
         dest.w = Interpolate.hermite(z, t0.w, v1.w, t1.w, t);
-        return this;
+        return dest;
     }
 
     /**
@@ -1480,14 +1480,14 @@ public class Vector4d implements Externalizable {
      *          the interpolation factor between 0.0 and 1.0
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector4d lerp(Vector4d other, double t, Vector4d dest) {
         dest.x = (1.0 - t) * x + t * other.x;
         dest.y = (1.0 - t) * y + t * other.y;
         dest.z = (1.0 - t) * z + t * other.z;
         dest.w = (1.0 - t) * w + t * other.w;
-        return this;
+        return dest;
     }
 
 }

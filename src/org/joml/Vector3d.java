@@ -470,13 +470,13 @@ public class Vector3d implements Externalizable {
      *          the vector to subtract from <code>this</code>
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d sub(Vector3d v, Vector3d dest) {
         dest.x = x - v.x;
         dest.y = y - v.y;
         dest.z = z - v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -500,13 +500,13 @@ public class Vector3d implements Externalizable {
      *          the vector to subtract from <code>this</code>
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d sub(Vector3f v, Vector3d dest) {
         dest.x = x - v.x;
         dest.y = y - v.y;
         dest.z = z - v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -538,13 +538,13 @@ public class Vector3d implements Externalizable {
      *          the z component to subtract
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d sub(double x, double y, double z, Vector3d dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
         dest.z = this.z - z;
-        return this;
+        return dest;
     }
 
     /**
@@ -584,13 +584,13 @@ public class Vector3d implements Externalizable {
      *          the vector to add
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d add(Vector3d v, Vector3d dest) {
         dest.x = x + v.x;
         dest.y = y + v.y;
         dest.z = z + v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -614,13 +614,13 @@ public class Vector3d implements Externalizable {
      *          the vector to add
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d add(Vector3f v, Vector3d dest) {
         dest.x = x + v.x;
         dest.y = y + v.y;
         dest.z = z + v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -652,13 +652,13 @@ public class Vector3d implements Externalizable {
      *          the z component to add
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d add(double x, double y, double z, Vector3d dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
         dest.z = this.z + z;
-        return this;
+        return dest;
     }
 
     /**
@@ -703,13 +703,13 @@ public class Vector3d implements Externalizable {
      *          the second multiplicand
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d fma(Vector3d a, Vector3d b, Vector3d dest) {
         dest.x = x + a.x * b.x;
         dest.y = y + a.y * b.y;
         dest.z = z + a.z * b.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -722,13 +722,13 @@ public class Vector3d implements Externalizable {
      *          the second multiplicand
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d fma(double a, Vector3d b, Vector3d dest) {
         dest.x = x + a * b.x;
         dest.y = y + a * b.y;
         dest.z = z + a * b.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -766,13 +766,13 @@ public class Vector3d implements Externalizable {
      *          the vector to multiply by
      * @param dest
      * 			will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mul(Vector3f v, Vector3d dest) {
         dest.x = x * v.x;
         dest.y = y * v.y;
         dest.z = z * v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -782,13 +782,13 @@ public class Vector3d implements Externalizable {
      *          the vector to multiply by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mul(Vector3d v, Vector3d dest) {
         dest.x = x * v.x;
         dest.y = y * v.y;
         dest.z = z * v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -826,13 +826,13 @@ public class Vector3d implements Externalizable {
      *          the vector to divide by
      * @param dest
      * 			will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d div(Vector3f v, Vector3d dest) {
         dest.x = x / v.x;
         dest.y = y / v.y;
         dest.z = z / v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -842,13 +842,13 @@ public class Vector3d implements Externalizable {
      *          the vector to divide by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d div(Vector3d v, Vector3d dest) {
         dest.x = x / v.x;
         dest.y = y / v.y;
         dest.z = z / v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -860,7 +860,7 @@ public class Vector3d implements Externalizable {
      *          the matrix to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mul(Matrix4d mat, Vector3d dest) {
         if (this != dest) {
@@ -872,7 +872,7 @@ public class Vector3d implements Externalizable {
                      mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
                      mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -897,7 +897,7 @@ public class Vector3d implements Externalizable {
      *          the matrix to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mul(Matrix4f mat, Vector3d dest) {
         if (this != dest) {
@@ -909,7 +909,7 @@ public class Vector3d implements Externalizable {
                      mat.m01 * x + mat.m11 * y + mat.m21 * z,
                      mat.m02 * x + mat.m12 * y + mat.m22 * z);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -939,7 +939,7 @@ public class Vector3d implements Externalizable {
      *          the matrix to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mulProject(Matrix4d mat, Vector3d dest) {
         double w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33;
@@ -952,7 +952,7 @@ public class Vector3d implements Externalizable {
                      (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) / w,
                      (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) / w);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -986,7 +986,7 @@ public class Vector3d implements Externalizable {
      *          the matrix to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mulProject(Matrix4f mat, Vector3d dest) {
         double w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33;
@@ -999,7 +999,7 @@ public class Vector3d implements Externalizable {
                      (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) / w,
                      (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) / w);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -1049,7 +1049,7 @@ public class Vector3d implements Externalizable {
      *          the matrix to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mul(Matrix3d mat, Vector3d dest) {
         if (this != dest) {
@@ -1061,7 +1061,7 @@ public class Vector3d implements Externalizable {
                      mat.m01 * x + mat.m11 * y + mat.m21 * z,
                      mat.m02 * x + mat.m12 * y + mat.m22 * z);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -1072,7 +1072,7 @@ public class Vector3d implements Externalizable {
      *          the matrix to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mul(Matrix3f mat, Vector3d dest) {
         if (this != dest) {
@@ -1084,7 +1084,7 @@ public class Vector3d implements Externalizable {
                      mat.m01 * x + mat.m11 * y + mat.m21 * z,
                      mat.m02 * x + mat.m12 * y + mat.m22 * z);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -1108,13 +1108,13 @@ public class Vector3d implements Externalizable {
      *          the scalar factor
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mul(double scalar, Vector3d dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
         dest.z = z * scalar;
-        return this;
+        return dest;
     }
 
     /**
@@ -1146,13 +1146,13 @@ public class Vector3d implements Externalizable {
      *          the z component to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d mul(double x, double y, double z, Vector3d dest) {
         dest.x = this.x * x;
         dest.y = this.y * y;
         dest.z = this.z * z;
-        return this;
+        return dest;
     }
 
     /**
@@ -1178,11 +1178,11 @@ public class Vector3d implements Externalizable {
      *          the quaternion to rotate this vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d rotate(Quaterniond quat, Vector3d dest) {
         quat.transform(this, dest);
-        return this;
+        return dest;
     }
 
     /**
@@ -1206,13 +1206,13 @@ public class Vector3d implements Externalizable {
      *          the scalar to divide this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d div(double scalar, Vector3d dest) {
         dest.x = x / scalar;
         dest.y = y / scalar;
         dest.z = z / scalar;
-        return this;
+        return dest;
     }
 
     /**
@@ -1244,13 +1244,13 @@ public class Vector3d implements Externalizable {
      *          the z component to divide this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d div(double x, double y, double z, Vector3d dest) {
         dest.x = this.x / x;
         dest.y = this.y / y;
         dest.z = this.z / z;
-        return this;
+        return dest;
     }
 
     /**
@@ -1305,14 +1305,14 @@ public class Vector3d implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d normalize(Vector3d dest) {
         double invLength = 1.0 / length();
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;
-        return this;
+        return dest;
     }
 
     /**
@@ -1353,13 +1353,13 @@ public class Vector3d implements Externalizable {
      *          the other vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d cross(Vector3d v, Vector3d dest) {
         dest.set(y * v.z - z * v.y,
                  z * v.x - x * v.z,
                  x * v.y - y * v.x);
-        return this;
+        return dest;
     }
 
     /**
@@ -1373,7 +1373,7 @@ public class Vector3d implements Externalizable {
      *          the z component of the other vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d cross(double x, double y, double z, Vector3d dest) {
         return dest.set(this.y * z - this.z * y,
@@ -1509,9 +1509,9 @@ public class Vector3d implements Externalizable {
      * @return this
      */
     public Vector3d zero() {
-        this.x = 0.0;
-        this.y = 0.0;
-        this.z = 0.0;
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
         return this;
     }
 
@@ -1568,13 +1568,13 @@ public class Vector3d implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d negate(Vector3d dest) {
         dest.x = -x;
         dest.y = -y;
         dest.z = -z;
-        return this;
+        return dest;
     }
 
     public int hashCode() {
@@ -1648,14 +1648,14 @@ public class Vector3d implements Externalizable {
      *          the vector to reflect about
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d reflect(Vector3d normal, Vector3d dest) {
         double dot = this.dot(normal);
         dest.x = x - 2.0 * dot * normal.x;
         dest.y = y - 2.0 * dot * normal.y;
         dest.z = z - 2.0 * dot * normal.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -1669,14 +1669,14 @@ public class Vector3d implements Externalizable {
      *          the z component of the normal
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d reflect(double x, double y, double z, Vector3d dest) {
         double dot = this.dot(x, y, z);
         dest.x = this.x - 2.0 * dot * x;
         dest.y = this.y - 2.0 * dot * y;
         dest.z = this.z - 2.0 * dot * z;
-        return this;
+        return dest;
     }
 
     /**
@@ -1712,11 +1712,10 @@ public class Vector3d implements Externalizable {
      *          the other vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d half(Vector3d other, Vector3d dest) {
-        dest.set(this).add(other).normalize();
-        return this;
+        return dest.set(this).add(other).normalize();
     }
 
     /**
@@ -1731,11 +1730,10 @@ public class Vector3d implements Externalizable {
      *          the z component of the other vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d half(double x, double y, double z, Vector3d dest) {
-        dest.set(this).add(x, y, z).normalize();
-        return this;
+        return dest.set(this).add(x, y, z).normalize();
     }
 
     /**
@@ -1749,13 +1747,13 @@ public class Vector3d implements Externalizable {
      *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d smoothStep(Vector3d v, double t, Vector3d dest) {
         dest.x = Interpolate.smoothStep(x, v.x, t);
         dest.y = Interpolate.smoothStep(y, v.y, t);
         dest.z = Interpolate.smoothStep(x, v.z, t);
-        return this;
+        return dest;
     }
 
     /**
@@ -1774,13 +1772,13 @@ public class Vector3d implements Externalizable {
      *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d hermite(Vector3d t0, Vector3d v1, Vector3d t1, double t, Vector3d dest) {
         dest.x = Interpolate.hermite(x, t0.x, v1.x, t1.x, t);
         dest.y = Interpolate.hermite(y, t0.y, v1.y, t1.y, t);
         dest.z = Interpolate.hermite(z, t0.z, v1.z, t1.z, t);
-        return this;
+        return dest;
     }
 
     /**
@@ -1813,13 +1811,13 @@ public class Vector3d implements Externalizable {
      *          the interpolation factor between 0.0 and 1.0
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3d lerp(Vector3d other, double t, Vector3d dest) {
         dest.x = (1.0 - t) * x + t * other.x;
         dest.y = (1.0 - t) * y + t * other.y;
         dest.z = (1.0 - t) * z + t * other.z;
-        return this;
+        return dest;
     }
 
 }

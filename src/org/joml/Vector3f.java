@@ -416,13 +416,13 @@ public class Vector3f implements Externalizable {
      *          the vector to subtract
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f sub(Vector3f v, Vector3f dest) {
         dest.x = x - v.x;
         dest.y = y - v.y;
         dest.z = z - v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -454,13 +454,13 @@ public class Vector3f implements Externalizable {
      *          the z component to subtract
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f sub(float x, float y, float z, Vector3f dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
         dest.z = this.z - z;
-        return this;
+        return dest;
     }
 
     /**
@@ -484,13 +484,13 @@ public class Vector3f implements Externalizable {
      *          the vector to add
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f add(Vector3f v, Vector3f dest) {
         dest.x = x + v.x;
         dest.y = y + v.y;
         dest.z = z + v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -522,13 +522,13 @@ public class Vector3f implements Externalizable {
      *          the z component to add
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f add(float x, float y, float z, Vector3f dest) {
         dest.x = this.x + x;
         dest.y = this.y + y;
         dest.z = this.z + z;
-        return this;
+        return dest;
     }
 
     /**
@@ -573,13 +573,13 @@ public class Vector3f implements Externalizable {
      *          the second multiplicand
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f fma(Vector3f a, Vector3f b, Vector3f dest) {
         dest.x = x + a.x * b.x;
         dest.y = y + a.y * b.y;
         dest.z = z + a.z * b.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -592,13 +592,13 @@ public class Vector3f implements Externalizable {
      *          the second multiplicand
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f fma(float a, Vector3f b, Vector3f dest) {
         dest.x = x + a * b.x;
         dest.y = y + a * b.y;
         dest.z = z + a * b.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -622,13 +622,13 @@ public class Vector3f implements Externalizable {
      *          the vector to multiply by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f mul(Vector3f v, Vector3f dest) {
         dest.x = x * v.x;
         dest.y = y * v.y;
         dest.z = z * v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -652,13 +652,13 @@ public class Vector3f implements Externalizable {
      *          the vector to divide by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f div(Vector3f v, Vector3f dest) {
         dest.x = x / v.x;
         dest.y = y / v.y;
         dest.z = z / v.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -679,7 +679,7 @@ public class Vector3f implements Externalizable {
      *          the matrix to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f mul(Matrix4f mat, Vector3f dest) {
         if (this != dest) {
@@ -691,7 +691,7 @@ public class Vector3f implements Externalizable {
                      mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
                      mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -708,7 +708,7 @@ public class Vector3f implements Externalizable {
      *          the matrix to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f mulProject(Matrix4f mat, Vector3f dest) {
         float w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33;
@@ -721,7 +721,7 @@ public class Vector3f implements Externalizable {
                      (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) / w,
                      (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) / w);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -759,7 +759,7 @@ public class Vector3f implements Externalizable {
      *          the matrix
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f mul(Matrix3f mat, Vector3f dest) {
         if (this != dest) {
@@ -771,7 +771,7 @@ public class Vector3f implements Externalizable {
                      mat.m01 * x + mat.m11 * y + mat.m21 * z,
                      mat.m02 * x + mat.m12 * y + mat.m22 * z);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -797,13 +797,13 @@ public class Vector3f implements Externalizable {
      *          the scalar to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f mul(float scalar, Vector3f dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
         dest.z = z * scalar;
-        return this;
+        return dest;
     }
 
     /**
@@ -835,13 +835,13 @@ public class Vector3f implements Externalizable {
      *          the z component to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f mul(float x, float y, float z, Vector3f dest) {
         dest.x = this.x * x;
         dest.y = this.y * y;
         dest.z = this.z * z;
-        return this;
+        return dest;
     }
 
     /**
@@ -867,13 +867,13 @@ public class Vector3f implements Externalizable {
      *          the scalar to divide by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f div(float scalar, Vector3f dest) {
         dest.x = x / scalar;
         dest.y = y / scalar;
         dest.z = z / scalar;
-        return this;
+        return dest;
     }
 
     /**
@@ -905,13 +905,13 @@ public class Vector3f implements Externalizable {
      *          the z component to divide this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f div(float x, float y, float z, Vector3f dest) {
         dest.x = this.x / x;
         dest.y = this.y / y;
         dest.z = this.z / z;
-        return this;
+        return dest;
     }
 
     /**
@@ -937,11 +937,11 @@ public class Vector3f implements Externalizable {
      *          the quaternion to rotate this vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f rotate(Quaternionf quat, Vector3f dest) {
         quat.transform(this, dest);
-        return this;
+        return dest;
     }
 
     /**
@@ -980,14 +980,14 @@ public class Vector3f implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f normalize(Vector3f dest) {
         float invLength = 1.0f / length();
         dest.x = x * invLength;
         dest.y = y * invLength;
         dest.z = z * invLength;
-        return this;
+        return dest;
     }
 
     /**
@@ -1027,7 +1027,7 @@ public class Vector3f implements Externalizable {
      *          the other vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f cross(Vector3f v, Vector3f dest) {
         return dest.set(y * v.z - z * v.y,
@@ -1046,7 +1046,7 @@ public class Vector3f implements Externalizable {
      *          the z component of the other vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f cross(float x, float y, float z, Vector3f dest) {
         return dest.set(this.y * z - this.z * y,
@@ -1209,9 +1209,9 @@ public class Vector3f implements Externalizable {
      * @return this
      */
     public Vector3f zero() {
-        this.x = 0.0f;
-        this.y = 0.0f;
-        this.z = 0.0f;
+        x = 0.0f;
+        y = 0.0f;
+        z = 0.0f;
         return this;
     }
 
@@ -1268,13 +1268,13 @@ public class Vector3f implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f negate(Vector3f dest) {
         dest.x = -x;
         dest.y = -y;
         dest.z = -z;
-        return this;
+        return dest;
     }
 
     public int hashCode() {
@@ -1344,14 +1344,14 @@ public class Vector3f implements Externalizable {
      *          the vector to reflect about
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f reflect(Vector3f normal, Vector3f dest) {
         float dot = this.dot(normal);
         dest.x = x - 2.0f * dot * normal.x;
         dest.y = y - 2.0f * dot * normal.y;
         dest.z = z - 2.0f * dot * normal.z;
-        return this;
+        return dest;
     }
 
     /**
@@ -1365,14 +1365,14 @@ public class Vector3f implements Externalizable {
      *          the z component of the normal
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f reflect(float x, float y, float z, Vector3f dest) {
         float dot = this.dot(x, y, z);
         dest.x = this.x - 2.0f * dot * x;
         dest.y = this.y - 2.0f * dot * y;
         dest.z = this.z - 2.0f * dot * z;
-        return this;
+        return dest;
     }
 
     /**
@@ -1408,11 +1408,10 @@ public class Vector3f implements Externalizable {
      *          the other vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f half(Vector3f other, Vector3f dest) {
-        dest.set(this).add(other).normalize();
-        return this;
+        return dest.set(this).add(other).normalize();
     }
 
     /**
@@ -1427,11 +1426,10 @@ public class Vector3f implements Externalizable {
      *          the z component of the other vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f half(float x, float y, float z, Vector3f dest) {
-        dest.set(this).add(x, y, z).normalize();
-        return this;
+        return dest.set(this).add(x, y, z).normalize();
     }
 
     /**
@@ -1445,13 +1443,13 @@ public class Vector3f implements Externalizable {
      *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f smoothStep(Vector3f v, float t, Vector3f dest) {
         dest.x = (float) Interpolate.smoothStep(x, v.x, t);
         dest.y = (float) Interpolate.smoothStep(y, v.y, t);
         dest.z = (float) Interpolate.smoothStep(x, v.z, t);
-        return this;
+        return dest;
     }
 
     /**
@@ -1470,13 +1468,13 @@ public class Vector3f implements Externalizable {
      *          the interpolation factor, within <tt>[0..1]</tt>
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f hermite(Vector3f t0, Vector3f v1, Vector3f t1, float t, Vector3f dest) {
         dest.x = (float) Interpolate.hermite(x, t0.x, v1.x, t1.x, t);
         dest.y = (float) Interpolate.hermite(y, t0.y, v1.y, t1.y, t);
         dest.z = (float) Interpolate.hermite(z, t0.z, v1.z, t1.z, t);
-        return this;
+        return dest;
     }
 
     /**
@@ -1509,97 +1507,13 @@ public class Vector3f implements Externalizable {
      *          the interpolation factor between 0.0 and 1.0
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector3f lerp(Vector3f other, float t, Vector3f dest) {
         dest.x = (1.0f - t) * x + t * other.x;
         dest.y = (1.0f - t) * y + t * other.y;
         dest.z = (1.0f - t) * z + t * other.z;
-        return this;
-    }
-
-    /**
-     * Return the specified {@link Vector3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector3f} to return
-     * @return that vector
-     */
-    public Vector3f with(Vector3f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Vector4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector4f} to return
-     * @return that vector
-     */
-    public Vector4f with(Vector4f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Quaternionf}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaternionf} to return
-     * @return that quaternion
-     */
-    public Quaternionf with(Quaternionf q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link AxisAngle4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
-     * 
-     * @param a
-     *          the {@link AxisAngle4f} to return
-     * @return that quaternion
-     */
-    public AxisAngle4f with(AxisAngle4f a) {
-        return a;
-    }
-
-    /**
-     * Return the specified {@link Matrix3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix3f} to return
-     * @return that matrix
-     */
-    public Matrix3f with(Matrix3f m) {
-        return m;
-    }
-
-    /**
-     * Return the specified {@link Matrix4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix4f} to return
-     * @return that matrix
-     */
-    public Matrix4f with(Matrix4f m) {
-        return m;
+        return dest;
     }
 
 }
