@@ -6060,12 +6060,12 @@ public class Matrix4f implements Externalizable {
      * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
      */
     public boolean isPointInsideFrustum(float x, float y, float z) {
-        return ((m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >= 0 &&
-                (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= 0 &&
-                (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= 0 &&
-                (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= 0 &&
-                (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= 0 &&
-                (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= 0);
+        return (m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >= 0 &&
+               (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= 0 &&
+               (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= 0 &&
+               (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= 0 &&
+               (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= 0 &&
+               (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= 0;
     }
 
     /**
@@ -6122,18 +6122,18 @@ public class Matrix4f implements Externalizable {
      *         <code>false</code> otherwise
      */
     public boolean isSphereInsideFrustum(float x, float y, float z, float r) {
-        return ((m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >=
+        return (m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >=
                   -r * Math.sqrt((m03 + m00) * (m03 + m00) + (m13 + m10) * (m13 + m10) + (m23 + m20) * (m23 + m20)) &&
-                (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= 
+               (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= 
                   -r * Math.sqrt((m03 - m00) * (m03 - m00) + (m13 - m10) * (m13 - m10) + (m23 - m20) * (m23 - m20)) &&
-                (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= 
+               (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= 
                   -r * Math.sqrt((m03 + m01) * (m03 + m01) + (m13 + m11) * (m13 + m11) + (m23 + m21) * (m23 + m21)) &&
-                (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= 
+               (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= 
                   -r * Math.sqrt((m03 - m01) * (m03 - m01) + (m13 - m11) * (m13 - m11) + (m23 - m21) * (m23 - m21)) &&
-                (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= 
+               (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= 
                   -r * Math.sqrt((m03 + m02) * (m03 + m02) + (m13 + m12) * (m13 + m12) + (m23 + m22) * (m23 + m22)) &&
-                (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= 
-                  -r * Math.sqrt((m03 - m02) * (m03 - m02) + (m13 - m12) * (m13 - m12) + (m23 - m22) * (m23 - m22)));
+               (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= 
+                  -r * Math.sqrt((m03 - m02) * (m03 - m02) + (m13 - m12) * (m13 - m12) + (m23 - m22) * (m23 - m22));
     }
 
     /**
