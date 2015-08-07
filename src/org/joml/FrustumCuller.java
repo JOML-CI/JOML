@@ -143,25 +143,25 @@ public class FrustumCuller {
      * @return this
      */
     public FrustumCuller set(Matrix4f m) {
-        float l;
+        float invl;
         nxX = m.m03 + m.m00; nxY = m.m13 + m.m10; nxZ = m.m23 + m.m20; nxW = m.m33 + m.m30;
-        l = (float) Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ);
-        nxX /= l; nxY /= l; nxZ /= l; nxW /= l;
+        invl = (float) (1.0 / Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ));
+        nxX *= invl; nxY *= invl; nxZ *= invl; nxW *= invl;
         pxX = m.m03 - m.m00; pxY = m.m13 - m.m10; pxZ = m.m23 - m.m20; pxW = m.m33 - m.m30;
-        l = (float) Math.sqrt(pxX * pxX + pxY * pxY + pxZ * pxZ);
-        pxX /= l; pxY /= l; pxZ /= l; pxW /= l;
+        invl = (float) (1.0 / Math.sqrt(pxX * pxX + pxY * pxY + pxZ * pxZ));
+        pxX *= invl; pxY *= invl; pxZ *= invl; pxW *= invl;
         nyX = m.m03 + m.m01; nyY = m.m13 + m.m11; nyZ = m.m23 + m.m21; nyW = m.m33 + m.m31;
-        l = (float) Math.sqrt(nyX * nyX + nyY * nyY + nyZ * nyZ);
-        nyX /= l; nyY /= l; nyZ /= l; nyW /= l;
+        invl = (float) (1.0 / Math.sqrt(nyX * nyX + nyY * nyY + nyZ * nyZ));
+        nyX *= invl; nyY *= invl; nyZ *= invl; nyW *= invl;
         pyX = m.m03 - m.m01; pyY = m.m13 - m.m11; pyZ = m.m23 - m.m21; pyW = m.m33 - m.m31;
-        l = (float) Math.sqrt(pyX * pyX + pyY * pyY + pyZ * pyZ);
-        pyX /= l; pyY /= l; pyZ /= l; pyW /= l;
+        invl = (float) (1.0 / Math.sqrt(pyX * pyX + pyY * pyY + pyZ * pyZ));
+        pyX *= invl; pyY *= invl; pyZ *= invl; pyW *= invl;
         nzX = m.m03 + m.m02; nzY = m.m13 + m.m12; nzZ = m.m23 + m.m22; nzW = m.m33 + m.m32;
-        l = (float) Math.sqrt(nzX * nzX + nzY * nzY + nzZ * nzZ);
-        nzX /= l; nzY /= l; nzZ /= l; nzW /= l;
+        invl = (float) (1.0 / Math.sqrt(nzX * nzX + nzY * nzY + nzZ * nzZ));
+        nzX *= invl; nzY *= invl; nzZ *= invl; nzW *= invl;
         pzX = m.m03 - m.m02; pzY = m.m13 - m.m12; pzZ = m.m23 - m.m22; pzW = m.m33 - m.m32;
-        l = (float) Math.sqrt(pzX * pzX + pzY * pzY + pzZ * pzZ);
-        pzX /= l; pzY /= l; pzZ /= l; pzW /= l;
+        invl = (float) (1.0 / Math.sqrt(pzX * pzX + pzY * pzY + pzZ * pzZ));
+        pzX *= invl; pzY *= invl; pzZ *= invl; pzW *= invl;
         return this;
     }
 

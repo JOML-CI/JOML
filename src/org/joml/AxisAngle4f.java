@@ -88,10 +88,10 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f(Quaternionf q) {
         float acos = (float) Math.acos(q.w);
-        float sqrt = (float) Math.sqrt(1.0 - q.w * q.w);
-        this.x = q.x / sqrt;
-        this.y = q.y / sqrt;
-        this.z = q.z / sqrt;
+        float invSqrt = (float) (1.0 / Math.sqrt(1.0 - q.w * q.w));
+        this.x = q.x * invSqrt;
+        this.y = q.y * invSqrt;
+        this.z = q.z * invSqrt;
         this.angle = (float) 2.0 * acos;
     }
 
@@ -183,10 +183,10 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f set(Quaternionf q) {
         double acos = Math.acos(q.w);
-        double sqrt = Math.sqrt(1.0 - q.w * q.w);
-        this.x = (float) (q.x / sqrt);
-        this.y = (float) (q.y / sqrt);
-        this.z = (float) (q.z / sqrt);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        this.x = (float) (q.x * invSqrt);
+        this.y = (float) (q.y * invSqrt);
+        this.z = (float) (q.z * invSqrt);
         this.angle = (float) (2.0f * acos);
         return this;
     }
@@ -201,10 +201,10 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f set(Quaterniond q) {
         double acos = Math.acos(q.w);
-        double sqrt = Math.sqrt(1.0 - q.w * q.w);
-        this.x = (float) (q.x / sqrt);
-        this.y = (float) (q.y / sqrt);
-        this.z = (float) (q.z / sqrt);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        this.x = (float) (q.x * invSqrt);
+        this.y = (float) (q.y * invSqrt);
+        this.z = (float) (q.z * invSqrt);
         this.angle = (float) (2.0f * acos);
         return this;
     }
@@ -385,10 +385,10 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f normalize() {
-        float length = (float) Math.sqrt(x * x + y * y + z * z);
-        x /= length;
-        y /= length;
-        z /= length;
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y + z * z));
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
         return this;
     }
 
