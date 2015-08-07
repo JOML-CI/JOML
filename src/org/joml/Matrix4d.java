@@ -3291,12 +3291,12 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d normalize3x3(Matrix4d dest) {
-        double xlen = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        double ylen = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        double zlen = Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
-        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
-        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
+        double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        double invYlen = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        double invZlen = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
+        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
+        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
         return this;
     }
 
@@ -3312,12 +3312,12 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d normalize3x3(Matrix3d dest) {
-        double xlen = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        double ylen = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        double zlen = Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
-        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
-        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
+        double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        double invYlen = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        double invZlen = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
+        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
+        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
         return this;
     }
 

@@ -5729,9 +5729,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f normalize3x3(Matrix4f dest) {
-        float invXlen = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        float invYlen = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        float invZlen = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        float invXlen = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
+        float invYlen = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
+        float invZlen = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
         dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
         dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
         dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
@@ -5750,9 +5750,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f normalize3x3(Matrix3f dest) {
-        float invXlen = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        float invYlen = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        float invZlen = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        float invXlen = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
+        float invYlen = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
+        float invZlen = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
         dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
         dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
         dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
