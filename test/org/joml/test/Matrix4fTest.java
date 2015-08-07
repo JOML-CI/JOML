@@ -346,4 +346,18 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(r, n, 1E-8f);
     }
 
+    public void testInvert4x3() {
+        Matrix4f invm = new Matrix4f();
+        Matrix4f m = new Matrix4f();
+        m.rotateX(1.2f).rotateY(0.2f).rotateZ(0.1f).translate(1, 2, 3).invert4x3(invm);
+        Vector3f orig = new Vector3f(4, -6, 8);
+        Vector3f v = new Vector3f();
+        Vector3f w = new Vector3f();
+        m.transform(orig, v);
+        invm.transform(v, w);
+        TestUtil.assertVector3fEquals(orig, w, 1E-6f);
+        invm.invert4x3();
+        TestUtil.assertMatrix4fEquals(m, invm, 1E-6f);
+    }
+
 }
