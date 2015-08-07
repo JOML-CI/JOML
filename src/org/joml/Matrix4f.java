@@ -3527,20 +3527,20 @@ public class Matrix4f implements Externalizable {
     public Matrix4f lookAlong(float dirX, float dirY, float dirZ,
                               float upX, float upY, float upZ, Matrix4f dest) {
         // Normalize direction
-        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX / dirLength;
-        float dirnY = dirY / dirLength;
-        float dirnZ = dirZ / dirLength;
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float dirnX = dirX * invDirLength;
+        float dirnY = dirY * invDirLength;
+        float dirnZ = dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         float upnX = rightY * dirnZ - rightZ * dirnY;
         float upnY = rightZ * dirnX - rightX * dirnZ;
@@ -3680,20 +3680,20 @@ public class Matrix4f implements Externalizable {
     public Matrix4f setLookAlong(float dirX, float dirY, float dirZ,
                                  float upX, float upY, float upZ) {
         // Normalize direction
-        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX / dirLength;
-        float dirnY = dirY / dirLength;
-        float dirnZ = dirZ / dirLength;
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float dirnX = dirX * invDirLength;
+        float dirnY = dirY * invDirLength;
+        float dirnZ = dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         float upnX = rightY * dirnZ - rightZ * dirnY;
         float upnY = rightZ * dirnX - rightX * dirnZ;
@@ -3785,23 +3785,23 @@ public class Matrix4f implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        float dirLength = (float) Math.sqrt(
+        float invDirLength = 1.0f / (float) Math.sqrt(
                   (centerX - eyeX) * (centerX - eyeX)
                 + (centerY - eyeY) * (centerY - eyeY)
                 + (centerZ - eyeZ) * (centerZ - eyeZ));
-        dirX /= dirLength;
-        dirY /= dirLength;
-        dirZ /= dirLength;
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirY * upZ - dirZ * upY;
         rightY = dirZ * upX - dirX * upZ;
         rightZ = dirX * upY - dirY * upX;
         // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         float upnX = rightY * dirZ - rightZ * dirY;
         float upnY = rightZ * dirX - rightX * dirZ;
@@ -3929,23 +3929,23 @@ public class Matrix4f implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        float dirLength = (float) Math.sqrt(
+        float invDirLength = 1.0f / (float) Math.sqrt(
                   (eyeX - centerX) * (eyeX - centerX)
                 + (eyeY - centerY) * (eyeY - centerY)
                 + (eyeZ - centerZ) * (eyeZ - centerZ));
-        dirX /= dirLength;
-        dirY /= dirLength;
-        dirZ /= dirLength;
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirY * upZ - dirZ * upY;
         rightY = dirZ * upX - dirX * upZ;
         rightZ = dirX * upY - dirY * upX;
         // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         float upnX = rightY * dirZ - rightZ * dirY;
         float upnY = rightZ * dirX - rightX * dirZ;
@@ -5230,10 +5230,10 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f reflect(float nx, float ny, float nz, float px, float py, float pz, Matrix4f dest) {
-        float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
-        float nnx = nx / length;
-        float nny = ny / length;
-        float nnz = nz / length;
+        float invLength = 1.0f / (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+        float nnx = nx * invLength;
+        float nny = ny * invLength;
+        float nnz = nz * invLength;
         /* See: http://mathworld.wolfram.com/Plane.html */
         return reflect(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz, dest);
     }
@@ -5389,10 +5389,10 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f reflection(float nx, float ny, float nz, float px, float py, float pz) {
-        float length = (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
-        float nnx = nx / length;
-        float nny = ny / length;
-        float nnz = nz / length;
+        float invLength = 1.0f / (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
+        float nnx = nx * invLength;
+        float nny = ny * invLength;
+        float nnz = nz * invLength;
         /* See: http://mathworld.wolfram.com/Plane.html */
         return reflection(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz);
     }
@@ -5729,12 +5729,12 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f normalize3x3(Matrix4f dest) {
-        float xlen = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        float ylen = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        float zlen = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
-        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
-        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
+        float invXlen = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        float invYlen = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        float invZlen = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
+        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
+        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
         return this;
     }
 
@@ -5750,12 +5750,12 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f normalize3x3(Matrix3f dest) {
-        float xlen = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        float ylen = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        float zlen = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
-        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
-        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
+        float invXlen = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        float invYlen = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        float invZlen = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
+        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
+        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
         return this;
     }
 
@@ -5896,10 +5896,10 @@ public class Matrix4f implements Externalizable {
         c12x = n1y * n2z - n1z * n2y;
         c12y = n1z * n2x - n1x * n2z;
         c12z = n1x * n2y - n1y * n2x;
-        float dot = n1x * c23x + n1y * c23y + n1z * c23z;
-        point.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
-        point.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
-        point.z = (-c23z * d1 - c31z * d2 - c12z * d3) / dot;
+        float invDot = 1.0f / (n1x * c23x + n1y * c23y + n1z * c23z);
+        point.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
+        point.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
+        point.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
         return this;
     }
 
@@ -5947,10 +5947,10 @@ public class Matrix4f implements Externalizable {
         c12x = n1y * n2z - n1z * n2y;
         c12y = n1z * n2x - n1x * n2z;
         c12z = n1x * n2y - n1y * n2x;
-        float dot = n1x * c23x + n1y * c23y + n1z * c23z;
-        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
-        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
-        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) / dot;
+        float invDot = 1.0f / (n1x * c23x + n1y * c23y + n1z * c23z);
+        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
+        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
+        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
         return this;
     }
 
@@ -6594,11 +6594,11 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, float a, float b, float c, float d, Matrix4f dest) {
         // normalize plane
-        float planeLen = (float) Math.sqrt(a*a + b*b + c*c);
-        float an = a / planeLen;
-        float bn = b / planeLen;
-        float cn = c / planeLen;
-        float dn = d / planeLen;
+        float invPlaneLen = (float) (1.0 / Math.sqrt(a*a + b*b + c*c));
+        float an = a * invPlaneLen;
+        float bn = b * invPlaneLen;
+        float cn = c * invPlaneLen;
+        float dn = d * invPlaneLen;
 
         float dot = an * lightX + bn * lightY + cn * lightZ + dn * lightW;
 

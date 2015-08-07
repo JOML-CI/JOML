@@ -557,9 +557,9 @@ public class Vector2d implements Externalizable {
      * @return this
      */
     public Vector2d normalize() {
-        double length = Math.sqrt((x * x) + (y * y));
-        x /= length;
-        y /= length;
+        double invLength = 1.0 / Math.sqrt(x * x + y * y);
+        x *= invLength;
+        y *= invLength;
         return this;
     }
 
@@ -571,9 +571,9 @@ public class Vector2d implements Externalizable {
      * @return this
      */
     public Vector2d normalize(Vector2d dest) {
-        double length = Math.sqrt((x * x) + (y * y));
-        dest.x = x / length;
-        dest.y = y / length;
+        double invLength = 1.0 / Math.sqrt(x * x + y * y);
+        dest.x = x * invLength;
+        dest.y = y * invLength;
         return this;
     }
 

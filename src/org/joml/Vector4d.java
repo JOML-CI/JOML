@@ -1139,11 +1139,11 @@ public class Vector4d implements Externalizable {
      * @return this
      */
     public Vector4d normalize() {
-        double d = length();
-        x /= d;
-        y /= d;
-        z /= d;
-        w /= d;
+        double invLength = 1.0 / length();
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
+        w *= invLength;
         return this;
     }
 
@@ -1155,11 +1155,11 @@ public class Vector4d implements Externalizable {
      * @return this
      */
     public Vector4d normalize(Vector4d dest) {
-        double d = length();
-        dest.x = x / d;
-        dest.y = y / d;
-        dest.z = z / d;
-        dest.w = w / d;
+        double invLength = 1.0 / length();
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        dest.z = z * invLength;
+        dest.w = w * invLength;
         return this;
     }
 
@@ -1169,11 +1169,11 @@ public class Vector4d implements Externalizable {
      * @return this
      */
     public Vector4d normalize3() {
-        double d = Math.sqrt(x * x + y * y + z * z);
-        x /= d;
-        y /= d;
-        z /= d;
-        w /= d;
+        double invLength = 1.0 / Math.sqrt(x * x + y * y + z * z);
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
+        w *= invLength;
         return this;
     }
 
@@ -1185,11 +1185,11 @@ public class Vector4d implements Externalizable {
      * @return this
      */
     public Vector4d normalize3(Vector4d dest) {
-        double d = Math.sqrt(x * x + y * y + z * z);
-        dest.x = x / d;
-        dest.y = y / d;
-        dest.z = z / d;
-        dest.w = w / d;
+        double invLength = 1.0 / Math.sqrt(x * x + y * y + z * z);
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        dest.z = z * invLength;
+        dest.w = w * invLength;
         return this;
     }
 

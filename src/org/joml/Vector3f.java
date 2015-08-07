@@ -968,10 +968,10 @@ public class Vector3f implements Externalizable {
      * @return this
      */
     public Vector3f normalize() {
-        float d = length();
-        x /= d;
-        y /= d;
-        z /= d;
+        float invLength = 1.0f / length();
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
         return this;
     }
 
@@ -983,10 +983,10 @@ public class Vector3f implements Externalizable {
      * @return this
      */
     public Vector3f normalize(Vector3f dest) {
-        float d = length();
-        dest.x = x / d;
-        dest.y = y / d;
-        dest.z = z / d;
+        float invLength = 1.0f / length();
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        dest.z = z * invLength;
         return this;
     }
 

@@ -137,11 +137,11 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond normalize() {
-        double norm = Math.sqrt(x * x + y * y + z * z + w * w);
-        x /= norm;
-        y /= norm;
-        z /= norm;
-        w /= norm;
+        double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+        x *= invNorm;
+        y *= invNorm;
+        z *= invNorm;
+        w *= invNorm;
         return this;
     }
 
@@ -153,11 +153,11 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond normalize(Quaterniond dest) {
-        double norm = Math.sqrt(x * x + y * y + z * z + w * w);
-        dest.x = x / norm;
-        dest.y = y / norm;
-        dest.z = z / norm;
-        dest.w = w / norm;
+        double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+        dest.x = x * invNorm;
+        dest.y = y * invNorm;
+        dest.z = z * invNorm;
+        dest.w = w * invNorm;
         return this;
     }
 
@@ -1255,20 +1255,20 @@ public class Quaterniond implements Externalizable {
      */
     public Quaterniond lookRotate(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Quaterniond dest) {
         // Normalize direction
-        double dirLength = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX / dirLength;
-        double dirnY = dirY / dirLength;
-        double dirnZ = dirZ / dirLength;
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX * invDirLength;
+        double dirnY = dirY * invDirLength;
+        double dirnZ = dirZ * invDirLength;
         // left = up x dir
         double leftX, leftY, leftZ;
         leftX = upY * dirnZ - upZ * dirnY;
         leftY = upZ * dirnX - upX * dirnZ;
         leftZ = upX * dirnY - upY * dirnX;
         // normalize left
-        double leftLength = Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
-        leftX /= leftLength;
-        leftY /= leftLength;
-        leftZ /= leftLength;
+        double invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
         // up = direction x left
         double upnX = dirnY * leftZ - dirnZ * leftY;
         double upnY = dirnZ * leftX - dirnX * leftZ;
@@ -1428,11 +1428,11 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond difference(Quaterniond other, Quaterniond dest) {
-        double norm = x * x + y * y + z * z + w * w;
-        double x = -this.x / norm;
-        double y = -this.y / norm;
-        double z = -this.z / norm;
-        double w = this.w / norm;
+        double invNorm = 1.0 / (x * x + y * y + z * z + w * w);
+        double x = -this.x * invNorm;
+        double y = -this.y * invNorm;
+        double z = -this.z * invNorm;
+        double w = this.w * invNorm;
         dest.set(w * other.x + x * other.w + y * other.z - z * other.y,
                  w * other.y - x * other.z + y * other.w + z * other.x,
                  w * other.z + x * other.y - y * other.x + z * other.w,
@@ -1461,14 +1461,14 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond rotationTo(double fromDirX, double fromDirY, double fromDirZ, double toDirX, double toDirY, double toDirZ) {
-        double fromLength = Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
-        double fromX = fromDirX / fromLength;
-        double fromY = fromDirY / fromLength;
-        double fromZ = fromDirZ / fromLength;
-        double toLength = Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
-        double toX = toDirX / toLength;
-        double toY = toDirY / toLength;
-        double toZ = toDirZ / toLength;
+        double invFromLength = 1.0 / Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
+        double fromX = fromDirX * invFromLength;
+        double fromY = fromDirY * invFromLength;
+        double fromZ = fromDirZ * invFromLength;
+        double invToLength = 1.0 / Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
+        double toX = toDirX * invToLength;
+        double toY = toDirY * invToLength;
+        double toZ = toDirZ * invToLength;
         double dot = fromX * toX + fromY * toY + fromZ * toZ;
         if (dot < 1e-6 - 1.0) {
             /* vectors are negation of each other */
@@ -1496,11 +1496,11 @@ public class Quaterniond implements Externalizable {
             y = crossY * invs;
             z = crossZ * invs;
             w = s * 0.5;
-            double norm = Math.sqrt(x * x + y * y + z * z + w * w);
-            x /= norm;
-            y /= norm;
-            z /= norm;
-            w /= norm;
+            double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
         } else {
             /* vectors are parallel, don't change anything */
             return this;
@@ -1554,14 +1554,14 @@ public class Quaterniond implements Externalizable {
      */
     public Quaterniond rotateTo(double fromDirX, double fromDirY, double fromDirZ,
                                 double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
-        double fromLength = Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
-        double fromX = fromDirX / fromLength;
-        double fromY = fromDirY / fromLength;
-        double fromZ = fromDirZ / fromLength;
-        double toLength = Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
-        double toX = toDirX / toLength;
-        double toY = toDirY / toLength;
-        double toZ = toDirZ / toLength;
+        double invFromLength = 1.0 / Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
+        double fromX = fromDirX * invFromLength;
+        double fromY = fromDirY * invFromLength;
+        double fromZ = fromDirZ * invFromLength;
+        double invToLength = 1.0 / Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
+        double toX = toDirX * invToLength;
+        double toY = toDirY * invToLength;
+        double toZ = toDirZ * invToLength;
         double dot = fromX * toX + fromY * toY + fromZ * toZ;
         double x, y, z, w;
         if (dot < 1e-6 - 1.0) {
@@ -1590,11 +1590,11 @@ public class Quaterniond implements Externalizable {
             y = crossY * invs;
             z = crossZ * invs;
             w = s * 0.5;
-            double norm = Math.sqrt(x * x + y * y + z * z + w * w);
-            x /= norm;
-            y /= norm;
-            z /= norm;
-            w /= norm;
+            double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
         } else {
             /* vectors are parallel, don't change anything */
             return this;
@@ -1637,11 +1637,11 @@ public class Quaterniond implements Externalizable {
     public Quaterniond rotationAxis(double angle, double axisX, double axisY, double axisZ) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
-        double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        double invVLength = 1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
-        x = (axisX / vLength) * sinAngle;
-        y = (axisY / vLength) * sinAngle;
-        z = (axisZ / vLength) * sinAngle;
+        x = axisX * invVLength * sinAngle;
+        y = axisY * invVLength * sinAngle;
+        z = axisZ * invVLength * sinAngle;
         w = (float) Math.cos(hangle);
 
         return this;
@@ -2143,11 +2143,11 @@ public class Quaterniond implements Externalizable {
     public Quaterniond rotateAxis(double angle, double axisX, double axisY, double axisZ, Quaterniond dest) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
-        double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        double invVLength = 1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
 
-        double rx = (axisX / vLength) * sinAngle;
-        double ry = (axisY / vLength) * sinAngle;
-        double rz = (axisZ / vLength) * sinAngle;
+        double rx = axisX * invVLength * sinAngle;
+        double ry = axisY * invVLength * sinAngle;
+        double rz = axisZ * invVLength * sinAngle;
         double rw = Math.cos(hangle);
 
         dest.set(w * rx + x * rw + y * rz - z * ry,

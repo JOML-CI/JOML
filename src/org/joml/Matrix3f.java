@@ -182,19 +182,19 @@ public class Matrix3f implements Externalizable {
         float x = axisAngle.x;
         float y = axisAngle.y;
         float z = axisAngle.z;
-        double angle = axisAngle.angle;
-        double n = Math.sqrt(x*x + y*y + z*z);
-        x /= n;
-        y /= n;
-        z /= n;
-        double c = Math.cos(angle);
-        double s = Math.sin(angle);
-        double omc = 1.0 - c;
+        float angle = axisAngle.angle;
+        float invLength = (float) (1.0 / Math.sqrt(x*x + y*y + z*z));
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
+        float c = (float) Math.cos(angle);
+        float s = (float) Math.sin(angle);
+        float omc = 1.0f - c;
         m00 = (float)(c + x*x*omc);
         m11 = (float)(c + y*y*omc);
         m22 = (float)(c + z*z*omc);
-        double tmp1 = x*y*omc;
-        double tmp2 = z*s;
+        float tmp1 = x*y*omc;
+        float tmp2 = z*s;
         m10 = (float)(tmp1 - tmp2);
         m01 = (float)(tmp1 + tmp2);
         tmp1 = x*z*omc;
@@ -1787,20 +1787,20 @@ public class Matrix3f implements Externalizable {
     public Matrix3f lookAlong(float dirX, float dirY, float dirZ,
                               float upX, float upY, float upZ, Matrix3f dest) {
         // Normalize direction
-        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX / dirLength;
-        float dirnY = dirY / dirLength;
-        float dirnZ = dirZ / dirLength;
+        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
+        float dirnX = dirX * invDirLength;
+        float dirnY = dirY * invDirLength;
+        float dirnZ = dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         float upnX = rightY * dirnZ - rightZ * dirnY;
         float upnY = rightZ * dirnX - rightX * dirnZ;
@@ -1918,20 +1918,20 @@ public class Matrix3f implements Externalizable {
     public Matrix3f setLookAlong(float dirX, float dirY, float dirZ,
                                  float upX, float upY, float upZ) {
         // Normalize direction
-        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX / dirLength;
-        float dirnY = dirY / dirLength;
-        float dirnZ = dirZ / dirLength;
+        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
+        float dirnX = dirX * invDirLength;
+        float dirnY = dirY * invDirLength;
+        float dirnZ = dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         float upnX = rightY * dirnZ - rightZ * dirnY;
         float upnY = rightZ * dirnX - rightX * dirnZ;

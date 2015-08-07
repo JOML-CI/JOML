@@ -259,10 +259,10 @@ public class Matrix3d implements Externalizable {
         double y = axisAngle.y;
         double z = axisAngle.z;
         double angle = axisAngle.angle;
-        double n = Math.sqrt(x*x + y*y + z*z);
-        x /= n;
-        y /= n;
-        z /= n;
+        double invLength = 1.0 / Math.sqrt(x*x + y*y + z*z);
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
         double c = Math.cos(angle);
         double s = Math.sin(angle);
         double omc = 1.0 - c;
@@ -2040,20 +2040,20 @@ public class Matrix3d implements Externalizable {
     public Matrix3d lookAlong(double dirX, double dirY, double dirZ,
                               double upX, double upY, double upZ, Matrix3d dest) {
         // Normalize direction
-        double dirLength = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX / dirLength;
-        double dirnY = dirY / dirLength;
-        double dirnZ = dirZ / dirLength;
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX * invDirLength;
+        double dirnY = dirY * invDirLength;
+        double dirnZ = dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirnZ - rightZ * dirnY;
         double upnY = rightZ * dirnX - rightX * dirnZ;
@@ -2171,20 +2171,20 @@ public class Matrix3d implements Externalizable {
     public Matrix3d setLookAlong(double dirX, double dirY, double dirZ,
                                  double upX, double upY, double upZ) {
         // Normalize direction
-        double dirLength = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX / dirLength;
-        double dirnY = dirY / dirLength;
-        double dirnZ = dirZ / dirLength;
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX * invDirLength;
+        double dirnY = dirY * invDirLength;
+        double dirnZ = dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirnZ - rightZ * dirnY;
         double upnY = rightZ * dirnX - rightX * dirnZ;

@@ -4026,10 +4026,10 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d reflect(double nx, double ny, double nz, double px, double py, double pz, Matrix4d dest) {
-        double length = Math.sqrt(nx * nx + ny * ny + nz * nz);
-        double nnx = nx / length;
-        double nny = ny / length;
-        double nnz = nz / length;
+        double invLength = 1.0 / Math.sqrt(nx * nx + ny * ny + nz * nz);
+        double nnx = nx * invLength;
+        double nny = ny * invLength;
+        double nnz = nz * invLength;
         /* See: http://mathworld.wolfram.com/Plane.html */
         return reflect(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz, dest);
     }
@@ -4185,10 +4185,10 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d reflection(double nx, double ny, double nz, double px, double py, double pz) {
-        double length = Math.sqrt(nx * nx + ny * ny + nz * nz);
-        double nnx = nx / length;
-        double nny = ny / length;
-        double nnz = nz / length;
+        double invLength = 1.0 / Math.sqrt(nx * nx + ny * ny + nz * nz);
+        double nnx = nx * invLength;
+        double nny = ny * invLength;
+        double nnz = nz * invLength;
         /* See: http://mathworld.wolfram.com/Plane.html */
         return reflection(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz);
     }
@@ -4742,20 +4742,20 @@ public class Matrix4d implements Externalizable {
     public Matrix4d lookAlong(double dirX, double dirY, double dirZ,
                               double upX, double upY, double upZ, Matrix4d dest) {
         // Normalize direction
-        double dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX / dirLength;
-        double dirnY = dirY / dirLength;
-        double dirnZ = dirZ / dirLength;
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX * invDirLength;
+        double dirnY = dirY * invDirLength;
+        double dirnZ = dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirnZ - rightZ * dirnY;
         double upnY = rightZ * dirnX - rightX * dirnZ;
@@ -4895,20 +4895,20 @@ public class Matrix4d implements Externalizable {
     public Matrix4d setLookAlong(double dirX, double dirY, double dirZ,
                                  double upX, double upY, double upZ) {
         // Normalize direction
-        double dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX / dirLength;
-        double dirnY = dirY / dirLength;
-        double dirnZ = dirZ / dirLength;
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX * invDirLength;
+        double dirnY = dirY * invDirLength;
+        double dirnZ = dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirnZ - rightZ * dirnY;
         double upnY = rightZ * dirnX - rightX * dirnZ;
@@ -5000,23 +5000,23 @@ public class Matrix4d implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        double dirLength = (float) Math.sqrt(
+        double invDirLength = 1.0 / Math.sqrt(
                   (eyeX - centerX) * (eyeX - centerX)
                 + (eyeY - centerY) * (eyeY - centerY)
                 + (eyeZ - centerZ) * (eyeZ - centerZ));
-        dirX /= dirLength;
-        dirY /= dirLength;
-        dirZ /= dirLength;
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirY * upZ - dirZ * upY;
         rightY = dirZ * upX - dirX * upZ;
         rightZ = dirX * upY - dirY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirZ - rightZ * dirY;
         double upnY = rightZ * dirX - rightX * dirZ;
@@ -5144,23 +5144,23 @@ public class Matrix4d implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        double dirLength = (float) Math.sqrt(
+        double invDirLength = 1.0 / Math.sqrt(
                   (eyeX - centerX) * (eyeX - centerX)
                 + (eyeY - centerY) * (eyeY - centerY)
                 + (eyeZ - centerZ) * (eyeZ - centerZ));
-        dirX /= dirLength;
-        dirY /= dirLength;
-        dirZ /= dirLength;
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirY * upZ - dirZ * upY;
         rightY = dirZ * upX - dirX * upZ;
         rightZ = dirX * upY - dirY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirZ - rightZ * dirY;
         double upnY = rightZ * dirX - rightX * dirZ;
@@ -5791,10 +5791,10 @@ public class Matrix4d implements Externalizable {
         c12x = n1y * n2z - n1z * n2y;
         c12y = n1z * n2x - n1x * n2z;
         c12z = n1x * n2y - n1y * n2x;
-        double dot = n1x * c23x + n1y * c23y + n1z * c23z;
-        point.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
-        point.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
-        point.z = (-c23z * d1 - c31z * d2 - c12z * d3) / dot;
+        double invDot = 1.0 / (n1x * c23x + n1y * c23y + n1z * c23z);
+        point.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
+        point.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
+        point.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
         return this;
     }
 
@@ -5842,10 +5842,10 @@ public class Matrix4d implements Externalizable {
         c12x = n1y * n2z - n1z * n2y;
         c12y = n1z * n2x - n1x * n2z;
         c12z = n1x * n2y - n1y * n2x;
-        double dot = n1x * c23x + n1y * c23y + n1z * c23z;
-        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
-        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
-        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) / dot;
+        double invDot = 1.0 / (n1x * c23x + n1y * c23y + n1z * c23z);
+        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
+        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
+        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
         return this;
     }
 
@@ -6501,11 +6501,11 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, double a, double b, double c, double d, Matrix4d dest) {
         // normalize plane
-        double planeLen = Math.sqrt(a*a + b*b + c*c);
-        double an = a / planeLen;
-        double bn = b / planeLen;
-        double cn = c / planeLen;
-        double dn = d / planeLen;
+        double invPlaneLen = 1.0 / Math.sqrt(a*a + b*b + c*c);
+        double an = a * invPlaneLen;
+        double bn = b * invPlaneLen;
+        double cn = c * invPlaneLen;
+        double dn = d * invPlaneLen;
 
         double dot = an * lightX + bn * lightY + cn * lightZ + dn * lightW;
 
