@@ -302,11 +302,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param q
      *          the quaternion to set
-     * @return this
+     * @return q
      */
-    public AxisAngle4f get(Quaterniond q) {
-        q.set(this);
-        return this;
+    public Quaterniond get(Quaterniond q) {
+        return q.set(this);
     }
 
     /**
@@ -316,11 +315,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param m
      *          the matrix to set
-     * @return this
+     * @return m
      */
-    public AxisAngle4f get(Matrix4f m) {
-        m.set(this);
-        return this;
+    public Matrix4f get(Matrix4f m) {
+        return m.set(this);
     }
 
     /**
@@ -330,11 +328,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param m
      *          the matrix to set
-     * @return this
+     * @return m
      */
-    public AxisAngle4f get(Matrix3f m) {
-        m.set(this);
-        return this;
+    public Matrix3f get(Matrix3f m) {
+        return m.set(this);
     }
 
     /**
@@ -344,11 +341,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param m
      *          the matrix to set
-     * @return this
+     * @return m
      */
-    public AxisAngle4f get(Matrix4d m) {
-        m.set(this);
-        return this;
+    public Matrix4d get(Matrix4d m) {
+        return m.set(this);
     }
 
     /**
@@ -358,11 +354,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param m
      *          the matrix to set
-     * @return this
+     * @return m
      */
-    public AxisAngle4f get(Matrix3d m) {
-        m.set(this);
-        return this;
+    public Matrix3d get(Matrix3d m) {
+        return m.set(this);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -412,9 +407,9 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param v
      *          the vector to transform
-     * @return this
+     * @return v
      */
-    public AxisAngle4f transform(Vector3f v) {
+    public Vector3f transform(Vector3f v) {
         return transform(v, v);
     }
 
@@ -426,16 +421,16 @@ public class AxisAngle4f implements Externalizable {
      *          the vector to transform
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
-    public AxisAngle4f transform(Vector3f v, Vector3f dest) {
+    public Vector3f transform(Vector3f v, Vector3f dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
         float dot = x * v.x + y * v.y + z * v.z;
         dest.set((float) (v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x),
                  (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
                  (float) (v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z));
-        return this;
+        return dest;
     }
 
     /**
@@ -443,9 +438,9 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param v
      *          the vector to transform
-     * @return this
+     * @return v
      */
-    public AxisAngle4f transform(Vector4f v) {
+    public Vector4f transform(Vector4f v) {
         return transform(v, v);
     }
 
@@ -457,9 +452,9 @@ public class AxisAngle4f implements Externalizable {
      *          the vector to transform
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
-    public AxisAngle4f transform(Vector4f v, Vector4f dest) {
+    public Vector4f transform(Vector4f v, Vector4f dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
         float dot = x * v.x + y * v.y + z * v.z;
@@ -467,7 +462,7 @@ public class AxisAngle4f implements Externalizable {
                  (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
                  (float) (v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z),
                  dest.w);
-        return this;
+        return dest;
     }
 
     /**
