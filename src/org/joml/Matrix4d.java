@@ -2125,17 +2125,19 @@ public class Matrix4d implements Externalizable {
     public Matrix4d rotation(double angle, double x, double y, double z) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
-        m00 = cos + x * x * (1.0 - cos);
-        m10 = x * y * (1.0 - cos) - z * sin;
-        m20 = x * z * (1.0 - cos) + y * sin;
+        double C = 1.0 - cos;
+        double xy = x * y, xz = x * z, yz = y * z;
+        m00 = cos + x * x * C;
+        m10 = xy * C - z * sin;
+        m20 = xz * C + y * sin;
         m30 = 0.0;
-        m01 = y * x * (1.0 - cos) + z * sin;
-        m11 = cos + y * y * (1.0 - cos);
-        m21 = y * z * (1.0 - cos) - x * sin;
+        m01 = xy * C + z * sin;
+        m11 = cos + y * y * C;
+        m21 = yz * C - x * sin;
         m31 = 0.0;
-        m02 = z * x * (1.0 - cos) - y * sin;
-        m12 = z * y * (1.0 - cos) + x * sin;
-        m22 = cos + z * z * (1.0 - cos);
+        m02 = xz * C - y * sin;
+        m12 = yz * C + x * sin;
+        m22 = cos + z * z * C;
         m32 = 0.0;
         m03 = 0.0;
         m13 = 0.0;

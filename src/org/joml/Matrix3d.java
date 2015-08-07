@@ -1221,14 +1221,15 @@ public class Matrix3d implements Externalizable {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
         double C = 1.0 - cos;
+        double xy = x * y, xz = x * z, yz = y * z;
         m00 = cos + x * x * C;
-        m10 = x * y * C - z * sin;
-        m20 = x * z * C + y * sin;
-        m01 = y * x * C + z * sin;
+        m10 = xy * C - z * sin;
+        m20 = xz * C + y * sin;
+        m01 = xy * C + z * sin;
         m11 = cos + y * y * C;
-        m21 = y * z * C - x * sin;
-        m02 = z * x * C - y * sin;
-        m12 = z * y * C + x * sin;
+        m21 = yz * C - x * sin;
+        m02 = xz * C - y * sin;
+        m12 = yz * C + x * sin;
         m22 = cos + z * z * C;
         return this;
     }
@@ -1637,15 +1638,18 @@ public class Matrix3d implements Externalizable {
 
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
-        double rm00 = x * x * C + c;
-        double rm01 = y * x * C + z * s;
-        double rm02 = z * x * C - y * s;
-        double rm10 = x * y * C - z * s;
-        double rm11 = y * y * C + c;
-        double rm12 = z * y * C + x * s;
-        double rm20 = x * z * C + y * s;
-        double rm21 = y * z * C - x * s;
-        double rm22 = z * z * C + c;
+        double xx = x * x, xy = x * y, xz = x * z;
+        double yy = y * y, yz = y * z;
+        double zz = z * z;
+        double rm00 = xx * C + c;
+        double rm01 = xy * C + z * s;
+        double rm02 = xz * C - y * s;
+        double rm10 = xy * C - z * s;
+        double rm11 = yy * C + c;
+        double rm12 = yz * C + x * s;
+        double rm20 = xz * C + y * s;
+        double rm21 = yz * C - x * s;
+        double rm22 = zz * C + c;
 
         // add temporaries for dependent values
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
@@ -1715,15 +1719,18 @@ public class Matrix3d implements Externalizable {
      * @return dest
      */
     public Matrix3d rotate(Quaterniond quat, Matrix3d dest) {
-        double q00 = 2.0 * quat.x * quat.x;
-        double q11 = 2.0 * quat.y * quat.y;
-        double q22 = 2.0 * quat.z * quat.z;
-        double q01 = 2.0 * quat.x * quat.y;
-        double q02 = 2.0 * quat.x * quat.z;
-        double q03 = 2.0 * quat.x * quat.w;
-        double q12 = 2.0 * quat.y * quat.z;
-        double q13 = 2.0 * quat.y * quat.w;
-        double q23 = 2.0 * quat.z * quat.w;
+        double dqx = 2.0f * quat.x;
+        double dqy = 2.0f * quat.y;
+        double dqz = 2.0f * quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
 
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
