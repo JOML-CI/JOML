@@ -838,14 +838,15 @@ public class Matrix3f implements Externalizable {
         float cos = (float) Math.cos(angle);
         float sin = (float) Math.sin(angle);
         float C = 1.0f - cos;
+        float xy = x * y, xz = x * z, yz = y * z;
         m00 = cos + x * x * C;
-        m10 = x * y * C - z * sin;
-        m20 = x * z * C + y * sin;
-        m01 = y * x * C + z * sin;
+        m10 = xy * C - z * sin;
+        m20 = xz * C + y * sin;
+        m01 = xy * C + z * sin;
         m11 = cos + y * y * C;
-        m21 = y * z * C - x * sin;
-        m02 = z * x * C - y * sin;
-        m12 = z * y * C + x * sin;
+        m21 = yz * C - x * sin;
+        m02 = xz * C - y * sin;
+        m12 = yz * C + x * sin;
         m22 = cos + z * z * C;
         return this;
     }
@@ -1254,15 +1255,18 @@ public class Matrix3f implements Externalizable {
 
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
-        float rm00 = x * x * C + c;
-        float rm01 = y * x * C + z * s;
-        float rm02 = z * x * C - y * s;
-        float rm10 = x * y * C - z * s;
-        float rm11 = y * y * C + c;
-        float rm12 = z * y * C + x * s;
-        float rm20 = x * z * C + y * s;
-        float rm21 = y * z * C - x * s;
-        float rm22 = z * z * C + c;
+        float xx = x * x, xy = x * y, xz = x * z;
+        float yy = y * y, yz = y * z;
+        float zz = z * z;
+        float rm00 = xx * C + c;
+        float rm01 = xy * C + z * s;
+        float rm02 = xz * C - y * s;
+        float rm10 = xy * C - z * s;
+        float rm11 = yy * C + c;
+        float rm12 = yz * C + x * s;
+        float rm20 = xz * C + y * s;
+        float rm21 = yz * C - x * s;
+        float rm22 = zz * C + c;
 
         // add temporaries for dependent values
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
@@ -1332,15 +1336,18 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotate(Quaternionf quat, Matrix3f dest) {
-        float q00 = 2.0f * quat.x * quat.x;
-        float q11 = 2.0f * quat.y * quat.y;
-        float q22 = 2.0f * quat.z * quat.z;
-        float q01 = 2.0f * quat.x * quat.y;
-        float q02 = 2.0f * quat.x * quat.z;
-        float q03 = 2.0f * quat.x * quat.w;
-        float q12 = 2.0f * quat.y * quat.z;
-        float q13 = 2.0f * quat.y * quat.w;
-        float q23 = 2.0f * quat.z * quat.w;
+        float dqx = 2.0f * quat.x;
+        float dqy = 2.0f * quat.y;
+        float dqz = 2.0f * quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
 
         float rm00 = 1.0f - q11 - q22;
         float rm01 = q01 + q23;
