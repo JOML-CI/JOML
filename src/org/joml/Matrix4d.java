@@ -798,15 +798,19 @@ public class Matrix4d implements Externalizable {
             dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
             dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
             dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+            dest.m03 = m03;
             dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
             dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
             dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+            dest.m13 = m13;
             dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
             dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
             dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+            dest.m23 = m23;
             dest.m30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
             dest.m31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
             dest.m32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
+            dest.m33 = m33;
         } else {
             dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
                      m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
