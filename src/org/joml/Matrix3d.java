@@ -552,10 +552,7 @@ public class Matrix3d implements Externalizable {
      */
     public Matrix3d invert(Matrix3d dest) {
         double s = determinant();
-        if (s == 0.0) {
-            dest.set(this);
-            return dest;
-        }
+        // client must make sure that matrix is invertible
         s = 1.0 / s;
         dest.set( ((m11 * m22) - (m21 * m12)) * s,
                  -((m01 * m22) - (m21 * m02)) * s,

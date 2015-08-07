@@ -1292,10 +1292,7 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d invert(Matrix4d dest) {
         double s = determinant();
-        if (s == 0.0) {
-            dest.set(this);
-            return dest;
-        }
+        // client must make sure that matrix is invertible
         s = 1.0 / s;
         dest.set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
                  (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s,
@@ -1325,10 +1322,7 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d invert4x3(Matrix4d dest) {
         double s = determinant4x3();
-        if (s == 0.0) {
-            dest.set(this);
-            return this;
-        }
+        // client must make sure that matrix is invertible
         s = 1.0 / s;
         dest.set((m11 * m22 + m12 * -m21) * s,
                  (m21 * m02 + m22 * -m01) * s,

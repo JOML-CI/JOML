@@ -376,9 +376,7 @@ public class Matrix3f implements Externalizable {
      */
     public Matrix3f invert(Matrix3f dest) {
         float s = determinant();
-        if (s == 0.0f) {
-            return this;
-        }
+        // client must make sure that matrix is invertible
         s = 1.0f / s;
         dest.set( (m11 * m22 - m21 * m12) * s,
                  -(m01 * m22 - m21 * m02) * s,
