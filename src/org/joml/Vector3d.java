@@ -1293,10 +1293,10 @@ public class Vector3d implements Externalizable {
      * @return this
      */
     public Vector3d normalize() {
-        double d = length();
-        x /= d;
-        y /= d;
-        z /= d;
+        double invLength = 1.0 / length();
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
         return this;
     }
 
@@ -1308,10 +1308,10 @@ public class Vector3d implements Externalizable {
      * @return this
      */
     public Vector3d normalize(Vector3d dest) {
-        double d = length();
-        dest.x = x / d;
-        dest.y = y / d;
-        dest.z = z / d;
+        double invLength = 1.0 / length();
+        dest.x = x * invLength;
+        dest.y = y * invLength;
+        dest.z = z * invLength;
         return this;
     }
 

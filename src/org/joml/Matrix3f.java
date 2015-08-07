@@ -182,19 +182,19 @@ public class Matrix3f implements Externalizable {
         float x = axisAngle.x;
         float y = axisAngle.y;
         float z = axisAngle.z;
-        double angle = axisAngle.angle;
-        double n = Math.sqrt(x*x + y*y + z*z);
-        x /= n;
-        y /= n;
-        z /= n;
-        double c = Math.cos(angle);
-        double s = Math.sin(angle);
-        double omc = 1.0 - c;
+        float angle = axisAngle.angle;
+        float invLength = (float) (1.0 / Math.sqrt(x*x + y*y + z*z));
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
+        float c = (float) Math.cos(angle);
+        float s = (float) Math.sin(angle);
+        float omc = 1.0f - c;
         m00 = (float)(c + x*x*omc);
         m11 = (float)(c + y*y*omc);
         m22 = (float)(c + z*z*omc);
-        double tmp1 = x*y*omc;
-        double tmp2 = z*s;
+        float tmp1 = x*y*omc;
+        float tmp2 = z*s;
         m10 = (float)(tmp1 - tmp2);
         m01 = (float)(tmp1 + tmp2);
         tmp1 = x*z*omc;
@@ -264,7 +264,7 @@ public class Matrix3f implements Externalizable {
      *          the right operand of the matrix multiplication
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f mul(Matrix3f right, Matrix3f dest) {
         if (this != dest && right != dest) {
@@ -288,7 +288,7 @@ public class Matrix3f implements Externalizable {
                       m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
                       m02 * right.m20 + m12 * right.m21 + m22 * right.m22 );
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -384,7 +384,7 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f invert(Matrix3f dest) {
         float s = determinant();
@@ -413,7 +413,7 @@ public class Matrix3f implements Externalizable {
                      -(m00 * m21 - m20 * m01) * s,
                       (m00 * m11 - m10 * m01) * s);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -430,7 +430,7 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f transpose(Matrix3f dest) {
         if (this != dest) {
@@ -448,7 +448,7 @@ public class Matrix3f implements Externalizable {
                      m01, m11, m21,
                      m02, m12, m22);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -805,7 +805,7 @@ public class Matrix3f implements Externalizable {
      *            the factors of the x, y and z component, respectively
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f scale(Vector3f xyz, Matrix3f dest) {
         return scale(xyz.x, xyz.y, xyz.z, dest);
@@ -845,7 +845,7 @@ public class Matrix3f implements Externalizable {
      *            the factor of the z component
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f scale(float x, float y, float z, Matrix3f dest) {
         // scale matrix elements:
@@ -860,7 +860,7 @@ public class Matrix3f implements Externalizable {
         dest.m20 = m20 * z;
         dest.m21 = m21 * z;
         dest.m22 = m22 * z;
-        return this;
+        return dest;
     }
 
     /**
@@ -899,7 +899,7 @@ public class Matrix3f implements Externalizable {
      *            the factor for all components
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f scale(float xyz, Matrix3f dest) {
         return scale(xyz, xyz, xyz, dest);
@@ -1195,11 +1195,10 @@ public class Matrix3f implements Externalizable {
      * 
      * @param v
      *          the vector to transform
-     * @return this
+     * @return v
      */
-    public Matrix3f transform(Vector3f v) {
-        v.mul(this);
-        return this;
+    public Vector3f transform(Vector3f v) {
+        return v.mul(this);
     }
 
     /**
@@ -1209,11 +1208,11 @@ public class Matrix3f implements Externalizable {
      *          the vector to transform
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
-    public Matrix3f transform(Vector3f v, Vector3f dest) {
+    public Vector3f transform(Vector3f v, Vector3f dest) {
         v.mul(this, dest);
-        return this;
+        return dest;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -1256,7 +1255,7 @@ public class Matrix3f implements Externalizable {
      *            the angle in radians
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f rotateX(float ang, Matrix3f dest) {
         float cos = (float) Math.cos(ang);
@@ -1282,7 +1281,7 @@ public class Matrix3f implements Externalizable {
         dest.m01 = m01;
         dest.m02 = m02;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -1318,7 +1317,7 @@ public class Matrix3f implements Externalizable {
      *            the angle in radians
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f rotateY(float ang, Matrix3f dest) {
         float cos = (float) Math.cos(ang);
@@ -1344,7 +1343,7 @@ public class Matrix3f implements Externalizable {
         dest.m11 = m11;
         dest.m12 = m12;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -1380,7 +1379,7 @@ public class Matrix3f implements Externalizable {
      *            the angle in radians
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f rotateZ(float ang, Matrix3f dest) {
         float cos = (float) Math.cos(ang);
@@ -1406,7 +1405,7 @@ public class Matrix3f implements Externalizable {
         dest.m21 = m21;
         dest.m22 = m22;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -1473,7 +1472,7 @@ public class Matrix3f implements Externalizable {
      *            the z component of the axis
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f rotate(float ang, float x, float y, float z, Matrix3f dest) {
         float s = (float) Math.sin(ang);
@@ -1511,7 +1510,7 @@ public class Matrix3f implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -1557,7 +1556,7 @@ public class Matrix3f implements Externalizable {
      *          the {@link Quaternionf}
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f rotate(Quaternionf quat, Matrix3f dest) {
         float q00 = 2.0f * quat.x * quat.x;
@@ -1596,7 +1595,7 @@ public class Matrix3f implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -1643,7 +1642,7 @@ public class Matrix3f implements Externalizable {
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f rotate(AxisAngle4f axisAngle, Matrix3f dest) {
         return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z, dest);
@@ -1697,7 +1696,7 @@ public class Matrix3f implements Externalizable {
      *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f rotate(float angle, Vector3f axis, Matrix3f dest) {
         return rotate(angle, axis.x, axis.y, axis.z, dest);
@@ -1748,7 +1747,7 @@ public class Matrix3f implements Externalizable {
      *            the direction of 'up'
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f lookAlong(Vector3f dir, Vector3f up, Matrix3f dest) {
         return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
@@ -1782,25 +1781,25 @@ public class Matrix3f implements Externalizable {
      *              the z-coordinate of the up vector
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f lookAlong(float dirX, float dirY, float dirZ,
                               float upX, float upY, float upZ, Matrix3f dest) {
         // Normalize direction
-        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX / dirLength;
-        float dirnY = dirY / dirLength;
-        float dirnZ = dirZ / dirLength;
+        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
+        float dirnX = dirX * invDirLength;
+        float dirnY = dirY * invDirLength;
+        float dirnZ = dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         float upnX = rightY * dirnZ - rightZ * dirnY;
         float upnY = rightZ * dirnX - rightX * dirnZ;
@@ -1836,7 +1835,7 @@ public class Matrix3f implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -1918,20 +1917,20 @@ public class Matrix3f implements Externalizable {
     public Matrix3f setLookAlong(float dirX, float dirY, float dirZ,
                                  float upX, float upY, float upZ) {
         // Normalize direction
-        float dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        float dirnX = dirX / dirLength;
-        float dirnY = dirY / dirLength;
-        float dirnZ = dirZ / dirLength;
+        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
+        float dirnX = dirX * invDirLength;
+        float dirnY = dirY * invDirLength;
+        float dirnZ = dirZ * invDirLength;
         // right = direction x up
         float rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        float rightLength = (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         float upnX = rightY * dirnZ - rightZ * dirnY;
         float upnY = rightZ * dirnX - rightX * dirnZ;
@@ -2019,118 +2018,6 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Return the specified {@link Matrix3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix3f} to return
-     * @return that matrix
-     */
-    public Matrix3f with(Matrix3f m) {
-        return m;
-    }
-
-    /**
-     * Return the specified {@link Matrix3d}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix3d} to return
-     * @return that matrix
-     */
-    public Matrix3d with(Matrix3d m) {
-        return m;
-    }
-
-    /**
-     * Return the specified {@link Vector3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector3f} to return
-     * @return that vector
-     */
-    public Vector3f with(Vector3f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Vector4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector4f} to return
-     * @return that vector
-     */
-    public Vector4f with(Vector4f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Quaternionf}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaternionf} to return
-     * @return that quaternion
-     */
-    public Quaternionf with(Quaternionf q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link Quaterniond}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaterniond} to return
-     * @return that quaternion
-     */
-    public Quaterniond with(Quaterniond q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link AxisAngle4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
-     * 
-     * @param a
-     *          the {@link AxisAngle4f} to return
-     * @return that quaternion
-     */
-    public AxisAngle4f with(AxisAngle4f a) {
-        return a;
-    }
-
-    /**
-     * Return the specified {@link Matrix4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix4f} to return
-     * @return that matrix
-     */
-    public Matrix4f with(Matrix4f m) {
-        return m;
-    }
-
-    /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
@@ -2141,7 +2028,7 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f normal(Matrix3f dest) {
         float det = determinant();
@@ -2156,7 +2043,7 @@ public class Matrix3f implements Externalizable {
                  (m01 * m12 - m11 * m02) * s,
                 -(m00 * m12 - m10 * m02) * s,
                  (m00 * m11 - m10 * m01) * s);
-        return this;
+        return dest;
     }
 
 }

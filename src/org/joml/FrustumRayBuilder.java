@@ -91,10 +91,10 @@ public class FrustumRayBuilder {
         pxnxX = pxY * nxZ - pxZ * nxY;
         pxnxY = pxZ * nxX - pxX * nxZ;
         pxnxZ = pxX * nxY - pxY * nxX;
-        float dot = nxX * pxpyX + nxY * pxpyY + nxZ * pxpyZ;
-        cx = (-pxpyX * d1 - nxpyX * d2 - pxnxX * d3) / dot;
-        cy = (-pxpyY * d1 - nxpyY * d2 - pxnxY * d3) / dot;
-        cz = (-pxpyZ * d1 - nxpyZ * d2 - pxnxZ * d3) / dot;
+        float invDot = 1.0f / (nxX * pxpyX + nxY * pxpyY + nxZ * pxpyZ);
+        cx = (-pxpyX * d1 - nxpyX * d2 - pxnxX * d3) * invDot;
+        cy = (-pxpyY * d1 - nxpyY * d2 - pxnxY * d3) * invDot;
+        cz = (-pxpyZ * d1 - nxpyZ * d2 - pxnxZ * d3) * invDot;
         return this;
     }
 
@@ -139,10 +139,10 @@ public class FrustumRayBuilder {
         float dy = y1y * oneMinusX + y2y * x;
         float dz = y1z * oneMinusX + y2z * x;
         // normalize the vector
-        float len = (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
-        dx /= len;
-        dy /= len;
-        dz /= len;
+        float invLen = (float) (1.0 / Math.sqrt(dx * dx + dy * dy + dz * dz));
+        dx *= invLen;
+        dy *= invLen;
+        dz *= invLen;
         dir.x = dx;
         dir.y = dy;
         dir.z = dz;

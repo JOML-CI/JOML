@@ -88,10 +88,10 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f(Quaternionf q) {
         float acos = (float) Math.acos(q.w);
-        float sqrt = (float) Math.sqrt(1.0 - q.w * q.w);
-        this.x = q.x / sqrt;
-        this.y = q.y / sqrt;
-        this.z = q.z / sqrt;
+        float invSqrt = (float) (1.0 / Math.sqrt(1.0 - q.w * q.w));
+        this.x = q.x * invSqrt;
+        this.y = q.y * invSqrt;
+        this.z = q.z * invSqrt;
         this.angle = (float) 2.0 * acos;
     }
 
@@ -183,10 +183,10 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f set(Quaternionf q) {
         double acos = Math.acos(q.w);
-        double sqrt = Math.sqrt(1.0 - q.w * q.w);
-        this.x = (float) (q.x / sqrt);
-        this.y = (float) (q.y / sqrt);
-        this.z = (float) (q.z / sqrt);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        this.x = (float) (q.x * invSqrt);
+        this.y = (float) (q.y * invSqrt);
+        this.z = (float) (q.z * invSqrt);
         this.angle = (float) (2.0f * acos);
         return this;
     }
@@ -201,10 +201,10 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f set(Quaterniond q) {
         double acos = Math.acos(q.w);
-        double sqrt = Math.sqrt(1.0 - q.w * q.w);
-        this.x = (float) (q.x / sqrt);
-        this.y = (float) (q.y / sqrt);
-        this.z = (float) (q.z / sqrt);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        this.x = (float) (q.x * invSqrt);
+        this.y = (float) (q.y * invSqrt);
+        this.z = (float) (q.z * invSqrt);
         this.angle = (float) (2.0f * acos);
         return this;
     }
@@ -302,11 +302,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param q
      *          the quaternion to set
-     * @return this
+     * @return q
      */
-    public AxisAngle4f get(Quaterniond q) {
-        q.set(this);
-        return this;
+    public Quaterniond get(Quaterniond q) {
+        return q.set(this);
     }
 
     /**
@@ -316,11 +315,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param m
      *          the matrix to set
-     * @return this
+     * @return m
      */
-    public AxisAngle4f get(Matrix4f m) {
-        m.set(this);
-        return this;
+    public Matrix4f get(Matrix4f m) {
+        return m.set(this);
     }
 
     /**
@@ -330,11 +328,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param m
      *          the matrix to set
-     * @return this
+     * @return m
      */
-    public AxisAngle4f get(Matrix3f m) {
-        m.set(this);
-        return this;
+    public Matrix3f get(Matrix3f m) {
+        return m.set(this);
     }
 
     /**
@@ -344,11 +341,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param m
      *          the matrix to set
-     * @return this
+     * @return m
      */
-    public AxisAngle4f get(Matrix4d m) {
-        m.set(this);
-        return this;
+    public Matrix4d get(Matrix4d m) {
+        return m.set(this);
     }
 
     /**
@@ -358,11 +354,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param m
      *          the matrix to set
-     * @return this
+     * @return m
      */
-    public AxisAngle4f get(Matrix3d m) {
-        m.set(this);
-        return this;
+    public Matrix3d get(Matrix3d m) {
+        return m.set(this);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -385,10 +380,10 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f normalize() {
-        float length = (float) Math.sqrt(x * x + y * y + z * z);
-        x /= length;
-        y /= length;
-        z /= length;
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y + z * z));
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
         return this;
     }
 
@@ -412,9 +407,9 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param v
      *          the vector to transform
-     * @return this
+     * @return v
      */
-    public AxisAngle4f transform(Vector3f v) {
+    public Vector3f transform(Vector3f v) {
         return transform(v, v);
     }
 
@@ -426,16 +421,16 @@ public class AxisAngle4f implements Externalizable {
      *          the vector to transform
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
-    public AxisAngle4f transform(Vector3f v, Vector3f dest) {
+    public Vector3f transform(Vector3f v, Vector3f dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
         float dot = x * v.x + y * v.y + z * v.z;
         dest.set((float) (v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x),
                  (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
                  (float) (v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z));
-        return this;
+        return dest;
     }
 
     /**
@@ -443,9 +438,9 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param v
      *          the vector to transform
-     * @return this
+     * @return v
      */
-    public AxisAngle4f transform(Vector4f v) {
+    public Vector4f transform(Vector4f v) {
         return transform(v, v);
     }
 
@@ -457,9 +452,9 @@ public class AxisAngle4f implements Externalizable {
      *          the vector to transform
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
-    public AxisAngle4f transform(Vector4f v, Vector4f dest) {
+    public Vector4f transform(Vector4f v, Vector4f dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
         float dot = x * v.x + y * v.y + z * v.z;
@@ -467,7 +462,7 @@ public class AxisAngle4f implements Externalizable {
                  (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
                  (float) (v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z),
                  dest.w);
-        return this;
+        return dest;
     }
 
     /**
@@ -523,132 +518,6 @@ public class AxisAngle4f implements Externalizable {
         if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
             return false;
         return true;
-    }
-
-    /**
-     * Return the specified {@link Vector3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector3f} to return
-     * @return that vector
-     */
-    public Vector3f with(Vector3f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Vector4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector4f} to return
-     * @return that vector
-     */
-    public Vector4f with(Vector4f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Quaternionf}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaternionf} to return
-     * @return that quaternion
-     */
-    public Quaternionf with(Quaternionf q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link Quaterniond}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaterniond} to return
-     * @return that quaternion
-     */
-    public Quaterniond with(Quaterniond q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link AxisAngle4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
-     * 
-     * @param a
-     *          the {@link AxisAngle4f} to return
-     * @return that quaternion
-     */
-    public AxisAngle4f with(AxisAngle4f a) {
-        return a;
-    }
-
-    /**
-     * Return the specified {@link Matrix3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix3f} to return
-     * @return that matrix
-     */
-    public Matrix3f with(Matrix3f m) {
-        return m;
-    }
-
-    /**
-     * Return the specified {@link Matrix4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix4f} to return
-     * @return that matrix
-     */
-    public Matrix4f with(Matrix4f m) {
-        return m;
-    }
-
-    /**
-     * Return the specified {@link Matrix3d}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix3d} to return
-     * @return that matrix
-     */
-    public Matrix3d with(Matrix3d m) {
-        return m;
-    }
-
-    /**
-     * Return the specified {@link Matrix4d}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix4d} to return
-     * @return that matrix
-     */
-    public Matrix4d with(Matrix4d m) {
-        return m;
     }
 
 }

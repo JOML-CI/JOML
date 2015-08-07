@@ -523,7 +523,7 @@ public class Matrix4d implements Externalizable {
      *          the right operand of the multiplication
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d mul(Matrix4d right, Matrix4d dest) {
         if (this != dest && right != dest) {
@@ -561,7 +561,7 @@ public class Matrix4d implements Externalizable {
                      m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33,
                      m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -592,7 +592,7 @@ public class Matrix4d implements Externalizable {
      *          the right operand of the multiplication
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d mul(Matrix4f right, Matrix4d dest) {
         if (this != dest) {
@@ -630,7 +630,7 @@ public class Matrix4d implements Externalizable {
                      m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33,
                      m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -699,12 +699,13 @@ public class Matrix4d implements Externalizable {
      *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
      * @return this
      */
-    public Matrix4d mul4x3(Matrix4d right) {
-       return mul4x3(right, this);
+    public Matrix4d mul4x3r(Matrix4d right) {
+       return mul4x3r(right, this);
     }
 
     /**
      * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -715,9 +716,9 @@ public class Matrix4d implements Externalizable {
      *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
      * @param dest
      *          the destination matrix, which will hold the result
-     * @return this
+     * @return dest
      */
-    public Matrix4d mul4x3(Matrix4d right, Matrix4d dest) {
+    public Matrix4d mul4x3r(Matrix4d right, Matrix4d dest) {
         if (this != dest && right != dest) {
             dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
             dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
@@ -753,7 +754,82 @@ public class Matrix4d implements Externalizable {
                      m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
                      m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33);
         }
-        return this;
+        return dest;
+    }
+
+    /**
+     * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
+     * Also, this method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @return this
+     */
+    public Matrix4d mul4x3(Matrix4d right) {
+       return mul4x3(right, this);
+    }
+
+    /**
+     * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
+     * Also, this method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4d mul4x3(Matrix4d right, Matrix4d dest) {
+        if (this != dest && right != dest) {
+            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+            dest.m03 = m03;
+            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+            dest.m13 = m13;
+            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+            dest.m23 = m23;
+            dest.m30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
+            dest.m31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
+            dest.m32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
+            dest.m33 = m33;
+        } else {
+            dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
+                     m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
+                     m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
+                     m03,
+                     m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
+                     m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
+                     m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
+                     m13,
+                     m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
+                     m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
+                     m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
+                     m23,
+                     m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
+                     m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
+                     m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
+                     m33);
+        }
+        return dest;
     }
 
     /**
@@ -788,7 +864,7 @@ public class Matrix4d implements Externalizable {
      *          the factor to multiply each of the other matrix's 4x3 components
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d fma4x3(Matrix4d other, double otherFactor, Matrix4d dest) {
         dest.m00 = m00 + other.m00 * otherFactor;
@@ -807,7 +883,7 @@ public class Matrix4d implements Externalizable {
         dest.m31 = m31 + other.m31 * otherFactor;
         dest.m32 = m32 + other.m32 * otherFactor;
         dest.m33 = m33;
-        return this;
+        return dest;
     }
 
     /**
@@ -828,7 +904,7 @@ public class Matrix4d implements Externalizable {
      *          the other addend
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d add(Matrix4d other, Matrix4d dest) {
         dest.m00 = m00 + other.m00;
@@ -847,7 +923,7 @@ public class Matrix4d implements Externalizable {
         dest.m31 = m31 + other.m31;
         dest.m32 = m32 + other.m32;
         dest.m33 = m33 + other.m33;
-        return this;
+        return dest;
     }
 
     /**
@@ -868,7 +944,7 @@ public class Matrix4d implements Externalizable {
      *          the subtrahend
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d sub(Matrix4d subtrahend, Matrix4d dest) {
         dest.m00 = m00 - subtrahend.m00;
@@ -887,7 +963,7 @@ public class Matrix4d implements Externalizable {
         dest.m31 = m31 - subtrahend.m31;
         dest.m32 = m32 - subtrahend.m32;
         dest.m33 = m33 - subtrahend.m33;
-        return this;
+        return dest;
     }
 
     /**
@@ -908,7 +984,7 @@ public class Matrix4d implements Externalizable {
      *          the other matrix
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d mulComponentWise(Matrix4d other, Matrix4d dest) {
         dest.m00 = m00 * other.m00;
@@ -927,7 +1003,7 @@ public class Matrix4d implements Externalizable {
         dest.m31 = m31 * other.m31;
         dest.m32 = m32 * other.m32;
         dest.m33 = m33 * other.m33;
-        return this;
+        return dest;
     }
 
     /**
@@ -951,7 +1027,7 @@ public class Matrix4d implements Externalizable {
      *          the other addend
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d add4x3(Matrix4d other, Matrix4d dest) {
         dest.m00 = m00 + other.m00;
@@ -970,7 +1046,7 @@ public class Matrix4d implements Externalizable {
         dest.m31 = m31 + other.m31;
         dest.m32 = m32 + other.m32;
         dest.m33 = m33;
-        return this;
+        return dest;
     }
 
     /**
@@ -994,7 +1070,7 @@ public class Matrix4d implements Externalizable {
      *          the subtrahend
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d sub4x3(Matrix4d subtrahend, Matrix4d dest) {
         dest.m00 = m00 - subtrahend.m00;
@@ -1013,7 +1089,7 @@ public class Matrix4d implements Externalizable {
         dest.m31 = m31 - subtrahend.m31;
         dest.m32 = m32 - subtrahend.m32;
         dest.m33 = m33;
-        return this;
+        return dest;
     }
 
     /**
@@ -1037,7 +1113,7 @@ public class Matrix4d implements Externalizable {
      *          the other matrix
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d mul4x3ComponentWise(Matrix4d other, Matrix4d dest) {
         dest.m00 = m00 * other.m00;
@@ -1056,7 +1132,7 @@ public class Matrix4d implements Externalizable {
         dest.m31 = m31 * other.m31;
         dest.m32 = m32 * other.m32;
         dest.m33 = m33;
-        return this;
+        return dest;
     }
 
     /** Set the values within this matrix to the supplied double values. The matrix will look like this:<br><br>
@@ -1296,12 +1372,13 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d invert(Matrix4d dest) {
         double s = determinant();
         if (s == 0.0) {
-            return this;
+            dest.set(this);
+            return dest;
         }
         s = 1.0 / s;
         if (this != dest) {
@@ -1339,7 +1416,7 @@ public class Matrix4d implements Externalizable {
                      (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
                      (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s );
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -1356,7 +1433,7 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d transpose(Matrix4d dest) {
         if (this != dest) {
@@ -1382,7 +1459,7 @@ public class Matrix4d implements Externalizable {
                      m02, m12, m22, m32,
                      m03, m13, m23, m33);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -1401,7 +1478,7 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d transpose3x3(Matrix4d dest) {
         if (this != dest) {
@@ -1427,7 +1504,7 @@ public class Matrix4d implements Externalizable {
                      m02, m12, m22, 0.0,
                      0.0, 0.0, 0.0, 1.0);
         }
-        return this;
+        return dest;
     }
 
     /**
@@ -1435,9 +1512,9 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
-    public Matrix4d transpose3x3(Matrix3d dest) {
+    public Matrix3d transpose3x3(Matrix3d dest) {
         dest.m00 = m00;
         dest.m01 = m10;
         dest.m02 = m20;
@@ -1447,7 +1524,7 @@ public class Matrix4d implements Externalizable {
         dest.m20 = m02;
         dest.m21 = m12;
         dest.m22 = m22;
-        return this;
+        return dest;
     }
 
     /**
@@ -2100,31 +2177,88 @@ public class Matrix4d implements Externalizable {
     public Matrix4d rotation(double angle, Vector3d axis) {
         return rotation(angle, axis.x, axis.y, axis.z);
     }
-    
+
     /**
-     * Transform the given vector by this matrix.
+     * Transform/multiply the given vector by this matrix and store the result in that vector.
+     * 
+     * @see Vector4d#mul(Matrix4d)
      * 
      * @param v
-     *          the vector to transform
-     * @return this
+     *          the vector to transform and to hold the final result
+     * @return v
      */
-    public Matrix4d transform(Vector4d v) {
-        v.mul(this);
-        return this;
+    public Vector4d transform(Vector4d v) {
+        return v.mul(this);
     }
 
     /**
      * Transform/multiply the given vector by this matrix and store the result in <code>dest</code>.
      * 
+     * @see Vector4d#mul(Matrix4d, Vector4d)
+     * 
      * @param v
      *          the vector to transform
      * @param dest
      *          will contain the result
-     * @return this
+     * @return dest
      */
-    public Matrix4d transform(Vector4d v, Vector4d dest) {
+    public Vector4d transform(Vector4d v, Vector4d dest) {
         v.mul(this, dest);
-        return this;
+        return dest;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in that vector.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a point/location in 3D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(Vector4d)}.
+     * <p>
+     * In order to store the result in another vector, use {@link #transform(Vector3d, Vector3d)}.
+     * 
+     * @see #transform(Vector3d, Vector3d)
+     * @see #transform(Vector4d)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector3d transform(Vector3d v) {
+        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
+              m01 * v.x + m11 * v.y + m21 * v.z + m31,
+              m02 * v.x + m12 * v.y + m22 * v.z + m32);
+        return v;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a point/location in 3D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(Vector4d, Vector4d)}.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transform(Vector3d)}.
+     * 
+     * @see #transform(Vector3d)
+     * @see #transform(Vector4d, Vector4d)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d transform(Vector3d v, Vector3d dest) {
+        dest.x = m00 * v.x + m10 * v.y + m20 * v.z + m30;
+        dest.y = m01 * v.x + m11 * v.y + m21 * v.z + m31;
+        dest.z = m02 * v.x + m12 * v.y + m22 * v.z + m32;
+        return dest;
     }
 
     /**
@@ -2167,7 +2301,7 @@ public class Matrix4d implements Externalizable {
      *            the factors of the x, y and z component, respectively
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d scale(Vector3d xyz, Matrix4d dest) {
         return scale(xyz.x, xyz.y, xyz.z, dest);
@@ -2207,7 +2341,7 @@ public class Matrix4d implements Externalizable {
      *            the factor of the z component
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d scale(double x, double y, double z, Matrix4d dest) {
         // scale matrix elements:
@@ -2230,7 +2364,7 @@ public class Matrix4d implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        return this;
+        return dest;
     }
 
     /**
@@ -2269,7 +2403,7 @@ public class Matrix4d implements Externalizable {
      *            the factor for all components
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d scale(double xyz, Matrix4d dest) {
         return scale(xyz, xyz, xyz, dest);
@@ -2312,7 +2446,7 @@ public class Matrix4d implements Externalizable {
      *            the z component of the axis
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d rotate(double ang, double x, double y, double z, Matrix4d dest) {
         double s = Math.sin(ang);
@@ -2360,7 +2494,7 @@ public class Matrix4d implements Externalizable {
         dest.m32 = m32;
         dest.m33 = m33;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -2502,7 +2636,7 @@ public class Matrix4d implements Externalizable {
      *            the angle in radians
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d rotateX(double ang, Matrix4d dest) {
         double cos = Math.cos(ang);
@@ -2536,7 +2670,7 @@ public class Matrix4d implements Externalizable {
         dest.m32 = m32;
         dest.m33 = m33;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -2572,7 +2706,7 @@ public class Matrix4d implements Externalizable {
      *            the angle in radians
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d rotateY(double ang, Matrix4d dest) {
         double cos = Math.cos(ang);
@@ -2606,7 +2740,7 @@ public class Matrix4d implements Externalizable {
         dest.m32 = m32;
         dest.m33 = m33;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -2642,7 +2776,7 @@ public class Matrix4d implements Externalizable {
      *            the angle in radians
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d rotateZ(double ang, Matrix4d dest) {
         double cos = Math.cos(ang);
@@ -2675,7 +2809,7 @@ public class Matrix4d implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        return this;
+        return dest;
     }
 
     /**
@@ -2931,7 +3065,7 @@ public class Matrix4d implements Externalizable {
      *          the {@link Quaterniond}
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d rotate(Quaterniond quat, Matrix4d dest) {
         double q00 = 2.0 * quat.x * quat.x;
@@ -2979,7 +3113,7 @@ public class Matrix4d implements Externalizable {
         dest.m32 = m32;
         dest.m33 = m33;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -3049,7 +3183,7 @@ public class Matrix4d implements Externalizable {
      *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d rotate(AxisAngle4f axisAngle, Matrix4d dest) {
         return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z, dest);
@@ -3103,7 +3237,7 @@ public class Matrix4d implements Externalizable {
      *          the rotation axis (needs to be {@link Vector3d#normalize() normalized})
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d rotate(double angle, Vector3d axis, Matrix4d dest) {
         return rotate(angle, axis.x, axis.y, axis.z, dest);
@@ -3211,7 +3345,7 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d normal(Matrix4d dest) {
         double det = determinant3x3();
@@ -3230,7 +3364,7 @@ public class Matrix4d implements Externalizable {
                  (m00 * m11 - m10 * m01) * s,
                  0.0,
                  0.0, 0.0, 0.0, 1.0);
-        return this;
+        return dest;
     }
 
     /**
@@ -3248,9 +3382,9 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
-    public Matrix4d normal(Matrix3d dest) {
+    public Matrix3d normal(Matrix3d dest) {
         double det = determinant3x3();
         double s = 1.0 / det;
         /* Invert and transpose in one go */
@@ -3263,7 +3397,7 @@ public class Matrix4d implements Externalizable {
         dest.m20 =  (m01 * m12 - m11 * m02) * s;
         dest.m21 = -(m00 * m12 - m10 * m02) * s;
         dest.m22 =  (m00 * m11 - m10 * m01) * s;
-        return this;
+        return dest;
     }
 
     /**
@@ -3288,16 +3422,16 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d normalize3x3(Matrix4d dest) {
-        double xlen = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        double ylen = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        double zlen = Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
-        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
-        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
-        return this;
+        double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        double invYlen = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        double invZlen = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
+        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
+        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
+        return dest;
     }
 
     /**
@@ -3309,16 +3443,16 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
-    public Matrix4d normalize3x3(Matrix3d dest) {
-        double xlen = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        double ylen = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        double zlen = Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00 = m00 / xlen; dest.m01 = m01 / xlen; dest.m02 = m02 / xlen;
-        dest.m10 = m10 / ylen; dest.m11 = m11 / ylen; dest.m12 = m12 / ylen;
-        dest.m20 = m20 / zlen; dest.m21 = m21 / zlen; dest.m22 = m22 / zlen;
-        return this;
+    public Matrix3d normalize3x3(Matrix3d dest) {
+        double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        double invYlen = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        double invZlen = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
+        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
+        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
+        return dest;
     }
 
     /**
@@ -3351,12 +3485,12 @@ public class Matrix4d implements Externalizable {
      *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
-     * @return this
+     * @return dest
      */
-    public Matrix4d unproject(double winX, double winY, double winZ, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
+    public Vector4d unproject(double winX, double winY, double winZ, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
         this.invert(inverseOut);
         inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
-        return this;
+        return dest;
     }
 
     /**
@@ -3389,12 +3523,12 @@ public class Matrix4d implements Externalizable {
      *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
-     * @return this
+     * @return dest
      */
-    public Matrix4d unproject(double winX, double winY, double winZ, IntBuffer viewport, Matrix4d inverseOut, Vector3d dest) {
+    public Vector3d unproject(double winX, double winY, double winZ, IntBuffer viewport, Matrix4d inverseOut, Vector3d dest) {
         this.invert(inverseOut);
         inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
-        return this;
+        return dest;
     }
 
     /**
@@ -3424,9 +3558,9 @@ public class Matrix4d implements Externalizable {
      *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
-     * @return this
+     * @return dest
      */
-    public Matrix4d unproject(Vector3d winCoords, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
+    public Vector4d unproject(Vector3d winCoords, IntBuffer viewport, Matrix4d inverseOut, Vector4d dest) {
         return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
     }
 
@@ -3457,9 +3591,9 @@ public class Matrix4d implements Externalizable {
      *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
-     * @return this
+     * @return dest
      */
-    public Matrix4d unproject(Vector3d winCoords, IntBuffer viewport, Matrix4d inverseOut, Vector3d dest) {
+    public Vector3d unproject(Vector3d winCoords, IntBuffer viewport, Matrix4d inverseOut, Vector3d dest) {
         return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
     }
 
@@ -3486,9 +3620,9 @@ public class Matrix4d implements Externalizable {
      *          the viewport described by <tt>[x, y, width, height]</tt>
      * @param dest
      *          will hold the unprojected position
-     * @return this
+     * @return dest
      */
-    public Matrix4d unprojectInv(Vector3d winCoords, IntBuffer viewport, Vector4d dest) {
+    public Vector4d unprojectInv(Vector3d winCoords, IntBuffer viewport, Vector4d dest) {
         return unprojectInv(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
@@ -3519,9 +3653,9 @@ public class Matrix4d implements Externalizable {
      *          the viewport described by <tt>[x, y, width, height]</tt>
      * @param dest
      *          will hold the unprojected position
-     * @return this
+     * @return dest
      */
-    public Matrix4d unprojectInv(double winX, double winY, double winZ, IntBuffer viewport, Vector4d dest) {
+    public Vector4d unprojectInv(double winX, double winY, double winZ, IntBuffer viewport, Vector4d dest) {
         int pos = viewport.position();
         double ndcX = (winX-viewport.get(pos))/viewport.get(pos+2)*2.0-1.0;
         double ndcY = (winY-viewport.get(pos+1))/viewport.get(pos+3)*2.0-1.0;
@@ -3531,7 +3665,7 @@ public class Matrix4d implements Externalizable {
         dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
         dest.w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
         dest.div(dest.w);
-        return this;
+        return dest;
     }
 
     /**
@@ -3557,9 +3691,9 @@ public class Matrix4d implements Externalizable {
      *          the viewport described by <tt>[x, y, width, height]</tt>
      * @param dest
      *          will hold the unprojected position
-     * @return this
+     * @return dest
      */
-    public Matrix4d unprojectInv(Vector3d winCoords, IntBuffer viewport, Vector3d dest) {
+    public Vector3d unprojectInv(Vector3d winCoords, IntBuffer viewport, Vector3d dest) {
         return unprojectInv(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
@@ -3590,9 +3724,9 @@ public class Matrix4d implements Externalizable {
      *          the viewport described by <tt>[x, y, width, height]</tt>
      * @param dest
      *          will hold the unprojected position
-     * @return this
+     * @return dest
      */
-    public Matrix4d unprojectInv(double winX, double winY, double winZ, IntBuffer viewport, Vector3d dest) {
+    public Vector3d unprojectInv(double winX, double winY, double winZ, IntBuffer viewport, Vector3d dest) {
         int pos = viewport.position();
         double ndcX = (winX-viewport.get(pos))/viewport.get(pos+2)*2.0-1.0;
         double ndcY = (winY-viewport.get(pos+1))/viewport.get(pos+3)*2.0-1.0;
@@ -3602,7 +3736,7 @@ public class Matrix4d implements Externalizable {
         dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
         double w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
         dest.div(w);
-        return this;
+        return dest;
     }
 
     /**
@@ -3702,9 +3836,9 @@ public class Matrix4d implements Externalizable {
      *          the viewport described by <tt>[x, y, width, height]</tt>
      * @param winCoordsDest
      *          will hold the projected window coordinates
-     * @return this
+     * @return winCoordsDest
      */
-    public Matrix4d project(double x, double y, double z, IntBuffer viewport, Vector4d winCoordsDest) {
+    public Vector4d project(double x, double y, double z, IntBuffer viewport, Vector4d winCoordsDest) {
         winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
         winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
         winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
@@ -3714,7 +3848,7 @@ public class Matrix4d implements Externalizable {
         winCoordsDest.x = (winCoordsDest.x*0.5+0.5) * viewport.get(pos+2) + viewport.get(pos);
         winCoordsDest.y = (winCoordsDest.y*0.5+0.5) * viewport.get(pos+3) + viewport.get(pos+1);
         winCoordsDest.z = (1.0+winCoordsDest.z)*0.5;
-        return this;
+        return winCoordsDest;
     }
 
     /**
@@ -3740,9 +3874,9 @@ public class Matrix4d implements Externalizable {
      *          the viewport described by <tt>[x, y, width, height]</tt>
      * @param winCoordsDest
      *          will hold the projected window coordinates
-     * @return this
+     * @return winCoordsDest
      */
-    public Matrix4d project(double x, double y, double z, IntBuffer viewport, Vector3d winCoordsDest) {
+    public Vector3d project(double x, double y, double z, IntBuffer viewport, Vector3d winCoordsDest) {
         winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
         winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
         winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
@@ -3752,7 +3886,7 @@ public class Matrix4d implements Externalizable {
         winCoordsDest.x = (winCoordsDest.x*0.5+0.5) * viewport.get(pos+2) + viewport.get(pos);
         winCoordsDest.y = (winCoordsDest.y*0.5+0.5) * viewport.get(pos+3) + viewport.get(pos+1);
         winCoordsDest.z = (1.0+winCoordsDest.z)*0.5;
-        return this;
+        return winCoordsDest;
     }
 
     /**
@@ -3776,9 +3910,9 @@ public class Matrix4d implements Externalizable {
      *          the viewport described by <tt>[x, y, width, height]</tt>
      * @param winCoordsDest
      *          will hold the projected window coordinates
-     * @return this
+     * @return winCoordsDest
      */
-    public Matrix4d project(Vector3d position, IntBuffer viewport, Vector4d winCoordsDest) {
+    public Vector4d project(Vector3d position, IntBuffer viewport, Vector4d winCoordsDest) {
         return project(position.x, position.y, position.z, viewport, winCoordsDest);
     }
 
@@ -3803,9 +3937,9 @@ public class Matrix4d implements Externalizable {
      *          the viewport described by <tt>[x, y, width, height]</tt>
      * @param winCoordsDest
      *          will hold the projected window coordinates
-     * @return this
+     * @return winCoordsDest
      */
-    public Matrix4d project(Vector3d position, IntBuffer viewport, Vector3d winCoordsDest) {
+    public Vector3d project(Vector3d position, IntBuffer viewport, Vector3d winCoordsDest) {
         return project(position.x, position.y, position.z, viewport, winCoordsDest);
     }
 
@@ -3901,7 +4035,7 @@ public class Matrix4d implements Externalizable {
      *          the constant in the plane equation
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d reflect(double a, double b, double c, double d, Matrix4d dest) {
         double rm00 = 1.0 - 2.0 * a * a;
@@ -3943,7 +4077,7 @@ public class Matrix4d implements Externalizable {
         dest.m12 = nm12;
         dest.m13 = nm13;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -4023,13 +4157,13 @@ public class Matrix4d implements Externalizable {
      *          the z-coordinate of a point on the plane
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d reflect(double nx, double ny, double nz, double px, double py, double pz, Matrix4d dest) {
-        double length = Math.sqrt(nx * nx + ny * ny + nz * nz);
-        double nnx = nx / length;
-        double nny = ny / length;
-        double nnz = nz / length;
+        double invLength = 1.0 / Math.sqrt(nx * nx + ny * ny + nz * nz);
+        double nnx = nx * invLength;
+        double nny = ny * invLength;
+        double nnz = nz * invLength;
         /* See: http://mathworld.wolfram.com/Plane.html */
         return reflect(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz, dest);
     }
@@ -4095,7 +4229,7 @@ public class Matrix4d implements Externalizable {
      *          a point on the plane
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d reflect(Quaterniond orientation, Vector3d point, Matrix4d dest) {
         double num1 = orientation.x * 2.0;
@@ -4122,7 +4256,7 @@ public class Matrix4d implements Externalizable {
      *          a point on the plane
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d reflect(Vector3d normal, Vector3d point, Matrix4d dest) {
         return reflect(normal.x, normal.y, normal.z, point.x, point.y, point.z, dest);
@@ -4185,10 +4319,10 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d reflection(double nx, double ny, double nz, double px, double py, double pz) {
-        double length = Math.sqrt(nx * nx + ny * ny + nz * nz);
-        double nnx = nx / length;
-        double nny = ny / length;
-        double nnz = nz / length;
+        double invLength = 1.0 / Math.sqrt(nx * nx + ny * ny + nz * nz);
+        double nnx = nx * invLength;
+        double nny = ny * invLength;
+        double nnz = nz * invLength;
         /* See: http://mathworld.wolfram.com/Plane.html */
         return reflection(nnx, nny, nnz, -nnx * px - nny * py - nnz * pz);
     }
@@ -4261,7 +4395,7 @@ public class Matrix4d implements Externalizable {
      *            far clipping plane distance
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
         // calculate right matrix elements
@@ -4291,7 +4425,7 @@ public class Matrix4d implements Externalizable {
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -4400,7 +4534,7 @@ public class Matrix4d implements Externalizable {
      *            far clipping plane distance
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d orthoSymmetric(double width, double height, double zNear, double zFar, Matrix4d dest) {
         // calculate right matrix elements
@@ -4428,7 +4562,7 @@ public class Matrix4d implements Externalizable {
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -4535,7 +4669,7 @@ public class Matrix4d implements Externalizable {
      *            the distance from the center to the top frustum edge
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d ortho2D(double left, double right, double bottom, double top, Matrix4d dest) {
         // calculate right matrix elements
@@ -4563,7 +4697,7 @@ public class Matrix4d implements Externalizable {
         dest.m22 = -m22;
         dest.m23 = -m23;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -4698,7 +4832,7 @@ public class Matrix4d implements Externalizable {
      *            the direction of 'up'
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d lookAlong(Vector3d dir, Vector3d up, Matrix4d dest) {
         return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
@@ -4737,25 +4871,25 @@ public class Matrix4d implements Externalizable {
      *              the z-coordinate of the up vector
      * @param dest
      *              will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d lookAlong(double dirX, double dirY, double dirZ,
                               double upX, double upY, double upZ, Matrix4d dest) {
         // Normalize direction
-        double dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX / dirLength;
-        double dirnY = dirY / dirLength;
-        double dirnZ = dirZ / dirLength;
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX * invDirLength;
+        double dirnY = dirY * invDirLength;
+        double dirnZ = dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirnZ - rightZ * dirnY;
         double upnY = rightZ * dirnX - rightX * dirnZ;
@@ -4800,7 +4934,7 @@ public class Matrix4d implements Externalizable {
         dest.m32 = m32;
         dest.m33 = m33;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -4895,20 +5029,20 @@ public class Matrix4d implements Externalizable {
     public Matrix4d setLookAlong(double dirX, double dirY, double dirZ,
                                  double upX, double upY, double upZ) {
         // Normalize direction
-        double dirLength = (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
-        double dirnX = dirX / dirLength;
-        double dirnY = dirY / dirLength;
-        double dirnZ = dirZ / dirLength;
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        double dirnX = dirX * invDirLength;
+        double dirnY = dirY * invDirLength;
+        double dirnZ = dirZ * invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirnY * upZ - dirnZ * upY;
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirnZ - rightZ * dirnY;
         double upnY = rightZ * dirnX - rightX * dirnZ;
@@ -5000,23 +5134,23 @@ public class Matrix4d implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        double dirLength = (float) Math.sqrt(
+        double invDirLength = 1.0 / Math.sqrt(
                   (eyeX - centerX) * (eyeX - centerX)
                 + (eyeY - centerY) * (eyeY - centerY)
                 + (eyeZ - centerZ) * (eyeZ - centerZ));
-        dirX /= dirLength;
-        dirY /= dirLength;
-        dirZ /= dirLength;
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirY * upZ - dirZ * upY;
         rightY = dirZ * upX - dirX * upZ;
         rightZ = dirX * upY - dirY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirZ - rightZ * dirY;
         double upnY = rightZ * dirX - rightX * dirZ;
@@ -5065,7 +5199,7 @@ public class Matrix4d implements Externalizable {
      *            the direction of 'up'
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d lookAt(Vector3d eye, Vector3d center, Vector3d up, Matrix4d dest) {
         return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, dest);
@@ -5133,7 +5267,7 @@ public class Matrix4d implements Externalizable {
      *              the z-coordinate of the up vector
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d lookAt(double eyeX, double eyeY, double eyeZ,
                            double centerX, double centerY, double centerZ,
@@ -5144,23 +5278,23 @@ public class Matrix4d implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        double dirLength = (float) Math.sqrt(
+        double invDirLength = 1.0 / Math.sqrt(
                   (eyeX - centerX) * (eyeX - centerX)
                 + (eyeY - centerY) * (eyeY - centerY)
                 + (eyeZ - centerZ) * (eyeZ - centerZ));
-        dirX /= dirLength;
-        dirY /= dirLength;
-        dirZ /= dirLength;
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
         // right = direction x up
         double rightX, rightY, rightZ;
         rightX = dirY * upZ - dirZ * upY;
         rightY = dirZ * upX - dirX * upZ;
         rightZ = dirX * upY - dirY * upX;
         // normalize right
-        double rightLength = Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX /= rightLength;
-        rightY /= rightLength;
-        rightZ /= rightLength;
+        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         double upnX = rightY * dirZ - rightZ * dirY;
         double upnY = rightZ * dirX - rightX * dirZ;
@@ -5209,7 +5343,7 @@ public class Matrix4d implements Externalizable {
         dest.m12 = nm12;
         dest.m13 = nm13;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -5281,7 +5415,7 @@ public class Matrix4d implements Externalizable {
      *            far clipping plane distance
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
         double h = Math.tan(fovy * 0.5) * zNear;
@@ -5315,7 +5449,7 @@ public class Matrix4d implements Externalizable {
         dest.m22 = nm22;
         dest.m23 = nm23;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -5425,7 +5559,7 @@ public class Matrix4d implements Externalizable {
      *            the distance along the z-axis to the far clipping plane
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
         // calculate right matrix elements
@@ -5462,7 +5596,7 @@ public class Matrix4d implements Externalizable {
         dest.m32 = m32;
         dest.m33 = m33;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -5543,118 +5677,6 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Return the specified {@link Matrix4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param other
-     *          the {@link Matrix4f} to return
-     * @return that matrix
-     */
-    public Matrix4f with(Matrix4f other) {
-        return other;
-    }
-
-    /**
-     * Return the specified {@link Matrix4d}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param other
-     *          the {@link Matrix4d} to return
-     * @return that matrix
-     */
-    public Matrix4d with(Matrix4d other) {
-        return other;
-    }
-
-    /**
-     * Return the specified {@link Vector3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector3f} to return
-     * @return that vector
-     */
-    public Vector3f with(Vector3f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Vector4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given vector.
-     * 
-     * @param v
-     *          the {@link Vector4f} to return
-     * @return that vector
-     */
-    public Vector4f with(Vector4f v) {
-        return v;
-    }
-
-    /**
-     * Return the specified {@link Quaternionf}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaternionf} to return
-     * @return that quaternion
-     */
-    public Quaternionf with(Quaternionf q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link Quaterniond}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given quaternion.
-     * 
-     * @param q
-     *          the {@link Quaterniond} to return
-     * @return that quaternion
-     */
-    public Quaterniond with(Quaterniond q) {
-        return q;
-    }
-
-    /**
-     * Return the specified {@link AxisAngle4f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given {@link AxisAngle4f}.
-     * 
-     * @param a
-     *          the {@link AxisAngle4f} to return
-     * @return that quaternion
-     */
-    public AxisAngle4f with(AxisAngle4f a) {
-        return a;
-    }
-
-    /**
-     * Return the specified {@link Matrix3f}.
-     * <p>
-     * When using method chaining in a fluent interface style, this method can be used to switch
-     * the <i>context object</i>, on which further method invocations operate, to be the given matrix.
-     * 
-     * @param m
-     *          the {@link Matrix3f} to return
-     * @return that matrix
-     */
-    public Matrix3f with(Matrix3f m) {
-        return m;
-    }
-
-    /**
      * Calculate a frustum plane of the this matrix, which
      * can be a projection matrix or a combined modelview-projection matrix, and store the result
      * in the given <code>planeEquation</code>.
@@ -5682,9 +5704,9 @@ public class Matrix4d implements Externalizable {
      * @param planeEquation
      *          will hold the computed plane equation.
      *          The plane equation will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector
-     * @return this
+     * @return planeEquation
      */
-    public Matrix4d frustumPlane(int plane, Vector4d planeEquation) {
+    public Vector4d frustumPlane(int plane, Vector4d planeEquation) {
         switch (plane) {
         case PLANE_NX:
             planeEquation.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
@@ -5707,7 +5729,7 @@ public class Matrix4d implements Externalizable {
         default:
             throw new IllegalArgumentException("plane"); //$NON-NLS-1$
         }
-        return this;
+        return planeEquation;
     }
 
     /**
@@ -5730,9 +5752,9 @@ public class Matrix4d implements Externalizable {
      *          {@link #CORNER_PXNYPZ}, {@link #CORNER_NXNYPZ}, {@link #CORNER_NXPYPZ}, {@link #CORNER_PXPYPZ}
      * @param point
      *          will hold the resulting corner point coordinates
-     * @return this
+     * @return point
      */
-    public Matrix4d frustumCorner(int corner, Vector3d point) {
+    public Vector3d frustumCorner(int corner, Vector3d point) {
         double d1, d2, d3;
         double n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
         switch (corner) {
@@ -5791,11 +5813,11 @@ public class Matrix4d implements Externalizable {
         c12x = n1y * n2z - n1z * n2y;
         c12y = n1z * n2x - n1x * n2z;
         c12z = n1x * n2y - n1y * n2x;
-        double dot = n1x * c23x + n1y * c23y + n1z * c23z;
-        point.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
-        point.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
-        point.z = (-c23z * d1 - c31z * d2 - c12z * d3) / dot;
-        return this;
+        double invDot = 1.0 / (n1x * c23x + n1y * c23y + n1z * c23z);
+        point.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
+        point.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
+        point.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
+        return point;
     }
 
     /**
@@ -5819,9 +5841,9 @@ public class Matrix4d implements Externalizable {
      * @param origin
      *          will hold the origin of the coordinate system before applying <code>this</code>
      *          perspective projection transformation
-     * @return this
+     * @return origin
      */
-    public Matrix4d perspectiveOrigin(Vector3d origin) {
+    public Vector3d perspectiveOrigin(Vector3d origin) {
         /*
          * Simply compute the intersection point of the left, right and top frustum plane.
          */
@@ -5842,11 +5864,11 @@ public class Matrix4d implements Externalizable {
         c12x = n1y * n2z - n1z * n2y;
         c12y = n1z * n2x - n1x * n2z;
         c12z = n1x * n2y - n1y * n2x;
-        double dot = n1x * c23x + n1y * c23y + n1z * c23z;
-        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) / dot;
-        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) / dot;
-        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) / dot;
-        return this;
+        double invDot = 1.0 / (n1x * c23x + n1y * c23y + n1z * c23z);
+        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
+        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
+        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
+        return origin;
     }
 
     /**
@@ -6278,9 +6300,9 @@ public class Matrix4d implements Externalizable {
      * @param dir
      *          will hold the normalized ray direction in the local frame of the coordinate system before 
      *          transforming to homogeneous clipping space using <code>this</code> matrix
-     * @return this
+     * @return dir
      */
-    public Matrix4d frustumRayDir(double x, double y, Vector3d dir) {
+    public Vector3d frustumRayDir(double x, double y, Vector3d dir) {
         /*
          * This method works by first obtaining the frustum plane normals,
          * then building the cross product to obtain the corner rays,
@@ -6303,7 +6325,7 @@ public class Matrix4d implements Externalizable {
         dir.y = m1y * (1.0 - x) + m2y * x;
         dir.z = m1z * (1.0 - x) + m2z * x;
         dir.normalize();
-        return this;
+        return dir;
     }
 
     /**
@@ -6317,14 +6339,14 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dir
      *          will hold the direction of <tt>+Z</tt>
-     * @return this
+     * @return dir
      */
-    public Matrix4d positiveZ(Vector3d dir) {
+    public Vector3d positiveZ(Vector3d dir) {
         dir.x = m10 * m21 - m11 * m20;
         dir.y = m20 * m01 - m21 * m00;
         dir.z = m00 * m11 - m01 * m10;
         dir.normalize();
-        return this;
+        return dir;
     }
 
     /**
@@ -6338,14 +6360,14 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dir
      *          will hold the direction of <tt>+X</tt>
-     * @return this
+     * @return dir
      */
-    public Matrix4d positiveX(Vector3d dir) {
+    public Vector3d positiveX(Vector3d dir) {
         dir.x = m11 * m22 - m12 * m21;
         dir.y = m02 * m21 - m01 * m22;
         dir.z = m01 * m12 - m02 * m11;
         dir.normalize();
-        return this;
+        return dir;
     }
 
     /**
@@ -6359,14 +6381,14 @@ public class Matrix4d implements Externalizable {
      * 
      * @param dir
      *          will hold the direction of <tt>+Y</tt>
-     * @return this
+     * @return dir
      */
-    public Matrix4d positiveY(Vector3d dir) {
+    public Vector3d positiveY(Vector3d dir) {
         dir.x = m12 * m20 - m10 * m22;
         dir.y = m00 * m22 - m02 * m20;
         dir.z = m02 * m10 - m00 * m12;
         dir.normalize();
-        return this;
+        return dir;
     }
 
     /**
@@ -6424,7 +6446,7 @@ public class Matrix4d implements Externalizable {
      *          the constant in the plane equation
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d shadow(Vector4d light, double a, double b, double c, double d, Matrix4d dest) {
         return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
@@ -6497,15 +6519,15 @@ public class Matrix4d implements Externalizable {
      *          the constant in the plane equation
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, double a, double b, double c, double d, Matrix4d dest) {
         // normalize plane
-        double planeLen = Math.sqrt(a*a + b*b + c*c);
-        double an = a / planeLen;
-        double bn = b / planeLen;
-        double cn = c / planeLen;
-        double dn = d / planeLen;
+        double invPlaneLen = 1.0 / Math.sqrt(a*a + b*b + c*c);
+        double an = a * invPlaneLen;
+        double bn = b * invPlaneLen;
+        double cn = c * invPlaneLen;
+        double dn = d * invPlaneLen;
 
         double dot = an * lightX + bn * lightY + cn * lightZ + dn * lightW;
 
@@ -6557,7 +6579,7 @@ public class Matrix4d implements Externalizable {
         dest.m22 = nm22;
         dest.m23 = nm23;
 
-        return this;
+        return dest;
     }
 
     /**
@@ -6580,7 +6602,7 @@ public class Matrix4d implements Externalizable {
      *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d shadow(Vector4d light, Matrix4d planeTransform, Matrix4d dest) {
         // compute plane equation by transforming (y = 0)
@@ -6640,7 +6662,7 @@ public class Matrix4d implements Externalizable {
      *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, Matrix4d planeTransform, Matrix4d dest) {
         // compute plane equation by transforming (y = 0)

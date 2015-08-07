@@ -470,9 +470,9 @@ public class Vector2f implements Externalizable {
      * @return this
      */
     public Vector2f normalize() {
-        float length = (float) Math.sqrt((x * x) + (y * y));
-        x /= length;
-        y /= length;
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
+        x *= invLength;
+        y *= invLength;
         return this;
     }
 
@@ -484,9 +484,9 @@ public class Vector2f implements Externalizable {
      * @return this
      */
     public Vector2f normalize(Vector2f dest) {
-        float length = (float) Math.sqrt((x * x) + (y * y));
-        dest.x = x / length;
-        dest.y = y / length;
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
+        dest.x = x * invLength;
+        dest.y = y * invLength;
         return this;
     }
 
