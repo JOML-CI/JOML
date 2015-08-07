@@ -2250,15 +2250,18 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotation(Quaternionf quat) {
-        float q00 = 2.0f * quat.x * quat.x;
-        float q11 = 2.0f * quat.y * quat.y;
-        float q22 = 2.0f * quat.z * quat.z;
-        float q01 = 2.0f * quat.x * quat.y;
-        float q02 = 2.0f * quat.x * quat.z;
-        float q03 = 2.0f * quat.x * quat.w;
-        float q12 = 2.0f * quat.y * quat.z;
-        float q13 = 2.0f * quat.y * quat.w;
-        float q23 = 2.0f * quat.z * quat.w;
+        float dqx = 2.0f * quat.x;
+        float dqy = 2.0f * quat.y;
+        float dqz = 2.0f * quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
 
         m00 = 1.0f - q11 - q22;
         m01 = q01 + q23;
@@ -2397,16 +2400,16 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f translationRotate(float tx, float ty, float tz, Quaternionf quat) {
-        float qx = 2.0f * quat.x, qy = 2.0f * quat.y, qz = 2.0f * quat.z;
-        float q00 = qx * quat.x;
-        float q11 = qy * quat.y;
-        float q22 = qz * quat.z;
-        float q01 = qx * quat.y;
-        float q02 = qx * quat.z;
-        float q03 = qx * quat.w;
-        float q12 = qy * quat.z;
-        float q13 = qy * quat.w;
-        float q23 = qz * quat.w;
+        float dqx = 2.0f * quat.x, dqy = 2.0f * quat.y, dqz = 2.0f * quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
         m00 = 1.0f - (q11 + q22);
         m01 = q01 + q23;
         m02 = q02 - q13;
@@ -2924,15 +2927,18 @@ public class Matrix4f implements Externalizable {
         // rotation matrix elements:
         // m30, m31, m32, m03, m13, m23 = 0
         // m33 = 1
-        float rm00 = x * x * C + c;
-        float rm01 = y * x * C + z * s;
-        float rm02 = z * x * C - y * s;
-        float rm10 = x * y * C - z * s;
-        float rm11 = y * y * C + c;
-        float rm12 = z * y * C + x * s;
-        float rm20 = x * z * C + y * s;
-        float rm21 = y * z * C - x * s;
-        float rm22 = z * z * C + c;
+        float xx = x * x, xy = x * y, xz = x * z;
+        float yy = y * y, yz = y * z;
+        float zz = z * z;
+        float rm00 = xx * C + c;
+        float rm01 = xy * C + z * s;
+        float rm02 = xz * C - y * s;
+        float rm10 = xy * C - z * s;
+        float rm11 = yy * C + c;
+        float rm12 = yz * C + x * s;
+        float rm20 = xz * C + y * s;
+        float rm21 = yz * C - x * s;
+        float rm22 = zz * C + c;
 
         // add temporaries for dependent values
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
@@ -4497,15 +4503,18 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotate(Quaternionf quat, Matrix4f dest) {
-        float q00 = 2.0f * quat.x * quat.x;
-        float q11 = 2.0f * quat.y * quat.y;
-        float q22 = 2.0f * quat.z * quat.z;
-        float q01 = 2.0f * quat.x * quat.y;
-        float q02 = 2.0f * quat.x * quat.z;
-        float q03 = 2.0f * quat.x * quat.w;
-        float q12 = 2.0f * quat.y * quat.z;
-        float q13 = 2.0f * quat.y * quat.w;
-        float q23 = 2.0f * quat.z * quat.w;
+        float dqx = 2.0f * quat.x;
+        float dqy = 2.0f * quat.y;
+        float dqz = 2.0f * quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
 
         float rm00 = 1.0f - q11 - q22;
         float rm01 = q01 + q23;
@@ -5255,18 +5264,19 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f reflect(float a, float b, float c, float d, Matrix4f dest) {
-        float rm00 = 1.0f - 2.0f * a * a;
-        float rm01 = -2.0f * a * b;
-        float rm02 = -2.0f * a * c;
-        float rm10 = -2.0f * a * b;
-        float rm11 = 1.0f - 2.0f * b * b;
-        float rm12 = -2.0f * b * c;
-        float rm20 = -2.0f * a * c;
-        float rm21 = -2.0f * b * c;
-        float rm22 = 1.0f - 2.0f * c * c;
-        float rm30 = -2.0f * a * d;
-        float rm31 = -2.0f * b * d;
-        float rm32 = -2.0f * c * d;
+        float da = 2.0f * a, db = 2.0f * b, dc = 2.0f * c, dd = 2.0f * d;
+        float rm00 = 1.0f - da * a;
+        float rm01 = -da * b;
+        float rm02 = -da * c;
+        float rm10 = -db * a;
+        float rm11 = 1.0f - db * b;
+        float rm12 = -db * c;
+        float rm20 = -dc * a;
+        float rm21 = -dc * b;
+        float rm22 = 1.0f - dc * c;
+        float rm30 = -dd * a;
+        float rm31 = -dd * b;
+        float rm32 = -dd * c;
 
         // matrix multiplication
         dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
@@ -5498,21 +5508,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f reflection(float a, float b, float c, float d) {
-        m00 = 1.0f - 2.0f * a * a;
-        m01 = -2.0f * a * b;
-        m02 = -2.0f * a * c;
+        float da = 2.0f * a, db = 2.0f * b, dc = 2.0f * c, dd = 2.0f * d;
+        m00 = 1.0f - da * a;
+        m01 = -da * b;
+        m02 = -da * c;
         m03 = 0.0f;
-        m10 = -2.0f * a * b;
-        m11 = 1.0f - 2.0f * b * b;
-        m12 = -2.0f * b * c;
+        m10 = -db * a;
+        m11 = 1.0f - db * b;
+        m12 = -db * c;
         m13 = 0.0f;
-        m20 = -2.0f * a * c;
-        m21 = -2.0f * b * c;
-        m22 = 1.0f - 2.0f * c * c;
+        m20 = -dc * a;
+        m21 = -dc * b;
+        m22 = 1.0f - dc * c;
         m23 = 0.0f;
-        m30 = -2.0f * a * d;
-        m31 = -2.0f * b * d;
-        m32 = -2.0f * c * d;
+        m30 = -dd * a;
+        m31 = -dd * b;
+        m32 = -dd * c;
         m33 = 1.0f;
         return this;
     }
