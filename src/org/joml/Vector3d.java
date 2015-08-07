@@ -1750,9 +1750,11 @@ public class Vector3d implements Externalizable {
      * @return dest
      */
     public Vector3d smoothStep(Vector3d v, double t, Vector3d dest) {
-        dest.x = Interpolate.smoothStep(x, v.x, t);
-        dest.y = Interpolate.smoothStep(y, v.y, t);
-        dest.z = Interpolate.smoothStep(x, v.z, t);
+        double t2 = t * t;
+        double t3 = t2 * t;
+        dest.x = (2.0 * x - 2.0 * v.x) * t3 + (3.0 * v.x - 3.0 * x) * t2 + x * t + x;
+        dest.y = (2.0 * y - 2.0 * v.y) * t3 + (3.0 * v.y - 3.0 * y) * t2 + y * t + y;
+        dest.z = (2.0 * z - 2.0 * v.z) * t3 + (3.0 * v.z - 3.0 * z) * t2 + z * t + z;
         return dest;
     }
 
@@ -1775,9 +1777,11 @@ public class Vector3d implements Externalizable {
      * @return dest
      */
     public Vector3d hermite(Vector3d t0, Vector3d v1, Vector3d t1, double t, Vector3d dest) {
-        dest.x = Interpolate.hermite(x, t0.x, v1.x, t1.x, t);
-        dest.y = Interpolate.hermite(y, t0.y, v1.y, t1.y, t);
-        dest.z = Interpolate.hermite(z, t0.z, v1.z, t1.z, t);
+        double t2 = t * t;
+        double t3 = t2 * t;
+        dest.x = (2.0 * x - 2.0 * v1.x + t1.x + t0.x) * t3 + (3.0 * v1.x - 3.0 * x - 2.0 * t0.x - t1.x) * t2 + x * t + x;
+        dest.y = (2.0 * y - 2.0 * v1.y + t1.y + t0.y) * t3 + (3.0 * v1.y - 3.0 * y - 2.0 * t0.y - t1.y) * t2 + y * t + y;
+        dest.z = (2.0 * z - 2.0 * v1.z + t1.z + t0.z) * t3 + (3.0 * v1.z - 3.0 * z - 2.0 * t0.z - t1.z) * t2 + z * t + z;
         return dest;
     }
 

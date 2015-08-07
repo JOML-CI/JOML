@@ -1278,10 +1278,12 @@ public class Vector4f implements Externalizable {
      * @return dest
      */
     public Vector4f smoothStep(Vector4f v, float t, Vector4f dest) {
-        dest.x = (float) Interpolate.smoothStep(x, v.x, t);
-        dest.y = (float) Interpolate.smoothStep(y, v.y, t);
-        dest.z = (float) Interpolate.smoothStep(x, v.z, t);
-        dest.w = (float) Interpolate.smoothStep(w, v.w, t);
+        float t2 = t * t;
+        float t3 = t2 * t;
+        dest.x = (2.0f * x - 2.0f * v.x) * t3 + (3.0f * v.x - 3.0f * x) * t2 + x * t + x;
+        dest.y = (2.0f * y - 2.0f * v.y) * t3 + (3.0f * v.y - 3.0f * y) * t2 + y * t + y;
+        dest.z = (2.0f * z - 2.0f * v.z) * t3 + (3.0f * v.z - 3.0f * z) * t2 + z * t + z;
+        dest.w = (2.0f * w - 2.0f * v.w) * t3 + (3.0f * v.w - 3.0f * w) * t2 + w * t + w;
         return dest;
     }
 
@@ -1303,11 +1305,13 @@ public class Vector4f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector4f hermite(Vector4f t0, Vector4f v1, Vector4f t1, double t, Vector4f dest) {
-        dest.x = (float) Interpolate.hermite(x, t0.x, v1.x, t1.x, t);
-        dest.y = (float) Interpolate.hermite(y, t0.y, v1.y, t1.y, t);
-        dest.z = (float) Interpolate.hermite(z, t0.z, v1.z, t1.z, t);
-        dest.w = (float) Interpolate.hermite(z, t0.w, v1.w, t1.w, t);
+    public Vector4f hermite(Vector4f t0, Vector4f v1, Vector4f t1, float t, Vector4f dest) {
+        float t2 = t * t;
+        float t3 = t2 * t;
+        dest.x = (2.0f * x - 2.0f * v1.x + t1.x + t0.x) * t3 + (3.0f * v1.x - 3.0f * x - 2.0f * t0.x - t1.x) * t2 + x * t + x;
+        dest.y = (2.0f * y - 2.0f * v1.y + t1.y + t0.y) * t3 + (3.0f * v1.y - 3.0f * y - 2.0f * t0.y - t1.y) * t2 + y * t + y;
+        dest.z = (2.0f * z - 2.0f * v1.z + t1.z + t0.z) * t3 + (3.0f * v1.z - 3.0f * z - 2.0f * t0.z - t1.z) * t2 + z * t + z;
+        dest.w = (2.0f * w - 2.0f * v1.w + t1.w + t0.w) * t3 + (3.0f * v1.w - 3.0f * w - 2.0f * t0.w - t1.w) * t2 + w * t + w;
         return dest;
     }
 

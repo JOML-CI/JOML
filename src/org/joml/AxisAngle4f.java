@@ -288,11 +288,10 @@ public class AxisAngle4f implements Externalizable {
      * 
      * @param q
      *          the quaternion to set
-     * @return this
+     * @return q
      */
-    public AxisAngle4f get(Quaternionf q) {
-        q.set(this);
-        return this;
+    public Quaternionf get(Quaternionf q) {
+        return q.set(this);
     }
 
     /**
