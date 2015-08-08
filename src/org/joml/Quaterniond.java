@@ -1113,19 +1113,12 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond nlerp(Quaterniond q, double factor, Quaterniond dest) {
-        double dot = this.dot(q);
-        double blendI = 1.0 - factor;
-        if (dot < 0.0) {
-            dest.w = blendI * w + factor * -q.w;
-            dest.x = blendI * x + factor * -q.x;
-            dest.y = blendI * y + factor * -q.y;
-            dest.z = blendI * z + factor * -q.z;
-        } else {
-            dest.w = blendI * w + factor * q.w;
-            dest.x = blendI * x + factor * q.x;
-            dest.y = blendI * y + factor * q.y;
-            dest.z = blendI * z + factor * q.z;
-        }
+        double t0 = 1.0 - factor;
+        double t1 = factor;
+        dest.w = t0 * w + t1 * q.w;
+        dest.x = t0 * x + t1 * q.x;
+        dest.y = t0 * y + t1 * q.y;
+        dest.z = t0 * z + t1 * q.z;
         dest.normalize();
         return dest;
     }

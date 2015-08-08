@@ -1251,19 +1251,12 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Quaternionf nlerp(Quaternionf q, float factor, Quaternionf dest) {
-        float dot = this.dot(q);
-        float blendI = 1.0f - factor;
-        if (dot < 0.0f) {
-            dest.w = blendI * w + factor * -q.w;
-            dest.x = blendI * x + factor * -q.x;
-            dest.y = blendI * y + factor * -q.y;
-            dest.z = blendI * z + factor * -q.z;
-        } else {
-            dest.w = blendI * w + factor * q.w;
-            dest.x = blendI * x + factor * q.x;
-            dest.y = blendI * y + factor * q.y;
-            dest.z = blendI * z + factor * q.z;
-        }
+        float t0 = 1.0f - factor;
+        float t1 = factor;
+        dest.w = t0 * w + t1 * q.w;
+        dest.x = t0 * x + t1 * q.x;
+        dest.y = t0 * y + t1 * q.y;
+        dest.z = t0 * z + t1 * q.z;
         dest.normalize();
         return dest;
     }
