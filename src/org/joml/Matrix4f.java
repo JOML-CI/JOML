@@ -1747,7 +1747,7 @@ public class Matrix4f implements Externalizable {
      *          the 3x3 matrix
      * @return this
      */
-    public Matrix4f setMatrix3(Matrix3f mat) {
+    public Matrix4f set3x3(Matrix3f mat) {
         m00 = mat.m00;
         m01 = mat.m01;
         m02 = mat.m02;
