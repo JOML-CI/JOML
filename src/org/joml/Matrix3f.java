@@ -1130,15 +1130,18 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f rotation(Quaternionf quat) {
-        float q00 = 2.0f * quat.x * quat.x;
-        float q11 = 2.0f * quat.y * quat.y;
-        float q22 = 2.0f * quat.z * quat.z;
-        float q01 = 2.0f * quat.x * quat.y;
-        float q02 = 2.0f * quat.x * quat.z;
-        float q03 = 2.0f * quat.x * quat.w;
-        float q12 = 2.0f * quat.y * quat.z;
-        float q13 = 2.0f * quat.y * quat.w;
-        float q23 = 2.0f * quat.z * quat.w;
+        float dqx = 2.0f * quat.x;
+        float dqy = 2.0f * quat.y;
+        float dqz = 2.0f * quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
 
         m00 = 1.0f - q11 - q22;
         m01 = q01 + q23;

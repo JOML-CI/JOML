@@ -1261,15 +1261,18 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d rotation(Quaterniond quat) {
-        double q00 = 2.0 * quat.x * quat.x;
-        double q11 = 2.0 * quat.y * quat.y;
-        double q22 = 2.0 * quat.z * quat.z;
-        double q01 = 2.0 * quat.x * quat.y;
-        double q02 = 2.0 * quat.x * quat.z;
-        double q03 = 2.0 * quat.x * quat.w;
-        double q12 = 2.0 * quat.y * quat.z;
-        double q13 = 2.0 * quat.y * quat.w;
-        double q23 = 2.0 * quat.z * quat.w;
+        double dqx = 2.0f * quat.x;
+        double dqy = 2.0f * quat.y;
+        double dqz = 2.0f * quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
 
         m00 = 1.0 - q11 - q22;
         m01 = q01 + q23;
