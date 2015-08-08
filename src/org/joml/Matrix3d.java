@@ -554,15 +554,15 @@ public class Matrix3d implements Externalizable {
         double s = determinant();
         // client must make sure that matrix is invertible
         s = 1.0 / s;
-        dest.set( ((m11 * m22) - (m21 * m12)) * s,
-                 -((m01 * m22) - (m21 * m02)) * s,
-                  ((m01 * m12) - (m11 * m02)) * s,
-                 -((m10 * m22) - (m20 * m12)) * s,
-                  ((m00 * m22) - (m20 * m02)) * s,
-                 -((m00 * m12) - (m10 * m02)) * s,
-                  ((m10 * m21) - (m20 * m11)) * s,
-                 -((m00 * m21) - (m20 * m01)) * s,
-                  ((m00 * m11) - (m10 * m01)) * s);
+        dest.set( (m11 * m22 - m21 * m12) * s,
+                 -(m01 * m22 - m21 * m02) * s,
+                  (m01 * m12 - m11 * m02) * s,
+                 -(m10 * m22 - m20 * m12) * s,
+                  (m00 * m22 - m20 * m02) * s,
+                 -(m00 * m12 - m10 * m02) * s,
+                  (m10 * m21 - m20 * m11) * s,
+                 -(m00 * m21 - m20 * m01) * s,
+                  (m00 * m11 - m10 * m01) * s);
         return dest;
     }
 

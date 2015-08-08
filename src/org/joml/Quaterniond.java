@@ -740,17 +740,10 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond mul(Quaterniond q, Quaterniond dest) {
-        if (this != dest && q != dest) {
-            dest.x = w * q.x + x * q.w + y * q.z - z * q.y;
-            dest.y = w * q.y - x * q.z + y * q.w + z * q.x;
-            dest.z = w * q.z + x * q.y - y * q.x + z * q.w;
-            dest.w = w * q.w - x * q.x - y * q.y - z * q.z;
-        } else {
-            dest.set(w * q.x + x * q.w + y * q.z - z * q.y,
-                     w * q.y - x * q.z + y * q.w + z * q.x,
-                     w * q.z + x * q.y - y * q.x + z * q.w,
-                     w * q.w - x * q.x - y * q.y - z * q.z);
-        }
+        dest.set(w * q.x + x * q.w + y * q.z - z * q.y,
+                 w * q.y - x * q.z + y * q.w + z * q.x,
+                 w * q.z + x * q.y - y * q.x + z * q.w,
+                 w * q.w - x * q.x - y * q.y - z * q.z);
         return dest;
     }
 
