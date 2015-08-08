@@ -243,13 +243,13 @@ public class Vector2f implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2f normalize(Vector2f dest) {
         float length = (float) Math.sqrt((x * x) + (y * y));
         dest.x = x / length;
         dest.y = y / length;
-        return this;
+        return dest;
     }
 
     /**
@@ -318,12 +318,12 @@ public class Vector2f implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2f negate(Vector2f dest) {
         dest.x = -x;
         dest.y = -y;
-        return this;
+        return dest;
     }
 
     /**
@@ -346,12 +346,12 @@ public class Vector2f implements Externalizable {
      *          the value to multiply this vector's components by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2f mul(float scalar, Vector2f dest) {
         dest.x *= scalar;
         dest.y *= scalar;
-        return this;
+        return dest;
     }
 
     /**
@@ -376,14 +376,14 @@ public class Vector2f implements Externalizable {
      *          the matrix to multiply this vector by
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Vector2f mul(Matrix3f m, Vector2f dest) {
         float x = this.x * m.m00 + this.y * m.m10 + m.m20;
         float y = this.x * m.m01 + this.y * m.m11 + m.m21;
         dest.x = x;
         dest.y = y;
-        return this;
+        return dest;
     }
 
     public int hashCode() {

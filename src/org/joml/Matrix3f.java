@@ -160,31 +160,19 @@ public class Matrix3f implements Externalizable {
      *          the right operand of the matrix multiplication
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f mul(Matrix3f right, Matrix3f dest) {
-        if (this != dest && right != dest) {
-            dest.m00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
-            dest.m01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
-            dest.m02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
-            dest.m10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
-            dest.m11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
-            dest.m12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
-            dest.m20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
-            dest.m21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
-            dest.m22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
-        } else {
-            dest.set( m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
-                      m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
-                      m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
-                      m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
-                      m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
-                      m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
-                      m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
-                      m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
-                      m02 * right.m20 + m12 * right.m21 + m22 * right.m22 );
-        }
-        return this;
+        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
+                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
+                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
+                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
+                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
+                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
+                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
+                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
+                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22);
+        return dest;
     }
 
     /**
@@ -283,36 +271,21 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f invert(Matrix3f dest) {
         float s = determinant();
-        if (s == 0.0f) {
-            return this;
-        }
         s = 1.0f / s;
-        if (this != dest) {
-            dest.m00 =  ((m11 * m22) - (m21 * m12)) * s;
-            dest.m01 = -((m01 * m22) - (m21 * m02)) * s;
-            dest.m02 =  ((m01 * m12) - (m11 * m02)) * s;
-            dest.m10 = -((m10 * m22) - (m20 * m12)) * s;
-            dest.m11 =  ((m00 * m22) - (m20 * m02)) * s;
-            dest.m12 = -((m00 * m12) - (m10 * m02)) * s;
-            dest.m20 =  ((m10 * m21) - (m20 * m11)) * s;
-            dest.m21 = -((m00 * m21) - (m20 * m01)) * s;
-            dest.m22 =  ((m00 * m11) - (m10 * m01)) * s;
-        } else {
-            dest.set( ((m11 * m22) - (m21 * m12)) * s,
-                     -((m01 * m22) - (m21 * m02)) * s,
-                      ((m01 * m12) - (m11 * m02)) * s,
-                     -((m10 * m22) - (m20 * m12)) * s,
-                      ((m00 * m22) - (m20 * m02)) * s,
-                     -((m00 * m12) - (m10 * m02)) * s,
-                      ((m10 * m21) - (m20 * m11)) * s,
-                     -((m00 * m21) - (m20 * m01)) * s,
-                      ((m00 * m11) - (m10 * m01)) * s);
-        }
-        return this;
+        dest.set( (m11 * m22 - m21 * m12) * s,
+                 -(m01 * m22 - m21 * m02) * s,
+                  (m01 * m12 - m11 * m02) * s,
+                 -(m10 * m22 - m20 * m12) * s,
+                  (m00 * m22 - m20 * m02) * s,
+                 -(m00 * m12 - m10 * m02) * s,
+                  (m10 * m21 - m20 * m11) * s,
+                 -(m00 * m21 - m20 * m01) * s,
+                  (m00 * m11 - m10 * m01) * s);
+        return dest;
     }
 
     /**
@@ -329,25 +302,13 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *             will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f transpose(Matrix3f dest) {
-        if (this != dest) {
-            dest.m00 = m00;
-            dest.m01 = m10;
-            dest.m02 = m20;
-            dest.m10 = m01;
-            dest.m11 = m11;
-            dest.m12 = m21;
-            dest.m20 = m02;
-            dest.m21 = m12;
-            dest.m22 = m22;
-        } else {
-            dest.set(m00, m10, m20,
-                     m01, m11, m21,
-                     m02, m12, m22);
-        }
-        return this;
+        dest.set(m00, m10, m20,
+                 m01, m11, m21,
+                 m02, m12, m22);
+        return dest;
     }
 
     /**
@@ -468,7 +429,7 @@ public class Matrix3f implements Externalizable {
      *          the offset to translate in y
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f translate(float x, float y, Matrix3f dest) {
         float rm20 = x;
@@ -482,7 +443,7 @@ public class Matrix3f implements Externalizable {
         dest.m10 = m10;
         dest.m11 = m11;
         dest.m12 = m12;
-        return this;
+        return dest;
     }
 
     /**
@@ -526,7 +487,7 @@ public class Matrix3f implements Externalizable {
      *          the offset to translate
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f translate(Vector2f offset, Matrix3f dest) {
         return translate(offset.x, offset.y, dest);
@@ -589,11 +550,10 @@ public class Matrix3f implements Externalizable {
      * 
      * @param dest
      *          the destination matrix
-     * @return this
+     * @return dest
      */
     public Matrix3f get(Matrix3f dest) {
-        dest.set(this);
-        return this;
+        return dest.set(this);
     }
 
     /**
@@ -610,9 +570,9 @@ public class Matrix3f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return this
+     * @return buffer
      */
-    public Matrix3f get(FloatBuffer buffer) {
+    public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -626,9 +586,9 @@ public class Matrix3f implements Externalizable {
      *            the absolute position into the FloatBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return this
+     * @return buffer
      */
-    public Matrix3f get(int index, FloatBuffer buffer) {
+    public FloatBuffer get(int index, FloatBuffer buffer) {
         buffer.put(index, m00);
         buffer.put(index+1, m01);
         buffer.put(index+2, m02);
@@ -638,7 +598,7 @@ public class Matrix3f implements Externalizable {
         buffer.put(index+6, m20);
         buffer.put(index+7, m21);
         buffer.put(index+8, m22);
-        return this;
+        return buffer;
     }
 
     /**
@@ -655,9 +615,9 @@ public class Matrix3f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return this
+     * @return buffer
      */
-    public Matrix3f get(ByteBuffer buffer) {
+    public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
@@ -671,9 +631,9 @@ public class Matrix3f implements Externalizable {
      *            the absolute position into the ByteBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return this
+     * @return buffer
      */
-    public Matrix3f get(int index, ByteBuffer buffer) {
+    public ByteBuffer get(int index, ByteBuffer buffer) {
         buffer.putFloat(index, m00);
         buffer.putFloat(index+4, m01);
         buffer.putFloat(index+8, m02);
@@ -683,7 +643,7 @@ public class Matrix3f implements Externalizable {
         buffer.putFloat(index+24, m20);
         buffer.putFloat(index+28, m21);
         buffer.putFloat(index+32, m22);
-        return this;
+        return buffer;
     }
 
     /**
@@ -787,7 +747,7 @@ public class Matrix3f implements Externalizable {
      *            the factor of the y component
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f scale(float x, float y, Matrix3f dest) {
         // scale matrix elements:
@@ -802,7 +762,7 @@ public class Matrix3f implements Externalizable {
         dest.m20 = m20;
         dest.m21 = m21;
         dest.m22 = m22;
-        return this;
+        return dest;
     }
 
     /**
@@ -836,7 +796,7 @@ public class Matrix3f implements Externalizable {
      *            the factor for the two components
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f scale(float xy, Matrix3f dest) {
         return scale(xy, xy, dest);
@@ -957,11 +917,11 @@ public class Matrix3f implements Externalizable {
      *          the vector to transform
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
-    public Matrix3f transform(Vector2f v, Vector2f dest) {
+    public Vector2f transform(Vector2f v, Vector2f dest) {
         v.mul(this, dest);
-        return this;
+        return dest;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -1016,7 +976,7 @@ public class Matrix3f implements Externalizable {
      *            the angle in radians
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f rotate(float ang, Matrix3f dest) {
         float cos = (float) Math.cos(ang);
@@ -1041,7 +1001,7 @@ public class Matrix3f implements Externalizable {
         dest.m20 = m20;
         dest.m21 = m21;
         dest.m22 = m22;
-        return this;
+        return dest;
     }
 
     /**
@@ -1058,7 +1018,7 @@ public class Matrix3f implements Externalizable {
      *            the normalized destination direction
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f rotateTo(Vector2f fromDir, Vector2f toDir, Matrix3f dest) {
         float dot = fromDir.x * toDir.x + fromDir.y * toDir.y;
@@ -1079,7 +1039,7 @@ public class Matrix3f implements Externalizable {
         dest.m20 = m20;
         dest.m21 = m21;
         dest.m22 = m22;
-        return this;
+        return dest;
     }
 
     /**
@@ -1121,7 +1081,7 @@ public class Matrix3f implements Externalizable {
      *            the distance from the center to the top view edge
      * @param dest
      *            will hold the result
-     * @return this
+     * @return dest
      */
     public Matrix3f view(float left, float right, float bottom, float top, Matrix3f dest) {
         // calculate right matrix elements
@@ -1143,7 +1103,7 @@ public class Matrix3f implements Externalizable {
         dest.m11 = m11 * rm11;
         dest.m12 = m12 * rm11;
 
-        return this;
+        return dest;
     }
 
     /**
