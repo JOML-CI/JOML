@@ -414,29 +414,27 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Set this quaternion to be a representation of the supplied axis and
+     * Set this quaternion to a rotation equivalent to the supplied axis and
      * angle (in radians).
+     * <p>
+     * This method assumes that the given rotation axis <tt>(x, y, z)</tt> is already normalized
      * 
      * @param angle
      *          the angle in radians
-     * @param axisX
-     *          the x-coordinate of the rotation axis
-     * @param axisY
-     *          the y-coordinate of the rotation axis
-     * @param axisZ
-     *          the z-coordinate of the rotation axis
+     * @param x
+     *          the x-component of the normalized rotation axis
+     * @param y
+     *          the y-component of the normalized rotation axis
+     * @param z
+     *          the z-component of the normalized rotation axis
      * @return this
      */
-    public Quaterniond setAngleAxis(double angle, double axisX, double axisY, double axisZ) {
-        double hangle = angle / 2.0;
-        double sinAngle = Math.sin(hangle);
-        double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-
-        x = axisX / vLength * sinAngle;
-        y = axisY / vLength * sinAngle;
-        z = axisZ / vLength * sinAngle;
-        w = Math.cos(hangle);
-
+    public Quaterniond setAngleAxis(double angle, double x, double y, double z) {
+        double s = Math.sin(angle * 0.5);
+        this.x = x * s;
+        this.y = y * s;
+        this.z = z * s;
+        this.w = Math.cos(angle * 0.5);
         return this;
     }
 
@@ -995,10 +993,14 @@ public class Quaterniond implements Externalizable {
         double sz = Math.sin(rotationAboutZ * 0.5);
         double cz = Math.cos(rotationAboutZ * 0.5);
 
-        x = cx*cy*cz + sx*sy*sz;
-        y = sx*cy*cz - cx*sy*sz;
-        z = cx*sy*cz + sx*cy*sz;
-        w = cx*cy*sz - sx*sy*cz;
+        double cycz = cy * cz;
+        double sysz = sy * sz;
+        double sycz = sy * cz;
+        double cysz = cy * sz;
+        x = cx*cycz + sx*sysz;
+        y = sx*cycz - cx*sysz;
+        z = cx*sycz + sx*cysz;
+        w = cx*cysz - sx*sycz;
 
         return this;
     }
@@ -1025,10 +1027,14 @@ public class Quaterniond implements Externalizable {
         double sz = Math.sin(rotationAboutZ * 0.5);
         double cz = Math.cos(rotationAboutZ * 0.5);
 
-        x = cx*cy*cz - sx*sy*sz;
-        y = sx*cy*cz + cx*sy*sz;
-        z = cx*sy*cz - sx*cy*sz;
-        w = cx*cy*sz + sx*sy*cz;
+        double cycz = cy * cz;
+        double sysz = sy * sz;
+        double sycz = sy * cz;
+        double cysz = cy * sz;
+        x = cx*cycz - sx*sysz;
+        y = sx*cycz + cx*sysz;
+        z = cx*sycz - sx*cysz;
+        w = cx*cysz + sx*sycz;
 
         return this;
     }

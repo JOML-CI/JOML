@@ -456,24 +456,25 @@ public class Quaternionf implements Externalizable {
     /**
      * Set this quaternion to a rotation equivalent to the supplied axis and
      * angle (in radians).
+     * <p>
+     * This method assumes that the given rotation axis <tt>(x, y, z)</tt> is already normalized
      * 
      * @param angle
      *          the angle in radians
      * @param x
-     *          the x-component of the rotation axis
+     *          the x-component of the normalized rotation axis
      * @param y
-     *          the y-component of the rotation axis
+     *          the y-component of the normalized rotation axis
      * @param z
-     *          the z-component of the rotation axis
+     *          the z-component of the normalized rotation axis
      * @return this
      */
     public Quaternionf setAngleAxis(float angle, float x, float y, float z) {
-        double angleR = angle;
-        double s = Math.sin(angleR / 2.0);
+        double s = Math.sin(angle * 0.5);
         this.x = (float) (x * s);
         this.y = (float) (y * s);
         this.z = (float) (z * s);
-        this.w = (float) Math.cos(angleR / 2.0);
+        this.w = (float) Math.cos(angle * 0.5);
         return this;
     }
 
@@ -1134,10 +1135,14 @@ public class Quaternionf implements Externalizable {
         float sz = (float) Math.sin(rotationAboutZ * 0.5f);
         float cz = (float) Math.cos(rotationAboutZ * 0.5f);
 
-        x = cx*cy*cz + sx*sy*sz;
-        y = sx*cy*cz - cx*sy*sz;
-        z = cx*sy*cz + sx*cy*sz;
-        w = cx*cy*sz - sx*sy*cz;
+        float cycz = cy * cz;
+        float sysz = sy * sz;
+        float sycz = sy * cz;
+        float cysz = cy * sz;
+        x = cx*cycz + sx*sysz;
+        y = sx*cycz - cx*sysz;
+        z = cx*sycz + sx*cysz;
+        w = cx*cysz - sx*sycz;
 
         return this;
     }
@@ -1163,10 +1168,14 @@ public class Quaternionf implements Externalizable {
         float sz = (float) Math.sin(rotationAboutZ * 0.5f);
         float cz = (float) Math.cos(rotationAboutZ * 0.5f);
 
-        x = cx*cy*cz - sx*sy*sz;
-        y = sx*cy*cz + cx*sy*sz;
-        z = cx*sy*cz - sx*cy*sz;
-        w = cx*cy*sz + sx*sy*cz;
+        float cycz = cy * cz;
+        float sysz = sy * sz;
+        float sycz = sy * cz;
+        float cysz = cy * sz;
+        x = cx*cycz - sx*sysz;
+        y = sx*cycz + cx*sysz;
+        z = cx*sycz - sx*cysz;
+        w = cx*cysz + sx*sycz;
 
         return this;
     }
