@@ -5549,7 +5549,7 @@ public class Matrix4f implements Externalizable {
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
-     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
      * In that case, use {@link #set3x3(Matrix4f)} to set a given Matrix4f to only the upper left 3x3 submatrix
      * of this matrix.
      * 
@@ -5586,7 +5586,7 @@ public class Matrix4f implements Externalizable {
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
-     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
      * In that case, use {@link #set(Matrix3f)} to set a given Matrix3f to only the upper left 3x3 submatrix
      * of this matrix.
      * 

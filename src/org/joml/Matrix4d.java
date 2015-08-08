@@ -3243,7 +3243,7 @@ public class Matrix4d implements Externalizable {
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
-     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
      * In that case, use {@link #set3x3(Matrix4d)} to set a given Matrix4d to only the upper left 3x3 submatrix
      * of a given matrix.
      * 
@@ -3280,7 +3280,7 @@ public class Matrix4d implements Externalizable {
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
-     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
      * In that case, use {@link #set(Matrix3d)} to set a given Matrix3d to only the upper left 3x3 submatrix
      * of this matrix.
      * 

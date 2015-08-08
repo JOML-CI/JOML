@@ -1874,7 +1874,7 @@ public class Matrix3d implements Externalizable {
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
-     * then this method need to be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
      * In this case, use {@link #set(Matrix3d)} to set a given Matrix3d to this matrix.
      * 
      * @see #set(Matrix3d)
