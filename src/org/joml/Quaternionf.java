@@ -889,11 +889,11 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Return the length of this quaternion.
+     * Return the square of the length of this quaternion.
      * 
-     * @return the length
+     * @return the square length
      */
-    public float length() {
+    public float lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
 
