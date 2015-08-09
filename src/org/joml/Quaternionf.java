@@ -1139,10 +1139,10 @@ public class Quaternionf implements Externalizable {
         float sysz = sy * sz;
         float sycz = sy * cz;
         float cysz = cy * sz;
-        x = cx*cycz + sx*sysz;
-        y = sx*cycz - cx*sysz;
-        z = cx*sycz + sx*cysz;
-        w = cx*cysz - sx*sycz;
+        w = cx*cycz + sx*sysz;
+        x = sx*cycz - cx*sysz;
+        y = cx*sycz + sx*cysz;
+        z = cx*cysz - sx*sycz;
 
         return this;
     }
@@ -1172,10 +1172,10 @@ public class Quaternionf implements Externalizable {
         float sysz = sy * sz;
         float sycz = sy * cz;
         float cysz = cy * sz;
-        x = cx*cycz - sx*sysz;
-        y = sx*cycz + cx*sysz;
-        z = cx*sycz - sx*cysz;
-        w = cx*cysz + sx*sycz;
+        w = cx*cycz - sx*sysz;
+        x = sx*cycz + cx*sysz;
+        y = cx*sycz - sx*cysz;
+        z = cx*cysz + sx*sycz;
 
         return this;
     }
