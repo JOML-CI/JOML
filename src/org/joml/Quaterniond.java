@@ -963,11 +963,11 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Return the length of this quaternion.
+     * Return the square of the length of this quaternion.
      * 
      * @return the length
      */
-    public double length() {
+    public double lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
 
