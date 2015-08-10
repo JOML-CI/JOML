@@ -333,6 +333,28 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Reset this matrix to the identity.
+     * <p>
+     * Please note that if a call to {@link #identity()} is immediately followed by a call to:
+     * {@link #translate(float, float, float) translate}, 
+     * {@link #rotate(float, float, float, float) rotate},
+     * {@link #scale(float, float, float) scale},
+     * {@link #perspective(float, float, float, float) perspective},
+     * {@link #frustum(float, float, float, float, float, float) frustum},
+     * {@link #ortho(float, float, float, float, float, float) ortho},
+     * {@link #ortho2D(float, float, float, float) ortho2D},
+     * {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt},
+     * {@link #lookAlong(float, float, float, float, float, float) lookAlong},
+     * or any of their overloads, then the call to {@link #identity()} can be omitted and the subsequent call replaced with:
+     * {@link #translation(float, float, float) translation},
+     * {@link #rotation(float, float, float, float) rotation},
+     * {@link #scaling(float, float, float) scaling},
+     * {@link #setPerspective(float, float, float, float) setPerspective},
+     * {@link #setFrustum(float, float, float, float, float, float) setFrustum},
+     * {@link #setOrtho(float, float, float, float, float, float) setOrtho},
+     * {@link #setOrtho2D(float, float, float, float) setOrtho2D},
+     * {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt},
+     * {@link #setLookAlong(float, float, float, float, float, float) setLookAlong},
+     * or any of their overloads.
      * 
      * @return this
      */

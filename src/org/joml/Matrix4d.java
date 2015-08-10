@@ -328,6 +328,28 @@ public class Matrix4d implements Externalizable {
     
     /**
      * Reset this matrix to the identity.
+     * <p>
+     * Please note that if a call to {@link #identity()} is immediately followed by a call to:
+     * {@link #translate(double, double, double) translate}, 
+     * {@link #rotate(double, double, double, double) rotate},
+     * {@link #scale(double, double, double) scale},
+     * {@link #perspective(double, double, double, double) perspective},
+     * {@link #frustum(double, double, double, double, double, double) frustum},
+     * {@link #ortho(double, double, double, double, double, double) ortho},
+     * {@link #ortho2D(double, double, double, double) ortho2D},
+     * {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt},
+     * {@link #lookAlong(double, double, double, double, double, double) lookAlong},
+     * or any of their overloads, then the call to {@link #identity()} can be omitted and the subsequent call replaced with:
+     * {@link #translation(double, double, double) translation},
+     * {@link #rotation(double, double, double, double) rotation},
+     * {@link #scaling(double, double, double) scaling},
+     * {@link #setPerspective(double, double, double, double) setPerspective},
+     * {@link #setFrustum(double, double, double, double, double, double) setFrustum},
+     * {@link #setOrtho(double, double, double, double, double, double) setOrtho},
+     * {@link #setOrtho2D(double, double, double, double) setOrtho2D},
+     * {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt},
+     * {@link #setLookAlong(double, double, double, double, double, double) setLookAlong},
+     * or any of their overloads.
      * 
      * @return this
      */
