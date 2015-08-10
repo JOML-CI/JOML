@@ -130,8 +130,22 @@ public class Matrix4f implements Externalizable {
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
      */
     public Matrix4f() {
-        super();
-        identity();
+        m00 = 1.0f;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 1.0f;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = 1.0f;
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
     }
 
     /**
@@ -998,8 +1012,8 @@ public class Matrix4f implements Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      * <p>
-     * If you want to post-multiply a translation transformation directly to a
-     * matrix, you can use {@link #translate(float, float, float) translate()} instead.
+     * In order to post-multiply a translation transformation directly to a
+     * matrix, use {@link #translate(float, float, float) translate()} instead.
      * 
      * @see #translate(float, float, float)
      * 
@@ -1037,8 +1051,8 @@ public class Matrix4f implements Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional translation.
      * <p>
-     * If you want to post-multiply a translation transformation directly to a
-     * matrix, you can use {@link #translate(Vector3f) translate()} instead.
+     * In order to post-multiply a translation transformation directly to a
+     * matrix, use {@link #translate(Vector3f) translate()} instead.
      * 
      * @see #translate(float, float, float)
      * 
@@ -1176,8 +1190,8 @@ public class Matrix4f implements Externalizable {
      * This method will not increment the position of the given
      * FloatBuffer.
      * <p>
-     * If you want to specify the offset into the FloatBuffer at which
-     * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #get(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      * 
      * @see #get(int, FloatBuffer)
@@ -1229,8 +1243,8 @@ public class Matrix4f implements Externalizable {
      * This method will not increment the position of the given
      * ByteBuffer.
      * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      * 
      * @see #get(int, ByteBuffer)
@@ -1281,8 +1295,8 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method will not increment the position of the given FloatBuffer.
      * <p>
-     * If you want to specify the offset into the FloatBuffer at which
-     * the matrix is stored, you can use {@link #getTransposed(int, FloatBuffer)}, taking
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      * 
      * @see #getTransposed(int, FloatBuffer)
@@ -1333,8 +1347,8 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the matrix is stored, you can use {@link #getTransposed(int, ByteBuffer)}, taking
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      * 
      * @see #getTransposed(int, ByteBuffer)
@@ -1439,8 +1453,8 @@ public class Matrix4f implements Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional scaling.
      * <p>
-     * If you want to post-multiply a scaling transformation directly to a
-     * matrix, you can use {@link #scale(float) scale()} instead.
+     * In order to post-multiply a scaling transformation directly to a
+     * matrix, use {@link #scale(float) scale()} instead.
      * 
      * @see #scale(float)
      * 
@@ -1474,8 +1488,8 @@ public class Matrix4f implements Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional scaling.
      * <p>
-     * If you want to post-multiply a scaling transformation directly to a
-     * matrix, you can use {@link #scale(float, float, float) scale()} instead.
+     * In order to post-multiply a scaling transformation directly to a
+     * matrix, use {@link #scale(float, float, float) scale()} instead.
      * 
      * @see #scale(float, float, float)
      * 
@@ -1532,8 +1546,8 @@ public class Matrix4f implements Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
-     * If you want to post-multiply a rotation transformation directly to a
-     * matrix, you can use {@link #rotate(float, Vector3f) rotate()} instead.
+     * In order to post-multiply a rotation transformation directly to a
+     * matrix, use {@link #rotate(float, Vector3f) rotate()} instead.
      * 
      * @see #rotate(float, Vector3f)
      * 
@@ -3187,9 +3201,8 @@ public class Matrix4f implements Externalizable {
      * Set this matrix to be a "lookat" transformation for a right-handed coordinate system, that aligns
      * <code>-z</code> with <code>center - eye</code>.
      * <p>
-     * If you do not want to use {@link Vector3f} instances but simple floats
-     * like in the GLU function, you can use
-     * {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt()}
+     * In order to not make use of vectors to specify <code>eye</code>, <code>center</code> and <code>up</code> but use primitives,
+     * like in the GLU function, use {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt()}
      * instead.
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
