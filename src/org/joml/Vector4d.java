@@ -194,8 +194,8 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the vector is read, you can use {@link #Vector4d(int, ByteBuffer)}, taking
+     * In order to specify the offset into the ByteBuffer at which
+     * the vector is read, use {@link #Vector4d(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer
@@ -228,8 +228,8 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
      * <p>
-     * If you want to specify the offset into the DoubleBuffer at which
-     * the vector is read, you can use {@link #Vector4d(int, DoubleBuffer)}, taking
+     * In order to specify the offset into the DoubleBuffer at which
+     * the vector is read, use {@link #Vector4d(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer values will be read in <tt>x, y, z, w</tt> order
@@ -399,8 +399,8 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the vector is read, you can use {@link #set(int, ByteBuffer)}, taking
+     * In order to specify the offset into the ByteBuffer at which
+     * the vector is read, use {@link #set(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer
@@ -438,8 +438,8 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
      * <p>
-     * If you want to specify the offset into the DoubleBuffer at which
-     * the vector is read, you can use {@link #set(int, DoubleBuffer)}, taking
+     * In order to specify the offset into the DoubleBuffer at which
+     * the vector is read, use {@link #set(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer
@@ -477,8 +477,8 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the vector is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * In order to specify the offset into the ByteBuffer at which
+     * the vector is stored, use {@link #get(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer
@@ -516,8 +516,8 @@ public class Vector4d implements Externalizable {
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
      * <p>
-     * If you want to specify the offset into the DoubleBuffer at which
-     * the vector is stored, you can use {@link #get(int, DoubleBuffer)}, taking
+     * In order to specify the offset into the DoubleBuffer at which
+     * the vector is stored, use {@link #get(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      *
      * @param buffer

@@ -55,8 +55,15 @@ public class Matrix3d implements Externalizable {
      * Create a new {@link Matrix3d} and initialize it to {@link #identity() identity}.
      */
     public Matrix3d() {
-        super();
-        identity();
+        m00 = 1.0;
+        m01 = 0.0;
+        m02 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0;
+        m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = 1.0;
     }
 
     /**
@@ -679,8 +686,8 @@ public class Matrix3d implements Externalizable {
      * <p>
      * This method will not increment the position of the given DoubleBuffer.
      * <p>
-     * If you want to specify the offset into the DoubleBuffer} at which
-     * the matrix is stored, you can use {@link #get(int, DoubleBuffer)}, taking
+     * In order to specify the offset into the DoubleBuffer} at which
+     * the matrix is stored, use {@link #get(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      * 
      * @see #get(int, DoubleBuffer)
@@ -724,8 +731,8 @@ public class Matrix3d implements Externalizable {
      * <p>
      * This method will not increment the position of the given FloatBuffer.
      * <p>
-     * If you want to specify the offset into the FloatBuffer at which
-     * the matrix is stored, you can use {@link #get(int, FloatBuffer)}, taking
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #get(int, FloatBuffer)}, taking
      * the absolute position as parameter.
      * <p>
      * Please note that due to this matrix storing double values those values will potentially
@@ -775,8 +782,8 @@ public class Matrix3d implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
-     * If you want to specify the offset into the ByteBuffer at which
-     * the matrix is stored, you can use {@link #get(int, ByteBuffer)}, taking
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      * 
      * @see #get(int, ByteBuffer)
@@ -882,8 +889,8 @@ public class Matrix3d implements Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional scaling.
      * <p>
-     * If you want to post-multiply a scaling transformation directly to a
-     * matrix, you can use {@link #scale(double) scale()} instead.
+     * In order to post-multiply a scaling transformation directly to a
+     * matrix, use {@link #scale(double) scale()} instead.
      * 
      * @see #scale(double)
      * 
@@ -1093,8 +1100,8 @@ public class Matrix3d implements Externalizable {
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
-     * If you want to post-multiply a rotation transformation directly to a
-     * matrix, you can use {@link #rotate(double, Vector3d) rotate()} instead.
+     * In order to post-multiply a rotation transformation directly to a
+     * matrix, use {@link #rotate(double, Vector3d) rotate()} instead.
      * 
      * @see #rotate(double, Vector3d)
      * 
