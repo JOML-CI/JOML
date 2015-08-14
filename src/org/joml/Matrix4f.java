@@ -853,10 +853,10 @@ public class Matrix4f implements Externalizable {
      */
     public float determinant() {
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32)
-             - (m00 * m12 - m02 * m10) * (m21 * m33 - m23 * m31)
+             + (m02 * m10 - m00 * m12) * (m21 * m33 - m23 * m31)
              + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31)
              + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
-             - (m01 * m13 - m03 * m11) * (m20 * m32 - m22 * m30)
+             + (m03 * m11 - m01 * m13) * (m20 * m32 - m22 * m30)
              + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
 
@@ -867,7 +867,7 @@ public class Matrix4f implements Externalizable {
      */
     public float determinant3x3() {
         return m00 * (m11 * m22 - m12 * m21)
-             - m01 * (m10 * m22 - m12 * m20)
+             + m01 * (m12 * m20 - m10 * m22)
              + m02 * (m01 * m21 - m11 * m20);
     }
 
@@ -878,7 +878,7 @@ public class Matrix4f implements Externalizable {
      */
     public float determinant4x3() {
         return (m00 * m11 - m01 * m10) * m22
-             - (m00 * m12 - m02 * m10) * m21
+             + (m02 * m10 - m00 * m12) * m21
              + (m01 * m12 - m02 * m11) * m20;
     }
 
@@ -930,16 +930,16 @@ public class Matrix4f implements Externalizable {
     public Matrix4f invert4x3(Matrix4f dest) {
         float s = determinant4x3();
         s = 1.0f / s;
-        dest.set((m11 * m22 + m12 * -m21) * s,
-                 (m21 * m02 + m22 * -m01) * s,
+        dest.set((m11 * m22 - m12 * m21) * s,
+                 (m21 * m02 - m22 * m01) * s,
                  (m01 * m12 - m02 * m11) * s,
                  0.0f,
-                 (m12 * m20 + m10 * -m22) * s,
-                 (m22 * m00 + m20 * -m02) * s,
+                 (m12 * m20 - m10 * m22) * s,
+                 (m22 * m00 - m20 * m02) * s,
                  (m02 * m10 - m00 * m12) * s,
                  0.0f,
-                 (m10 * m21 + m11 * -m20) * s,
-                 (m20 * m01 + m21 * -m00) * s,
+                 (m10 * m21 - m11 * m20) * s,
+                 (m20 * m01 - m21 * m00) * s,
                  (m00 * m11 - m01 * m10) * s,
                  0.0f,
                  (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,

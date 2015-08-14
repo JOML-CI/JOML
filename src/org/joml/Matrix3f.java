@@ -272,8 +272,8 @@ public class Matrix3f implements Externalizable {
      */
     public float determinant() {
         return m00 * (m11 * m22 - m12 * m21)
-             - m01 * (m10 * m22 - m12 * m20)
-             + m02 * (m01 * m21 - m11 * m20) * 0.0f;
+             + m01 * (m12 * m20 - m10 * m22)
+             + m02 * (m01 * m21 - m11 * m20);
     }
 
     /**
@@ -295,15 +295,15 @@ public class Matrix3f implements Externalizable {
     public Matrix3f invert(Matrix3f dest) {
         float s = determinant();
         s = 1.0f / s;
-        dest.set( (m11 * m22 - m21 * m12) * s,
-                 -(m01 * m22 - m21 * m02) * s,
-                  (m01 * m12 - m11 * m02) * s,
-                 -(m10 * m22 - m20 * m12) * s,
-                  (m00 * m22 - m20 * m02) * s,
-                 -(m00 * m12 - m10 * m02) * s,
-                  (m10 * m21 - m20 * m11) * s,
-                 -(m00 * m21 - m20 * m01) * s,
-                  (m00 * m11 - m10 * m01) * s);
+        dest.set((m11 * m22 - m21 * m12) * s,
+                 (m21 * m02 - m01 * m22) * s,
+                 (m01 * m12 - m11 * m02) * s,
+                 (m20 * m12 - m10 * m22) * s,
+                 (m00 * m22 - m20 * m02) * s,
+                 (m10 * m02 - m00 * m12) * s,
+                 (m10 * m21 - m20 * m11) * s,
+                 (m20 * m01 - m00 * m21) * s,
+                 (m00 * m11 - m10 * m01) * s);
         return dest;
     }
 
