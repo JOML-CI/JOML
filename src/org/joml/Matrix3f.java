@@ -2014,13 +2014,13 @@ public class Matrix3f implements Externalizable {
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,
-                -(m10 * m22 - m20 * m12) * s,
+                 (m20 * m12 - m10 * m22) * s,
                  (m10 * m21 - m20 * m11) * s,
-                -(m01 * m22 - m21 * m02) * s,
+                 (m21 * m02 - m01 * m22) * s,
                  (m00 * m22 - m20 * m02) * s,
-                -(m00 * m21 - m20 * m01) * s,
+                 (m20 * m01 - m00 * m21) * s,
                  (m01 * m12 - m11 * m02) * s,
-                -(m00 * m12 - m10 * m02) * s,
+                 (m10 * m02 - m00 * m12) * s,
                  (m00 * m11 - m10 * m01) * s);
         return dest;
     }

@@ -3294,18 +3294,18 @@ public class Matrix4d implements Externalizable {
         double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,
-                -(m10 * m22 - m20 * m12) * s,
+                 (m20 * m12 - m10 * m22) * s,
                  (m10 * m21 - m20 * m11) * s,
-                 0.0,
-                -(m01 * m22 - m21 * m02) * s,
+                 0.0f,
+                 (m21 * m02 - m01 * m22) * s,
                  (m00 * m22 - m20 * m02) * s,
-                -(m00 * m21 - m20 * m01) * s,
-                 0.0,
+                 (m20 * m01 - m00 * m21) * s,
+                 0.0f,
                  (m01 * m12 - m11 * m02) * s,
-                -(m00 * m12 - m10 * m02) * s,
+                 (m10 * m02 - m00 * m12) * s,
                  (m00 * m11 - m10 * m01) * s,
-                 0.0,
-                 0.0, 0.0, 0.0, 1.0);
+                 0.0f,
+                 0.0f, 0.0f, 0.0f, 1.0f);
         return dest;
     }
 
@@ -3330,15 +3330,15 @@ public class Matrix4d implements Externalizable {
         double det = determinant3x3();
         double s = 1.0 / det;
         /* Invert and transpose in one go */
-        dest.m00 =  (m11 * m22 - m21 * m12) * s;
-        dest.m01 = -(m10 * m22 - m20 * m12) * s;
-        dest.m02 =  (m10 * m21 - m20 * m11) * s;
-        dest.m10 = -(m01 * m22 - m21 * m02) * s;
-        dest.m11 =  (m00 * m22 - m20 * m02) * s;
-        dest.m12 = -(m00 * m21 - m20 * m01) * s;
-        dest.m20 =  (m01 * m12 - m11 * m02) * s;
-        dest.m21 = -(m00 * m12 - m10 * m02) * s;
-        dest.m22 =  (m00 * m11 - m10 * m01) * s;
+        dest.m00 = (m11 * m22 - m21 * m12) * s;
+        dest.m01 = (m20 * m12 - m10 * m22) * s;
+        dest.m02 = (m10 * m21 - m20 * m11) * s;
+        dest.m10 = (m21 * m02 - m01 * m22) * s;
+        dest.m11 = (m00 * m22 - m20 * m02) * s;
+        dest.m12 = (m20 * m01 - m00 * m21) * s;
+        dest.m20 = (m01 * m12 - m11 * m02) * s;
+        dest.m21 = (m10 * m02 - m00 * m12) * s;
+        dest.m22 = (m00 * m11 - m10 * m01) * s;
         return dest;
     }
 
