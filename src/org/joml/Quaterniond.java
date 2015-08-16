@@ -1057,6 +1057,8 @@ public class Quaterniond implements Externalizable {
      * Interpolate between <code>this</code> quaternion and the specified
      * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>,
      * and store the result in <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
      * 
      * @param target
      *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
@@ -1067,28 +1069,24 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond slerp(Quaterniond target, double alpha, Quaterniond dest) {
-        double dot = x * target.x + y * target.y + z * target.z + w * target.w;
-        // Thresholds to accelerate computations
-        double nlerpThreshold = 0.95;
-        double sinThetaThreshold = 0.01;
-        // Check if we must use slerp and cannot get away with simple linear interpolation
-        if (dot > -nlerpThreshold && dot < nlerpThreshold) {
-            double absDot = Math.abs(dot);
-            double theta = Math.acos(absDot);
-            double sinTheta = 1.0f;
-            // Check if we need to compute sinTheta
-            if (dot < -sinThetaThreshold || dot > sinThetaThreshold) {
-                sinTheta = Math.sin(theta);
-            }
-            double q1 = Math.sin(theta * (1.0f - alpha));
-            double q2 = Math.sin(theta * alpha);
-            dest.x = (q1 * x + q2 * target.x) / sinTheta;
-            dest.y = (q1 * y + q2 * target.y) / sinTheta;
-            dest.z = (q1 * z + q2 * target.z) / sinTheta;
-            dest.w = (q1 * w + q2 * target.w) / sinTheta; 
+        double cosom = x * target.x + y * target.y + z * target.z + w * target.w;
+        double absCosom = Math.abs(cosom);
+        double scale0, scale1;
+        if (1.0 - absCosom > 1E-6) {
+            double sinSqr = 1.0 - absCosom * absCosom;
+            double sinom = 1.0 / Math.sqrt(sinSqr);
+            double omega = Math.atan2(sinSqr * sinom, absCosom);
+            scale0 = Math.sin((1.0 - alpha) * omega) * sinom;
+            scale1 = Math.sin(alpha * omega) * sinom;
         } else {
-            nlerp(target, alpha, dest);
+            scale0 = 1.0 - alpha;
+            scale1 = alpha;
         }
+        scale1 = cosom >= 0.0 ? scale1 : -scale1;
+        dest.x = scale0 * x + scale1 * target.x;
+        dest.y = scale0 * y + scale1 * target.y;
+        dest.z = scale0 * z + scale1 * target.z;
+        dest.w = scale0 * w + scale1 * target.w;
         return dest;
     }
 
