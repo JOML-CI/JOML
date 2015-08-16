@@ -38,7 +38,7 @@ public class QuaternionTest extends TestCase {
         Vector3f v = new Vector3f(1.0f, 0.0f, 0.0f);
         q1.slerp(q2, 0.5f, q);
         q.transform(v);
-        TestUtil.assertVector3fEquals(new Vector3f(0.0f, 0.0f, -1.0f), v, 1E-5f);
+        TestUtil.assertVector3fEquals(new Vector3f(0.0f, 0.0f, 1.0f), v, 1E-5f);
     }
 
 }
