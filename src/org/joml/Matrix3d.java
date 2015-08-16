@@ -1876,7 +1876,6 @@ public class Matrix3d implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        
         return dest;
     }
 
