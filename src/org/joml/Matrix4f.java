@@ -2559,7 +2559,7 @@ public class Matrix4f implements Externalizable {
         float rm32 = -(zFar + zNear) / (zFar - zNear);
 
         // perform optimized multiplication
-        // compute the last column first, because other rows do not depend on it
+        // compute the last column first, because other columns do not depend on it
         dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
         dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
         dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
@@ -2695,7 +2695,7 @@ public class Matrix4f implements Externalizable {
         float rm32 = -(zFar + zNear) / (zFar - zNear);
 
         // perform optimized multiplication
-        // compute the last column first, because other rows do not depend on it
+        // compute the last column first, because other columns do not depend on it
         dest.m30 = m20 * rm32 + m30;
         dest.m31 = m21 * rm32 + m31;
         dest.m32 = m22 * rm32 + m32;
@@ -2830,7 +2830,7 @@ public class Matrix4f implements Externalizable {
         float rm31 = -(top + bottom) / (top - bottom);
 
         // perform optimized multiplication
-        // compute the last column first, because other rows do not depend on it
+        // compute the last column first, because other columns do not depend on it
         dest.m30 = m00 * rm30 + m10 * rm31 + m30;
         dest.m31 = m01 * rm30 + m11 * rm31 + m31;
         dest.m32 = m02 * rm30 + m12 * rm31 + m32;
