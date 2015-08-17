@@ -1012,6 +1012,78 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Apply a rotation transformation to this matrix by rotating the given amount of radians about
+     * the specified rotation center <tt>(x, y)</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>translate(x, y).rotate(ang).translate(-x, -y)</tt>
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
+     * 
+     * @see #translate(float, float)
+     * @see #rotate(float)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the rotation center
+     * @param y
+     *            the y component of the rotation center
+     * @return dest
+     */
+    public Matrix3f rotateAbout(float ang, float x, float y) {
+    	return rotateAbout(ang, x, y, this);
+    }
+
+    /**
+     * Apply a rotation transformation to this matrix by rotating the given amount of radians about
+     * the specified rotation center <tt>(x, y)</tt> and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translate(x, y, dest).rotate(ang).translate(-x, -y)</tt>
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the rotation will be applied first!
+     * 
+     * @see #translate(float, float, Matrix3f)
+     * @see #rotate(float, Matrix3f)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the rotation center
+     * @param y
+     *            the y component of the rotation center
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3f rotateAbout(float ang, float x, float y, Matrix3f dest) {
+        float tm20 = m00 * x + m10 * y + m20;
+        float tm21 = m01 * x + m11 * y + m21;
+        float tm22 = m02 * x + m12 * y + m22;
+        float cos = (float) Math.cos(ang);
+        float sin = (float) Math.sin(ang);
+        // add temporaries for dependent values
+        float nm00 = m00 * cos + m10 * sin;
+        float nm01 = m01 * cos + m11 * sin;
+        float nm02 = m02 * cos + m12 * sin;
+        // set non-dependent values directly
+        dest.m10 = m00 * -sin + m10 * cos;
+        dest.m11 = m01 * -sin + m11 * cos;
+        dest.m12 = m02 * -sin + m12 * cos;
+        // set other values
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m20 = m00 * -x + m10 * -y + tm20;
+        dest.m21 = m01 * -x + m11 * -y + tm21;
+        dest.m22 = m02 * -x + m12 * -y + tm22;
+        return dest;
+    }
+
+    /**
      * Apply a rotation transformation to this matrix that rotates the given normalized <code>fromDir</code> direction vector
      * to point along the normalized <code>toDir</code>, and store the result in <code>dest</code>.
      * <p>

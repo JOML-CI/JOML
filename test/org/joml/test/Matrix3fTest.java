@@ -53,4 +53,13 @@ public class Matrix3fTest extends TestCase {
         Assert.assertEquals(expected.y, actual.y, 1E-7f);
     }
 
+    public void testRotateAbout() {
+        Matrix3f m = new Matrix3f().rotateAbout((float)Math.toRadians(90.0f), 5, 5);
+        Vector2f expected = new Vector2f(5, 5);
+        Vector2f actual = new Vector2f(expected);
+        m.transform(actual);
+        Assert.assertEquals(expected.x, actual.x, 1E-7f);
+        Assert.assertEquals(expected.y, actual.y, 1E-7f);
+    }
+
 }
