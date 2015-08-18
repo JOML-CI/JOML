@@ -1070,10 +1070,10 @@ public class Quaterniond implements Externalizable {
      * @param nlerpDotThreshold
      *          the value/threshold of the dot product between <code>this</code> and <code>target</code> below which
      *          this method does not perform a real spherical linear interpolation anymore, but instead a non-spherical linear
-     *          interpolation approximation like {@link #nlerp(Quaternionf, float, Quaternionf)}
+     *          interpolation approximation like {@link #nlerp(Quaterniond, double, Quaterniond)}
      * @return this
      */
-    public Quaterniond slerp(Quaterniond target, double nlerpDotThreshold, double alpha) {
+    public Quaterniond slerp(Quaterniond target, double alpha, double nlerpDotThreshold) {
         return slerp(target, alpha, nlerpDotThreshold, this);
     }
 
@@ -1114,7 +1114,7 @@ public class Quaterniond implements Externalizable {
      * @param nlerpDotThreshold
      *          the value/threshold of the absolute dot product between <code>this</code> and <code>target</code> below which
      *          this method does not perform a real spherical linear interpolation anymore, but instead a non-spherical linear
-     *          interpolation approximation like {@link #nlerp(Quaternionf, float, Quaternionf)}
+     *          interpolation approximation like {@link #nlerp(Quaterniond, double, Quaterniond)}
      * @param dest
      *          will hold the result
      * @return dest
