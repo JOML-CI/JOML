@@ -1042,6 +1042,9 @@ public class Quaterniond implements Externalizable {
     /**
      * Interpolate between <code>this</code> quaternion and the specified
      * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>.
+     * <p>
+     * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
+     * below <tt>1E-6</tt>.
      * 
      * @param target
      *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
@@ -1050,7 +1053,28 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond slerp(Quaterniond target, double alpha) {
-        return slerp(target, alpha, this);
+        return slerp(target, alpha, 1E-6, this);
+    }
+
+    /**
+     * Interpolate between <code>this</code> quaternion and the specified
+     * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>.
+     * <p>
+     * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
+     * below the given <code>nlerpDotThreshold</code>.
+     * 
+     * @param target
+     *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
+     * @param alpha
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param nlerpDotThreshold
+     *          the value/threshold of the dot product between <code>this</code> and <code>target</code> below which
+     *          this method does not perform a real spherical linear interpolation anymore, but instead a non-spherical linear
+     *          interpolation approximation like {@link #nlerp(Quaternionf, float, Quaternionf)}
+     * @return this
+     */
+    public Quaterniond slerp(Quaterniond target, double nlerpDotThreshold, double alpha) {
+        return slerp(target, alpha, nlerpDotThreshold, this);
     }
 
     /**
@@ -1058,7 +1082,8 @@ public class Quaterniond implements Externalizable {
      * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>,
      * and store the result in <code>dest</code>.
      * <p>
-     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
+     * below <tt>1E-6</tt>.
      * 
      * @param target
      *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
@@ -1069,10 +1094,36 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond slerp(Quaterniond target, double alpha, Quaterniond dest) {
+        return slerp(target, alpha, 1E-6, dest);
+    }
+
+    /**
+     * Interpolate between <code>this</code> quaternion and the specified
+     * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
+     * below the given <code>nlerpDotThreshold</code>.
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     * 
+     * @param target
+     *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
+     * @param alpha
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param nlerpDotThreshold
+     *          the value/threshold of the absolute dot product between <code>this</code> and <code>target</code> below which
+     *          this method does not perform a real spherical linear interpolation anymore, but instead a non-spherical linear
+     *          interpolation approximation like {@link #nlerp(Quaternionf, float, Quaternionf)}
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaterniond slerp(Quaterniond target, double alpha, double nlerpDotThreshold, Quaterniond dest) {
         double cosom = x * target.x + y * target.y + z * target.z + w * target.w;
         double absCosom = Math.abs(cosom);
         double scale0, scale1;
-        if (1.0 - absCosom > 1E-6) {
+        if (1.0 - absCosom > nlerpDotThreshold) {
             double sinSqr = 1.0 - absCosom * absCosom;
             double sinom = 1.0 / Math.sqrt(sinSqr);
             double omega = Math.atan2(sinSqr * sinom, absCosom);
