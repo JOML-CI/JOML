@@ -1107,6 +1107,8 @@ public class Quaterniond implements Externalizable {
     /**
      * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
      * and store the result in <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
      * 
      * @param q
      *          the other quaternion
@@ -1117,13 +1119,18 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond nlerp(Quaterniond q, double factor, Quaterniond dest) {
-        double t0 = 1.0 - factor;
-        double t1 = factor;
-        dest.w = t0 * w + t1 * q.w;
-        dest.x = t0 * x + t1 * q.x;
-        dest.y = t0 * y + t1 * q.y;
-        dest.z = t0 * z + t1 * q.z;
-        dest.normalize();
+        double cosom = x * q.x + y * q.y + z * q.z + w * q.w;
+        double scale0 = 1.0 - factor;
+        double scale1 = (cosom >= 0.0) ? factor : -factor;
+        dest.x = scale0 * x + scale1 * q.x;
+        dest.y = scale0 * y + scale1 * q.y;
+        dest.z = scale0 * z + scale1 * q.z;
+        dest.w = scale0 * w + scale1 * q.w;
+        double s = 1.0 / Math.sqrt(dest.x * dest.x + dest.y * dest.y + dest.z * dest.z + dest.w * dest.w);
+        dest.x *= s;
+        dest.y *= s;
+        dest.z *= s;
+        dest.w *= s;
         return dest;
     }
 

@@ -1217,7 +1217,7 @@ public class Quaternionf implements Externalizable {
             float sinSqr = 1.0f - absCosom * absCosom;
             float sinom = (float) (1.0 / Math.sqrt(sinSqr));
             float omega = (float) Math.atan2(sinSqr * sinom, absCosom);
-            scale0 = (float) (Math.sin((1.0f - alpha) * omega) * sinom);
+            scale0 = (float) (Math.sin((1.0 - alpha) * omega) * sinom);
             scale1 = (float) (Math.sin(alpha * omega) * sinom);
         } else {
             scale0 = 1.0f - alpha;
@@ -1248,6 +1248,8 @@ public class Quaternionf implements Externalizable {
     /**
      * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
      * and store the result in <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
      * 
      * @param q
      *          the other quaternion
@@ -1258,13 +1260,18 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Quaternionf nlerp(Quaternionf q, float factor, Quaternionf dest) {
-        float t0 = 1.0f - factor;
-        float t1 = factor;
-        dest.w = t0 * w + t1 * q.w;
-        dest.x = t0 * x + t1 * q.x;
-        dest.y = t0 * y + t1 * q.y;
-        dest.z = t0 * z + t1 * q.z;
-        dest.normalize();
+        float cosom = x * q.x + y * q.y + z * q.z + w * q.w;
+        float scale0 = 1.0f - factor;
+        float scale1 = (cosom >= 0.0f) ? factor : -factor;
+        dest.x = scale0 * x + scale1 * q.x;
+        dest.y = scale0 * y + scale1 * q.y;
+        dest.z = scale0 * z + scale1 * q.z;
+        dest.w = scale0 * w + scale1 * q.w;
+        float s = (float) (1.0 / Math.sqrt(dest.x * dest.x + dest.y * dest.y + dest.z * dest.z + dest.w * dest.w));
+        dest.x *= s;
+        dest.y *= s;
+        dest.z *= s;
+        dest.w *= s;
         return dest;
     }
 
