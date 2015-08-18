@@ -1053,28 +1053,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond slerp(Quaterniond target, double alpha) {
-        return slerp(target, alpha, 1E-6, this);
-    }
-
-    /**
-     * Interpolate between <code>this</code> quaternion and the specified
-     * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>.
-     * <p>
-     * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
-     * below the given <code>nlerpDotThreshold</code>.
-     * 
-     * @param target
-     *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
-     * @param alpha
-     *          the interpolation factor, within <tt>[0..1]</tt>
-     * @param nlerpDotThreshold
-     *          the value/threshold of the dot product between <code>this</code> and <code>target</code> below which
-     *          this method does not perform a real spherical linear interpolation anymore, but instead a non-spherical linear
-     *          interpolation approximation like {@link #nlerp(Quaterniond, double, Quaterniond)}
-     * @return this
-     */
-    public Quaterniond slerp(Quaterniond target, double alpha, double nlerpDotThreshold) {
-        return slerp(target, alpha, nlerpDotThreshold, this);
+        return slerp(target, alpha, this);
     }
 
     /**
@@ -1084,6 +1063,8 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
      * below <tt>1E-6</tt>.
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
      * 
      * @param target
      *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
@@ -1094,36 +1075,10 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond slerp(Quaterniond target, double alpha, Quaterniond dest) {
-        return slerp(target, alpha, 1E-6, dest);
-    }
-
-    /**
-     * Interpolate between <code>this</code> quaternion and the specified
-     * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>,
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
-     * below the given <code>nlerpDotThreshold</code>.
-     * <p>
-     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
-     * 
-     * @param target
-     *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
-     * @param alpha
-     *          the interpolation factor, within <tt>[0..1]</tt>
-     * @param nlerpDotThreshold
-     *          the value/threshold of the absolute dot product between <code>this</code> and <code>target</code> below which
-     *          this method does not perform a real spherical linear interpolation anymore, but instead a non-spherical linear
-     *          interpolation approximation like {@link #nlerp(Quaterniond, double, Quaterniond)}
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Quaterniond slerp(Quaterniond target, double alpha, double nlerpDotThreshold, Quaterniond dest) {
         double cosom = x * target.x + y * target.y + z * target.z + w * target.w;
         double absCosom = Math.abs(cosom);
         double scale0, scale1;
-        if (1.0 - absCosom > nlerpDotThreshold) {
+        if (1.0 - absCosom > 1E-6) {
             double sinSqr = 1.0 - absCosom * absCosom;
             double sinom = 1.0 / Math.sqrt(sinSqr);
             double omega = Math.atan2(sinSqr * sinom, absCosom);
@@ -1178,6 +1133,75 @@ public class Quaterniond implements Externalizable {
         dest.z = scale0 * z + scale1 * q.z;
         dest.w = scale0 * w + scale1 * q.w;
         double s = 1.0 / Math.sqrt(dest.x * dest.x + dest.y * dest.y + dest.z * dest.z + dest.w * dest.w);
+        dest.x *= s;
+        dest.y *= s;
+        dest.z *= s;
+        dest.w *= s;
+        return dest;
+    }
+
+    /**
+     * Compute linear (non-spherical) interpolations of <code>this</code> and the given quaternion <code>q</code>
+     * iteratively and store the result in <code>dest</code>.
+     * <p>
+     * This method performs a series of small-step nlerp interpolations to avoid doing a costly spherical linear interpolation, like
+     * {@link #slerp(Quaterniond, double, Quaterniond) slerp},
+     * by subdividing the rotation arc between <code>this</code> and <code>q</code> via non-spherical linear interpolations as long as
+     * the absolute dot product of <code>this</code> and <code>q</code> is greater than the given <code>dotThreshold</code> parameter.
+     * <p>
+     * Thanks to <tt>@theagentd</tt> at <a href="http://www.java-gaming.org/">http://www.java-gaming.org/</a> for providing the code.
+     * 
+     * @param q
+     *          the other quaternion
+     * @param factor
+     *          the interpolation factor, between 0.0 and 1.0
+     * @param dotThreshold
+     *          the threshold for the dot product of <code>this</code> and <code>q</code> above which this method performs another iteration
+     *          of a small-step linear interpolation
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaterniond nlerpIterative(Quaterniond q, double alpha, double dotThreshold, Quaterniond dest) {
+        double q1x = x, q1y = y, q1z = z, q1w = w;
+        double q2x = q.x, q2y = q.y, q2z = q.z, q2w = q.w;
+        double dot = q1x * q2x + q1y * q2y + q1z * q2z + q1w * q2w;
+        double alphaN = alpha;
+        while (Math.abs(dot) < dotThreshold) {
+            double scale0 = 0.5;
+            double scale1 = dot >= 0.0 ? alphaN : -alphaN;
+            if (alphaN < 0.5) {
+                q2x = scale0 * q2x + scale1 * q1x;
+                q2y = scale0 * q2y + scale1 * q1y;
+                q2z = scale0 * q2z + scale1 * q1z;
+                q2w = scale0 * q2w + scale1 * q1w;
+                double s = 1.0 / Math.sqrt(q2x * q2x + q2y * q2y + q2z * q2z + q2w * q2w);
+                q2x *= s;
+                q2y *= s;
+                q2z *= s;
+                q2w *= s;
+                alphaN = alphaN * 2.0;
+            } else {
+                q1x = scale0 * q1x + scale1 * q2x;
+                q1y = scale0 * q1y + scale1 * q2y;
+                q1z = scale0 * q1z + scale1 * q2z;
+                q1w = scale0 * q1w + scale1 * q2w;
+                double s = 1.0 / Math.sqrt(q1x * q1x + q1y * q1y + q1z * q1z + q1w * q1w);
+                q1x *= s;
+                q1y *= s;
+                q1z *= s;
+                q1w *= s;
+                alphaN = alphaN * 2.0 - 1.0;
+            }
+            dot = q1x * q2x + q1y * q2y + q1z * q2z + q1w * q2w;
+        }
+        double scale0 = 1.0 - alphaN;
+        double scale1 = dot >= 0.0 ? alphaN : -alphaN;
+        double destX = scale0 * q1x + scale1 * q2x;
+        double destY = scale0 * q1y + scale1 * q2y;
+        double destZ = scale0 * q1z + scale1 * q2z;
+        double destW = scale0 * q1w + scale1 * q2w;
+        double s = 1.0 / Math.sqrt(destX * destX + destY * destY + destZ * destZ + destW * destW);
         dest.x *= s;
         dest.y *= s;
         dest.z *= s;
