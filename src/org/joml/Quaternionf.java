@@ -997,7 +997,7 @@ public class Quaternionf implements Externalizable {
      *          interpolation approximation like {@link #nlerp(Quaternionf, float, Quaternionf)}
      * @return this
      */
-    public Quaternionf slerp(Quaternionf target, float nlerpDotThreshold, float alpha) {
+    public Quaternionf slerp(Quaternionf target, float alpha, float nlerpDotThreshold) {
         return slerp(target, alpha, nlerpDotThreshold, this);
     }
 
