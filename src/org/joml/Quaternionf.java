@@ -1294,7 +1294,7 @@ public class Quaternionf implements Externalizable {
      * 
      * @param q
      *          the other quaternion
-     * @param factor
+     * @param alpha
      *          the interpolation factor, between 0.0 and 1.0
      * @param dotThreshold
      *          the threshold for the dot product of <code>this</code> and <code>q</code> above which this method performs another iteration
