@@ -1090,10 +1090,14 @@ public class Quaternionf implements Externalizable {
         float q1x = x, q1y = y, q1z = z, q1w = w;
         float q2x = q.x, q2y = q.y, q2z = q.z, q2w = q.w;
         float dot = q1x * q2x + q1y * q2y + q1z * q2z + q1w * q2w;
+        float absDot = Math.abs(dot);
+        if (1.0f - 1E-6f < absDot) {
+            return dest.set(this);
+        }
         float alphaN = alpha;
-        while (Math.abs(dot) < dotThreshold) {
+        while (absDot < dotThreshold) {
             float scale0 = 0.5f;
-            float scale1 = dot >= 0.0f ? alphaN : -alphaN;
+            float scale1 = dot >= 0.0f ? 0.5f : -0.5f;
             if (alphaN < 0.5f) {
                 q2x = scale0 * q2x + scale1 * q1x;
                 q2y = scale0 * q2y + scale1 * q1y;
@@ -1118,6 +1122,7 @@ public class Quaternionf implements Externalizable {
                 alphaN = alphaN * 2.0f - 1.0f;
             }
             dot = q1x * q2x + q1y * q2y + q1z * q2z + q1w * q2w;
+            absDot = Math.abs(dot);
         }
         float scale0 = 1.0f - alphaN;
         float scale1 = dot >= 0.0f ? alphaN : -alphaN;
