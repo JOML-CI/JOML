@@ -856,10 +856,6 @@ public class Vector3d implements Externalizable {
      * and store the result in <code>dest</code>.
      * <p>
      * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * <p>
-     * This method differs from {@link #mul(Matrix4d, Vector3d)} in that it also performs perspective division.
-     * 
-     * @see #mul(Matrix4d, Vector3d)
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -885,10 +881,6 @@ public class Vector3d implements Externalizable {
      * Multiply this Vector3d by the given matrix <code>mat</code>, perform perspective division.
      * <p>
      * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * <p>
-     * This method differs from {@link #mul(Matrix4d)} in that it also performs perspective division.
-     * 
-     * @see #mul(Matrix4d)
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -903,10 +895,6 @@ public class Vector3d implements Externalizable {
      * and store the result in <code>dest</code>.
      * <p>
      * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * <p>
-     * This method differs from {@link #mul(Matrix4f, Vector3d)} in that it also performs perspective division.
-     * 
-     * @see #mul(Matrix4f, Vector3d)
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -932,10 +920,6 @@ public class Vector3d implements Externalizable {
      * Multiply this Vector3d by the given matrix <code>mat</code>, perform perspective division.
      * <p>
      * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * <p>
-     * This method differs from {@link #mul(Matrix4f)} in that it also performs perspective division.
-     * 
-     * @see #mul(Matrix4f)
      * 
      * @param mat
      *          the matrix to multiply this vector by
