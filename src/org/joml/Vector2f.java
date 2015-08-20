@@ -26,6 +26,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -40,11 +42,11 @@ public class Vector2f implements Externalizable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The x-coordinate of the vector.
+     * The x component of the vector.
      */
     public float x;
     /**
-     * The y-coordinate of the vector.
+     * The y component of the vector.
      */
     public float y;
 
@@ -55,12 +57,22 @@ public class Vector2f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector2f} and initialize both of its components with the given value.
+     *
+     * @param d
+     *        the value of both components
+     */
+    public Vector2f(float d) {
+        this(d, d);
+    }
+
+    /**
      * Create a new {@link Vector2f} and initialize its components to the given values.
      * 
      * @param x
-     *          the x value
+     *        the x component
      * @param y
-     *          the y value
+     *        the y component
      */
     public Vector2f(float x, float y) {
         this.x = x;
@@ -71,7 +83,7 @@ public class Vector2f implements Externalizable {
      * Create a new {@link Vector2f} and initialize its components to the one of the given vector.
      * 
      * @param v
-     *          the {@link Vector2f} to copy the values from
+     *        the {@link Vector2f} to copy the values from
      */
     public Vector2f(Vector2f v) {
         x = v.x;
@@ -79,12 +91,90 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Set the x and y attributes to the supplied values.
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
+     * at the current buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the vector is read, use {@link #Vector2f(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *        values will be read in <tt>x, y</tt> order
+     * @see #Vector2f(int, ByteBuffer)
+     */
+    public Vector2f(ByteBuffer buffer) {
+        this(buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *        the absolute position into the ByteBuffer
+     * @param buffer values will be read in <tt>x, y</tt> order
+     */
+    public Vector2f(int index, ByteBuffer buffer) {
+        x = buffer.getFloat(index);
+        y = buffer.getFloat(index + 4);
+    }
+
+    /**
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link FloatBuffer}
+     * at the current buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the vector is read, use {@link #Vector2f(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *        values will be read in <tt>x, y</tt> order
+     * @see #Vector2f(int, FloatBuffer)
+     */
+    public Vector2f(FloatBuffer buffer) {
+        this(buffer.position(), buffer);
+    }
+
+    /**
+     * Create a new {@link Vector2f} and read this vector from the supplied {@link FloatBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index 
+     *        the absolute position into the FloatBuffer
+     * @param buffer
+     *        values will be read in <tt>x, y</tt> order
+     */
+    public Vector2f(int index, FloatBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+    }
+
+    /**
+     * Set the x and y components to the supplied value.
+     *
+     * @param d
+     *        the value of both components
+     * @return this
+     */
+    public Vector2f set(float d) {
+        return set(d, d);
+    }
+    
+    /**
+     * Set the x and y components to the supplied values.
      * 
      * @param x
-     *          the x value to set
+     *        the x component
      * @param y
-     *          the y value to set
+     *        the y component
      * @return this
      */
     public Vector2f set(float x, float y) {
@@ -97,7 +187,7 @@ public class Vector2f implements Externalizable {
      * Set this {@link Vector2f} to the values of v.
      * 
      * @param v
-     *          the vector to copy from
+     *        the vector to copy from
      * @return this
      */
     public Vector2f set(Vector2f v) {
@@ -107,12 +197,160 @@ public class Vector2f implements Externalizable {
     }
 
     /**
+     * Read this vector from the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the vector is read, use {@link #set(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *        values will be read in <tt>x, y</tt> order
+     * @return this
+     * @see #set(int, ByteBuffer)
+     */
+    public Vector2f set(ByteBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *        the absolute position into the ByteBuffer
+     * @param buffer
+     *        values will be read in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2f set(int index, ByteBuffer buffer) {
+        x = buffer.getFloat(index);
+        y = buffer.getFloat(index + 4);
+        return this;
+    }
+
+    /**
+     * Read this vector from the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the vector is read, use {@link #set(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *        values will be read in <tt>x, y</tt> order
+     * @return this
+     * @see #set(int, FloatBuffer)
+     */
+    public Vector2f set(FloatBuffer buffer) {
+        return set(buffer.position(), buffer);
+    }
+
+    /**
+     * Read this vector from the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index 
+     *        the absolute position into the FloatBuffer
+     * @param buffer
+     *        values will be read in <tt>x, y</tt> order
+     * @return this
+     */
+    public Vector2f set(int index, FloatBuffer buffer) {
+        x = buffer.get(index);
+        y = buffer.get(index + 1);
+        return this;
+    }
+    
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the vector is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *        will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
+     * @see #get(int, ByteBuffer)
+     */
+    public ByteBuffer get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *        the absolute position into the ByteBuffer
+     * @param buffer
+     *        will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
+     */
+    public ByteBuffer get(int index, ByteBuffer buffer) {
+        buffer.putFloat(index,      x);
+        buffer.putFloat(index + 4,  y);
+        return buffer;
+    }
+
+    /**
+     * Store this vector into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the vector is stored, use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *        will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
+     * @see #get(int, FloatBuffer)
+     */
+    public FloatBuffer get(FloatBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this vector into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     *
+     * @param index
+     *        the absolute position into the FloatBuffer
+     * @param buffer
+     *        will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
+     */
+    public FloatBuffer get(int index, FloatBuffer buffer) {
+        buffer.put(index,      x);
+        buffer.put(index + 1,  y);
+        return buffer;
+    }
+
+    /**
      * Store one perpendicular vector of <code>v</code> in <code>dest</code>.
      * 
      * @param v
-     *          the vector to build one perpendicular vector of
+     *        the vector to build one perpendicular vector of
      * @param dest
-     *          will hold the result
+     *        will hold the result
      */
     public static void perpendicular(Vector2f v, Vector2f dest) {
         dest.x = v.y;
@@ -132,11 +370,11 @@ public class Vector2f implements Externalizable {
      * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
      * 
      * @param a
-     *          the first operand
+     *        the first operand
      * @param b
-     *          the second operand
+     *        the second operand
      * @param dest
-     *          will hold the result of <code>a - b</code>
+     *        will hold the result of <code>a - b</code>
      */
     public static void sub(Vector2f a, Vector2f b, Vector2f dest) {
         dest.x = a.x - b.x;
@@ -147,7 +385,7 @@ public class Vector2f implements Externalizable {
      * Subtract <code>v</code> from this vector.
      * 
      * @param v
-     *          the vector to subtract from this
+     *        the vector to subtract from this
      * @return this
      */
     public Vector2f sub(Vector2f v) {
@@ -160,9 +398,9 @@ public class Vector2f implements Externalizable {
      * Subtract <tt>(x, y)</tt> from this vector.
      * 
      * @param x
-     *          the x-coordinate to subtract
+     *        the x component to subtract
      * @param y
-     *          the y-coordinate to subtract
+     *        the y component to subtract
      * @return this
      */
     public Vector2f sub(float x, float y) {
@@ -175,7 +413,7 @@ public class Vector2f implements Externalizable {
      * Return the dot product of this vector and <code>v</code>.
      * 
      * @param v
-     *          the other vector
+     *        the other vector
      * @return the dot product
      */
     public float dot(Vector2f v) {
@@ -186,7 +424,7 @@ public class Vector2f implements Externalizable {
      * Return the angle between this vector and the supplied vector.
      * 
      * @param v
-     *          the other vector
+     *        the other vector
      * @return the angle, in radians
      */
     public float angle(Vector2f v) {
@@ -217,7 +455,7 @@ public class Vector2f implements Externalizable {
      * Return the distance between this and <code>v</code>.
      * 
      * @param v
-     *          the other vector
+     *        the other vector
      * @return the distance
      */
     public float distance(Vector2f v) {
@@ -232,9 +470,9 @@ public class Vector2f implements Externalizable {
      * @return this
      */
     public Vector2f normalize() {
-        float length = (float) Math.sqrt((x * x) + (y * y));
-        x /= length;
-        y /= length;
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
+        x *= invLength;
+        y *= invLength;
         return this;
     }
 
@@ -242,13 +480,13 @@ public class Vector2f implements Externalizable {
      * Normalize this vector and store the result in <code>dest</code>.
      * 
      * @param dest
-     *          will hold the result
+     *        will hold the result
      * @return dest
      */
     public Vector2f normalize(Vector2f dest) {
-        float length = (float) Math.sqrt((x * x) + (y * y));
-        dest.x = x / length;
-        dest.y = y / length;
+        float invLength = (float) (1.0 / Math.sqrt(x * x + y * y));
+        dest.x = x * invLength;
+        dest.y = y * invLength;
         return dest;
     }
 
@@ -256,7 +494,7 @@ public class Vector2f implements Externalizable {
      * Add <code>v</code> to this vector.
      * 
      * @param v
-     *          the vector to add
+     *        the vector to add
      * @return this
      */
     public Vector2f add(Vector2f v) {
@@ -269,11 +507,11 @@ public class Vector2f implements Externalizable {
      * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
      * 
      * @param a
-     *          the first addend
+     *        the first addend
      * @param b
-     *          the second addend
+     *        the second addend
      * @param dest
-     *          will hold the result
+     *        will hold the result
      */
     public static void add(Vector2f a, Vector2f b, Vector2f dest) {
         dest.x = a.x + b.x;
@@ -317,7 +555,7 @@ public class Vector2f implements Externalizable {
      * Negate this vector and store the result in <code>dest</code>.
      * 
      * @param dest
-     *          will hold the result
+     *        will hold the result
      * @return dest
      */
     public Vector2f negate(Vector2f dest) {
@@ -330,7 +568,7 @@ public class Vector2f implements Externalizable {
      * Multiply the components of this vector by the given scalar.
      * 
      * @param scalar
-     *          the value to multiply this vector's components by
+     *        the value to multiply this vector's components by
      * @return this
      */
     public Vector2f mul(float scalar) {
@@ -343,9 +581,9 @@ public class Vector2f implements Externalizable {
      * Multiply the components of this vector by the given scalar and store the result in <code>dest</code>.
      * 
      * @param scalar
-     *          the value to multiply this vector's components by
+     *        the value to multiply this vector's components by
      * @param dest
-     *          will hold the result
+     *        will hold the result
      * @return dest
      */
     public Vector2f mul(float scalar, Vector2f dest) {
@@ -383,6 +621,44 @@ public class Vector2f implements Externalizable {
         float y = this.x * m.m01 + this.y * m.m11 + m.m21;
         dest.x = x;
         dest.y = y;
+        return dest;
+    }
+
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>this</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     * 
+     * @param other
+     *          the other vector
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @return this
+     */
+    public Vector2f lerp(Vector2f other, float t) {
+        return lerp(other, t, this);
+    }
+
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     * 
+     * @param other
+     *          the other vector
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f lerp(Vector2f other, float t, Vector2f dest) {
+        dest.x = (1.0f - t) * x + t * other.x;
+        dest.y = (1.0f - t) * y + t * other.y;
         return dest;
     }
 
@@ -425,11 +701,77 @@ public class Vector2f implements Externalizable {
      * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
      * 
      * @param formatter
-     *          the {@link NumberFormat} used to format the vector components with
+     *        the {@link NumberFormat} used to format the vector components with
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @return this
+     */
+    public Vector2f fma(Vector2f a, Vector2f b) {
+        x += a.x * b.x;
+        y += a.y * b.y;
+        return this;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @return this
+     */
+    public Vector2f fma(float a, Vector2f b) {
+        x += a * b.x;
+        y += a * b.y;
+        return this;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f fma(Vector2f a, Vector2f b, Vector2f dest) {
+        dest.x = x + a.x * b.x;
+        dest.y = y + a.y * b.y;
+        return dest;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f fma(float a, Vector2f b, Vector2f dest) {
+        dest.x = x + a * b.x;
+        dest.y = y + a * b.y;
+        return dest;
     }
 
 }
