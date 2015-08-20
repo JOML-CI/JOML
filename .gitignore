@@ -3,9 +3,9 @@
 /dist/
 /nbproject/
 /target/
-/.classpath
-/.project
 /bin/
 /.idea/
 /out/
-*.iml
+/.classpath
+/.project
+/*.iml

@@ -1579,6 +1579,20 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Get the scaling factors of <code>this</code> matrix for the three base axes.
+     * 
+     * @param dest
+     *          will hold the scaling factors for <tt>x</tt>, <tt>y</tt> and <tt>z</tt>
+     * @return dest
+     */
+    public Vector3d getScale(Vector3d dest) {
+        dest.x = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        dest.y = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        dest.z = Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        return dest;
+    }
+
+    /**
      * Return a string representation of this matrix.
      * <p>
      * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>  0.000E0; -</tt>".
@@ -2136,8 +2150,7 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Vector4d transform(Vector4d v, Vector4d dest) {
-        v.mul(this, dest);
-        return dest;
+        return v.mul(this, dest);
     }
 
     /**
@@ -2150,16 +2163,16 @@ public class Matrix4d implements Externalizable {
      * <tt>w</tt> component of the transformed vector.
      * For perspective projection use {@link #transform(Vector4d)}.
      * <p>
-     * In order to store the result in another vector, use {@link #transform(Vector3d, Vector3d)}.
+     * In order to store the result in another vector, use {@link #transformPoint(Vector3d, Vector3d)}.
      * 
-     * @see #transform(Vector3d, Vector3d)
+     * @see #transformPoint(Vector3d, Vector3d)
      * @see #transform(Vector4d)
      * 
      * @param v
      *          the vector to transform and to hold the final result
      * @return v
      */
-    public Vector3d transform(Vector3d v) {
+    public Vector3d transformPoint(Vector3d v) {
         v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
               m01 * v.x + m11 * v.y + m21 * v.z + m31,
               m02 * v.x + m12 * v.y + m22 * v.z + m32);
@@ -2176,9 +2189,9 @@ public class Matrix4d implements Externalizable {
      * <tt>w</tt> component of the transformed vector.
      * For perspective projection use {@link #transform(Vector4d, Vector4d)}.
      * <p>
-     * In order to store the result in the same vector, use {@link #transform(Vector3d)}.
+     * In order to store the result in the same vector, use {@link #transformPoint(Vector3d)}.
      * 
-     * @see #transform(Vector3d)
+     * @see #transformPoint(Vector3d)
      * @see #transform(Vector4d, Vector4d)
      * 
      * @param v
@@ -2187,10 +2200,54 @@ public class Matrix4d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3d transform(Vector3d v, Vector3d dest) {
-        dest.x = m00 * v.x + m10 * v.y + m20 * v.z + m30;
-        dest.y = m01 * v.x + m11 * v.y + m21 * v.z + m31;
-        dest.z = m02 * v.x + m12 * v.y + m22 * v.z + m32;
+    public Vector3d transformPoint(Vector3d v, Vector3d dest) {
+        dest.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
+                 m01 * v.x + m11 * v.y + m21 * v.z + m31,
+                 m02 * v.x + m12 * v.y + m22 * v.z + m32);
+        return dest;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in that vector.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a point. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in another vector, use {@link #transformDirection(Vector3d, Vector3d)}.
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector3d transformDirection(Vector3d v) {
+        v.set(m00 * v.x + m10 * v.y + m20 * v.z,
+              m01 * v.x + m11 * v.y + m21 * v.z,
+              m02 * v.x + m12 * v.y + m22 * v.z);
+        return v;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a point. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformDirection(Vector3d)}.
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d transformDirection(Vector3d v, Vector3d dest) {
+        dest.set(m00 * v.x + m10 * v.y + m20 * v.z,
+                 m01 * v.x + m11 * v.y + m21 * v.z,
+                 m02 * v.x + m12 * v.y + m22 * v.z);
         return dest;
     }
 

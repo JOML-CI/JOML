@@ -852,80 +852,6 @@ public class Vector3d implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3d by the given matrix <code>mat</code> and store the result in <code>dest</code>.
-     * <p>
-     * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector3d mul(Matrix4d mat, Vector3d dest) {
-        if (this != dest) {
-            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30;
-            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31;
-            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32;
-        } else {
-            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
-                     mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
-                     mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
-        }
-        return dest;
-    }
-
-    /**
-     * Multiply this Vector3d by the given matrix <code>mat</code>.
-     * <p>
-     * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @return this
-     */
-    public Vector3d mul(Matrix4d mat) {
-        return mul(mat, this);
-    }
-
-    /**
-     * Multiply this Vector3d by the given matrix <code>mat</code> and store the result in <code>dest</code>.
-     * <p>
-     * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector3d mul(Matrix4f mat, Vector3d dest) {
-        if (this != dest) {
-            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
-            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
-            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
-        } else {
-            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
-                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
-                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
-        }
-        return dest;
-    }
-
-    /**
-     * Multiply this Vector3d by the given matrix <code>mat</code>.
-     * <p>
-     * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @return this
-     */
-    public Vector3d mul(Matrix4f mat) {
-        return mul(mat, this);
-    }
-
-    /**
      * Multiply this Vector3d by the given matrix <code>mat</code>, perform perspective division
      * and store the result in <code>dest</code>.
      * <p>
@@ -1389,10 +1315,10 @@ public class Vector3d implements Externalizable {
      * @return the distance
      */
     public double distance(Vector3d v) {
-        return Math.sqrt(
-                  (v.x - this.x) * (v.x - this.x)
-                + (v.y - this.y) * (v.y - this.y)
-                + (v.z - this.z) * (v.z - this.z));
+        double dx = v.x - x;
+        double dy = v.y - y;
+        double dz = v.z - z;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -1407,10 +1333,10 @@ public class Vector3d implements Externalizable {
      * @return the euclidean distance
      */
     public double distance(double x, double y, double z) {
-        return Math.sqrt(
-                (x - this.x) * (x - this.x)
-              + (y - this.y) * (y - this.y)
-              + (z - this.z) * (z - this.z));
+        double dx = this.x - x;
+        double dy = this.y - y;
+        double dz = this.z - z;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -1421,9 +1347,10 @@ public class Vector3d implements Externalizable {
      * @return the squared of the distance
      */
     public double distanceSquared(Vector3d v) {
-        return (v.x - this.x) * (v.x - this.x)
-             + (v.y - this.y) * (v.y - this.y)
-             + (v.z - this.z) * (v.z - this.z);
+        double dx = v.x - x;
+        double dy = v.y - y;
+        double dz = v.z - z;
+        return dx * dx + dy * dy + dz * dz;
     }
 
     /**
@@ -1438,9 +1365,10 @@ public class Vector3d implements Externalizable {
      * @return the square of the distance
      */
     public double distanceSquared(double x, double y, double z) {
-        return (x - this.x) * (x - this.x)
-             + (y - this.y) * (y - this.y)
-             + (z - this.z) * (z - this.z);
+        double dx = this.x - x;
+        double dy = this.y - y;
+        double dz = this.z - z;
+        return dx * dx + dy * dy + dz * dz;
     }
 
     /**

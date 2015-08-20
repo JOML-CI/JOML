@@ -535,8 +535,9 @@ public class Vector2d implements Externalizable {
      * @return the euclidean distance
      */
     public double distance(Vector2d v) {
-        return Math.sqrt((v.x - x) * (v.x - x)
-                       + (v.y - y) * (v.y - y));
+        double dx = v.x - x;
+        double dy = v.y - y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /**
@@ -547,8 +548,9 @@ public class Vector2d implements Externalizable {
      * @return the euclidean distance
      */
     public double distance(Vector2f v) {
-        return Math.sqrt((v.x - x) * (v.x - x)
-                       + (v.y - y) * (v.y - y));
+        double dx = v.x - x;
+        double dy = v.y - y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     /**
@@ -811,6 +813,72 @@ public class Vector2d implements Externalizable {
      */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @return this
+     */
+    public Vector2d fma(Vector2d a, Vector2d b) {
+        x += a.x * b.x;
+        y += a.y * b.y;
+        return this;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @return this
+     */
+    public Vector2d fma(double a, Vector2d b) {
+        x += a * b.x;
+        y += a * b.y;
+        return this;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2d fma(Vector2d a, Vector2d b, Vector2d dest) {
+        dest.x = x + a.x * b.x;
+        dest.y = y + a.y * b.y;
+        return dest;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2d fma(double a, Vector2d b, Vector2d dest) {
+        dest.x = x + a * b.x;
+        dest.y = y + a * b.y;
+        return dest;
     }
 
 }

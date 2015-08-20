@@ -2155,4 +2155,18 @@ public class Matrix3d implements Externalizable {
         return this;
     }
 
+    /**
+     * Get the scaling factors of <code>this</code> matrix for the three base axes.
+     * 
+     * @param dest
+     *          will hold the scaling factors for <tt>x</tt>, <tt>y</tt> and <tt>z</tt>
+     * @return dest
+     */
+    public Vector3d getScale(Vector3d dest) {
+        dest.x = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        dest.y = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        dest.z = Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        return dest;
+    }
+
 }

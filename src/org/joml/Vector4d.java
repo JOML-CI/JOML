@@ -1201,11 +1201,11 @@ public class Vector4d implements Externalizable {
      * @return the euclidean distance
      */
     public double distance(Vector4d v) {
-        return Math.sqrt(
-                (v.x - x) * (v.x - x)
-              + (v.y - y) * (v.y - y)
-              + (v.z - z) * (v.z - z)
-              + (v.w - w) * (v.w - w));
+        double dx = v.x - x;
+        double dy = v.y - y;
+        double dz = v.z - z;
+        double dw = v.w - w;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
     /**
@@ -1222,11 +1222,11 @@ public class Vector4d implements Externalizable {
      * @return the euclidean distance
      */
     public double distance(double x, double y, double z, double w) {
-        return Math.sqrt(
-                (x - this.x) * (x - this.x)
-              + (y - this.y) * (y - this.y)
-              + (z - this.z) * (z - this.z)
-              + (w - this.w) * (w - this.w));
+        double dx = this.x - x;
+        double dy = this.y - y;
+        double dz = this.z - z;
+        double dw = this.w - w;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
     /**

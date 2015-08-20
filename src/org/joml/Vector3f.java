@@ -662,39 +662,6 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the given matrix <code>mat</code> and store the result in <code>this</code>.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @return this
-     */
-    public Vector3f mul(Matrix4f mat) {
-        return mul(mat, this);
-    }
-
-    /**
-     * Multiply this Vector3f by the given matrix <code>mat</code> and store the result in <code>dest</code>.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector3f mul(Matrix4f mat, Vector3f dest) {
-        if (this != dest) {
-            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30;
-            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31;
-            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32;
-        } else {
-            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
-                     mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
-                     mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
-        }
-        return dest;
-    }
-
-    /**
      * Multiply this Vector3f by the given matrix <code>mat</code>, perform perspective division
      * and store the result in <code>dest</code>.
      * <p>
@@ -1062,10 +1029,10 @@ public class Vector3f implements Externalizable {
      * @return the distance
      */
     public float distance(Vector3f v) {
-        return (float) Math.sqrt(
-                  (v.x - this.x) * (v.x - this.x)
-                + (v.y - this.y) * (v.y - this.y)
-                + (v.z - this.z) * (v.z - this.z));
+        float dx = v.x - x;
+        float dy = v.y - y;
+        float dz = v.z - z;
+        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -1080,10 +1047,10 @@ public class Vector3f implements Externalizable {
      * @return the euclidean distance
      */
     public float distance(float x, float y, float z) {
-        return (float) Math.sqrt(
-                (x - this.x) * (x - this.x)
-              + (y - this.y) * (y - this.y)
-              + (z - this.z) * (z - this.z));
+        float dx = this.x - x;
+        float dy = this.y - y;
+        float dz = this.z - z;
+        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -1094,9 +1061,10 @@ public class Vector3f implements Externalizable {
      * @return the squared of the distance
      */
     public float distanceSquared(Vector3f v) {
-        return (v.x - this.x) * (v.x - this.x)
-             + (v.y - this.y) * (v.y - this.y)
-             + (v.z - this.z) * (v.z - this.z);
+        float dx = v.x - x;
+        float dy = v.y - y;
+        float dz = v.z - z;
+        return dx * dx + dy * dy + dz * dz;
     }
 
     /**
@@ -1111,9 +1079,10 @@ public class Vector3f implements Externalizable {
      * @return the square of the distance
      */
     public float distanceSquared(float x, float y, float z) {
-        return (x - this.x) * (x - this.x)
-             + (y - this.y) * (y - this.y)
-             + (z - this.z) * (z - this.z);
+        float dx = this.x - x;
+        float dy = this.y - y;
+        float dz = this.z - z;
+        return dx * dx + dy * dy + dz * dz;
     }
 
     /**
