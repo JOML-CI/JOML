@@ -1841,6 +1841,64 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Store the elements of this matrix as float values in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getFloats(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getFloats(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the elements of this matrix as float values in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer getFloats(ByteBuffer buffer) {
+        return getFloats(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the elements of this matrix as float values in column-major order into the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the elements of this matrix as float values in column-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer getFloats(int index, ByteBuffer buffer) {
+        buffer.putFloat(index+4*0,  (float)m00);
+        buffer.putFloat(index+4*1,  (float)m01);
+        buffer.putFloat(index+4*2,  (float)m02);
+        buffer.putFloat(index+4*3,  (float)m03);
+        buffer.putFloat(index+4*4,  (float)m10);
+        buffer.putFloat(index+4*5,  (float)m11);
+        buffer.putFloat(index+4*6,  (float)m12);
+        buffer.putFloat(index+4*7,  (float)m13);
+        buffer.putFloat(index+4*8,  (float)m20);
+        buffer.putFloat(index+4*9,  (float)m21);
+        buffer.putFloat(index+4*10, (float)m22);
+        buffer.putFloat(index+4*11, (float)m23);
+        buffer.putFloat(index+4*12, (float)m30);
+        buffer.putFloat(index+4*13, (float)m31);
+        buffer.putFloat(index+4*14, (float)m32);
+        buffer.putFloat(index+4*15, (float)m33);
+        return buffer;
+    }
+
+    /**
      * Store this matrix into the supplied double array in column-major order.
      * 
      * @param arr
