@@ -66,5 +66,4 @@ public class FrustumCullerTest extends TestCase {
         Assert.assertEquals(Matrix4f.PLANE_NX, c.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, Matrix4f.PLANE_MASK_NX));
     }
 
-
 }
