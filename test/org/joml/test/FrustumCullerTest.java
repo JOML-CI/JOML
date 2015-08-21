@@ -32,10 +32,10 @@ public class FrustumCullerTest extends TestCase {
         FrustumCuller c = new FrustumCuller(m);
         Assert.assertEquals(-1, c.isAabInsideFrustum(-20, -2, 0, 20, 2, 0));
         Assert.assertEquals(Matrix4f.PLANE_PX, c.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
-        new Matrix4f().ortho(-1, 1, -1, 1, -1, 1).get(c);
+        new Matrix4f().ortho(-1, 1, -1, 1, -1, 1).getFrustum(c);
         Assert.assertEquals(-1, c.isAabInsideFrustum(0, 0, 0, 2, 2, 2));
         Assert.assertEquals(Matrix4f.PLANE_PX, c.isAabInsideFrustum(1.1f, 0, 0, 2, 2, 2));
-        new Matrix4f().get(c);
+        new Matrix4f().getFrustum(c);
         Assert.assertEquals(-1, c.isAabInsideFrustum(0.5f, 0.5f, 0.5f, 2, 2, 2));
         Assert.assertEquals(Matrix4f.PLANE_PX, c.isAabInsideFrustum(1.5f, 0.5f, 0.5f, 2, 2, 2));
         Assert.assertEquals(Matrix4f.PLANE_NX, c.isAabInsideFrustum(-2.5f, 0.5f, 0.5f, -1.5f, 2, 2));

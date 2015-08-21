@@ -1772,7 +1772,7 @@ public class Matrix4f implements Externalizable {
      *          the {@link FrustumCuller} to update
      * @return the passed in culler
      */
-    public FrustumCuller get(FrustumCuller culler) {
+    public FrustumCuller getFrustum(FrustumCuller culler) {
         return culler.set(this);
     }
 
@@ -1787,7 +1787,7 @@ public class Matrix4f implements Externalizable {
      *          the {@link FrustumRayBuilder} to update
      * @return the passed in frustum ray builder
      */
-    public FrustumRayBuilder get(FrustumRayBuilder frustumRayBuilder) {
+    public FrustumRayBuilder getFrustum(FrustumRayBuilder frustumRayBuilder) {
         return frustumRayBuilder.set(this);
     }
 
