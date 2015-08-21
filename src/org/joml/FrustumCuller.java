@@ -137,6 +137,9 @@ public class FrustumCuller {
 
     /**
      * Update the stored frustum planes of <code>this</code> {@link FrustumCuller} with the given {@link Matrix4f matrix}.
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param m
      *          the {@link Matrix4f matrix} to update <code>this</code> frustum culler's frustum planes from

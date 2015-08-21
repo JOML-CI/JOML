@@ -60,6 +60,11 @@ public class FrustumRayBuilder {
 
     /**
      * Update the stored frustum corner rays and origin of <code>this</code> {@link FrustumRayBuilder} with the given {@link Matrix4f matrix}.
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * <p>
+     * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
      * 
      * @param m
      *          the {@link Matrix4f matrix} to update the frustum corner rays and origin with
