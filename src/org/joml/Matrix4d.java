@@ -483,6 +483,32 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
+     * 
+     * @see Quaternionf#get(Matrix4d)
+     * 
+     * @param q
+     *          the {@link Quaternionf}
+     * @return this
+     */
+    public Matrix4d set(Quaternionf q) {
+        return q.get(this);
+    }
+
+    /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniond}.
+     * 
+     * @see Quaterniond#get(Matrix4d)
+     * 
+     * @param q
+     *          the {@link Quaterniond}
+     * @return this
+     */
+    public Matrix4d set(Quaterniond q) {
+        return q.get(this);
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,

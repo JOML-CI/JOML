@@ -322,6 +322,45 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @param dest
+     *          the matrix to write the rotation into
+     * @return the passed in destination
+     */
+    public Matrix4d get(Matrix4d dest) {
+        float q00 = 2.0f * x * x;
+        float q11 = 2.0f * y * y;
+        float q22 = 2.0f * z * z;
+
+        float q01 = 2.0f * x * y;
+        float q02 = 2.0f * x * z;
+        float q03 = 2.0f * x * w;
+
+        float q12 = 2.0f * y * z;
+        float q13 = 2.0f * y * w;
+
+        float q23 = 2.0f * z * w;
+
+        dest.m00 = 1.0 - q11 - q22;
+        dest.m01 = q01 + q23;
+        dest.m02 = q02 - q13;
+        dest.m03 = 0.0;
+        dest.m10 = q01 - q23;
+        dest.m11 = 1.0 - q22 - q00;
+        dest.m12 = q12 + q03;
+        dest.m13 = 0.0;
+        dest.m20 = q02 + q13;
+        dest.m21 = q12 - q03;
+        dest.m22 = 1.0 - q11 - q00;
+        dest.m30 = 0.0;
+        dest.m31 = 0.0;
+        dest.m32 = 0.0;
+        dest.m33 = 1.0;
+        return dest;
+    }
+
+    /**
      * Set the given {@link AxisAngle4f} to represent the rotation of
      * <code>this</code> quaternion.
      * 
