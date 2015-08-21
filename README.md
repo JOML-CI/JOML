@@ -32,7 +32,7 @@ and then translates x by 2.0:
 Vector3f v = ...;
 new Matrix4f().translate(2.0f, 0.0f, 0.0f)
               .scale(0.5f);
-              .transform(v);
+              .transformPoint(v);
 // v is now transformed by the specified transformation
 ```
 
@@ -43,7 +43,7 @@ Vector3f pointToRotate = new Vector3f(0.0f, 4.0f, 4.0f);
 new Matrix4f().translate(center)
               .rotate((float) Math.toRadians(90.0f), 1.0f, 0.0f, 0.0f)
               .translate(center.negate())
-              .transform(pointToRotate);
+              .transformPoint(pointToRotate);
 ```
 The vector *pointToRotate* will now represent (0, 3, 5).
 
@@ -61,7 +61,7 @@ Matrix4f m = new Matrix4f();
 Vector3f point = new Vector3f(1.0f, 2.0f, 3.0f);
 Vector3f offset = new Vector3f(1.0f, 0.0f, 0.0f);
 ...
-m.translation(offset).transform(point);
+m.translation(offset).transformPoint(point);
 ```
 In the above example, the matrix _m_ is being set to a translation, instead of applying the translation to it.
 These methods are useful when the same matrix is being used in a sequence of consecutive operations or repeatedly in a loop without having to set it to the identity each time.
@@ -103,8 +103,7 @@ FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 new Matrix4f().perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
               .lookAt(0.0f, 0.0f, 10.0f,
                       0.0f, 0.0f, 0.0f,
-                      0.0f, 1.0f, 0.0f)
-              .get(fb);
+                      0.0f, 1.0f, 0.0f).get(fb);
 glUniformMatrix4fv(mat4Location, false, fb);
 ```
 The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method [*glUniformMatrix4fv*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv%28int,%20boolean,%20java.nio.FloatBuffer%29).
@@ -131,8 +130,7 @@ FloatBuffer fb = Buffers.newDirectFloatBuffer(16);
 new Matrix4f().perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
               .lookAt(0.0f, 0.0f, 10.0f,
                       0.0f, 0.0f, 0.0f,
-                      0.0f, 1.0f, 0.0f)
-              .get(fb);
+                      0.0f, 1.0f, 0.0f).get(fb);
 gl.glUniformMatrix4fv(mat4Location, 1, false, fb);
 ```
 The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the JOGL 2 method [*glUniformMatrix4fv*](http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/GL2ES2.html#glUniformMatrix4fv(int,%20int,%20boolean,%20java.nio.FloatBuffer)).
