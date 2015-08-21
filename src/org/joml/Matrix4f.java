@@ -2395,6 +2395,66 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
+     * 
+     * @see Vector4f#mulProject(Matrix4f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector4f transformProject(Vector4f v) {
+        return v.mulProject(this);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * 
+     * @see Vector4f#mulProject(Matrix4f, Vector4f)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector4f transformProject(Vector4f v, Vector4f dest) {
+        return v.mulProject(this, dest);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @see Vector3f#mulProject(Matrix4f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector3f transformProject(Vector3f v) {
+        return v.mulProject(this);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @see Vector3f#mulProject(Matrix4f, Vector3f)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector3f transformProject(Vector3f v, Vector3f dest) {
+        return v.mulProject(this, dest);
+    }
+
+    /**
      * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=1, by
      * this matrix and store the result in that vector.
      * <p>

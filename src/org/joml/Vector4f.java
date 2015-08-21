@@ -775,6 +775,36 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Multiply this Vector4f by the given matrix <code>mat</code>, perform perspective division
+     * and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector4f mulProject(Matrix4f mat, Vector4f dest) {
+        float invW = 1.0f / (mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
+        dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w) * invW,
+                 (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w) * invW,
+                 (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w) * invW,
+                 1.0f);
+        return dest;
+    }
+
+    /**
+     * Multiply this Vector3f by the given matrix <code>mat</code>, perform perspective division.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector4f mulProject(Matrix4f mat) {
+        return mulProject(mat, this);
+    }
+
+    /**
      * Multiply all components of this {@link Vector4f} by the given scalar
      * value.
      * 
