@@ -61,9 +61,9 @@ public class FrustumCullerTest extends TestCase {
     public void testIsAabInPerspectiveMask() {
         Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
         FrustumCuller c = new FrustumCuller(m);
-        Assert.assertEquals(-1, c.isAabInsideFrustumMasked(5.1f, 0, -3, 8, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_PX));
-        Assert.assertEquals(-1, c.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, ~0 ^ Matrix4f.PLANE_MASK_NX));
-        Assert.assertEquals(Matrix4f.PLANE_NX, c.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, Matrix4f.PLANE_MASK_NX));
+        Assert.assertEquals(-1, c.isAabInsideFrustumMasked(5.1f, 0, -3, 8, 2, -2, ~0 ^ FrustumCuller.PLANE_MASK_PX));
+        Assert.assertEquals(-1, c.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, ~0 ^ FrustumCuller.PLANE_MASK_NX));
+        Assert.assertEquals(Matrix4f.PLANE_NX, c.isAabInsideFrustumMasked(-6.1f, 0, -3, -5, 2, -2, FrustumCuller.PLANE_MASK_NX));
     }
 
 }
