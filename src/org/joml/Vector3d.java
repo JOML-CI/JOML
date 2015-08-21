@@ -864,16 +864,10 @@ public class Vector3d implements Externalizable {
      * @return dest
      */
     public Vector3d mulProject(Matrix4d mat, Vector3d dest) {
-        double w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33;
-        if (this != dest) {
-            dest.x = (mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) / w;
-            dest.y = (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) / w;
-            dest.z = (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) / w;
-        } else {
-            dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) / w,
-                     (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) / w,
-                     (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) / w);
-        }
+        double invW = 1.0 / (mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33);
+        dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) * invW,
+                 (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) * invW,
+                 (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) * invW);
         return dest;
     }
 
@@ -903,16 +897,10 @@ public class Vector3d implements Externalizable {
      * @return dest
      */
     public Vector3d mulProject(Matrix4f mat, Vector3d dest) {
-        double w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33;
-        if (this != dest) {
-            dest.x = (mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) / w;
-            dest.y = (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) / w;
-            dest.z = (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) / w;
-        } else {
-            dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) / w,
-                     (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) / w,
-                     (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) / w);
-        }
+        double invW = 1.0 / (mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33);
+        dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) * invW,
+                 (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) * invW,
+                 (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) * invW);
         return dest;
     }
 
@@ -962,15 +950,9 @@ public class Vector3d implements Externalizable {
      * @return dest
      */
     public Vector3d mul(Matrix3d mat, Vector3d dest) {
-        if (this != dest) {
-            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
-            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
-            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
-        } else {
-            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
-                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
-                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
-        }
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
         return dest;
     }
 
@@ -985,15 +967,137 @@ public class Vector3d implements Externalizable {
      * @return dest
      */
     public Vector3d mul(Matrix3f mat, Vector3d dest) {
-        if (this != dest) {
-            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
-            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
-            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
-        } else {
-            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
-                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
-                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
-        }
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
+        return dest;
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPoint(Matrix4f mat) {
+        return mulPoint(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPoint(Matrix4d mat) {
+        return mulPoint(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d mulPoint(Matrix4d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
+        return dest;
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d mulPoint(Matrix4f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
+        return dest;
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulDirection(Matrix4f mat) {
+        return mulDirection(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulDirection(Matrix4d mat) {
+        return mulDirection(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d mulDirection(Matrix4d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
+        return dest;
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d mulDirection(Matrix4f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
         return dest;
     }
 
