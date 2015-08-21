@@ -106,7 +106,7 @@ public class Vector3f implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      * <p>
-     * In oder to specify the offset into the ByteBuffer at which
+     * In order to specify the offset into the ByteBuffer at which
      * the vector is read, use {@link #Vector3f(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      *
@@ -630,47 +630,10 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the given matrix <code>mat</code> and store the result in <code>this</code>.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @return this
-     */
-    public Vector3f mul(Matrix4f mat) {
-        return mul(mat, this);
-    }
-
-    /**
-     * Multiply this Vector3f by the given matrix <code>mat</code> and store the result in <code>dest</code>.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector3f mul(Matrix4f mat, Vector3f dest) {
-        if (this != dest) {
-            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30;
-            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31;
-            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32;
-        } else {
-            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
-                     mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
-                     mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
-        }
-        return dest;
-    }
-
-    /**
      * Multiply this Vector3f by the given matrix <code>mat</code>, perform perspective division
      * and store the result in <code>dest</code>.
      * <p>
      * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * <p>
-     * This method differs from {@link #mul(Matrix4f, Vector3f)} in that it also performs perspective division.
-     * 
-     * @see #mul(Matrix4f, Vector3f)
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -679,16 +642,10 @@ public class Vector3f implements Externalizable {
      * @return dest
      */
     public Vector3f mulProject(Matrix4f mat, Vector3f dest) {
-        float w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33;
-        if (this != dest) {
-            dest.x = (mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) / w;
-            dest.y = (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) / w;
-            dest.z = (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) / w;
-        } else {
-            dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) / w,
-                     (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) / w,
-                     (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) / w);
-        }
+        float invW = 1.0f / (mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33);
+        dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) * invW,
+                 (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) * invW,
+                 (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) * invW);
         return dest;
     }
 
@@ -696,10 +653,6 @@ public class Vector3f implements Externalizable {
      * Multiply this Vector3f by the given matrix <code>mat</code>, perform perspective division.
      * <p>
      * This method uses <tt>w=1.0</tt> as the fourth vector component.
-     * <p>
-     * This method differs from {@link #mul(Matrix4f)} in that it also performs perspective division.
-     * 
-     * @see #mul(Matrix4f)
      * 
      * @param mat
      *          the matrix to multiply this vector by
@@ -730,15 +683,74 @@ public class Vector3f implements Externalizable {
      * @return dest
      */
     public Vector3f mul(Matrix3f mat, Vector3f dest) {
-        if (this != dest) {
-            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z;
-            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z;
-            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z;
-        } else {
-            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
-                     mat.m01 * x + mat.m11 * y + mat.m21 * z,
-                     mat.m02 * x + mat.m12 * y + mat.m22 * z);
-        }
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
+        return dest;
+    }
+
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3f mulPoint(Matrix4f mat) {
+        return mulPoint(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f mulPoint(Matrix4f mat, Vector3f dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
+        return dest;
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3f mulDirection(Matrix4f mat) {
+        return mulDirection(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f mulDirection(Matrix4f mat, Vector3f dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
         return dest;
     }
 
@@ -1030,10 +1042,10 @@ public class Vector3f implements Externalizable {
      * @return the distance
      */
     public float distance(Vector3f v) {
-        return (float) Math.sqrt(
-                  (v.x - this.x) * (v.x - this.x)
-                + (v.y - this.y) * (v.y - this.y)
-                + (v.z - this.z) * (v.z - this.z));
+        float dx = v.x - x;
+        float dy = v.y - y;
+        float dz = v.z - z;
+        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -1048,10 +1060,10 @@ public class Vector3f implements Externalizable {
      * @return the euclidean distance
      */
     public float distance(float x, float y, float z) {
-        return (float) Math.sqrt(
-                (x - this.x) * (x - this.x)
-              + (y - this.y) * (y - this.y)
-              + (z - this.z) * (z - this.z));
+        float dx = this.x - x;
+        float dy = this.y - y;
+        float dz = this.z - z;
+        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     /**
@@ -1062,9 +1074,10 @@ public class Vector3f implements Externalizable {
      * @return the squared of the distance
      */
     public float distanceSquared(Vector3f v) {
-        return (v.x - this.x) * (v.x - this.x)
-             + (v.y - this.y) * (v.y - this.y)
-             + (v.z - this.z) * (v.z - this.z);
+        float dx = v.x - x;
+        float dy = v.y - y;
+        float dz = v.z - z;
+        return dx * dx + dy * dy + dz * dz;
     }
 
     /**
@@ -1079,9 +1092,10 @@ public class Vector3f implements Externalizable {
      * @return the square of the distance
      */
     public float distanceSquared(float x, float y, float z) {
-        return (x - this.x) * (x - this.x)
-             + (y - this.y) * (y - this.y)
-             + (z - this.z) * (z - this.z);
+        float dx = this.x - x;
+        float dy = this.y - y;
+        float dz = this.z - z;
+        return dx * dx + dy * dy + dz * dz;
     }
 
     /**
@@ -1398,6 +1412,55 @@ public class Vector3f implements Externalizable {
      */
     public Vector3f half(float x, float y, float z, Vector3f dest) {
         return dest.set(this).add(x, y, z).normalize();
+    }
+
+    /**
+     * Compute a smooth-step (i.e. hermite with zero tangents) interpolation
+     * between <code>this</code> vector and the given vector <code>v</code> and
+     * store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param t
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f smoothStep(Vector3f v, float t, Vector3f dest) {
+        float t2 = t * t;
+        float t3 = t2 * t;
+        dest.x = (2.0f * x - 2.0f * v.x) * t3 + (3.0f * v.x - 3.0f * x) * t2 + x * t + x;
+        dest.y = (2.0f * y - 2.0f * v.y) * t3 + (3.0f * v.y - 3.0f * y) * t2 + y * t + y;
+        dest.z = (2.0f * z - 2.0f * v.z) * t3 + (3.0f * v.z - 3.0f * z) * t2 + z * t + z;
+        return dest;
+    }
+
+    /**
+     * Compute a hermite interpolation between <code>this</code> vector with its
+     * associated tangent <code>t0</code> and the given vector <code>v</code>
+     * with its tangent <code>t1</code> and store the result in
+     * <code>dest</code>.
+     * 
+     * @param t0
+     *          the tangent of <code>this</code> vector
+     * @param v1
+     *          the other vector
+     * @param t1
+     *          the tangent of the other vector
+     * @param t
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f hermite(Vector3f t0, Vector3f v1, Vector3f t1, float t, Vector3f dest) {
+        float t2 = t * t;
+        float t3 = t2 * t;
+        dest.x = (2.0f * x - 2.0f * v1.x + t1.x + t0.x) * t3 + (3.0f * v1.x - 3.0f * x - 2.0f * t0.x - t1.x) * t2 + x * t + x;
+        dest.y = (2.0f * y - 2.0f * v1.y + t1.y + t0.y) * t3 + (3.0f * v1.y - 3.0f * y - 2.0f * t0.y - t1.y) * t2 + y * t + y;
+        dest.z = (2.0f * z - 2.0f * v1.z + t1.z + t0.z) * t3 + (3.0f * v1.z - 3.0f * z - 2.0f * t0.z - t1.z) * t2 + z * t + z;
+        return dest;
     }
 
     /**

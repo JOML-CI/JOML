@@ -729,18 +729,41 @@ public class Vector4f implements Externalizable {
      * @return dest
      */
     public Vector4f mul(Matrix4f mat, Vector4f dest) {
-        if (this != dest) {
-            dest.x = mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w;
-            dest.y = mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w;
-            dest.z = mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w;
-            dest.w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w;
-        } else {
-            dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
-                     mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
-                     mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w,
-                     mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
-        }
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w,
+                 mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
         return dest;
+    }
+
+    /**
+     * Multiply this Vector4f by the given matrix <code>mat</code>, perform perspective division
+     * and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector4f mulProject(Matrix4f mat, Vector4f dest) {
+        float invW = 1.0f / (mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
+        dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w) * invW,
+                 (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w) * invW,
+                 (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w) * invW,
+                 1.0f);
+        return dest;
+    }
+
+    /**
+     * Multiply this Vector3f by the given matrix <code>mat</code>, perform perspective division.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector4f mulProject(Matrix4f mat) {
+        return mulProject(mat, this);
     }
 
     /**
@@ -997,11 +1020,11 @@ public class Vector4f implements Externalizable {
      * @return the euclidean distance
      */
     public float distance(Vector4f v) {
-        return (float) Math.sqrt(
-                (v.x - x) * (v.x - x)
-              + (v.y - y) * (v.y - y)
-              + (v.z - z) * (v.z - z)
-              + (v.w - w) * (v.w - w));
+        float dx = v.x - x;
+        float dy = v.y - y;
+        float dz = v.z - z;
+        float dw = v.w - w;
+        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
     /**
@@ -1018,11 +1041,11 @@ public class Vector4f implements Externalizable {
      * @return the euclidean distance
      */
     public float distance(float x, float y, float z, float w) {
-        return (float) Math.sqrt(
-                (x - this.x) * (x - this.x)
-              + (y - this.y) * (y - this.y)
-              + (z - this.z) * (z - this.z)
-              + (w - this.w) * (w - this.w));
+        float dx = this.x - x;
+        float dy = this.y - y;
+        float dz = this.z - z;
+        float dw = this.w - w;
+        return (float) Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
     /**
@@ -1224,6 +1247,57 @@ public class Vector4f implements Externalizable {
         if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
             return false;
         return true;
+    }
+
+    /**
+     * Compute a smooth-step (i.e. hermite with zero tangents) interpolation
+     * between <code>this</code> vector and the given vector <code>v</code> and
+     * store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param t
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector4f smoothStep(Vector4f v, float t, Vector4f dest) {
+        float t2 = t * t;
+        float t3 = t2 * t;
+        dest.x = (2.0f * x - 2.0f * v.x) * t3 + (3.0f * v.x - 3.0f * x) * t2 + x * t + x;
+        dest.y = (2.0f * y - 2.0f * v.y) * t3 + (3.0f * v.y - 3.0f * y) * t2 + y * t + y;
+        dest.z = (2.0f * z - 2.0f * v.z) * t3 + (3.0f * v.z - 3.0f * z) * t2 + z * t + z;
+        dest.w = (2.0f * w - 2.0f * v.w) * t3 + (3.0f * v.w - 3.0f * w) * t2 + w * t + w;
+        return dest;
+    }
+
+    /**
+     * Compute a hermite interpolation between <code>this</code> vector and its
+     * associated tangent <code>t0</code> and the given vector <code>v</code>
+     * with its tangent <code>t1</code> and store the result in
+     * <code>dest</code>.
+     * 
+     * @param t0
+     *          the tangent of <code>this</code> vector
+     * @param v1
+     *          the other vector
+     * @param t1
+     *          the tangent of the other vector
+     * @param t
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector4f hermite(Vector4f t0, Vector4f v1, Vector4f t1, float t, Vector4f dest) {
+        float t2 = t * t;
+        float t3 = t2 * t;
+        dest.x = (2.0f * x - 2.0f * v1.x + t1.x + t0.x) * t3 + (3.0f * v1.x - 3.0f * x - 2.0f * t0.x - t1.x) * t2 + x * t + x;
+        dest.y = (2.0f * y - 2.0f * v1.y + t1.y + t0.y) * t3 + (3.0f * v1.y - 3.0f * y - 2.0f * t0.y - t1.y) * t2 + y * t + y;
+        dest.z = (2.0f * z - 2.0f * v1.z + t1.z + t0.z) * t3 + (3.0f * v1.z - 3.0f * z - 2.0f * t0.z - t1.z) * t2 + z * t + z;
+        dest.w = (2.0f * w - 2.0f * v1.w + t1.w + t0.w) * t3 + (3.0f * v1.w - 3.0f * w - 2.0f * t0.w - t1.w) * t2 + w * t + w;
+        return dest;
     }
 
     /**

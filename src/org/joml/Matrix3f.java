@@ -84,6 +84,24 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3f} and make it a copy of the upper left 3x3 of the given {@link Matrix4f}.
+     * 
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     */
+    public Matrix3f(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+    }
+
+    /**
      * Create a new 3x3 matrix using the supplied float values. The order of the parameter is column-major, 
      * so the first three parameters specify the three elements of the first column.
      * 
@@ -137,6 +155,26 @@ public class Matrix3f implements Externalizable {
         m20 = m.m20;
         m21 = m.m21;
         m22 = m.m22;
+        return this;
+    }
+
+    /**
+     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4f}.
+     *
+     * @param mat
+     *          the {@link Matrix4f} to copy the values from
+     * @return this
+     */
+    public Matrix3f set(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
         return this;
     }
 
@@ -294,6 +332,7 @@ public class Matrix3f implements Externalizable {
      */
     public Matrix3f invert(Matrix3f dest) {
         float s = determinant();
+        // client must make sure that matrix is invertible
         s = 1.0f / s;
         dest.set((m11 * m22 - m21 * m12) * s,
                  (m21 * m02 - m01 * m22) * s,
@@ -397,7 +436,7 @@ public class Matrix3f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return dest
      */
-    public Quaternionf get(Quaternionf dest) {
+    public Quaternionf getRotation(Quaternionf dest) {
         return dest.set(this);
     }
 
@@ -418,8 +457,7 @@ public class Matrix3f implements Externalizable {
      * @return buffer
      */
     public FloatBuffer get(FloatBuffer buffer) {
-        get(buffer.position(), buffer);
-        return buffer;
+        return get(buffer.position(), buffer);
     }
 
     /**
@@ -435,7 +473,7 @@ public class Matrix3f implements Externalizable {
      * @return buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index, m00);
+        buffer.put(index,   m00);
         buffer.put(index+1, m01);
         buffer.put(index+2, m02);
         buffer.put(index+3, m10);
@@ -488,6 +526,96 @@ public class Matrix3f implements Externalizable {
         buffer.putFloat(index+20, m12);
         buffer.putFloat(index+24, m20);
         buffer.putFloat(index+28, m21);
+        buffer.putFloat(index+32, m22);
+        return buffer;
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed(FloatBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
+        buffer.put(index,    m00);
+        buffer.put(index+1,  m10);
+        buffer.put(index+2,  m20);
+        buffer.put(index+3,  m01);
+        buffer.put(index+4,  m11);
+        buffer.put(index+5,  m21);
+        buffer.put(index+6,  m02);
+        buffer.put(index+7,  m12);
+        buffer.put(index+8, m22);
+        return buffer;
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed(ByteBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
+        buffer.putFloat(index,    m00);
+        buffer.putFloat(index+4,  m10);
+        buffer.putFloat(index+8,  m20);
+        buffer.putFloat(index+12, m01);
+        buffer.putFloat(index+16, m11);
+        buffer.putFloat(index+20, m21);
+        buffer.putFloat(index+24, m02);
+        buffer.putFloat(index+28, m12);
         buffer.putFloat(index+32, m22);
         return buffer;
     }
@@ -1628,10 +1756,10 @@ public class Matrix3f implements Externalizable {
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        float dirRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
-        rightX *= dirRightLength;
-        rightY *= dirRightLength;
-        rightZ *= dirRightLength;
+        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
+        rightX *= invRightLength;
+        rightY *= invRightLength;
+        rightZ *= invRightLength;
         // up = right x direction
         float upnX = rightY * dirnZ - rightZ * dirnY;
         float upnY = rightZ * dirnX - rightX * dirnZ;
@@ -1742,6 +1870,20 @@ public class Matrix3f implements Externalizable {
                  (m01 * m12 - m11 * m02) * s,
                  (m10 * m02 - m00 * m12) * s,
                  (m00 * m11 - m10 * m01) * s);
+        return dest;
+    }
+
+    /**
+     * Get the scaling factors of <code>this</code> matrix for the three base axes.
+     * 
+     * @param dest
+     *          will hold the scaling factors for <tt>x</tt>, <tt>y</tt> and <tt>z</tt>
+     * @return dest
+     */
+    public Vector3f getScale(Vector3f dest) {
+        dest.x = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        dest.y = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        dest.z = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
         return dest;
     }
 

@@ -81,6 +81,43 @@ public class Matrix4f implements Externalizable {
     public static final int PLANE_PZ = 5;
 
     /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>x=-1</tt> when using the identity matrix.
+     */
+    public static final int PLANE_MASK_NX = 1<<PLANE_NX;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>x=1</tt> when using the identity matrix.
+     */
+    public static final int PLANE_MASK_PX = 1<<PLANE_PX;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>y=-1</tt> when using the identity matrix.
+     */
+    public static final int PLANE_MASK_NY = 1<<PLANE_NY;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>y=1</tt> when using the identity matrix.
+     */
+    public static final int PLANE_MASK_PY = 1<<PLANE_PY;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>z=-1</tt> when using the identity matrix.
+     */
+    public static final int PLANE_MASK_NZ = 1<<PLANE_NZ;
+    /**
+     * The value in a bitmask for
+     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * that identifies the plane with equation <tt>z=1</tt> when using the identity matrix.
+     */
+    public static final int PLANE_MASK_PZ = 1<<PLANE_PZ;
+
+    /**
      * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
      * identifying the corner <tt>(-1, -1, -1)</tt> when using the identity matrix.
      */
@@ -590,11 +627,9 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
      * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code> and
      * adding that result to <code>this</code>.
-     * <p>
-     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
      * <p>
      * The matrix <code>other</code> will not be changed.
      * 
@@ -605,23 +640,11 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f fma4x3(Matrix4f other, float otherFactor) {
-        m00 += other.m00 * otherFactor;
-        m01 += other.m01 * otherFactor;
-        m02 += other.m02 * otherFactor;
-        m10 += other.m10 * otherFactor;
-        m11 += other.m11 * otherFactor;
-        m12 += other.m12 * otherFactor;
-        m20 += other.m20 * otherFactor;
-        m21 += other.m21 * otherFactor;
-        m22 += other.m22 * otherFactor;
-        m30 += other.m30 * otherFactor;
-        m31 += other.m31 * otherFactor;
-        m32 += other.m32 * otherFactor;
-        return this;
+        return fma4x3(other, otherFactor, this);
     }
 
     /**
-     * Component-wise add the upper left 4x3 submatrices of <code>this</code> and <code>other</code>
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
      * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code>,
      * adding that to <code>this</code> and storing the final result in <code>dest</code>.
      * <p>
@@ -653,6 +676,255 @@ public class Matrix4f implements Externalizable {
         dest.m30 = m30 + other.m30 * otherFactor;
         dest.m31 = m31 + other.m31 * otherFactor;
         dest.m32 = m32 + other.m32 * otherFactor;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Component-wise add <code>this</code> and <code>other</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @return this
+     */
+    public Matrix4f add(Matrix4f other) {
+        return add(other, this);
+    }
+
+    /**
+     * Component-wise add <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f add(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
+        dest.m03 = m03 + other.m03;
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
+        dest.m13 = m13 + other.m13;
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
+        dest.m23 = m23 + other.m23;
+        dest.m30 = m30 + other.m30;
+        dest.m31 = m31 + other.m31;
+        dest.m32 = m32 + other.m32;
+        dest.m33 = m33 + other.m33;
+        return dest;
+    }
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @return this
+     */
+    public Matrix4f sub(Matrix4f subtrahend) {
+        return sub(subtrahend, this);
+    }
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code> and store the result in <code>dest</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f sub(Matrix4f subtrahend, Matrix4f dest) {
+        dest.m00 = m00 - subtrahend.m00;
+        dest.m01 = m01 - subtrahend.m01;
+        dest.m02 = m02 - subtrahend.m02;
+        dest.m03 = m03 - subtrahend.m03;
+        dest.m10 = m10 - subtrahend.m10;
+        dest.m11 = m11 - subtrahend.m11;
+        dest.m12 = m12 - subtrahend.m12;
+        dest.m13 = m13 - subtrahend.m13;
+        dest.m20 = m20 - subtrahend.m20;
+        dest.m21 = m21 - subtrahend.m21;
+        dest.m22 = m22 - subtrahend.m22;
+        dest.m23 = m23 - subtrahend.m23;
+        dest.m30 = m30 - subtrahend.m30;
+        dest.m31 = m31 - subtrahend.m31;
+        dest.m32 = m32 - subtrahend.m32;
+        dest.m33 = m33 - subtrahend.m33;
+        return dest;
+    }
+
+    /**
+     * Component-wise multiply <code>this</code> by <code>other</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @return this
+     */
+    public Matrix4f mulComponentWise(Matrix4f other) {
+        return mulComponentWise(other, this);
+    }
+
+    /**
+     * Component-wise multiply <code>this</code> by <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f mulComponentWise(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 * other.m00;
+        dest.m01 = m01 * other.m01;
+        dest.m02 = m02 * other.m02;
+        dest.m03 = m03 * other.m03;
+        dest.m10 = m10 * other.m10;
+        dest.m11 = m11 * other.m11;
+        dest.m12 = m12 * other.m12;
+        dest.m13 = m13 * other.m13;
+        dest.m20 = m20 * other.m20;
+        dest.m21 = m21 * other.m21;
+        dest.m22 = m22 * other.m22;
+        dest.m23 = m23 * other.m23;
+        dest.m30 = m30 * other.m30;
+        dest.m31 = m31 * other.m31;
+        dest.m32 = m32 * other.m32;
+        dest.m33 = m33 * other.m33;
+        return dest;
+    }
+
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @return this
+     */
+    public Matrix4f add4x3(Matrix4f other) {
+        return add4x3(other, this);
+    }
+
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f add4x3(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
+        dest.m03 = m03;
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
+        dest.m13 = m13;
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
+        dest.m23 = m23;
+        dest.m30 = m30 + other.m30;
+        dest.m31 = m31 + other.m31;
+        dest.m32 = m32 + other.m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Component-wise subtract the upper 4x3 submatrices of <code>subtrahend</code> from <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @return this
+     */
+    public Matrix4f sub4x3(Matrix4f subtrahend) {
+        return sub4x3(subtrahend, this);
+    }
+
+    /**
+     * Component-wise subtract the upper 4x3 submatrices of <code>subtrahend</code> from <code>this</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f sub4x3(Matrix4f subtrahend, Matrix4f dest) {
+        dest.m00 = m00 - subtrahend.m00;
+        dest.m01 = m01 - subtrahend.m01;
+        dest.m02 = m02 - subtrahend.m02;
+        dest.m03 = m03;
+        dest.m10 = m10 - subtrahend.m10;
+        dest.m11 = m11 - subtrahend.m11;
+        dest.m12 = m12 - subtrahend.m12;
+        dest.m13 = m13;
+        dest.m20 = m20 - subtrahend.m20;
+        dest.m21 = m21 - subtrahend.m21;
+        dest.m22 = m22 - subtrahend.m22;
+        dest.m23 = m23;
+        dest.m30 = m30 - subtrahend.m30;
+        dest.m31 = m31 - subtrahend.m31;
+        dest.m32 = m32 - subtrahend.m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Component-wise multiply the upper 4x3 submatrices of <code>this</code> by <code>other</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @return this
+     */
+    public Matrix4f mul4x3ComponentWise(Matrix4f other) {
+        return mul4x3ComponentWise(other, this);
+    }
+
+    /**
+     * Component-wise multiply the upper 4x3 submatrices of <code>this</code> by <code>other</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f mul4x3ComponentWise(Matrix4f other, Matrix4f dest) {
+        dest.m00 = m00 * other.m00;
+        dest.m01 = m01 * other.m01;
+        dest.m02 = m02 * other.m02;
+        dest.m03 = m03;
+        dest.m10 = m10 * other.m10;
+        dest.m11 = m11 * other.m11;
+        dest.m12 = m12 * other.m12;
+        dest.m13 = m13;
+        dest.m20 = m20 * other.m20;
+        dest.m21 = m21 * other.m21;
+        dest.m22 = m22 * other.m22;
+        dest.m23 = m23;
+        dest.m30 = m30 * other.m30;
+        dest.m31 = m31 * other.m31;
+        dest.m32 = m32 * other.m32;
         dest.m33 = m33;
         return dest;
     }
@@ -1139,13 +1411,27 @@ public class Matrix4f implements Externalizable {
      * 
      * @param xyz
      *          will hold the translation components of this matrix
-     * @return xyz
+     * @return the passed in vector
      */
     public Vector3f getTranslation(Vector3f xyz) {
         xyz.x = m30;
         xyz.y = m31;
         xyz.z = m32;
         return xyz;
+    }
+
+    /**
+     * Get the scaling factors of <code>this</code> matrix for the three base axes.
+     * 
+     * @param dest
+     *          will hold the scaling factors for <tt>x</tt>, <tt>y</tt> and <tt>z</tt>
+     * @return dest
+     */
+    public Vector3f getScale(Vector3f dest) {
+        dest.x = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        dest.y = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        dest.z = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        return dest;
     }
 
     /**
@@ -1185,7 +1471,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @param dest
      *            the destination matrix
-     * @return dest
+     * @return the passed in destination
      */
     public Matrix4f get(Matrix4f dest) {
         return dest.set(this);
@@ -1199,9 +1485,9 @@ public class Matrix4f implements Externalizable {
      * 
      * @param dest
      *          the destination {@link Quaternionf}
-     * @return dest
+     * @return the passed in destination
      */
-    public Quaternionf get(Quaternionf dest) {
+    public Quaternionf getRotation(Quaternionf dest) {
         return dest.set(this);
     }
 
@@ -1209,8 +1495,7 @@ public class Matrix4f implements Externalizable {
      * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
      * <p>
-     * This method will not increment the position of the given
-     * FloatBuffer.
+     * This method will not increment the position of the given FloatBuffer.
      * <p>
      * In order to specify the offset into the FloatBuffer at which
      * the matrix is stored, use {@link #get(int, FloatBuffer)}, taking
@@ -1220,7 +1505,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return buffer
+     * @return the passed in buffer
      */
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
@@ -1236,19 +1521,19 @@ public class Matrix4f implements Externalizable {
      *            the absolute position into the FloatBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return buffer
+     * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index, m00);
-        buffer.put(index+1, m01);
-        buffer.put(index+2, m02);
-        buffer.put(index+3, m03);
-        buffer.put(index+4, m10);
-        buffer.put(index+5, m11);
-        buffer.put(index+6, m12);
-        buffer.put(index+7, m13);
-        buffer.put(index+8, m20);
-        buffer.put(index+9, m21);
+        buffer.put(index,    m00);
+        buffer.put(index+1,  m01);
+        buffer.put(index+2,  m02);
+        buffer.put(index+3,  m03);
+        buffer.put(index+4,  m10);
+        buffer.put(index+5,  m11);
+        buffer.put(index+6,  m12);
+        buffer.put(index+7,  m13);
+        buffer.put(index+8,  m20);
+        buffer.put(index+9,  m21);
         buffer.put(index+10, m22);
         buffer.put(index+11, m23);
         buffer.put(index+12, m30);
@@ -1262,8 +1547,7 @@ public class Matrix4f implements Externalizable {
      * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
      * <p>
-     * This method will not increment the position of the given
-     * ByteBuffer.
+     * This method will not increment the position of the given ByteBuffer.
      * <p>
      * In order to specify the offset into the ByteBuffer at which
      * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
@@ -1273,7 +1557,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return buffer
+     * @return the passed in buffer
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
@@ -1289,12 +1573,12 @@ public class Matrix4f implements Externalizable {
      *            the absolute position into the ByteBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return buffer
+     * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putFloat(index, m00);
-        buffer.putFloat(index+4, m01);
-        buffer.putFloat(index+8, m02);
+        buffer.putFloat(index,    m00);
+        buffer.putFloat(index+4,  m01);
+        buffer.putFloat(index+8,  m02);
         buffer.putFloat(index+12, m03);
         buffer.putFloat(index+16, m10);
         buffer.putFloat(index+20, m11);
@@ -1325,7 +1609,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return buffer
+     * @return the passed in buffer
      */
     public FloatBuffer getTransposed(FloatBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
@@ -1341,7 +1625,7 @@ public class Matrix4f implements Externalizable {
      *            the absolute position into the FloatBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return buffer
+     * @return the passed in buffer
      */
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
         buffer.put(index,    m00);
@@ -1377,7 +1661,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return buffer
+     * @return the passed in buffer
      */
     public ByteBuffer getTransposed(ByteBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
@@ -1393,7 +1677,7 @@ public class Matrix4f implements Externalizable {
      *            the absolute position into the ByteBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return buffer
+     * @return the passed in buffer
      */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         buffer.putFloat(index,    m00);
@@ -1422,19 +1706,19 @@ public class Matrix4f implements Externalizable {
      *          the array to write the matrix values into
      * @param offset
      *          the offset into the array
-     * @return arr
+     * @return the passed in array
      */
     public float[] get(float[] arr, int offset) {
-        arr[offset+0] = m00;
-        arr[offset+1] = m01;
-        arr[offset+2] = m02;
-        arr[offset+3] = m03;
-        arr[offset+4] = m10;
-        arr[offset+5] = m11;
-        arr[offset+6] = m12;
-        arr[offset+7] = m13;
-        arr[offset+8] = m20;
-        arr[offset+9] = m21;
+        arr[offset+0] =  m00;
+        arr[offset+1] =  m01;
+        arr[offset+2] =  m02;
+        arr[offset+3] =  m03;
+        arr[offset+4] =  m10;
+        arr[offset+5] =  m11;
+        arr[offset+6] =  m12;
+        arr[offset+7] =  m13;
+        arr[offset+8] =  m20;
+        arr[offset+9] =  m21;
         arr[offset+10] = m22;
         arr[offset+11] = m23;
         arr[offset+12] = m30;
@@ -1542,7 +1826,7 @@ public class Matrix4f implements Externalizable {
         m33 = 1.0f;
         return this;
     }
-
+    
     /**
      * Set this matrix to be a simple scale matrix which scales the base axes by <tt>xyz.x</tt>, <tt>xyz.y</tt> and <tt>xyz.z</tt> respectively.
      * <p>
@@ -1777,6 +2061,152 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, and <tt>S</tt> is a scaling transformation
+     * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt>.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz)</tt>
+     * 
+     * @see #translation(float, float, float)
+     * @see #rotate(Quaternionf)
+     * @see #scale(float, float, float)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
+     * @param sx
+     *          the scaling factor for the x-axis
+     * @param sy
+     *          the scaling factor for the y-axis
+     * @param sz
+     *          the scaling factor for the z-axis
+     * @return this
+     */
+    public Matrix4f translationRotateScale(float tx, float ty, float tz, 
+                                           float qx, float qy, float qz, float qw, 
+                                           float sx, float sy, float sz) {
+        float dqx = 2.0f * qx, dqy = 2.0f * qy, dqz = 2.0f * qz;
+        float q00 = dqx * qx;
+        float q11 = dqy * qy;
+        float q22 = dqz * qz;
+        float q01 = dqx * qy;
+        float q02 = dqx * qz;
+        float q03 = dqx * qw;
+        float q12 = dqy * qz;
+        float q13 = dqy * qw;
+        float q23 = dqz * qw;
+        m00 = sx - (q11 + q22) * sx;
+        m01 = (q01 + q23) * sx;
+        m02 = (q02 - q13) * sx;
+        m03 = 0.0f;
+        m10 = (q01 - q23) * sy;
+        m11 = sy - (q22 + q00) * sy;
+        m12 = (q12 + q03) * sy;
+        m13 = 0.0f;
+        m20 = (q02 + q13) * sz;
+        m21 = (q12 - q03) * sz;
+        m22 = sz - (q11 + q00) * sz;
+        m23 = 0.0f;
+        m30 = tx;
+        m31 = ty;
+        m32 = tz;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code>.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
+     * 
+     * @see #translation(Vector3f)
+     * @see #rotate(Quaternionf)
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @return this
+     */
+    public Matrix4f translationRotateScale(Vector3f translation, 
+                                           Quaternionf quat, 
+                                           Vector3f scale) {
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion.
+     * <p>
+     * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
+     * 
+     * @see #translation(float, float, float)
+     * @see #rotate(Quaternionf)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param quat
+     *          the quaternion representing a rotation
+     * @return this
+     */
+    public Matrix4f translationRotate(float tx, float ty, float tz, Quaternionf quat) {
+        float dqx = 2.0f * quat.x, dqy = 2.0f * quat.y, dqz = 2.0f * quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
+        m00 = 1.0f - (q11 + q22);
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m03 = 0.0f;
+        m10 = q01 - q23;
+        m11 = 1.0f - (q22 + q00);
+        m12 = q12 + q03;
+        m13 = 0.0f;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0f - (q11 + q00);
+        m23 = 0.0f;
+        m30 = tx;
+        m31 = ty;
+        m32 = tz;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
      * 
      * @param mat
@@ -1828,8 +2258,67 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Vector4f transform(Vector4f v, Vector4f dest) {
-        v.mul(this, dest);
-        return dest;
+        return v.mul(this, dest);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
+     * 
+     * @see Vector4f#mulProject(Matrix4f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector4f transformProject(Vector4f v) {
+        return v.mulProject(this);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * 
+     * @see Vector4f#mulProject(Matrix4f, Vector4f)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector4f transformProject(Vector4f v, Vector4f dest) {
+        return v.mulProject(this, dest);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @see Vector3f#mulProject(Matrix4f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector3f transformProject(Vector3f v) {
+        return v.mulProject(this);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @see Vector3f#mulProject(Matrix4f, Vector3f)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector3f transformProject(Vector3f v, Vector3f dest) {
+        return v.mulProject(this, dest);
     }
 
     /**
@@ -1842,16 +2331,16 @@ public class Matrix4f implements Externalizable {
      * <tt>w</tt> component of the transformed vector.
      * For perspective projection use {@link #transform(Vector4f)}.
      * <p>
-     * In order to store the result in another vector, use {@link #transform(Vector3f, Vector3f)}.
+     * In order to store the result in another vector, use {@link #transformPoint(Vector3f, Vector3f)}.
      * 
-     * @see #transform(Vector3f, Vector3f)
+     * @see #transformPoint(Vector3f, Vector3f)
      * @see #transform(Vector4f)
      * 
      * @param v
      *          the vector to transform and to hold the final result
      * @return v
      */
-    public Vector3f transform(Vector3f v) {
+    public Vector3f transformPoint(Vector3f v) {
         v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
               m01 * v.x + m11 * v.y + m21 * v.z + m31,
               m02 * v.x + m12 * v.y + m22 * v.z + m32);
@@ -1868,9 +2357,9 @@ public class Matrix4f implements Externalizable {
      * <tt>w</tt> component of the transformed vector.
      * For perspective projection use {@link #transform(Vector4f, Vector4f)}.
      * <p>
-     * In order to store the result in the same vector, use {@link #transform(Vector3f)}.
+     * In order to store the result in the same vector, use {@link #transformPoint(Vector3f)}.
      * 
-     * @see #transform(Vector3f)
+     * @see #transformPoint(Vector3f)
      * @see #transform(Vector4f, Vector4f)
      * 
      * @param v
@@ -1879,10 +2368,58 @@ public class Matrix4f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3f transform(Vector3f v, Vector3f dest) {
-        dest.x = m00 * v.x + m10 * v.y + m20 * v.z + m30;
-        dest.y = m01 * v.x + m11 * v.y + m21 * v.z + m31;
-        dest.z = m02 * v.x + m12 * v.y + m22 * v.z + m32;
+    public Vector3f transformPoint(Vector3f v, Vector3f dest) {
+        dest.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
+                 m01 * v.x + m11 * v.y + m21 * v.z + m31,
+                 m02 * v.x + m12 * v.y + m22 * v.z + m32);
+        return dest;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in that vector.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a point. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in another vector, use {@link #transformDirection(Vector3f, Vector3f)}.
+     * 
+     * @see #transformDirection(Vector3f, Vector3f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector3f transformDirection(Vector3f v) {
+        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
+              m01 * v.x + m11 * v.y + m21 * v.z + m31,
+              m02 * v.x + m12 * v.y + m22 * v.z + m32);
+        return v;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a point. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformDirection(Vector3f)}.
+     * 
+     * @see #transformDirection(Vector3f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transformDirection(Vector3f v, Vector3f dest) {
+        dest.set(m00 * v.x + m10 * v.y + m20 * v.z,
+                 m01 * v.x + m11 * v.y + m21 * v.z,
+                 m02 * v.x + m12 * v.y + m22 * v.z);
         return dest;
     }
 
@@ -1920,6 +2457,49 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f scale(Vector3f xyz) {
         return scale(xyz.x, xyz.y, xyz.z, this);
+    }
+
+    /**
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float, Matrix4f)}. 
+     * 
+     * @see #scale(float, float, float, Matrix4f)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f scale(float xyz, Matrix4f dest) {
+        return scale(xyz, xyz, xyz, dest);
+    }
+
+    /**
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float)}. 
+     * 
+     * @see #scale(float, float, float)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @return this
+     */
+    public Matrix4f scale(float xyz) {
+        return scale(xyz, xyz, xyz);
     }
 
     /**
@@ -1984,49 +2564,6 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f scale(float x, float y, float z) {
         return scale(x, y, z, this);
-    }
-
-    /**
-     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * scaling will be applied first!
-     * <p>
-     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float, Matrix4f)}. 
-     * 
-     * @see #scale(float, float, float, Matrix4f)
-     * 
-     * @param xyz
-     *            the factor for all components
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix4f scale(float xyz, Matrix4f dest) {
-        return scale(xyz, xyz, xyz, dest);
-    }
-
-    /**
-     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
-     * scaling will be applied first!
-     * <p>
-     * Individual scaling of all three axes can be applied using {@link #scale(float, float, float)}. 
-     * 
-     * @see #scale(float, float, float)
-     * 
-     * @param xyz
-     *            the factor for all components
-     * @return this
-     */
-    public Matrix4f scale(float xyz) {
-        return scale(xyz, xyz, xyz);
     }
 
     /**
@@ -2238,7 +2775,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Apply rotation to this matrix by rotating the given amount of radians
-     * about the given axis specified as x, y and z components and store the result in <code>dest</code>.
+     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -2320,7 +2857,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Apply rotation to this matrix by rotating the given amount of radians
-     * about the given axis specified as x, y and z components.
+     * about the specified <tt>(x, y, z)</tt> axis.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -3027,7 +3564,7 @@ public class Matrix4f implements Externalizable {
     public Matrix4f lookAlong(float dirX, float dirY, float dirZ,
                               float upX, float upY, float upZ, Matrix4f dest) {
         // Normalize direction
-        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float dirnX = dirX * invDirLength;
         float dirnY = dirY * invDirLength;
         float dirnZ = dirZ * invDirLength;
@@ -3037,7 +3574,7 @@ public class Matrix4f implements Externalizable {
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
+        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLength;
         rightY *= invRightLength;
         rightZ *= invRightLength;
@@ -3180,7 +3717,7 @@ public class Matrix4f implements Externalizable {
     public Matrix4f setLookAlong(float dirX, float dirY, float dirZ,
                                  float upX, float upY, float upZ) {
         // Normalize direction
-        float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float dirnX = dirX * invDirLength;
         float dirnY = dirY * invDirLength;
         float dirnZ = dirZ * invDirLength;
@@ -3190,7 +3727,7 @@ public class Matrix4f implements Externalizable {
         rightY = dirnZ * upX - dirnX * upZ;
         rightZ = dirnX * upY - dirnY * upX;
         // normalize right
-        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
+        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLength;
         rightY *= invRightLength;
         rightZ *= invRightLength;
@@ -3284,10 +3821,10 @@ public class Matrix4f implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        float invDirLength = (float) (1.0 / Math.sqrt(
+        float invDirLength = 1.0f / (float) Math.sqrt(
                   (centerX - eyeX) * (centerX - eyeX)
                 + (centerY - eyeY) * (centerY - eyeY)
-                + (centerZ - eyeZ) * (centerZ - eyeZ)));
+                + (centerZ - eyeZ) * (centerZ - eyeZ));
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
@@ -3297,7 +3834,7 @@ public class Matrix4f implements Externalizable {
         rightY = dirZ * upX - dirX * upZ;
         rightZ = dirX * upY - dirY * upX;
         // normalize right
-        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
+        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLength;
         rightY *= invRightLength;
         rightZ *= invRightLength;
@@ -3428,10 +3965,10 @@ public class Matrix4f implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        float invDirLength = (float) (1.0 / Math.sqrt(
+        float invDirLength = 1.0f / (float) Math.sqrt(
                   (eyeX - centerX) * (eyeX - centerX)
                 + (eyeY - centerY) * (eyeY - centerY)
-                + (eyeZ - centerZ) * (eyeZ - centerZ)));
+                + (eyeZ - centerZ) * (eyeZ - centerZ));
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
@@ -3441,7 +3978,7 @@ public class Matrix4f implements Externalizable {
         rightY = dirZ * upX - dirX * upZ;
         rightZ = dirX * upY - dirY * upX;
         // normalize right
-        float invRightLength = (float) (1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ));
+        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLength;
         rightY *= invRightLength;
         rightZ *= invRightLength;
@@ -4683,7 +5220,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f reflect(float nx, float ny, float nz, float px, float py, float pz, Matrix4f dest) {
-        float invLength = (float) (1.0 / Math.sqrt(nx * nx + ny * ny + nz * nz));
+        float invLength = 1.0f / (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
         float nnx = nx * invLength;
         float nny = ny * invLength;
         float nnz = nz * invLength;
@@ -4843,7 +5380,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f reflection(float nx, float ny, float nz, float px, float py, float pz) {
-        float invLength = (float) (1.0 / Math.sqrt(nx * nx + ny * ny + nz * nz));
+        float invLength = 1.0f / (float) Math.sqrt(nx * nx + ny * ny + nz * nz);
         float nnx = nx * invLength;
         float nny = ny * invLength;
         float nnz = nz * invLength;
@@ -4896,7 +5433,7 @@ public class Matrix4f implements Externalizable {
      *          the row index in <tt>[0..3]</tt>
      * @param dest
      *          will hold the row components
-     * @return dest
+     * @return the passed in destination
      * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..3]</tt>
      */
     public Vector4f getRow(int row, Vector4f dest) throws IndexOutOfBoundsException {
@@ -4928,6 +5465,7 @@ public class Matrix4f implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
+        
         return dest;
     }
 
@@ -4938,7 +5476,7 @@ public class Matrix4f implements Externalizable {
      *          the column index in <tt>[0..3]</tt>
      * @param dest
      *          will hold the column components
-     * @return dest
+     * @return the passed in destination
      * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..3]</tt>
      */
     public Vector4f getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException {
@@ -4970,6 +5508,7 @@ public class Matrix4f implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
+        
         return dest;
     }
 
@@ -5321,6 +5860,355 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Determine whether the given point is within the viewing frustum
+     * defined by <code>this</code> matrix.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * @see #isPointInsideFrustum(float, float, float)
+     * 
+     * @param point
+     *          the point to test
+     * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
+     */
+    public boolean isPointInsideFrustum(Vector3f point) {
+        return isPointInsideFrustum(point.x, point.y, point.z);
+    }
+
+    /**
+     * Determine whether the given point <tt>(x, y, z)</tt> is within the viewing frustum defined by <code>this</code> matrix.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * @see #isPointInsideFrustum(Vector3f)
+     * 
+     * @param x
+     *          the x-coordinate of the point
+     * @param y
+     *          the y-coordinate of the point
+     * @param z
+     *          the z-coordinate of the point
+     * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
+     */
+    public boolean isPointInsideFrustum(float x, float y, float z) {
+        return (m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >= 0 &&
+               (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= 0 &&
+               (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= 0 &&
+               (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= 0 &&
+               (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= 0 &&
+               (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= 0;
+    }
+
+    /**
+     * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> matrix.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * @see #isSphereInsideFrustum(float, float, float, float)
+     * 
+     * @param center
+     *          the sphere's center
+     * @param radius
+     *          the sphere's radius
+     * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
+     *         <code>false</code> otherwise
+     */
+    public boolean isSphereInsideFrustum(Vector3f center, float radius) {
+        return isSphereInsideFrustum(center.x, center.y, center.z, radius);
+    }
+
+    /**
+     * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> matrix.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * @see #isSphereInsideFrustum(Vector3f, float)
+     * 
+     * @param x
+     *          the x-coordinate of the sphere's center
+     * @param y
+     *          the y-coordinate of the sphere's center
+     * @param z
+     *          the z-coordinate of the sphere's center
+     * @param r
+     *          the sphere's radius
+     * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
+     *         <code>false</code> otherwise
+     */
+    public boolean isSphereInsideFrustum(float x, float y, float z, float r) {
+        return (m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >=
+                  -r * Math.sqrt((m03 + m00) * (m03 + m00) + (m13 + m10) * (m13 + m10) + (m23 + m20) * (m23 + m20)) &&
+               (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= 
+                  -r * Math.sqrt((m03 - m00) * (m03 - m00) + (m13 - m10) * (m13 - m10) + (m23 - m20) * (m23 - m20)) &&
+               (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= 
+                  -r * Math.sqrt((m03 + m01) * (m03 + m01) + (m13 + m11) * (m13 + m11) + (m23 + m21) * (m23 + m21)) &&
+               (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= 
+                  -r * Math.sqrt((m03 - m01) * (m03 - m01) + (m13 - m11) * (m13 - m11) + (m23 - m21) * (m23 - m21)) &&
+               (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= 
+                  -r * Math.sqrt((m03 + m02) * (m03 + m02) + (m13 + m12) * (m13 + m12) + (m23 + m22) * (m23 + m22)) &&
+               (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= 
+                  -r * Math.sqrt((m03 - m02) * (m03 - m02) + (m13 - m12) * (m13 - m12) + (m23 - m22) * (m23 - m22));
+    }
+
+    /**
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
+     * and, if the box is not inside this frustum, return the index of the plane that culled it.
+     * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * @see #isAabInsideFrustum(float, float, float, float, float, float)
+     * 
+     * @param min
+     *          the minimum corner coordinates of the axis-aligned box
+     * @param max
+     *          the maximum corner coordinates of the axis-aligned box
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
+     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
+     *         {@link #PLANE_NX}, {@link #PLANE_PX},
+     *         {@link #PLANE_NY}, {@link #PLANE_PY},
+     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
+     */
+    public int isAabInsideFrustum(Vector3f min, Vector3f max) {
+        return isAabInsideFrustum(min.x, min.y, min.z, max.x, max.y, max.z);
+    }
+
+    /**
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
+     * and, if the box is not inside this frustum, return the index of the plane that culled it.
+     * The box is specified via its min and max corner coordinates.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * <p>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * @see #isAabInsideFrustum(Vector3f, Vector3f)
+     * 
+     * @param minX
+     *          the x-coordinate of the minimum corner
+     * @param minY
+     *          the y-coordinate of the minimum corner
+     * @param minZ
+     *          the z-coordinate of the minimum corner
+     * @param maxX
+     *          the x-coordinate of the maximum corner
+     * @param maxY
+     *          the y-coordinate of the maximum corner
+     * @param maxZ
+     *          the z-coordinate of the maximum corner
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
+     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
+     *         {@link #PLANE_NX}, {@link #PLANE_PX},
+     *         {@link #PLANE_NY}, {@link #PLANE_PY},
+     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
+     */
+    public int isAabInsideFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+        /*
+         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
+         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         * 
+         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
+         * or -1 if the box intersects the frustum.
+         */
+        int plane = 0;
+        if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) 
+          + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) 
+          + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30 
+          && ++plane != 0 &&
+            (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) 
+          + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) 
+          + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30 
+          && ++plane != 0 &&
+            (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) 
+          + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) 
+          + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31 
+          && ++plane != 0 &&
+            (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) 
+          + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) 
+          + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31 
+          && ++plane != 0 &&
+            (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) 
+          + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) 
+          + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32 
+          && ++plane != 0 &&
+            (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) 
+          + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) 
+          + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32)
+            return -1;
+        return plane;
+    }
+
+    /**
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
+     * and, if the box is not inside this frustum, return the index of the plane that culled it.
+     * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
+     * <p>
+     * This method differs from {@link #isAabInsideFrustum(Vector3f, Vector3f) isAabInsideFrustum()} in that
+     * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
+     * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
+     * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * @see #isAabInsideFrustumMasked(float, float, float, float, float, float, int)
+     * 
+     * @param min
+     *          the minimum corner coordinates of the axis-aligned box
+     * @param max
+     *          the maximum corner coordinates of the axis-aligned box
+     * @param mask
+     *          contains as bitset all the planes that should be tested. This value can be any combination of 
+     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
+     *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
+     *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
+     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
+     *         {@link #PLANE_NX}, {@link #PLANE_PX},
+     *         {@link #PLANE_NY}, {@link #PLANE_PY},
+     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
+     */
+    public int isAabInsideFrustumMasked(Vector3f min, Vector3f max, int mask) {
+        return isAabInsideFrustumMasked(min.x, min.y, min.z, max.x, max.y, max.z, mask);
+    }
+
+    /**
+     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
+     * and, if the box is not inside this frustum, return the index of the plane that culled it.
+     * The box is specified via its min and max corner coordinates.
+     * <p>
+     * This method differs from {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} in that
+     * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
+     * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
+     * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
+     * <p>
+     * This method computes the frustum planes in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * <p>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * <p>
+     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @see #frustumPlane(int, Vector4f)
+     * @see #isAabInsideFrustumMasked(Vector3f, Vector3f, int)
+     * 
+     * @param minX
+     *          the x-coordinate of the minimum corner
+     * @param minY
+     *          the y-coordinate of the minimum corner
+     * @param minZ
+     *          the z-coordinate of the minimum corner
+     * @param maxX
+     *          the x-coordinate of the maximum corner
+     * @param maxY
+     *          the y-coordinate of the maximum corner
+     * @param maxZ
+     *          the z-coordinate of the maximum corner
+     * @param mask
+     *          contains as bitset all the planes that should be tested. This value can be any combination of 
+     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
+     *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
+     *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
+     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
+     *         {@link #PLANE_NX}, {@link #PLANE_PX},
+     *         {@link #PLANE_NY}, {@link #PLANE_PY},
+     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
+     */
+    public int isAabInsideFrustumMasked(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, int mask) {
+        /*
+         * This is an implementation of the "2.5 Plane masking and coherency" of the mentioned site.
+         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         * 
+         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
+         * or -1 if the box intersects the frustum.
+         */
+        int plane = 0;
+        if (((mask & PLANE_MASK_NX) == 0 ||
+                (m03 + m00) * (m03 + m00 < 0 ? minX : maxX)
+              + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) 
+              + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_PX) == 0 || 
+                (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) 
+              + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) 
+              + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_NY) == 0 || 
+                (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) 
+              + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) 
+              + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_PY) == 0 || 
+                (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) 
+              + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) 
+              + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_NZ) == 0 || 
+                (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) 
+              + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) 
+              + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32) 
+              && ++plane != 0 &&
+            ((mask & PLANE_MASK_PZ) == 0 || 
+                (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) 
+              + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) 
+              + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32))
+            return -1;
+        return plane;
+    }
+
+    /**
      * Obtain the direction of a ray starting at the center of the coordinate system and going 
      * through the near frustum plane.
      * <p>
@@ -5330,11 +6218,6 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The parameters <code>x</code> and <code>y</code> are used to interpolate the generated ray direction
      * from the bottom-left to the top-right frustum corners.
-     * <p>
-     * For optimal efficiency when building many ray directions over the whole frustum,
-     * it is recommended to use this method only in order to compute the four corner rays at
-     * <tt>(0, 0)</tt>, <tt>(1, 0)</tt>, <tt>(0, 1)</tt> and <tt>(1, 1)</tt>
-     * and then bilinearly interpolating between them.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -5626,6 +6509,126 @@ public class Matrix4f implements Externalizable {
         dest.m23 = nm23;
 
         return dest;
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param light
+     *          the light's vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f shadow(Vector4f light, Matrix4f planeTransform, Matrix4f dest) {
+        // compute plane equation by transforming (y = 0)
+        float a = planeTransform.m10;
+        float b = planeTransform.m11;
+        float c = planeTransform.m12;
+        float d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
+        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param light
+     *          the light's vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @return this
+     */
+    public Matrix4f shadow(Vector4f light, Matrix4f planeTransform) {
+        return shadow(light, planeTransform, this);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param lightX
+     *          the x-component of the light vector
+     * @param lightY
+     *          the y-component of the light vector
+     * @param lightZ
+     *          the z-component of the light vector
+     * @param lightW
+     *          the w-component of the light vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4f planeTransform, Matrix4f dest) {
+        // compute plane equation by transforming (y = 0)
+        float a = planeTransform.m10;
+        float b = planeTransform.m11;
+        float c = planeTransform.m12;
+        float d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
+        return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, dest);
+    }
+
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param lightX
+     *          the x-component of the light vector
+     * @param lightY
+     *          the y-component of the light vector
+     * @param lightZ
+     *          the z-component of the light vector
+     * @param lightW
+     *          the w-component of the light vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @return this
+     */
+    public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4f planeTransform) {
+        return shadow(lightX, lightY, lightZ, lightW, planeTransform, this);
     }
 
 }
