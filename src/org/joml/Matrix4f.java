@@ -1541,7 +1541,7 @@ public class Matrix4f implements Externalizable {
      *          the destination {@link AxisAngle4f}
      * @return the passed in destination
      */
-    public AxisAngle4f get(AxisAngle4f dest) {
+    public AxisAngle4f getRotation(AxisAngle4f dest) {
         return dest.set(this);
     }
 
@@ -1555,7 +1555,7 @@ public class Matrix4f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionf get(Quaternionf dest) {
+    public Quaternionf getRotation(Quaternionf dest) {
         return dest.set(this);
     }
 
@@ -1569,7 +1569,7 @@ public class Matrix4f implements Externalizable {
      *          the destination {@link Quaterniond}
      * @return the passed in destination
      */
-    public Quaterniond get(Quaterniond dest) {
+    public Quaterniond getRotation(Quaterniond dest) {
         return dest.set(this);
     }
 
