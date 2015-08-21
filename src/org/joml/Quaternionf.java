@@ -891,7 +891,7 @@ public class Quaternionf implements Externalizable {
     /**
      * Return the square of the length of this quaternion.
      * 
-     * @return the square length
+     * @return the length
      */
     public float lengthSquared() {
         return x * x + y * y + z * z + w * w;
@@ -967,7 +967,7 @@ public class Quaternionf implements Externalizable {
      * Interpolate between <code>this</code> quaternion and the specified
      * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>.
      * <p>
-     * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
+     * This method resorts to non-spherical linear interpolation when the absolute dot product of <code>this</code> and <code>target</code> is
      * below <tt>1E-6f</tt>.
      * 
      * @param target
@@ -985,7 +985,7 @@ public class Quaternionf implements Externalizable {
      * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>,
      * and store the result in <code>dest</code>.
      * <p>
-     * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
+     * This method resorts to non-spherical linear interpolation when the absolute dot product of <code>this</code> and <code>target</code> is
      * below <tt>1E-6f</tt>.
      * <p>
      * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
