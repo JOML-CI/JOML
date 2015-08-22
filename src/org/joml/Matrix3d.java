@@ -1297,7 +1297,7 @@ public class Matrix3d implements Externalizable {
         m12 = 0.0;
         m20 = 0.0;
         m21 = 0.0;
-        m22 = 0.0;
+        m22 = 1.0;
         return this;
     }
 

@@ -2084,7 +2084,7 @@ public class Matrix4f implements Externalizable {
         m13 = 0.0f;
         m20 = 0.0f;
         m21 = 0.0f;
-        m22 = 0.0f;
+        m22 = 1.0f;
         m23 = 0.0f;
         m30 = 0.0f;
         m31 = 0.0f;

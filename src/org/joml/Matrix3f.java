@@ -1115,7 +1115,7 @@ public class Matrix3f implements Externalizable {
         m12 = 0.0f;
         m20 = 0.0f;
         m21 = 0.0f;
-        m22 = 0.0f;
+        m22 = 1.0f;
         return this;
     }
 
