@@ -2025,86 +2025,6 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation of <tt>angles.x</tt> radians about the X axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
-     * followed by a rotation of <tt>angles.z</tt> radians about the Z axis.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
-     * 
-     * @param angles
-     *            the angles to rotate about the X, Y and Z axis, respectively
-     * @return this
-     */
-    public Matrix3d rotateXYZ(Vector3d angles) {
-       return rotateXYZ(angles, this); 
-    }
-
-    /**
-     * Apply rotation of <tt>angles.x</tt> radians about the X axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
-     * followed by a rotation of <tt>angles.z</tt> radians about the Z axis and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
-     * 
-     * @param angles
-     *            the angles to rotate about the X, Y and Z axis, respectively
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3d rotateXYZ(Vector3d angles, Matrix3d dest) {
-        return rotateXYZ(angles.x, angles.y, angles.z, dest);
-    }
-
-    /**
-     * Apply rotation of <tt>angles.x</tt> radians about the X axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
-     * followed by a rotation of <tt>angles.z</tt> radians about the Z axis.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
-     * 
-     * @param angles
-     *            the angles to rotate about the X, Y and Z axis, respectively
-     * @return this
-     */
-    public Matrix3d rotateXYZ(Vector3f angles) {
-       return rotateXYZ(angles, this); 
-    }
-
-    /**
-     * Apply rotation of <tt>angles.x</tt> radians about the X axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
-     * followed by a rotation of <tt>angles.z</tt> radians about the Z axis and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
-     * 
-     * @param angles
-     *            the angles to rotate about the X, Y and Z axis, respectively
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3d rotateXYZ(Vector3f angles, Matrix3d dest) {
-        return rotateXYZ(angles.x, angles.y, angles.z, dest);
-    }
-
-    /**
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
@@ -2136,7 +2056,7 @@ public class Matrix3d implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
      * 
      * @param angleX
      *            the angle to rotate about X
@@ -2184,86 +2104,6 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply rotation of <tt>angles.z</tt> radians about the Z axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
-     * followed by a rotation of <tt>angles.x</tt> radians about the X axis.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
-     * 
-     * @param angles
-     *            the angles to rotate about the X, Y and Z axis, respectively
-     * @return this
-     */
-    public Matrix3d rotateZYX(Vector3d angles) {
-       return rotateZYX(angles, this); 
-    }
-
-    /**
-     * Apply rotation of <tt>angles.z</tt> radians about the Z axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
-     * followed by a rotation of <tt>angles.x</tt> radians about the X axis and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
-     * 
-     * @param angles
-     *            the angles to rotate about the X, Y and Z axis, respectively
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3d rotateZYX(Vector3d angles, Matrix3d dest) {
-        return rotateZYX(angles.x, angles.y, angles.z, dest);
-    }
-
-    /**
-     * Apply rotation of <tt>angles.z</tt> radians about the Z axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
-     * followed by a rotation of <tt>angles.x</tt> radians about the X axis.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
-     * 
-     * @param angles
-     *            the angles to rotate about the X, Y and Z axis, respectively
-     * @return this
-     */
-    public Matrix3d rotateZYX(Vector3f angles) {
-       return rotateZYX(angles, this); 
-    }
-
-    /**
-     * Apply rotation of <tt>angles.z</tt> radians about the Z axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
-     * followed by a rotation of <tt>angles.x</tt> radians about the X axis and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
-     * 
-     * @param angles
-     *            the angles to rotate about the X, Y and Z axis, respectively
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3d rotateZYX(Vector3f angles, Matrix3d dest) {
-        return rotateZYX(angles.x, angles.y, angles.z, dest);
-    }
-
-    /**
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
@@ -2295,7 +2135,7 @@ public class Matrix3d implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
      * 
      * @param angleZ
      *            the angle to rotate about Z
