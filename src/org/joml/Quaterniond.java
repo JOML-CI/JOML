@@ -1129,12 +1129,12 @@ public class Quaterniond implements Externalizable {
 
         double x = cy * sx;
         double y = sy * cx;
-        double z = -sy * sx;
+        double z = sy * sx;
         double w = cy * cx;
         this.x = x * cz + y * sz;
         this.y = y * cz - x * sz;
-        this.z = w * sz + z * cz;
-        this.w = w * cz - z * sz;
+        this.z = w * sz - z * cz;
+        this.w = w * cz + z * sz;
 
         return this;
     }

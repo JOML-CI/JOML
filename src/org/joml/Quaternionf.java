@@ -1434,12 +1434,12 @@ public class Quaternionf implements Externalizable {
 
         float x = cy * sx;
         float y = sy * cx;
-        float z = -sy * sx;
+        float z = sy * sx;
         float w = cy * cx;
         this.x = x * cz + y * sz;
         this.y = y * cz - x * sz;
-        this.z = w * sz + z * cz;
-        this.w = w * cz - z * sz;
+        this.z = w * sz - z * cz;
+        this.w = w * cz + z * sz;
 
         return this;
     }
