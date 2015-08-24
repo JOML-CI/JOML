@@ -75,7 +75,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI);
+        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
     }
 
     /**
@@ -88,7 +88,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI);
+        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
     }
 
     /**

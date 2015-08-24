@@ -514,7 +514,12 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf setAngleAxis(float angle, float x, float y, float z) {
-        return setAngleAxis(angle, x, y, z);
+        float s = (float) Math.sin(angle * 0.5);
+        this.x = x * s;
+        this.y = y * s;
+        this.z = z * s;
+        this.w = (float) Math.cos(angle * 0.5);
+        return this;
     }
 
     /**
