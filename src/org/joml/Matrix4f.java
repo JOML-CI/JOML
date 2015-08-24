@@ -597,6 +597,8 @@ public class Matrix4f implements Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * transformation of the right matrix will be applied first!
+     * 
+     * @see #determinant4x3()
      *
      * @param right
      *          the right operand of the matrix multiplication
@@ -1254,6 +1256,11 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Return the determinant of this matrix.
+     * <p>
+     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #determinant4x3()} can be used instead of this method.
+     * 
+     * @see #determinant4x3()
      * 
      * @return the determinant
      */
@@ -1290,6 +1297,11 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Invert this matrix and write the result into <code>dest</code>.
+     * <p>
+     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3(Matrix4f)} can be used instead of this method.
+     * 
+     * @see #invert4x3(Matrix4f)
      * 
      * @param dest
      *          will hold the result
@@ -1319,6 +1331,11 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Invert this matrix.
+     * <p>
+     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3()} can be used instead of this method.
+     * 
+     * @see #invert4x3()
      * 
      * @return this 
      */

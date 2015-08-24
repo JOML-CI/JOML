@@ -1372,6 +1372,11 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Return the determinant of this matrix.
+     * <p>
+     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #determinant4x3()} can be used instead of this method.
+     * 
+     * @see #determinant4x3()
      * 
      * @return the determinant
      */
@@ -1408,6 +1413,11 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Invert this matrix.
+     * <p>
+     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3()} can be used instead of this method.
+     * 
+     * @see #invert4x3()
      * 
      * @return this
      */
@@ -1417,6 +1427,11 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Invert <code>this</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3(Matrix4d)} can be used instead of this method.
+     * 
+     * @see #invert4x3(Matrix4d)
      * 
      * @param dest
      *             will hold the result
