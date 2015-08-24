@@ -808,6 +808,66 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
+     * quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = T * Q</tt>
+     * <p>
+     * So, this method uses post-multiplication like the matrix classes, resulting in a
+     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
+     * 
+     * @param qx
+     *          the x component of the quaternion to multiply <code>this</code> by
+     * @param qy
+     *          the y component of the quaternion to multiply <code>this</code> by
+     * @param qz
+     *          the z component of the quaternion to multiply <code>this</code> by
+     * @param qw
+     *          the w component of the quaternion to multiply <code>this</code> by
+     * @return this
+     */
+    public Quaterniond mul(double qx, double qy, double qz, double qw) {
+        set(w * qx + x * qw + y * qz - z * qy,
+            w * qy - x * qz + y * qw + z * qx,
+            w * qz + x * qy - y * qx + z * qw,
+            w * qw - x * qx - y * qy - z * qz);
+        return this;
+    }
+
+    /**
+     * Multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
+     * quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = T * Q</tt>
+     * <p>
+     * So, this method uses post-multiplication like the matrix classes, resulting in a
+     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
+     * 
+     * @param qx
+     *          the x component of the quaternion to multiply <code>this</code> by
+     * @param qy
+     *          the y component of the quaternion to multiply <code>this</code> by
+     * @param qz
+     *          the z component of the quaternion to multiply <code>this</code> by
+     * @param qw
+     *          the w component of the quaternion to multiply <code>this</code> by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Quaterniond mul(double qx, double qy, double qz, double qw, Quaterniond dest) {
+        dest.set(w * qx + x * qw + y * qz - z * qy,
+                 w * qy - x * qz + y * qw + z * qx,
+                 w * qz + x * qy - y * qx + z * qw,
+                 w * qw - x * qx - y * qy - z * qz);
+        return dest;
+    }
+
+    /**
      * Transform the given vector by this quaternion.
      * This will apply the rotation described by this quaternion to the given vector.
      * 
