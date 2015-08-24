@@ -1469,24 +1469,41 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d invert4x3(Matrix4d dest) {
         double s = determinant4x3();
-        // client must make sure that matrix is invertible
         s = 1.0 / s;
-        dest.set((m11 * m22 - m12 * m21) * s,
-                 (m21 * m02 - m22 * m01) * s,
-                 (m01 * m12 - m02 * m11) * s,
-                 0.0f,
-                 (m12 * m20 - m10 * m22) * s,
-                 (m22 * m00 - m20 * m02) * s,
-                 (m02 * m10 - m00 * m12) * s,
-                 0.0f,
-                 (m10 * m21 - m11 * m20) * s,
-                 (m20 * m01 - m21 * m00) * s,
-                 (m00 * m11 - m01 * m10) * s,
-                 0.0f,
-                 (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
-                 (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
-                 (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
-                 1.0f);
+        double m10m22 = m10 * m22;
+        double m10m21 = m10 * m21;
+        double m10m02 = m10 * m02;
+        double m10m01 = m10 * m01;
+        double m11m22 = m11 * m22;
+        double m11m20 = m11 * m20;
+        double m11m02 = m11 * m02;
+        double m11m00 = m11 * m00;
+        double m12m21 = m12 * m21;
+        double m12m20 = m12 * m20;
+        double m12m01 = m12 * m01;
+        double m12m00 = m12 * m00;
+        double m20m02 = m20 * m02;
+        double m20m01 = m20 * m01;
+        double m21m02 = m21 * m02;
+        double m21m00 = m21 * m00;
+        double m22m01 = m22 * m01;
+        double m22m00 = m22 * m00;
+        dest.set((m11m22 - m12m21) * s,
+                 (m21m02 - m22m01) * s,
+                 (m12m01 - m11m02) * s,
+                 0.0,
+                 (m12m20 - m10m22) * s,
+                 (m22m00 - m20m02) * s,
+                 (m10m02 - m12m00) * s,
+                 0.0,
+                 (m10m21 - m11m20) * s,
+                 (m20m01 - m21m00) * s,
+                 (m11m00 - m10m01) * s,
+                 0.0,
+                 (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s,
+                 (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s,
+                 (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s,
+                 1.0);
         return dest;
     }
 
