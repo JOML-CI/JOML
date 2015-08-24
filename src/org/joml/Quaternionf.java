@@ -2171,7 +2171,7 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf rotateX(float angle) {
-        return rotate(angle, 0.0f, 0.0f, this);
+        return rotateX(angle, this);
     }
 
     /**
@@ -2192,7 +2192,13 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Quaternionf rotateX(float angle, Quaternionf dest) {
-        return rotate(angle, 0.0f, 0.0f, dest);
+        float cos = (float) Math.cos(angle * 0.5);
+        float sin = (float) Math.sin(angle * 0.5);
+        dest.set(w * sin + x * cos,
+                 y * cos + z * sin,
+                 z * cos - y * sin,
+                 w * cos - x * sin);
+        return dest;
     }
 
     /**
@@ -2210,7 +2216,7 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf rotateY(float angle) {
-        return rotate(0.0f, angle, 0.0f, this);
+        return rotateY(angle, this);
     }
 
     /**
@@ -2231,7 +2237,13 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Quaternionf rotateY(float angle, Quaternionf dest) {
-        return rotate(0.0f, angle, 0.0f, dest);
+        float cos = (float) Math.cos(angle * 0.5);
+        float sin = (float) Math.sin(angle * 0.5);
+        dest.set(x * cos - z * sin,
+                 w * sin + y * cos,
+                 x * sin + z * cos,
+                 w * cos - y * sin);
+        return dest;
     }
 
     /**
@@ -2249,7 +2261,7 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf rotateZ(float angle) {
-        return rotate(0.0f, 0.0f, angle, this);
+        return rotateZ(angle, this);
     }
 
     /**
@@ -2270,7 +2282,13 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Quaternionf rotateZ(float angle, Quaternionf dest) {
-        return rotate(0.0f, 0.0f, angle, dest);
+        float cos = (float) Math.cos(angle * 0.5);
+        float sin = (float) Math.sin(angle * 0.5);
+        dest.set(x * cos + y * sin,
+                 y * cos - x * sin,
+                 w * sin + z * cos,
+                 w * cos - z * sin);
+        return dest;
     }
 
     /**

@@ -2107,7 +2107,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond rotateX(double angle) {
-        return rotate(angle, 0.0, 0.0, this);
+        return rotateX(angle, this);
     }
 
     /**
@@ -2128,7 +2128,13 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond rotateX(double angle, Quaterniond dest) {
-        return rotate(angle, 0.0, 0.0, dest);
+        double cos = Math.cos(angle * 0.5);
+        double sin = Math.sin(angle * 0.5);
+        dest.set(w * sin + x * cos,
+                 y * cos + z * sin,
+                 z * cos - y * sin,
+                 w * cos - x * sin);
+        return dest;
     }
 
     /**
@@ -2146,7 +2152,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond rotateY(double angle) {
-        return rotate(0.0, angle, 0.0, this);
+        return rotateY(angle, this);
     }
 
     /**
@@ -2167,7 +2173,13 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond rotateY(double angle, Quaterniond dest) {
-        return rotate(0.0, angle, 0.0, dest);
+        double cos = Math.cos(angle * 0.5);
+        double sin = Math.sin(angle * 0.5);
+        dest.set(x * cos - z * sin,
+                 w * sin + y * cos,
+                 x * sin + z * cos,
+                 w * cos - y * sin);
+        return dest;
     }
 
     /**
@@ -2185,7 +2197,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond rotateZ(double angle) {
-        return rotate(0.0, 0.0, angle, this);
+        return rotateZ(angle, this);
     }
 
     /**
@@ -2206,7 +2218,13 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond rotateZ(double angle, Quaterniond dest) {
-        return rotate(0.0, 0.0, angle, dest);
+        double cos = Math.cos(angle * 0.5);
+        double sin = Math.sin(angle * 0.5);
+        dest.set(x * cos + y * sin,
+                 y * cos - x * sin,
+                 w * sin + z * cos,
+                 w * cos - z * sin);
+        return dest;
     }
 
     /**
