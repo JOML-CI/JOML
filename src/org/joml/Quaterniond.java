@@ -132,6 +132,34 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Create a new {@link Quaterniond} and initialize it to represent the same rotation as the given {@link AxisAngle4f}.
+     * 
+     * @param axisAngle
+     *          the axis-angle to initialize this quaternion with
+     */
+    public Quaterniond(AxisAngle4f axisAngle) {
+        double s = Math.sin(axisAngle.angle * 0.5);
+        x = axisAngle.x * s;
+        y = axisAngle.y * s;
+        z = axisAngle.z * s;
+        w = Math.cos(axisAngle.angle * 0.5);
+    }
+
+    /**
+     * Create a new {@link Quaterniond} and initialize it to represent the same rotation as the given {@link AxisAngle4d}.
+     * 
+     * @param axisAngle
+     *          the axis-angle to initialize this quaternion with
+     */
+    public Quaterniond(AxisAngle4d axisAngle) {
+        double s = Math.sin(axisAngle.angle * 0.5);
+        x = axisAngle.x * s;
+        y = axisAngle.y * s;
+        z = axisAngle.z * s;
+        w = Math.cos(axisAngle.angle * 0.5);
+    }
+
+    /**
      * Normalize this quaternion.
      * 
      * @return this
@@ -320,6 +348,45 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @param dest
+     *          the matrix to write the rotation into
+     * @return the passed in destination
+     */
+    public Matrix4f get(Matrix4f dest) {
+        double q00 = 2.0 * x * x;
+        double q11 = 2.0 * y * y;
+        double q22 = 2.0 * z * z;
+
+        double q01 = 2.0 * x * y;
+        double q02 = 2.0 * x * z;
+        double q03 = 2.0 * x * w;
+
+        double q12 = 2.0 * y * z;
+        double q13 = 2.0 * y * w;
+
+        double q23 = 2.0 * z * w;
+
+        dest.m00 = (float) (1.0 - q11 - q22);
+        dest.m01 = (float) (q01 + q23);
+        dest.m02 = (float) (q02 - q13);
+        dest.m03 = 0.0f;
+        dest.m10 = (float) (q01 - q23);
+        dest.m11 = (float) (1.0 - q22 - q00);
+        dest.m12 = (float) (q12 + q03);
+        dest.m13 = 0.0f;
+        dest.m20 = (float) (q02 + q13);
+        dest.m21 = (float) (q12 - q03);
+        dest.m22 = (float) (1.0 - q11 - q00);
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
+        return dest;
+    }
+
+    /**
      * Set the given {@link Quaterniond} to the values of <code>this</code>.
      * 
      * @see #set(Quaterniond)
@@ -414,6 +481,18 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Set this {@link Quaterniond} to be equivalent to the given
+     * {@link AxisAngle4d}.
+     * 
+     * @param axisAngle
+     *            the {@link AxisAngle4d}
+     * @return this
+     */
+    public Quaterniond set(AxisAngle4d axisAngle) {
+        return setAngleAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
+    }
+
+    /**
      * Set this quaternion to a rotation equivalent to the supplied axis and
      * angle (in radians).
      * <p>
@@ -452,47 +531,150 @@ public class Quaterniond implements Externalizable {
         return setAngleAxis(angle, axis.x, axis.y, axis.z);
     }
 
+    private void setFromUnnormalized(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22) {
+        double nm00 = m00, nm01 = m01, nm02 = m02;
+        double nm10 = m10, nm11 = m11, nm12 = m12;
+        double nm20 = m20, nm21 = m21, nm22 = m22;
+        double lenX = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        double lenY = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        double lenZ = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
+        nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
+        nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
+        setFromNormalized(nm00, nm01, nm02, nm10, nm11, nm12, nm20, nm21, nm22);
+    }
+
+    private void setFromNormalized(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22) {
+        double t;
+        double tr = m00 + m11 + m22;
+        if (tr >= 0.0) {
+            t = Math.sqrt(tr + 1.0);
+            w = t * 0.5;
+            t = 0.5 / t;
+            x = (m12 - m21) * t;
+            y = (m20 - m02) * t;
+            z = (m01 - m10) * t;
+        } else {
+            if (m00 >= m11 && m00 >= m22) {
+                t = Math.sqrt(m00 - (m11 + m22) + 1.0);
+                x = t * 0.5;
+                t = 0.5 / t;
+                y = (m10 + m01) * t;
+                z = (m02 + m20) * t;
+                w = (m12 - m21) * t;
+            } else if (m11 > m22) {
+                t = Math.sqrt(m11 - (m22 + m00) + 1.0);
+                y = t * 0.5;
+                t = 0.5 / t;
+                z = (m21 + m12) * t;
+                x = (m10 + m01) * t;
+                w = (m20 - m02) * t;
+            } else {
+                t = Math.sqrt(m22 - (m00 + m11) + 1.0);
+                z = t * 0.5;
+                t = 0.5 / t;
+                x = (m02 + m20) * t;
+                y = (m21 + m12) * t;
+                w = (m01 - m10) * t;
+            }
+        }
+    }
+
     /**
      * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are no unit vectors.
      * 
      * @param mat
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaterniond set(Matrix4d mat) {
-        double t;
-        double tr = mat.m00 + mat.m11 + mat.m22;
-        if (tr >= 0.0) {
-            t = Math.sqrt(tr + 1.0);
-            w = t * 0.5;
-            t = 0.5 / t;
-            x = (mat.m12 - mat.m21) * t;
-            y = (mat.m20 - mat.m02) * t;
-            z = (mat.m01 - mat.m10) * t;
-        } else {
-            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
-                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
-                x = t * 0.5;
-                t = 0.5 / t;
-                y = (mat.m10 + mat.m01) * t;
-                z = (mat.m02 + mat.m20) * t;
-                w = (mat.m12 - mat.m21) * t;
-            } else if (mat.m11 > mat.m22) {
-                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
-                y = t * 0.5;
-                t = 0.5 / t;
-                z = (mat.m21 + mat.m12) * t;
-                x = (mat.m10 + mat.m01) * t;
-                w = (mat.m20 - mat.m02) * t;
-            } else {
-                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
-                z = t * 0.5;
-                t = 0.5 / t;
-                x = (mat.m02 + mat.m20) * t;
-                y = (mat.m21 + mat.m12) * t;
-                w = (mat.m01 - mat.m10) * t;
-            }
-        }
+    public Quaterniond setFromUnnormalized(Matrix4f mat) {
+        setFromUnnormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaterniond setFromNormalized(Matrix4f mat) {
+        setFromNormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are no unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaterniond setFromUnnormalized(Matrix4d mat) {
+        setFromUnnormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaterniond setFromNormalized(Matrix4d mat) {
+        setFromNormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are no unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaterniond setFromUnnormalized(Matrix3f mat) {
+        setFromUnnormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaterniond setFromNormalized(Matrix3f mat) {
+        setFromNormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are no unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaterniond setFromUnnormalized(Matrix3d mat) {
+        setFromUnnormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
         return this;
     }
 
@@ -503,128 +685,8 @@ public class Quaterniond implements Externalizable {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaterniond set(Matrix4f mat) {
-        double t;
-        double tr = mat.m00 + mat.m11 + mat.m22;
-        if (tr >= 0.0) {
-            t = Math.sqrt(tr + 1.0);
-            w = t * 0.5;
-            t = 0.5 / t;
-            x = (mat.m12 - mat.m21) * t;
-            y = (mat.m20 - mat.m02) * t;
-            z = (mat.m01 - mat.m10) * t;
-        } else {
-            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
-                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
-                x = t * 0.5;
-                t = 0.5 / t;
-                y = (mat.m10 + mat.m01) * t;
-                z = (mat.m02 + mat.m20) * t;
-                w = (mat.m12 - mat.m21) * t;
-            } else if (mat.m11 > mat.m22) {
-                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
-                y = t * 0.5;
-                t = 0.5 / t;
-                z = (mat.m21 + mat.m12) * t;
-                x = (mat.m10 + mat.m01) * t;
-                w = (mat.m20 - mat.m02) * t;
-            } else {
-                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
-                z = t * 0.5;
-                t = 0.5 / t;
-                x = (mat.m02 + mat.m20) * t;
-                y = (mat.m21 + mat.m12) * t;
-                w = (mat.m01 - mat.m10) * t;
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Set this quaternion to be a representation of the rotational component of the given matrix.
-     * 
-     * @param mat
-     *          the matrix whose rotational component is used to set this quaternion
-     * @return this
-     */
-    public Quaterniond set(Matrix3d mat) {
-        double t;
-        double tr = mat.m00 + mat.m11 + mat.m22;
-        if (tr >= 0.0) {
-            t = Math.sqrt(tr + 1.0);
-            w = t * 0.5;
-            t = 0.5 / t;
-            x = (mat.m12 - mat.m21) * t;
-            y = (mat.m20 - mat.m02) * t;
-            z = (mat.m01 - mat.m10) * t;
-        } else {
-            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
-                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
-                x = t * 0.5;
-                t = 0.5 / t;
-                y = (mat.m10 + mat.m01) * t;
-                z = (mat.m02 + mat.m20) * t;
-                w = (mat.m12 - mat.m21) * t;
-            } else if (mat.m11 > mat.m22) {
-                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
-                y = t * 0.5;
-                t = 0.5 / t;
-                z = (mat.m21 + mat.m12) * t;
-                x = (mat.m10 + mat.m01) * t;
-                w = (mat.m20 - mat.m02) * t;
-            } else {
-                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
-                z = t * 0.5;
-                t = 0.5 / t;
-                x = (mat.m02 + mat.m20) * t;
-                y = (mat.m21 + mat.m12) * t;
-                w = (mat.m01 - mat.m10) * t;
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Set this quaternion to be a representation of the rotational component of the given matrix.
-     * 
-     * @param mat
-     *          the matrix whose rotational component is used to set this quaternion
-     * @return this
-     */
-    public Quaterniond set(Matrix3f mat) {
-        double t;
-        double tr = mat.m00 + mat.m11 + mat.m22;
-        if (tr >= 0.0) {
-            t = Math.sqrt(tr + 1.0);
-            w = t * 0.5;
-            t = 0.5 / t;
-            x = (mat.m12 - mat.m21) * t;
-            y = (mat.m20 - mat.m02) * t;
-            z = (mat.m01 - mat.m10) * t;
-        } else {
-            if (mat.m00 >= mat.m11 && mat.m00 >= mat.m22) {
-                t = Math.sqrt(mat.m00 - (mat.m11 + mat.m22) + 1.0);
-                x = t * 0.5;
-                t = 0.5 / t;
-                y = (mat.m10 + mat.m01) * t;
-                z = (mat.m02 + mat.m20) * t;
-                w = (mat.m12 - mat.m21) * t;
-            } else if (mat.m11 > mat.m22) {
-                t = Math.sqrt(mat.m11 - (mat.m22 + mat.m00) + 1.0);
-                y = t * 0.5;
-                t = 0.5 / t;
-                z = (mat.m21 + mat.m12) * t;
-                x = (mat.m10 + mat.m01) * t;
-                w = (mat.m20 - mat.m02) * t;
-            } else {
-                t = Math.sqrt(mat.m22 - (mat.m00 + mat.m11) + 1.0);
-                z = t * 0.5;
-                t = 0.5 / t;
-                x = (mat.m02 + mat.m20) * t;
-                y = (mat.m21 + mat.m12) * t;
-                w = (mat.m01 - mat.m10) * t;
-            }
-        }
+    public Quaterniond setFromNormalized(Matrix3d mat) {
+        setFromNormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
         return this;
     }
 
@@ -971,27 +1033,64 @@ public class Quaterniond implements Externalizable {
         return x * x + y * y + z * z + w * w;
     }
 
+
     /**
-     * Calculate this quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
-     * (in radians) with rotation order XYZ.
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order XYZ.
      * <p>
-     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
+     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>
      * 
-     * @param rotationAboutX
+     * @param angleX
      *          the angle in radians to rotate about x
-     * @param rotationAboutY
+     * @param angleY
      *          the angle in radians to rotate about y
-     * @param rotationAboutZ
+     * @param angleZ
      *          the angle in radians to rotate about z
      * @return this
      */
-    public Quaterniond setEulerAnglesXYZ(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        double sx = Math.sin(rotationAboutX * 0.5);
-        double cx = Math.cos(rotationAboutX * 0.5);
-        double sy = Math.sin(rotationAboutY * 0.5);
-        double cy = Math.cos(rotationAboutY * 0.5);
-        double sz = Math.sin(rotationAboutZ * 0.5);
-        double cz = Math.cos(rotationAboutZ * 0.5);
+    public Quaterniond rotationXYZ(double angleX, double angleY, double angleZ) {
+        double sx = Math.sin(angleX * 0.5);
+        double cx = Math.cos(angleX * 0.5);
+        double sy = Math.sin(angleY * 0.5);
+        double cy = Math.cos(angleY * 0.5);
+        double sz = Math.sin(angleZ * 0.5);
+        double cz = Math.cos(angleZ * 0.5);
+
+        double cycz = cy * cz;
+        double sysz = sy * sz;
+        double sycz = sy * cz;
+        double cysz = cy * sz;
+        w = cx*cycz - sx*sysz;
+        x = sx*cycz + cx*sysz;
+        y = cx*sycz - sx*cysz;
+        z = cx*cysz + sx*sycz;
+
+        return this;
+    }
+
+    /**
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order ZYX.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>
+     * 
+     * @param angleX
+     *          the angle in radians to rotate about x
+     * @param angleY
+     *          the angle in radians to rotate about y
+     * @param angleZ
+     *          the angle in radians to rotate about z
+     * @return this
+     */
+    public Quaterniond rotationZYX(double angleZ, double angleY, double angleX) {
+        double sx = Math.sin(angleX * 0.5);
+        double cx = Math.cos(angleX * 0.5);
+        double sy = Math.sin(angleY * 0.5);
+        double cy = Math.cos(angleY * 0.5);
+        double sz = Math.sin(angleZ * 0.5);
+        double cz = Math.cos(angleZ * 0.5);
 
         double cycz = cy * cz;
         double sysz = sy * sz;
@@ -1006,35 +1105,36 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Calculate this quaternion using the supplied pitch (rotation about X), yaw (rotation about Y) and roll (rotation about Z) angles
-     * (in radians) with rotation order ZYX.
+     * Set this quaternion from the supplied euler angles (in radians) with rotation order YXZ.
      * <p>
-     * This method implements the solution outlined in <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
+     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">https://en.wikipedia.org</a>
      * 
-     * @param rotationAboutX
-     *          the angle in radians to rotate about x
-     * @param rotationAboutY
+     * @param angleY
      *          the angle in radians to rotate about y
-     * @param rotationAboutZ
+     * @param angleX
+     *          the angle in radians to rotate about x
+     * @param angleZ
      *          the angle in radians to rotate about z
      * @return this
      */
-    public Quaterniond setEulerAnglesZYX(double rotationAboutX, double rotationAboutY, double rotationAboutZ) {
-        double sx = Math.sin(rotationAboutX * 0.5);
-        double cx = Math.cos(rotationAboutX * 0.5);
-        double sy = Math.sin(rotationAboutY * 0.5);
-        double cy = Math.cos(rotationAboutY * 0.5);
-        double sz = Math.sin(rotationAboutZ * 0.5);
-        double cz = Math.cos(rotationAboutZ * 0.5);
+    public Quaterniond rotationYXZ(double angleY, double angleX, double angleZ) {
+        double sx = Math.sin(angleX * 0.5);
+        double cx = Math.cos(angleX * 0.5);
+        double sy = Math.sin(angleY * 0.5);
+        double cy = Math.cos(angleY * 0.5);
+        double sz = Math.sin(angleZ * 0.5);
+        double cz = Math.cos(angleZ * 0.5);
 
-        double cycz = cy * cz;
-        double sysz = sy * sz;
-        double sycz = sy * cz;
-        double cysz = cy * sz;
-        w = cx*cycz - sx*sysz;
-        x = sx*cycz + cx*sysz;
-        y = cx*sycz - sx*cysz;
-        z = cx*cysz + sx*sycz;
+        double x = cy * sx;
+        double y = sy * cx;
+        double z = -sy * sx;
+        double w = cy * cx;
+        this.x = x * cz + y * sz;
+        this.y = y * cz - x * sz;
+        this.z = w * sz + z * cz;
+        this.w = w * cz - z * sz;
 
         return this;
     }
@@ -2139,6 +2239,44 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>XYZ</tt>.
      * <p>
+     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angles
+     *              the euler angles in radians
+     * @return this
+     */
+    public Quaterniond rotateXYZ(Vector3f angles) {
+        return rotateXYZ(angles.x, angles.y, angles.z);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>ZYX</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angles
+     *              the euler angles in radians
+     * @return this
+     */
+    public Quaterniond rotateZYX(Vector3f angles) {
+        return rotateZYX(angles.z, angles.y, angles.x);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>XYZ</tt>.
+     * <p>
      * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -2155,7 +2293,52 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond rotateXYZ(double angleX, double angleY, double angleZ) {
-        return rotateX(angleX).rotateY(angleY).rotateZ(angleZ);
+        return rotateXYZ(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
+     * called the euler angles using rotation sequence <tt>XYZ</tt> and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angleX
+     *              the angle in radians to rotate about the x axis
+     * @param angleY
+     *              the angle in radians to rotate about the y axis
+     * @param angleZ
+     *              the angle in radians to rotate about the z axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public Quaterniond rotateXYZ(double angleX, double angleY, double angleZ, Quaterniond dest) {
+        double sx =  Math.sin(angleX * 0.5);
+        double cx =  Math.cos(angleX * 0.5);
+        double sy =  Math.sin(angleY * 0.5);
+        double cy =  Math.cos(angleY * 0.5);
+        double sz =  Math.sin(angleZ * 0.5);
+        double cz =  Math.cos(angleZ * 0.5);
+
+        double cycz = cy * cz;
+        double sysz = sy * sz;
+        double sycz = sy * cz;
+        double cysz = cy * sz;
+        double w = cx*cycz - sx*sysz;
+        double x = sx*cycz + cx*sysz;
+        double y = cx*sycz - sx*cysz;
+        double z = cx*cysz + sx*sycz;
+        // right-multiply
+        dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
+                 this.w * y - this.x * z + this.y * w + this.z * x,
+                 this.w * z + this.x * y - this.y * x + this.z * w,
+                 this.w * w - this.x * x - this.y * y - this.z * z);
+        return dest;
     }
 
     /**
@@ -2169,16 +2352,61 @@ public class Quaterniond implements Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @param angleX
-     *              the angle in radians to rotate about the x axis
-     * @param angleY
-     *              the angle in radians to rotate about the y axis
      * @param angleZ
      *              the angle in radians to rotate about the z axis
+     * @param angleY
+     *              the angle in radians to rotate about the y axis
+     * @param angleX
+     *              the angle in radians to rotate about the x axis
      * @return this
      */
-    public Quaterniond rotateZYX(double angleX, double angleY, double angleZ) {
-        return rotateZ(angleZ).rotateY(angleY).rotateX(angleX);
+    public Quaterniond rotateZYX(double angleZ, double angleY, double angleX) {
+        return rotateZYX(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
+     * called the euler angles, using the rotation sequence <tt>ZYX</tt> and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angleZ
+     *              the angle in radians to rotate about the z axis
+     * @param angleY
+     *              the angle in radians to rotate about the y axis
+     * @param angleX
+     *              the angle in radians to rotate about the x axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public Quaterniond rotateZYX(double angleZ, double angleY, double angleX, Quaterniond dest) {
+        double sx =  Math.sin(angleX * 0.5);
+        double cx =  Math.cos(angleX * 0.5);
+        double sy =  Math.sin(angleY * 0.5);
+        double cy =  Math.cos(angleY * 0.5);
+        double sz =  Math.sin(angleZ * 0.5);
+        double cz =  Math.cos(angleZ * 0.5);
+
+        double cycz = cy * cz;
+        double sysz = sy * sz;
+        double sycz = sy * cz;
+        double cysz = cy * sz;
+        double w = cx*cycz + sx*sysz;
+        double x = sx*cycz - cx*sysz;
+        double y = cx*sycz + sx*cysz;
+        double z = cx*cysz - sx*sycz;
+        // right-multiply
+        dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
+                 this.w * y - this.x * z + this.y * w + this.z * x,
+                 this.w * z + this.x * y - this.y * x + this.z * w,
+                 this.w * w - this.x * x - this.y * y - this.z * z);
+        return dest;
     }
 
     /**

@@ -194,6 +194,34 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix4f} and make it a copy of the given matrix.
+     * <p>
+     * Note that due to the given {@link Matrix4d} storing values in double-precision and the constructed {@link Matrix4f} storing them
+     * in single-precision, there is the possibility of losing precision.
+     * 
+     * @param mat
+     *          the {@link Matrix4d} to copy the values from
+     */
+    public Matrix4f(Matrix4d mat) {
+        m00 = (float) mat.m00;
+        m01 = (float) mat.m01;
+        m02 = (float) mat.m02;
+        m03 = (float) mat.m03;
+        m10 = (float) mat.m10;
+        m11 = (float) mat.m11;
+        m12 = (float) mat.m12;
+        m13 = (float) mat.m13;
+        m20 = (float) mat.m20;
+        m21 = (float) mat.m21;
+        m22 = (float) mat.m22;
+        m23 = (float) mat.m23;
+        m30 = (float) mat.m30;
+        m31 = (float) mat.m31;
+        m32 = (float) mat.m32;
+        m33 = (float) mat.m33;
+    }
+
+    /**
      * Create a new 4x4 matrix using the supplied float values.
      * 
      * @param m00
@@ -360,6 +388,39 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
+     * <p>
+     * Note that due to the given matrix <code>m</code> storing values in double-precision and <code>this</code> matrix storing
+     * them in single-precision, there is the possibility to lose precision.
+     * 
+     * @see #Matrix4f(Matrix4d)
+     * @see #get(Matrix4d)
+     * 
+     * @param m
+     *          the matrix to copy the values from
+     * @return this
+     */
+    public Matrix4f set(Matrix4d m) {
+        m00 = (float) m.m00;
+        m01 = (float) m.m01;
+        m02 = (float) m.m02;
+        m03 = (float) m.m03;
+        m10 = (float) m.m10;
+        m11 = (float) m.m11;
+        m12 = (float) m.m12;
+        m13 = (float) m.m13;
+        m20 = (float) m.m20;
+        m21 = (float) m.m21;
+        m22 = (float) m.m22;
+        m23 = (float) m.m23;
+        m30 = (float) m.m30;
+        m31 = (float) m.m31;
+        m32 = (float) m.m32;
+        m33 = (float) m.m33;
+        return this;
+    }
+
+    /**
      * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} 
      * and the rest to identity.
      * 
@@ -432,6 +493,48 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4d}.
+     * 
+     * @param axisAngle
+     *          the {@link AxisAngle4d}
+     * @return this
+     */
+    public Matrix4f set(AxisAngle4d axisAngle) {
+        double x = axisAngle.x;
+        double y = axisAngle.y;
+        double z = axisAngle.z;
+        double angle = axisAngle.angle;
+        double n = Math.sqrt(x*x + y*y + z*z);
+        n = 1/n;
+        x *= n;
+        y *= n;
+        z *= n;
+        double c = Math.cos(angle);
+        double s = Math.sin(angle);
+        double omc = 1.0 - c;
+        m00 = (float)(c + x*x*omc);
+        m11 = (float)(c + y*y*omc);
+        m22 = (float)(c + z*z*omc);
+        double tmp1 = x*y*omc;
+        double tmp2 = z*s;
+        m10 = (float)(tmp1 - tmp2);
+        m01 = (float)(tmp1 + tmp2);
+        tmp1 = x*z*omc;
+        tmp2 = y*s;
+        m20 = (float)(tmp1 + tmp2);
+        m02 = (float)(tmp1 - tmp2);
+        tmp1 = y*z*omc;
+        tmp2 = x*s;
+        m21 = (float)(tmp1 - tmp2);
+        m12 = (float)(tmp1 + tmp2);
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
      * 
      * @see Quaternionf#get(Matrix4f)
@@ -441,6 +544,20 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(Quaternionf q) {
+        q.get(this);
+        return this;
+    }
+
+    /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniond}.
+     * 
+     * @see Quaterniond#get(Matrix4f)
+     * 
+     * @param q
+     *          the {@link Quaterniond}
+     * @return this
+     */
+    public Matrix4f set(Quaterniond q) {
         q.get(this);
         return this;
     }
@@ -527,6 +644,9 @@ public class Matrix4f implements Externalizable {
      * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
      * <p>
+     * This method can be used to speed up matrix multiplication if the <code>right</code> matrix only represents affine transformations, such as
+     * translation, rotation, scaling and shearing (in any combination).
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
@@ -543,6 +663,9 @@ public class Matrix4f implements Externalizable {
     /**
      * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
      * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * This method can be used to speed up matrix multiplication if the <code>right</code> matrix only represents affine transformations, such as
+     * translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -577,9 +700,12 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
-     * <p>
      * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
-     * Also, this method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * This method can be used to speed up matrix multiplication if both <code>this</code> and the <code>right</code> matrix only represent affine transformations,
+     * such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -596,9 +722,12 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
-     * <p>
      * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
-     * Also, this method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * This method can be used to speed up matrix multiplication if both <code>this</code> and the <code>right</code> matrix only represent affine transformations,
+     * such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1483,6 +1612,23 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Get the current values of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * <p>
+     * This is the reverse method of {@link #set(Matrix4d)} and allows to obtain
+     * intermediate calculation results when chaining multiple transformations.
+     * 
+     * @see #set(Matrix4d)
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    public Matrix4d get(Matrix4d dest) {
+        return dest.set(this);
+    }
+
+    /**
      * Get the rotational component of <code>this</code> matrix and store the represented rotation
      * into the given {@link AxisAngle4f}.
      * 
@@ -1498,30 +1644,80 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Get the rotational component of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaternionf}.
+     * into the given {@link AxisAngle4d}.
      * 
-     * @see Quaternionf#set(Matrix4f)
+     * @see AxisAngle4f#set(Matrix4d)
+     * 
+     * @param dest
+     *          the destination {@link AxisAngle4d}
+     * @return the passed in destination
+     */
+    public AxisAngle4d getRotation(AxisAngle4d dest) {
+        return dest.set(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaternionf}.
+     * <p>
+     * This methods assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized.
+     * 
+     * @see Quaternionf#setFromUnnormalized(Matrix4f)
      * 
      * @param dest
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionf getRotation(Quaternionf dest) {
-        return dest.set(this);
+    public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
+        return dest.setFromUnnormalized(this);
     }
 
     /**
-     * Get the rotational component of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaterniond}.
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaternionf}.
+     * <p>
+     * This methods assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
      * 
-     * @see Quaterniond#set(Matrix4f)
+     * @see Quaternionf#setFromNormalized(Matrix4f)
+     * 
+     * @param dest
+     *          the destination {@link Quaternionf}
+     * @return the passed in destination
+     */
+    public Quaternionf getNormalizedRotation(Quaternionf dest) {
+        return dest.setFromNormalized(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * <p>
+     * This methods assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized.
+     * 
+     * @see Quaterniond#setFromUnnormalized(Matrix4f)
      * 
      * @param dest
      *          the destination {@link Quaterniond}
      * @return the passed in destination
      */
-    public Quaterniond getRotation(Quaterniond dest) {
-        return dest.set(this);
+    public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
+        return dest.setFromUnnormalized(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * <p>
+     * This methods assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
+     * 
+     * @see Quaterniond#setFromNormalized(Matrix4f)
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return the passed in destination
+     */
+    public Quaterniond getNormalizedRotation(Quaterniond dest) {
+        return dest.setFromNormalized(this);
     }
 
     /**
@@ -2091,6 +2287,234 @@ public class Matrix4f implements Externalizable {
         m32 = 0.0f;
         m33 = 1.0f;
         return this;
+    }
+
+    /**
+     * Set this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return dest
+     */
+    public Matrix4f rotationXYZ(float angleX, float angleY, float angleZ) {
+        return rotationXYZ(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Create a matrix representing a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotationXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinX = -sinX;
+        float m_sinY = -sinY;
+        float m_sinZ = -sinZ;
+
+        // rotateX
+        float nm11 = cosX;
+        float nm12 = sinX;
+        float nm21 = m_sinX;
+        float nm22 = cosX;
+        // rotateY
+        float nm00 = cosY;
+        float nm01 = nm21 * m_sinY;
+        float nm02 = nm22 * m_sinY;
+        dest.m20 = sinY;
+        dest.m21 = nm21 * cosY;
+        dest.m22 = nm22 * cosY;
+        dest.m23 = 0.0f;
+        // rotateZ
+        dest.m00 = nm00 * cosZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = 0.0f;
+        dest.m10 = nm00 * m_sinZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = 0.0f;
+        // set last column to identity
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
+        return dest;
+    }
+
+    /**
+     * Set this matrix to a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return dest
+     */
+    public Matrix4f rotationZYX(float angleZ, float angleY, float angleX) {
+        return rotationZYX(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Create a matrix representing a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotationZYX(float angleZ, float angleY, float angleX, Matrix4f dest) {
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float m_sinZ = -sinZ;
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+
+        // rotateZ
+        float nm00 = cosZ;
+        float nm01 = sinZ;
+        float nm10 = m_sinZ;
+        float nm11 = cosZ;
+        // rotateY
+        float nm20 = nm00 * sinY;
+        float nm21 = nm01 * sinY;
+        float nm22 = cosY;
+        dest.m00 = nm00 * cosY;
+        dest.m01 = nm01 * cosY;
+        dest.m02 = m_sinY;
+        dest.m03 = 0.0f;
+        // rotateX
+        dest.m10 = nm10 * cosX + nm20 * sinX;
+        dest.m11 = nm11 * cosX + nm21 * sinX;
+        dest.m12 = nm22 * sinX;
+        dest.m13 = 0.0f;
+        dest.m20 = nm10 * m_sinX + nm20 * cosX;
+        dest.m21 = nm11 * m_sinX + nm21 * cosX;
+        dest.m22 = nm22 * cosX;
+        dest.m23 = 0.0f;
+        // set last column to identity
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
+        return dest;
+    }
+
+    /**
+     * Set this matrix to a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
+     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return dest
+     */
+    public Matrix4f rotationYXZ(float angleY, float angleX, float angleZ) {
+        return rotationYXZ(angleY, angleX, angleZ, this);
+    }
+
+    /**
+     * Create a matrix representing a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
+     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotationYXZ(float angleY, float angleX, float angleZ, Matrix4f dest) {
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+        float m_sinZ = -sinZ;
+
+        // rotateY
+        float nm00 = cosY;
+        float nm02 = m_sinY;
+        float nm20 = sinY;
+        float nm22 = cosY;
+        // rotateX
+        float nm10 = nm20 * sinX;
+        float nm11 = cosX;
+        float nm12 = nm22 * sinX;
+        dest.m20 = nm20 * cosX;
+        dest.m21 = m_sinX;
+        dest.m22 = nm22 * cosX;
+        dest.m23 = 0.0f;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = 0.0f;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = 0.0f;
+        // set last column to identity
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
+        return dest;
     }
 
     /**
@@ -2855,6 +3279,266 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f rotateZ(float ang) {
         return rotateZ(ang, this);
+    }
+
+    /**
+     * Apply rotation of <tt>angles.x</tt> radians about the X axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
+     * followed by a rotation of <tt>angles.z</tt> radians about the Z axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
+     * 
+     * @param angles
+     *            the angles to rotate about the X, Y and Z axis, respectively
+     * @return this
+     */
+    public Matrix4f rotateXYZ(Vector3f angles) {
+       return rotateXYZ(angles, this); 
+    }
+
+    /**
+     * Apply rotation of <tt>angles.x</tt> radians about the X axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
+     * followed by a rotation of <tt>angles.z</tt> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
+     * 
+     * @param angles
+     *            the angles to rotate about the X, Y and Z axis, respectively
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateXYZ(Vector3f angles, Matrix4f dest) {
+        return rotateXYZ(angles.x, angles.y, angles.z, dest);
+    }
+
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4f rotateXYZ(float angleX, float angleY, float angleZ) {
+        return rotateXYZ(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinX = -sinX;
+        float m_sinY = -sinY;
+        float m_sinZ = -sinZ;
+
+        // rotateX
+        float nm10 = m10 * cosX + m20 * sinX;
+        float nm11 = m11 * cosX + m21 * sinX;
+        float nm12 = m12 * cosX + m22 * sinX;
+        float nm13 = m13 * cosX + m23 * sinX;
+        float nm20 = m10 * m_sinX + m20 * cosX;
+        float nm21 = m11 * m_sinX + m21 * cosX;
+        float nm22 = m12 * m_sinX + m22 * cosX;
+        float nm23 = m13 * m_sinX + m23 * cosX;
+        // rotateY
+        float nm00 = m00 * cosY + nm20 * m_sinY;
+        float nm01 = m01 * cosY + nm21 * m_sinY;
+        float nm02 = m02 * cosY + nm22 * m_sinY;
+        float nm03 = m03 * cosY + nm23 * m_sinY;
+        dest.m20 = m00 * sinY + nm20 * cosY;
+        dest.m21 = m01 * sinY + nm21 * cosY;
+        dest.m22 = m02 * sinY + nm22 * cosY;
+        dest.m23 = m03 * sinY + nm23 * cosY;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = nm03 * cosZ + nm13 * sinZ;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = nm03 * m_sinZ + nm13 * cosZ;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <tt>angles.z</tt> radians about the Z axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
+     * followed by a rotation of <tt>angles.x</tt> radians about the X axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
+     * 
+     * @param angles
+     *            the angles to rotate about the X, Y and Z axis, respectively
+     * @return this
+     */
+    public Matrix4f rotateZYX(Vector3f angles) {
+       return rotateZYX(angles, this); 
+    }
+
+    /**
+     * Apply rotation of <tt>angles.z</tt> radians about the Z axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
+     * followed by a rotation of <tt>angles.x</tt> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
+     * 
+     * @param angles
+     *            the angles to rotate about the X, Y and Z axis, respectively
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateZYX(Vector3f angles, Matrix4f dest) {
+        return rotateZYX(angles.x, angles.y, angles.z, dest);
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return this
+     */
+    public Matrix4f rotateZYX(float angleZ, float angleY, float angleX) {
+        return rotateZYX(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateZYX(float angleZ, float angleY, float angleX, Matrix4f dest) {
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float m_sinZ = -sinZ;
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+
+        // rotateZ
+        float nm00 = m00 * cosZ + m10 * sinZ;
+        float nm01 = m01 * cosZ + m11 * sinZ;
+        float nm02 = m02 * cosZ + m12 * sinZ;
+        float nm03 = m03 * cosZ + m13 * sinZ;
+        float nm10 = m00 * m_sinZ + m10 * cosZ;
+        float nm11 = m01 * m_sinZ + m11 * cosZ;
+        float nm12 = m02 * m_sinZ + m12 * cosZ;
+        float nm13 = m03 * m_sinZ + m13 * cosZ;
+        // rotateY
+        float nm20 = nm00 * sinY + m20 * cosY;
+        float nm21 = nm01 * sinY + m21 * cosY;
+        float nm22 = nm02 * sinY + m22 * cosY;
+        float nm23 = nm03 * sinY + m23 * cosY;
+        dest.m00 = nm00 * cosY + m20 * m_sinY;
+        dest.m01 = nm01 * cosY + m21 * m_sinY;
+        dest.m02 = nm02 * cosY + m22 * m_sinY;
+        dest.m03 = nm03 * cosY + m23 * m_sinY;
+        // rotateX
+        dest.m10 = nm10 * cosX + nm20 * sinX;
+        dest.m11 = nm11 * cosX + nm21 * sinX;
+        dest.m12 = nm12 * cosX + nm22 * sinX;
+        dest.m13 = nm13 * cosX + nm23 * sinX;
+        dest.m20 = nm10 * m_sinX + nm20 * cosX;
+        dest.m21 = nm11 * m_sinX + nm21 * cosX;
+        dest.m22 = nm12 * m_sinX + nm22 * cosX;
+        dest.m23 = nm13 * m_sinX + nm23 * cosX;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
     }
 
     /**
@@ -5599,7 +6283,6 @@ public class Matrix4f implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        
         return dest;
     }
 
@@ -5642,7 +6325,6 @@ public class Matrix4f implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        
         return dest;
     }
 

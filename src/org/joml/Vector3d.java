@@ -1496,10 +1496,10 @@ public class Vector3d implements Externalizable {
      * @return the cosine of the angle
      */
     public double angleCos(Vector3d v) {
-        double length1 = Math.sqrt(x * x + y * y + z * z);
-        double length2 = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        double length1Sqared = x * x + y * y + z * z;
+        double length2Sqared = v.x * v.x + v.y * v.y + v.z * v.z;
         double dot = x * v.x + y * v.y + z * v.z;
-        return dot / (length1 * length2);
+        return dot / (Math.sqrt(length1Sqared * length2Sqared));
     }
 
     /**

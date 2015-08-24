@@ -32,6 +32,8 @@ import java.text.NumberFormat;
 /**
  * Represents a 3D rotation of a given radians about an axis represented as an
  * unit 3D vector.
+ * <p>
+ * This class uses single-precision components.
  * 
  * @author Kai Burjack
  */

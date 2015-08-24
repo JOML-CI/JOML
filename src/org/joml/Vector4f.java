@@ -229,6 +229,24 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Set this {@link Vector4f} to the values of the given <code>v</code>.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     * 
+     * @param v
+     *          the vector whose values will be copied into this
+     * @return this
+     */
+    public Vector4f set(Vector4d v) {
+        this.x = (float) v.x;
+        this.y = (float) v.y;
+        this.z = (float) v.z;
+        this.w = (float) v.w;
+        return this;
+    }
+
+    /**
      * Set the first three components of this to the components of
      * <code>v</code> and the last component to <code>w</code>.
      * 
@@ -1125,10 +1143,10 @@ public class Vector4f implements Externalizable {
      * @return the cosine of the angle
      */
     public float angleCos(Vector4f v) {
-        double length1 = Math.sqrt(x * x + y * y + z * z + w * w);
-        double length2 = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
+        double length1Sqared = x * x + y * y + z * z + w * w;
+        double length2Sqared = v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w;
         double dot = x * v.x + y * v.y + z * v.z + w * v.w;
-        return (float) (dot / (length1 * length2));
+        return (float) (dot / (Math.sqrt(length1Sqared * length2Sqared)));
     }
 
     /**

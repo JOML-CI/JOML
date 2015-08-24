@@ -216,6 +216,43 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4d}.
+     * 
+     * @param axisAngle
+     *          the {@link AxisAngle4d}
+     * @return this
+     */
+    public Matrix3f set(AxisAngle4d axisAngle) {
+        double x = axisAngle.x;
+        double y = axisAngle.y;
+        double z = axisAngle.z;
+        double angle = axisAngle.angle;
+        double invLength = 1.0 / Math.sqrt(x*x + y*y + z*z);
+        x *= invLength;
+        y *= invLength;
+        z *= invLength;
+        double c = Math.cos(angle);
+        double s = Math.sin(angle);
+        double omc = 1.0f - c;
+        m00 = (float)(c + x*x*omc);
+        m11 = (float)(c + y*y*omc);
+        m22 = (float)(c + z*z*omc);
+        double tmp1 = x*y*omc;
+        double tmp2 = z*s;
+        m10 = (float)(tmp1 - tmp2);
+        m01 = (float)(tmp1 + tmp2);
+        tmp1 = x*z*omc;
+        tmp2 = y*s;
+        m20 = (float)(tmp1 + tmp2);
+        m02 = (float)(tmp1 - tmp2);
+        tmp1 = y*z*omc;
+        tmp2 = x*s;
+        m21 = (float)(tmp1 - tmp2);
+        m12 = (float)(tmp1 + tmp2);
+        return this;
+    }
+
+    /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
      * 
      * @see Quaternionf#get(Matrix3f)
@@ -494,29 +531,65 @@ public class Matrix3f implements Externalizable {
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
+     * <p>
+     * This methods assumes that the three column vectors of this matrix are not normalized.
      * 
-     * @see Quaternionf#set(Matrix3f)
+     * @see Quaternionf#setFromUnnormalized(Matrix3f)
      * 
      * @param dest
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionf getRotation(Quaternionf dest) {
-        return dest.set(this);
+    public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
+        return dest.setFromUnnormalized(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaternionf}.
+     * <p>
+     * This methods assumes that the three column vectors of this matrix are normalized.
+     * 
+     * @see Quaternionf#setFromNormalized(Matrix3f)
+     * 
+     * @param dest
+     *          the destination {@link Quaternionf}
+     * @return the passed in destination
+     */
+    public Quaternionf getNormalizedRotation(Quaternionf dest) {
+        return dest.setFromNormalized(this);
     }
 
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaterniond}.
+     * <p>
+     * This methods assumes that the three column vectors of this matrix are not normalized.
      * 
-     * @see Quaterniond#set(Matrix3f)
+     * @see Quaterniond#setFromUnnormalized(Matrix3f)
      * 
      * @param dest
      *          the destination {@link Quaterniond}
      * @return the passed in destination
      */
-    public Quaterniond getRotation(Quaterniond dest) {
-        return dest.set(this);
+    public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
+        return dest.setFromUnnormalized(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * <p>
+     * This methods assumes that the three column vectors of this matrix are normalized.
+     * 
+     * @see Quaterniond#setFromNormalized(Matrix3f)
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return the passed in destination
+     */
+    public Quaterniond getNormalizedRotation(Quaterniond dest) {
+        return dest.setFromNormalized(this);
     }
 
     /**
@@ -722,6 +795,32 @@ public class Matrix3f implements Externalizable {
         m20 = buffer.get(pos+6);
         m21 = buffer.get(pos+7);
         m22 = buffer.get(pos+8);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 9 float values from the given {@link ByteBuffer} in column-major order,
+     * starting at its current position.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix3f set(ByteBuffer buffer) {
+        int pos = buffer.position();
+        m00 = buffer.getFloat(pos);
+        m01 = buffer.getFloat(pos+4*1);
+        m02 = buffer.getFloat(pos+4*2);
+        m10 = buffer.getFloat(pos+4*3);
+        m11 = buffer.getFloat(pos+4*4);
+        m12 = buffer.getFloat(pos+4*5);
+        m20 = buffer.getFloat(pos+4*6);
+        m21 = buffer.getFloat(pos+4*7);
+        m22 = buffer.getFloat(pos+4*8);
         return this;
     }
 
@@ -1120,6 +1219,210 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Set this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return dest
+     */
+    public Matrix3f rotationXYZ(float angleX, float angleY, float angleZ) {
+        return rotationXYZ(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Create a matrix representing a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3f rotationXYZ(float angleX, float angleY, float angleZ, Matrix3f dest) {
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinX = -sinX;
+        float m_sinY = -sinY;
+        float m_sinZ = -sinZ;
+
+        // rotateX
+        float nm11 = cosX;
+        float nm12 = sinX;
+        float nm21 = m_sinX;
+        float nm22 = cosX;
+        // rotateY
+        float nm00 = cosY;
+        float nm01 = nm21 * m_sinY;
+        float nm02 = nm22 * m_sinY;
+        dest.m20 = sinY;
+        dest.m21 = nm21 * cosY;
+        dest.m22 = nm22 * cosY;
+        // rotateZ
+        dest.m00 = nm00 * cosZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m10 = nm00 * m_sinZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        return dest;
+    }
+
+    /**
+     * Set this matrix to a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return dest
+     */
+    public Matrix3f rotationZYX(float angleZ, float angleY, float angleX) {
+        return rotationZYX(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Create a matrix representing a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3f rotationZYX(float angleZ, float angleY, float angleX, Matrix3f dest) {
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float m_sinZ = -sinZ;
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+
+        // rotateZ
+        float nm00 = cosZ;
+        float nm01 = sinZ;
+        float nm10 = m_sinZ;
+        float nm11 = cosZ;
+        // rotateY
+        float nm20 = nm00 * sinY;
+        float nm21 = nm01 * sinY;
+        float nm22 = cosY;
+        dest.m00 = nm00 * cosY;
+        dest.m01 = nm01 * cosY;
+        dest.m02 = m_sinY;
+        // rotateX
+        dest.m10 = nm10 * cosX + nm20 * sinX;
+        dest.m11 = nm11 * cosX + nm21 * sinX;
+        dest.m12 = nm22 * sinX;
+        dest.m20 = nm10 * m_sinX + nm20 * cosX;
+        dest.m21 = nm11 * m_sinX + nm21 * cosX;
+        dest.m22 = nm22 * cosX;
+        return dest;
+    }
+
+    /**
+     * Set this matrix to a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
+     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return dest
+     */
+    public Matrix3f rotationYXZ(float angleY, float angleX, float angleZ) {
+        return rotationYXZ(angleY, angleX, angleZ, this);
+    }
+
+    /**
+     * Create a matrix representing a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
+     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3f rotationYXZ(float angleY, float angleX, float angleZ, Matrix3f dest) {
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+        float m_sinZ = -sinZ;
+
+        // rotateY
+        float nm00 = cosY;
+        float nm02 = m_sinY;
+        float nm20 = sinY;
+        float nm22 = cosY;
+        // rotateX
+        float nm10 = nm20 * sinX;
+        float nm11 = cosX;
+        float nm12 = nm22 * sinX;
+        dest.m20 = nm20 * cosX;
+        dest.m21 = m_sinX;
+        dest.m22 = nm22 * cosX;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        return dest;
+    }
+
+    /**
      * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
      * <p>
      * The resulting matrix can be multiplied against another transformation
@@ -1397,6 +1700,244 @@ public class Matrix3f implements Externalizable {
      */
     public Matrix3f rotateZ(float ang) {
         return rotateZ(ang, this);
+    }
+
+    /**
+     * Apply rotation of <tt>angles.x</tt> radians about the X axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
+     * followed by a rotation of <tt>angles.z</tt> radians about the Z axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
+     * 
+     * @param angles
+     *            the angles to rotate about the X, Y and Z axis, respectively
+     * @return this
+     */
+    public Matrix3f rotateXYZ(Vector3f angles) {
+       return rotateXYZ(angles, this); 
+    }
+
+    /**
+     * Apply rotation of <tt>angles.x</tt> radians about the X axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
+     * followed by a rotation of <tt>angles.z</tt> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
+     * 
+     * @param angles
+     *            the angles to rotate about the X, Y and Z axis, respectively
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3f rotateXYZ(Vector3f angles, Matrix3f dest) {
+        return rotateXYZ(angles.x, angles.y, angles.z, dest);
+    }
+
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix3f rotateXYZ(float angleX, float angleY, float angleZ) {
+        return rotateXYZ(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3f rotateXYZ(float angleX, float angleY, float angleZ, Matrix3f dest) {
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinX = -sinX;
+        float m_sinY = -sinY;
+        float m_sinZ = -sinZ;
+
+        // rotateX
+        float nm10 = m10 * cosX + m20 * sinX;
+        float nm11 = m11 * cosX + m21 * sinX;
+        float nm12 = m12 * cosX + m22 * sinX;
+        float nm20 = m10 * m_sinX + m20 * cosX;
+        float nm21 = m11 * m_sinX + m21 * cosX;
+        float nm22 = m12 * m_sinX + m22 * cosX;
+        // rotateY
+        float nm00 = m00 * cosY + nm20 * m_sinY;
+        float nm01 = m01 * cosY + nm21 * m_sinY;
+        float nm02 = m02 * cosY + nm22 * m_sinY;
+        dest.m20 = m00 * sinY + nm20 * cosY;
+        dest.m21 = m01 * sinY + nm21 * cosY;
+        dest.m22 = m02 * sinY + nm22 * cosY;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <tt>angles.z</tt> radians about the Z axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
+     * followed by a rotation of <tt>angles.x</tt> radians about the X axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
+     * 
+     * @param angles
+     *            the angles to rotate about the X, Y and Z axis, respectively
+     * @return this
+     */
+    public Matrix3f rotateZYX(Vector3f angles) {
+       return rotateZYX(angles, this); 
+    }
+
+    /**
+     * Apply rotation of <tt>angles.z</tt> radians about the Z axis, followed by a rotation of <tt>angles.y</tt> radians about the Y axis and
+     * followed by a rotation of <tt>angles.x</tt> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
+     * 
+     * @param angles
+     *            the angles to rotate about the X, Y and Z axis, respectively
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3f rotateZYX(Vector3f angles, Matrix3f dest) {
+        return rotateZYX(angles.x, angles.y, angles.z, dest);
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return this
+     */
+    public Matrix3f rotateZYX(float angleZ, float angleY, float angleX) {
+        return rotateZYX(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3f rotateZYX(float angleZ, float angleY, float angleX, Matrix3f dest) {
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float m_sinZ = -sinZ;
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+
+        // rotateZ
+        float nm00 = m00 * cosZ + m10 * sinZ;
+        float nm01 = m01 * cosZ + m11 * sinZ;
+        float nm02 = m02 * cosZ + m12 * sinZ;
+        float nm10 = m00 * m_sinZ + m10 * cosZ;
+        float nm11 = m01 * m_sinZ + m11 * cosZ;
+        float nm12 = m02 * m_sinZ + m12 * cosZ;
+        // rotateY
+        float nm20 = nm00 * sinY + m20 * cosY;
+        float nm21 = nm01 * sinY + m21 * cosY;
+        float nm22 = nm02 * sinY + m22 * cosY;
+        dest.m00 = nm00 * cosY + m20 * m_sinY;
+        dest.m01 = nm01 * cosY + m21 * m_sinY;
+        dest.m02 = nm02 * cosY + m22 * m_sinY;
+        // rotateX
+        dest.m10 = nm10 * cosX + nm20 * sinX;
+        dest.m11 = nm11 * cosX + nm21 * sinX;
+        dest.m12 = nm12 * cosX + nm22 * sinX;
+        dest.m20 = nm10 * m_sinX + nm20 * cosX;
+        dest.m21 = nm11 * m_sinX + nm21 * cosX;
+        dest.m22 = nm12 * m_sinX + nm22 * cosX;
+        return dest;
     }
 
     /**

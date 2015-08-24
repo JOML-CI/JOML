@@ -194,6 +194,23 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Set the x, y and z components to match the supplied vector.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     * 
+     * @param v
+     *          contains the values of x, y and z to set
+     * @return this
+     */
+    public Vector3f set(Vector3d v) {
+        x = (float) v.x;
+        y = (float) v.y;
+        z = (float) v.z;
+        return this;
+    }
+
+    /**
      * Set the first two components from the given <code>v</code>
      * and the z component from the given <code>z</code>
      *
@@ -1166,10 +1183,10 @@ public class Vector3f implements Externalizable {
      * @return the cosine of the angle
      */
     public float angleCos(Vector3f v) {
-        double length1 = Math.sqrt(x * x + y * y + z * z);
-        double length2 = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        double length1Sqared = x * x + y * y + z * z;
+        double length2Sqared = v.x * v.x + v.y * v.y + v.z * v.z;
         double dot = x * v.x + y * v.y + z * v.z;
-        return (float) (dot / (length1 * length2));
+        return (float) (dot / (Math.sqrt(length1Sqared * length2Sqared)));
     }
 
     /**

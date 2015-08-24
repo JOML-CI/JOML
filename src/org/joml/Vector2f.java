@@ -197,6 +197,22 @@ public class Vector2f implements Externalizable {
     }
 
     /**
+     * Set this {@link Vector2f} to the values of v.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     * 
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector2f set(Vector2d v) {
+        x = (float) v.x;
+        y = (float) v.y;
+        return this;
+    }
+
+    /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
      * <p>
