@@ -597,8 +597,6 @@ public class Matrix4f implements Externalizable {
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
      * transformation of the right matrix will be applied first!
-     * 
-     * @see #determinant4x3()
      *
      * @param right
      *          the right operand of the matrix multiplication
