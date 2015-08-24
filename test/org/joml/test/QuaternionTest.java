@@ -61,4 +61,39 @@ public class QuaternionTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(0.0f, 0.0f, 1.0f), v, 1E-5f);
     }
 
+    public void testRotationXYZ() {
+        Quaternionf v = new Quaternionf().rotationXYZ(0.12f, 0.521f, 0.951f);
+        Matrix4f m = new Matrix4f().rotateXYZ(0.12f, 0.521f, 0.951f);
+        Matrix4f n = new Matrix4f().set(v);
+        TestUtil.assertMatrix4fEquals(m, n, 1E-5f);
+    }
+
+    public void testRotationZYX() {
+        Quaternionf v = new Quaternionf().rotationZYX(0.12f, 0.521f, 0.951f);
+        Matrix4f m = new Matrix4f().rotateZYX(0.12f, 0.521f, 0.951f);
+        Matrix4f n = new Matrix4f().set(v);
+        TestUtil.assertMatrix4fEquals(m, n, 1E-5f);
+    }
+
+    public void testRotationYXZ() {
+        Quaternionf v = new Quaternionf().rotationYXZ(0.12f, 0.521f, 0.951f);
+        Matrix4f m = new Matrix4f().rotationYXZ(0.12f, 0.521f, 0.951f);
+        Matrix4f n = new Matrix4f().set(v);
+        TestUtil.assertMatrix4fEquals(m, n, 1E-5f);
+    }
+
+    public void testRotateXYZ() {
+        Quaternionf v = new Quaternionf().rotateXYZ(0.12f, 0.521f, 0.951f);
+        Matrix4f m = new Matrix4f().rotateXYZ(0.12f, 0.521f, 0.951f);
+        Matrix4f n = new Matrix4f().set(v);
+        TestUtil.assertMatrix4fEquals(m, n, 1E-5f);
+    }
+
+    public void testRotateZYX() {
+        Quaternionf v = new Quaternionf().rotationZYX(0.12f, 0.521f, 0.951f);
+        Matrix4f m = new Matrix4f().rotateZYX(0.12f, 0.521f, 0.951f);
+        Matrix4f n = new Matrix4f().set(v);
+        TestUtil.assertMatrix4fEquals(m, n, 1E-5f);
+    }
+
 }
