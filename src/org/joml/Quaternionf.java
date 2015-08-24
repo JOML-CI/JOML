@@ -636,8 +636,6 @@ public class Quaternionf implements Externalizable {
     /**
      * Set this quaternion to represent a rotation of the given radians about the x axis.
      * 
-     * @see #rotation(float, float, float)
-     * 
      * @param angle
      *              the angle in radians to rotate about the x axis
      * @return this
@@ -655,8 +653,6 @@ public class Quaternionf implements Externalizable {
     /**
      * Set this quaternion to represent a rotation of the given radians about the y axis.
      * 
-     * @see #rotation(float, float, float)
-     * 
      * @param angle
      *              the angle in radians to rotate about the y axis
      * @return this
@@ -673,8 +669,6 @@ public class Quaternionf implements Externalizable {
 
     /**
      * Set this quaternion to represent a rotation of the given radians about the z axis.
-     * 
-     * @see #rotation(float, float, float)
      * 
      * @param angle
      *              the angle in radians to rotate about the z axis
