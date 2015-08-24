@@ -1145,44 +1145,6 @@ public class Quaternionf implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>XYZ</tt>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @param angles
-     *              the euler angles in radians
-     * @return this
-     */
-    public Quaternionf rotateXYZ(Vector3f angles) {
-        return rotateXYZ(angles.x, angles.y, angles.z);
-    }
-
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles using rotation sequence <tt>ZYX</tt>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @param angles
-     *              the euler angles in radians
-     * @return this
-     */
-    public Quaternionf rotateZYX(Vector3f angles) {
-        return rotateZYX(angles.z, angles.y, angles.x);
-    }
-
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles using rotation sequence <tt>XYZ</tt>.
-     * <p>
      * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
@@ -1316,6 +1278,74 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
+     * called the euler angles, using the rotation sequence <tt>YXZ</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angleY
+     *              the angle in radians to rotate about the y axis
+     * @param angleX
+     *              the angle in radians to rotate about the x axis
+     * @param angleZ
+     *              the angle in radians to rotate about the z axis
+     * @return this
+     */
+    public Quaternionf rotateYXZ(float angleZ, float angleY, float angleX) {
+        return rotateYXZ(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
+     * called the euler angles, using the rotation sequence <tt>YXZ</tt> and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angleY
+     *              the angle in radians to rotate about the y axis
+     * @param angleX
+     *              the angle in radians to rotate about the x axis
+     * @param angleZ
+     *              the angle in radians to rotate about the z axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public Quaternionf rotateYXZ(float angleY, float angleX, float angleZ, Quaternionf dest) {
+        float sx = (float) Math.sin(angleX * 0.5);
+        float cx = (float) Math.cos(angleX * 0.5);
+        float sy = (float) Math.sin(angleY * 0.5);
+        float cy = (float) Math.cos(angleY * 0.5);
+        float sz = (float) Math.sin(angleZ * 0.5);
+        float cz = (float) Math.cos(angleZ * 0.5);
+
+        float yx = cy * sx;
+        float yy = sy * cx;
+        float yz = sy * sx;
+        float yw = cy * cx;
+        float x = yx * cz + yy * sz;
+        float y = yy * cz - yx * sz;
+        float z = yw * sz - yz * cz;
+        float w = yw * cz + yz * sz;
+        // right-multiply
+        dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
+                 this.w * y - this.x * z + this.y * w + this.z * x,
+                 this.w * z + this.x * y - this.y * x + this.z * w,
+                 this.w * w - this.x * x - this.y * y - this.z * z);
+        return dest;
+    }
+
+    /**
      * Get the euler angles in radians in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the 
      * provided parameter <code>eulerAngles</code>.
      * 
@@ -1414,7 +1444,7 @@ public class Quaternionf implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
      * <p>
-     * Reference: <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>.
+     * Reference: <a href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">https://en.wikipedia.org</a>
      * 
      * @param angleY
      *          the angle in radians to rotate about y

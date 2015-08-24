@@ -90,7 +90,7 @@ public class QuaternionTest extends TestCase {
     }
 
     public void testRotateZYX() {
-        Quaternionf v = new Quaternionf().rotationZYX(0.12f, 0.521f, 0.951f);
+        Quaternionf v = new Quaternionf().rotateZYX(0.12f, 0.521f, 0.951f);
         Matrix4f m = new Matrix4f().rotateZYX(0.12f, 0.521f, 0.951f);
         Matrix4f n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-5f);
