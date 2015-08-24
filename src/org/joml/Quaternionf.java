@@ -643,7 +643,13 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf rotationX(float angle) {
-        return rotation(angle, 0.0f, 0.0f);
+        float cos = (float) Math.cos(angle * 0.5);
+        float sin = (float) Math.sin(angle * 0.5);
+        w = cos;
+        x = sin;
+        y = 0.0f;
+        z = 0.0f;
+        return this;
     }
 
     /**
@@ -656,7 +662,13 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf rotationY(float angle) {
-        return rotation(0.0f, angle, 0.0f);
+        float cos = (float) Math.cos(angle * 0.5);
+        float sin = (float) Math.sin(angle * 0.5);
+        w = cos;
+        x = 0.0f;
+        y = sin;
+        z = 0.0f;
+        return this;
     }
 
     /**
@@ -669,7 +681,13 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf rotationZ(float angle) {
-        return rotation(0.0f, 0.0f, angle);
+        float cos = (float) Math.cos(angle * 0.5);
+        float sin = (float) Math.sin(angle * 0.5);
+        w = cos;
+        x = 0.0f;
+        y = 0.0f;
+        z = sin;
+        return this;
     }
 
     private void setFromUnnormalized(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22) {

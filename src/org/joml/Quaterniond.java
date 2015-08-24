@@ -1858,40 +1858,52 @@ public class Quaterniond implements Externalizable {
     /**
      * Set this quaternion to represent a rotation of the given radians about the x axis.
      * 
-     * @see #rotation(double, double, double)
-     * 
      * @param angle
      *              the angle in radians to rotate about the x axis
      * @return this
      */
     public Quaterniond rotationX(double angle) {
-        return rotation(angle, 0.0, 0.0);
+        double cos = Math.cos(angle * 0.5);
+        double sin = Math.sin(angle * 0.5);
+        w = cos;
+        x = sin;
+        y = 0.0;
+        z = 0.0;
+        return this;
     }
 
     /**
      * Set this quaternion to represent a rotation of the given radians about the y axis.
-     * 
-     * @see #rotation(double, double, double)
      * 
      * @param angle
      *              the angle in radians to rotate about the y axis
      * @return this
      */
     public Quaterniond rotationY(double angle) {
-        return rotation(0.0, angle, 0.0);
+        double cos = Math.cos(angle * 0.5);
+        double sin = Math.sin(angle * 0.5);
+        w = cos;
+        x = 0.0;
+        y = sin;
+        z = 0.0;
+        return this;
     }
 
     /**
      * Set this quaternion to represent a rotation of the given radians about the z axis.
-     * 
-     * @see #rotation(double, double, double)
      * 
      * @param angle
      *              the angle in radians to rotate about the z axis
      * @return this
      */
     public Quaterniond rotationZ(double angle) {
-        return rotation(0.0, 0.0, angle);
+        double cos = Math.cos(angle * 0.5);
+        double sin = Math.sin(angle * 0.5);
+        w = cos;
+        x = 0.0;
+        y = 0.0;
+        z = sin;
+        return this;
     }
 
     /**
