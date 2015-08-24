@@ -693,7 +693,8 @@ public class Matrix3d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
      * <p>
-     * This methods assumes that the three column vectors of this matrix are not normalized.
+     * This method assumes that the three column vectors of this matrix are not normalized and
+     * thus allows to ignore any additional scaling factor that is applied to the matrix.
      * 
      * @see Quaternionf#setFromUnnormalized(Matrix3d)
      * 
@@ -709,7 +710,7 @@ public class Matrix3d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
      * <p>
-     * This methods assumes that the three column vectors of this matrix are normalized.
+     * This method assumes that the three column vectors of this matrix are normalized.
      * 
      * @see Quaternionf#setFromNormalized(Matrix3d)
      * 
@@ -725,7 +726,8 @@ public class Matrix3d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaterniond}.
      * <p>
-     * This methods assumes that the three column vectors of this matrix are not normalized.
+     * This method assumes that the three column vectors of this matrix are not normalized and
+     * thus allows to ignore any additional scaling factor that is applied to the matrix.
      * 
      * @see Quaterniond#setFromUnnormalized(Matrix3d)
      * 
@@ -741,7 +743,7 @@ public class Matrix3d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaterniond}.
      * <p>
-     * This methods assumes that the three column vectors of this matrix are normalized.
+     * This method assumes that the three column vectors of this matrix are normalized.
      * 
      * @see Quaterniond#setFromNormalized(Matrix3d)
      * 

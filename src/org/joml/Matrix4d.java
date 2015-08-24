@@ -1735,7 +1735,8 @@ public class Matrix4d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
      * <p>
-     * This methods assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized.
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized and
+     * thus allows to ignore any additional scaling factor that is applied to the matrix.
      * 
      * @see Quaternionf#setFromUnnormalized(Matrix4d)
      * 
@@ -1751,7 +1752,7 @@ public class Matrix4d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
      * <p>
-     * This methods assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
      * 
      * @see Quaternionf#setFromNormalized(Matrix4d)
      * 
@@ -1767,7 +1768,8 @@ public class Matrix4d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaterniond}.
      * <p>
-     * This methods assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized.
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized and
+     * thus allows to ignore any additional scaling factor that is applied to the matrix.
      * 
      * @see Quaterniond#setFromUnnormalized(Matrix4d)
      * 
@@ -1783,7 +1785,7 @@ public class Matrix4d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaterniond}.
      * <p>
-     * This methods assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
      * 
      * @see Quaterniond#setFromNormalized(Matrix4d)
      * 
