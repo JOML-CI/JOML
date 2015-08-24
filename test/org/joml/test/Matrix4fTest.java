@@ -336,6 +336,24 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
+    public void testRotateXYZ4x3() {
+        Matrix4f m = new Matrix4f().rotateX(0.12f).rotateY(0.0623f).rotateZ(0.95f);
+        Matrix4f n = new Matrix4f().rotateXYZ4x3(0.12f, 0.0623f, 0.95f);
+        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+    }
+
+    public void testRotateZYX4x3() {
+        Matrix4f m = new Matrix4f().rotateZ(1.12f).rotateY(0.0623f).rotateX(0.95f);
+        Matrix4f n = new Matrix4f().rotateZYX4x3(1.12f, 0.0623f, 0.95f);
+        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+    }
+
+    public void testRotateYXZ4x3() {
+        Matrix4f m = new Matrix4f().rotateY(1.12f).rotateX(0.0623f).rotateZ(0.95f);
+        Matrix4f n = new Matrix4f().rotateYXZ4x3(1.12f, 0.0623f, 0.95f);
+        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+    }
+
     public void testRotationXYZ() {
         Matrix4f m = new Matrix4f().rotationX(0.32f).rotateY(0.5623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotationXYZ(0.32f, 0.5623f, 0.95f);
@@ -345,6 +363,12 @@ public class Matrix4fTest extends TestCase {
     public void testRotationZYX() {
         Matrix4f m = new Matrix4f().rotationZ(0.12f).rotateY(0.0623f).rotateX(0.95f);
         Matrix4f n = new Matrix4f().rotationZYX(0.12f, 0.0623f, 0.95f);
+        TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
+    }
+
+    public void testRotationYXZ() {
+        Matrix4f m = new Matrix4f().rotationY(0.12f).rotateX(0.0623f).rotateZ(0.95f);
+        Matrix4f n = new Matrix4f().rotationYXZ(0.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
