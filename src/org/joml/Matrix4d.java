@@ -3393,6 +3393,97 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4d rotateXYZ4x3(double angleX, double angleY, double angleZ) {
+        return rotateXYZ4x3(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d rotateXYZ4x3(double angleX, double angleY, double angleZ, Matrix4d dest) {
+        double cosX = Math.cos(angleX);
+        double sinX = Math.sin(angleX);
+        double cosY = Math.cos(angleY);
+        double sinY = Math.sin(angleY);
+        double cosZ = Math.cos(angleZ);
+        double sinZ = Math.sin(angleZ);
+        double m_sinX = -sinX;
+        double m_sinY = -sinY;
+        double m_sinZ = -sinZ;
+
+        // rotateX
+        double nm10 = m10 * cosX + m20 * sinX;
+        double nm11 = m11 * cosX + m21 * sinX;
+        double nm12 = m12 * cosX + m22 * sinX;
+        double nm20 = m10 * m_sinX + m20 * cosX;
+        double nm21 = m11 * m_sinX + m21 * cosX;
+        double nm22 = m12 * m_sinX + m22 * cosX;
+        // rotateY
+        double nm00 = m00 * cosY + nm20 * m_sinY;
+        double nm01 = m01 * cosY + nm21 * m_sinY;
+        double nm02 = m02 * cosY + nm22 * m_sinY;
+        dest.m20 = m00 * sinY + nm20 * cosY;
+        dest.m21 = m01 * sinY + nm21 * cosY;
+        dest.m22 = m02 * sinY + nm22 * cosY;
+        dest.m23 = 0.0;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = 0.0;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = 0.0;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
@@ -3474,6 +3565,274 @@ public class Matrix4d implements Externalizable {
         dest.m21 = nm11 * m_sinX + nm21 * cosX;
         dest.m22 = nm12 * m_sinX + nm22 * cosX;
         dest.m23 = nm13 * m_sinX + nm23 * cosX;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return this
+     */
+    public Matrix4d rotateZYX4x3(double angleZ, double angleY, double angleX) {
+        return rotateZYX4x3(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d rotateZYX4x3(double angleZ, double angleY, double angleX, Matrix4d dest) {
+        double cosZ = Math.cos(angleZ);
+        double sinZ = Math.sin(angleZ);
+        double cosY = Math.cos(angleY);
+        double sinY = Math.sin(angleY);
+        double cosX = Math.cos(angleX);
+        double sinX = Math.sin(angleX);
+        double m_sinZ = -sinZ;
+        double m_sinY = -sinY;
+        double m_sinX = -sinX;
+
+        // rotateZ
+        double nm00 = m00 * cosZ + m10 * sinZ;
+        double nm01 = m01 * cosZ + m11 * sinZ;
+        double nm02 = m02 * cosZ + m12 * sinZ;
+        double nm10 = m00 * m_sinZ + m10 * cosZ;
+        double nm11 = m01 * m_sinZ + m11 * cosZ;
+        double nm12 = m02 * m_sinZ + m12 * cosZ;
+        // rotateY
+        double nm20 = nm00 * sinY + m20 * cosY;
+        double nm21 = nm01 * sinY + m21 * cosY;
+        double nm22 = nm02 * sinY + m22 * cosY;
+        dest.m00 = nm00 * cosY + m20 * m_sinY;
+        dest.m01 = nm01 * cosY + m21 * m_sinY;
+        dest.m02 = nm02 * cosY + m22 * m_sinY;
+        dest.m03 = 0.0;
+        // rotateX
+        dest.m10 = nm10 * cosX + nm20 * sinX;
+        dest.m11 = nm11 * cosX + nm21 * sinX;
+        dest.m12 = nm12 * cosX + nm22 * sinX;
+        dest.m13 = 0.0;
+        dest.m20 = nm10 * m_sinX + nm20 * cosX;
+        dest.m21 = nm11 * m_sinX + nm21 * cosX;
+        dest.m22 = nm12 * m_sinX + nm22 * cosX;
+        dest.m23 = 0.0;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4d rotateYXZ(double angleY, double angleX, double angleZ) {
+        return rotateYXZ(angleY, angleX, angleZ, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d rotateYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
+        double cosY =  Math.cos(angleY);
+        double sinY =  Math.sin(angleY);
+        double cosX =  Math.cos(angleX);
+        double sinX =  Math.sin(angleX);
+        double cosZ =  Math.cos(angleZ);
+        double sinZ =  Math.sin(angleZ);
+        double m_sinY = -sinY;
+        double m_sinX = -sinX;
+        double m_sinZ = -sinZ;
+
+        // rotateY
+        double nm20 = m00 * sinY + m20 * cosY;
+        double nm21 = m01 * sinY + m21 * cosY;
+        double nm22 = m02 * sinY + m22 * cosY;
+        double nm23 = m03 * sinY + m23 * cosY;
+        double nm00 = m00 * cosY + m20 * m_sinY;
+        double nm01 = m01 * cosY + m21 * m_sinY;
+        double nm02 = m02 * cosY + m22 * m_sinY;
+        double nm03 = m03 * cosY + m23 * m_sinY;
+        // rotateX
+        double nm10 = m10 * cosX + nm20 * sinX;
+        double nm11 = m11 * cosX + nm21 * sinX;
+        double nm12 = m12 * cosX + nm22 * sinX;
+        double nm13 = m13 * cosX + nm23 * sinX;
+        dest.m20 = m10 * m_sinX + nm20 * cosX;
+        dest.m21 = m11 * m_sinX + nm21 * cosX;
+        dest.m22 = m12 * m_sinX + nm22 * cosX;
+        dest.m23 = m13 * m_sinX + nm23 * cosX;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = nm03 * cosZ + nm13 * sinZ;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = nm03 * m_sinZ + nm13 * cosZ;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4d rotateYXZ4x3(double angleY, double angleX, double angleZ) {
+        return rotateYXZ4x3(angleY, angleX, angleZ, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d rotateYXZ4x3(double angleY, double angleX, double angleZ, Matrix4d dest) {
+        double cosY =  Math.cos(angleY);
+        double sinY =  Math.sin(angleY);
+        double cosX =  Math.cos(angleX);
+        double sinX =  Math.sin(angleX);
+        double cosZ =  Math.cos(angleZ);
+        double sinZ =  Math.sin(angleZ);
+        double m_sinY = -sinY;
+        double m_sinX = -sinX;
+        double m_sinZ = -sinZ;
+
+        // rotateY
+        double nm20 = m00 * sinY + m20 * cosY;
+        double nm21 = m01 * sinY + m21 * cosY;
+        double nm22 = m02 * sinY + m22 * cosY;
+        double nm00 = m00 * cosY + m20 * m_sinY;
+        double nm01 = m01 * cosY + m21 * m_sinY;
+        double nm02 = m02 * cosY + m22 * m_sinY;
+        // rotateX
+        double nm10 = m10 * cosX + nm20 * sinX;
+        double nm11 = m11 * cosX + nm21 * sinX;
+        double nm12 = m12 * cosX + nm22 * sinX;
+        dest.m20 = m10 * m_sinX + nm20 * cosX;
+        dest.m21 = m11 * m_sinX + nm21 * cosX;
+        dest.m22 = m12 * m_sinX + nm22 * cosX;
+        dest.m23 = 0.0;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = 0.0;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = 0.0;
         // copy last column from 'this'
         dest.m30 = m30;
         dest.m31 = m31;
