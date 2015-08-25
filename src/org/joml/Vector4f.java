@@ -1087,10 +1087,10 @@ public class Vector4f implements Externalizable {
      * @return the cosine of the angle
      */
     public float angleCos(Vector4f v) {
-        double length1 = Math.sqrt(x * x + y * y + z * z + w * w);
-        double length2 = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
+        double length1Sqared = x * x + y * y + z * z + w * w;
+        double length2Sqared = v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w;
         double dot = x * v.x + y * v.y + z * v.z + w * v.w;
-        return (float) (dot / (length1 * length2));
+        return (float) (dot / (Math.sqrt(length1Sqared * length2Sqared)));
     }
 
     /**
