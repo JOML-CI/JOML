@@ -1438,25 +1438,36 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d invert(Matrix4d dest) {
-        double s = determinant();
-        // client must make sure that matrix is invertible
-        s = 1.0 / s;
-        dest.set((m11 * (m22 * m33 - m23 * m32) + m12 * (m23 * m31 - m21 * m33) + m13 * (m21 * m32 - m22 * m31)) * s,
-                 (m21 * (m02 * m33 - m03 * m32) + m22 * (m03 * m31 - m01 * m33) + m23 * (m01 * m32 - m02 * m31)) * s,
-                 (m31 * (m02 * m13 - m03 * m12) + m32 * (m03 * m11 - m01 * m13) + m33 * (m01 * m12 - m02 * m11)) * s,
-                 (m01 * (m13 * m22 - m12 * m23) + m02 * (m11 * m23 - m13 * m21) + m03 * (m12 * m21 - m11 * m22)) * s,
-                 (m12 * (m20 * m33 - m23 * m30) + m13 * (m22 * m30 - m20 * m32) + m10 * (m23 * m32 - m22 * m33)) * s,
-                 (m22 * (m00 * m33 - m03 * m30) + m23 * (m02 * m30 - m00 * m32) + m20 * (m03 * m32 - m02 * m33)) * s,
-                 (m32 * (m00 * m13 - m03 * m10) + m33 * (m02 * m10 - m00 * m12) + m30 * (m03 * m12 - m02 * m13)) * s,
-                 (m02 * (m13 * m20 - m10 * m23) + m03 * (m10 * m22 - m12 * m20) + m00 * (m12 * m23 - m13 * m22)) * s,
-                 (m13 * (m20 * m31 - m21 * m30) + m10 * (m21 * m33 - m23 * m31) + m11 * (m23 * m30 - m20 * m33)) * s,
-                 (m23 * (m00 * m31 - m01 * m30) + m20 * (m01 * m33 - m03 * m31) + m21 * (m03 * m30 - m00 * m33)) * s,
-                 (m33 * (m00 * m11 - m01 * m10) + m30 * (m01 * m13 - m03 * m11) + m31 * (m03 * m10 - m00 * m13)) * s,
-                 (m03 * (m11 * m20 - m10 * m21) + m00 * (m13 * m21 - m11 * m23) + m01 * (m10 * m23 - m13 * m20)) * s,
-                 (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
-                 (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
-                 (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
-                 (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20)) * s );
+        double a = m00 * m11 - m01 * m10;
+        double b = m00 * m12 - m02 * m10;
+        double c = m00 * m13 - m03 * m10;
+        double d = m01 * m12 - m02 * m11;
+        double e = m01 * m13 - m03 * m11;
+        double f = m02 * m13 - m03 * m12;
+        double g = m20 * m31 - m21 * m30;
+        double h = m20 * m32 - m22 * m30;
+        double i = m20 * m33 - m23 * m30;
+        double j = m21 * m32 - m22 * m31;
+        double k = m21 * m33 - m23 * m31;
+        double l = m22 * m33 - m23 * m32;
+        double det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0 / det;
+        dest.set(( m11 * l - m12 * k + m13 * j) * det,
+                 (-m01 * l + m02 * k - m03 * j) * det,
+                 ( m31 * f - m32 * e + m33 * d) * det,
+                 (-m21 * f + m22 * e - m23 * d) * det,
+                 (-m10 * l + m12 * i - m13 * h) * det,
+                 ( m00 * l - m02 * i + m03 * h) * det,
+                 (-m30 * f + m32 * c - m33 * b) * det,
+                 ( m20 * f - m22 * c + m23 * b) * det,
+                 ( m10 * k - m11 * i + m13 * g) * det,
+                 (-m00 * k + m01 * i - m03 * g) * det,
+                 ( m30 * e - m31 * c + m33 * a) * det,
+                 (-m20 * e + m21 * c - m23 * a) * det,
+                 (-m10 * j + m11 * h - m12 * g) * det,
+                 ( m00 * j - m01 * h + m02 * g) * det,
+                 (-m30 * d + m31 * b - m32 * a) * det,
+                 ( m20 * d - m21 * b + m22 * a) * det);
         return dest;
     }
 
