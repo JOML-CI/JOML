@@ -75,7 +75,7 @@ public class AxisAngle4f implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (float) ((a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI));
+        angle = FpMath.conicalAngle(a.angle);
     }
 
     /**
@@ -113,7 +113,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        this.angle = FpMath.conicalAngle(angle);
     }
 
     /**
@@ -137,7 +137,7 @@ public class AxisAngle4f implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        angle = FpMath.conicalAngle(a.angle);
         return this;
     }
 
@@ -158,7 +158,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        this.angle = FpMath.conicalAngle(angle);
         return this;
     }
 
@@ -399,7 +399,7 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f rotate(float ang) {
         angle += ang;
-        angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        angle = FpMath.conicalAngle(angle);
         return this;
     }
 
@@ -492,7 +492,7 @@ public class AxisAngle4f implements Externalizable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        float nangle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        float nangle = FpMath.conicalAngle(angle);
         result = prime * result + Float.floatToIntBits(nangle);
         result = prime * result + Float.floatToIntBits(x);
         result = prime * result + Float.floatToIntBits(y);
@@ -508,8 +508,8 @@ public class AxisAngle4f implements Externalizable {
         if (getClass() != obj.getClass())
             return false;
         AxisAngle4f other = (AxisAngle4f) obj;
-        float nangle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
-        float nangleOther = (float) ((other.angle < 0.0 ? 2.0 * Math.PI + other.angle % (2.0 * Math.PI) : other.angle) % (2.0 * Math.PI));
+        float nangle = FpMath.conicalAngle(angle);
+        float nangleOther = FpMath.conicalAngle(other.angle);
         if (Float.floatToIntBits(nangle) != Float.floatToIntBits(nangleOther))
             return false;
         if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))

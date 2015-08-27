@@ -165,12 +165,16 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond normalize() {
-        double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+        double invNorm = inverseLength();
         x *= invNorm;
         y *= invNorm;
         z *= invNorm;
         w *= invNorm;
         return this;
+    }
+
+    public double inverseLength() {
+      return 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
     /**
@@ -181,7 +185,7 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond normalize(Quaterniond dest) {
-        double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+        double invNorm = inverseLength();
         dest.x = x * invNorm;
         dest.y = y * invNorm;
         dest.z = z * invNorm;
@@ -1733,7 +1737,7 @@ public class Quaterniond implements Externalizable {
             y = crossY * invs;
             z = crossZ * invs;
             w = s * 0.5;
-            double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+            double invNorm = inverseLength();
             x *= invNorm;
             y *= invNorm;
             z *= invNorm;
