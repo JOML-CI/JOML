@@ -137,6 +137,7 @@ public class AxisAngle4f implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
+        angle = a.angle;
         angle = FpMath.conicalAngle(a.angle);
         return this;
     }
