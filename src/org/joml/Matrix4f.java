@@ -81,43 +81,6 @@ public class Matrix4f implements Externalizable {
     public static final int PLANE_PZ = 5;
 
     /**
-     * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
-     * that identifies the plane with equation <tt>x=-1</tt> when using the identity matrix.
-     */
-    public static final int PLANE_MASK_NX = 1<<PLANE_NX;
-    /**
-     * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
-     * that identifies the plane with equation <tt>x=1</tt> when using the identity matrix.
-     */
-    public static final int PLANE_MASK_PX = 1<<PLANE_PX;
-    /**
-     * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
-     * that identifies the plane with equation <tt>y=-1</tt> when using the identity matrix.
-     */
-    public static final int PLANE_MASK_NY = 1<<PLANE_NY;
-    /**
-     * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
-     * that identifies the plane with equation <tt>y=1</tt> when using the identity matrix.
-     */
-    public static final int PLANE_MASK_PY = 1<<PLANE_PY;
-    /**
-     * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
-     * that identifies the plane with equation <tt>z=-1</tt> when using the identity matrix.
-     */
-    public static final int PLANE_MASK_NZ = 1<<PLANE_NZ;
-    /**
-     * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
-     * that identifies the plane with equation <tt>z=1</tt> when using the identity matrix.
-     */
-    public static final int PLANE_MASK_PZ = 1<<PLANE_PZ;
-
-    /**
      * Argument to the first parameter of {@link #frustumCorner(int, Vector3f)}
      * identifying the corner <tt>(-1, -1, -1)</tt> when using the identity matrix.
      */
@@ -522,6 +485,9 @@ public class Matrix4f implements Externalizable {
      * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
      * <p>
+     * This method can be used to speed up matrix multiplication if the <code>right</code> matrix only represents affine transformations, such as
+     * translation, rotation, scaling and shearing (in any combination).
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
@@ -538,6 +504,9 @@ public class Matrix4f implements Externalizable {
     /**
      * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
      * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * This method can be used to speed up matrix multiplication if the <code>right</code> matrix only represents affine transformations, such as
+     * translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -572,9 +541,12 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
-     * <p>
      * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
-     * Also, this method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * This method can be used to speed up matrix multiplication if both <code>this</code> and the <code>right</code> matrix only represent affine transformations,
+     * such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -591,9 +563,12 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
-     * <p>
      * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
-     * Also, this method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * This method can be used to speed up matrix multiplication if both <code>this</code> and the <code>right</code> matrix only represent affine transformations,
+     * such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -1120,6 +1095,11 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Return the determinant of this matrix.
+     * <p>
+     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #determinant4x3()} can be used instead of this method.
+     * 
+     * @see #determinant4x3()
      * 
      * @return the determinant
      */
@@ -1156,6 +1136,11 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Invert this matrix and write the result into <code>dest</code>.
+     * <p>
+     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3(Matrix4f)} can be used instead of this method.
+     * 
+     * @see #invert4x3(Matrix4f)
      * 
      * @param dest
      *          will hold the result
@@ -1197,6 +1182,11 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Invert this matrix.
+     * <p>
+     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3()} can be used instead of this method.
+     * 
+     * @see #invert4x3()
      * 
      * @return this 
      */
@@ -1214,21 +1204,39 @@ public class Matrix4f implements Externalizable {
     public Matrix4f invert4x3(Matrix4f dest) {
         float s = determinant4x3();
         s = 1.0f / s;
-        dest.set((m11 * m22 - m12 * m21) * s,
-                 (m21 * m02 - m22 * m01) * s,
-                 (m01 * m12 - m02 * m11) * s,
+        float m10m22 = m10 * m22;
+        float m10m21 = m10 * m21;
+        float m10m02 = m10 * m02;
+        float m10m01 = m10 * m01;
+        float m11m22 = m11 * m22;
+        float m11m20 = m11 * m20;
+        float m11m02 = m11 * m02;
+        float m11m00 = m11 * m00;
+        float m12m21 = m12 * m21;
+        float m12m20 = m12 * m20;
+        float m12m01 = m12 * m01;
+        float m12m00 = m12 * m00;
+        float m20m02 = m20 * m02;
+        float m20m01 = m20 * m01;
+        float m21m02 = m21 * m02;
+        float m21m00 = m21 * m00;
+        float m22m01 = m22 * m01;
+        float m22m00 = m22 * m00;
+        dest.set((m11m22 - m12m21) * s,
+                 (m21m02 - m22m01) * s,
+                 (m12m01 - m11m02) * s,
                  0.0f,
-                 (m12 * m20 - m10 * m22) * s,
-                 (m22 * m00 - m20 * m02) * s,
-                 (m02 * m10 - m00 * m12) * s,
+                 (m12m20 - m10m22) * s,
+                 (m22m00 - m20m02) * s,
+                 (m10m02 - m12m00) * s,
                  0.0f,
-                 (m10 * m21 - m11 * m20) * s,
-                 (m20 * m01 - m21 * m00) * s,
-                 (m00 * m11 - m01 * m10) * s,
+                 (m10m21 - m11m20) * s,
+                 (m20m01 - m21m00) * s,
+                 (m11m00 - m10m01) * s,
                  0.0f,
-                 (m10 * (m22 * m31 - m21 * m32) + m11 * (m20 * m32 - m22 * m30) + m12 * (m21 * m30 - m20 * m31)) * s,
-                 (m20 * (m02 * m31 - m01 * m32) + m21 * (m00 * m32 - m02 * m30) + m22 * (m01 * m30 - m00 * m31)) * s,
-                 (m30 * (m02 * m11 - m01 * m12) + m31 * (m00 * m12 - m02 * m10) + m32 * (m01 * m10 - m00 * m11)) * s,
+                 (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s,
+                 (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s,
+                 (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s,
                  1.0f);
         return dest;
     }
@@ -1421,15 +1429,15 @@ public class Matrix4f implements Externalizable {
     /**
      * Get only the translation components of this matrix <tt>(m30, m31, m32)</tt> and store them in the given vector <code>xyz</code>.
      * 
-     * @param xyz
+     * @param dest
      *          will hold the translation components of this matrix
-     * @return the passed in vector
+     * @return dest
      */
-    public Vector3f getTranslation(Vector3f xyz) {
-        xyz.x = m30;
-        xyz.y = m31;
-        xyz.z = m32;
-        return xyz;
+    public Vector3f getTranslation(Vector3f dest) {
+        dest.x = m30;
+        dest.y = m31;
+        dest.z = m32;
+        return dest;
     }
 
     /**
@@ -1490,17 +1498,36 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Get the rotational component of <code>this</code> matrix and store the represented rotation
+     * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
+     * <p>
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized and
+     * thus allows to ignore any additional scaling factor that is applied to the matrix.
      * 
-     * @see Quaternionf#set(Matrix4f)
+     * @see Quaternionf#setFromUnnormalized(Matrix4f)
      * 
      * @param dest
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionf getRotation(Quaternionf dest) {
-        return dest.set(this);
+    public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
+        return dest.setFromUnnormalized(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaternionf}.
+     * <p>
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
+     * 
+     * @see Quaternionf#setFromNormalized(Matrix4f)
+     * 
+     * @param dest
+     *          the destination {@link Quaternionf}
+     * @return the passed in destination
+     */
+    public Quaternionf getNormalizedRotation(Quaternionf dest) {
+        return dest.setFromNormalized(this);
     }
 
     /**
@@ -2022,6 +2049,234 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return dest
+     */
+    public Matrix4f rotationXYZ(float angleX, float angleY, float angleZ) {
+        return rotationXYZ(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Create a matrix representing a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotationXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinX = -sinX;
+        float m_sinY = -sinY;
+        float m_sinZ = -sinZ;
+
+        // rotateX
+        float nm11 = cosX;
+        float nm12 = sinX;
+        float nm21 = m_sinX;
+        float nm22 = cosX;
+        // rotateY
+        float nm00 = cosY;
+        float nm01 = nm21 * m_sinY;
+        float nm02 = nm22 * m_sinY;
+        dest.m20 = sinY;
+        dest.m21 = nm21 * cosY;
+        dest.m22 = nm22 * cosY;
+        dest.m23 = 0.0f;
+        // rotateZ
+        dest.m00 = nm00 * cosZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = 0.0f;
+        dest.m10 = nm00 * m_sinZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = 0.0f;
+        // set last column to identity
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
+        return dest;
+    }
+
+    /**
+     * Set this matrix to a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return dest
+     */
+    public Matrix4f rotationZYX(float angleZ, float angleY, float angleX) {
+        return rotationZYX(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Create a matrix representing a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotationZYX(float angleZ, float angleY, float angleX, Matrix4f dest) {
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float m_sinZ = -sinZ;
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+
+        // rotateZ
+        float nm00 = cosZ;
+        float nm01 = sinZ;
+        float nm10 = m_sinZ;
+        float nm11 = cosZ;
+        // rotateY
+        float nm20 = nm00 * sinY;
+        float nm21 = nm01 * sinY;
+        float nm22 = cosY;
+        dest.m00 = nm00 * cosY;
+        dest.m01 = nm01 * cosY;
+        dest.m02 = m_sinY;
+        dest.m03 = 0.0f;
+        // rotateX
+        dest.m10 = nm10 * cosX + nm20 * sinX;
+        dest.m11 = nm11 * cosX + nm21 * sinX;
+        dest.m12 = nm22 * sinX;
+        dest.m13 = 0.0f;
+        dest.m20 = nm10 * m_sinX + nm20 * cosX;
+        dest.m21 = nm11 * m_sinX + nm21 * cosX;
+        dest.m22 = nm22 * cosX;
+        dest.m23 = 0.0f;
+        // set last column to identity
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
+        return dest;
+    }
+
+    /**
+     * Set this matrix to a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
+     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return dest
+     */
+    public Matrix4f rotationYXZ(float angleY, float angleX, float angleZ) {
+        return rotationYXZ(angleY, angleX, angleZ, this);
+    }
+
+    /**
+     * Create a matrix representing a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
+     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotationYXZ(float angleY, float angleX, float angleZ, Matrix4f dest) {
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+        float m_sinZ = -sinZ;
+
+        // rotateY
+        float nm00 = cosY;
+        float nm02 = m_sinY;
+        float nm20 = sinY;
+        float nm22 = cosY;
+        // rotateX
+        float nm10 = nm20 * sinX;
+        float nm11 = cosX;
+        float nm12 = nm22 * sinX;
+        dest.m20 = nm20 * cosX;
+        dest.m21 = m_sinX;
+        dest.m22 = nm22 * cosX;
+        dest.m23 = 0.0f;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = 0.0f;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = 0.0f;
+        // set last column to identity
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
+        return dest;
+    }
+
+    /**
      * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
      * <p>
      * The resulting matrix can be multiplied against another transformation
@@ -2404,9 +2659,9 @@ public class Matrix4f implements Externalizable {
      * @return v
      */
     public Vector3f transformDirection(Vector3f v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
-              m01 * v.x + m11 * v.y + m21 * v.z + m31,
-              m02 * v.x + m12 * v.y + m22 * v.z + m32);
+        v.set(m00 * v.x + m10 * v.y + m20 * v.z,
+              m01 * v.x + m11 * v.y + m21 * v.z,
+              m02 * v.x + m12 * v.y + m22 * v.z);
         return v;
     }
 
@@ -2783,6 +3038,545 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f rotateZ(float ang) {
         return rotateZ(ang, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4f rotateXYZ(float angleX, float angleY, float angleZ) {
+        return rotateXYZ(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinX = -sinX;
+        float m_sinY = -sinY;
+        float m_sinZ = -sinZ;
+
+        // rotateX
+        float nm10 = m10 * cosX + m20 * sinX;
+        float nm11 = m11 * cosX + m21 * sinX;
+        float nm12 = m12 * cosX + m22 * sinX;
+        float nm13 = m13 * cosX + m23 * sinX;
+        float nm20 = m10 * m_sinX + m20 * cosX;
+        float nm21 = m11 * m_sinX + m21 * cosX;
+        float nm22 = m12 * m_sinX + m22 * cosX;
+        float nm23 = m13 * m_sinX + m23 * cosX;
+        // rotateY
+        float nm00 = m00 * cosY + nm20 * m_sinY;
+        float nm01 = m01 * cosY + nm21 * m_sinY;
+        float nm02 = m02 * cosY + nm22 * m_sinY;
+        float nm03 = m03 * cosY + nm23 * m_sinY;
+        dest.m20 = m00 * sinY + nm20 * cosY;
+        dest.m21 = m01 * sinY + nm21 * cosY;
+        dest.m22 = m02 * sinY + nm22 * cosY;
+        dest.m23 = m03 * sinY + nm23 * cosY;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = nm03 * cosZ + nm13 * sinZ;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = nm03 * m_sinZ + nm13 * cosZ;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4f rotateXYZ4x3(float angleX, float angleY, float angleZ) {
+        return rotateXYZ4x3(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateXYZ4x3(float angleX, float angleY, float angleZ, Matrix4f dest) {
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinX = -sinX;
+        float m_sinY = -sinY;
+        float m_sinZ = -sinZ;
+
+        // rotateX
+        float nm10 = m10 * cosX + m20 * sinX;
+        float nm11 = m11 * cosX + m21 * sinX;
+        float nm12 = m12 * cosX + m22 * sinX;
+        float nm20 = m10 * m_sinX + m20 * cosX;
+        float nm21 = m11 * m_sinX + m21 * cosX;
+        float nm22 = m12 * m_sinX + m22 * cosX;
+        // rotateY
+        float nm00 = m00 * cosY + nm20 * m_sinY;
+        float nm01 = m01 * cosY + nm21 * m_sinY;
+        float nm02 = m02 * cosY + nm22 * m_sinY;
+        dest.m20 = m00 * sinY + nm20 * cosY;
+        dest.m21 = m01 * sinY + nm21 * cosY;
+        dest.m22 = m02 * sinY + nm22 * cosY;
+        dest.m23 = 0.0f;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = 0.0f;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = 0.0f;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return this
+     */
+    public Matrix4f rotateZYX(float angleZ, float angleY, float angleX) {
+        return rotateZYX(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateZYX(float angleZ, float angleY, float angleX, Matrix4f dest) {
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float m_sinZ = -sinZ;
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+
+        // rotateZ
+        float nm00 = m00 * cosZ + m10 * sinZ;
+        float nm01 = m01 * cosZ + m11 * sinZ;
+        float nm02 = m02 * cosZ + m12 * sinZ;
+        float nm03 = m03 * cosZ + m13 * sinZ;
+        float nm10 = m00 * m_sinZ + m10 * cosZ;
+        float nm11 = m01 * m_sinZ + m11 * cosZ;
+        float nm12 = m02 * m_sinZ + m12 * cosZ;
+        float nm13 = m03 * m_sinZ + m13 * cosZ;
+        // rotateY
+        float nm20 = nm00 * sinY + m20 * cosY;
+        float nm21 = nm01 * sinY + m21 * cosY;
+        float nm22 = nm02 * sinY + m22 * cosY;
+        float nm23 = nm03 * sinY + m23 * cosY;
+        dest.m00 = nm00 * cosY + m20 * m_sinY;
+        dest.m01 = nm01 * cosY + m21 * m_sinY;
+        dest.m02 = nm02 * cosY + m22 * m_sinY;
+        dest.m03 = nm03 * cosY + m23 * m_sinY;
+        // rotateX
+        dest.m10 = nm10 * cosX + nm20 * sinX;
+        dest.m11 = nm11 * cosX + nm21 * sinX;
+        dest.m12 = nm12 * cosX + nm22 * sinX;
+        dest.m13 = nm13 * cosX + nm23 * sinX;
+        dest.m20 = nm10 * m_sinX + nm20 * cosX;
+        dest.m21 = nm11 * m_sinX + nm21 * cosX;
+        dest.m22 = nm12 * m_sinX + nm22 * cosX;
+        dest.m23 = nm13 * m_sinX + nm23 * cosX;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return this
+     */
+    public Matrix4f rotateZYX4x3(float angleZ, float angleY, float angleX) {
+        return rotateZYX4x3(angleZ, angleY, angleX, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateZYX4x3(float angleZ, float angleY, float angleX, Matrix4f dest) {
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float m_sinZ = -sinZ;
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+
+        // rotateZ
+        float nm00 = m00 * cosZ + m10 * sinZ;
+        float nm01 = m01 * cosZ + m11 * sinZ;
+        float nm02 = m02 * cosZ + m12 * sinZ;
+        float nm10 = m00 * m_sinZ + m10 * cosZ;
+        float nm11 = m01 * m_sinZ + m11 * cosZ;
+        float nm12 = m02 * m_sinZ + m12 * cosZ;
+        // rotateY
+        float nm20 = nm00 * sinY + m20 * cosY;
+        float nm21 = nm01 * sinY + m21 * cosY;
+        float nm22 = nm02 * sinY + m22 * cosY;
+        dest.m00 = nm00 * cosY + m20 * m_sinY;
+        dest.m01 = nm01 * cosY + m21 * m_sinY;
+        dest.m02 = nm02 * cosY + m22 * m_sinY;
+        dest.m03 = 0.0f;
+        // rotateX
+        dest.m10 = nm10 * cosX + nm20 * sinX;
+        dest.m11 = nm11 * cosX + nm21 * sinX;
+        dest.m12 = nm12 * cosX + nm22 * sinX;
+        dest.m13 = 0.0f;
+        dest.m20 = nm10 * m_sinX + nm20 * cosX;
+        dest.m21 = nm11 * m_sinX + nm21 * cosX;
+        dest.m22 = nm12 * m_sinX + nm22 * cosX;
+        dest.m23 = 0.0f;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4f rotateYXZ(float angleY, float angleX, float angleZ) {
+        return rotateYXZ(angleY, angleX, angleZ, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateYXZ(float angleY, float angleX, float angleZ, Matrix4f dest) {
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+        float m_sinZ = -sinZ;
+
+        // rotateY
+        float nm20 = m00 * sinY + m20 * cosY;
+        float nm21 = m01 * sinY + m21 * cosY;
+        float nm22 = m02 * sinY + m22 * cosY;
+        float nm23 = m03 * sinY + m23 * cosY;
+        float nm00 = m00 * cosY + m20 * m_sinY;
+        float nm01 = m01 * cosY + m21 * m_sinY;
+        float nm02 = m02 * cosY + m22 * m_sinY;
+        float nm03 = m03 * cosY + m23 * m_sinY;
+        // rotateX
+        float nm10 = m10 * cosX + nm20 * sinX;
+        float nm11 = m11 * cosX + nm21 * sinX;
+        float nm12 = m12 * cosX + nm22 * sinX;
+        float nm13 = m13 * cosX + nm23 * sinX;
+        dest.m20 = m10 * m_sinX + nm20 * cosX;
+        dest.m21 = m11 * m_sinX + nm21 * cosX;
+        dest.m22 = m12 * m_sinX + nm22 * cosX;
+        dest.m23 = m13 * m_sinX + nm23 * cosX;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = nm03 * cosZ + nm13 * sinZ;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = nm03 * m_sinZ + nm13 * cosZ;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4f rotateYXZ4x3(float angleY, float angleX, float angleZ) {
+        return rotateYXZ4x3(angleY, angleX, angleZ, this);
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
+     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateYXZ4x3(float angleY, float angleX, float angleZ, Matrix4f dest) {
+        float cosY = (float) Math.cos(angleY);
+        float sinY = (float) Math.sin(angleY);
+        float cosX = (float) Math.cos(angleX);
+        float sinX = (float) Math.sin(angleX);
+        float cosZ = (float) Math.cos(angleZ);
+        float sinZ = (float) Math.sin(angleZ);
+        float m_sinY = -sinY;
+        float m_sinX = -sinX;
+        float m_sinZ = -sinZ;
+
+        // rotateY
+        float nm20 = m00 * sinY + m20 * cosY;
+        float nm21 = m01 * sinY + m21 * cosY;
+        float nm22 = m02 * sinY + m22 * cosY;
+        float nm00 = m00 * cosY + m20 * m_sinY;
+        float nm01 = m01 * cosY + m21 * m_sinY;
+        float nm02 = m02 * cosY + m22 * m_sinY;
+        // rotateX
+        float nm10 = m10 * cosX + nm20 * sinX;
+        float nm11 = m11 * cosX + nm21 * sinX;
+        float nm12 = m12 * cosX + nm22 * sinX;
+        dest.m20 = m10 * m_sinX + nm20 * cosX;
+        dest.m21 = m11 * m_sinX + nm21 * cosX;
+        dest.m22 = m12 * m_sinX + nm22 * cosX;
+        dest.m23 = 0.0f;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m03 = 0.0f;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        dest.m13 = 0.0f;
+        // copy last column from 'this'
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
     }
 
     /**
@@ -5477,7 +6271,6 @@ public class Matrix4f implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        
         return dest;
     }
 
@@ -5520,7 +6313,6 @@ public class Matrix4f implements Externalizable {
         default:
             throw new IndexOutOfBoundsException();
         }
-        
         return dest;
     }
 
@@ -5872,355 +6664,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Determine whether the given point is within the viewing frustum
-     * defined by <code>this</code> matrix.
-     * <p>
-     * This method computes the frustum planes in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * 
-     * @see #frustumPlane(int, Vector4f)
-     * @see #isPointInsideFrustum(float, float, float)
-     * 
-     * @param point
-     *          the point to test
-     * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
-     */
-    public boolean isPointInsideFrustum(Vector3f point) {
-        return isPointInsideFrustum(point.x, point.y, point.z);
-    }
-
-    /**
-     * Determine whether the given point <tt>(x, y, z)</tt> is within the viewing frustum defined by <code>this</code> matrix.
-     * <p>
-     * This method computes the frustum planes in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
-     * 
-     * @see #frustumPlane(int, Vector4f)
-     * @see #isPointInsideFrustum(Vector3f)
-     * 
-     * @param x
-     *          the x-coordinate of the point
-     * @param y
-     *          the y-coordinate of the point
-     * @param z
-     *          the z-coordinate of the point
-     * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
-     */
-    public boolean isPointInsideFrustum(float x, float y, float z) {
-        return (m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >= 0 &&
-               (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= 0 &&
-               (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= 0 &&
-               (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= 0 &&
-               (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= 0 &&
-               (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= 0;
-    }
-
-    /**
-     * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> matrix.
-     * <p>
-     * This method computes the frustum planes in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * 
-     * @see #frustumPlane(int, Vector4f)
-     * @see #isSphereInsideFrustum(float, float, float, float)
-     * 
-     * @param center
-     *          the sphere's center
-     * @param radius
-     *          the sphere's radius
-     * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
-     *         <code>false</code> otherwise
-     */
-    public boolean isSphereInsideFrustum(Vector3f center, float radius) {
-        return isSphereInsideFrustum(center.x, center.y, center.z, radius);
-    }
-
-    /**
-     * Determine whether the given sphere is partly or completely within the viewing frustum defined by <code>this</code> matrix.
-     * <p>
-     * This method computes the frustum planes in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
-     * 
-     * @see #frustumPlane(int, Vector4f)
-     * @see #isSphereInsideFrustum(Vector3f, float)
-     * 
-     * @param x
-     *          the x-coordinate of the sphere's center
-     * @param y
-     *          the y-coordinate of the sphere's center
-     * @param z
-     *          the z-coordinate of the sphere's center
-     * @param r
-     *          the sphere's radius
-     * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
-     *         <code>false</code> otherwise
-     */
-    public boolean isSphereInsideFrustum(float x, float y, float z, float r) {
-        return (m03 + m00) * x + (m13 + m10) * y + (m23 + m20) * z + (m33 + m30) >=
-                  -r * Math.sqrt((m03 + m00) * (m03 + m00) + (m13 + m10) * (m13 + m10) + (m23 + m20) * (m23 + m20)) &&
-               (m03 - m00) * x + (m13 - m10) * y + (m23 - m20) * z + (m33 - m30) >= 
-                  -r * Math.sqrt((m03 - m00) * (m03 - m00) + (m13 - m10) * (m13 - m10) + (m23 - m20) * (m23 - m20)) &&
-               (m03 + m01) * x + (m13 + m11) * y + (m23 + m21) * z + (m33 + m31) >= 
-                  -r * Math.sqrt((m03 + m01) * (m03 + m01) + (m13 + m11) * (m13 + m11) + (m23 + m21) * (m23 + m21)) &&
-               (m03 - m01) * x + (m13 - m11) * y + (m23 - m21) * z + (m33 - m31) >= 
-                  -r * Math.sqrt((m03 - m01) * (m03 - m01) + (m13 - m11) * (m13 - m11) + (m23 - m21) * (m23 - m21)) &&
-               (m03 + m02) * x + (m13 + m12) * y + (m23 + m22) * z + (m33 + m32) >= 
-                  -r * Math.sqrt((m03 + m02) * (m03 + m02) + (m13 + m12) * (m13 + m12) + (m23 + m22) * (m23 + m22)) &&
-               (m03 - m02) * x + (m13 - m12) * y + (m23 - m22) * z + (m33 - m32) >= 
-                  -r * Math.sqrt((m03 - m02) * (m03 - m02) + (m13 - m12) * (m13 - m12) + (m23 - m22) * (m23 - m22));
-    }
-
-    /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
-     * and, if the box is not inside this frustum, return the index of the plane that culled it.
-     * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
-     * <p>
-     * This method computes the frustum planes in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * 
-     * @see #frustumPlane(int, Vector4f)
-     * @see #isAabInsideFrustum(float, float, float, float, float, float)
-     * 
-     * @param min
-     *          the minimum corner coordinates of the axis-aligned box
-     * @param max
-     *          the maximum corner coordinates of the axis-aligned box
-     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
-     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
-     *         {@link #PLANE_NX}, {@link #PLANE_PX},
-     *         {@link #PLANE_NY}, {@link #PLANE_PY},
-     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
-     */
-    public int isAabInsideFrustum(Vector3f min, Vector3f max) {
-        return isAabInsideFrustum(min.x, min.y, min.z, max.x, max.y, max.z);
-    }
-
-    /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
-     * and, if the box is not inside this frustum, return the index of the plane that culled it.
-     * The box is specified via its min and max corner coordinates.
-     * <p>
-     * This method computes the frustum planes in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
-     * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
-     * 
-     * @see #frustumPlane(int, Vector4f)
-     * @see #isAabInsideFrustum(Vector3f, Vector3f)
-     * 
-     * @param minX
-     *          the x-coordinate of the minimum corner
-     * @param minY
-     *          the y-coordinate of the minimum corner
-     * @param minZ
-     *          the z-coordinate of the minimum corner
-     * @param maxX
-     *          the x-coordinate of the maximum corner
-     * @param maxY
-     *          the y-coordinate of the maximum corner
-     * @param maxZ
-     *          the z-coordinate of the maximum corner
-     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
-     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
-     *         {@link #PLANE_NX}, {@link #PLANE_PX},
-     *         {@link #PLANE_NY}, {@link #PLANE_PY},
-     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
-     */
-    public int isAabInsideFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
-        /*
-         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
-         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
-         * 
-         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
-         * or -1 if the box intersects the frustum.
-         */
-        int plane = 0;
-        if ((m03 + m00) * (m03 + m00 < 0 ? minX : maxX) 
-          + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) 
-          + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30 
-          && ++plane != 0 &&
-            (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) 
-          + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) 
-          + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30 
-          && ++plane != 0 &&
-            (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) 
-          + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) 
-          + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31 
-          && ++plane != 0 &&
-            (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) 
-          + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) 
-          + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31 
-          && ++plane != 0 &&
-            (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) 
-          + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) 
-          + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32 
-          && ++plane != 0 &&
-            (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) 
-          + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) 
-          + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32)
-            return -1;
-        return plane;
-    }
-
-    /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
-     * and, if the box is not inside this frustum, return the index of the plane that culled it.
-     * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
-     * <p>
-     * This method differs from {@link #isAabInsideFrustum(Vector3f, Vector3f) isAabInsideFrustum()} in that
-     * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
-     * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
-     * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
-     * <p>
-     * This method computes the frustum planes in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * 
-     * @see #frustumPlane(int, Vector4f)
-     * @see #isAabInsideFrustumMasked(float, float, float, float, float, float, int)
-     * 
-     * @param min
-     *          the minimum corner coordinates of the axis-aligned box
-     * @param max
-     *          the maximum corner coordinates of the axis-aligned box
-     * @param mask
-     *          contains as bitset all the planes that should be tested. This value can be any combination of 
-     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
-     *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
-     *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
-     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
-     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
-     *         {@link #PLANE_NX}, {@link #PLANE_PX},
-     *         {@link #PLANE_NY}, {@link #PLANE_PY},
-     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
-     */
-    public int isAabInsideFrustumMasked(Vector3f min, Vector3f max, int mask) {
-        return isAabInsideFrustumMasked(min.x, min.y, min.z, max.x, max.y, max.z, mask);
-    }
-
-    /**
-     * Determine whether the given axis-aligned box is partly or completely within the viewing frustum defined by <code>this</code> matrix
-     * and, if the box is not inside this frustum, return the index of the plane that culled it.
-     * The box is specified via its min and max corner coordinates.
-     * <p>
-     * This method differs from {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} in that
-     * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
-     * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
-     * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
-     * <p>
-     * This method computes the frustum planes in the local frame of
-     * any coordinate system that existed before <code>this</code>
-     * transformation was applied to it in order to yield homogeneous clipping space.
-     * <p>
-     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
-     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
-     * <p>
-     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
-     * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
-     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
-     * 
-     * @see #frustumPlane(int, Vector4f)
-     * @see #isAabInsideFrustumMasked(Vector3f, Vector3f, int)
-     * 
-     * @param minX
-     *          the x-coordinate of the minimum corner
-     * @param minY
-     *          the y-coordinate of the minimum corner
-     * @param minZ
-     *          the z-coordinate of the minimum corner
-     * @param maxX
-     *          the x-coordinate of the maximum corner
-     * @param maxY
-     *          the y-coordinate of the maximum corner
-     * @param maxZ
-     *          the z-coordinate of the maximum corner
-     * @param mask
-     *          contains as bitset all the planes that should be tested. This value can be any combination of 
-     *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
-     *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
-     *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
-     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
-     *         or <tt>-1</tt> if the box intersects the frustum. The plane index is one of
-     *         {@link #PLANE_NX}, {@link #PLANE_PX},
-     *         {@link #PLANE_NY}, {@link #PLANE_PY},
-     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
-     */
-    public int isAabInsideFrustumMasked(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, int mask) {
-        /*
-         * This is an implementation of the "2.5 Plane masking and coherency" of the mentioned site.
-         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
-         * 
-         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
-         * or -1 if the box intersects the frustum.
-         */
-        int plane = 0;
-        if (((mask & PLANE_MASK_NX) == 0 ||
-                (m03 + m00) * (m03 + m00 < 0 ? minX : maxX)
-              + (m13 + m10) * (m13 + m10 < 0 ? minY : maxY) 
-              + (m23 + m20) * (m23 + m20 < 0 ? minZ : maxZ) >= -m33 - m30) 
-              && ++plane != 0 &&
-            ((mask & PLANE_MASK_PX) == 0 || 
-                (m03 - m00) * (m03 - m00 < 0 ? minX : maxX) 
-              + (m13 - m10) * (m13 - m10 < 0 ? minY : maxY) 
-              + (m23 - m20) * (m23 - m20 < 0 ? minZ : maxZ) >= -m33 + m30) 
-              && ++plane != 0 &&
-            ((mask & PLANE_MASK_NY) == 0 || 
-                (m03 + m01) * (m03 + m01 < 0 ? minX : maxX) 
-              + (m13 + m11) * (m13 + m11 < 0 ? minY : maxY) 
-              + (m23 + m21) * (m23 + m21 < 0 ? minZ : maxZ) >= -m33 - m31) 
-              && ++plane != 0 &&
-            ((mask & PLANE_MASK_PY) == 0 || 
-                (m03 - m01) * (m03 - m01 < 0 ? minX : maxX) 
-              + (m13 - m11) * (m13 - m11 < 0 ? minY : maxY) 
-              + (m23 - m21) * (m23 - m21 < 0 ? minZ : maxZ) >= -m33 + m31) 
-              && ++plane != 0 &&
-            ((mask & PLANE_MASK_NZ) == 0 || 
-                (m03 + m02) * (m03 + m02 < 0 ? minX : maxX) 
-              + (m13 + m12) * (m13 + m12 < 0 ? minY : maxY) 
-              + (m23 + m22) * (m23 + m22 < 0 ? minZ : maxZ) >= -m33 - m32) 
-              && ++plane != 0 &&
-            ((mask & PLANE_MASK_PZ) == 0 || 
-                (m03 - m02) * (m03 - m02 < 0 ? minX : maxX) 
-              + (m13 - m12) * (m13 - m12 < 0 ? minY : maxY) 
-              + (m23 - m22) * (m23 - m22 < 0 ? minZ : maxZ) >= -m33 + m32))
-            return -1;
-        return plane;
-    }
-
-    /**
      * Obtain the direction of a ray starting at the center of the coordinate system and going 
      * through the near frustum plane.
      * <p>
@@ -6230,6 +6673,11 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The parameters <code>x</code> and <code>y</code> are used to interpolate the generated ray direction
      * from the bottom-left to the top-right frustum corners.
+     * <p>
+     * For optimal efficiency when building many ray directions over the whole frustum,
+     * it is recommended to use this method only in order to compute the four corner rays at
+     * <tt>(0, 0)</tt>, <tt>(1, 0)</tt>, <tt>(0, 1)</tt> and <tt>(1, 1)</tt>
+     * and then bilinearly interpolating between them.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
