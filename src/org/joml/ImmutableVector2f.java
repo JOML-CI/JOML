@@ -29,8 +29,8 @@ import java.nio.FloatBuffer;
  *
  */
 public class ImmutableVector2f extends BaseVector2f {
-    private final float x;
-    private final float y;
+    public final float x;
+    public final float y;
 
     /**
      * Create a new {@link ImmutableVector2f} and initialize both of its components with the given value.
