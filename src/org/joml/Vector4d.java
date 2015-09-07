@@ -1063,10 +1063,10 @@ public class Vector4d implements Externalizable {
      * @return dest
      */
     public Vector4d mul(double scalar, Vector4d dest) {
-        x *= scalar;
-        y *= scalar;
-        z *= scalar;
-        w *= scalar;
+        dest.x = x * scalar;
+        dest.y = y * scalar;
+        dest.z = z * scalar;
+        dest.w = w * scalar;
         return dest;
     }
 
@@ -1095,10 +1095,10 @@ public class Vector4d implements Externalizable {
      * @return dest
      */
     public Vector4d div(double scalar, Vector4d dest) {
-        x /= scalar;
-        y /= scalar;
-        z /= scalar;
-        w /= scalar;
+        dest.x = x / scalar;
+        dest.y = y / scalar;
+        dest.z = z / scalar;
+        dest.w = w / scalar;
         return dest;
     }
 
