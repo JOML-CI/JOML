@@ -1834,7 +1834,7 @@ public class Quaterniond implements Externalizable {
             w *= invNorm;
         } else {
             /* vectors are parallel, don't change anything */
-            return this;
+            return dest;
         }
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
