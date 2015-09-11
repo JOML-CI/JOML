@@ -27,7 +27,7 @@ package org.joml;
  * <p>
  * This class is preferred over the frustum culling methods in {@link Matrix4f} when many objects need to be culled
  * by the same static frustum.
- * 
+ *
  * @author Kai Burjack
  */
 public class FrustumCuller {
@@ -116,53 +116,53 @@ public class FrustumCuller {
     /**
      * Create a new {@link FrustumCuller} with undefined frustum planes.
      * <p>
-     * Before using any of the frustum culling methods, make sure to define the frustum planes using {@link #set(Matrix4f)}.
+     * Before using any of the frustum culling methods, make sure to define the frustum planes using {@link #set(Matrix4fr)}.
      */
     public FrustumCuller() {
     }
 
     /**
-     * Create a new {@link FrustumCuller} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
+     * Create a new {@link FrustumCuller} from the given {@link Matrix4fr matrix} by extracing the matrix's frustum planes.
      * <p>
-     * In order to update the compute frustum planes later on, call {@link #set(Matrix4f)}.
+     * In order to update the compute frustum planes later on, call {@link #set(Matrix4fr)}.
      * 
-     * @see #set(Matrix4f)
+     * @see #set(Matrix4fr)
      * 
      * @param m
      *          the {@link Matrix4f} to create the frustum culler from
      */
-    public FrustumCuller(Matrix4f m) {
+    public FrustumCuller(Matrix4fr m) {
         set(m);
     }
 
     /**
-     * Update the stored frustum planes of <code>this</code> {@link FrustumCuller} with the given {@link Matrix4f matrix}.
+     * Update the stored frustum planes of <code>this</code> {@link FrustumCuller} with the given {@link Matrix4fr matrix}.
      * <p>
      * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param m
-     *          the {@link Matrix4f matrix} to update <code>this</code> frustum culler's frustum planes from
+     *          the {@link Matrix4fr matrix} to update <code>this</code> frustum culler's frustum planes from
      * @return this
      */
-    public FrustumCuller set(Matrix4f m) {
+    public FrustumCuller set(Matrix4fr m) {
         float invl;
-        nxX = m.m03 + m.m00; nxY = m.m13 + m.m10; nxZ = m.m23 + m.m20; nxW = m.m33 + m.m30;
+        nxX = m.m03() + m.m00(); nxY = m.m13() + m.m10(); nxZ = m.m23() + m.m20(); nxW = m.m33() + m.m30();
         invl = (float) (1.0 / Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ));
         nxX *= invl; nxY *= invl; nxZ *= invl; nxW *= invl;
-        pxX = m.m03 - m.m00; pxY = m.m13 - m.m10; pxZ = m.m23 - m.m20; pxW = m.m33 - m.m30;
+        pxX = m.m03() - m.m00(); pxY = m.m13() - m.m10(); pxZ = m.m23() - m.m20(); pxW = m.m33() - m.m30();
         invl = (float) (1.0 / Math.sqrt(pxX * pxX + pxY * pxY + pxZ * pxZ));
         pxX *= invl; pxY *= invl; pxZ *= invl; pxW *= invl;
-        nyX = m.m03 + m.m01; nyY = m.m13 + m.m11; nyZ = m.m23 + m.m21; nyW = m.m33 + m.m31;
+        nyX = m.m03() + m.m01(); nyY = m.m13() + m.m11(); nyZ = m.m23() + m.m21(); nyW = m.m33() + m.m31();
         invl = (float) (1.0 / Math.sqrt(nyX * nyX + nyY * nyY + nyZ * nyZ));
         nyX *= invl; nyY *= invl; nyZ *= invl; nyW *= invl;
-        pyX = m.m03 - m.m01; pyY = m.m13 - m.m11; pyZ = m.m23 - m.m21; pyW = m.m33 - m.m31;
+        pyX = m.m03() - m.m01(); pyY = m.m13() - m.m11(); pyZ = m.m23() - m.m21(); pyW = m.m33() - m.m31();
         invl = (float) (1.0 / Math.sqrt(pyX * pyX + pyY * pyY + pyZ * pyZ));
         pyX *= invl; pyY *= invl; pyZ *= invl; pyW *= invl;
-        nzX = m.m03 + m.m02; nzY = m.m13 + m.m12; nzZ = m.m23 + m.m22; nzW = m.m33 + m.m32;
+        nzX = m.m03() + m.m02(); nzY = m.m13() + m.m12(); nzZ = m.m23() + m.m22(); nzW = m.m33() + m.m32();
         invl = (float) (1.0 / Math.sqrt(nzX * nzX + nzY * nzY + nzZ * nzZ));
         nzX *= invl; nzY *= invl; nzZ *= invl; nzW *= invl;
-        pzX = m.m03 - m.m02; pzY = m.m13 - m.m12; pzZ = m.m23 - m.m22; pzW = m.m33 - m.m32;
+        pzX = m.m03() - m.m02(); pzY = m.m13() - m.m12(); pzZ = m.m23() - m.m22(); pzW = m.m33() - m.m32();
         invl = (float) (1.0 / Math.sqrt(pzX * pzX + pzY * pzY + pzZ * pzZ));
         pzX *= invl; pzY *= invl; pzZ *= invl; pzW *= invl;
         return this;
@@ -176,8 +176,8 @@ public class FrustumCuller {
      *          the point to test
      * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
      */
-    public boolean isPointInsideFrustum(Vector3f point) {
-        return isPointInsideFrustum(point.x, point.y, point.z);
+    public boolean isPointInsideFrustum(Vector3fr point) {
+        return isPointInsideFrustum(point.x(), point.y(), point.z());
     }
 
     /**
@@ -214,8 +214,8 @@ public class FrustumCuller {
      * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
      *         <code>false</code> otherwise
      */
-    public boolean isSphereInsideFrustum(Vector3f center, float radius) {
-        return isSphereInsideFrustum(center.x, center.y, center.z, radius);
+    public boolean isSphereInsideFrustum(Vector3fr center, float radius) {
+        return isSphereInsideFrustum(center.x(), center.y(), center.z(), radius);
     }
 
     /**
@@ -265,8 +265,8 @@ public class FrustumCuller {
      *         {@link #PLANE_NY}, {@link #PLANE_PY},
      *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int isAabInsideFrustum(Vector3f min, Vector3f max) {
-        return isAabInsideFrustum(min.x, min.y, min.z, max.x, max.y, max.z);
+    public int isAabInsideFrustum(Vector3fr min, Vector3fr max) {
+        return isAabInsideFrustum(min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
     }
 
     /**
@@ -323,7 +323,7 @@ public class FrustumCuller {
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
-     * This method differs from {@link #isAabInsideFrustum(Vector3f, Vector3f) isAabInsideFrustum()} in that
+     * This method differs from {@link #isAabInsideFrustum(Vector3fr, Vector3fr) isAabInsideFrustum()} in that
      * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
@@ -349,8 +349,8 @@ public class FrustumCuller {
      *         {@link #PLANE_NY}, {@link #PLANE_PY},
      *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int isAabInsideFrustumMasked(Vector3f min, Vector3f max, int mask) {
-        return isAabInsideFrustumMasked(min.x, min.y, min.z, max.x, max.y, max.z, mask);
+    public int isAabInsideFrustumMasked(Vector3fr min, Vector3fr max, int mask) {
+        return isAabInsideFrustumMasked(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), mask);
     }
 
     /**
