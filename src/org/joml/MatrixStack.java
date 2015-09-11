@@ -88,13 +88,13 @@ public class MatrixStack implements Serializable {
     }
 
     /**
-     * Load the given {@link Matrix4f} into the current matrix of the stack.
+     * Load the given {@link Matrix4fr} into the current matrix of the stack.
      * 
      * @param mat
      *            the matrix which is stored in the current stack matrix
      * @return this
      */
-    public MatrixStack loadMatrix(Matrix4f mat) {
+    public MatrixStack loadMatrix(Matrix4fr mat) {
         if (mat == null) {
             throw new IllegalArgumentException("mat must not be null"); //$NON-NLS-1$
         }
@@ -166,7 +166,7 @@ public class MatrixStack implements Serializable {
      */
     public MatrixStack popMatrix() {
         if (curr == 0) {
-            throw new IllegalStateException("already at the buttom of the stack"); //$NON-NLS-1$
+            throw new IllegalStateException("already at the bottom of the stack"); //$NON-NLS-1$
         }
         curr--;
         return this;
@@ -313,7 +313,7 @@ public class MatrixStack implements Serializable {
 
     /**
      * Apply a translation to the current matrix by translating by the number of
-     * units in the given {@link Vector3f}.
+     * units in the given {@link Vector3fr}.
      * <p>
      * If <code>C</code> is the current matrix and <code>T</code> the
      * translation matrix, then the new matrix will be <code>C * T</code>. So
@@ -326,11 +326,11 @@ public class MatrixStack implements Serializable {
      *            contains the number of units to translate by
      * @return this
      */
-    public MatrixStack translate(Vector3f xyz) {
+    public MatrixStack translate(Vector3fr xyz) {
         if (xyz == null) {
             throw new IllegalArgumentException("xyz must not be null"); //$NON-NLS-1$
         }
-        translate(xyz.x, xyz.y, xyz.z);
+        translate(xyz.x(), xyz.y(), xyz.z());
         return this;
     }
 
@@ -359,7 +359,7 @@ public class MatrixStack implements Serializable {
 
     /**
      * Apply a scaling transformation to the current matrix by scaling by the
-     * factors in the given {@link Vector3f}.
+     * factors in the given {@link Vector3fr}.
      * <p>
      * If <code>C</code> is the current matrix and <code>S</code> the scaling
      * matrix, then the new matrix will be <code>C * S</code>. So when
@@ -372,11 +372,11 @@ public class MatrixStack implements Serializable {
      *            contains the factors to scale by
      * @return this
      */
-    public MatrixStack scale(Vector3f xyz) {
+    public MatrixStack scale(Vector3fr xyz) {
         if (xyz == null) {
             throw new IllegalArgumentException("xyz must not be null"); //$NON-NLS-1$
         }
-        this.scale(xyz.x, xyz.y, xyz.z);
+        this.scale(xyz.x(), xyz.y(), xyz.z());
         return this;
     }
 
@@ -427,7 +427,7 @@ public class MatrixStack implements Serializable {
     /**
      * Apply a rotation transformation to the current matrix by rotating the
      * given amount of degrees about the given <code>axis</code>
-     * {@link Vector3f}.
+     * {@link Vector3fr}.
      * <p>
      * If <code>C</code> is the current matrix and <code>R</code> the rotation
      * matrix, then the new current matrix will be <code>C * R</code>. So when
@@ -442,16 +442,16 @@ public class MatrixStack implements Serializable {
      *            the axis to rotate about
      * @return this
      */
-    public MatrixStack rotate(float ang, Vector3f axis) {
+    public MatrixStack rotate(float ang, Vector3fr axis) {
         if (axis == null) {
             throw new IllegalArgumentException("axis must not be null"); //$NON-NLS-1$
         }
-        rotate(ang, axis.x, axis.y, axis.z);
+        rotate(ang, axis.x(), axis.y(), axis.z());
         return this;
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionf} to the
+     * Apply the rotation transformation of the given {@link Quaternionfr} to the
      * current matrix.
      * <p>
      * If <code>C</code> is the current matrix and <code>R</code> the rotation
@@ -460,10 +460,10 @@ public class MatrixStack implements Serializable {
      * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @param quat
-     *            the {@link Quaternionf}
+     *            the {@link Quaternionfr}
      * @return this
      */
-    public MatrixStack rotate(Quaternionf quat) {
+    public MatrixStack rotate(Quaternionfr quat) {
         if (quat == null) {
             throw new IllegalArgumentException("quat must not be null"); //$NON-NLS-1$
         }
@@ -473,7 +473,7 @@ public class MatrixStack implements Serializable {
 
     /**
      * Apply a rotation transformation, rotating about the given
-     * {@link AxisAngle4f}, to the current matrix.
+     * {@link AxisAngle4fr}, to the current matrix.
      * <p>
      * If <code>C</code> is the current matrix and <code>R</code> the rotation
      * matrix, then the new current matrix will be <code>C * R</code>. So when
@@ -481,11 +481,11 @@ public class MatrixStack implements Serializable {
      * <code>C * R * v</code>, the rotation will be applied first!
      * 
      * @param angleAxis
-     *            the {@link AxisAngle4f} (needs to be
+     *            the {@link AxisAngle4fr} (needs to be
      *            {@link AxisAngle4f#normalize() normalized})
      * @return this
      */
-    public MatrixStack rotate(AxisAngle4f angleAxis) {
+    public MatrixStack rotate(AxisAngle4fr angleAxis) {
         if (angleAxis == null) {
             throw new IllegalArgumentException("angleAxis must not be null"); //$NON-NLS-1$
         }
@@ -571,7 +571,7 @@ public class MatrixStack implements Serializable {
      *            the matrix to multiply this matrix with
      * @return this
      */
-    public MatrixStack multMatrix(Matrix4f mat) {
+    public MatrixStack multMatrix(Matrix4fr mat) {
         if (mat == null) {
             throw new IllegalArgumentException("mat must not be null"); //$NON-NLS-1$
         }
@@ -596,7 +596,7 @@ public class MatrixStack implements Serializable {
      *            the direction of 'up'. In most cases it is (x=0, y=1, z=0)
      * @return this
      */
-    public MatrixStack lookAt(Vector3f position, Vector3f centre, Vector3f up) {
+    public MatrixStack lookAt(Vector3fr position, Vector3fr centre, Vector3fr up) {
         mats[curr].lookAt(position, centre, up);
         return this;
     }
@@ -611,7 +611,7 @@ public class MatrixStack implements Serializable {
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>C * L * v</code>, the lookat transformation will be applied first!
      * 
-     * @see #lookAt(Vector3f, Vector3f, Vector3f)
+     * @see #lookAt(Vector3fr, Vector3fr, Vector3fr)
      * 
      * @param eyeX
      *              the x-coordinate of the eye/camera location
@@ -683,7 +683,7 @@ public class MatrixStack implements Serializable {
      * first!
      * <p>
      * This is equivalent to calling
-     * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt} with
+     * {@link #lookAt(Vector3fr, Vector3fr, Vector3fr) lookAt} with
      * <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * 
      * @param dir
@@ -692,7 +692,7 @@ public class MatrixStack implements Serializable {
      *            the direction of 'up'
      * @return this
      */
-    public MatrixStack lookAlong(Vector3f dir, Vector3f up) {
+    public MatrixStack lookAlong(Vector3fr dir, Vector3fr up) {
         mats[curr].lookAlong(dir, up);
         return this;
     }
@@ -817,7 +817,7 @@ public class MatrixStack implements Serializable {
      * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
      * reflection will be applied first!
      * 
-     * @see Matrix4f#reflect(Vector3f, Vector3f)
+     * @see Matrix4f#reflect(Vector3fr, Vector3fr)
      * 
      * @param normal
      *          the plane normal
@@ -825,7 +825,7 @@ public class MatrixStack implements Serializable {
      *          a point on the plane
      * @return this
      */
-    public MatrixStack reflect(Vector3f normal, Vector3f point) {
+    public MatrixStack reflect(Vector3fr normal, Vector3fr point) {
         mats[curr].reflect(normal, point);
         return this;
     }
@@ -843,7 +843,7 @@ public class MatrixStack implements Serializable {
      * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
      * reflection will be applied first!
      * 
-     * @see Matrix4f#reflect(Quaternionf, Vector3f)
+     * @see Matrix4f#reflect(Quaternionfr, Vector3fr)
      * 
      * @param orientation
      *          the plane orientation
@@ -851,7 +851,7 @@ public class MatrixStack implements Serializable {
      *          a point on the plane
      * @return this
      */
-    public MatrixStack reflect(Quaternionf orientation, Vector3f point) {
+    public MatrixStack reflect(Quaternionfr orientation, Vector3fr point) {
         mats[curr].reflect(orientation, point);
         return this;
     }

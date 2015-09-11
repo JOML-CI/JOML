@@ -28,8 +28,6 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 /**
  * Represents a 2D vector with single-precision.
@@ -37,7 +35,7 @@ import java.text.NumberFormat;
  * @author RGreenlees
  * @author Kai Burjack
  */
-public class Vector2f extends BaseVector2f implements Externalizable {
+public class Vector2f extends Vector2fr implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
