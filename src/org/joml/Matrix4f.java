@@ -1303,7 +1303,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return dest 
+     * @return dest
      */
     public Matrix4f invert(Matrix4f dest) {
         float a = m00 * m11 - m01 * m10;
@@ -1347,7 +1347,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @see #invert4x3()
      * 
-     * @return this 
+     * @return this
      */
     public Matrix4f invert() {
         return invert(this);
@@ -1358,7 +1358,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return dest 
+     * @return dest
      */
     public Matrix4f invert4x3(Matrix4f dest) {
         float s = determinant4x3();
@@ -1403,7 +1403,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Invert this matrix by assuming that its last row is equal to <tt>(0, 0, 0, 1)</tt>.
      * 
-     * @return this 
+     * @return this
      */
     public Matrix4f invert4x3() {
         return invert4x3(this);
@@ -1427,7 +1427,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Transpose only the upper left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
      * 
-     * @return this 
+     * @return this
      */
     public Matrix4f transpose3x3() {
         return transpose3x3(this);
@@ -1473,7 +1473,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Transpose this matrix.
      * 
-     * @return this 
+     * @return this
      */
     public Matrix4f transpose() {
         return transpose(this);
@@ -6428,7 +6428,7 @@ public class Matrix4f implements Externalizable {
      * reflection will be applied first!
      * 
      * @param orientation
-     *          the plane orientation
+     *          the plane orientation relative to an implied normal vector of <tt>(0, 0, 1)</tt>
      * @param point
      *          a point on the plane
      * @param dest
