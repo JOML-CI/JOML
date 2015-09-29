@@ -29,6 +29,7 @@ import java.io.ObjectOutput;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+
 /**
  * Contains the definition and functions for rotations expressed as
  * 4-dimensional vectors
@@ -139,12 +140,16 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf normalize() {
-        float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+        float invNorm = inverseLength();
         x *= invNorm;
         y *= invNorm;
         z *= invNorm;
         w *= invNorm;
         return this;
+    }
+
+    public float inverseLength() {
+      return (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
     }
 
     /**
@@ -155,7 +160,7 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Quaternionf normalize(Quaternionf dest) {
-        float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+        float invNorm = inverseLength();
         dest.x = x * invNorm;
         dest.y = y * invNorm;
         dest.z = z * invNorm;
@@ -1085,7 +1090,8 @@ public class Quaternionf implements Externalizable {
 
     /**
      * Invert this quaternion and store the {@link #normalize() normalized} result in <code>dest</code>.
-     * 
+     * <p>
+     * If this is of unit magnitude 'invert' is equivalent to {@link #conjugate(Quaternionf)}
      * @param dest
      *          will hold the result
      * @return dest
@@ -1095,7 +1101,7 @@ public class Quaternionf implements Externalizable {
         dest.x = -x * invNorm;
         dest.y = -y * invNorm;
         dest.z = -z * invNorm;
-        dest.w = w * invNorm;
+        dest.w =  w * invNorm;
         return dest;
     }
 
@@ -1110,7 +1116,7 @@ public class Quaternionf implements Externalizable {
         dest.x = -x;
         dest.y = -y;
         dest.z = -z;
-        dest.w = w;
+        dest.w =  w;
         return dest;
     }
 
@@ -1157,6 +1163,7 @@ public class Quaternionf implements Externalizable {
                  this.w * w - this.x * x - this.y * y - this.z * z);
         return dest;
     }
+    
 
     /**
      * Divide <code>this</code> quaternion by <code>b</code>.
@@ -1526,6 +1533,7 @@ public class Quaternionf implements Externalizable {
      *          the angle in radians to rotate about z
      * @return this
      */
+    
     public Quaternionf rotationYXZ(float angleY, float angleX, float angleZ) {
         float sx = (float) Math.sin(angleX * 0.5);
         float cx = (float) Math.cos(angleX * 0.5);
@@ -1956,7 +1964,7 @@ public class Quaternionf implements Externalizable {
             y = (float) (crossY * invs);
             z = (float) (crossZ * invs);
             w = (float) (s * 0.5);
-            float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            float invNorm = inverseLength();
             x *= invNorm;
             y *= invNorm;
             z *= invNorm;
@@ -2573,5 +2581,128 @@ public class Quaternionf implements Externalizable {
                  w * other.w - x * other.x - y * other.y - z * other.z);
         return dest;
     }
+    
+    
+    // TODO: ROQUEN added junk
+    
+    /**
+     * Set 'v' to the direction of the local x-axis.
+     * <p>
+     * <tt>v = q(1,0,0)q<sup>*</sup></tt>
+     */
+    public final Vector3f getLocalX(Vector3f v)
+    {
+      // (1-2(yy+zz), 2(xy+wz), 2(xz-wy))
+      float ty = y+y;
+      float tz = z+z;
+      
+      v.x = 1 - y*ty - z*tz;
+      v.y =     x*ty + w*tz;
+      v.z =     x*tz - w*ty;
+      
+      return v;
+    }
+    
+    /**
+     * Set 'v' to the direction of the local y-axis.
+     * <p>
+     * <tt>v = q(0,1,0)q<sup>*</sup></tt>
+     */
+    public final Vector3f getLocalY(Vector3f v)
+    { 
+      // (2(xy-wz), 1-2(xx+zz), 2(wx+yz))
+      float tx = x+x;
+      float tz = z+z;
+      
+      v.x =     tx*y - tz*w;
+      v.y = 1 - tx*x - tz*z;
+      v.z =     tx*w + tz*y;
+      
+      return v;
+    }
+    
+    /**
+     * Set 'v' to the local z-axis.
+     * <p>
+     * <tt>v = q(0,0,1)q<sup>*</sup></tt>
+     */
+    public final Vector3f getLocalZ(Vector3f v)
+    { 
+      // (2(wy+xz),  2(yz-wx), 1-2(xx+yy))
+      float tx = x+x;
+      float ty = y+y;
 
+      v.x =     ty*w + tx*z;
+      v.y =     ty*z - tx*w;
+      v.z = 1 - tx*x - ty*y;
+      
+      return v;
+    }
+    
+    /** 
+     * dest = this<sup>2</sup>
+     * <p>
+     * <tt>(sin(a)u, cos(a))<sup>2</sup> = (sin(2a)u, cos(2a))</tt>
+     * <p>
+     * Doubles the angle of the input
+     */
+    public final Quaternionf sq(Quaternionf dest) 
+    {
+      float d = w+w;
+      float s = w*d;
+      
+      dest.x = x*d;
+      dest.y = y*d;
+      dest.z = z*d;
+      dest.w = s-1.f;
+      
+      return dest;
+    }
+    
+    /** 
+     * dest = this<sup>1/2</sup>
+     * <p>
+     * <tt>(sin(a)u, cos(a))<sup>1/2</sup> = (sin(a/2)u, cos(a/2))</tt>
+     * <p>
+     * Half-angle of the input.
+     * <p>
+     * assumes |q| = 1, ignores w approaching -1.  Intended use case is
+     * when w >=0, which is always possible since q and -q represent the
+     * same.
+     */
+    public final Quaternionf sqrt(Quaternionf dest) 
+    {
+      float  m = w+1;
+      float  r;
+
+      m = (float)Math.sqrt(m+m);
+      r = 1.f/m;
+      
+      dest.x = x*r;
+      dest.y = y*r;
+      dest.z = z*r;
+      dest.w = m*0.5f;
+      
+      return dest;
+    }
+    
+    
+    /**
+     * dest = a b<sup>*</sup>
+     * <p>
+     */
+    public final Quaternionf mulc(Quaternionf b, Quaternionf dest)
+    { 
+      // TODO: verify copy-paste and edit is error prone.
+      float rx = -w*b.x + b.w*x - y*b.z + z*b.y;
+      float ry = -w*b.y + b.w*y + x*b.z - z*b.x;
+      float rz = -w*b.z + b.w*z - x*b.y + y*b.x;
+      float rw =  w*b.w + b.x*x + y*b.y + z*b.z;
+      
+      return dest.set(rx,ry,rz,rw);
+    }
+    
+  
+    
+    
 }

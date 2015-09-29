@@ -75,7 +75,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
+        angle = FpMath.conicalAngle(a.angle);
     }
 
     /**
@@ -88,7 +88,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
+        angle = FpMath.conicalAngle(a.angle);
     }
 
     /**
@@ -145,7 +145,7 @@ public class AxisAngle4d implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = (angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI);
+        this.angle = FpMath.conicalAngle(angle);
     }
 
     /**
@@ -179,7 +179,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
+        angle = FpMath.conicalAngle(a.angle);
         return this;
     }
 
@@ -194,7 +194,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
+        angle = FpMath.conicalAngle(a.angle);
         return this;
     }
 
@@ -215,7 +215,7 @@ public class AxisAngle4d implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = (angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI);
+        this.angle = FpMath.conicalAngle(angle);
         return this;
     }
 
@@ -469,10 +469,10 @@ public class AxisAngle4d implements Externalizable {
      */
     public AxisAngle4d rotate(double ang) {
         angle += ang;
-        angle = (angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI);
+        angle = FpMath.conicalAngle(angle);
         return this;
     }
-
+    
     /**
      * Transform the given vector by the rotation transformation described by this {@link AxisAngle4d}.
      * 
@@ -563,7 +563,7 @@ public class AxisAngle4d implements Externalizable {
         final int prime = 31;
         int result = 1;
         long temp;
-        temp = Double.doubleToLongBits((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        temp = Double.doubleToLongBits(FpMath.conicalAngle(angle));
         result = prime * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(x);
         result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -582,8 +582,8 @@ public class AxisAngle4d implements Externalizable {
         if (getClass() != obj.getClass())
             return false;
         AxisAngle4d other = (AxisAngle4d) obj;
-        if (Double.doubleToLongBits((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI)) != 
-                Double.doubleToLongBits((other.angle < 0.0 ? 2.0 * Math.PI + other.angle % (2.0 * Math.PI) : other.angle) % (2.0 * Math.PI)))
+        if (Double.doubleToLongBits(FpMath.conicalAngle(angle)) != 
+                Double.doubleToLongBits(FpMath.conicalAngle(other.angle)))
             return false;
         if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
             return false;
