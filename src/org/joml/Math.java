@@ -30,36 +30,55 @@ package org.joml;
 public class Math {
 
     /*
-     * The following implementation of an approximation of sine and cosine 
-     * was thankfully donated by Riven from http://java-gaming.org/
+     * The following implementation of an approximation of sine and cosine was
+     * thankfully donated by Riven from http://java-gaming.org/.
+     * 
+     * The code for linear interpolation was gratefully donated by theagentd from
+     * the same site.
      */
     public static final float PI = (float) java.lang.Math.PI;
     private static final float PI2 = PI * 2;
-    private static final int lookupBits = Integer.parseInt(System.getProperty("org.joml.Math.sinLookupTableBits", "12"));
+    private static final int lookupBits = Integer.parseInt(System.getProperty("org.joml.Math.sinLookupTableBits", "10"));
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
     private static final float sinTable[] = new float[lookupTableSize];
     private static final float cosTable[] = new float[lookupTableSize];
-    private static final float piOverLookupSize = PI2 / lookupTableSize;
-    private static final float lookupSizeOverPi = lookupTableSize / PI2;
+    private static final float pi2OverLookupSize = PI2 / lookupTableSize;
+    private static final float lookupSizeOverPi2 = lookupTableSize / PI2;
     static {
         for (int i = 0; i < lookupTableSize; i++) {
-            double d = i * piOverLookupSize;
+            double d = i * pi2OverLookupSize;
             sinTable[i] = (float) java.lang.Math.sin(d);
             cosTable[i] = (float) java.lang.Math.cos(d);
         }
     }
-    public static float sin(float r) {
-        return sinTable[(int) (r * lookupSizeOverPi) & lookupTableSizeMinus1];
+
+    public static float sin(float rad) {
+        float index = rad * lookupSizeOverPi2;
+        int ii = (int) index;
+        float alpha = index - ii;
+        int i = ii & lookupTableSizeMinus1;
+        float sin1 = sinTable[i];
+        float sin2 = sinTable[(i + 1) & lookupTableSizeMinus1];
+        return sin1 * (1.0f - alpha) + sin2 * alpha;
     }
-    public static float cos(float r) {
-        return cosTable[(int) (r * lookupSizeOverPi) & lookupTableSizeMinus1];
+
+    public static float cos(float rad) {
+        float index = rad * lookupSizeOverPi2;
+        int ii = (int) index;
+        float alpha = index - ii;
+        int i = ii & lookupTableSizeMinus1;
+        float cos1 = cosTable[i];
+        float cos2 = cosTable[(i + 1) & lookupTableSizeMinus1];
+        return cos1 * (1.0f - alpha) + cos2 * alpha;
     }
-    public static double sin(double r) {
-        return sinTable[(int) (r * lookupSizeOverPi) & lookupTableSizeMinus1];
+
+    public static double sin(double rad) {
+        return sin((float) rad);
     }
-    public static double cos(double r) {
-        return cosTable[(int) (r * lookupSizeOverPi) & lookupTableSizeMinus1];
+
+    public static double cos(double rad) {
+        return cos((float) rad);
     }
 
     /* Other math functions not yet approximated */

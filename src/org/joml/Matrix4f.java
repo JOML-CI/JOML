@@ -6405,7 +6405,7 @@ public class Matrix4f implements Externalizable {
      * reflection will be applied first!
      * 
      * @param orientation
-     *          the plane orientation
+     *          the plane orientation relative to an implied normal vector of <tt>(0, 0, 1)</tt>
      * @param point
      *          a point on the plane
      * @return this
