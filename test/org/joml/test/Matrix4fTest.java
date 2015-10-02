@@ -43,11 +43,11 @@ public class Matrix4fTest extends TestCase {
         m1 = new Matrix4f().lookAt(0, 2, 3, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3)).rotateX(
                 (float) Math.atan2(2, 3));
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-2f);
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-5f);
         m1 = new Matrix4f().lookAt(3, 2, 0, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3))
                 .rotateX((float) Math.atan2(2, 3)).rotateY((float) Math.toRadians(-90));
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-2f);
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-5f);
     }
 
     /**
@@ -313,9 +313,9 @@ public class Matrix4fTest extends TestCase {
         Vector4f w = new Vector4f();
         m.transform(orig, v);
         invm.transform(v, w);
-        TestUtil.assertVector4fEquals(orig, w, 1E-4f);
+        TestUtil.assertVector4fEquals(orig, w, 1E-5f);
         invm.invert();
-        TestUtil.assertMatrix4fEquals(m, invm, 1E-3f);
+        TestUtil.assertMatrix4fEquals(m, invm, 1E-4f);
     }
 
     public void testRotateXYZ() {
