@@ -2,7 +2,7 @@ package org.joml.test;
 
 import junit.framework.TestCase;
 
-import org.joml.*;
+import org.joml.Vector2f;
 
 /**
  * Test class for {@link Vector2f}.

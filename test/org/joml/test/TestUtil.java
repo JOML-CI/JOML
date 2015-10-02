@@ -2,7 +2,11 @@ package org.joml.test;
 
 import junit.framework.Assert;
 
-import org.joml.*;
+import org.joml.Matrix4f;
+import org.joml.Quaterniond;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 /**
  * Utilities for testing.
