@@ -38,7 +38,7 @@ public class Math {
      */
     public static final float PI = (float) java.lang.Math.PI;
     private static final float PI2 = PI * 2;
-    private static final int lookupBits = Integer.parseInt(System.getProperty("org.joml.Math.sinLookupTableBits", "10"));
+    private static final int lookupBits = Integer.parseInt(System.getProperty("org.joml.Math.sinLookupTableBits", "7"));
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
     private static final float sinTable[] = new float[lookupTableSize];
