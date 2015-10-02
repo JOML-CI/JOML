@@ -38,18 +38,17 @@ public class Math {
      */
     public static final float PI = (float) java.lang.Math.PI;
     private static final float PI2 = PI * 2;
+    private static final float PIHalf = PI * 0.5f;
     private static final int lookupBits = Integer.parseInt(System.getProperty("org.joml.Math.sinLookupTableBits", "7"));
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
     private static final float sinTable[] = new float[lookupTableSize];
-    private static final float cosTable[] = new float[lookupTableSize];
     private static final float pi2OverLookupSize = PI2 / lookupTableSize;
     private static final float lookupSizeOverPi2 = lookupTableSize / PI2;
     static {
         for (int i = 0; i < lookupTableSize; i++) {
             double d = i * pi2OverLookupSize;
             sinTable[i] = (float) java.lang.Math.sin(d);
-            cosTable[i] = (float) java.lang.Math.cos(d);
         }
     }
 
@@ -64,12 +63,12 @@ public class Math {
     }
 
     public static float cos(float rad) {
-        float index = rad * lookupSizeOverPi2;
+        float index = (rad + PIHalf) * lookupSizeOverPi2;
         int ii = (int) index;
         float alpha = index - ii;
         int i = ii & lookupTableSizeMinus1;
-        float cos1 = cosTable[i];
-        float cos2 = cosTable[(i + 1) & lookupTableSizeMinus1];
+        float cos1 = sinTable[i];
+        float cos2 = sinTable[(i + 1) & lookupTableSizeMinus1];
         return cos1 * (1.0f - alpha) + cos2 * alpha;
     }
 
