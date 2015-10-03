@@ -42,11 +42,12 @@ public class Math {
     private static final int lookupBits = Integer.parseInt(System.getProperty("org.joml.Math.sinLookupTableBits", "9"));
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
-    private static final float sinTable[] = new float[lookupTableSize];
+    private static final int lookupTableSizeWithMargin = lookupTableSize + 1;
+    private static final float sinTable[] = new float[lookupTableSizeWithMargin];
     private static final float pi2OverLookupSize = PI2 / lookupTableSize;
     private static final float lookupSizeOverPi2 = lookupTableSize / PI2;
     static {
-        for (int i = 0; i < lookupTableSize; i++) {
+        for (int i = 0; i < lookupTableSizeWithMargin; i++) {
             double d = i * pi2OverLookupSize;
             sinTable[i] = (float) java.lang.Math.sin(d);
         }
@@ -58,7 +59,7 @@ public class Math {
         float alpha = index - ii;
         int i = ii & lookupTableSizeMinus1;
         float sin1 = sinTable[i];
-        float sin2 = sinTable[(i + 1) & lookupTableSizeMinus1];
+        float sin2 = sinTable[i + 1];
         return sin1 * (1.0f - alpha) + sin2 * alpha;
     }
 
