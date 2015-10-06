@@ -103,6 +103,14 @@ public class QuaternionTest extends TestCase {
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
+    public void testRotateTo() {
+        Vector3f v1 = new Vector3f(1, 2, 3).normalize();
+        Vector3f v2 = new Vector3f(5, -2, -1).normalize();
+        Quaternionf rotation = new Quaternionf().rotateTo(v1, v2);
+        rotation.transform(v1);
+        TestUtil.assertVector3fEquals(v1, v1, 1E-5f);
+    }
+
     public void testRotateToReturnsDestination() {
         Quaternionf rotation = new Quaternionf();
         Quaternionf destination = new Quaternionf();

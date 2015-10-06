@@ -1698,50 +1698,16 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond rotationTo(double fromDirX, double fromDirY, double fromDirZ, double toDirX, double toDirY, double toDirZ) {
-        double invFromLength = 1.0 / Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
-        double fromX = fromDirX * invFromLength;
-        double fromY = fromDirY * invFromLength;
-        double fromZ = fromDirZ * invFromLength;
-        double invToLength = 1.0 / Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
-        double toX = toDirX * invToLength;
-        double toY = toDirY * invToLength;
-        double toZ = toDirZ * invToLength;
-        double dot = fromX * toX + fromY * toY + fromZ * toZ;
-        if (dot < 1e-6 - 1.0) {
-            /* vectors are negation of each other */
-            double axisX = 0.0;
-            double axisY = -fromZ;
-            double axisZ = fromY;
-            if (axisX * axisX + axisY * axisY + axisZ * axisZ < 1E-6) {
-                axisX = fromZ;
-                axisY = 0.0;
-                axisZ = -fromX;
-            }
-            double angleR = Math.PI;
-            double s = Math.sin(angleR / 2.0);
-            x = axisX * s;
-            y = axisY * s;
-            z = axisZ * s;
-            w = Math.cos(angleR / 2.0);
-        } else if (dot < 1.0) {
-            double s = Math.sqrt((1.0 + dot) * 2.0);
-            double invs = 1.0 / s;
-            double crossX = fromY * toZ - fromZ * toY;
-            double crossY = fromZ * toX - fromX * toZ;
-            double crossZ = fromX * toY - fromY * toX;
-            x = crossX * invs;
-            y = crossY * invs;
-            z = crossZ * invs;
-            w = s * 0.5;
-            double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
-            x *= invNorm;
-            y *= invNorm;
-            z *= invNorm;
-            w *= invNorm;
-        } else {
-            /* vectors are parallel, don't change anything */
-            return this;
-        }
+        double ax = fromDirY * toDirZ - fromDirZ * toDirY;
+        double ay = fromDirZ * toDirX - fromDirX * toDirZ;
+        double az = fromDirX * toDirY - fromDirY * toDirX;
+        x = ax;
+        y = ay;
+        z = az;
+        w = Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
+                      (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
+                 (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
+        normalize();
         return this;
     }
 
@@ -1791,51 +1757,20 @@ public class Quaterniond implements Externalizable {
      */
     public Quaterniond rotateTo(double fromDirX, double fromDirY, double fromDirZ,
                                 double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
-        double invFromLength = 1.0 / Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
-        double fromX = fromDirX * invFromLength;
-        double fromY = fromDirY * invFromLength;
-        double fromZ = fromDirZ * invFromLength;
-        double invToLength = 1.0 / Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
-        double toX = toDirX * invToLength;
-        double toY = toDirY * invToLength;
-        double toZ = toDirZ * invToLength;
-        double dot = fromX * toX + fromY * toY + fromZ * toZ;
-        double x, y, z, w;
-        if (dot < 1e-6 - 1.0) {
-            /* vectors are negation of each other */
-            double axisX = 0.0;
-            double axisY = -fromZ;
-            double axisZ = fromY;
-            if (axisX * axisX + axisY * axisY + axisZ * axisZ < 1E-6) {
-                axisX = fromZ;
-                axisY = 0.0;
-                axisZ = -fromX;
-            }
-            double angleR = Math.PI;
-            double s = Math.sin(angleR / 2.0);
-            x = axisX * s;
-            y = axisY * s;
-            z = axisZ * s;
-            w = Math.cos(angleR / 2.0);
-        } else if (dot < 1.0) {
-            double s = Math.sqrt((1.0 + dot) * 2.0);
-            double invs = 1.0 / s;
-            double crossX = fromY * toZ - fromZ * toY;
-            double crossY = fromZ * toX - fromX * toZ;
-            double crossZ = fromX * toY - fromY * toX;
-            x = crossX * invs;
-            y = crossY * invs;
-            z = crossZ * invs;
-            w = s * 0.5;
-            double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
-            x *= invNorm;
-            y *= invNorm;
-            z *= invNorm;
-            w *= invNorm;
-        } else {
-            /* vectors are parallel, don't change anything */
-            return dest;
-        }
+        double ax = fromDirY * toDirZ - fromDirZ * toDirY;
+        double ay = fromDirZ * toDirX - fromDirX * toDirZ;
+        double az = fromDirX * toDirY - fromDirY * toDirX;
+        double x = ax;
+        double y = ay;
+        double z = az;
+        double w = Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
+                             (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
+                 (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
+        double invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+        x *= invNorm;
+        y *= invNorm;
+        z *= invNorm;
+        w *= invNorm;
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
