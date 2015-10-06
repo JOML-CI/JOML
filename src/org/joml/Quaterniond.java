@@ -1682,6 +1682,8 @@ public class Quaterniond implements Externalizable {
      * Set <code>this</code> quaternion to a rotation that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another#answer-1171995">stackoverflow.com</a>
      * 
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction
@@ -1738,6 +1740,8 @@ public class Quaterniond implements Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another#answer-1171995">stackoverflow.com</a>
      * 
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction

@@ -1905,6 +1905,8 @@ public class Quaternionf implements Externalizable {
      * Set <code>this</code> quaternion to a rotation that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another#answer-1171995">stackoverflow.com</a>
      * 
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction
@@ -1961,6 +1963,8 @@ public class Quaternionf implements Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another#answer-1171995">stackoverflow.com</a>
      * 
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction
@@ -1986,8 +1990,8 @@ public class Quaternionf implements Externalizable {
         float y = ay;
         float z = az;
         float w = (float) Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
-                                   (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
-                 (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
+                                    (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
+                  (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
         float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
         x *= invNorm;
         y *= invNorm;
