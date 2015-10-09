@@ -210,3 +210,9 @@ s.rotate((float) Math.toRadians(45.0f), 0.0f, 0.0f, 1.0f);
 s.get(result);
 // do something with result
 ```
+
+Projects using JOML
+-------------------
+This section names real-world projects using JOML. All owners of the projects listed here were asked for permission before.
+
+* [We Shall Wake](http://www.weshallwake.com/2015/09/we-shall-wake-post-demo-7-briefing.html) – Post-World Accelerated Action.
