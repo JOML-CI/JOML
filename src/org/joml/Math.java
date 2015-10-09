@@ -33,8 +33,8 @@ public class Math {
      * The following implementation of an approximation of sine and cosine was
      * thankfully donated by Riven from http://java-gaming.org/.
      * 
-     * The code for linear interpolation was gratefully donated by theagentd from
-     * the same site.
+     * The code for linear interpolation was gratefully donated by theagentd
+     * from the same site.
      */
     public static final float PI = (float) java.lang.Math.PI;
     private static final float PI2 = PI * 2;
@@ -46,6 +46,8 @@ public class Math {
     private static final float sinTable[] = new float[lookupTableSizeWithMargin];
     private static final float pi2OverLookupSize = PI2 / lookupTableSize;
     private static final float lookupSizeOverPi2 = lookupTableSize / PI2;
+    private static final int BIG_ENOUGH_INT = 65536; // whatever makes sense
+    private static final float BIG_ENOUGH_FLOAT = BIG_ENOUGH_INT;
     static {
         for (int i = 0; i < lookupTableSizeWithMargin; i++) {
             double d = i * pi2OverLookupSize;
@@ -53,24 +55,32 @@ public class Math {
         }
     }
 
+    /**
+     * @author Riven from <a href=
+     *         "http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/349546/view.html#msg349546"
+     *         >java-gaming.org</a>
+     * @param x
+     *            within [-BIG_ENOUGH..+inf)
+     */
+    private static int fastFloor(float x) {
+        return (int) (x + BIG_ENOUGH_FLOAT) - BIG_ENOUGH_INT;
+    }
+
     public static float sin(float rad) {
         float index = rad * lookupSizeOverPi2;
-        int ii = (int) index;
+        int ii = fastFloor(index);
         float alpha = index - ii;
         int i = ii & lookupTableSizeMinus1;
         float sin1 = sinTable[i];
         float sin2 = sinTable[i + 1];
-        return sin1 * (1.0f - alpha) + sin2 * alpha;
+        // fast but unusual lerp.
+        // See:
+        // http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/349515/view.html#msg349515
+        return sin1 + (sin2 - sin1) * alpha;
     }
 
     public static float cos(float rad) {
-        float index = (rad + PIHalf) * lookupSizeOverPi2;
-        int ii = (int) index;
-        float alpha = index - ii;
-        int i = ii & lookupTableSizeMinus1;
-        float cos1 = sinTable[i];
-        float cos2 = sinTable[(i + 1) & lookupTableSizeMinus1];
-        return cos1 * (1.0f - alpha) + cos2 * alpha;
+        return sin(rad + PIHalf);
     }
 
     public static double sin(double rad) {
