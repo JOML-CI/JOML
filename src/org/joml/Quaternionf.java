@@ -1631,6 +1631,8 @@ public class Quaternionf implements Externalizable {
      * Set <code>this</code> quaternion to a rotation that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt>.
      * <p>
      * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another#answer-1171995">stackoverflow.com</a>
      * 
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction
@@ -1647,49 +1649,16 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf rotationTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
-        double invFromLength = 1.0 / Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
-        double fromX = fromDirX * invFromLength;
-        double fromY = fromDirY * invFromLength;
-        double fromZ = fromDirZ * invFromLength;
-        double invToLength = 1.0 / Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
-        double toX = toDirX * invToLength;
-        double toY = toDirY * invToLength;
-        double toZ = toDirZ * invToLength;
-        double dot = fromX * toX + fromY * toY + fromZ * toZ;
-        if (dot < 1e-6 - 1.0) {
-            /* vectors are negation of each other */
-            double axisX = 0.0;
-            double axisY = -fromZ;
-            double axisZ = fromY;
-            if (axisX * axisX + axisY * axisY + axisZ * axisZ < 1E-6) {
-                axisX = fromZ;
-                axisY = 0.0;
-                axisZ = -fromX;
-            }
-            double angleR = Math.PI;
-            double s = Math.sin(angleR / 2.0);
-            x = (float) (axisX * s);
-            y = (float) (axisY * s);
-            z = (float) (axisZ * s);
-            w = (float) Math.cos(angleR / 2.0);
-        } else if (dot < 1.0) {
-            double s = Math.sqrt((1.0 + dot) * 2.0);
-            double invs = 1.0 / s;
-            double crossX = fromY * toZ - fromZ * toY;
-            double crossY = fromZ * toX - fromX * toZ;
-            double crossZ = fromX * toY - fromY * toX;
-            x = (float) (crossX * invs);
-            y = (float) (crossY * invs);
-            z = (float) (crossZ * invs);
-            w = (float) (s * 0.5);
-            float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
-            x *= invNorm;
-            y *= invNorm;
-            z *= invNorm;
-            w *= invNorm;
-        } else {
-            /* vectors are parallel, don't change anything */
-        }
+        float ax = fromDirY * toDirZ - fromDirZ * toDirY;
+        float ay = fromDirZ * toDirX - fromDirX * toDirZ;
+        float az = fromDirX * toDirY - fromDirY * toDirX;
+        x = ax;
+        y = ay;
+        z = az;
+        w = (float) Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
+                              (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
+                 (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
+        normalize();
         return this;
     }
 
@@ -1720,6 +1689,8 @@ public class Quaternionf implements Externalizable {
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another#answer-1171995">stackoverflow.com</a>
      * 
      * @param fromDirX
      *              the x-coordinate of the direction to rotate into the destination direction
@@ -1738,51 +1709,20 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Quaternionf rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
-        double invFromLength = 1.0 / Math.sqrt(fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ);
-        double fromX = fromDirX * invFromLength;
-        double fromY = fromDirY * invFromLength;
-        double fromZ = fromDirZ * invFromLength;
-        double invToLength = 1.0 / Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ);
-        double toX = toDirX * invToLength;
-        double toY = toDirY * invToLength;
-        double toZ = toDirZ * invToLength;
-        double dot = fromX * toX + fromY * toY + fromZ * toZ;
-        float x, y, z, w;
-        if (dot < 1e-6 - 1.0) {
-            /* vectors are negation of each other */
-            double axisX = 0.0;
-            double axisY = -fromZ;
-            double axisZ = fromY;
-            if (axisX * axisX + axisY * axisY + axisZ * axisZ < 1E-6) {
-                axisX = fromZ;
-                axisY = 0.0;
-                axisZ = -fromX;
-            }
-            double angleR = Math.PI;
-            double s = Math.sin(angleR / 2.0);
-            x = (float) (axisX * s);
-            y = (float) (axisY * s);
-            z = (float) (axisZ * s);
-            w = (float) Math.cos(angleR / 2.0);
-        } else if (dot < 1.0) {
-            double s = Math.sqrt((1.0 + dot) * 2.0);
-            double invs = 1.0 / s;
-            double crossX = fromY * toZ - fromZ * toY;
-            double crossY = fromZ * toX - fromX * toZ;
-            double crossZ = fromX * toY - fromY * toX;
-            x = (float) (crossX * invs);
-            y = (float) (crossY * invs);
-            z = (float) (crossZ * invs);
-            w = (float) (s * 0.5);
-            float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
-            x *= invNorm;
-            y *= invNorm;
-            z *= invNorm;
-            w *= invNorm;
-        } else {
-            /* vectors are parallel, don't change anything */
-            return dest;
-        }
+        float ax = fromDirY * toDirZ - fromDirZ * toDirY;
+        float ay = fromDirZ * toDirX - fromDirX * toDirZ;
+        float az = fromDirX * toDirY - fromDirY * toDirX;
+        float x = ax;
+        float y = ay;
+        float z = az;
+        float w = (float) Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
+                                    (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
+                  (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
+        float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+        x *= invNorm;
+        y *= invNorm;
+        z *= invNorm;
+        w *= invNorm;
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
