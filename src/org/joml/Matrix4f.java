@@ -6673,7 +6673,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f normal(Matrix4f dest) {
-        float det = determinant3x3();
+        float det = determinant();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,
@@ -6710,7 +6710,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix3f normal(Matrix3f dest) {
-        float det = determinant3x3();
+        float det = determinant();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.m00 = (m11 * m22 - m21 * m12) * s;
