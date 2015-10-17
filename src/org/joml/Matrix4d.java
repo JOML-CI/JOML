@@ -1395,9 +1395,9 @@ public class Matrix4d implements Externalizable {
      * @return the determinant
      */
     public double determinant3x3() {
-        return m00 * (m11 * m22 - m12 * m21)
-             + m01 * (m12 * m20 - m10 * m22)
-             + m02 * (m01 * m21 - m11 * m20);
+        return (m00 * m11 - m01 * m10) * m22
+             + (m02 * m10 - m00 * m12) * m21
+             + (m01 * m12 - m02 * m11) * m20;
     }
 
     /**
@@ -4708,7 +4708,7 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d normal(Matrix4d dest) {
-        double det = determinant();
+        double det = determinant3x3();
         double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.set((m11 * m22 - m21 * m12) * s,
@@ -4745,7 +4745,7 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix3d normal(Matrix3d dest) {
-        double det = determinant();
+        double det = determinant3x3();
         double s = 1.0 / det;
         /* Invert and transpose in one go */
         dest.m00 = (m11 * m22 - m21 * m12) * s;
