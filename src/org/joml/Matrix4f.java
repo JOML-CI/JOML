@@ -1498,6 +1498,18 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    public Matrix3f get3x3(Matrix3f dest) {
+        return dest.set(this);
+    }
+
+    /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
      * <p>
