@@ -4747,7 +4747,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link Matrix3d#set(Matrix4d)} to set a given Matrix3f to only the upper left 3x3 submatrix
+     * In that case, use {@link Matrix3d#set(Matrix4d)} to set a given Matrix3d to only the upper left 3x3 submatrix
      * of this matrix.
      * 
      * @see Matrix3d#set(Matrix4d)
