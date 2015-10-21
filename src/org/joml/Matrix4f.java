@@ -6723,9 +6723,9 @@ public class Matrix4f implements Externalizable {
         m2x = (b - c - d + e + f - a) * (1.0f - y) + (a + b - c - d - e + f) * y;
         m2y = (h - i - j + k + l - g) * (1.0f - y) + (g + h - i - j - k + l) * y;
         m2z = (n - o - p + q + r - m) * (1.0f - y) + (m + n - o - p - q + r) * y;
-        dir.x = m1x * (1.0f - x) + m2x * x;
-        dir.y = m1y * (1.0f - x) + m2y * x;
-        dir.z = m1z * (1.0f - x) + m2z * x;
+        dir.x = m1x + (m2x - m1x) * x;
+        dir.y = m1y + (m2y - m1y) * x;
+        dir.z = m1z + (m2z - m1z) * x;
         dir.normalize();
         return dir;
     }
