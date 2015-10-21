@@ -641,8 +641,8 @@ public class Vector2f implements Externalizable {
      * @return dest
      */
     public Vector2f lerp(Vector2f other, float t, Vector2f dest) {
-        dest.x = (1.0f - t) * x + t * other.x;
-        dest.y = (1.0f - t) * y + t * other.y;
+        dest.x = x + (other.x - x) * t;
+        dest.y = y + (other.y - y) * t;
         return dest;
     }
 

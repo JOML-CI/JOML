@@ -1545,9 +1545,9 @@ public class Vector3f implements Externalizable {
      * @return dest
      */
     public Vector3f lerp(Vector3f other, float t, Vector3f dest) {
-        dest.x = (1.0f - t) * x + t * other.x;
-        dest.y = (1.0f - t) * y + t * other.y;
-        dest.z = (1.0f - t) * z + t * other.z;
+        dest.x = x + (other.x - x) * t;
+        dest.y = y + (other.y - y) * t;
+        dest.z = z + (other.z - z) * t;
         return dest;
     }
 

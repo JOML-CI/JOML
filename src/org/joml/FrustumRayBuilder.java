@@ -133,16 +133,15 @@ public class FrustumRayBuilder {
      * @return this
      */
     public FrustumRayBuilder dir(float x, float y, Vector3f dir) {
-        float oneMinusY = 1.0f - y, oneMinusX = 1.0f - x;
-        float y1x = nxnyX * oneMinusY + nxpyX * y;
-        float y1y = nxnyY * oneMinusY + nxpyY * y;
-        float y1z = nxnyZ * oneMinusY + nxpyZ * y;
-        float y2x = pxnyX * oneMinusY + pxpyX * y;
-        float y2y = pxnyY * oneMinusY + pxpyY * y;
-        float y2z = pxnyZ * oneMinusY + pxpyZ * y;
-        float dx = y1x * oneMinusX + y2x * x;
-        float dy = y1y * oneMinusX + y2y * x;
-        float dz = y1z * oneMinusX + y2z * x;
+        float y1x = nxnyX + (nxpyX - nxnyX) * y;
+        float y1y = nxnyY + (nxpyY - nxnyY) * y;
+        float y1z = nxnyZ + (nxpyZ - nxnyZ) * y;
+        float y2x = pxnyX + (pxpyX - pxnyX) * y;
+        float y2y = pxnyY + (pxpyY - pxnyY) * y;
+        float y2z = pxnyZ + (pxpyZ - pxnyZ) * y;
+        float dx = y1x + (y2x - y1x) * x;
+        float dy = y1y + (y2y - y1y) * x;
+        float dz = y1z + (y2z - y1z) * x;
         // normalize the vector
         float invLen = (float) (1.0 / Math.sqrt(dx * dx + dy * dy + dz * dz));
         dir.x = dx * invLen;

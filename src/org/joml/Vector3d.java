@@ -1834,9 +1834,9 @@ public class Vector3d implements Externalizable {
      * @return dest
      */
     public Vector3d lerp(Vector3d other, double t, Vector3d dest) {
-        dest.x = (1.0 - t) * x + t * other.x;
-        dest.y = (1.0 - t) * y + t * other.y;
-        dest.z = (1.0 - t) * z + t * other.z;
+        dest.x = x + (other.x - x) * t;
+        dest.y = y + (other.y - y) * t;
+        dest.z = z + (other.z - z) * t;
         return dest;
     }
 
