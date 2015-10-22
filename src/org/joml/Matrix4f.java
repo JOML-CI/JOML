@@ -1751,7 +1751,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied float array in column-major order.
+     * Store this matrix into the supplied float array in column-major order at the given offset.
      * 
      * @param arr
      *          the array to write the matrix values into
@@ -1776,6 +1776,37 @@ public class Matrix4f implements Externalizable {
         arr[offset+13] = m31;
         arr[offset+14] = m32;
         arr[offset+15] = m33;
+        return arr;
+    }
+
+    /**
+     * Store this matrix into the supplied float array in column-major order.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get(float[], int)}.
+     * 
+     * @see #get(float[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
+     */
+    public float[] get(float[] arr) {
+        arr[0] =  m00;
+        arr[1] =  m01;
+        arr[2] =  m02;
+        arr[3] =  m03;
+        arr[4] =  m10;
+        arr[5] =  m11;
+        arr[6] =  m12;
+        arr[7] =  m13;
+        arr[8] =  m20;
+        arr[9] =  m21;
+        arr[10] = m22;
+        arr[11] = m23;
+        arr[12] = m30;
+        arr[13] = m31;
+        arr[14] = m32;
+        arr[15] = m33;
         return arr;
     }
 
