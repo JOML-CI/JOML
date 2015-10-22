@@ -7089,7 +7089,7 @@ public class Matrix4f implements Externalizable {
         /*
          * This method works by first obtaining the frustum plane normals,
          * then building the cross product to obtain the corner rays,
-         * and finall bilinearly interpolating to obtain the desired direction.
+         * and finally bilinearly interpolating to obtain the desired direction.
          * The code below uses a condense form of doing all this making use 
          * of some mathematical identities to simplify the overall expression.
          */
