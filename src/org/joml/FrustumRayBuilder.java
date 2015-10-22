@@ -108,13 +108,13 @@ public class FrustumRayBuilder {
      * 
      * @param origin
      *          will hold the perspective origin
-     * @return this
+     * @return the <code>origin</code> vector
      */
-    public FrustumRayBuilder origin(Vector3f origin) {
+    public Vector3f origin(Vector3f origin) {
         origin.x = cx;
         origin.y = cy;
         origin.z = cz;
-        return this;
+        return origin;
     }
 
     /**
@@ -130,9 +130,9 @@ public class FrustumRayBuilder {
      *          the interpolation factor along the bottom-to-top frustum planes, within <tt>[0..1]</tt>
      * @param dir
      *          will hold the normalized ray direction
-     * @return this
+     * @return the <code>dir</code> vector
      */
-    public FrustumRayBuilder dir(float x, float y, Vector3f dir) {
+    public Vector3f dir(float x, float y, Vector3f dir) {
         float y1x = nxnyX + (nxpyX - nxnyX) * y;
         float y1y = nxnyY + (nxpyY - nxnyY) * y;
         float y1z = nxnyZ + (nxpyZ - nxnyZ) * y;
@@ -147,7 +147,7 @@ public class FrustumRayBuilder {
         dir.x = dx * invLen;
         dir.y = dy * invLen;
         dir.z = dz * invLen;
-        return this;
+        return dir;
     }
 
 }
