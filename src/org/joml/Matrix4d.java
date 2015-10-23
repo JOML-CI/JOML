@@ -4865,12 +4865,12 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
-     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(double, double, double, int[], Vector4d) unprojectInv()}
-     * can be invoked on it.
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInv(double, double, double, int[], Vector4d) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(double, double, double, int[], Vector4d)
+     * @see #invert(Matrix4d)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -4880,15 +4880,49 @@ public class Matrix4d implements Externalizable {
      *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
      * @param viewport
      *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param inverseOut
-     *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4d unproject(double winX, double winY, double winZ, int[] viewport, Matrix4d inverseOut, Vector4d dest) {
-        this.invert(inverseOut);
-        inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+    public Vector4d unproject(double winX, double winY, double winZ, int[] viewport, Vector4d dest) {
+        double a = m00 * m11 - m01 * m10;
+        double b = m00 * m12 - m02 * m10;
+        double c = m00 * m13 - m03 * m10;
+        double d = m01 * m12 - m02 * m11;
+        double e = m01 * m13 - m03 * m11;
+        double f = m02 * m13 - m03 * m12;
+        double g = m20 * m31 - m21 * m30;
+        double h = m20 * m32 - m22 * m30;
+        double i = m20 * m33 - m23 * m30;
+        double j = m21 * m32 - m22 * m31;
+        double k = m21 * m33 - m23 * m31;
+        double l = m22 * m33 - m23 * m32;
+        double det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0 / det;
+        double im00 = ( m11 * l - m12 * k + m13 * j) * det;
+        double im01 = (-m01 * l + m02 * k - m03 * j) * det;
+        double im02 = ( m31 * f - m32 * e + m33 * d) * det;
+        double im03 = (-m21 * f + m22 * e - m23 * d) * det;
+        double im10 = (-m10 * l + m12 * i - m13 * h) * det;
+        double im11 = ( m00 * l - m02 * i + m03 * h) * det;
+        double im12 = (-m30 * f + m32 * c - m33 * b) * det;
+        double im13 = ( m20 * f - m22 * c + m23 * b) * det;
+        double im20 = ( m10 * k - m11 * i + m13 * g) * det;
+        double im21 = (-m00 * k + m01 * i - m03 * g) * det;
+        double im22 = ( m30 * e - m31 * c + m33 * a) * det;
+        double im23 = (-m20 * e + m21 * c - m23 * a) * det;
+        double im30 = (-m10 * j + m11 * h - m12 * g) * det;
+        double im31 = ( m00 * j - m01 * h + m02 * g) * det;
+        double im32 = (-m30 * d + m31 * b - m32 * a) * det;
+        double im33 = ( m20 * d - m21 * b + m22 * a) * det;
+        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
+        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
+        double ndcZ = 2.0*winZ-1.0;
+        dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
+        dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
+        dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
+        dest.w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
+        dest.div(dest.w);
         return dest;
     }
 
@@ -4900,12 +4934,12 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
-     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(double, double, double, int[], Vector3d) unprojectInv()}
-     * can be invoked on it.
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInv(double, double, double, int[], Vector3d) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(double, double, double, int[], Vector3d)
+     * @see #invert(Matrix4d)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -4915,15 +4949,49 @@ public class Matrix4d implements Externalizable {
      *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
      * @param viewport
      *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param inverseOut
-     *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector3d unproject(double winX, double winY, double winZ, int[] viewport, Matrix4d inverseOut, Vector3d dest) {
-        this.invert(inverseOut);
-        inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+    public Vector3d unproject(double winX, double winY, double winZ, int[] viewport, Vector3d dest) {
+        double a = m00 * m11 - m01 * m10;
+        double b = m00 * m12 - m02 * m10;
+        double c = m00 * m13 - m03 * m10;
+        double d = m01 * m12 - m02 * m11;
+        double e = m01 * m13 - m03 * m11;
+        double f = m02 * m13 - m03 * m12;
+        double g = m20 * m31 - m21 * m30;
+        double h = m20 * m32 - m22 * m30;
+        double i = m20 * m33 - m23 * m30;
+        double j = m21 * m32 - m22 * m31;
+        double k = m21 * m33 - m23 * m31;
+        double l = m22 * m33 - m23 * m32;
+        double det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0 / det;
+        double im00 = ( m11 * l - m12 * k + m13 * j) * det;
+        double im01 = (-m01 * l + m02 * k - m03 * j) * det;
+        double im02 = ( m31 * f - m32 * e + m33 * d) * det;
+        double im03 = (-m21 * f + m22 * e - m23 * d) * det;
+        double im10 = (-m10 * l + m12 * i - m13 * h) * det;
+        double im11 = ( m00 * l - m02 * i + m03 * h) * det;
+        double im12 = (-m30 * f + m32 * c - m33 * b) * det;
+        double im13 = ( m20 * f - m22 * c + m23 * b) * det;
+        double im20 = ( m10 * k - m11 * i + m13 * g) * det;
+        double im21 = (-m00 * k + m01 * i - m03 * g) * det;
+        double im22 = ( m30 * e - m31 * c + m33 * a) * det;
+        double im23 = (-m20 * e + m21 * c - m23 * a) * det;
+        double im30 = (-m10 * j + m11 * h - m12 * g) * det;
+        double im31 = ( m00 * j - m01 * h + m02 * g) * det;
+        double im32 = (-m30 * d + m31 * b - m32 * a) * det;
+        double im33 = ( m20 * d - m21 * b + m22 * a) * det;
+        double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
+        double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
+        double ndcZ = 2.0*winZ-1.0;
+        dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
+        dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
+        dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
+        double w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
+        dest.div(w);
         return dest;
     }
 
@@ -4935,26 +5003,24 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
-     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(double, double, double, int[], Vector4d) unprojectInv()}
-     * can be invoked on it.
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInv(double, double, double, int[], Vector4d) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(double, double, double, int[], Vector4d)
-     * @see #unproject(double, double, double, int[], Matrix4d, Vector4d)
+     * @see #unproject(double, double, double, int[], Vector4d)
+     * @see #invert(Matrix4d)
      * 
      * @param winCoords
      *          the window coordinates to unproject
      * @param viewport
      *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param inverseOut
-     *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4d unproject(Vector3d winCoords, int[] viewport, Matrix4d inverseOut, Vector4d dest) {
-        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
+    public Vector4d unproject(Vector3d winCoords, int[] viewport, Vector4d dest) {
+        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
     /**
@@ -4965,32 +5031,30 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
-     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(double, double, double, int[], Vector4d) unprojectInv()}
-     * can be invoked on it.
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInv(double, double, double, int[], Vector4d) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(double, double, double, int[], Vector4d)
-     * @see #unproject(double, double, double, int[], Matrix4d, Vector4d)
+     * @see #unproject(double, double, double, int[], Vector4d)
+     * @see #invert(Matrix4d)
      * 
      * @param winCoords
      *          the window coordinates to unproject
      * @param viewport
      *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param inverseOut
-     *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector3d unproject(Vector3d winCoords, int[] viewport, Matrix4d inverseOut, Vector3d dest) {
-        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
+    public Vector3d unproject(Vector3d winCoords, int[] viewport, Vector3d dest) {
+        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
     /**
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(Vector3d, int[], Matrix4d, Vector4d) unproject()} 
+     * This method differs from {@link #unproject(Vector3d, int[], Vector4d) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
@@ -4999,7 +5063,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * 
-     * @see #unproject(Vector3d, int[], Matrix4d, Vector4d)
+     * @see #unproject(Vector3d, int[], Vector4d)
      * 
      * @param winCoords
      *          the window coordinates to unproject
@@ -5016,7 +5080,7 @@ public class Matrix4d implements Externalizable {
     /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(double, double, double, int[], Matrix4d, Vector4d) unproject()} 
+     * This method differs from {@link #unproject(double, double, double, int[], Vector4d) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
@@ -5025,7 +5089,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * 
-     * @see #unproject(double, double, double, int[], Matrix4d, Vector4d)
+     * @see #unproject(double, double, double, int[], Vector4d)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -5054,7 +5118,7 @@ public class Matrix4d implements Externalizable {
     /**
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(Vector3d, int[], Matrix4d, Vector3d) unproject()} 
+     * This method differs from {@link #unproject(Vector3d, int[], Vector3d) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
@@ -5063,7 +5127,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * 
-     * @see #unproject(Vector3d, int[], Matrix4d, Vector3d)
+     * @see #unproject(Vector3d, int[], Vector3d)
      * 
      * @param winCoords
      *          the window coordinates to unproject
@@ -5080,7 +5144,7 @@ public class Matrix4d implements Externalizable {
     /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(double, double, double, int[], Matrix4d, Vector3d) unproject()} 
+     * This method differs from {@link #unproject(double, double, double, int[], Vector3d) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
@@ -5089,7 +5153,7 @@ public class Matrix4d implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * 
-     * @see #unproject(double, double, double, int[], Matrix4d, Vector3d)
+     * @see #unproject(double, double, double, int[], Vector3d)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)

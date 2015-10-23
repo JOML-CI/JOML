@@ -22,13 +22,12 @@ public class Matrix4fTest extends TestCase {
 
         Vector3f expected = new Vector3f(1.0f, 2.0f, -3.0f);
         Vector3f actual = new Vector3f();
-        Matrix4f inverse = new Matrix4f();
 
         /* Build a perspective projection and then project and unproject. */
         Matrix4f m = new Matrix4f()
         .perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f);
         m.project(expected, viewport, actual);
-        m.unproject(actual, viewport, inverse, actual);
+        m.unproject(actual, viewport, actual);
 
         /* Check for equality of the components */
         assertEquals(expected.x, actual.x, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);

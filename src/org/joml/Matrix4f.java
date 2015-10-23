@@ -5720,12 +5720,12 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
-     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()}
-     * can be invoked on it.
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(float, float, float, int[], Vector4f)
+     * @see #invert(Matrix4f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -5735,15 +5735,49 @@ public class Matrix4f implements Externalizable {
      *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
      * @param viewport
      *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param inverseOut
-     *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unproject(float winX, float winY, float winZ, int[] viewport, Matrix4f inverseOut, Vector4f dest) {
-        this.invert(inverseOut);
-        inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+    public Vector4f unproject(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
+        float a = m00 * m11 - m01 * m10;
+        float b = m00 * m12 - m02 * m10;
+        float c = m00 * m13 - m03 * m10;
+        float d = m01 * m12 - m02 * m11;
+        float e = m01 * m13 - m03 * m11;
+        float f = m02 * m13 - m03 * m12;
+        float g = m20 * m31 - m21 * m30;
+        float h = m20 * m32 - m22 * m30;
+        float i = m20 * m33 - m23 * m30;
+        float j = m21 * m32 - m22 * m31;
+        float k = m21 * m33 - m23 * m31;
+        float l = m22 * m33 - m23 * m32;
+        float det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0f / det;
+        float im00 = ( m11 * l - m12 * k + m13 * j) * det;
+        float im01 = (-m01 * l + m02 * k - m03 * j) * det;
+        float im02 = ( m31 * f - m32 * e + m33 * d) * det;
+        float im03 = (-m21 * f + m22 * e - m23 * d) * det;
+        float im10 = (-m10 * l + m12 * i - m13 * h) * det;
+        float im11 = ( m00 * l - m02 * i + m03 * h) * det;
+        float im12 = (-m30 * f + m32 * c - m33 * b) * det;
+        float im13 = ( m20 * f - m22 * c + m23 * b) * det;
+        float im20 = ( m10 * k - m11 * i + m13 * g) * det;
+        float im21 = (-m00 * k + m01 * i - m03 * g) * det;
+        float im22 = ( m30 * e - m31 * c + m33 * a) * det;
+        float im23 = (-m20 * e + m21 * c - m23 * a) * det;
+        float im30 = (-m10 * j + m11 * h - m12 * g) * det;
+        float im31 = ( m00 * j - m01 * h + m02 * g) * det;
+        float im32 = (-m30 * d + m31 * b - m32 * a) * det;
+        float im33 = ( m20 * d - m21 * b + m22 * a) * det;
+        float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
+        float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
+        float ndcZ = 2.0f*winZ-1.0f;
+        dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
+        dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
+        dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
+        dest.w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
+        dest.div(dest.w);
         return dest;
     }
 
@@ -5755,12 +5789,12 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
-     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()}
-     * can be invoked on it.
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(float, float, float, int[], Vector3f)
+     * @see #invert(Matrix4f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -5770,15 +5804,49 @@ public class Matrix4f implements Externalizable {
      *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
      * @param viewport
      *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param inverseOut
-     *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector3f unproject(float winX, float winY, float winZ, int[] viewport, Matrix4f inverseOut, Vector3f dest) {
-        this.invert(inverseOut);
-        inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
+    public Vector3f unproject(float winX, float winY, float winZ, int[] viewport, Vector3f dest) {
+        float a = m00 * m11 - m01 * m10;
+        float b = m00 * m12 - m02 * m10;
+        float c = m00 * m13 - m03 * m10;
+        float d = m01 * m12 - m02 * m11;
+        float e = m01 * m13 - m03 * m11;
+        float f = m02 * m13 - m03 * m12;
+        float g = m20 * m31 - m21 * m30;
+        float h = m20 * m32 - m22 * m30;
+        float i = m20 * m33 - m23 * m30;
+        float j = m21 * m32 - m22 * m31;
+        float k = m21 * m33 - m23 * m31;
+        float l = m22 * m33 - m23 * m32;
+        float det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0f / det;
+        float im00 = ( m11 * l - m12 * k + m13 * j) * det;
+        float im01 = (-m01 * l + m02 * k - m03 * j) * det;
+        float im02 = ( m31 * f - m32 * e + m33 * d) * det;
+        float im03 = (-m21 * f + m22 * e - m23 * d) * det;
+        float im10 = (-m10 * l + m12 * i - m13 * h) * det;
+        float im11 = ( m00 * l - m02 * i + m03 * h) * det;
+        float im12 = (-m30 * f + m32 * c - m33 * b) * det;
+        float im13 = ( m20 * f - m22 * c + m23 * b) * det;
+        float im20 = ( m10 * k - m11 * i + m13 * g) * det;
+        float im21 = (-m00 * k + m01 * i - m03 * g) * det;
+        float im22 = ( m30 * e - m31 * c + m33 * a) * det;
+        float im23 = (-m20 * e + m21 * c - m23 * a) * det;
+        float im30 = (-m10 * j + m11 * h - m12 * g) * det;
+        float im31 = ( m00 * j - m01 * h + m02 * g) * det;
+        float im32 = (-m30 * d + m31 * b - m32 * a) * det;
+        float im33 = ( m20 * d - m21 * b + m22 * a) * det;
+        float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
+        float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
+        float ndcZ = 2.0f*winZ-1.0f;
+        dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
+        dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
+        dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
+        float w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
+        dest.div(w);
         return dest;
     }
 
@@ -5790,26 +5858,24 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
-     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()}
-     * can be invoked on it.
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(float, float, float, int[], Vector4f)
-     * @see #unproject(float, float, float, int[], Matrix4f, Vector4f)
+     * @see #unproject(float, float, float, int[], Vector4f)
+     * @see #invert(Matrix4f)
      * 
      * @param winCoords
      *          the window coordinates to unproject
      * @param viewport
      *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param inverseOut
-     *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unproject(Vector3f winCoords, int[] viewport, Matrix4f inverseOut, Vector4f dest) {
-        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
+    public Vector4f unproject(Vector3f winCoords, int[] viewport, Vector4f dest) {
+        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
     /**
@@ -5820,32 +5886,30 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
-     * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector3f) unprojectInv()}
-     * can be invoked on it.
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInv(float, float, float, int[], Vector3f) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(float, float, float, int[], Vector3f)
-     * @see #unproject(float, float, float, int[], Matrix4f, Vector3f)
+     * @see #unproject(float, float, float, int[], Vector3f)
+     * @see #invert(Matrix4f)
      * 
      * @param winCoords
      *          the window coordinates to unproject
      * @param viewport
      *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param inverseOut
-     *          will hold the inverse of <code>this</code> after the method returns
      * @param dest
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector3f unproject(Vector3f winCoords, int[] viewport, Matrix4f inverseOut, Vector3f dest) {
-        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
+    public Vector3f unproject(Vector3f winCoords, int[] viewport, Vector3f dest) {
+        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
     /**
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(Vector3f, int[], Matrix4f, Vector4f) unproject()} 
+     * This method differs from {@link #unproject(Vector3f, int[], Vector4f) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
@@ -5854,7 +5918,7 @@ public class Matrix4f implements Externalizable {
      * This method reads the four viewport parameters from the current int[]'s {@link Buffer#position() position}
      * and does not modify the buffer's position.
      * 
-     * @see #unproject(Vector3f, int[], Matrix4f, Vector4f)
+     * @see #unproject(Vector3f, int[], Vector4f)
      * 
      * @param winCoords
      *          the window coordinates to unproject
@@ -5871,13 +5935,13 @@ public class Matrix4f implements Externalizable {
     /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(float, float, float, int[], Matrix4f, Vector4f) unproject()} 
+     * This method differs from {@link #unproject(float, float, float, int[], Vector4f) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * 
-     * @see #unproject(float, float, float, int[], Matrix4f, Vector4f)
+     * @see #unproject(float, float, float, int[], Vector4f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -5906,13 +5970,13 @@ public class Matrix4f implements Externalizable {
     /**
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(Vector3f, int[], Matrix4f, Vector3f) unproject()} 
+     * This method differs from {@link #unproject(Vector3f, int[], Vector3f) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * 
-     * @see #unproject(Vector3f, int[], Matrix4f, Vector3f)
+     * @see #unproject(Vector3f, int[], Vector3f)
      * 
      * @param winCoords
      *          the window coordinates to unproject
@@ -5929,13 +5993,13 @@ public class Matrix4f implements Externalizable {
     /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(float, float, float, int[], Matrix4f, Vector3f) unproject()} 
+     * This method differs from {@link #unproject(float, float, float, int[], Vector3f) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * 
-     * @see #unproject(float, float, float, int[], Matrix4f, Vector3f)
+     * @see #unproject(float, float, float, int[], Vector3f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
