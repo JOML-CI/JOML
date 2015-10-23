@@ -1,7 +1,5 @@
 package org.joml.test;
 
-import java.nio.IntBuffer;
-
 import junit.framework.TestCase;
 
 import org.joml.Matrix4f;
@@ -20,7 +18,7 @@ public class Matrix4fTest extends TestCase {
      */
     public void testProjectUnproject() {
         /* Build some arbitrary viewport. */
-        IntBuffer viewport = IntBuffer.wrap(new int[]{0, 0, 800, 800});
+        int[] viewport = {0, 0, 800, 800};
 
         Vector3f expected = new Vector3f(1.0f, 2.0f, -3.0f);
         Vector3f actual = new Vector3f();

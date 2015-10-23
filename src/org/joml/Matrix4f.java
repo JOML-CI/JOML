@@ -29,7 +29,6 @@ import java.io.ObjectOutput;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -5721,15 +5720,12 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
+     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()}
      * can be invoked on it.
      * 
-     * @see #unprojectInv(float, float, float, IntBuffer, Vector4f)
+     * @see #unprojectInv(float, float, float, int[], Vector4f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -5745,7 +5741,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unproject(float winX, float winY, float winZ, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
+    public Vector4f unproject(float winX, float winY, float winZ, int[] viewport, Matrix4f inverseOut, Vector4f dest) {
         this.invert(inverseOut);
         inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
         return dest;
@@ -5759,15 +5755,12 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
+     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()}
      * can be invoked on it.
      * 
-     * @see #unprojectInv(float, float, float, IntBuffer, Vector3f)
+     * @see #unprojectInv(float, float, float, int[], Vector3f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -5783,7 +5776,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector3f unproject(float winX, float winY, float winZ, IntBuffer viewport, Matrix4f inverseOut, Vector3f dest) {
+    public Vector3f unproject(float winX, float winY, float winZ, int[] viewport, Matrix4f inverseOut, Vector3f dest) {
         this.invert(inverseOut);
         inverseOut.unprojectInv(winX, winY, winZ, viewport, dest);
         return dest;
@@ -5797,16 +5790,13 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
+     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()}
      * can be invoked on it.
      * 
-     * @see #unprojectInv(float, float, float, IntBuffer, Vector4f)
-     * @see #unproject(float, float, float, IntBuffer, Matrix4f, Vector4f)
+     * @see #unprojectInv(float, float, float, int[], Vector4f)
+     * @see #unproject(float, float, float, int[], Matrix4f, Vector4f)
      * 
      * @param winCoords
      *          the window coordinates to unproject
@@ -5818,7 +5808,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unproject(Vector3f winCoords, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
+    public Vector4f unproject(Vector3f winCoords, int[] viewport, Matrix4f inverseOut, Vector4f dest) {
         return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
     }
 
@@ -5830,16 +5820,13 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector3f) unprojectInv()}
+     * invocation, the inverse of <code>this</code> matrix can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector3f) unprojectInv()}
      * can be invoked on it.
      * 
-     * @see #unprojectInv(float, float, float, IntBuffer, Vector3f)
-     * @see #unproject(float, float, float, IntBuffer, Matrix4f, Vector3f)
+     * @see #unprojectInv(float, float, float, int[], Vector3f)
+     * @see #unproject(float, float, float, int[], Matrix4f, Vector3f)
      * 
      * @param winCoords
      *          the window coordinates to unproject
@@ -5851,26 +5838,23 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector3f unproject(Vector3f winCoords, IntBuffer viewport, Matrix4f inverseOut, Vector3f dest) {
+    public Vector3f unproject(Vector3f winCoords, int[] viewport, Matrix4f inverseOut, Vector3f dest) {
         return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, inverseOut, dest);
     }
 
     /**
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(Vector3f, IntBuffer, Matrix4f, Vector4f) unproject()} 
+     * This method differs from {@link #unproject(Vector3f, int[], Matrix4f, Vector4f) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
-     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
-     * and then transforms those NDC coordinates by <code>this</code> matrix.  
-     * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
+     * This method reads the four viewport parameters from the current int[]'s {@link Buffer#position() position}
      * and does not modify the buffer's position.
      * 
-     * @see #unproject(Vector3f, IntBuffer, Matrix4f, Vector4f)
+     * @see #unproject(Vector3f, int[], Matrix4f, Vector4f)
      * 
      * @param winCoords
      *          the window coordinates to unproject
@@ -5880,26 +5864,20 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unprojectInv(Vector3f winCoords, IntBuffer viewport, Vector4f dest) {
+    public Vector4f unprojectInv(Vector3f winCoords, int[] viewport, Vector4f dest) {
         return unprojectInv(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
     /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(float, float, float, IntBuffer, Matrix4f, Vector4f) unproject()} 
+     * This method differs from {@link #unproject(float, float, float, int[], Matrix4f, Vector4f) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
-     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
-     * and then transforms those NDC coordinates by <code>this</code> matrix.  
-     * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
-     * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
      * 
-     * @see #unproject(float, float, float, IntBuffer, Matrix4f, Vector4f)
+     * @see #unproject(float, float, float, int[], Matrix4f, Vector4f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -5913,10 +5891,9 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unprojectInv(float winX, float winY, float winZ, IntBuffer viewport, Vector4f dest) {
-        int pos = viewport.position();
-        float ndcX = (winX-viewport.get(pos))/viewport.get(pos+2)*2.0f-1.0f;
-        float ndcY = (winY-viewport.get(pos+1))/viewport.get(pos+3)*2.0f-1.0f;
+    public Vector4f unprojectInv(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
+        float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
+        float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
         float ndcZ = 2.0f*winZ-1.0f;
         dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
         dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
@@ -5929,19 +5906,13 @@ public class Matrix4f implements Externalizable {
     /**
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(Vector3f, IntBuffer, Matrix4f, Vector3f) unproject()} 
+     * This method differs from {@link #unproject(Vector3f, int[], Matrix4f, Vector3f) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
-     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
-     * and then transforms those NDC coordinates by <code>this</code> matrix.  
-     * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
-     * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
      * 
-     * @see #unproject(Vector3f, IntBuffer, Matrix4f, Vector3f)
+     * @see #unproject(Vector3f, int[], Matrix4f, Vector3f)
      * 
      * @param winCoords
      *          the window coordinates to unproject
@@ -5951,26 +5922,20 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector3f unprojectInv(Vector3f winCoords, IntBuffer viewport, Vector3f dest) {
+    public Vector3f unprojectInv(Vector3f winCoords, int[] viewport, Vector3f dest) {
         return unprojectInv(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
     /**
      * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
      * <p>
-     * This method differs from {@link #unproject(float, float, float, IntBuffer, Matrix4f, Vector3f) unproject()} 
+     * This method differs from {@link #unproject(float, float, float, int[], Matrix4f, Vector3f) unproject()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * <p>
-     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
-     * and then transforms those NDC coordinates by <code>this</code> matrix.  
-     * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
-     * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
      * 
-     * @see #unproject(float, float, float, IntBuffer, Matrix4f, Vector3f)
+     * @see #unproject(float, float, float, int[], Matrix4f, Vector3f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -5984,10 +5949,9 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector3f unprojectInv(float winX, float winY, float winZ, IntBuffer viewport, Vector3f dest) {
-        int pos = viewport.position();
-        float ndcX = (winX-viewport.get(pos))/viewport.get(pos+2)*2.0f-1.0f;
-        float ndcY = (winY-viewport.get(pos+1))/viewport.get(pos+3)*2.0f-1.0f;
+    public Vector3f unprojectInv(float winX, float winY, float winZ, int[] viewport, Vector3f dest) {
+        float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
+        float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
         float ndcZ = 2.0f*winZ-1.0f;
         dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
         dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
@@ -6005,15 +5969,12 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>projection * view</code> and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of both matrices can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
+     * invocation, the inverse of both matrices can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()}
      * can be invoked on it.
      * 
-     * @see #unprojectInv(float, float, float, IntBuffer, Vector4f)
+     * @see #unprojectInv(float, float, float, int[], Vector4f)
      * 
      * @param winX
      *          the x-coordinate in window coordinates (pixels)
@@ -6032,7 +5993,7 @@ public class Matrix4f implements Externalizable {
      * @param dest
      *          will hold the unprojected position
      */
-    public static void unproject(float winX, float winY, float winZ, Matrix4f projection, Matrix4f view, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
+    public static void unproject(float winX, float winY, float winZ, Matrix4f projection, Matrix4f view, int[] viewport, Matrix4f inverseOut, Vector4f dest) {
         inverseOut.set(projection).mul(view).invert().unprojectInv(winX, winY, winZ, viewport, dest);
     }
 
@@ -6044,15 +6005,12 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>projection * view</code> and stores
      * it into the <code>inverseOut</code> parameter matrix. In order to avoid computing the matrix inverse with every
-     * invocation, the inverse of both matrices can be built once outside and then the method {@link #unprojectInv(float, float, float, IntBuffer, Vector4f) unprojectInv()}
+     * invocation, the inverse of both matrices can be built once outside and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()}
      * can be invoked on it.
      * 
-     * @see #unprojectInv(float, float, float, IntBuffer, Vector4f)
+     * @see #unprojectInv(float, float, float, int[], Vector4f)
      * 
      * @param winCoords
      *          the window coordinate to unproject
@@ -6067,7 +6025,7 @@ public class Matrix4f implements Externalizable {
      * @param dest
      *          will hold the unprojected position
      */
-    public static void unproject(Vector3f winCoords, Matrix4f projection, Matrix4f view, IntBuffer viewport, Matrix4f inverseOut, Vector4f dest) {
+    public static void unproject(Vector3f winCoords, Matrix4f projection, Matrix4f view, int[] viewport, Matrix4f inverseOut, Vector4f dest) {
         unproject(winCoords.x, winCoords.y, winCoords.z, projection, view, viewport, inverseOut, dest);
     }
 
@@ -6079,9 +6037,6 @@ public class Matrix4f implements Externalizable {
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
      * @param x
@@ -6096,15 +6051,14 @@ public class Matrix4f implements Externalizable {
      *          will hold the projected window coordinates
      * @return winCoordsDest
      */
-    public Vector4f project(float x, float y, float z, IntBuffer viewport, Vector4f winCoordsDest) {
+    public Vector4f project(float x, float y, float z, int[] viewport, Vector4f winCoordsDest) {
         winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
         winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
         winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
         winCoordsDest.w = m03 * x + m13 * y + m23 * z + m33;
-        int pos = viewport.position();
         winCoordsDest.div(winCoordsDest.w);
-        winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
-        winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport.get(pos+3) + viewport.get(pos+1);
+        winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport[2] + viewport[0];
+        winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport[3] + viewport[1];
         winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
         return winCoordsDest;
     }
@@ -6117,9 +6071,6 @@ public class Matrix4f implements Externalizable {
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
      * @param x
@@ -6134,15 +6085,14 @@ public class Matrix4f implements Externalizable {
      *          will hold the projected window coordinates
      * @return winCoordsDest
      */
-    public Vector3f project(float x, float y, float z, IntBuffer viewport, Vector3f winCoordsDest) {
+    public Vector3f project(float x, float y, float z, int[] viewport, Vector3f winCoordsDest) {
         winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
         winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
         winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
         float w = m03 * x + m13 * y + m23 * z + m33;
-        int pos = viewport.position();
         winCoordsDest.div(w);
-        winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
-        winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport.get(pos+3) + viewport.get(pos+1);
+        winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport[2] + viewport[0];
+        winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport[3] + viewport[1];
         winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
         return winCoordsDest;
     }
@@ -6155,12 +6105,9 @@ public class Matrix4f implements Externalizable {
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
-     * @see #project(float, float, float, IntBuffer, Vector4f)
+     * @see #project(float, float, float, int[], Vector4f)
      * 
      * @param position
      *          the position to project into window coordinates
@@ -6170,7 +6117,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the projected window coordinates
      * @return winCoordsDest
      */
-    public Vector4f project(Vector3f position, IntBuffer viewport, Vector4f winCoordsDest) {
+    public Vector4f project(Vector3f position, int[] viewport, Vector4f winCoordsDest) {
         return project(position.x, position.y, position.z, viewport, winCoordsDest);
     }
 
@@ -6182,12 +6129,9 @@ public class Matrix4f implements Externalizable {
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
-     * @see #project(float, float, float, IntBuffer, Vector4f)
+     * @see #project(float, float, float, int[], Vector4f)
      * 
      * @param position
      *          the position to project into window coordinates
@@ -6197,7 +6141,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the projected window coordinates
      * @return winCoordsDest
      */
-    public Vector3f project(Vector3f position, IntBuffer viewport, Vector3f winCoordsDest) {
+    public Vector3f project(Vector3f position, int[] viewport, Vector3f winCoordsDest) {
         return project(position.x, position.y, position.z, viewport, winCoordsDest);
     }
 
@@ -6208,9 +6152,6 @@ public class Matrix4f implements Externalizable {
      * This method transforms the given coordinates by <code>projection * view</code> including perspective division to 
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
-     * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
      * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
@@ -6229,14 +6170,13 @@ public class Matrix4f implements Externalizable {
      * @param winCoordsDest
      *          will hold the projected window coordinates
      */
-    public static void project(float x, float y, float z, Matrix4f projection, Matrix4f view, IntBuffer viewport, Vector4f winCoordsDest) {
+    public static void project(float x, float y, float z, Matrix4f projection, Matrix4f view, int[] viewport, Vector4f winCoordsDest) {
         winCoordsDest.set(x, y, z, 1.0f);
         view.transform(winCoordsDest);
         projection.transform(winCoordsDest);
-        int pos = viewport.position();
         winCoordsDest.div(winCoordsDest.w);
-        winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport.get(pos+2) + viewport.get(pos);
-        winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport.get(pos+3) + viewport.get(pos+1);
+        winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport[2] + viewport[0];
+        winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport[3] + viewport[1];
         winCoordsDest.z = (1.0f+winCoordsDest.z)*0.5f;
     }
 
@@ -6248,12 +6188,9 @@ public class Matrix4f implements Externalizable {
      * obtain normalized device coordinates, and then translates these into window coordinates by using the
      * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
      * <p>
-     * This method reads the four viewport parameters from the current IntBuffer's {@link Buffer#position() position}
-     * and does not modify the buffer's position.
-     * <p>
      * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
      * 
-     * @see #project(float, float, float, Matrix4f, Matrix4f, IntBuffer, Vector4f)
+     * @see #project(float, float, float, Matrix4f, Matrix4f, int[], Vector4f)
      * 
      * @param position
      *          the position to project into window coordinates
@@ -6266,7 +6203,7 @@ public class Matrix4f implements Externalizable {
      * @param winCoordsDest
      *          will hold the projected window coordinates
      */
-    public static void project(Vector3f position, Matrix4f projection, Matrix4f view, IntBuffer viewport, Vector4f winCoordsDest) {
+    public static void project(Vector3f position, Matrix4f projection, Matrix4f view, int[] viewport, Vector4f winCoordsDest) {
         project(position.x, position.y, position.z, projection, view, viewport, winCoordsDest);
     }
 
