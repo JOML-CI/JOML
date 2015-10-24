@@ -2386,7 +2386,7 @@ public class Matrix4d implements Externalizable {
      *            the angle to rotate about Y
      * @param angleZ
      *            the angle to rotate about Z
-     * @return dest
+     * @return this
      */
     public Matrix4d rotationXYZ(double angleX, double angleY, double angleZ) {
         double cosX =  Math.cos(angleX);
@@ -2441,7 +2441,7 @@ public class Matrix4d implements Externalizable {
      *            the angle to rotate about Y
      * @param angleX
      *            the angle to rotate about X
-     * @return dest
+     * @return this
      */
     public Matrix4d rotationZYX(double angleZ, double angleY, double angleX) {
         double cosZ =  Math.cos(angleZ);
@@ -2496,7 +2496,7 @@ public class Matrix4d implements Externalizable {
      *            the angle to rotate about X
      * @param angleZ
      *            the angle to rotate about Z
-     * @return dest
+     * @return this
      */
     public Matrix4d rotationYXZ(double angleY, double angleX, double angleZ) {
         double cosY = Math.cos(angleY);
@@ -2536,6 +2536,141 @@ public class Matrix4d implements Externalizable {
         m31 = 0.0;
         m32 = 0.0;
         m33 = 1.0;
+        return this;
+    }
+
+    /**
+     * Set only the upper left 3x3 submatrix of this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4d setRotationXYZ(double angleX, double angleY, double angleZ) {
+        double cosX = Math.cos(angleX);
+        double sinX = Math.sin(angleX);
+        double cosY = Math.cos(angleY);
+        double sinY = Math.sin(angleY);
+        double cosZ = Math.cos(angleZ);
+        double sinZ = Math.sin(angleZ);
+        double m_sinX = -sinX;
+        double m_sinY = -sinY;
+        double m_sinZ = -sinZ;
+
+        // rotateX
+        double nm11 = cosX;
+        double nm12 = sinX;
+        double nm21 = m_sinX;
+        double nm22 = cosX;
+        // rotateY
+        double nm00 = cosY;
+        double nm01 = nm21 * m_sinY;
+        double nm02 = nm22 * m_sinY;
+        m20 = sinY;
+        m21 = nm21 * cosY;
+        m22 = nm22 * cosY;
+        // rotateZ
+        m00 = nm00 * cosZ;
+        m01 = nm01 * cosZ + nm11 * sinZ;
+        m02 = nm02 * cosZ + nm12 * sinZ;
+        m10 = nm00 * m_sinZ;
+        m11 = nm01 * m_sinZ + nm11 * cosZ;
+        m12 = nm02 * m_sinZ + nm12 * cosZ;
+        return this;
+    }
+
+    /**
+     * Set only the upper left 3x3 submatrix of this matrix to a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
+     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis.
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return this
+     */
+    public Matrix4d setRotationZYX(double angleZ, double angleY, double angleX) {
+        double cosZ = Math.cos(angleZ);
+        double sinZ = Math.sin(angleZ);
+        double cosY = Math.cos(angleY);
+        double sinY = Math.sin(angleY);
+        double cosX = Math.cos(angleX);
+        double sinX = Math.sin(angleX);
+        double m_sinZ = -sinZ;
+        double m_sinY = -sinY;
+        double m_sinX = -sinX;
+
+        // rotateZ
+        double nm00 = cosZ;
+        double nm01 = sinZ;
+        double nm10 = m_sinZ;
+        double nm11 = cosZ;
+        // rotateY
+        double nm20 = nm00 * sinY;
+        double nm21 = nm01 * sinY;
+        double nm22 = cosY;
+        m00 = nm00 * cosY;
+        m01 = nm01 * cosY;
+        m02 = m_sinY;
+        // rotateX
+        m10 = nm10 * cosX + nm20 * sinX;
+        m11 = nm11 * cosX + nm21 * sinX;
+        m12 = nm22 * sinX;
+        m20 = nm10 * m_sinX + nm20 * cosX;
+        m21 = nm11 * m_sinX + nm21 * cosX;
+        m22 = nm22 * cosX;
+        return this;
+    }
+
+    /**
+     * Set only the upper left 3x3 submatrix of this matrix to a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
+     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix4d setRotationYXZ(double angleY, double angleX, double angleZ) {
+        double cosY = Math.cos(angleY);
+        double sinY = Math.sin(angleY);
+        double cosX = Math.cos(angleX);
+        double sinX = Math.sin(angleX);
+        double cosZ = Math.cos(angleZ);
+        double sinZ = Math.sin(angleZ);
+        double m_sinY = -sinY;
+        double m_sinX = -sinX;
+        double m_sinZ = -sinZ;
+
+        // rotateY
+        double nm00 = cosY;
+        double nm02 = m_sinY;
+        double nm20 = sinY;
+        double nm22 = cosY;
+        // rotateX
+        double nm10 = nm20 * sinX;
+        double nm11 = cosX;
+        double nm12 = nm22 * sinX;
+        m20 = nm20 * cosX;
+        m21 = m_sinX;
+        m22 = nm22 * cosX;
+        // rotateZ
+        m00 = nm00 * cosZ + nm10 * sinZ;
+        m01 = nm11 * sinZ;
+        m02 = nm02 * cosZ + nm12 * sinZ;
+        m10 = nm00 * m_sinZ + nm10 * cosZ;
+        m11 = nm11 * cosZ;
+        m12 = nm02 * m_sinZ + nm12 * cosZ;
         return this;
     }
 
