@@ -1076,7 +1076,7 @@ public class Matrix3f implements Externalizable {
      *            the angle to rotate about Y
      * @param angleZ
      *            the angle to rotate about Z
-     * @return dest
+     * @return this
      */
     public Matrix3f rotationXYZ(float angleX, float angleY, float angleZ) {
         float cosX = (float) Math.cos(angleX);
@@ -1123,7 +1123,7 @@ public class Matrix3f implements Externalizable {
      *            the angle to rotate about Y
      * @param angleX
      *            the angle to rotate about X
-     * @return dest
+     * @return this
      */
     public Matrix3f rotationZYX(float angleZ, float angleY, float angleX) {
         float cosZ = (float) Math.cos(angleZ);
@@ -1170,7 +1170,7 @@ public class Matrix3f implements Externalizable {
      *            the angle to rotate about X
      * @param angleZ
      *            the angle to rotate about Z
-     * @return dest
+     * @return this
      */
     public Matrix3f rotationYXZ(float angleY, float angleX, float angleZ) {
         float cosY = (float) Math.cos(angleY);
