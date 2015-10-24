@@ -2389,27 +2389,6 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotationXYZ(double angleX, double angleY, double angleZ) {
-        return rotationXYZ(angleX, angleY, angleZ, this);
-    }
-
-    /**
-     * Create a matrix representing a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
-     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
-     * 
-     * @param angleX
-     *            the angle to rotate about X
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix4d rotationXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
         double cosX =  Math.cos(angleX);
         double sinX =  Math.sin(angleX);
         double cosY =  Math.cos(angleY);
@@ -2429,25 +2408,25 @@ public class Matrix4d implements Externalizable {
         double nm00 = cosY;
         double nm01 = nm21 * m_sinY;
         double nm02 = nm22 * m_sinY;
-        dest.m20 = sinY;
-        dest.m21 = nm21 * cosY;
-        dest.m22 = nm22 * cosY;
-        dest.m23 = 0.0;
+        m20 = sinY;
+        m21 = nm21 * cosY;
+        m22 = nm22 * cosY;
+        m23 = 0.0;
         // rotateZ
-        dest.m00 = nm00 * cosZ;
-        dest.m01 = nm01 * cosZ + nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m03 = 0.0;
-        dest.m10 = nm00 * m_sinZ;
-        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        dest.m13 = 0.0;
+        m00 = nm00 * cosZ;
+        m01 = nm01 * cosZ + nm11 * sinZ;
+        m02 = nm02 * cosZ + nm12 * sinZ;
+        m03 = 0.0;
+        m10 = nm00 * m_sinZ;
+        m11 = nm01 * m_sinZ + nm11 * cosZ;
+        m12 = nm02 * m_sinZ + nm12 * cosZ;
+        m13 = 0.0;
         // set last column to identity
-        dest.m30 = 0.0;
-        dest.m31 = 0.0;
-        dest.m32 = 0.0;
-        dest.m33 = 1.0;
-        return dest;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+        return this;
     }
 
     /**
@@ -2465,27 +2444,6 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotationZYX(double angleZ, double angleY, double angleX) {
-        return rotationZYX(angleZ, angleY, angleX, this);
-    }
-
-    /**
-     * Create a matrix representing a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
-     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
-     * 
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleX
-     *            the angle to rotate about X
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix4d rotationZYX(double angleZ, double angleY, double angleX, Matrix4d dest) {
         double cosZ =  Math.cos(angleZ);
         double sinZ =  Math.sin(angleZ);
         double cosY =  Math.cos(angleY);
@@ -2505,25 +2463,25 @@ public class Matrix4d implements Externalizable {
         double nm20 = nm00 * sinY;
         double nm21 = nm01 * sinY;
         double nm22 = cosY;
-        dest.m00 = nm00 * cosY;
-        dest.m01 = nm01 * cosY;
-        dest.m02 = m_sinY;
-        dest.m03 = 0.0;
+        m00 = nm00 * cosY;
+        m01 = nm01 * cosY;
+        m02 = m_sinY;
+        m03 = 0.0;
         // rotateX
-        dest.m10 = nm10 * cosX + nm20 * sinX;
-        dest.m11 = nm11 * cosX + nm21 * sinX;
-        dest.m12 = nm22 * sinX;
-        dest.m13 = 0.0;
-        dest.m20 = nm10 * m_sinX + nm20 * cosX;
-        dest.m21 = nm11 * m_sinX + nm21 * cosX;
-        dest.m22 = nm22 * cosX;
-        dest.m23 = 0.0;
+        m10 = nm10 * cosX + nm20 * sinX;
+        m11 = nm11 * cosX + nm21 * sinX;
+        m12 = nm22 * sinX;
+        m13 = 0.0;
+        m20 = nm10 * m_sinX + nm20 * cosX;
+        m21 = nm11 * m_sinX + nm21 * cosX;
+        m22 = nm22 * cosX;
+        m23 = 0.0;
         // set last column to identity
-        dest.m30 = 0.0;
-        dest.m31 = 0.0;
-        dest.m32 = 0.0;
-        dest.m33 = 1.0;
-        return dest;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+        return this;
     }
 
     /**
@@ -2541,27 +2499,6 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotationYXZ(double angleY, double angleX, double angleZ) {
-        return rotationYXZ(angleY, angleX, angleZ, this);
-    }
-
-    /**
-     * Create a matrix representing a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
-     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
-     * 
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleX
-     *            the angle to rotate about X
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix4d rotationYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
         double cosY = Math.cos(angleY);
         double sinY = Math.sin(angleY);
         double cosX = Math.cos(angleX);
@@ -2581,25 +2518,25 @@ public class Matrix4d implements Externalizable {
         double nm10 = nm20 * sinX;
         double nm11 = cosX;
         double nm12 = nm22 * sinX;
-        dest.m20 = nm20 * cosX;
-        dest.m21 = m_sinX;
-        dest.m22 = nm22 * cosX;
-        dest.m23 = 0.0;
+        m20 = nm20 * cosX;
+        m21 = m_sinX;
+        m22 = nm22 * cosX;
+        m23 = 0.0;
         // rotateZ
-        dest.m00 = nm00 * cosZ + nm10 * sinZ;
-        dest.m01 = nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m03 = 0.0;
-        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
-        dest.m11 = nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        dest.m13 = 0.0;
+        m00 = nm00 * cosZ + nm10 * sinZ;
+        m01 = nm11 * sinZ;
+        m02 = nm02 * cosZ + nm12 * sinZ;
+        m03 = 0.0;
+        m10 = nm00 * m_sinZ + nm10 * cosZ;
+        m11 = nm11 * cosZ;
+        m12 = nm02 * m_sinZ + nm12 * cosZ;
+        m13 = 0.0;
         // set last column to identity
-        dest.m30 = 0.0;
-        dest.m31 = 0.0;
-        dest.m32 = 0.0;
-        dest.m33 = 1.0;
-        return dest;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
+        m33 = 1.0;
+        return this;
     }
 
     /**
