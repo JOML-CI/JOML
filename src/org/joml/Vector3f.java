@@ -1551,4 +1551,71 @@ public class Vector3f implements Externalizable {
         return dest;
     }
 
+    /**
+     * Get the value of the specified component of this vector.
+     * 
+     * @param component
+     *          the component, within <tt>[0..2]</tt>
+     * @return the value
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
+     */
+    public float get(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        case 2:
+            return z;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * Set the value of the specified component of this vector.
+     * 
+     * @param component
+     *          the component whose value to set, within <tt>[0..2]</tt>
+     * @param value
+     *          the value to set
+     * @return this
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
+     */
+    public Vector3f set(int component, float value) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            x = value;
+            break;
+        case 1:
+            y = value;
+            break;
+        case 2:
+            z = value;
+            break;
+        default:
+            throw new IllegalArgumentException();
+        }
+        return this;
+    }
+
+    /**
+     * Determine the component with the biggest absolute value.
+     * 
+     * @return the component index, within <tt>[0..2]</tt>
+     */
+    public float maxComponent() {
+        float absX = Math.abs(x);
+        float absY = Math.abs(y);
+        float absZ = Math.abs(z);
+        boolean xy = absX >= absY;
+        boolean yz = absY >= absZ;
+        if (xy && yz) {
+            return 0;
+        } else if (yz) {
+            return 1;
+        }
+        return 2;
+    }
+
 }
