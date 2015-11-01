@@ -397,9 +397,9 @@ public class Matrix3f implements Externalizable {
      * @return the determinant
      */
     public float determinant() {
-        return m00 * (m11 * m22 - m12 * m21)
-             + m01 * (m12 * m20 - m10 * m22)
-             + m02 * (m01 * m21 - m11 * m20);
+        return (m00 * m11 - m01 * m10) * m22
+             + (m02 * m10 - m00 * m12) * m21
+             + (m01 * m12 - m02 * m11) * m20;
     }
 
     /**
