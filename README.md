@@ -1,5 +1,5 @@
 # [JOML](http://joml-ci.github.io/JOML) - Java OpenGL Math Library [![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=master)](https://travis-ci.org/JOML-CI/JOML)
-A Java-based math library for OpenGL rendering calculations
+A Java math library for OpenGL rendering calculations
 
 Design goals
 ------------
