@@ -197,21 +197,21 @@ public class Matrix3f implements Externalizable {
         float c = (float) Math.cos(angle);
         float s = (float) Math.sin(angle);
         float omc = 1.0f - c;
-        m00 = (float)(c + x*x*omc);
-        m11 = (float)(c + y*y*omc);
-        m22 = (float)(c + z*z*omc);
+        m00 = c + x*x*omc;
+        m11 = c + y*y*omc;
+        m22 = c + z*z*omc;
         float tmp1 = x*y*omc;
         float tmp2 = z*s;
-        m10 = (float)(tmp1 - tmp2);
-        m01 = (float)(tmp1 + tmp2);
+        m10 = tmp1 - tmp2;
+        m01 = tmp1 + tmp2;
         tmp1 = x*z*omc;
         tmp2 = y*s;
-        m20 = (float)(tmp1 + tmp2);
-        m02 = (float)(tmp1 - tmp2);
+        m20 = tmp1 + tmp2;
+        m02 = tmp1 - tmp2;
         tmp1 = y*z*omc;
         tmp2 = x*s;
-        m21 = (float)(tmp1 - tmp2);
-        m12 = (float)(tmp1 + tmp2);
+        m21 = tmp1 - tmp2;
+        m12 = tmp1 + tmp2;
         return this;
     }
 
