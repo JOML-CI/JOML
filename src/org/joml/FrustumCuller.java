@@ -251,7 +251,7 @@ public class FrustumCuller {
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
@@ -275,7 +275,7 @@ public class FrustumCuller {
      * The box is specified via its min and max corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
@@ -329,7 +329,7 @@ public class FrustumCuller {
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
@@ -364,7 +364,7 @@ public class FrustumCuller {
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
