@@ -1604,15 +1604,30 @@ public class Vector3f implements Externalizable {
      * 
      * @return the component index, within <tt>[0..2]</tt>
      */
-    public float maxComponent() {
+    public int maxComponent() {
         float absX = Math.abs(x);
         float absY = Math.abs(y);
         float absZ = Math.abs(z);
-        boolean xy = absX >= absY;
-        boolean yz = absY >= absZ;
-        if (xy && yz) {
+        if (absX >= absY && absX >= absZ) {
             return 0;
-        } else if (yz) {
+        } else if (absY >= absZ) {
+            return 1;
+        }
+        return 2;
+    }
+
+    /**
+     * Determine the component with the smallest (towards zero) absolute value.
+     * 
+     * @return the component index, within <tt>[0..2]</tt>
+     */
+    public int minComponent() {
+        float absX = Math.abs(x);
+        float absY = Math.abs(y);
+        float absZ = Math.abs(z);
+        if (absX < absY && absX < absZ) {
+            return 0;
+        } else if (absY < absZ) {
             return 1;
         }
         return 2;
