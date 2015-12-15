@@ -5302,14 +5302,9 @@ public class Matrix4f implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
      * the perspective projection will be applied first!
      * <p>
-     * This method first computes the frustum corners using the specified parameters and then makes use of
-     * {@link #frustum(float, float, float, float, float, float) frustum()} to finally apply the frustum
-     * transformation.
-     * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
      * use {@link #setPerspective(float, float, float, float) setPerspective}.
      * 
-     * @see #frustum(float, float, float, float, float, float)
      * @see #setPerspective(float, float, float, float)
      * 
      * @param fovy
@@ -5367,14 +5362,9 @@ public class Matrix4f implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
      * the perspective projection will be applied first!
      * <p>
-     * This method first computes the frustum corners using the specified parameters and then makes use of
-     * {@link #frustum(float, float, float, float, float, float) frustum()} to finally apply the frustum
-     * transformation.
-     * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
      * use {@link #setPerspective(float, float, float, float) setPerspective}.
      * 
-     * @see #frustum(float, float, float, float, float, float)
      * @see #setPerspective(float, float, float, float)
      * 
      * @param fovy
@@ -5394,14 +5384,9 @@ public class Matrix4f implements Externalizable {
     /**
      * Set this matrix to be a symmetric perspective projection frustum transformation.
      * <p>
-     * This method first computes the frustum corners using the specified parameters and then makes use of
-     * {@link #setFrustum(float, float, float, float, float, float) setFrustum()} to finally apply the frustum
-     * transformation.
-     * <p>
      * In order to apply the perspective projection transformation to an existing transformation,
      * use {@link #perspective(float, float, float, float) perspective()}.
      * 
-     * @see #setFrustum(float, float, float, float, float, float)
      * @see #perspective(float, float, float, float)
      * 
      * @param fovy
