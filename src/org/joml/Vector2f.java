@@ -624,44 +624,6 @@ public class Vector2f implements Externalizable {
         return dest;
     }
 
-    /**
-     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
-     * and store the result in <code>this</code>.
-     * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
-     * then the result is <code>other</code>.
-     * 
-     * @param other
-     *          the other vector
-     * @param t
-     *          the interpolation factor between 0.0 and 1.0
-     * @return this
-     */
-    public Vector2f lerp(Vector2f other, float t) {
-        return lerp(other, t, this);
-    }
-
-    /**
-     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
-     * then the result is <code>other</code>.
-     * 
-     * @param other
-     *          the other vector
-     * @param t
-     *          the interpolation factor between 0.0 and 1.0
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector2f lerp(Vector2f other, float t, Vector2f dest) {
-        dest.x = (1.0f - t) * x + t * other.x;
-        dest.y = (1.0f - t) * y + t * other.y;
-        return dest;
-    }
-
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -772,6 +734,111 @@ public class Vector2f implements Externalizable {
         dest.x = x + a * b.x;
         dest.y = y + a * b.y;
         return dest;
+    }
+
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>this</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     * 
+     * @param other
+     *          the other vector
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @return this
+     */
+    public Vector2f lerp(Vector2f other, float t) {
+        return lerp(other, t, this);
+    }
+
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     * 
+     * @param other
+     *          the other vector
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f lerp(Vector2f other, float t, Vector2f dest) {
+        dest.x = x + (other.x - x) * t;
+        dest.y = y + (other.y - y) * t;
+        return dest;
+    }
+
+    /**
+     * Get the value of the specified component of this vector.
+     * 
+     * @param component
+     *          the component, within <tt>[0..1]</tt>
+     * @return the value
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
+     */
+    public float get(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * Set the value of the specified component of this vector.
+     * 
+     * @param component
+     *          the component whose value to set, within <tt>[0..1]</tt>
+     * @param value
+     *          the value to set
+     * @return this
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
+     */
+    public Vector2f set(int component, float value) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            x = value;
+            break;
+        case 1:
+            y = value;
+            break;
+        default:
+            throw new IllegalArgumentException();
+        }
+        return this;
+    }
+
+    /**
+     * Determine the component with the biggest absolute value.
+     * 
+     * @return the component index, within <tt>[0..1]</tt>
+     */
+    public int maxComponent() {
+        if (Math.abs(x) >= Math.abs(y)) {
+            return 0;
+        }
+        return 1;
+    }
+
+    /**
+     * Determine the component with the smallest (towards zero) absolute value.
+     * 
+     * @return the component index, within <tt>[0..1]</tt>
+     */
+    public int minComponent() {
+        if (Math.abs(x) < Math.abs(y)) {
+            return 0;
+        }
+        return 1;
     }
 
 }

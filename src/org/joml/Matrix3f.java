@@ -256,12 +256,9 @@ public class Matrix3f implements Externalizable {
      * @return the determinant
      */
     public float determinant() {
-        return m00 * m11 * m22
-             + m10 * m21 * m02
-             + m20 * m01 * m12
-             - m20 * m11 * m02
-             - m00 * m21 * m12
-             - m10 * m01 * m22;
+        return (m00 * m11 - m01 * m10) * m22
+             + (m02 * m10 - m00 * m12) * m21
+             + (m01 * m12 - m02 * m11) * m20;
     }
 
     /**
@@ -282,16 +279,17 @@ public class Matrix3f implements Externalizable {
      */
     public Matrix3f invert(Matrix3f dest) {
         float s = determinant();
+        // client must make sure that matrix is invertible
         s = 1.0f / s;
-        dest.set( (m11 * m22 - m21 * m12) * s,
-                 -(m01 * m22 - m21 * m02) * s,
-                  (m01 * m12 - m11 * m02) * s,
-                 -(m10 * m22 - m20 * m12) * s,
-                  (m00 * m22 - m20 * m02) * s,
-                 -(m00 * m12 - m10 * m02) * s,
-                  (m10 * m21 - m20 * m11) * s,
-                 -(m00 * m21 - m20 * m01) * s,
-                  (m00 * m11 - m10 * m01) * s);
+        dest.set((m11 * m22 - m21 * m12) * s,
+                 (m21 * m02 - m01 * m22) * s,
+                 (m01 * m12 - m11 * m02) * s,
+                 (m20 * m12 - m10 * m22) * s,
+                 (m00 * m22 - m20 * m02) * s,
+                 (m10 * m02 - m00 * m12) * s,
+                 (m10 * m21 - m20 * m11) * s,
+                 (m20 * m01 - m00 * m21) * s,
+                 (m00 * m11 - m10 * m01) * s);
         return dest;
     }
 
@@ -577,7 +575,7 @@ public class Matrix3f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return buffer
+     * @return the passed in buffer
      */
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
@@ -593,10 +591,10 @@ public class Matrix3f implements Externalizable {
      *            the absolute position into the FloatBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return buffer
+     * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index, m00);
+        buffer.put(index,   m00);
         buffer.put(index+1, m01);
         buffer.put(index+2, m02);
         buffer.put(index+3, m10);
@@ -622,7 +620,7 @@ public class Matrix3f implements Externalizable {
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position
-     * @return buffer
+     * @return the passed in buffer
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
@@ -638,12 +636,12 @@ public class Matrix3f implements Externalizable {
      *            the absolute position into the ByteBuffer
      * @param buffer
      *            will receive the values of this matrix in column-major order
-     * @return buffer
+     * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putFloat(index, m00);
-        buffer.putFloat(index+4, m01);
-        buffer.putFloat(index+8, m02);
+        buffer.putFloat(index,    m00);
+        buffer.putFloat(index+4,  m01);
+        buffer.putFloat(index+8,  m02);
         buffer.putFloat(index+12, m10);
         buffer.putFloat(index+16, m11);
         buffer.putFloat(index+20, m12);
@@ -773,7 +771,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply scaling to this matrix by scaling the unit axes by the given x and y factors.
+     * Apply scaling to this matrix by scaling the base axes by the given x and y factors.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
      * then the new matrix will be <code>M * S</code>. So when transforming a
