@@ -30,6 +30,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Contains the definition of a Vector comprising 3 ints and associated
@@ -514,253 +515,13 @@ public class Vector3i implements Externalizable {
         return dest;
     }
 
-    /**
-     * Add the component-wise multiplication of <code>a * b</code> to this
-     * vector.
-     *
-     * @param a the first multiplicand
-     * @param b the second multiplicand
-     * @return this
-     */
-    public Vector3i fma(Vector3i a, Vector3i b) {
-        x += a.x * b.x;
-        y += a.y * b.y;
-        z += a.z * b.z;
-        return this;
-    }
-
-    /**
-     * Add the component-wise multiplication of <code>a * b</code> to this
-     * vector.
-     *
-     * @param a the first multiplicand
-     * @param b the second multiplicand
-     * @return this
-     */
-    public Vector3i fma(int a, Vector3i b) {
-        x += a * b.x;
-        y += a * b.y;
-        z += a * b.z;
-        return this;
-    }
-
-    /**
-     * Add the component-wise multiplication of <code>a * b</code> to this
-     * vector and store the result in <code>dest</code>.
-     *
-     * @param a the first multiplicand
-     * @param b the second multiplicand
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i fma(Vector3i a, Vector3i b, Vector3i dest) {
-        dest.x = x + a.x * b.x;
-        dest.y = y + a.y * b.y;
-        dest.z = z + a.z * b.z;
-        return dest;
-    }
-
-    /**
-     * Add the component-wise multiplication of <code>a * b</code> to this
-     * vector and store the result in <code>dest</code>.
-     *
-     * @param a the first multiplicand
-     * @param b the second multiplicand
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i fma(int a, Vector3i b, Vector3i dest) {
-        dest.x = x + a * b.x;
-        dest.y = y + a * b.y;
-        dest.z = z + a * b.z;
-        return dest;
-    }
-
-    /**
-     * Multiply this Vector3i component-wise by another Vector3i.
-     *
-     * @param v the vector to multiply by
-     * @return this
-     */
-    public Vector3i mul(Vector3i v) {
-        x *= v.x;
-        y *= v.y;
-        z *= v.z;
-        return this;
-    }
-
-    /**
-     * Multiply this Vector3i component-wise by another Vector3i and store the
-     * result in <code>dest</code>.
-     *
-     * @param v the vector to multiply by
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i mul(Vector3i v, Vector3i dest) {
-        dest.x = x * v.x;
-        dest.y = y * v.y;
-        dest.z = z * v.z;
-        return dest;
-    }
-
-    /**
-     * Divide this Vector3i component-wise by another Vector3i.
-     *
-     * @param v the vector to divide by
-     * @return this
-     */
-    public Vector3i div(Vector3i v) {
-        x /= v.x;
-        y /= v.y;
-        z /= v.z;
-        return this;
-    }
-
-    /**
-     * Divide this Vector3i component-wise by another Vector3i and store the
-     * result in <code>dest</code>.
-     *
-     * @param v the vector to divide by
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i div(Vector3i v, Vector3i dest) {
-        dest.x = x / v.x;
-        dest.y = y / v.y;
-        dest.z = z / v.z;
-        return dest;
-    }
-
-    /**
-     * Multiply all components of this {@link Vector3i} by the given scalar
-     * value.
-     *
-     * @param scalar the scalar to multiply this vector by
-     * @return this
-     */
-    public Vector3i mul(int scalar) {
-        x *= scalar;
-        y *= scalar;
-        z *= scalar;
-        return this;
-    }
-
-    /**
-     * Multiply all components of this {@link Vector3i} by the given scalar
-     * value and store the result in <code>dest</code>.
-     *
-     * @param scalar the scalar to multiply this vector by
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i mul(int scalar, Vector3i dest) {
-        dest.x = x * scalar;
-        dest.y = y * scalar;
-        dest.z = z * scalar;
-        return dest;
-    }
-
-    /**
-     * Multiply the components of this Vector3i by the given scalar values and
-     * store the result in <code>this</code>.
-     *
-     * @param x the x component to multiply this vector by
-     * @param y the y component to multiply this vector by
-     * @param z the z component to multiply this vector by
-     * @return this
-     */
-    public Vector3i mul(int x, int y, int z) {
-        this.x *= x;
-        this.y *= y;
-        this.z *= z;
-        return this;
-    }
-
-    /**
-     * Multiply the components of this Vector3i by the given scalar values and
-     * store the result in <code>dest</code>.
-     *
-     * @param x the x component to multiply this vector by
-     * @param y the y component to multiply this vector by
-     * @param z the z component to multiply this vector by
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i mul(int x, int y, int z, Vector3i dest) {
-        dest.x = this.x * x;
-        dest.y = this.y * y;
-        dest.z = this.z * z;
-        return dest;
-    }
-
-    /**
-     * Divide all components of this {@link Vector3i} by the given scalar value.
-     *
-     * @param scalar the scalar to divide by
-     * @return this
-     */
-    public Vector3i div(int scalar) {
-        x /= scalar;
-        y /= scalar;
-        z /= scalar;
-        return this;
-    }
-
-    /**
-     * Divide all components of this {@link Vector3i} by the given scalar value
-     * and store the result in <code>dest</code>.
-     *
-     * @param scalar the scalar to divide by
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i div(int scalar, Vector3i dest) {
-        dest.x = x / scalar;
-        dest.y = y / scalar;
-        dest.z = z / scalar;
-        return dest;
-    }
-
-    /**
-     * Divide the components of this Vector3i by the given scalar values and
-     * store the result in <code>this</code>.
-     *
-     * @param x the x component to divide this vector by
-     * @param y the y component to divide this vector by
-     * @param z the z component to divide this vector by
-     * @return this
-     */
-    public Vector3i div(int x, int y, int z) {
-        this.x /= x;
-        this.y /= y;
-        this.z /= z;
-        return this;
-    }
-
-    /**
-     * Divide the components of this Vector3i by the given scalar values and
-     * store the result in <code>dest</code>.
-     *
-     * @param x the x component to divide this vector by
-     * @param y the y component to divide this vector by
-     * @param z the z component to divide this vector by
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i div(int x, int y, int z, Vector3i dest) {
-        dest.x = this.x / x;
-        dest.y = this.y / y;
-        dest.z = this.z / z;
-        return dest;
-    }
 
     /**
      * Return the length squared of this vector.
      *
      * @return the length squared
      */
-    public int lengthSquared() {
+    public long lengthSquared() {
         return x * x + y * y + z * z;
     }
 
@@ -769,91 +530,8 @@ public class Vector3i implements Externalizable {
      *
      * @return the length
      */
-    public int length() {
-        return (int) Math.sqrt(lengthSquared());
-    }
-
-    /**
-     * Normalize this vector.
-     *
-     * @return this
-     */
-    public Vector3i normalize() {
-        double invLength = 1.0f / length();
-        x *= invLength;
-        y *= invLength;
-        z *= invLength;
-        return this;
-    }
-
-    /**
-     * Normalize this vector and store the result in <code>dest</code>.
-     *
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i normalize(Vector3i dest) {
-        double invLength = 1.0f / length();
-        dest.x = (int) (x * invLength);
-        dest.y = (int) (y * invLength);
-        dest.z = (int) (z * invLength);
-        return dest;
-    }
-
-    /**
-     * Set this vector to be the cross product of itself and <code>v</code>.
-     *
-     * @param v the other vector
-     * @return this
-     */
-    public Vector3i cross(Vector3i v) {
-        return set(y * v.z - z * v.y,
-                z * v.x - x * v.z,
-                x * v.y - y * v.x);
-    }
-
-    /**
-     * Set this vector to be the cross product of itself and <tt>(x, y, z)</tt>.
-     *
-     * @param x the x component of the other vector
-     * @param y the y component of the other vector
-     * @param z the z component of the other vector
-     * @return this
-     */
-    public Vector3i cross(int x, int y, int z) {
-        return set(this.y * z - this.z * y,
-                this.z * x - this.x * z,
-                this.x * y - this.y * x);
-    }
-
-    /**
-     * Compute the cross product of this vector and <code>v</code> and store the
-     * result in <code>dest</code>.
-     *
-     * @param v the other vector
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i cross(Vector3i v, Vector3i dest) {
-        return dest.set(y * v.z - z * v.y,
-                z * v.x - x * v.z,
-                x * v.y - y * v.x);
-    }
-
-    /**
-     * Compute the cross product of this vector and <tt>(x, y, z)</tt> and store
-     * the result in <code>dest</code>.
-     *
-     * @param x the x component of the other vector
-     * @param y the y component of the other vector
-     * @param z the z component of the other vector
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector3i cross(int x, int y, int z, Vector3i dest) {
-        return dest.set(this.y * z - this.z * y,
-                this.z * x - this.x * z,
-                this.x * y - this.y * x);
+    public double length() {
+        return Math.sqrt(lengthSquared());
     }
 
     /**
@@ -862,15 +540,12 @@ public class Vector3i implements Externalizable {
      * @param v the other vector
      * @return the distance
      */
-    public int distance(Vector3i v) {
-        int dx = v.x - x;
-        int dy = v.y - y;
-        int dz = v.z - z;
-        return (int) Math.sqrt(dx * dx + dy * dy + dz * dz);
+    public double distance(Vector3i v) {
+        return Math.sqrt(distanceSquared(v));
     }
 
     /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y,
+     * Return the distance between <code>this</code> vector and <tt>(x, y, *
      * z)</tt>.
      *
      * @param x the x component of the other vector
@@ -878,11 +553,8 @@ public class Vector3i implements Externalizable {
      * @param z the z component of the other vector
      * @return the euclidean distance
      */
-    public int distance(int x, int y, int z) {
-        int dx = this.x - x;
-        int dy = this.y - y;
-        int dz = this.z - z;
-        return (int) Math.sqrt(dx * dx + dy * dy + dz * dz);
+    public double distance(int x, int y, int z) {
+        return Math.sqrt(distanceSquared(x, y, z));
     }
 
     /**
@@ -891,10 +563,10 @@ public class Vector3i implements Externalizable {
      * @param v the other vector
      * @return the squared of the distance
      */
-    public int distanceSquared(Vector3i v) {
-        int dx = v.x - x;
-        int dy = v.y - y;
-        int dz = v.z - z;
+    public long distanceSquared(Vector3i v) {
+        int dx = this.x - v.x;
+        int dy = this.y - v.y;
+        int dz = this.z - v.z;
         return dx * dx + dy * dy + dz * dz;
     }
 
@@ -907,93 +579,11 @@ public class Vector3i implements Externalizable {
      * @param z the z component of the other vector
      * @return the square of the distance
      */
-    public int distanceSquared(int x, int y, int z) {
+    public long distanceSquared(int x, int y, int z) {
         int dx = this.x - x;
         int dy = this.y - y;
         int dz = this.z - z;
         return dx * dx + dy * dy + dz * dz;
-    }
-
-    /**
-     * Return the dot product of this vector and the supplied vector.
-     *
-     * @param v the other vector
-     * @return the dot product
-     */
-    public int dot(Vector3i v) {
-        return x * v.x + y * v.y + z * v.z;
-    }
-
-    /**
-     * Return the dot product of this vector and the vector <tt>(x, y, z)</tt>.
-     *
-     * @param x the x component of the other vector
-     * @param y the y component of the other vector
-     * @param z the z component of the other vector
-     * @return the dot product
-     */
-    public int dot(int x, int y, int z) {
-        return this.x * x + this.y * y + this.z * z;
-    }
-
-    /**
-     * Return the cosine of the angle between this vector and the supplied
-     * vector. Use this instead of Math.cos(this.angle(v)).
-     *
-     * @see #angle(Vector3i)
-     *
-     * @param v the other vector
-     * @return the cosine of the angle
-     */
-    public int angleCos(Vector3i v) {
-        double length1Sqared = x * x + y * y + z * z;
-        double length2Sqared = v.x * v.x + v.y * v.y + v.z * v.z;
-        double dot = x * v.x + y * v.y + z * v.z;
-        return (int) (dot / (Math.sqrt(length1Sqared * length2Sqared)));
-    }
-
-    /**
-     * Return the angle between this vector and the supplied vector.
-     *
-     * @see #angleCos(Vector3i)
-     *
-     * @param v the other vector
-     * @return the angle, in radians
-     */
-    public int angle(Vector3i v) {
-        int cos = angleCos(v);
-        // This is because sometimes cos goes above 1 or below -1 because of lost precision
-        cos = Math.min(cos, 1);
-        cos = Math.max(cos, -1);
-        return (int) Math.acos(cos);
-    }
-
-    /**
-     * Set the components of this vector to be the component-wise minimum of
-     * this and the other vector.
-     *
-     * @param v the other vector
-     * @return this
-     */
-    public Vector3i min(Vector3i v) {
-        this.x = Math.min(x, v.x);
-        this.y = Math.min(y, v.y);
-        this.z = Math.min(z, v.z);
-        return this;
-    }
-
-    /**
-     * Set the components of this vector to be the component-wise maximum of
-     * this and the other vector.
-     *
-     * @param v the other vector
-     * @return this
-     */
-    public Vector3i max(Vector3i v) {
-        this.x = Math.max(x, v.x);
-        this.y = Math.max(y, v.y);
-        this.z = Math.max(z, v.z);
-        return this;
     }
 
     /**
@@ -1002,9 +592,9 @@ public class Vector3i implements Externalizable {
      * @return this
      */
     public Vector3i zero() {
-        x = 0;
-        y = 0;
-        z = 0;
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
         return this;
     }
 
@@ -1017,7 +607,7 @@ public class Vector3i implements Externalizable {
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0;-"); //$NON-NLS-1$
+        NumberFormat formatter = NumberFormat.getIntegerInstance(Locale.ENGLISH);
         return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 

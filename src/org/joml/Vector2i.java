@@ -30,6 +30,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Represents a 2D vector with single-precision.
@@ -387,60 +388,70 @@ public class Vector2i implements Externalizable {
     }
 
     /**
-     * Return the length of this vector.
-     *
-     * @return the length
-     */
-    public int length() {
-        return (int) Math.sqrt((x * x) + (y * y));
-    }
-
-    /**
      * Return the length squared of this vector.
      *
      * @return the length squared
      */
-    public int lengthSquared() {
+    public long lengthSquared() {
         return x * x + y * y;
     }
 
     /**
-     * Return the distance between this and <code>v</code>.
+     * Return the length of this vector.
+     *
+     * @return the length
+     */
+    public double length() {
+        return Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Return the distance between this Vector and <code>v</code>.
      *
      * @param v the other vector
      * @return the distance
      */
-    public int distance(Vector2i v) {
-        int dx = v.x - x;
-        int dy = v.y - y;
-        return (int) Math.sqrt(dx * dx + dy * dy);
+    public double distance(Vector2i v) {
+        return Math.sqrt(distanceSquared(v));
     }
 
     /**
-     * Normalize this vector.
+     * Return the distance between <code>this</code> vector and <tt>(x, y)</tt>.
      *
-     * @return this
+     * @param x the x component of the other vector
+     * @param y the y component of the other vector
+     * @return the euclidean distance
      */
-    public Vector2i normalize() {
-        int invLength = (int) (1.0 / Math.sqrt(x * x + y * y));
-        x *= invLength;
-        y *= invLength;
-        return this;
+    public double distance(int x, int y) {
+        return Math.sqrt(distanceSquared(x, y));
     }
 
     /**
-     * Normalize this vector and store the result in <code>dest</code>.
+     * Return the square of the distance between this vector and <code>v</code>.
      *
-     * @param dest will hold the result
-     * @return dest
+     * @param v the other vector
+     * @return the squared of the distance
      */
-    public Vector2i normalize(Vector2i dest) {
-        int invLength = (int) (1.0 / Math.sqrt(x * x + y * y));
-        dest.x = x * invLength;
-        dest.y = y * invLength;
-        return dest;
+    public long distanceSquared(Vector2i v) {
+        int dx = this.x - v.x;
+        int dy = this.y - v.y;
+        return dx * dx + dy * dy;
     }
 
+    /**
+     * Return the square of the distance between <code>this</code> vector and
+     * <tt>(x, y)</tt>.
+     *
+     * @param x the x component of the other vector
+     * @param y the y component of the other vector
+     * @return the square of the distance
+     */
+    public long distanceSquared(int x, int y) {
+        int dx = this.x - x;
+        int dy = this.y - y;
+        return dx * dx + dy * dy;
+    }
+    
     /**
      * Add <code>v</code> to this vector.
      *
@@ -482,8 +493,7 @@ public class Vector2i implements Externalizable {
         out.writeInt(y);
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         x = in.readInt();
         y = in.readInt();
     }
@@ -508,32 +518,6 @@ public class Vector2i implements Externalizable {
     public Vector2i negate(Vector2i dest) {
         dest.x = -x;
         dest.y = -y;
-        return dest;
-    }
-
-    /**
-     * Multiply the components of this vector by the given scalar.
-     *
-     * @param scalar the value to multiply this vector's components by
-     * @return this
-     */
-    public Vector2i mul(float scalar) {
-        this.x *= scalar;
-        this.y *= scalar;
-        return this;
-    }
-
-    /**
-     * Multiply the components of this vector by the given scalar and store the
-     * result in <code>dest</code>.
-     *
-     * @param scalar the value to multiply this vector's components by
-     * @param dest will hold the result
-     * @return dest
-     */
-    public Vector2i mul(float scalar, Vector2i dest) {
-        dest.x = (int) (x * scalar);
-        dest.y = (int) (y * scalar);
         return dest;
     }
 
@@ -574,8 +558,8 @@ public class Vector2i implements Externalizable {
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0;-"); //$NON-NLS-1$
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
+        NumberFormat formatter = NumberFormat.getIntegerInstance(Locale.ENGLISH);
+        return toString(formatter);
     }
 
     /**
@@ -587,7 +571,7 @@ public class Vector2i implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + " " + formatter.format(y) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
     }
 
 }

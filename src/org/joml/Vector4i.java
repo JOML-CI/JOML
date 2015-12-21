@@ -693,7 +693,7 @@ public class Vector4i implements Externalizable {
      *
      * @return the length squared
      */
-    public int lengthSquared() {
+    public long lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
 
@@ -702,40 +702,62 @@ public class Vector4i implements Externalizable {
      *
      * @return the length
      */
-    public int length() {
-        return (int) Math.sqrt(lengthSquared());
+    public double length() {
+        return Math.sqrt(lengthSquared());
     }
 
     /**
-     * Return the distance between <code>this</code> vector and <code>v</code>.
+     * Return the distance between this Vector and <code>v</code>.
      *
      * @param v the other vector
-     * @return the euclidean distance
+     * @return the distance
      */
-    public int distance(Vector4i v) {
-        int dx = v.x - x;
-        int dy = v.y - y;
-        int dz = v.z - z;
-        int dw = v.w - w;
-        return (int) Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+    public double distance(Vector4i v) {
+        return Math.sqrt(distanceSquared(v));
     }
 
     /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y, z,
-     * w)</tt>.
+     * Return the distance between <code>this</code> vector and <tt>(x, y, *
+     * z)</tt>.
      *
      * @param x the x component of the other vector
      * @param y the y component of the other vector
      * @param z the z component of the other vector
-     * @param w the w component of the other vector
      * @return the euclidean distance
      */
-    public int distance(int x, int y, int z, int w) {
+    public double distance(int x, int y, int z, int w) {
+        return Math.sqrt(distanceSquared(x, y, z, w));
+    }
+
+    /**
+     * Return the square of the distance between this vector and <code>v</code>.
+     *
+     * @param v the other vector
+     * @return the squared of the distance
+     */
+    public int distanceSquared(Vector4i v) {
+        int dx = this.x - v.x;
+        int dy = this.y - v.y;
+        int dz = this.z - v.z;
+        int dw = this.z - v.w;
+        return dx * dx + dy * dy + dz * dz + dw * dw;
+    }
+
+    /**
+     * Return the square of the distance between <code>this</code> vector and
+     * <tt>(x, y, z)</tt>.
+     *
+     * @param x the x component of the other vector
+     * @param y the y component of the other vector
+     * @param z the z component of the other vector
+     * @return the square of the distance
+     */
+    public int distanceSquared(int x, int y, int z, int w) {
         int dx = this.x - x;
         int dy = this.y - y;
         int dz = this.z - z;
-        int dw = this.w - w;
-        return (int) Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+        int dw = this.z - w;
+        return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
     /**
