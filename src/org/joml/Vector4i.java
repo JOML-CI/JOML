@@ -739,7 +739,7 @@ public class Vector4i implements Externalizable {
         int dx = this.x - v.x;
         int dy = this.y - v.y;
         int dz = this.z - v.z;
-        int dw = this.z - v.w;
+        int dw = this.w - v.w;
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
@@ -756,7 +756,7 @@ public class Vector4i implements Externalizable {
         int dx = this.x - x;
         int dy = this.y - y;
         int dz = this.z - z;
-        int dw = this.z - w;
+        int dw = this.w - w;
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
