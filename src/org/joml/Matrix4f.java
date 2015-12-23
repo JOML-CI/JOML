@@ -5008,13 +5008,13 @@ public class Matrix4f implements Externalizable {
      * @see #setPerspective(float, float, float, float)
      * 
      * @param fovy
-     *            the vertical field of view in radians
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
      * @param aspect
-     *            the aspect ratio (i.e. width / height)
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
      * @param zNear
-     *            near clipping plane distance
+     *            near clipping plane distance (must be greater than zero)
      * @param zFar
-     *            far clipping plane distance
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
      * @param dest
      *            will hold the result
      * @return dest
@@ -5068,13 +5068,13 @@ public class Matrix4f implements Externalizable {
      * @see #setPerspective(float, float, float, float)
      * 
      * @param fovy
-     *            the vertical field of view in radians
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
      * @param aspect
-     *            the aspect ratio (i.e. width / height)
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
      * @param zNear
-     *            near clipping plane distance
+     *            near clipping plane distance (must be greater than zero)
      * @param zFar
-     *            far clipping plane distance
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
      * @return this
      */
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar) {
@@ -5090,13 +5090,13 @@ public class Matrix4f implements Externalizable {
      * @see #perspective(float, float, float, float)
      * 
      * @param fovy
-     *            the vertical field of view in radians
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
      * @param aspect
-     *            the aspect ratio (i.e. width / height)
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
      * @param zNear
-     *            near clipping plane distance
+     *            near clipping plane distance (must be greater than zero)
      * @param zFar
-     *            far clipping plane distance
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
      * @return this
      */
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar) {
