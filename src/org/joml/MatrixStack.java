@@ -567,8 +567,8 @@ public class MatrixStack implements Serializable {
      *            the angle to rotate about Z
      * @return this
      */
-    public MatrixStack rotateXYZ(float angX, float angY, float angZ) {
-        mats[curr].rotateXYZ(angX, angY, angZ);
+    public MatrixStack rotateXYZ(float angleX, float angleY, float angleZ) {
+        mats[curr].rotateXYZ(angleX, angleY, angleZ);
         return this;
     }
 
@@ -592,8 +592,8 @@ public class MatrixStack implements Serializable {
      *            the angle to rotate about Z
      * @return this
      */
-    public MatrixStack rotateYXZ(float angY, float angX, float angZ) {
-        mats[curr].rotateYXZ(angY, angX, angZ);
+    public MatrixStack rotateYXZ(float angleY, float angleX, float angleZ) {
+        mats[curr].rotateYXZ(angleY, angleX, angleZ);
         return this;
     }
 
@@ -617,8 +617,8 @@ public class MatrixStack implements Serializable {
      *            the angle to rotate about X
      * @return this
      */
-    public MatrixStack rotateZYX(float angZ, float angY, float angX) {
-        mats[curr].rotateZYX(angZ, angY, angX);
+    public MatrixStack rotateZYX(float angleZ, float angleY, float angleX) {
+        mats[curr].rotateZYX(angleZ, angleY, angleX);
         return this;
     }
     
