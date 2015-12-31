@@ -136,6 +136,22 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(0, 0, 1), dir, 1E-7f);
     }
 
+    public void testPositiveYRotateX() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .rotateX((float) Math.toRadians(90));
+        m.positiveY(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 0, -1), dir, 1E-7f);
+    }
+
+    public void testPositiveZRotateX() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .rotateX((float) Math.toRadians(90));
+        m.positiveZ(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 1, 0), dir, 1E-7f);
+    }
+
     public void testPositiveXRotateXY() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
@@ -160,6 +176,34 @@ public class Matrix4fTest extends TestCase {
                 .rotateY((float) Math.toRadians(90)).rotateX((float) Math.toRadians(45));
         m.positiveX(dir);
         TestUtil.assertVector3fEquals(new Vector3f(0, -1, -1).normalize(), dir, 1E-7f);
+    }
+
+    public void testPositiveXYZLookAt() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .lookAt(0, 0, 0, -1, 0, 0, 0, 1, 0);
+        m.positiveX(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 0, -1).normalize(), dir, 1E-7f);
+        m.positiveY(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 1, 0).normalize(), dir, 1E-7f);
+        m.positiveZ(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(1, 0, 0).normalize(), dir, 1E-7f);
+    }
+
+    public void testPositiveXYZSameAsInvert() {
+        Vector3f dir = new Vector3f();
+        Vector3f dir2 = new Vector3f();
+        Matrix4f m = new Matrix4f().rotateXYZ(0.12f, 1.25f, -2.56f);
+        Matrix4f inv = new Matrix4f(m).invert();
+        m.positiveX(dir);
+        inv.transformDirection(dir2.set(1, 0, 0));
+        TestUtil.assertVector3fEquals(dir2, dir, 1E-7f);
+        m.positiveY(dir);
+        inv.transformDirection(dir2.set(0, 1, 0));
+        TestUtil.assertVector3fEquals(dir2, dir, 1E-7f);
+        m.positiveZ(dir);
+        inv.transformDirection(dir2.set(0, 0, 1));
+        TestUtil.assertVector3fEquals(dir2, dir, 1E-7f);
     }
 
     public void testFrustumCornerIdentity() {
