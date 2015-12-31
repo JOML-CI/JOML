@@ -2949,5 +2949,78 @@ public class Matrix3d implements Externalizable {
         dest.z = Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
         return dest;
     }
+    
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3d inv = new Matrix3d(this).invert();
+     * inv.transform(dir.set(0, 0, 1)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3d positiveZ(Vector3d dir) {
+        dir.x = m10 * m21 - m11 * m20;
+        dir.y = m20 * m01 - m21 * m00;
+        dir.z = m00 * m11 - m01 * m10;
+        dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3d inv = new Matrix3d(this).invert();
+     * inv.transform(dir.set(1, 0, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3d positiveX(Vector3d dir) {
+        dir.x = m11 * m22 - m12 * m21;
+        dir.y = m02 * m21 - m01 * m22;
+        dir.z = m01 * m12 - m02 * m11;
+        dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3d inv = new Matrix3d(this).invert();
+     * inv.transform(dir.set(0, 1, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3d positiveY(Vector3d dir) {
+        dir.x = m12 * m20 - m10 * m22;
+        dir.y = m00 * m22 - m02 * m20;
+        dir.z = m02 * m10 - m00 * m12;
+        dir.normalize();
+        return dir;
+    }
 
 }
