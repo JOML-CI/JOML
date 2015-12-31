@@ -548,6 +548,81 @@ public class MatrixStack implements Serializable {
     }
 
     /**
+     * Apply rotation of <code>angleX</code> radians about the X axis to the current matrix,
+     * followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>C * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public MatrixStack rotateXYZ(float angX, float angY, float angZ) {
+        mats[curr].rotateXYZ(angX, angY, angZ);
+        return this;
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis to the current matrix,
+     * followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>C * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public MatrixStack rotateYXZ(float angY, float angX, float angZ) {
+        mats[curr].rotateYXZ(angY, angX, angZ);
+        return this;
+    }
+
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis to the current matrix,
+     * followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis.
+     * <p>
+     * If <code>C</code> is the current matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>C * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>C * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @return this
+     */
+    public MatrixStack rotateZYX(float angZ, float angY, float angX) {
+        mats[curr].rotateZYX(angZ, angY, angX);
+        return this;
+    }
+    
+    /**
      * Set the current matrix to identity.
      * 
      * @return this
