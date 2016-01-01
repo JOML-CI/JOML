@@ -7705,4 +7705,69 @@ public class Matrix4f implements Externalizable {
         return this;
     }
 
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Float.floatToIntBits(m00);
+        result = prime * result + Float.floatToIntBits(m01);
+        result = prime * result + Float.floatToIntBits(m02);
+        result = prime * result + Float.floatToIntBits(m03);
+        result = prime * result + Float.floatToIntBits(m10);
+        result = prime * result + Float.floatToIntBits(m11);
+        result = prime * result + Float.floatToIntBits(m12);
+        result = prime * result + Float.floatToIntBits(m13);
+        result = prime * result + Float.floatToIntBits(m20);
+        result = prime * result + Float.floatToIntBits(m21);
+        result = prime * result + Float.floatToIntBits(m22);
+        result = prime * result + Float.floatToIntBits(m23);
+        result = prime * result + Float.floatToIntBits(m30);
+        result = prime * result + Float.floatToIntBits(m31);
+        result = prime * result + Float.floatToIntBits(m32);
+        result = prime * result + Float.floatToIntBits(m33);
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Matrix4f other = (Matrix4f) obj;
+        if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))
+            return false;
+        if (Float.floatToIntBits(m01) != Float.floatToIntBits(other.m01))
+            return false;
+        if (Float.floatToIntBits(m02) != Float.floatToIntBits(other.m02))
+            return false;
+        if (Float.floatToIntBits(m03) != Float.floatToIntBits(other.m03))
+            return false;
+        if (Float.floatToIntBits(m10) != Float.floatToIntBits(other.m10))
+            return false;
+        if (Float.floatToIntBits(m11) != Float.floatToIntBits(other.m11))
+            return false;
+        if (Float.floatToIntBits(m12) != Float.floatToIntBits(other.m12))
+            return false;
+        if (Float.floatToIntBits(m13) != Float.floatToIntBits(other.m13))
+            return false;
+        if (Float.floatToIntBits(m20) != Float.floatToIntBits(other.m20))
+            return false;
+        if (Float.floatToIntBits(m21) != Float.floatToIntBits(other.m21))
+            return false;
+        if (Float.floatToIntBits(m22) != Float.floatToIntBits(other.m22))
+            return false;
+        if (Float.floatToIntBits(m23) != Float.floatToIntBits(other.m23))
+            return false;
+        if (Float.floatToIntBits(m30) != Float.floatToIntBits(other.m30))
+            return false;
+        if (Float.floatToIntBits(m31) != Float.floatToIntBits(other.m31))
+            return false;
+        if (Float.floatToIntBits(m32) != Float.floatToIntBits(other.m32))
+            return false;
+        if (Float.floatToIntBits(m33) != Float.floatToIntBits(other.m33))
+            return false;
+        return true;
+    }
+
 }

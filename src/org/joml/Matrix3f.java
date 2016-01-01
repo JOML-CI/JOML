@@ -2510,4 +2510,48 @@ public class Matrix3f implements Externalizable {
         return dir;
     }
 
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Float.floatToIntBits(m00);
+        result = prime * result + Float.floatToIntBits(m01);
+        result = prime * result + Float.floatToIntBits(m02);
+        result = prime * result + Float.floatToIntBits(m10);
+        result = prime * result + Float.floatToIntBits(m11);
+        result = prime * result + Float.floatToIntBits(m12);
+        result = prime * result + Float.floatToIntBits(m20);
+        result = prime * result + Float.floatToIntBits(m21);
+        result = prime * result + Float.floatToIntBits(m22);
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Matrix3f other = (Matrix3f) obj;
+        if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))
+            return false;
+        if (Float.floatToIntBits(m01) != Float.floatToIntBits(other.m01))
+            return false;
+        if (Float.floatToIntBits(m02) != Float.floatToIntBits(other.m02))
+            return false;
+        if (Float.floatToIntBits(m10) != Float.floatToIntBits(other.m10))
+            return false;
+        if (Float.floatToIntBits(m11) != Float.floatToIntBits(other.m11))
+            return false;
+        if (Float.floatToIntBits(m12) != Float.floatToIntBits(other.m12))
+            return false;
+        if (Float.floatToIntBits(m20) != Float.floatToIntBits(other.m20))
+            return false;
+        if (Float.floatToIntBits(m21) != Float.floatToIntBits(other.m21))
+            return false;
+        if (Float.floatToIntBits(m22) != Float.floatToIntBits(other.m22))
+            return false;
+        return true;
+    }
+
 }

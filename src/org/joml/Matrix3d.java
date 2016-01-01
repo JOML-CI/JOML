@@ -3023,4 +3023,58 @@ public class Matrix3d implements Externalizable {
         return dir;
     }
 
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(m00);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m01);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m02);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m10);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m11);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m12);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m20);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m21);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m22);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Matrix3d other = (Matrix3d) obj;
+        if (Double.doubleToLongBits(m00) != Double.doubleToLongBits(other.m00))
+            return false;
+        if (Double.doubleToLongBits(m01) != Double.doubleToLongBits(other.m01))
+            return false;
+        if (Double.doubleToLongBits(m02) != Double.doubleToLongBits(other.m02))
+            return false;
+        if (Double.doubleToLongBits(m10) != Double.doubleToLongBits(other.m10))
+            return false;
+        if (Double.doubleToLongBits(m11) != Double.doubleToLongBits(other.m11))
+            return false;
+        if (Double.doubleToLongBits(m12) != Double.doubleToLongBits(other.m12))
+            return false;
+        if (Double.doubleToLongBits(m20) != Double.doubleToLongBits(other.m20))
+            return false;
+        if (Double.doubleToLongBits(m21) != Double.doubleToLongBits(other.m21))
+            return false;
+        if (Double.doubleToLongBits(m22) != Double.doubleToLongBits(other.m22))
+            return false;
+        return true;
+    }
+
 }
