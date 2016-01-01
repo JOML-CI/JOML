@@ -6909,12 +6909,10 @@ public class Matrix4f implements Externalizable {
      * Matrix4f inv = new Matrix4f(this).invert();
      * inv.transformPoint(origin.set(0, 0, 0));
      * </pre>
-     * <p>
-     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param origin
      *          will hold the position transformed to the origin
-     * @return dir
+     * @return origin
      */
     public Vector3f origin(Vector3f origin) {
         float a = m00 * m11 - m01 * m10;
