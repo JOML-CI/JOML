@@ -7770,4 +7770,63 @@ public class Matrix4f implements Externalizable {
         return true;
     }
 
+    /**
+     * Apply a picking transformation to this matrix using the given window coordinates <tt>(x, y)</tt> as the pick center
+     * and the given <tt>(width, height)</tt> as the size of the picking region in window coordinates, and store the result
+     * in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the picking region center in window coordinates
+     * @param y
+     *          the y coordinate of the picking region center in window coordinates
+     * @param width
+     *          the width of the picking region in window coordinates
+     * @param height
+     *          the height of the picking region in window coordinates
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f pick(float x, float y, float width, float height, int[] viewport, Matrix4f dest) {
+        float sx = viewport[2] / width;
+        float sy = viewport[3] / height;
+        float tx = (viewport[2] + 2.0f * (viewport[0] - x)) / width;
+        float ty = (viewport[3] + 2.0f * (viewport[1] - y)) / height;
+        dest.m30 = m00 * tx + m10 * ty + m30;
+        dest.m31 = m01 * tx + m11 * ty + m31;
+        dest.m32 = m02 * tx + m12 * ty + m32;
+        dest.m33 = m03 * tx + m13 * ty + m33;
+        dest.m00 = m00 * sx;
+        dest.m01 = m01 * sx;
+        dest.m02 = m02 * sx;
+        dest.m03 = m03 * sx;
+        dest.m10 = m10 * sy;
+        dest.m11 = m11 * sy;
+        dest.m12 = m12 * sy;
+        dest.m13 = m13 * sy;
+        return dest;
+    }
+
+    /**
+     * Apply a picking transformation to this matrix using the given window coordinates <tt>(x, y)</tt> as the pick center
+     * and the given <tt>(width, height)</tt> as the size of the picking region in window coordinates.
+     * 
+     * @param x
+     *          the x coordinate of the picking region center in window coordinates
+     * @param y
+     *          the y coordinate of the picking region center in window coordinates
+     * @param width
+     *          the width of the picking region in window coordinates
+     * @param height
+     *          the height of the picking region in window coordinates
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @return this
+     */
+    public Matrix4f pick(float x, float y, float width, float height, int[] viewport) {
+        return pick(x, y, width, height, viewport, this);
+    }
+
 }
