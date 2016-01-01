@@ -7504,6 +7504,35 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
+     * This can be used to get the position of the "camera" from a given <i>view</i> transformation matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).invert();
+     * inv.transformPoint(origin.set(0, 0, 0));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param origin
+     *          will hold the position transformed to the origin
+     * @return dir
+     */
+    public Vector3d origin(Vector3d origin) {
+        double a = m00 * m11 - m01 * m10;
+        double b = m00 * m12 - m02 * m10;
+        double d = m01 * m12 - m02 * m11;
+        double g = m20 * m31 - m21 * m30;
+        double h = m20 * m32 - m22 * m30;
+        double j = m21 * m32 - m22 * m31;
+        origin.x = -m10 * j + m11 * h - m12 * g;
+        origin.y =  m00 * j - m01 * h + m02 * g;
+        origin.z = -m30 * d + m31 * b - m32 * a;
+        return origin;
+    }
+
+    /**
      * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
      * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>.
      * <p>
@@ -7812,6 +7841,123 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, Matrix4d planeTransform) {
         return shadow(lightX, lightY, lightZ, lightW, planeTransform, this);
+    }
+
+    /**
+     * Set this matrix to a cylindrical billboard transformation that rotates the local +Z axis of a given object with position <code>objPos</code> towards
+     * a target position at <code>targetPos</code> while constraining a cylindrical rotation around the given <code>up</code> vector.
+     * <p>
+     * This method can be used to create the complete model transformation for a given object, including the translation of the object to
+     * its position <code>objPos</code>.
+     * 
+     * @param objPos
+     *          the position of the object to rotate towards the camera
+     * @param targetPos
+     *          the position of the target (for example the camera) towards which to rotate the object
+     * @param up
+     *          the rotation axis (must be {@link Vector3d#normalize() normalized})
+     * @return this
+     */
+    public Matrix4d billboardCylindrical(Vector3d objPos, Vector3d targetPos, Vector3d up) {
+        // dir = objPos - targetPos
+        double dirX = objPos.x - targetPos.x;
+        double dirY = objPos.y - targetPos.y;
+        double dirZ = objPos.z - targetPos.z;
+        // right = dir x up
+        double rightX = dirY * up.z - dirZ * up.y;
+        double rightY = dirZ * up.x - dirX * up.z;
+        double rightZ = dirX * up.y - dirY * up.x;
+        // normalize right
+        double invRightLen = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLen;
+        rightY *= invRightLen;
+        rightZ *= invRightLen;
+        // recompute dir by constraining rotation around 'up'
+        // dir = up x right
+        dirX = up.y * rightZ - up.z * rightY;
+        dirY = up.z * rightX - up.x * rightZ;
+        dirZ = up.x * rightY - up.y * rightX;
+        // normalize dir
+        double invDirLen = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= invDirLen;
+        dirY *= invDirLen;
+        dirZ *= invDirLen;
+        // set matrix elements
+        m00 = rightX;
+        m01 = rightY;
+        m02 = rightZ;
+        m03 = 0.0;
+        m10 = up.x;
+        m11 = up.y;
+        m12 = up.z;
+        m13 = 0.0;
+        m20 = -dirX;
+        m21 = -dirY;
+        m22 = -dirZ;
+        m23 = 0.0;
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a spherical billboard transformation that rotates the local +Z axis of a given object with position <code>objPos</code> towards
+     * a target position at <code>targetPos</code>.
+     * <p>
+     * This method can be used to create the complete model transformation for a given object, including the translation of the object to
+     * its position <code>objPos</code>.
+     * 
+     * @param objPos
+     *          the position of the object to rotate towards the camera
+     * @param targetPos
+     *          the position of the target (for example the camera) towards which to rotate the object
+     * @param up
+     *          the up axis used to orient the object
+     * @return this
+     */
+    public Matrix4d billboardSpherical(Vector3d objPos, Vector3d targetPos, Vector3d up) {
+        // dir = objPos - targetPos
+        double dirX = objPos.x - targetPos.x;
+        double dirY = objPos.y - targetPos.y;
+        double dirZ = objPos.z - targetPos.z;
+        // normalize dir
+        double invDirLen = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= invDirLen;
+        dirY *= invDirLen;
+        dirZ *= invDirLen;
+        // right = dir x up
+        double rightX = dirY * up.z - dirZ * up.y;
+        double rightY = dirZ * up.x - dirX * up.z;
+        double rightZ = dirX * up.y - dirY * up.x;
+        // normalize right
+        double invRightLen = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLen;
+        rightY *= invRightLen;
+        rightZ *= invRightLen;
+        // up = right x dir
+        double upX = rightY * dirZ - rightZ * dirY;
+        double upY = rightZ * dirX - rightX * dirZ;
+        double upZ = rightX * dirY - rightY * dirX;
+        // set matrix elements
+        m00 = rightX;
+        m01 = rightY;
+        m02 = rightZ;
+        m03 = 0.0;
+        m10 = upX;
+        m11 = upY;
+        m12 = upZ;
+        m13 = 0.0;
+        m20 = -dirX;
+        m21 = -dirY;
+        m22 = -dirZ;
+        m23 = 0.0;
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
+        m33 = 1.0;
+        return this;
     }
 
 }
