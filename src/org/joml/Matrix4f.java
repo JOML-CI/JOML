@@ -7251,8 +7251,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
-     * This can be used to get the position of the "camera" from a given <i>view</i> transformation matrix.
+     * Obtain the position that gets transformed to the origin by <code>this</code> orthogonal matrix.
+     * This can be used to get the position of the "camera" from a given orthogonal <i>view</i> transformation matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
