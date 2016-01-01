@@ -338,8 +338,8 @@ public class Matrix4fTest extends TestCase {
         Vector3f orig = new Vector3f(4, -6, 8);
         Vector3f v = new Vector3f();
         Vector3f w = new Vector3f();
-        m.transformPoint(orig, v);
-        invm.transformPoint(v, w);
+        m.transformPosition(orig, v);
+        invm.transformPosition(v, w);
         TestUtil.assertVector3fEquals(orig, w, 1E-6f);
         invm.invert4x3();
         TestUtil.assertMatrix4fEquals(m, invm, 1E-6f);

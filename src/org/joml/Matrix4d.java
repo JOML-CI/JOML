@@ -2798,16 +2798,16 @@ public class Matrix4d implements Externalizable {
      * <tt>w</tt> component of the transformed vector.
      * For perspective projection use {@link #transform(Vector4d)}.
      * <p>
-     * In order to store the result in another vector, use {@link #transformPoint(Vector3d, Vector3d)}.
+     * In order to store the result in another vector, use {@link #transformPosition(Vector3d, Vector3d)}.
      * 
-     * @see #transformPoint(Vector3d, Vector3d)
+     * @see #transformPosition(Vector3d, Vector3d)
      * @see #transform(Vector4d)
      * 
      * @param v
      *          the vector to transform and to hold the final result
      * @return v
      */
-    public Vector3d transformPoint(Vector3d v) {
+    public Vector3d transformPosition(Vector3d v) {
         v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
               m01 * v.x + m11 * v.y + m21 * v.z + m31,
               m02 * v.x + m12 * v.y + m22 * v.z + m32);
@@ -2824,9 +2824,9 @@ public class Matrix4d implements Externalizable {
      * <tt>w</tt> component of the transformed vector.
      * For perspective projection use {@link #transform(Vector4d, Vector4d)}.
      * <p>
-     * In order to store the result in the same vector, use {@link #transformPoint(Vector3d)}.
+     * In order to store the result in the same vector, use {@link #transformPosition(Vector3d)}.
      * 
-     * @see #transformPoint(Vector3d)
+     * @see #transformPosition(Vector3d)
      * @see #transform(Vector4d, Vector4d)
      * 
      * @param v
@@ -2835,7 +2835,7 @@ public class Matrix4d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3d transformPoint(Vector3d v, Vector3d dest) {
+    public Vector3d transformPosition(Vector3d v, Vector3d dest) {
         dest.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
                  m01 * v.x + m11 * v.y + m21 * v.z + m31,
                  m02 * v.x + m12 * v.y + m22 * v.z + m32);
@@ -7510,7 +7510,7 @@ public class Matrix4d implements Externalizable {
      * This method is equivalent to the following code:
      * <pre>
      * Matrix4d inv = new Matrix4d(this).invert();
-     * inv.transformPoint(origin.set(0, 0, 0));
+     * inv.transformPosition(origin.set(0, 0, 0));
      * </pre>
      * 
      * @param origin
