@@ -1143,7 +1143,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return dest 
+     * @return dest
      */
     public Matrix4f invert(Matrix4f dest) {
         float a = m00 * m11 - m01 * m10;
@@ -1187,7 +1187,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @see #invert4x3()
      * 
-     * @return this 
+     * @return this
      */
     public Matrix4f invert() {
         return invert(this);
@@ -1198,7 +1198,7 @@ public class Matrix4f implements Externalizable {
      * 
      * @param dest
      *          will hold the result
-     * @return dest 
+     * @return dest
      */
     public Matrix4f invert4x3(Matrix4f dest) {
         float s = determinant4x3();
@@ -1243,7 +1243,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Invert this matrix by assuming that its last row is equal to <tt>(0, 0, 0, 1)</tt>.
      * 
-     * @return this 
+     * @return this
      */
     public Matrix4f invert4x3() {
         return invert4x3(this);
@@ -1267,7 +1267,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Transpose only the upper left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
      * 
-     * @return this 
+     * @return this
      */
     public Matrix4f transpose3x3() {
         return transpose3x3(this);
@@ -1313,7 +1313,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Transpose this matrix.
      * 
-     * @return this 
+     * @return this
      */
     public Matrix4f transpose() {
         return transpose(this);
@@ -6191,7 +6191,7 @@ public class Matrix4f implements Externalizable {
      * reflection will be applied first!
      * 
      * @param orientation
-     *          the plane orientation
+     *          the plane orientation relative to an implied normal vector of <tt>(0, 0, 1)</tt>
      * @param point
      *          a point on the plane
      * @param dest
@@ -6797,7 +6797,7 @@ public class Matrix4f implements Externalizable {
         /*
          * This method works by first obtaining the frustum plane normals,
          * then building the cross product to obtain the corner rays,
-         * and finall bilinearly interpolating to obtain the desired direction.
+         * and finally bilinearly interpolating to obtain the desired direction.
          * The code below uses a condense form of doing all this making use 
          * of some mathematical identities to simplify the overall expression.
          */
@@ -6826,6 +6826,12 @@ public class Matrix4f implements Externalizable {
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
      * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).invert();
+     * inv.transformDirection(dir.set(0, 0, 1)).normalize();
+     * </pre>
+     * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
@@ -6846,6 +6852,12 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).invert();
+     * inv.transformDirection(dir.set(1, 0, 0)).normalize();
+     * </pre>
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -6868,6 +6880,12 @@ public class Matrix4f implements Externalizable {
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
      * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).invert();
+     * inv.transformDirection(dir.set(0, 1, 0)).normalize();
+     * </pre>
+     * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
      * @param dir
@@ -6880,6 +6898,35 @@ public class Matrix4f implements Externalizable {
         dir.z = m02 * m10 - m00 * m12;
         dir.normalize();
         return dir;
+    }
+
+    /**
+     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
+     * This can be used to get the position of the "camera" from a given <i>view</i> transformation matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).invert();
+     * inv.transformPoint(origin.set(0, 0, 0));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param origin
+     *          will hold the position transformed to the origin
+     * @return dir
+     */
+    public Vector3f origin(Vector3f origin) {
+        float a = m00 * m11 - m01 * m10;
+        float b = m00 * m12 - m02 * m10;
+        float d = m01 * m12 - m02 * m11;
+        float g = m20 * m31 - m21 * m30;
+        float h = m20 * m32 - m22 * m30;
+        float j = m21 * m32 - m22 * m31;
+        origin.x = -m10 * j + m11 * h - m12 * g;
+        origin.y =  m00 * j - m01 * h + m02 * g;
+        origin.z = -m30 * d + m31 * b - m32 * a;
+        return origin;
     }
 
     /**
@@ -7191,6 +7238,123 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4f planeTransform) {
         return shadow(lightX, lightY, lightZ, lightW, planeTransform, this);
+    }
+
+    /**
+     * Set this matrix to a cylindrical billboard transformation that rotates the local +Z axis of a given object with position <code>objPos</code> towards
+     * a target position at <code>targetPos</code> while constraining a cylindrical rotation around the given <code>up</code> vector.
+     * <p>
+     * This method can be used to create the complete model transformation for a given object, including the translation of the object to
+     * its position <code>objPos</code>.
+     * 
+     * @param objPos
+     *          the position of the object to rotate towards the camera
+     * @param targetPos
+     *          the position of the target (for example the camera) towards which to rotate the object
+     * @param up
+     *          the rotation axis (must be {@link Vector3f#normalize() normalized})
+     * @return this
+     */
+    public Matrix4f billboardCylindrical(Vector3f objPos, Vector3f targetPos, Vector3f up) {
+        // dir = objPos - targetPos
+        float dirX = objPos.x - targetPos.x;
+        float dirY = objPos.y - targetPos.y;
+        float dirZ = objPos.z - targetPos.z;
+        // right = dir x up
+        float rightX = dirY * up.z - dirZ * up.y;
+        float rightY = dirZ * up.x - dirX * up.z;
+        float rightZ = dirX * up.y - dirY * up.x;
+        // normalize right
+        float invRightLen = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLen;
+        rightY *= invRightLen;
+        rightZ *= invRightLen;
+        // recompute dir by constraining rotation around 'up'
+        // dir = up x right
+        dirX = up.y * rightZ - up.z * rightY;
+        dirY = up.z * rightX - up.x * rightZ;
+        dirZ = up.x * rightY - up.y * rightX;
+        // normalize dir
+        float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= invDirLen;
+        dirY *= invDirLen;
+        dirZ *= invDirLen;
+        // set matrix elements
+        m00 = rightX;
+        m01 = rightY;
+        m02 = rightZ;
+        m03 = 0.0f;
+        m10 = up.x;
+        m11 = up.y;
+        m12 = up.z;
+        m13 = 0.0f;
+        m20 = -dirX;
+        m21 = -dirY;
+        m22 = -dirZ;
+        m23 = 0.0f;
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a spherical billboard transformation that rotates the local +Z axis of a given object with position <code>objPos</code> towards
+     * a target position at <code>targetPos</code>.
+     * <p>
+     * This method can be used to create the complete model transformation for a given object, including the translation of the object to
+     * its position <code>objPos</code>.
+     * 
+     * @param objPos
+     *          the position of the object to rotate towards the camera
+     * @param targetPos
+     *          the position of the target (for example the camera) towards which to rotate the object
+     * @param up
+     *          the up axis used to orient the object
+     * @return this
+     */
+    public Matrix4f billboardSpherical(Vector3f objPos, Vector3f targetPos, Vector3f up) {
+        // dir = objPos - targetPos
+        float dirX = objPos.x - targetPos.x;
+        float dirY = objPos.y - targetPos.y;
+        float dirZ = objPos.z - targetPos.z;
+        // normalize dir
+        float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= invDirLen;
+        dirY *= invDirLen;
+        dirZ *= invDirLen;
+        // right = dir x up
+        float rightX = dirY * up.z - dirZ * up.y;
+        float rightY = dirZ * up.x - dirX * up.z;
+        float rightZ = dirX * up.y - dirY * up.x;
+        // normalize right
+        float invRightLen = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        rightX *= invRightLen;
+        rightY *= invRightLen;
+        rightZ *= invRightLen;
+        // up = right x dir
+        float upX = rightY * dirZ - rightZ * dirY;
+        float upY = rightZ * dirX - rightX * dirZ;
+        float upZ = rightX * dirY - rightY * dirX;
+        // set matrix elements
+        m00 = rightX;
+        m01 = rightY;
+        m02 = rightZ;
+        m03 = 0.0f;
+        m10 = upX;
+        m11 = upY;
+        m12 = upZ;
+        m13 = 0.0f;
+        m20 = -dirX;
+        m21 = -dirY;
+        m22 = -dirZ;
+        m23 = 0.0f;
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
+        m33 = 1.0f;
+        return this;
     }
 
 }
