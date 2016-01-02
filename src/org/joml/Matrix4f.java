@@ -7880,4 +7880,32 @@ public class Matrix4f implements Externalizable {
         return m03 == 0.0f && m13 == 0.0f && m23 == 0.0f && m33 == 1.0f;
     }
 
+    /**
+     * Exchange the values of <code>this</code> matrix with the given <code>other</code> matrix.
+     * 
+     * @param other
+     *          the other matrix to exchange the values with
+     * @return this
+     */
+    public Matrix4f swap(Matrix4f other) {
+        float tmp;
+        tmp = m00; m00 = other.m00; other.m00 = tmp;
+        tmp = m01; m01 = other.m01; other.m01 = tmp;
+        tmp = m02; m02 = other.m02; other.m02 = tmp;
+        tmp = m03; m03 = other.m03; other.m03 = tmp;
+        tmp = m10; m10 = other.m10; other.m10 = tmp;
+        tmp = m11; m11 = other.m11; other.m11 = tmp;
+        tmp = m12; m12 = other.m12; other.m12 = tmp;
+        tmp = m13; m13 = other.m13; other.m13 = tmp;
+        tmp = m20; m20 = other.m20; other.m20 = tmp;
+        tmp = m21; m21 = other.m21; other.m21 = tmp;
+        tmp = m22; m22 = other.m22; other.m22 = tmp;
+        tmp = m23; m23 = other.m23; other.m23 = tmp;
+        tmp = m30; m30 = other.m30; other.m30 = tmp;
+        tmp = m31; m31 = other.m31; other.m31 = tmp;
+        tmp = m32; m32 = other.m32; other.m32 = tmp;
+        tmp = m33; m33 = other.m33; other.m33 = tmp;
+        return this;
+    }
+
 }
