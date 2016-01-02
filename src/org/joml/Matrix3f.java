@@ -2232,6 +2232,78 @@ public class Matrix3f implements Externalizable {
         return dest;
     }
 
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).invert();
+     * inv.transform(dir.set(0, 0, 1)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3f positiveZ(Vector3f dir) {
+        dir.x = m10 * m21 - m11 * m20;
+        dir.y = m20 * m01 - m21 * m00;
+        dir.z = m00 * m11 - m01 * m10;
+        dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).invert();
+     * inv.transform(dir.set(1, 0, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3f positiveX(Vector3f dir) {
+        dir.x = m11 * m22 - m12 * m21;
+        dir.y = m02 * m21 - m01 * m22;
+        dir.z = m01 * m12 - m02 * m11;
+        dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).invert();
+     * inv.transform(dir.set(0, 1, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3f positiveY(Vector3f dir) {
+        dir.x = m12 * m20 - m10 * m22;
+        dir.y = m00 * m22 - m02 * m20;
+        dir.z = m02 * m10 - m00 * m12;
+        dir.normalize();
+        return dir;
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -2274,6 +2346,27 @@ public class Matrix3f implements Externalizable {
         if (Float.floatToIntBits(m22) != Float.floatToIntBits(other.m22))
             return false;
         return true;
+    }
+
+    /**
+     * Exchange the values of <code>this</code> matrix with the given <code>other</code> matrix.
+     * 
+     * @param other
+     *          the other matrix to exchange the values with
+     * @return this
+     */
+    public Matrix3f swap(Matrix3f other) {
+        float tmp;
+        tmp = m00; m00 = other.m00; other.m00 = tmp;
+        tmp = m01; m01 = other.m01; other.m01 = tmp;
+        tmp = m02; m02 = other.m02; other.m02 = tmp;
+        tmp = m10; m10 = other.m10; other.m10 = tmp;
+        tmp = m11; m11 = other.m11; other.m11 = tmp;
+        tmp = m12; m12 = other.m12; other.m12 = tmp;
+        tmp = m20; m20 = other.m20; other.m20 = tmp;
+        tmp = m21; m21 = other.m21; other.m21 = tmp;
+        tmp = m22; m22 = other.m22; other.m22 = tmp;
+        return this;
     }
 
 }
