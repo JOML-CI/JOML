@@ -35,6 +35,7 @@ import java.text.NumberFormat;
  *
  * @author RGreenlees
  * @author Kai Burjack
+ * @author Hans Uhlig
  */
 public class Vector2i implements Externalizable {
 

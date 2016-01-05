@@ -36,6 +36,7 @@ import java.text.NumberFormat;
  *
  * @author Richard Greenlees
  * @author Kai Burjack
+ * @author Hans Uhlig
  */
 public class Vector3i implements Externalizable {
 
