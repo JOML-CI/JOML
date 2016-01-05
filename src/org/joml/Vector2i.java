@@ -61,7 +61,8 @@ public class Vector2i implements Externalizable {
      * Create a new {@link Vector2i} and initialize both of its components with
      * the given value.
      *
-     * @param s the value of both components
+     * @param s
+     *          the value of both components
      */
     public Vector2i(int s) {
         this.x = s;
@@ -69,11 +70,12 @@ public class Vector2i implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector2i} and initialize its components to the given
-     * values.
+     * Create a new {@link Vector2i} and initialize its components to the given values.
      *
-     * @param x the x component
-     * @param y the y component
+     * @param x
+     *          the x component
+     * @param y
+     *          the y component
      */
     public Vector2i(int x, int y) {
         this.x = x;
@@ -84,7 +86,8 @@ public class Vector2i implements Externalizable {
      * Create a new {@link Vector2i} and initialize its components to the one of
      * the given vector.
      *
-     * @param v the {@link Vector2i} to copy the values from
+     * @param v
+     *          the {@link Vector2i} to copy the values from
      */
     public Vector2i(Vector2i v) {
         x = v.x;
@@ -102,8 +105,10 @@ public class Vector2i implements Externalizable {
      * read, use {@link #Vector2i(int, ByteBuffer)}, taking the absolute
      * position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y</tt> order
      * @see #Vector2i(int, ByteBuffer)
+     *
+     * @param buffer
+     *          values will be read in <tt>x, y</tt> order
      */
     public Vector2i(ByteBuffer buffer) {
         this(buffer.position(), buffer);
@@ -116,8 +121,10 @@ public class Vector2i implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y</tt> order
      */
     public Vector2i(int index, ByteBuffer buffer) {
         x = buffer.getInt(index + 0);
@@ -135,8 +142,10 @@ public class Vector2i implements Externalizable {
      * read, use {@link #Vector2i(int, IntBuffer)}, taking the absolute position
      * as parameter.
      *
-     * @param buffer values will be read in <tt>x, y</tt> order
      * @see #Vector2i(int, IntBuffer)
+     *
+     * @param buffer
+     *          values will be read in <tt>x, y</tt> order
      */
     public Vector2i(IntBuffer buffer) {
         this(buffer.position(), buffer);
@@ -149,8 +158,10 @@ public class Vector2i implements Externalizable {
      * <p>
      * This method will not increment the position of the given IntBuffer.
      *
-     * @param index the absolute position into the IntBuffer
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param index
+     *          the absolute position into the IntBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y</tt> order
      */
     public Vector2i(int index, IntBuffer buffer) {
         x = buffer.get(index);
@@ -160,7 +171,8 @@ public class Vector2i implements Externalizable {
     /**
      * Set the x and y components to the supplied value.
      *
-     * @param s scalar value of both components
+     * @param s
+     *          scalar value of both components
      * @return this
      */
     public Vector2i set(int s) {
@@ -172,8 +184,10 @@ public class Vector2i implements Externalizable {
     /**
      * Set the x and y components to the supplied values.
      *
-     * @param x the x component
-     * @param y the y component
+     * @param x
+     *          the x component
+     * @param y
+     *          the y component
      * @return this
      */
     public Vector2i set(int x, int y) {
@@ -185,7 +199,8 @@ public class Vector2i implements Externalizable {
     /**
      * Set this {@link Vector2i} to the values of v.
      *
-     * @param v the vector to copy from
+     * @param v
+     *          the vector to copy from
      * @return this
      */
     public Vector2i set(Vector2i v) {
@@ -200,7 +215,8 @@ public class Vector2i implements Externalizable {
      * Note that due to the given vector <code>v</code> storing the components
      * in double-precision, there is the possibility to lose precision.
      *
-     * @param v the vector to copy from
+     * @param v
+     *          the vector to copy from
      * @return this
      */
     public Vector2i set(Vector2d v) {
@@ -219,9 +235,11 @@ public class Vector2i implements Externalizable {
      * read, use {@link #set(int, ByteBuffer)}, taking the absolute position as
      * parameter.
      *
-     * @param buffer values will be read in <tt>x, y</tt> order
-     * @return this
      * @see #set(int, ByteBuffer)
+     *
+     * @param buffer
+     *          values will be read in <tt>x, y</tt> order
+     * @return this
      */
     public Vector2i set(ByteBuffer buffer) {
         return set(buffer.position(), buffer);
@@ -233,8 +251,10 @@ public class Vector2i implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y</tt> order
      * @return this
      */
     public Vector2i set(int index, ByteBuffer buffer) {
@@ -253,9 +273,11 @@ public class Vector2i implements Externalizable {
      * read, use {@link #set(int, IntBuffer)}, taking the absolute position as
      * parameter.
      *
-     * @param buffer values will be read in <tt>x, y</tt> order
-     * @return this
      * @see #set(int, IntBuffer)
+     *
+     * @param buffer
+     *          values will be read in <tt>x, y</tt> order
+     * @return this
      */
     public Vector2i set(IntBuffer buffer) {
         return set(buffer.position(), buffer);
@@ -267,8 +289,10 @@ public class Vector2i implements Externalizable {
      * <p>
      * This method will not increment the position of the given IntBuffer.
      *
-     * @param index the absolute position into the IntBuffer
-     * @param buffer values will be read in <tt>x, y</tt> order
+     * @param index
+     *          the absolute position into the IntBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y</tt> order
      * @return this
      */
     public Vector2i set(int index, IntBuffer buffer) {
@@ -287,10 +311,11 @@ public class Vector2i implements Externalizable {
      * stored, use {@link #get(int, ByteBuffer)}, taking the absolute position
      * as parameter.
      *
-     * @param buffer will receive the values of this vector in <tt>x, y</tt>
-     * order
-     * @return the passed in buffer
      * @see #get(int, ByteBuffer)
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
@@ -302,9 +327,10 @@ public class Vector2i implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index the absolute position into the ByteBuffer
-     * @param buffer will receive the values of this vector in <tt>x, y</tt>
-     * order
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y</tt> order
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
@@ -323,10 +349,11 @@ public class Vector2i implements Externalizable {
      * stored, use {@link #get(int, IntBuffer)}, taking the absolute position as
      * parameter.
      *
-     * @param buffer will receive the values of this vector in <tt>x, y</tt>
-     * order
-     * @return the passed in buffer
      * @see #get(int, IntBuffer)
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
      */
     public IntBuffer get(IntBuffer buffer) {
         return get(buffer.position(), buffer);
@@ -338,9 +365,10 @@ public class Vector2i implements Externalizable {
      * <p>
      * This method will not increment the position of the given IntBuffer.
      *
-     * @param index the absolute position into the IntBuffer
-     * @param buffer will receive the values of this vector in <tt>x, y</tt>
-     * order
+     * @param index
+     *          the absolute position into the IntBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y</tt> order
      * @return the passed in buffer
      */
     public IntBuffer get(int index, IntBuffer buffer) {
@@ -353,9 +381,12 @@ public class Vector2i implements Externalizable {
      * Subtract <code>b</code> from <code>a</code> and store the result in
      * <code>dest</code>.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @param dest will hold the result of <code>a - b</code>
+     * @param a
+     *          the first operand
+     * @param b
+     *          the second operand
+     * @param dest
+     *          will hold the result of <code>a - b</code>
      */
     public static void sub(Vector2i a, Vector2i b, Vector2i dest) {
         dest.x = a.x - b.x;
@@ -365,7 +396,8 @@ public class Vector2i implements Externalizable {
     /**
      * Subtract <code>v</code> from this vector.
      *
-     * @param v the vector to subtract from this
+     * @param v
+     *          the vector to subtract from this
      * @return this
      */
     public Vector2i sub(Vector2i v) {
@@ -377,8 +409,10 @@ public class Vector2i implements Externalizable {
     /**
      * Subtract <tt>(x, y)</tt> from this vector.
      *
-     * @param x the x component to subtract
-     * @param y the y component to subtract
+     * @param x
+     *          the x component to subtract
+     * @param y
+     *          the y component to subtract
      * @return this
      */
     public Vector2i sub(int x, int y) {
@@ -408,7 +442,8 @@ public class Vector2i implements Externalizable {
     /**
      * Return the distance between this Vector and <code>v</code>.
      *
-     * @param v the other vector
+     * @param v
+     *          the other vector
      * @return the distance
      */
     public double distance(Vector2i v) {
@@ -418,8 +453,10 @@ public class Vector2i implements Externalizable {
     /**
      * Return the distance between <code>this</code> vector and <tt>(x, y)</tt>.
      *
-     * @param x the x component of the other vector
-     * @param y the y component of the other vector
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
      * @return the euclidean distance
      */
     public double distance(int x, int y) {
@@ -429,7 +466,8 @@ public class Vector2i implements Externalizable {
     /**
      * Return the square of the distance between this vector and <code>v</code>.
      *
-     * @param v the other vector
+     * @param v
+     *          the other vector
      * @return the squared of the distance
      */
     public long distanceSquared(Vector2i v) {
@@ -442,8 +480,10 @@ public class Vector2i implements Externalizable {
      * Return the square of the distance between <code>this</code> vector and
      * <tt>(x, y)</tt>.
      *
-     * @param x the x component of the other vector
-     * @param y the y component of the other vector
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
      * @return the square of the distance
      */
     public long distanceSquared(int x, int y) {
@@ -455,7 +495,8 @@ public class Vector2i implements Externalizable {
     /**
      * Add <code>v</code> to this vector.
      *
-     * @param v the vector to add
+     * @param v
+     *          the vector to add
      * @return this
      */
     public Vector2i add(Vector2i v) {
@@ -468,8 +509,10 @@ public class Vector2i implements Externalizable {
      * Add <code>a</code> to <code>b</code> and store the result in
      * <code>dest</code>.
      *
-     * @param a the first addend
-     * @param b the second addend
+     * @param a
+     *          the first addend
+     * @param b
+     *          the second addend
      * @param dest will hold the result
      */
     public static void add(Vector2i a, Vector2i b, Vector2i dest) {
@@ -512,7 +555,8 @@ public class Vector2i implements Externalizable {
     /**
      * Negate this vector and store the result in <code>dest</code>.
      *
-     * @param dest will hold the result
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector2i negate(Vector2i dest) {
@@ -566,8 +610,8 @@ public class Vector2i implements Externalizable {
      * Return a string representation of this vector by formatting the vector
      * components with the given {@link NumberFormat}.
      *
-     * @param formatter the {@link NumberFormat} used to format the vector
-     * components with
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {

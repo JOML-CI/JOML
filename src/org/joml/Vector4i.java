@@ -72,7 +72,8 @@ public class Vector4i implements Externalizable {
     /**
      * Create a new {@link Vector4i} with the same values as <code>v</code>.
      *
-     * @param v the {@link Vector4i} to copy the values from
+     * @param v
+     *          the {@link Vector4i} to copy the values from
      */
     public Vector4i(Vector4i v) {
         this.x = v.x;
@@ -85,8 +86,10 @@ public class Vector4i implements Externalizable {
      * Create a new {@link Vector4i} with the first three components from the
      * given <code>v</code> and the given <code>w</code>.
      *
-     * @param v the {@link Vector3i}
-     * @param w the w component
+     * @param v
+     *          the {@link Vector3i}
+     * @param w
+     *          the w component
      */
     public Vector4i(Vector3i v, int w) {
         this.x = v.x;
@@ -99,9 +102,12 @@ public class Vector4i implements Externalizable {
      * Create a new {@link Vector4i} with the first two components from the
      * given <code>v</code> and the given <code>z</code>, and <code>w</code>.
      *
-     * @param v the {@link Vector2i}
-     * @param z the z component
-     * @param w the w component
+     * @param v
+     *          the {@link Vector2i}
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
      */
     public Vector4i(Vector2i v, int z, int w) {
         this.x = v.x;
@@ -114,7 +120,8 @@ public class Vector4i implements Externalizable {
      * Create a new {@link Vector4i} and initialize all four components with the
      * given value.
      *
-     * @param s scalar value of all four components
+     * @param s
+     *          scalar value of all four components
      */
     public Vector4i(int s) {
         this.x = s;
@@ -126,10 +133,14 @@ public class Vector4i implements Externalizable {
     /**
      * Create a new {@link Vector4i} with the given component values.
      *
-     * @param x the x component
-     * @param y the y component
-     * @param z the z component
-     * @param w the w component
+     * @param x
+     *          the x component
+     * @param y
+     *          the y component
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
      */
     public Vector4i(int x, int y, int z, int w) {
         this.x = x;
@@ -149,8 +160,10 @@ public class Vector4i implements Externalizable {
      * read, use {@link #Vector4i(int, ByteBuffer)}, taking the absolute
      * position as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
      * @see #Vector4i(int, ByteBuffer)
+     * 
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4i(ByteBuffer buffer) {
         this(buffer.position(), buffer);
@@ -163,8 +176,10 @@ public class Vector4i implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4i(int index, ByteBuffer buffer) {
         x = buffer.getInt(index + 0);
@@ -184,8 +199,10 @@ public class Vector4i implements Externalizable {
      * read, use {@link #Vector4i(int, IntBuffer)}, taking the absolute position
      * as parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
      * @see #Vector4i(int, IntBuffer)
+     *
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4i(IntBuffer buffer) {
         this(buffer.position(), buffer);
@@ -198,8 +215,10 @@ public class Vector4i implements Externalizable {
      * <p>
      * This method will not increment the position of the given IntBuffer.
      *
-     * @param index the absolute position into the IntBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index
+     *          the absolute position into the IntBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4i(int index, IntBuffer buffer) {
         x = buffer.get(index + 0);
@@ -211,7 +230,8 @@ public class Vector4i implements Externalizable {
     /**
      * Set this {@link Vector4i} to the values of the given <code>v</code>.
      *
-     * @param v the vector whose values will be copied into this
+     * @param v
+     *          the vector whose values will be copied into this
      * @return this
      */
     public Vector4i set(Vector4i v) {
@@ -226,8 +246,10 @@ public class Vector4i implements Externalizable {
      * Set the first three components of this to the components of
      * <code>v</code> and the last component to <code>w</code>.
      *
-     * @param v the {@link Vector3i} to copy
-     * @param w the w component
+     * @param v
+     *          the {@link Vector3i} to copy
+     * @param w
+     *          the w component
      * @return this
      */
     public Vector4i set(Vector3i v, int w) {
@@ -243,9 +265,12 @@ public class Vector4i implements Externalizable {
      * <code>v</code> and last two components to the given <code>z</code>, and
      * <code>w</code>.
      *
-     * @param v the {@link Vector2f}
-     * @param z the z component
-     * @param w the w component
+     * @param v
+     *          the {@link Vector2i}
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
      * @return this
      */
     public Vector4i set(Vector2i v, int z, int w) {
@@ -259,7 +284,8 @@ public class Vector4i implements Externalizable {
     /**
      * Set the x, y, z, and w components to the supplied value.
      *
-     * @param s the value of all four components
+     * @param s
+     *          the value of all four components
      * @return this
      */
     public Vector4i set(int s) {
@@ -273,10 +299,14 @@ public class Vector4i implements Externalizable {
     /**
      * Set the x, y, z, and w components to the supplied values.
      *
-     * @param x the x component
-     * @param y the y component
-     * @param z the z component
-     * @param w the w component
+     * @param x
+     *          the x component
+     * @param y
+     *          the y component
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
      * @return this
      */
     public Vector4i set(int x, int y, int z, int w) {
@@ -297,9 +327,11 @@ public class Vector4i implements Externalizable {
      * read, use {@link #set(int, ByteBuffer)}, taking the absolute position as
      * parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
-     * @return this
      * @see #set(int, ByteBuffer)
+     *
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
+     * @return this
      */
     public Vector4i set(ByteBuffer buffer) {
         return set(buffer.position(), buffer);
@@ -311,8 +343,10 @@ public class Vector4i implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index the absolute position into the ByteBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      * @return this
      */
     public Vector4i set(int index, ByteBuffer buffer) {
@@ -333,9 +367,11 @@ public class Vector4i implements Externalizable {
      * read, use {@link #set(int, IntBuffer)}, taking the absolute position as
      * parameter.
      *
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
-     * @return this
      * @see #set(int, IntBuffer)
+     *
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
+     * @return this
      */
     public Vector4i set(IntBuffer buffer) {
         return set(buffer.position(), buffer);
@@ -347,8 +383,10 @@ public class Vector4i implements Externalizable {
      * <p>
      * This method will not increment the position of the given IntBuffer.
      *
-     * @param index the absolute position into the IntBuffer
-     * @param buffer values will be read in <tt>x, y, z, w</tt> order
+     * @param index
+     *          the absolute position into the IntBuffer
+     * @param buffer
+     *          values will be read in <tt>x, y, z, w</tt> order
      * @return this
      */
     public Vector4i set(int index, IntBuffer buffer) {
@@ -369,10 +407,11 @@ public class Vector4i implements Externalizable {
      * stored, use {@link #get(int, IntBuffer)}, taking the absolute position as
      * parameter.
      *
-     * @param buffer will receive the values of this vector in <tt>x, y, z,
-     * w</tt> order
-     * @return the passed in buffer
      * @see #get(int, IntBuffer)
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return the passed in buffer
      */
     public IntBuffer get(IntBuffer buffer) {
         return get(buffer.position(), buffer);
@@ -384,9 +423,10 @@ public class Vector4i implements Externalizable {
      * <p>
      * This method will not increment the position of the given IntBuffer.
      *
-     * @param index the absolute position into the IntBuffer
-     * @param buffer will receive the values of this vector in <tt>x, y, z,
-     * w</tt> order
+     * @param index
+     *          the absolute position into the IntBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
      * @return the passed in buffer
      */
     public IntBuffer get(int index, IntBuffer buffer) {
@@ -407,10 +447,11 @@ public class Vector4i implements Externalizable {
      * stored, use {@link #get(int, ByteBuffer)}, taking the absolute position
      * as parameter.
      *
-     * @param buffer will receive the values of this vector in <tt>x, y, z,
-     * w</tt> order
-     * @return the passed in buffer
      * @see #get(int, ByteBuffer)
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
+     * @return the passed in buffer
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
@@ -422,9 +463,10 @@ public class Vector4i implements Externalizable {
      * <p>
      * This method will not increment the position of the given ByteBuffer.
      *
-     * @param index the absolute position into the ByteBuffer
-     * @param buffer will receive the values of this vector in <tt>x, y, z,
-     * w</tt> order
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
@@ -438,7 +480,8 @@ public class Vector4i implements Externalizable {
     /**
      * Subtract the supplied vector from this one.
      *
-     * @param v the vector to subtract
+     * @param v
+     *          the vector to subtract
      * @return this
      */
     public Vector4i sub(Vector4i v) {
@@ -452,10 +495,14 @@ public class Vector4i implements Externalizable {
     /**
      * Subtract <tt>(x, y, z, w)</tt> from this.
      *
-     * @param x the x component to subtract
-     * @param y the y component to subtract
-     * @param z the z component to subtract
-     * @param w the w component to subtract
+     * @param x
+     *          the x component to subtract
+     * @param y
+     *          the y component to subtract
+     * @param z
+     *          the z component to subtract
+     * @param w
+     *          the w component to subtract
      * @return this
      */
     public Vector4i sub(int x, int y, int z, int w) {
@@ -470,8 +517,10 @@ public class Vector4i implements Externalizable {
      * Subtract the supplied vector from this one and store the result in
      * <code>dest</code>.
      *
-     * @param v the vector to subtract from <code>this</code>
-     * @param dest will hold the result
+     * @param v
+     *          the vector to subtract from <code>this</code>
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector4i sub(Vector4i v, Vector4i dest) {
@@ -486,11 +535,16 @@ public class Vector4i implements Externalizable {
      * Subtract <tt>(x, y, z, w)</tt> from this and store the result in
      * <code>dest</code>.
      *
-     * @param x the x component to subtract
-     * @param y the y component to subtract
-     * @param z the z component to subtract
-     * @param w the w component to subtract
-     * @param dest will hold the result
+     * @param x
+     *          the x component to subtract
+     * @param y
+     *          the y component to subtract
+     * @param z
+     *          the z component to subtract
+     * @param w
+     *          the w component to subtract
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector4i sub(int x, int y, int z, int w, Vector4i dest) {
@@ -504,7 +558,8 @@ public class Vector4i implements Externalizable {
     /**
      * Add the supplied vector to this one.
      *
-     * @param v the vector to add
+     * @param v
+     *          the vector to add
      * @return this
      */
     public Vector4i add(Vector4i v) {
@@ -519,8 +574,10 @@ public class Vector4i implements Externalizable {
      * Add the supplied vector to this one and store the result in
      * <code>dest</code>.
      *
-     * @param v the vector to add
-     * @param dest will hold the result
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector4i add(Vector4i v, Vector4i dest) {
@@ -534,10 +591,14 @@ public class Vector4i implements Externalizable {
     /**
      * Increment the components of this vector by the given values.
      *
-     * @param x the x component to add
-     * @param y the y component to add
-     * @param z the z component to add
-     * @param w the w component to add
+     * @param x
+     *          the x component to add
+     * @param y
+     *          the y component to add
+     * @param z
+     *          the z component to add
+     * @param w
+     *          the w component to add
      * @return this
      */
     public Vector4i add(int x, int y, int z, int w) {
@@ -552,11 +613,16 @@ public class Vector4i implements Externalizable {
      * Increment the components of this vector by the given values and store the
      * result in <code>dest</code>.
      *
-     * @param x the x component to add
-     * @param y the y component to add
-     * @param z the z component to add
-     * @param w the w component to add
-     * @param dest will hold the result
+     * @param x
+     *          the x component to add
+     * @param y
+     *          the y component to add
+     * @param z
+     *          the z component to add
+     * @param w
+     *          the w component to add
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector4i add(int x, int y, int z, int w, Vector4i dest) {
@@ -570,7 +636,8 @@ public class Vector4i implements Externalizable {
     /**
      * Multiply this Vector4i component-wise by another Vector4i.
      *
-     * @param v the other vector
+     * @param v
+     *          the other vector
      * @return this
      */
     public Vector4i mul(Vector4i v) {
@@ -585,8 +652,10 @@ public class Vector4i implements Externalizable {
      * Multiply this Vector4i component-wise by another Vector4i and store the
      * result in <code>dest</code>.
      *
-     * @param v the other vector
-     * @param dest will hold the result
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector4i mul(Vector4i v, Vector4i dest) {
@@ -600,7 +669,8 @@ public class Vector4i implements Externalizable {
     /**
      * Divide this Vector4i component-wise by another Vector4i.
      *
-     * @param v the vector to divide by
+     * @param v
+     *          the vector to divide by
      * @return this
      */
     public Vector4i div(Vector4i v) {
@@ -615,8 +685,10 @@ public class Vector4i implements Externalizable {
      * Divide this Vector4i component-wise by another Vector4i and store the
      * result in <code>dest</code>.
      *
-     * @param v the vector to divide by
-     * @param dest will hold the result
+     * @param v
+     *          the vector to divide by
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector4i div(Vector4i v, Vector4i dest) {
@@ -631,7 +703,8 @@ public class Vector4i implements Externalizable {
      * Multiply all components of this {@link Vector4i} by the given scalar
      * value.
      *
-     * @param scalar the scalar to multiply by
+     * @param scalar
+     *          the scalar to multiply by
      * @return this
      */
     public Vector4i mul(float scalar) {
@@ -646,8 +719,10 @@ public class Vector4i implements Externalizable {
      * Multiply all components of this {@link Vector4i} by the given scalar
      * value and store the result in <code>dest</code>.
      *
-     * @param scalar the scalar to multiply by
-     * @param dest will hold the result
+     * @param scalar
+     *          the scalar to multiply by
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector4i mul(float scalar, Vector4i dest) {
@@ -661,7 +736,8 @@ public class Vector4i implements Externalizable {
     /**
      * Divide all components of this {@link Vector4i} by the given scalar value.
      *
-     * @param scalar the scalar to divide by
+     * @param scalar
+     *          the scalar to divide by
      * @return this
      */
     public Vector4i div(int scalar) {
@@ -676,8 +752,10 @@ public class Vector4i implements Externalizable {
      * Divide all components of this {@link Vector4i} by the given scalar value
      * and store the result in <code>dest</code>.
      *
-     * @param scalar the scalar to divide by
-     * @param dest will hold the result
+     * @param scalar
+     *          the scalar to divide by
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector4i div(float scalar, Vector4i dest) {
@@ -709,7 +787,8 @@ public class Vector4i implements Externalizable {
     /**
      * Return the distance between this Vector and <code>v</code>.
      *
-     * @param v the other vector
+     * @param v
+     *          the other vector
      * @return the distance
      */
     public double distance(Vector4i v) {
@@ -717,12 +796,16 @@ public class Vector4i implements Externalizable {
     }
 
     /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y, *
-     * z)</tt>.
+     * Return the distance between <code>this</code> vector and <tt>(x, y, z, w)</tt>.
      *
-     * @param x the x component of the other vector
-     * @param y the y component of the other vector
-     * @param z the z component of the other vector
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @param w
+     *          the w component of the other vector
      * @return the euclidean distance
      */
     public double distance(int x, int y, int z, int w) {
@@ -732,7 +815,8 @@ public class Vector4i implements Externalizable {
     /**
      * Return the square of the distance between this vector and <code>v</code>.
      *
-     * @param v the other vector
+     * @param v
+     *          the other vector
      * @return the squared of the distance
      */
     public int distanceSquared(Vector4i v) {
@@ -745,11 +829,16 @@ public class Vector4i implements Externalizable {
 
     /**
      * Return the square of the distance between <code>this</code> vector and
-     * <tt>(x, y, z)</tt>.
+     * <tt>(x, y, z, w)</tt>.
      *
-     * @param x the x component of the other vector
-     * @param y the y component of the other vector
-     * @param z the z component of the other vector
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @param w
+     *          the w component of the other vector
      * @return the square of the distance
      */
     public int distanceSquared(int x, int y, int z, int w) {
@@ -761,10 +850,10 @@ public class Vector4i implements Externalizable {
     }
 
     /**
-     * Compute the dot product (inner product) of this vector and <code>v</code>
-     * .
+     * Compute the dot product (inner product) of this vector and <code>v</code>.
      *
-     * @param v the other vector
+     * @param v
+     *          the other vector
      * @return the dot product
      */
     public int dot(Vector4i v) {
@@ -800,7 +889,8 @@ public class Vector4i implements Externalizable {
     /**
      * Negate this vector and store the result in <code>dest</code>.
      *
-     * @param dest will hold the result
+     * @param dest
+     *          will hold the result
      * @return dest
      */
     public Vector4i negate(Vector4i dest) {
@@ -828,8 +918,8 @@ public class Vector4i implements Externalizable {
      * Return a string representation of this vector by formatting the vector
      * components with the given {@link NumberFormat}.
      *
-     * @param formatter the {@link NumberFormat} used to format the vector
-     * components with
+     * @param formatter
+     *          the {@link NumberFormat} used to format the vector components with
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
@@ -854,7 +944,8 @@ public class Vector4i implements Externalizable {
      * Set the components of this vector to be the component-wise minimum of
      * this and the other vector.
      *
-     * @param v the other vector
+     * @param v
+     *          the other vector
      * @return this
      */
     public Vector4i min(Vector4i v) {
@@ -869,7 +960,8 @@ public class Vector4i implements Externalizable {
      * Set the components of this vector to be the component-wise maximum of
      * this and the other vector.
      *
-     * @param v the other vector
+     * @param v
+     *          the other vector
      * @return this
      */
     public Vector4i max(Vector4i v) {
