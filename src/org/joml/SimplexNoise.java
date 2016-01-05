@@ -27,7 +27,8 @@ package org.joml;
  * <p>
  * It was originally authored by Stefan Gustavson.
  * <p>
- * The original implementation can be seen here: <a href="http://staffwww.itn.liu.se/~stegu/simplexnoise/SimplexNoise.java">http://http://staffwww.itn.liu.se/</a>.
+ * The original implementation can be seen here: <a
+ * href="http://staffwww.itn.liu.se/~stegu/simplexnoise/SimplexNoise.java">http://http://staffwww.itn.liu.se/</a>.
  */
 public class SimplexNoise {
     // Kai Burjack:
@@ -102,8 +103,16 @@ public class SimplexNoise {
         return g.x * x + g.y * y + g.z * z + g.w * w;
     }
 
-    // 2D simplex noise
-    public static float snoise(float x, float y) {
+    /**
+     * Compute 2D simplex noise for the given input vector <tt>(x, y)</tt>.
+     * 
+     * @param x
+     *          the x coordinate
+     * @param y
+     *          the y coordinate
+     * @return the noise value
+     */
+    public static float noise(float x, float y) {
         float n0, n1, n2; // Noise contributions from the three corners
         // Skew the input space to determine which simplex cell we're in
         float s = (x + y) * F2; // Hairy factor for 2D
@@ -165,8 +174,18 @@ public class SimplexNoise {
         return 70.0f * (n0 + n1 + n2);
     }
 
-    // 3D simplex noise
-    public static float snoise(float x, float y, float z) {
+    /**
+     * Compute 3D simplex noise for the given input vector <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *          the x coordinate
+     * @param y
+     *          the y coordinate
+     * @param z
+     *          the z coordinate
+     * @return the noise value
+     */
+    public static float noise(float x, float y, float z) {
         float n0, n1, n2, n3; // Noise contributions from the four corners
         // Skew the input space to determine which simplex cell we're in
         float s = (x + y + z) * F3; // Very nice and simple skew factor for 3D
@@ -290,8 +309,20 @@ public class SimplexNoise {
         return 32.0f * (n0 + n1 + n2 + n3);
     }
 
-    // 4D simplex noise, better simplex rank ordering method 2012-03-09
-    public static float snoise(float x, float y, float z, float w) {
+    /**
+     * Compute 4D simplex noise for the given input vector <tt>(x, y, z, w)</tt>.
+     * 
+     * @param x
+     *          the x coordinate
+     * @param y
+     *          the y coordinate
+     * @param z
+     *          the z coordinate
+     * @param w
+     *          the w coordinate
+     * @return the noise value
+     */
+    public static float noise(float x, float y, float z, float w) {
         float n0, n1, n2, n3, n4; // Noise contributions from the five corners
         // Skew the (x,y,z,w) space to determine which cell of 24 simplices we're in
         float s = (x + y + z + w) * F4; // Factor for 4D skewing
