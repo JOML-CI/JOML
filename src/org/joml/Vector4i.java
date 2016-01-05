@@ -45,15 +45,15 @@ public class Vector4i implements Externalizable {
     /**
      * The x component of the vector.
      */
-    public int x = 0;
+    public int x;
     /**
      * The y component of the vector.
      */
-    public int y = 0;
+    public int y;
     /**
      * The z component of the vector.
      */
-    public int z = 0;
+    public int z;
     /**
      * The w component of the vector.
      */
@@ -470,10 +470,10 @@ public class Vector4i implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putFloat(index, x);
-        buffer.putFloat(index + 4, y);
-        buffer.putFloat(index + 8, z);
-        buffer.putFloat(index + 12, w);
+        buffer.putInt(index, x);
+        buffer.putInt(index + 4, y);
+        buffer.putInt(index + 8, z);
+        buffer.putInt(index + 12, w);
         return buffer;
     }
 
