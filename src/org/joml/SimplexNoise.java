@@ -105,12 +105,14 @@ public class SimplexNoise {
 
     /**
      * Compute 2D simplex noise for the given input vector <tt>(x, y)</tt>.
+     * <p>
+     * The result is in the range <tt>[-1..+1]</tt>.
      * 
      * @param x
      *          the x coordinate
      * @param y
      *          the y coordinate
-     * @return the noise value
+     * @return the noise value (within <tt>[-1..+1]</tt>)
      */
     public static float noise(float x, float y) {
         float n0, n1, n2; // Noise contributions from the three corners
@@ -176,6 +178,8 @@ public class SimplexNoise {
 
     /**
      * Compute 3D simplex noise for the given input vector <tt>(x, y, z)</tt>.
+     * <p>
+     * The result is in the range <tt>[-1..+1]</tt>.
      * 
      * @param x
      *          the x coordinate
@@ -183,7 +187,7 @@ public class SimplexNoise {
      *          the y coordinate
      * @param z
      *          the z coordinate
-     * @return the noise value
+     * @return the noise value (within <tt>[-1..+1]</tt>)
      */
     public static float noise(float x, float y, float z) {
         float n0, n1, n2, n3; // Noise contributions from the four corners
@@ -311,6 +315,8 @@ public class SimplexNoise {
 
     /**
      * Compute 4D simplex noise for the given input vector <tt>(x, y, z, w)</tt>.
+     * <p>
+     * The result is in the range <tt>[-1..+1]</tt>.
      * 
      * @param x
      *          the x coordinate
@@ -320,7 +326,7 @@ public class SimplexNoise {
      *          the z coordinate
      * @param w
      *          the w coordinate
-     * @return the noise value
+     * @return the noise value (within <tt>[-1..+1]</tt>)
      */
     public static float noise(float x, float y, float z, float w) {
         float n0, n1, n2, n3, n4; // Noise contributions from the five corners
