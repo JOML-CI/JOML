@@ -28,9 +28,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 /**
  * Contains the definition of a Vector comprising 3 ints and associated
@@ -657,14 +655,11 @@ public class Vector3i implements Externalizable {
 
     /**
      * Return a string representation of this vector.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt> 0.000E0;-</tt>".
      *
      * @return the string representation
      */
     public String toString() {
-        NumberFormat formatter = NumberFormat.getIntegerInstance(Locale.ENGLISH);
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
+        return "(" + x + " " + y + " " + z + ")";
     }
 
     /**

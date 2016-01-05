@@ -28,7 +28,6 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
@@ -903,15 +902,11 @@ public class Vector4i implements Externalizable {
 
     /**
      * Return a string representation of this vector.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with
-     * the format string "<tt> 0.000E0;-</tt>".
      *
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0;-"); //$NON-NLS-1$
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
+        return "(" + x + " " + y + " " + z + " " + w + ")";
     }
 
     /**

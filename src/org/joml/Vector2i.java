@@ -28,9 +28,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 /**
  * Represents a 2D vector with single-precision.
@@ -595,15 +593,11 @@ public class Vector2i implements Externalizable {
 
     /**
      * Return a string representation of this vector.
-     * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with
-     * the format string "<tt> 0.000E0;-</tt>".
      *
      * @return the string representation
      */
     public String toString() {
-        NumberFormat formatter = NumberFormat.getIntegerInstance(Locale.ENGLISH);
-        return toString(formatter);
+        return "(" + x + " " + y + ")";
     }
 
     /**
