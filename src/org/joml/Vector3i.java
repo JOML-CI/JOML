@@ -660,7 +660,7 @@ public class Vector3i implements Externalizable {
      * @return the string representation
      */
     public String toString() {
-        return "(" + x + " " + y + " " + z + ")";
+        return "(" + x + " " + y + " " + z + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
     }
 
     /**

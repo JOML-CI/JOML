@@ -598,7 +598,7 @@ public class Vector2i implements Externalizable {
      * @return the string representation
      */
     public String toString() {
-        return "(" + x + " " + y + ")";
+        return "(" + x + " " + y + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
     /**
@@ -610,7 +610,7 @@ public class Vector2i implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + " " + formatter.format(y) + ")";
+        return "(" + formatter.format(x) + " " + formatter.format(y) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
 }
