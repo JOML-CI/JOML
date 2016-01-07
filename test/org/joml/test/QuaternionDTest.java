@@ -10,7 +10,7 @@ import org.joml.*;
  */
 public class QuaternionDTest extends TestCase {
     
-    public void testMulQuaternionDQuaternionDQuaternionD() {
+    public static void testMulQuaternionDQuaternionDQuaternionD() {
         // Multiplication with the identity quaternion should change nothing
         Quaterniond testQuat = new Quaterniond(1, 23.3, -7.57, 2.1);
         Quaterniond identityQuat = new Quaterniond().identity();
@@ -31,49 +31,49 @@ public class QuaternionDTest extends TestCase {
         assertTrue(TestUtil.quatEqual(resultQuat, wantedResultQuat, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE));
     }
 
-    public void testRotationXYZ() {
+    public static void testRotationXYZ() {
         Quaterniond v = new Quaterniond().rotationXYZ(0.12f, 0.521f, 0.951f);
         Matrix4f m = new Matrix4f().rotateXYZ(0.12f, 0.521f, 0.951f);
         Matrix4f n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotationZYX() {
+    public static void testRotationZYX() {
         Quaterniond v = new Quaterniond().rotationZYX(0.12f, 0.521f, 0.951f);
         Matrix4f m = new Matrix4f().rotateZYX(0.12f, 0.521f, 0.951f);
         Matrix4f n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotationYXZ() {
+    public static void testRotationYXZ() {
         Quaterniond v = new Quaterniond().rotationYXZ(0.12f, 0.521f, 0.951f);
         Matrix4f m = new Matrix4f().rotationYXZ(0.12f, 0.521f, 0.951f);
         Matrix4f n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotateXYZ() {
+    public static void testRotateXYZ() {
         Quaterniond v = new Quaterniond().rotateXYZ(0.12f, 0.521f, 0.951f);
         Matrix4f m = new Matrix4f().rotateXYZ(0.12f, 0.521f, 0.951f);
         Matrix4f n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotateZYX() {
+    public static void testRotateZYX() {
         Quaterniond v = new Quaterniond().rotateZYX(0.12f, 0.521f, 0.951f);
         Matrix4f m = new Matrix4f().rotateZYX(0.12f, 0.521f, 0.951f);
         Matrix4f n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotateYXZ() {
+    public static void testRotateYXZ() {
         Quaterniond v = new Quaterniond().rotateYXZ(0.12f, 0.521f, 0.951f);
         Matrix4f m = new Matrix4f().rotateYXZ(0.12f, 0.521f, 0.951f);
         Matrix4f n = new Matrix4f().set(v);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotateToReturnsDestination() {
+    public static void testRotateToReturnsDestination() {
         Quaterniond rotation = new Quaterniond();
         Quaterniond destination = new Quaterniond();
         Quaterniond result = rotation.rotateTo(0, 1, 0, 0, 1, 0, destination);
