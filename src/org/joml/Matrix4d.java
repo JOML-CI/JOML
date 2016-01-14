@@ -1176,27 +1176,89 @@ public class Matrix4d implements Externalizable {
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      * 
+     * @see #set(double[])
+     * 
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix4d set(double m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m02 = m[off+2];
+        m03 = m[off+3];
+        m10 = m[off+4];
+        m11 = m[off+5];
+        m12 = m[off+6];
+        m13 = m[off+7];
+        m20 = m[off+8];
+        m21 = m[off+9];
+        m22 = m[off+10];
+        m23 = m[off+11];
+        m30 = m[off+12];
+        m31 = m[off+13];
+        m32 = m[off+14];
+        m33 = m[off+15];
+        return this;
+    }
+
+    /**
+     * Set the values in the matrix using a double array that contains the matrix elements in column-major order.
+     * <p>
+     * The results will look like this:<br><br>
+     * 
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     * 
+     * @see #set(double[], int)
+     * 
      * @param m
      *          the array to read the matrix values from
      * @return this
      */
     public Matrix4d set(double m[]) {
-        m00 = m[0];
-        m01 = m[1];
-        m02 = m[2];
-        m03 = m[3];
-        m10 = m[4];
-        m11 = m[5];
-        m12 = m[6];
-        m13 = m[7];
-        m20 = m[8];
-        m21 = m[9];
-        m22 = m[10];
-        m23 = m[11];
-        m30 = m[12];
-        m31 = m[13];
-        m32 = m[14];
-        m33 = m[15];
+        return set(m, 0);
+    }
+
+    /**
+     * Set the values in the matrix using a float array that contains the matrix elements in column-major order.
+     * <p>
+     * The results will look like this:<br><br>
+     * 
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     * 
+     * @see #set(float[])
+     * 
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix4d set(float m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m02 = m[off+2];
+        m03 = m[off+3];
+        m10 = m[off+4];
+        m11 = m[off+5];
+        m12 = m[off+6];
+        m13 = m[off+7];
+        m20 = m[off+8];
+        m21 = m[off+9];
+        m22 = m[off+10];
+        m23 = m[off+11];
+        m30 = m[off+12];
+        m31 = m[off+13];
+        m32 = m[off+14];
+        m33 = m[off+15];
         return this;
     }
 
@@ -1210,28 +1272,14 @@ public class Matrix4d implements Externalizable {
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      * 
+     * @see #set(float[], int)
+     * 
      * @param m
      *          the array to read the matrix values from
      * @return this
      */
     public Matrix4d set(float m[]) {
-        m00 = m[0];
-        m01 = m[1];
-        m02 = m[2];
-        m03 = m[3];
-        m10 = m[4];
-        m11 = m[5];
-        m12 = m[6];
-        m13 = m[7];
-        m20 = m[8];
-        m21 = m[9];
-        m22 = m[10];
-        m23 = m[11];
-        m30 = m[12];
-        m31 = m[13];
-        m32 = m[14];
-        m33 = m[15];
-        return this;
+        return set(m, 0);
     }
 
     /**
