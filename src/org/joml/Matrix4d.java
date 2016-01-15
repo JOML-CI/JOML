@@ -8092,7 +8092,7 @@ public class Matrix4d implements Externalizable {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Matrix4d))
             return false;
         Matrix4d other = (Matrix4d) obj;
         if (Double.doubleToLongBits(m00) != Double.doubleToLongBits(other.m00))

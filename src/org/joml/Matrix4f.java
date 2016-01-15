@@ -7774,7 +7774,7 @@ public class Matrix4f implements Externalizable {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Matrix4f))
             return false;
         Matrix4f other = (Matrix4f) obj;
         if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))
