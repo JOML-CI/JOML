@@ -7939,7 +7939,7 @@ public class Matrix4d implements Externalizable {
      * its position <code>objPos</code>.
      * 
      * @param objPos
-     *          the position of the object to rotate towards the camera
+     *          the position of the object to rotate towards <code>targetPos</code>
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
@@ -7998,7 +7998,7 @@ public class Matrix4d implements Externalizable {
      * its position <code>objPos</code>.
      * 
      * @param objPos
-     *          the position of the object to rotate towards the camera
+     *          the position of the object to rotate towards <code>targetPos</code>
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
@@ -8056,7 +8056,7 @@ public class Matrix4d implements Externalizable {
      * its position <code>objPos</code>.
      * 
      * @param objPos
-     *          the position of the object to rotate towards the camera
+     *          the position of the object to rotate towards the <code>targetPos</code>
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @return this
