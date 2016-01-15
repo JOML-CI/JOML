@@ -8048,6 +8048,55 @@ public class Matrix4d implements Externalizable {
         return this;
     }
 
+    /**
+     * Set this matrix to a spherical billboard transformation that rotates the local +Z axis of a given object with position <code>objPos</code> towards
+     * a target position at <code>targetPos</code> using a shortest arc rotation by not preserving any <i>up</i> vector of the object.
+     * <p>
+     * This method can be used to create the complete model transformation for a given object, including the translation of the object to
+     * its position <code>objPos</code>.
+     * 
+     * @param objPos
+     *          the position of the object to rotate towards the camera
+     * @param targetPos
+     *          the position of the target (for example the camera) towards which to rotate the object
+     * @param up
+     *          the up axis used to orient the object
+     * @return this
+     */
+    public Matrix4d billboardSphericalArc(Vector3f objPos, Vector3f targetPos) {
+        double toDirX = targetPos.x - objPos.x;
+        double toDirY = targetPos.y - objPos.y;
+        double toDirZ = targetPos.z - objPos.z;
+        double x = -toDirY;
+        double y = toDirX;
+        double w = Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ) + toDirZ;
+        double invNorm = 1.0 / Math.sqrt(x * x + y * y + w * w);
+        x *= invNorm;
+        y *= invNorm;
+        w *= invNorm;
+        double q00 = 2.0 * x * x;
+        double q11 = 2.0 * y * y;
+        double q01 = 2.0 * x * y;
+        double q03 = 2.0 * x * w;
+        double q13 = 2.0 * y * w;
+        m00 = 1.0 - q11;
+        m01 = q01;
+        m02 = -q13;
+        m03 = 0.0;
+        m10 = q01;
+        m11 = 1.0 - q00;
+        m12 = q03;
+        m13 = 0.0;
+        m20 = q13;
+        m21 = -q03;
+        m22 = 1.0 - q11 - q00;
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
+        m33 = 1.0;
+        return this;
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
