@@ -7758,8 +7758,6 @@ public class Matrix4f implements Externalizable {
      *          the position of the object to rotate towards the camera
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
-     * @param up
-     *          the up axis used to orient the object
      * @return this
      */
     public Matrix4f billboardSphericalArc(Vector3f objPos, Vector3f targetPos) {
