@@ -8088,6 +8088,7 @@ public class Matrix4d implements Externalizable {
         m20 = q13;
         m21 = -q03;
         m22 = 1.0 - q11 - q00;
+        m23 = 0.0;
         m30 = objPos.x;
         m31 = objPos.y;
         m32 = objPos.z;
