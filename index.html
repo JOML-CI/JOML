@@ -14,7 +14,6 @@
       <h1 class="project-name">JOML</h1>
       <h2 class="project-tagline">A Java-based math library for OpenGL rendering calculations</h2>
       <a href="https://github.com/JOML-CI/JOML" class="btn">View on GitHub</a>
-      <a href="apidocs/index.html" class="btn">View JavaDocs</a>
       <a href="https://github.com/JOML-CI/JOML/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/JOML-CI/JOML/tarball/master" class="btn">Download .tar.gz</a>
     </section>
@@ -33,7 +32,7 @@
 <p>All operations in JOML are designed to modify the object on which the operation is invoked. This helps in completely eliminating any object allocations, which the client could otherwise not control and which impact the GC performance resulting in small hickups.
 The client is responsible to allocate the needed working objects.</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">Vector3f</span> v <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>);
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Vector3f</span> v <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>);
 <span class="pl-smi">Vector3f</span> a <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>);
 <span class="pl-c">// v = v + a</span>
 v<span class="pl-k">.</span>add(a);
@@ -49,20 +48,20 @@ a<span class="pl-k">.</span>normalize();</pre></div>
 The following example builds a transformation matrix which effectively first scales all axes by 0.5
 and then translates x by 2.0:</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">Vector3f</span> v <span class="pl-k">=</span> <span class="pl-c1">...</span>;
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Vector3f</span> v <span class="pl-k">=</span> <span class="pl-c1">...</span>;
 <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()<span class="pl-k">.</span>translate(<span class="pl-c1">2.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>)
-              .scale(<span class="pl-c1">0.5f</span>);
-              .transform(v);
+              .scale(<span class="pl-c1">0.5f</span>)
+              .transformPoint(v);
 <span class="pl-c">// v is now transformed by the specified transformation</span></pre></div>
 
 <p>Common transformation idioms, such as rotating about a given axis using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 4, 4) about the x-axis and uses (0, 3, 4) as the rotation center:</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">Vector3f</span> center <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">0.0f</span>, <span class="pl-c1">3.0f</span>, <span class="pl-c1">4.0f</span>);
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Vector3f</span> center <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">0.0f</span>, <span class="pl-c1">3.0f</span>, <span class="pl-c1">4.0f</span>);
 <span class="pl-smi">Vector3f</span> pointToRotate <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">0.0f</span>, <span class="pl-c1">4.0f</span>, <span class="pl-c1">4.0f</span>);
 <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()<span class="pl-k">.</span>translate(center)
               .rotate((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">90.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>)
               .translate(center<span class="pl-k">.</span>negate())
-              .transform(pointToRotate);</pre></div>
+              .transformPoint(pointToRotate);</pre></div>
 
 <p>The vector <em>pointToRotate</em> will now represent (0, 3, 5).</p>
 
@@ -70,17 +69,17 @@ and then translates x by 2.0:</p>
 <a id="post-multiplication" class="anchor" href="#post-multiplication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Post-multiplication</h2>
 
 <p>All transformation operations in the matrix and quaternion classes act in the same way as OpenGL and GLU by post-multiplying the operation's result to the object on which they are invoked. This allows to chain multiple transformations in the same way as with OpenGL's legacy matrix stack operations, and allows to decompose the resulting effective matrix as a decomposition of multiple matrix multiplications.
-One such common decomposition are the <em>projection</em> and <em>modelview</em> matrices, written as: <code>P * MV</code>. The <em>modelview</em> matrix of course can be further decomposed into individual matrix multiplications, as fas as this seems necessary.</p>
+One such common decomposition are the <em>projection</em> and <em>modelview</em> matrices, written as: <code>P * MV</code>. The <em>modelview</em> matrix of course can be further decomposed into individual matrix multiplications, as far as this seems necessary.</p>
 
 <p>When invoking transformation methods in JOML's matrix classes, a convenient way now is to think of Java's <em>dot</em> operator as a matrix multiplication. If multiple matrix operations are chained after one another, as shown in the above example, each individual operation/method creates its matrix which is then post-multiplied to the matrices built before.</p>
 
 <p>In addition to the post-multiplying methods, there are still ways to set a matrix or quaternion to a given transformation regardless of what that matrix or quaternion was before:</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
 <span class="pl-smi">Vector3f</span> point <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">1.0f</span>, <span class="pl-c1">2.0f</span>, <span class="pl-c1">3.0f</span>);
 <span class="pl-smi">Vector3f</span> offset <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>);
 <span class="pl-c1">...</span>
-m<span class="pl-k">.</span>translation(offset)<span class="pl-k">.</span>transform(point);</pre></div>
+m<span class="pl-k">.</span>translation(offset)<span class="pl-k">.</span>transformPoint(point);</pre></div>
 
 <p>In the above example, the matrix <em>m</em> is being set to a translation, instead of applying the translation to it.
 These methods are useful when the same matrix is being used in a sequence of consecutive operations or repeatedly in a loop without having to set it to the identity each time.</p>
@@ -91,7 +90,7 @@ These methods are useful when the same matrix is being used in a sequence of con
 <p>In the same way that you can concatenate multiple simple affine transformations, you can use the methods perspective(), frustum() and ortho() to specify a perspective or orthogonal projection and lookAt() to create an orthonormal transformation that mimics a camera <em>looking</em> at a given point.
 Those methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()
      .perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
      .lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">10.0f</span>,
              <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
@@ -106,7 +105,7 @@ Those methods resemble the ones known from GLU and act in the same way (i.e. the
 <p>Usually, instance methods operate on the object (matrix, vector, quaternion) on which they are invoked by writing the computation result back into that object. Most of the methods however also allow to specify another destination object to write the result into. This is useful if you do not want to overwrite the original object with the computation result.
 This can be useful for computing the view-projection matrix and its inverse in one go:</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">Matrix4f</span> viewProj <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> viewProj <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
 <span class="pl-smi">Matrix4f</span> invViewProj <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
 viewProj<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
         .lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">3.0f</span>,
@@ -122,19 +121,18 @@ viewProj<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>)
 
 <p>JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
 <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
               .lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">10.0f</span>,
                       <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
-                      <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>)
-              .get(fb);
+                      <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>)<span class="pl-k">.</span>get(fb);
 glUniformMatrix4fv(mat4Location, <span class="pl-c1">false</span>, fb);</pre></div>
 
 <p>The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method <a href="http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv%28int,%20boolean,%20java.nio.FloatBuffer%29"><em>glUniformMatrix4fv</em></a>.</p>
 
 <p>If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call <a href="http://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf%28java.nio.FloatBuffer%29"><em>glLoadMatrixf()</em></a> provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
 <span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
 m<span class="pl-k">.</span>setPerspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)<span class="pl-k">.</span>get(fb);
 glMatrixMode(<span class="pl-c1">GL_PROJECTION</span>);
@@ -151,19 +149,18 @@ glLoadMatrixf(fb);</pre></div>
 
 <p>JOML can be used together with JOGL to build a transformation matrix and set it as a uniform mat4 in a shader (for example as a replacement of com.jogamp.opengl.util.glsl.fixedfunc.FixedFuncUtil and com.jogamp.opengl.util.PMVMatrix to emulate the fixed pipeline). For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by JOGL when calling into OpenGL:</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">Buffers</span><span class="pl-k">.</span>newDirectFloatBuffer(<span class="pl-c1">16</span>);
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">Buffers</span><span class="pl-k">.</span>newDirectFloatBuffer(<span class="pl-c1">16</span>);
 <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
               .lookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">10.0f</span>,
                       <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
-                      <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>)
-              .get(fb);
+                      <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>)<span class="pl-k">.</span>get(fb);
 gl<span class="pl-k">.</span>glUniformMatrix4fv(mat4Location, <span class="pl-c1">1</span>, <span class="pl-c1">false</span>, fb);</pre></div>
 
 <p>The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the JOGL 2 method <a href="http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/GL2ES2.html#glUniformMatrix4fv(int,%20int,%20boolean,%20java.nio.FloatBuffer)"><em>glUniformMatrix4fv</em></a>.</p>
 
 <p>If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call <a href="http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/fixedfunc/GLMatrixFunc.html#glLoadMatrixf(java.nio.FloatBuffer)"><em>glLoadMatrixf()</em></a> provided by JOGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">Buffers</span><span class="pl-k">.</span>newDirectFloatBuffer(<span class="pl-c1">16</span>);
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">Buffers</span><span class="pl-k">.</span>newDirectFloatBuffer(<span class="pl-c1">16</span>);
 <span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
 m<span class="pl-k">.</span>setPerspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)<span class="pl-k">.</span>get(fb);
 gl<span class="pl-k">.</span>glMatrixMode(<span class="pl-smi">GLMatrixFunc</span><span class="pl-c1"><span class="pl-k">.</span>GL_PROJECTION</span>);
@@ -183,7 +180,7 @@ gl<span class="pl-k">.</span>glLoadMatrixf(fb);</pre></div>
 
 <p>Since you have to create a matrix or a vector at some point in order to make any computations with JOML on them, you are advised to do so once at the initialization of your program. Those objects will then be the <em>working memory/objects</em> for JOML. These working objects can then be reused in the hot path of your application without incurring any additional allocations. The following example shows a typical usecase with LWJGL:</p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">FloatBuffer</span> fb;
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">FloatBuffer</span> fb;
 <span class="pl-smi">Matrix4f</span> m;
 
 <span class="pl-k">void</span> init() {
@@ -223,7 +220,7 @@ This allows you to use all of the legacy OpenGL matrix stack operations even in 
 but without the otherwise necessary JNI calls into the graphics driver.
 <em>Note that JOML does not interface in any way with the OpenGL API. It merely provides matrix and vector arithmetics.</em></p>
 
-<div class="highlight highlight-Java"><pre><span class="pl-smi">MatrixStack</span> s <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">MatrixStack</span>(<span class="pl-c1">2</span>);
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">MatrixStack</span> s <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">MatrixStack</span>(<span class="pl-c1">2</span>);
 <span class="pl-smi">Matrix4f</span> result <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
 s<span class="pl-k">.</span>translate(<span class="pl-c1">2.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>);
 s<span class="pl-k">.</span>pushMatrix();
@@ -236,6 +233,16 @@ s<span class="pl-k">.</span>popMatrix();
 s<span class="pl-k">.</span>rotate((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>);
 s<span class="pl-k">.</span>get(result);
 <span class="pl-c">// do something with result</span></pre></div>
+
+<h2>
+<a id="projects-using-joml" class="anchor" href="#projects-using-joml" aria-hidden="true"><span class="octicon octicon-link"></span></a>Projects using JOML</h2>
+
+<p>This section names real-world projects using JOML. All owners of the projects listed here were asked for permission before.</p>
+
+<ul>
+<li>
+<a href="http://www.weshallwake.com/2015/09/we-shall-wake-post-demo-7-briefing.html">We Shall Wake</a> – Post-World Accelerated Action.</li>
+</ul>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/JOML-CI/JOML">JOML</a> is maintained by <a href="https://github.com/JOML-CI">JOML-CI</a>.</span>
