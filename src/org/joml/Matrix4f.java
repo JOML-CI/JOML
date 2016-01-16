@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015-2016 Richard Greenlees
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -7288,7 +7288,7 @@ public class Matrix4f implements Externalizable {
      * its position <code>objPos</code>.
      * 
      * @param objPos
-     *          the position of the object to rotate towards the camera
+     *          the position of the object to rotate towards <code>targetPos</code>
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
@@ -7347,7 +7347,7 @@ public class Matrix4f implements Externalizable {
      * its position <code>objPos</code>.
      * 
      * @param objPos
-     *          the position of the object to rotate towards the camera
+     *          the position of the object to rotate towards <code>targetPos</code>
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
@@ -7389,6 +7389,54 @@ public class Matrix4f implements Externalizable {
         m20 = -dirX;
         m21 = -dirY;
         m22 = -dirZ;
+        m23 = 0.0f;
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a spherical billboard transformation that rotates the local +Z axis of a given object with position <code>objPos</code> towards
+     * a target position at <code>targetPos</code> using a shortest arc rotation by not preserving any <i>up</i> vector of the object.
+     * <p>
+     * This method can be used to create the complete model transformation for a given object, including the translation of the object to
+     * its position <code>objPos</code>.
+     * 
+     * @param objPos
+     *          the position of the object to rotate towards <code>targetPos</code>
+     * @param targetPos
+     *          the position of the target (for example the camera) towards which to rotate the object
+     * @return this
+     */
+    public Matrix4f billboardSphericalArc(Vector3f objPos, Vector3f targetPos) {
+        float toDirX = targetPos.x - objPos.x;
+        float toDirY = targetPos.y - objPos.y;
+        float toDirZ = targetPos.z - objPos.z;
+        float x = -toDirY;
+        float y = toDirX;
+        float w = (float) Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ) + toDirZ;
+        float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + w * w));
+        x *= invNorm;
+        y *= invNorm;
+        w *= invNorm;
+        float q00 = 2.0f * x * x;
+        float q11 = 2.0f * y * y;
+        float q01 = 2.0f * x * y;
+        float q03 = 2.0f * x * w;
+        float q13 = 2.0f * y * w;
+        m00 = 1.0f - q11;
+        m01 = q01;
+        m02 = -q13;
+        m03 = 0.0f;
+        m10 = q01;
+        m11 = 1.0f - q00;
+        m12 = q03;
+        m13 = 0.0f;
+        m20 = q13;
+        m21 = -q03;
+        m22 = 1.0f - q11 - q00;
         m23 = 0.0f;
         m30 = objPos.x;
         m31 = objPos.y;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015-2016 Richard Greenlees
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -266,6 +266,7 @@ public class Quaternionf implements Externalizable {
         dest.m20 = q02 + q13;
         dest.m21 = q12 - q03;
         dest.m22 = 1.0f - q11 - q00;
+        dest.m23 = 0.0f;
         dest.m30 = 0.0f;
         dest.m31 = 0.0f;
         dest.m32 = 0.0f;
