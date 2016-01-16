@@ -7345,6 +7345,11 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method can be used to create the complete model transformation for a given object, including the translation of the object to
      * its position <code>objPos</code>.
+     * <p>
+     * If preserving an <i>up</i> vector is not necessary when rotating the +Z axis, then a shortest arc rotation can be obtained 
+     * using {@link #billboardSpherical(Vector3f, Vector3f)}.
+     * 
+     * @see #billboardSpherical(Vector3f, Vector3f)
      * 
      * @param objPos
      *          the position of the object to rotate towards <code>targetPos</code>
@@ -7403,6 +7408,11 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method can be used to create the complete model transformation for a given object, including the translation of the object to
      * its position <code>objPos</code>.
+     * <p>
+     * In order to specify an <i>up</i> vector which needs to be maintained when rotating the +Z axis of the object,
+     * then use {@link #billboardSpherical(Vector3f, Vector3f, Vector3f)}.
+     * 
+     * @see #billboardSpherical(Vector3f, Vector3f, Vector3f)
      * 
      * @param objPos
      *          the position of the object to rotate towards <code>targetPos</code>
@@ -7410,7 +7420,7 @@ public class Matrix4f implements Externalizable {
      *          the position of the target (for example the camera) towards which to rotate the object
      * @return this
      */
-    public Matrix4f billboardSphericalArc(Vector3f objPos, Vector3f targetPos) {
+    public Matrix4f billboardSpherical(Vector3f objPos, Vector3f targetPos) {
         float toDirX = targetPos.x - objPos.x;
         float toDirY = targetPos.y - objPos.y;
         float toDirZ = targetPos.z - objPos.z;
