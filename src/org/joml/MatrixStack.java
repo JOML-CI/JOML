@@ -52,6 +52,7 @@ public class MatrixStack extends Matrix4f {
      * 
      * @param stackSize
      *            the size of the stack. This must be at least 1, in which case the {@link MatrixStack} simply only consists of <code>this</code>
+     *            {@link Matrix4f}
      */
     public MatrixStack(int stackSize) {
         if (stackSize < 1) {
@@ -65,7 +66,7 @@ public class MatrixStack extends Matrix4f {
     }
 
     /**
-     * Set the stack cursor to zero and set the current/bottom matrix to {@link #identity() identity}.
+     * Set the stack pointer to zero and set the current/bottom matrix to {@link #identity() identity}.
      * 
      * @return this
      */

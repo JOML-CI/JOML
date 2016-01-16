@@ -48,7 +48,7 @@ public class MatrixStackd extends Matrix4d {
     /**
      * Create a new {@link MatrixStackd} of the given size.
      * <p>
-     * The stack cursor is at zero and the current matrix is set to identity.
+     * Initially the stack pointer is at zero and the current matrix is set to identity.
      * 
      * @param stackSize
      *            the size of the stack. This must be at least 1, in which case the {@link MatrixStackd} simply only consists of <code>this</code>
@@ -66,7 +66,7 @@ public class MatrixStackd extends Matrix4d {
     }
 
     /**
-     * Set the stack cursor to zero and set the current/bottom matrix to {@link #identity() identity}.
+     * Set the stack pointer to zero and set the current/bottom matrix to {@link #identity() identity}.
      * 
      * @return this
      */
