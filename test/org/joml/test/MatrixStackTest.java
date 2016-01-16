@@ -29,6 +29,7 @@ public class MatrixStackTest extends TestCase {
             m.pushMatrix();
             fail();
         } catch (IllegalStateException e) {
+            // Must reach here!
         }
     }
 
@@ -40,6 +41,7 @@ public class MatrixStackTest extends TestCase {
             m.popMatrix();
             fail();
         } catch (IllegalStateException e) {
+            // Must reach here!
         }
     }
 
