@@ -25,13 +25,13 @@ package org.joml;
 /**
  * A stack of many {@link Matrix4f} instances. This resembles the matrix stack known from legacy OpenGL.
  * <p>
- * This {@link MatrixStack} class inherits from {@link Matrix4f}, so the current/top matrix is always the {@link MatrixStack}/{@link Matrix4f} itself. This
- * affects all operations in {@link Matrix4f} that take another {@link Matrix4f} as parameter. If a {@link MatrixStack} is used as argument to those methods,
+ * This {@link MatrixStackf} class inherits from {@link Matrix4f}, so the current/top matrix is always the {@link MatrixStackf}/{@link Matrix4f} itself. This
+ * affects all operations in {@link Matrix4f} that take another {@link Matrix4f} as parameter. If a {@link MatrixStackf} is used as argument to those methods,
  * the effective argument will always be the <i>current</i> matrix of the matrix stack.
  * 
  * @author Kai Burjack
  */
-public class MatrixStack extends Matrix4f {
+public class MatrixStackf extends Matrix4f {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,15 +46,15 @@ public class MatrixStack extends Matrix4f {
     private int curr;
 
     /**
-     * Create a new {@link MatrixStack} of the given size.
+     * Create a new {@link MatrixStackf} of the given size.
      * <p>
      * Initially the stack pointer is at zero and the current matrix is set to identity.
      * 
      * @param stackSize
-     *            the size of the stack. This must be at least 1, in which case the {@link MatrixStack} simply only consists of <code>this</code>
+     *            the size of the stack. This must be at least 1, in which case the {@link MatrixStackf} simply only consists of <code>this</code>
      *            {@link Matrix4f}
      */
-    public MatrixStack(int stackSize) {
+    public MatrixStackf(int stackSize) {
         if (stackSize < 1) {
             throw new IllegalArgumentException("stackSize must be >= 1"); //$NON-NLS-1$
         }
@@ -70,7 +70,7 @@ public class MatrixStack extends Matrix4f {
      * 
      * @return this
      */
-    public MatrixStack clear() {
+    public MatrixStackf clear() {
         curr = 0;
         identity();
         return this;
@@ -81,7 +81,7 @@ public class MatrixStack extends Matrix4f {
      * 
      * @return this
      */
-    public MatrixStack pushMatrix() {
+    public MatrixStackf pushMatrix() {
         if (curr == mats.length) {
             throw new IllegalStateException("max stack size of " + (curr + 1) + " reached"); //$NON-NLS-1$ //$NON-NLS-2$
         }
@@ -96,7 +96,7 @@ public class MatrixStack extends Matrix4f {
      * 
      * @return this
      */
-    public MatrixStack popMatrix() {
+    public MatrixStackf popMatrix() {
         if (curr == 0) {
             throw new IllegalStateException("already at the buttom of the stack"); //$NON-NLS-1$
         }

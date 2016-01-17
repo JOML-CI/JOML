@@ -3,18 +3,18 @@ package org.joml.test;
 import junit.framework.TestCase;
 
 import org.joml.Matrix4f;
-import org.joml.MatrixStack;
+import org.joml.MatrixStackf;
 
 /**
- * Tests for the {@link MatrixStack} class.
+ * Tests for the {@link MatrixStackf} class.
  * 
  * @author Kai Burjack
  */
-public class MatrixStackTest extends TestCase {
+public class MatrixStackfTest extends TestCase {
 
     public static void testPushPop() {
         Matrix4f identity = new Matrix4f();
-        MatrixStack m = new MatrixStack(2);
+        MatrixStackf m = new MatrixStackf(2);
         m.pushMatrix();
         m.perspective(1, 2, 3, 4);
         assertFalse(identity.equals(m));
@@ -24,7 +24,7 @@ public class MatrixStackTest extends TestCase {
 
     public static void testPushTooFar() {
         try {
-            MatrixStack m = new MatrixStack(2);
+            MatrixStackf m = new MatrixStackf(2);
             m.pushMatrix();
             m.pushMatrix();
             fail();
@@ -35,7 +35,7 @@ public class MatrixStackTest extends TestCase {
 
     public static void testPopTooFar() {
         try {
-            MatrixStack m = new MatrixStack(2);
+            MatrixStackf m = new MatrixStackf(2);
             m.pushMatrix();
             m.popMatrix();
             m.popMatrix();
