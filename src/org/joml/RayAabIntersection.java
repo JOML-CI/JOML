@@ -60,9 +60,26 @@ public class RayAabIntersection {
     }
 
     /**
-     * Uses a tableswitch to dispatch to the correct intersection method.
+     * Intersect the ray stored in this {@link RayAabIntersection} with the given axis-aligned box,
+     * given via its minimum corner <tt>(minX, minY, minZ)</tt> and its maximum corner <tt>(maxX, maxY, maxZ)</tt>.
+     * <p>
+     * This implementation uses a tableswitch to dispatch to the correct intersection method.
+     * 
+     * @param minX
+     *          the x coordinate of the minimum corner
+     * @param minY
+     *          the y coordinate of the minimum corner
+     * @param minZ
+     *          the z coordinate of the minimum corner
+     * @param maxX
+     *          the x coordinate of the maximum corner
+     * @param maxY
+     *          the y coordinate of the maximum corner
+     * @param maxZ
+     *          the z coordinate of the maximum corner
+     * @return <code>true</code> if the ray intersects with the given axis-aligned box; <code>false</code> otherwise
      */
-    public boolean intersectSwitch(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    public boolean intersect(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
         // tableswitch with dense and consecutive cases (will be a simple jump based on the switch argument
         switch (category) {
         case 0: // 0b000000: // MMM
