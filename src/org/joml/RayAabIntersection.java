@@ -55,9 +55,7 @@ public class RayAabIntersection {
      * @param dirZ
      *          the z coordinate of the direction
      */
-    public RayAabIntersection(
-            float originX, float originY, float originZ,
-            float dirX, float dirY, float dirZ) {
+    public RayAabIntersection(float originX, float originY, float originZ, float dirX, float dirY, float dirZ) {
         set(originX, originY, originZ, dirX, dirY, dirZ);
     }
 
@@ -78,9 +76,7 @@ public class RayAabIntersection {
      * @param dirZ
      *          the z coordinate of the direction
      */
-    public void set(
-            float originX, float originY, float originZ,
-            float dirX, float dirY, float dirZ) {
+    public void set(float originX, float originY, float originZ, float dirX, float dirY, float dirZ) {
         this.originX = originX;
         this.originY = originY;
         this.originZ = originZ;
@@ -95,7 +91,7 @@ public class RayAabIntersection {
     }
 
     /**
-     * Precompute the values necessary for the ray slip algorithm.
+     * Precompute the values necessary for the ray slope algorithm.
      */
     private void precomputeSlope() {
         float invDirX = 1.0f / dirX;
