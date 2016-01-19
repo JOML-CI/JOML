@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.joml</groupId>
-	<artifactId>joml</artifactId>
+	<artifactId>joml-fastmath</artifactId>
 	<version>1.6.9-SNAPSHOT</version>
 	<name>JOML</name>
-	<description>Java OpenGL Math Library</description>
+	<description>Java OpenGL Math Library - Fastmath</description>
 	<inceptionYear>2015</inceptionYear>
 	<url>http://joml.org</url>
 	<organization>
