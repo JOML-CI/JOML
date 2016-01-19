@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015-2016 Richard Greenlees
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -641,10 +641,9 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
-     * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
      * <p>
-     * This method can be used to speed up matrix multiplication if the <code>right</code> matrix only represents affine transformations, such as
-     * translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -661,10 +660,9 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
-     * This method assumes that the last row of <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
      * <p>
-     * This method can be used to speed up matrix multiplication if the <code>right</code> matrix only represents affine transformations, such as
-     * translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -699,10 +697,10 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
-     * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
      * <p>
-     * This method can be used to speed up matrix multiplication if both <code>this</code> and the <code>right</code> matrix only represent affine transformations,
-     * such as translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that <code>this</code> matrix and the given <code>right</code> matrix both represent an {@link #isAffine() affine} transformation
+     * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrices only represent affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
      * <p>
@@ -721,10 +719,10 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
-     * This method assumes that the last row of both <code>this</code> and <code>right</code> is equal to <tt>(0, 0, 0, 1)</tt>.
      * <p>
-     * This method can be used to speed up matrix multiplication if both <code>this</code> and the <code>right</code> matrix only represent affine transformations,
-     * such as translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that <code>this</code> matrix and the given <code>right</code> matrix both represent an {@link #isAffine() affine} transformation
+     * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrices only represent affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
      * <p>
@@ -1254,7 +1252,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Return the determinant of this matrix.
      * <p>
-     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
      * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #determinant4x3()} can be used instead of this method.
      * 
      * @see #determinant4x3()
@@ -1282,7 +1280,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Return the determinant of this matrix by assuming that its last row is equal to <tt>(0, 0, 0, 1)</tt>.
+     * Return the determinant of this matrix by assuming that it represents an {@link #isAffine() affine} transformation and thus
+     * its last row is equal to <tt>(0, 0, 0, 1)</tt>.
      * 
      * @return the determinant
      */
@@ -1295,7 +1294,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Invert this matrix and write the result into <code>dest</code>.
      * <p>
-     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
      * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3(Matrix4f)} can be used instead of this method.
      * 
      * @see #invert4x3(Matrix4f)
@@ -1341,7 +1340,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Invert this matrix.
      * <p>
-     * If <code>this</code> matrix is only composed of affine transformations, such as translation, rotation, scaling and shearing,
+     * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
      * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3()} can be used instead of this method.
      * 
      * @see #invert4x3()
@@ -1353,7 +1352,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Invert this matrix by assuming that its last row is equal to <tt>(0, 0, 0, 1)</tt> and write the result into <code>dest</code>.
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and write the result into <code>dest</code>.
      * 
      * @param dest
      *          will hold the result
@@ -1400,7 +1400,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Invert this matrix by assuming that its last row is equal to <tt>(0, 0, 0, 1)</tt>.
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>).
      * 
      * @return this
      */
@@ -3105,6 +3105,48 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Transform/multiply the given 4D-vector by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation
+     * (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>).
+     * <p>
+     * In order to store the result in another vector, use {@link #transformAffine(Vector4f, Vector4f)}.
+     * 
+     * @see #transformAffine(Vector4f, Vector4f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector4f transformAffine(Vector4f v) {
+        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30 * v.w,
+              m01 * v.x + m11 * v.y + m21 * v.z + m31 * v.w,
+              m02 * v.x + m12 * v.y + m22 * v.z + m32 * v.w,
+              v.w);
+        return v;
+    }
+
+    /**
+     * Transform/multiply the given 4D-vector by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation
+     * (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>) and store the result in <code>dest</code>.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformAffine(Vector4f)}.
+     * 
+     * @see #transformAffine(Vector4f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector4f transformAffine(Vector4f v, Vector4f dest) {
+        dest.set(m00 * v.x + m10 * v.y + m20 * v.z + m30 * v.w,
+                 m01 * v.x + m11 * v.y + m21 * v.z + m31 * v.w,
+                 m02 * v.x + m12 * v.y + m22 * v.z + m32 * v.w,
+                 v.w);
+        return dest;
+    }
+
+    /**
      * Apply scaling to the this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
      * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
      * <p>
@@ -3548,8 +3590,8 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
-     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that <code>this</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -3574,8 +3616,8 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
      * <p>
-     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
-     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that <code>this</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -3729,8 +3771,8 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
-     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
-     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that <code>this</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -3753,8 +3795,8 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
      * <p>
-     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
-     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that <code>this</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -3908,8 +3950,8 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
-     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that <code>this</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -3932,8 +3974,8 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
      * <p>
-     * This method assumes that the last row of <code>this</code> is <tt>(0, 0, 0, 1)</tt> and can be used to speed up matrix multiplication if
-     * the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * This method assumes that <code>this</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -7596,7 +7638,7 @@ public class Matrix4f implements Externalizable {
      * its position <code>objPos</code>.
      * 
      * @param objPos
-     *          the position of the object to rotate towards the camera
+     *          the position of the object to rotate towards <code>targetPos</code>
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
@@ -7653,9 +7695,14 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method can be used to create the complete model transformation for a given object, including the translation of the object to
      * its position <code>objPos</code>.
+     * <p>
+     * If preserving an <i>up</i> vector is not necessary when rotating the +Z axis, then a shortest arc rotation can be obtained 
+     * using {@link #billboardSpherical(Vector3f, Vector3f)}.
+     * 
+     * @see #billboardSpherical(Vector3f, Vector3f)
      * 
      * @param objPos
-     *          the position of the object to rotate towards the camera
+     *          the position of the object to rotate towards <code>targetPos</code>
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
@@ -7705,6 +7752,59 @@ public class Matrix4f implements Externalizable {
         return this;
     }
 
+    /**
+     * Set this matrix to a spherical billboard transformation that rotates the local +Z axis of a given object with position <code>objPos</code> towards
+     * a target position at <code>targetPos</code> using a shortest arc rotation by not preserving any <i>up</i> vector of the object.
+     * <p>
+     * This method can be used to create the complete model transformation for a given object, including the translation of the object to
+     * its position <code>objPos</code>.
+     * <p>
+     * In order to specify an <i>up</i> vector which needs to be maintained when rotating the +Z axis of the object,
+     * then use {@link #billboardSpherical(Vector3f, Vector3f, Vector3f)}.
+     * 
+     * @see #billboardSpherical(Vector3f, Vector3f, Vector3f)
+     * 
+     * @param objPos
+     *          the position of the object to rotate towards <code>targetPos</code>
+     * @param targetPos
+     *          the position of the target (for example the camera) towards which to rotate the object
+     * @return this
+     */
+    public Matrix4f billboardSpherical(Vector3f objPos, Vector3f targetPos) {
+        float toDirX = targetPos.x - objPos.x;
+        float toDirY = targetPos.y - objPos.y;
+        float toDirZ = targetPos.z - objPos.z;
+        float x = -toDirY;
+        float y = toDirX;
+        float w = (float) Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ) + toDirZ;
+        float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + w * w));
+        x *= invNorm;
+        y *= invNorm;
+        w *= invNorm;
+        float q00 = 2.0f * x * x;
+        float q11 = 2.0f * y * y;
+        float q01 = 2.0f * x * y;
+        float q03 = 2.0f * x * w;
+        float q13 = 2.0f * y * w;
+        m00 = 1.0f - q11;
+        m01 = q01;
+        m02 = -q13;
+        m03 = 0.0f;
+        m10 = q01;
+        m11 = 1.0f - q00;
+        m12 = q03;
+        m13 = 0.0f;
+        m20 = q13;
+        m21 = -q03;
+        m22 = 1.0f - q11 - q00;
+        m23 = 0.0f;
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
+        m33 = 1.0f;
+        return this;
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -7732,7 +7832,7 @@ public class Matrix4f implements Externalizable {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Matrix4f))
             return false;
         Matrix4f other = (Matrix4f) obj;
         if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))
@@ -7768,6 +7868,102 @@ public class Matrix4f implements Externalizable {
         if (Float.floatToIntBits(m33) != Float.floatToIntBits(other.m33))
             return false;
         return true;
+    }
+
+    /**
+     * Apply a picking transformation to this matrix using the given window coordinates <tt>(x, y)</tt> as the pick center
+     * and the given <tt>(width, height)</tt> as the size of the picking region in window coordinates, and store the result
+     * in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the picking region center in window coordinates
+     * @param y
+     *          the y coordinate of the picking region center in window coordinates
+     * @param width
+     *          the width of the picking region in window coordinates
+     * @param height
+     *          the height of the picking region in window coordinates
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f pick(float x, float y, float width, float height, int[] viewport, Matrix4f dest) {
+        float sx = viewport[2] / width;
+        float sy = viewport[3] / height;
+        float tx = (viewport[2] + 2.0f * (viewport[0] - x)) / width;
+        float ty = (viewport[3] + 2.0f * (viewport[1] - y)) / height;
+        dest.m30 = m00 * tx + m10 * ty + m30;
+        dest.m31 = m01 * tx + m11 * ty + m31;
+        dest.m32 = m02 * tx + m12 * ty + m32;
+        dest.m33 = m03 * tx + m13 * ty + m33;
+        dest.m00 = m00 * sx;
+        dest.m01 = m01 * sx;
+        dest.m02 = m02 * sx;
+        dest.m03 = m03 * sx;
+        dest.m10 = m10 * sy;
+        dest.m11 = m11 * sy;
+        dest.m12 = m12 * sy;
+        dest.m13 = m13 * sy;
+        return dest;
+    }
+
+    /**
+     * Apply a picking transformation to this matrix using the given window coordinates <tt>(x, y)</tt> as the pick center
+     * and the given <tt>(width, height)</tt> as the size of the picking region in window coordinates.
+     * 
+     * @param x
+     *          the x coordinate of the picking region center in window coordinates
+     * @param y
+     *          the y coordinate of the picking region center in window coordinates
+     * @param width
+     *          the width of the picking region in window coordinates
+     * @param height
+     *          the height of the picking region in window coordinates
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @return this
+     */
+    public Matrix4f pick(float x, float y, float width, float height, int[] viewport) {
+        return pick(x, y, width, height, viewport, this);
+    }
+
+    /**
+     * Determine whether this matrix describes an affine transformation. This is the case iff its last row is equal to <tt>(0, 0, 0, 1)</tt>.
+     * 
+     * @return <code>true</code> iff this matrix is affine; <code>false</code> otherwise
+     */
+    public boolean isAffine() {
+        return m03 == 0.0f && m13 == 0.0f && m23 == 0.0f && m33 == 1.0f;
+    }
+
+    /**
+     * Exchange the values of <code>this</code> matrix with the given <code>other</code> matrix.
+     * 
+     * @param other
+     *          the other matrix to exchange the values with
+     * @return this
+     */
+    public Matrix4f swap(Matrix4f other) {
+        float tmp;
+        tmp = m00; m00 = other.m00; other.m00 = tmp;
+        tmp = m01; m01 = other.m01; other.m01 = tmp;
+        tmp = m02; m02 = other.m02; other.m02 = tmp;
+        tmp = m03; m03 = other.m03; other.m03 = tmp;
+        tmp = m10; m10 = other.m10; other.m10 = tmp;
+        tmp = m11; m11 = other.m11; other.m11 = tmp;
+        tmp = m12; m12 = other.m12; other.m12 = tmp;
+        tmp = m13; m13 = other.m13; other.m13 = tmp;
+        tmp = m20; m20 = other.m20; other.m20 = tmp;
+        tmp = m21; m21 = other.m21; other.m21 = tmp;
+        tmp = m22; m22 = other.m22; other.m22 = tmp;
+        tmp = m23; m23 = other.m23; other.m23 = tmp;
+        tmp = m30; m30 = other.m30; other.m30 = tmp;
+        tmp = m31; m31 = other.m31; other.m31 = tmp;
+        tmp = m32; m32 = other.m32; other.m32 = tmp;
+        tmp = m33; m33 = other.m33; other.m33 = tmp;
+        return this;
     }
 
 }
