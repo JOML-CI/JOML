@@ -16,12 +16,46 @@ public class RayAabIntersection {
     private float s_xy, s_yx, s_zy, s_yz, s_xz, s_zx;
     private byte category;
 
+    /**
+     * Create a new {@link RayAabIntersection} and initialize it with a ray with origin <tt>(originX, originY, originZ)</tt>
+     * and direction <tt>(dirX, dirY, dirZ)</tt>.
+     * 
+     * @param originX
+     *          the x coordinate of the origin
+     * @param originY
+     *          the y coordinate of the origin
+     * @param originZ
+     *          the z coordinate of the origin
+     * @param dirX
+     *          the x coordinate of the direction
+     * @param dirY
+     *          the y coordinate of the direction
+     * @param dirZ
+     *          the z coordinate of the direction
+     */
     public RayAabIntersection(
             float originX, float originY, float originZ,
             float dirX, float dirY, float dirZ) {
         set(originX, originY, originZ, dirX, dirY, dirZ);
     }
 
+    /**
+     * Update the ray stored by this {@link RayAabIntersection} with the new origin <tt>(originX, originY, originZ)</tt>
+     * and direction <tt>(dirX, dirY, dirZ)</tt>.
+     * 
+     * @param originX
+     *          the x coordinate of the origin
+     * @param originY
+     *          the y coordinate of the origin
+     * @param originZ
+     *          the z coordinate of the origin
+     * @param dirX
+     *          the x coordinate of the direction
+     * @param dirY
+     *          the y coordinate of the direction
+     * @param dirZ
+     *          the z coordinate of the direction
+     */
     public void set(
             float originX, float originY, float originZ,
             float dirX, float dirY, float dirZ) {
