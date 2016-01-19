@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015-2016 Richard Greenlees
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -1176,27 +1176,89 @@ public class Matrix4d implements Externalizable {
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      * 
+     * @see #set(double[])
+     * 
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix4d set(double m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m02 = m[off+2];
+        m03 = m[off+3];
+        m10 = m[off+4];
+        m11 = m[off+5];
+        m12 = m[off+6];
+        m13 = m[off+7];
+        m20 = m[off+8];
+        m21 = m[off+9];
+        m22 = m[off+10];
+        m23 = m[off+11];
+        m30 = m[off+12];
+        m31 = m[off+13];
+        m32 = m[off+14];
+        m33 = m[off+15];
+        return this;
+    }
+
+    /**
+     * Set the values in the matrix using a double array that contains the matrix elements in column-major order.
+     * <p>
+     * The results will look like this:<br><br>
+     * 
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     * 
+     * @see #set(double[], int)
+     * 
      * @param m
      *          the array to read the matrix values from
      * @return this
      */
     public Matrix4d set(double m[]) {
-        m00 = m[0];
-        m01 = m[1];
-        m02 = m[2];
-        m03 = m[3];
-        m10 = m[4];
-        m11 = m[5];
-        m12 = m[6];
-        m13 = m[7];
-        m20 = m[8];
-        m21 = m[9];
-        m22 = m[10];
-        m23 = m[11];
-        m30 = m[12];
-        m31 = m[13];
-        m32 = m[14];
-        m33 = m[15];
+        return set(m, 0);
+    }
+
+    /**
+     * Set the values in the matrix using a float array that contains the matrix elements in column-major order.
+     * <p>
+     * The results will look like this:<br><br>
+     * 
+     * 0, 4, 8, 12<br>
+     * 1, 5, 9, 13<br>
+     * 2, 6, 10, 14<br>
+     * 3, 7, 11, 15<br>
+     * 
+     * @see #set(float[])
+     * 
+     * @param m
+     *          the array to read the matrix values from
+     * @param off
+     *          the offset into the array
+     * @return this
+     */
+    public Matrix4d set(float m[], int off) {
+        m00 = m[off+0];
+        m01 = m[off+1];
+        m02 = m[off+2];
+        m03 = m[off+3];
+        m10 = m[off+4];
+        m11 = m[off+5];
+        m12 = m[off+6];
+        m13 = m[off+7];
+        m20 = m[off+8];
+        m21 = m[off+9];
+        m22 = m[off+10];
+        m23 = m[off+11];
+        m30 = m[off+12];
+        m31 = m[off+13];
+        m32 = m[off+14];
+        m33 = m[off+15];
         return this;
     }
 
@@ -1210,28 +1272,14 @@ public class Matrix4d implements Externalizable {
      * 2, 6, 10, 14<br>
      * 3, 7, 11, 15<br>
      * 
+     * @see #set(float[], int)
+     * 
      * @param m
      *          the array to read the matrix values from
      * @return this
      */
     public Matrix4d set(float m[]) {
-        m00 = m[0];
-        m01 = m[1];
-        m02 = m[2];
-        m03 = m[3];
-        m10 = m[4];
-        m11 = m[5];
-        m12 = m[6];
-        m13 = m[7];
-        m20 = m[8];
-        m21 = m[9];
-        m22 = m[10];
-        m23 = m[11];
-        m30 = m[12];
-        m31 = m[13];
-        m32 = m[14];
-        m33 = m[15];
-        return this;
+        return set(m, 0);
     }
 
     /**
@@ -7891,7 +7939,7 @@ public class Matrix4d implements Externalizable {
      * its position <code>objPos</code>.
      * 
      * @param objPos
-     *          the position of the object to rotate towards the camera
+     *          the position of the object to rotate towards <code>targetPos</code>
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
@@ -7948,9 +7996,14 @@ public class Matrix4d implements Externalizable {
      * <p>
      * This method can be used to create the complete model transformation for a given object, including the translation of the object to
      * its position <code>objPos</code>.
+     * <p>
+     * If preserving an <i>up</i> vector is not necessary when rotating the +Z axis, then a shortest arc rotation can be obtained 
+     * using {@link #billboardSpherical(Vector3d, Vector3d)}.
+     * 
+     * @see #billboardSpherical(Vector3d, Vector3d)
      * 
      * @param objPos
-     *          the position of the object to rotate towards the camera
+     *          the position of the object to rotate towards <code>targetPos</code>
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
@@ -7992,6 +8045,59 @@ public class Matrix4d implements Externalizable {
         m20 = -dirX;
         m21 = -dirY;
         m22 = -dirZ;
+        m23 = 0.0;
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a spherical billboard transformation that rotates the local +Z axis of a given object with position <code>objPos</code> towards
+     * a target position at <code>targetPos</code> using a shortest arc rotation by not preserving any <i>up</i> vector of the object.
+     * <p>
+     * This method can be used to create the complete model transformation for a given object, including the translation of the object to
+     * its position <code>objPos</code>.
+     * <p>
+     * In order to specify an <i>up</i> vector which needs to be maintained when rotating the +Z axis of the object,
+     * then use {@link #billboardSpherical(Vector3d, Vector3d, Vector3d)}.
+     * 
+     * @see #billboardSpherical(Vector3d, Vector3d, Vector3d)
+     * 
+     * @param objPos
+     *          the position of the object to rotate towards <code>targetPos</code>
+     * @param targetPos
+     *          the position of the target (for example the camera) towards which to rotate the object
+     * @return this
+     */
+    public Matrix4d billboardSpherical(Vector3d objPos, Vector3d targetPos) {
+        double toDirX = targetPos.x - objPos.x;
+        double toDirY = targetPos.y - objPos.y;
+        double toDirZ = targetPos.z - objPos.z;
+        double x = -toDirY;
+        double y = toDirX;
+        double w = Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ) + toDirZ;
+        double invNorm = 1.0 / Math.sqrt(x * x + y * y + w * w);
+        x *= invNorm;
+        y *= invNorm;
+        w *= invNorm;
+        double q00 = 2.0 * x * x;
+        double q11 = 2.0 * y * y;
+        double q01 = 2.0 * x * y;
+        double q03 = 2.0 * x * w;
+        double q13 = 2.0 * y * w;
+        m00 = 1.0 - q11;
+        m01 = q01;
+        m02 = -q13;
+        m03 = 0.0;
+        m10 = q01;
+        m11 = 1.0 - q00;
+        m12 = q03;
+        m13 = 0.0;
+        m20 = q13;
+        m21 = -q03;
+        m22 = 1.0 - q11 - q00;
         m23 = 0.0;
         m30 = objPos.x;
         m31 = objPos.y;
@@ -8044,7 +8150,7 @@ public class Matrix4d implements Externalizable {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Matrix4d))
             return false;
         Matrix4d other = (Matrix4d) obj;
         if (Double.doubleToLongBits(m00) != Double.doubleToLongBits(other.m00))
