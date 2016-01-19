@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import java.util.Arrays;
+
 /**
  * A stack of many {@link Matrix4f} instances. This resembles the matrix stack known from legacy OpenGL.
  * <p>
@@ -102,6 +104,51 @@ public class MatrixStackf extends Matrix4f {
         }
         set(mats[--curr]);
         return this;
+    }
+
+    private static int hashCode(Object[] array) {
+        int prime = 31;
+        if (array == null)
+            return 0;
+        int result = 1;
+        for (int index = 0; index < array.length; index++) {
+            result = prime * result + (array[index] == null ? 0 : array[index].hashCode());
+        }
+        return result;
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + curr;
+        result = prime * result + MatrixStackf.hashCode(mats);
+        return result;
+    }
+
+    /*
+     * Contract between Matrix4f and MatrixStackf:
+     * 
+     * - Matrix4f.equals(MatrixStackf) is true iff all the 16 matrix elements are equal
+     * - MatrixStackf.equals(Matrix4f) is true iff all the 16 matrix elements are equal
+     * - MatrixStackf.equals(MatrixStackf) is true iff all 16 matrix elements are equal AND the matrix arrays as well as the stack pointer are equal
+     * - everything else is inequal
+     * 
+     * (non-Javadoc)
+     * @see org.joml.Matrix4f#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (obj instanceof MatrixStackf) {
+            MatrixStackf other = (MatrixStackf) obj;
+            if (curr != other.curr)
+                return false;
+            if (!Arrays.equals(mats, other.mats))
+                return false;
+        }
+        return true;
     }
 
 }
