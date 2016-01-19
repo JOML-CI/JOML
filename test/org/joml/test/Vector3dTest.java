@@ -9,7 +9,7 @@ import org.joml.Vector3d;
  * @author Sebastian Fellner
  */
 public class Vector3dTest extends TestCase {
-    public void testAngleVector3dVector3d() {
+    public static void testAngleVector3dVector3d() {
         Vector3d testVec1 = new Vector3d(2, -9.37, 5.892);
         Vector3d testVec2 = new Vector3d();
         

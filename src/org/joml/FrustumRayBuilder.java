@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Kai Burjack
+ * (C) Copyright 2015-2016 Kai Burjack
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -61,7 +61,7 @@ public class FrustumRayBuilder {
     /**
      * Update the stored frustum corner rays and origin of <code>this</code> {@link FrustumRayBuilder} with the given {@link Matrix4f matrix}.
      * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * <p>
      * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
@@ -108,13 +108,13 @@ public class FrustumRayBuilder {
      * 
      * @param origin
      *          will hold the perspective origin
-     * @return this
+     * @return the <code>origin</code> vector
      */
-    public FrustumRayBuilder origin(Vector3f origin) {
+    public Vector3f origin(Vector3f origin) {
         origin.x = cx;
         origin.y = cy;
         origin.z = cz;
-        return this;
+        return origin;
     }
 
     /**
@@ -130,25 +130,24 @@ public class FrustumRayBuilder {
      *          the interpolation factor along the bottom-to-top frustum planes, within <tt>[0..1]</tt>
      * @param dir
      *          will hold the normalized ray direction
-     * @return this
+     * @return the <code>dir</code> vector
      */
-    public FrustumRayBuilder dir(float x, float y, Vector3f dir) {
-        float oneMinusY = 1.0f - y, oneMinusX = 1.0f - x;
-        float y1x = nxnyX * oneMinusY + nxpyX * y;
-        float y1y = nxnyY * oneMinusY + nxpyY * y;
-        float y1z = nxnyZ * oneMinusY + nxpyZ * y;
-        float y2x = pxnyX * oneMinusY + pxpyX * y;
-        float y2y = pxnyY * oneMinusY + pxpyY * y;
-        float y2z = pxnyZ * oneMinusY + pxpyZ * y;
-        float dx = y1x * oneMinusX + y2x * x;
-        float dy = y1y * oneMinusX + y2y * x;
-        float dz = y1z * oneMinusX + y2z * x;
+    public Vector3f dir(float x, float y, Vector3f dir) {
+        float y1x = nxnyX + (nxpyX - nxnyX) * y;
+        float y1y = nxnyY + (nxpyY - nxnyY) * y;
+        float y1z = nxnyZ + (nxpyZ - nxnyZ) * y;
+        float y2x = pxnyX + (pxpyX - pxnyX) * y;
+        float y2y = pxnyY + (pxpyY - pxnyY) * y;
+        float y2z = pxnyZ + (pxpyZ - pxnyZ) * y;
+        float dx = y1x + (y2x - y1x) * x;
+        float dy = y1y + (y2y - y1y) * x;
+        float dz = y1z + (y2z - y1z) * x;
         // normalize the vector
         float invLen = (float) (1.0 / Math.sqrt(dx * dx + dy * dy + dz * dz));
         dir.x = dx * invLen;
         dir.y = dy * invLen;
         dir.z = dz * invLen;
-        return this;
+        return dir;
     }
 
 }

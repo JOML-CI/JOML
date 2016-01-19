@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015-2016 Richard Greenlees
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -603,8 +603,8 @@ public class Vector2f implements Externalizable {
      * @return dest
      */
     public Vector2f mul(float scalar, Vector2f dest) {
-        dest.x *= scalar;
-        dest.y *= scalar;
+        dest.x = x * scalar;
+        dest.y = y * scalar;
         return dest;
     }
 
@@ -641,8 +641,8 @@ public class Vector2f implements Externalizable {
      * @return dest
      */
     public Vector2f lerp(Vector2f other, float t, Vector2f dest) {
-        dest.x = (1.0f - t) * x + t * other.x;
-        dest.y = (1.0f - t) * y + t * other.y;
+        dest.x = x + (other.x - x) * t;
+        dest.y = y + (other.y - y) * t;
         return dest;
     }
 

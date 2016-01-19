@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Kai Burjack
+ * (C) Copyright 2015-2016 Kai Burjack
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -138,7 +138,7 @@ public class FrustumCuller {
     /**
      * Update the stored frustum planes of <code>this</code> {@link FrustumCuller} with the given {@link Matrix4f matrix}.
      * <p>
-     * Reference: <a href="http://www.cs.otago.ac.nz/postgrads/alexis/planeExtraction.pdf">
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param m
@@ -251,7 +251,7 @@ public class FrustumCuller {
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
@@ -275,7 +275,7 @@ public class FrustumCuller {
      * The box is specified via its min and max corner coordinates.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
@@ -308,13 +308,24 @@ public class FrustumCuller {
          * or -1 if the box intersects the frustum.
          */
         int plane = PLANE_NX;
-        if (nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW && (plane = PLANE_PX) != 0 &&
-            pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW && (plane = PLANE_NY) != 0 &&
-            nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW && (plane = PLANE_PY) != 0 &&
-            pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW && (plane = PLANE_NZ) != 0 &&
-            nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW && (plane = PLANE_PZ) != 0 &&
-            pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW)
-            return -1;
+        if (nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW) {
+            plane = PLANE_PX;
+            if (pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW) {
+                plane = PLANE_NY;
+                if (nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW) {
+                    plane = PLANE_PY;
+                    if (pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW) {
+                        plane = PLANE_NZ;
+                        if (nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW) {
+                            plane = PLANE_PZ;
+                            if (pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW) {
+                                return -1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return plane;
     }
 
@@ -329,7 +340,7 @@ public class FrustumCuller {
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * 
      * @param min
@@ -364,7 +375,7 @@ public class FrustumCuller {
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
-     * can occur, when the method returns <tt>true</tt> for boxes that are actually not visible.
+     * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
      * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
      * <p>
      * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
@@ -403,13 +414,24 @@ public class FrustumCuller {
          * or -1 if the box intersects the frustum.
          */
         int plane = PLANE_NX;
-        if (((mask & PLANE_MASK_NX) == 0 || nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW) && (plane = PLANE_PX) != 0 &&
-            ((mask & PLANE_MASK_PX) == 0 || pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW) && (plane = PLANE_NY) != 0 &&
-            ((mask & PLANE_MASK_NY) == 0 || nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW) && (plane = PLANE_PY) != 0 &&
-            ((mask & PLANE_MASK_PY) == 0 || pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW) && (plane = PLANE_NZ) != 0 &&
-            ((mask & PLANE_MASK_NZ) == 0 || nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW) && (plane = PLANE_PZ) != 0 &&
-            ((mask & PLANE_MASK_PZ) == 0 || pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW))
-            return -1;
+        if ((mask & PLANE_MASK_NX) == 0 || nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW) {
+            plane = PLANE_PX;
+            if ((mask & PLANE_MASK_PX) == 0 || pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW) {
+                plane = PLANE_NY;
+                if ((mask & PLANE_MASK_NY) == 0 || nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW) {
+                    plane = PLANE_PY;
+                    if ((mask & PLANE_MASK_PY) == 0 || pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW) {
+                        plane = PLANE_NZ;
+                        if ((mask & PLANE_MASK_NZ) == 0 || nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW) {
+                            plane = PLANE_PZ;
+                            if ((mask & PLANE_MASK_PZ) == 0 || pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW) {
+                                return -1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return plane;
     }
 

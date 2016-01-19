@@ -9,7 +9,7 @@ import org.joml.Vector4d;
  * @author Sebastian Fellner
  */
 public class Vector4dTest extends TestCase {
-    public void testAngleVector4dVector4d() {
+    public static void testAngleVector4dVector4d() {
         Vector4d testVec1 = new Vector4d(2, -9.37, 5.892, -12.5);
         Vector4d testVec2 = new Vector4d();
         
@@ -23,7 +23,7 @@ public class Vector4dTest extends TestCase {
         assertEquals(Math.PI, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_DOUBLE);
     }
 
-    public void testMulByScalarIntoDest() {
+    public static void testMulByScalarIntoDest() {
         Vector4d testVec1 = new Vector4d(2, 2, 2, 2);
         Vector4d destVec = new Vector4d(0, 0, 0, 0);
 
@@ -32,7 +32,7 @@ public class Vector4dTest extends TestCase {
         assertEquals(new Vector4d(2, 2, 2, 2), testVec1);
     }
 
-    public void testDivByScalarIntoDest() {
+    public static void testDivByScalarIntoDest() {
         Vector4d testVec1 = new Vector4d(2, 2, 2, 2);
         Vector4d destVec = new Vector4d(0, 0, 0, 0);
 

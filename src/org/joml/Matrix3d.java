@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015-2016 Richard Greenlees
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -573,9 +573,9 @@ public class Matrix3d implements Externalizable {
      * @return the determinant
      */
     public double determinant() {
-        return m00 * (m11 * m22 - m12 * m21)
-             + m01 * (m12 * m20 - m10 * m22)
-             + m02 * (m01 * m21 - m11 * m20);
+        return (m00 * m11 - m01 * m10) * m22
+             + (m02 * m10 - m00 * m12) * m21
+             + (m01 * m12 - m02 * m11) * m20;
     }
 
     /**
@@ -1508,30 +1508,9 @@ public class Matrix3d implements Externalizable {
      *            the angle to rotate about Y
      * @param angleZ
      *            the angle to rotate about Z
-     * @return dest
+     * @return this
      */
     public Matrix3d rotationXYZ(double angleX, double angleY, double angleZ) {
-        return rotationXYZ(angleX, angleY, angleZ, this);
-    }
-
-    /**
-     * Create a matrix representing a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
-     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
-     * 
-     * @param angleX
-     *            the angle to rotate about X
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3d rotationXYZ(double angleX, double angleY, double angleZ, Matrix3d dest) {
         double cosX =  Math.cos(angleX);
         double sinX =  Math.sin(angleX);
         double cosY =  Math.cos(angleY);
@@ -1551,17 +1530,17 @@ public class Matrix3d implements Externalizable {
         double nm00 = cosY;
         double nm01 = nm21 * m_sinY;
         double nm02 = nm22 * m_sinY;
-        dest.m20 = sinY;
-        dest.m21 = nm21 * cosY;
-        dest.m22 = nm22 * cosY;
+        m20 = sinY;
+        m21 = nm21 * cosY;
+        m22 = nm22 * cosY;
         // rotateZ
-        dest.m00 = nm00 * cosZ;
-        dest.m01 = nm01 * cosZ + nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m10 = nm00 * m_sinZ;
-        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        return dest;
+        m00 = nm00 * cosZ;
+        m01 = nm01 * cosZ + nm11 * sinZ;
+        m02 = nm02 * cosZ + nm12 * sinZ;
+        m10 = nm00 * m_sinZ;
+        m11 = nm01 * m_sinZ + nm11 * cosZ;
+        m12 = nm02 * m_sinZ + nm12 * cosZ;
+        return this;
     }
 
     /**
@@ -1576,30 +1555,9 @@ public class Matrix3d implements Externalizable {
      *            the angle to rotate about Y
      * @param angleX
      *            the angle to rotate about X
-     * @return dest
+     * @return this
      */
     public Matrix3d rotationZYX(double angleZ, double angleY, double angleX) {
-        return rotationZYX(angleZ, angleY, angleX, this);
-    }
-
-    /**
-     * Create a matrix representing a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
-     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
-     * 
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleX
-     *            the angle to rotate about X
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3d rotationZYX(double angleZ, double angleY, double angleX, Matrix3d dest) {
         double cosZ =  Math.cos(angleZ);
         double sinZ =  Math.sin(angleZ);
         double cosY =  Math.cos(angleY);
@@ -1619,17 +1577,17 @@ public class Matrix3d implements Externalizable {
         double nm20 = nm00 * sinY;
         double nm21 = nm01 * sinY;
         double nm22 = cosY;
-        dest.m00 = nm00 * cosY;
-        dest.m01 = nm01 * cosY;
-        dest.m02 = m_sinY;
+        m00 = nm00 * cosY;
+        m01 = nm01 * cosY;
+        m02 = m_sinY;
         // rotateX
-        dest.m10 = nm10 * cosX + nm20 * sinX;
-        dest.m11 = nm11 * cosX + nm21 * sinX;
-        dest.m12 = nm22 * sinX;
-        dest.m20 = nm10 * m_sinX + nm20 * cosX;
-        dest.m21 = nm11 * m_sinX + nm21 * cosX;
-        dest.m22 = nm22 * cosX;
-        return dest;
+        m10 = nm10 * cosX + nm20 * sinX;
+        m11 = nm11 * cosX + nm21 * sinX;
+        m12 = nm22 * sinX;
+        m20 = nm10 * m_sinX + nm20 * cosX;
+        m21 = nm11 * m_sinX + nm21 * cosX;
+        m22 = nm22 * cosX;
+        return this;
     }
 
     /**
@@ -1644,30 +1602,9 @@ public class Matrix3d implements Externalizable {
      *            the angle to rotate about X
      * @param angleZ
      *            the angle to rotate about Z
-     * @return dest
+     * @return this
      */
     public Matrix3d rotationYXZ(double angleY, double angleX, double angleZ) {
-        return rotationYXZ(angleY, angleX, angleZ, this);
-    }
-
-    /**
-     * Create a matrix representing a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
-     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
-     * 
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleX
-     *            the angle to rotate about X
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3d rotationYXZ(double angleY, double angleX, double angleZ, Matrix3d dest) {
         double cosY = Math.cos(angleY);
         double sinY = Math.sin(angleY);
         double cosX = Math.cos(angleX);
@@ -1687,17 +1624,17 @@ public class Matrix3d implements Externalizable {
         double nm10 = nm20 * sinX;
         double nm11 = cosX;
         double nm12 = nm22 * sinX;
-        dest.m20 = nm20 * cosX;
-        dest.m21 = m_sinX;
-        dest.m22 = nm22 * cosX;
+        m20 = nm20 * cosX;
+        m21 = m_sinX;
+        m22 = nm22 * cosX;
         // rotateZ
-        dest.m00 = nm00 * cosZ + nm10 * sinZ;
-        dest.m01 = nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
-        dest.m11 = nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        return dest;
+        m00 = nm00 * cosZ + nm10 * sinZ;
+        m01 = nm11 * sinZ;
+        m02 = nm02 * cosZ + nm12 * sinZ;
+        m10 = nm00 * m_sinZ + nm10 * cosZ;
+        m11 = nm11 * cosZ;
+        m12 = nm02 * m_sinZ + nm12 * cosZ;
+        return this;
     }
 
     /**
@@ -3011,6 +2948,154 @@ public class Matrix3d implements Externalizable {
         dest.y = Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
         dest.z = Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
         return dest;
+    }
+    
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3d inv = new Matrix3d(this).invert();
+     * inv.transform(dir.set(0, 0, 1)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3d positiveZ(Vector3d dir) {
+        dir.x = m10 * m21 - m11 * m20;
+        dir.y = m20 * m01 - m21 * m00;
+        dir.z = m00 * m11 - m01 * m10;
+        dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3d inv = new Matrix3d(this).invert();
+     * inv.transform(dir.set(1, 0, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3d positiveX(Vector3d dir) {
+        dir.x = m11 * m22 - m12 * m21;
+        dir.y = m02 * m21 - m01 * m22;
+        dir.z = m01 * m12 - m02 * m11;
+        dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3d inv = new Matrix3d(this).invert();
+     * inv.transform(dir.set(0, 1, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3d positiveY(Vector3d dir) {
+        dir.x = m12 * m20 - m10 * m22;
+        dir.y = m00 * m22 - m02 * m20;
+        dir.z = m02 * m10 - m00 * m12;
+        dir.normalize();
+        return dir;
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(m00);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m01);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m02);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m10);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m11);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m12);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m20);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m21);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(m22);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Matrix3d other = (Matrix3d) obj;
+        if (Double.doubleToLongBits(m00) != Double.doubleToLongBits(other.m00))
+            return false;
+        if (Double.doubleToLongBits(m01) != Double.doubleToLongBits(other.m01))
+            return false;
+        if (Double.doubleToLongBits(m02) != Double.doubleToLongBits(other.m02))
+            return false;
+        if (Double.doubleToLongBits(m10) != Double.doubleToLongBits(other.m10))
+            return false;
+        if (Double.doubleToLongBits(m11) != Double.doubleToLongBits(other.m11))
+            return false;
+        if (Double.doubleToLongBits(m12) != Double.doubleToLongBits(other.m12))
+            return false;
+        if (Double.doubleToLongBits(m20) != Double.doubleToLongBits(other.m20))
+            return false;
+        if (Double.doubleToLongBits(m21) != Double.doubleToLongBits(other.m21))
+            return false;
+        if (Double.doubleToLongBits(m22) != Double.doubleToLongBits(other.m22))
+            return false;
+        return true;
+    }
+
+    /**
+     * Exchange the values of <code>this</code> matrix with the given <code>other</code> matrix.
+     * 
+     * @param other
+     *          the other matrix to exchange the values with
+     * @return this
+     */
+    public Matrix3d swap(Matrix3d other) {
+        double tmp;
+        tmp = m00; m00 = other.m00; other.m00 = tmp;
+        tmp = m01; m01 = other.m01; other.m01 = tmp;
+        tmp = m02; m02 = other.m02; other.m02 = tmp;
+        tmp = m10; m10 = other.m10; other.m10 = tmp;
+        tmp = m11; m11 = other.m11; other.m11 = tmp;
+        tmp = m12; m12 = other.m12; other.m12 = tmp;
+        tmp = m20; m20 = other.m20; other.m20 = tmp;
+        tmp = m21; m21 = other.m21; other.m21 = tmp;
+        tmp = m22; m22 = other.m22; other.m22 = tmp;
+        return this;
     }
 
 }

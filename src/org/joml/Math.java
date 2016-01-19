@@ -39,7 +39,7 @@ public class Math {
     public static final float PI = (float) java.lang.Math.PI;
     private static final float PI2 = PI * 2;
     private static final float PIHalf = PI * 0.5f;
-    private static final int lookupBits = Integer.parseInt(System.getProperty("org.joml.Math.sinLookupTableBits", "9"));
+    private static final int lookupBits = Integer.parseInt(System.getProperty("org.joml.Math.sinLookupTableBits", "9")); //$NON-NLS-1$ //$NON-NLS-2$
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
     private static final int lookupTableSizeWithMargin = lookupTableSize + 1;
@@ -119,6 +119,14 @@ public class Math {
 
     public static float abs(float r) {
         return java.lang.Math.abs(r);
+    }
+
+    public static int max(int x, int y) {
+        return java.lang.Math.max(x, y);
+    }
+
+    public static int min(int x, int y) {
+        return java.lang.Math.min(x, y);
     }
 
     public static float max(float x, float y) {

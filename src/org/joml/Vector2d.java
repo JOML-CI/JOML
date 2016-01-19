@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015-2016 Richard Greenlees
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -761,8 +761,8 @@ public class Vector2d implements Externalizable {
      * @return dest
      */
     public Vector2d lerp(Vector2d other, double t, Vector2d dest) {
-        dest.x = (1.0 - t) * x + t * other.x;
-        dest.y = (1.0 - t) * y + t * other.y;
+        dest.x = x + (other.x - x) * t;
+        dest.y = y + (other.y - y) * t;
         return dest;
     }
 

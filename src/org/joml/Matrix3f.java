@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015-2016 Richard Greenlees
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -194,24 +194,24 @@ public class Matrix3f implements Externalizable {
         x *= invLength;
         y *= invLength;
         z *= invLength;
-        float c = (float) Math.cos(angle);
-        float s = (float) Math.sin(angle);
+        float c = Math.cos(angle);
+        float s = Math.sin(angle);
         float omc = 1.0f - c;
-        m00 = (float)(c + x*x*omc);
-        m11 = (float)(c + y*y*omc);
-        m22 = (float)(c + z*z*omc);
+        m00 = c + x*x*omc;
+        m11 = c + y*y*omc;
+        m22 = c + z*z*omc;
         float tmp1 = x*y*omc;
         float tmp2 = z*s;
-        m10 = (float)(tmp1 - tmp2);
-        m01 = (float)(tmp1 + tmp2);
+        m10 = tmp1 - tmp2;
+        m01 = tmp1 + tmp2;
         tmp1 = x*z*omc;
         tmp2 = y*s;
-        m20 = (float)(tmp1 + tmp2);
-        m02 = (float)(tmp1 - tmp2);
+        m20 = tmp1 + tmp2;
+        m02 = tmp1 - tmp2;
         tmp1 = y*z*omc;
         tmp2 = x*s;
-        m21 = (float)(tmp1 - tmp2);
-        m12 = (float)(tmp1 + tmp2);
+        m21 = tmp1 - tmp2;
+        m12 = tmp1 + tmp2;
         return this;
     }
 
@@ -397,9 +397,9 @@ public class Matrix3f implements Externalizable {
      * @return the determinant
      */
     public float determinant() {
-        return m00 * (m11 * m22 - m12 * m21)
-             + m01 * (m12 * m20 - m10 * m22)
-             + m02 * (m01 * m21 - m11 * m20);
+        return (m00 * m11 - m01 * m10) * m22
+             + (m02 * m10 - m00 * m12) * m21
+             + (m01 * m12 - m02 * m11) * m20;
     }
 
     /**
@@ -1132,8 +1132,8 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f rotation(float angle, float x, float y, float z) {
-        float cos = (float) Math.cos(angle);
-        float sin = (float) Math.sin(angle);
+        float cos = Math.cos(angle);
+        float sin = Math.sin(angle);
         float C = 1.0f - cos;
         float xy = x * y, xz = x * z, yz = y * z;
         m00 = cos + x * x * C;
@@ -1158,8 +1158,8 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f rotationX(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float cos = Math.cos(ang);
+        float sin = Math.sin(ang);
         m00 = 1.0f;
         m01 = 0.0f;
         m02 = 0.0f;
@@ -1182,8 +1182,8 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f rotationY(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float cos = Math.cos(ang);
+        float sin = Math.sin(ang);
         m00 = cos;
         m01 = 0.0f;
         m02 = -sin;
@@ -1206,8 +1206,8 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f rotationZ(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float cos = Math.cos(ang);
+        float sin = Math.sin(ang);
         m00 = cos;
         m01 = sin;
         m02 = 0.0f;
@@ -1232,36 +1232,15 @@ public class Matrix3f implements Externalizable {
      *            the angle to rotate about Y
      * @param angleZ
      *            the angle to rotate about Z
-     * @return dest
+     * @return this
      */
     public Matrix3f rotationXYZ(float angleX, float angleY, float angleZ) {
-        return rotationXYZ(angleX, angleY, angleZ, this);
-    }
-
-    /**
-     * Create a matrix representing a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
-     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
-     * 
-     * @param angleX
-     *            the angle to rotate about X
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3f rotationXYZ(float angleX, float angleY, float angleZ, Matrix3f dest) {
-        float cosX = (float) Math.cos(angleX);
-        float sinX = (float) Math.sin(angleX);
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosZ = (float) Math.cos(angleZ);
-        float sinZ = (float) Math.sin(angleZ);
+        float cosX = Math.cos(angleX);
+        float sinX = Math.sin(angleX);
+        float cosY = Math.cos(angleY);
+        float sinY = Math.sin(angleY);
+        float cosZ = Math.cos(angleZ);
+        float sinZ = Math.sin(angleZ);
         float m_sinX = -sinX;
         float m_sinY = -sinY;
         float m_sinZ = -sinZ;
@@ -1275,17 +1254,17 @@ public class Matrix3f implements Externalizable {
         float nm00 = cosY;
         float nm01 = nm21 * m_sinY;
         float nm02 = nm22 * m_sinY;
-        dest.m20 = sinY;
-        dest.m21 = nm21 * cosY;
-        dest.m22 = nm22 * cosY;
+        m20 = sinY;
+        m21 = nm21 * cosY;
+        m22 = nm22 * cosY;
         // rotateZ
-        dest.m00 = nm00 * cosZ;
-        dest.m01 = nm01 * cosZ + nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m10 = nm00 * m_sinZ;
-        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        return dest;
+        m00 = nm00 * cosZ;
+        m01 = nm01 * cosZ + nm11 * sinZ;
+        m02 = nm02 * cosZ + nm12 * sinZ;
+        m10 = nm00 * m_sinZ;
+        m11 = nm01 * m_sinZ + nm11 * cosZ;
+        m12 = nm02 * m_sinZ + nm12 * cosZ;
+        return this;
     }
 
     /**
@@ -1300,36 +1279,15 @@ public class Matrix3f implements Externalizable {
      *            the angle to rotate about Y
      * @param angleX
      *            the angle to rotate about X
-     * @return dest
+     * @return this
      */
     public Matrix3f rotationZYX(float angleZ, float angleY, float angleX) {
-        return rotationZYX(angleZ, angleY, angleX, this);
-    }
-
-    /**
-     * Create a matrix representing a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
-     * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
-     * 
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleX
-     *            the angle to rotate about X
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3f rotationZYX(float angleZ, float angleY, float angleX, Matrix3f dest) {
-        float cosZ = (float) Math.cos(angleZ);
-        float sinZ = (float) Math.sin(angleZ);
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosX = (float) Math.cos(angleX);
-        float sinX = (float) Math.sin(angleX);
+        float cosZ = Math.cos(angleZ);
+        float sinZ = Math.sin(angleZ);
+        float cosY = Math.cos(angleY);
+        float sinY = Math.sin(angleY);
+        float cosX = Math.cos(angleX);
+        float sinX = Math.sin(angleX);
         float m_sinZ = -sinZ;
         float m_sinY = -sinY;
         float m_sinX = -sinX;
@@ -1343,17 +1301,17 @@ public class Matrix3f implements Externalizable {
         float nm20 = nm00 * sinY;
         float nm21 = nm01 * sinY;
         float nm22 = cosY;
-        dest.m00 = nm00 * cosY;
-        dest.m01 = nm01 * cosY;
-        dest.m02 = m_sinY;
+        m00 = nm00 * cosY;
+        m01 = nm01 * cosY;
+        m02 = m_sinY;
         // rotateX
-        dest.m10 = nm10 * cosX + nm20 * sinX;
-        dest.m11 = nm11 * cosX + nm21 * sinX;
-        dest.m12 = nm22 * sinX;
-        dest.m20 = nm10 * m_sinX + nm20 * cosX;
-        dest.m21 = nm11 * m_sinX + nm21 * cosX;
-        dest.m22 = nm22 * cosX;
-        return dest;
+        m10 = nm10 * cosX + nm20 * sinX;
+        m11 = nm11 * cosX + nm21 * sinX;
+        m12 = nm22 * sinX;
+        m20 = nm10 * m_sinX + nm20 * cosX;
+        m21 = nm11 * m_sinX + nm21 * cosX;
+        m22 = nm22 * cosX;
+        return this;
     }
 
     /**
@@ -1368,36 +1326,15 @@ public class Matrix3f implements Externalizable {
      *            the angle to rotate about X
      * @param angleZ
      *            the angle to rotate about Z
-     * @return dest
+     * @return this
      */
     public Matrix3f rotationYXZ(float angleY, float angleX, float angleZ) {
-        return rotationYXZ(angleY, angleX, angleZ, this);
-    }
-
-    /**
-     * Create a matrix representing a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
-     * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
-     * 
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleX
-     *            the angle to rotate about X
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param dest
-     *            will hold the result
-     * @return dest
-     */
-    public Matrix3f rotationYXZ(float angleY, float angleX, float angleZ, Matrix3f dest) {
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosX = (float) Math.cos(angleX);
-        float sinX = (float) Math.sin(angleX);
-        float cosZ = (float) Math.cos(angleZ);
-        float sinZ = (float) Math.sin(angleZ);
+        float cosY = Math.cos(angleY);
+        float sinY = Math.sin(angleY);
+        float cosX = Math.cos(angleX);
+        float sinX = Math.sin(angleX);
+        float cosZ = Math.cos(angleZ);
+        float sinZ = Math.sin(angleZ);
         float m_sinY = -sinY;
         float m_sinX = -sinX;
         float m_sinZ = -sinZ;
@@ -1411,17 +1348,17 @@ public class Matrix3f implements Externalizable {
         float nm10 = nm20 * sinX;
         float nm11 = cosX;
         float nm12 = nm22 * sinX;
-        dest.m20 = nm20 * cosX;
-        dest.m21 = m_sinX;
-        dest.m22 = nm22 * cosX;
+        m20 = nm20 * cosX;
+        m21 = m_sinX;
+        m22 = nm22 * cosX;
         // rotateZ
-        dest.m00 = nm00 * cosZ + nm10 * sinZ;
-        dest.m01 = nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
-        dest.m11 = nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        return dest;
+        m00 = nm00 * cosZ + nm10 * sinZ;
+        m01 = nm11 * sinZ;
+        m02 = nm02 * cosZ + nm12 * sinZ;
+        m10 = nm00 * m_sinZ + nm10 * cosZ;
+        m11 = nm11 * cosZ;
+        m12 = nm02 * m_sinZ + nm12 * cosZ;
+        return this;
     }
 
     /**
@@ -1536,8 +1473,8 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotateX(float ang, Matrix3f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float cos = Math.cos(ang);
+        float sin = Math.sin(ang);
         float rm11 = cos;
         float rm21 = -sin;
         float rm12 = sin;
@@ -1598,8 +1535,8 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotateY(float ang, Matrix3f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float cos = Math.cos(ang);
+        float sin = Math.sin(ang);
         float rm00 = cos;
         float rm20 = sin;
         float rm02 = -sin;
@@ -1660,8 +1597,8 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotateZ(float ang, Matrix3f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float cos = Math.cos(ang);
+        float sin = Math.sin(ang);
         float rm00 = cos;
         float rm10 = -sin;
         float rm01 = sin;
@@ -1749,12 +1686,12 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotateXYZ(float angleX, float angleY, float angleZ, Matrix3f dest) {
-        float cosX = (float) Math.cos(angleX);
-        float sinX = (float) Math.sin(angleX);
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosZ = (float) Math.cos(angleZ);
-        float sinZ = (float) Math.sin(angleZ);
+        float cosX = Math.cos(angleX);
+        float sinX = Math.sin(angleX);
+        float cosY = Math.cos(angleY);
+        float sinY = Math.sin(angleY);
+        float cosZ = Math.cos(angleZ);
+        float sinZ = Math.sin(angleZ);
         float m_sinX = -sinX;
         float m_sinY = -sinY;
         float m_sinZ = -sinZ;
@@ -1828,12 +1765,12 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotateZYX(float angleZ, float angleY, float angleX, Matrix3f dest) {
-        float cosZ = (float) Math.cos(angleZ);
-        float sinZ = (float) Math.sin(angleZ);
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosX = (float) Math.cos(angleX);
-        float sinX = (float) Math.sin(angleX);
+        float cosZ = Math.cos(angleZ);
+        float sinZ = Math.sin(angleZ);
+        float cosY = Math.cos(angleY);
+        float sinY = Math.sin(angleY);
+        float cosX = Math.cos(angleX);
+        float sinX = Math.sin(angleX);
         float m_sinZ = -sinZ;
         float m_sinY = -sinY;
         float m_sinX = -sinX;
@@ -1911,8 +1848,8 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotate(float ang, float x, float y, float z, Matrix3f dest) {
-        float s = (float) Math.sin(ang);
-        float c = (float) Math.cos(ang);
+        float s = Math.sin(ang);
+        float c = Math.cos(ang);
         float C = 1.0f - c;
 
         // rotation matrix elements:
@@ -2499,6 +2436,143 @@ public class Matrix3f implements Externalizable {
         dest.y = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
         dest.z = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
         return dest;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).invert();
+     * inv.transform(dir.set(0, 0, 1)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3f positiveZ(Vector3f dir) {
+        dir.x = m10 * m21 - m11 * m20;
+        dir.y = m20 * m01 - m21 * m00;
+        dir.z = m00 * m11 - m01 * m10;
+        dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).invert();
+     * inv.transform(dir.set(1, 0, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3f positiveX(Vector3f dir) {
+        dir.x = m11 * m22 - m12 * m21;
+        dir.y = m02 * m21 - m01 * m22;
+        dir.z = m01 * m12 - m02 * m11;
+        dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
+     * <code>this</code> matrix is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).invert();
+     * inv.transform(dir.set(0, 1, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3f positiveY(Vector3f dir) {
+        dir.x = m12 * m20 - m10 * m22;
+        dir.y = m00 * m22 - m02 * m20;
+        dir.z = m02 * m10 - m00 * m12;
+        dir.normalize();
+        return dir;
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Float.floatToIntBits(m00);
+        result = prime * result + Float.floatToIntBits(m01);
+        result = prime * result + Float.floatToIntBits(m02);
+        result = prime * result + Float.floatToIntBits(m10);
+        result = prime * result + Float.floatToIntBits(m11);
+        result = prime * result + Float.floatToIntBits(m12);
+        result = prime * result + Float.floatToIntBits(m20);
+        result = prime * result + Float.floatToIntBits(m21);
+        result = prime * result + Float.floatToIntBits(m22);
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Matrix3f other = (Matrix3f) obj;
+        if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))
+            return false;
+        if (Float.floatToIntBits(m01) != Float.floatToIntBits(other.m01))
+            return false;
+        if (Float.floatToIntBits(m02) != Float.floatToIntBits(other.m02))
+            return false;
+        if (Float.floatToIntBits(m10) != Float.floatToIntBits(other.m10))
+            return false;
+        if (Float.floatToIntBits(m11) != Float.floatToIntBits(other.m11))
+            return false;
+        if (Float.floatToIntBits(m12) != Float.floatToIntBits(other.m12))
+            return false;
+        if (Float.floatToIntBits(m20) != Float.floatToIntBits(other.m20))
+            return false;
+        if (Float.floatToIntBits(m21) != Float.floatToIntBits(other.m21))
+            return false;
+        if (Float.floatToIntBits(m22) != Float.floatToIntBits(other.m22))
+            return false;
+        return true;
+    }
+
+    /**
+     * Exchange the values of <code>this</code> matrix with the given <code>other</code> matrix.
+     * 
+     * @param other
+     *          the other matrix to exchange the values with
+     * @return this
+     */
+    public Matrix3f swap(Matrix3f other) {
+        float tmp;
+        tmp = m00; m00 = other.m00; other.m00 = tmp;
+        tmp = m01; m01 = other.m01; other.m01 = tmp;
+        tmp = m02; m02 = other.m02; other.m02 = tmp;
+        tmp = m10; m10 = other.m10; other.m10 = tmp;
+        tmp = m11; m11 = other.m11; other.m11 = tmp;
+        tmp = m12; m12 = other.m12; other.m12 = tmp;
+        tmp = m20; m20 = other.m20; other.m20 = tmp;
+        tmp = m21; m21 = other.m21; other.m21 = tmp;
+        tmp = m22; m22 = other.m22; other.m22 = tmp;
+        return this;
     }
 
 }

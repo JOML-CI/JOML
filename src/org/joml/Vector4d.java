@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015 Richard Greenlees
+ * (C) Copyright 2015-2016 Richard Greenlees
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -1503,10 +1503,10 @@ public class Vector4d implements Externalizable {
      * @return dest
      */
     public Vector4d lerp(Vector4d other, double t, Vector4d dest) {
-        dest.x = (1.0 - t) * x + t * other.x;
-        dest.y = (1.0 - t) * y + t * other.y;
-        dest.z = (1.0 - t) * z + t * other.z;
-        dest.w = (1.0 - t) * w + t * other.w;
+        dest.x = x + (other.x - x) * t;
+        dest.y = y + (other.y - y) * t;
+        dest.z = z + (other.z - z) * t;
+        dest.w = w + (other.w - w) * t;
         return dest;
     }
 

@@ -9,7 +9,7 @@ import org.joml.Vector2d;
  * @author Sebastian Fellner
  */
 public class Vector2dTest extends TestCase {
-    public void testAngleVector2dVector2d() {
+    public static void testAngleVector2dVector2d() {
         Vector2d testVec1 = new Vector2d(-9.37, 5.892);
         Vector2d testVec2 = new Vector2d();
         

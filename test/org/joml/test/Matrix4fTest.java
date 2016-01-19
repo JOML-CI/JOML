@@ -1,7 +1,5 @@
 package org.joml.test;
 
-import java.nio.IntBuffer;
-
 import junit.framework.TestCase;
 
 import org.joml.Matrix4f;
@@ -18,19 +16,18 @@ public class Matrix4fTest extends TestCase {
     /**
      * Test that project and unproject are each other's inverse operations.
      */
-    public void testProjectUnproject() {
+    public static void testProjectUnproject() {
         /* Build some arbitrary viewport. */
-        IntBuffer viewport = IntBuffer.wrap(new int[]{0, 0, 800, 800});
+        int[] viewport = {0, 0, 800, 800};
 
         Vector3f expected = new Vector3f(1.0f, 2.0f, -3.0f);
         Vector3f actual = new Vector3f();
-        Matrix4f inverse = new Matrix4f();
 
         /* Build a perspective projection and then project and unproject. */
         Matrix4f m = new Matrix4f()
         .perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f);
         m.project(expected, viewport, actual);
-        m.unproject(actual, viewport, inverse, actual);
+        m.unproject(actual, viewport, actual);
 
         /* Check for equality of the components */
         assertEquals(expected.x, actual.x, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
@@ -38,7 +35,7 @@ public class Matrix4fTest extends TestCase {
         assertEquals(expected.z, actual.z, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
     }
 
-    public void testLookAt() {
+    public static void testLookAt() {
         Matrix4f m1, m2;
         m1 = new Matrix4f().lookAt(0, 2, 3, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3)).rotateX(
@@ -53,7 +50,7 @@ public class Matrix4fTest extends TestCase {
     /**
      * Test computing the frustum planes with a combined view-projection matrix with translation.
      */
-    public void testFrustumPlanePerspectiveRotateTranslate() {
+    public static void testFrustumPlanePerspectiveRotateTranslate() {
         Vector4f left = new Vector4f();
         Vector4f right = new Vector4f();
         Vector4f top = new Vector4f();
@@ -91,7 +88,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector4fEquals(expectedFar, far, 1E-4f);
     }
 
-    public void testFrustumRay() {
+    public static void testFrustumRay() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
                 .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
@@ -111,7 +108,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
     }
 
-    public void testFrustumRay2() {
+    public static void testFrustumRay2() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
                 .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
@@ -131,7 +128,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(expectedDir, dir, 1E-5f);
     }
 
-    public void testPositiveXRotateY() {
+    public static void testPositiveXRotateY() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
                 .rotateY((float) Math.toRadians(90));
@@ -139,7 +136,23 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(0, 0, 1), dir, 1E-7f);
     }
 
-    public void testPositiveXRotateXY() {
+    public static void testPositiveYRotateX() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .rotateX((float) Math.toRadians(90));
+        m.positiveY(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 0, -1), dir, 1E-7f);
+    }
+
+    public static void testPositiveZRotateX() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .rotateX((float) Math.toRadians(90));
+        m.positiveZ(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 1, 0), dir, 1E-7f);
+    }
+
+    public static void testPositiveXRotateXY() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
                 .rotateY((float) Math.toRadians(90)).rotateX((float) Math.toRadians(45));
@@ -147,7 +160,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(0, 1, 1).normalize(), dir, 1E-7f);
     }
 
-    public void testPositiveXPerspectiveRotateY() {
+    public static void testPositiveXPerspectiveRotateY() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
                 .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
@@ -156,7 +169,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(0, 0, -1), dir, 1E-7f);
     }
 
-    public void testPositiveXPerspectiveRotateXY() {
+    public static void testPositiveXPerspectiveRotateXY() {
         Vector3f dir = new Vector3f();
         Matrix4f m = new Matrix4f()
                 .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
@@ -165,7 +178,35 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(0, -1, -1).normalize(), dir, 1E-7f);
     }
 
-    public void testFrustumCornerIdentity() {
+    public static void testPositiveXYZLookAt() {
+        Vector3f dir = new Vector3f();
+        Matrix4f m = new Matrix4f()
+                .lookAt(0, 0, 0, -1, 0, 0, 0, 1, 0);
+        m.positiveX(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 0, -1).normalize(), dir, 1E-7f);
+        m.positiveY(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(0, 1, 0).normalize(), dir, 1E-7f);
+        m.positiveZ(dir);
+        TestUtil.assertVector3fEquals(new Vector3f(1, 0, 0).normalize(), dir, 1E-7f);
+    }
+
+    public static void testPositiveXYZSameAsInvert() {
+        Vector3f dir = new Vector3f();
+        Vector3f dir2 = new Vector3f();
+        Matrix4f m = new Matrix4f().rotateXYZ(0.12f, 1.25f, -2.56f);
+        Matrix4f inv = new Matrix4f(m).invert();
+        m.positiveX(dir);
+        inv.transformDirection(dir2.set(1, 0, 0));
+        TestUtil.assertVector3fEquals(dir2, dir, 1E-4f);
+        m.positiveY(dir);
+        inv.transformDirection(dir2.set(0, 1, 0));
+        TestUtil.assertVector3fEquals(dir2, dir, 1E-4f);
+        m.positiveZ(dir);
+        inv.transformDirection(dir2.set(0, 0, 1));
+        TestUtil.assertVector3fEquals(dir2, dir, 1E-4f);
+    }
+
+    public static void testFrustumCornerIdentity() {
         Matrix4f m = new Matrix4f();
         Vector3f corner = new Vector3f();
         m.frustumCorner(Matrix4f.CORNER_NXNYNZ, corner); // left, bottom, near
@@ -178,7 +219,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(-1, 1, 1), corner, 1E-6f);
     }
 
-    public void testFrustumCornerOrthoWide() {
+    public static void testFrustumCornerOrthoWide() {
         Matrix4f m = new Matrix4f().ortho2D(-2, 2, -1, 1);
         Vector3f corner = new Vector3f();
         m.frustumCorner(Matrix4f.CORNER_NXNYNZ, corner); // left, bottom, near
@@ -191,7 +232,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(-2, 1, -1), corner, 1E-6f);
     }
 
-    public void testFrustumCorner() {
+    public static void testFrustumCorner() {
         Matrix4f m = new Matrix4f()
         .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .lookAt(0, 0, 10,
@@ -206,7 +247,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(100.0f, -100, 10 - 100f), corner, 1E-3f);
     }
 
-    public void testFrustumCornerWide() {
+    public static void testFrustumCornerWide() {
         Matrix4f m = new Matrix4f()
         .perspective((float) Math.toRadians(90), 2.0f, 0.1f, 100.0f)
         .lookAt(0, 0, 10,
@@ -221,7 +262,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(200.0f, -100, 10 - 100f), corner, 1E-3f);
     }
 
-    public void testFrustumCornerRotate() {
+    public static void testFrustumCornerRotate() {
         Matrix4f m = new Matrix4f()
         .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .lookAt(10, 0, 0, 
@@ -236,7 +277,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(-100.0f + 10, -100, -100f), corner, 1E-3f);
     }
 
-    public void testPerspectiveOrigin() {
+    public static void testPerspectiveOrigin() {
         Matrix4f m = new Matrix4f()
         // test symmetric frustum with some modelview translation and rotation
         .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
@@ -266,7 +307,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(-5, 2, 1), origin, 1E-5f);
     }
 
-    public void testPerspectiveFov() {
+    public static void testPerspectiveFov() {
         Matrix4f m = new Matrix4f()
         .perspective((float) Math.toRadians(45), 1.0f, 0.1f, 100.0f);
         float fov = m.perspectiveFov();
@@ -281,7 +322,7 @@ public class Matrix4fTest extends TestCase {
         assertEquals(Math.toRadians(90), fov, 1E-5);
     }
 
-    public void testNormal() {
+    public static void testNormal() {
         Matrix4f r = new Matrix4f().rotateY((float) Math.PI / 2);
         Matrix4f s = new Matrix4f(r).scale(0.2f);
         Matrix4f n = new Matrix4f();
@@ -290,21 +331,21 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(r, n, 1E-8f);
     }
 
-    public void testInvert4x3() {
+    public static void testInvert4x3() {
         Matrix4f invm = new Matrix4f();
         Matrix4f m = new Matrix4f();
         m.rotateX(1.2f).rotateY(0.2f).rotateZ(0.1f).translate(1, 2, 3).invert4x3(invm);
         Vector3f orig = new Vector3f(4, -6, 8);
         Vector3f v = new Vector3f();
         Vector3f w = new Vector3f();
-        m.transformPoint(orig, v);
-        invm.transformPoint(v, w);
-        TestUtil.assertVector3fEquals(orig, w, 1E-5f);
+        m.transformPosition(orig, v);
+        invm.transformPosition(v, w);
+        TestUtil.assertVector3fEquals(orig, w, 1E-6f);
         invm.invert4x3();
         TestUtil.assertMatrix4fEquals(m, invm, 1E-5f);
     }
 
-    public void testInvert() {
+    public static void testInvert() {
         Matrix4f invm = new Matrix4f();
         Matrix4f m = new Matrix4f();
         m.perspective(0.1123f, 0.5f, 0.1f, 100.0f).rotateX(1.2f).rotateY(0.2f).rotateZ(0.1f).translate(1, 2, 3).invert(invm);
@@ -318,55 +359,55 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(m, invm, 1E-4f);
     }
 
-    public void testRotateXYZ() {
+    public static void testRotateXYZ() {
         Matrix4f m = new Matrix4f().rotateX(0.12f).rotateY(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateXYZ(0.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotateZYX() {
+    public static void testRotateZYX() {
         Matrix4f m = new Matrix4f().rotateZ(1.12f).rotateY(0.0623f).rotateX(0.95f);
         Matrix4f n = new Matrix4f().rotateZYX(1.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotateYXZ() {
+    public static void testRotateYXZ() {
         Matrix4f m = new Matrix4f().rotateY(1.12f).rotateX(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateYXZ(1.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotateXYZ4x3() {
+    public static void testRotateXYZ4x3() {
         Matrix4f m = new Matrix4f().rotateX(0.12f).rotateY(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateXYZ4x3(0.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotateZYX4x3() {
+    public static void testRotateZYX4x3() {
         Matrix4f m = new Matrix4f().rotateZ(1.12f).rotateY(0.0623f).rotateX(0.95f);
         Matrix4f n = new Matrix4f().rotateZYX4x3(1.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotateYXZ4x3() {
+    public static void testRotateYXZ4x3() {
         Matrix4f m = new Matrix4f().rotateY(1.12f).rotateX(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateYXZ4x3(1.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotationXYZ() {
+    public static void testRotationXYZ() {
         Matrix4f m = new Matrix4f().rotationX(0.32f).rotateY(0.5623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotationXYZ(0.32f, 0.5623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotationZYX() {
+    public static void testRotationZYX() {
         Matrix4f m = new Matrix4f().rotationZ(0.12f).rotateY(0.0623f).rotateX(0.95f);
         Matrix4f n = new Matrix4f().rotationZYX(0.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public void testRotationYXZ() {
+    public static void testRotationYXZ() {
         Matrix4f m = new Matrix4f().rotationY(0.12f).rotateX(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotationYXZ(0.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
