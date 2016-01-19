@@ -361,8 +361,8 @@ public class RayAabIntersection {
     }
     private boolean OPP(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
         return originX >= minX && originX <= maxX && originY <= maxY && originZ <= maxZ
-            && s_zy * maxZ - minY + c_zy < 0.0f
-            && s_yz * maxY - minZ + c_yz < 0.0f;
+            && s_zy * maxZ - minY + c_zy <= 0.0f
+            && s_yz * maxY - minZ + c_yz <= 0.0f;
     }
     private boolean PPP(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
         return originX <= maxX && originY <= maxY && originZ <= maxZ
