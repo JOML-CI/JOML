@@ -41,6 +41,10 @@ public class RayAabIntersection {
     /**
      * Create a new {@link RayAabIntersection} and initialize it with a ray with origin <tt>(originX, originY, originZ)</tt>
      * and direction <tt>(dirX, dirY, dirZ)</tt>.
+     * <p>
+     * In order to change the direction and/or origin of the ray later, use {@link #set(float, float, float, float, float, float) set()}.
+     * 
+     * @see #set(float, float, float, float, float, float)
      * 
      * @param originX
      *          the x coordinate of the origin
@@ -64,17 +68,17 @@ public class RayAabIntersection {
      * and direction <tt>(dirX, dirY, dirZ)</tt>.
      * 
      * @param originX
-     *          the x coordinate of the origin
+     *          the x coordinate of the ray origin
      * @param originY
-     *          the y coordinate of the origin
+     *          the y coordinate of the ray origin
      * @param originZ
-     *          the z coordinate of the origin
+     *          the z coordinate of the ray origin
      * @param dirX
-     *          the x coordinate of the direction
+     *          the x coordinate of the ray direction
      * @param dirY
-     *          the y coordinate of the direction
+     *          the y coordinate of the ray direction
      * @param dirZ
-     *          the z coordinate of the direction
+     *          the z coordinate of the ray direction
      */
     public void set(float originX, float originY, float originZ, float dirX, float dirY, float dirZ) {
         this.originX = originX;
