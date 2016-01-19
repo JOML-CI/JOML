@@ -90,6 +90,10 @@ public class RayAabIntersection {
         precomputeSlope();
     }
 
+    private static int signum(float f) {
+        return (f == 0.0f || Float.isNaN(f)) ? 0 : ((1 - Float.floatToIntBits(f) >>> 31) << 1) - 1;
+    }
+
     /**
      * Precompute the values necessary for the ray slip algorithm.
      */
@@ -109,9 +113,9 @@ public class RayAabIntersection {
         c_yz = originZ - s_yz * originY;
         c_xz = originZ - s_xz * originX; // <- original paper had a bug here. It switched originZ/originX
         c_zx = originX - s_zx * originZ; // <- original paper had a bug here. It switched originZ/originX
-        int sgnX = (int) Math.signum(dirX);
-        int sgnY = (int) Math.signum(dirY);
-        int sgnZ = (int) Math.signum(dirZ);
+        int sgnX = signum(dirX);
+        int sgnY = signum(dirY);
+        int sgnZ = signum(dirZ);
         category = (byte) ((sgnZ+1) << 4 | (sgnY+1) << 2 | (sgnX+1));
     }
 
@@ -149,7 +153,7 @@ public class RayAabIntersection {
         case 4: // 0b000100: // MOM 
             return MOM(minX, minY, minZ, maxX, maxY, maxZ);
         case 5: // 0b000101: // OOM
-            return OOM(minX, minY, minZ, maxX, maxY, maxZ);
+            return OOM(minX, minY, minZ, maxX, maxY);
         case 6: // 0b000110: // POM
             return POM(minX, minY, minZ, maxX, maxY, maxZ);
         case 7: // 0b000111: // not used
@@ -169,23 +173,23 @@ public class RayAabIntersection {
         case 16: // 0b010000: // MMO
             return MMO(minX, minY, minZ, maxX, maxY, maxZ);
         case 17: // 0b010001: // OMO
-            return OMO(minX, minY, minZ, maxX, maxY, maxZ);
+            return OMO(minX, minY, minZ, maxX, maxZ);
         case 18: // 0b010010: // PMO
             return PMO(minX, minY, minZ, maxX, maxY, maxZ);
         case 19: // 0b010011: // not used
             return false;
         case 20: // 0b010100: // MOO
-            return MOO(minX, minY, minZ, maxX, maxY, maxZ);
+            return MOO(minX, minY, minZ, maxY, maxZ);
         case 21: // 0b010101: // OOO
             return false; // <- degenerate case
         case 22: // 0b010110: // POO
-            return POO(minX, minY, minZ, maxX, maxY, maxZ);
+            return POO(minY, minZ, maxX, maxY, maxZ);
         case 23: // 0b010111: // not used
             return false;
         case 24: // 0b011000: // MPO
             return MPO(minX, minY, minZ, maxX, maxY, maxZ);
         case 25: // 0b011001: // OPO
-            return OPO(minX, minY, minZ, maxX, maxY, maxZ);
+            return OPO(minX, minZ, maxX, maxY, maxZ);
         case 26: // 0b011010: // PPO
             return PPO(minX, minY, minZ, maxX, maxY, maxZ);
         case 27: // 0b011011: // not used
@@ -205,7 +209,7 @@ public class RayAabIntersection {
         case 36: // 0b100100: // MOP
             return MOP(minX, minY, minZ, maxX, maxY, maxZ);
         case 37: // 0b100101: // OOP
-            return OOP(minX, minY, minZ, maxX, maxY, maxZ);
+            return OOP(minX, minY, maxX, maxY, maxZ);
         case 38: // 0b100110: // POP
             return POP(minX, minY, minZ, maxX, maxY, maxZ);
         case 39: // 0b100111: // not used
@@ -251,8 +255,8 @@ public class RayAabIntersection {
             && s_xz * minX - maxZ + c_xz <= 0.0f
             && s_zx * minZ - maxX + c_zx <= 0.0f;
     }
-    private boolean OOM(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
-        return originZ >= minZ && originX >= minX && originX <= maxZ && originY >= minY && originY <= maxY;
+    private boolean OOM(float minX, float minY, float minZ, float maxX, float maxY) {
+        return originZ >= minZ && originX >= minX && originX <= maxX && originY >= minY && originY <= maxY;
     }
     private boolean POM(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
         return originY >= minY && originY <= maxY && originX <= maxX && originZ >= minZ
@@ -287,7 +291,7 @@ public class RayAabIntersection {
             && s_xy * minX - maxY + c_xy <= 0.0f
             && s_yx * minY - maxX + c_yx <= 0.0f;
     }
-    private boolean OMO(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    private boolean OMO(float minX, float minY, float minZ, float maxX, float maxZ) {
         return originY >= minY && originX >= minX && originX <= maxX && originZ >= minZ && originZ <= maxZ;
     }
     private boolean PMO(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
@@ -295,10 +299,10 @@ public class RayAabIntersection {
             && s_xy * maxX - maxY + c_xy <= 0.0f
             && s_yx * minY - minX + c_yx >= 0.0f;
     }
-    private boolean MOO(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    private boolean MOO(float minX, float minY, float minZ, float maxY, float maxZ) {
         return originX >= minX && originY >= minY && originY <= maxY && originZ >= minZ && originZ <= maxZ;
     }
-    private boolean POO(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    private boolean POO(float minY, float minZ, float maxX, float maxY, float maxZ) {
         return originX <= maxX && originY >= minY && originY <= maxY && originZ >= minZ && originZ <= maxZ;
     }
     private boolean MPO(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
@@ -306,7 +310,7 @@ public class RayAabIntersection {
             && s_xy * minX - minY + c_xy >= 0.0f
             && s_yx * maxY - maxX + c_yx <= 0.0f;
     }
-    private boolean OPO(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    private boolean OPO(float minX, float minZ, float maxX, float maxY, float maxZ) {
         return originY <= maxY && originX >= minX && originX <= maxX && originZ >= minZ && originZ <= maxZ;
     }
     private boolean PPO(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
@@ -342,7 +346,7 @@ public class RayAabIntersection {
             && s_xz * minX - minZ + c_xz >= 0.0f
             && s_zx * maxZ - maxX + c_zx <= 0.0f;
     }
-    private boolean OOP(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    private boolean OOP(float minX, float minY, float maxX, float maxY, float maxZ) {
         return originZ <= maxZ && originX >= minX && originX <= maxX && originY >= minY && originY <= maxY;
     }
     private boolean POP(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
