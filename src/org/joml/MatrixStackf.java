@@ -22,6 +22,10 @@
  */
 package org.joml;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 /**
  * A stack of many {@link Matrix4f} instances. This resembles the matrix stack known from legacy OpenGL.
  * <p>
@@ -149,6 +153,26 @@ public class MatrixStackf extends Matrix4f {
             }
         }
         return true;
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        super.writeExternal(out);
+        out.writeInt(curr);
+        for (int i = 0; i < curr; i++) {
+            out.writeObject(mats[i]);
+        }
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        super.readExternal(in);
+        curr = in.readInt();
+        mats = new MatrixStackf[curr];
+        for (int i = 0; i < curr; i++) {
+            Matrix4f m = new Matrix4f();
+            m.readExternal(in);
+            mats[i] = m;
+        }
     }
 
 }
