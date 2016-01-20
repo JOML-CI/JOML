@@ -31,6 +31,65 @@ public class Intersection {
 
     /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
+     * 
+     * @param originX
+     *              the x coordinate of the ray's origin
+     * @param originY
+     *              the y coordinate of the ray's origin
+     * @param originZ
+     *              the z coordinate of the ray's origin
+     * @param dirX
+     *              the x coordinate of the ray's direction
+     * @param dirY
+     *              the y coordinate of the ray's direction
+     * @param dirZ
+     *              the z coordinate of the ray's direction
+     * @param centerX
+     *              the x coordinate of the sphere's center
+     * @param centerY
+     *              the y coordinate of the sphere's center
+     * @param centerZ
+     *              the z coordinate of the sphere's center
+     * @param radiusSquared
+     *              the sphere radius squared
+     * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testRaySphere(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
+            float centerX, float centerY, float centerZ, float radiusSquared) {
+        float Lx = centerX - originX;
+        float Ly = centerY - originY;
+        float Lz = centerZ - originZ;
+        float tca = Lx * dirX + Ly * dirY + Lz * dirZ;
+        float d2 = Lx * Lx + Ly * Ly + Lz * Lz - tca * tca;
+        if (d2 > radiusSquared)
+            return false;
+        float thc = (float) Math.sqrt(radiusSquared - d2);
+        float t0 = tca - thc;
+        float t1 = tca + thc;
+        return t0 < t1 && t1 >= 0.0f;
+    }
+
+    /**
+     * Test whether the ray with the given <code>origin</code> and direction <code>dir</code>
+     * intersects the sphere with the given <code>center</code> and square radius.
+     * 
+     * @param origin
+     *              the ray's origin
+     * @param dir
+     *              the ray's direction
+     * @param center
+     *              the sphere's center
+     * @param radiusSquared
+     *              the sphere radius squared
+     * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testRaySphere(Vector3f origin, Vector3f dir, Vector3f center, float radiusSquared) {
+        return testRaySphere(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, center.x, center.y, center.z, radiusSquared);
+    }
+
+    /**
+     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the given axis-aligned box given as any two opposite corners <tt>(aX, aY, aZ)</tt> and <tt>(bX, bY, bZ)</tt>.
      * <p>
      * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
