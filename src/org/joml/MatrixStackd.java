@@ -144,7 +144,7 @@ public class MatrixStackd extends Matrix4d {
             if (curr != other.curr)
                 return false;
             for (int i = 0; i < curr; i++) {
-                if (mats[i].equals(other.mats[i]))
+                if (!mats[i].equals(other.mats[i]))
                     return false;
             }
         }
