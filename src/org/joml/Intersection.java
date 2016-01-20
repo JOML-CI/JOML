@@ -31,6 +31,80 @@ public class Intersection {
 
     /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>,
+     * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
+     * and far) of intersections into the given array <code>result</code>.
+     * 
+     * @param originX
+     *              the x coordinate of the ray's origin
+     * @param originY
+     *              the y coordinate of the ray's origin
+     * @param originZ
+     *              the z coordinate of the ray's origin
+     * @param dirX
+     *              the x coordinate of the ray's direction
+     * @param dirY
+     *              the y coordinate of the ray's direction
+     * @param dirZ
+     *              the z coordinate of the ray's direction
+     * @param centerX
+     *              the x coordinate of the sphere's center
+     * @param centerY
+     *              the y coordinate of the sphere's center
+     * @param centerZ
+     *              the z coordinate of the sphere's center
+     * @param radiusSquared
+     *              the sphere radius squared
+     * @param result
+     *              a float[] array that will contain the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = origin + t * dir</i> for both points (near and far) of intersections with the sphere
+     * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean intersectRaySphere(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
+            float centerX, float centerY, float centerZ, float radiusSquared, float[] result) {
+        float Lx = centerX - originX;
+        float Ly = centerY - originY;
+        float Lz = centerZ - originZ;
+        float tca = Lx * dirX + Ly * dirY + Lz * dirZ;
+        float d2 = Lx * Lx + Ly * Ly + Lz * Lz - tca * tca;
+        if (d2 > radiusSquared)
+            return false;
+        float thc = (float) Math.sqrt(radiusSquared - d2);
+        float t0 = tca - thc;
+        float t1 = tca + thc;
+        if (t0 < t1 && t1 >= 0.0f) {
+            result[0] = t0;
+            result[1] = t1;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Test whether the ray with the given <code>origin</code> and direction <code>dir</code>
+     * intersects the sphere with the given <code>center</code> and square radius <code>radiusSquared</code>,
+     * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
+     * and far) of intersections into the given array <code>result</code>.
+     * 
+     * @param origin
+     *              the ray's origin
+     * @param dir
+     *              the ray's direction
+     * @param center
+     *              the sphere's center
+     * @param radiusSquared
+     *              the sphere radius squared
+     * @param result
+     *              a float[] array that will contain the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = origin + t * dir</i> for both points (near and far) of intersections with the sphere
+     * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean intersectRaySphere(Vector3f origin, Vector3f dir, Vector3f center, float radiusSquared, float[] result) {
+        return intersectRaySphere(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, center.x, center.y, center.z, radiusSquared, result);
+    }
+
+    /**
+     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
      * 
      * @param originX
