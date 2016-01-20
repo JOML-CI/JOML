@@ -137,5 +137,117 @@ public class Intersection {
     public static boolean testRayTriangle(Vector3f origin, Vector3f dir, Vector3f v0, Vector3f v1, Vector3f v2, float epsilon) {
         return testRayTriangle(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, epsilon);
     }
+    
+    /**
+     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * intersects with the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>
+     * and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
+     * <p>
+     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
+     * <p>
+     * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
+     * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
+     * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
+     * 
+     * @see #testRayTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f, float)
+     * 
+     * @param originX
+     *              the x coordinate of the ray's origin
+     * @param originY
+     *              the y coordinate of the ray's origin
+     * @param originZ
+     *              the z coordinate of the ray's origin
+     * @param dirX
+     *              the x coordinate of the ray's direction
+     * @param dirY
+     *              the y coordinate of the ray's direction
+     * @param dirZ
+     *              the z coordinate of the ray's direction
+     * @param v0X
+     *              the x coordinate of the first vertex
+     * @param v0Y
+     *              the y coordinate of the first vertex
+     * @param v0Z
+     *              the z coordinate of the first vertex
+     * @param v1X
+     *              the x coordinate of the second vertex
+     * @param v1Y
+     *              the y coordinate of the second vertex
+     * @param v1Z
+     *              the z coordinate of the second vertex
+     * @param v2X
+     *              the x coordinate of the third vertex
+     * @param v2Y
+     *              the y coordinate of the second vertex
+     * @param v2Z
+     *              the z coordinate of the second vertex
+     * @param epsilon
+     *              a small epsilon when testing rays that are almost parallel to the triangle
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
+     *         if the ray intersects with the triangle; <tt>-1.0</tt> otherwise
+     */
+    public static float intersectRayTriangle(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
+            float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
+            float epsilon) {
+        float edge1X = v1X - v0X;
+        float edge1Y = v1Y - v0Y;
+        float edge1Z = v1Z - v0Z;
+        float edge2X = v2X - v0X;
+        float edge2Y = v2Y - v0Y;
+        float edge2Z = v2Z - v0Z;
+        float pvecX = dirY * edge2Z - dirZ * edge2Y;
+        float pvecY = dirZ * edge2X - dirX * edge2Z;
+        float pvecZ = dirX * edge2Y - dirY * edge2X;
+        float det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
+        if (det <= epsilon)
+            return -1.0f;
+        float invDet = 1.0f / det;
+        float tvecX = originX - v0X;
+        float tvecY = originY - v0Y;
+        float tvecZ = originZ - v0Z;
+        float u = (tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ) * invDet;
+        if (u < 0.0f || u > 1.0f)
+            return -1.0f;
+        float qvecX = tvecY * edge1Z - tvecZ * edge1Y;
+        float qvecY = tvecZ * edge1X - tvecX * edge1Z;
+        float qvecZ = tvecX * edge1Y - tvecY * edge1X;
+        float v = (dirX * qvecX + dirY * qvecY + dirZ * qvecZ) * invDet;
+        if (v < 0.0f || u + v > 1.0f)
+            return -1.0f;
+        float t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
+        return t;
+    }
+
+    /**
+     * Test whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects with the frontface of the triangle consisting of the three vertices
+     * <code>v0</code>, <code>v1</code> and <code>v2</code> and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
+     * <p>
+     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
+     * <p>
+     * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
+     * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
+     * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
+     * 
+     * @see #intersectRayTriangle(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float)
+     * 
+     * @param origin
+     *              the ray's origin
+     * @param dir
+     *              the ray's direction
+     * @param v0
+     *              the position of the first vertex
+     * @param v1
+     *              the position of the second vertex
+     * @param v2
+     *              the position of the third vertex
+     * @param epsilon
+     *              a small epsilon when testing rays that are almost parallel to the triangle
+     * @return <code>true</code> if the given ray intersects with the frontface of the triangle
+     */
+    public static float intersectRayTriangle(Vector3f origin, Vector3f dir, Vector3f v0, Vector3f v1, Vector3f v2, float epsilon) {
+        return intersectRayTriangle(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, epsilon);
+    }
 
 }
