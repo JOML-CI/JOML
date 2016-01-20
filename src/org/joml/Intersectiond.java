@@ -72,12 +72,8 @@ public class Intersectiond {
         double aX = v0X - pX, aY = v0Y - pY, aZ = v0Z - pZ;
         double bX = v1X - pX, bY = v1Y - pY, bZ = v1Z - pZ;
         double cX = v2X - pX, cY = v2Y - pY, cZ = v2Z - pZ;
-        double abX = bX - aX;
-        double abY = bY - aY;
-        double abZ = bZ - aZ;
-        double acX = cX - aX;
-        double acY = cY - aY;
-        double acZ = cZ - aZ;
+        double abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
+        double acX = cX - aX, acY = cY - aY, acZ = cZ - aZ;
         double d1 = -(abX * aX + abY * aY + abZ * aZ);
         double d2 = -(acX * aX + acY * aY + acZ * aZ);
         if (d1 <= 0.0 && d2 <= 0.0) {
@@ -105,7 +101,7 @@ public class Intersectiond {
         }
         double va = d3 * d6 - d5 * d4;
         if (va <= 0.0 && (d4 - d3) >= 0.0 && (d5 - d6) >= 0.0) {
-            double w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+            double w = (d4 - d3) / (d4 - d3 + d5 - d6);
             return result.set(v1X + (cX - bX) * w, v1Y + (cY - bY) * w, v1Z + (cZ - bZ) * w);
         }
         double denom = 1.0 / (va + vb + vc);

@@ -72,12 +72,8 @@ public class Intersectionf {
         float aX = v0X - pX, aY = v0Y - pY, aZ = v0Z - pZ;
         float bX = v1X - pX, bY = v1Y - pY, bZ = v1Z - pZ;
         float cX = v2X - pX, cY = v2Y - pY, cZ = v2Z - pZ;
-        float abX = bX - aX;
-        float abY = bY - aY;
-        float abZ = bZ - aZ;
-        float acX = cX - aX;
-        float acY = cY - aY;
-        float acZ = cZ - aZ;
+        float abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
+        float acX = cX - aX, acY = cY - aY, acZ = cZ - aZ;
         float d1 = -(abX * aX + abY * aY + abZ * aZ);
         float d2 = -(acX * aX + acY * aY + acZ * aZ);
         if (d1 <= 0.0f && d2 <= 0.0f) {
@@ -105,7 +101,7 @@ public class Intersectionf {
         }
         float va = d3 * d6 - d5 * d4;
         if (va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f) {
-            float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+            float w = (d4 - d3) / (d4 - d3 + d5 - d6);
             return result.set(v1X + (cX - bX) * w, v1Y + (cY - bY) * w, v1Z + (cZ - bZ) * w);
         }
         float denom = 1.0f / (va + vb + vc);
