@@ -30,6 +30,79 @@ package org.joml;
 public class Intersectionf {
 
     /**
+     * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
+     * intersects the sphere with the given center <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
+     * 
+     * @param minX
+     *          the x coordinate of the minimum corner of the axis-aligned box
+     * @param minY
+     *          the y coordinate of the minimum corner of the axis-aligned box
+     * @param minZ
+     *          the z coordinate of the minimum corner of the axis-aligned box
+     * @param maxX
+     *          the x coordinate of the maximum corner of the axis-aligned box
+     * @param maxY
+     *          the y coordinate of the maximum corner of the axis-aligned box
+     * @param maxZ
+     *          the z coordinate of the maximum corner of the axis-aligned box
+     * @param centerX
+     *          the x coordinate of the sphere's center
+     * @param centerY
+     *          the y coordinate of the sphere's center
+     * @param centerZ
+     *          the z coordinate of the sphere's center
+     * @param radiusSquared
+     *          the square of the sphere's radius
+     * @return <code>true</code> iff the axis-aligned box intersects the sphere
+     */
+    public static boolean testAabSphere(
+            float minX, float minY, float minZ,
+            float maxX, float maxY, float maxZ,
+            float centerX, float centerY, float centerZ, float radiusSquared) {
+        float radius2 = radiusSquared;
+        if (centerX < minX) {
+            float d = (centerX - minX);
+            radius2 -= d * d;
+        } else if (centerX > maxX) {
+            float d = (centerX - maxX);
+            radius2 -= d * d;
+        }
+        if (centerY < minY) {
+            float d = (centerY - minY);
+            radius2 -= d * d;
+        } else if (centerY > maxY) {
+            float d = (centerY - maxY);
+            radius2 -= d * d;
+        }
+        if (centerZ < minZ) {
+            float d = (centerZ - minZ);
+            radius2 -= d * d;
+        } else if (centerZ > maxZ) {
+            float d = (centerZ - maxZ);
+            radius2 -= d * d;
+        }
+        return radius2 > 0.0f;
+    }
+
+    /**
+     * Test whether the axis-aligned box with minimum corner <code>min</code> and maximum corner <code>max</code>
+     * intersects the sphere with the given <code>center</code> and <code>radius</code>.
+     * 
+     * @param min
+     *          the minimum corner of the axis-aligned box
+     * @param max
+     *          the maximum corner of the axis-aligned box
+     * @param center
+     *          the sphere's center
+     * @param radiusSquared
+     *          the squared of the sphere's radius
+     * @return <code>true</code> iff the axis-aligned box intersects the sphere
+     */
+    public static boolean testAabSphere(Vector3f min, Vector3f max, Vector3f center, float radiusSquared) {
+        return testAabSphere(min.x, min.y, min.z, max.x, max.y, max.z, center.x, center.y, center.z, radiusSquared);
+    }
+
+    /**
      * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>
      * between that triangle and the given point <tt>(pX, pY, pZ)</tt> and store that point into the given <code>result</code>.
      * <p>
