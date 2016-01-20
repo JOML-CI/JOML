@@ -23,11 +23,121 @@
 package org.joml;
 
 /**
- * Contains intersection tests for some geometric primitives.
+ * Contains intersection and distance tests for some geometric primitives.
  * 
  * @author Kai Burjack
  */
-public class Intersection {
+public class Intersectiond {
+
+    /**
+     * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>
+     * between that triangle and the given point <tt>(pX, pY, pZ)</tt> and store that point into the given <code>result</code>.
+     * 
+     * Reference: Book "Real-Time Collision Detection"
+     * 
+     * @param v0X
+     *          the x coordinate of the first vertex of the triangle
+     * @param v0Y
+     *          the y coordinate of the first vertex of the triangle
+     * @param v0Z
+     *          the z coordinate of the first vertex of the triangle
+     * @param v1X
+     *          the x coordinate of the second vertex of the triangle
+     * @param v1Y
+     *          the y coordinate of the second vertex of the triangle
+     * @param v1Z
+     *          the z coordinate of the second vertex of the triangle
+     * @param v2X
+     *          the x coordinate of the third vertex of the triangle
+     * @param v2Y
+     *          the y coordinate of the third vertex of the triangle
+     * @param v2Z
+     *          the z coordinate of the third vertex of the triangle
+     * @param pX
+     *          the x coordinate of the point
+     * @param pY
+     *          the y coordinate of the point
+     * @param pZ
+     *          the y coordinate of the point
+     * @param result
+     *          will hold the closest point
+     * @return result
+     */
+    public static Vector3d findClosestPointOnTriangle(
+            double v0X, double v0Y, double v0Z,
+            double v1X, double v1Y, double v1Z,
+            double v2X, double v2Y, double v2Z,
+            double pX, double pY, double pZ,
+            Vector3d result) {
+        double aX = v0X - pX, aY = v0Y - pY, aZ = v0Z - pZ;
+        double bX = v1X - pX, bY = v1Y - pY, bZ = v1Z - pZ;
+        double cX = v2X - pX, cY = v2Y - pY, cZ = v2Z - pZ;
+        double abX = bX - aX;
+        double abY = bY - aY;
+        double abZ = bZ - aZ;
+        double acX = cX - aX;
+        double acY = cY - aY;
+        double acZ = cZ - aZ;
+        double d1 = -(abX * aX + abY * aY + abZ * aZ);
+        double d2 = -(acX * aX + acY * aY + acZ * aZ);
+        if (d1 <= 0.0 && d2 <= 0.0) {
+            return result.set(v0X, v0Y, v0Z);
+        }
+        double d3 = -(abX * bX + abY * bY + abZ * bZ);
+        double d4 = -(acX * bX + acY * bY + acZ * bZ);
+        if (d3 >= 0.0 && d4 <= d3) {
+            return result.set(v1X, v1Y, v1Z);
+        }
+        double vc = d1 * d4 - d3 * d2;
+        if (vc <= 0.0 && d1 >= 0.0 && d3 <= 0.0) {
+            double v = d1 / (d1 - d3);
+            return result.set(v0X + abX * v, v0Y + abY * v, v0Z * abZ * v);
+        }
+        double d5 = -(abX * cX + abY * cY + abZ * cZ);
+        double d6 = -(acX * cX + acY * cY + acZ * cZ);
+        if (d6 >= 0.0 && d5 <= d6) {
+            return result.set(v2X, v2Y, v2Z);
+        }
+        double vb = d5 * d2 - d1 * d6;
+        if (vb <= 0.0 && d2 >= 0.0 && d6 <= 0.0) {
+            double w = d2 / (d2 - d6);
+            return result.set(v0X + acX * w, v0Y + acY * w, v0Z + acZ * w);
+        }
+        double va = d3 * d6 - d5 * d4;
+        if (va <= 0.0 && (d4 - d3) >= 0.0 && (d5 - d6) >= 0.0) {
+            double w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+            return result.set(v1X + (cX - bX) * w, v1Y + (cY - bY) * w, v1Z + (cZ - bZ) * w);
+        }
+        double denom = 1.0 / (va + vb + vc);
+        double vn = vb * denom;
+        double wn = vc * denom;
+        return result.set(
+                v0X + abX * vn + acX * wn,
+                v0Y + abY * vn + acY * wn,
+                v0Z + abZ * vn + acZ * wn);
+    }
+
+    /**
+     * Determine the closest point on the triangle with the vertices <code>v0</code>, <code>v1</code>, <code>v2</code>
+     * between that triangle and the given point <code>p</code> and store that point into the given <code>result</code>.
+     * 
+     * Reference: Book "Real-Time Collision Detection"
+     * 
+     * @param v0
+     *          the first vertex of the triangle
+     * @param v1
+     *          the second vertex of the triangle
+     * @param v2
+     *          the third vertex of the triangle
+     * @param p
+     *          the point
+     * @param result
+     *          will hold the closest point
+     * @return result
+     */
+    public static Vector3d findClosestPointOnTriangle(Vector3d v0, Vector3d v1, Vector3d v2, Vector3d p, Vector3d result) {
+        return findClosestPointOnTriangle(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, p.x, p.y, p.z, result);
+    }
 
     /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
@@ -60,23 +170,23 @@ public class Intersection {
      * @param radiusSquared
      *              the sphere radius squared
      * @param result
-     *              a float[] array that will contain the values of the parameter <i>t</i> in the ray equation
+     *              a double[] array that will contain the values of the parameter <i>t</i> in the ray equation
      *              <i>p(t) = origin + t * dir</i> for both points (near and far) of intersections with the sphere
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean intersectRaySphere(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
-            float centerX, float centerY, float centerZ, float radiusSquared, float[] result) {
-        float Lx = centerX - originX;
-        float Ly = centerY - originY;
-        float Lz = centerZ - originZ;
-        float tca = Lx * dirX + Ly * dirY + Lz * dirZ;
-        float d2 = Lx * Lx + Ly * Ly + Lz * Lz - tca * tca;
+    public static boolean intersectRaySphere(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
+            double centerX, double centerY, double centerZ, double radiusSquared, double[] result) {
+        double Lx = centerX - originX;
+        double Ly = centerY - originY;
+        double Lz = centerZ - originZ;
+        double tca = Lx * dirX + Ly * dirY + Lz * dirZ;
+        double d2 = Lx * Lx + Ly * Ly + Lz * Lz - tca * tca;
         if (d2 > radiusSquared)
             return false;
-        float thc = (float) Math.sqrt(radiusSquared - d2);
-        float t0 = tca - thc;
-        float t1 = tca + thc;
-        if (t0 < t1 && t1 >= 0.0f) {
+        double thc = Math.sqrt(radiusSquared - d2);
+        double t0 = tca - thc;
+        double t1 = tca + thc;
+        if (t0 < t1 && t1 >= 0.0) {
             result[0] = t0;
             result[1] = t1;
             return true;
@@ -103,11 +213,11 @@ public class Intersection {
      * @param radiusSquared
      *              the sphere radius squared
      * @param result
-     *              a float[] array that will contain the values of the parameter <i>t</i> in the ray equation
+     *              a double[] array that will contain the values of the parameter <i>t</i> in the ray equation
      *              <i>p(t) = origin + t * dir</i> for both points (near and far) of intersections with the sphere
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean intersectRaySphere(Vector3f origin, Vector3f dir, Vector3f center, float radiusSquared, float[] result) {
+    public static boolean intersectRaySphere(Vector3d origin, Vector3d dir, Vector3d center, double radiusSquared, double[] result) {
         return intersectRaySphere(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, center.x, center.y, center.z, radiusSquared, result);
     }
 
@@ -141,19 +251,19 @@ public class Intersection {
      *              the sphere radius squared
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean testRaySphere(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
-            float centerX, float centerY, float centerZ, float radiusSquared) {
-        float Lx = centerX - originX;
-        float Ly = centerY - originY;
-        float Lz = centerZ - originZ;
-        float tca = Lx * dirX + Ly * dirY + Lz * dirZ;
-        float d2 = Lx * Lx + Ly * Ly + Lz * Lz - tca * tca;
+    public static boolean testRaySphere(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
+            double centerX, double centerY, double centerZ, double radiusSquared) {
+        double Lx = centerX - originX;
+        double Ly = centerY - originY;
+        double Lz = centerZ - originZ;
+        double tca = Lx * dirX + Ly * dirY + Lz * dirZ;
+        double d2 = Lx * Lx + Ly * Ly + Lz * Lz - tca * tca;
         if (d2 > radiusSquared)
             return false;
-        float thc = (float) Math.sqrt(radiusSquared - d2);
-        float t0 = tca - thc;
-        float t1 = tca + thc;
-        return t0 < t1 && t1 >= 0.0f;
+        double thc = Math.sqrt(radiusSquared - d2);
+        double t0 = tca - thc;
+        double t1 = tca + thc;
+        return t0 < t1 && t1 >= 0.0;
     }
 
     /**
@@ -174,7 +284,7 @@ public class Intersection {
      *              the sphere radius squared
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean testRaySphere(Vector3f origin, Vector3f dir, Vector3f center, float radiusSquared) {
+    public static boolean testRaySphere(Vector3d origin, Vector3d dir, Vector3d center, double radiusSquared) {
         return testRaySphere(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, center.x, center.y, center.z, radiusSquared);
     }
 
@@ -189,7 +299,7 @@ public class Intersection {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * 
-     * @see #testRayAab(Vector3f, Vector3f, Vector3f, Vector3f)
+     * @see #testRayAab(Vector3d, Vector3d, Vector3d, Vector3d)
      * @see RayAabIntersection
      * 
      * @param originX
@@ -218,24 +328,24 @@ public class Intersection {
      *              the y coordinate of the opposite corner of the axis-aligned box
      * @return <code>true</code> if the given ray intersects the axis-aligned box
      */
-    public static boolean testRayAab(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
-            float aX, float aY, float aZ, float bX, float bY, float bZ) {
-        float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY, invDirZ = 1.0f / dirZ;
-        float tMinX = (aX - originX) * invDirX;
-        float tMinY = (aY - originY) * invDirY;
-        float tMinZ = (aZ - originZ) * invDirZ;
-        float tMaxX = (bX - originX) * invDirX;
-        float tMaxY = (bY - originY) * invDirY;
-        float tMaxZ = (bZ - originZ) * invDirZ;
-        float t1X = Math.min(tMinX, tMaxX);
-        float t1Y = Math.min(tMinY, tMaxY);
-        float t1Z = Math.min(tMinZ, tMaxZ);
-        float t2X = Math.max(tMinX, tMaxX);
-        float t2Y = Math.max(tMinY, tMaxY);
-        float t2Z = Math.max(tMinZ, tMaxZ);
-        float tNear = Math.max(Math.max(t1X, t1Y), t1Z);
-        float tFar = Math.min(Math.min(t2X, t2Y), t2Z);
-        return tNear < tFar && tFar >= 0.0f;
+    public static boolean testRayAab(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
+            double aX, double aY, double aZ, double bX, double bY, double bZ) {
+        double invDirX = 1.0 / dirX, invDirY = 1.0 / dirY, invDirZ = 1.0 / dirZ;
+        double tMinX = (aX - originX) * invDirX;
+        double tMinY = (aY - originY) * invDirY;
+        double tMinZ = (aZ - originZ) * invDirZ;
+        double tMaxX = (bX - originX) * invDirX;
+        double tMaxY = (bY - originY) * invDirY;
+        double tMaxZ = (bZ - originZ) * invDirZ;
+        double t1X = Math.min(tMinX, tMaxX);
+        double t1Y = Math.min(tMinY, tMaxY);
+        double t1Z = Math.min(tMinZ, tMaxZ);
+        double t2X = Math.max(tMinX, tMaxX);
+        double t2Y = Math.max(tMinY, tMaxY);
+        double t2Z = Math.max(tMinZ, tMaxZ);
+        double tNear = Math.max(Math.max(t1X, t1Y), t1Z);
+        double tFar = Math.min(Math.min(t2X, t2Y), t2Z);
+        return tNear < tFar && tFar >= 0.0;
     }
 
     /**
@@ -249,7 +359,7 @@ public class Intersection {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * 
-     * @see #testRayAab(float, float, float, float, float, float, float, float, float, float, float, float)
+     * @see #testRayAab(double, double, double, double, double, double, double, double, double, double, double, double)
      * @see RayAabIntersection
      * 
      * @param origin
@@ -262,7 +372,7 @@ public class Intersection {
      *              the opposite corner of the axis-aligned box
      * @return <code>true</code> if the given ray intersects the axis-aligned box
      */
-    public static boolean testRayAab(Vector3f origin, Vector3f dir, Vector3f a, Vector3f b) {
+    public static boolean testRayAab(Vector3d origin, Vector3d dir, Vector3d a, Vector3d b) {
         return testRayAab(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, a.x, a.y, a.z, b.x, b.y, b.z);
     }
 
@@ -277,7 +387,7 @@ public class Intersection {
      * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
      * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
      * 
-     * @see #testRayTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f, float)
+     * @see #testRayTriangle(Vector3d, Vector3d, Vector3d, Vector3d, Vector3d, double)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -313,32 +423,32 @@ public class Intersection {
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return <code>true</code> if the given ray intersects with the frontface of the triangle
      */
-    public static boolean testRayTriangle(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
-            float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
-            float epsilon) {
-        float edge1X = v1X - v0X;
-        float edge1Y = v1Y - v0Y;
-        float edge1Z = v1Z - v0Z;
-        float edge2X = v2X - v0X;
-        float edge2Y = v2Y - v0Y;
-        float edge2Z = v2Z - v0Z;
-        float pvecX = dirY * edge2Z - dirZ * edge2Y;
-        float pvecY = dirZ * edge2X - dirX * edge2Z;
-        float pvecZ = dirX * edge2Y - dirY * edge2X;
-        float det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
+    public static boolean testRayTriangle(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
+            double v0X, double v0Y, double v0Z, double v1X, double v1Y, double v1Z, double v2X, double v2Y, double v2Z,
+            double epsilon) {
+        double edge1X = v1X - v0X;
+        double edge1Y = v1Y - v0Y;
+        double edge1Z = v1Z - v0Z;
+        double edge2X = v2X - v0X;
+        double edge2Y = v2Y - v0Y;
+        double edge2Z = v2Z - v0Z;
+        double pvecX = dirY * edge2Z - dirZ * edge2Y;
+        double pvecY = dirZ * edge2X - dirX * edge2Z;
+        double pvecZ = dirX * edge2Y - dirY * edge2X;
+        double det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
         if (det <= epsilon)
             return false;
-        float tvecX = originX - v0X;
-        float tvecY = originY - v0Y;
-        float tvecZ = originZ - v0Z;
-        float u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
-        if (u < 0.0f || u > det)
+        double tvecX = originX - v0X;
+        double tvecY = originY - v0Y;
+        double tvecZ = originZ - v0Z;
+        double u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
+        if (u < 0.0 || u > det)
             return false;
-        float qvecX = tvecY * edge1Z - tvecZ * edge1Y;
-        float qvecY = tvecZ * edge1X - tvecX * edge1Z;
-        float qvecZ = tvecX * edge1Y - tvecY * edge1X;
-        float v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
-        if (v < 0.0f || u + v > det)
+        double qvecX = tvecY * edge1Z - tvecZ * edge1Y;
+        double qvecY = tvecZ * edge1X - tvecX * edge1Z;
+        double qvecZ = tvecX * edge1Y - tvecY * edge1X;
+        double v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
+        if (v < 0.0 || u + v > det)
             return false;
         return true;
     }
@@ -354,7 +464,7 @@ public class Intersection {
      * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
      * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
      * 
-     * @see #testRayTriangle(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float)
+     * @see #testRayTriangle(double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double)
      * 
      * @param origin
      *              the ray's origin
@@ -370,7 +480,7 @@ public class Intersection {
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return <code>true</code> if the given ray intersects with the frontface of the triangle
      */
-    public static boolean testRayTriangle(Vector3f origin, Vector3f dir, Vector3f v0, Vector3f v1, Vector3f v2, float epsilon) {
+    public static boolean testRayTriangle(Vector3d origin, Vector3d dir, Vector3d v0, Vector3d v1, Vector3d v2, double epsilon) {
         return testRayTriangle(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, epsilon);
     }
     
@@ -386,7 +496,7 @@ public class Intersection {
      * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
      * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
      * 
-     * @see #testRayTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f, float)
+     * @see #testRayTriangle(Vector3d, Vector3d, Vector3d, Vector3d, Vector3d, double)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -423,35 +533,35 @@ public class Intersection {
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
      *         if the ray intersects with the triangle; <tt>-1.0</tt> otherwise
      */
-    public static float intersectRayTriangle(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
-            float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
-            float epsilon) {
-        float edge1X = v1X - v0X;
-        float edge1Y = v1Y - v0Y;
-        float edge1Z = v1Z - v0Z;
-        float edge2X = v2X - v0X;
-        float edge2Y = v2Y - v0Y;
-        float edge2Z = v2Z - v0Z;
-        float pvecX = dirY * edge2Z - dirZ * edge2Y;
-        float pvecY = dirZ * edge2X - dirX * edge2Z;
-        float pvecZ = dirX * edge2Y - dirY * edge2X;
-        float det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
+    public static double intersectRayTriangle(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
+            double v0X, double v0Y, double v0Z, double v1X, double v1Y, double v1Z, double v2X, double v2Y, double v2Z,
+            double epsilon) {
+        double edge1X = v1X - v0X;
+        double edge1Y = v1Y - v0Y;
+        double edge1Z = v1Z - v0Z;
+        double edge2X = v2X - v0X;
+        double edge2Y = v2Y - v0Y;
+        double edge2Z = v2Z - v0Z;
+        double pvecX = dirY * edge2Z - dirZ * edge2Y;
+        double pvecY = dirZ * edge2X - dirX * edge2Z;
+        double pvecZ = dirX * edge2Y - dirY * edge2X;
+        double det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
         if (det <= epsilon)
-            return -1.0f;
-        float tvecX = originX - v0X;
-        float tvecY = originY - v0Y;
-        float tvecZ = originZ - v0Z;
-        float u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
-        if (u < 0.0f || u > det)
-            return -1.0f;
-        float qvecX = tvecY * edge1Z - tvecZ * edge1Y;
-        float qvecY = tvecZ * edge1X - tvecX * edge1Z;
-        float qvecZ = tvecX * edge1Y - tvecY * edge1X;
-        float v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
-        if (v < 0.0f || u + v > det)
-            return -1.0f;
-        float invDet = 1.0f / det;
-        float t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
+            return -1.0;
+        double tvecX = originX - v0X;
+        double tvecY = originY - v0Y;
+        double tvecZ = originZ - v0Z;
+        double u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
+        if (u < 0.0 || u > det)
+            return -1.0;
+        double qvecX = tvecY * edge1Z - tvecZ * edge1Y;
+        double qvecY = tvecZ * edge1X - tvecX * edge1Z;
+        double qvecZ = tvecX * edge1Y - tvecY * edge1X;
+        double v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
+        if (v < 0.0 || u + v > det)
+            return -1.0;
+        double invDet = 1.0 / det;
+        double t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
         return t;
     }
 
@@ -466,7 +576,7 @@ public class Intersection {
      * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
      * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
      * 
-     * @see #intersectRayTriangle(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float)
+     * @see #intersectRayTriangle(double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double)
      * 
      * @param origin
      *              the ray's origin
@@ -483,7 +593,7 @@ public class Intersection {
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
      *         if the ray intersects with the triangle; <tt>-1.0</tt> otherwise
      */
-    public static float intersectRayTriangle(Vector3f origin, Vector3f dir, Vector3f v0, Vector3f v1, Vector3f v2, float epsilon) {
+    public static double intersectRayTriangle(Vector3d origin, Vector3d dir, Vector3d v0, Vector3d v1, Vector3d v2, double epsilon) {
         return intersectRayTriangle(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, epsilon);
     }
 
