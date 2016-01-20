@@ -35,8 +35,11 @@ public class Intersection {
      * <p>
      * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
      * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * 
      * @see #testRayAab(Vector3f, Vector3f, Vector3f, Vector3f)
+     * @see RayAabIntersection
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -90,8 +93,11 @@ public class Intersection {
      * <p>
      * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
      * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * 
      * @see #testRayAab(float, float, float, float, float, float, float, float, float, float, float, float)
+     * @see RayAabIntersection
      * 
      * @param origin
      *              the ray's origin

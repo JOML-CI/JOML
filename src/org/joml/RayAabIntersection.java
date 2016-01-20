@@ -26,6 +26,8 @@ package org.joml;
  * This is an implementation of the
  * <a href="http://www.cg.cs.tu-bs.de/media/publications/fast-rayaxis-aligned-bounding-box-overlap-tests-using-ray-slopes.pdf">Fast Ray/Axis-Aligned Bounding
  * Box Overlap Tests using Ray Slopes</a> paper.
+ * <p>
+ * It is an efficient implementation when testing many axis-aligned boxes against the same ray.
  * 
  * @author Kai Burjack
  */
