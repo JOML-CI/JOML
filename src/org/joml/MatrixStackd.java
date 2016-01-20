@@ -22,6 +22,10 @@
  */
 package org.joml;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 /**
  * A stack of many {@link Matrix4d} instances. This resembles the matrix stack known from legacy OpenGL.
  * <p>
@@ -104,22 +108,14 @@ public class MatrixStackd extends Matrix4d {
         return this;
     }
 
-    private static int hashCode(Object[] array) {
-        int prime = 31;
-        if (array == null)
-            return 0;
-        int result = 1;
-        for (int index = 0; index < array.length; index++) {
-            result = prime * result + (array[index] == null ? 0 : array[index].hashCode());
-        }
-        return result;
-    }
-
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + curr;
-        result = prime * result + MatrixStackd.hashCode(mats);
+        result = prime * result;
+        for (int i = 0; i < curr; i++) {
+            result = prime * result + mats[i].hashCode();
+        }
         return result;
     }
 
@@ -149,6 +145,26 @@ public class MatrixStackd extends Matrix4d {
             }
         }
         return true;
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        super.writeExternal(out);
+        out.writeInt(curr);
+        for (int i = 0; i < curr; i++) {
+            out.writeObject(mats[i]);
+        }
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        super.readExternal(in);
+        curr = in.readInt();
+        mats = new MatrixStackd[curr];
+        for (int i = 0; i < curr; i++) {
+            Matrix4d m = new Matrix4d();
+            m.readExternal(in);
+            mats[i] = m;
+        }
     }
 
 }
