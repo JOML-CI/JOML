@@ -243,7 +243,8 @@ public class Intersection {
      *              the position of the third vertex
      * @param epsilon
      *              a small epsilon when testing rays that are almost parallel to the triangle
-     * @return <code>true</code> if the given ray intersects with the frontface of the triangle
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
+     *         if the ray intersects with the triangle; <tt>-1.0</tt> otherwise
      */
     public static float intersectRayTriangle(Vector3f origin, Vector3f dir, Vector3f v0, Vector3f v1, Vector3f v2, float epsilon) {
         return intersectRayTriangle(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, epsilon);
