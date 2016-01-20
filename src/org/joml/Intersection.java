@@ -36,6 +36,8 @@ public class Intersection {
      * and far) of intersections into the given array <code>result</code>.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
+     * <p>
+     * Reference: <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection">http://www.scratchapixel.com/</a>
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -89,6 +91,8 @@ public class Intersection {
      * and far) of intersections into the given array <code>result</code>.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
+     * <p>
+     * Reference: <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection">http://www.scratchapixel.com/</a>
      * 
      * @param origin
      *              the ray's origin
@@ -112,6 +116,8 @@ public class Intersection {
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
+     * <p>
+     * Reference: <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection">http://www.scratchapixel.com/</a>
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -155,6 +161,8 @@ public class Intersection {
      * intersects the sphere with the given <code>center</code> and square radius.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
+     * <p>
+     * Reference: <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection">http://www.scratchapixel.com/</a>
      * 
      * @param origin
      *              the ray's origin
