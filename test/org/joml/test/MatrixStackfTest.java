@@ -30,7 +30,7 @@ public class MatrixStackfTest extends TestCase {
             fail();
         } catch (IllegalStateException e) {
             // Must reach here!
-            e.hashCode(); // <- just use 'e' somehow
+            e.hashCode(); // <- use e somehow
         }
     }
 
@@ -43,7 +43,7 @@ public class MatrixStackfTest extends TestCase {
             fail();
         } catch (IllegalStateException e) {
             // Must reach here!
-            e.hashCode(); // <- just use 'e' somehow
+            e.hashCode(); // <- use 'e' somehow
         }
     }
 
