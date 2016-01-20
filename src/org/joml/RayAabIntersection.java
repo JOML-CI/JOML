@@ -36,7 +36,7 @@ public class RayAabIntersection {
     /* Needed for ray slope intersection method */
     private float c_xy, c_yx, c_zy, c_yz, c_xz, c_zx;
     private float s_xy, s_yx, s_zy, s_yz, s_xz, s_zx;
-    private byte category;
+    private byte classification;
 
     /**
      * Create a new {@link RayAabIntersection} without initializing a ray.
@@ -128,7 +128,7 @@ public class RayAabIntersection {
         int sgnX = signum(dirX);
         int sgnY = signum(dirY);
         int sgnZ = signum(dirZ);
-        category = (byte) ((sgnZ+1) << 4 | (sgnY+1) << 2 | (sgnX+1));
+        classification = (byte) ((sgnZ+1) << 4 | (sgnY+1) << 2 | (sgnX+1));
     }
 
     /**
@@ -152,8 +152,8 @@ public class RayAabIntersection {
      * @return <code>true</code> if the ray intersects with the given axis-aligned box; <code>false</code> otherwise
      */
     public boolean intersect(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
-        // tableswitch with dense and consecutive cases (will be a simple jump based on the switch argument
-        switch (category) {
+        // tableswitch with dense and consecutive cases (will be a simple jump based on the switch argument)
+        switch (classification) {
         case 0: // 0b000000: // MMM
             return MMM(minX, minY, minZ, maxX, maxY, maxZ);
         case 1: // 0b000001: // OMM
