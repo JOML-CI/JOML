@@ -108,22 +108,14 @@ public class MatrixStackd extends Matrix4d {
         return this;
     }
 
-    private static int hashCode(Object[] array) {
-        int prime = 31;
-        if (array == null)
-            return 0;
-        int result = 1;
-        for (int index = 0; index < array.length; index++) {
-            result = prime * result + (array[index] == null ? 0 : array[index].hashCode());
-        }
-        return result;
-    }
-
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + curr;
-        result = prime * result + MatrixStackd.hashCode(mats);
+        result = prime * result;
+        for (int i = 0; i < curr; i++) {
+            result = prime * result + mats[i].hashCode();
+        }
         return result;
     }
 
