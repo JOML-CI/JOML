@@ -34,6 +34,8 @@ public class Intersection {
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
      * and far) of intersections into the given array <code>result</code>.
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -85,6 +87,8 @@ public class Intersection {
      * intersects the sphere with the given <code>center</code> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
      * and far) of intersections into the given array <code>result</code>.
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
      * 
      * @param origin
      *              the ray's origin
@@ -106,6 +110,8 @@ public class Intersection {
     /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -147,6 +153,8 @@ public class Intersection {
     /**
      * Test whether the ray with the given <code>origin</code> and direction <code>dir</code>
      * intersects the sphere with the given <code>center</code> and square radius.
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
      * 
      * @param origin
      *              the ray's origin
@@ -168,6 +176,8 @@ public class Intersection {
      * <p>
      * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
      * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * 
@@ -226,6 +236,8 @@ public class Intersection {
      * <p>
      * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
      * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * 
