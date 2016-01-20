@@ -91,18 +91,17 @@ public class Intersection {
         float det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
         if (det <= epsilon)
             return false;
-        float invDet = 1.0f / det;
         float tvecX = originX - v0X;
         float tvecY = originY - v0Y;
         float tvecZ = originZ - v0Z;
-        float u = (tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ) * invDet;
-        if (u < 0.0f || u > 1.0f)
+        float u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
+        if (u < 0.0f || u > det)
             return false;
         float qvecX = tvecY * edge1Z - tvecZ * edge1Y;
         float qvecY = tvecZ * edge1X - tvecX * edge1Z;
         float qvecZ = tvecX * edge1Y - tvecY * edge1X;
-        float v = (dirX * qvecX + dirY * qvecY + dirZ * qvecZ) * invDet;
-        if (v < 0.0f || u + v > 1.0f)
+        float v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
+        if (v < 0.0f || u + v > det)
             return false;
         return true;
     }
@@ -202,19 +201,19 @@ public class Intersection {
         float det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
         if (det <= epsilon)
             return -1.0f;
-        float invDet = 1.0f / det;
         float tvecX = originX - v0X;
         float tvecY = originY - v0Y;
         float tvecZ = originZ - v0Z;
-        float u = (tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ) * invDet;
-        if (u < 0.0f || u > 1.0f)
+        float u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
+        if (u < 0.0f || u > det)
             return -1.0f;
         float qvecX = tvecY * edge1Z - tvecZ * edge1Y;
         float qvecY = tvecZ * edge1X - tvecX * edge1Z;
         float qvecZ = tvecX * edge1Y - tvecY * edge1X;
-        float v = (dirX * qvecX + dirY * qvecY + dirZ * qvecZ) * invDet;
-        if (v < 0.0f || u + v > 1.0f)
+        float v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
+        if (v < 0.0f || u + v > det)
             return -1.0f;
+        float invDet = 1.0f / det;
         float t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
         return t;
     }
