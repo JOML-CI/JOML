@@ -10,7 +10,7 @@ import junit.framework.TestCase;
  * 
  * @author Kai Burjack
  */
-public class IntersectionTest extends TestCase {
+public class IntersectionfTest extends TestCase {
 
     public static void testIntersectRayTrianglePX() {
         Vector3f origin = new Vector3f();

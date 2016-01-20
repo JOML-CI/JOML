@@ -32,7 +32,7 @@ public class Intersectionf {
     /**
      * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>
      * between that triangle and the given point <tt>(pX, pY, pZ)</tt> and store that point into the given <code>result</code>.
-     * 
+     * <p>
      * Reference: Book "Real-Time Collision Detection"
      * 
      * @param v0X
@@ -120,7 +120,7 @@ public class Intersectionf {
     /**
      * Determine the closest point on the triangle with the vertices <code>v0</code>, <code>v1</code>, <code>v2</code>
      * between that triangle and the given point <code>p</code> and store that point into the given <code>result</code>.
-     * 
+     * <p>
      * Reference: Book "Real-Time Collision Detection"
      * 
      * @param v0
