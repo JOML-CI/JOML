@@ -31,6 +31,84 @@ public class Intersection {
 
     /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * intersects the given axis-aligned box given as any two opposite corners <tt>(aX, aY, aZ)</tt> and <tt>(bX, bY, bZ)</tt>.
+     * <p>
+     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
+     * Ray - Box Intersection</a> method, also known as "slab method."
+     * 
+     * @see #testRayAab(Vector3f, Vector3f, Vector3f, Vector3f)
+     * 
+     * @param originX
+     *              the x coordinate of the ray's origin
+     * @param originY
+     *              the y coordinate of the ray's origin
+     * @param originZ
+     *              the z coordinate of the ray's origin
+     * @param dirX
+     *              the x coordinate of the ray's direction
+     * @param dirY
+     *              the y coordinate of the ray's direction
+     * @param dirZ
+     *              the z coordinate of the ray's direction
+     * @param aX
+     *              the x coordinate of one corner of the axis-aligned box
+     * @param aY
+     *              the y coordinate of one corner of the axis-aligned box
+     * @param aZ
+     *              the z coordinate of one corner of the axis-aligned box
+     * @param bX
+     *              the x coordinate of the opposite corner of the axis-aligned box
+     * @param bY
+     *              the y coordinate of the opposite corner of the axis-aligned box
+     * @param bZ
+     *              the y coordinate of the opposite corner of the axis-aligned box
+     * @return <code>true</code> if the given ray intersects the axis-aligned box
+     */
+    public static boolean testRayAab(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
+            float aX, float aY, float aZ, float bX, float bY, float bZ) {
+        float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY, invDirZ = 1.0f / dirZ;
+        float tMinX = (aX - originX) * invDirX;
+        float tMinY = (aY - originY) * invDirY;
+        float tMinZ = (aZ - originZ) * invDirZ;
+        float tMaxX = (bX - originX) * invDirX;
+        float tMaxY = (bY - originY) * invDirY;
+        float tMaxZ = (bZ - originZ) * invDirZ;
+        float t1X = Math.min(tMinX, tMaxX);
+        float t1Y = Math.min(tMinY, tMaxY);
+        float t1Z = Math.min(tMinZ, tMaxZ);
+        float t2X = Math.max(tMinX, tMaxX);
+        float t2Y = Math.max(tMinY, tMaxY);
+        float t2Z = Math.max(tMinZ, tMaxZ);
+        float tNear = Math.max(Math.max(t1X, t1Y), t1Z);
+        float tFar = Math.min(Math.min(t2X, t2Y), t2Z);
+        return tNear < tFar && tFar >= 0.0f;
+    }
+
+    /**
+     * Test whether the ray with the given <code>origin</code> and direction <code>dir</code>
+     * intersects the given axis-aligned box specified as any two opposite corners <code>a</code> and <code>b</code>.
+     * <p>
+     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
+     * Ray - Box Intersection</a> method, also known as "slab method."
+     * 
+     * @see #testRayAab(float, float, float, float, float, float, float, float, float, float, float, float)
+     * 
+     * @param origin
+     *              the ray's origin
+     * @param dir
+     *              the ray's direction
+     * @param a
+     *              one corner of the axis-aligned box
+     * @param b
+     *              the opposite corner of the axis-aligned box
+     * @return <code>true</code> if the given ray intersects the axis-aligned box
+     */
+    public static boolean testRayAab(Vector3f origin, Vector3f dir, Vector3f a, Vector3f b) {
+        return testRayAab(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, a.x, a.y, a.z, b.x, b.y, b.z);
+    }
+
+    /**
+     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects with the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
      * <p>
      * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
