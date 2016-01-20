@@ -22,8 +22,6 @@
  */
 package org.joml;
 
-import java.util.Arrays;
-
 /**
  * A stack of many {@link Matrix4d} instances. This resembles the matrix stack known from legacy OpenGL.
  * <p>
@@ -145,8 +143,10 @@ public class MatrixStackd extends Matrix4d {
             MatrixStackd other = (MatrixStackd) obj;
             if (curr != other.curr)
                 return false;
-            if (!Arrays.equals(mats, other.mats))
-                return false;
+            for (int i = 0; i < curr; i++) {
+                if (mats[i].equals(other.mats[i]))
+                    return false;
+            }
         }
         return true;
     }
