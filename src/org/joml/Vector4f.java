@@ -1161,8 +1161,8 @@ public class Vector4f implements Externalizable {
     public float angle(Vector4f v) {
         float cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
-        cos = Math.min(cos, 1);
-        cos = Math.max(cos, -1);
+        cos = cos < 1 ? cos : 1;
+        cos = cos > -1 ? cos : -1;
         return (float) Math.acos(cos);
     }
 
@@ -1253,10 +1253,10 @@ public class Vector4f implements Externalizable {
      * @return this
      */
     public Vector4f min(Vector4f v) {
-        this.x = Math.min(x, v.x);
-        this.y = Math.min(y, v.y);
-        this.z = Math.min(z, v.z);
-        this.w = Math.min(w, v.w);
+        this.x = x < v.x ? x : v.x;
+        this.y = y < v.y ? y : v.y;
+        this.z = z < v.z ? z : v.z;
+        this.w = w < v.w ? w : v.w;
         return this;
     }
 
@@ -1269,10 +1269,10 @@ public class Vector4f implements Externalizable {
      * @return this
      */
     public Vector4f max(Vector4f v) {
-        this.x = Math.max(x, v.x);
-        this.y = Math.max(y, v.y);
-        this.z = Math.max(z, v.z);
-        this.w = Math.min(w, v.w);
+        this.x = x > v.x ? x : v.x;
+        this.y = y > v.y ? y : v.y;
+        this.z = z > v.z ? z : v.z;
+        this.w = w > v.w ? w : v.w;
         return this;
     }
 
