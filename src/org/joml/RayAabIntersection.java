@@ -43,7 +43,7 @@ public class RayAabIntersection {
     /**
      * Create a new {@link RayAabIntersection} without initializing a ray.
      * <p>
-     * Before using the {@link #intersect(float, float, float, float, float, float) intersect()} method,
+     * Before using the {@link #test(float, float, float, float, float, float) intersect()} method,
      * the method {@link #set(float, float, float, float, float, float) set()} must be called in order to
      * initialize the created RayAabIntersection instance with a ray.
      * 
@@ -134,7 +134,7 @@ public class RayAabIntersection {
     }
 
     /**
-     * Intersect the ray stored in this {@link RayAabIntersection} with the given axis-aligned box,
+     * Test whether the ray stored in this {@link RayAabIntersection} intersect the axis-aligned box
      * given via its minimum corner <tt>(minX, minY, minZ)</tt> and its maximum corner <tt>(maxX, maxY, maxZ)</tt>.
      * <p>
      * This implementation uses a tableswitch to dispatch to the correct intersection method.
@@ -151,9 +151,9 @@ public class RayAabIntersection {
      *          the y coordinate of the maximum corner
      * @param maxZ
      *          the z coordinate of the maximum corner
-     * @return <code>true</code> if the ray intersects with the given axis-aligned box; <code>false</code> otherwise
+     * @return <code>true</code> iff the ray intersects the given axis-aligned box; <code>false</code> otherwise
      */
-    public boolean intersect(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    public boolean test(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
         // tableswitch with dense and consecutive cases (will be a simple jump based on the switch argument)
         switch (classification) {
         case 0: // 0b000000: // MMM

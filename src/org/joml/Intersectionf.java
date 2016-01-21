@@ -898,7 +898,7 @@ public class Intersectionf {
         float tNear = t1XY > t1Z ? t1XY : t1Z;
         float t2XY = t2X < t2Y ? t2X : t2Y;
         float tFar = t2XY < t2Z ? t2XY : t2Z;
-        if (tNear < tFar && tFar >= 0.0) {
+        if (tNear < tFar && tFar >= 0.0f) {
             result[0] = tNear;
             result[1] = tFar;
             return true;
