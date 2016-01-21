@@ -30,6 +30,22 @@ package org.joml;
 public class Intersectionf {
 
     /**
+     * Return value of {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)}
+     * and {@link #findClosestPointOnTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f)} to signal that the closest point is a vertex of the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_VERTEX = 0;
+    /**
+     * Return value of {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)}
+     * and {@link #findClosestPointOnTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f)} to signal that the closest point lies on an edge of the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_EDGE = 1;
+    /**
+     * Return value of {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)}
+     * and {@link #findClosestPointOnTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f)} to signal that the closest point lies within the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_FACE = 2;
+
+    /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
      * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
      * <p>
@@ -554,6 +570,9 @@ public class Intersectionf {
      * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>
      * between that triangle and the given point <tt>(pX, pY, pZ)</tt> and store that point into the given <code>result</code>.
      * <p>
+     * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
+     * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
+     * <p>
      * Reference: Book "Real-Time Collision Detection"
      * 
      * @param v0X
@@ -582,9 +601,9 @@ public class Intersectionf {
      *          the y coordinate of the point
      * @param result
      *          will hold the closest point
-     * @return result
+     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX}, {@link #POINT_ON_TRIANGLE_EDGE} or {@link #POINT_ON_TRIANGLE_FACE}
      */
-    public static Vector3f findClosestPointOnTriangle(
+    public static int findClosestPointOnTriangle(
             float v0X, float v0Y, float v0Z,
             float v1X, float v1Y, float v1Z,
             float v2X, float v2Y, float v2Z,
@@ -598,45 +617,55 @@ public class Intersectionf {
         float d1 = -(abX * aX + abY * aY + abZ * aZ);
         float d2 = -(acX * aX + acY * aY + acZ * aZ);
         if (d1 <= 0.0f && d2 <= 0.0f) {
-            return result.set(v0X, v0Y, v0Z);
+            result.set(v0X, v0Y, v0Z);
+            return POINT_ON_TRIANGLE_VERTEX;
         }
         float d3 = -(abX * bX + abY * bY + abZ * bZ);
         float d4 = -(acX * bX + acY * bY + acZ * bZ);
         if (d3 >= 0.0f && d4 <= d3) {
-            return result.set(v1X, v1Y, v1Z);
+            result.set(v1X, v1Y, v1Z);
+            return POINT_ON_TRIANGLE_VERTEX;
         }
         float vc = d1 * d4 - d3 * d2;
         if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
             float v = d1 / (d1 - d3);
-            return result.set(v0X + abX * v, v0Y + abY * v, v0Z * abZ * v);
+            result.set(v0X + abX * v, v0Y + abY * v, v0Z * abZ * v);
+            return POINT_ON_TRIANGLE_EDGE;
         }
         float d5 = -(abX * cX + abY * cY + abZ * cZ);
         float d6 = -(acX * cX + acY * cY + acZ * cZ);
         if (d6 >= 0.0f && d5 <= d6) {
-            return result.set(v2X, v2Y, v2Z);
+            result.set(v2X, v2Y, v2Z);
+            return POINT_ON_TRIANGLE_VERTEX;
         }
         float vb = d5 * d2 - d1 * d6;
         if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
             float w = d2 / (d2 - d6);
-            return result.set(v0X + acX * w, v0Y + acY * w, v0Z + acZ * w);
+            result.set(v0X + acX * w, v0Y + acY * w, v0Z + acZ * w);
+            return POINT_ON_TRIANGLE_EDGE;
         }
         float va = d3 * d6 - d5 * d4;
         if (va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f) {
             float w = (d4 - d3) / (d4 - d3 + d5 - d6);
-            return result.set(v1X + (cX - bX) * w, v1Y + (cY - bY) * w, v1Z + (cZ - bZ) * w);
+            result.set(v1X + (cX - bX) * w, v1Y + (cY - bY) * w, v1Z + (cZ - bZ) * w);
+            return POINT_ON_TRIANGLE_EDGE;
         }
         float denom = 1.0f / (va + vb + vc);
         float vn = vb * denom;
         float wn = vc * denom;
-        return result.set(
-                v0X + abX * vn + acX * wn,
-                v0Y + abY * vn + acY * wn,
-                v0Z + abZ * vn + acZ * wn);
+        result.set(
+            v0X + abX * vn + acX * wn,
+            v0Y + abY * vn + acY * wn,
+            v0Z + abZ * vn + acZ * wn);
+        return POINT_ON_TRIANGLE_FACE;
     }
 
     /**
      * Determine the closest point on the triangle with the vertices <code>v0</code>, <code>v1</code>, <code>v2</code>
      * between that triangle and the given point <code>p</code> and store that point into the given <code>result</code>.
+     * <p>
+     * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
+     * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
      * <p>
      * Reference: Book "Real-Time Collision Detection"
      * 
@@ -650,9 +679,9 @@ public class Intersectionf {
      *          the point
      * @param result
      *          will hold the closest point
-     * @return result
+     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX}, {@link #POINT_ON_TRIANGLE_EDGE} or {@link #POINT_ON_TRIANGLE_FACE}
      */
-    public static Vector3f findClosestPointOnTriangle(Vector3f v0, Vector3f v1, Vector3f v2, Vector3f p, Vector3f result) {
+    public static int findClosestPointOnTriangle(Vector3f v0, Vector3f v1, Vector3f v2, Vector3f p, Vector3f result) {
         return findClosestPointOnTriangle(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, p.x, p.y, p.z, result);
     }
 
