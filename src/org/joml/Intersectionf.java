@@ -30,6 +30,230 @@ package org.joml;
 public class Intersectionf {
 
     /**
+     * Test whether the one sphere with center <tt>(aX, aY, aZ)</tt> and square radius <code>radiusSquaredA</code> intersects the other
+     * sphere with center <tt>(bX, bY, bZ)</tt> and square radius <code>radiusSquaredB</code>, and return the center of the circle of
+     * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
+     * <p>
+     * The normal vector of the circle of intersection can simply be obtained by subtracting the center of either sphere from the other.
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
+     * 
+     * @param aX
+     *              the x coordinate of the first sphere's center
+     * @param aY
+     *              the y coordinate of the first sphere's center
+     * @param aZ
+     *              the z coordinate of the first sphere's center
+     * @param radiusSquaredA
+     *              the square of the first sphere's radius
+     * @param bX
+     *              the x coordinate of the second sphere's center
+     * @param bY
+     *              the y coordinate of the second sphere's center
+     * @param bZ
+     *              the z coordinate of the second sphere's center
+     * @param radiusSquaredB
+     *              the square of the second sphere's radius
+     * @param centerAndRadiusOfIntersectionCircle
+     *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
+     * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
+     */
+    public static boolean intersectSphereSphere(
+            float aX, float aY, float aZ, float radiusSquaredA,
+            float bX, float bY, float bZ, float radiusSquaredB,
+            Vector4f centerAndRadiusOfIntersectionCircle) {
+        float distSquared = (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY) + (aZ - bZ) * (aZ - bZ);
+        float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
+        centerAndRadiusOfIntersectionCircle.x = aX + h * (bX - aX);
+        centerAndRadiusOfIntersectionCircle.y = aY + h * (bY - aY);
+        centerAndRadiusOfIntersectionCircle.z = aZ + h * (bZ - aZ);
+        float r_i = (float) Math.sqrt(radiusSquaredA - h * h * distSquared);
+        centerAndRadiusOfIntersectionCircle.w = r_i;
+        return r_i >= 0.0f;
+    }
+
+    /**
+     * Test whether the one sphere with center <code>centerA</code> and square radius <code>radiusSquaredA</code> intersects the other
+     * sphere with center <code>centerB</code> and square radius <code>radiusSquaredB</code>, and return the center of the circle of
+     * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
+     * <p>
+     * The normal vector of the circle of intersection can simply be obtained by subtracting the center of either sphere from the other.
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
+     * 
+     * @param centerA
+     *              the first sphere's center
+     * @param radiusSquaredA
+     *              the square of the first sphere's radius
+     * @param centerB
+     *              the second sphere's center
+     * @param radiusSquaredB
+     *              the square of the second sphere's radius
+     * @param centerAndRadiusOfIntersectionCircle
+     *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
+     * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
+     */
+    public static boolean intersectSphereSphere(Vector3f centerA, float radiusSquaredA, Vector3f centerB, float radiusSquaredB, Vector4f centerAndRadiusOfIntersectionCircle) {
+        return intersectSphereSphere(centerA.x, centerA.y, centerA.z, radiusSquaredB, centerB.x, centerB.y, centerB.z, radiusSquaredB, centerAndRadiusOfIntersectionCircle);
+    }
+
+    /**
+     * Test whether the one sphere with center <tt>(aX, aY, aZ)</tt> and square radius <code>radiusSquaredA</code> intersects the other
+     * sphere with center <tt>(bX, bY, bZ)</tt> and square radius <code>radiusSquaredB</code>.
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
+     * 
+     * @param aX
+     *              the x coordinate of the first sphere's center
+     * @param aY
+     *              the y coordinate of the first sphere's center
+     * @param aZ
+     *              the z coordinate of the first sphere's center
+     * @param radiusSquaredA
+     *              the square of the first sphere's radius
+     * @param bX
+     *              the x coordinate of the second sphere's center
+     * @param bY
+     *              the y coordinate of the second sphere's center
+     * @param bZ
+     *              the z coordinate of the second sphere's center
+     * @param radiusSquaredB
+     *              the square of the second sphere's radius
+     * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
+     */
+    public static boolean testSphereSphere(
+            float aX, float aY, float aZ, float radiusSquaredA,
+            float bX, float bY, float bZ, float radiusSquaredB) {
+        float distSquared = (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY) + (aZ - bZ) * (aZ - bZ);
+        float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
+        float r_i = (float) Math.sqrt(radiusSquaredA - h * h * distSquared);
+        return r_i >= 0.0f;
+    }
+
+    /**
+     * Test whether the one sphere with center <code>centerA</code> and square radius <code>radiusSquaredA</code> intersects the other
+     * sphere with center <code>centerB</code> and square radius <code>radiusSquaredB</code>.
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
+     * 
+     * @param centerA
+     *              the first sphere's center
+     * @param radiusSquaredA
+     *              the square of the first sphere's radius
+     * @param centerB
+     *              the second sphere's center
+     * @param radiusSquaredB
+     *              the square of the second sphere's radius
+     * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
+     */
+    public static boolean testSphereSphere(Vector3f centerA, float radiusSquaredA, Vector3f centerB, float radiusSquaredB) {
+        return testSphereSphere(centerA.x, centerA.y, centerA.z, radiusSquaredA, centerB.x, centerB.y, centerB.z, radiusSquaredB);
+    }
+
+    /**
+     * Determine the signed distance of the given point <tt>(pointX, pointY, pointZ)</tt> to the plane specified via its general plane equation
+     * <i>a*x + b*y + c*z + d = 0</i>.
+     * 
+     * @param pointX
+     *              the x coordinate of the point
+     * @param pointY
+     *              the y coordinate of the point
+     * @param pointZ
+     *              the z coordinate of the point
+     * @param a
+     *              the x factor in the plane equation
+     * @param b
+     *              the y factor in the plane equation
+     * @param c
+     *              the z factor in the plane equation
+     * @param d
+     *              the constant in the plane equation
+     * @return the distance between the point and the plane
+     */
+    public static float distanceToPlane(float pointX, float pointY, float pointZ,
+            float a, float b, float c, float d) {
+        float denom = (float) Math.sqrt(a * a + b * b + c * c);
+        return (a * pointX + b * pointY + c * pointZ + d) / denom;
+    }
+
+    /**
+     * Test whether the ray with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt> intersects the plane
+     * containing the given point <tt>(pointX, pointY, pointZ)</tt> and having the normal <tt>(normalX, normalY, normalZ)</tt>, and return the
+     * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
+     * <p>
+     * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
+     * away from the plane.
+     * 
+     * @param originX
+     *              the x coordinate of the ray's origin
+     * @param originY
+     *              the y coordinate of the ray's origin
+     * @param originZ
+     *              the z coordinate of the ray's origin
+     * @param dirX
+     *              the x coordinate of the ray's direction
+     * @param dirY
+     *              the y coordinate of the ray's direction
+     * @param dirZ
+     *              the z coordinate of the ray's direction
+     * @param pointX
+     *              the x coordinate of a point on the plane
+     * @param pointY
+     *              the y coordinate of a point on the plane
+     * @param pointZ
+     *              the z coordinate of a point on the plane
+     * @param normalX
+     *              the x coordinate of the plane's normal
+     * @param normalY
+     *              the y coordinate of the plane's normal
+     * @param normalZ
+     *              the z coordinate of the plane's normal
+     * @param epsilon
+     *              some small epsilon for when the ray is parallel to the plane
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
+     *         intersects the plane; <tt>-1.0</tt> otherwise
+     */
+    public static float intersectRayPlane(
+            float originX, float originY, float originZ,
+            float dirX, float dirY, float dirZ,
+            float pointX, float pointY, float pointZ,
+            float normalX, float normalY, float normalZ,
+            float epsilon) {
+        float denom = normalX * dirX + normalY * dirY + normalZ * dirZ;
+        if (Math.abs(denom) > epsilon) {
+            float t = ((pointX - originX) * normalX + (pointY - originY) * normalY + (pointZ - originZ) * normalZ) / denom;
+            if (t >= 0.0f)
+                return t;
+        }
+        return -1.0f;
+    }
+
+    /**
+     * Test whether the ray with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt> intersects the plane
+     * containing the given point <tt>(pointX, pointY, pointZ)</tt> and having the normal <tt>(normalX, normalY, normalZ)</tt>, and return the
+     * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
+     * <p>
+     * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
+     * away from the plane.
+     * 
+     * @param origin
+     *              the ray's origin
+     * @param dir
+     *              the ray's direction
+     * @param point
+     *              a point on the plane
+     * @param normal
+     *              the plane's normal
+     * @param epsilon
+     *              some small epsilon for when the ray is parallel to the plane
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
+     *         intersects the plane; <tt>-1.0</tt> otherwise
+     */
+    public static float intersectRayPlane(Vector3f origin, Vector3f dir, Vector3f point, Vector3f normal, float epsilon) {
+        return intersectRayPlane(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, point.x, point.y, point.z, normal.x, normal.y, normal.z, epsilon);
+    }
+
+    /**
      * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
      * intersects the sphere with the given center <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
      * 
@@ -53,7 +277,7 @@ public class Intersectionf {
      *          the z coordinate of the sphere's center
      * @param radiusSquared
      *          the square of the sphere's radius
-     * @return <code>true</code> iff the axis-aligned box intersects the sphere
+     * @return <code>true</code> iff the axis-aligned box intersects the sphere; <code>false</code> otherwise
      */
     public static boolean testAabSphere(
             float minX, float minY, float minZ,
@@ -96,7 +320,7 @@ public class Intersectionf {
      *          the sphere's center
      * @param radiusSquared
      *          the squared of the sphere's radius
-     * @return <code>true</code> iff the axis-aligned box intersects the sphere
+     * @return <code>true</code> iff the axis-aligned box intersects the sphere; <code>false</code> otherwise
      */
     public static boolean testAabSphere(Vector3f min, Vector3f max, Vector3f center, float radiusSquared) {
         return testAabSphere(min.x, min.y, min.z, max.x, max.y, max.z, center.x, center.y, center.z, radiusSquared);
@@ -359,6 +583,109 @@ public class Intersectionf {
 
     /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * intersects the given axis-aligned box given as any two opposite corners <tt>(aX, aY, aZ)</tt> and <tt>(bX, bY, bZ)</tt>,
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection.
+     * <p>
+     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
+     * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
+     * <p>
+     * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
+     * 
+     * @see #intersectRayAab(Vector3f, Vector3f, Vector3f, Vector3f, float[])
+     * @see RayAabIntersection
+     * 
+     * @param originX
+     *              the x coordinate of the ray's origin
+     * @param originY
+     *              the y coordinate of the ray's origin
+     * @param originZ
+     *              the z coordinate of the ray's origin
+     * @param dirX
+     *              the x coordinate of the ray's direction
+     * @param dirY
+     *              the y coordinate of the ray's direction
+     * @param dirZ
+     *              the z coordinate of the ray's direction
+     * @param aX
+     *              the x coordinate of one corner of the axis-aligned box
+     * @param aY
+     *              the y coordinate of one corner of the axis-aligned box
+     * @param aZ
+     *              the z coordinate of one corner of the axis-aligned box
+     * @param bX
+     *              the x coordinate of the opposite corner of the axis-aligned box
+     * @param bY
+     *              the y coordinate of the opposite corner of the axis-aligned box
+     * @param bZ
+     *              the y coordinate of the opposite corner of the axis-aligned box
+     * @param result
+     *              the float[] array which will hold the resulting values of the parameter
+     *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
+     *              iff the ray intersects the axis-aligned box
+     * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
+     */
+    public static boolean intersectRayAab(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
+            float aX, float aY, float aZ, float bX, float bY, float bZ, float[] result) {
+        float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY, invDirZ = 1.0f / dirZ;
+        float tMinX = (aX - originX) * invDirX;
+        float tMinY = (aY - originY) * invDirY;
+        float tMinZ = (aZ - originZ) * invDirZ;
+        float tMaxX = (bX - originX) * invDirX;
+        float tMaxY = (bY - originY) * invDirY;
+        float tMaxZ = (bZ - originZ) * invDirZ;
+        float t1X = Math.min(tMinX, tMaxX);
+        float t1Y = Math.min(tMinY, tMaxY);
+        float t1Z = Math.min(tMinZ, tMaxZ);
+        float t2X = Math.max(tMinX, tMaxX);
+        float t2Y = Math.max(tMinY, tMaxY);
+        float t2Z = Math.max(tMinZ, tMaxZ);
+        float tNear = Math.max(Math.max(t1X, t1Y), t1Z);
+        float tFar = Math.min(Math.min(t2X, t2Y), t2Z);
+        if (tNear < tFar && tFar >= 0.0) {
+            result[0] = tNear;
+            result[1] = tFar;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Test whether the ray with the given <code>origin</code> and direction <code>dir</code>
+     * intersects the given axis-aligned box specified as any two opposite corners <code>a</code> and <code>b</code>,
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection..
+     * <p>
+     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
+     * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
+     * <p>
+     * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
+     * 
+     * @see #intersectRayAab(float, float, float, float, float, float, float, float, float, float, float, float, float[])
+     * @see RayAabIntersection
+     * 
+     * @param origin
+     *              the ray's origin
+     * @param dir
+     *              the ray's direction
+     * @param a
+     *              one corner of the axis-aligned box
+     * @param b
+     *              the opposite corner of the axis-aligned box
+     * @param result
+     *              the float[] array which will hold the resulting values of the parameter
+     *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
+     *              iff the ray intersects the axis-aligned box
+     * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
+     */
+    public static boolean intersectRayAab(Vector3f origin, Vector3f dir, Vector3f a, Vector3f b, float[] result) {
+        return intersectRayAab(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, a.x, a.y, a.z, b.x, b.y, b.z, result);
+    }
+
+    /**
+     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the given axis-aligned box given as any two opposite corners <tt>(aX, aY, aZ)</tt> and <tt>(bX, bY, bZ)</tt>.
      * <p>
      * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
@@ -395,7 +722,7 @@ public class Intersectionf {
      *              the y coordinate of the opposite corner of the axis-aligned box
      * @param bZ
      *              the y coordinate of the opposite corner of the axis-aligned box
-     * @return <code>true</code> if the given ray intersects the axis-aligned box
+     * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
      */
     public static boolean testRayAab(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
             float aX, float aY, float aZ, float bX, float bY, float bZ) {
@@ -439,7 +766,7 @@ public class Intersectionf {
      *              one corner of the axis-aligned box
      * @param b
      *              the opposite corner of the axis-aligned box
-     * @return <code>true</code> if the given ray intersects the axis-aligned box
+     * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
      */
     public static boolean testRayAab(Vector3f origin, Vector3f dir, Vector3f a, Vector3f b) {
         return testRayAab(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, a.x, a.y, a.z, b.x, b.y, b.z);
@@ -447,7 +774,7 @@ public class Intersectionf {
 
     /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects with the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
+     * intersects the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
      * <p>
      * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
@@ -490,7 +817,7 @@ public class Intersectionf {
      *              the z coordinate of the second vertex
      * @param epsilon
      *              a small epsilon when testing rays that are almost parallel to the triangle
-     * @return <code>true</code> if the given ray intersects with the frontface of the triangle
+     * @return <code>true</code> if the given ray intersects with the frontface of the triangle; <code>false</code> otherwise
      */
     public static boolean testRayTriangle(float originX, float originY, float originZ, float dirX, float dirY, float dirZ,
             float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
@@ -523,7 +850,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects with the frontface of the triangle consisting of the three vertices
+     * Test whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects the frontface of the triangle consisting of the three vertices
      * <code>v0</code>, <code>v1</code> and <code>v2</code>.
      * <p>
      * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
@@ -547,7 +874,7 @@ public class Intersectionf {
      *              the position of the third vertex
      * @param epsilon
      *              a small epsilon when testing rays that are almost parallel to the triangle
-     * @return <code>true</code> if the given ray intersects with the frontface of the triangle
+     * @return <code>true</code> if the given ray intersects with the frontface of the triangle; <code>false</code> otherwise
      */
     public static boolean testRayTriangle(Vector3f origin, Vector3f dir, Vector3f v0, Vector3f v1, Vector3f v2, float epsilon) {
         return testRayTriangle(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, epsilon);
@@ -555,7 +882,7 @@ public class Intersectionf {
     
     /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
-     * intersects with the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>
+     * intersects the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>
      * and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
      * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
@@ -635,7 +962,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects with the frontface of the triangle consisting of the three vertices
+     * Test whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects the frontface of the triangle consisting of the three vertices
      * <code>v0</code>, <code>v1</code> and <code>v2</code> and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
      * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
