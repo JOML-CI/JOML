@@ -30,6 +30,63 @@ package org.joml;
 public class Intersectionf {
 
     /**
+     * Test whether the axis-aligned box with minimum corner <tt>(minXA, minYA, minZA)</tt> and maximum corner <tt>(maxXA, maxYA, maxZA)</tt>
+     * intersects the axis-aligned box with minimum corner <tt>(minXB, minYB, minZB)</tt> and maximum corner <tt>(maxXB, maxYB, maxZB)</tt>.
+     * 
+     * @param minXA
+     *              the x coordinate of the minimum corner of the first axis-aligned box
+     * @param minYA
+     *              the y coordinate of the minimum corner of the first axis-aligned box
+     * @param minZA
+     *              the z coordinate of the minimum corner of the first axis-aligned box
+     * @param maxXA
+     *              the x coordinate of the maximum corner of the first axis-aligned box
+     * @param maxYA
+     *              the y coordinate of the maximum corner of the first axis-aligned box
+     * @param maxZA
+     *              the z coordinate of the maximum corner of the first axis-aligned box
+     * @param minXB
+     *              the x coordinate of the minimum corner of the second axis-aligned box
+     * @param minYB
+     *              the y coordinate of the minimum corner of the second axis-aligned box
+     * @param minZB
+     *              the z coordinate of the minimum corner of the second axis-aligned box
+     * @param maxXB
+     *              the x coordinate of the maximum corner of the second axis-aligned box
+     * @param maxYB
+     *              the y coordinate of the maximum corner of the second axis-aligned box
+     * @param maxZB
+     *              the z coordinate of the maximum corner of the second axis-aligned box
+     * @return <code>true</code> iff both axis-aligned boxes intersect; <code>false</code> otherwise
+     */
+    public static boolean testAabAab(
+            float minXA, float minYA, float minZA,
+            float maxXA, float maxYA, float maxZA,
+            float minXB, float minYB, float minZB,
+            float maxXB, float maxYB, float maxZB) {
+        return maxXA >= minXB &&  maxYA >= minYB && maxZA >= minZB && 
+               minXA <= maxXB &&  minYA <= maxYB && minZA <= maxZB;
+    }
+
+    /**
+     * Test whether the axis-aligned box with minimum corner <code>minA</code> and maximum corner <code>maxA</code>
+     * intersects the axis-aligned box with minimum corner <code>minB</code> and maximum corner <code>maxB</code>.
+     * 
+     * @param minA
+     *              the minimum corner of the first axis-aligned box
+     * @param maxA
+     *              the maximum corner of the first axis-aligned box
+     * @param minB
+     *              the minimum corner of the second axis-aligned box
+     * @param maxB
+     *              the maximum corner of the second axis-aligned box
+     * @return <code>true</code> iff both axis-aligned boxes intersect; <code>false</code> otherwise
+     */
+    public static boolean testAabAab(Vector3f minA, Vector3f maxA, Vector3f minB, Vector3f maxB) {
+        return testAabAab(minA.x, minA.y, minA.z, maxA.x, maxA.y, maxA.z, minB.x, minB.y, minB.z, maxB.x, maxB.y, maxB.z);
+    }
+
+    /**
      * Test whether the one sphere with center <tt>(aX, aY, aZ)</tt> and square radius <code>radiusSquaredA</code> intersects the other
      * sphere with center <tt>(bX, bY, bZ)</tt> and square radius <code>radiusSquaredB</code>, and return the center of the circle of
      * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
@@ -256,6 +313,8 @@ public class Intersectionf {
     /**
      * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
      * intersects the sphere with the given center <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
      * 
      * @param minX
      *          the x coordinate of the minimum corner of the axis-aligned box
@@ -311,6 +370,8 @@ public class Intersectionf {
     /**
      * Test whether the axis-aligned box with minimum corner <code>min</code> and maximum corner <code>max</code>
      * intersects the sphere with the given <code>center</code> and <code>radius</code>.
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
      * 
      * @param min
      *          the minimum corner of the axis-aligned box
