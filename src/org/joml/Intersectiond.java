@@ -30,6 +30,79 @@ package org.joml;
 public class Intersectiond {
 
     /**
+     * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
+     * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
+     * <p>
+     * Reference: <a href="http://math.stackexchange.com/questions/943383/determine-circle-of-intersection-of-plane-and-sphere">http://math.stackexchange.com</a>
+     *
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param centerX
+     *          the x coordinate of the sphere's center
+     * @param centerY
+     *          the y coordinate of the sphere's center
+     * @param centerZ
+     *          the z coordinate of the sphere's center
+     * @param radius
+     *          the radius of the sphere
+     * @return <code>true</code> iff the plane intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testPlaneSphere(double a, double b, double c, double d,
+            double centerX, double centerY, double centerZ, double radius) {
+        double denom = Math.sqrt(a * a + b * b + c * c);
+        double dist = (a * centerX + b * centerY + c * centerZ + d) / denom;
+        return -radius <= dist && dist <= radius;
+    }
+
+    /**
+     * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
+     * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>, and store the center of the circle of
+     * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
+     * <p>
+     * Reference: <a href="http://math.stackexchange.com/questions/943383/determine-circle-of-intersection-of-plane-and-sphere">http://math.stackexchange.com</a>
+     *
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param centerX
+     *          the x coordinate of the sphere's center
+     * @param centerY
+     *          the y coordinate of the sphere's center
+     * @param centerZ
+     *          the z coordinate of the sphere's center
+     * @param radius
+     *          the radius of the sphere
+     * @param intersectionCenterAndRadius
+     *          will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
+     * @return <code>true</code> iff the plane intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean intersectPlaneSphere(double a, double b, double c, double d,
+            double centerX, double centerY, double centerZ, double radius,
+            Vector4d intersectionCenterAndRadius) {
+        double denom = Math.sqrt(a * a + b * b + c * c);
+        double dist = (a * centerX + b * centerY + c * centerZ + d) / denom;
+        if (-radius <= dist && dist <= radius) {
+            intersectionCenterAndRadius.x = centerX + dist * a;
+            intersectionCenterAndRadius.y = centerY + dist * b;
+            intersectionCenterAndRadius.z = centerZ + dist * c;
+            intersectionCenterAndRadius.w = Math.sqrt(radius * radius - dist * dist);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
      * intersects the plane with the general equation <i>a*x + b*y + c*z + d = 0</i>.
      * <p>
@@ -147,8 +220,8 @@ public class Intersectiond {
             double maxXA, double maxYA, double maxZA,
             double minXB, double minYB, double minZB,
             double maxXB, double maxYB, double maxZB) {
-        return maxXA >= minXB &&  maxYA >= minYB && maxZA >= minZB && 
-               minXA <= maxXB &&  minYA <= maxYB && minZA <= maxZB;
+        return maxXA >= minXB && maxYA >= minYB && maxZA >= minZB && 
+               minXA <= maxXB && minYA <= maxYB && minZA <= maxZB;
     }
 
     /**
@@ -171,7 +244,7 @@ public class Intersectiond {
 
     /**
      * Test whether the one sphere with center <tt>(aX, aY, aZ)</tt> and square radius <code>radiusSquaredA</code> intersects the other
-     * sphere with center <tt>(bX, bY, bZ)</tt> and square radius <code>radiusSquaredB</code>, and return the center of the circle of
+     * sphere with center <tt>(bX, bY, bZ)</tt> and square radius <code>radiusSquaredB</code>, and store the center of the circle of
      * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
      * <p>
      * The normal vector of the circle of intersection can simply be obtained by subtracting the center of either sphere from the other.
@@ -218,7 +291,7 @@ public class Intersectiond {
 
     /**
      * Test whether the one sphere with center <code>centerA</code> and square radius <code>radiusSquaredA</code> intersects the other
-     * sphere with center <code>centerB</code> and square radius <code>radiusSquaredB</code>, and return the center of the circle of
+     * sphere with center <code>centerB</code> and square radius <code>radiusSquaredB</code>, and store the center of the circle of
      * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
      * <p>
      * The normal vector of the circle of intersection can simply be obtained by subtracting the center of either sphere from the other.
@@ -293,6 +366,32 @@ public class Intersectiond {
      */
     public static boolean testSphereSphere(Vector3d centerA, double radiusSquaredA, Vector3d centerB, double radiusSquaredB) {
         return testSphereSphere(centerA.x, centerA.y, centerA.z, radiusSquaredA, centerB.x, centerB.y, centerB.z, radiusSquaredB);
+    }
+
+    /**
+     * Determine the signed distance of the given point <tt>(pointX, pointY, pointZ)</tt> to the plane specified via its general plane equation
+     * <i>a*x + b*y + c*z + d = 0</i>.
+     * 
+     * @param pointX
+     *              the x coordinate of the point
+     * @param pointY
+     *              the y coordinate of the point
+     * @param pointZ
+     *              the z coordinate of the point
+     * @param a
+     *              the x factor in the plane equation
+     * @param b
+     *              the y factor in the plane equation
+     * @param c
+     *              the z factor in the plane equation
+     * @param d
+     *              the constant in the plane equation
+     * @return the distance between the point and the plane
+     */
+    public static double distanceToPlane(double pointX, double pointY, double pointZ,
+            double a, double b, double c, double d) {
+        double denom = Math.sqrt(a * a + b * b + c * c);
+        return (a * pointX + b * pointY + c * pointZ + d) / denom;
     }
 
     /**

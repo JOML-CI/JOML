@@ -2,6 +2,7 @@ package org.joml.test;
 
 import org.joml.Intersectionf;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import junit.framework.TestCase;
 
@@ -62,6 +63,20 @@ public class IntersectionfTest extends TestCase {
         assertFalse(Intersectionf.testAabPlane(-1, -1, -1, 1, 1, 1, 1, 1, 1, 3.1f));
         assertTrue(Intersectionf.testAabPlane(-1, -1, -1, 1, 1, 1, 1, 1, 1, -3.0f));
         assertFalse(Intersectionf.testAabPlane(-1, -1, -1, 1, 1, 1, 1, 1, 1, -3.1f));
+    }
+
+    public static void testSphereSphere() {
+        assertTrue(Intersectionf.testSphereSphere(0, 0, 0, 1, 0.5f, 0, 0, 1));
+        Vector4f res = new Vector4f();
+        assertTrue(Intersectionf.intersectSphereSphere(0, 0, 0, 1, 0.5f, 0, 0, 1, res));
+        // intersection point is (0.25, 0, 0) <- middle between both spheres with equal radii
+        TestUtil.assertVector3fEquals(new Vector3f(0.25f, 0, 0), new Vector3f(res.x, res.y, res.z), 1E-6f);
+        // cos(a) = adjside/hyp
+        // cos(a) * hyp = adjside
+        // acos(cos(a) * hyp) = acos(adjside)
+        // y = sin(acos(adjside))
+        float expectedRadius = (float) Math.sin(Math.acos(0.25));
+        assertEquals(expectedRadius, res.w, 1E-6f);
     }
 
 }
