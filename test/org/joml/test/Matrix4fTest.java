@@ -197,13 +197,13 @@ public class Matrix4fTest extends TestCase {
         Matrix4f inv = new Matrix4f(m).invert();
         m.positiveX(dir);
         inv.transformDirection(dir2.set(1, 0, 0));
-        TestUtil.assertVector3fEquals(dir2, dir, 1E-7f);
+        TestUtil.assertVector3fEquals(dir2, dir, 1E-6f);
         m.positiveY(dir);
         inv.transformDirection(dir2.set(0, 1, 0));
-        TestUtil.assertVector3fEquals(dir2, dir, 1E-7f);
+        TestUtil.assertVector3fEquals(dir2, dir, 1E-6f);
         m.positiveZ(dir);
         inv.transformDirection(dir2.set(0, 0, 1));
-        TestUtil.assertVector3fEquals(dir2, dir, 1E-7f);
+        TestUtil.assertVector3fEquals(dir2, dir, 1E-6f);
     }
 
     public static void testFrustumCornerIdentity() {
