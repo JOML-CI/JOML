@@ -202,14 +202,18 @@ public class Intersectionf {
             float aX, float aY, float aZ, float radiusSquaredA,
             float bX, float bY, float bZ, float radiusSquaredB,
             Vector4f centerAndRadiusOfIntersectionCircle) {
-        float distSquared = (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY) + (aZ - bZ) * (aZ - bZ);
+        float dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
+        float distSquared = dX * dX + dY * dY + dZ * dZ;
         float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
-        centerAndRadiusOfIntersectionCircle.x = aX + h * (bX - aX);
-        centerAndRadiusOfIntersectionCircle.y = aY + h * (bY - aY);
-        centerAndRadiusOfIntersectionCircle.z = aZ + h * (bZ - aZ);
         float r_i = (float) Math.sqrt(radiusSquaredA - h * h * distSquared);
-        centerAndRadiusOfIntersectionCircle.w = r_i;
-        return r_i >= 0.0f;
+        if (r_i >= 0.0f) {
+            centerAndRadiusOfIntersectionCircle.x = aX + h * dX;
+            centerAndRadiusOfIntersectionCircle.y = aY + h * dY;
+            centerAndRadiusOfIntersectionCircle.z = aZ + h * dZ;
+            centerAndRadiusOfIntersectionCircle.w = r_i;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -264,7 +268,8 @@ public class Intersectionf {
     public static boolean testSphereSphere(
             float aX, float aY, float aZ, float radiusSquaredA,
             float bX, float bY, float bZ, float radiusSquaredB) {
-        float distSquared = (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY) + (aZ - bZ) * (aZ - bZ);
+        float dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
+        float distSquared = dX * dX + dY * dY + dZ * dZ;
         float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
         float r_i = (float) Math.sqrt(radiusSquaredA - h * h * distSquared);
         return r_i >= 0.0f;
@@ -322,7 +327,7 @@ public class Intersectionf {
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
      * <p>
      * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
-     * away from the plane.
+     * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -360,7 +365,7 @@ public class Intersectionf {
             float normalX, float normalY, float normalZ,
             float epsilon) {
         float denom = normalX * dirX + normalY * dirY + normalZ * dirZ;
-        if (Math.abs(denom) > epsilon) {
+        if (denom < epsilon) {
             float t = ((pointX - originX) * normalX + (pointY - originY) * normalY + (pointZ - originZ) * normalZ) / denom;
             if (t >= 0.0f)
                 return t;
@@ -374,7 +379,7 @@ public class Intersectionf {
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
      * <p>
      * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
-     * away from the plane.
+     * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
      * 
      * @param origin
      *              the ray's origin

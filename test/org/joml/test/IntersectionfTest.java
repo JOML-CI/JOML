@@ -43,6 +43,9 @@ public class IntersectionfTest extends TestCase {
         assertTrue(t >= 0.0f);
         Vector3f intersection = new Vector3f(dir).mul(t).add(origin);
         TestUtil.assertVector3fEquals(new Vector3f(2, 2, 2), intersection, 1E-6f);
+        normal = new Vector3f(1, 1, 1);
+        t = Intersectionf.intersectRayPlane(origin, dir, point, normal, 0.0f);
+        assertEquals(-1.0f, t, 1E-6f);
     }
 
     public static void testNotIntersectRayPlane() {
@@ -52,6 +55,13 @@ public class IntersectionfTest extends TestCase {
         Vector3f normal = new Vector3f(-1, -1, -1);
         float t = Intersectionf.intersectRayPlane(origin, dir, point, normal, 0.0f);
         assertTrue(t == -1.0f);
+    }
+
+    public static void testAabPlane() {
+        assertTrue(Intersectionf.testAabPlane(-1, -1, -1, 1, 1, 1, 1, 1, 1, 3.0f));
+        assertFalse(Intersectionf.testAabPlane(-1, -1, -1, 1, 1, 1, 1, 1, 1, 3.1f));
+        assertTrue(Intersectionf.testAabPlane(-1, -1, -1, 1, 1, 1, 1, 1, 1, -3.0f));
+        assertFalse(Intersectionf.testAabPlane(-1, -1, -1, 1, 1, 1, 1, 1, 1, -3.1f));
     }
 
 }
