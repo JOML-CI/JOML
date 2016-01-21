@@ -112,7 +112,6 @@ public class MatrixStackd extends Matrix4d {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + curr;
-        result = prime * result;
         for (int i = 0; i < curr; i++) {
             result = prime * result + mats[i].hashCode();
         }
