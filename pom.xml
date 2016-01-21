@@ -4,7 +4,7 @@
 	<groupId>org.joml</groupId>
 	<artifactId>joml-fastmath</artifactId>
 	<version>1.6.9-SNAPSHOT</version>
-	<name>JOML</name>
+	<name>JOML Fastmath</name>
 	<description>Java OpenGL Math Library - Fastmath</description>
 	<inceptionYear>2015</inceptionYear>
 	<url>http://joml.org</url>

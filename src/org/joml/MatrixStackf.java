@@ -22,6 +22,10 @@
  */
 package org.joml;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 /**
  * A stack of many {@link Matrix4f} instances. This resembles the matrix stack known from legacy OpenGL.
  * <p>
@@ -102,6 +106,64 @@ public class MatrixStackf extends Matrix4f {
         }
         set(mats[--curr]);
         return this;
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + curr;
+        for (int i = 0; i < curr; i++) {
+            result = prime * result + mats[i].hashCode();
+        }
+        return result;
+    }
+
+    /*
+     * Contract between Matrix4f and MatrixStackf:
+     * 
+     * - Matrix4f.equals(MatrixStackf) is true iff all the 16 matrix elements are equal
+     * - MatrixStackf.equals(Matrix4f) is true iff all the 16 matrix elements are equal
+     * - MatrixStackf.equals(MatrixStackf) is true iff all 16 matrix elements are equal AND the matrix arrays as well as the stack pointer are equal
+     * - everything else is inequal
+     * 
+     * (non-Javadoc)
+     * @see org.joml.Matrix4f#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (obj instanceof MatrixStackf) {
+            MatrixStackf other = (MatrixStackf) obj;
+            if (curr != other.curr)
+                return false;
+            for (int i = 0; i < curr; i++) {
+                if (!mats[i].equals(other.mats[i]))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public void writeExternal(ObjectOutput out) throws IOException {
+        super.writeExternal(out);
+        out.writeInt(curr);
+        for (int i = 0; i < curr; i++) {
+            out.writeObject(mats[i]);
+        }
+    }
+
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        super.readExternal(in);
+        curr = in.readInt();
+        mats = new MatrixStackf[curr];
+        for (int i = 0; i < curr; i++) {
+            Matrix4f m = new Matrix4f();
+            m.readExternal(in);
+            mats[i] = m;
+        }
     }
 
 }
