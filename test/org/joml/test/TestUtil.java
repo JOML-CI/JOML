@@ -36,7 +36,7 @@ public class TestUtil {
      * @see #floatCompare(float, float, float)
      */
     public static boolean floatEqual(float a, float b, float precision) {
-        return Math.abs(a - b) <= precision;
+        return java.lang.Math.abs(a - b) <= precision;
     }
 
     /**
@@ -48,7 +48,7 @@ public class TestUtil {
      * @see #floatEqual(float, float, float)
      */
     public static int floatCompare(float a, float b, float precision) {
-        if (Math.abs(a - b) <= precision)
+        if (java.lang.Math.abs(a - b) <= precision)
             return 0;
         else if (a > b)
             return 1;
@@ -66,7 +66,7 @@ public class TestUtil {
      * @see #floatCompare(double, double, double)
      */
     public static boolean doubleEqual(double a, double b, double precision) {
-        return Math.abs(a - b) <= precision;
+        return java.lang.Math.abs(a - b) <= precision;
     }
 
     /**
@@ -79,7 +79,7 @@ public class TestUtil {
      * @see #floatEqual(double, double, double)
      */
     public static int doubleCompare(double a, double b, double precision) {
-        if (Math.abs(a - b) <= precision)
+        if (java.lang.Math.abs(a - b) <= precision)
             return 0;
         else if (a > b)
             return 1;
