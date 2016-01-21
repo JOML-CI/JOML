@@ -30,6 +30,93 @@ package org.joml;
 public class Intersectiond {
 
     /**
+     * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
+     * intersects the plane with the normalized general equation <i>a*x + b*y + c*z + d = 0</i>.
+     * <p>
+     * The plane normal <tt>(a, b, c)</tt> must be normalized.
+     * <p>
+     * Reference: <a href="http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html">http://zach.in.tu-clausthal.de</a> ("Geometric Approach - Testing Boxes II")
+     * 
+     * @param minX
+     *          the x coordinate of the minimum corner of the axis-aligned box
+     * @param minY
+     *          the y coordinate of the minimum corner of the axis-aligned box
+     * @param minZ
+     *          the z coordinate of the minimum corner of the axis-aligned box
+     * @param maxX
+     *          the x coordinate of the maximum corner of the axis-aligned box
+     * @param maxY
+     *          the y coordinate of the maximum corner of the axis-aligned box
+     * @param maxZ
+     *          the z coordinate of the maximum corner of the axis-aligned box
+     * @param a
+     *          the x factor in the normalized plane equation
+     * @param b
+     *          the y factor in the normalized plane equation
+     * @param c
+     *          the z factor in the normalized plane equation
+     * @param d
+     *          the constant in the normalized plane equation
+     * @return <code>true</code> iff the axis-aligned box intersects the plane; <code>false</code> otherwise
+     */
+    public static boolean testAabPlane(
+            double minX, double minY, double minZ,
+            double maxX, double maxY, double maxZ,
+            double a, double b, double c, double d) {
+        double pX, pY, pZ, nX, nY, nZ;
+        if (a > 0.0) {
+            pX = maxX;
+            nX = minX;
+        } else {
+            pX = minX;
+            nX = maxX;
+        }
+        if (b > 0.0) {
+            pY = maxY;
+            nY = minY;
+        } else {
+            pY = minY;
+            nY = maxY;
+        }
+        if (c > 0.0) {
+            pZ = maxZ;
+            nZ = minZ;
+        } else {
+            pZ = minZ;
+            nZ = maxZ;
+        }
+        double distN = d + a * nX + b * nY + c * nZ;
+        double distP = d + a * pX + b * pY + c * pZ;
+        return distN <= 0.0 && distP >= 0.0;
+    }
+
+    /**
+     * Test whether the axis-aligned box with minimum corner <code>min</code> and maximum corner <code>max</code>
+     * intersects the plane with the normalized general equation <i>a*x + b*y + c*z + d = 0</i>.
+     * <p>
+     * The plane normal <tt>(a, b, c)</tt> must be normalized.
+     * <p>
+     * Reference: <a href="http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html">http://zach.in.tu-clausthal.de</a> ("Geometric Approach - Testing Boxes II")
+     * 
+     * @param min
+     *          the minimum corner of the axis-aligned box
+     * @param max
+     *          the maximum corner of the axis-aligned box
+     * @param a
+     *          the x factor in the normalized plane equation
+     * @param b
+     *          the y factor in the normalized plane equation
+     * @param c
+     *          the z factor in the normalized plane equation
+     * @param d
+     *          the constant in the normalized plane equation
+     * @return <code>true</code> iff the axis-aligned box intersects the plane; <code>false</code> otherwise
+     */
+    public static boolean testAabPlane(Vector3d min, Vector3d max, double a, double b, double c, double d) {
+        return testAabPlane(min.x, min.y, min.z, max.x, max.y, max.z, a, b, c, d);
+    }
+
+    /**
      * Test whether the axis-aligned box with minimum corner <tt>(minXA, minYA, minZA)</tt> and maximum corner <tt>(maxXA, maxYA, maxZA)</tt>
      * intersects the axis-aligned box with minimum corner <tt>(minXB, minYB, minZB)</tt> and maximum corner <tt>(maxXB, maxYB, maxZB)</tt>.
      * 
