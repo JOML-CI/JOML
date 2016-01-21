@@ -31,9 +31,7 @@ public class Intersectionf {
 
     /**
      * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
-     * intersects the plane with the normalized general equation <i>a*x + b*y + c*z + d = 0</i>.
-     * <p>
-     * The plane normal <tt>(a, b, c)</tt> must be normalized.
+     * intersects the plane with the general equation <i>a*x + b*y + c*z + d = 0</i>.
      * <p>
      * Reference: <a href="http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html">http://zach.in.tu-clausthal.de</a> ("Geometric Approach - Testing Boxes II")
      * 
@@ -50,13 +48,13 @@ public class Intersectionf {
      * @param maxZ
      *          the z coordinate of the maximum corner of the axis-aligned box
      * @param a
-     *          the x factor in the normalized plane equation
+     *          the x factor in the plane equation
      * @param b
-     *          the y factor in the normalized plane equation
+     *          the y factor in the plane equation
      * @param c
-     *          the z factor in the normalized plane equation
+     *          the z factor in the plane equation
      * @param d
-     *          the constant in the normalized plane equation
+     *          the constant in the plane equation
      * @return <code>true</code> iff the axis-aligned box intersects the plane; <code>false</code> otherwise
      */
     public static boolean testAabPlane(
@@ -92,9 +90,7 @@ public class Intersectionf {
 
     /**
      * Test whether the axis-aligned box with minimum corner <code>min</code> and maximum corner <code>max</code>
-     * intersects the plane with the normalized general equation <i>a*x + b*y + c*z + d = 0</i>.
-     * <p>
-     * The plane normal <tt>(a, b, c)</tt> must be normalized.
+     * intersects the plane with the general equation <i>a*x + b*y + c*z + d = 0</i>.
      * <p>
      * Reference: <a href="http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html">http://zach.in.tu-clausthal.de</a> ("Geometric Approach - Testing Boxes II")
      * 
@@ -103,13 +99,13 @@ public class Intersectionf {
      * @param max
      *          the maximum corner of the axis-aligned box
      * @param a
-     *          the x factor in the normalized plane equation
+     *          the x factor in the plane equation
      * @param b
-     *          the y factor in the normalized plane equation
+     *          the y factor in the plane equation
      * @param c
-     *          the z factor in the normalized plane equation
+     *          the z factor in the plane equation
      * @param d
-     *          the constant in the normalized plane equation
+     *          the constant in the plane equation
      * @return <code>true</code> iff the axis-aligned box intersects the plane; <code>false</code> otherwise
      */
     public static boolean testAabPlane(Vector3f min, Vector3f max, float a, float b, float c, float d) {
@@ -399,7 +395,7 @@ public class Intersectionf {
 
     /**
      * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
-     * intersects the sphere with the given center <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
+     * intersects the sphere with the given center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
      * <p>
      * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
      * 
@@ -456,7 +452,7 @@ public class Intersectionf {
 
     /**
      * Test whether the axis-aligned box with minimum corner <code>min</code> and maximum corner <code>max</code>
-     * intersects the sphere with the given <code>center</code> and <code>radius</code>.
+     * intersects the sphere with the given <code>center</code> and square radius <code>radiusSquared</code>.
      * <p>
      * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
      * 
