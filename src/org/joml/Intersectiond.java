@@ -463,8 +463,8 @@ public class Intersectiond {
     }
 
     /**
-     * Test whether the ray with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt> intersects the plane
-     * containing the given point <tt>(pointX, pointY, pointZ)</tt> and having the normal <tt>(normalX, normalY, normalZ)</tt>, and return the
+     * Test whether the ray with given <code>origin</code> and direction <code>dir</code> intersects the plane
+     * containing the given <code>point</code> and having the given <code>normal</code>, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
      * <p>
      * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points

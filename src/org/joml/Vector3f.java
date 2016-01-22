@@ -73,7 +73,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4f} with the given component values.
+     * Create a new {@link Vector3f} with the given component values.
      * 
      * @param x
      *          the value of x
