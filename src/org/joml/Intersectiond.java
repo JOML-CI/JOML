@@ -417,6 +417,8 @@ public class Intersectiond {
      * <p>
      * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
      * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
+     * <p>
+     * Reference: <a href="https://www.siggraph.org/education/materials/HyperGraph/raytrace/rayplane_intersection.htm">https://www.siggraph.org/</a>
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -469,6 +471,8 @@ public class Intersectiond {
      * <p>
      * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
      * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
+     * <p>
+     * Reference: <a href="https://www.siggraph.org/education/materials/HyperGraph/raytrace/rayplane_intersection.htm">https://www.siggraph.org/</a>
      * 
      * @param origin
      *              the ray's origin
@@ -485,6 +489,52 @@ public class Intersectiond {
      */
     public static double intersectRayPlane(Vector3d origin, Vector3d dir, Vector3d point, Vector3d normal, double epsilon) {
         return intersectRayPlane(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, point.x, point.y, point.z, normal.x, normal.y, normal.z, epsilon);
+    }
+
+    /**
+     * Test whether the ray with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt> intersects the plane
+     * given as the general plane equation <i>a*x + b*y + c*z + d = 0</i>, and return the
+     * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
+     * <p>
+     * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
+     * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
+     * <p>
+     * Reference: <a href="https://www.siggraph.org/education/materials/HyperGraph/raytrace/rayplane_intersection.htm">https://www.siggraph.org/</a>
+     * 
+     * @param originX
+     *              the x coordinate of the ray's origin
+     * @param originY
+     *              the y coordinate of the ray's origin
+     * @param originZ
+     *              the z coordinate of the ray's origin
+     * @param dirX
+     *              the x coordinate of the ray's direction
+     * @param dirY
+     *              the y coordinate of the ray's direction
+     * @param dirZ
+     *              the z coordinate of the ray's direction
+     * @param a
+     *              the x factor in the plane equation
+     * @param b
+     *              the y factor in the plane equation
+     * @param c
+     *              the z factor in the plane equation
+     * @param d
+     *              the constant in the plane equation
+     * @param epsilon
+     *              some small epsilon for when the ray is parallel to the plane
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
+     *         intersects the plane; <tt>-1.0</tt> otherwise
+     */
+    public static double intersectRayPlane(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
+            double a, double b, double c, double d, double epsilon) {
+        double denom = a * dirX + b * dirY + c * dirZ;
+        if (denom < 0.0) {
+            double t = -(a * originX + b * originY + c * originZ + d) / denom;
+            if (t >= 0.0)
+                return t;
+        }
+        return -1.0;
     }
 
     /**
