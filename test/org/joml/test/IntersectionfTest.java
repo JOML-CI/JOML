@@ -79,4 +79,8 @@ public class IntersectionfTest extends TestCase {
         assertEquals(expectedRadius, res.w, 1E-6f);
     }
 
+    public static void testAabSphere() {
+        assertTrue(Intersectionf.testAabSphere(-1, -1, -1, 1, 1, 1, 2, 0, 0, 1.0f));
+    }
+
 }

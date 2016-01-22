@@ -543,7 +543,7 @@ public class Intersectionf {
             float d = (centerZ - maxZ);
             radius2 -= d * d;
         }
-        return radius2 > 0.0f;
+        return radius2 >= 0.0f;
     }
 
     /**
