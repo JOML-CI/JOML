@@ -9,7 +9,7 @@ import org.joml.*;
  * @author Sebastian Fellner
  */
 public class Vector4fTest extends TestCase {
-    public void testAngleVector4fVector4f() {
+    public static void testAngleVector4fVector4f() {
         Vector4f testVec1 = new Vector4f(2f, -9.37f, 5.892f, -12.5f);
         Vector4f testVec2 = new Vector4f();
         
@@ -20,6 +20,6 @@ public class Vector4fTest extends TestCase {
         // angle(v, -v) should give Math.PI
         testVec1.negate(testVec2);
         angle = testVec1.angle(testVec2);
-        assertEquals(Math.PI, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
+        assertEquals(java.lang.Math.PI, angle, TestUtil.MANY_OPS_AROUND_ZERO_PRECISION_FLOAT);
     }
 }
