@@ -961,4 +961,109 @@ public class Intersectionf {
         return dx2 + dy2 <= radiusSquared;
     }
 
+    /**
+     * Test whether the circle with center <tt>(centerX, centerY)</tt> and square radius <code>radiusSquared</code> intersects the triangle with counter-clockwise vertices
+     * <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt>, <tt>(v2X, v2Y)</tt>.
+     * <p>
+     * The vertices of the triangle must be specified in counter-clockwise order.
+     * <p>
+     * Reference: <a href="http://www.phatcode.net/articles.php?id=459">http://www.phatcode.net/</a>
+     * 
+     * @param centerX
+     *          the x coordinate of the circle's center
+     * @param centerY
+     *          the y coordinate of the circle's center
+     * @param radiusSquared
+     *          the square radius of the circle
+     * @param v0X
+     *          the x coordinate of the first vertex of the triangle
+     * @param v0Y
+     *          the y coordinate of the first vertex of the triangle
+     * @param v1X
+     *          the x coordinate of the second vertex of the triangle
+     * @param v1Y
+     *          the y coordinate of the second vertex of the triangle
+     * @param v2X
+     *          the x coordinate of the third vertex of the triangle
+     * @param v2Y
+     *          the y coordinate of the third vertex of the triangle
+     * @return <code>true</code> iff the circle intersects the triangle; <code>false</code> otherwise
+     */
+    public static boolean testCircleTriangle(float centerX, float centerY, float radiusSquared, float v0X, float v0Y, float v1X, float v1Y, float v2X, float v2Y) {
+        float c1x = centerX - v0X;
+        float c1y = centerY - v0Y;
+        float c1sqr = c1x * c1x + c1y * c1y - radiusSquared;
+        if (c1sqr <= 0.0f)
+            return true;
+        float c2x = centerX - v1X;
+        float c2y = centerY - v1Y;
+        float c2sqr = c2x * c2x + c2y * c2y - radiusSquared;
+        if (c2sqr <= 0.0f)
+            return true;
+        float c3x = centerX - v2X;
+        float c3y = centerY - v2Y;
+        float c3sqr = c3x * c3x + c3y * c3y - radiusSquared;
+        if (c3sqr <= 0.0f)
+            return true;
+        float e1x = v1X - v0X;
+        float e1y = v1Y - v0Y;
+        float e2x = v2X - v1X;
+        float e2y = v2Y - v1Y;
+        float e3x = v0X - v2X;
+        float e3y = v0Y - v2Y;
+        if (e1x * (centerY - v0Y) - e1y * (centerX - v0X) >= 0.0f &&
+            e2x * (centerY - v1Y) - e2y * (centerX - v1X) >= 0.0f &&
+            e3x * (centerY - v2Y) - e3y * (centerX - v2X) >= 0.0f)
+            return true;
+        float k = c1x * e1x + c1y * e1y;
+        if (k >= 0.0f) {
+            float len = e1x * e1x + e1y * e1y;
+            if (k <= len) {
+                if (c1sqr * len <= k * k)
+                    return true;
+            }
+        }
+        k = c2x * e2x + c2y * e2y;
+        if (k > 0.0f) {
+            float len = e2x * e2x + e2y * e2y;
+            if (k <= len) {
+                if (c2sqr * len <= k * k)
+                    return true;
+            }
+        }
+        k = c3x * e3x + c3y * e3y;
+        if (k >= 0.0f) {
+            float len = e3x * e3x + e3y * e3y;
+            if (k < len) {
+                if (c3sqr * len <= k * k)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Test whether the circle with given <code>center</code> and square radius <code>radiusSquared</code> intersects the triangle with counter-clockwise vertices
+     * <code>v0</code>, <code>v1</code>, <code>v2</code>.
+     * <p>
+     * The vertices of the triangle must be specified in counter-clockwise order.
+     * <p>
+     * Reference: <a href="http://www.phatcode.net/articles.php?id=459">http://www.phatcode.net/</a>
+     * 
+     * @param center
+     *          the circle's center
+     * @param radiusSquared
+     *          the square radius of the circle
+     * @param v0
+     *          the first vertex of the triangle
+     * @param v1
+     *          the second vertex of the triangle
+     * @param v2
+     *          the third vertex of the triangle
+     * @return <code>true</code> iff the circle intersects the triangle; <code>false</code> otherwise
+     */
+    public static boolean testCircleTriangle(Vector2f center, float radiusSquared, Vector2f v0, Vector2f v1, Vector2f v2) {
+        return testCircleTriangle(center.x, center.y, radiusSquared, v0.x, v0.y, v1.x, v1.y, v2.x, v2.y);
+    }
+
 }
