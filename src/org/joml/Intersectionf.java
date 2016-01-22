@@ -172,6 +172,35 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether the axis-aligned rectangle with minimum corner <tt>(minX, minY)</tt> and maximum corner <tt>(maxX, maxY)</tt>
+     * intersects the line defined by the two points <tt>(x0, y0)</tt> and <tt>(x1, y1)</tt>.
+     * <p>
+     * Reference: <a href="http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html">http://zach.in.tu-clausthal.de</a> ("Geometric Approach - Testing Boxes II")
+     * 
+     * @param minX
+     *          the x coordinate of the minimum corner of the axis-aligned rectangle
+     * @param minY
+     *          the y coordinate of the minimum corner of the axis-aligned rectangle
+     * @param maxX
+     *          the x coordinate of the maximum corner of the axis-aligned rectangle
+     * @param maxY
+     *          the y coordinate of the maximum corner of the axis-aligned rectangle
+     * @param x0
+     *          the x coordinate of the first point on the line
+     * @param y0
+     *          the y coordinate of the first point on the line
+     * @param x1
+     *          the x coordinate of the second point on the line
+     * @param y1
+     *          the y coordinate of the second point on the line
+     * @return <code>true</code> iff the axis-aligned rectangle intersects the line; <code>false</code> otherwise
+     */
+    public static boolean testAarLine(float minX, float minY, float maxX, float maxY, float x0, float y0, float x1, float y1) {
+        // Build general line equation from two points and use the other method
+        return testAarLine(minX, minY, maxX, maxY, y0 - y1, x1 - x0, (x0 - x1) * y0 + (y1 - y0) * x0);
+    }
+
+    /**
      * Test whether the axis-aligned rectangle with minimum corner <tt>(minXA, minYA)</tt> and maximum corner <tt>(maxXA, maxYA)</tt>
      * intersects the axis-aligned rectangle with minimum corner <tt>(minXB, minYB)</tt> and maximum corner <tt>(maxXB, maxYB)</tt>.
      * 
@@ -885,6 +914,51 @@ public class Intersectionf {
      */
     public static boolean testPointTriangle(Vector2f point, Vector2f v0, Vector2f v1, Vector2f v2) {
         return testPointTriangle(point.x, point.y, v0.x, v0.y, v1.x, v1.y, v2.x, v2.y);
+    }
+
+    /**
+     * Test whether the given point <tt>(pX, pY)</tt> lies inside the axis-aligned rectangle with the minimum corner <tt>(minX, minY)</tt>
+     * and maximum corner <tt>(maxX, maxY)</tt>.
+     * 
+     * @param pX
+     *          the x coordinate of the point
+     * @param pY
+     *          the y coordinate of the point
+     * @param minX
+     *          the x coordinate of the minimum corner of the axis-aligned rectangle
+     * @param minY
+     *          the y coordinate of the minimum corner of the axis-aligned rectangle
+     * @param maxX
+     *          the x coordinate of the maximum corner of the axis-aligned rectangle
+     * @param maxY
+     *          the y coordinate of the maximum corner of the axis-aligned rectangle
+     * @return <code>true</code> iff the point lies inside the axis-aligned rectangle; <code>false</code> otherwise
+     */
+    public static boolean testPointAar(float pX, float pY, float minX, float minY, float maxX, float maxY) {
+        return pX >= minX && pY >= minY && pX <= maxX && pY <= maxY;
+    }
+
+    /**
+     * Test whether the point <tt>(pX, pY)</tt> lies inside the circle with center <tt>(centerX, centerY)</tt> and square radius <code>radiusSquared</code>.
+     * 
+     * @param pX
+     *          the x coordinate of the point
+     * @param pY
+     *          the y coordinate of the point
+     * @param centerX
+     *          the x coordinate of the circle's center
+     * @param centerY
+     *          the y coordinate of the circle's center
+     * @param radiusSquared
+     *          the square radius of the circle
+     * @return <code>true</code> iff the point lies inside the circle; <code>false</code> otherwise
+     */
+    public static boolean testPointCircle(float pX, float pY, float centerX, float centerY, float radiusSquared) {
+        float dx = pX - centerX;
+        float dy = pY - centerY;
+        float dx2 = dx * dx;
+        float dy2 = dy * dy;
+        return dx2 + dy2 <= radiusSquared;
     }
 
 }
