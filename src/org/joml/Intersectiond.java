@@ -294,12 +294,12 @@ public class Intersectiond {
         double dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
         double distSquared = dX * dX + dY * dY + dZ * dZ;
         double h = 0.5 + (radiusSquaredA - radiusSquaredB) / distSquared;
-        double r_i = Math.sqrt(radiusSquaredA - h * h * distSquared);
+        double r_i = radiusSquaredA - h * h * distSquared;
         if (r_i >= 0.0) {
             centerAndRadiusOfIntersectionCircle.x = aX + h * dX;
             centerAndRadiusOfIntersectionCircle.y = aY + h * dY;
             centerAndRadiusOfIntersectionCircle.z = aZ + h * dZ;
-            centerAndRadiusOfIntersectionCircle.w = r_i;
+            centerAndRadiusOfIntersectionCircle.w = (float) Math.sqrt(r_i);
             return true;
         }
         return false;
@@ -360,7 +360,7 @@ public class Intersectiond {
         double dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
         double distSquared = dX * dX + dY * dY + dZ * dZ;
         double h = 0.5 + (radiusSquaredA - radiusSquaredB) / distSquared;
-        double r_i = Math.sqrt(radiusSquaredA - h * h * distSquared);
+        double r_i = radiusSquaredA - h * h * distSquared;
         return r_i >= 0.0;
     }
 

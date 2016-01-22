@@ -296,12 +296,12 @@ public class Intersectionf {
         float dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
         float distSquared = dX * dX + dY * dY + dZ * dZ;
         float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
-        float r_i = (float) Math.sqrt(radiusSquaredA - h * h * distSquared);
+        float r_i = radiusSquaredA - h * h * distSquared;
         if (r_i >= 0.0f) {
             centerAndRadiusOfIntersectionCircle.x = aX + h * dX;
             centerAndRadiusOfIntersectionCircle.y = aY + h * dY;
             centerAndRadiusOfIntersectionCircle.z = aZ + h * dZ;
-            centerAndRadiusOfIntersectionCircle.w = r_i;
+            centerAndRadiusOfIntersectionCircle.w = (float) Math.sqrt(r_i);
             return true;
         }
         return false;
@@ -362,7 +362,7 @@ public class Intersectionf {
         float dX = bX - aX, dY = bY - aY, dZ = bZ - aZ;
         float distSquared = dX * dX + dY * dY + dZ * dZ;
         float h = 0.5f + (radiusSquaredA - radiusSquaredB) / distSquared;
-        float r_i = (float) Math.sqrt(radiusSquaredA - h * h * distSquared);
+        float r_i = radiusSquaredA - h * h * distSquared;
         return r_i >= 0.0f;
     }
 
