@@ -812,7 +812,7 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the given matrix <code>mat</code>, perform perspective division.
+     * Multiply this Vector4f by the given matrix <code>mat</code>, perform perspective division.
      * 
      * @param mat
      *          the matrix to multiply this vector by
