@@ -94,7 +94,6 @@ public class PolygonPointIntersection {
     }
 
     private float[] verticesXY;
-    private float[] constantAndMultiple;
     private float minX, minY, maxX, maxY;
     private Interval[] intervals; // <- used as working memory for the pointInPolygon() method
     private IntervalTree tree;
@@ -125,10 +124,7 @@ public class PolygonPointIntersection {
      */
     public void set(float[] verticesXY) {
         this.verticesXY = verticesXY;
-        if (this.constantAndMultiple == null || this.constantAndMultiple.length < verticesXY.length) {
-            this.constantAndMultiple = new float[verticesXY.length];
-        }
-        precalcValues();
+        buildIntervalTree();
     }
 
     private IntervalTree buildTree(List intervals, float center) {
@@ -203,31 +199,6 @@ public class PolygonPointIntersection {
         }
         tree = buildTree(intervals, (maxY + minY) / 2.0f);
         this.intervals = new Interval[tree.maxCount];
-    }
-
-    private void precalcValues() {
-        int i, j = verticesXY.length / 2 - 1;
-        minX = minY = 1E38f;
-        maxX = maxY = -1E38f;
-        for (i = 0; i < verticesXY.length / 2; i++) {
-            float yi = verticesXY[2 * i + 1];
-            float yj = verticesXY[2 * j + 1];
-            float xi = verticesXY[2 * i + 0];
-            minX = xi < minX ? xi : minX;
-            minY = yi < minY ? yi : minY;
-            maxX = xi > maxX ? xi : maxX;
-            maxY = yi > maxY ? yi : maxY;
-            if (yj == yi) {
-                constantAndMultiple[2 * i + 0] = xi;
-                constantAndMultiple[2 * i + 1] = 0.0f;
-            } else {
-                float xj = verticesXY[2 * j + 0];
-                constantAndMultiple[2 * i + 0] = xi - (yi * xj) / (yj - yi) + (yi * xi) / (yj - yi);
-                constantAndMultiple[2 * i + 1] = (xj - xi) / (yj - yi);
-            }
-            j = i;
-        }
-        buildIntervalTree();
     }
 
     /**
