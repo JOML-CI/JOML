@@ -840,4 +840,51 @@ public class Intersectionf {
         return testRayAar(origin.x, origin.y, dir.x, dir.y, a.x, a.y, b.x, b.y);
     }
 
+    /**
+     * Test whether the given point <tt>(pX, pY)</tt> lies inside the triangle with the vertices <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt>, <tt>(v2X, v2Y)</tt>.
+     * 
+     * @param pX
+     *          the x coordinate of the point
+     * @param pY
+     *          the y coordinate of the point
+     * @param v0X
+     *          the x coordinate of the first vertex of the triangle
+     * @param v0Y
+     *          the y coordinate of the first vertex of the triangle
+     * @param v1X
+     *          the x coordinate of the second vertex of the triangle
+     * @param v1Y
+     *          the y coordinate of the second vertex of the triangle
+     * @param v2X
+     *          the x coordinate of the third vertex of the triangle
+     * @param v2Y
+     *          the y coordinate of the third vertex of the triangle
+     * @return <code>true</code> iff the point lies inside the triangle; <code>false</code> otherwise
+     */
+    public static boolean testPointTriangle(float pX, float pY, float v0X, float v0Y, float v1X, float v1Y, float v2X, float v2Y) {
+        boolean b1 = (pX - v1X) * (v0Y - v1Y) - (v0X - v1X) * (pY - v1Y) < 0.0f;
+        boolean b2 = (pX - v2X) * (v1Y - v2Y) - (v1X - v2X) * (pY - v2Y) < 0.0f;
+        if (b1 != b2)
+            return false;
+        boolean b3 = (pX - v0X) * (v2Y - v0Y) - (v2X - v0X) * (pY - v0Y) < 0.0f;
+        return b2 == b3;
+    }
+
+    /**
+     * Test whether the given <code>point</code> lies inside the triangle with the vertices <code>v0</code>, <code>v1</code>, <code>v2</code>.
+     * 
+     * @param v0
+     *          the first vertex of the triangle
+     * @param v1
+     *          the second vertex of the triangle
+     * @param v2
+     *          the third vertex of the triangle
+     * @param point
+     *          the point
+     * @return <code>true</code> iff the point lies inside the triangle; <code>false</code> otherwise
+     */
+    public static boolean testPointTriangle(Vector2f point, Vector2f v0, Vector2f v1, Vector2f v2) {
+        return testPointTriangle(point.x, point.y, v0.x, v0.y, v1.x, v1.y, v2.x, v2.y);
+    }
+
 }
