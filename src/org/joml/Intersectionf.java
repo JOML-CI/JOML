@@ -990,30 +990,22 @@ public class Intersectionf {
      * @return <code>true</code> iff the circle intersects the triangle; <code>false</code> otherwise
      */
     public static boolean testCircleTriangle(float centerX, float centerY, float radiusSquared, float v0X, float v0Y, float v1X, float v1Y, float v2X, float v2Y) {
-        float c1x = centerX - v0X;
-        float c1y = centerY - v0Y;
+        float c1x = centerX - v0X, c1y = centerY - v0Y;
         float c1sqr = c1x * c1x + c1y * c1y - radiusSquared;
         if (c1sqr <= 0.0f)
             return true;
-        float c2x = centerX - v1X;
-        float c2y = centerY - v1Y;
+        float c2x = centerX - v1X, c2y = centerY - v1Y;
         float c2sqr = c2x * c2x + c2y * c2y - radiusSquared;
         if (c2sqr <= 0.0f)
             return true;
-        float c3x = centerX - v2X;
-        float c3y = centerY - v2Y;
+        float c3x = centerX - v2X, c3y = centerY - v2Y;
         float c3sqr = c3x * c3x + c3y * c3y - radiusSquared;
         if (c3sqr <= 0.0f)
             return true;
-        float e1x = v1X - v0X;
-        float e1y = v1Y - v0Y;
-        float e2x = v2X - v1X;
-        float e2y = v2Y - v1Y;
-        float e3x = v0X - v2X;
-        float e3y = v0Y - v2Y;
-        if (e1x * (centerY - v0Y) - e1y * (centerX - v0X) >= 0.0f &&
-            e2x * (centerY - v1Y) - e2y * (centerX - v1X) >= 0.0f &&
-            e3x * (centerY - v2Y) - e3y * (centerX - v2X) >= 0.0f)
+        float e1x = v1X - v0X, e1y = v1Y - v0Y;
+        float e2x = v2X - v1X, e2y = v2Y - v1Y;
+        float e3x = v0X - v2X, e3y = v0Y - v2Y;
+        if (e1x * c1y - e1y * c1x >= 0.0f && e2x * c2y - e2y * c2x >= 0.0f && e3x * c3y - e3y * c3x >= 0.0f)
             return true;
         float k = c1x * e1x + c1y * e1y;
         if (k >= 0.0f) {
