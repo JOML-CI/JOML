@@ -13,6 +13,7 @@ public class PolygonPointIntersection {
 
     private float[] verticesXY;
     private float[] constantAndMultiple;
+    private float minX, minY, maxX, maxY;
 
     /**
      * Create a new {@link PolygonPointIntersection} object with the given polygon vertices.
@@ -46,10 +47,16 @@ public class PolygonPointIntersection {
 
     private void precalcValues() {
         int i, j = verticesXY.length / 2 - 1;
+        minX = minY = 1E38f;
+        maxX = maxY = -1E38f;
         for (i = 0; i < verticesXY.length / 2; i++) {
             float yi = verticesXY[2 * i + 1];
             float yj = verticesXY[2 * j + 1];
             float xi = verticesXY[2 * i + 0];
+            minX = xi < minX ? xi : minX;
+            minY = yi < minY ? yi : minY;
+            maxX = xi > maxX ? xi : maxX;
+            maxY = yi > maxY ? yi : maxY;
             if (yj == yi) {
                 constantAndMultiple[2 * i + 0] = xi;
                 constantAndMultiple[2 * i + 1] = 0.0f;
@@ -74,6 +81,10 @@ public class PolygonPointIntersection {
     public boolean pointInPolygon(float x, float y) {
         int i, j = verticesXY.length / 2 - 1;
         boolean oddNodes = false;
+        // check bounding rectangle first
+        if (maxX < x || maxY < y || minX > x || minY > y)
+            return false;
+        // now check all polygon edges
         for (i = 0; i < verticesXY.length / 2; i++) {
             float yi = verticesXY[2 * i + 1];
             float yj = verticesXY[2 * j + 1];
