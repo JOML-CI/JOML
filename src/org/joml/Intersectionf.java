@@ -108,12 +108,12 @@ public class Intersectionf {
             float a, float b, float c, float d,
             float centerX, float centerY, float centerZ, float radius,
             Vector4f intersectionCenterAndRadius) {
-        float denom = (float) Math.sqrt(a * a + b * b + c * c);
-        float dist = (a * centerX + b * centerY + c * centerZ + d) / denom;
+        float invDenom = 1.0f / (float) Math.sqrt(a * a + b * b + c * c);
+        float dist = (a * centerX + b * centerY + c * centerZ + d) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndRadius.x = centerX + dist * a;
-            intersectionCenterAndRadius.y = centerY + dist * b;
-            intersectionCenterAndRadius.z = centerZ + dist * c;
+            intersectionCenterAndRadius.x = centerX + dist * a * invDenom;
+            intersectionCenterAndRadius.y = centerY + dist * b * invDenom;
+            intersectionCenterAndRadius.z = centerZ + dist * c * invDenom;
             intersectionCenterAndRadius.w = (float) Math.sqrt(radius * radius - dist * dist);
             return true;
         }

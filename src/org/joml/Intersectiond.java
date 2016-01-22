@@ -106,12 +106,12 @@ public class Intersectiond {
     public static boolean intersectPlaneSphere(double a, double b, double c, double d,
             double centerX, double centerY, double centerZ, double radius,
             Vector4d intersectionCenterAndRadius) {
-        double denom = Math.sqrt(a * a + b * b + c * c);
-        double dist = (a * centerX + b * centerY + c * centerZ + d) / denom;
+        double invDenom = 1.0 / Math.sqrt(a * a + b * b + c * c);
+        double dist = (a * centerX + b * centerY + c * centerZ + d) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndRadius.x = centerX + dist * a;
-            intersectionCenterAndRadius.y = centerY + dist * b;
-            intersectionCenterAndRadius.z = centerZ + dist * c;
+            intersectionCenterAndRadius.x = centerX + dist * a * invDenom;
+            intersectionCenterAndRadius.y = centerY + dist * b * invDenom;
+            intersectionCenterAndRadius.z = centerZ + dist * c * invDenom;
             intersectionCenterAndRadius.w = Math.sqrt(radius * radius - dist * dist);
             return true;
         }
