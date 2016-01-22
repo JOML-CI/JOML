@@ -69,4 +69,16 @@ public class IntersectionfTest extends TestCase {
         assertEquals(expectedRadius, res.z, 1E-6f);
     }
 
+    public static void testClosestPointOnTriangle() {
+        Vector2f p = new Vector2f();
+        Intersectionf.findClosestPointOnTriangle(0, 0, 1, 0, 0, 1, -1, -1, p);
+        TestUtil.assertVector2fEquals(new Vector2f(0, 0), p,1E-6f);
+        Intersectionf.findClosestPointOnTriangle(0, 0, 1, 0, 0, 1, 2, 0.1f, p);
+        TestUtil.assertVector2fEquals(new Vector2f(1, 0), p,1E-6f);
+        Intersectionf.findClosestPointOnTriangle(0, 0, 1, 0, 0, 1, 0.5f, 3, p);
+        TestUtil.assertVector2fEquals(new Vector2f(0, 1), p,1E-6f);
+        Intersectionf.findClosestPointOnTriangle(0, 0, 1, 0, 0, 1, 0.5f, 0.5f, p);
+        TestUtil.assertVector2fEquals(new Vector2f(0.5f, 0.5f), p,1E-6f);
+    }
+
 }

@@ -30,6 +30,22 @@ package org.joml;
 public class Intersectionf {
 
     /**
+     * Return value of {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)}
+     * and {@link #findClosestPointOnTriangle(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} to signal that the closest point is a vertex of the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_VERTEX = 0;
+    /**
+     * Return value of {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)}
+     * and {@link #findClosestPointOnTriangle(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} to signal that the closest point lies on an edge of the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_EDGE = 1;
+    /**
+     * Return value of {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)}
+     * and {@link #findClosestPointOnTriangle(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} to signal that the closest point lies within the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_FACE = 2;
+
+    /**
      * Test whether the line with the general line equation <i>a*x + b*y + c = 0</i> intersects the circle with center
      * <tt>(centerX, centerY)</tt> and <code>radius</code>.
      * <p>
@@ -430,6 +446,109 @@ public class Intersectionf {
      */
     public static boolean testAarCircle(Vector2f min, Vector2f max, Vector2f center, float radiusSquared) {
         return testAarCircle(min.x, min.y, max.x, max.y, center.x, center.y, radiusSquared);
+    }
+
+    /**
+     * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt>, <tt>(v2X, v2Y)</tt>
+     * between that triangle and the given point <tt>(pX, pY)</tt> and store that point into the given <code>result</code>.
+     * <p>
+     * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
+     * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
+     * <p>
+     * Reference: Book "Real-Time Collision Detection"
+     * 
+     * @param v0X
+     *          the x coordinate of the first vertex of the triangle
+     * @param v0Y
+     *          the y coordinate of the first vertex of the triangle
+     * @param v1X
+     *          the x coordinate of the second vertex of the triangle
+     * @param v1Y
+     *          the y coordinate of the second vertex of the triangle
+     * @param v2X
+     *          the x coordinate of the third vertex of the triangle
+     * @param v2Y
+     *          the y coordinate of the third vertex of the triangle
+     * @param pX
+     *          the x coordinate of the point
+     * @param pY
+     *          the y coordinate of the point
+     * @param result
+     *          will hold the closest point
+     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX}, {@link #POINT_ON_TRIANGLE_EDGE} or {@link #POINT_ON_TRIANGLE_FACE}
+     */
+    public static int findClosestPointOnTriangle(float v0X, float v0Y, float v1X, float v1Y, float v2X, float v2Y, float pX, float pY, Vector2f result) {
+        float aX = v0X - pX, aY = v0Y - pY;
+        float bX = v1X - pX, bY = v1Y - pY;
+        float cX = v2X - pX, cY = v2Y - pY;
+        float abX = bX - aX, abY = bY - aY;
+        float acX = cX - aX, acY = cY - aY;
+        float d1 = -(abX * aX + abY * aY);
+        float d2 = -(acX * aX + acY * aY);
+        if (d1 <= 0.0f && d2 <= 0.0f) {
+            result.set(v0X, v0Y);
+            return POINT_ON_TRIANGLE_VERTEX;
+        }
+        float d3 = -(abX * bX + abY * bY);
+        float d4 = -(acX * bX + acY * bY);
+        if (d3 >= 0.0f && d4 <= d3) {
+            result.set(v1X, v1Y);
+            return POINT_ON_TRIANGLE_VERTEX;
+        }
+        float vc = d1 * d4 - d3 * d2;
+        if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
+            float v = d1 / (d1 - d3);
+            result.set(v0X + abX * v, v0Y + abY * v);
+            return POINT_ON_TRIANGLE_EDGE;
+        }
+        float d5 = -(abX * cX + abY * cY );
+        float d6 = -(acX * cX + acY * cY);
+        if (d6 >= 0.0f && d5 <= d6) {
+            result.set(v2X, v2Y);
+            return POINT_ON_TRIANGLE_VERTEX;
+        }
+        float vb = d5 * d2 - d1 * d6;
+        if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
+            float w = d2 / (d2 - d6);
+            result.set(v0X + acX * w, v0Y + acY * w);
+            return POINT_ON_TRIANGLE_EDGE;
+        }
+        float va = d3 * d6 - d5 * d4;
+        if (va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f) {
+            float w = (d4 - d3) / (d4 - d3 + d5 - d6);
+            result.set(v1X + (cX - bX) * w, v1Y + (cY - bY) * w);
+            return POINT_ON_TRIANGLE_EDGE;
+        }
+        float denom = 1.0f / (va + vb + vc);
+        float vn = vb * denom;
+        float wn = vc * denom;
+        result.set(v0X + abX * vn + acX * wn, v0Y + abY * vn + acY * wn);
+        return POINT_ON_TRIANGLE_FACE;
+    }
+
+    /**
+     * Determine the closest point on the triangle with the vertices <code>v0</code>, <code>v1</code>, <code>v2</code>
+     * between that triangle and the given point <code>p</code> and store that point into the given <code>result</code>.
+     * <p>
+     * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
+     * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
+     * <p>
+     * Reference: Book "Real-Time Collision Detection"
+     * 
+     * @param v0
+     *          the first vertex of the triangle
+     * @param v1
+     *          the second vertex of the triangle
+     * @param v2
+     *          the third vertex of the triangle
+     * @param p
+     *          the point
+     * @param result
+     *          will hold the closest point
+     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX}, {@link #POINT_ON_TRIANGLE_EDGE} or {@link #POINT_ON_TRIANGLE_FACE}
+     */
+    public static int findClosestPointOnTriangle(Vector2f v0, Vector2f v1, Vector2f v2, Vector2f p, Vector2f result) {
+        return findClosestPointOnTriangle(v0.x, v0.y, v1.x, v1.y, v2.x, v2.y, p.x, p.y, result);
     }
 
     /**
