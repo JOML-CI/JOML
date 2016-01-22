@@ -12,8 +12,7 @@ package org.joml;
 public class PolygonPointIntersection {
 
     private float[] verticesXY;
-    private float[] constant;
-    private float[] multiple;
+    private float[] constantAndMultiple;
 
     /**
      * Create a new {@link PolygonPointIntersection} object with the given polygon vertices.
@@ -39,9 +38,8 @@ public class PolygonPointIntersection {
      */
     public void set(float[] verticesXY) {
         this.verticesXY = verticesXY;
-        if (this.constant == null || this.constant.length < verticesXY.length / 2) {
-            this.constant = new float[verticesXY.length / 2];
-            this.multiple = new float[verticesXY.length / 2];
+        if (this.constantAndMultiple == null || this.constantAndMultiple.length < verticesXY.length) {
+            this.constantAndMultiple = new float[verticesXY.length];
         }
         precalcValues();
     }
@@ -53,12 +51,12 @@ public class PolygonPointIntersection {
             float yj = verticesXY[2 * j + 1];
             float xi = verticesXY[2 * i + 0];
             if (yj == yi) {
-                constant[i] = xi;
-                multiple[i] = 0.0f;
+                constantAndMultiple[2 * i + 0] = xi;
+                constantAndMultiple[2 * i + 1] = 0.0f;
             } else {
                 float xj = verticesXY[2 * j + 0];
-                constant[i] = xi - (yi * xj) / (yj - yi) + (yi * xi) / (yj - yi);
-                multiple[i] = (xj - xi) / (yj - yi);
+                constantAndMultiple[2 * i + 0] = xi - (yi * xj) / (yj - yi) + (yi * xi) / (yj - yi);
+                constantAndMultiple[2 * i + 1] = (xj - xi) / (yj - yi);
             }
             j = i;
         }
@@ -80,7 +78,7 @@ public class PolygonPointIntersection {
             float yi = verticesXY[2 * i + 1];
             float yj = verticesXY[2 * j + 1];
             if ((yi <= y && yj >= y || yj <= y && yi >= y)) {
-                oddNodes ^= (y * multiple[i] + constant[i] <= x);
+                oddNodes ^= (y * constantAndMultiple[2 * i + 1] + constantAndMultiple[2 * i + 0] <= x);
             }
             j = i;
         }
