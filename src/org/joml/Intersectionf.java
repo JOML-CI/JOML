@@ -95,15 +95,45 @@ public class Intersectionf {
      * @return <code>true</code> iff the line intersects the circle; <code>false</code> otherwise
      */
     public static boolean intersectLineCircle(float a, float b, float c, float centerX, float centerY, float radius, Vector3f intersectionCenterAndHL) {
-        float denom = (float) Math.sqrt(a * a + b * b + c * c);
-        float dist = (a * centerX + b * centerY + c) / denom;
+        float invDenom = 1.0f / (float) Math.sqrt(a * a + b * b);
+        float dist = (a * centerX + b * centerY + c) * invDenom;
         if (-radius <= dist && dist <= radius) {
-            intersectionCenterAndHL.x = centerX + dist * a;
-            intersectionCenterAndHL.y = centerY + dist * b;
+            intersectionCenterAndHL.x = centerX + dist * a * invDenom;
+            intersectionCenterAndHL.y = centerY + dist * b * invDenom;
             intersectionCenterAndHL.z = (float) Math.sqrt(radius * radius - dist * dist);
             return true;
         }
         return false;
+    }
+
+    /**
+     * Test whether the line defined by the two points <tt>(x0, y0)</tt> and <tt>(x1, y1)</tt> intersects the circle with center
+     * <tt>(centerX, centerY)</tt> and <code>radius</code>, and store the center of the line segment of
+     * intersection in the <tt>(x, y)</tt> components of the supplied vector and the half-length of that line segment in the z component.
+     * <p>
+     * Reference: <a href="http://math.stackexchange.com/questions/943383/determine-circle-of-intersection-of-plane-and-sphere">http://math.stackexchange.com</a>
+     *
+     * @param x0
+     *          the x coordinate of the first point on the line
+     * @param y0
+     *          the y coordinate of the first point on the line
+     * @param x1
+     *          the x coordinate of the second point on the line
+     * @param y1
+     *          the y coordinate of the second point on the line
+     * @param centerX
+     *          the x coordinate of the circle's center
+     * @param centerY
+     *          the y coordinate of the circle's center
+     * @param radius
+     *          the radius of the circle
+     * @param intersectionCenterAndHL
+     *          will hold the center of the line segment of intersection in the <tt>(x, y)</tt> components and the half-length in the z component
+     * @return <code>true</code> iff the line intersects the circle; <code>false</code> otherwise
+     */
+    public static boolean intersectLineCircle(float x0, float y0, float x1, float y1, float centerX, float centerY, float radius, Vector3f intersectionCenterAndHL) {
+        // Build general line equation from two points and use the other method
+        return intersectLineCircle(y0 - y1, x1 - x0, (x0 - x1) * y0 + (y1 - y0) * x0, centerX, centerY, radius, intersectionCenterAndHL);
     }
 
     /**
