@@ -46,7 +46,7 @@ public class PolygonPointIntersection {
 
     class Interval {
         float start, end;
-        int i, j;
+        int i;
     }
 
     class IntervalTree {
@@ -59,27 +59,34 @@ public class PolygonPointIntersection {
 
         int traverse(float y, Interval[] ivals, int i) {
             if (y == center) {
-                for (int b = 0; b < byBeginning.size(); b++) {
+                int size = byBeginning.size();
+                for (int b = 0; b < size; b++) {
                     Interval ival = (Interval) byBeginning.get(b);
                     ivals[i++] = ival;
                 }
             } else if (y < center) {
                 if (left != null)
                     i = left.traverse(y, ivals, i);
-                for (int b = 0; b < byBeginning.size(); b++) {
-                    Interval ival = (Interval) byBeginning.get(b);
-                    if (ival.start > y)
-                        break;
-                    ivals[i++] = ival;
+                if (byBeginning != null) {
+                    int size = byBeginning.size();
+                    for (int b = 0; b < size; b++) {
+                        Interval ival = (Interval) byBeginning.get(b);
+                        if (ival.start > y)
+                            break;
+                        ivals[i++] = ival;
+                    }
                 }
             } else if (y > center) {
                 if (right != null)
                     i = right.traverse(y, ivals, i);
-                for (int b = 0; b < byEnding.size(); b++) {
-                    Interval ival = (Interval) byEnding.get(b);
-                    if (ival.end < y)
-                        break;
-                    ivals[i++] = ival;
+                if (byEnding != null) {
+                    int size = byEnding.size();
+                    for (int b = 0; b < size; b++) {
+                        Interval ival = (Interval) byEnding.get(b);
+                        if (ival.end < y)
+                            break;
+                        ivals[i++] = ival;
+                    }
                 }
             }
             return i;
@@ -125,38 +132,48 @@ public class PolygonPointIntersection {
     }
 
     private IntervalTree buildTree(List intervals, float center) {
-        List left = new ArrayList();
-        List right = new ArrayList();
-        List byStart = new ArrayList();
-        List byEnd = new ArrayList();
+        List left = null;
+        List right = null;
+        List byStart = null;
+        List byEnd = null;
         float leftMin = 1E38f, leftMax = -1E38f, rightMin = 1E38f, rightMax = -1E38f;
         for (int i = 0; i < intervals.size(); i++) {
             Interval ival = (Interval) intervals.get(i);
             if (ival.start < center && ival.end < center) {
+                if (left == null)
+                    left = new ArrayList();
                 left.add(ival);
                 leftMin = leftMin < ival.start ? leftMin : ival.start;
                 leftMax = leftMax > ival.end ? leftMax : ival.end;
             } else if (ival.start > center && ival.end > center) {
+                if (right == null)
+                    right = new ArrayList();
                 right.add(ival);
                 rightMin = rightMin < ival.start ? rightMin : ival.start;
                 rightMax = rightMax > ival.end ? rightMax : ival.end;
             } else {
+                if (byStart == null) {
+                    byStart = new ArrayList();
+                    byEnd = new ArrayList();
+                }
                 byStart.add(ival);
                 byEnd.add(ival);
             }
         }
-        Collections.sort(byStart, byStartComparator);
-        Collections.sort(byEnd, byEndComparator);
+        if (byStart != null) {
+            Collections.sort(byStart, byStartComparator);
+            Collections.sort(byEnd, byEndComparator);
+        }
         IntervalTree tree = new IntervalTree();
         tree.byBeginning = byStart;
         tree.byEnding = byEnd;
         tree.center = center;
-        int maxCount = byStart.size() + byEnd.size();
-        if (!left.isEmpty()) {
+        int maxCount = (byStart != null ? byStart.size() : 0) + (byEnd != null ? byEnd.size() : 0);
+        if (left != null) {
             tree.left = buildTree(left, (leftMin + leftMax) / 2.0f);
             maxCount = tree.left.maxCount > maxCount ? tree.left.maxCount : maxCount;
         }
-        if (!right.isEmpty()) {
+        if (right != null) {
             tree.right = buildTree(right, (rightMin + rightMax) / 2.0f);
             maxCount = tree.right.maxCount > maxCount ? tree.right.maxCount : maxCount;
         }
@@ -168,25 +185,19 @@ public class PolygonPointIntersection {
         int i, j = verticesXY.length / 2 - 1;
         minX = minY = 1E38f;
         maxX = maxY = -1E38f;
-        // Determine bounding rectangle
+        List intervals = new ArrayList(verticesXY.length / 2);
         for (i = 0; i < verticesXY.length / 2; i++) {
             float yi = verticesXY[2 * i + 1];
             float xi = verticesXY[2 * i + 0];
+            float yj = verticesXY[2 * j + 1];
             minX = xi < minX ? xi : minX;
             minY = yi < minY ? yi : minY;
             maxX = xi > maxX ? xi : maxX;
             maxY = yi > maxY ? yi : maxY;
-        }
-        // Build intervals
-        List intervals = new ArrayList();
-        for (i = 0; i < verticesXY.length / 2; i++) {
-            float yi = verticesXY[2 * i + 1];
-            float yj = verticesXY[2 * j + 1];
             Interval ival = new Interval();
             ival.start = yi;
             ival.end = yj;
             ival.i = i;
-            ival.j = j;
             intervals.add(ival);
             j = i;
         }
@@ -237,7 +248,7 @@ public class PolygonPointIntersection {
         for (int r = 0; r < c; r++) {
             Interval ival = intervals[r];
             int i = ival.i;
-            int j = ival.j;
+            int j = (ival.i + 1) % (verticesXY.length / 2);
             float yi = verticesXY[2 * i + 1];
             float yj = verticesXY[2 * j + 1];
             float xi = verticesXY[2 * i + 0];
