@@ -587,8 +587,8 @@ public class Vector2f implements Externalizable {
      * @return dest
      */
     public Vector2f mul(float scalar, Vector2f dest) {
-        dest.x *= scalar;
-        dest.y *= scalar;
+        dest.x = x * scalar;
+        dest.y = y * scalar;
         return dest;
     }
 
