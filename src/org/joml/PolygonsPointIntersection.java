@@ -47,13 +47,13 @@ public class PolygonsPointIntersection {
         }
     }
 
-    class Interval {
+    static class Interval {
         float start, end;
         int i, j;
         int polygonIndex;
     }
 
-    class IntervalTree {
+    static class IntervalTree {
         float center;
         IntervalTree left;
         IntervalTree right;
@@ -217,7 +217,7 @@ public class PolygonsPointIntersection {
         float dx = maxX - centerX;
         float dy = maxY - centerY;
         radiusSquared = dx * dx + dy * dy;
-        tree = buildTree(intervals, (maxY + minY) / 2.0f);
+        tree = buildTree(intervals, centerY);
         this.intervals = new Interval[tree.maxCount];
     }
 

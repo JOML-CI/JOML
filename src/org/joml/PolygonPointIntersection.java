@@ -44,12 +44,12 @@ public class PolygonPointIntersection {
         }
     }
 
-    class Interval {
+    static class Interval {
         float start, end;
         int i, j;
     }
 
-    class IntervalTree {
+    static class IntervalTree {
         float center;
         IntervalTree left;
         IntervalTree right;
