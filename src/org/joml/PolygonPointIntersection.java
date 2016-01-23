@@ -46,7 +46,7 @@ public class PolygonPointIntersection {
 
     class Interval {
         float start, end;
-        int i;
+        int i, j;
     }
 
     class IntervalTree {
@@ -194,6 +194,7 @@ public class PolygonPointIntersection {
             ival.start = yi;
             ival.end = yj;
             ival.i = i;
+            ival.j = j;
             intervals.add(ival);
             j = i;
         }
@@ -219,7 +220,7 @@ public class PolygonPointIntersection {
         for (int r = 0; r < c; r++) {
             Interval ival = intervals[r];
             int i = ival.i;
-            int j = (ival.i + 1) % (verticesXY.length / 2);
+            int j = ival.j;
             float yi = verticesXY[2 * i + 1];
             float yj = verticesXY[2 * j + 1];
             float xi = verticesXY[2 * i + 0];
@@ -229,6 +230,22 @@ public class PolygonPointIntersection {
             }
         }
         return oddNodes;
+    }
+
+    public static void main(String[] args) {
+        int polyN = 32000;
+        float[] verticesXY = new float[polyN * 2];
+        for (int i = 0; i < polyN; i++) {
+            float x = (float) Math.cos((float) i / polyN * Math.PI * 2);
+            float y = (float) Math.sin((float) i / polyN * Math.PI * 2);
+            verticesXY[2 * i + 0] = x;
+            verticesXY[2 * i + 1] = y;
+        }
+        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY);
+        long time1 = System.nanoTime();
+        boolean res = isect.pointInPolygon(0, 0);
+        long time2 = System.nanoTime();
+        System.err.println("Took: " + (time2 - time1) / 1E6f + " ms. = " + res);
     }
 
 }
