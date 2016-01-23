@@ -13,7 +13,7 @@ import java.util.List;
  * search point.
  * <p>
  * This class can be used in a multithreaded environment when testing many points against the same polygon in parallel. In particular this means that the method
- * {@link #pointInPolygon(float, float)} is thread-safe.
+ * {@link #pointInPolygon(float, float, Interval[])} is thread-safe.
  * <p>
  * Reference: <a href="http://alienryderflex.com/polygon/">http://alienryderflex.com</a>
  * 
