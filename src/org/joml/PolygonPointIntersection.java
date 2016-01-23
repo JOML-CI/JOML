@@ -191,8 +191,8 @@ public class PolygonPointIntersection {
             maxX = xi > maxX ? xi : maxX;
             maxY = yi > maxY ? yi : maxY;
             Interval ival = new Interval();
-            ival.start = yi;
-            ival.end = yj;
+            ival.start = yi < yj ? yi : yj;
+            ival.end = yj > yi ? yj : yi;
             ival.i = i;
             ival.j = j;
             intervals.add(ival);
