@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class PolygonPointIntersection {
 
-    class ByStartComparator implements Comparator {
+    static class ByStartComparator implements Comparator {
         public int compare(Object o1, Object o2) {
             Interval i1 = (Interval) o1;
             Interval i2 = (Interval) o2;
@@ -32,7 +32,7 @@ public class PolygonPointIntersection {
         }
     }
 
-    class ByEndComparator implements Comparator {
+    static class ByEndComparator implements Comparator {
         public int compare(Object o1, Object o2) {
             Interval i1 = (Interval) o1;
             Interval i2 = (Interval) o2;
@@ -93,13 +93,14 @@ public class PolygonPointIntersection {
         }
     }
 
+    private static final ByStartComparator byStartComparator = new ByStartComparator();
+    private static final ByEndComparator byEndComparator = new ByEndComparator();
+
     private float[] verticesXY;
     private float minX, minY, maxX, maxY;
     private float centerX, centerY, radiusSquared;
     private Interval[] intervals; // <- used as working memory for the pointInPolygon() method
     private IntervalTree tree;
-    private ByStartComparator byStartComparator = new ByStartComparator();
-    private ByEndComparator byEndComparator = new ByEndComparator();
 
     /**
      * Create a new {@link PolygonPointIntersection} object with the given polygon vertices.
@@ -199,8 +200,10 @@ public class PolygonPointIntersection {
             intervals.add(ival);
             j = i;
         }
-        float dx = (maxX - minX) * 0.5f;
-        float dy = (maxY - minY) * 0.5f;
+        centerX = (maxX + minX) * 0.5f;
+        centerY = (maxY + minY) * 0.5f;
+        float dx = maxX - centerX;
+        float dy = maxY - centerY;
         radiusSquared = dx * dx + dy * dy;
         tree = buildTree(intervals, (maxY + minY) / 2.0f);
         this.intervals = new Interval[tree.maxCount];
