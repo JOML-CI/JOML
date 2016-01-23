@@ -170,11 +170,11 @@ public class PolygonPointIntersection {
         int ownMaxCount = Math.max(byStart != null ? byStart.size() : 0, byEnd != null ? byEnd.size() : 0);
         if (left != null) {
             tree.left = buildTree(left, (leftMin + leftMax) / 2.0f);
-            childMaxCount = tree.left.maxCount;
+            childMaxCount = Math.max(childMaxCount, tree.left.maxCount);
         }
         if (right != null) {
             tree.right = buildTree(right, (rightMin + rightMax) / 2.0f);
-            childMaxCount = tree.right.maxCount;
+            childMaxCount = Math.max(childMaxCount, tree.right.maxCount);
         }
         tree.maxCount = ownMaxCount + childMaxCount;
         return tree;
