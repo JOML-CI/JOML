@@ -53,8 +53,8 @@ public class PolygonPointIntersection {
         float center;
         IntervalTree left;
         IntervalTree right;
-        List byBeginning;
-        List byEnding;
+        List/*<Interval>*/ byBeginning;
+        List/*<Interval>*/ byEnding;
         int maxCount;
 
         int traverse(float y, Interval[] ivals, int i) {
@@ -95,6 +95,7 @@ public class PolygonPointIntersection {
 
     private float[] verticesXY;
     private float minX, minY, maxX, maxY;
+    private float centerX, centerY, radiusSquared;
     private Interval[] intervals; // <- used as working memory for the pointInPolygon() method
     private IntervalTree tree;
     private ByStartComparator byStartComparator = new ByStartComparator();
@@ -198,6 +199,9 @@ public class PolygonPointIntersection {
             intervals.add(ival);
             j = i;
         }
+        float dx = (maxX - minX) * 0.5f;
+        float dy = (maxY - minY) * 0.5f;
+        radiusSquared = dx * dx + dy * dy;
         tree = buildTree(intervals, (maxY + minY) / 2.0f);
         this.intervals = new Interval[tree.maxCount];
     }
@@ -212,11 +216,18 @@ public class PolygonPointIntersection {
      * @return <code>true</code> iff the point lies inside the polygon; <code>false</code> otherwise
      */
     public boolean pointInPolygon(float x, float y) {
-        // check bounding box first
+        // check bounding sphere first
+        float dx = (x - centerX);
+        float dy = (y - centerY);
+        if (dx * dx + dy * dy > radiusSquared)
+            return false;
+        // check bounding box next
         if (maxX < x || maxY < y || minX > x || minY > y)
             return false;
+        // ask interval tree for all polygon edges intersecting 'y'
         int c = tree.traverse(y, intervals, 0);
         boolean oddNodes = false;
+        // check the polygon edges
         for (int r = 0; r < c; r++) {
             Interval ival = intervals[r];
             int i = ival.i;
