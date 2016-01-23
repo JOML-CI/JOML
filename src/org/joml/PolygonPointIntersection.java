@@ -166,16 +166,17 @@ public class PolygonPointIntersection {
         tree.byBeginning = byStart;
         tree.byEnding = byEnd;
         tree.center = center;
-        int maxCount = (byStart != null ? byStart.size() : 0) + (byEnd != null ? byEnd.size() : 0);
+        int childMaxCount = 0;
+        int ownMaxCount = Math.max(byStart != null ? byStart.size() : 0, byEnd != null ? byEnd.size() : 0);
         if (left != null) {
             tree.left = buildTree(left, (leftMin + leftMax) / 2.0f);
-            maxCount = tree.left.maxCount > maxCount ? tree.left.maxCount : maxCount;
+            childMaxCount = tree.left.maxCount;
         }
         if (right != null) {
             tree.right = buildTree(right, (rightMin + rightMax) / 2.0f);
-            maxCount = tree.right.maxCount > maxCount ? tree.right.maxCount : maxCount;
+            childMaxCount = tree.right.maxCount;
         }
-        tree.maxCount = maxCount;
+        tree.maxCount = ownMaxCount + childMaxCount;
         return tree;
     }
 
