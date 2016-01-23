@@ -418,7 +418,7 @@ public class Intersectiond {
      *              the constant in the plane equation
      * @return the distance between the point and the plane
      */
-    public static double distanceToPlane(double pointX, double pointY, double pointZ, double a, double b, double c, double d) {
+    public static double distancePointPlane(double pointX, double pointY, double pointZ, double a, double b, double c, double d) {
         double denom = Math.sqrt(a * a + b * b + c * c);
         return (a * pointX + b * pointY + c * pointZ + d) / denom;
     }
@@ -1643,6 +1643,55 @@ public class Intersectiond {
      */
     public static boolean testCircleCircle(Vector2d centerA, double radiusSquaredA, Vector2d centerB, double radiusSquaredB) {
         return testCircleCircle(centerA.x, centerA.y, radiusSquaredA, centerB.x, centerB.y, radiusSquaredB);
+    }
+
+    /**
+     * Determine the signed distance of the given point <tt>(pointX, pointY)</tt> to the line specified via its general plane equation
+     * <i>a*x + b*y + c = 0</i>.
+     * <p>
+     * Reference: <a href="http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">http://mathworld.wolfram.com</a>
+     * 
+     * @param pointX
+     *              the x coordinate of the point
+     * @param pointY
+     *              the y coordinate of the point
+     * @param a
+     *              the x factor in the plane equation
+     * @param b
+     *              the y factor in the plane equation
+     * @param c
+     *              the constant in the plane equation
+     * @return the distance between the point and the line
+     */
+    public static double distancePointLine(double pointX, double pointY, double a, double b, double c) {
+        double denom = Math.sqrt(a * a + b * b);
+        return (a * pointX + b * pointY + c) / denom;
+    }
+
+    /**
+     * Determine the signed distance of the given point <tt>(pointX, pointY)</tt> to the line defined by the two points <tt>(x0, y0)</tt> and <tt>(x1, y1)</tt>.
+     * <p>
+     * Reference: <a href="http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">http://mathworld.wolfram.com</a>
+     * 
+     * @param pointX
+     *              the x coordinate of the point
+     * @param pointY
+     *              the y coordinate of the point
+     * @param x0
+     *              the x coordinate of the first point on the line
+     * @param y0
+     *              the y coordinate of the first point on the line
+     * @param x1
+     *              the x coordinate of the second point on the line
+     * @param y1
+     *              the y coordinate of the second point on the line
+     * @return the distance between the point and the line
+     */
+    public static double distancePointLine(double pointX, double pointY, double x0, double y0, double x1, double y1) {
+        double dx = x1 - x0;
+        double dy = y1 - y0;
+        double denom = Math.sqrt(dx * dx + dy * dy);
+        return (dx * (y0 - pointY) - (x0 - pointX) * dy) / denom;
     }
 
     /**
