@@ -12,8 +12,7 @@ import java.util.List;
  * custom interval tree to avoid testing all polygon edges against a point, but only those that intersect the imaginary ray along the same y co-ordinate of the
  * search point.
  * <p>
- * This class can be used in a multithreaded environment when testing many points against the same polygon in parallel. In particular this means that the method
- * {@link #pointInPolygon(float, float, Interval[])} is thread-safe.
+ * This class is thread-safe and can be used in a multithreaded environment when testing many points against the same polygon concurrently.
  * <p>
  * Reference: <a href="http://alienryderflex.com/polygon/">http://alienryderflex.com</a>
  * 
@@ -98,7 +97,7 @@ public class PolygonPointIntersection {
     private final ByStartComparator byStartComparator = new ByStartComparator();
     private final ByEndComparator byEndComparator = new ByEndComparator();
 
-    private float[] verticesXY;
+    private final float[] verticesXY;
     private float minX, minY, maxX, maxY;
     private float centerX, centerY, radiusSquared;
     private IntervalTreeNode tree;
@@ -213,6 +212,9 @@ public class PolygonPointIntersection {
      * <p>
      * This method must be given a <code>working</code> {@link Interval} array of at least {@link #workingSize()} elements. See the parameter JavaDocs for
      * further information.
+     * <p>
+     * This method is thread-safe and can be used to test many points concurrently. <i>Please note the restriction on the <code>working</code> parameter in the
+     * JavaDocs of that parameter regarding multithreading.</i>
      * 
      * @param x
      *            the x coordinate of the point to test

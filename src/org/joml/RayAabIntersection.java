@@ -23,11 +23,13 @@
 package org.joml;
 
 /**
- * This is an implementation of the
- * <a href="http://www.cg.cs.tu-bs.de/media/publications/fast-rayaxis-aligned-bounding-box-overlap-tests-using-ray-slopes.pdf">Fast Ray/Axis-Aligned Bounding
- * Box Overlap Tests using Ray Slopes</a> paper.
+ * This is an implementation of the <a
+ * href="http://www.cg.cs.tu-bs.de/media/publications/fast-rayaxis-aligned-bounding-box-overlap-tests-using-ray-slopes.pdf">Fast Ray/Axis-Aligned Bounding Box
+ * Overlap Tests using Ray Slopes</a> paper.
  * <p>
  * It is an efficient implementation when testing many axis-aligned boxes against the same ray.
+ * <p>
+ * This class is thread-safe and can be used in a multithreaded environment when testing many axis-aligned boxes against the same ray concurrently.
  * 
  * @author Kai Burjack
  */
@@ -138,6 +140,8 @@ public class RayAabIntersection {
      * given via its minimum corner <tt>(minX, minY, minZ)</tt> and its maximum corner <tt>(maxX, maxY, maxZ)</tt>.
      * <p>
      * This implementation uses a tableswitch to dispatch to the correct intersection method.
+     * <p>
+     * This method is thread-safe and can be used to test many axis-aligned boxes concurrently.
      * 
      * @param minX
      *          the x coordinate of the minimum corner
