@@ -59,7 +59,7 @@ public class PolygonPointIntersection {
 
         int traverse(float y, Interval[] ivals, int i) {
             int j = i;
-            if (y == center) {
+            if (y == center && byBeginning != null) {
                 int size = byBeginning.size();
                 for (int b = 0; b < size; b++) {
                     Interval ival = (Interval) byBeginning.get(b);
