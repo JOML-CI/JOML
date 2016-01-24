@@ -51,6 +51,7 @@ public class PolygonPointIntersection {
 
     static class IntervalTreeNode {
         float center;
+        float minMax;
         IntervalTreeNode left;
         IntervalTreeNode right;
         List/* <Interval> */byBeginning;
@@ -66,7 +67,7 @@ public class PolygonPointIntersection {
                     ivals[j++] = ival;
                 }
             } else if (y < center) {
-                if (left != null)
+                if (left != null && left.minMax >= y)
                     j = left.traverse(y, ivals, i);
                 if (byBeginning != null) {
                     int size = byBeginning.size();
@@ -78,7 +79,7 @@ public class PolygonPointIntersection {
                     }
                 }
             } else if (y > center) {
-                if (right != null)
+                if (right != null && right.minMax <= y)
                     j = right.traverse(y, ivals, i);
                 if (byEnding != null) {
                     int size = byEnding.size();
@@ -160,10 +161,12 @@ public class PolygonPointIntersection {
         int ownMaxCount = Math.max(byStart != null ? byStart.size() : 0, byEnd != null ? byEnd.size() : 0);
         if (left != null) {
             tree.left = buildNode(left, (leftMin + leftMax) / 2.0f);
+            tree.left.minMax = leftMax;
             childMaxCount = Math.max(childMaxCount, tree.left.maxCount);
         }
         if (right != null) {
             tree.right = buildNode(right, (rightMin + rightMax) / 2.0f);
+            tree.right.minMax = rightMin;
             childMaxCount = Math.max(childMaxCount, tree.right.maxCount);
         }
         tree.maxCount = ownMaxCount + childMaxCount;
