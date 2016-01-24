@@ -110,11 +110,13 @@ public class PolygonPointIntersection {
      * 
      * @param verticesXY
      *            contains the x and y coordinates of all vertices
+     * @param count
+     *            the number of vertices to use from the <code>verticesXY</code> array, staring with index 0
      */
-    public PolygonPointIntersection(float[] verticesXY) {
+    public PolygonPointIntersection(float[] verticesXY, int count) {
         this.verticesXY = verticesXY;
         // Do all the allocations and initializations during this constructor
-        preprocess();
+        preprocess(count);
     }
 
     private IntervalTreeNode buildNode(List intervals, float center) {
@@ -168,12 +170,12 @@ public class PolygonPointIntersection {
         return tree;
     }
 
-    private void preprocess() {
-        int i, j = verticesXY.length / 2 - 1;
+    private void preprocess(int count) {
+        int i, j = count - 1;
         minX = minY = 1E38f;
         maxX = maxY = -1E38f;
-        List intervals = new ArrayList(verticesXY.length / 2);
-        for (i = 0; i < verticesXY.length / 2; i++) {
+        List intervals = new ArrayList(count);
+        for (i = 0; i < count; i++) {
             float yi = verticesXY[2 * i + 1];
             float xi = verticesXY[2 * i + 0];
             float yj = verticesXY[2 * j + 1];
