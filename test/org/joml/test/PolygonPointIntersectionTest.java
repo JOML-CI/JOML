@@ -11,6 +11,46 @@ import org.joml.PolygonPointIntersection;
  */
 public class PolygonPointIntersectionTest extends TestCase {
 
+    public static void testHole() {
+        // Define two rectangles, one inside the other.
+        float[] verticesXY = {
+                0, 0,
+                3, 0,
+                3, 3,
+                0, 3,
+                1, 1, // <- new polygon
+                2, 1,
+                2, 2,
+                1, 2
+        };
+        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[]{4}, verticesXY.length / 2);
+        // Inside outer rectangle
+        assertTrue(isect.pointInPolygon(0.1f, 0.1f));
+        // Inside inner rectangle
+        assertFalse(isect.pointInPolygon(1.5f, 1.5f));
+    }
+
+    public static void testMultipolygon() {
+        // Define two rectangles beneath each other.
+        float[] verticesXY = {
+                0, 0,
+                1, 0,
+                1, 1,
+                0, 1,
+                2, 0, // <- new polygon
+                3, 0,
+                3, 1,
+                2, 1
+        };
+        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[]{4}, verticesXY.length / 2);
+        // Left rectangle
+        assertTrue(isect.pointInPolygon(0.1f, 0.1f));
+        // between the two
+        assertFalse(isect.pointInPolygon(1.5f, 0.1f));
+        // right rectangle
+        assertTrue(isect.pointInPolygon(2.5f, 0.1f));
+    }
+
     public static void testSimple() {
         // Define a shape that looks like a "U"
         float[] verticesXY = {

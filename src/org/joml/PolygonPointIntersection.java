@@ -20,8 +20,6 @@ import java.util.List;
  */
 public class PolygonPointIntersection {
 
-    public static int MASK_HOLE = Integer.MIN_VALUE;
-
     static class ByStartComparator implements Comparator {
         public int compare(Object o1, Object o2) {
             Interval i1 = (Interval) o1;
@@ -199,25 +197,18 @@ public class PolygonPointIntersection {
         List intervals = new ArrayList(count);
         int first = 0;
         int currPoly = 0;
-        boolean hole = false;
         for (i = 1; i < count; i++) {
-            if (polygons.length > currPoly && (polygons[currPoly] & ~MASK_HOLE) == i) {
+            if (polygons != null && polygons.length > currPoly && polygons[currPoly] == i) {
                 /* New polygon starts. End the current. */
                 float prevy = verticesXY[2 * (i - 1) + 1];
                 float firsty = verticesXY[2 * first + 1];
                 Interval ival = new Interval();
                 ival.start = prevy < firsty ? prevy : firsty;
                 ival.end = firsty > prevy ? firsty : prevy;
-                if (!hole) {
-                    ival.i = i - 1;
-                    ival.j = first;
-                } else {
-                    ival.i = first;
-                    ival.j = i - 1;
-                }
+                ival.i = i - 1;
+                ival.j = first;
                 intervals.add(ival);
-                hole = (polygons[currPoly] & MASK_HOLE) != 0;
-                first = polygons[currPoly] & ~MASK_HOLE;
+                first = i;
                 currPoly++;
                 i++;
                 j = i - 1;
@@ -248,13 +239,8 @@ public class PolygonPointIntersection {
         Interval ival = new Interval();
         ival.start = yi < yj ? yi : yj;
         ival.end = yj > yi ? yj : yi;
-        if (!hole) {
-            ival.i = i - 1;
-            ival.j = first;
-        } else {
-            ival.i = first;
-            ival.j = i - 1;
-        }
+        ival.i = i - 1;
+        ival.j = first;
         intervals.add(ival);
         // compute bounding sphere and rectangle
         centerX = (maxX + minX) * 0.5f;
