@@ -51,7 +51,7 @@ public class PolygonPointIntersection {
 
     class IntervalTreeNode {
         float center;
-        float minMax;
+        float childrenMinMax, thisMin, thisMax;
         IntervalTreeNode left;
         IntervalTreeNode right;
         List/* <Interval> */ byBeginning;
@@ -81,9 +81,9 @@ public class PolygonPointIntersection {
                     newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd);
                 }
             } else if (y < center) {
-                if (left != null && left.minMax >= y)
+                if (left != null && left.childrenMinMax >= y)
                     newEvenOdd = left.traverse(x, y, newEvenOdd);
-                if (byBeginning != null) {
+                if (byBeginning != null && thisMax >= y) {
                     int size = byBeginning.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byBeginning.get(b);
@@ -93,9 +93,9 @@ public class PolygonPointIntersection {
                     }
                 }
             } else if (y > center) {
-                if (right != null && right.minMax <= y)
+                if (right != null && right.childrenMinMax <= y)
                     newEvenOdd = right.traverse(x, y, newEvenOdd);
-                if (byEnding != null) {
+                if (byEnding != null && thisMin <= y) {
                     int size = byEnding.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byEnding.get(b);
@@ -143,6 +143,7 @@ public class PolygonPointIntersection {
         List byStart = null;
         List byEnd = null;
         float leftMin = 1E38f, leftMax = -1E38f, rightMin = 1E38f, rightMax = -1E38f;
+        float thisMin = 1E38f, thisMax = -1E38f;
         for (int i = 0; i < intervals.size(); i++) {
             Interval ival = (Interval) intervals.get(i);
             if (ival.start < center && ival.end < center) {
@@ -162,6 +163,8 @@ public class PolygonPointIntersection {
                     byStart = new ArrayList();
                     byEnd = new ArrayList();
                 }
+                thisMin = ival.start < thisMin ? ival.start : thisMin;
+                thisMax = ival.end > thisMax ? ival.end : thisMax;
                 byStart.add(ival);
                 byEnd.add(ival);
             }
@@ -174,16 +177,18 @@ public class PolygonPointIntersection {
         tree.byBeginning = byStart;
         tree.byEnding = byEnd;
         tree.center = center;
+        tree.thisMin = thisMin;
+        tree.thisMax = thisMax;
         int childMaxCount = 0;
         int ownMaxCount = Math.max(byStart != null ? byStart.size() : 0, byEnd != null ? byEnd.size() : 0);
         if (left != null) {
             tree.left = buildNode(left, (leftMin + leftMax) / 2.0f);
-            tree.left.minMax = leftMax;
+            tree.left.childrenMinMax = leftMax;
             childMaxCount = Math.max(childMaxCount, tree.left.maxCount);
         }
         if (right != null) {
             tree.right = buildNode(right, (rightMin + rightMax) / 2.0f);
-            tree.right.minMax = rightMin;
+            tree.right.childrenMinMax = rightMin;
             childMaxCount = Math.max(childMaxCount, tree.right.maxCount);
         }
         tree.maxCount = ownMaxCount + childMaxCount;
