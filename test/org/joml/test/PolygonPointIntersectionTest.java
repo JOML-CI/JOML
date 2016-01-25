@@ -3,7 +3,6 @@ package org.joml.test;
 import junit.framework.TestCase;
 
 import org.joml.PolygonPointIntersection;
-import org.joml.PolygonPointIntersection.Interval;
 
 /**
  * Tests for the {@link PolygonPointIntersection} class.
@@ -25,15 +24,14 @@ public class PolygonPointIntersectionTest extends TestCase {
                 0, 1
         };
         PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, verticesXY.length / 2);
-        Interval[] working = new Interval[isect.workingSize()];
         // Left part of the "U"
-        assertTrue(isect.pointInPolygon(0.1f, 0.1f, working));
+        assertTrue(isect.pointInPolygon(0.1f, 0.1f));
         // top middle of the "U"
-        assertFalse(isect.pointInPolygon(1.5f, 0.8f, working));
+        assertFalse(isect.pointInPolygon(1.5f, 0.8f));
         // bottom middle of the "U"
-        assertTrue(isect.pointInPolygon(1.5f, 0.2f, working));
+        assertTrue(isect.pointInPolygon(1.5f, 0.2f));
         // right part of the "U"
-        assertTrue(isect.pointInPolygon(2.5f, 0.1f, working));
+        assertTrue(isect.pointInPolygon(2.5f, 0.1f));
     }
 
     public static void testBigCircle() {
@@ -46,17 +44,16 @@ public class PolygonPointIntersectionTest extends TestCase {
             verticesXY[2 * i + 1] = y;
         }
         PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, polyN);
-        Interval[] working = new Interval[isect.workingSize()];
         // Center
-        assertTrue(isect.pointInPolygon(0, 0, working));
+        assertTrue(isect.pointInPolygon(0, 0));
         // Left outside
-        assertFalse(isect.pointInPolygon(-1.1f, 0, working));
+        assertFalse(isect.pointInPolygon(-1.1f, 0));
         // Top right outside
-        assertFalse(isect.pointInPolygon(0.8f, 0.8f, working));
+        assertFalse(isect.pointInPolygon(0.8f, 0.8f));
         // Top edge
-        assertTrue(isect.pointInPolygon(1.0f, 0, working));
+        assertTrue(isect.pointInPolygon(1.0f, 0));
         // Bottom edge <- algorithm only detects top edges as 'inside'
-        assertFalse(isect.pointInPolygon(-1.0f, 0, working));
+        assertFalse(isect.pointInPolygon(-1.0f, 0));
     }
 
 }

@@ -44,7 +44,7 @@ public class PolygonPointIntersection {
         }
     }
 
-    public static class Interval {
+    static class Interval {
         float start, end;
         int i, j;
     }
