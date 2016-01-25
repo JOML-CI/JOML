@@ -23,7 +23,7 @@ public class PolygonPointIntersectionTest extends TestCase {
                 1, 1,
                 0, 1
         };
-        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, verticesXY.length / 2);
+        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[0], verticesXY.length / 2);
         // Left part of the "U"
         assertTrue(isect.pointInPolygon(0.1f, 0.1f));
         // top middle of the "U"
@@ -43,7 +43,7 @@ public class PolygonPointIntersectionTest extends TestCase {
             verticesXY[2 * i + 0] = x;
             verticesXY[2 * i + 1] = y;
         }
-        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, polyN);
+        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[0], polyN);
         // Center
         assertTrue(isect.pointInPolygon(0, 0));
         // Left outside

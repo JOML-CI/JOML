@@ -20,8 +20,7 @@ import java.util.List;
  */
 public class PolygonPointIntersection {
 
-    public static int MASK_INNER = 0;
-    public static int MASK_OUTER = Integer.MIN_VALUE;
+    public static int MASK_HOLE = Integer.MIN_VALUE;
 
     static class ByStartComparator implements Comparator {
         public int compare(Object o1, Object o2) {
@@ -130,7 +129,7 @@ public class PolygonPointIntersection {
      *            contains the x and y coordinates of all vertices
      * @param polygons
      *            defines the start vertices of a new polygon as well as whether that polygon is a hole. The first vertex of the first polygon is always the
-     *            vertex with index 0. In order to define a hole use the {@link #MASK_OUTER} mask and bitwise OR it with the vertex index
+     *            vertex with index 0. In order to define a hole use the {@link #MASK_HOLE} mask and bitwise OR it with the vertex index
      * @param count
      *            the number of vertices to use from the <code>verticesXY</code> array, staring with index 0
      */
@@ -202,7 +201,7 @@ public class PolygonPointIntersection {
         int currPoly = 0;
         boolean hole = false;
         for (i = 1; i < count; i++) {
-            if (polygons.length > currPoly && (polygons[currPoly] & ~MASK_OUTER) == i) {
+            if (polygons.length > currPoly && (polygons[currPoly] & ~MASK_HOLE) == i) {
                 /* New polygon starts. End the current. */
                 float prevy = verticesXY[2 * (i - 1) + 1];
                 float firsty = verticesXY[2 * first + 1];
@@ -217,8 +216,8 @@ public class PolygonPointIntersection {
                     ival.j = i - 1;
                 }
                 intervals.add(ival);
-                hole = (polygons[currPoly] & MASK_INNER) != 0;
-                first = polygons[currPoly];
+                hole = (polygons[currPoly] & MASK_HOLE) != 0;
+                first = polygons[currPoly] & ~MASK_HOLE;
                 currPoly++;
                 i++;
                 j = i - 1;
