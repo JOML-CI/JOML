@@ -126,8 +126,8 @@ public class PolygonPointIntersection {
      * @param verticesXY
      *            contains the x and y coordinates of all vertices
      * @param polygons
-     *            defines the start vertices of a new polygon as well as whether that polygon is a hole. The first vertex of the first polygon is always the
-     *            vertex with index 0. In order to define a hole use the {@link #MASK_HOLE} mask and bitwise OR it with the vertex index
+     *            defines the start vertices of a new polygon. The first vertex of the first polygon is always the
+     *            vertex with index 0. In order to define a hole simply define a polygon that is completely inside another polygon
      * @param count
      *            the number of vertices to use from the <code>verticesXY</code> array, staring with index 0
      */
