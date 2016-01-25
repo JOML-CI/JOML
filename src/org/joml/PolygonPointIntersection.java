@@ -31,7 +31,7 @@ public class PolygonPointIntersection {
             return 0;
         }
     }
-
+    
     static class ByEndComparator implements Comparator {
         public int compare(Object o1, Object o2) {
             Interval i1 = (Interval) o1;
@@ -49,7 +49,7 @@ public class PolygonPointIntersection {
         int i, j;
     }
 
-    static class IntervalTreeNode {
+    class IntervalTreeNode {
         float center;
         float minMax;
         IntervalTreeNode left;
@@ -58,47 +58,61 @@ public class PolygonPointIntersection {
         List/* <Interval> */byEnding;
         int maxCount;
 
-        int traverse(float y, Interval[] ivals, int i) {
-            int j = i;
+        boolean computeEvenOdd(Interval ival, float x, float y, boolean evenOdd) {
+            boolean newEvenOdd = evenOdd;
+            int i = ival.i;
+            int j = ival.j;
+            float yi = verticesXY[2 * i + 1];
+            float yj = verticesXY[2 * j + 1];
+            float xi = verticesXY[2 * i + 0];
+            float xj = verticesXY[2 * j + 0];
+            if ((yi < y && yj >= y || yj < y && yi >= y) && (xi <= x || xj <= x)) {
+                newEvenOdd ^= (xi + (y - yi) / (yj - yi) * (xj - xi) < x);
+            }
+            return newEvenOdd;
+        }
+
+        boolean traverse(float x, float y, boolean evenOdd) {
+            boolean newEvenOdd = evenOdd;
             if (y == center && byBeginning != null) {
                 int size = byBeginning.size();
                 for (int b = 0; b < size; b++) {
                     Interval ival = (Interval) byBeginning.get(b);
-                    ivals[j++] = ival;
+                    newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd);
                 }
             } else if (y < center) {
                 if (left != null && left.minMax >= y)
-                    j = left.traverse(y, ivals, i);
+                    newEvenOdd = left.traverse(x, y, newEvenOdd);
                 if (byBeginning != null) {
                     int size = byBeginning.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byBeginning.get(b);
                         if (ival.start > y)
                             break;
-                        ivals[j++] = ival;
+                        newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd);
                     }
                 }
             } else if (y > center) {
                 if (right != null && right.minMax <= y)
-                    j = right.traverse(y, ivals, i);
+                    newEvenOdd = right.traverse(x, y, newEvenOdd);
                 if (byEnding != null) {
                     int size = byEnding.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byEnding.get(b);
                         if (ival.end < y)
                             break;
-                        ivals[j++] = ival;
+                        newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd);
                     }
                 }
             }
-            return j;
+            return newEvenOdd;
         }
     }
 
     private final ByStartComparator byStartComparator = new ByStartComparator();
     private final ByEndComparator byEndComparator = new ByEndComparator();
 
-    private final float[] verticesXY;
+    protected final float[] verticesXY;
     private float minX, minY, maxX, maxY;
     private float centerX, centerY, radiusSquared;
     private IntervalTreeNode tree;
@@ -141,7 +155,7 @@ public class PolygonPointIntersection {
                 rightMin = rightMin < ival.start ? rightMin : ival.start;
                 rightMax = rightMax > ival.end ? rightMax : ival.end;
             } else {
-                if (byStart == null) {
+                if (byStart == null || byEnd == null) {
                     byStart = new ArrayList();
                     byEnd = new ArrayList();
                 }
@@ -203,36 +217,17 @@ public class PolygonPointIntersection {
     }
 
     /**
-     * Determine the number of elements that an argument to the <code>working</code> array parameter of the {@link #pointInPolygon(float, float, Interval[])}
-     * method must have in order for that method to work correctly.
-     * 
-     * @return the number of array elements in the <code>working</code> array argument of {@link #pointInPolygon(float, float, Interval[])}
-     */
-    public int workingSize() {
-        return tree.maxCount;
-    }
-
-    /**
      * Test whether the given point <tt>(x, y)</tt> lies inside the polygon stored in this {@link PolygonPointIntersection} object.
      * <p>
-     * This method must be given a <code>working</code> {@link Interval} array of at least {@link #workingSize()} elements. See the parameter JavaDocs for
-     * further information.
-     * <p>
-     * This method is thread-safe and can be used to test many points concurrently. <i>Please note the restriction on the <code>working</code> parameter in the
-     * JavaDocs of that parameter regarding multithreading.</i>
+     * This method is thread-safe and can be used to test many points concurrently.
      * 
      * @param x
      *            the x coordinate of the point to test
      * @param y
      *            the y coordinate of the point to test
-     * @param working
-     *            an array of at least {@link #workingSize()} elements. This method will use this array as internal working memory. It will not make any
-     *            assumptions on the state of the array (the array may be empty or not) and will leave the array in an arbitrary state. When calling this method
-     *            concurrently from multiple threads, every thread must use its own <code>working</code> array and no two concurrent invocations of this method
-     *            may use the same array instance
      * @return <code>true</code> iff the point lies inside the polygon; <code>false</code> otherwise
      */
-    public boolean pointInPolygon(float x, float y, Interval[] working) {
+    public boolean pointInPolygon(float x, float y) {
         // check bounding sphere first
         float dx = (x - centerX);
         float dy = (y - centerY);
@@ -242,22 +237,7 @@ public class PolygonPointIntersection {
         if (maxX < x || maxY < y || minX > x || minY > y)
             return false;
         // ask interval tree for all polygon edges intersecting 'y'
-        int c = tree.traverse(y, working, 0);
-        boolean oddNodes = false;
-        // check the polygon edges
-        for (int r = 0; r < c; r++) {
-            Interval ival = working[r];
-            int i = ival.i;
-            int j = ival.j;
-            float yi = verticesXY[2 * i + 1];
-            float yj = verticesXY[2 * j + 1];
-            float xi = verticesXY[2 * i + 0];
-            float xj = verticesXY[2 * j + 0];
-            if ((yi < y && yj >= y || yj < y && yi >= y) && (xi <= x || xj <= x)) {
-                oddNodes ^= (xi + (y - yi) / (yj - yi) * (xj - xi) < x);
-            }
-        }
-        return oddNodes;
+        return tree.traverse(x, y, false);
     }
 
 }
