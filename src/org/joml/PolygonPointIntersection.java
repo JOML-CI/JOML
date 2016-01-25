@@ -109,8 +109,8 @@ public class PolygonPointIntersection {
         }
     }
 
-    private final ByStartComparator byStartComparator = new ByStartComparator();
-    private final ByEndComparator byEndComparator = new ByEndComparator();
+    private static final ByStartComparator byStartComparator = new ByStartComparator();
+    private static final ByEndComparator byEndComparator = new ByEndComparator();
 
     protected final float[] verticesXY;
     private float minX, minY, maxX, maxY;
@@ -236,7 +236,8 @@ public class PolygonPointIntersection {
         // check bounding box next
         if (maxX < x || maxY < y || minX > x || minY > y)
             return false;
-        // ask interval tree for all polygon edges intersecting 'y'
+        // ask interval tree for all polygon edges intersecting 'y' and perform
+        // the even/odd/crosscutting/raycast algorithm on them
         return tree.traverse(x, y, false);
     }
 
