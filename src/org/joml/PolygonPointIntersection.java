@@ -20,6 +20,9 @@ import java.util.List;
  */
 public class PolygonPointIntersection {
 
+    public static int MASK_INNER = 0;
+    public static int MASK_OUTER = Integer.MIN_VALUE;
+
     static class ByStartComparator implements Comparator {
         public int compare(Object o1, Object o2) {
             Interval i1 = (Interval) o1;
@@ -31,7 +34,7 @@ public class PolygonPointIntersection {
             return 0;
         }
     }
-    
+
     static class ByEndComparator implements Comparator {
         public int compare(Object o1, Object o2) {
             Interval i1 = (Interval) o1;
@@ -54,8 +57,8 @@ public class PolygonPointIntersection {
         float minMax;
         IntervalTreeNode left;
         IntervalTreeNode right;
-        List/* <Interval> */byBeginning;
-        List/* <Interval> */byEnding;
+        List/* <Interval> */ byBeginning;
+        List/* <Interval> */ byEnding;
         int maxCount;
 
         boolean computeEvenOdd(Interval ival, float x, float y, boolean evenOdd) {
@@ -125,13 +128,16 @@ public class PolygonPointIntersection {
      * 
      * @param verticesXY
      *            contains the x and y coordinates of all vertices
+     * @param polygons
+     *            defines the start vertices of a new polygon as well as whether that polygon is a hole. The first vertex of the first polygon is always the
+     *            vertex with index 0. In order to define a hole use the {@link #MASK_OUTER} mask and bitwise OR it with the vertex index
      * @param count
      *            the number of vertices to use from the <code>verticesXY</code> array, staring with index 0
      */
-    public PolygonPointIntersection(float[] verticesXY, int count) {
+    public PolygonPointIntersection(float[] verticesXY, int[] polygons, int count) {
         this.verticesXY = verticesXY;
         // Do all the allocations and initializations during this constructor
-        preprocess(count);
+        preprocess(count, polygons);
     }
 
     private IntervalTreeNode buildNode(List intervals, float center) {
@@ -187,12 +193,36 @@ public class PolygonPointIntersection {
         return tree;
     }
 
-    private void preprocess(int count) {
-        int i, j = count - 1;
+    private void preprocess(int count, int[] polygons) {
+        int i, j = 0;
         minX = minY = 1E38f;
         maxX = maxY = -1E38f;
         List intervals = new ArrayList(count);
-        for (i = 0; i < count; i++) {
+        int first = 0;
+        int currPoly = 0;
+        boolean hole = false;
+        for (i = 1; i < count; i++) {
+            if (polygons.length > currPoly && (polygons[currPoly] & ~MASK_OUTER) == i) {
+                /* New polygon starts. End the current. */
+                float prevy = verticesXY[2 * (i - 1) + 1];
+                float firsty = verticesXY[2 * first + 1];
+                Interval ival = new Interval();
+                ival.start = prevy < firsty ? prevy : firsty;
+                ival.end = firsty > prevy ? firsty : prevy;
+                if (!hole) {
+                    ival.i = i - 1;
+                    ival.j = first;
+                } else {
+                    ival.i = first;
+                    ival.j = i - 1;
+                }
+                intervals.add(ival);
+                hole = (polygons[currPoly] & MASK_INNER) != 0;
+                first = polygons[currPoly];
+                currPoly++;
+                i++;
+                j = i - 1;
+            }
             float yi = verticesXY[2 * i + 1];
             float xi = verticesXY[2 * i + 0];
             float yj = verticesXY[2 * j + 1];
@@ -208,11 +238,32 @@ public class PolygonPointIntersection {
             intervals.add(ival);
             j = i;
         }
+        // Close current polygon
+        float yi = verticesXY[2 * (i - 1) + 1];
+        float xi = verticesXY[2 * (i - 1) + 0];
+        float yj = verticesXY[2 * first + 1];
+        minX = xi < minX ? xi : minX;
+        minY = yi < minY ? yi : minY;
+        maxX = xi > maxX ? xi : maxX;
+        maxY = yi > maxY ? yi : maxY;
+        Interval ival = new Interval();
+        ival.start = yi < yj ? yi : yj;
+        ival.end = yj > yi ? yj : yi;
+        if (!hole) {
+            ival.i = i - 1;
+            ival.j = first;
+        } else {
+            ival.i = first;
+            ival.j = i - 1;
+        }
+        intervals.add(ival);
+        // compute bounding sphere and rectangle
         centerX = (maxX + minX) * 0.5f;
         centerY = (maxY + minY) * 0.5f;
         float dx = maxX - centerX;
         float dy = maxY - centerY;
         radiusSquared = dx * dx + dy * dy;
+        // build interval tree
         tree = buildNode(intervals, centerY);
     }
 
