@@ -50,7 +50,7 @@ public class PolygonPointIntersection {
         int i, j, polyIndex;
     }
 
-    class IntervalTreeNode {
+    static class IntervalTreeNode {
         float center;
         float childrenMinMax;
         IntervalTreeNode left;
@@ -58,7 +58,7 @@ public class PolygonPointIntersection {
         List/* <Interval> */ byBeginning;
         List/* <Interval> */ byEnding;
 
-        boolean computeEvenOdd(Interval ival, float x, float y, boolean evenOdd, BitSet inPolys) {
+        static boolean computeEvenOdd(float[] verticesXY, Interval ival, float x, float y, boolean evenOdd, BitSet inPolys) {
             boolean newEvenOdd = evenOdd;
             int i = ival.i;
             int j = ival.j;
@@ -76,36 +76,36 @@ public class PolygonPointIntersection {
             return newEvenOdd;
         }
 
-        boolean traverse(float x, float y, boolean evenOdd, BitSet inPolys) {
+        boolean traverse(float[] verticesXY, float x, float y, boolean evenOdd, BitSet inPolys) {
             boolean newEvenOdd = evenOdd;
             if (y == center && byBeginning != null) {
                 int size = byBeginning.size();
                 for (int b = 0; b < size; b++) {
                     Interval ival = (Interval) byBeginning.get(b);
-                    newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd, inPolys);
+                    newEvenOdd = computeEvenOdd(verticesXY, ival, x, y, newEvenOdd, inPolys);
                 }
             } else if (y < center) {
                 if (left != null && left.childrenMinMax >= y)
-                    newEvenOdd = left.traverse(x, y, newEvenOdd, inPolys);
+                    newEvenOdd = left.traverse(verticesXY, x, y, newEvenOdd, inPolys);
                 if (byBeginning != null) {
                     int size = byBeginning.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byBeginning.get(b);
                         if (ival.start > y)
                             break;
-                        newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd, inPolys);
+                        newEvenOdd = computeEvenOdd(verticesXY, ival, x, y, newEvenOdd, inPolys);
                     }
                 }
             } else if (y > center) {
                 if (right != null && right.childrenMinMax <= y)
-                    newEvenOdd = right.traverse(x, y, newEvenOdd, inPolys);
+                    newEvenOdd = right.traverse(verticesXY, x, y, newEvenOdd, inPolys);
                 if (byEnding != null) {
                     int size = byEnding.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byEnding.get(b);
                         if (ival.end < y)
                             break;
-                        newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd, inPolys);
+                        newEvenOdd = computeEvenOdd(verticesXY, ival, x, y, newEvenOdd, inPolys);
                     }
                 }
             }
@@ -304,7 +304,7 @@ public class PolygonPointIntersection {
         // the even/odd/crosscutting/raycast algorithm on them and also return
         // the polygon index of the polygon the point is in by setting the appropriate
         // bit in the given BitSet.
-        boolean res = tree.traverse(x, y, false, inPolys);
+        boolean res = tree.traverse(verticesXY, x, y, false, inPolys);
         return res;
     }
 
