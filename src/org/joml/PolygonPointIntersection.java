@@ -52,12 +52,11 @@ public class PolygonPointIntersection {
 
     class IntervalTreeNode {
         float center;
-        float childrenMinMax, thisMin, thisMax;
+        float childrenMinMax;
         IntervalTreeNode left;
         IntervalTreeNode right;
         List/* <Interval> */ byBeginning;
         List/* <Interval> */ byEnding;
-        int maxCount;
 
         boolean computeEvenOdd(Interval ival, float x, float y, boolean evenOdd, BitSet inPolys) {
             boolean newEvenOdd = evenOdd;
@@ -88,7 +87,7 @@ public class PolygonPointIntersection {
             } else if (y < center) {
                 if (left != null && left.childrenMinMax >= y)
                     newEvenOdd = left.traverse(x, y, newEvenOdd, inPolys);
-                if (byBeginning != null && thisMax >= y) {
+                if (byBeginning != null) {
                     int size = byBeginning.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byBeginning.get(b);
@@ -100,7 +99,7 @@ public class PolygonPointIntersection {
             } else if (y > center) {
                 if (right != null && right.childrenMinMax <= y)
                     newEvenOdd = right.traverse(x, y, newEvenOdd, inPolys);
-                if (byEnding != null && thisMin <= y) {
+                if (byEnding != null) {
                     int size = byEnding.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byEnding.get(b);
@@ -182,21 +181,14 @@ public class PolygonPointIntersection {
         tree.byBeginning = byStart;
         tree.byEnding = byEnd;
         tree.center = center;
-        tree.thisMin = thisMin;
-        tree.thisMax = thisMax;
-        int childMaxCount = 0;
-        int ownMaxCount = Math.max(byStart != null ? byStart.size() : 0, byEnd != null ? byEnd.size() : 0);
         if (left != null) {
             tree.left = buildNode(left, (leftMin + leftMax) / 2.0f);
             tree.left.childrenMinMax = leftMax;
-            childMaxCount = Math.max(childMaxCount, tree.left.maxCount);
         }
         if (right != null) {
             tree.right = buildNode(right, (rightMin + rightMax) / 2.0f);
             tree.right.childrenMinMax = rightMin;
-            childMaxCount = Math.max(childMaxCount, tree.right.maxCount);
         }
-        tree.maxCount = ownMaxCount + childMaxCount;
         return tree;
     }
 
