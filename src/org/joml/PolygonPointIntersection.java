@@ -1,16 +1,17 @@
 package org.joml;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 /**
- * Class for polygon/point intersection tests when testing many points against the same static concave or convex polygon.
+ * Class for polygon/point intersection tests when testing many points against the one or many static concave or convex polygons.
  * <p>
  * This is an implementation of the algorithm described in <a href="http://alienryderflex.com/polygon/">http://alienryderflex.com</a> and augmented with using a
  * custom interval tree to avoid testing all polygon edges against a point, but only those that intersect the imaginary ray along the same y co-ordinate of the
- * search point.
+ * search point. This algorithm additionally also supports multiple polygons.
  * <p>
  * This class is thread-safe and can be used in a multithreaded environment when testing many points against the same polygon concurrently.
  * <p>
@@ -46,7 +47,7 @@ public class PolygonPointIntersection {
 
     static class Interval {
         float start, end;
-        int i, j;
+        int i, j, polyIndex;
     }
 
     class IntervalTreeNode {
@@ -58,7 +59,7 @@ public class PolygonPointIntersection {
         List/* <Interval> */ byEnding;
         int maxCount;
 
-        boolean computeEvenOdd(Interval ival, float x, float y, boolean evenOdd) {
+        boolean computeEvenOdd(Interval ival, float x, float y, boolean evenOdd, BitSet inPolys) {
             boolean newEvenOdd = evenOdd;
             int i = ival.i;
             int j = ival.j;
@@ -67,41 +68,45 @@ public class PolygonPointIntersection {
             float xi = verticesXY[2 * i + 0];
             float xj = verticesXY[2 * j + 0];
             if ((yi < y && yj >= y || yj < y && yi >= y) && (xi <= x || xj <= x)) {
-                newEvenOdd ^= (xi + (y - yi) / (yj - yi) * (xj - xi) < x);
+                float xDist = xi + (y - yi) / (yj - yi) * (xj - xi) - x;
+                newEvenOdd ^= xDist < 0.0f;
+                if (newEvenOdd != evenOdd && inPolys != null) {
+                    inPolys.flip(ival.polyIndex);
+                }
             }
             return newEvenOdd;
         }
 
-        boolean traverse(float x, float y, boolean evenOdd) {
+        boolean traverse(float x, float y, boolean evenOdd, BitSet inPolys) {
             boolean newEvenOdd = evenOdd;
             if (y == center && byBeginning != null) {
                 int size = byBeginning.size();
                 for (int b = 0; b < size; b++) {
                     Interval ival = (Interval) byBeginning.get(b);
-                    newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd);
+                    newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd, inPolys);
                 }
             } else if (y < center) {
                 if (left != null && left.childrenMinMax >= y)
-                    newEvenOdd = left.traverse(x, y, newEvenOdd);
+                    newEvenOdd = left.traverse(x, y, newEvenOdd, inPolys);
                 if (byBeginning != null && thisMax >= y) {
                     int size = byBeginning.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byBeginning.get(b);
                         if (ival.start > y)
                             break;
-                        newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd);
+                        newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd, inPolys);
                     }
                 }
             } else if (y > center) {
                 if (right != null && right.childrenMinMax <= y)
-                    newEvenOdd = right.traverse(x, y, newEvenOdd);
+                    newEvenOdd = right.traverse(x, y, newEvenOdd, inPolys);
                 if (byEnding != null && thisMin <= y) {
                     int size = byEnding.size();
                     for (int b = 0; b < size; b++) {
                         Interval ival = (Interval) byEnding.get(b);
                         if (ival.end < y)
                             break;
-                        newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd);
+                        newEvenOdd = computeEvenOdd(ival, x, y, newEvenOdd, inPolys);
                     }
                 }
             }
@@ -212,6 +217,7 @@ public class PolygonPointIntersection {
                 ival.end = firsty > prevy ? firsty : prevy;
                 ival.i = i - 1;
                 ival.j = first;
+                ival.polyIndex = currPoly;
                 intervals.add(ival);
                 first = i;
                 currPoly++;
@@ -230,6 +236,7 @@ public class PolygonPointIntersection {
             ival.end = yj > yi ? yj : yi;
             ival.i = i;
             ival.j = j;
+            ival.polyIndex = currPoly;
             intervals.add(ival);
             j = i;
         }
@@ -246,6 +253,7 @@ public class PolygonPointIntersection {
         ival.end = yj > yi ? yj : yi;
         ival.i = i - 1;
         ival.j = first;
+        ival.polyIndex = currPoly;
         intervals.add(ival);
         // compute bounding sphere and rectangle
         centerX = (maxX + minX) * 0.5f;
@@ -256,9 +264,28 @@ public class PolygonPointIntersection {
         // build interval tree
         tree = buildNode(intervals, centerY);
     }
+    
+    /**
+     * Test whether the given point <tt>(x, y)</tt> lies inside any polygon stored in this {@link PolygonPointIntersection} object.
+     * <p>
+     * This method is thread-safe and can be used to test many points concurrently.
+     * <p>
+     * In order to obtain the index of the polygon the point is inside of, use {@link #pointInPolygons(float, float, BitSet)}
+     * 
+     * @see #pointInPolygons(float, float, BitSet)
+     * 
+     * @param x
+     *            the x coordinate of the point to test
+     * @param y
+     *            the y coordinate of the point to test
+     * @return <code>true</code> iff the point lies inside any polygon; <code>false</code> otherwise
+     */
+    public boolean pointInPolygons(float x, float y) {
+        return pointInPolygons(x, y, null);
+    }
 
     /**
-     * Test whether the given point <tt>(x, y)</tt> lies inside the polygon stored in this {@link PolygonPointIntersection} object.
+     * Test whether the given point <tt>(x, y)</tt> lies inside any polygon stored in this {@link PolygonPointIntersection} object.
      * <p>
      * This method is thread-safe and can be used to test many points concurrently.
      * 
@@ -266,20 +293,27 @@ public class PolygonPointIntersection {
      *            the x coordinate of the point to test
      * @param y
      *            the y coordinate of the point to test
-     * @return <code>true</code> iff the point lies inside the polygon; <code>false</code> otherwise
+     * @param inPolys
+     *            if not <code>null</code> then the <i>i</i>-th bit is set if the given point is inside the <i>i</i>-th polygon
+     * @return <code>true</code> iff the point lies inside the polygon and not inside a hole; <code>false</code> otherwise
      */
-    public boolean pointInPolygon(float x, float y) {
+    public boolean pointInPolygons(float x, float y, BitSet inPolys) {
         // check bounding sphere first
         float dx = (x - centerX);
         float dy = (y - centerY);
+        if (inPolys != null)
+            inPolys.clear();
         if (dx * dx + dy * dy > radiusSquared)
             return false;
         // check bounding box next
         if (maxX < x || maxY < y || minX > x || minY > y)
             return false;
         // ask interval tree for all polygon edges intersecting 'y' and perform
-        // the even/odd/crosscutting/raycast algorithm on them
-        return tree.traverse(x, y, false);
+        // the even/odd/crosscutting/raycast algorithm on them and also return
+        // the polygon index of the polygon the point is in by setting the appropriate
+        // bit in the given BitSet.
+        boolean res = tree.traverse(x, y, false, inPolys);
+        return res;
     }
 
 }

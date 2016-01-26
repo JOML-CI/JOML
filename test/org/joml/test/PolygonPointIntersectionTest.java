@@ -25,9 +25,9 @@ public class PolygonPointIntersectionTest extends TestCase {
         };
         PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[]{4}, verticesXY.length / 2);
         // Inside outer rectangle
-        assertTrue(isect.pointInPolygon(0.1f, 0.1f));
+        assertTrue(isect.pointInPolygons(0.1f, 0.1f));
         // Inside inner rectangle
-        assertFalse(isect.pointInPolygon(1.5f, 1.5f));
+        assertFalse(isect.pointInPolygons(1.5f, 1.5f));
     }
 
     public static void testMultipolygon() {
@@ -44,11 +44,11 @@ public class PolygonPointIntersectionTest extends TestCase {
         };
         PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[]{4}, verticesXY.length / 2);
         // Left rectangle
-        assertTrue(isect.pointInPolygon(0.1f, 0.1f));
+        assertTrue(isect.pointInPolygons(0.1f, 0.1f));
         // between the two
-        assertFalse(isect.pointInPolygon(1.5f, 0.1f));
+        assertFalse(isect.pointInPolygons(1.5f, 0.1f));
         // right rectangle
-        assertTrue(isect.pointInPolygon(2.5f, 0.1f));
+        assertTrue(isect.pointInPolygons(2.5f, 0.1f));
     }
 
     public static void testSimple() {
@@ -65,13 +65,13 @@ public class PolygonPointIntersectionTest extends TestCase {
         };
         PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[0], verticesXY.length / 2);
         // Left part of the "U"
-        assertTrue(isect.pointInPolygon(0.1f, 0.1f));
+        assertTrue(isect.pointInPolygons(0.1f, 0.1f));
         // top middle of the "U"
-        assertFalse(isect.pointInPolygon(1.5f, 0.8f));
+        assertFalse(isect.pointInPolygons(1.5f, 0.8f));
         // bottom middle of the "U"
-        assertTrue(isect.pointInPolygon(1.5f, 0.2f));
+        assertTrue(isect.pointInPolygons(1.5f, 0.2f));
         // right part of the "U"
-        assertTrue(isect.pointInPolygon(2.5f, 0.1f));
+        assertTrue(isect.pointInPolygons(2.5f, 0.1f));
     }
 
     public static void testBigCircle() {
@@ -85,15 +85,15 @@ public class PolygonPointIntersectionTest extends TestCase {
         }
         PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[0], polyN);
         // Center
-        assertTrue(isect.pointInPolygon(0, 0));
+        assertTrue(isect.pointInPolygons(0, 0));
         // Left outside
-        assertFalse(isect.pointInPolygon(-1.1f, 0));
+        assertFalse(isect.pointInPolygons(-1.1f, 0));
         // Top right outside
-        assertFalse(isect.pointInPolygon(0.8f, 0.8f));
+        assertFalse(isect.pointInPolygons(0.8f, 0.8f));
         // Top edge
-        assertTrue(isect.pointInPolygon(1.0f, 0));
+        assertTrue(isect.pointInPolygons(1.0f, 0));
         // Bottom edge <- algorithm only detects top edges as 'inside'
-        assertFalse(isect.pointInPolygon(-1.0f, 0));
+        assertFalse(isect.pointInPolygons(-1.0f, 0));
     }
 
 }
