@@ -6811,6 +6811,26 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
+     * and store it into the upper left 3x3 submatrix of <code>this</code>.
+     * All other values of <code>this</code> will be set to {@link #identity() identity}.
+     * <p>
+     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In that case, use {@link #set3x3(Matrix4f)} to set a given Matrix4f to only the upper left 3x3 submatrix
+     * of this matrix.
+     * 
+     * @see #set3x3(Matrix4f)
+     * 
+     * @return this
+     */
+    public Matrix4f normal() {
+        return normal(this);
+    }
+
+    /**
+     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
      * and store it into the upper left 3x3 submatrix of <code>dest</code>.
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
      * <p>
