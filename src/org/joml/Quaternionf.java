@@ -999,6 +999,98 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Pre-multiply this quaternion by <code>q</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * 
+     * @param q
+     *            the quaternion to pre-multiply <code>this</code> by
+     * @return this
+     */
+    public Quaternionf premul(Quaternionf q) {
+        return premul(q, this);
+    }
+
+    /**
+     * Pre-multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * 
+     * @param q
+     *            the quaternion to pre-multiply <code>this</code> by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Quaternionf premul(Quaternionf q, Quaternionf dest) {
+        dest.set(q.w * x + q.x * w + q.y * z - q.z * y,
+                 q.w * y - q.x * z + q.y * w + q.z * x,
+                 q.w * z + q.x * y - q.y * x + q.z * w,
+                 q.w * w - q.x * x - q.y * y - q.z * z);
+        return dest;
+    }
+
+    /**
+     * Pre-multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * 
+     * @param qx
+     *          the x component of the quaternion to multiply <code>this</code> by
+     * @param qy
+     *          the y component of the quaternion to multiply <code>this</code> by
+     * @param qz
+     *          the z component of the quaternion to multiply <code>this</code> by
+     * @param qw
+     *          the w component of the quaternion to multiply <code>this</code> by
+     * @return this
+     */
+    public Quaternionf premul(float qx, float qy, float qz, float qw) {
+        return premul(qx, qy, qz, qw, this);
+    }
+
+    /**
+     * Pre-multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * 
+     * @param qx
+     *          the x component of the quaternion to multiply <code>this</code> by
+     * @param qy
+     *          the y component of the quaternion to multiply <code>this</code> by
+     * @param qz
+     *          the z component of the quaternion to multiply <code>this</code> by
+     * @param qw
+     *          the w component of the quaternion to multiply <code>this</code> by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Quaternionf premul(float qx, float qy, float qz, float qw, Quaternionf dest) {
+        dest.set(qw * x + qx * w + qy * z - qz * y,
+                 qw * y - qx * z + qy * w + qz * x,
+                 qw * z + qx * y - qy * x + qz * w,
+                 qw * w - qx * x - qy * y - qz * z);
+        return dest;
+    }
+
+    /**
      * Transform the given vector by this quaternion.
      * This will apply the rotation described by this quaternion to the given vector.
      * 
