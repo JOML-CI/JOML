@@ -958,6 +958,10 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Invert this quaternion and store the {@link #normalize() normalized} result in <code>dest</code>.
+     * <p>
+     * If this quaternion is already normalized, then {@link #conjugate(Quaterniond)} should be used instead.
+     * 
+     * @see #conjugate(Quaterniond)
      * 
      * @param dest
      *          will hold the result
@@ -973,36 +977,16 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Invert this quaternion by assuming that it is already {@link #normalize() normalized} and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Quaterniond unitInvert(Quaterniond dest) {
-        dest.x = -x;
-        dest.y = -y;
-        dest.z = -z;
-        dest.w = w;
-        return dest;
-    }
-
-    /**
      * Invert this quaternion and {@link #normalize() normalize} it.
+     * <p>
+     * If this quaternion is already normalized, then {@link #conjugate()} should be used instead.
+     * 
+     * @see #conjugate()
      * 
      * @return this
      */
     public Quaterniond invert() {
         return invert(this);
-    }
-
-    /**
-     * Invert this quaternion by assuming that it is already {@link #normalize() normalized}.
-     * 
-     * @return this
-     */
-    public Quaterniond unitInvert() {
-        return unitInvert(this);
     }
 
     /**
@@ -1256,6 +1240,61 @@ public class Quaterniond implements Externalizable {
         dest.z = scale0 * z + scale1 * target.z;
         dest.w = scale0 * w + scale1 * target.w;
         return dest;
+    }
+
+    /**
+     * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation.
+     * <p>
+     * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
+     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this)</tt>
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     * 
+     * @see #slerp(Quaterniond, double)
+     * 
+     * @param factor
+     *          the scaling/interpolation factor, within <tt>[0..1]</tt>
+     * @return this
+     */
+    public Quaterniond scale(double factor) {
+        return scale(factor, this);
+    }
+
+    /**
+     * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation, and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
+     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this, dest)</tt>
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     * 
+     * @see #slerp(Quaterniond, double, Quaterniond)
+     * 
+     * @param factor
+     *          the scaling/interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaterniond scale(double factor, Quaterniond dest) {
+        double absCosom = Math.abs(w);
+        double scale0, scale1;
+        if (1.0 - absCosom > 1E-6) {
+            double sinSqr = 1.0 - absCosom * absCosom;
+            double sinom = 1.0 / Math.sqrt(sinSqr);
+            double omega = Math.atan2(sinSqr * sinom, absCosom);
+            scale0 = Math.sin((1.0 - factor) * omega) * sinom;
+            scale1 = Math.sin(factor * omega) * sinom;
+        } else {
+            scale0 = 1.0 - factor;
+            scale1 = factor;
+        }
+        scale1 = w >= 0.0 ? scale1 : -scale1;
+        dest.x = scale1 * x;
+        dest.y = scale1 * y;
+        dest.z = scale1 * z;
+        dest.w = scale0 + scale1 * w;
+        return this;
     }
 
     /**
