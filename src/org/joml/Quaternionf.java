@@ -2554,4 +2554,83 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
+    /**
+     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaternionf inv = new Quaternionf(this).invert();
+     * inv.transform(dir.set(1, 0, 0));
+     * </pre>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3f positiveX(Vector3f dir) {
+        float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        float nx = -x * invNorm;
+        float ny = -y * invNorm;
+        float nz = -z * invNorm;
+        float nw = w * invNorm;
+        float num2 = ny * 2.0f;
+        float num3 = nz * 2.0f;
+        dir.set(1.0f - (ny * num2 + nz * num3), nx * num2 + nw * num3, nx * num3 - nw * num2);
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * 
+     * <pre>
+     * Quaternionf inv = new Quaternionf(this).invert();
+     * inv.transform(dir.set(0, 1, 0));
+     * </pre>
+     * 
+     * @param dir
+     *            will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3f positiveY(Vector3f dir) {
+        float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        float nx = -x * invNorm;
+        float ny = -y * invNorm;
+        float nz = -z * invNorm;
+        float nw = w * invNorm;
+        float num = nx * 2.0f;
+        float num2 = ny * 2.0f;
+        float num3 = nz * 2.0f;
+        dir.set(nx * num2 - nw * num3, 1.0f - (nx * num + nz * num3), ny * num3 + nw * num);
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * 
+     * <pre>
+     * Quaternionf inv = new Quaternionf(this).invert();
+     * inv.transform(dir.set(0, 0, 1));
+     * </pre>
+     * 
+     * @param dir
+     *            will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3f positiveZ(Vector3f dir) {
+        float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        float nx = -x * invNorm;
+        float ny = -y * invNorm;
+        float nz = -z * invNorm;
+        float nw = w * invNorm;
+        float num = nx * 2.0f;
+        float num2 = ny * 2.0f;
+        float num3 = nz * 2.0f;
+        dir.set(nx * num3 + nw * num2, ny * num3 - nw * num, 1.0f - (nx * num + ny * num2));
+        return dir;
+    }
+
 }
