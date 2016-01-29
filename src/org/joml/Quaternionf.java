@@ -1604,6 +1604,60 @@ public class Quaternionf implements Externalizable {
         dest.w = scale0 * w + scale1 * target.w;
         return dest;
     }
+    /**
+     * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation.
+     * <p>
+     * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
+     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this)</tt>
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     * 
+     * @see #slerp(Quaternionf, float)
+     * 
+     * @param factor
+     *          the scaling/interpolation factor, within <tt>[0..1]</tt>
+     * @return this
+     */
+    public Quaternionf scale(float factor) {
+        return scale(factor, this);
+    }
+
+    /**
+     * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation, and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
+     * and thus equivalent to calling: <tt>new Quaternionf().slerp(this, dest)</tt>
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     * 
+     * @see #slerp(Quaternionf, float, Quaternionf)
+     * 
+     * @param factor
+     *          the scaling/interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaternionf scale(float factor, Quaternionf dest) {
+        float absCosom = Math.abs(w);
+        float scale0, scale1;
+        if (1.0 - absCosom > 1E-6) {
+            float sinSqr = 1.0f - absCosom * absCosom;
+            float sinom = (float) (1.0 / Math.sqrt(sinSqr));
+            float omega = (float) Math.atan2(sinSqr * sinom, absCosom);
+            scale0 = (float) (Math.sin((1.0 - factor) * omega) * sinom);
+            scale1 = (float) (Math.sin(factor * omega) * sinom);
+        } else {
+            scale0 = 1.0f - factor;
+            scale1 = factor;
+        }
+        scale1 = w >= 0.0 ? scale1 : -scale1;
+        dest.x = scale1 * x;
+        dest.y = scale1 * y;
+        dest.z = scale1 * z;
+        dest.w = scale0 + scale1 * w;
+        return this;
+    }
 
     /**
      * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
