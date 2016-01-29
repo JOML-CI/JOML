@@ -2591,4 +2591,83 @@ public class Quaterniond implements Externalizable {
         return rotateAxis(angle, axisX, axisY, axisZ, this);
     }
 
+    /**
+     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaterniond inv = new Quaterniond(this).invert();
+     * inv.transform(dir.set(1, 0, 0));
+     * </pre>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3d positiveX(Vector3d dir) {
+        double invNorm = 1.0d / (x * x + y * y + z * z + w * w);
+        double nx = -x * invNorm;
+        double ny = -y * invNorm;
+        double nz = -z * invNorm;
+        double nw = w * invNorm;
+        double num2 = ny * 2.0;
+        double num3 = nz * 2.0;
+        dir.set(1.0 - (ny * num2 + nz * num3), nx * num2 + nw * num3, nx * num3 - nw * num2);
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * 
+     * <pre>
+     * Quaterniond inv = new Quaterniond(this).invert();
+     * inv.transform(dir.set(0, 1, 0));
+     * </pre>
+     * 
+     * @param dir
+     *            will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3d positiveY(Vector3d dir) {
+        double invNorm = 1.0 / (x * x + y * y + z * z + w * w);
+        double nx = -x * invNorm;
+        double ny = -y * invNorm;
+        double nz = -z * invNorm;
+        double nw = w * invNorm;
+        double num = nx * 2.0;
+        double num2 = ny * 2.0;
+        double num3 = nz * 2.0;
+        dir.set(nx * num2 - nw * num3, 1.0 - (nx * num + nz * num3), ny * num3 + nw * num);
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * 
+     * <pre>
+     * Quaterniond inv = new Quaterniond(this).invert();
+     * inv.transform(dir.set(0, 0, 1));
+     * </pre>
+     * 
+     * @param dir
+     *            will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3d positiveZ(Vector3d dir) {
+        double invNorm = 1.0 / (x * x + y * y + z * z + w * w);
+        double nx = -x * invNorm;
+        double ny = -y * invNorm;
+        double nz = -z * invNorm;
+        double nw = w * invNorm;
+        double num = nx * 2.0;
+        double num2 = ny * 2.0;
+        double num3 = nz * 2.0;
+        dir.set(nx * num3 + nw * num2, ny * num3 - nw * num, 1.0 - (nx * num + ny * num2));
+        return dir;
+    }
+
 }
