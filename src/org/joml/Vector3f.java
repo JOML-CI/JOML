@@ -73,7 +73,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4f} with the given component values.
+     * Create a new {@link Vector3f} with the given component values.
      * 
      * @param x
      *          the value of x
@@ -1152,8 +1152,8 @@ public class Vector3f implements Externalizable {
     public float angle(Vector3f v) {
         float cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
-        cos = Math.min(cos, 1);
-        cos = Math.max(cos, -1);
+        cos = cos < 1 ? cos : 1;
+        cos = cos > -1 ? cos : -1;
         return (float) Math.acos(cos);
     }
 
@@ -1165,9 +1165,9 @@ public class Vector3f implements Externalizable {
      * @return this
      */
     public Vector3f min(Vector3f v) {
-        this.x = Math.min(x, v.x);
-        this.y = Math.min(y, v.y);
-        this.z = Math.min(z, v.z);
+        this.x = x < v.x ? x : v.x;
+        this.y = y < v.y ? y : v.y;
+        this.z = z < v.z ? z : v.z;
         return this;
     }
 
@@ -1179,9 +1179,9 @@ public class Vector3f implements Externalizable {
      * @return this
      */
     public Vector3f max(Vector3f v) {
-        this.x = Math.max(x, v.x);
-        this.y = Math.max(y, v.y);
-        this.z = Math.max(z, v.z);
+        this.x = x > v.x ? x : v.x;
+        this.y = y > v.y ? y : v.y;
+        this.z = z > v.z ? z : v.z;
         return this;
     }
 

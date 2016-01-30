@@ -724,6 +724,98 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Pre-multiply this quaternion by <code>q</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * 
+     * @param q
+     *            the quaternion to pre-multiply <code>this</code> by
+     * @return this
+     */
+    public Quaternionf premul(Quaternionf q) {
+        return premul(q, this);
+    }
+
+    /**
+     * Pre-multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * 
+     * @param q
+     *            the quaternion to pre-multiply <code>this</code> by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Quaternionf premul(Quaternionf q, Quaternionf dest) {
+        dest.set(q.w * x + q.x * w + q.y * z - q.z * y,
+                 q.w * y - q.x * z + q.y * w + q.z * x,
+                 q.w * z + q.x * y - q.y * x + q.z * w,
+                 q.w * w - q.x * x - q.y * y - q.z * z);
+        return dest;
+    }
+
+    /**
+     * Pre-multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * 
+     * @param qx
+     *          the x component of the quaternion to multiply <code>this</code> by
+     * @param qy
+     *          the y component of the quaternion to multiply <code>this</code> by
+     * @param qz
+     *          the z component of the quaternion to multiply <code>this</code> by
+     * @param qw
+     *          the w component of the quaternion to multiply <code>this</code> by
+     * @return this
+     */
+    public Quaternionf premul(float qx, float qy, float qz, float qw) {
+        return premul(qx, qy, qz, qw, this);
+    }
+
+    /**
+     * Pre-multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
+     * <p>
+     * <tt>R = Q * T</tt>
+     * <p>
+     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
+     * 
+     * @param qx
+     *          the x component of the quaternion to multiply <code>this</code> by
+     * @param qy
+     *          the y component of the quaternion to multiply <code>this</code> by
+     * @param qz
+     *          the z component of the quaternion to multiply <code>this</code> by
+     * @param qw
+     *          the w component of the quaternion to multiply <code>this</code> by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Quaternionf premul(float qx, float qy, float qz, float qw, Quaternionf dest) {
+        dest.set(qw * x + qx * w + qy * z - qz * y,
+                 qw * y - qx * z + qy * w + qz * x,
+                 qw * z + qx * y - qy * x + qz * w,
+                 qw * w - qx * x - qy * y - qz * z);
+        return dest;
+    }
+
+    /**
      * Transform the given vector by this quaternion.
      * This will apply the rotation described by this quaternion to the given vector.
      * 
@@ -812,6 +904,10 @@ public class Quaternionf implements Externalizable {
 
     /**
      * Invert this quaternion and store the {@link #normalize() normalized} result in <code>dest</code>.
+     * <p>
+     * If this quaternion is already normalized, then {@link #conjugate(Quaternionf)} should be used instead.
+     * 
+     * @see #conjugate(Quaternionf)
      * 
      * @param dest
      *          will hold the result
@@ -827,36 +923,16 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
-     * Invert this quaternion by assuming that it is already {@link #normalize() normalized} and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Quaternionf unitInvert(Quaternionf dest) {
-        dest.x = -x;
-        dest.y = -y;
-        dest.z = -z;
-        dest.w = w;
-        return dest;
-    }
-
-    /**
      * Invert this quaternion and {@link #normalize() normalize} it.
+     * <p>
+     * If this quaternion is already normalized, then {@link #conjugate()} should be used instead.
+     * 
+     * @see #conjugate()
      * 
      * @return this
      */
     public Quaternionf invert() {
         return invert(this);
-    }
-
-    /**
-     * Invert this quaternion by assuming that it is already {@link #normalize() normalized}.
-     * 
-     * @return this
-     */
-    public Quaternionf unitInvert() {
-        return unitInvert(this);
     }
 
     /**
@@ -1328,6 +1404,60 @@ public class Quaternionf implements Externalizable {
         dest.z = scale0 * z + scale1 * target.z;
         dest.w = scale0 * w + scale1 * target.w;
         return dest;
+    }
+    /**
+     * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation.
+     * <p>
+     * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
+     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this)</tt>
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     * 
+     * @see #slerp(Quaternionf, float)
+     * 
+     * @param factor
+     *          the scaling/interpolation factor, within <tt>[0..1]</tt>
+     * @return this
+     */
+    public Quaternionf scale(float factor) {
+        return scale(factor, this);
+    }
+
+    /**
+     * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation, and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
+     * and thus equivalent to calling: <tt>new Quaternionf().slerp(this, dest)</tt>
+     * <p>
+     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
+     * 
+     * @see #slerp(Quaternionf, float, Quaternionf)
+     * 
+     * @param factor
+     *          the scaling/interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return this
+     */
+    public Quaternionf scale(float factor, Quaternionf dest) {
+        float absCosom = Math.abs(w);
+        float scale0, scale1;
+        if (1.0 - absCosom > 1E-6) {
+            float sinSqr = 1.0f - absCosom * absCosom;
+            float sinom = (float) (1.0 / Math.sqrt(sinSqr));
+            float omega = (float) Math.atan2(sinSqr * sinom, absCosom);
+            scale0 = (float) (Math.sin((1.0 - factor) * omega) * sinom);
+            scale1 = (float) (Math.sin(factor * omega) * sinom);
+        } else {
+            scale0 = 1.0f - factor;
+            scale1 = factor;
+        }
+        scale1 = w >= 0.0 ? scale1 : -scale1;
+        dest.x = scale1 * x;
+        dest.y = scale1 * y;
+        dest.z = scale1 * z;
+        dest.w = scale0 + scale1 * w;
+        return this;
     }
 
     /**
@@ -2239,6 +2369,85 @@ public class Quaternionf implements Externalizable {
                  w * other.z + x * other.y - y * other.x + z * other.w,
                  w * other.w - x * other.x - y * other.y - z * other.z);
         return dest;
+    }
+
+    /**
+     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaternionf inv = new Quaternionf(this).invert();
+     * inv.transform(dir.set(1, 0, 0));
+     * </pre>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3f positiveX(Vector3f dir) {
+        float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        float nx = -x * invNorm;
+        float ny = -y * invNorm;
+        float nz = -z * invNorm;
+        float nw = w * invNorm;
+        float num2 = ny * 2.0f;
+        float num3 = nz * 2.0f;
+        dir.set(1.0f - (ny * num2 + nz * num3), nx * num2 + nw * num3, nx * num3 - nw * num2);
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * 
+     * <pre>
+     * Quaternionf inv = new Quaternionf(this).invert();
+     * inv.transform(dir.set(0, 1, 0));
+     * </pre>
+     * 
+     * @param dir
+     *            will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3f positiveY(Vector3f dir) {
+        float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        float nx = -x * invNorm;
+        float ny = -y * invNorm;
+        float nz = -z * invNorm;
+        float nw = w * invNorm;
+        float num = nx * 2.0f;
+        float num2 = ny * 2.0f;
+        float num3 = nz * 2.0f;
+        dir.set(nx * num2 - nw * num3, 1.0f - (nx * num + nz * num3), ny * num3 + nw * num);
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
+     * <p>
+     * This method is equivalent to the following code:
+     * 
+     * <pre>
+     * Quaternionf inv = new Quaternionf(this).invert();
+     * inv.transform(dir.set(0, 0, 1));
+     * </pre>
+     * 
+     * @param dir
+     *            will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3f positiveZ(Vector3f dir) {
+        float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
+        float nx = -x * invNorm;
+        float ny = -y * invNorm;
+        float nz = -z * invNorm;
+        float nw = w * invNorm;
+        float num = nx * 2.0f;
+        float num2 = ny * 2.0f;
+        float num3 = nz * 2.0f;
+        dir.set(nx * num3 + nw * num2, ny * num3 - nw * num, 1.0f - (nx * num + ny * num2));
+        return dir;
     }
 
 }

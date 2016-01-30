@@ -6461,6 +6461,26 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
+     * and store it into the upper left 3x3 submatrix of <code>this</code>.
+     * All other values of <code>this</code> will be set to {@link #identity() identity}.
+     * <p>
+     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In that case, use {@link #set3x3(Matrix4f)} to set a given Matrix4f to only the upper left 3x3 submatrix
+     * of this matrix.
+     * 
+     * @see #set3x3(Matrix4f)
+     * 
+     * @return this
+     */
+    public Matrix4f normal() {
+        return normal(this);
+    }
+
+    /**
+     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
      * and store it into the upper left 3x3 submatrix of <code>dest</code>.
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
      * <p>
@@ -7614,6 +7634,26 @@ public class Matrix4f implements Externalizable {
         tmp = m32; m32 = other.m32; other.m32 = tmp;
         tmp = m33; m33 = other.m33; other.m33 = tmp;
         return this;
+    }
+
+    /**
+     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and <code>center</code>
+     * position of the arcball and the specified X and Y rotation angles.
+     * <p>
+     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</tt>
+     * 
+     * @param radius
+     *          the arcball radius
+     * @param center
+     *          the center position of the arcball
+     * @param angleX
+     *          the rotation angle around the X axis in radians
+     * @param angleY
+     *          the rotation angle around the Y axis in radians
+     * @return this
+     */
+    public Matrix4f arcball(float radius, Vector3f center, float angleX, float angleY) {
+        return translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z);
     }
 
 }

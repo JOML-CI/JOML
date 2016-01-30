@@ -2190,6 +2190,21 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to its own normal matrix.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In this case, use {@link #set(Matrix3f)} to set a given Matrix3f to this matrix.
+     * 
+     * @see #set(Matrix3f)
+     * 
+     * @return this
+     */
+    public Matrix3f normal() {
+        return normal(this);
+    }
+
+    /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
