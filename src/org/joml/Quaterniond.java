@@ -2293,7 +2293,7 @@ public class Quaterniond implements Externalizable {
      * @param angleY
      *              the angle in radians to rotate about the local y axis
      * @param angleZ
-     *              the angle in radians to rotate about the z axis
+     *              the angle in radians to rotate about the local z axis
      * @return this
      */
     public Quaterniond rotateLocal(double angleX, double angleY, double angleZ) {
