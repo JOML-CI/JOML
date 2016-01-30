@@ -25,11 +25,7 @@ public class PolygonPointIntersection {
         public int compare(Object o1, Object o2) {
             Interval i1 = (Interval) o1;
             Interval i2 = (Interval) o2;
-            if (i1.start < i2.start)
-                return -1;
-            else if (i1.start > i2.start)
-                return +1;
-            return 0;
+            return Float.compare(i1.start, i2.start);
         }
     }
 
@@ -37,11 +33,7 @@ public class PolygonPointIntersection {
         public int compare(Object o1, Object o2) {
             Interval i1 = (Interval) o1;
             Interval i2 = (Interval) o2;
-            if (i1.end < i2.end)
-                return +1;
-            else if (i1.end > i2.end)
-                return -1;
-            return 0;
+            return Float.compare(i2.end, i1.end);
         }
     }
 
