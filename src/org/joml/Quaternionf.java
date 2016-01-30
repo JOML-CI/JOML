@@ -1461,6 +1461,75 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Integrate the rotation given by the elapsed time delta <code>dt</code> and the angular velocity
+     * <code>(vx, vy, vz)</code> around the x, y and z axis, respectively, to the rotation represented by this quaternion.
+     * <p>
+     * This method pre-multiplies the rotation given by <code>dt</code> and <code>(vx, vy, vz)</code> by <code>this</code>, so
+     * the angular velocities are always relative to the local coordinate system of the rotation represented by <code>this</code> quaternion.
+     * 
+     * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
+     * 
+     * @param dt
+     *          the delta time
+     * @param vx
+     *          the angular velocity around the x axis
+     * @param vy
+     *          the angular velocity around the y axis
+     * @param vz
+     *          the angular velocity around the z axis
+     * @return dest
+     */
+    public Quaternionf integrate(float dt, float vx, float vy, float vz) {
+        return integrate(dt, vx, vy, vz, this);
+    }
+
+    /**
+     * Integrate the rotation given by the elapsed time delta <code>dt</code> and the angular velocity
+     * <code>(vx, vy, vz)</code> around the x, y and z axis, respectively, to the rotation represented by this quaternion
+     * and store the result into <code>dest</code>.
+     * <p>
+     * This method pre-multiplies the rotation given by <code>dt</code> and <code>(vx, vy, vz)</code> by <code>this</code>, so
+     * the angular velocities are always relative to the local coordinate system of the rotation represented by <code>this</code> quaternion.
+     * 
+     * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
+     * 
+     * @param dt
+     *          the delta time
+     * @param vx
+     *          the angular velocity around the x axis
+     * @param vy
+     *          the angular velocity around the y axis
+     * @param vz
+     *          the angular velocity around the z axis
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaternionf integrate(float dt, float vx, float vy, float vz, Quaternionf dest) {
+        float hvx = vx * dt * 0.5f;
+        float hvy = vy * dt * 0.5f;
+        float hvz = vz * dt * 0.5f;
+        float len = hvx * hvx + hvy * hvy + hvz * hvz;
+        float nx, ny, nz, nw, s;
+        if (len * len / 24.0f < 1E-6f) {
+            nw = 1.0f - len / 2.0f;
+            s = 1.0f - len / 6.0f;
+        } else {
+            float lenSqrt = (float) Math.sqrt(len);
+            nw = (float) Math.cos(lenSqrt);
+            s = (float) Math.sin(lenSqrt) / lenSqrt;
+        }
+        nx = hvx * s;
+        ny = hvy * s;
+        nz = hvz * s;
+        dest.set(nw * x + nx * w + ny * z - nz * y,
+                 nw * y - nx * z + ny * w + nz * x,
+                 nw * z + nx * y - ny * x + nz * w,
+                 nw * w - nx * x - ny * y - nz * z);
+        return this;
+    }
+
+    /**
      * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
      * and store the result in <code>this</code>.
      * 
