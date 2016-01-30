@@ -1514,8 +1514,8 @@ public class Vector3d implements Externalizable {
     public double angle(Vector3d v) {
         double cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
-        cos = Math.min(cos, 1);
-        cos = Math.max(cos, -1);
+        cos = cos < 1 ? cos : 1;
+        cos = cos > -1 ? cos : -1;
         return Math.acos(cos);
     }
 
