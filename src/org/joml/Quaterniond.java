@@ -1398,6 +1398,8 @@ public class Quaterniond implements Externalizable {
      * 
      * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
      * 
+     * @see #rotateLocal(double, double, double)
+     * 
      * @param dt
      *          the delta time
      * @param vx
@@ -1422,6 +1424,8 @@ public class Quaterniond implements Externalizable {
      * 
      * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
      * 
+     * @see #rotateLocal(double, double, double, Quaterniond)
+     * 
      * @param dt
      *          the delta time
      * @param vx
@@ -1435,27 +1439,7 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Quaterniond integrate(double dt, double vx, double vy, double vz, Quaterniond dest) {
-        double hvx = vx * dt * 0.5;
-        double hvy = vy * dt * 0.5;
-        double hvz = vz * dt * 0.5;
-        double len = hvx * hvx + hvy * hvy + hvz * hvz;
-        double nx, ny, nz, nw, s;
-        if (len * len / 24.0 < 1E-6) {
-            nw = 1.0 - len / 2.0;
-            s = 1.0 - len / 6.0;
-        } else {
-            double lenSqrt = Math.sqrt(len);
-            nw = Math.cos(lenSqrt);
-            s = Math.sin(lenSqrt) / lenSqrt;
-        }
-        nx = hvx * s;
-        ny = hvy * s;
-        nz = hvz * s;
-        dest.set(nw * x + nx * w + ny * z - nz * y,
-                 nw * y - nx * z + ny * w + nz * x,
-                 nw * z + nx * y - ny * x + nz * w,
-                 nw * w - nx * x - ny * y - nz * z);
-        return this;
+        return rotateLocal(dt * vx, dt * vy, dt * vz, dest);
     }
 
     /**
@@ -2255,7 +2239,7 @@ public class Quaterniond implements Externalizable {
      * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
      * rotation added by this method will be applied first!
      * 
-     * @see #rotate(double, double, double, Quaterniond)
+     * @see #rotate(double, double, double)
      * 
      * @param angleX
      *              the angle in radians to rotate about the x axis
@@ -2290,6 +2274,76 @@ public class Quaterniond implements Externalizable {
                  w * dqY - x * dqZ + y * dqW + z * dqX,
                  w * dqZ + x * dqY - y * dqX + z * dqW,
                  w * dqW - x * dqX - y * dqY - z * dqZ);
+        return dest;
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
+     * local coordinate system represented by this quaternion.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
+     * rotation represented by <code>this</code> will be applied first!
+     * 
+     * @see #rotateLocal(double, double, double, Quaterniond)
+     * 
+     * @param angleX
+     *              the angle in radians to rotate about the local x axis
+     * @param angleY
+     *              the angle in radians to rotate about the local y axis
+     * @param angleZ
+     *              the angle in radians to rotate about the z axis
+     * @return this
+     */
+    public Quaterniond rotateLocal(double angleX, double angleY, double angleZ) {
+        return rotateLocal(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the basis unit axes of the
+     * local coordinate system represented by this quaternion and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
+     * rotation represented by <code>this</code> will be applied first!
+     * 
+     * @see #rotateLocal(double, double, double)
+     * 
+     * @param angleX
+     *              the angle in radians to rotate about the local x axis
+     * @param angleY
+     *              the angle in radians to rotate about the local y axis
+     * @param angleZ
+     *              the angle in radians to rotate about the local z axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public Quaterniond rotateLocal(double angleX, double angleY, double angleZ, Quaterniond dest) {
+        double thetaX = angleX * 0.5;
+        double thetaY = angleY * 0.5;
+        double thetaZ = angleZ * 0.5;
+        double thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
+        double s;
+        double dqX, dqY, dqZ, dqW;
+        if (thetaMagSq * thetaMagSq / 24.0 < 1E-8) {
+            dqW = 1.0 - thetaMagSq * 0.5;
+            s = 1.0 - thetaMagSq / 6.0;
+        } else {
+            double thetaMag = Math.sqrt(thetaMagSq);
+            dqW = Math.cos(thetaMag);
+            s = Math.sin(thetaMag) / thetaMag;
+        }
+        dqX = thetaX * s;
+        dqY = thetaY * s;
+        dqZ = thetaZ * s;
+        /* Pre-multiplication */
+        dest.set(dqW * x + dqX * w + dqY * z - dqZ * y,
+                 dqW * y - dqX * z + dqY * w + dqZ * x,
+                 dqW * z + dqX * y - dqY * x + dqZ * w,
+                 dqW * w - dqX * x - dqY * y - dqZ * z);
         return dest;
     }
 
@@ -2429,6 +2483,132 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local x axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
+     * rotation represented by <code>this</code> will be applied first!
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the local x axis
+     * @return this
+     */
+    public Quaterniond rotateLocalX(double angle) {
+        return rotateLocalX(angle, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local x axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
+     * rotation represented by <code>this</code> will be applied first!
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the local x axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public Quaterniond rotateLocalX(double angle, Quaterniond dest) {
+        double hangle = angle * 0.5;
+        double s = Math.sin(hangle);
+        double c = Math.cos(hangle);
+        dest.set(c * x + s * w,
+                 c * y - s * z,
+                 c * z + s * y,
+                 c * w - s * x);
+        return dest;
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local y axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
+     * rotation represented by <code>this</code> will be applied first!
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the local y axis
+     * @return this
+     */
+    public Quaterniond rotateLocalY(double angle) {
+        return rotateLocalY(angle, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local y axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
+     * rotation represented by <code>this</code> will be applied first!
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the local y axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public Quaterniond rotateLocalY(double angle, Quaterniond dest) {
+        double hangle = angle * 0.5;
+        double s = Math.sin(hangle);
+        double c = Math.cos(hangle);
+        dest.set(c * x + s * z,
+                 c * y + s * w,
+                 c * z - s * x,
+                 c * w - s * y);
+        return dest;
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local z axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
+     * rotation represented by <code>this</code> will be applied first!
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the local z axis
+     * @return this
+     */
+    public Quaterniond rotateLocalZ(double angle) {
+        return rotateLocalZ(angle, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local z axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
+     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
+     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
+     * rotation represented by <code>this</code> will be applied first!
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the local z axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public Quaterniond rotateLocalZ(double angle, Quaterniond dest) {
+        double hangle = angle * 0.5;
+        double s = Math.sin(hangle);
+        double c = Math.cos(hangle);
+        dest.set(c * x - s * y,
+                 c * y + s * x,
+                 c * z + s * w,
+                 c * w - s * z);
+        return dest;
+    }
+
+    /**
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>XYZ</tt>.
      * <p>
@@ -2455,7 +2635,7 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles using rotation sequence <tt>XYZ</tt> and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -2523,7 +2703,7 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles, using the rotation sequence <tt>ZYX</tt> and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
@@ -2591,7 +2771,7 @@ public class Quaterniond implements Externalizable {
      * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
      * called the euler angles, using the rotation sequence <tt>YXZ</tt> and store the result in <code>dest</code>.
      * <p>
-     * This method is equivalent to calling: <tt>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * This method is equivalent to calling: <tt>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</tt>
      * <p>
      * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
      * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
