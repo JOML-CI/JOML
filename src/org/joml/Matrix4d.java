@@ -7533,8 +7533,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
-     * <code>this</code> matrix is applied.
+     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
@@ -7560,8 +7559,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
-     * <code>this</code> matrix is applied.
+     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
@@ -7587,8 +7585,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
-     * <code>this</code> matrix is applied.
+     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
@@ -7614,8 +7611,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Obtain the position that gets transformed to the origin by <code>this</code> orthogonal matrix.
-     * This can be used to get the position of the "camera" from a given orthogonal <i>view</i> transformation matrix.
+     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
+     * This can be used to get the position of the "camera" from a given <i>view</i> transformation matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>

@@ -2967,8 +2967,7 @@ public class Matrix3d implements Externalizable {
     
 
     /**
-     * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
-     * <code>this</code> matrix is applied.
+     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -2991,8 +2990,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
-     * <code>this</code> matrix is applied.
+     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -3015,8 +3013,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
-     * <code>this</code> matrix is applied.
+     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
