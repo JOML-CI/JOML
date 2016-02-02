@@ -928,9 +928,9 @@ public class Intersectiond {
         double den = dX * dX + dY * dY + dZ * dZ;
         double u = nom / den;
         if (u >= 0.0 && u <= 1.0) {
-            double pX = p0X + u * (p1X - p0X);
-            double pY = p0Y + u * (p1Y - p0Y);
-            double pZ = p0Z + u * (p1Z - p0Z);
+            double pX = p0X + u * dX;
+            double pY = p0Y + u * dY;
+            double pZ = p0Z + u * dZ;
             dX = pX - centerX;
             dY = pY - centerY;
             dZ = pZ - centerZ;

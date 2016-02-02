@@ -928,9 +928,9 @@ public class Intersectionf {
         float den = dX * dX + dY * dY + dZ * dZ;
         float u = nom / den;
         if (u >= 0.0f && u <= 1.0f) {
-            float pX = p0X + u * (p1X - p0X);
-            float pY = p0Y + u * (p1Y - p0Y);
-            float pZ = p0Z + u * (p1Z - p0Z);
+            float pX = p0X + u * dX;
+            float pY = p0Y + u * dY;
+            float pZ = p0Z + u * dZ;
             dX = pX - centerX;
             dY = pY - centerY;
             dZ = pZ - centerZ;
