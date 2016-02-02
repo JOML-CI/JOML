@@ -743,7 +743,7 @@ public class Intersectiond {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and normalized direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
      * and far) of intersections into the given array <code>result</code>.
@@ -759,11 +759,11 @@ public class Intersectiond {
      * @param originZ
      *              the z coordinate of the ray's origin
      * @param dirX
-     *              the x coordinate of the ray's direction
+     *              the x coordinate of the ray's normalized direction
      * @param dirY
-     *              the y coordinate of the ray's direction
+     *              the y coordinate of the ray's normalized direction
      * @param dirZ
-     *              the z coordinate of the ray's direction
+     *              the z coordinate of the ray's normalized direction
      * @param centerX
      *              the x coordinate of the sphere's center
      * @param centerY
@@ -798,7 +798,7 @@ public class Intersectiond {
     }
 
     /**
-     * Test whether the ray with the given <code>origin</code> and direction <code>dir</code>
+     * Test whether the ray with the given <code>origin</code> and normalized direction <code>dir</code>
      * intersects the sphere with the given <code>center</code> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
      * and far) of intersections into the given array <code>result</code>.
@@ -810,7 +810,7 @@ public class Intersectiond {
      * @param origin
      *              the ray's origin
      * @param dir
-     *              the ray's direction
+     *              the ray's normalized direction
      * @param center
      *              the sphere's center
      * @param radiusSquared
@@ -825,7 +825,7 @@ public class Intersectiond {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and normalized direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
@@ -839,11 +839,11 @@ public class Intersectiond {
      * @param originZ
      *              the z coordinate of the ray's origin
      * @param dirX
-     *              the x coordinate of the ray's direction
+     *              the x coordinate of the ray's normalized direction
      * @param dirY
-     *              the y coordinate of the ray's direction
+     *              the y coordinate of the ray's normalized direction
      * @param dirZ
-     *              the z coordinate of the ray's direction
+     *              the z coordinate of the ray's normalized direction
      * @param centerX
      *              the x coordinate of the sphere's center
      * @param centerY
@@ -870,7 +870,7 @@ public class Intersectiond {
     }
 
     /**
-     * Test whether the ray with the given <code>origin</code> and direction <code>dir</code>
+     * Test whether the ray with the given <code>origin</code> and normalized direction <code>dir</code>
      * intersects the sphere with the given <code>center</code> and square radius.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
@@ -880,7 +880,7 @@ public class Intersectiond {
      * @param origin
      *              the ray's origin
      * @param dir
-     *              the ray's direction
+     *              the ray's normalized direction
      * @param center
      *              the sphere's center
      * @param radiusSquared
@@ -889,6 +889,82 @@ public class Intersectiond {
      */
     public static boolean testRaySphere(Vector3d origin, Vector3d dir, Vector3d center, double radiusSquared) {
         return testRaySphere(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, center.x, center.y, center.z, radiusSquared);
+    }
+
+    /**
+     * Test whether the given line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
+     * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
+     * <p>
+     * Reference: <a href="http://portal.ku.edu.tr/~cbasdogan/Courses/Robotics/projects/IntersectionLineSphere.pdf">http://portal.ku.edu.tr/</a>
+     * 
+     * @param p0X
+     *              the x coordinate of the line segment's first end point
+     * @param p0Y
+     *              the y coordinate of the line segment's first end point
+     * @param p0Z
+     *              the z coordinate of the line segment's first end point
+     * @param p1X
+     *              the x coordinate of the line segment's second end point
+     * @param p1Y
+     *              the y coordinate of the line segment's second end point
+     * @param p1Z
+     *              the z coordinate of the line segment's second end point
+     * @param centerX
+     *              the x coordinate of the sphere's center
+     * @param centerY
+     *              the y coordinate of the sphere's center
+     * @param centerZ
+     *              the z coordinate of the sphere's center
+     * @param radiusSquared
+     *              the sphere radius squared
+     * @return <code>true</code> if the line segment intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testLineSegmentSphere(double p0X, double p0Y, double p0Z, double p1X, double p1Y, double p1Z,
+            double centerX, double centerY, double centerZ, double radiusSquared) {
+        double nom = (centerX - p0X) * (p1X - p0X) + (centerY - p0Y) * (p1Y - p0Y) + (centerZ - p0Z) * (p1Z - p0Z);
+        double dX = p1X - p0X;
+        double dY = p1Y - p0Y;
+        double dZ = p1Z - p0Z;
+        double den = dX * dX + dY * dY + dZ * dZ;
+        double u = nom / den;
+        if (u >= 0.0 && u <= 1.0) {
+            double pX = p0X + u * (p1X - p0X);
+            double pY = p0Y + u * (p1Y - p0Y);
+            double pZ = p0Z + u * (p1Z - p0Z);
+            dX = pX - centerX;
+            dY = pY - centerY;
+            dZ = pZ - centerZ;
+        } else if (u < 0.0) {
+            dX = p0X - centerX;
+            dY = p0Y - centerY;
+            dZ = p0Z - centerZ;
+        } else if (u > 0.0) {
+            dX = p1X - centerX;
+            dY = p1Y - centerY;
+            dZ = p1Z - centerZ;
+        }
+        double dist = dX * dX + dY * dY + dZ * dZ;
+        return dist <= radiusSquared;
+    }
+
+    /**
+     * Test whether the given line segment with the end points <code>p0</code> and <code>p1</code>
+     * intersects the given sphere with center <code>center</code> and square radius <code>radiusSquared</code>.
+     * <p>
+     * Reference: <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection">http://www.scratchapixel.com/</a>
+     * 
+     * @param p0
+     *              the line segment's first end point
+     * @param p1
+     *              the line segment's first end point
+     * @param center
+     *              the sphere's center
+     * @param radiusSquared
+     *              the sphere radius squared
+     * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testLineSegmentSphere(Vector3d p0, Vector3d p1, Vector3d center, double radiusSquared) {
+        return testLineSegmentSphere(p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, center.x, center.y, center.z, radiusSquared);
     }
 
     /**
