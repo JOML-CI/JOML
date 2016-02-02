@@ -921,10 +921,10 @@ public class Intersectionf {
      */
     public static boolean testLineSegmentSphere(float p0X, float p0Y, float p0Z, float p1X, float p1Y, float p1Z,
             float centerX, float centerY, float centerZ, float radiusSquared) {
-        float nom = (centerX - p0X) * (p1X - p0X) + (centerY - p0Y) * (p1Y - p0Y) + (centerZ - p0Z) * (p1Z - p0Z);
         float dX = p1X - p0X;
         float dY = p1Y - p0Y;
         float dZ = p1Z - p0Z;
+        float nom = (centerX - p0X) * dX + (centerY - p0Y) * dY + (centerZ - p0Z) * dZ;
         float den = dX * dX + dY * dY + dZ * dZ;
         float u = nom / den;
         if (u >= 0.0f && u <= 1.0f) {

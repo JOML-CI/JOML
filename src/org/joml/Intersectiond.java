@@ -921,10 +921,10 @@ public class Intersectiond {
      */
     public static boolean testLineSegmentSphere(double p0X, double p0Y, double p0Z, double p1X, double p1Y, double p1Z,
             double centerX, double centerY, double centerZ, double radiusSquared) {
-        double nom = (centerX - p0X) * (p1X - p0X) + (centerY - p0Y) * (p1Y - p0Y) + (centerZ - p0Z) * (p1Z - p0Z);
         double dX = p1X - p0X;
         double dY = p1Y - p0Y;
         double dZ = p1Z - p0Z;
+        double nom = (centerX - p0X) * dX + (centerY - p0Y) * dY + (centerZ - p0Z) * dZ;
         double den = dX * dX + dY * dY + dZ * dZ;
         double u = nom / den;
         if (u >= 0.0 && u <= 1.0) {
