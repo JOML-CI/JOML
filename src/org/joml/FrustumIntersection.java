@@ -23,85 +23,97 @@
 package org.joml;
 
 /**
- * Performs frustum culling by caching the frustum planes of an arbitrary transformation {@link Matrix4f matrix}.
+ * Efficiently performs frustum intersection tests by caching the frustum planes of an arbitrary transformation {@link Matrix4f matrix}.
  * <p>
- * This class is preferred over the frustum culling methods in {@link Matrix4f} when many objects need to be culled
- * by the same static frustum.
+ * This class is preferred over the frustum intersection methods in {@link Matrix4f} when many objects need to be culled by the same static frustum.
  * 
  * @author Kai Burjack
  */
-public class FrustumCuller {
+public class FrustumIntersection {
 
     /**
-     * Return value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()} or
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * identifying the plane with equation <tt>x=-1</tt> when using the identity frustum.  
      */
     public static final int PLANE_NX = 0;
     /**
-     * Return value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()} or
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * identifying the plane with equation <tt>x=1</tt> when using the identity frustum.  
      */
     public static final int PLANE_PX = 1;
     /**
-     * Return value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()} or
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * identifying the plane with equation <tt>y=-1</tt> when using the identity frustum.  
      */
     public static final int PLANE_NY= 2;
     /**
-     * Return value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()} or
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * identifying the plane with equation <tt>y=1</tt> when using the identity frustum.  
      */
     public static final int PLANE_PY = 3;
     /**
-     * Return value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()} or
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * identifying the plane with equation <tt>z=-1</tt> when using the identity frustum.  
      */
     public static final int PLANE_NZ = 4;
     /**
-     * Return value of {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} or
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()} or
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * identifying the plane with equation <tt>z=1</tt> when using the identity frustum.  
      */
     public static final int PLANE_PZ = 5;
 
     /**
+     * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()} or
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
+     * indicating that the axis-aligned box intersects the frustum.  
+     */
+    public static final int INTERSECT = -1;
+    /**
+     * Return value of {@link #intersectAab(float, float, float, float, float, float) intersectAab()} or
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
+     * indicating that the axis-aligned box is fully inside of the frustum.  
+     */
+    public static final int INSIDE = -2;
+
+    /**
      * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * that identifies the plane with equation <tt>x=-1</tt> when using the identity frustum.
      */
     public static final int PLANE_MASK_NX = 1<<PLANE_NX;
     /**
      * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * that identifies the plane with equation <tt>x=1</tt> when using the identity frustum.
      */
     public static final int PLANE_MASK_PX = 1<<PLANE_PX;
     /**
      * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * that identifies the plane with equation <tt>y=-1</tt> when using the identity frustum.
      */
     public static final int PLANE_MASK_NY = 1<<PLANE_NY;
     /**
      * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * that identifies the plane with equation <tt>y=1</tt> when using the identity frustum.
      */
     public static final int PLANE_MASK_PY = 1<<PLANE_PY;
     /**
      * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * that identifies the plane with equation <tt>z=-1</tt> when using the identity frustum.
      */
     public static final int PLANE_MASK_NZ = 1<<PLANE_NZ;
     /**
      * The value in a bitmask for
-     * {@link #isAabInsideFrustumMasked(float, float, float, float, float, float, int) isAabInsideFrustumMasked()}
+     * {@link #intersectAabMasked(float, float, float, float, float, float, int) intersectAabMasked()}
      * that identifies the plane with equation <tt>z=1</tt> when using the identity frustum.
      */
     public static final int PLANE_MASK_PZ = 1<<PLANE_PZ;
@@ -114,15 +126,15 @@ public class FrustumCuller {
     private float pzX, pzY, pzZ, pzW;
 
     /**
-     * Create a new {@link FrustumCuller} with undefined frustum planes.
+     * Create a new {@link FrustumIntersection} with undefined frustum planes.
      * <p>
      * Before using any of the frustum culling methods, make sure to define the frustum planes using {@link #set(Matrix4f)}.
      */
-    public FrustumCuller() {
+    public FrustumIntersection() {
     }
 
     /**
-     * Create a new {@link FrustumCuller} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
+     * Create a new {@link FrustumIntersection} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
      * <p>
      * In order to update the compute frustum planes later on, call {@link #set(Matrix4f)}.
      * 
@@ -131,12 +143,12 @@ public class FrustumCuller {
      * @param m
      *          the {@link Matrix4f} to create the frustum culler from
      */
-    public FrustumCuller(Matrix4f m) {
+    public FrustumIntersection(Matrix4f m) {
         set(m);
     }
 
     /**
-     * Update the stored frustum planes of <code>this</code> {@link FrustumCuller} with the given {@link Matrix4f matrix}.
+     * Update the stored frustum planes of <code>this</code> {@link FrustumIntersection} with the given {@link Matrix4f matrix}.
      * <p>
      * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -145,7 +157,7 @@ public class FrustumCuller {
      *          the {@link Matrix4f matrix} to update <code>this</code> frustum culler's frustum planes from
      * @return this
      */
-    public FrustumCuller set(Matrix4f m) {
+    public FrustumIntersection set(Matrix4f m) {
         float invl;
         nxX = m.m03 + m.m00; nxY = m.m13 + m.m10; nxZ = m.m23 + m.m20; nxW = m.m33 + m.m30;
         invl = (float) (1.0 / Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ));
@@ -176,8 +188,8 @@ public class FrustumCuller {
      *          the point to test
      * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
      */
-    public boolean isPointInsideFrustum(Vector3f point) {
-        return isPointInsideFrustum(point.x, point.y, point.z);
+    public boolean testPoint(Vector3f point) {
+        return testPoint(point.x, point.y, point.z);
     }
 
     /**
@@ -191,7 +203,7 @@ public class FrustumCuller {
      *          the z-coordinate of the point
      * @return <code>true</code> if the given point is inside the clipping frustum; <code>false</code> otherwise
      */
-    public boolean isPointInsideFrustum(float x, float y, float z) {
+    public boolean testPoint(float x, float y, float z) {
         return nxX * x + nxY * y + nxZ * z + nxW >= 0 &&
                pxX * x + pxY * y + pxZ * z + pxW >= 0 &&
                nyX * x + nyY * y + nyZ * z + nyW >= 0 &&
@@ -214,8 +226,8 @@ public class FrustumCuller {
      * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
      *         <code>false</code> otherwise
      */
-    public boolean isSphereInsideFrustum(Vector3f center, float radius) {
-        return isSphereInsideFrustum(center.x, center.y, center.z, radius);
+    public boolean testSphere(Vector3f center, float radius) {
+        return testSphere(center.x, center.y, center.z, radius);
     }
 
     /**
@@ -236,7 +248,7 @@ public class FrustumCuller {
      * @return <code>true</code> if the given sphere is partly or completely inside the clipping frustum;
      *         <code>false</code> otherwise
      */
-    public boolean isSphereInsideFrustum(float x, float y, float z, float r) {
+    public boolean testSphere(float x, float y, float z, float r) {
         return nxX * x + nxY * y + nxZ * z + nxW >= -r &&
                pxX * x + pxY * y + pxZ * z + pxW >= -r &&
                nyX * x + nyY * y + nyZ * z + nyW >= -r &&
@@ -265,8 +277,8 @@ public class FrustumCuller {
      *         {@link #PLANE_NY}, {@link #PLANE_PY},
      *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int isAabInsideFrustum(Vector3f min, Vector3f max) {
-        return isAabInsideFrustum(min.x, min.y, min.z, max.x, max.y, max.z);
+    public int intersectAab(Vector3f min, Vector3f max) {
+        return intersectAab(min.x, min.y, min.z, max.x, max.y, max.z);
     }
 
     /**
@@ -292,34 +304,37 @@ public class FrustumCuller {
      *          the y-coordinate of the maximum corner
      * @param maxZ
      *          the z-coordinate of the maximum corner
-     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
-     *         or <tt>-1</tt> if the box intersects the frustum.
-     *         The plane index is one of
-     *         {@link #PLANE_NX}, {@link #PLANE_PX},
-     *         {@link #PLANE_NY}, {@link #PLANE_PY},
-     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum,
+     *         or {@link #INTERSECT} if the box intersects the frustum, or {@link #INSIDE} if the box is fully inside the frustum.
+     *         The plane index is one of {@link #PLANE_NX}, {@link #PLANE_PX}, {@link #PLANE_NY}, {@link #PLANE_PY}, {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int isAabInsideFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    public int intersectAab(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
         /*
          * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
-         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
          * 
          * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
-         * or -1 if the box intersects the frustum.
+         * or AAB_INTERSECTS if the box intersects the frustum.
          */
         int plane = PLANE_NX;
+        boolean inside = true;
         if (nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW) {
             plane = PLANE_PX;
+            inside &= nxX * (nxX < 0 ? maxX : minX) + nxY * (nxY < 0 ? maxY : minY) + nxZ * (nxZ < 0 ? maxZ : minZ) >= -nxW;
             if (pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW) {
                 plane = PLANE_NY;
+                inside &= pxX * (pxX < 0 ? maxX : minX) + pxY * (pxY < 0 ? maxY : minY) + pxZ * (pxZ < 0 ? maxZ : minZ) >= -pxW;
                 if (nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW) {
                     plane = PLANE_PY;
+                    inside &= nyX * (nyX < 0 ? maxX : minX) + nyY * (nyY < 0 ? maxY : minY) + nyZ * (nyZ < 0 ? maxZ : minZ) >= -nyW;
                     if (pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW) {
                         plane = PLANE_NZ;
+                        inside &= pyX * (pyX < 0 ? maxX : minX) + pyY * (pyY < 0 ? maxY : minY) + pyZ * (pyZ < 0 ? maxZ : minZ) >= -pyW;
                         if (nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW) {
                             plane = PLANE_PZ;
+                            inside &= nzX * (nzX < 0 ? maxX : minX) + nzY * (nzY < 0 ? maxY : minY) + nzZ * (nzZ < 0 ? maxZ : minZ) >= -nzW;
                             if (pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW) {
-                                return -1;
+                                inside &= pzX * (pzX < 0 ? maxX : minX) + pzY * (pzY < 0 ? maxY : minY) + pzZ * (pzZ < 0 ? maxZ : minZ) >= -pzW;
+                                return inside ? INSIDE : INTERSECT;
                             }
                         }
                     }
@@ -334,7 +349,7 @@ public class FrustumCuller {
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
-     * This method differs from {@link #isAabInsideFrustum(Vector3f, Vector3f) isAabInsideFrustum()} in that
+     * This method differs from {@link #intersectAab(Vector3f, Vector3f) intersectAab()} in that
      * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
@@ -353,15 +368,12 @@ public class FrustumCuller {
      *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
      *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
      *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
-     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
-     *         or <tt>-1</tt> if the box intersects the frustum.
-     *         The plane index is one of
-     *         {@link #PLANE_NX}, {@link #PLANE_PX},
-     *         {@link #PLANE_NY}, {@link #PLANE_PY},
-     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum,
+     *         or {@link #INTERSECT} if the box intersects the frustum, or {@link #INSIDE} if the box is fully inside the frustum.
+     *         The plane index is one of {@link #PLANE_NX}, {@link #PLANE_PX}, {@link #PLANE_NY}, {@link #PLANE_PY}, {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int isAabInsideFrustumMasked(Vector3f min, Vector3f max, int mask) {
-        return isAabInsideFrustumMasked(min.x, min.y, min.z, max.x, max.y, max.z, mask);
+    public int intersectAabMasked(Vector3f min, Vector3f max, int mask) {
+        return intersectAabMasked(min.x, min.y, min.z, max.x, max.y, max.z, mask);
     }
 
     /**
@@ -369,7 +381,7 @@ public class FrustumCuller {
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its min and max corner coordinates.
      * <p>
-     * This method differs from {@link #isAabInsideFrustum(float, float, float, float, float, float) isAabInsideFrustum()} in that
+     * This method differs from {@link #intersectAab(float, float, float, float, float, float) intersectAab()} in that
      * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
@@ -398,34 +410,37 @@ public class FrustumCuller {
      *          {@link #PLANE_MASK_NX}, {@link #PLANE_MASK_PY},
      *          {@link #PLANE_MASK_NY}, {@link #PLANE_MASK_PY}, 
      *          {@link #PLANE_MASK_NZ} and {@link #PLANE_MASK_PZ}
-     * @return the index of the first plane that culled the box, if the box does not intersect the frustum;
-     *         or <tt>-1</tt> if the box intersects the frustum.
-     *         The plane index is one of
-     *         {@link #PLANE_NX}, {@link #PLANE_PX},
-     *         {@link #PLANE_NY}, {@link #PLANE_PY},
-     *         {@link #PLANE_NZ} and {@link #PLANE_PZ}
+     * @return the index of the first plane that culled the box, if the box does not intersect the frustum,
+     *         or {@link #INTERSECT} if the box intersects the frustum, or {@link #INSIDE} if the box is fully inside the frustum.
+     *         The plane index is one of {@link #PLANE_NX}, {@link #PLANE_PX}, {@link #PLANE_NY}, {@link #PLANE_PY}, {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int isAabInsideFrustumMasked(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, int mask) {
+    public int intersectAabMasked(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, int mask) {
         /*
          * This is an implementation of the "2.5 Plane masking and coherency" of the mentioned site.
-         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
          * 
          * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
          * or -1 if the box intersects the frustum.
          */
         int plane = PLANE_NX;
+        boolean inside = true;
         if ((mask & PLANE_MASK_NX) == 0 || nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW) {
             plane = PLANE_PX;
+            inside &= nxX * (nxX < 0 ? maxX : minX) + nxY * (nxY < 0 ? maxY : minY) + nxZ * (nxZ < 0 ? maxZ : minZ) >= -nxW;
             if ((mask & PLANE_MASK_PX) == 0 || pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW) {
                 plane = PLANE_NY;
+                inside &= pxX * (pxX < 0 ? maxX : minX) + pxY * (pxY < 0 ? maxY : minY) + pxZ * (pxZ < 0 ? maxZ : minZ) >= -pxW;
                 if ((mask & PLANE_MASK_NY) == 0 || nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW) {
                     plane = PLANE_PY;
+                    inside &= nyX * (nyX < 0 ? maxX : minX) + nyY * (nyY < 0 ? maxY : minY) + nyZ * (nyZ < 0 ? maxZ : minZ) >= -nyW;
                     if ((mask & PLANE_MASK_PY) == 0 || pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW) {
                         plane = PLANE_NZ;
+                        inside &= pyX * (pyX < 0 ? maxX : minX) + pyY * (pyY < 0 ? maxY : minY) + pyZ * (pyZ < 0 ? maxZ : minZ) >= -pyW;
                         if ((mask & PLANE_MASK_NZ) == 0 || nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW) {
                             plane = PLANE_PZ;
+                            inside &= nzX * (nzX < 0 ? maxX : minX) + nzY * (nzY < 0 ? maxY : minY) + nzZ * (nzZ < 0 ? maxZ : minZ) >= -nzW;
                             if ((mask & PLANE_MASK_PZ) == 0 || pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW) {
-                                return -1;
+                                inside &= pzX * (pzX < 0 ? maxX : minX) + pzY * (pzY < 0 ? maxY : minY) + pzZ * (pzZ < 0 ? maxZ : minZ) >= -pzW;
+                                return inside ? INSIDE : INTERSECT;
                             }
                         }
                     }

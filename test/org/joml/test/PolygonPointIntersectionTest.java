@@ -2,10 +2,10 @@ package org.joml.test;
 
 import junit.framework.TestCase;
 
-import org.joml.PolygonPointIntersection;
+import org.joml.PolygonsIntersection;
 
 /**
- * Tests for the {@link PolygonPointIntersection} class.
+ * Tests for the {@link PolygonsIntersection} class.
  * 
  * @author Kai Burjack
  */
@@ -23,11 +23,11 @@ public class PolygonPointIntersectionTest extends TestCase {
                 2, 2,
                 1, 2
         };
-        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[]{4}, verticesXY.length / 2);
+        PolygonsIntersection isect = new PolygonsIntersection(verticesXY, new int[]{4}, verticesXY.length / 2);
         // Inside outer rectangle
-        assertTrue(isect.pointInPolygons(0.1f, 0.1f));
+        assertTrue(isect.testPoint(0.1f, 0.1f));
         // Inside inner rectangle
-        assertFalse(isect.pointInPolygons(1.5f, 1.5f));
+        assertFalse(isect.testPoint(1.5f, 1.5f));
     }
 
     public static void testMultipolygon() {
@@ -42,13 +42,13 @@ public class PolygonPointIntersectionTest extends TestCase {
                 3, 1,
                 2, 1
         };
-        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[]{4}, verticesXY.length / 2);
+        PolygonsIntersection isect = new PolygonsIntersection(verticesXY, new int[]{4}, verticesXY.length / 2);
         // Left rectangle
-        assertTrue(isect.pointInPolygons(0.1f, 0.1f));
+        assertTrue(isect.testPoint(0.1f, 0.1f));
         // between the two
-        assertFalse(isect.pointInPolygons(1.5f, 0.1f));
+        assertFalse(isect.testPoint(1.5f, 0.1f));
         // right rectangle
-        assertTrue(isect.pointInPolygons(2.5f, 0.1f));
+        assertTrue(isect.testPoint(2.5f, 0.1f));
     }
 
     public static void testSimple() {
@@ -63,15 +63,15 @@ public class PolygonPointIntersectionTest extends TestCase {
                 1, 1,
                 0, 1
         };
-        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[0], verticesXY.length / 2);
+        PolygonsIntersection isect = new PolygonsIntersection(verticesXY, new int[0], verticesXY.length / 2);
         // Left part of the "U"
-        assertTrue(isect.pointInPolygons(0.1f, 0.1f));
+        assertTrue(isect.testPoint(0.1f, 0.1f));
         // top middle of the "U"
-        assertFalse(isect.pointInPolygons(1.5f, 0.8f));
+        assertFalse(isect.testPoint(1.5f, 0.8f));
         // bottom middle of the "U"
-        assertTrue(isect.pointInPolygons(1.5f, 0.2f));
+        assertTrue(isect.testPoint(1.5f, 0.2f));
         // right part of the "U"
-        assertTrue(isect.pointInPolygons(2.5f, 0.1f));
+        assertTrue(isect.testPoint(2.5f, 0.1f));
     }
 
     public static void testBigCircle() {
@@ -83,17 +83,17 @@ public class PolygonPointIntersectionTest extends TestCase {
             verticesXY[2 * i + 0] = x;
             verticesXY[2 * i + 1] = y;
         }
-        PolygonPointIntersection isect = new PolygonPointIntersection(verticesXY, new int[0], polyN);
+        PolygonsIntersection isect = new PolygonsIntersection(verticesXY, new int[0], polyN);
         // Center
-        assertTrue(isect.pointInPolygons(0, 0));
+        assertTrue(isect.testPoint(0, 0));
         // Left outside
-        assertFalse(isect.pointInPolygons(-1.1f, 0));
+        assertFalse(isect.testPoint(-1.1f, 0));
         // Top right outside
-        assertFalse(isect.pointInPolygons(0.8f, 0.8f));
+        assertFalse(isect.testPoint(0.8f, 0.8f));
         // Top edge
-        assertTrue(isect.pointInPolygons(1.0f, 0));
+        assertTrue(isect.testPoint(1.0f, 0));
         // Bottom edge <- algorithm only detects top edges as 'inside'
-        assertFalse(isect.pointInPolygons(-1.0f, 0));
+        assertFalse(isect.testPoint(-1.0f, 0));
     }
 
 }

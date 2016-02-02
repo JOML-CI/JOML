@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Class for polygon/point intersection tests when testing many points against the one or many static concave or convex polygons.
+ * Class for polygon/point intersection tests when testing many points against one or many static concave or convex, simple polygons.
  * <p>
  * This is an implementation of the algorithm described in <a href="http://alienryderflex.com/polygon/">http://alienryderflex.com</a> and augmented with using a
  * custom interval tree to avoid testing all polygon edges against a point, but only those that intersect the imaginary ray along the same y co-ordinate of the
@@ -19,7 +19,7 @@ import java.util.List;
  * 
  * @author Kai Burjack
  */
-public class PolygonPointIntersection {
+public class PolygonsIntersection {
 
     static class ByStartComparator implements Comparator {
         public int compare(Object o1, Object o2) {
@@ -114,7 +114,7 @@ public class PolygonPointIntersection {
     private IntervalTreeNode tree;
 
     /**
-     * Create a new {@link PolygonPointIntersection} object with the given polygon vertices.
+     * Create a new {@link PolygonsIntersection} object with the given polygon vertices.
      * <p>
      * The <code>verticesXY</code> array contains the x and y coordinates of all vertices. This array will not be copied so its content must remain constant for
      * as long as the PolygonPointIntersection is used with it.
@@ -127,7 +127,7 @@ public class PolygonPointIntersection {
      * @param count
      *            the number of vertices to use from the <code>verticesXY</code> array, staring with index 0
      */
-    public PolygonPointIntersection(float[] verticesXY, int[] polygons, int count) {
+    public PolygonsIntersection(float[] verticesXY, int[] polygons, int count) {
         this.verticesXY = verticesXY;
         // Do all the allocations and initializations during this constructor
         preprocess(count, polygons);
@@ -250,13 +250,13 @@ public class PolygonPointIntersection {
     }
     
     /**
-     * Test whether the given point <tt>(x, y)</tt> lies inside any polygon stored in this {@link PolygonPointIntersection} object.
+     * Test whether the given point <tt>(x, y)</tt> lies inside any polygon stored in this {@link PolygonsIntersection} object.
      * <p>
      * This method is thread-safe and can be used to test many points concurrently.
      * <p>
-     * In order to obtain the index of the polygon the point is inside of, use {@link #pointInPolygons(float, float, BitSet)}
+     * In order to obtain the index of the polygon the point is inside of, use {@link #testPoint(float, float, BitSet)}
      * 
-     * @see #pointInPolygons(float, float, BitSet)
+     * @see #testPoint(float, float, BitSet)
      * 
      * @param x
      *            the x coordinate of the point to test
@@ -264,12 +264,12 @@ public class PolygonPointIntersection {
      *            the y coordinate of the point to test
      * @return <code>true</code> iff the point lies inside any polygon; <code>false</code> otherwise
      */
-    public boolean pointInPolygons(float x, float y) {
-        return pointInPolygons(x, y, null);
+    public boolean testPoint(float x, float y) {
+        return testPoint(x, y, null);
     }
 
     /**
-     * Test whether the given point <tt>(x, y)</tt> lies inside any polygon stored in this {@link PolygonPointIntersection} object.
+     * Test whether the given point <tt>(x, y)</tt> lies inside any polygon stored in this {@link PolygonsIntersection} object.
      * <p>
      * This method is thread-safe and can be used to test many points concurrently.
      * 
@@ -281,7 +281,7 @@ public class PolygonPointIntersection {
      *            if not <code>null</code> then the <i>i</i>-th bit is set if the given point is inside the <i>i</i>-th polygon
      * @return <code>true</code> iff the point lies inside the polygon and not inside a hole; <code>false</code> otherwise
      */
-    public boolean pointInPolygons(float x, float y, BitSet inPolys) {
+    public boolean testPoint(float x, float y, BitSet inPolys) {
         // check bounding sphere first
         float dx = (x - centerX);
         float dy = (y - centerY);

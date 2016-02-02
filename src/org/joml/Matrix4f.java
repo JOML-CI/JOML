@@ -2059,17 +2059,17 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Update the given {@link FrustumCuller} with <code>this</code> matrix.
+     * Update the given {@link FrustumIntersection} with <code>this</code> matrix.
      * <p>
      * This will result in the frustum culler recalculating <code>this</code> matrix's frustum planes.
      * 
-     * @see FrustumCuller#set(Matrix4f)
+     * @see FrustumIntersection#set(Matrix4f)
      * 
      * @param culler
-     *          the {@link FrustumCuller} to update
+     *          the {@link FrustumIntersection} to update
      * @return the passed in culler
      */
-    public FrustumCuller getFrustum(FrustumCuller culler) {
+    public FrustumIntersection getFrustum(FrustumIntersection culler) {
         return culler.set(this);
     }
 
