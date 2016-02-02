@@ -31,6 +31,54 @@ package org.joml;
 public class GeometryUtils {
 
     /**
+     * Compute two arbitrary vectors perpendicular to the given normalized vector <tt>(x, y, z)</tt>, and store them in <code>dest1</code> and <code>dest2</code>,
+     * respectively.
+     * <p>
+     * The computed vectors will itself be perpendicular to each another and normalized. So the tree vectors <tt>(x, y, z)</tt>, <code>dest1</code> and
+     * <code>dest2</code> form an orthonormal basis.
+     * 
+     * @param x
+     *            the x coordinate of the normalized input vector
+     * @param y
+     *            the y coordinate of the normalized input vector
+     * @param z
+     *            the z coordinate of the normalized input vector
+     * @param dest1
+     *            will hold the first perpendicular vector
+     * @param dest2
+     *            will hold the second perpendicular vector
+     */
+    public static void perpendicular(float x, float y, float z, Vector3f dest1, Vector3f dest2) {
+        float magX = z * z + y * y;
+        float magY = z * z + x * x;
+        float magZ = y * y + x * x;
+        float mag;
+        if (magX > magY && magX > magZ) {
+            dest1.x = 0;
+            dest1.y = z;
+            dest1.z = -y;
+            mag = magX;
+        } else if (magY > magZ) {
+            dest1.x = z;
+            dest1.y = 0;
+            dest1.z = x;
+            mag = magY;
+        } else {
+            dest1.x = y;
+            dest1.y = -x;
+            dest1.z = 0;
+            mag = magZ;
+        }
+        float len = 1.0f / (float) Math.sqrt(mag);
+        dest1.x *= len;
+        dest1.y *= len;
+        dest1.z *= len;
+        dest2.x = y * dest1.z - z * dest1.y;
+        dest2.y = z * dest1.x - x * dest1.z;
+        dest2.z = x * dest1.y - y * dest1.x;
+    }
+
+    /**
      * Compute two arbitrary vectors perpendicular to the given normalized vector <code>v</code>, and store them in <code>dest1</code> and <code>dest2</code>,
      * respectively.
      * <p>
@@ -45,33 +93,7 @@ public class GeometryUtils {
      *            will hold the second perpendicular vector
      */
     public static void perpendicular(Vector3f v, Vector3f dest1, Vector3f dest2) {
-        float magX = v.z * v.z + v.y * v.y;
-        float magY = v.z * v.z + v.x * v.x;
-        float magZ = v.y * v.y + v.x * v.x;
-        float mag;
-        if (magX > magY && magX > magZ) {
-            dest1.x = 0;
-            dest1.y = v.z;
-            dest1.z = -v.y;
-            mag = magX;
-        } else if (magY > magZ) {
-            dest1.x = v.z;
-            dest1.y = 0;
-            dest1.z = v.x;
-            mag = magY;
-        } else {
-            dest1.x = v.y;
-            dest1.y = -v.x;
-            dest1.z = 0;
-            mag = magZ;
-        }
-        float len = 1.0f / (float) Math.sqrt(mag);
-        dest1.x *= len;
-        dest1.y *= len;
-        dest1.z *= len;
-        dest2.x = v.y * dest1.z - v.z * dest1.y;
-        dest2.y = v.z * dest1.x - v.x * dest1.z;
-        dest2.z = v.x * dest1.y - v.y * dest1.x;
+        perpendicular(v.x, v.y, v.z, dest1, dest2);
     }
 
     /**
