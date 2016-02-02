@@ -895,7 +895,7 @@ public class Intersectiond {
      * Test whether the given line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
      * <p>
-     * Reference: <a href="http://portal.ku.edu.tr/~cbasdogan/Courses/Robotics/projects/IntersectionLineSphere.pdf">http://portal.ku.edu.tr/</a>
+     * Reference: <a href="http://paulbourke.net/geometry/circlesphere/index.html#linesphere">http://paulbourke.net/</a>
      * 
      * @param p0X
      *              the x coordinate of the line segment's first end point
@@ -951,7 +951,7 @@ public class Intersectiond {
      * Test whether the given line segment with the end points <code>p0</code> and <code>p1</code>
      * intersects the given sphere with center <code>center</code> and square radius <code>radiusSquared</code>.
      * <p>
-     * Reference: <a href="http://portal.ku.edu.tr/~cbasdogan/Courses/Robotics/projects/IntersectionLineSphere.pdf">http://portal.ku.edu.tr/</a>
+     * Reference: <a href="http://paulbourke.net/geometry/circlesphere/index.html#linesphere">http://paulbourke.net/</a>
      * 
      * @param p0
      *              the line segment's first end point
