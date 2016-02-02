@@ -312,8 +312,7 @@ public class FrustumIntersection {
         /*
          * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
          * 
-         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
-         * or AAB_INTERSECTS if the box intersects the frustum.
+         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box.
          */
         int plane = PLANE_NX;
         boolean inside = true;
@@ -418,8 +417,7 @@ public class FrustumIntersection {
         /*
          * This is an implementation of the "2.5 Plane masking and coherency" of the mentioned site.
          * 
-         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box
-         * or -1 if the box intersects the frustum.
+         * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box.
          */
         int plane = PLANE_NX;
         boolean inside = true;
