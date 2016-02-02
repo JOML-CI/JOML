@@ -875,7 +875,7 @@ public class Intersectiond {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
      * <p>
-     * Reference: <a href="http://portal.ku.edu.tr/~cbasdogan/Courses/Robotics/projects/IntersectionLineSphere.pdf">http://portal.ku.edu.tr/</a>
+     * Reference: <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection">http://www.scratchapixel.com/</a>
      * 
      * @param origin
      *              the ray's origin
@@ -951,7 +951,7 @@ public class Intersectiond {
      * Test whether the given line segment with the end points <code>p0</code> and <code>p1</code>
      * intersects the given sphere with center <code>center</code> and square radius <code>radiusSquared</code>.
      * <p>
-     * Reference: <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection">http://www.scratchapixel.com/</a>
+     * Reference: <a href="http://portal.ku.edu.tr/~cbasdogan/Courses/Robotics/projects/IntersectionLineSphere.pdf">http://portal.ku.edu.tr/</a>
      * 
      * @param p0
      *              the line segment's first end point
