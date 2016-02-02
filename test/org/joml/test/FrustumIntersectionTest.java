@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
  * 
  * @author Kai Burjack
  */
-public class FrustumCullerTest extends TestCase {
+public class FrustumIntersectionTest extends TestCase {
 
     public static void testIsSphereInFrustumOrtho() {
         Matrix4f m = new Matrix4f().ortho(-1, 1, -1, 1, -1, 1);
