@@ -1702,9 +1702,9 @@ public class Vector3d implements Externalizable {
      */
     public Vector3d reflect(Vector3d normal) {
         double dot = this.dot(normal);
-        x = x - 2.0 * dot * normal.x;
-        y = y - 2.0 * dot * normal.y;
-        z = z - 2.0 * dot * normal.z;
+        x = x - (dot + dot) * normal.x;
+        y = y - (dot + dot) * normal.y;
+        z = z - (dot + dot) * normal.z;
         return this;
     }
 
@@ -1721,9 +1721,9 @@ public class Vector3d implements Externalizable {
      */
     public Vector3d reflect(double x, double y, double z) {
         double dot = this.dot(x, y, z);
-        this.x = this.x - 2.0 * dot * x;
-        this.y = this.y - 2.0 * dot * y;
-        this.z = this.z - 2.0 * dot * z;
+        this.x = this.x - (dot + dot) * x;
+        this.y = this.y - (dot + dot) * y;
+        this.z = this.z - (dot + dot) * z;
         return this;
     }
 
@@ -1738,9 +1738,9 @@ public class Vector3d implements Externalizable {
      */
     public Vector3d reflect(Vector3d normal, Vector3d dest) {
         double dot = this.dot(normal);
-        dest.x = x - 2.0 * dot * normal.x;
-        dest.y = y - 2.0 * dot * normal.y;
-        dest.z = z - 2.0 * dot * normal.z;
+        dest.x = x - (dot + dot) * normal.x;
+        dest.y = y - (dot + dot) * normal.y;
+        dest.z = z - (dot + dot) * normal.z;
         return dest;
     }
 
@@ -1759,9 +1759,9 @@ public class Vector3d implements Externalizable {
      */
     public Vector3d reflect(double x, double y, double z, Vector3d dest) {
         double dot = this.dot(x, y, z);
-        dest.x = this.x - 2.0 * dot * x;
-        dest.y = this.y - 2.0 * dot * y;
-        dest.z = this.z - 2.0 * dot * z;
+        dest.x = this.x - (dot + dot) * x;
+        dest.y = this.y - (dot + dot) * y;
+        dest.z = this.z - (dot + dot) * z;
         return dest;
     }
 
@@ -1838,9 +1838,9 @@ public class Vector3d implements Externalizable {
     public Vector3d smoothStep(Vector3d v, double t, Vector3d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
-        dest.x = (2.0 * x - 2.0 * v.x) * t3 + (3.0 * v.x - 3.0 * x) * t2 + x * t + x;
-        dest.y = (2.0 * y - 2.0 * v.y) * t3 + (3.0 * v.y - 3.0 * y) * t2 + y * t + y;
-        dest.z = (2.0 * z - 2.0 * v.z) * t3 + (3.0 * v.z - 3.0 * z) * t2 + z * t + z;
+        dest.x = (x + x - v.x - v.x) * t3 + (3.0 * v.x - 3.0 * x) * t2 + x * t + x;
+        dest.y = (y + y - v.y - v.y) * t3 + (3.0 * v.y - 3.0 * y) * t2 + y * t + y;
+        dest.z = (z + z - v.z - v.z) * t3 + (3.0 * v.z - 3.0 * z) * t2 + z * t + z;
         return dest;
     }
 
@@ -1865,9 +1865,9 @@ public class Vector3d implements Externalizable {
     public Vector3d hermite(Vector3d t0, Vector3d v1, Vector3d t1, double t, Vector3d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
-        dest.x = (2.0 * x - 2.0 * v1.x + t1.x + t0.x) * t3 + (3.0 * v1.x - 3.0 * x - 2.0 * t0.x - t1.x) * t2 + x * t + x;
-        dest.y = (2.0 * y - 2.0 * v1.y + t1.y + t0.y) * t3 + (3.0 * v1.y - 3.0 * y - 2.0 * t0.y - t1.y) * t2 + y * t + y;
-        dest.z = (2.0 * z - 2.0 * v1.z + t1.z + t0.z) * t3 + (3.0 * v1.z - 3.0 * z - 2.0 * t0.z - t1.z) * t2 + z * t + z;
+        dest.x = (x + x - v1.x - v1.x + t1.x + t0.x) * t3 + (3.0 * v1.x - 3.0 * x - t0.x - t0.x - t1.x) * t2 + x * t + x;
+        dest.y = (y + y - v1.y - v1.y + t1.y + t0.y) * t3 + (3.0 * v1.y - 3.0 * y - t0.y - t0.y - t1.y) * t2 + y * t + y;
+        dest.z = (z + z - v1.z - v1.z + t1.z + t0.z) * t3 + (3.0 * v1.z - 3.0 * z - t0.z - t0.z - t1.z) * t2 + z * t + z;
         return dest;
     }
 

@@ -75,7 +75,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
+        angle = (a.angle < 0.0 ? Math.PI + Math.PI + a.angle % (Math.PI + Math.PI) : a.angle) % (Math.PI + Math.PI);
     }
 
     /**
@@ -88,7 +88,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
+        angle = (a.angle < 0.0 ? Math.PI + Math.PI + a.angle % (Math.PI + Math.PI) : a.angle) % (Math.PI + Math.PI);
     }
 
     /**
@@ -107,7 +107,7 @@ public class AxisAngle4d implements Externalizable {
         x = q.x * invSqrt;
         y = q.y * invSqrt;
         z = q.z * invSqrt;
-        angle = 2.0 * acos;
+        angle = acos + acos;
     }
 
     /**
@@ -126,7 +126,7 @@ public class AxisAngle4d implements Externalizable {
         x = q.x * invSqrt;
         y = q.y * invSqrt;
         z = q.z * invSqrt;
-        angle = 2.0 * acos;
+        angle = acos + acos;
     }
 
     /**
@@ -145,7 +145,7 @@ public class AxisAngle4d implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = (angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI);
+        this.angle = (angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI);
     }
 
     /**
@@ -179,7 +179,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
+        angle = (a.angle < 0.0 ? Math.PI + Math.PI + a.angle % (Math.PI + Math.PI) : a.angle) % (Math.PI + Math.PI);
         return this;
     }
 
@@ -194,7 +194,7 @@ public class AxisAngle4d implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI);
+        angle = (a.angle < 0.0 ? Math.PI + Math.PI + a.angle % (Math.PI + Math.PI) : a.angle) % (Math.PI + Math.PI);
         return this;
     }
 
@@ -215,7 +215,7 @@ public class AxisAngle4d implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = (angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI);
+        this.angle = (angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI);
         return this;
     }
 
@@ -259,7 +259,7 @@ public class AxisAngle4d implements Externalizable {
         this.x = q.x * invSqrt;
         this.y = q.y * invSqrt;
         this.z = q.z * invSqrt;
-        this.angle = 2.0f * acos;
+        this.angle = acos + acos;
         return this;
     }
 
@@ -277,7 +277,7 @@ public class AxisAngle4d implements Externalizable {
         this.x = q.x * invSqrt;
         this.y = q.y * invSqrt;
         this.z = q.z * invSqrt;
-        this.angle = 2.0f * acos;
+        this.angle = acos + acos;
         return this;
     }
 
@@ -469,7 +469,7 @@ public class AxisAngle4d implements Externalizable {
      */
     public AxisAngle4d rotate(double ang) {
         angle += ang;
-        angle = (angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI);
+        angle = (angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI);
         return this;
     }
 
@@ -563,7 +563,7 @@ public class AxisAngle4d implements Externalizable {
         final int prime = 31;
         int result = 1;
         long temp;
-        temp = Double.doubleToLongBits((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        temp = Double.doubleToLongBits((angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI));
         result = prime * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(x);
         result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -582,8 +582,8 @@ public class AxisAngle4d implements Externalizable {
         if (getClass() != obj.getClass())
             return false;
         AxisAngle4d other = (AxisAngle4d) obj;
-        if (Double.doubleToLongBits((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI)) != 
-                Double.doubleToLongBits((other.angle < 0.0 ? 2.0 * Math.PI + other.angle % (2.0 * Math.PI) : other.angle) % (2.0 * Math.PI)))
+        if (Double.doubleToLongBits((angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI)) != 
+                Double.doubleToLongBits((other.angle < 0.0 ? Math.PI + Math.PI + other.angle % (Math.PI + Math.PI) : other.angle) % (Math.PI + Math.PI)))
             return false;
         if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
             return false;

@@ -2708,9 +2708,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotation(Quaternionf quat) {
-        float dqx = 2.0f * quat.x;
-        float dqy = 2.0f * quat.y;
-        float dqz = 2.0f * quat.z;
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
         float q00 = dqx * quat.x;
         float q11 = dqy * quat.y;
         float q22 = dqz * quat.z;
@@ -2780,7 +2780,9 @@ public class Matrix4f implements Externalizable {
     public Matrix4f translationRotateScale(float tx, float ty, float tz, 
                                            float qx, float qy, float qz, float qw, 
                                            float sx, float sy, float sz) {
-        float dqx = 2.0f * qx, dqy = 2.0f * qy, dqz = 2.0f * qz;
+        float dqx = qx + qx;
+        float dqy = qy + qy;
+        float dqz = qz + qz;
         float q00 = dqx * qx;
         float q11 = dqy * qy;
         float q22 = dqz * qz;
@@ -2858,7 +2860,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f translationRotate(float tx, float ty, float tz, Quaternionf quat) {
-        float dqx = 2.0f * quat.x, dqy = 2.0f * quat.y, dqz = 2.0f * quat.z;
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
         float q00 = dqx * quat.x;
         float q11 = dqy * quat.y;
         float q22 = dqz * quat.z;
@@ -5369,7 +5373,7 @@ public class Matrix4f implements Externalizable {
         float rm00 = zNear / w;
         float rm11 = zNear / h;
         float rm22 = -(zFar + zNear) / (zFar - zNear);
-        float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
+        float rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
 
         // perform optimized matrix multiplication
         float nm20 = m20 * rm22 - m30;
@@ -5458,7 +5462,7 @@ public class Matrix4f implements Externalizable {
         m23 = -1.0f;
         m30 = 0.0f;
         m31 = 0.0f;
-        m32 = -2.0f * zFar * zNear / (zFar - zNear);
+        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
         m33 = 0.0f;
         return this;
     }
@@ -5497,12 +5501,12 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
         // calculate right matrix elements
-        float rm00 = 2.0f * zNear / (right - left);
-        float rm11 = 2.0f * zNear / (top - bottom);
+        float rm00 = (zNear + zNear) / (right - left);
+        float rm11 = (zNear + zNear) / (top - bottom);
         float rm20 = (right + left) / (right - left);
         float rm21 = (top + bottom) / (top - bottom);
         float rm22 = -(zFar + zNear) / (zFar - zNear);
-        float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
+        float rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
 
         // perform optimized matrix multiplication
         float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
@@ -5591,12 +5595,12 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
-        m00 = 2.0f * zNear / (right - left);
+        m00 = (zNear + zNear) / (right - left);
         m01 = 0.0f;
         m02 = 0.0f;
         m03 = 0.0f;
         m10 = 0.0f;
-        m11 = 2.0f * zNear / (top - bottom);
+        m11 = (zNear + zNear) / (top - bottom);
         m12 = 0.0f;
         m13 = 0.0f;
         m20 = (right + left) / (right - left);
@@ -5605,7 +5609,7 @@ public class Matrix4f implements Externalizable {
         m23 = -1.0f;
         m30 = 0.0f;
         m31 = 0.0f;
-        m32 = -2.0f * zFar * zNear / (zFar - zNear);
+        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
         m33 = 0.0f;
         return this;
     }
@@ -5633,9 +5637,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotate(Quaternionf quat, Matrix4f dest) {
-        float dqx = 2.0f * quat.x;
-        float dqy = 2.0f * quat.y;
-        float dqz = 2.0f * quat.z;
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
         float q00 = dqx * quat.x;
         float q11 = dqy * quat.y;
         float q22 = dqz * quat.z;
@@ -6396,7 +6400,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f reflect(float a, float b, float c, float d, Matrix4f dest) {
-        float da = 2.0f * a, db = 2.0f * b, dc = 2.0f * c, dd = 2.0f * d;
+        float da = a + a, db = b + b, dc = c + c, dd = d + d;
         float rm00 = 1.0f - da * a;
         float rm01 = -da * b;
         float rm02 = -da * c;
@@ -6640,7 +6644,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f reflection(float a, float b, float c, float d) {
-        float da = 2.0f * a, db = 2.0f * b, dc = 2.0f * c, dd = 2.0f * d;
+        float da = a + a, db = b + b, dc = c + c, dd = d + d;
         m00 = 1.0f - da * a;
         m01 = -da * b;
         m02 = -da * c;
@@ -7798,11 +7802,11 @@ public class Matrix4f implements Externalizable {
         x *= invNorm;
         y *= invNorm;
         w *= invNorm;
-        float q00 = 2.0f * x * x;
-        float q11 = 2.0f * y * y;
-        float q01 = 2.0f * x * y;
-        float q03 = 2.0f * x * w;
-        float q13 = 2.0f * y * w;
+        float q00 = (x + x) * x;
+        float q11 = (y + y) * y;
+        float q01 = (x + x) * y;
+        float q03 = (x + x) * w;
+        float q13 = (y + y) * w;
         m00 = 1.0f - q11;
         m01 = q01;
         m02 = -q13;

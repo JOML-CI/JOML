@@ -4147,9 +4147,9 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d rotation(Quaterniond quat) {
-        double dqx = 2.0 * quat.x;
-        double dqy = 2.0 * quat.y;
-        double dqz = 2.0 * quat.z;
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
         double q00 = dqx * quat.x;
         double q11 = dqy * quat.y;
         double q22 = dqz * quat.z;
@@ -4198,9 +4198,9 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d rotation(Quaternionf quat) {
-        double dqx = 2.0 * quat.x;
-        double dqy = 2.0 * quat.y;
-        double dqz = 2.0 * quat.z;
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
         double q00 = dqx * quat.x;
         double q11 = dqy * quat.y;
         double q22 = dqz * quat.z;
@@ -4270,7 +4270,7 @@ public class Matrix4d implements Externalizable {
     public Matrix4d translationRotateScale(double tx, double ty, double tz, 
                                            double qx, double qy, double qz, double qw, 
                                            double sx, double sy, double sz) {
-        double dqx = 2.0 * qx, dqy = 2.0 * qy, dqz = 2.0 * qz;
+        double dqx = qx + qx, dqy = qy + qy, dqz = qz + qz;
         double q00 = dqx * qx;
         double q11 = dqy * qy;
         double q22 = dqz * qz;
@@ -4375,7 +4375,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d translationRotate(double tx, double ty, double tz, Quaterniond quat) {
-        double dqx = 2.0 * quat.x, dqy = 2.0 * quat.y, dqz = 2.0 * quat.z;
+        double dqx = quat.x + quat.x, dqy = quat.y + quat.y, dqz = quat.z + quat.z;
         double q00 = dqx * quat.x;
         double q11 = dqy * quat.y;
         double q22 = dqz * quat.z;
@@ -4427,9 +4427,9 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotate(Quaterniond quat, Matrix4d dest) {
-        double dqx = 2.0 * quat.x;
-        double dqy = 2.0 * quat.y;
-        double dqz = 2.0 * quat.z;
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
         double q00 = dqx * quat.x;
         double q11 = dqy * quat.y;
         double q22 = dqz * quat.z;
@@ -4501,9 +4501,9 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotate(Quaternionf quat, Matrix4d dest) {
-        double dqx = 2.0 * quat.x;
-        double dqy = 2.0 * quat.y;
-        double dqz = 2.0 * quat.z;
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
         double q00 = dqx * quat.x;
         double q11 = dqy * quat.y;
         double q22 = dqz * quat.z;
@@ -5633,7 +5633,7 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d reflect(double a, double b, double c, double d, Matrix4d dest) {
-        double da = 2.0 * a, db = 2.0 * b, dc = 2.0 * c, dd = 2.0 * d;
+        double da = a + a, db = b + b, dc = c + c, dd = d + d;
         double rm00 = 1.0 - da * a;
         double rm01 = -da * b;
         double rm02 = -da * c;
@@ -5877,7 +5877,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d reflection(double a, double b, double c, double d) {
-        double da = 2.0 * a, db = 2.0 * b, dc = 2.0 * c, dd = 2.0 * d;
+        double da = a + a, db = b + b, dc = c + c, dd = d + d;
         m00 = 1.0 - da * a;
         m01 = -da * b;
         m02 = -da * c;
@@ -7016,7 +7016,7 @@ public class Matrix4d implements Externalizable {
         double rm00 = zNear / w;
         double rm11 = zNear / h;
         double rm22 = -(zFar + zNear) / (zFar - zNear);
-        double rm32 = -2.0 * zFar * zNear / (zFar - zNear);
+        double rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
 
         // perform optimized matrix multiplication
         double nm20 = m20 * rm22 - m30;
@@ -7105,7 +7105,7 @@ public class Matrix4d implements Externalizable {
         m23 = -1.0;
         m30 = 0.0;
         m31 = 0.0;
-        m32 = -2.0 * zFar * zNear / (zFar - zNear);
+        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
         m33 = 0.0;
         return this;
     }
@@ -7144,12 +7144,12 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
         // calculate right matrix elements
-        double rm00 = 2.0 * zNear / (right - left);
-        double rm11 = 2.0 * zNear / (top - bottom);
+        double rm00 = (zNear + zNear) / (right - left);
+        double rm11 = (zNear + zNear) / (top - bottom);
         double rm20 = (right + left) / (right - left);
         double rm21 = (top + bottom) / (top - bottom);
         double rm22 = -(zFar + zNear) / (zFar - zNear);
-        double rm32 = -2.0 * zFar * zNear / (zFar - zNear);
+        double rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
 
         // perform optimized matrix multiplication
         double nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
@@ -7238,12 +7238,12 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setFrustum(double left, double right, double bottom, double top, double zNear, double zFar) {
-        m00 = 2.0 * zNear / (right - left);
+        m00 = (zNear + zNear) / (right - left);
         m01 = 0.0;
         m02 = 0.0;
         m03 = 0.0;
         m10 = 0.0;
-        m11 = 2.0 * zNear / (top - bottom);
+        m11 = (zNear + zNear) / (top - bottom);
         m12 = 0.0;
         m13 = 0.0;
         m20 = (right + left) / (right - left);
@@ -7252,7 +7252,7 @@ public class Matrix4d implements Externalizable {
         m23 = -1.0;
         m30 = 0.0;
         m31 = 0.0;
-        m32 = -2.0 * zFar * zNear / (zFar - zNear);
+        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
         m33 = 0.0;
         return this;
     }
@@ -8099,11 +8099,11 @@ public class Matrix4d implements Externalizable {
         x *= invNorm;
         y *= invNorm;
         w *= invNorm;
-        double q00 = 2.0 * x * x;
-        double q11 = 2.0 * y * y;
-        double q01 = 2.0 * x * y;
-        double q03 = 2.0 * x * w;
-        double q13 = 2.0 * y * w;
+        double q00 = (x + x) * x;
+        double q11 = (y + y) * y;
+        double q01 = (x + x) * y;
+        double q03 = (x + x) * w;
+        double q13 = (y + y) * w;
         m00 = 1.0 - q11;
         m01 = q01;
         m02 = -q13;

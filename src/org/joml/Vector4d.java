@@ -1435,10 +1435,10 @@ public class Vector4d implements Externalizable {
     public Vector4d smoothStep(Vector4d v, double t, Vector4d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
-        dest.x = (2.0 * x - 2.0 * v.x) * t3 + (3.0 * v.x - 3.0 * x) * t2 + x * t + x;
-        dest.y = (2.0 * y - 2.0 * v.y) * t3 + (3.0 * v.y - 3.0 * y) * t2 + y * t + y;
-        dest.z = (2.0 * z - 2.0 * v.z) * t3 + (3.0 * v.z - 3.0 * z) * t2 + z * t + z;
-        dest.w = (2.0 * w - 2.0 * v.w) * t3 + (3.0 * v.w - 3.0 * w) * t2 + w * t + w;
+        dest.x = (x + x - v.x - v.x) * t3 + (3.0 * v.x - 3.0 * x) * t2 + x * t + x;
+        dest.y = (y + y - v.y - v.y) * t3 + (3.0 * v.y - 3.0 * y) * t2 + y * t + y;
+        dest.z = (z + z - v.z - v.z) * t3 + (3.0 * v.z - 3.0 * z) * t2 + z * t + z;
+        dest.w = (w + w - v.w - v.w) * t3 + (3.0 * v.w - 3.0 * w) * t2 + w * t + w;
         return dest;
     }
 
@@ -1463,10 +1463,10 @@ public class Vector4d implements Externalizable {
     public Vector4d hermite(Vector4d t0, Vector4d v1, Vector4d t1, double t, Vector4d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
-        dest.x = (2.0 * x - 2.0 * v1.x + t1.x + t0.x) * t3 + (3.0 * v1.x - 3.0 * x - 2.0 * t0.x - t1.x) * t2 + x * t + x;
-        dest.y = (2.0 * y - 2.0 * v1.y + t1.y + t0.y) * t3 + (3.0 * v1.y - 3.0 * y - 2.0 * t0.y - t1.y) * t2 + y * t + y;
-        dest.z = (2.0 * z - 2.0 * v1.z + t1.z + t0.z) * t3 + (3.0 * v1.z - 3.0 * z - 2.0 * t0.z - t1.z) * t2 + z * t + z;
-        dest.w = (2.0 * w - 2.0 * v1.w + t1.w + t0.w) * t3 + (3.0 * v1.w - 3.0 * w - 2.0 * t0.w - t1.w) * t2 + w * t + w;
+        dest.x = (x + x - v1.x - v1.x + t1.x + t0.x) * t3 + (3.0 * v1.x - 3.0 * x - t0.x - t0.x - t1.x) * t2 + x * t + x;
+        dest.y = (y + y - v1.y - v1.y + t1.y + t0.y) * t3 + (3.0 * v1.y - 3.0 * y - t0.y - t0.y - t1.y) * t2 + y * t + y;
+        dest.z = (z + z - v1.z - v1.z + t1.z + t0.z) * t3 + (3.0 * v1.z - 3.0 * z - t0.z - t0.z - t1.z) * t2 + z * t + z;
+        dest.w = (w + w - v1.w - v1.w + t1.w + t0.w) * t3 + (3.0 * v1.w - 3.0 * w - t0.w - t0.w - t1.w) * t2 + w * t + w;
         return dest;
     }
 

@@ -75,7 +75,7 @@ public class AxisAngle4f implements Externalizable {
         x = a.x;
         y = a.y;
         z = a.z;
-        angle = (float) ((a.angle < 0.0 ? 2.0 * Math.PI + a.angle % (2.0 * Math.PI) : a.angle) % (2.0 * Math.PI));
+        angle = (float) ((a.angle < 0.0 ? Math.PI + Math.PI + a.angle % (Math.PI + Math.PI) : a.angle) % (Math.PI + Math.PI));
     }
 
     /**
@@ -94,7 +94,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = q.x * invSqrt;
         this.y = q.y * invSqrt;
         this.z = q.z * invSqrt;
-        this.angle = (float) 2.0 * acos;
+        this.angle = acos + acos;
     }
 
     /**
@@ -113,7 +113,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        this.angle = (float) ((angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI));
     }
 
     /**
@@ -138,7 +138,7 @@ public class AxisAngle4f implements Externalizable {
         y = a.y;
         z = a.z;
         angle = a.angle;
-        angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        angle = (float) ((angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI));
         return this;
     }
 
@@ -159,7 +159,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        this.angle = (float) ((angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI));
         return this;
     }
 
@@ -190,7 +190,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = (float) (q.x * invSqrt);
         this.y = (float) (q.y * invSqrt);
         this.z = (float) (q.z * invSqrt);
-        this.angle = (float) (2.0f * acos);
+        this.angle = (float) (acos + acos);
         return this;
     }
 
@@ -208,7 +208,7 @@ public class AxisAngle4f implements Externalizable {
         this.x = (float) (q.x * invSqrt);
         this.y = (float) (q.y * invSqrt);
         this.z = (float) (q.z * invSqrt);
-        this.angle = (float) (2.0f * acos);
+        this.angle = (float) (acos + acos);
         return this;
     }
 
@@ -400,7 +400,7 @@ public class AxisAngle4f implements Externalizable {
      */
     public AxisAngle4f rotate(float ang) {
         angle += ang;
-        angle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        angle = (float) ((angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI));
         return this;
     }
 
@@ -493,7 +493,7 @@ public class AxisAngle4f implements Externalizable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        float nangle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
+        float nangle = (float) ((angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI));
         result = prime * result + Float.floatToIntBits(nangle);
         result = prime * result + Float.floatToIntBits(x);
         result = prime * result + Float.floatToIntBits(y);
@@ -509,8 +509,8 @@ public class AxisAngle4f implements Externalizable {
         if (getClass() != obj.getClass())
             return false;
         AxisAngle4f other = (AxisAngle4f) obj;
-        float nangle = (float) ((angle < 0.0 ? 2.0 * Math.PI + angle % (2.0 * Math.PI) : angle) % (2.0 * Math.PI));
-        float nangleOther = (float) ((other.angle < 0.0 ? 2.0 * Math.PI + other.angle % (2.0 * Math.PI) : other.angle) % (2.0 * Math.PI));
+        float nangle = (float) ((angle < 0.0 ? Math.PI + Math.PI + angle % (Math.PI + Math.PI) : angle) % (Math.PI + Math.PI));
+        float nangleOther = (float) ((other.angle < 0.0 ? Math.PI + Math.PI + other.angle % (Math.PI + Math.PI) : other.angle) % (Math.PI + Math.PI));
         if (Float.floatToIntBits(nangle) != Float.floatToIntBits(nangleOther))
             return false;
         if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
