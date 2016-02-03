@@ -1202,9 +1202,9 @@ public class Intersectiond {
      * @param v2X
      *              the x coordinate of the third vertex
      * @param v2Y
-     *              the y coordinate of the second vertex
+     *              the y coordinate of the third vertex
      * @param v2Z
-     *              the z coordinate of the second vertex
+     *              the z coordinate of the third vertex
      * @param epsilon
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return <code>true</code> if the given ray intersects with the frontface of the triangle; <code>false</code> otherwise
@@ -1311,9 +1311,9 @@ public class Intersectiond {
      * @param v2X
      *              the x coordinate of the third vertex
      * @param v2Y
-     *              the y coordinate of the second vertex
+     *              the y coordinate of the third vertex
      * @param v2Z
-     *              the z coordinate of the second vertex
+     *              the z coordinate of the third vertex
      * @param epsilon
      *              a small epsilon when testing rays that are almost parallel to the triangle
      * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection

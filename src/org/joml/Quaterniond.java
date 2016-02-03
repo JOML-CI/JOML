@@ -1393,7 +1393,7 @@ public class Quaterniond implements Externalizable {
      * the angular velocities are always relative to the local coordinate system of the rotation represented by <code>this</code> quaternion.
      * <p>
      * This method is equivalent to calling: <code>rotateLocal(dt * vx, dt * vy, dt * vz)</code>
-     * 
+     * <p>
      * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
      * 
      * @see #rotateLocal(double, double, double)
@@ -1421,7 +1421,7 @@ public class Quaterniond implements Externalizable {
      * the angular velocities are always relative to the local coordinate system of the rotation represented by <code>this</code> quaternion.
      * <p>
      * This method is equivalent to calling: <code>rotateLocal(dt * vx, dt * vy, dt * vz, dest)</code>
-     * 
+     * <p>
      * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
      * 
      * @see #rotateLocal(double, double, double, Quaterniond)

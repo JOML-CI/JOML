@@ -3014,12 +3014,14 @@ public class Matrix4f implements Externalizable {
      * will represent a position/location in 3D-space rather than a direction. This method is therefore
      * not suited for perspective projection transformations as it will not save the
      * <tt>w</tt> component of the transformed vector.
-     * For perspective projection use {@link #transform(Vector4f)}.
+     * For perspective projection use {@link #transform(Vector4f)} or {@link #transformProject(Vector3f)}
+     * when perspective divide should be applied, too.
      * <p>
      * In order to store the result in another vector, use {@link #transformPosition(Vector3f, Vector3f)}.
      * 
      * @see #transformPosition(Vector3f, Vector3f)
      * @see #transform(Vector4f)
+     * @see #transformProject(Vector3f)
      * 
      * @param v
      *          the vector to transform and to hold the final result
@@ -3040,12 +3042,14 @@ public class Matrix4f implements Externalizable {
      * will represent a position/location in 3D-space rather than a direction. This method is therefore
      * not suited for perspective projection transformations as it will not save the
      * <tt>w</tt> component of the transformed vector.
-     * For perspective projection use {@link #transform(Vector4f, Vector4f)}.
+     * For perspective projection use {@link #transform(Vector4f, Vector4f)} or
+     * {@link #transformProject(Vector3f, Vector3f)} when perspective divide should be applied, too.
      * <p>
      * In order to store the result in the same vector, use {@link #transformPosition(Vector3f)}.
      * 
      * @see #transformPosition(Vector3f)
      * @see #transform(Vector4f, Vector4f)
+     * @see #transformProject(Vector3f, Vector3f)
      * 
      * @param v
      *          the vector to transform
@@ -7781,7 +7785,7 @@ public class Matrix4f implements Externalizable {
      * its position <code>objPos</code>.
      * <p>
      * In order to specify an <i>up</i> vector which needs to be maintained when rotating the +Z axis of the object,
-     * then use {@link #billboardSpherical(Vector3f, Vector3f, Vector3f)}.
+     * use {@link #billboardSpherical(Vector3f, Vector3f, Vector3f)}.
      * 
      * @see #billboardSpherical(Vector3f, Vector3f, Vector3f)
      * 
