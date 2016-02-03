@@ -1655,9 +1655,9 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d rotation(Quaterniond quat) {
-        double dqx = 2.0 * quat.x;
-        double dqy = 2.0 * quat.y;
-        double dqz = 2.0 * quat.z;
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
         double q00 = dqx * quat.x;
         double q11 = dqy * quat.y;
         double q22 = dqz * quat.z;
@@ -1699,9 +1699,9 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d rotation(Quaternionf quat) {
-        double dqx = 2.0 * quat.x;
-        double dqy = 2.0 * quat.y;
-        double dqz = 2.0 * quat.z;
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
         double q00 = dqx * quat.x;
         double q11 = dqy * quat.y;
         double q22 = dqz * quat.z;
@@ -2255,9 +2255,9 @@ public class Matrix3d implements Externalizable {
      * @return dest
      */
     public Matrix3d rotate(Quaterniond quat, Matrix3d dest) {
-        double dqx = 2.0f * quat.x;
-        double dqy = 2.0f * quat.y;
-        double dqz = 2.0f * quat.z;
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
         double q00 = dqx * quat.x;
         double q11 = dqy * quat.y;
         double q22 = dqz * quat.z;
@@ -2343,9 +2343,9 @@ public class Matrix3d implements Externalizable {
      * @return dest
      */
     public Matrix3d rotate(Quaternionf quat, Matrix3d dest) {
-        double dqx = 2.0f * quat.x;
-        double dqy = 2.0f * quat.y;
-        double dqz = 2.0f * quat.z;
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
         double q00 = dqx * quat.x;
         double q11 = dqy * quat.y;
         double q22 = dqz * quat.z;

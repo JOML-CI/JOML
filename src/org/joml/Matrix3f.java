@@ -1379,9 +1379,9 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f rotation(Quaternionf quat) {
-        float dqx = 2.0f * quat.x;
-        float dqy = 2.0f * quat.y;
-        float dqz = 2.0f * quat.z;
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
         float q00 = dqx * quat.x;
         float q11 = dqy * quat.y;
         float q22 = dqz * quat.z;
@@ -1935,9 +1935,9 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotate(Quaternionf quat, Matrix3f dest) {
-        float dqx = 2.0f * quat.x;
-        float dqy = 2.0f * quat.y;
-        float dqz = 2.0f * quat.z;
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
         float q00 = dqx * quat.x;
         float q11 = dqy * quat.y;
         float q22 = dqz * quat.z;
