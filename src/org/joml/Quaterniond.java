@@ -239,7 +239,7 @@ public class Quaterniond implements Externalizable {
      */
     public double angle() {
         double angle = 2.0 * Math.acos(w);
-        return angle <= Math.PI ? angle : 2.0 * Math.PI - angle;
+        return angle <= Math.PI ? angle : Math.PI + Math.PI - angle;
     }
 
     /**
@@ -980,9 +980,9 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Vector3d transform(Vector3d vec, Vector3d dest) {
-        double num = x * 2.0;
-        double num2 = y * 2.0;
-        double num3 = z * 2.0;
+        double num = x + x;
+        double num2 = y + y;
+        double num3 = z + z;
         double num4 = x * num;
         double num5 = y * num2;
         double num6 = z * num3;
@@ -1025,9 +1025,9 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Vector4d transform(Vector4d vec, Vector4d dest) {
-        double num = x * 2.0;
-        double num2 = y * 2.0;
-        double num3 = z * 2.0;
+        double num = x + x;
+        double num2 = y + y;
+        double num3 = z + z;
         double num4 = x * num;
         double num5 = y * num2;
         double num6 = z * num3;
@@ -1530,7 +1530,7 @@ public class Quaterniond implements Externalizable {
                 q2y *= s;
                 q2z *= s;
                 q2w *= s;
-                alphaN = alphaN * 2.0;
+                alphaN = alphaN + alphaN;
             } else {
                 q1x = scale0 * q1x + scale1 * q2x;
                 q1y = scale0 * q1y + scale1 * q2y;
@@ -1541,7 +1541,7 @@ public class Quaterniond implements Externalizable {
                 q1y *= s;
                 q1z *= s;
                 q1w *= s;
-                alphaN = alphaN * 2.0 - 1.0;
+                alphaN = alphaN + alphaN - 1.0;
             }
             dot = q1x * q2x + q1y * q2y + q1z * q2z + q1w * q2w;
             absDot = Math.abs(dot);
@@ -2951,8 +2951,8 @@ public class Quaterniond implements Externalizable {
         double ny = -y * invNorm;
         double nz = -z * invNorm;
         double nw = w * invNorm;
-        double num2 = ny * 2.0;
-        double num3 = nz * 2.0;
+        double num2 = ny + ny;
+        double num3 = nz + nz;
         dir.set(1.0 - (ny * num2 + nz * num3), nx * num2 + nw * num3, nx * num3 - nw * num2);
         return dir;
     }
@@ -2977,9 +2977,9 @@ public class Quaterniond implements Externalizable {
         double ny = -y * invNorm;
         double nz = -z * invNorm;
         double nw = w * invNorm;
-        double num = nx * 2.0;
-        double num2 = ny * 2.0;
-        double num3 = nz * 2.0;
+        double num = nx + nx;
+        double num2 = ny + ny;
+        double num3 = nz + nz;
         dir.set(nx * num2 - nw * num3, 1.0 - (nx * num + nz * num3), ny * num3 + nw * num);
         return dir;
     }
@@ -3004,9 +3004,9 @@ public class Quaterniond implements Externalizable {
         double ny = -y * invNorm;
         double nz = -z * invNorm;
         double nw = w * invNorm;
-        double num = nx * 2.0;
-        double num2 = ny * 2.0;
-        double num3 = nz * 2.0;
+        double num = nx + nx;
+        double num2 = ny + ny;
+        double num3 = nz + nz;
         dir.set(nx * num3 + nw * num2, ny * num3 - nw * num, 1.0 - (nx * num + ny * num2));
         return dir;
     }

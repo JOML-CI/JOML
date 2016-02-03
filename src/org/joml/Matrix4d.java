@@ -5099,7 +5099,7 @@ public class Matrix4d implements Externalizable {
         double im33 = ( m20 * d - m21 * b + m22 * a) * det;
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
         double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        double ndcZ = 2.0*winZ-1.0;
+        double ndcZ = winZ+winZ-1.0;
         dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
         dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
         dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
@@ -5168,7 +5168,7 @@ public class Matrix4d implements Externalizable {
         double im33 = ( m20 * d - m21 * b + m22 * a) * det;
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
         double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        double ndcZ = 2.0*winZ-1.0;
+        double ndcZ = winZ+winZ-1.0;
         dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
         dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
         dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
@@ -5288,7 +5288,7 @@ public class Matrix4d implements Externalizable {
     public Vector4d unprojectInv(double winX, double winY, double winZ, int[] viewport, Vector4d dest) {
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
         double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        double ndcZ = 2.0*winZ-1.0;
+        double ndcZ = winZ+winZ-1.0;
         dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
         dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
         dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
@@ -5352,7 +5352,7 @@ public class Matrix4d implements Externalizable {
     public Vector3d unprojectInv(double winX, double winY, double winZ, int[] viewport, Vector3d dest) {
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
         double ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
-        double ndcZ = 2.0*winZ-1.0;
+        double ndcZ = winZ+winZ-1.0;
         dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
         dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
         dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
@@ -5828,9 +5828,9 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d reflect(Quaterniond orientation, Vector3d point, Matrix4d dest) {
-        double num1 = orientation.x * 2.0;
-        double num2 = orientation.y * 2.0;
-        double num3 = orientation.z * 2.0;
+        double num1 = orientation.x + orientation.x;
+        double num2 = orientation.y + orientation.y;
+        double num3 = orientation.z + orientation.z;
         double normalX = orientation.x * num3 + orientation.w * num2;
         double normalY = orientation.y * num3 - orientation.w * num1;
         double normalZ = 1.0 - (orientation.x * num1 + orientation.y * num2);
@@ -5953,9 +5953,9 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d reflection(Quaterniond orientation, Vector3d point) {
-        double num1 = orientation.x * 2.0;
-        double num2 = orientation.y * 2.0;
-        double num3 = orientation.z * 2.0;
+        double num1 = orientation.x + orientation.x;
+        double num2 = orientation.y + orientation.y;
+        double num3 = orientation.z + orientation.z;
         double normalX = orientation.x * num3 + orientation.w * num2;
         double normalY = orientation.y * num3 - orientation.w * num1;
         double normalZ = 1.0 - (orientation.x * num1 + orientation.y * num2);

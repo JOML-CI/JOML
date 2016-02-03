@@ -213,7 +213,7 @@ public class Quaternionf implements Externalizable {
      */
     public float angle() {
         float angle = (float) (2.0 * Math.acos(w));
-        return (float) (angle <= Math.PI ? angle : 2.0 * Math.PI - angle);
+        return (float) (angle <= Math.PI ? angle : Math.PI + Math.PI - angle);
     }
 
     /**
@@ -1123,21 +1123,21 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Vector3f transform(Vector3f vec, Vector3f dest) {
-        double num = x * 2.0;
-        double num2 = y * 2.0;
-        double num3 = z * 2.0;
-        double num4 = x * num;
-        double num5 = y * num2;
-        double num6 = z * num3;
-        double num7 = x * num2;
-        double num8 = x * num3;
-        double num9 = y * num3;
-        double num10 = w * num;
-        double num11 = w * num2;
-        double num12 = w * num3;
-        dest.set((float) ((1.0 - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z),
-                 (float) ((num7 + num12) * vec.x + (1.0 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z),
-                 (float) ((num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0 - (num4 + num5)) * vec.z));
+        float num = x + x;
+        float num2 = y + y;
+        float num3 = z + z;
+        float num4 = x * num;
+        float num5 = y * num2;
+        float num6 = z * num3;
+        float num7 = x * num2;
+        float num8 = x * num3;
+        float num9 = y * num3;
+        float num10 = w * num;
+        float num11 = w * num2;
+        float num12 = w * num3;
+        dest.set((1.0f - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z,
+                 (num7 + num12) * vec.x + (1.0f - (num4 + num6)) * vec.y + (num9 - num10) * vec.z,
+                 (num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0f - (num4 + num5)) * vec.z);
         return dest;
     }
 
@@ -1154,21 +1154,21 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Vector4f transform(Vector4f vec, Vector4f dest) {
-        double num = x * 2.0;
-        double num2 = y * 2.0;
-        double num3 = z * 2.0;
-        double num4 = x * num;
-        double num5 = y * num2;
-        double num6 = z * num3;
-        double num7 = x * num2;
-        double num8 = x * num3;
-        double num9 = y * num3;
-        double num10 = w * num;
-        double num11 = w * num2;
-        double num12 = w * num3;
-        dest.set((float) ((1.0 - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z),
-                 (float) ((num7 + num12) * vec.x + (1.0 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z),
-                 (float) ((num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0 - (num4 + num5)) * vec.z),
+        float num = x + x;
+        float num2 = y + y;
+        float num3 = z + z;
+        float num4 = x * num;
+        float num5 = y * num2;
+        float num6 = z * num3;
+        float num7 = x * num2;
+        float num8 = x * num3;
+        float num9 = y * num3;
+        float num10 = w * num;
+        float num11 = w * num2;
+        float num12 = w * num3;
+        dest.set((1.0f - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z,
+                 (num7 + num12) * vec.x + (1.0f - (num4 + num6)) * vec.y + (num9 - num10) * vec.z,
+                 (num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0f - (num4 + num5)) * vec.z,
                  dest.w);
         return dest;
     }
@@ -1877,7 +1877,7 @@ public class Quaternionf implements Externalizable {
                 q2y *= s;
                 q2z *= s;
                 q2w *= s;
-                alphaN = alphaN * 2.0f;
+                alphaN = alphaN + alphaN;
             } else {
                 q1x = scale0 * q1x + scale1 * q2x;
                 q1y = scale0 * q1y + scale1 * q2y;
@@ -1888,7 +1888,7 @@ public class Quaternionf implements Externalizable {
                 q1y *= s;
                 q1z *= s;
                 q1w *= s;
-                alphaN = alphaN * 2.0f - 1.0f;
+                alphaN = alphaN + alphaN - 1.0f;
             }
             dot = q1x * q2x + q1y * q2y + q1z * q2z + q1w * q2w;
             absDot = Math.abs(dot);
@@ -2915,8 +2915,8 @@ public class Quaternionf implements Externalizable {
         float ny = -y * invNorm;
         float nz = -z * invNorm;
         float nw = w * invNorm;
-        float num2 = ny * 2.0f;
-        float num3 = nz * 2.0f;
+        float num2 = ny + ny;
+        float num3 = nz + nz;
         dir.set(1.0f - (ny * num2 + nz * num3), nx * num2 + nw * num3, nx * num3 - nw * num2);
         return dir;
     }
@@ -2941,9 +2941,9 @@ public class Quaternionf implements Externalizable {
         float ny = -y * invNorm;
         float nz = -z * invNorm;
         float nw = w * invNorm;
-        float num = nx * 2.0f;
-        float num2 = ny * 2.0f;
-        float num3 = nz * 2.0f;
+        float num = nx + nx;
+        float num2 = ny + ny;
+        float num3 = nz + nz;
         dir.set(nx * num2 - nw * num3, 1.0f - (nx * num + nz * num3), ny * num3 + nw * num);
         return dir;
     }
@@ -2968,9 +2968,9 @@ public class Quaternionf implements Externalizable {
         float ny = -y * invNorm;
         float nz = -z * invNorm;
         float nw = w * invNorm;
-        float num = nx * 2.0f;
-        float num2 = ny * 2.0f;
-        float num3 = nz * 2.0f;
+        float num = nx + nx;
+        float num2 = ny + ny;
+        float num3 = nz + nz;
         dir.set(nx * num3 + nw * num2, ny * num3 - nw * num, 1.0f - (nx * num + ny * num2));
         return dir;
     }
