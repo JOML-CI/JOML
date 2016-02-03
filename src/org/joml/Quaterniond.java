@@ -250,19 +250,18 @@ public class Quaterniond implements Externalizable {
      * @return the passed in destination
      */
     public Matrix3d get(Matrix3d dest) {
-        double q00 = 2.0 * x * x;
-        double q11 = 2.0 * y * y;
-        double q22 = 2.0 * z * z;
-
-        double q01 = 2.0 * x * y;
-        double q02 = 2.0 * x * z;
-        double q03 = 2.0 * x * w;
-
-        double q12 = 2.0 * y * z;
-        double q13 = 2.0 * y * w;
-
-        double q23 = 2.0 * z * w;
-
+        double dx = x + x;
+        double dy = y + y;
+        double dz = z + z;
+        double q00 = dx * x;
+        double q11 = dy * y;
+        double q22 = dz * z;
+        double q01 = dx * y;
+        double q02 = dx * z;
+        double q03 = dx * w;
+        double q12 = dy * z;
+        double q13 = dy * w;
+        double q23 = dz * w;
         dest.m00 = 1.0 - q11 - q22;
         dest.m01 = q01 + q23;
         dest.m02 = q02 - q13;
@@ -283,19 +282,18 @@ public class Quaterniond implements Externalizable {
      * @return the passed in destination
      */
     public Matrix3f get(Matrix3f dest) {
-        double q00 = 2.0 * x * x;
-        double q11 = 2.0 * y * y;
-        double q22 = 2.0 * z * z;
-
-        double q01 = 2.0 * x * y;
-        double q02 = 2.0 * x * z;
-        double q03 = 2.0 * x * w;
-
-        double q12 = 2.0 * y * z;
-        double q13 = 2.0 * y * w;
-
-        double q23 = 2.0 * z * w;
-
+        double dx = x + x;
+        double dy = y + y;
+        double dz = z + z;
+        double q00 = dx * x;
+        double q11 = dy * y;
+        double q22 = dz * z;
+        double q01 = dx * y;
+        double q02 = dx * z;
+        double q03 = dx * w;
+        double q12 = dy * z;
+        double q13 = dy * w;
+        double q23 = dz * w;
         dest.m00 = (float) (1.0 - q11 - q22);
         dest.m01 = (float) (q01 + q23);
         dest.m02 = (float) (q02 - q13);
@@ -316,19 +314,18 @@ public class Quaterniond implements Externalizable {
      * @return the passed in destination
      */
     public Matrix4d get(Matrix4d dest) {
-        double q00 = 2.0 * x * x;
-        double q11 = 2.0 * y * y;
-        double q22 = 2.0 * z * z;
-
-        double q01 = 2.0 * x * y;
-        double q02 = 2.0 * x * z;
-        double q03 = 2.0 * x * w;
-
-        double q12 = 2.0 * y * z;
-        double q13 = 2.0 * y * w;
-
-        double q23 = 2.0 * z * w;
-
+        double dx = x + x;
+        double dy = y + y;
+        double dz = z + z;
+        double q00 = dx * x;
+        double q11 = dy * y;
+        double q22 = dz * z;
+        double q01 = dx * y;
+        double q02 = dx * z;
+        double q03 = dx * w;
+        double q12 = dy * z;
+        double q13 = dy * w;
+        double q23 = dz * w;
         dest.m00 = 1.0 - q11 - q22;
         dest.m01 = q01 + q23;
         dest.m02 = q02 - q13;
@@ -356,19 +353,18 @@ public class Quaterniond implements Externalizable {
      * @return the passed in destination
      */
     public Matrix4f get(Matrix4f dest) {
-        double q00 = 2.0 * x * x;
-        double q11 = 2.0 * y * y;
-        double q22 = 2.0 * z * z;
-
-        double q01 = 2.0 * x * y;
-        double q02 = 2.0 * x * z;
-        double q03 = 2.0 * x * w;
-
-        double q12 = 2.0 * y * z;
-        double q13 = 2.0 * y * w;
-
-        double q23 = 2.0 * z * w;
-
+        double dx = x + x;
+        double dy = y + y;
+        double dz = z + z;
+        double q00 = dx * x;
+        double q11 = dy * y;
+        double q22 = dz * z;
+        double q01 = dx * y;
+        double q02 = dx * z;
+        double q03 = dx * w;
+        double q12 = dy * z;
+        double q13 = dy * w;
+        double q23 = dz * w;
         dest.m00 = (float) (1.0 - q11 - q22);
         dest.m01 = (float) (q01 + q23);
         dest.m02 = (float) (q02 - q13);
