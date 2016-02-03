@@ -927,21 +927,21 @@ public class Intersectionf {
         float nom = (centerX - p0X) * dX + (centerY - p0Y) * dY + (centerZ - p0Z) * dZ;
         float den = dX * dX + dY * dY + dZ * dZ;
         float u = nom / den;
-        if (u >= 0.0f && u <= 1.0f) {
+        if (u < 0.0f) {
+            dX = p0X - centerX;
+            dY = p0Y - centerY;
+            dZ = p0Z - centerZ;
+        } else if (u > 1.0f) {
+            dX = p1X - centerX;
+            dY = p1Y - centerY;
+            dZ = p1Z - centerZ;
+        } else { // has to be >= 0 and <= 1
             float pX = p0X + u * dX;
             float pY = p0Y + u * dY;
             float pZ = p0Z + u * dZ;
             dX = pX - centerX;
             dY = pY - centerY;
             dZ = pZ - centerZ;
-        } else if (u < 0.0f) {
-            dX = p0X - centerX;
-            dY = p0Y - centerY;
-            dZ = p0Z - centerZ;
-        } else if (u > 0.0f) {
-            dX = p1X - centerX;
-            dY = p1Y - centerY;
-            dZ = p1Z - centerZ;
         }
         float dist = dX * dX + dY * dY + dZ * dZ;
         return dist <= radiusSquared;

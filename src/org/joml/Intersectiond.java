@@ -927,21 +927,21 @@ public class Intersectiond {
         double nom = (centerX - p0X) * dX + (centerY - p0Y) * dY + (centerZ - p0Z) * dZ;
         double den = dX * dX + dY * dY + dZ * dZ;
         double u = nom / den;
-        if (u >= 0.0 && u <= 1.0) {
+        if (u < 0.0) {
+            dX = p0X - centerX;
+            dY = p0Y - centerY;
+            dZ = p0Z - centerZ;
+        } else if (u > 1.0) {
+            dX = p1X - centerX;
+            dY = p1Y - centerY;
+            dZ = p1Z - centerZ;
+        } else { // has to be >= 0 and <= 1
             double pX = p0X + u * dX;
             double pY = p0Y + u * dY;
             double pZ = p0Z + u * dZ;
             dX = pX - centerX;
             dY = pY - centerY;
             dZ = pZ - centerZ;
-        } else if (u < 0.0) {
-            dX = p0X - centerX;
-            dY = p0Y - centerY;
-            dZ = p0Z - centerZ;
-        } else if (u > 0.0) {
-            dX = p1X - centerX;
-            dY = p1Y - centerY;
-            dZ = p1Z - centerZ;
         }
         double dist = dX * dX + dY * dY + dZ * dZ;
         return dist <= radiusSquared;
