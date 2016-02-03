@@ -956,7 +956,7 @@ public class Intersectiond {
      * @param p0
      *              the line segment's first end point
      * @param p1
-     *              the line segment's first end point
+     *              the line segment's second end point
      * @param center
      *              the sphere's center
      * @param radiusSquared
