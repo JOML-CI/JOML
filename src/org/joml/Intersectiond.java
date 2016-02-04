@@ -1449,9 +1449,7 @@ public class Intersectiond {
         double a = -(pvecX * w0X + pvecY * w0Y + pvecZ * w0Z);
         double b = pvecX * dirX + pvecY * dirY + pvecZ * dirZ;
         if (Math.abs(b) < epsilon) {
-            if (a == 0.0)
-                return true;
-            return false;
+            return a == 0.0;
         }
         double r = a / b;
         if (r < 0.0)
@@ -1472,7 +1470,7 @@ public class Intersectiond {
         if (s < 0.0 || s > 1.0)
             return false;
         double t = (uv * wu - uu * wv) / D;
-        if (t < 0.0 || (s + t) > 1.0)
+        if (t < 0.0 || s + t > 1.0)
             return false;
         return true;
     }

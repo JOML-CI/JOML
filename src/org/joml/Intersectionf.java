@@ -1449,9 +1449,7 @@ public class Intersectionf {
         float a = -(pvecX * w0X + pvecY * w0Y + pvecZ * w0Z);
         float b = pvecX * dirX + pvecY * dirY + pvecZ * dirZ;
         if (Math.abs(b) < epsilon) {
-            if (a == 0.0f)
-                return true;
-            return false;
+            return a == 0.0f;
         }
         float r = a / b;
         if (r < 0.0f)
@@ -1472,7 +1470,7 @@ public class Intersectionf {
         if (s < 0.0f || s > 1.0f)
             return false;
         float t = (uv * wu - uu * wv) / D;
-        if (t < 0.0f || (s + t) > 1.0f)
+        if (t < 0.0f || s + t > 1.0f)
             return false;
         return true;
     }

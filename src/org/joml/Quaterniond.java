@@ -1334,7 +1334,7 @@ public class Quaterniond implements Externalizable {
      * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation.
      * <p>
      * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
-     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this)</tt>
+     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this, factor)</tt>
      * <p>
      * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
      * 
@@ -1352,7 +1352,7 @@ public class Quaterniond implements Externalizable {
      * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation, and store the result in <code>dest</code>.
      * <p>
      * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
-     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this, dest)</tt>
+     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this, factor, dest)</tt>
      * <p>
      * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
      * 
@@ -1387,7 +1387,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Integrate the rotation given by the angular velocity <code>(vx, vy, vz)</code> around the x, y and z axis, respectively,
-     * with respect to the given the elapsed time delta <code>dt</code> and add the differentiate rotation to the rotation represented by this quaternion.
+     * with respect to the given elapsed time delta <code>dt</code> and add the differentiate rotation to the rotation represented by this quaternion.
      * <p>
      * This method pre-multiplies the rotation given by <code>dt</code> and <code>(vx, vy, vz)</code> by <code>this</code>, so
      * the angular velocities are always relative to the local coordinate system of the rotation represented by <code>this</code> quaternion.
@@ -1414,7 +1414,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Integrate the rotation given by the angular velocity <code>(vx, vy, vz)</code> around the x, y and z axis, respectively,
-     * with respect to the given the elapsed time delta <code>dt</code> and add the differentiate rotation to the rotation represented by this quaternion
+     * with respect to the given elapsed time delta <code>dt</code> and add the differentiate rotation to the rotation represented by this quaternion
      * and store the result into <code>dest</code>.
      * <p>
      * This method pre-multiplies the rotation given by <code>dt</code> and <code>(vx, vy, vz)</code> by <code>this</code>, so
