@@ -33,10 +33,10 @@ public class FrustumIntersectionTest extends TestCase {
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(-20, -2, 0, 20, 2, 0));
         Assert.assertEquals(FrustumIntersection.INSIDE, c.intersectAab(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f));
         Assert.assertEquals(Matrix4f.PLANE_PX, c.intersectAab(1.1f, 0, 0, 2, 2, 2));
-        new Matrix4f().ortho(-1, 1, -1, 1, -1, 1).getFrustum(c);
+        c.set(new Matrix4f().ortho(-1, 1, -1, 1, -1, 1));
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(0, 0, 0, 2, 2, 2));
         Assert.assertEquals(Matrix4f.PLANE_PX, c.intersectAab(1.1f, 0, 0, 2, 2, 2));
-        new Matrix4f().getFrustum(c);
+        c.set(new Matrix4f());
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(0.5f, 0.5f, 0.5f, 2, 2, 2));
         Assert.assertEquals(Matrix4f.PLANE_PX, c.intersectAab(1.5f, 0.5f, 0.5f, 2, 2, 2));
         Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAab(-2.5f, 0.5f, 0.5f, -1.5f, 2, 2));
