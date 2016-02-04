@@ -1388,8 +1388,7 @@ public class Intersectiond {
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
-     * Fast, Minimum Storage Ray/Triangle Intersection</a> method slightly augmented to work on line segments.
+     * Reference: <a href="http://geomalgorithms.com/a06-_intersect-2.html#intersect3D_RayTriangle()">http://geomalgorithms.com/</a>
      * 
      * @see #testLineSegmentTriangle(Vector3d, Vector3d, Vector3d, Vector3d, Vector3d, double)
      * 
@@ -1430,42 +1429,52 @@ public class Intersectiond {
     public static boolean testLineSegmentTriangle(double p0X, double p0Y, double p0Z, double p1X, double p1Y, double p1Z,
             double v0X, double v0Y, double v0Z, double v1X, double v1Y, double v1Z, double v2X, double v2Y, double v2Z,
             double epsilon) {
-        double minX = p0X < p1X ? p0X : p1X;
-        double minY = p0Y < p1Y ? p0Y : p1Y;
-        double minZ = p0Z < p1Z ? p0Z : p1Z;
-        double maxX = p0X > p1X ? p0X : p1X;
-        double maxY = p0Y > p1Y ? p0Y : p1Y;
-        double maxZ = p0Z > p1Z ? p0Z : p1Z;
-        double edge1X = v1X - v0X;
-        double edge1Y = v1Y - v0Y;
-        double edge1Z = v1Z - v0Z;
-        double edge2X = v2X - v0X;
-        double edge2Y = v2Y - v0Y;
-        double edge2Z = v2Z - v0Z;
-        double dirX = maxX - minX;
-        double dirY = maxY - minY;
-        double dirZ = maxZ - minZ;
-        double pvecX = dirY * edge2Z - dirZ * edge2Y;
-        double pvecY = dirZ * edge2X - dirX * edge2Z;
-        double pvecZ = dirX * edge2Y - dirY * edge2X;
-        double det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
-        if (det <= epsilon)
+        double uX = v1X - v0X;
+        double uY = v1Y - v0Y;
+        double uZ = v1Z - v0Z;
+        double vX = v2X - v0X;
+        double vY = v2Y - v0Y;
+        double vZ = v2Z - v0Z;
+        double pvecX = uY * vZ - uZ * vY;
+        double pvecY = uZ * vX - uX * vZ;
+        double pvecZ = uX * vY - uY * vX;
+        if (pvecX == 0.0 && pvecY == 0.0 && pvecZ == 0.0)
             return false;
-        double tvecX = minX - v0X;
-        double tvecY = minY - v0Y;
-        double tvecZ = minZ - v0Z;
-        double u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
-        if (u < 0.0 || u > det)
+        double dirX = p1X - p0X;
+        double dirY = p1Y - p0Y;
+        double dirZ = p1Z - p0Z;
+        double w0X = p0X - v0X;
+        double w0Y = p0Y - v0Y;
+        double w0Z = p0Z - v0Z;
+        double a = -(pvecX * w0X + pvecY * w0Y + pvecZ * w0Z);
+        double b = pvecX * dirX + pvecY * dirY + pvecZ * dirZ;
+        if (Math.abs(b) < epsilon) {
+            if (a == 0.0)
+                return true;
             return false;
-        double qvecX = tvecY * edge1Z - tvecZ * edge1Y;
-        double qvecY = tvecZ * edge1X - tvecX * edge1Z;
-        double qvecZ = tvecX * edge1Y - tvecY * edge1X;
-        double v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
-        if (v < 0.0 || u + v > det)
+        }
+        double r = a / b;
+        if (r < 0.0)
             return false;
-        double invDet = 1.0 / det;
-        double t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
-        return t >= 0.0 && t <= 1.0;
+        double iX = p0X + r * dirX;
+        double iY = p0Y + r * dirY;
+        double iZ = p0Z + r * dirZ;
+        double uu = uX * uX + uY * uY + uZ * uZ;
+        double uv = uX * vX + uY * vY + uZ * vZ;
+        double vv = vX * vX + vY * vY + vZ * vZ;
+        double wX = iX - v0X;
+        double wY = iY - v0Y;
+        double wZ = iZ - v0Z;
+        double wu = wX * uX + wY * uY + wZ * uZ;
+        double wv = wX * vX + wY * vY + wZ * vZ;
+        double D = uv * uv - uu * vv;
+        double s = (uv * wv - vv * wu) / D;
+        if (s < 0.0 || s > 1.0)
+            return false;
+        double t = (uv * wu - uu * wv) / D;
+        if (t < 0.0 || (s + t) > 1.0)
+            return false;
+        return true;
     }
 
     /**
@@ -1473,8 +1482,7 @@ public class Intersectiond {
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
-     * Fast, Minimum Storage Ray/Triangle Intersection</a> method slightly augmented to work on line segments.
+     * Reference: <a href="http://geomalgorithms.com/a06-_intersect-2.html#intersect3D_RayTriangle()">http://geomalgorithms.com/</a>
      * 
      * @see #testLineSegmentTriangle(double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double)
      * 

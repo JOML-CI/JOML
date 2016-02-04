@@ -1388,8 +1388,7 @@ public class Intersectionf {
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
-     * Fast, Minimum Storage Ray/Triangle Intersection</a> method slightly augmented to work on line segments.
+     * Reference: <a href="http://geomalgorithms.com/a06-_intersect-2.html#intersect3D_RayTriangle()">http://geomalgorithms.com/</a>
      * 
      * @see #testLineSegmentTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f, float)
      * 
@@ -1430,42 +1429,52 @@ public class Intersectionf {
     public static boolean testLineSegmentTriangle(float p0X, float p0Y, float p0Z, float p1X, float p1Y, float p1Z,
             float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
             float epsilon) {
-        float minX = p0X < p1X ? p0X : p1X;
-        float minY = p0Y < p1Y ? p0Y : p1Y;
-        float minZ = p0Z < p1Z ? p0Z : p1Z;
-        float maxX = p0X > p1X ? p0X : p1X;
-        float maxY = p0Y > p1Y ? p0Y : p1Y;
-        float maxZ = p0Z > p1Z ? p0Z : p1Z;
-        float edge1X = v1X - v0X;
-        float edge1Y = v1Y - v0Y;
-        float edge1Z = v1Z - v0Z;
-        float edge2X = v2X - v0X;
-        float edge2Y = v2Y - v0Y;
-        float edge2Z = v2Z - v0Z;
-        float dirX = maxX - minX;
-        float dirY = maxY - minY;
-        float dirZ = maxZ - minZ;
-        float pvecX = dirY * edge2Z - dirZ * edge2Y;
-        float pvecY = dirZ * edge2X - dirX * edge2Z;
-        float pvecZ = dirX * edge2Y - dirY * edge2X;
-        float det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
-        if (det <= epsilon)
+        float uX = v1X - v0X;
+        float uY = v1Y - v0Y;
+        float uZ = v1Z - v0Z;
+        float vX = v2X - v0X;
+        float vY = v2Y - v0Y;
+        float vZ = v2Z - v0Z;
+        float pvecX = uY * vZ - uZ * vY;
+        float pvecY = uZ * vX - uX * vZ;
+        float pvecZ = uX * vY - uY * vX;
+        if (pvecX == 0.0f && pvecY == 0.0f && pvecZ == 0.0f)
             return false;
-        float tvecX = minX - v0X;
-        float tvecY = minY - v0Y;
-        float tvecZ = minZ - v0Z;
-        float u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
-        if (u < 0.0f || u > det)
+        float dirX = p1X - p0X;
+        float dirY = p1Y - p0Y;
+        float dirZ = p1Z - p0Z;
+        float w0X = p0X - v0X;
+        float w0Y = p0Y - v0Y;
+        float w0Z = p0Z - v0Z;
+        float a = -(pvecX * w0X + pvecY * w0Y + pvecZ * w0Z);
+        float b = pvecX * dirX + pvecY * dirY + pvecZ * dirZ;
+        if (Math.abs(b) < epsilon) {
+            if (a == 0.0f)
+                return true;
             return false;
-        float qvecX = tvecY * edge1Z - tvecZ * edge1Y;
-        float qvecY = tvecZ * edge1X - tvecX * edge1Z;
-        float qvecZ = tvecX * edge1Y - tvecY * edge1X;
-        float v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
-        if (v < 0.0f || u + v > det)
+        }
+        float r = a / b;
+        if (r < 0.0f)
             return false;
-        float invDet = 1.0f / det;
-        float t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
-        return t >= 0.0f && t <= 1.0f;
+        float iX = p0X + r * dirX;
+        float iY = p0Y + r * dirY;
+        float iZ = p0Z + r * dirZ;
+        float uu = uX * uX + uY * uY + uZ * uZ;
+        float uv = uX * vX + uY * vY + uZ * vZ;
+        float vv = vX * vX + vY * vY + vZ * vZ;
+        float wX = iX - v0X;
+        float wY = iY - v0Y;
+        float wZ = iZ - v0Z;
+        float wu = wX * uX + wY * uY + wZ * uZ;
+        float wv = wX * vX + wY * vY + wZ * vZ;
+        float D = uv * uv - uu * vv;
+        float s = (uv * wv - vv * wu) / D;
+        if (s < 0.0f || s > 1.0f)
+            return false;
+        float t = (uv * wu - uu * wv) / D;
+        if (t < 0.0f || (s + t) > 1.0f)
+            return false;
+        return true;
     }
 
     /**
@@ -1473,8 +1482,7 @@ public class Intersectionf {
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
-     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
-     * Fast, Minimum Storage Ray/Triangle Intersection</a> method slightly augmented to work on line segments.
+     * Reference: <a href="http://geomalgorithms.com/a06-_intersect-2.html#intersect3D_RayTriangle()">http://geomalgorithms.com/</a>
      * 
      * @see #testLineSegmentTriangle(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float)
      * 
