@@ -2408,9 +2408,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotation(Quaternionf quat) {
-        float dqx = 2.0f * quat.x;
-        float dqy = 2.0f * quat.y;
-        float dqz = 2.0f * quat.z;
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
         float q00 = dqx * quat.x;
         float q11 = dqy * quat.y;
         float q22 = dqz * quat.z;
@@ -2480,7 +2480,9 @@ public class Matrix4f implements Externalizable {
     public Matrix4f translationRotateScale(float tx, float ty, float tz, 
                                            float qx, float qy, float qz, float qw, 
                                            float sx, float sy, float sz) {
-        float dqx = 2.0f * qx, dqy = 2.0f * qy, dqz = 2.0f * qz;
+        float dqx = qx + qx;
+        float dqy = qy + qy;
+        float dqz = qz + qz;
         float q00 = dqx * qx;
         float q11 = dqy * qy;
         float q22 = dqz * qz;
@@ -2558,7 +2560,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f translationRotate(float tx, float ty, float tz, Quaternionf quat) {
-        float dqx = 2.0f * quat.x, dqy = 2.0f * quat.y, dqz = 2.0f * quat.z;
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
         float q00 = dqx * quat.x;
         float q11 = dqy * quat.y;
         float q22 = dqz * quat.z;
@@ -2710,12 +2714,14 @@ public class Matrix4f implements Externalizable {
      * will represent a position/location in 3D-space rather than a direction. This method is therefore
      * not suited for perspective projection transformations as it will not save the
      * <tt>w</tt> component of the transformed vector.
-     * For perspective projection use {@link #transform(Vector4f)}.
+     * For perspective projection use {@link #transform(Vector4f)} or {@link #transformProject(Vector3f)}
+     * when perspective divide should be applied, too.
      * <p>
      * In order to store the result in another vector, use {@link #transformPosition(Vector3f, Vector3f)}.
      * 
      * @see #transformPosition(Vector3f, Vector3f)
      * @see #transform(Vector4f)
+     * @see #transformProject(Vector3f)
      * 
      * @param v
      *          the vector to transform and to hold the final result
@@ -2736,12 +2742,14 @@ public class Matrix4f implements Externalizable {
      * will represent a position/location in 3D-space rather than a direction. This method is therefore
      * not suited for perspective projection transformations as it will not save the
      * <tt>w</tt> component of the transformed vector.
-     * For perspective projection use {@link #transform(Vector4f, Vector4f)}.
+     * For perspective projection use {@link #transform(Vector4f, Vector4f)} or
+     * {@link #transformProject(Vector3f, Vector3f)} when perspective divide should be applied, too.
      * <p>
      * In order to store the result in the same vector, use {@link #transformPosition(Vector3f)}.
      * 
      * @see #transformPosition(Vector3f)
      * @see #transform(Vector4f, Vector4f)
+     * @see #transformProject(Vector3f, Vector3f)
      * 
      * @param v
      *          the vector to transform
@@ -5069,7 +5077,7 @@ public class Matrix4f implements Externalizable {
         float rm00 = zNear / w;
         float rm11 = zNear / h;
         float rm22 = -(zFar + zNear) / (zFar - zNear);
-        float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
+        float rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
 
         // perform optimized matrix multiplication
         float nm20 = m20 * rm22 - m30;
@@ -5158,7 +5166,7 @@ public class Matrix4f implements Externalizable {
         m23 = -1.0f;
         m30 = 0.0f;
         m31 = 0.0f;
-        m32 = -2.0f * zFar * zNear / (zFar - zNear);
+        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
         m33 = 0.0f;
         return this;
     }
@@ -5197,12 +5205,12 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
         // calculate right matrix elements
-        float rm00 = 2.0f * zNear / (right - left);
-        float rm11 = 2.0f * zNear / (top - bottom);
+        float rm00 = (zNear + zNear) / (right - left);
+        float rm11 = (zNear + zNear) / (top - bottom);
         float rm20 = (right + left) / (right - left);
         float rm21 = (top + bottom) / (top - bottom);
         float rm22 = -(zFar + zNear) / (zFar - zNear);
-        float rm32 = -2.0f * zFar * zNear / (zFar - zNear);
+        float rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
 
         // perform optimized matrix multiplication
         float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
@@ -5291,12 +5299,12 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
-        m00 = 2.0f * zNear / (right - left);
+        m00 = (zNear + zNear) / (right - left);
         m01 = 0.0f;
         m02 = 0.0f;
         m03 = 0.0f;
         m10 = 0.0f;
-        m11 = 2.0f * zNear / (top - bottom);
+        m11 = (zNear + zNear) / (top - bottom);
         m12 = 0.0f;
         m13 = 0.0f;
         m20 = (right + left) / (right - left);
@@ -5305,7 +5313,7 @@ public class Matrix4f implements Externalizable {
         m23 = -1.0f;
         m30 = 0.0f;
         m31 = 0.0f;
-        m32 = -2.0f * zFar * zNear / (zFar - zNear);
+        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
         m33 = 0.0f;
         return this;
     }
@@ -5333,9 +5341,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotate(Quaternionf quat, Matrix4f dest) {
-        float dqx = 2.0f * quat.x;
-        float dqy = 2.0f * quat.y;
-        float dqz = 2.0f * quat.z;
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
         float q00 = dqx * quat.x;
         float q11 = dqy * quat.y;
         float q22 = dqz * quat.z;
@@ -5521,7 +5529,7 @@ public class Matrix4f implements Externalizable {
         float im33 = ( m20 * d - m21 * b + m22 * a) * det;
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
-        float ndcZ = 2.0f*winZ-1.0f;
+        float ndcZ = winZ+winZ-1.0f;
         dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
         dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
         dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
@@ -5590,7 +5598,7 @@ public class Matrix4f implements Externalizable {
         float im33 = ( m20 * d - m21 * b + m22 * a) * det;
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
-        float ndcZ = 2.0f*winZ-1.0f;
+        float ndcZ = winZ+winZ-1.0f;
         dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
         dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
         dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
@@ -5707,7 +5715,7 @@ public class Matrix4f implements Externalizable {
     public Vector4f unprojectInv(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
-        float ndcZ = 2.0f*winZ-1.0f;
+        float ndcZ = winZ+winZ-1.0f;
         dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
         dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
         dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
@@ -5765,7 +5773,7 @@ public class Matrix4f implements Externalizable {
     public Vector3f unprojectInv(float winX, float winY, float winZ, int[] viewport, Vector3f dest) {
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
-        float ndcZ = 2.0f*winZ-1.0f;
+        float ndcZ = winZ+winZ-1.0f;
         dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
         dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
         dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
@@ -6046,7 +6054,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f reflect(float a, float b, float c, float d, Matrix4f dest) {
-        float da = 2.0f * a, db = 2.0f * b, dc = 2.0f * c, dd = 2.0f * d;
+        float da = a + a, db = b + b, dc = c + c, dd = d + d;
         float rm00 = 1.0f - da * a;
         float rm01 = -da * b;
         float rm02 = -da * c;
@@ -6241,9 +6249,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f reflect(Quaternionf orientation, Vector3f point, Matrix4f dest) {
-        double num1 = orientation.x * 2.0;
-        double num2 = orientation.y * 2.0;
-        double num3 = orientation.z * 2.0;
+        double num1 = orientation.x + orientation.x;
+        double num2 = orientation.y + orientation.y;
+        double num3 = orientation.z + orientation.z;
         float normalX = (float) (orientation.x * num3 + orientation.w * num2);
         float normalY = (float) (orientation.y * num3 - orientation.w * num1);
         float normalZ = (float) (1.0 - (orientation.x * num1 + orientation.y * num2));
@@ -6290,7 +6298,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f reflection(float a, float b, float c, float d) {
-        float da = 2.0f * a, db = 2.0f * b, dc = 2.0f * c, dd = 2.0f * d;
+        float da = a + a, db = b + b, dc = c + c, dd = d + d;
         m00 = 1.0f - da * a;
         m01 = -da * b;
         m02 = -da * c;
@@ -6366,9 +6374,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f reflection(Quaternionf orientation, Vector3f point) {
-        double num1 = orientation.x * 2.0;
-        double num2 = orientation.y * 2.0;
-        double num3 = orientation.z * 2.0;
+        double num1 = orientation.x + orientation.x;
+        double num2 = orientation.y + orientation.y;
+        double num3 = orientation.z + orientation.z;
         float normalX = (float) (orientation.x * num3 + orientation.w * num2);
         float normalY = (float) (orientation.y * num3 - orientation.w * num1);
         float normalZ = (float) (1.0 - (orientation.x * num1 + orientation.y * num2));
@@ -6882,8 +6890,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Obtain the direction of <tt>+Z</tt> before the orthogonal transformation represented by
-     * <code>this</code> matrix is applied.
+     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
@@ -6909,8 +6916,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Obtain the direction of <tt>+X</tt> before the orthogonal transformation represented by
-     * <code>this</code> matrix is applied.
+     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
@@ -6936,8 +6942,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Obtain the direction of <tt>+Y</tt> before the orthogonal transformation represented by
-     * <code>this</code> matrix is applied.
+     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
@@ -6963,8 +6968,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Obtain the position that gets transformed to the origin by <code>this</code> orthogonal matrix.
-     * This can be used to get the position of the "camera" from a given orthogonal <i>view</i> transformation matrix.
+     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
+     * This can be used to get the position of the "camera" from a given <i>view</i> transformation matrix.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
@@ -7430,7 +7435,7 @@ public class Matrix4f implements Externalizable {
      * its position <code>objPos</code>.
      * <p>
      * In order to specify an <i>up</i> vector which needs to be maintained when rotating the +Z axis of the object,
-     * then use {@link #billboardSpherical(Vector3f, Vector3f, Vector3f)}.
+     * use {@link #billboardSpherical(Vector3f, Vector3f, Vector3f)}.
      * 
      * @see #billboardSpherical(Vector3f, Vector3f, Vector3f)
      * 
@@ -7451,11 +7456,11 @@ public class Matrix4f implements Externalizable {
         x *= invNorm;
         y *= invNorm;
         w *= invNorm;
-        float q00 = 2.0f * x * x;
-        float q11 = 2.0f * y * y;
-        float q01 = 2.0f * x * y;
-        float q03 = 2.0f * x * w;
-        float q13 = 2.0f * y * w;
+        float q00 = (x + x) * x;
+        float q11 = (y + y) * y;
+        float q01 = (x + x) * y;
+        float q03 = (x + x) * w;
+        float q13 = (y + y) * w;
         m00 = 1.0f - q11;
         m01 = q01;
         m02 = -q13;
@@ -7502,7 +7507,7 @@ public class Matrix4f implements Externalizable {
             return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof Matrix4f))
             return false;
         Matrix4f other = (Matrix4f) obj;
         if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))

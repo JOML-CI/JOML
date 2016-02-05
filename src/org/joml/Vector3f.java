@@ -1294,9 +1294,9 @@ public class Vector3f implements Externalizable {
      */
     public Vector3f reflect(Vector3f normal) {
         float dot = this.dot(normal);
-        x = x - 2.0f * dot * normal.x;
-        y = y - 2.0f * dot * normal.y;
-        z = z - 2.0f * dot * normal.z;
+        x = x - (dot + dot) * normal.x;
+        y = y - (dot + dot) * normal.y;
+        z = z - (dot + dot) * normal.z;
         return this;
     }
 
@@ -1313,9 +1313,9 @@ public class Vector3f implements Externalizable {
      */
     public Vector3f reflect(float x, float y, float z) {
         float dot = this.dot(x, y, z);
-        this.x = this.x - 2.0f * dot * x;
-        this.y = this.y - 2.0f * dot * y;
-        this.z = this.z - 2.0f * dot * z;
+        this.x = this.x - (dot + dot) * x;
+        this.y = this.y - (dot + dot) * y;
+        this.z = this.z - (dot + dot) * z;
         return this;
     }
 
@@ -1330,9 +1330,9 @@ public class Vector3f implements Externalizable {
      */
     public Vector3f reflect(Vector3f normal, Vector3f dest) {
         float dot = this.dot(normal);
-        dest.x = x - 2.0f * dot * normal.x;
-        dest.y = y - 2.0f * dot * normal.y;
-        dest.z = z - 2.0f * dot * normal.z;
+        dest.x = x - (dot + dot) * normal.x;
+        dest.y = y - (dot + dot) * normal.y;
+        dest.z = z - (dot + dot) * normal.z;
         return dest;
     }
 
@@ -1351,9 +1351,9 @@ public class Vector3f implements Externalizable {
      */
     public Vector3f reflect(float x, float y, float z, Vector3f dest) {
         float dot = this.dot(x, y, z);
-        dest.x = this.x - 2.0f * dot * x;
-        dest.y = this.y - 2.0f * dot * y;
-        dest.z = this.z - 2.0f * dot * z;
+        dest.x = this.x - (dot + dot) * x;
+        dest.y = this.y - (dot + dot) * y;
+        dest.z = this.z - (dot + dot) * z;
         return dest;
     }
 
@@ -1430,9 +1430,9 @@ public class Vector3f implements Externalizable {
     public Vector3f smoothStep(Vector3f v, float t, Vector3f dest) {
         float t2 = t * t;
         float t3 = t2 * t;
-        dest.x = (2.0f * x - 2.0f * v.x) * t3 + (3.0f * v.x - 3.0f * x) * t2 + x * t + x;
-        dest.y = (2.0f * y - 2.0f * v.y) * t3 + (3.0f * v.y - 3.0f * y) * t2 + y * t + y;
-        dest.z = (2.0f * z - 2.0f * v.z) * t3 + (3.0f * v.z - 3.0f * z) * t2 + z * t + z;
+        dest.x = (x + x - v.x - v.x) * t3 + (3.0f * v.x - 3.0f * x) * t2 + x * t + x;
+        dest.y = (y + y - v.y - v.y) * t3 + (3.0f * v.y - 3.0f * y) * t2 + y * t + y;
+        dest.z = (z + z - v.z - v.z) * t3 + (3.0f * v.z - 3.0f * z) * t2 + z * t + z;
         return dest;
     }
 
@@ -1457,9 +1457,9 @@ public class Vector3f implements Externalizable {
     public Vector3f hermite(Vector3f t0, Vector3f v1, Vector3f t1, float t, Vector3f dest) {
         float t2 = t * t;
         float t3 = t2 * t;
-        dest.x = (2.0f * x - 2.0f * v1.x + t1.x + t0.x) * t3 + (3.0f * v1.x - 3.0f * x - 2.0f * t0.x - t1.x) * t2 + x * t + x;
-        dest.y = (2.0f * y - 2.0f * v1.y + t1.y + t0.y) * t3 + (3.0f * v1.y - 3.0f * y - 2.0f * t0.y - t1.y) * t2 + y * t + y;
-        dest.z = (2.0f * z - 2.0f * v1.z + t1.z + t0.z) * t3 + (3.0f * v1.z - 3.0f * z - 2.0f * t0.z - t1.z) * t2 + z * t + z;
+        dest.x = (x + x - v1.x - v1.x + t1.x + t0.x) * t3 + (3.0f * v1.x - 3.0f * x - t0.x - t0.x - t1.x) * t2 + x * t + x;
+        dest.y = (y + y - v1.y - v1.y + t1.y + t0.y) * t3 + (3.0f * v1.y - 3.0f * y - t0.y - t0.y - t1.y) * t2 + y * t + y;
+        dest.z = (z + z - v1.z - v1.z + t1.z + t0.z) * t3 + (3.0f * v1.z - 3.0f * z - t0.z - t0.z - t1.z) * t2 + z * t + z;
         return dest;
     }
 

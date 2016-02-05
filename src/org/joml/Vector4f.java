@@ -1265,10 +1265,10 @@ public class Vector4f implements Externalizable {
     public Vector4f smoothStep(Vector4f v, float t, Vector4f dest) {
         float t2 = t * t;
         float t3 = t2 * t;
-        dest.x = (2.0f * x - 2.0f * v.x) * t3 + (3.0f * v.x - 3.0f * x) * t2 + x * t + x;
-        dest.y = (2.0f * y - 2.0f * v.y) * t3 + (3.0f * v.y - 3.0f * y) * t2 + y * t + y;
-        dest.z = (2.0f * z - 2.0f * v.z) * t3 + (3.0f * v.z - 3.0f * z) * t2 + z * t + z;
-        dest.w = (2.0f * w - 2.0f * v.w) * t3 + (3.0f * v.w - 3.0f * w) * t2 + w * t + w;
+        dest.x = (x + x - v.x - v.x) * t3 + (3.0f * v.x - 3.0f * x) * t2 + x * t + x;
+        dest.y = (y + y - v.y - v.y) * t3 + (3.0f * v.y - 3.0f * y) * t2 + y * t + y;
+        dest.z = (z + z - v.z - v.z) * t3 + (3.0f * v.z - 3.0f * z) * t2 + z * t + z;
+        dest.w = (w + w - v.w - v.w) * t3 + (3.0f * v.w - 3.0f * w) * t2 + w * t + w;
         return dest;
     }
 
@@ -1293,10 +1293,10 @@ public class Vector4f implements Externalizable {
     public Vector4f hermite(Vector4f t0, Vector4f v1, Vector4f t1, float t, Vector4f dest) {
         float t2 = t * t;
         float t3 = t2 * t;
-        dest.x = (2.0f * x - 2.0f * v1.x + t1.x + t0.x) * t3 + (3.0f * v1.x - 3.0f * x - 2.0f * t0.x - t1.x) * t2 + x * t + x;
-        dest.y = (2.0f * y - 2.0f * v1.y + t1.y + t0.y) * t3 + (3.0f * v1.y - 3.0f * y - 2.0f * t0.y - t1.y) * t2 + y * t + y;
-        dest.z = (2.0f * z - 2.0f * v1.z + t1.z + t0.z) * t3 + (3.0f * v1.z - 3.0f * z - 2.0f * t0.z - t1.z) * t2 + z * t + z;
-        dest.w = (2.0f * w - 2.0f * v1.w + t1.w + t0.w) * t3 + (3.0f * v1.w - 3.0f * w - 2.0f * t0.w - t1.w) * t2 + w * t + w;
+        dest.x = (x + x - v1.x - v1.x + t1.x + t0.x) * t3 + (3.0f * v1.x - 3.0f * x - t0.x - t0.x - t1.x) * t2 + x * t + x;
+        dest.y = (y + y - v1.y - v1.y + t1.y + t0.y) * t3 + (3.0f * v1.y - 3.0f * y - t0.y - t0.y - t1.y) * t2 + y * t + y;
+        dest.z = (z + z - v1.z - v1.z + t1.z + t0.z) * t3 + (3.0f * v1.z - 3.0f * z - t0.z - t0.z - t1.z) * t2 + z * t + z;
+        dest.w = (w + w - v1.w - v1.w + t1.w + t0.w) * t3 + (3.0f * v1.w - 3.0f * w - t0.w - t0.w - t1.w) * t2 + w * t + w;
         return dest;
     }
 
