@@ -424,6 +424,48 @@ public class Intersectiond {
     }
 
     /**
+     * Determine the signed distance of the given point <tt>(pointX, pointY, pointZ)</tt> to the plane of the triangle specified by its three points
+     * <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
+     * <p>
+     * If the point lies on the front-facing side of the triangle's plane, that is, if the triangle has counter-clockwise winding order
+     * as seen from the point, then this method returns a positive number.
+     * 
+     * @param pointX
+     *          the x coordinate of the point
+     * @param pointY
+     *          the y coordinate of the point
+     * @param pointZ
+     *          the z coordinate of the point
+     * @param v0X
+     *          the x coordinate of the first vertex of the triangle
+     * @param v0Y
+     *          the y coordinate of the first vertex of the triangle
+     * @param v0Z
+     *          the z coordinate of the first vertex of the triangle
+     * @param v1X
+     *          the x coordinate of the second vertex of the triangle
+     * @param v1Y
+     *          the y coordinate of the second vertex of the triangle
+     * @param v1Z
+     *          the z coordinate of the second vertex of the triangle
+     * @param v2X
+     *          the x coordinate of the third vertex of the triangle
+     * @param v2Y
+     *          the y coordinate of the third vertex of the triangle
+     * @param v2Z
+     *          the z coordinate of the third vertex of the triangle
+     * @return the signed distance between the point and the plane of the triangle
+     */
+    public static double distancePointPlane(double pointX, double pointY, double pointZ,
+            double v0X, double v0Y, double v0Z, double v1X, double v1Y, double v1Z, double v2X, double v2Y, double v2Z) {
+        double a = (v1Y - v0Y) * (v2Z - v0Z) - (v2Y - v0Y) * (v1Z - v0Z);
+        double b = (v1Z - v0Z) * (v2X - v0X) - (v2Z - v0Z) * (v1X - v0X);
+        double c = (v1X - v0X) * (v2Y - v0Y) - (v2X - v0X) * (v1Y - v0Y);
+        double d = -(a * v0X + b * v0Y + c * v0Z);
+        return distancePointPlane(pointX, pointY, pointZ, a, b, c, d);
+    }
+
+    /**
      * Test whether the ray with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt> intersects the plane
      * containing the given point <tt>(pointX, pointY, pointZ)</tt> and having the normal <tt>(normalX, normalY, normalZ)</tt>, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
