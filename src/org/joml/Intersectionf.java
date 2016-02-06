@@ -34,7 +34,8 @@ public class Intersectionf {
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
      * {@link #findClosestPointOnTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f)},
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)}
+     * {@link #findClosestPointOnTriangle(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} or
+     * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point is a vertex of the triangle.
      */
     public static final int POINT_ON_TRIANGLE_VERTEX = 0;
@@ -43,7 +44,8 @@ public class Intersectionf {
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
      * {@link #findClosestPointOnTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f)},
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)}
+     * {@link #findClosestPointOnTriangle(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} or
+     * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point lies on an edge of the triangle.
      */
     public static final int POINT_ON_TRIANGLE_EDGE = 1;
@@ -52,7 +54,8 @@ public class Intersectionf {
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
      * {@link #findClosestPointOnTriangle(Vector3f, Vector3f, Vector3f, Vector3f, Vector3f)},
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
-     * {@link #findClosestPointOnTriangle(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)}
+     * {@link #findClosestPointOnTriangle(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} or 
+     * {@link #intersectSweptSphereTriangle}
      * to signal that the closest point lies on the face of the triangle.
      */
     public static final int POINT_ON_TRIANGLE_FACE = 2;
@@ -788,6 +791,292 @@ public class Intersectionf {
      */
     public static int findClosestPointOnTriangle(Vector3f v0, Vector3f v1, Vector3f v2, Vector3f p, Vector3f result) {
         return findClosestPointOnTriangle(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, p.x, p.y, p.z, result);
+    }
+
+    /**
+     * Determine the point of intersection between a sphere with the given center <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code> moving
+     * with the given velocity <tt>(velX, velY, velZ)</tt> and the triangle specified via its three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>.
+     * <p>
+     * The vertices of the triangle must be specified in counter-clockwise winding order.
+     * <p>
+     * An intersection is only considered if the time of intersection is smaller than the given <code>maxT</code> value.
+     * 
+     * Reference: <a href="http://www.peroxide.dk/papers/collision/collision.pdf">Improved Collision detection and Response</a>
+     * 
+     * @param centerX
+     *              the x coordinate of the sphere's center
+     * @param centerY
+     *              the y coordinate of the sphere's center
+     * @param centerZ
+     *              the z coordinate of the sphere's center
+     * @param radius
+     *              the radius of the sphere
+     * @param velX
+     *              the x component of the velocity of the sphere
+     * @param velY
+     *              the y component of the velocity of the sphere
+     * @param velZ
+     *              the z component of the velocity of the sphere
+     * @param v0X
+     *              the x coordinate of the first triangle vertex
+     * @param v0Y
+     *              the y coordinate of the first triangle vertex
+     * @param v0Z
+     *              the z coordinate of the first triangle vertex
+     * @param v1X
+     *              the x coordinate of the second triangle vertex
+     * @param v1Y
+     *              the y coordinate of the second triangle vertex
+     * @param v1Z
+     *              the z coordinate of the second triangle vertex
+     * @param v2X
+     *              the x coordinate of the third triangle vertex
+     * @param v2Y
+     *              the y coordinate of the third triangle vertex
+     * @param v2Z
+     *              the z coordinate of the third triangle vertex
+     * @param epsilon
+     *              a small epsilon when testing spheres that move almost parallel to the triangle
+     * @param maxT
+     *              the maximum intersection time
+     * @param pointAndTime
+     *              iff the moving sphere and the triangle intersect, this will hold the point of intersection in the <tt>(x, y, z)</tt> components
+     *              and the time of intersection in the <tt>w</tt> component
+     * @return {@link #POINT_ON_TRIANGLE_FACE} if the intersection point lies on the triangle's face,
+     *         or {@link #POINT_ON_TRIANGLE_VERTEX} if the intersection point is a vertex,
+     *         or {@link #POINT_ON_TRIANGLE_EDGE} if the intersection point lies on an edge;
+     *         or <tt>-1</tt> if no intersection
+     */
+    public static int intersectSweptSphereTriangle(
+            float centerX, float centerY, float centerZ, float radius, float velX, float velY, float velZ,
+            float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
+            float epsilon, float maxT, Vector4f pointAndTime) {
+        float v10X = v1X - v0X;
+        float v10Y = v1Y - v0Y;
+        float v10Z = v1Z - v0Z;
+        float v20X = v2X - v0X;
+        float v20Y = v2Y - v0Y;
+        float v20Z = v2Z - v0Z;
+        // build triangle plane
+        float a = v10Y * v20Z - v20Y * v10Z;
+        float b = v10Z * v20X - v20Z * v10X;
+        float c = v10X * v20Y - v20X * v10Y;
+        float d = -(a * v0X + b * v0Y + c * v0Z);
+        float invLen = (float) (1.0 / Math.sqrt(a * a + b * b + c * c));
+        float signedDist = (a * centerX + b * centerY + c * centerZ + d) * invLen;
+        float dot = (a * velX + b * velY + c * velZ) * invLen;
+        if (dot < epsilon && dot > -epsilon)
+            return -1;
+        float pt0 = (radius - signedDist) / dot;
+        if (pt0 > maxT)
+            return -1;
+        float pt1 = (-radius - signedDist) / dot;
+        float p0X = centerX - radius * a * invLen + velX * pt0;
+        float p0Y = centerY - radius * b * invLen + velY * pt0;
+        float p0Z = centerZ - radius * c * invLen + velZ * pt0;
+        boolean insideTriangle = testPointInTriangle(p0X, p0Y, p0Z, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z);
+        if (insideTriangle) {
+            pointAndTime.x = p0X;
+            pointAndTime.y = p0Y;
+            pointAndTime.z = p0Z;
+            pointAndTime.w = pt0;
+            return POINT_ON_TRIANGLE_FACE;
+        }
+        int isect = -1;
+        float t0 = maxT;
+        float A = velX * velX + velY * velY + velZ * velZ;
+        // test against v0
+        float B0 = 2.0f * (velX * (centerX - v0X) + velY * (centerY - v0Y) + velZ * (centerZ - v0Z));
+        float C0 = (v0X - centerX) * (v0X - centerX) + (v0Y - centerY) * (v0Y - centerY) + (v0Z - centerZ) * (v0Z - centerZ) - radius * radius;
+        float root0 = computeLowestRoot(A, B0, C0, t0);
+        if (root0 < t0) {
+            pointAndTime.x = v0X;
+            pointAndTime.y = v0Y;
+            pointAndTime.z = v0Z;
+            pointAndTime.w = root0;
+            t0 = root0;
+            isect = POINT_ON_TRIANGLE_VERTEX;
+        }
+        // test against v1
+        float B1 = 2.0f * (velX * (centerX - v1X) + velY * (centerY - v1Y) + velZ * (centerZ - v1Z));
+        float C1 = (v1X - centerX) * (v1X - centerX) + (v1Y - centerY) * (v1Y - centerY) + (v1Z - centerZ) * (v1Z - centerZ) - radius * radius;
+        float root1 = computeLowestRoot(A, B1, C1, t0);
+        if (root1 < t0) {
+            pointAndTime.x = v1X;
+            pointAndTime.y = v1Y;
+            pointAndTime.z = v1Z;
+            pointAndTime.w = root1;
+            t0 = root1;
+            isect = POINT_ON_TRIANGLE_VERTEX;
+        }
+        // test against v2
+        float B2 = 2.0f * (velX * (centerX - v2X) + velY * (centerY - v2Y) + velZ * (centerZ - v2Z));
+        float C2 = (v2X - centerX) * (v2X - centerX) + (v2Y - centerY) * (v2Y - centerY) + (v2Z - centerZ) * (v2Z - centerZ) - radius * radius;
+        float root2 = computeLowestRoot(A, B2, C2, t0);
+        if (root2 < t0) {
+            pointAndTime.x = v2X;
+            pointAndTime.y = v2Y;
+            pointAndTime.z = v2Z;
+            pointAndTime.w = root2;
+            t0 = root2;
+            isect = POINT_ON_TRIANGLE_VERTEX;
+        }
+        float velLen = velX * velX + velY * velY + velZ * velZ;
+        // test against edge10
+        float len10 = v10X * v10X + v10Y * v10Y + v10Z * v10Z;
+        float baseTo0X = v0X - centerX;
+        float baseTo0Y = v0Y - centerY;
+        float baseTo0Z = v0Z - centerZ;
+        float baseTo0Len = baseTo0X * baseTo0X + baseTo0Y * baseTo0Y + baseTo0Z * baseTo0Z;
+        float v10Vel = (v10X * velX + v10Y * velY + v10Z * velZ);
+        float A10 = len10 * -velLen + v10Vel * v10Vel;
+        float v10BaseTo0 = v10X * baseTo0X + v10Y * baseTo0Y + v10Z * baseTo0Z;
+        float velBaseTo0 = velX * baseTo0X + velY * baseTo0Y + velZ * baseTo0Z;
+        float B10 = len10 * 2 * velBaseTo0 - 2 * v10Vel * v10BaseTo0;
+        float C10 = len10 * (1 - baseTo0Len) + v10BaseTo0 * v10BaseTo0;
+        float root10 = computeLowestRoot(A10, B10, C10, t0);
+        float f10 = (v10Vel * root10 - v10BaseTo0) / len10;
+        if (f10 >= 0.0f && f10 <= 1.0f && root10 < t0) {
+            pointAndTime.x = v0X + f10 * v10X;
+            pointAndTime.y = v0Y + f10 * v10Y;
+            pointAndTime.z = v0Z + f10 * v10Z;
+            pointAndTime.w = root10;
+            t0 = root10;
+            isect = POINT_ON_TRIANGLE_EDGE;
+        }
+        // test against edge20
+        float len20 = v20X * v20X + v20Y * v20Y + v20Z * v20Z;
+        float v20Vel = (v20X * velX + v20Y * velY + v20Z * velZ);
+        float A20 = len20 * -velLen + v20Vel * v20Vel;
+        float v20BaseTo0 = v20X * baseTo0X + v20Y * baseTo0Y + v20Z * baseTo0Z;
+        float B20 = len20 * 2 * velBaseTo0 - 2 * v20Vel * v20BaseTo0;
+        float C20 = len20 * (1 - baseTo0Len) + v20BaseTo0 * v20BaseTo0;
+        float root20 = computeLowestRoot(A20, B20, C20, t0);
+        float f20 = (v20Vel * root20 - v20BaseTo0) / len20;
+        if (f20 >= 0.0f && f20 <= 1.0f && root20 < pt1) {
+            pointAndTime.x = v0X + f20 * v20X;
+            pointAndTime.y = v0Y + f20 * v20Y;
+            pointAndTime.z = v0Z + f20 * v20Z;
+            pointAndTime.w = root20;
+            t0 = root20;
+            isect = POINT_ON_TRIANGLE_EDGE;
+        }
+        // test against edge21
+        float v21X = v2X - v1X;
+        float v21Y = v2Y - v1Y;
+        float v21Z = v2Z - v1Z;
+        float len21 = v21X * v21X + v21Y * v21Y + v21Z * v21Z;
+        float baseTo1X = v1X - centerX;
+        float baseTo1Y = v1Y - centerY;
+        float baseTo1Z = v1Z - centerZ;
+        float baseTo1Len = baseTo1X * baseTo1X + baseTo1Y * baseTo1Y + baseTo1Z * baseTo1Z;
+        float v21Vel = (v21X * velX + v21Y * velY + v21Z * velZ);
+        float A21 = len21 * -velLen + v21Vel * v21Vel;
+        float v21BaseTo1 = v21X * baseTo1X + v21Y * baseTo1Y + v21Z * baseTo1Z;
+        float velBaseTo1 = velX * baseTo1X + velY * baseTo1Y + velZ * baseTo1Z;
+        float B21 = len21 * 2 * velBaseTo1 - 2 * v21Vel * v21BaseTo1;
+        float C21 = len21 * (1 - baseTo1Len) + v21BaseTo1 * v21BaseTo1;
+        float root21 = computeLowestRoot(A21, B21, C21, t0);
+        float f21 = (v21Vel * root21 - v21BaseTo1) / len21;
+        if (f21 >= 0.0f && f21 <= 1.0f && root21 < t0) {
+            pointAndTime.x = v1X + f21 * v21X;
+            pointAndTime.y = v1Y + f21 * v21Y;
+            pointAndTime.z = v1Z + f21 * v21Z;
+            pointAndTime.w = root21;
+            t0 = root21;
+            isect = POINT_ON_TRIANGLE_EDGE;
+        }
+        return isect;
+    }
+
+    /**
+     * Compute the lowest root for <tt>t</tt> in the quadratic equation <tt>a*t*t + b*t + c = 0</tt>.
+     * <p>
+     * This is a helper method for {@link #intersectSweptSphereTriangle}
+     * 
+     * @param a
+     *              the quadratic factor
+     * @param b
+     *              the linear factor
+     * @param c
+     *              the constant
+     * @param maxR
+     *              the maximum expected root
+     * @return the lowest of the two roots of the quadratic equation; or {@link Float#MAX_VALUE}
+     */
+    private static float computeLowestRoot(float a, float b, float c, float maxR) {
+        float determinant = b * b - 4.0f * a * c;
+        if (determinant < 0.0f)
+            return Float.MAX_VALUE;
+        float sqrtD = (float) Math.sqrt(determinant);
+        float r1 = (-b - sqrtD) / (2.0f * a);
+        float r2 = (-b + sqrtD) / (2.0f * a);
+        if (r1 > r2) {
+            float temp = r2;
+            r2 = r1;
+            r1 = temp;
+        }
+        if (r1 > 0.0f && r1 < maxR) {
+            return r1;
+        }
+        if (r2 > 0.0f && r2 < maxR) {
+            return r2;
+        }
+        return Float.MAX_VALUE;
+    }
+
+    /**
+     * Test whether the projection of the given point <tt>(pX, pY, pZ)</tt> lies inside of the triangle defined by the three vertices
+     * <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>.
+     * <p>
+     * Reference: <a href="http://www.peroxide.dk/papers/collision/collision.pdf">Improved Collision detection and Response</a>
+     * 
+     * @param pX
+     *              the x coordinate of the point to test
+     * @param pY
+     *              the y coordinate of the point to test
+     * @param pZ
+     *              the z coordinate of the point to test
+     * @param v0X
+     *              the x coordinate of the first vertex
+     * @param v0Y
+     *              the y coordinate of the first vertex
+     * @param v0Z
+     *              the z coordinate of the first vertex
+     * @param v1X
+     *              the x coordinate of the second vertex
+     * @param v1Y
+     *              the y coordinate of the second vertex
+     * @param v1Z
+     *              the z coordinate of the second vertex
+     * @param v2X
+     *              the x coordinate of the third vertex
+     * @param v2Y
+     *              the y coordinate of the third vertex
+     * @param v2Z
+     *              the z coordinate of the third vertex
+     * @return <code>true</code> if the projection of the given point lies inside of the given triangle; <code>false</code> otherwise
+     */
+    public static boolean testPointInTriangle(float pX, float pY, float pZ, float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z) {
+        float e10X = v1X - v0X;
+        float e10Y = v1Y - v0Y;
+        float e10Z = v1Z - v0Z;
+        float e20X = v2X - v0X;
+        float e20Y = v2Y - v0Y;
+        float e20Z = v2Z - v0Z;
+        float a = e10X * e10X + e10Y * e10Y + e10Z * e10Z;
+        float b = e10X * e20X + e10Y * e20Y + e10Z * e20Z;
+        float c = e20X * e20X + e20Y * e20Y + e20Z * e20Z;
+        float ac_bb = a * c - b * b;
+        float vpX = pX - v0X;
+        float vpY = pY - v0Y;
+        float vpZ = pZ - v0Z;
+        float d = vpX * e10X + vpY * e10Y + vpZ * e10Z;
+        float e = vpX * e20X + vpY * e20Y + vpZ * e20Z;
+        float x = d * c - e * b;
+        float y = e * a - d * b;
+        float z = x + y - ac_bb;
+        return ((Float.floatToRawIntBits(z) & ~(Float.floatToRawIntBits(x) | Float.floatToRawIntBits(y))) & 0x80000000) != 0;
     }
 
     /**
