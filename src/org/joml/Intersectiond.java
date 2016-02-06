@@ -1385,7 +1385,7 @@ public class Intersectiond {
         double qvecY = tvecZ * edge1X - tvecX * edge1Z;
         double qvecZ = tvecX * edge1Y - tvecY * edge1X;
         double v = (dirX * qvecX + dirY * qvecY + dirZ * qvecZ) * invDet;
-        if (v < 0.0f || u + v > 1.0)
+        if (v < 0.0 || u + v > 1.0)
             return false;
         double t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
         return t >= epsilon;
@@ -1421,7 +1421,7 @@ public class Intersectiond {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * Determine whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the frontface of the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>
      * and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
@@ -1431,6 +1431,117 @@ public class Intersectiond {
      * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
      * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
      * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
+     * 
+     * @see #testRayTriangleFront(Vector3d, Vector3d, Vector3d, Vector3d, Vector3d, double)
+     * 
+     * @param originX
+     *              the x coordinate of the ray's origin
+     * @param originY
+     *              the y coordinate of the ray's origin
+     * @param originZ
+     *              the z coordinate of the ray's origin
+     * @param dirX
+     *              the x coordinate of the ray's direction
+     * @param dirY
+     *              the y coordinate of the ray's direction
+     * @param dirZ
+     *              the z coordinate of the ray's direction
+     * @param v0X
+     *              the x coordinate of the first vertex
+     * @param v0Y
+     *              the y coordinate of the first vertex
+     * @param v0Z
+     *              the z coordinate of the first vertex
+     * @param v1X
+     *              the x coordinate of the second vertex
+     * @param v1Y
+     *              the y coordinate of the second vertex
+     * @param v1Z
+     *              the z coordinate of the second vertex
+     * @param v2X
+     *              the x coordinate of the third vertex
+     * @param v2Y
+     *              the y coordinate of the third vertex
+     * @param v2Z
+     *              the z coordinate of the third vertex
+     * @param epsilon
+     *              a small epsilon when testing rays that are almost parallel to the triangle
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
+     *         if the ray intersects the frontface of the triangle; <tt>-1.0</tt> otherwise
+     */
+    public static double intersectRayTriangleFront(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
+            double v0X, double v0Y, double v0Z, double v1X, double v1Y, double v1Z, double v2X, double v2Y, double v2Z,
+            double epsilon) {
+        double edge1X = v1X - v0X;
+        double edge1Y = v1Y - v0Y;
+        double edge1Z = v1Z - v0Z;
+        double edge2X = v2X - v0X;
+        double edge2Y = v2Y - v0Y;
+        double edge2Z = v2Z - v0Z;
+        double pvecX = dirY * edge2Z - dirZ * edge2Y;
+        double pvecY = dirZ * edge2X - dirX * edge2Z;
+        double pvecZ = dirX * edge2Y - dirY * edge2X;
+        double det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
+        if (det <= epsilon)
+            return -1.0;
+        double tvecX = originX - v0X;
+        double tvecY = originY - v0Y;
+        double tvecZ = originZ - v0Z;
+        double u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
+        if (u < 0.0 || u > det)
+            return -1.0;
+        double qvecX = tvecY * edge1Z - tvecZ * edge1Y;
+        double qvecY = tvecZ * edge1X - tvecX * edge1Z;
+        double qvecZ = tvecX * edge1Y - tvecY * edge1X;
+        double v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
+        if (v < 0.0 || u + v > det)
+            return -1.0;
+        double invDet = 1.0 / det;
+        double t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
+        return t;
+    }
+
+    /**
+     * Determine whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects the frontface of the triangle consisting of the three vertices
+     * <code>v0</code>, <code>v1</code> and <code>v2</code> and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
+     * <p>
+     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
+     * <p>
+     * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
+     * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
+     * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
+     * 
+     * @see #intersectRayTriangleFront(double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double)
+     * 
+     * @param origin
+     *              the ray's origin
+     * @param dir
+     *              the ray's direction
+     * @param v0
+     *              the position of the first vertex
+     * @param v1
+     *              the position of the second vertex
+     * @param v2
+     *              the position of the third vertex
+     * @param epsilon
+     *              a small epsilon when testing rays that are almost parallel to the triangle
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection
+     *         if the ray intersects the frontface of the triangle; <tt>-1.0</tt> otherwise
+     */
+    public static double intersectRayTriangleFront(Vector3d origin, Vector3d dir, Vector3d v0, Vector3d v1, Vector3d v2, double epsilon) {
+        return intersectRayTriangleFront(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, epsilon);
+    }
+
+    /**
+     * Determine whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
+     * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>
+     * and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
+     * <p>
+     * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
+     * <p>
+     * This test does not take into account the winding order of the triangle, so a ray will intersect a front-facing triangle as well as a back-facing triangle.
      * 
      * @see #testRayTriangle(Vector3d, Vector3d, Vector3d, Vector3d, Vector3d, double)
      * 
@@ -1482,35 +1593,33 @@ public class Intersectiond {
         double pvecY = dirZ * edge2X - dirX * edge2Z;
         double pvecZ = dirX * edge2Y - dirY * edge2X;
         double det = edge1X * pvecX + edge1Y * pvecY + edge1Z * pvecZ;
-        if (det <= epsilon)
+        if (det > -epsilon && det < epsilon)
             return -1.0;
         double tvecX = originX - v0X;
         double tvecY = originY - v0Y;
         double tvecZ = originZ - v0Z;
-        double u = tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ;
-        if (u < 0.0 || u > det)
+        double invDet = 1.0 / det;
+        double u = (tvecX * pvecX + tvecY * pvecY + tvecZ * pvecZ) * invDet;
+        if (u < 0.0 || u > 1.0)
             return -1.0;
         double qvecX = tvecY * edge1Z - tvecZ * edge1Y;
         double qvecY = tvecZ * edge1X - tvecX * edge1Z;
         double qvecZ = tvecX * edge1Y - tvecY * edge1X;
-        double v = dirX * qvecX + dirY * qvecY + dirZ * qvecZ;
-        if (v < 0.0 || u + v > det)
+        double v = (dirX * qvecX + dirY * qvecY + dirZ * qvecZ) * invDet;
+        if (v < 0.0 || u + v > 1.0)
             return -1.0;
-        double invDet = 1.0 / det;
         double t = (edge2X * qvecX + edge2Y * qvecY + edge2Z * qvecZ) * invDet;
         return t;
     }
 
     /**
-     * Test whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects the frontface of the triangle consisting of the three vertices
+     * Determine whether the ray with the given <code>origin</code> and the given <code>dir</code> intersects the triangle consisting of the three vertices
      * <code>v0</code>, <code>v1</code> and <code>v2</code> and return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the point of intersection.
      * <p>
      * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
-     * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
-     * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
-     * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
+     * This test does not take into account the winding order of the triangle, so a ray will intersect a front-facing triangle as well as a back-facing triangle.
      * 
      * @see #intersectRayTriangle(double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double)
      * 
@@ -1538,7 +1647,8 @@ public class Intersectiond {
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
-     * Reference: <a href="http://geomalgorithms.com/a06-_intersect-2.html#intersect3D_RayTriangle()">http://geomalgorithms.com/</a>
+     * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Fast, Minimum Storage Ray/Triangle Intersection</a>
      * 
      * @see #testLineSegmentTriangle(Vector3d, Vector3d, Vector3d, Vector3d, Vector3d, double)
      * 
@@ -1579,50 +1689,11 @@ public class Intersectiond {
     public static boolean testLineSegmentTriangle(double p0X, double p0Y, double p0Z, double p1X, double p1Y, double p1Z,
             double v0X, double v0Y, double v0Z, double v1X, double v1Y, double v1Z, double v2X, double v2Y, double v2Z,
             double epsilon) {
-        double uX = v1X - v0X;
-        double uY = v1Y - v0Y;
-        double uZ = v1Z - v0Z;
-        double vX = v2X - v0X;
-        double vY = v2Y - v0Y;
-        double vZ = v2Z - v0Z;
-        double pvecX = uY * vZ - uZ * vY;
-        double pvecY = uZ * vX - uX * vZ;
-        double pvecZ = uX * vY - uY * vX;
-        if (pvecX == 0.0 && pvecY == 0.0 && pvecZ == 0.0)
-            return false;
         double dirX = p1X - p0X;
         double dirY = p1Y - p0Y;
         double dirZ = p1Z - p0Z;
-        double w0X = p0X - v0X;
-        double w0Y = p0Y - v0Y;
-        double w0Z = p0Z - v0Z;
-        double a = -(pvecX * w0X + pvecY * w0Y + pvecZ * w0Z);
-        double b = pvecX * dirX + pvecY * dirY + pvecZ * dirZ;
-        if (Math.abs(b) < epsilon) {
-            return a == 0.0;
-        }
-        double r = a / b;
-        if (r < 0.0)
-            return false;
-        double iX = p0X + r * dirX;
-        double iY = p0Y + r * dirY;
-        double iZ = p0Z + r * dirZ;
-        double uu = uX * uX + uY * uY + uZ * uZ;
-        double uv = uX * vX + uY * vY + uZ * vZ;
-        double vv = vX * vX + vY * vY + vZ * vZ;
-        double wX = iX - v0X;
-        double wY = iY - v0Y;
-        double wZ = iZ - v0Z;
-        double wu = wX * uX + wY * uY + wZ * uZ;
-        double wv = wX * vX + wY * vY + wZ * vZ;
-        double D = uv * uv - uu * vv;
-        double s = (uv * wv - vv * wu) / D;
-        if (s < 0.0 || s > 1.0)
-            return false;
-        double t = (uv * wu - uu * wv) / D;
-        if (t < 0.0 || s + t > 1.0)
-            return false;
-        return true;
+        double t = intersectRayTriangle(p0X, p0Y, p0Z, dirX, dirY, dirZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z, epsilon);
+        return t >= 0.0 && t <= 1.0;
     }
 
     /**
@@ -1630,7 +1701,8 @@ public class Intersectiond {
      * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
      * regardless of the winding order of the triangle or the direction of the line segment between its two end points.
      * <p>
-     * Reference: <a href="http://geomalgorithms.com/a06-_intersect-2.html#intersect3D_RayTriangle()">http://geomalgorithms.com/</a>
+     * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Fast, Minimum Storage Ray/Triangle Intersection</a>
      * 
      * @see #testLineSegmentTriangle(double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double)
      * 

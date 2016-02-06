@@ -13,13 +13,13 @@ import junit.framework.TestCase;
  */
 public class IntersectionfTest extends TestCase {
 
-    public static void testIntersectRayTrianglePX() {
+    public static void testIntersectRayTriangleFrontPX() {
         Vector3f origin = new Vector3f();
         Vector3f dir = new Vector3f(1, 0, 0);
         Vector3f v0 = new Vector3f(1, -1, -1);
         Vector3f v1 = new Vector3f(1, -1, 1);
         Vector3f v2 = new Vector3f(1, 1, 0);
-        float t = Intersectionf.intersectRayTriangle(origin, dir, v0, v1, v2, 0.0f);
+        float t = Intersectionf.intersectRayTriangleFront(origin, dir, v0, v1, v2, 0.0f);
         assertEquals(1.0f, t, 0.0f);
     }
 
@@ -109,6 +109,18 @@ public class IntersectionfTest extends TestCase {
         assertTrue(Intersectionf.testLineSegmentSphere(-1, 0, 0, 1, 0, 0, 2, 0, 0, 1));
         assertFalse(Intersectionf.testLineSegmentSphere(-1, 0, 0, 1, 0, 0, -4.01f, 0, 0, 3*3));
         assertFalse(Intersectionf.testLineSegmentSphere(-1, 0, 0, 1, 0, 0, 4.01f, 0, 0, 3*3));
+    }
+
+    public static void testLineSegmentTriangle() {
+        assertTrue(Intersectionf.testLineSegmentTriangle(-1, 0, 0, 1, 0, 0, 1, -1, -1, 1, -1, 1, 1, 1, 0, 1E-6f));
+        assertFalse(Intersectionf.testLineSegmentTriangle(-1, 0, 0, -5, 0, 0, 1, -1, -1, 1, -1, 1, 1, 1, 0, 1E-6f));
+        assertFalse(Intersectionf.testLineSegmentTriangle(-5, 0, 0, -1, 0, 0, 1, -1, -1, 1, -1, 1, 1, 1, 0, 1E-6f));
+        assertTrue(Intersectionf.testLineSegmentTriangle(1, 0, 0, -1, 0, 0, 1, -1, -1, 1, -1, 1, 1, 1, 0, 1E-6f));
+
+        assertTrue(Intersectionf.testLineSegmentTriangle(-1, 0, 0, 1, 0, 0, 1, -1, 1, 1, -1, -1, 1, 1, 0, 1E-6f));
+        assertFalse(Intersectionf.testLineSegmentTriangle(-1, 0, 0, -5, 0, 0, 1, -1, 1, 1, -1, -1, 1, 1, 0, 1E-6f));
+        assertFalse(Intersectionf.testLineSegmentTriangle(-5, 0, 0, -1, 0, 0, 1, -1, 1, 1, -1, -1, 1, 1, 0, 1E-6f));
+        assertTrue(Intersectionf.testLineSegmentTriangle(1, 0, 0, -1, 0, 0, 1, -1, 1, 1, -1, -1, 1, 1, 0, 1E-6f));
     }
 
 }
