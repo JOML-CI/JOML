@@ -458,9 +458,15 @@ public class Intersectiond {
      */
     public static double distancePointPlane(double pointX, double pointY, double pointZ,
             double v0X, double v0Y, double v0Z, double v1X, double v1Y, double v1Z, double v2X, double v2Y, double v2Z) {
-        double a = (v1Y - v0Y) * (v2Z - v0Z) - (v2Y - v0Y) * (v1Z - v0Z);
-        double b = (v1Z - v0Z) * (v2X - v0X) - (v2Z - v0Z) * (v1X - v0X);
-        double c = (v1X - v0X) * (v2Y - v0Y) - (v2X - v0X) * (v1Y - v0Y);
+        double v1Y0Y = v1Y - v0Y;
+        double v2Z0Z = v2Z - v0Z;
+        double v2Y0Y = v2Y - v0Y;
+        double v1Z0Z = v1Z - v0Z;
+        double v2X0X = v2X - v0X;
+        double v1X0X = v1X - v0X;
+        double a = v1Y0Y * v2Z0Z - v2Y0Y * v1Z0Z;
+        double b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
+        double c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
         double d = -(a * v0X + b * v0Y + c * v0Z);
         return distancePointPlane(pointX, pointY, pointZ, a, b, c, d);
     }
@@ -1905,8 +1911,10 @@ public class Intersectiond {
      * @return <code>true</code> iff the axis-aligned rectangle intersects the line; <code>false</code> otherwise
      */
     public static boolean testAarLine(double minX, double minY, double maxX, double maxY, double x0, double y0, double x1, double y1) {
-        // Build general line equation from two points and use the other method
-        return testAarLine(minX, minY, maxX, maxY, y0 - y1, x1 - x0, (x0 - x1) * y0 + (y1 - y0) * x0);
+        double a = y0 - y1;
+        double b = x1 - x0;
+        double c = -b * y0 - a * x0;
+        return testAarLine(minX, minY, maxX, maxY, a, b, c);
     }
 
     /**

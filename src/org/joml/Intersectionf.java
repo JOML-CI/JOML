@@ -458,9 +458,15 @@ public class Intersectionf {
      */
     public static float distancePointPlane(float pointX, float pointY, float pointZ,
             float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z) {
-        float a = (v1Y - v0Y) * (v2Z - v0Z) - (v2Y - v0Y) * (v1Z - v0Z);
-        float b = (v1Z - v0Z) * (v2X - v0X) - (v2Z - v0Z) * (v1X - v0X);
-        float c = (v1X - v0X) * (v2Y - v0Y) - (v2X - v0X) * (v1Y - v0Y);
+        float v1Y0Y = v1Y - v0Y;
+        float v2Z0Z = v2Z - v0Z;
+        float v2Y0Y = v2Y - v0Y;
+        float v1Z0Z = v1Z - v0Z;
+        float v2X0X = v2X - v0X;
+        float v1X0X = v1X - v0X;
+        float a = v1Y0Y * v2Z0Z - v2Y0Y * v1Z0Z;
+        float b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
+        float c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
         float d = -(a * v0X + b * v0Y + c * v0Z);
         return distancePointPlane(pointX, pointY, pointZ, a, b, c, d);
     }
@@ -1905,8 +1911,10 @@ public class Intersectionf {
      * @return <code>true</code> iff the axis-aligned rectangle intersects the line; <code>false</code> otherwise
      */
     public static boolean testAarLine(float minX, float minY, float maxX, float maxY, float x0, float y0, float x1, float y1) {
-        // Build general line equation from two points and use the other method
-        return testAarLine(minX, minY, maxX, maxY, y0 - y1, x1 - x0, (x0 - x1) * y0 + (y1 - y0) * x0);
+        float a = y0 - y1;
+        float b = x1 - x0;
+        float c = -b * y0 - a * x0;
+        return testAarLine(minX, minY, maxX, maxY, a, b, c);
     }
 
     /**
