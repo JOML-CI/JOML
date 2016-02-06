@@ -794,7 +794,7 @@ public class Intersectiond {
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and normalized direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
-     * and far) of intersections into the given array <code>result</code>.
+     * and far) of intersections into the given <code>result</code> vector.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
      * <p>
@@ -821,12 +821,12 @@ public class Intersectiond {
      * @param radiusSquared
      *              the sphere radius squared
      * @param result
-     *              a double[] array that will contain the values of the parameter <i>t</i> in the ray equation
-     *              <i>p(t) = origin + t * dir</i> for both points (near and far) of intersections with the sphere
+     *              a vector that will contain the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = origin + t * dir</i> for both points (near, far) of intersections with the sphere
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
     public static boolean intersectRaySphere(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
-            double centerX, double centerY, double centerZ, double radiusSquared, double[] result) {
+            double centerX, double centerY, double centerZ, double radiusSquared, Vector2d result) {
         double Lx = centerX - originX;
         double Ly = centerY - originY;
         double Lz = centerZ - originZ;
@@ -838,8 +838,8 @@ public class Intersectiond {
         double t0 = tca - thc;
         double t1 = tca + thc;
         if (t0 < t1 && t1 >= 0.0) {
-            result[0] = t0;
-            result[1] = t1;
+            result.x = t0;
+            result.y = t1;
             return true;
         }
         return false;
@@ -849,7 +849,7 @@ public class Intersectiond {
      * Test whether the ray with the given <code>origin</code> and normalized direction <code>dir</code>
      * intersects the sphere with the given <code>center</code> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
-     * and far) of intersections into the given array <code>result</code>.
+     * and far) of intersections into the given <code>result</code> vector.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
      * <p>
@@ -864,11 +864,11 @@ public class Intersectiond {
      * @param radiusSquared
      *              the sphere radius squared
      * @param result
-     *              a double[] array that will contain the values of the parameter <i>t</i> in the ray equation
-     *              <i>p(t) = origin + t * dir</i> for both points (near and far) of intersections with the sphere
+     *              a vector that will contain the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = origin + t * dir</i> for both points (near, far) of intersections with the sphere
      * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
      */
-    public static boolean intersectRaySphere(Vector3d origin, Vector3d dir, Vector3d center, double radiusSquared, double[] result) {
+    public static boolean intersectRaySphere(Vector3d origin, Vector3d dir, Vector3d center, double radiusSquared, Vector2d result) {
         return intersectRaySphere(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, center.x, center.y, center.z, radiusSquared, result);
     }
 
@@ -1027,7 +1027,7 @@ public class Intersectiond {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * 
-     * @see #intersectRayAab(Vector3d, Vector3d, Vector3d, Vector3d, double[])
+     * @see #intersectRayAab(Vector3d, Vector3d, Vector3d, Vector3d, Vector2d)
      * @see RayAabIntersection
      * 
      * @param originX
@@ -1055,13 +1055,13 @@ public class Intersectiond {
      * @param bZ
      *              the y coordinate of the opposite corner of the axis-aligned box
      * @param result
-     *              the double[] array which will hold the resulting values of the parameter
+     *              a vector which will hold the resulting values of the parameter
      *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
      *              iff the ray intersects the axis-aligned box
      * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
      */
     public static boolean intersectRayAab(double originX, double originY, double originZ, double dirX, double dirY, double dirZ,
-            double aX, double aY, double aZ, double bX, double bY, double bZ, double[] result) {
+            double aX, double aY, double aZ, double bX, double bY, double bZ, Vector2d result) {
         double invDirX = 1.0 / dirX, invDirY = 1.0 / dirY, invDirZ = 1.0 / dirZ;
         double tMinX = (aX - originX) * invDirX;
         double tMinY = (aY - originY) * invDirY;
@@ -1080,8 +1080,8 @@ public class Intersectiond {
         double t2XY = t2X < t2Y ? t2X : t2Y;
         double tFar = t2XY < t2Z ? t2XY : t2Z;
         if (tNear < tFar && tFar >= 0.0) {
-            result[0] = tNear;
-            result[1] = tFar;
+            result.x = tNear;
+            result.y = tFar;
             return true;
         }
         return false;
@@ -1099,7 +1099,7 @@ public class Intersectiond {
      * <p>
      * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
      * 
-     * @see #intersectRayAab(double, double, double, double, double, double, double, double, double, double, double, double, double[])
+     * @see #intersectRayAab(double, double, double, double, double, double, double, double, double, double, double, double, Vector2d)
      * @see RayAabIntersection
      * 
      * @param origin
@@ -1111,12 +1111,12 @@ public class Intersectiond {
      * @param b
      *              the opposite corner of the axis-aligned box
      * @param result
-     *              the double[] array which will hold the resulting values of the parameter
+     *              a vector which will hold the resulting values of the parameter
      *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
      *              iff the ray intersects the axis-aligned box
      * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
      */
-    public static boolean intersectRayAab(Vector3d origin, Vector3d dir, Vector3d a, Vector3d b, double[] result) {
+    public static boolean intersectRayAab(Vector3d origin, Vector3d dir, Vector3d a, Vector3d b, Vector2d result) {
         return intersectRayAab(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, a.x, a.y, a.z, b.x, b.y, b.z, result);
     }
 
@@ -2350,7 +2350,7 @@ public class Intersectiond {
      * Test whether the given ray with the origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt>
      * intersects the given circle with center <tt>(centerX, centerY)</tt> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
-     * and far) of intersections into the given array <code>result</code>.
+     * and far) of intersections into the given <code>result</code> vector.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the circle.
      * <p>
@@ -2371,12 +2371,12 @@ public class Intersectiond {
      * @param radiusSquared
      *              the circle radius squared
      * @param result
-     *              a double[] array that will contain the values of the parameter <i>t</i> in the ray equation
-     *              <i>p(t) = origin + t * dir</i> for both points (near and far) of intersections with the circle
+     *              a vector that will contain the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = origin + t * dir</i> for both points (near, far) of intersections with the circle
      * @return <code>true</code> if the ray intersects the circle; <code>false</code> otherwise
      */
     public static boolean intersectRayCircle(double originX, double originY, double dirX, double dirY, 
-            double centerX, double centerY, double radiusSquared, double[] result) {
+            double centerX, double centerY, double radiusSquared, Vector2d result) {
         double Lx = centerX - originX;
         double Ly = centerY - originY;
         double tca = Lx * dirX + Ly * dirY;
@@ -2387,8 +2387,8 @@ public class Intersectiond {
         double t0 = tca - thc;
         double t1 = tca + thc;
         if (t0 < t1 && t1 >= 0.0) {
-            result[0] = t0;
-            result[1] = t1;
+            result.x = t0;
+            result.y = t1;
             return true;
         }
         return false;
@@ -2398,7 +2398,7 @@ public class Intersectiond {
      * Test whether the ray with the given <code>origin</code> and direction <code>dir</code>
      * intersects the circle with the given <code>center</code> and square radius <code>radiusSquared</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
-     * and far) of intersections into the given array <code>result</code>.
+     * and far) of intersections into the given <code>result</code> vector.
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the circle.
      * <p>
@@ -2413,11 +2413,11 @@ public class Intersectiond {
      * @param radiusSquared
      *              the circle radius squared
      * @param result
-     *              a double[] array that will contain the values of the parameter <i>t</i> in the ray equation
-     *              <i>p(t) = origin + t * dir</i> for both points (near and far) of intersections with the circle
+     *              a vector that will contain the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = origin + t * dir</i> for both points (near, far) of intersections with the circle
      * @return <code>true</code> if the ray intersects the circle; <code>false</code> otherwise
      */
-    public static boolean intersectRayCircle(Vector2d origin, Vector2d dir, Vector2d center, double radiusSquared, double[] result) {
+    public static boolean intersectRayCircle(Vector2d origin, Vector2d dir, Vector2d center, double radiusSquared, Vector2d result) {
         return intersectRayCircle(origin.x, origin.y, dir.x, dir.y, center.x, center.y, radiusSquared, result);
     }
 
@@ -2510,13 +2510,13 @@ public class Intersectiond {
      * @param bY
      *              the y coordinate of the opposite corner of the axis-aligned rectangle
      * @param result
-     *              the double[] array which will hold the resulting values of the parameter
+     *              a vector which will hold the resulting values of the parameter
      *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
      *              iff the ray intersects the axis-aligned rectangle
      * @return <code>true</code> if the given ray intersects the axis-aligned rectangle; <code>false</code> otherwise
      */
     public static boolean intersectRayAar(double originX, double originY, double dirX, double dirY, 
-            double aX, double aY, double bX, double bY, double[] result) {
+            double aX, double aY, double bX, double bY, Vector2d result) {
         double invDirX = 1.0 / dirX, invDirY = 1.0 / dirY;
         double tMinX = (aX - originX) * invDirX;
         double tMinY = (aY - originY) * invDirY;
@@ -2529,8 +2529,8 @@ public class Intersectiond {
         double tNear = t1X > t1Y ? t1X : t1Y;
         double tFar = t2X < t2Y ? t2X : t2Y;
         if (tNear < tFar && tFar >= 0.0) {
-            result[0] = tNear;
-            result[1] = tFar;
+            result.x = tNear;
+            result.y = tFar;
             return true;
         }
         return false;
@@ -2557,12 +2557,12 @@ public class Intersectiond {
      * @param b
      *              the opposite corner of the axis-aligned rectangle
      * @param result
-     *              the double[] array which will hold the resulting values of the parameter
+     *              a vector which will hold the resulting values of the parameter
      *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
      *              iff the ray intersects the axis-aligned rectangle
      * @return <code>true</code> if the given ray intersects the axis-aligned rectangle; <code>false</code> otherwise
      */
-    public static boolean intersectRayAar(Vector2d origin, Vector2d dir, Vector2d a, Vector2d b, double[] result) {
+    public static boolean intersectRayAar(Vector2d origin, Vector2d dir, Vector2d a, Vector2d b, Vector2d result) {
         return intersectRayAar(origin.x, origin.y, dir.x, dir.y, a.x, a.y, b.x, b.y, result);
     }
 
