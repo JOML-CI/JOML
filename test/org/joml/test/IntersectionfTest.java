@@ -1,10 +1,11 @@
 package org.joml.test;
 
+import junit.framework.TestCase;
+
 import org.joml.Intersectionf;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-
-import junit.framework.TestCase;
 
 /**
  * Tests for the {@link Intersectionf} class.
@@ -28,11 +29,11 @@ public class IntersectionfTest extends TestCase {
         Vector3f dir = new Vector3f(1, 0, 0);
         Vector3f center = new Vector3f(5, 0, 0);
         float radiusSquared = 1.0f;
-        float[] result = new float[2];
+        Vector2f result = new Vector2f();
         boolean intersect = Intersectionf.intersectRaySphere(origin, dir, center, radiusSquared, result);
         assertTrue(intersect);
-        assertEquals(4.0f, result[0], 1E-6f);
-        assertEquals(6.0f, result[1], 1E-6f);
+        assertEquals(4.0f, result.x, 1E-6f);
+        assertEquals(6.0f, result.y, 1E-6f);
     }
 
     public static void testIntersectRayPlane() {

@@ -2491,7 +2491,7 @@ public class Intersectiond {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned rectangle.
      * 
-     * @see #intersectRayAar(Vector2d, Vector2d, Vector2d, Vector2d, double[])
+     * @see #intersectRayAar(Vector2d, Vector2d, Vector2d, Vector2d, Vector2d)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
@@ -2546,7 +2546,7 @@ public class Intersectiond {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned rectangle.
      * 
-     * @see #intersectRayAar(double, double, double, double, double, double, double, double, double[])
+     * @see #intersectRayAar(double, double, double, double, double, double, double, double, Vector2d)
      * 
      * @param origin
      *              the ray's origin

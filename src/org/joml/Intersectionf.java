@@ -2491,7 +2491,7 @@ public class Intersectionf {
      * <p>
      * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned rectangle.
      * 
-     * @see #intersectRayAar(Vector2f, Vector2f, Vector2f, Vector2f, float[])
+     * @see #intersectRayAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)
      * 
      * @param originX
      *              the x coordinate of the ray's origin
