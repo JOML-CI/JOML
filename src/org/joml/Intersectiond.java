@@ -2025,6 +2025,100 @@ public class Intersectiond {
     }
 
     /**
+     * Determine whether the line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
+     * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
+     * regardless of the winding order of the triangle or the direction of the line segment between its two end points,
+     * and return the point of intersection.
+     * <p>
+     * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Fast, Minimum Storage Ray/Triangle Intersection</a>
+     * 
+     * @see #intersectLineSegmentTriangle(Vector3d, Vector3d, Vector3d, Vector3d, Vector3d, double, Vector3d)
+     * 
+     * @param p0X
+     *              the x coordinate of the line segment's first end point
+     * @param p0Y
+     *              the y coordinate of the line segment's first end point
+     * @param p0Z
+     *              the z coordinate of the line segment's first end point
+     * @param p1X
+     *              the x coordinate of the line segment's second end point
+     * @param p1Y
+     *              the y coordinate of the line segment's second end point
+     * @param p1Z
+     *              the z coordinate of the line segment's second end point
+     * @param v0X
+     *              the x coordinate of the first vertex
+     * @param v0Y
+     *              the y coordinate of the first vertex
+     * @param v0Z
+     *              the z coordinate of the first vertex
+     * @param v1X
+     *              the x coordinate of the second vertex
+     * @param v1Y
+     *              the y coordinate of the second vertex
+     * @param v1Z
+     *              the z coordinate of the second vertex
+     * @param v2X
+     *              the x coordinate of the third vertex
+     * @param v2Y
+     *              the y coordinate of the third vertex
+     * @param v2Z
+     *              the z coordinate of the third vertex
+     * @param epsilon
+     *              a small epsilon when testing line segments that are almost parallel to the triangle
+     * @param intersectionPoint
+     *              the point of intersection
+     * @return <code>true</code> if the given line segment intersects the triangle; <code>false</code> otherwise
+     */
+    public static boolean intersectLineSegmentTriangle(double p0X, double p0Y, double p0Z, double p1X, double p1Y, double p1Z,
+            double v0X, double v0Y, double v0Z, double v1X, double v1Y, double v1Z, double v2X, double v2Y, double v2Z,
+            double epsilon, Vector3d intersectionPoint) {
+        double dirX = p1X - p0X;
+        double dirY = p1Y - p0Y;
+        double dirZ = p1Z - p0Z;
+        double t = intersectRayTriangle(p0X, p0Y, p0Z, dirX, dirY, dirZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z, epsilon);
+        if (t >= 0.0f && t <= 1.0f) {
+            intersectionPoint.x = p0X + dirX * t;
+            intersectionPoint.y = p0Y + dirY * t;
+            intersectionPoint.z = p0Z + dirZ * t;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determine whether the line segment with the end points <code>p0</code> and <code>p1</code>
+     * intersects the triangle consisting of the three vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt> and <tt>(v2X, v2Y, v2Z)</tt>,
+     * regardless of the winding order of the triangle or the direction of the line segment between its two end points,
+     * and return the point of intersection.
+     * <p>
+     * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
+     * Fast, Minimum Storage Ray/Triangle Intersection</a>
+     * 
+     * @see #intersectLineSegmentTriangle(double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, Vector3d)
+     * 
+     * @param p0
+     *              the line segment's first end point
+     * @param p1
+     *              the line segment's second end point
+     * @param v0
+     *              the position of the first vertex
+     * @param v1
+     *              the position of the second vertex
+     * @param v2
+     *              the position of the third vertex
+     * @param epsilon
+     *              a small epsilon when testing line segments that are almost parallel to the triangle
+     * @param intersectionPoint
+     *              the point of intersection
+     * @return <code>true</code> if the given line segment intersects the triangle; <code>false</code> otherwise
+     */
+    public static boolean intersectLineSegmentTriangle(Vector3d p0, Vector3d p1, Vector3d v0, Vector3d v1, Vector3d v2, double epsilon, Vector3d intersectionPoint) {
+        return intersectLineSegmentTriangle(p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, epsilon, intersectionPoint);
+    }
+
+    /**
      * Test whether the line with the general line equation <i>a*x + b*y + c = 0</i> intersects the circle with center
      * <tt>(centerX, centerY)</tt> and <code>radius</code>.
      * <p>
