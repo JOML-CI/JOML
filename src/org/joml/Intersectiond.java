@@ -885,9 +885,13 @@ public class Intersectiond {
         int isect = -1;
         double t0 = maxT;
         double A = velX * velX + velY * velY + velZ * velZ;
+        double radius2 = radius * radius;
         // test against v0
-        double B0 = 2.0f * (velX * (centerX - v0X) + velY * (centerY - v0Y) + velZ * (centerZ - v0Z));
-        double C0 = (v0X - centerX) * (v0X - centerX) + (v0Y - centerY) * (v0Y - centerY) + (v0Z - centerZ) * (v0Z - centerZ) - radius * radius;
+        double centerV0X = centerX - v0X;
+        double centerV0Y = centerY - v0Y;
+        double centerV0Z = centerZ - v0Z;
+        double B0 = 2.0 * (velX * centerV0X + velY * centerV0Y + velZ * centerV0Z);
+        double C0 = centerV0X * centerV0X + centerV0Y * centerV0Y + centerV0Z * centerV0Z - radius2;
         double root0 = computeLowestRoot(A, B0, C0, t0);
         if (root0 < t0) {
             pointAndTime.x = v0X;
@@ -898,8 +902,12 @@ public class Intersectiond {
             isect = POINT_ON_TRIANGLE_VERTEX;
         }
         // test against v1
-        double B1 = 2.0f * (velX * (centerX - v1X) + velY * (centerY - v1Y) + velZ * (centerZ - v1Z));
-        double C1 = (v1X - centerX) * (v1X - centerX) + (v1Y - centerY) * (v1Y - centerY) + (v1Z - centerZ) * (v1Z - centerZ) - radius * radius;
+        double centerV1X = centerX - v1X;
+        double centerV1Y = centerY - v1Y;
+        double centerV1Z = centerZ - v1Z;
+        double centerV1Len = centerV1X * centerV1X + centerV1Y * centerV1Y + centerV1Z * centerV1Z;
+        double B1 = 2.0 * (velX * centerV1X + velY * centerV1Y + velZ * centerV1Z);
+        double C1 = centerV1Len - radius2;
         double root1 = computeLowestRoot(A, B1, C1, t0);
         if (root1 < t0) {
             pointAndTime.x = v1X;
@@ -910,8 +918,11 @@ public class Intersectiond {
             isect = POINT_ON_TRIANGLE_VERTEX;
         }
         // test against v2
-        double B2 = 2.0f * (velX * (centerX - v2X) + velY * (centerY - v2Y) + velZ * (centerZ - v2Z));
-        double C2 = (v2X - centerX) * (v2X - centerX) + (v2Y - centerY) * (v2Y - centerY) + (v2Z - centerZ) * (v2Z - centerZ) - radius * radius;
+        double centerV2X = centerX - v2X;
+        double centerV2Y = centerY - v2Y;
+        double centerV2Z = centerZ - v2Z;
+        double B2 = 2.0 * (velX * centerV2X + velY * centerV2Y + velZ * centerV2Z);
+        double C2 = centerV2X * centerV2X + centerV2Y * centerV2Y + centerV2Z * centerV2Z - radius2;
         double root2 = computeLowestRoot(A, B2, C2, t0);
         if (root2 < t0) {
             pointAndTime.x = v2X;
@@ -924,19 +935,16 @@ public class Intersectiond {
         double velLen = velX * velX + velY * velY + velZ * velZ;
         // test against edge10
         double len10 = v10X * v10X + v10Y * v10Y + v10Z * v10Z;
-        double baseTo0X = v0X - centerX;
-        double baseTo0Y = v0Y - centerY;
-        double baseTo0Z = v0Z - centerZ;
-        double baseTo0Len = baseTo0X * baseTo0X + baseTo0Y * baseTo0Y + baseTo0Z * baseTo0Z;
+        double baseTo0Len = centerV0X * centerV0X + centerV0Y * centerV0Y + centerV0Z * centerV0Z;
         double v10Vel = (v10X * velX + v10Y * velY + v10Z * velZ);
         double A10 = len10 * -velLen + v10Vel * v10Vel;
-        double v10BaseTo0 = v10X * baseTo0X + v10Y * baseTo0Y + v10Z * baseTo0Z;
-        double velBaseTo0 = velX * baseTo0X + velY * baseTo0Y + velZ * baseTo0Z;
+        double v10BaseTo0 = v10X * -centerV0X + v10Y * -centerV0Y + v10Z * -centerV0Z;
+        double velBaseTo0 = velX * -centerV0X + velY * -centerV0Y + velZ * -centerV0Z;
         double B10 = len10 * 2 * velBaseTo0 - 2 * v10Vel * v10BaseTo0;
-        double C10 = len10 * (1 - baseTo0Len) + v10BaseTo0 * v10BaseTo0;
+        double C10 = len10 * (radius2 - baseTo0Len) + v10BaseTo0 * v10BaseTo0;
         double root10 = computeLowestRoot(A10, B10, C10, t0);
         double f10 = (v10Vel * root10 - v10BaseTo0) / len10;
-        if (f10 >= 0.0f && f10 <= 1.0f && root10 < t0) {
+        if (f10 >= 0.0 && f10 <= 1.0 && root10 < t0) {
             pointAndTime.x = v0X + f10 * v10X;
             pointAndTime.y = v0Y + f10 * v10Y;
             pointAndTime.z = v0Z + f10 * v10Z;
@@ -948,12 +956,12 @@ public class Intersectiond {
         double len20 = v20X * v20X + v20Y * v20Y + v20Z * v20Z;
         double v20Vel = (v20X * velX + v20Y * velY + v20Z * velZ);
         double A20 = len20 * -velLen + v20Vel * v20Vel;
-        double v20BaseTo0 = v20X * baseTo0X + v20Y * baseTo0Y + v20Z * baseTo0Z;
+        double v20BaseTo0 = v20X * -centerV0X + v20Y * -centerV0Y + v20Z * -centerV0Z;
         double B20 = len20 * 2 * velBaseTo0 - 2 * v20Vel * v20BaseTo0;
-        double C20 = len20 * (1 - baseTo0Len) + v20BaseTo0 * v20BaseTo0;
+        double C20 = len20 * (radius2 - baseTo0Len) + v20BaseTo0 * v20BaseTo0;
         double root20 = computeLowestRoot(A20, B20, C20, t0);
         double f20 = (v20Vel * root20 - v20BaseTo0) / len20;
-        if (f20 >= 0.0f && f20 <= 1.0f && root20 < pt1) {
+        if (f20 >= 0.0 && f20 <= 1.0 && root20 < pt1) {
             pointAndTime.x = v0X + f20 * v20X;
             pointAndTime.y = v0Y + f20 * v20Y;
             pointAndTime.z = v0Z + f20 * v20Z;
@@ -966,19 +974,16 @@ public class Intersectiond {
         double v21Y = v2Y - v1Y;
         double v21Z = v2Z - v1Z;
         double len21 = v21X * v21X + v21Y * v21Y + v21Z * v21Z;
-        double baseTo1X = v1X - centerX;
-        double baseTo1Y = v1Y - centerY;
-        double baseTo1Z = v1Z - centerZ;
-        double baseTo1Len = baseTo1X * baseTo1X + baseTo1Y * baseTo1Y + baseTo1Z * baseTo1Z;
+        double baseTo1Len = centerV1Len;
         double v21Vel = (v21X * velX + v21Y * velY + v21Z * velZ);
         double A21 = len21 * -velLen + v21Vel * v21Vel;
-        double v21BaseTo1 = v21X * baseTo1X + v21Y * baseTo1Y + v21Z * baseTo1Z;
-        double velBaseTo1 = velX * baseTo1X + velY * baseTo1Y + velZ * baseTo1Z;
+        double v21BaseTo1 = v21X * -centerV1X + v21Y * -centerV1Y + v21Z * -centerV1Z;
+        double velBaseTo1 = velX * -centerV1X + velY * -centerV1Y + velZ * -centerV1Z;
         double B21 = len21 * 2 * velBaseTo1 - 2 * v21Vel * v21BaseTo1;
-        double C21 = len21 * (1 - baseTo1Len) + v21BaseTo1 * v21BaseTo1;
+        double C21 = len21 * (radius2 - baseTo1Len) + v21BaseTo1 * v21BaseTo1;
         double root21 = computeLowestRoot(A21, B21, C21, t0);
         double f21 = (v21Vel * root21 - v21BaseTo1) / len21;
-        if (f21 >= 0.0f && f21 <= 1.0f && root21 < t0) {
+        if (f21 >= 0.0 && f21 <= 1.0 && root21 < t0) {
             pointAndTime.x = v1X + f21 * v21X;
             pointAndTime.y = v1Y + f21 * v21Y;
             pointAndTime.z = v1Z + f21 * v21Z;

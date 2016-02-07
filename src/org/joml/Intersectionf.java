@@ -885,9 +885,13 @@ public class Intersectionf {
         int isect = -1;
         float t0 = maxT;
         float A = velX * velX + velY * velY + velZ * velZ;
+        float radius2 = radius * radius;
         // test against v0
-        float B0 = 2.0f * (velX * (centerX - v0X) + velY * (centerY - v0Y) + velZ * (centerZ - v0Z));
-        float C0 = (v0X - centerX) * (v0X - centerX) + (v0Y - centerY) * (v0Y - centerY) + (v0Z - centerZ) * (v0Z - centerZ) - radius * radius;
+        float centerV0X = centerX - v0X;
+        float centerV0Y = centerY - v0Y;
+        float centerV0Z = centerZ - v0Z;
+        float B0 = 2.0f * (velX * centerV0X + velY * centerV0Y + velZ * centerV0Z);
+        float C0 = centerV0X * centerV0X + centerV0Y * centerV0Y + centerV0Z * centerV0Z - radius2;
         float root0 = computeLowestRoot(A, B0, C0, t0);
         if (root0 < t0) {
             pointAndTime.x = v0X;
@@ -898,8 +902,12 @@ public class Intersectionf {
             isect = POINT_ON_TRIANGLE_VERTEX;
         }
         // test against v1
-        float B1 = 2.0f * (velX * (centerX - v1X) + velY * (centerY - v1Y) + velZ * (centerZ - v1Z));
-        float C1 = (v1X - centerX) * (v1X - centerX) + (v1Y - centerY) * (v1Y - centerY) + (v1Z - centerZ) * (v1Z - centerZ) - radius * radius;
+        float centerV1X = centerX - v1X;
+        float centerV1Y = centerY - v1Y;
+        float centerV1Z = centerZ - v1Z;
+        float centerV1Len = centerV1X * centerV1X + centerV1Y * centerV1Y + centerV1Z * centerV1Z;
+        float B1 = 2.0f * (velX * centerV1X + velY * centerV1Y + velZ * centerV1Z);
+        float C1 = centerV1Len - radius2;
         float root1 = computeLowestRoot(A, B1, C1, t0);
         if (root1 < t0) {
             pointAndTime.x = v1X;
@@ -910,8 +918,11 @@ public class Intersectionf {
             isect = POINT_ON_TRIANGLE_VERTEX;
         }
         // test against v2
-        float B2 = 2.0f * (velX * (centerX - v2X) + velY * (centerY - v2Y) + velZ * (centerZ - v2Z));
-        float C2 = (v2X - centerX) * (v2X - centerX) + (v2Y - centerY) * (v2Y - centerY) + (v2Z - centerZ) * (v2Z - centerZ) - radius * radius;
+        float centerV2X = centerX - v2X;
+        float centerV2Y = centerY - v2Y;
+        float centerV2Z = centerZ - v2Z;
+        float B2 = 2.0f * (velX * centerV2X + velY * centerV2Y + velZ * centerV2Z);
+        float C2 = centerV2X * centerV2X + centerV2Y * centerV2Y + centerV2Z * centerV2Z - radius2;
         float root2 = computeLowestRoot(A, B2, C2, t0);
         if (root2 < t0) {
             pointAndTime.x = v2X;
@@ -924,16 +935,13 @@ public class Intersectionf {
         float velLen = velX * velX + velY * velY + velZ * velZ;
         // test against edge10
         float len10 = v10X * v10X + v10Y * v10Y + v10Z * v10Z;
-        float baseTo0X = v0X - centerX;
-        float baseTo0Y = v0Y - centerY;
-        float baseTo0Z = v0Z - centerZ;
-        float baseTo0Len = baseTo0X * baseTo0X + baseTo0Y * baseTo0Y + baseTo0Z * baseTo0Z;
+        float baseTo0Len = centerV0X * centerV0X + centerV0Y * centerV0Y + centerV0Z * centerV0Z;
         float v10Vel = (v10X * velX + v10Y * velY + v10Z * velZ);
         float A10 = len10 * -velLen + v10Vel * v10Vel;
-        float v10BaseTo0 = v10X * baseTo0X + v10Y * baseTo0Y + v10Z * baseTo0Z;
-        float velBaseTo0 = velX * baseTo0X + velY * baseTo0Y + velZ * baseTo0Z;
+        float v10BaseTo0 = v10X * -centerV0X + v10Y * -centerV0Y + v10Z * -centerV0Z;
+        float velBaseTo0 = velX * -centerV0X + velY * -centerV0Y + velZ * -centerV0Z;
         float B10 = len10 * 2 * velBaseTo0 - 2 * v10Vel * v10BaseTo0;
-        float C10 = len10 * (1 - baseTo0Len) + v10BaseTo0 * v10BaseTo0;
+        float C10 = len10 * (radius2 - baseTo0Len) + v10BaseTo0 * v10BaseTo0;
         float root10 = computeLowestRoot(A10, B10, C10, t0);
         float f10 = (v10Vel * root10 - v10BaseTo0) / len10;
         if (f10 >= 0.0f && f10 <= 1.0f && root10 < t0) {
@@ -948,9 +956,9 @@ public class Intersectionf {
         float len20 = v20X * v20X + v20Y * v20Y + v20Z * v20Z;
         float v20Vel = (v20X * velX + v20Y * velY + v20Z * velZ);
         float A20 = len20 * -velLen + v20Vel * v20Vel;
-        float v20BaseTo0 = v20X * baseTo0X + v20Y * baseTo0Y + v20Z * baseTo0Z;
+        float v20BaseTo0 = v20X * -centerV0X + v20Y * -centerV0Y + v20Z * -centerV0Z;
         float B20 = len20 * 2 * velBaseTo0 - 2 * v20Vel * v20BaseTo0;
-        float C20 = len20 * (1 - baseTo0Len) + v20BaseTo0 * v20BaseTo0;
+        float C20 = len20 * (radius2 - baseTo0Len) + v20BaseTo0 * v20BaseTo0;
         float root20 = computeLowestRoot(A20, B20, C20, t0);
         float f20 = (v20Vel * root20 - v20BaseTo0) / len20;
         if (f20 >= 0.0f && f20 <= 1.0f && root20 < pt1) {
@@ -966,16 +974,13 @@ public class Intersectionf {
         float v21Y = v2Y - v1Y;
         float v21Z = v2Z - v1Z;
         float len21 = v21X * v21X + v21Y * v21Y + v21Z * v21Z;
-        float baseTo1X = v1X - centerX;
-        float baseTo1Y = v1Y - centerY;
-        float baseTo1Z = v1Z - centerZ;
-        float baseTo1Len = baseTo1X * baseTo1X + baseTo1Y * baseTo1Y + baseTo1Z * baseTo1Z;
+        float baseTo1Len = centerV1Len;
         float v21Vel = (v21X * velX + v21Y * velY + v21Z * velZ);
         float A21 = len21 * -velLen + v21Vel * v21Vel;
-        float v21BaseTo1 = v21X * baseTo1X + v21Y * baseTo1Y + v21Z * baseTo1Z;
-        float velBaseTo1 = velX * baseTo1X + velY * baseTo1Y + velZ * baseTo1Z;
+        float v21BaseTo1 = v21X * -centerV1X + v21Y * -centerV1Y + v21Z * -centerV1Z;
+        float velBaseTo1 = velX * -centerV1X + velY * -centerV1Y + velZ * -centerV1Z;
         float B21 = len21 * 2 * velBaseTo1 - 2 * v21Vel * v21BaseTo1;
-        float C21 = len21 * (1 - baseTo1Len) + v21BaseTo1 * v21BaseTo1;
+        float C21 = len21 * (radius2 - baseTo1Len) + v21BaseTo1 * v21BaseTo1;
         float root21 = computeLowestRoot(A21, B21, C21, t0);
         float f21 = (v21Vel * root21 - v21BaseTo1) / len21;
         if (f21 >= 0.0f && f21 <= 1.0f && root21 < t0) {
