@@ -269,10 +269,10 @@ public class SimplexNoise {
         int ii = i & 255;
         int jj = j & 255;
         int kk = k & 255;
-        int gi0 = permMod12[ii + perm[jj + perm[kk]]];
-        int gi1 = permMod12[ii + i1 + perm[jj + j1 + perm[kk + k1]]];
-        int gi2 = permMod12[ii + i2 + perm[jj + j2 + perm[kk + k2]]];
-        int gi3 = permMod12[ii + 1 + perm[jj + 1 + perm[kk + 1]]];
+        int gi0 = permMod12[ii + perm[jj + perm[kk]&0xFF]&0xFF]&0xFF;
+        int gi1 = permMod12[ii + i1 + perm[jj + j1 + perm[kk + k1]&0xFF]&0xFF]&0xFF;
+        int gi2 = permMod12[ii + i2 + perm[jj + j2 + perm[kk + k2]&0xFF]&0xFF]&0xFF;
+        int gi3 = permMod12[ii + 1 + perm[jj + 1 + perm[kk + 1]&0xFF]&0xFF]&0xFF;
         // Calculate the contribution from the four corners
         float t0 = 0.6f - x0 * x0 - y0 * y0 - z0 * z0;
         if (t0 < 0.0f)
@@ -416,11 +416,11 @@ public class SimplexNoise {
         int jj = j & 255;
         int kk = k & 255;
         int ll = l & 255;
-        int gi0 = perm[ii + perm[jj + perm[kk + perm[ll]]]] % 32;
-        int gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1 + perm[ll + l1]]]] % 32;
-        int gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2 + perm[ll + l2]]]] % 32;
-        int gi3 = perm[ii + i3 + perm[jj + j3 + perm[kk + k3 + perm[ll + l3]]]] % 32;
-        int gi4 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1 + perm[ll + 1]]]] % 32;
+        int gi0 = (perm[ii + perm[jj + perm[kk + perm[ll]&0xFF]&0xFF]&0xFF]&0xFF) % 32;
+        int gi1 = (perm[ii + i1 + perm[jj + j1 + perm[kk + k1 + perm[ll + l1]&0xFF]&0xFF]&0xFF]&0xFF) % 32;
+        int gi2 = (perm[ii + i2 + perm[jj + j2 + perm[kk + k2 + perm[ll + l2]&0xFF]&0xFF]&0xFF]&0xFF) % 32;
+        int gi3 = (perm[ii + i3 + perm[jj + j3 + perm[kk + k3 + perm[ll + l3]&0xFF]&0xFF]&0xFF]&0xFF) % 32;
+        int gi4 = (perm[ii + 1 + perm[jj + 1 + perm[kk + 1 + perm[ll + 1]&0xFF]&0xFF]&0xFF]&0xFF) % 32;
         // Calculate the contribution from the five corners
         float t0 = 0.6f - x0 * x0 - y0 * y0 - z0 * z0 - w0 * w0;
         if (t0 < 0.0f)
