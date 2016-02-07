@@ -99,19 +99,48 @@ public class GeometryUtils {
     /**
      * Calculate the normal of a surface defined by points <code>v1</code>, <code>v2</code> and <code>v3</code> and store it in <code>dest</code>.
      * 
-     * @param v1
+     * @param v0
      *            the first position
-     * @param v2
+     * @param v1
      *            the second position
-     * @param v3
+     * @param v2
      *            the third position
      * @param dest
      *            will hold the result
      */
-    public static void normal(Vector3f v1, Vector3f v2, Vector3f v3, Vector3f dest) {
-        dest.x = ((v2.y - v1.y) * (v3.z - v1.z)) - ((v2.z - v1.z) * (v3.y - v1.y));
-        dest.y = ((v2.z - v1.z) * (v3.x - v1.x)) - ((v2.x - v1.x) * (v3.z - v1.z));
-        dest.z = ((v2.x - v1.x) * (v3.y - v1.y)) - ((v2.y - v1.y) * (v3.x - v1.x));
+    public static void normal(Vector3f v0, Vector3f v1, Vector3f v2, Vector3f dest) {
+        normal(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, dest);
+    }
+
+    /**
+     * Calculate the normal of a surface defined by points <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt> and <tt>(v3X, v3Y, v3Z)</tt>
+     * and store it in <code>dest</code>.
+     * 
+     * @param v0X
+     *            the x coordinate of the first position
+     * @param v0Y
+     *            the y coordinate of the first position
+     * @param v0Z
+     *            the z coordinate of the first position
+     * @param v1X
+     *            the x coordinate of the second position
+     * @param v1Y
+     *            the y coordinate of the second position
+     * @param v1Z
+     *            the z coordinate of the second position
+     * @param v2X
+     *            the x coordinate of the third position
+     * @param v2Y
+     *            the y coordinate of the third position
+     * @param v2Z
+     *            the z coordinate of the third position
+     * @param dest
+     *            will hold the result
+     */
+    public static void normal(float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z, Vector3f dest) {
+        dest.x = ((v1Y - v0Y) * (v2Z - v0Z)) - ((v1Z - v0Z) * (v2Y - v0Y));
+        dest.y = ((v1Z - v0Z) * (v2X - v0X)) - ((v1X - v0X) * (v2Z - v0Z));
+        dest.z = ((v1X - v0X) * (v2Y - v0Y)) - ((v1Y - v0Y) * (v2X - v0X));
         dest.normalize();
     }
 
