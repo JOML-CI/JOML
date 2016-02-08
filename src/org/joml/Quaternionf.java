@@ -1480,7 +1480,7 @@ public class Quaternionf implements Externalizable {
      *          the angular velocity around the y axis
      * @param vz
      *          the angular velocity around the z axis
-     * @return dest
+     * @return this
      */
     public Quaternionf integrate(float dt, float vx, float vy, float vz) {
         return integrate(dt, vx, vy, vz, this);

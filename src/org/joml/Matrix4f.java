@@ -1378,7 +1378,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given values <tt>(x, y, z)</tt>.
+     * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(x, y, z)</tt>.
      * <p>
      * Note that this will only work properly for orthogonal matrices (without any perspective).
      * <p>
@@ -1404,7 +1404,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
+     * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
      * Note that this will only work properly for orthogonal matrices (without any perspective).
      * <p>
@@ -1426,7 +1426,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Get only the translation components of this matrix <tt>(m30, m31, m32)</tt> and store them in the given vector <code>xyz</code>.
+     * Get only the translation components <tt>(m30, m31, m32)</tt> of this matrix and store them in the given vector <code>xyz</code>.
      * 
      * @param dest
      *          will hold the translation components of this matrix
