@@ -1406,7 +1406,7 @@ public class Quaterniond implements Externalizable {
      *          the angular velocity around the y axis
      * @param vz
      *          the angular velocity around the z axis
-     * @return dest
+     * @return this
      */
     public Quaterniond integrate(double dt, double vx, double vy, double vz) {
         return integrate(dt, vx, vy, vz, this);

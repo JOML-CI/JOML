@@ -1706,7 +1706,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given values <tt>(x, y, z)</tt>.
+     * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(x, y, z)</tt>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(double, double, double)}.
      * To apply a translation to another matrix, use {@link #translate(double, double, double)}.
@@ -1730,7 +1730,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set only the translation components of this matrix <tt>(m30, m31, m32)</tt> to the given values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
+     * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(Vector3d)}.
      * To apply a translation to another matrix, use {@link #translate(Vector3d)}.
