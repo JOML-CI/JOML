@@ -196,19 +196,16 @@ This allows you to use all of the legacy OpenGL matrix stack operations even in 
 but without the otherwise necessary JNI calls into the graphics driver.
 *Note that JOML does not interface in any way with the OpenGL API. It merely provides matrix and vector arithmetics.*
 ```Java
-MatrixStack s = new MatrixStack(2);
-Matrix4f result = new Matrix4f();
+MatrixStackf s = new MatrixStackf(2);
 s.translate(2.0f, 0.0f, 0.0f);
 s.pushMatrix();
 {
   s.scale(0.5f, 0.5f, 0.5f);
-  s.get(result);
-  // do something with result
+  // do something with the Matrix4f of 's'
 }
 s.popMatrix();
 s.rotate((float) Math.toRadians(45.0f), 0.0f, 0.0f, 1.0f);
-s.get(result);
-// do something with result
+// do something with the Matrix4f of 's'
 ```
 
 Projects using JOML
