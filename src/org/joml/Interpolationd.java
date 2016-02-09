@@ -138,7 +138,7 @@ public class Interpolationd {
      * and store the result in <code>dest</code>.
      * <p>
      * This method computes the constant rate of change for <i>f</i> given the three values of <i>f</i>
-     * at the specified three vertices.
+     * at the specified three inputs <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt> and <tt>(v2X, v2Y)</tt>.
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -187,7 +187,7 @@ public class Interpolationd {
      * and store the result in <code>dest</code>.
      * <p>
      * This method computes the constant rate of change for <i>f</i> given the three values of <i>f</i>
-     * at the specified three vertices.
+     * at the specified three inputs <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt> and <tt>(v2X, v2Y)</tt>.
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
