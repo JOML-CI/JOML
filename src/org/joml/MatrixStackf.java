@@ -70,6 +70,16 @@ public class MatrixStackf extends Matrix4f {
     }
 
     /**
+     * Do not invoke manually! Only meant for serialization.
+     * <p>
+     * Invoking this constructor from client code will result in an inconsistent state of the 
+     * created {@link MatrixStackf} instance.
+     */
+    public MatrixStackf() {
+        /* Empty! */
+    }
+
+    /**
      * Set the stack pointer to zero and set the current/bottom matrix to {@link #identity() identity}.
      * 
      * @return this
