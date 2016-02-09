@@ -31,7 +31,7 @@ and then translates x by 2.0:
 ```Java
 Vector3f v = ...;
 new Matrix4f().translate(2.0f, 0.0f, 0.0f)
-              .scale(0.5f);
+              .scale(0.5f)
               .transform(v);
 // v is now transformed by the specified transformation
 ```
