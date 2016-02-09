@@ -6874,42 +6874,42 @@ public class Matrix4d implements Externalizable {
                            double upX, double upY, double upZ, Matrix4d dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
-        dirX = centerX - eyeX;
-        dirY = centerY - eyeY;
-        dirZ = centerZ - eyeZ;
+        dirX = eyeX - centerX;
+        dirY = eyeY - centerY;
+        dirZ = eyeZ - centerZ;
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
-        // right = direction x up
+        // right = up x direction
         double rightX, rightY, rightZ;
-        rightX = dirY * upZ - dirZ * upY;
-        rightY = dirZ * upX - dirX * upZ;
-        rightZ = dirX * upY - dirY * upX;
+        rightX = upY * dirZ - upZ * dirY;
+        rightY = upZ * dirX - upX * dirZ;
+        rightZ = upX * dirY - upY * dirX;
         // normalize right
-        double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+        double invRightLength = 1.0f / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLength;
         rightY *= invRightLength;
         rightZ *= invRightLength;
-        // up = right x direction
-        double upnX = rightY * dirZ - rightZ * dirY;
-        double upnY = rightZ * dirX - rightX * dirZ;
-        double upnZ = rightX * dirY - rightY * dirX;
+        // up = direction x right
+        double upnX = dirY * rightZ - dirZ * rightY;
+        double upnY = dirZ * rightX - dirX * rightZ;
+        double upnZ = dirX * rightY - dirY * rightX;
 
         // calculate right matrix elements
         double rm00 = rightX;
         double rm01 = upnX;
-        double rm02 = -dirX;
+        double rm02 = dirX;
         double rm10 = rightY;
         double rm11 = upnY;
-        double rm12 = -dirY;
+        double rm12 = dirY;
         double rm20 = rightZ;
         double rm21 = upnZ;
-        double rm22 = -dirZ;
-        double rm30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
-        double rm31 = -upnX * eyeX - upnY * eyeY - upnZ * eyeZ;
-        double rm32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
+        double rm22 = dirZ;
+        double rm30 = -(rightX * eyeX + rightY * eyeY + rightZ * eyeZ);
+        double rm31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+        double rm32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
 
         // perform optimized matrix multiplication
         // compute last column first, because others do not depend on it
