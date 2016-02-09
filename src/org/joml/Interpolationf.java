@@ -187,6 +187,60 @@ public class Interpolationf {
     }
 
     /**
+     * Compute the derivative of the linear two-dimensional function 'f' with respect to Y.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">https://en.wikipedia.org/</a>
+     * 
+     * @param v0X
+     *            the x coordinate of the first triangle vertex
+     * @param v0Y
+     *            the y coordinate of the first triangle vertex
+     * @param f0X
+     *            the x component of the value of 'f' at the first vertex
+     * @param f0Y
+     *            the y component of the value of 'f' at the first vertex
+     * @param v1X
+     *            the x coordinate of the second triangle vertex
+     * @param v1Y
+     *            the y coordinate of the second triangle vertex
+     * @param f1X
+     *            the x component of the value of 'f' at the second vertex
+     * @param f1Y
+     *            the y component of the value of 'f' at the second vertex
+     * @param v2X
+     *            the x coordinate of the third triangle vertex
+     * @param v2Y
+     *            the y coordinate of the third triangle vertex
+     * @param f2X
+     *            the x component of the value of 'f' at the third vertex
+     * @param f2Y
+     *            the y component of the value of 'f' at the third vertex
+     * @param dest
+     *            will hold the interpolation result
+     * @return dest
+     */
+    public static Vector2f dFdyLinear(
+            float v0X, float v0Y, float f0X, float f0Y,
+            float v1X, float v1Y, float f1X, float f1Y,
+            float v2X, float v2Y, float f2X, float f2Y,
+            Vector2f dest) {
+        float v12Y = v1Y - v2Y;
+        float v21X = v2X - v1X;
+        float v02X = v0X - v2X;
+        float v02Y = v0Y - v2Y;
+        float den = (v12Y * v02X + v21X * v02Y);
+        float x0 = den * f2X;
+        float y0 = den * f2Y;
+        float l3_1 = den - v21X - v02X;
+        float x1 = v21X * f0X + v02X * f1X + l3_1 * f2X;
+        float y1 = v21X * f0Y + v02X * f1Y + l3_1 * f2Y;
+        float invDen = 1.0f / den;
+        dest.x = invDen * (x1 - x0);
+        dest.y = invDen * (y1 - y0);
+        return dest;
+    }
+
+    /**
      * Bilinearly interpolate the three-dimensional vector 'f' over the given triangle and store the result in <code>dest</code>.
      * <p>
      * Reference: <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">https://en.wikipedia.org/</a>
