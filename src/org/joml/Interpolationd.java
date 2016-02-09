@@ -31,6 +31,8 @@ public class Interpolationd {
 
     /**
      * Bilinearly interpolate the single scalar value 'f' over the given triangle.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">https://en.wikipedia.org/</a>
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -76,6 +78,8 @@ public class Interpolationd {
 
     /**
      * Bilinearly interpolate the two-dimensional vector 'f' over the given triangle and store the result in <code>dest</code>.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">https://en.wikipedia.org/</a>
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -130,7 +134,9 @@ public class Interpolationd {
     }
 
     /**
-     * Compute the derivative of the two-dimensional value 'f' with respect to X and Y using forward-differencing around the given point <tt>(x, y)</tt>.
+     * Compute the derivative of the linear two-dimensional function 'f' with respect to X.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">https://en.wikipedia.org/</a>
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -156,50 +162,34 @@ public class Interpolationd {
      *            the x component of the value of 'f' at the third vertex
      * @param f2Y
      *            the y component of the value of 'f' at the third vertex
-     * @param x
-     *            the x coordinate of the point at which to compute the derivative of 'f'
-     * @param y
-     *            the y coordinate of the point at which to compute the derivative of 'f'
-     * @param dx
-     *            the differential along x. The smaller the value the better the difference will approximate the derivative
-     * @param dy
-     *            the differential along y. The smaller the value the better the difference will approximate the derivative
      * @param dest
      *            will hold the interpolation result
      * @return dest
      */
-    public static Vector2d dFdxyForward(
+    public static Vector2d dFdxLinear(
             double v0X, double v0Y, double f0X, double f0Y,
             double v1X, double v1Y, double f1X, double f1Y,
-            double v2X, double v2Y, double f2X, double f2Y,
-            double x, double y, double dx, double dy, Vector2d dest) {
+            double v2X, double v2Y, double f2X, double f2Y, Vector2d dest) {
         double v12Y = v1Y - v2Y;
         double v21X = v2X - v1X;
         double v02X = v0X - v2X;
-        double y0v2Y = y - v2Y;
-        double x0v2X = x - v2X;
         double v02Y = v0Y - v2Y;
         double den = (v12Y * v02X + v21X * v02Y);
-        double l1_0 = (v12Y * x0v2X + v21X * y0v2Y);
-        double l2_0 = (-v02Y * x0v2X + v02X * y0v2Y);
-        double l3_0 = den - l1_0 - l2_0;
-        double x0 = l1_0 * f0X + l2_0 * f1X + l3_0 * f2X;
-        double y0 = l1_0 * f0Y + l2_0 * f1Y + l3_0 * f2Y;
-        double y1v2Y = y0v2Y + dy;
-        double x1v2X = x0v2X + dx;
-        double l1_1 = (v12Y * x1v2X + v21X * y1v2Y);
-        double l2_1 = (-v02Y * x1v2X + v02X * y1v2Y);
-        double l3_1 = den - l1_1 - l2_1;
-        double x1 = l1_1 * f0X + l2_1 * f1X + l3_1 * f2X;
-        double y1 = l1_1 * f0Y + l2_1 * f1Y + l3_1 * f2Y;
+        double x0 = den * f2X;
+        double y0 = den * f2Y;
+        double l3_1 = den - v12Y + v02Y;
+        double x1 = v12Y * f0X - v02Y * f1X + l3_1 * f2X;
+        double y1 = v12Y * f0Y - v02Y * f1Y + l3_1 * f2Y;
         double invDen = 1.0 / den;
-        dest.x = invDen * (x1 - x0) / dx;
-        dest.y = invDen * (y1 - y0) / dy;
+        dest.x = invDen * (x1 - x0);
+        dest.y = invDen * (y1 - y0);
         return dest;
     }
 
     /**
      * Bilinearly interpolate the three-dimensional vector 'f' over the given triangle and store the result in <code>dest</code>.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">https://en.wikipedia.org/</a>
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
