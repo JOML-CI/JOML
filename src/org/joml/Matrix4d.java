@@ -6878,10 +6878,7 @@ public class Matrix4d implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        double invDirLength = 1.0 / Math.sqrt(
-                  (eyeX - centerX) * (eyeX - centerX)
-                + (eyeY - centerY) * (eyeY - centerY)
-                + (eyeZ - centerZ) * (eyeZ - centerZ));
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
