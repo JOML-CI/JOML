@@ -3016,7 +3016,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method is equivalent to the following code:
      * <pre>
-     * Quaternionf inv = new Quaternionf(this).conjugate();
+     * Quaterniond inv = new Quaterniond(this).conjugate();
      * inv.transform(dir.set(0, 1, 0));
      * </pre>
      * 
@@ -3039,7 +3039,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method is equivalent to the following code:
      * <pre>
-     * Quaternionf inv = new Quaternionf(this).invert();
+     * Quaterniond inv = new Quaterniond(this).invert();
      * inv.transform(dir.set(0, 0, 1));
      * </pre>
      * 
@@ -3068,7 +3068,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * This method is equivalent to the following code:
      * <pre>
-     * Quaternionf inv = new Quaternionf(this).conjugate();
+     * Quaterniond inv = new Quaterniond(this).conjugate();
      * inv.transform(dir.set(0, 0, 1));
      * </pre>
      * 
