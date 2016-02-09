@@ -7544,9 +7544,10 @@ public class Matrix4d implements Externalizable {
      * <p>
      * This method is equivalent to the following code:
      * <pre>
-     * Matrix4f inv = new Matrix4f(this).invert();
+     * Matrix4d inv = new Matrix4d(this).invert();
      * inv.transformDirection(dir.set(0, 0, 1)).normalize();
      * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveZ(Vector3d)} instead.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -7563,6 +7564,32 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).transpose();
+     * inv.transformDirection(dir.set(0, 0, 1)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3d normalizedPositiveZ(Vector3d dir) {
+        dir.x = m02;
+        dir.y = m12;
+        dir.z = m22;
+        return dir;
+    }
+
+    /**
      * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
@@ -7570,9 +7597,10 @@ public class Matrix4d implements Externalizable {
      * <p>
      * This method is equivalent to the following code:
      * <pre>
-     * Matrix4f inv = new Matrix4f(this).invert();
+     * Matrix4d inv = new Matrix4d(this).invert();
      * inv.transformDirection(dir.set(1, 0, 0)).normalize();
      * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveX(Vector3d)} instead.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -7589,6 +7617,32 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).transpose();
+     * inv.transformDirection(dir.set(1, 0, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3d normalizedPositiveX(Vector3d dir) {
+        dir.x = m00;
+        dir.y = m10;
+        dir.z = m20;
+        return dir;
+    }
+
+    /**
      * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
@@ -7596,9 +7650,10 @@ public class Matrix4d implements Externalizable {
      * <p>
      * This method is equivalent to the following code:
      * <pre>
-     * Matrix4f inv = new Matrix4f(this).invert();
+     * Matrix4d inv = new Matrix4d(this).invert();
      * inv.transformDirection(dir.set(0, 1, 0)).normalize();
      * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveY(Vector3d)} instead.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -7611,6 +7666,32 @@ public class Matrix4d implements Externalizable {
         dir.y = m00 * m22 - m02 * m20;
         dir.z = m02 * m10 - m00 * m12;
         dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).transpose();
+     * inv.transformDirection(dir.set(0, 1, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3d normalizedPositiveY(Vector3d dir) {
+        dir.x = m01;
+        dir.y = m11;
+        dir.z = m21;
         return dir;
     }
 
