@@ -130,6 +130,75 @@ public class Interpolationf {
     }
 
     /**
+     * Compute the derivative of the two-dimensional value 'f' with respect to X and Y using forward-differencing around the given point <tt>(x, y)</tt>.
+     * 
+     * @param v0X
+     *            the x coordinate of the first triangle vertex
+     * @param v0Y
+     *            the y coordinate of the first triangle vertex
+     * @param f0X
+     *            the x component of the value of 'f' at the first vertex
+     * @param f0Y
+     *            the y component of the value of 'f' at the first vertex
+     * @param v1X
+     *            the x coordinate of the second triangle vertex
+     * @param v1Y
+     *            the y coordinate of the second triangle vertex
+     * @param f1X
+     *            the x component of the value of 'f' at the second vertex
+     * @param f1Y
+     *            the y component of the value of 'f' at the second vertex
+     * @param v2X
+     *            the x coordinate of the third triangle vertex
+     * @param v2Y
+     *            the y coordinate of the third triangle vertex
+     * @param f2X
+     *            the x component of the value of 'f' at the third vertex
+     * @param f2Y
+     *            the y component of the value of 'f' at the third vertex
+     * @param x
+     *            the x coordinate of the point at which to compute the derivative of 'f'
+     * @param y
+     *            the y coordinate of the point at which to compute the derivative of 'f'
+     * @param dx
+     *            the differential along x. The smaller the value the better the difference will approximate the derivative
+     * @param dy
+     *            the differential along y. The smaller the value the better the difference will approximate the derivative
+     * @param dest
+     *            will hold the interpolation result
+     * @return dest
+     */
+    public static Vector2f dFdxyForward(
+            float v0X, float v0Y, float f0X, float f0Y,
+            float v1X, float v1Y, float f1X, float f1Y,
+            float v2X, float v2Y, float f2X, float f2Y,
+            float x, float y, float dx, float dy, Vector2f dest) {
+        float v12Y = v1Y - v2Y;
+        float v21X = v2X - v1X;
+        float v02X = v0X - v2X;
+        float y0v2Y = y - v2Y;
+        float x0v2X = x - v2X;
+        float v02Y = v0Y - v2Y;
+        float den = (v12Y * v02X + v21X * v02Y);
+        float l1_0 = (v12Y * x0v2X + v21X * y0v2Y);
+        float l2_0 = (-v02Y * x0v2X + v02X * y0v2Y);
+        float l3_0 = den - l1_0 - l2_0;
+        float x0 = l1_0 * f0X + l2_0 * f1X + l3_0 * f2X;
+        float y0 = l1_0 * f0Y + l2_0 * f1Y + l3_0 * f2Y;
+        float y1v2Y = y0v2Y + dy;
+        float x1v2X = x0v2X + dx;
+        float l1_1 = (v12Y * x1v2X + v21X * y1v2Y);
+        float l2_1 = (-v02Y * x1v2X + v02X * y1v2Y);
+        float l3_1 = den - l1_1 - l2_1;
+        float x1 = l1_1 * f0X + l2_1 * f1X + l3_1 * f2X;
+        float y1 = l1_1 * f0Y + l2_1 * f1Y + l3_1 * f2Y;
+        float invDen = 1.0f / den;
+        dest.x = invDen * (x1 - x0) / dx;
+        dest.y = invDen * (y1 - y0) / dy;
+        return dest;
+    }
+
+    /**
      * Bilinearly interpolate the three-dimensional vector 'f' over the given triangle and store the result in <code>dest</code>.
      * 
      * @param v0X
@@ -168,7 +237,7 @@ public class Interpolationf {
      *            the y coordinate of the point to interpolate 'f' at
      * @param dest
      *            will hold the interpolation result
-     * @return the interpolated value of 'f'
+     * @return dest
      */
     public static Vector3f interpolateTriangle(
             float v0X, float v0Y, float f0X, float f0Y, float f0Z,
