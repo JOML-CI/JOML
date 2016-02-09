@@ -4935,10 +4935,7 @@ public class Matrix4f implements Externalizable {
         dirY = centerY - eyeY;
         dirZ = centerZ - eyeZ;
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(
-                  (eyeX - centerX) * (eyeX - centerX)
-                + (eyeY - centerY) * (eyeY - centerY)
-                + (eyeZ - centerZ) * (eyeZ - centerZ));
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
