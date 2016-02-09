@@ -135,8 +135,6 @@ public class Interpolationf {
 
     /**
      * Compute the derivative of the linear two-dimensional function 'f' with respect to X.
-     * <p>
-     * Reference: <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">https://en.wikipedia.org/</a>
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -171,22 +169,15 @@ public class Interpolationf {
             float v1X, float v1Y, float f1X, float f1Y,
             float v2X, float v2Y, float f2X, float f2Y, Vector2f dest) {
         float v12Y = v1Y - v2Y;
-        float v21X = v2X - v1X;
-        float v02X = v0X - v2X;
         float v02Y = v0Y - v2Y;
-        float den = v12Y * v02X + v21X * v02Y;
-        float l3_1 = den - v12Y + v02Y;
-        float x1 = v12Y * f0X - v02Y * f1X + l3_1 * f2X;
-        float y1 = v12Y * f0Y - v02Y * f1Y + l3_1 * f2Y;
-        dest.x = x1 - f2X;
-        dest.y = y1 - f2Y;
+        float l3_1 = v12Y * (v0X - v2X) + (v2X - v1X) * v02Y - v12Y + v02Y - 1.0f;
+        dest.x = v12Y * f0X - v02Y * f1X + l3_1 * f2X;
+        dest.y = v12Y * f0Y - v02Y * f1Y + l3_1 * f2Y;
         return dest;
     }
 
     /**
      * Compute the derivative of the linear two-dimensional function 'f' with respect to Y.
-     * <p>
-     * Reference: <a href="https://en.wikipedia.org/wiki/Barycentric_coordinate_system">https://en.wikipedia.org/</a>
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -221,16 +212,11 @@ public class Interpolationf {
             float v1X, float v1Y, float f1X, float f1Y,
             float v2X, float v2Y, float f2X, float f2Y,
             Vector2f dest) {
-        float v12Y = v1Y - v2Y;
         float v21X = v2X - v1X;
         float v02X = v0X - v2X;
-        float v02Y = v0Y - v2Y;
-        float den = v12Y * v02X + v21X * v02Y;
-        float l3_1 = den - v21X - v02X;
-        float x1 = v21X * f0X + v02X * f1X + l3_1 * f2X;
-        float y1 = v21X * f0Y + v02X * f1Y + l3_1 * f2Y;
-        dest.x = x1 - f2X;
-        dest.y = y1 - f2Y;
+        float l3_1 = (v1Y - v2Y) * v02X + v21X * (v0Y - v2Y) - v21X - v02X - 1.0f;
+        dest.x = v21X * f0X + v02X * f1X + l3_1 * f2X;
+        dest.y = v21X * f0Y + v02X * f1Y + l3_1 * f2Y;
         return dest;
     }
 
