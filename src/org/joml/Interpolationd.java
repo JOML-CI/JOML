@@ -282,6 +282,47 @@ public class Interpolationd {
             double v1X, double v1Y, double f1X, double f1Y, double f1Z,
             double v2X, double v2Y, double f2X, double f2Y, double f2Z,
             double x, double y, Vector3d dest) {
+        // compute interpolation factors
+        Vector3d t = dest;
+        interpolationFactorsTriangle(v0X, v0Y, v1X, v1Y, v2X, v2Y, x, y, t);
+        // interpolate using these factors
+        return dest.set(t.x * f0X + t.y * f1X + t.z * f2X,
+                        t.x * f0Y + t.y * f1Y + t.z * f2Y,
+                        t.x * f0Z + t.y * f1Z + t.z * f2Z);
+    }
+
+    /**
+     * Compute the interpolation factors <tt>(t0, t1, t2)</tt> in order to interpolate arbitrary value over a given 
+     * triangle at the given point <tt>(x, y)</tt>.
+     * <p>
+     * This method takes in the 2D vertex positions of the three vertices of a triangle and stores in <code>dest</code> the 
+     * factors <tt>(t0, t1, t2)</tt> in the equation <tt>v' = v0 * t0 + v1 * t1 + v2 * t2</tt> where <tt>(v0, v1, v2)</tt> are
+     * arbitrary (scalar or vector) values associated with the respective vertices of the triangle. The computed value <tt>v'</tt>
+     * is the interpolated value at the given position <tt>(x, y)</tt>.
+     * 
+     * @param v0X
+     *            the x coordinate of the first triangle vertex
+     * @param v0Y
+     *            the y coordinate of the first triangle vertex
+     * @param v1X
+     *            the x coordinate of the second triangle vertex
+     * @param v1Y
+     *            the y coordinate of the second triangle vertex
+     * @param v2X
+     *            the x coordinate of the third triangle vertex
+     * @param v2Y
+     *            the y coordinate of the third triangle vertex
+     * @param x
+     *            the x coordinate of the point to interpolate at
+     * @param y
+     *            the y coordinate of the point to interpolate at
+     * @param dest
+     *            will hold the interpolation factors <tt>(t0, t1, t2)</tt>
+     * @return dest
+     */
+    public static Vector3d interpolationFactorsTriangle(
+            double v0X, double v0Y, double v1X, double v1Y, double v2X, double v2Y,
+            double x, double y, Vector3d dest) {
         double v12Y = v1Y - v2Y;
         double v21X = v2X - v1X;
         double v02X = v0X - v2X;
@@ -293,9 +334,9 @@ public class Interpolationd {
         double l1 = (v12Y * xv2X + v21X * yv2Y) * invDen;
         double l2 = (-v02Y * xv2X + v02X * yv2Y) * invDen;
         double l3 = 1.0 - l1 - l2;
-        dest.x = l1 * f0X + l2 * f1X + l3 * f2X;
-        dest.y = l1 * f0Y + l2 * f1Y + l3 * f2Y;
-        dest.z = l1 * f0Z + l2 * f1Z + l3 * f2Z;
+        dest.x = l1;
+        dest.y = l2;
+        dest.z = l3;
         return dest;
     }
 
