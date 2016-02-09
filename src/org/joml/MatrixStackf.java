@@ -40,7 +40,7 @@ public class MatrixStackf extends Matrix4f {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The matrix stack as a non-growable array. The size of the stack must be specified in the {@link #MatrixStack(int) constructor}.
+     * The matrix stack as a non-growable array. The size of the stack must be specified in the {@link #MatrixStackf(int) constructor}.
      */
     private Matrix4f[] mats;
 
