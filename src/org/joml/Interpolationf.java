@@ -134,7 +134,11 @@ public class Interpolationf {
     }
 
     /**
-     * Compute the derivative of the linear two-dimensional function 'f' with respect to X.
+     * Compute the first-order derivative of a linear two-dimensional function <i>f</i> with respect to X
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method computes the constant rate of change for <i>f</i> given the three values of <i>f</i>
+     * at the specified three vertices.
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -161,7 +165,7 @@ public class Interpolationf {
      * @param f2Y
      *            the y component of the value of 'f' at the third vertex
      * @param dest
-     *            will hold the interpolation result
+     *            will hold the result
      * @return dest
      */
     public static Vector2f dFdxLinear(
@@ -179,7 +183,11 @@ public class Interpolationf {
     }
 
     /**
-     * Compute the derivative of the linear two-dimensional function 'f' with respect to Y.
+     * Compute the first-order derivative of a linear two-dimensional function <i>f</i> with respect to Y
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method computes the constant rate of change for <i>f</i> given the three values of <i>f</i>
+     * at the specified three vertices.
      * 
      * @param v0X
      *            the x coordinate of the first triangle vertex
@@ -206,7 +214,7 @@ public class Interpolationf {
      * @param f2Y
      *            the y component of the value of 'f' at the third vertex
      * @param dest
-     *            will hold the interpolation result
+     *            will hold the result
      * @return dest
      */
     public static Vector2f dFdyLinear(
