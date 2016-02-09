@@ -218,11 +218,9 @@ public class Interpolationf {
         float v02X = v0X - v2X;
         float den = (v1Y - v2Y) * v02X + v21X * (v0Y - v2Y);
         float l3_1 = den - v21X - v02X;
-        float x1 = v21X * f0X + v02X * f1X + l3_1 * f2X;
-        float y1 = v21X * f0Y + v02X * f1Y + l3_1 * f2Y;
         float invDen = 1.0f / den;
-        dest.x = invDen * x1 - f2X;
-        dest.y = invDen * y1 - f2Y;
+        dest.x = invDen * (v21X * f0X + v02X * f1X + l3_1 * f2X) - f2X;
+        dest.y = invDen * (v21X * f0Y + v02X * f1Y + l3_1 * f2Y) - f2Y;
         return dest;
     }
 

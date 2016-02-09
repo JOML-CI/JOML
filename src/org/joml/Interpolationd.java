@@ -218,11 +218,9 @@ public class Interpolationd {
         double v02X = v0X - v2X;
         double den = (v1Y - v2Y) * v02X + v21X * (v0Y - v2Y);
         double l3_1 = den - v21X - v02X;
-        double x1 = v21X * f0X + v02X * f1X + l3_1 * f2X;
-        double y1 = v21X * f0Y + v02X * f1Y + l3_1 * f2Y;
         double invDen = 1.0f / den;
-        dest.x = invDen * x1 - f2X;
-        dest.y = invDen * y1 - f2Y;
+        dest.x = invDen * (v21X * f0X + v02X * f1X + l3_1 * f2X) - f2X;
+        dest.y = invDen * (v21X * f0Y + v02X * f1Y + l3_1 * f2Y) - f2Y;
         return dest;
     }
 
