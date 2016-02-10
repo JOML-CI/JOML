@@ -8039,7 +8039,7 @@ public class Matrix4d implements Externalizable {
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
-     *          the rotation axis (must be {@link Vector3f#normalize() normalized})
+     *          the rotation axis (must be {@link Vector3d#normalize() normalized})
      * @return this
      */
     public Matrix4d billboardCylindrical(Vector3d objPos, Vector3d targetPos, Vector3d up) {
