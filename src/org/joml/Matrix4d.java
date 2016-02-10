@@ -6730,47 +6730,44 @@ public class Matrix4d implements Externalizable {
                               double upX, double upY, double upZ) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
-        dirX = centerX - eyeX;
-        dirY = centerY - eyeY;
-        dirZ = centerZ - eyeZ;
+        dirX = eyeX - centerX;
+        dirY = eyeY - centerY;
+        dirZ = eyeZ - centerZ;
         // Normalize direction
-        double invDirLength = 1.0 / Math.sqrt(
-                  (eyeX - centerX) * (eyeX - centerX)
-                + (eyeY - centerY) * (eyeY - centerY)
-                + (eyeZ - centerZ) * (eyeZ - centerZ));
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
-        // right = direction x up
+        // right = up x direction
         double rightX, rightY, rightZ;
-        rightX = dirY * upZ - dirZ * upY;
-        rightY = dirZ * upX - dirX * upZ;
-        rightZ = dirX * upY - dirY * upX;
+        rightX = upY * dirZ - upZ * dirY;
+        rightY = upZ * dirX - upX * dirZ;
+        rightZ = upX * dirY - upY * dirX;
         // normalize right
         double invRightLength = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLength;
         rightY *= invRightLength;
         rightZ *= invRightLength;
-        // up = right x direction
-        double upnX = rightY * dirZ - rightZ * dirY;
-        double upnY = rightZ * dirX - rightX * dirZ;
-        double upnZ = rightX * dirY - rightY * dirX;
+        // up = direction x right
+        double upnX = dirY * rightZ - dirZ * rightY;
+        double upnY = dirZ * rightX - dirX * rightZ;
+        double upnZ = dirX * rightY - dirY * rightX;
 
         m00 = rightX;
         m01 = upnX;
-        m02 = -dirX;
+        m02 = dirX;
         m03 = 0.0;
         m10 = rightY;
         m11 = upnY;
-        m12 = -dirY;
+        m12 = dirY;
         m13 = 0.0;
         m20 = rightZ;
         m21 = upnZ;
-        m22 = -dirZ;
+        m22 = dirZ;
         m23 = 0.0;
-        m30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
-        m31 = -upnX * eyeX - upnY * eyeY - upnZ * eyeZ;
-        m32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
+        m30 = -(rightX * eyeX + rightY * eyeY + rightZ * eyeZ);
+        m31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+        m32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
         m33 = 1.0;
 
         return this;
