@@ -69,12 +69,10 @@ public class Interpolationd {
         double yv2Y = y - v2Y;
         double xv2X = x - v2X;
         double v02Y = v0Y - v2Y;
-        double den = v12Y * v02X + v21X * v02Y;
-        double invDen = 1.0 / den;
+        double invDen = 1.0 / (v12Y * v02X + v21X * v02Y);
         double l1 = (v12Y * xv2X + v21X * yv2Y) * invDen;
         double l2 = (v02X * yv2Y - v02Y * xv2X) * invDen;
-        double l3 = 1.0f - l1 - l2;
-        return l1 * f0 + l2 * f1 + l3 * f2;
+        return l1 * f0 + l2 * f1 + (1.0f - l1 - l2) * f2;
     }
 
     /**
@@ -125,8 +123,7 @@ public class Interpolationd {
         double yv2Y = y - v2Y;
         double xv2X = x - v2X;
         double v02Y = v0Y - v2Y;
-        double den = v12Y * v02X + v21X * v02Y;
-        double invDen = 1.0 / den;
+        double invDen = 1.0 / (v12Y * v02X + v21X * v02Y);
         double l1 = (v12Y * xv2X + v21X * yv2Y) * invDen;
         double l2 = (v02X * yv2Y - v02Y * xv2X) * invDen;
         double l3 = 1.0 - l1 - l2;
@@ -329,14 +326,10 @@ public class Interpolationd {
         double yv2Y = y - v2Y;
         double xv2X = x - v2X;
         double v02Y = v0Y - v2Y;
-        double den = v12Y * v02X + v21X * v02Y;
-        double invDen = 1.0 / den;
-        double l1 = (v12Y * xv2X + v21X * yv2Y) * invDen;
-        double l2 = (v02X * yv2Y - v02Y * xv2X) * invDen;
-        double l3 = 1.0 - l1 - l2;
-        dest.x = l1;
-        dest.y = l2;
-        dest.z = l3;
+        double invDen = 1.0 / (v12Y * v02X + v21X * v02Y);
+        dest.x = (v12Y * xv2X + v21X * yv2Y) * invDen;
+        dest.y = (v02X * yv2Y - v02Y * xv2X) * invDen;
+        dest.z = 1.0 - dest.x - dest.y;
         return dest;
     }
 
