@@ -8039,28 +8039,27 @@ public class Matrix4d implements Externalizable {
      * @param targetPos
      *          the position of the target (for example the camera) towards which to rotate the object
      * @param up
-     *          the rotation axis (must be {@link Vector3d#normalize() normalized})
+     *          the rotation axis (must be {@link Vector3f#normalize() normalized})
      * @return this
      */
     public Matrix4d billboardCylindrical(Vector3d objPos, Vector3d targetPos, Vector3d up) {
-        // dir = objPos - targetPos
-        double dirX = objPos.x - targetPos.x;
-        double dirY = objPos.y - targetPos.y;
-        double dirZ = objPos.z - targetPos.z;
-        // right = dir x up
-        double rightX = dirY * up.z - dirZ * up.y;
-        double rightY = dirZ * up.x - dirX * up.z;
-        double rightZ = dirX * up.y - dirY * up.x;
+        double dirX = targetPos.x - objPos.x;
+        double dirY = targetPos.y - objPos.y;
+        double dirZ = targetPos.z - objPos.z;
+        // right = up x dir
+        double rightX = up.y * dirZ - up.z * dirY;
+        double rightY = up.z * dirX - up.x * dirZ;
+        double rightZ = up.x * dirY - up.y * dirX;
         // normalize right
         double invRightLen = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLen;
         rightY *= invRightLen;
         rightZ *= invRightLen;
         // recompute dir by constraining rotation around 'up'
-        // dir = up x right
-        dirX = up.y * rightZ - up.z * rightY;
-        dirY = up.z * rightX - up.x * rightZ;
-        dirZ = up.x * rightY - up.y * rightX;
+        // dir = right x up
+        dirX = rightY * up.z - rightZ * up.y;
+        dirY = rightZ * up.x - rightX * up.z;
+        dirZ = rightX * up.y - rightY * up.x;
         // normalize dir
         double invDirLen = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
@@ -8075,9 +8074,9 @@ public class Matrix4d implements Externalizable {
         m11 = up.y;
         m12 = up.z;
         m13 = 0.0;
-        m20 = -dirX;
-        m21 = -dirY;
-        m22 = -dirZ;
+        m20 = dirX;
+        m21 = dirY;
+        m22 = dirZ;
         m23 = 0.0;
         m30 = objPos.x;
         m31 = objPos.y;
@@ -8107,28 +8106,27 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d billboardSpherical(Vector3d objPos, Vector3d targetPos, Vector3d up) {
-        // dir = objPos - targetPos
-        double dirX = objPos.x - targetPos.x;
-        double dirY = objPos.y - targetPos.y;
-        double dirZ = objPos.z - targetPos.z;
+        double dirX = targetPos.x - objPos.x;
+        double dirY = targetPos.y - objPos.y;
+        double dirZ = targetPos.z - objPos.z;
         // normalize dir
         double invDirLen = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
-        // right = dir x up
-        double rightX = dirY * up.z - dirZ * up.y;
-        double rightY = dirZ * up.x - dirX * up.z;
-        double rightZ = dirX * up.y - dirY * up.x;
+        // right = up x dir
+        double rightX = up.y * dirZ - up.z * dirY;
+        double rightY = up.z * dirX - up.x * dirZ;
+        double rightZ = up.x * dirY - up.y * dirX;
         // normalize right
         double invRightLen = 1.0 / Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLen;
         rightY *= invRightLen;
         rightZ *= invRightLen;
-        // up = right x dir
-        double upX = rightY * dirZ - rightZ * dirY;
-        double upY = rightZ * dirX - rightX * dirZ;
-        double upZ = rightX * dirY - rightY * dirX;
+        // up = dir x right
+        double upX = dirY * rightZ - dirZ * rightY;
+        double upY = dirZ * rightX - dirX * rightZ;
+        double upZ = dirX * rightY - dirY * rightX;
         // set matrix elements
         m00 = rightX;
         m01 = rightY;
@@ -8138,9 +8136,9 @@ public class Matrix4d implements Externalizable {
         m11 = upY;
         m12 = upZ;
         m13 = 0.0;
-        m20 = -dirX;
-        m21 = -dirY;
-        m22 = -dirZ;
+        m20 = dirX;
+        m21 = dirY;
+        m22 = dirZ;
         m23 = 0.0;
         m30 = objPos.x;
         m31 = objPos.y;

@@ -7716,24 +7716,23 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f billboardCylindrical(Vector3f objPos, Vector3f targetPos, Vector3f up) {
-        // dir = objPos - targetPos
-        float dirX = objPos.x - targetPos.x;
-        float dirY = objPos.y - targetPos.y;
-        float dirZ = objPos.z - targetPos.z;
-        // right = dir x up
-        float rightX = dirY * up.z - dirZ * up.y;
-        float rightY = dirZ * up.x - dirX * up.z;
-        float rightZ = dirX * up.y - dirY * up.x;
+        float dirX = targetPos.x - objPos.x;
+        float dirY = targetPos.y - objPos.y;
+        float dirZ = targetPos.z - objPos.z;
+        // right = up x dir
+        float rightX = up.y * dirZ - up.z * dirY;
+        float rightY = up.z * dirX - up.x * dirZ;
+        float rightZ = up.x * dirY - up.y * dirX;
         // normalize right
         float invRightLen = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLen;
         rightY *= invRightLen;
         rightZ *= invRightLen;
         // recompute dir by constraining rotation around 'up'
-        // dir = up x right
-        dirX = up.y * rightZ - up.z * rightY;
-        dirY = up.z * rightX - up.x * rightZ;
-        dirZ = up.x * rightY - up.y * rightX;
+        // dir = right x up
+        dirX = rightY * up.z - rightZ * up.y;
+        dirY = rightZ * up.x - rightX * up.z;
+        dirZ = rightX * up.y - rightY * up.x;
         // normalize dir
         float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
@@ -7748,9 +7747,9 @@ public class Matrix4f implements Externalizable {
         m11 = up.y;
         m12 = up.z;
         m13 = 0.0f;
-        m20 = -dirX;
-        m21 = -dirY;
-        m22 = -dirZ;
+        m20 = dirX;
+        m21 = dirY;
+        m22 = dirZ;
         m23 = 0.0f;
         m30 = objPos.x;
         m31 = objPos.y;
@@ -7780,28 +7779,27 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f billboardSpherical(Vector3f objPos, Vector3f targetPos, Vector3f up) {
-        // dir = objPos - targetPos
-        float dirX = objPos.x - targetPos.x;
-        float dirY = objPos.y - targetPos.y;
-        float dirZ = objPos.z - targetPos.z;
+        float dirX = targetPos.x - objPos.x;
+        float dirY = targetPos.y - objPos.y;
+        float dirZ = targetPos.z - objPos.z;
         // normalize dir
         float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
-        // right = dir x up
-        float rightX = dirY * up.z - dirZ * up.y;
-        float rightY = dirZ * up.x - dirX * up.z;
-        float rightZ = dirX * up.y - dirY * up.x;
+        // right = up x dir
+        float rightX = up.y * dirZ - up.z * dirY;
+        float rightY = up.z * dirX - up.x * dirZ;
+        float rightZ = up.x * dirY - up.y * dirX;
         // normalize right
         float invRightLen = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
         rightX *= invRightLen;
         rightY *= invRightLen;
         rightZ *= invRightLen;
-        // up = right x dir
-        float upX = rightY * dirZ - rightZ * dirY;
-        float upY = rightZ * dirX - rightX * dirZ;
-        float upZ = rightX * dirY - rightY * dirX;
+        // up = dir x right
+        float upX = dirY * rightZ - dirZ * rightY;
+        float upY = dirZ * rightX - dirX * rightZ;
+        float upZ = dirX * rightY - dirY * rightX;
         // set matrix elements
         m00 = rightX;
         m01 = rightY;
@@ -7811,9 +7809,9 @@ public class Matrix4f implements Externalizable {
         m11 = upY;
         m12 = upZ;
         m13 = 0.0f;
-        m20 = -dirX;
-        m21 = -dirY;
-        m22 = -dirZ;
+        m20 = dirX;
+        m21 = dirY;
+        m22 = dirZ;
         m23 = 0.0f;
         m30 = objPos.x;
         m31 = objPos.y;
