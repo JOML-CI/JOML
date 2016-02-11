@@ -31,24 +31,44 @@ package org.joml;
  * href="http://staffwww.itn.liu.se/~stegu/simplexnoise/SimplexNoise.java">http://http://staffwww.itn.liu.se/</a>.
  */
 public class SimplexNoise {
+    private static class Vector3b {
+        byte x, y, z;
+        Vector3b(int x, int y, int z) {
+            super();
+            this.x = (byte) x;
+            this.y = (byte) y;
+            this.z = (byte) z;
+        }
+    }
+    private static class Vector4b {
+        byte x, y, z, w;
+        Vector4b(int x, int y, int z, int w) {
+            super();
+            this.x = (byte) x;
+            this.y = (byte) y;
+            this.z = (byte) z;
+            this.w = (byte) w;
+        }
+    }
+
     // Kai Burjack:
     // Use a three-component vector here to save memory. (instead of using 4-component 'Grad' class)
     // And as the original author mentioned on the 'Grad' class, using a class to store the gradient components
     // is indeed faster compared to using a simple int[] array...
-    private static final Vector3i[] grad3 = { new Vector3i(1, 1, 0), new Vector3i(-1, 1, 0), new Vector3i(1, -1, 0), new Vector3i(-1, -1, 0),
-            new Vector3i(1, 0, 1), new Vector3i(-1, 0, 1), new Vector3i(1, 0, -1), new Vector3i(-1, 0, -1), new Vector3i(0, 1, 1), new Vector3i(0, -1, 1),
-            new Vector3i(0, 1, -1), new Vector3i(0, -1, -1) };
+    private static final Vector3b[] grad3 = { new Vector3b(1, 1, 0), new Vector3b(-1, 1, 0), new Vector3b(1, -1, 0), new Vector3b(-1, -1, 0),
+            new Vector3b(1, 0, 1), new Vector3b(-1, 0, 1), new Vector3b(1, 0, -1), new Vector3b(-1, 0, -1), new Vector3b(0, 1, 1), new Vector3b(0, -1, 1),
+            new Vector3b(0, 1, -1), new Vector3b(0, -1, -1) };
 
     // Kai Burjack:
     // As the original author mentioned on the 'Grad' class, using a class to store the gradient components
     // is indeed faster compared to using a simple int[] array...
-    private static final Vector4i[] grad4 = { new Vector4i(0, 1, 1, 1), new Vector4i(0, 1, 1, -1), new Vector4i(0, 1, -1, 1), new Vector4i(0, 1, -1, -1),
-            new Vector4i(0, -1, 1, 1), new Vector4i(0, -1, 1, -1), new Vector4i(0, -1, -1, 1), new Vector4i(0, -1, -1, -1), new Vector4i(1, 0, 1, 1),
-            new Vector4i(1, 0, 1, -1), new Vector4i(1, 0, -1, 1), new Vector4i(1, 0, -1, -1), new Vector4i(-1, 0, 1, 1), new Vector4i(-1, 0, 1, -1),
-            new Vector4i(-1, 0, -1, 1), new Vector4i(-1, 0, -1, -1), new Vector4i(1, 1, 0, 1), new Vector4i(1, 1, 0, -1), new Vector4i(1, -1, 0, 1),
-            new Vector4i(1, -1, 0, -1), new Vector4i(-1, 1, 0, 1), new Vector4i(-1, 1, 0, -1), new Vector4i(-1, -1, 0, 1), new Vector4i(-1, -1, 0, -1),
-            new Vector4i(1, 1, 1, 0), new Vector4i(1, 1, -1, 0), new Vector4i(1, -1, 1, 0), new Vector4i(1, -1, -1, 0), new Vector4i(-1, 1, 1, 0),
-            new Vector4i(-1, 1, -1, 0), new Vector4i(-1, -1, 1, 0), new Vector4i(-1, -1, -1, 0) };
+    private static final Vector4b[] grad4 = { new Vector4b(0, 1, 1, 1), new Vector4b(0, 1, 1, -1), new Vector4b(0, 1, -1, 1), new Vector4b(0, 1, -1, -1),
+            new Vector4b(0, -1, 1, 1), new Vector4b(0, -1, 1, -1), new Vector4b(0, -1, -1, 1), new Vector4b(0, -1, -1, -1), new Vector4b(1, 0, 1, 1),
+            new Vector4b(1, 0, 1, -1), new Vector4b(1, 0, -1, 1), new Vector4b(1, 0, -1, -1), new Vector4b(-1, 0, 1, 1), new Vector4b(-1, 0, 1, -1),
+            new Vector4b(-1, 0, -1, 1), new Vector4b(-1, 0, -1, -1), new Vector4b(1, 1, 0, 1), new Vector4b(1, 1, 0, -1), new Vector4b(1, -1, 0, 1),
+            new Vector4b(1, -1, 0, -1), new Vector4b(-1, 1, 0, 1), new Vector4b(-1, 1, 0, -1), new Vector4b(-1, -1, 0, 1), new Vector4b(-1, -1, 0, -1),
+            new Vector4b(1, 1, 1, 0), new Vector4b(1, 1, -1, 0), new Vector4b(1, -1, 1, 0), new Vector4b(1, -1, -1, 0), new Vector4b(-1, 1, 1, 0),
+            new Vector4b(-1, 1, -1, 0), new Vector4b(-1, -1, 1, 0), new Vector4b(-1, -1, -1, 0) };
 
     // Kai Burjack:
     // Use a byte[] instead of a short[] to save memory
@@ -85,15 +105,15 @@ public class SimplexNoise {
         return x < xi ? xi - 1 : xi;
     }
 
-    private static float dot(Vector3i g, float x, float y) {
+    private static float dot(Vector3b g, float x, float y) {
         return g.x * x + g.y * y;
     }
 
-    private static float dot(Vector3i g, float x, float y, float z) {
+    private static float dot(Vector3b g, float x, float y, float z) {
         return g.x * x + g.y * y + g.z * z;
     }
 
-    private static float dot(Vector4i g, float x, float y, float z, float w) {
+    private static float dot(Vector4b g, float x, float y, float z, float w) {
         return g.x * x + g.y * y + g.z * z + g.w * w;
     }
 
