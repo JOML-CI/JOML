@@ -146,4 +146,12 @@ public class IntersectionfTest extends TestCase {
         assertEquals(-1.0f, Intersectionf.intersectRayLineSegment(0, 0, -1, -1, 0, 2, 2, 0), 1E-6f);
     }
 
+    public static void testPolygonRay() {
+        Vector2f p = new Vector2f();
+        assertEquals(3, Intersectionf.intersectPolygonRay(new float[] {0, 0, 1, 0, 1, 1, 0, 1}, -1, 0.5f, 1, 0, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0, 0.5f), p, 1E-6f);
+        assertEquals(0, Intersectionf.intersectPolygonRay(new float[] {0, 0, 1, 0, 1, 1, 0, 1}, 0.1f, -0.5f, 0, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0.1f, 0), p, 1E-6f);
+    }
+
 }

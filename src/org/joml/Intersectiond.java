@@ -3349,25 +3349,25 @@ public class Intersectiond {
     public static int intersectPolygonRay(double[] verticesXY, double originX, double originY, double dirX, double dirY, Vector2d p) {
         double nearestT = Double.MAX_VALUE;
         int count = verticesXY.length >> 1;
-        int j = count - 1;
         int edgeIndex = -1;
+        double aX = verticesXY[((count-1)<<1)], aY = verticesXY[((count-1)<<1) + 1];
         for (int i = 0; i < count; i++) {
-            double aX = verticesXY[j << 1], aY = verticesXY[(j << 1) + 1];
             double bX = verticesXY[i << 1], bY = verticesXY[(i << 1) + 1];
             double v1X = originX - aX, v1Y = originY - aY;
             double v2X = bX - aX, v2Y = bY - aY;
-            double invV23 = 1.0 / (v2Y * dirX - v2X * dirY);
+            double invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
             double t = (v2X * v1Y - v2Y * v1X) * invV23;
-            if (t >= 0.0 && t < nearestT) {
+            if (t >= 0.0f && t < nearestT) {
                 double t2 = (v1Y * dirX - v1X * dirY) * invV23;
-                if (t2 >= 0.0 && t2 <= 1.0) {
-                    edgeIndex = j;
+                if (t2 >= 0.0f && t2 <= 1.0f) {
+                    edgeIndex = (i - 1 + count) % count;
                     nearestT = t;
                     p.x = originX + t * dirX;
                     p.y = originY + t * dirY;
                 }
             }
-            j = i;
+            aX = bX;
+            aY = bY;
         }
         return edgeIndex;
     }
@@ -3396,26 +3396,27 @@ public class Intersectiond {
      */
     public static int intersectPolygonRay(Vector2d[] vertices, double originX, double originY, double dirX, double dirY, Vector2d p) {
         double nearestT = Double.MAX_VALUE;
-        int count = vertices.length >> 1;
-        int j = count - 1;
+        int count = vertices.length;
         int edgeIndex = -1;
+        double aX = vertices[count-1].x, aY = vertices[count-1].y;
         for (int i = 0; i < count; i++) {
-            Vector2d a = vertices[j];
             Vector2d b = vertices[i];
-            double v1X = originX - a.x, v1Y = originY - a.y;
-            double v2X = b.x - a.x, v2Y = b.y - a.y;
-            double invV23 = 1.0 / (v2Y * dirX - v2X * dirY);
+            double bX = b.x, bY = b.y;
+            double v1X = originX - aX, v1Y = originY - aY;
+            double v2X = bX - aX, v2Y = bY - aY;
+            double invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
             double t = (v2X * v1Y - v2Y * v1X) * invV23;
-            if (t >= 0.0 && t < nearestT) {
+            if (t >= 0.0f && t < nearestT) {
                 double t2 = (v1Y * dirX - v1X * dirY) * invV23;
-                if (t2 >= 0.0 && t2 <= 1.0) {
-                    edgeIndex = j;
+                if (t2 >= 0.0f && t2 <= 1.0f) {
+                    edgeIndex = (i - 1 + count) % count;
                     nearestT = t;
                     p.x = originX + t * dirX;
                     p.y = originY + t * dirY;
                 }
             }
-            j = i;
+            aX = bX;
+            aY = bY;
         }
         return edgeIndex;
     }
