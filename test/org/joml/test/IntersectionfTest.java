@@ -165,4 +165,15 @@ public class IntersectionfTest extends TestCase {
         TestUtil.assertVector2fEquals(new Vector2f(0.1f, 0), p, 1E-6f);
     }
 
+    public static void testLineSegmentAar() {
+        Vector2f p = new Vector2f();
+        assertEquals(Intersectionf.ONE_INTERSECTION, Intersectionf.intersectLineSegmentAar(0, 0, 1, 0, 0.5f, -1, 1.5f, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0.5f, 0.5f), p, 1E-6f);
+        assertEquals(Intersectionf.INSIDE, Intersectionf.intersectLineSegmentAar(0, 0, 1, 0, -0.5f, -1, 1.5f, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(-0.5f, 1.5f), p, 1E-6f);
+        assertEquals(Intersectionf.OUTSIDE, Intersectionf.intersectLineSegmentAar(0, 0, 1, 0, 1.5f, -1, 2.5f, 1, p));
+        assertEquals(Intersectionf.TWO_INTERSECTION, Intersectionf.intersectLineSegmentAar(0, 0, 1, 0, 0.5f, -1, 0.75f, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0.5f, 0.75f), p, 1E-6f);
+    }
+
 }

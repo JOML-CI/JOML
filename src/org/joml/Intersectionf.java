@@ -86,6 +86,35 @@ public class Intersectionf {
     public static final int AAR_SIDE_BY = 3;
 
     /**
+     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectLineSegmentAab(Vector3f, Vector3f, Vector3f, Vector3f, Vector2f)} to indicate that the line segment does not intersect the axis-aligned box;
+     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectLineSegmentAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} to indicate that the line segment does not intersect the axis-aligned rectangle.
+     */
+    public static final int OUTSIDE = -1;
+    /**
+     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectLineSegmentAab(Vector3f, Vector3f, Vector3f, Vector3f, Vector2f)} to indicate that one end point of the line segment lies inside of the axis-aligned box;
+     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectLineSegmentAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} to indicate that one end point of the line segment lies inside of the axis-aligned rectangle.
+     */
+    public static final int ONE_INTERSECTION = 1;
+    /**
+     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectLineSegmentAab(Vector3f, Vector3f, Vector3f, Vector3f, Vector2f)} to indicate that the line segment intersects two sides of the axis-aligned box;
+     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectLineSegmentAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} to indicate that the line segment intersects two edges of the axis-aligned rectangle.
+     */
+    public static final int TWO_INTERSECTION = 2;
+    /**
+     * Return value of {@link #intersectLineSegmentAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectLineSegmentAab(Vector3f, Vector3f, Vector3f, Vector3f, Vector2f)} to indicate that the line segment lies completely inside of the axis-aligned box;
+     * or return value of {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectLineSegmentAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)} to indicate that the line segment lies completely inside of the axis-aligned rectangle.
+     */
+    public static final int INSIDE = 3;
+
+    /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
      * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
      * <p>
@@ -1437,6 +1466,120 @@ public class Intersectionf {
      */
     public static boolean intersectRayAab(Vector3f origin, Vector3f dir, Vector3f a, Vector3f b, Vector2f result) {
         return intersectRayAab(origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, a.x, a.y, a.z, b.x, b.y, b.z, result);
+    }
+
+    /**
+     * Determine whether the undirected line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
+     * intersects the given axis-aligned box given as any two opposite corners <tt>(aX, aY, aZ)</tt> and <tt>(bX, bY, bZ)</tt>,
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + p0 * (p1 - p0)</i> of the near and far point of intersection.
+     * <p>
+     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
+     * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * This method returns <code>true</code> for a line segment whose either end point lies inside the axis-aligned box.
+     * 
+     * @see #intersectLineSegmentAab(Vector3f, Vector3f, Vector3f, Vector3f, Vector2f)
+     * 
+     * @param p0X
+     *              the x coordinate of the line segment's first end point
+     * @param p0Y
+     *              the y coordinate of the line segment's first end point
+     * @param p0Z
+     *              the z coordinate of the line segment's first end point
+     * @param p1X
+     *              the x coordinate of the line segment's second end point
+     * @param p1Y
+     *              the y coordinate of the line segment's second end point
+     * @param p1Z
+     *              the z coordinate of the line segment's second end point
+     * @param aX
+     *              the x coordinate of one corner of the axis-aligned box
+     * @param aY
+     *              the y coordinate of one corner of the axis-aligned box
+     * @param aZ
+     *              the z coordinate of one corner of the axis-aligned box
+     * @param bX
+     *              the x coordinate of the opposite corner of the axis-aligned box
+     * @param bY
+     *              the y coordinate of the opposite corner of the axis-aligned box
+     * @param bZ
+     *              the y coordinate of the opposite corner of the axis-aligned box
+     * @param result
+     *              a vector which will hold the resulting values of the parameter
+     *              <i>t</i> in the ray equation <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
+     *              iff the line segment intersects the axis-aligned box
+     * @return {@link #INSIDE} if the line segment lies completely inside of the axis-aligned box; or
+     *         {@link #OUTSIDE} if the line segment lies completely outside of the axis-aligned box; or
+     *         {@link #ONE_INTERSECTION} if one of the end points of the line segment lies inside of the axis-aligned box; or
+     *         {@link #TWO_INTERSECTION} if the line segment intersects two sides of the axis-aligned box
+     */
+    public static int intersectLineSegmentAab(float p0X, float p0Y, float p0Z, float p1X, float p1Y, float p1Z,
+            float aX, float aY, float aZ, float bX, float bY, float bZ, Vector2f result) {
+        float dirX = p1X - p0X, dirY = p1Y - p0Y, dirZ = p1Z - p0Z;
+        float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY, invDirZ = 1.0f / dirZ;
+        float tMinX = (aX - p0X) * invDirX;
+        float tMinY = (aY - p0Y) * invDirY;
+        float tMinZ = (aZ - p0Z) * invDirZ;
+        float tMaxX = (bX - p0X) * invDirX;
+        float tMaxY = (bY - p0Y) * invDirY;
+        float tMaxZ = (bZ - p0Z) * invDirZ;
+        float t1X = tMinX < tMaxX ? tMinX : tMaxX;
+        float t1Y = tMinY < tMaxY ? tMinY : tMaxY;
+        float t1Z = tMinZ < tMaxZ ? tMinZ : tMaxZ;
+        float t2X = tMinX > tMaxX ? tMinX : tMaxX;
+        float t2Y = tMinY > tMaxY ? tMinY : tMaxY;
+        float t2Z = tMinZ > tMaxZ ? tMinZ : tMaxZ;
+        float t1XY = t1X > t1Y ? t1X : t1Y;
+        float tNear = t1XY > t1Z ? t1XY : t1Z;
+        float t2XY = t2X < t2Y ? t2X : t2Y;
+        float tFar = t2XY < t2Z ? t2XY : t2Z;
+        int type = OUTSIDE;
+        if (tNear < tFar && tNear < 1.0f && tFar > 0.0f) {
+            if (tNear > 0.0f && tFar > 1.0f) {
+                tFar = tNear;
+                type = ONE_INTERSECTION;
+            } else if (tNear < 0.0f && tFar > 1.0f) {
+                type = INSIDE;
+            } else {
+                type = TWO_INTERSECTION;
+            }
+            result.x = tNear;
+            result.y = tFar;
+        }
+        return type;
+    }
+
+    /**
+     * Determine whether the undirected line segment with the end points <code>p0</code> and <code>p1</code>
+     * intersects the given axis-aligned box given as any two opposite corners <code>a</code> and <code>b</code>,
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + p0 * (p1 - p0)</i> of the near and far point of intersection.
+     * <p>
+     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
+     * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * This method returns <code>true</code> for a line segment whose either end point lies inside the axis-aligned box.
+     * 
+     * @see #intersectLineSegmentAab(Vector3f, Vector3f, Vector3f, Vector3f, Vector2f)
+     * 
+     * @param p0
+     *              the line segment's first end point
+     * @param p1
+     *              the line segment's second end point
+     * @param a
+     *              one corner of the axis-aligned box
+     * @param b
+     *              the opposite corner of the axis-aligned box
+     * @param result
+     *              a vector which will hold the resulting values of the parameter
+     *              <i>t</i> in the ray equation <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
+     *              iff the line segment intersects the axis-aligned box
+     * @return {@link #INSIDE} if the line segment lies completely inside of the axis-aligned box; or
+     *         {@link #OUTSIDE} if the line segment lies completely outside of the axis-aligned box; or
+     *         {@link #ONE_INTERSECTION} if one of the end points of the line segment lies inside of the axis-aligned box; or
+     *         {@link #TWO_INTERSECTION} if the line segment intersects two sides of the axis-aligned box
+     */
+    public static int intersectLineSegmentAab(Vector3f p0, Vector3f p1, Vector3f a, Vector3f b, Vector2f result) {
+        return intersectLineSegmentAab(p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, a.x, a.y, a.z, b.x, b.y, b.z, result);
     }
 
     /**
@@ -3098,9 +3241,12 @@ public class Intersectionf {
      * @param result
      *              a vector which will hold the values of the parameter <i>t</i> in the ray equation
      *              <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
-     * @return <code>true</code> iff the line segment intersects the axis-aligned rectangle; <code>false</code> otherwise
+     * @return {@link #INSIDE} if the line segment lies completely inside of the axis-aligned rectangle; or
+     *         {@link #OUTSIDE} if the line segment lies completely outside of the axis-aligned rectangle; or
+     *         {@link #ONE_INTERSECTION} if one of the end points of the line segment lies inside of the axis-aligned rectangle; or
+     *         {@link #TWO_INTERSECTION} if the line segment intersects two edges of the axis-aligned rectangle
      */
-    public static boolean intersectLineSegmentAar(float p0X, float p0Y, float p1X, float p1Y, 
+    public static int intersectLineSegmentAar(float p0X, float p0Y, float p1X, float p1Y, 
             float aX, float aY, float bX, float bY, Vector2f result) {
         float dirX = p1X - p0X, dirY = p1Y - p0Y;
         float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY;
@@ -3114,12 +3260,20 @@ public class Intersectionf {
         float t2Y = tMinY > tMaxY ? tMinY : tMaxY;
         float tNear = t1X > t1Y ? t1X : t1Y;
         float tFar = t2X < t2Y ? t2X : t2Y;
-        if (tNear < tFar && tFar <= 1.0f && tNear >= 0.0f) {
+        int type = OUTSIDE;
+        if (tNear < tFar && tNear < 1.0f && tFar > 0.0f) {
+            if (tNear > 0.0f && tFar > 1.0f) {
+                tFar = tNear;
+                type = ONE_INTERSECTION;
+            } else if (tNear < 0.0f && tFar > 1.0f) {
+                type = INSIDE;
+            } else {
+                type = TWO_INTERSECTION;
+            }
             result.x = tNear;
             result.y = tFar;
-            return true;
         }
-        return false;
+        return type;
     }
 
     /**
@@ -3146,9 +3300,12 @@ public class Intersectionf {
      * @param result
      *              a vector which will hold the values of the parameter <i>t</i> in the ray equation
      *              <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
-     * @return <code>true</code> iff the line segment intersects the axis-aligned rectangle; <code>false</code> otherwise
+     * @return {@link #INSIDE} if the line segment lies completely inside of the axis-aligned rectangle; or
+     *         {@link #OUTSIDE} if the line segment lies completely outside of the axis-aligned rectangle; or
+     *         {@link #ONE_INTERSECTION} if one of the end points of the line segment lies inside of the axis-aligned rectangle; or
+     *         {@link #TWO_INTERSECTION} if the line segment intersects two edges of the axis-aligned rectangle
      */
-    public static boolean intersectLineSegmentAar(Vector2f p0, Vector2f p1, Vector2f a, Vector2f b, Vector2f result) {
+    public static int intersectLineSegmentAar(Vector2f p0, Vector2f p1, Vector2f a, Vector2f b, Vector2f result) {
         return intersectLineSegmentAar(p0.x, p0.y, p1.x, p1.y, a.x, a.y, b.x, b.y, result);
     }
 
