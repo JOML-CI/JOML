@@ -136,4 +136,14 @@ public class IntersectionfTest extends TestCase {
         TestUtil.assertVector2fEquals(new Vector2f(0, 1), new Vector2f(0 + p.x * 0, 2 + p.x * -1), 1E-6f);
     }
 
+    public static void testRayLineSegment() {
+        assertEquals(1.0f, Intersectionf.intersectRayLineSegment(0, 0, 1, 0, 1, -1, 1, 1), 1E-6f);
+        assertEquals(1.0f, Intersectionf.intersectRayLineSegment(0, 0, 1, 0, 1, 1, 1, -1), 1E-6f);
+        assertEquals(1.0f, Intersectionf.intersectRayLineSegment(0, 1, 1, 0, 1, 1, 1, -1), 1E-6f);
+        assertEquals(1.0f, Intersectionf.intersectRayLineSegment(0, -1, 1, 0, 1, 1, 1, -1), 1E-6f);
+        assertEquals(0.5f, Intersectionf.intersectRayLineSegment(0, -1, 2, 0, 1, 1, 1, -1), 1E-6f);
+        assertEquals(1.0f, Intersectionf.intersectRayLineSegment(0, 0, 1, 1, 0, 2, 2, 0), 1E-6f);
+        assertEquals(-1.0f, Intersectionf.intersectRayLineSegment(0, 0, -1, -1, 0, 2, 2, 0), 1E-6f);
+    }
+
 }
