@@ -3324,4 +3324,100 @@ public class Intersectionf {
         return testCircleTriangle(center.x, center.y, radiusSquared, v0.x, v0.y, v1.x, v1.y, v2.x, v2.y);
     }
 
+    /**
+     * Determine whether the polygon specified by the given sequence of <tt>(x, y)</tt> coordinate pairs intersects with the ray
+     * with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>, and store the point of intersection
+     * into the given vector <code>p</code>.
+     * <p>
+     * If the polygon intersects the ray, this method returns the index of the polygon edge intersecting the ray, that is, the index of the 
+     * first vertex of the directed line segment. The second vertex is always that index + 1, modulus the number of polygon vertices.
+     * 
+     * @param verticesXY
+     *          the sequence of <tt>(x, y)</tt> coordinate pairs of all vertices of the polygon
+     * @param originX
+     *          the x coordinate of the ray's origin
+     * @param originY
+     *          the y coordinate of the ray's origin
+     * @param dirX
+     *          the x coordinate of the ray's direction
+     * @param dirY
+     *          the y coordinate of the ray's direction
+     * @param p
+     *          will hold the point of intersection
+     * @return the index of the first vertex of the polygon edge that intersects the ray; or <tt>-1</tt> if the ray does not intersect the polygon
+     */
+    public static int intersectPolygonRay(float[] verticesXY, float originX, float originY, float dirX, float dirY, Vector2f p) {
+        float nearestT = Float.MAX_VALUE;
+        int count = verticesXY.length >> 1;
+        int j = count - 1;
+        int edgeIndex = -1;
+        for (int i = 0; i < count; i++) {
+            float aX = verticesXY[j << 1], aY = verticesXY[(j << 1) + 1];
+            float bX = verticesXY[i << 1], bY = verticesXY[(i << 1) + 1];
+            float v1X = originX - aX, v1Y = originY - aY;
+            float v2X = bX - aX, v2Y = bY - aY;
+            float invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
+            float t = (v2X * v1Y - v2Y * v1X) * invV23;
+            if (t >= 0.0f && t < nearestT) {
+                float t2 = (v1Y * dirX - v1X * dirY) * invV23;
+                if (t2 >= 0.0f && t2 <= 1.0f) {
+                    edgeIndex = j;
+                    nearestT = t;
+                    p.x = originX + t * dirX;
+                    p.y = originY + t * dirY;
+                }
+            }
+            j = i;
+        }
+        return edgeIndex;
+    }
+
+    /**
+     * Determine whether the polygon specified by the given sequence of <code>vertices</code> intersects with the ray
+     * with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>, and store the point of intersection
+     * into the given vector <code>p</code>.
+     * <p>
+     * If the polygon intersects the ray, this method returns the index of the polygon edge intersecting the ray, that is, the index of the 
+     * first vertex of the directed line segment. The second vertex is always that index + 1, modulus the number of polygon vertices.
+     * 
+     * @param vertices
+     *          the sequence of <tt>(x, y)</tt> coordinate pairs of all vertices of the polygon
+     * @param originX
+     *          the x coordinate of the ray's origin
+     * @param originY
+     *          the y coordinate of the ray's origin
+     * @param dirX
+     *          the x coordinate of the ray's direction
+     * @param dirY
+     *          the y coordinate of the ray's direction
+     * @param p
+     *          will hold the point of intersection
+     * @return the index of the first vertex of the polygon edge that intersects the ray; or <tt>-1</tt> if the ray does not intersect the polygon
+     */
+    public static int intersectPolygonRay(Vector2f[] vertices, float originX, float originY, float dirX, float dirY, Vector2f p) {
+        float nearestT = Float.MAX_VALUE;
+        int count = vertices.length >> 1;
+        int j = count - 1;
+        int edgeIndex = -1;
+        for (int i = 0; i < count; i++) {
+            Vector2f a = vertices[j];
+            Vector2f b = vertices[i];
+            float v1X = originX - a.x, v1Y = originY - a.y;
+            float v2X = b.x - a.x, v2Y = b.y - a.y;
+            float invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
+            float t = (v2X * v1Y - v2Y * v1X) * invV23;
+            if (t >= 0.0f && t < nearestT) {
+                float t2 = (v1Y * dirX - v1X * dirY) * invV23;
+                if (t2 >= 0.0f && t2 <= 1.0f) {
+                    edgeIndex = j;
+                    nearestT = t;
+                    p.x = originX + t * dirX;
+                    p.y = originY + t * dirY;
+                }
+            }
+            j = i;
+        }
+        return edgeIndex;
+    }
+
 }
