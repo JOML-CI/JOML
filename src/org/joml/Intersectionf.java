@@ -61,6 +61,31 @@ public class Intersectionf {
     public static final int POINT_ON_TRIANGLE_FACE = 2;
 
     /**
+     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectRayAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)}
+     * to indicate that the ray intersects the side of the axis-aligned rectangle with the constant x coordinate of vertex <tt>a</tt>.
+     */
+    public static final int AAR_SIDE_AX = 0;
+    /**
+     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectRayAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)}
+     * to indicate that the ray intersects the side of the axis-aligned rectangle with the constant y coordinate of vertex <tt>a</tt>.
+     */
+    public static final int AAR_SIDE_AY = 1;
+    /**
+     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectRayAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)}
+     * to indicate that the ray intersects the side of the axis-aligned rectangle with the constant x coordinate of vertex <tt>b</tt>.
+     */
+    public static final int AAR_SIDE_BX = 2;
+    /**
+     * Return value of {@link #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #intersectRayAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)}
+     * to indicate that the ray intersects the side of the axis-aligned rectangle with the constant y coordinate of vertex <tt>b</tt>.
+     */
+    public static final int AAR_SIDE_BY = 3;
+
+    /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
      * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
      * <p>
@@ -2870,14 +2895,15 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given ray with the origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt>
-     * intersects the given axis-aligned rectangle given as any two opposite corners <tt>(aX, aY)</tt> and <tt>(bX, bY)</tt>,
-     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection.
+     * Determine whether the given ray with the origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt>
+     * intersects the axis-aligned rectangle given as any two opposite corners <tt>(aX, aY)</tt> and <tt>(bX, bY)</tt>,
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
+     * as well as the side of the axis-aligned rectangle the ray intersects.
      * <p>
      * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
      * Ray - Box Intersection</a> method, also known as "slab method."
      * <p>
-     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned rectangle.
+     * This method also detects an intersection for a ray whose origin lies inside the axis-aligned rectangle.
      * 
      * @see #intersectRayAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)
      * 
@@ -2898,12 +2924,13 @@ public class Intersectionf {
      * @param bY
      *              the y coordinate of the opposite corner of the axis-aligned rectangle
      * @param result
-     *              a vector which will hold the resulting values of the parameter
-     *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
-     *              iff the ray intersects the axis-aligned rectangle
-     * @return <code>true</code> if the given ray intersects the axis-aligned rectangle; <code>false</code> otherwise
+     *              a vector which will hold the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = origin + t * dir</i> of the near and far point of intersection
+     * @return the side on which the near intersection occurred as one of
+     *         {@link #AAR_SIDE_AX}, {@link #AAR_SIDE_AY}, {@link #AAR_SIDE_BX} or {@link #AAR_SIDE_BY};
+     *         or <tt>-1</tt> if the ray does not intersect the axis-aligned rectangle;
      */
-    public static boolean intersectRayAar(float originX, float originY, float dirX, float dirY, 
+    public static int intersectRayAar(float originX, float originY, float dirX, float dirY, 
             float aX, float aY, float bX, float bY, Vector2f result) {
         float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY;
         float tMinX = (aX - originX) * invDirX;
@@ -2916,23 +2943,42 @@ public class Intersectionf {
         float t2Y = tMinY > tMaxY ? tMinY : tMaxY;
         float tNear = t1X > t1Y ? t1X : t1Y;
         float tFar = t2X < t2Y ? t2X : t2Y;
+        int side = -1; // no intersection side
         if (tNear < tFar && tFar >= 0.0f) {
+            float px = originX + tNear * dirX;
+            float py = originY + tNear * dirY;
             result.x = tNear;
             result.y = tFar;
-            return true;
+            float daX = Math.abs(px - aX);
+            float daY = Math.abs(py - aY);
+            float dbX = Math.abs(px - bX);
+            float dbY = Math.abs(py - bY);
+            side = 0; // x coordinate of a
+            float min = daX;
+            if (daY < min) {
+                min = daY;
+                side = 1; // y coordinate of a
+            }
+            if (dbX < min) {
+                min = dbX;
+                side = 2; // x-coordinate of b
+            }
+            if (dbY < min)
+                side = 3; // y-coordinate of b
         }
-        return false;
+        return side;
     }
 
     /**
-     * Test whether the ray with the given <code>origin</code> and direction <code>dir</code>
-     * intersects the given axis-aligned rectangle specified as any two opposite corners <code>a</code> and <code>b</code>,
-     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection..
+     * Determine whether the given ray with the given <code>origin</code> and direction <code>dir</code>
+     * intersects the axis-aligned rectangle given as any two opposite corners <code>a</code> and <code>b</code>,
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
+     * as well as the side of the axis-aligned rectangle the ray intersects.
      * <p>
      * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
      * Ray - Box Intersection</a> method, also known as "slab method."
      * <p>
-     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned rectangle.
+     * This method also detects an intersection for a ray whose origin lies inside the axis-aligned rectangle.
      * 
      * @see #intersectRayAar(float, float, float, float, float, float, float, float, Vector2f)
      * 
@@ -2941,16 +2987,17 @@ public class Intersectionf {
      * @param dir
      *              the ray's direction
      * @param a
-     *              one corner of the axis-aligned rectangle
+     *              the one corner of the axis-aligned rectangle
      * @param b
      *              the opposite corner of the axis-aligned rectangle
      * @param result
-     *              a vector which will hold the resulting values of the parameter
-     *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
-     *              iff the ray intersects the axis-aligned rectangle
-     * @return <code>true</code> if the given ray intersects the axis-aligned rectangle; <code>false</code> otherwise
+     *              a vector which will hold the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = origin + t * dir</i> of the near and far point of intersection
+     * @return the side on which the near intersection occurred as one of
+     *         {@link #AAR_SIDE_AX}, {@link #AAR_SIDE_AY}, {@link #AAR_SIDE_BX} or {@link #AAR_SIDE_BY};
+     *         or <tt>-1</tt> if the ray does not intersect the axis-aligned rectangle;
      */
-    public static boolean intersectRayAar(Vector2f origin, Vector2f dir, Vector2f a, Vector2f b, Vector2f result) {
+    public static int intersectRayAar(Vector2f origin, Vector2f dir, Vector2f a, Vector2f b, Vector2f result) {
         return intersectRayAar(origin.x, origin.y, dir.x, dir.y, a.x, a.y, b.x, b.y, result);
     }
 

@@ -124,4 +124,16 @@ public class IntersectionfTest extends TestCase {
         assertTrue(Intersectionf.testLineSegmentTriangle(1, 0, 0, -1, 0, 0, 1, -1, 1, 1, -1, -1, 1, 1, 0, 1E-6f));
     }
 
+    public static void testRayAar() {
+        Vector2f p = new Vector2f();
+        assertEquals(Intersectionf.AAR_SIDE_AX, Intersectionf.intersectRayAar(-3, 0, 1, 0, -1, -1, 1, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(-1, 0), new Vector2f(-3 + p.x * 1, 0 + p.x * 0), 1E-6f);
+        assertEquals(Intersectionf.AAR_SIDE_BX, Intersectionf.intersectRayAar(3, 0, -1, 0, -1, -1, 1, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(1, 0), new Vector2f(3 + p.x * -1, 0 + p.x * 0), 1E-6f);
+        assertEquals(Intersectionf.AAR_SIDE_AY, Intersectionf.intersectRayAar(0, -2, 0, 1, -1, -1, 1, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0, -1), new Vector2f(0 + p.x * 0, -2 + p.x * 1), 1E-6f);
+        assertEquals(Intersectionf.AAR_SIDE_BY, Intersectionf.intersectRayAar(0, 2, 0, -1, -1, -1, 1, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0, 1), new Vector2f(0 + p.x * 0, 2 + p.x * -1), 1E-6f);
+    }
+
 }
