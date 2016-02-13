@@ -2596,6 +2596,71 @@ public class Intersectiond {
     }
 
     /**
+     * Determine whether the ray with given origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt> intersects the undirected line segment
+     * given by the two end points <tt>(aX, bY)</tt> and <tt>(bX, bY)</tt>, and return the value of the parameter <i>t</i> in the ray equation
+     * <i>p(t) = origin + t * dir</i> of the intersection point, if any.
+     * <p>
+     * This method returns <tt>-1.0</tt> if the ray does not intersect the line segment.
+     * 
+     * @see #intersectRayLineSegment(Vector2d, Vector2d, Vector2d, Vector2d)
+     * 
+     * @param originX
+     *              the x coordinate of the ray's origin
+     * @param originY
+     *              the y coordinate of the ray's origin
+     * @param dirX
+     *              the x coordinate of the ray's direction
+     * @param dirY
+     *              the y coordinate of the ray's direction
+     * @param aX
+     *              the x coordinate of the line segment's first end point
+     * @param aY
+     *              the y coordinate of the line segment's first end point
+     * @param bX
+     *              the x coordinate of the line segment's second end point
+     * @param bY
+     *              the y coordinate of the line segment's second end point
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
+     *         intersects the line segment; <tt>-1.0</tt> otherwise
+     */
+    public static double intersectRayLineSegment(double originX, double originY, double dirX, double dirY, double aX, double aY, double bX, double bY) {
+        double v1X = originX - aX;
+        double v1Y = originY - aY;
+        double v2X = bX - aX;
+        double v2Y = bY - aY;
+        double v23 = v2X * -dirY + v2Y * dirX;
+        double t1 = (v2X * v1Y - v2Y * v1X) / v23;
+        double t2 = (v1X * -dirY + v1Y * dirX) / v23;
+        if (t1 >= 0.0 && t2 >= 0.0 && t2 <= 1.0)
+            return t1;
+        return -1.0;
+    }
+
+    /**
+     * Determine whether the ray with given <code>origin</code> and direction <code>dir</code> intersects the undirected line segment
+     * given by the two end points <code>a</code> and <code>b</code>, and return the value of the parameter <i>t</i> in the ray equation
+     * <i>p(t) = origin + t * dir</i> of the intersection point, if any.
+     * <p>
+     * This method returns <tt>-1.0</tt> if the ray does not intersect the line segment.
+     * 
+     * @see #intersectRayLineSegment(double, double, double, double, double, double, double, double)
+     * 
+     * @param origin
+     *              the ray's origin
+     * @param dir
+     *              the ray's direction
+     * @param a
+     *              the line segment's first end point
+     * @param b
+     *              the line segment's second end point
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
+     *         intersects the line segment; <tt>-1.0</tt> otherwise
+     */
+    public static double intersectRayLineSegment(Vector2d origin, Vector2d dir, Vector2d a, Vector2d b) {
+        return intersectRayLineSegment(origin.x, origin.y, dir.x, dir.y, a.x, a.y, b.x, b.y);
+    }
+
+    /**
      * Test whether the axis-aligned rectangle with minimum corner <tt>(minX, minY)</tt> and maximum corner <tt>(maxX, maxY)</tt>
      * intersects the circle with the given center <tt>(centerX, centerY)</tt> and square radius <code>radiusSquared</code>.
      * <p>
