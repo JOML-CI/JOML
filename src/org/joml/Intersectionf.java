@@ -3350,15 +3350,15 @@ public class Intersectionf {
         float nearestT = Float.MAX_VALUE;
         int count = verticesXY.length >> 1;
         int edgeIndex = -1;
-        float aX = verticesXY[((count-1)<<1)], aY = verticesXY[((count-1)<<1) + 1];
+        float aX = verticesXY[(count-1)<<1], aY = verticesXY[((count-1)<<1) + 1];
         for (int i = 0; i < count; i++) {
             float bX = verticesXY[i << 1], bY = verticesXY[(i << 1) + 1];
-            float v1X = originX - aX, v1Y = originY - aY;
-            float v2X = bX - aX, v2Y = bY - aY;
-            float invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
-            float t = (v2X * v1Y - v2Y * v1X) * invV23;
+            float doaX = originX - aX, doaY = originY - aY;
+            float dbaX = bX - aX, dbaY = bY - aY;
+            float invDbaDir = 1.0f / (dbaY * dirX - dbaX * dirY);
+            float t = (dbaX * doaY - dbaY * doaX) * invDbaDir;
             if (t >= 0.0f && t < nearestT) {
-                float t2 = (v1Y * dirX - v1X * dirY) * invV23;
+                float t2 = (doaY * dirX - doaX * dirY) * invDbaDir;
                 if (t2 >= 0.0f && t2 <= 1.0f) {
                     edgeIndex = (i - 1 + count) % count;
                     nearestT = t;
@@ -3402,12 +3402,12 @@ public class Intersectionf {
         for (int i = 0; i < count; i++) {
             Vector2f b = vertices[i];
             float bX = b.x, bY = b.y;
-            float v1X = originX - aX, v1Y = originY - aY;
-            float v2X = bX - aX, v2Y = bY - aY;
-            float invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
-            float t = (v2X * v1Y - v2Y * v1X) * invV23;
+            float doaX = originX - aX, doaY = originY - aY;
+            float dbaX = bX - aX, dbaY = bY - aY;
+            float invDbaDir = 1.0f / (dbaY * dirX - dbaX * dirY);
+            float t = (dbaX * doaY - dbaY * doaX) * invDbaDir;
             if (t >= 0.0f && t < nearestT) {
-                float t2 = (v1Y * dirX - v1X * dirY) * invV23;
+                float t2 = (doaY * dirX - doaX * dirY) * invDbaDir;
                 if (t2 >= 0.0f && t2 <= 1.0f) {
                     edgeIndex = (i - 1 + count) % count;
                     nearestT = t;

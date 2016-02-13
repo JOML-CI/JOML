@@ -1046,10 +1046,10 @@ public class Intersectiond {
             r2 = r1;
             r1 = temp;
         }
-        if (r1 > 0.0f && r1 < maxR) {
+        if (r1 > 0.0 && r1 < maxR) {
             return r1;
         }
-        if (r2 > 0.0f && r2 < maxR) {
+        if (r2 > 0.0 && r2 < maxR) {
             return r2;
         }
         return Double.MAX_VALUE;
@@ -2103,7 +2103,7 @@ public class Intersectiond {
         double dirY = p1Y - p0Y;
         double dirZ = p1Z - p0Z;
         double t = intersectRayTriangle(p0X, p0Y, p0Z, dirX, dirY, dirZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z, epsilon);
-        if (t >= 0.0f && t <= 1.0f) {
+        if (t >= 0.0 && t <= 1.0) {
             intersectionPoint.x = p0X + dirX * t;
             intersectionPoint.y = p0Y + dirY * t;
             intersectionPoint.z = p0Z + dirZ * t;
@@ -2628,7 +2628,7 @@ public class Intersectiond {
         double v1Y = originY - aY;
         double v2X = bX - aX;
         double v2Y = bY - aY;
-        double invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
+        double invV23 = 1.0 / (v2Y * dirX - v2X * dirY);
         double t1 = (v2X * v1Y - v2Y * v1X) * invV23;
         double t2 = (v1Y * dirX - v1X * dirY) * invV23;
         if (t1 >= 0.0 && t2 >= 0.0 && t2 <= 1.0)
@@ -3350,16 +3350,16 @@ public class Intersectiond {
         double nearestT = Double.MAX_VALUE;
         int count = verticesXY.length >> 1;
         int edgeIndex = -1;
-        double aX = verticesXY[((count-1)<<1)], aY = verticesXY[((count-1)<<1) + 1];
+        double aX = verticesXY[(count-1)<<1], aY = verticesXY[((count-1)<<1) + 1];
         for (int i = 0; i < count; i++) {
             double bX = verticesXY[i << 1], bY = verticesXY[(i << 1) + 1];
-            double v1X = originX - aX, v1Y = originY - aY;
-            double v2X = bX - aX, v2Y = bY - aY;
-            double invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
-            double t = (v2X * v1Y - v2Y * v1X) * invV23;
-            if (t >= 0.0f && t < nearestT) {
-                double t2 = (v1Y * dirX - v1X * dirY) * invV23;
-                if (t2 >= 0.0f && t2 <= 1.0f) {
+            double doaX = originX - aX, doaY = originY - aY;
+            double dbaX = bX - aX, dbaY = bY - aY;
+            double invDbaDir = 1.0 / (dbaY * dirX - dbaX * dirY);
+            double t = (dbaX * doaY - dbaY * doaX) * invDbaDir;
+            if (t >= 0.0 && t < nearestT) {
+                double t2 = (doaY * dirX - doaX * dirY) * invDbaDir;
+                if (t2 >= 0.0 && t2 <= 1.0) {
                     edgeIndex = (i - 1 + count) % count;
                     nearestT = t;
                     p.x = originX + t * dirX;
@@ -3402,13 +3402,13 @@ public class Intersectiond {
         for (int i = 0; i < count; i++) {
             Vector2d b = vertices[i];
             double bX = b.x, bY = b.y;
-            double v1X = originX - aX, v1Y = originY - aY;
-            double v2X = bX - aX, v2Y = bY - aY;
-            double invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
-            double t = (v2X * v1Y - v2Y * v1X) * invV23;
-            if (t >= 0.0f && t < nearestT) {
-                double t2 = (v1Y * dirX - v1X * dirY) * invV23;
-                if (t2 >= 0.0f && t2 <= 1.0f) {
+            double doaX = originX - aX, doaY = originY - aY;
+            double dbaX = bX - aX, dbaY = bY - aY;
+            double invDbaDir = 1.0 / (dbaY * dirX - dbaX * dirY);
+            double t = (dbaX * doaY - dbaY * doaX) * invDbaDir;
+            if (t >= 0.0 && t < nearestT) {
+                double t2 = (doaY * dirX - doaX * dirY) * invDbaDir;
+                if (t2 >= 0.0 && t2 <= 1.0) {
                     edgeIndex = (i - 1 + count) % count;
                     nearestT = t;
                     p.x = originX + t * dirX;
