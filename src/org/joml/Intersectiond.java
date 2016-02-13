@@ -2628,9 +2628,9 @@ public class Intersectiond {
         double v1Y = originY - aY;
         double v2X = bX - aX;
         double v2Y = bY - aY;
-        double v23 = v2Y * dirX - v2X * dirY;
-        double t1 = (v2X * v1Y - v2Y * v1X) / v23;
-        double t2 = (v1Y * dirX - v1X * dirY) / v23;
+        double invV23 = 1.0f / (v2Y * dirX - v2X * dirY);
+        double t1 = (v2X * v1Y - v2Y * v1X) * invV23;
+        double t2 = (v1Y * dirX - v1X * dirY) * invV23;
         if (t1 >= 0.0 && t2 >= 0.0 && t2 <= 1.0)
             return t1;
         return -1.0;
