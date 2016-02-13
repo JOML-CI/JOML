@@ -1538,6 +1538,9 @@ public class Intersectiond {
             if (tNear > 0.0 && tFar > 1.0) {
                 tFar = tNear;
                 type = ONE_INTERSECTION;
+            } else if (tNear < 0.0 && tFar < 1.0) {
+                tNear = tFar;
+                type = ONE_INTERSECTION;
             } else if (tNear < 0.0 && tFar > 1.0) {
                 type = INSIDE;
             } else {
@@ -3264,6 +3267,9 @@ public class Intersectiond {
         if (tNear < tFar && tNear < 1.0 && tFar > 0.0) {
             if (tNear > 0.0 && tFar > 1.0) {
                 tFar = tNear;
+                type = ONE_INTERSECTION;
+            } else if (tNear < 0.0 && tFar < 1.0) {
+                tNear = tFar;
                 type = ONE_INTERSECTION;
             } else if (tNear < 0.0 && tFar > 1.0) {
                 type = INSIDE;
