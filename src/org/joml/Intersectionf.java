@@ -1259,7 +1259,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
+     * Test whether the line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
      * <p>
      * Reference: <a href="http://paulbourke.net/geometry/circlesphere/index.html#linesphere">http://paulbourke.net/</a>
@@ -1315,7 +1315,7 @@ public class Intersectionf {
     }
 
     /**
-     * Test whether the given line segment with the end points <code>p0</code> and <code>p1</code>
+     * Test whether the line segment with the end points <code>p0</code> and <code>p1</code>
      * intersects the given sphere with center <code>center</code> and square radius <code>radiusSquared</code>.
      * <p>
      * Reference: <a href="http://paulbourke.net/geometry/circlesphere/index.html#linesphere">http://paulbourke.net/</a>
@@ -3064,6 +3064,92 @@ public class Intersectionf {
      */
     public static int intersectRayAar(Vector2f origin, Vector2f dir, Vector2f a, Vector2f b, Vector2f result) {
         return intersectRayAar(origin.x, origin.y, dir.x, dir.y, a.x, a.y, b.x, b.y, result);
+    }
+
+    /**
+     * Determine whether the undirected line segment with the end points <tt>(p0X, p0Y)</tt> and <tt>(p1X, p1Y)</tt>
+     * intersects the axis-aligned rectangle given as any two opposite corners <tt>(aX, aY)</tt> and <tt>(bX, bY)</tt>,
+     * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
+     * into <code>result</code>.
+     * <p>
+     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
+     * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * This method also detects an intersection of a line segment whose either end point lies inside the axis-aligned rectangle.
+     *
+     * @see #intersectLineSegmentAar(Vector2f, Vector2f, Vector2f, Vector2f, Vector2f)
+     * 
+     * @param p0X
+     *              the x coordinate of the line segment's first end point
+     * @param p0Y
+     *              the y coordinate of the line segment's first end point
+     * @param p1X
+     *              the x coordinate of the line segment's second end point
+     * @param p1Y
+     *              the y coordinate of the line segment's second end point
+     * @param aX
+     *              the x coordinate of one corner of the axis-aligned rectangle
+     * @param aY
+     *              the y coordinate of one corner of the axis-aligned rectangle
+     * @param bX
+     *              the x coordinate of the opposite corner of the axis-aligned rectangle
+     * @param bY
+     *              the y coordinate of the opposite corner of the axis-aligned rectangle
+     * @param result
+     *              a vector which will hold the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
+     * @return <code>true</code> iff the line segment intersects the axis-aligned rectangle; <code>false</code> otherwise
+     */
+    public static boolean intersectLineSegmentAar(float p0X, float p0Y, float p1X, float p1Y, 
+            float aX, float aY, float bX, float bY, Vector2f result) {
+        float dirX = p1X - p0X, dirY = p1Y - p0Y;
+        float invDirX = 1.0f / dirX, invDirY = 1.0f / dirY;
+        float tMinX = (aX - p0X) * invDirX;
+        float tMinY = (aY - p0Y) * invDirY;
+        float tMaxX = (bX - p0X) * invDirX;
+        float tMaxY = (bY - p0Y) * invDirY;
+        float t1X = tMinX < tMaxX ? tMinX : tMaxX;
+        float t1Y = tMinY < tMaxY ? tMinY : tMaxY;
+        float t2X = tMinX > tMaxX ? tMinX : tMaxX;
+        float t2Y = tMinY > tMaxY ? tMinY : tMaxY;
+        float tNear = t1X > t1Y ? t1X : t1Y;
+        float tFar = t2X < t2Y ? t2X : t2Y;
+        if (tNear < tFar && tFar <= 1.0f && tNear >= 0.0f) {
+            result.x = tNear;
+            result.y = tFar;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determine whether the undirected line segment with the end points <code>p0</code> and <code>p1</code>
+     * intersects the axis-aligned rectangle given as any two opposite corners <code>a</code> and <code>b</code>,
+     * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
+     * into <code>result</code>.
+     * <p>
+     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
+     * Ray - Box Intersection</a> method, also known as "slab method."
+     * <p>
+     * This method also detects an intersection of a line segment whose either end point lies inside the axis-aligned rectangle.
+     *
+     * #see {@link #intersectLineSegmentAar(float, float, float, float, float, float, float, float, Vector2f)}
+     * 
+     * @param p0
+     *              the line segment's first end point
+     * @param p1
+     *              the line segment's second end point
+     * @param a
+     *              one corner of the axis-aligned rectangle
+     * @param b
+     *              the opposite corner of the axis-aligned rectangle
+     * @param result
+     *              a vector which will hold the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
+     * @return <code>true</code> iff the line segment intersects the axis-aligned rectangle; <code>false</code> otherwise
+     */
+    public static boolean intersectLineSegmentAar(Vector2f p0, Vector2f p1, Vector2f a, Vector2f b, Vector2f result) {
+        return intersectLineSegmentAar(p0.x, p0.y, p1.x, p1.y, a.x, a.y, b.x, b.y, result);
     }
 
     /**
