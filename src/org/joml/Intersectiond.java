@@ -103,7 +103,8 @@ public class Intersectiond {
      * Return value of {@link #intersectLineSegmentAab(double, double, double, double, double, double, double, double, double, double, double, double, Vector2d)} and
      * {@link #intersectLineSegmentAab(Vector3d, Vector3d, Vector3d, Vector3d, Vector2d)} to indicate that the line segment intersects two sides of the axis-aligned box;
      * or return value of {@link #intersectLineSegmentAar(double, double, double, double, double, double, double, double, Vector2d)} and
-     * {@link #intersectLineSegmentAar(Vector2d, Vector2d, Vector2d, Vector2d, Vector2d)} to indicate that the line segment intersects two edges of the axis-aligned rectangle.
+     * {@link #intersectLineSegmentAar(Vector2d, Vector2d, Vector2d, Vector2d, Vector2d)} to indicate that the line segment intersects two edges of the axis-aligned rectangle
+     * or lies on an edge of the rectangle.
      */
     public static final int TWO_INTERSECTION = 2;
     /**
@@ -3214,14 +3215,13 @@ public class Intersectiond {
 
     /**
      * Determine whether the undirected line segment with the end points <tt>(p0X, p0Y)</tt> and <tt>(p1X, p1Y)</tt>
-     * intersects the axis-aligned rectangle given as any two opposite corners <tt>(aX, aY)</tt> and <tt>(bX, bY)</tt>,
+     * intersects the axis-aligned rectangle given as its minimum corner <tt>(minX, minY)</tt> and maximum corner <tt>(maxX, maxY)</tt>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
      * into <code>result</code>.
      * <p>
-     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
-     * Ray - Box Intersection</a> method, also known as "slab method."
-     * <p>
      * This method also detects an intersection of a line segment whose either end point lies inside the axis-aligned rectangle.
+     * <p>
+     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      *
      * @see #intersectLineSegmentAar(Vector2d, Vector2d, Vector2d, Vector2d, Vector2d)
      * 
@@ -3247,22 +3247,33 @@ public class Intersectiond {
      * @return {@link #INSIDE} if the line segment lies completely inside of the axis-aligned rectangle; or
      *         {@link #OUTSIDE} if the line segment lies completely outside of the axis-aligned rectangle; or
      *         {@link #ONE_INTERSECTION} if one of the end points of the line segment lies inside of the axis-aligned rectangle; or
-     *         {@link #TWO_INTERSECTION} if the line segment intersects two edges of the axis-aligned rectangle
+     *         {@link #TWO_INTERSECTION} if the line segment intersects two edges of the axis-aligned rectangle or lies on one edge of the rectangle
      */
     public static int intersectLineSegmentAar(double p0X, double p0Y, double p1X, double p1Y, 
-            double aX, double aY, double bX, double bY, Vector2d result) {
+            double minX, double minY, double maxX, double maxY, Vector2d result) {
         double dirX = p1X - p0X, dirY = p1Y - p0Y;
-        double invDirX = 1.0f / dirX, invDirY = 1.0f / dirY;
-        double tMinX = (aX - p0X) * invDirX;
-        double tMinY = (aY - p0Y) * invDirY;
-        double tMaxX = (bX - p0X) * invDirX;
-        double tMaxY = (bY - p0Y) * invDirY;
-        double t1X = tMinX < tMaxX ? tMinX : tMaxX;
-        double t1Y = tMinY < tMaxY ? tMinY : tMaxY;
-        double t2X = tMinX > tMaxX ? tMinX : tMaxX;
-        double t2Y = tMinY > tMaxY ? tMinY : tMaxY;
-        double tNear = t1X > t1Y ? t1X : t1Y;
-        double tFar = t2X < t2Y ? t2X : t2Y;
+        double invDirX = 1.0 / dirX, invDirY = 1.0 / dirY;
+        double tNear, tFar, tymin, tymax;
+        if (invDirX >= 0.0) {
+            tNear = (minX - p0X) * invDirX;
+            tFar = (maxX - p0X) * invDirX;
+        } else {
+            tNear = (maxX - p0X) / dirX;
+            tFar = (minX - p0X) / dirX;
+        }
+        if (invDirY >= 0.0) {
+            tymin = (minY - p0Y) * invDirY;
+            tymax = (maxY - p0Y) * invDirY;
+        } else {
+            tymin = (maxY - p0Y) / dirY;
+            tymax = (minY - p0Y) / dirY;
+        }
+        if (tNear > tymax || tymin > tFar)
+            return OUTSIDE;
+        if (tymin > tNear || Double.isNaN(tNear))
+            tNear = tymin;
+        if (tymax < tFar || Double.isNaN(tFar))
+            tFar = tymax;
         int type = OUTSIDE;
         if (tNear < tFar && tNear <= 1.0 && tFar >= 0.0) {
             if (tNear > 0.0 && tFar > 1.0) {
@@ -3284,14 +3295,13 @@ public class Intersectiond {
 
     /**
      * Determine whether the undirected line segment with the end points <code>p0</code> and <code>p1</code>
-     * intersects the axis-aligned rectangle given as any two opposite corners <code>a</code> and <code>b</code>,
+     * intersects the axis-aligned rectangle given as its minimum corner <code>min</code> and maximum corner <code>max</code>,
      * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
      * into <code>result</code>.
      * <p>
-     * This is an implementation of the <a href="http://www.siggraph.org/education/materials/HyperGraph/raytrace/rtinter3.htm">
-     * Ray - Box Intersection</a> method, also known as "slab method."
-     * <p>
      * This method also detects an intersection of a line segment whose either end point lies inside the axis-aligned rectangle.
+     * <p>
+     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
      *
      * #see {@link #intersectLineSegmentAar(double, double, double, double, double, double, double, double, Vector2d)}
      * 
@@ -3299,10 +3309,10 @@ public class Intersectiond {
      *              the line segment's first end point
      * @param p1
      *              the line segment's second end point
-     * @param a
-     *              one corner of the axis-aligned rectangle
-     * @param b
-     *              the opposite corner of the axis-aligned rectangle
+     * @param min
+     *              the minimum corner of the axis-aligned rectangle
+     * @param max
+     *              the maximum corner of the axis-aligned rectangle
      * @param result
      *              a vector which will hold the values of the parameter <i>t</i> in the ray equation
      *              <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
