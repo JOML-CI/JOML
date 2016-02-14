@@ -3233,14 +3233,14 @@ public class Intersectiond {
      *              the x coordinate of the line segment's second end point
      * @param p1Y
      *              the y coordinate of the line segment's second end point
-     * @param aX
-     *              the x coordinate of one corner of the axis-aligned rectangle
-     * @param aY
-     *              the y coordinate of one corner of the axis-aligned rectangle
-     * @param bX
-     *              the x coordinate of the opposite corner of the axis-aligned rectangle
-     * @param bY
-     *              the y coordinate of the opposite corner of the axis-aligned rectangle
+     * @param minX
+     *              the x coordinate of the minimum corner of the axis-aligned rectangle
+     * @param minY
+     *              the y coordinate of the minimum corner of the axis-aligned rectangle
+     * @param maxX
+     *              the x coordinate of the maximum corner of the axis-aligned rectangle
+     * @param maxY
+     *              the y coordinate of the maximum corner of the axis-aligned rectangle
      * @param result
      *              a vector which will hold the values of the parameter <i>t</i> in the ray equation
      *              <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
@@ -3321,8 +3321,8 @@ public class Intersectiond {
      *         {@link #ONE_INTERSECTION} if one of the end points of the line segment lies inside of the axis-aligned rectangle; or
      *         {@link #TWO_INTERSECTION} if the line segment intersects two edges of the axis-aligned rectangle
      */
-    public static int intersectLineSegmentAar(Vector2d p0, Vector2d p1, Vector2d a, Vector2d b, Vector2d result) {
-        return intersectLineSegmentAar(p0.x, p0.y, p1.x, p1.y, a.x, a.y, b.x, b.y, result);
+    public static int intersectLineSegmentAar(Vector2d p0, Vector2d p1, Vector2d min, Vector2d max, Vector2d result) {
+        return intersectLineSegmentAar(p0.x, p0.y, p1.x, p1.y, min.x, min.y, max.x, max.y, result);
     }
 
     /**
