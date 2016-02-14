@@ -181,6 +181,10 @@ public class IntersectionfTest extends TestCase {
         TestUtil.assertVector2fEquals(new Vector2f(0.5f, 0.75f), p, 1E-6f);
         assertEquals(Intersectionf.TWO_INTERSECTION, Intersectionf.intersectLineSegmentAar(1, 0, 0, 0, 0.5f, -1, 0.75f, 1, p));
         TestUtil.assertVector2fEquals(new Vector2f(0.25f, 0.5f), p, 1E-6f);
+        assertEquals(Intersectionf.ONE_INTERSECTION, Intersectionf.intersectLineSegmentAar(0, 0, 1, 0, 1, -1, 2, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(1, 1), p, 1E-6f);
+        assertEquals(Intersectionf.ONE_INTERSECTION, Intersectionf.intersectLineSegmentAar(0, 0, -1, 0, -1, -1, -2, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(1, 1), p, 1E-6f);
     }
 
 }

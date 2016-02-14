@@ -1534,7 +1534,7 @@ public class Intersectiond {
         double t2XY = t2X < t2Y ? t2X : t2Y;
         double tFar = t2XY < t2Z ? t2XY : t2Z;
         int type = OUTSIDE;
-        if (tNear < tFar && tNear < 1.0 && tFar > 0.0) {
+        if (tNear < tFar && tNear <= 1.0 && tFar >= 0.0) {
             if (tNear > 0.0 && tFar > 1.0) {
                 tFar = tNear;
                 type = ONE_INTERSECTION;
@@ -3264,7 +3264,7 @@ public class Intersectiond {
         double tNear = t1X > t1Y ? t1X : t1Y;
         double tFar = t2X < t2Y ? t2X : t2Y;
         int type = OUTSIDE;
-        if (tNear < tFar && tNear < 1.0 && tFar > 0.0) {
+        if (tNear < tFar && tNear <= 1.0 && tFar >= 0.0) {
             if (tNear > 0.0 && tFar > 1.0) {
                 tFar = tNear;
                 type = ONE_INTERSECTION;

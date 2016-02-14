@@ -1534,7 +1534,7 @@ public class Intersectionf {
         float t2XY = t2X < t2Y ? t2X : t2Y;
         float tFar = t2XY < t2Z ? t2XY : t2Z;
         int type = OUTSIDE;
-        if (tNear < tFar && tNear < 1.0f && tFar > 0.0f) {
+        if (tNear < tFar && tNear <= 1.0f && tFar >= 0.0f) {
             if (tNear > 0.0f && tFar > 1.0f) {
                 tFar = tNear;
                 type = ONE_INTERSECTION;
@@ -3264,7 +3264,7 @@ public class Intersectionf {
         float tNear = t1X > t1Y ? t1X : t1Y;
         float tFar = t2X < t2Y ? t2X : t2Y;
         int type = OUTSIDE;
-        if (tNear < tFar && tNear < 1.0f && tFar > 0.0f) {
+        if (tNear < tFar && tNear <= 1.0f && tFar >= 0.0f) {
             if (tNear > 0.0f && tFar > 1.0f) {
                 tFar = tNear;
                 type = ONE_INTERSECTION;
