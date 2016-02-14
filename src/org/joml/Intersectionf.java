@@ -1438,14 +1438,10 @@ public class Intersectionf {
         }
         if (tNear > tzmax || tzmin > tFar)
             return false;
-        if (tymin > tNear || Float.isNaN(tNear))
-            tNear = tymin;
-        if (tymax < tFar || Float.isNaN(tFar))
-            tFar = tymax;
-        if (tzmin > tNear)
-            tNear = tzmin;
-        if (tzmax < tFar)
-            tFar = tzmax;
+        tNear = tymin > tNear || Float.isNaN(tNear) ? tymin : tNear;
+        tFar = tymax < tFar || Float.isNaN(tFar) ? tymax : tFar;
+        tNear = tzmin > tNear ? tzmin : tNear;
+        tFar = tzmax < tFar ? tzmax : tFar;
         if (tNear < tFar && tFar >= 0.0f) {
             result.x = tNear;
             result.y = tFar;
@@ -1561,14 +1557,10 @@ public class Intersectionf {
         }
         if (tNear > tzmax || tzmin > tFar)
             return OUTSIDE;
-        if (tymin > tNear || Float.isNaN(tNear))
-            tNear = tymin;
-        if (tymax < tFar || Float.isNaN(tFar))
-            tFar = tymax;
-        if (tzmin > tNear)
-            tNear = tzmin;
-        if (tzmax < tFar)
-            tFar = tzmax;
+        tNear = tymin > tNear || Float.isNaN(tNear) ? tymin : tNear;
+        tFar = tymax < tFar || Float.isNaN(tFar) ? tymax : tFar;
+        tNear = tzmin > tNear ? tzmin : tNear;
+        tFar = tzmax < tFar ? tzmax : tFar;
         int type = OUTSIDE;
         if (tNear < tFar && tNear <= 1.0f && tFar >= 0.0f) {
             if (tNear > 0.0f && tFar > 1.0f) {
@@ -1689,14 +1681,10 @@ public class Intersectionf {
         }
         if (tNear > tzmax || tzmin > tFar)
             return false;
-        if (tymin > tNear || Float.isNaN(tNear))
-            tNear = tymin;
-        if (tymax < tFar || Float.isNaN(tFar))
-            tFar = tymax;
-        if (tzmin > tNear)
-            tNear = tzmin;
-        if (tzmax < tFar)
-            tFar = tzmax;
+        tNear = tymin > tNear || Float.isNaN(tNear) ? tymin : tNear;
+        tFar = tymax < tFar || Float.isNaN(tFar) ? tymax : tFar;
+        tNear = tzmin > tNear ? tzmin : tNear;
+        tFar = tzmax < tFar ? tzmax : tFar;
         return tNear < tFar && tFar >= 0.0f;
     }
 
@@ -3212,10 +3200,8 @@ public class Intersectionf {
         }
         if (tNear > tymax || tymin > tFar)
             return OUTSIDE;
-        if (tymin > tNear || Float.isNaN(tNear))
-            tNear = tymin;
-        if (tymax < tFar || Float.isNaN(tFar))
-            tFar = tymax;
+        tNear = tymin > tNear || Float.isNaN(tNear) ? tymin : tNear;
+        tFar = tymax < tFar || Float.isNaN(tFar) ? tymax : tFar;
         int side = -1; // no intersection side
         if (tNear < tFar && tFar >= 0.0f) {
             float px = originX + tNear * dirX;
@@ -3330,10 +3316,8 @@ public class Intersectionf {
         }
         if (tNear > tymax || tymin > tFar)
             return OUTSIDE;
-        if (tymin > tNear || Float.isNaN(tNear))
-            tNear = tymin;
-        if (tymax < tFar || Float.isNaN(tFar))
-            tFar = tymax;
+        tNear = tymin > tNear || Float.isNaN(tNear) ? tymin : tNear;
+        tFar = tymax < tFar || Float.isNaN(tFar) ? tymax : tFar;
         int type = OUTSIDE;
         if (tNear < tFar && tNear <= 1.0f && tFar >= 0.0f) {
             if (tNear > 0.0f && tFar > 1.0f) {
@@ -3432,10 +3416,8 @@ public class Intersectionf {
         }
         if (tNear > tymax || tymin > tFar)
             return false;
-        if (tymin > tNear || Float.isNaN(tNear))
-            tNear = tymin;
-        if (tymax < tFar || Float.isNaN(tFar))
-            tFar = tymax;
+        tNear = tymin > tNear || Float.isNaN(tNear) ? tymin : tNear;
+        tFar = tymax < tFar || Float.isNaN(tFar) ? tymax : tFar;
         return tNear < tFar && tFar >= 0.0f;
     }
 
