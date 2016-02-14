@@ -101,7 +101,8 @@ public class Intersectiond {
     public static final int ONE_INTERSECTION = 1;
     /**
      * Return value of {@link #intersectLineSegmentAab(double, double, double, double, double, double, double, double, double, double, double, double, Vector2d)} and
-     * {@link #intersectLineSegmentAab(Vector3d, Vector3d, Vector3d, Vector3d, Vector2d)} to indicate that the line segment intersects two sides of the axis-aligned box;
+     * {@link #intersectLineSegmentAab(Vector3d, Vector3d, Vector3d, Vector3d, Vector2d)} to indicate that the line segment intersects two sides of the axis-aligned box
+     * or lies on an edge or a side of the box;
      * or return value of {@link #intersectLineSegmentAar(double, double, double, double, double, double, double, double, Vector2d)} and
      * {@link #intersectLineSegmentAar(Vector2d, Vector2d, Vector2d, Vector2d, Vector2d)} to indicate that the line segment intersects two edges of the axis-aligned rectangle
      * or lies on an edge of the rectangle.
