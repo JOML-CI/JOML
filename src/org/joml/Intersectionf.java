@@ -1417,15 +1417,15 @@ public class Intersectionf {
             tNear = (minX - originX) * invDirX;
             tFar = (maxX - originX) * invDirX;
         } else {
-            tNear = (maxX - originX) / dirX;
-            tFar = (minX - originX) / dirX;
+            tNear = (maxX - originX) * invDirX;
+            tFar = (minX - originX) * invDirX;
         }
         if (invDirY >= 0.0f) {
             tymin = (minY - originY) * invDirY;
             tymax = (maxY - originY) * invDirY;
         } else {
-            tymin = (maxY - originY) / dirY;
-            tymax = (minY - originY) / dirY;
+            tymin = (maxY - originY) * invDirY;
+            tymax = (minY - originY) * invDirY;
         }
         if (tNear > tymax || tymin > tFar)
             return false;
@@ -1433,8 +1433,8 @@ public class Intersectionf {
             tzmin = (minZ - originZ) * invDirZ;
             tzmax = (maxZ - originZ) * invDirZ;
         } else {
-            tzmin = (maxZ - originZ) / dirZ;
-            tzmax = (minZ - originZ) / dirZ;
+            tzmin = (maxZ - originZ) * invDirZ;
+            tzmax = (minZ - originZ) * invDirZ;
         }
         if (tNear > tzmax || tzmin > tFar)
             return false;
@@ -1540,15 +1540,15 @@ public class Intersectionf {
             tNear = (minX - p0X) * invDirX;
             tFar = (maxX - p0X) * invDirX;
         } else {
-            tNear = (maxX - p0X) / dirX;
-            tFar = (minX - p0X) / dirX;
+            tNear = (maxX - p0X) * invDirX;
+            tFar = (minX - p0X) * invDirX;
         }
         if (invDirY >= 0.0f) {
             tymin = (minY - p0Y) * invDirY;
             tymax = (maxY - p0Y) * invDirY;
         } else {
-            tymin = (maxY - p0Y) / dirY;
-            tymax = (minY - p0Y) / dirY;
+            tymin = (maxY - p0Y) * invDirY;
+            tymax = (minY - p0Y) * invDirY;
         }
         if (tNear > tymax || tymin > tFar)
             return OUTSIDE;
@@ -1556,8 +1556,8 @@ public class Intersectionf {
             tzmin = (minZ - p0Z) * invDirZ;
             tzmax = (maxZ - p0Z) * invDirZ;
         } else {
-            tzmin = (maxZ - p0Z) / dirZ;
-            tzmax = (minZ - p0Z) / dirZ;
+            tzmin = (maxZ - p0Z) * invDirZ;
+            tzmax = (minZ - p0Z) * invDirZ;
         }
         if (tNear > tzmax || tzmin > tFar)
             return OUTSIDE;
@@ -1668,15 +1668,15 @@ public class Intersectionf {
             tNear = (minX - originX) * invDirX;
             tFar = (maxX - originX) * invDirX;
         } else {
-            tNear = (maxX - originX) / dirX;
-            tFar = (minX - originX) / dirX;
+            tNear = (maxX - originX) * invDirX;
+            tFar = (minX - originX) * invDirX;
         }
         if (invDirY >= 0.0f) {
             tymin = (minY - originY) * invDirY;
             tymax = (maxY - originY) * invDirY;
         } else {
-            tymin = (maxY - originY) / dirY;
-            tymax = (minY - originY) / dirY;
+            tymin = (maxY - originY) * invDirY;
+            tymax = (minY - originY) * invDirY;
         }
         if (tNear > tymax || tymin > tFar)
             return false;
@@ -1684,8 +1684,8 @@ public class Intersectionf {
             tzmin = (minZ - originZ) * invDirZ;
             tzmax = (maxZ - originZ) * invDirZ;
         } else {
-            tzmin = (maxZ - originZ) / dirZ;
-            tzmax = (minZ - originZ) / dirZ;
+            tzmin = (maxZ - originZ) * invDirZ;
+            tzmax = (minZ - originZ) * invDirZ;
         }
         if (tNear > tzmax || tzmin > tFar)
             return false;
@@ -3200,15 +3200,15 @@ public class Intersectionf {
             tNear = (minX - originX) * invDirX;
             tFar = (maxX - originX) * invDirX;
         } else {
-            tNear = (maxX - originX) / dirX;
-            tFar = (minX - originX) / dirX;
+            tNear = (maxX - originX) * invDirX;
+            tFar = (minX - originX) * invDirX;
         }
         if (invDirY >= 0.0f) {
             tymin = (minY - originY) * invDirY;
             tymax = (maxY - originY) * invDirY;
         } else {
-            tymin = (maxY - originY) / dirY;
-            tymax = (minY - originY) / dirY;
+            tymin = (maxY - originY) * invDirY;
+            tymax = (minY - originY) * invDirY;
         }
         if (tNear > tymax || tymin > tFar)
             return OUTSIDE;
@@ -3318,15 +3318,15 @@ public class Intersectionf {
             tNear = (minX - p0X) * invDirX;
             tFar = (maxX - p0X) * invDirX;
         } else {
-            tNear = (maxX - p0X) / dirX;
-            tFar = (minX - p0X) / dirX;
+            tNear = (maxX - p0X) * invDirX;
+            tFar = (minX - p0X) * invDirX;
         }
         if (invDirY >= 0.0f) {
             tymin = (minY - p0Y) * invDirY;
             tymax = (maxY - p0Y) * invDirY;
         } else {
-            tymin = (maxY - p0Y) / dirY;
-            tymax = (minY - p0Y) / dirY;
+            tymin = (maxY - p0Y) * invDirY;
+            tymax = (minY - p0Y) * invDirY;
         }
         if (tNear > tymax || tymin > tFar)
             return OUTSIDE;
@@ -3420,15 +3420,15 @@ public class Intersectionf {
             tNear = (minX - originX) * invDirX;
             tFar = (maxX - originX) * invDirX;
         } else {
-            tNear = (maxX - originX) / dirX;
-            tFar = (minX - originX) / dirX;
+            tNear = (maxX - originX) * invDirX;
+            tFar = (minX - originX) * invDirX;
         }
         if (invDirY >= 0.0f) {
             tymin = (minY - originY) * invDirY;
             tymax = (maxY - originY) * invDirY;
         } else {
-            tymin = (maxY - originY) / dirY;
-            tymax = (minY - originY) / dirY;
+            tymin = (maxY - originY) * invDirY;
+            tymax = (minY - originY) * invDirY;
         }
         if (tNear > tymax || tymin > tFar)
             return false;
