@@ -126,14 +126,22 @@ public class IntersectionfTest extends TestCase {
 
     public static void testRayAar() {
         Vector2f p = new Vector2f();
-        assertEquals(Intersectionf.AAR_SIDE_AX, Intersectionf.intersectRayAar(-3, 0, 1, 0, -1, -1, 1, 1, p));
+        assertEquals(Intersectionf.AAR_SIDE_MINX, Intersectionf.intersectRayAar(-3, 0, 1, 0, -1, -1, 1, 1, p));
         TestUtil.assertVector2fEquals(new Vector2f(-1, 0), new Vector2f(-3 + p.x * 1, 0 + p.x * 0), 1E-6f);
-        assertEquals(Intersectionf.AAR_SIDE_BX, Intersectionf.intersectRayAar(3, 0, -1, 0, -1, -1, 1, 1, p));
+        assertEquals(Intersectionf.AAR_SIDE_MAXX, Intersectionf.intersectRayAar(3, 0, -1, 0, -1, -1, 1, 1, p));
         TestUtil.assertVector2fEquals(new Vector2f(1, 0), new Vector2f(3 + p.x * -1, 0 + p.x * 0), 1E-6f);
-        assertEquals(Intersectionf.AAR_SIDE_AY, Intersectionf.intersectRayAar(0, -2, 0, 1, -1, -1, 1, 1, p));
+        assertEquals(Intersectionf.AAR_SIDE_MINY, Intersectionf.intersectRayAar(0, -2, 0, 1, -1, -1, 1, 1, p));
         TestUtil.assertVector2fEquals(new Vector2f(0, -1), new Vector2f(0 + p.x * 0, -2 + p.x * 1), 1E-6f);
-        assertEquals(Intersectionf.AAR_SIDE_BY, Intersectionf.intersectRayAar(0, 2, 0, -1, -1, -1, 1, 1, p));
+        assertEquals(Intersectionf.AAR_SIDE_MAXY, Intersectionf.intersectRayAar(0, 2, 0, -1, -1, -1, 1, 1, p));
         TestUtil.assertVector2fEquals(new Vector2f(0, 1), new Vector2f(0 + p.x * 0, 2 + p.x * -1), 1E-6f);
+        assertEquals(Intersectionf.AAR_SIDE_MINX, Intersectionf.intersectRayAar(0, 0, 0, -1, 0, -1, 1, 0, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0, 0), new Vector2f(0 + p.x * 0, 0 + p.x * -1), 1E-6f);
+        assertEquals(Intersectionf.AAR_SIDE_MINX, Intersectionf.intersectRayAar(0, 0, 0, 1, 0, 1, 1, 2, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0, 1), new Vector2f(0 + p.x * 0, 0 + p.x * 1), 1E-6f);
+        assertEquals(Intersectionf.AAR_SIDE_MINY, Intersectionf.intersectRayAar(0, 0, -1, 0, -1, 0, 0, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0, 0), new Vector2f(0 + p.x * -1, 0 + p.x * 0), 1E-6f);
+        assertEquals(Intersectionf.AAR_SIDE_MINX, Intersectionf.intersectRayAar(0, 0, 1, 0, 1, 0, 2, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(1, 0), new Vector2f(0 + p.x * 1, 0 + p.x * 0), 1E-6f);
     }
 
     public static void testRayLineSegment() {
@@ -196,6 +204,18 @@ public class IntersectionfTest extends TestCase {
         assertEquals(Intersectionf.TWO_INTERSECTION, Intersectionf.intersectLineSegmentAar(0, 1, 0, 0, 0, 0, 1, 1, p));
         TestUtil.assertVector2fEquals(new Vector2f(0, 1), p, 1E-6f);
         assertEquals(Intersectionf.TWO_INTERSECTION, Intersectionf.intersectLineSegmentAar(0, 0, 0, 1, 0, 0, 1, 1, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0, 1), p, 1E-6f);
+        assertEquals(Intersectionf.TWO_INTERSECTION, Intersectionf.intersectLineSegmentAar(0, -1, 0, 0, -1, -1, 0, 0, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0, 1), p, 1E-6f);
+        assertEquals(Intersectionf.TWO_INTERSECTION, Intersectionf.intersectLineSegmentAar(0, -1, 0, 1, -1, -1, 0, 0, p));
+        TestUtil.assertVector2fEquals(new Vector2f(0, 0.5f), p, 1E-6f);
+    }
+
+    public static void testLineSegmentAab() {
+        Vector2f p = new Vector2f();
+        assertEquals(Intersectionf.ONE_INTERSECTION, Intersectionf.intersectLineSegmentAab(0, 0, 0, 0, 0, 1, -0.5f, -1, 1, 0.5f, 1, 2, p));
+        TestUtil.assertVector2fEquals(new Vector2f(1, 1), p, 1E-6f);
+        assertEquals(Intersectionf.TWO_INTERSECTION, Intersectionf.intersectLineSegmentAab(0, 0, -1, 0, 0, 0, 0, -1, -1, 1, 1, 0, p));
         TestUtil.assertVector2fEquals(new Vector2f(0, 1), p, 1E-6f);
     }
 
