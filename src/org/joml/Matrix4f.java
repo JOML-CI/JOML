@@ -4787,47 +4787,44 @@ public class Matrix4f implements Externalizable {
                               float upX, float upY, float upZ) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
-        dirX = centerX - eyeX;
-        dirY = centerY - eyeY;
-        dirZ = centerZ - eyeZ;
+        dirX = eyeX - centerX;
+        dirY = eyeY - centerY;
+        dirZ = eyeZ - centerZ;
         // Normalize direction
-        float invDirLength = 1.0f / (float) Math.sqrt(
-                  (centerX - eyeX) * (centerX - eyeX)
-                + (centerY - eyeY) * (centerY - eyeY)
-                + (centerZ - eyeZ) * (centerZ - eyeZ));
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
-        // right = direction x up
-        float rightX, rightY, rightZ;
-        rightX = dirY * upZ - dirZ * upY;
-        rightY = dirZ * upX - dirX * upZ;
-        rightZ = dirX * upY - dirY * upX;
-        // normalize right
-        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = right x direction
-        float upnX = rightY * dirZ - rightZ * dirY;
-        float upnY = rightZ * dirX - rightX * dirZ;
-        float upnZ = rightX * dirY - rightY * dirX;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = dirY * leftZ - dirZ * leftY;
+        float upnY = dirZ * leftX - dirX * leftZ;
+        float upnZ = dirX * leftY - dirY * leftX;
 
-        m00 = rightX;
+        m00 = leftX;
         m01 = upnX;
-        m02 = -dirX;
+        m02 = dirX;
         m03 = 0.0f;
-        m10 = rightY;
+        m10 = leftY;
         m11 = upnY;
-        m12 = -dirY;
+        m12 = dirY;
         m13 = 0.0f;
-        m20 = rightZ;
+        m20 = leftZ;
         m21 = upnZ;
-        m22 = -dirZ;
+        m22 = dirZ;
         m23 = 0.0f;
-        m30 = -rightX * eyeX - rightY * eyeY - rightZ * eyeZ;
-        m31 = -upnX * eyeX - upnY * eyeY - upnZ * eyeZ;
-        m32 = dirX * eyeX + dirY * eyeY + dirZ * eyeZ;
+        m30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
+        m31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+        m32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
         m33 = 1.0f;
 
         return this;
@@ -4939,32 +4936,32 @@ public class Matrix4f implements Externalizable {
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
-        // right = up x direction
-        float rightX, rightY, rightZ;
-        rightX = upY * dirZ - upZ * dirY;
-        rightY = upZ * dirX - upX * dirZ;
-        rightZ = upX * dirY - upY * dirX;
-        // normalize right
-        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = direction x right
-        float upnX = dirY * rightZ - dirZ * rightY;
-        float upnY = dirZ * rightX - dirX * rightZ;
-        float upnZ = dirX * rightY - dirY * rightX;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = dirY * leftZ - dirZ * leftY;
+        float upnY = dirZ * leftX - dirX * leftZ;
+        float upnZ = dirX * leftY - dirY * leftX;
 
         // calculate right matrix elements
-        float rm00 = rightX;
+        float rm00 = leftX;
         float rm01 = upnX;
         float rm02 = dirX;
-        float rm10 = rightY;
+        float rm10 = leftY;
         float rm11 = upnY;
         float rm12 = dirY;
-        float rm20 = rightZ;
+        float rm20 = leftZ;
         float rm21 = upnZ;
         float rm22 = dirZ;
-        float rm30 = -(rightX * eyeX + rightY * eyeY + rightZ * eyeZ);
+        float rm30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
         float rm31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
         float rm32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
 
@@ -6897,6 +6894,7 @@ public class Matrix4f implements Externalizable {
      * Matrix4f inv = new Matrix4f(this).invert();
      * inv.transformDirection(dir.set(0, 0, 1)).normalize();
      * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveZ(Vector3f)} instead.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -6913,6 +6911,32 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).transpose();
+     * inv.transformDirection(dir.set(0, 0, 1)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3f normalizedPositiveZ(Vector3f dir) {
+        dir.x = m02;
+        dir.y = m12;
+        dir.z = m22;
+        return dir;
+    }
+
+    /**
      * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
@@ -6923,6 +6947,7 @@ public class Matrix4f implements Externalizable {
      * Matrix4f inv = new Matrix4f(this).invert();
      * inv.transformDirection(dir.set(1, 0, 0)).normalize();
      * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveX(Vector3f)} instead.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -6939,6 +6964,32 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).transpose();
+     * inv.transformDirection(dir.set(1, 0, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3f normalizedPositiveX(Vector3f dir) {
+        dir.x = m00;
+        dir.y = m10;
+        dir.z = m20;
+        return dir;
+    }
+
+    /**
      * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
@@ -6949,6 +7000,7 @@ public class Matrix4f implements Externalizable {
      * Matrix4f inv = new Matrix4f(this).invert();
      * inv.transformDirection(dir.set(0, 1, 0)).normalize();
      * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveY(Vector3f)} instead.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -6961,6 +7013,32 @@ public class Matrix4f implements Externalizable {
         dir.y = m00 * m22 - m02 * m20;
         dir.z = m02 * m10 - m00 * m12;
         dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).transpose();
+     * inv.transformDirection(dir.set(0, 1, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3f normalizedPositiveY(Vector3f dir) {
+        dir.x = m01;
+        dir.y = m11;
+        dir.z = m21;
         return dir;
     }
 
@@ -7318,41 +7396,40 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f billboardCylindrical(Vector3f objPos, Vector3f targetPos, Vector3f up) {
-        // dir = objPos - targetPos
-        float dirX = objPos.x - targetPos.x;
-        float dirY = objPos.y - targetPos.y;
-        float dirZ = objPos.z - targetPos.z;
-        // right = dir x up
-        float rightX = dirY * up.z - dirZ * up.y;
-        float rightY = dirZ * up.x - dirX * up.z;
-        float rightZ = dirX * up.y - dirY * up.x;
-        // normalize right
-        float invRightLen = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLen;
-        rightY *= invRightLen;
-        rightZ *= invRightLen;
+        float dirX = targetPos.x - objPos.x;
+        float dirY = targetPos.y - objPos.y;
+        float dirZ = targetPos.z - objPos.z;
+        // left = up x dir
+        float leftX = up.y * dirZ - up.z * dirY;
+        float leftY = up.z * dirX - up.x * dirZ;
+        float leftZ = up.x * dirY - up.y * dirX;
+        // normalize left
+        float invLeftLen = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLen;
+        leftY *= invLeftLen;
+        leftZ *= invLeftLen;
         // recompute dir by constraining rotation around 'up'
-        // dir = up x right
-        dirX = up.y * rightZ - up.z * rightY;
-        dirY = up.z * rightX - up.x * rightZ;
-        dirZ = up.x * rightY - up.y * rightX;
+        // dir = left x up
+        dirX = leftY * up.z - leftZ * up.y;
+        dirY = leftZ * up.x - leftX * up.z;
+        dirZ = leftX * up.y - leftY * up.x;
         // normalize dir
         float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
         // set matrix elements
-        m00 = rightX;
-        m01 = rightY;
-        m02 = rightZ;
+        m00 = leftX;
+        m01 = leftY;
+        m02 = leftZ;
         m03 = 0.0f;
         m10 = up.x;
         m11 = up.y;
         m12 = up.z;
         m13 = 0.0f;
-        m20 = -dirX;
-        m21 = -dirY;
-        m22 = -dirZ;
+        m20 = dirX;
+        m21 = dirY;
+        m22 = dirZ;
         m23 = 0.0f;
         m30 = objPos.x;
         m31 = objPos.y;
@@ -7382,40 +7459,39 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f billboardSpherical(Vector3f objPos, Vector3f targetPos, Vector3f up) {
-        // dir = objPos - targetPos
-        float dirX = objPos.x - targetPos.x;
-        float dirY = objPos.y - targetPos.y;
-        float dirZ = objPos.z - targetPos.z;
+        float dirX = targetPos.x - objPos.x;
+        float dirY = targetPos.y - objPos.y;
+        float dirZ = targetPos.z - objPos.z;
         // normalize dir
         float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
-        // right = dir x up
-        float rightX = dirY * up.z - dirZ * up.y;
-        float rightY = dirZ * up.x - dirX * up.z;
-        float rightZ = dirX * up.y - dirY * up.x;
-        // normalize right
-        float invRightLen = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLen;
-        rightY *= invRightLen;
-        rightZ *= invRightLen;
-        // up = right x dir
-        float upX = rightY * dirZ - rightZ * dirY;
-        float upY = rightZ * dirX - rightX * dirZ;
-        float upZ = rightX * dirY - rightY * dirX;
+        // left = up x dir
+        float leftX = up.y * dirZ - up.z * dirY;
+        float leftY = up.z * dirX - up.x * dirZ;
+        float leftZ = up.x * dirY - up.y * dirX;
+        // normalize left
+        float invLeftLen = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLen;
+        leftY *= invLeftLen;
+        leftZ *= invLeftLen;
+        // up = dir x left
+        float upX = dirY * leftZ - dirZ * leftY;
+        float upY = dirZ * leftX - dirX * leftZ;
+        float upZ = dirX * leftY - dirY * leftX;
         // set matrix elements
-        m00 = rightX;
-        m01 = rightY;
-        m02 = rightZ;
+        m00 = leftX;
+        m01 = leftY;
+        m02 = leftZ;
         m03 = 0.0f;
         m10 = upX;
         m11 = upY;
         m12 = upZ;
         m13 = 0.0f;
-        m20 = -dirX;
-        m21 = -dirY;
-        m22 = -dirZ;
+        m20 = dirX;
+        m21 = dirY;
+        m22 = dirZ;
         m23 = 0.0f;
         m30 = objPos.x;
         m31 = objPos.y;
