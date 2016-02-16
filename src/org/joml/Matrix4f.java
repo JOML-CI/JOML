@@ -5065,34 +5065,34 @@ public class Matrix4f implements Externalizable {
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
-        // right = up x direction
-        float rightX, rightY, rightZ;
-        rightX = upY * dirZ - upZ * dirY;
-        rightY = upZ * dirX - upX * dirZ;
-        rightZ = upX * dirY - upY * dirX;
-        // normalize right
-        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = direction x right
-        float upnX = dirY * rightZ - dirZ * rightY;
-        float upnY = dirZ * rightX - dirX * rightZ;
-        float upnZ = dirX * rightY - dirY * rightX;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = dirY * leftZ - dirZ * leftY;
+        float upnY = dirZ * leftX - dirX * leftZ;
+        float upnZ = dirX * leftY - dirY * leftX;
 
-        m00 = rightX;
+        m00 = leftX;
         m01 = upnX;
         m02 = dirX;
         m03 = 0.0f;
-        m10 = rightY;
+        m10 = leftY;
         m11 = upnY;
         m12 = dirY;
         m13 = 0.0f;
-        m20 = rightZ;
+        m20 = leftZ;
         m21 = upnZ;
         m22 = dirZ;
         m23 = 0.0f;
-        m30 = -(rightX * eyeX + rightY * eyeY + rightZ * eyeZ);
+        m30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
         m31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
         m32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
         m33 = 1.0f;
@@ -5206,32 +5206,32 @@ public class Matrix4f implements Externalizable {
         dirX *= invDirLength;
         dirY *= invDirLength;
         dirZ *= invDirLength;
-        // right = up x direction
-        float rightX, rightY, rightZ;
-        rightX = upY * dirZ - upZ * dirY;
-        rightY = upZ * dirX - upX * dirZ;
-        rightZ = upX * dirY - upY * dirX;
-        // normalize right
-        float invRightLength = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLength;
-        rightY *= invRightLength;
-        rightZ *= invRightLength;
-        // up = direction x right
-        float upnX = dirY * rightZ - dirZ * rightY;
-        float upnY = dirZ * rightX - dirX * rightZ;
-        float upnZ = dirX * rightY - dirY * rightX;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = dirY * leftZ - dirZ * leftY;
+        float upnY = dirZ * leftX - dirX * leftZ;
+        float upnZ = dirX * leftY - dirY * leftX;
 
         // calculate right matrix elements
-        float rm00 = rightX;
+        float rm00 = leftX;
         float rm01 = upnX;
         float rm02 = dirX;
-        float rm10 = rightY;
+        float rm10 = leftY;
         float rm11 = upnY;
         float rm12 = dirY;
-        float rm20 = rightZ;
+        float rm20 = leftZ;
         float rm21 = upnZ;
         float rm22 = dirZ;
-        float rm30 = -(rightX * eyeX + rightY * eyeY + rightZ * eyeZ);
+        float rm30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
         float rm31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
         float rm32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
 
@@ -7719,29 +7719,29 @@ public class Matrix4f implements Externalizable {
         float dirX = targetPos.x - objPos.x;
         float dirY = targetPos.y - objPos.y;
         float dirZ = targetPos.z - objPos.z;
-        // right = up x dir
-        float rightX = up.y * dirZ - up.z * dirY;
-        float rightY = up.z * dirX - up.x * dirZ;
-        float rightZ = up.x * dirY - up.y * dirX;
-        // normalize right
-        float invRightLen = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLen;
-        rightY *= invRightLen;
-        rightZ *= invRightLen;
+        // left = up x dir
+        float leftX = up.y * dirZ - up.z * dirY;
+        float leftY = up.z * dirX - up.x * dirZ;
+        float leftZ = up.x * dirY - up.y * dirX;
+        // normalize left
+        float invLeftLen = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLen;
+        leftY *= invLeftLen;
+        leftZ *= invLeftLen;
         // recompute dir by constraining rotation around 'up'
-        // dir = right x up
-        dirX = rightY * up.z - rightZ * up.y;
-        dirY = rightZ * up.x - rightX * up.z;
-        dirZ = rightX * up.y - rightY * up.x;
+        // dir = left x up
+        dirX = leftY * up.z - leftZ * up.y;
+        dirY = leftZ * up.x - leftX * up.z;
+        dirZ = leftX * up.y - leftY * up.x;
         // normalize dir
         float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
         // set matrix elements
-        m00 = rightX;
-        m01 = rightY;
-        m02 = rightZ;
+        m00 = leftX;
+        m01 = leftY;
+        m02 = leftZ;
         m03 = 0.0f;
         m10 = up.x;
         m11 = up.y;
@@ -7787,23 +7787,23 @@ public class Matrix4f implements Externalizable {
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
-        // right = up x dir
-        float rightX = up.y * dirZ - up.z * dirY;
-        float rightY = up.z * dirX - up.x * dirZ;
-        float rightZ = up.x * dirY - up.y * dirX;
-        // normalize right
-        float invRightLen = 1.0f / (float) Math.sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
-        rightX *= invRightLen;
-        rightY *= invRightLen;
-        rightZ *= invRightLen;
-        // up = dir x right
-        float upX = dirY * rightZ - dirZ * rightY;
-        float upY = dirZ * rightX - dirX * rightZ;
-        float upZ = dirX * rightY - dirY * rightX;
+        // left = up x dir
+        float leftX = up.y * dirZ - up.z * dirY;
+        float leftY = up.z * dirX - up.x * dirZ;
+        float leftZ = up.x * dirY - up.y * dirX;
+        // normalize left
+        float invLeftLen = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLen;
+        leftY *= invLeftLen;
+        leftZ *= invLeftLen;
+        // up = dir x left
+        float upX = dirY * leftZ - dirZ * leftY;
+        float upY = dirZ * leftX - dirX * leftZ;
+        float upZ = dirX * leftY - dirY * leftX;
         // set matrix elements
-        m00 = rightX;
-        m01 = rightY;
-        m02 = rightZ;
+        m00 = leftX;
+        m01 = leftY;
+        m02 = leftZ;
         m03 = 0.0f;
         m10 = upX;
         m11 = upY;
