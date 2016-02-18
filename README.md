@@ -129,12 +129,13 @@ You can use `VK10.vkMapMemory()` to map a Vulkan memory object, which may be the
 Matrix4f m = ...;
 long device = ...; // <- address of the vulkan device
 long memory = ...; // <- address of the vulkan device memory
-PointerBuffer pb = BufferUtils.createPointerBuffer(1);
+PointerBuffer pb = MemoryUtil.memAllocPointer(1);
 if (vkMapMemory(device, memory, 0, 16 << 2, 0, pb) == VK_SUCCESS) {
   long bufferAddr = pb.get(0);
-  m.get(BufferUtils.memByteBuffer(bufferAddr, 16 << 2));
+  m.get(MemoryUtil.memByteBuffer(bufferAddr, 16 << 2));
   vkUnmapMemory(device, memory);
 }
+MemoryUtil.memFree(pb);
 ```
 
 Using with [JOGL](http://jogamp.org/jogl/www/)
