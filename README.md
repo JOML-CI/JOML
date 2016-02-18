@@ -131,8 +131,7 @@ long device = ...; // <- address of the vulkan device
 long memory = ...; // <- address of the vulkan device memory
 PointerBuffer pb = MemoryUtil.memAllocPointer(1);
 if (vkMapMemory(device, memory, 0, 16 << 2, 0, pb) == VK_SUCCESS) {
-  long bufferAddr = pb.get(0);
-  m.get(MemoryUtil.memByteBuffer(bufferAddr, 16 << 2));
+  m.get(MemoryUtil.memByteBuffer(pb.get(0), 16 << 2));
   vkUnmapMemory(device, memory);
 }
 MemoryUtil.memFree(pb);
