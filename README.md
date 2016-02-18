@@ -122,6 +122,21 @@ glMatrixMode(GL_MODELVIEW);
 glLoadMatrixf(fb);
 ```
 
+Using with Vulkan and LWJGL 3
+----------------------------
+You can use `VK10.vkMapMemory()` to map a Vulkan memory object, which may be the backing store of a Uniform Buffer, into Java and use the returned Java NIO ByteBuffer to upload the matrix like you would with OpenGL by calling `get()` on the matrix:
+```Java
+Matrix4f m = ...;
+long device = ...; // <- address of the vulkan device
+long memory = ...; // <- address of the vulkan device memory
+PointerBuffer pb = BufferUtils.createPointerBuffer(1);
+if (vkMapMemory(device, memory, 0, 16 << 2, 0, pb) == VK_SUCCESS) {
+  long bufferAddr = pb.get(0);
+  m.get(BufferUtils.memByteBuffer(bufferAddr, 16 << 2));
+  vkUnmapMemory(bufferAddr);
+}
+```
+
 Using with [JOGL](http://jogamp.org/jogl/www/)
 ---------------------------------------------------
 JOML can be used together with JOGL to build a transformation matrix and set it as a uniform mat4 in a shader (for example as a replacement of com.jogamp.opengl.util.glsl.fixedfunc.FixedFuncUtil and com.jogamp.opengl.util.PMVMatrix to emulate the fixed pipeline). For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by JOGL when calling into OpenGL:
