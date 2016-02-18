@@ -133,7 +133,7 @@ PointerBuffer pb = BufferUtils.createPointerBuffer(1);
 if (vkMapMemory(device, memory, 0, 16 << 2, 0, pb) == VK_SUCCESS) {
   long bufferAddr = pb.get(0);
   m.get(BufferUtils.memByteBuffer(bufferAddr, 16 << 2));
-  vkUnmapMemory(bufferAddr);
+  vkUnmapMemory(device, memory);
 }
 ```
 
