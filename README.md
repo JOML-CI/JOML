@@ -124,7 +124,7 @@ glLoadMatrixf(fb);
 
 Using with Vulkan and LWJGL 3
 ----------------------------
-You can use `VK10.vkMapMemory()` to map a Vulkan memory object, which may be the backing store of a Uniform Buffer, into Java and use the returned Java NIO ByteBuffer to upload the matrix like you would with OpenGL by calling `get()` on the matrix:
+You can use `VK10.vkMapMemory()` provided by LWJGL to map a Vulkan memory object, which may be the backing store of a Uniform Buffer, into Java and use the returned Java NIO ByteBuffer to upload the matrix like you would with OpenGL by calling `get()` on the matrix:
 ```Java
 Matrix4f m = ...;
 long device = ...; // <- address of the vulkan device
