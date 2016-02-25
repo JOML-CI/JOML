@@ -137,6 +137,13 @@ if (vkMapMemory(device, memory, 0, 16 << 2, 0, pb) == VK_SUCCESS) {
 MemoryUtil.memFree(pb);
 ```
 
+Since Vulkan uses a clip space z range between *0 <= z <= w* you need to use the following code now to build a Vulkan-compatible perspective projection matrix:
+```Java
+Matrix4f m = new Matrix4f();
+m.perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f, true);
+```
+The additional boolean parameter indicates whether a Vulkan/Direct3D-compatible tranformation matrix should be generated. The existing method overload without that parameter will default to OpenGL behaviour.
+
 Using with [JOGL](http://jogamp.org/jogl/www/)
 ---------------------------------------------------
 JOML can be used together with JOGL to build a transformation matrix and set it as a uniform mat4 in a shader (for example as a replacement of com.jogamp.opengl.util.glsl.fixedfunc.FixedFuncUtil and com.jogamp.opengl.util.PMVMatrix to emulate the fixed pipeline). For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by JOGL when calling into OpenGL:
