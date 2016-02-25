@@ -5535,7 +5535,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
-     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param dest
      *            will hold the result
      * @param zZeroToOne
@@ -5550,9 +5551,17 @@ public class Matrix4f implements Externalizable {
         // calculate right matrix elements
         float rm00 = 1.0f / w;
         float rm11 = 1.0f / h;
-        float rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
-        float rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
-
+        float rm22;
+        float rm32;
+        boolean farInf = zFar > 0 && Float.isInfinite(zFar);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            rm22 = -1.0f;
+            rm32 = (zZeroToOne ? -1.0f : -2.0f) * zNear; 
+        } else {
+            rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
         // perform optimized matrix multiplication
         float nm20 = m20 * rm22 - m30;
         float nm21 = m21 * rm22 - m31;
@@ -5598,7 +5607,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
-     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param dest
      *            will hold the result
      * @return dest
@@ -5627,7 +5637,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
-     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -5657,7 +5668,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
-     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @return this
      */
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar) {
@@ -5679,7 +5691,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
-     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -5698,11 +5711,18 @@ public class Matrix4f implements Externalizable {
         m13 = 0.0f;
         m20 = 0.0f;
         m21 = 0.0f;
-        m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        boolean farInf = zFar > 0 && Float.isInfinite(zFar);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            m22 = -1.0f;
+            m32 = (zZeroToOne ? -1.0f : -2.0f) * zNear; 
+        } else {
+            m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
         m23 = -1.0f;
         m30 = 0.0f;
         m31 = 0.0f;
-        m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         m33 = 0.0f;
         return this;
     }
@@ -5722,7 +5742,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
-     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @return this
      */
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar) {
@@ -5756,7 +5777,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
-     *            the distance along the z-axis to the far clipping plane
+     *            the distance along the z-axis to the far clipping plane.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -5770,8 +5792,17 @@ public class Matrix4f implements Externalizable {
         float rm11 = (zNear + zNear) / (top - bottom);
         float rm20 = (right + left) / (right - left);
         float rm21 = (top + bottom) / (top - bottom);
-        float rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
-        float rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        float rm22;
+        float rm32;
+        boolean farInf = zFar > 0 && Float.isInfinite(zFar);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            rm22 = -1.0f;
+            rm32 = (zZeroToOne ? -1.0f : -2.0f) * zNear; 
+        } else {
+            rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
 
         // perform optimized matrix multiplication
         float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
@@ -5829,7 +5860,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
-     *            the distance along the z-axis to the far clipping plane
+     *            the distance along the z-axis to the far clipping plane.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param dest
      *            will hold the result
      * @return dest
@@ -5864,7 +5896,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
-     *            the distance along the z-axis to the far clipping plane
+     *            the distance along the z-axis to the far clipping plane.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -5900,7 +5933,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
-     *            the distance along the z-axis to the far clipping plane
+     *            the distance along the z-axis to the far clipping plane.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @return this
      */
     public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar) {
@@ -5928,7 +5962,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
-     *            the distance along the z-axis to the far clipping plane
+     *            the distance along the z-axis to the far clipping plane.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -5945,11 +5980,18 @@ public class Matrix4f implements Externalizable {
         m13 = 0.0f;
         m20 = (right + left) / (right - left);
         m21 = (top + bottom) / (top - bottom);
-        m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        boolean farInf = zFar > 0 && Float.isInfinite(zFar);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            m22 = -1.0f;
+            m32 = (zZeroToOne ? -1.0f : -2.0f) * zNear; 
+        } else {
+            m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
         m23 = -1.0f;
         m30 = 0.0f;
         m31 = 0.0f;
-        m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         m33 = 0.0f;
         return this;
     }
@@ -5975,7 +6017,8 @@ public class Matrix4f implements Externalizable {
      * @param zNear
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
-     *            the distance along the z-axis to the far clipping plane
+     *            the distance along the z-axis to the far clipping plane.
+     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @return this
      */
     public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
