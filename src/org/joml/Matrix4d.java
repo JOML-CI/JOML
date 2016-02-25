@@ -7002,7 +7002,7 @@ public class Matrix4d implements Externalizable {
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
      *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param dest
      *            will hold the result
      * @param zZeroToOne
@@ -7075,7 +7075,7 @@ public class Matrix4d implements Externalizable {
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
      *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param dest
      *            will hold the result
      * @return dest
@@ -7105,7 +7105,7 @@ public class Matrix4d implements Externalizable {
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
      *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -7136,7 +7136,7 @@ public class Matrix4d implements Externalizable {
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
      *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @return this
      */
     public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar) {
@@ -7159,7 +7159,7 @@ public class Matrix4d implements Externalizable {
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
      *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -7211,7 +7211,7 @@ public class Matrix4d implements Externalizable {
      *            near clipping plane distance (must be greater than zero)
      * @param zFar
      *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>).
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @return this
      */
     public Matrix4d setPerspective(double fovy, double aspect, double zNear, double zFar) {
@@ -7246,7 +7246,7 @@ public class Matrix4d implements Externalizable {
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
      *            the distance along the z-axis to the far clipping plane.
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -7330,7 +7330,7 @@ public class Matrix4d implements Externalizable {
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
      *            the distance along the z-axis to the far clipping plane.
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param dest
      *            will hold the result
      * @return dest
@@ -7366,7 +7366,7 @@ public class Matrix4d implements Externalizable {
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
      *            the distance along the z-axis to the far clipping plane.
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -7403,7 +7403,7 @@ public class Matrix4d implements Externalizable {
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
      *            the distance along the z-axis to the far clipping plane.
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @return this
      */
     public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar) {
@@ -7432,7 +7432,7 @@ public class Matrix4d implements Externalizable {
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
      *            the distance along the z-axis to the far clipping plane.
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @param zZeroToOne
      *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
@@ -7488,7 +7488,7 @@ public class Matrix4d implements Externalizable {
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
      *            the distance along the z-axis to the far clipping plane.
-     *            If the special value {@link Float#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
+     *            If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity
      * @return this
      */
     public Matrix4d setFrustum(double left, double right, double bottom, double top, double zNear, double zFar) {
