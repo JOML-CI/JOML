@@ -4296,7 +4296,72 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply an orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * Apply an orthographic projection transformation using the given NDC z range to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(float, float, float, float, float, float, boolean) setOrtho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho(float, float, float, float, float, float, boolean)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        // calculate right matrix elements
+        float rm00 = 2.0f / (right - left);
+        float rm11 = 2.0f / (top - bottom);
+        float rm22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
+        float rm30 = -(right + left) / (right - left);
+        float rm31 = -(top + bottom) / (top - bottom);
+        float rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+
+        // perform optimized multiplication
+        // compute the last column first, because other columns do not depend on it
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m20 = m20 * rm22;
+        dest.m21 = m21 * rm22;
+        dest.m22 = m22 * rm22;
+        dest.m23 = m23 * rm22;
+
+        return dest;
+    }
+
+    /**
+     * Apply an orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -4327,38 +4392,47 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
-        // calculate right matrix elements
-        float rm00 = 2.0f / (right - left);
-        float rm11 = 2.0f / (top - bottom);
-        float rm22 = -2.0f / (zFar - zNear);
-        float rm30 = -(right + left) / (right - left);
-        float rm31 = -(top + bottom) / (top - bottom);
-        float rm32 = -(zFar + zNear) / (zFar - zNear);
-
-        // perform optimized multiplication
-        // compute the last column first, because other columns do not depend on it
-        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
-        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
-        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
-        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m02 = m02 * rm00;
-        dest.m03 = m03 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
-        dest.m12 = m12 * rm11;
-        dest.m13 = m13 * rm11;
-        dest.m20 = m20 * rm22;
-        dest.m21 = m21 * rm22;
-        dest.m22 = m22 * rm22;
-        dest.m23 = m23 * rm22;
-
-        return dest;
+        return ortho(left, right, bottom, top, zNear, zFar, false, dest);
     }
 
     /**
-     * Apply an orthographic projection transformation to this matrix.
+     * Apply an orthographic projection transformation using the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(float, float, float, float, float, float, boolean) setOrtho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho(float, float, float, float, float, float, boolean)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
+        return ortho(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply an orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -4387,11 +4461,58 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar) {
-        return ortho(left, right, bottom, top, zNear, zFar, this);
+        return ortho(left, right, bottom, top, zNear, zFar, false);
     }
 
     /**
-     * Set this matrix to be an orthographic projection transformation.
+     * Set this matrix to be an orthographic projection transformation using the given NDC z range.
+     * <p>
+     * In order to apply the orthographic projection to an already existing transformation,
+     * use {@link #ortho(float, float, float, float, float, float, boolean) ortho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #ortho(float, float, float, float, float, float, boolean)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f setOrtho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
+        m00 = 2.0f / (right - left);
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 2.0f / (top - bottom);
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
+        m23 = 0.0f;
+        m30 = -(right + left) / (right - left);
+        m31 = -(top + bottom) / (top - bottom);
+        m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to be an orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * In order to apply the orthographic projection to an already existing transformation,
      * use {@link #ortho(float, float, float, float, float, float) ortho()}.
@@ -4415,27 +4536,73 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setOrtho(float left, float right, float bottom, float top, float zNear, float zFar) {
-        m00 = 2.0f / (right - left);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 2.0f / (top - bottom);
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = -2.0f / (zFar - zNear);
-        m23 = 0.0f;
-        m30 = -(right + left) / (right - left);
-        m31 = -(top + bottom) / (top - bottom);
-        m32 = -(zFar + zNear) / (zFar - zNear);
-        m33 = 1.0f;
-        return this;
+        return setOrtho(left, right, bottom, top, zNear, zFar, false);
     }
 
     /**
-     * Apply a symmetric orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * Apply a symmetric orthographic projection transformation using the given NDC z range to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling {@link #ortho(float, float, float, float, float, float, boolean, Matrix4f) ortho()} with
+     * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a symmetric orthographic projection without post-multiplying it,
+     * use {@link #setOrthoSymmetric(float, float, float, float, boolean) setOrthoSymmetric()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrthoSymmetric(float, float, float, float, boolean)
+     * 
+     * @param width
+     *            the distance between the right and left frustum edges
+     * @param height
+     *            the distance between the top and bottom frustum edges
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return dest
+     */
+    public Matrix4f orthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        // calculate right matrix elements
+        float rm00 = 2.0f / width;
+        float rm11 = 2.0f / height;
+        float rm22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
+        float rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+
+        // perform optimized multiplication
+        // compute the last column first, because other columns do not depend on it
+        dest.m30 = m20 * rm32 + m30;
+        dest.m31 = m21 * rm32 + m31;
+        dest.m32 = m22 * rm32 + m32;
+        dest.m33 = m23 * rm32 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m20 = m20 * rm22;
+        dest.m21 = m21 * rm22;
+        dest.m22 = m22 * rm22;
+        dest.m23 = m23 * rm22;
+
+        return dest;
+    }
+
+    /**
+     * Apply a symmetric orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
      * <p>
      * This method is equivalent to calling {@link #ortho(float, float, float, float, float, float, Matrix4f) ortho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -4465,36 +4632,46 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f orthoSymmetric(float width, float height, float zNear, float zFar, Matrix4f dest) {
-        // calculate right matrix elements
-        float rm00 = 2.0f / width;
-        float rm11 = 2.0f / height;
-        float rm22 = -2.0f / (zFar - zNear);
-        float rm32 = -(zFar + zNear) / (zFar - zNear);
-
-        // perform optimized multiplication
-        // compute the last column first, because other columns do not depend on it
-        dest.m30 = m20 * rm32 + m30;
-        dest.m31 = m21 * rm32 + m31;
-        dest.m32 = m22 * rm32 + m32;
-        dest.m33 = m23 * rm32 + m33;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m02 = m02 * rm00;
-        dest.m03 = m03 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
-        dest.m12 = m12 * rm11;
-        dest.m13 = m13 * rm11;
-        dest.m20 = m20 * rm22;
-        dest.m21 = m21 * rm22;
-        dest.m22 = m22 * rm22;
-        dest.m23 = m23 * rm22;
-
-        return dest;
+        return orthoSymmetric(width, height, zNear, zFar, false, dest);
     }
 
     /**
-     * Apply a symmetric orthographic projection transformation to this matrix.
+     * Apply a symmetric orthographic projection transformation using the given NDC z range to this matrix.
+     * <p>
+     * This method is equivalent to calling {@link #ortho(float, float, float, float, float, float, boolean) ortho()} with
+     * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a symmetric orthographic projection without post-multiplying it,
+     * use {@link #setOrthoSymmetric(float, float, float, float, boolean) setOrthoSymmetric()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrthoSymmetric(float, float, float, float, boolean)
+     * 
+     * @param width
+     *            the distance between the right and left frustum edges
+     * @param height
+     *            the distance between the top and bottom frustum edges
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f orthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
+        return orthoSymmetric(width, height, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply a symmetric orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * This method is equivalent to calling {@link #ortho(float, float, float, float, float, float) ortho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -4522,11 +4699,57 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f orthoSymmetric(float width, float height, float zNear, float zFar) {
-        return orthoSymmetric(width, height, zNear, zFar, this);
+        return orthoSymmetric(width, height, zNear, zFar, false, this);
     }
 
     /**
-     * Set this matrix to be a symmetric orthographic projection transformation.
+     * Set this matrix to be a symmetric orthographic projection transformation using the given NDC z range.
+     * <p>
+     * This method is equivalent to calling {@link #setOrtho(float, float, float, float, float, float, boolean) setOrtho()} with
+     * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
+     * <p>
+     * In order to apply the symmetric orthographic projection to an already existing transformation,
+     * use {@link #orthoSymmetric(float, float, float, float, boolean) orthoSymmetric()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #orthoSymmetric(float, float, float, float, boolean)
+     * 
+     * @param width
+     *            the distance between the right and left frustum edges
+     * @param height
+     *            the distance between the top and bottom frustum edges
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f setOrthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
+        m00 = 2.0f / width;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 2.0f / height;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
+        m23 = 0.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+        m33 = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to be a symmetric orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * This method is equivalent to calling {@link #setOrtho(float, float, float, float, float, float) setOrtho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -4549,23 +4772,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setOrthoSymmetric(float width, float height, float zNear, float zFar) {
-        m00 = 2.0f / width;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 2.0f / height;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = -2.0f / (zFar - zNear);
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = -(zFar + zNear) / (zFar - zNear);
-        m33 = 1.0f;
-        return this;
+        return setOrthoSymmetric(width, height, zNear, zFar, false);
     }
 
     /**
@@ -5309,7 +5516,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a symmetric perspective projection frustum transformation to this matrix and store the result in <code>dest</code>.
+     * Apply a symmetric perspective projection frustum transformation using the given NDC z range to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -5331,17 +5538,20 @@ public class Matrix4f implements Externalizable {
      *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
      * @param dest
      *            will hold the result
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
      * @return dest
      */
-    public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, Matrix4f dest) {
-        float h = (float) Math.tan(fovy * 0.5f) * zNear;
+    public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
+        float h = (float) Math.tan(fovy * 0.5f);
         float w = h * aspect;
 
         // calculate right matrix elements
-        float rm00 = zNear / w;
-        float rm11 = zNear / h;
-        float rm22 = -(zFar + zNear) / (zFar - zNear);
-        float rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
+        float rm00 = 1.0f / w;
+        float rm11 = 1.0f / h;
+        float rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        float rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
 
         // perform optimized matrix multiplication
         float nm20 = m20 * rm22 - m30;
@@ -5369,7 +5579,66 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply a symmetric perspective projection frustum transformation to this matrix.
+     * Apply a symmetric perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspective(float, float, float, float) setPerspective}.
+     * 
+     * @see #setPerspective(float, float, float, float)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance (must be greater than zero)
+     * @param zFar
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, Matrix4f dest) {
+        return perspective(fovy, aspect, zNear, zFar, false, dest);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation using the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspective(float, float, float, float, boolean) setPerspective}.
+     * 
+     * @see #setPerspective(float, float, float, float, boolean)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance (must be greater than zero)
+     * @param zFar
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne) {
+        return perspective(fovy, aspect, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -5396,7 +5665,50 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to be a symmetric perspective projection frustum transformation.
+     * Set this matrix to be a symmetric perspective projection frustum transformation using the given NDC z range.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspective(float, float, float, float, boolean) perspective()}.
+     * 
+     * @see #perspective(float, float, float, float, boolean)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance (must be greater than zero)
+     * @param zFar
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne) {
+        float h = (float) Math.tan(fovy * 0.5f);
+        float w = h * aspect;
+        m00 = 1.0f / w;
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = 1.0f / h;
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = 0.0f;
+        m21 = 0.0f;
+        m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        m23 = -1.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        m33 = 0.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to be a symmetric perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * In order to apply the perspective projection transformation to an existing transformation,
      * use {@link #perspective(float, float, float, float) perspective()}.
@@ -5414,29 +5726,11 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar) {
-        float h = (float) Math.tan(fovy * 0.5f) * zNear;
-        float w = h * aspect;
-        m00 = zNear / w;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = zNear / h;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = -(zFar + zNear) / (zFar - zNear);
-        m23 = -1.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
-        m33 = 0.0f;
-        return this;
+        return setPerspective(fovy, aspect, zNear, zFar, false);
     }
 
     /**
-     * Apply an arbitrary perspective projection frustum transformation to this matrix 
+     * Apply an arbitrary perspective projection frustum transformation using the given NDC z range to this matrix 
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
@@ -5445,11 +5739,11 @@ public class Matrix4f implements Externalizable {
      * the frustum transformation will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setFrustum(float, float, float, float, float, float) setFrustum()}.
+     * use {@link #setFrustum(float, float, float, float, float, float, boolean) setFrustum()}.
      * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
      * 
-     * @see #setFrustum(float, float, float, float, float, float)
+     * @see #setFrustum(float, float, float, float, float, float, boolean)
      * 
      * @param left
      *            the distance along the x-axis to the left frustum edge
@@ -5463,18 +5757,21 @@ public class Matrix4f implements Externalizable {
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
      *            the distance along the z-axis to the far clipping plane
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
      * @param dest
      *            will hold the result
      * @return dest
      */
-    public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
+    public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
         float rm00 = (zNear + zNear) / (right - left);
         float rm11 = (zNear + zNear) / (top - bottom);
         float rm20 = (right + left) / (right - left);
         float rm21 = (top + bottom) / (top - bottom);
-        float rm22 = -(zFar + zNear) / (zFar - zNear);
-        float rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
+        float rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        float rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
 
         // perform optimized matrix multiplication
         float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
@@ -5506,7 +5803,79 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Apply an arbitrary perspective projection frustum transformation to this matrix.
+     * Apply an arbitrary perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustum(float, float, float, float, float, float) setFrustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustum(float, float, float, float, float, float)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
+        return frustum(left, right, bottom, top, zNear, zFar, false, dest);
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation using the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustum(float, float, float, float, float, float, boolean) setFrustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustum(float, float, float, float, float, float, boolean)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
+        return frustum(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
      * then the new matrix will be <code>M * F</code>. So when transforming a
@@ -5539,7 +5908,54 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to be an arbitrary perspective projection frustum transformation.
+     * Set this matrix to be an arbitrary perspective projection frustum transformation using the given NDC z range.
+     * <p>
+     * In order to apply the perspective frustum transformation to an existing transformation,
+     * use {@link #frustum(float, float, float, float, float, float, boolean) frustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #frustum(float, float, float, float, float, float, boolean)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
+        m00 = (zNear + zNear) / (right - left);
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = (zNear + zNear) / (top - bottom);
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = (right + left) / (right - left);
+        m21 = (top + bottom) / (top - bottom);
+        m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        m23 = -1.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        m33 = 0.0f;
+        return this;
+    }
+
+    /**
+     * Set this matrix to be an arbitrary perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * In order to apply the perspective frustum transformation to an existing transformation,
      * use {@link #frustum(float, float, float, float, float, float) frustum()}.
@@ -5563,23 +5979,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
-        m00 = (zNear + zNear) / (right - left);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = (zNear + zNear) / (top - bottom);
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = (right + left) / (right - left);
-        m21 = (top + bottom) / (top - bottom);
-        m22 = -(zFar + zNear) / (zFar - zNear);
-        m23 = -1.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
-        m33 = 0.0f;
-        return this;
+        return setFrustum(left, right, bottom, top, zNear, zFar, false);
     }
 
     /**

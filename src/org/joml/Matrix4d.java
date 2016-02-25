@@ -6982,7 +6982,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply a symmetric perspective projection frustum transformation to this matrix and store the result in <code>dest</code>.
+     * Apply a symmetric perspective projection frustum transformation using the given NDC z range to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -7004,17 +7004,20 @@ public class Matrix4d implements Externalizable {
      *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
      * @param dest
      *            will hold the result
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
      * @return dest
      */
-    public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
-        double h = Math.tan(fovy * 0.5) * zNear;
+    public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        double h = Math.tan(fovy * 0.5);
         double w = h * aspect;
 
         // calculate right matrix elements
-        double rm00 = zNear / w;
-        double rm11 = zNear / h;
-        double rm22 = -(zFar + zNear) / (zFar - zNear);
-        double rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
+        double rm00 = 1.0 / w;
+        double rm11 = 1.0 / h;
+        double rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        double rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
 
         // perform optimized matrix multiplication
         double nm20 = m20 * rm22 - m30;
@@ -7042,7 +7045,66 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply a symmetric perspective projection frustum transformation to this matrix.
+     * Apply a symmetric perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspective(double, double, double, double) setPerspective}.
+     * 
+     * @see #setPerspective(double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance (must be greater than zero)
+     * @param zFar
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
+        return perspective(fovy, aspect, zNear, zFar, false, dest);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation using the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspective(double, double, double, double, boolean) setPerspective}.
+     * 
+     * @see #setPerspective(double, double, double, double, boolean)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance (must be greater than zero)
+     * @param zFar
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
+        return perspective(fovy, aspect, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -7069,7 +7131,50 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set this matrix to be a symmetric perspective projection frustum transformation.
+     * Set this matrix to be a symmetric perspective projection frustum transformation using the given NDC z range.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspective(double, double, double, double, boolean) perspective()}.
+     * 
+     * @see #perspective(double, double, double, double, boolean)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance (must be greater than zero)
+     * @param zFar
+     *            far clipping plane distance (must be greater than zero and greater than <code>zNear</code>)
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d setPerspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
+        double h = Math.tan(fovy * 0.5);
+        double w = h * aspect;
+        m00 = 1.0 / w;
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0 / h;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        m23 = -1.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        m33 = 0.0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to be a symmetric perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * In order to apply the perspective projection transformation to an existing transformation,
      * use {@link #perspective(double, double, double, double) perspective()}.
@@ -7087,29 +7192,11 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setPerspective(double fovy, double aspect, double zNear, double zFar) {
-        double h = Math.tan(fovy * 0.5) * zNear;
-        double w = h * aspect;
-        m00 = zNear / w;
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
-        m11 = zNear / h;
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = -(zFar + zNear) / (zFar - zNear);
-        m23 = -1.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
-        m33 = 0.0;
-        return this;
+        return setPerspective(fovy, aspect, zNear, zFar, false);
     }
 
     /**
-     * Apply an arbitrary perspective projection frustum transformation to this matrix 
+     * Apply an arbitrary perspective projection frustum transformation using the given NDC z range to this matrix 
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
@@ -7118,11 +7205,11 @@ public class Matrix4d implements Externalizable {
      * the frustum transformation will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setFrustum(double, double, double, double, double, double) setFrustum()}.
+     * use {@link #setFrustum(double, double, double, double, double, double, boolean) setFrustum()}.
      * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
      * 
-     * @see #setFrustum(double, double, double, double, double, double)
+     * @see #setFrustum(double, double, double, double, double, double, boolean)
      * 
      * @param left
      *            the distance along the x-axis to the left frustum edge
@@ -7136,18 +7223,21 @@ public class Matrix4d implements Externalizable {
      *            the distance along the z-axis to the near clipping plane
      * @param zFar
      *            the distance along the z-axis to the far clipping plane
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
      * @param dest
      *            will hold the result
      * @return dest
      */
-    public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
+    public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = (zNear + zNear) / (right - left);
         double rm11 = (zNear + zNear) / (top - bottom);
         double rm20 = (right + left) / (right - left);
         double rm21 = (top + bottom) / (top - bottom);
-        double rm22 = -(zFar + zNear) / (zFar - zNear);
-        double rm32 = -(zFar + zFar) * zNear / (zFar - zNear);
+        double rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        double rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
 
         // perform optimized matrix multiplication
         double nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
@@ -7179,7 +7269,79 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply an arbitrary perspective projection frustum transformation to this matrix.
+     * Apply an arbitrary perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustum(double, double, double, double, double, double) setFrustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustum(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
+        return frustum(left, right, bottom, top, zNear, zFar, false, dest);
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation using the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustum(double, double, double, double, double, double, boolean) setFrustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustum(double, double, double, double, double, double, boolean)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        return frustum(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
      * then the new matrix will be <code>M * F</code>. So when transforming a
@@ -7212,7 +7374,54 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set this matrix to be an arbitrary perspective projection frustum transformation.
+     * Set this matrix to be an arbitrary perspective projection frustum transformation using the given NDC z range.
+     * <p>
+     * In order to apply the perspective frustum transformation to an existing transformation,
+     * use {@link #frustum(double, double, double, double, double, double, boolean) frustum()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #frustum(double, double, double, double, double, double, boolean)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            the distance along the z-axis to the near clipping plane
+     * @param zFar
+     *            the distance along the z-axis to the far clipping plane
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d setFrustum(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        m00 = (zNear + zNear) / (right - left);
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = (zNear + zNear) / (top - bottom);
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = (right + left) / (right - left);
+        m21 = (top + bottom) / (top - bottom);
+        m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+        m23 = -1.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        m33 = 0.0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to be an arbitrary perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * In order to apply the perspective frustum transformation to an existing transformation,
      * use {@link #frustum(double, double, double, double, double, double) frustum()}.
@@ -7236,23 +7445,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setFrustum(double left, double right, double bottom, double top, double zNear, double zFar) {
-        m00 = (zNear + zNear) / (right - left);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
-        m11 = (zNear + zNear) / (top - bottom);
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = (right + left) / (right - left);
-        m21 = (top + bottom) / (top - bottom);
-        m22 = -(zFar + zNear) / (zFar - zNear);
-        m23 = -1.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = -(zFar + zFar) * zNear / (zFar - zNear);
-        m33 = 0.0;
-        return this;
+        return setFrustum(left, right, bottom, top, zNear, zFar, false);
     }
 
     /**
