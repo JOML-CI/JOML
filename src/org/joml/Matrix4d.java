@@ -7024,11 +7024,11 @@ public class Matrix4d implements Externalizable {
         boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
-            double e = 1E-6f;
+            double e = 1E-6;
             rm22 = e - 1.0;
             rm32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
         } else if (nearInf) {
-            double e = 1E-6f;
+            double e = 1E-6;
             rm22 = 1.0 - e;
             rm32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
         } else {
@@ -7192,11 +7192,11 @@ public class Matrix4d implements Externalizable {
         boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
-            double e = 1E-6f;
+            double e = 1E-6;
             m22 = e - 1.0;
             m32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
         } else if (nearInf) {
-            double e = 1E-6f;
+            double e = 1E-6;
             m22 = 1.0 - e;
             m32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
         } else {
@@ -7283,11 +7283,11 @@ public class Matrix4d implements Externalizable {
         boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
-            double e = 1E-6f;
+            double e = 1E-6;
             rm22 = e - 1.0;
             rm32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
         } else if (nearInf) {
-            double e = 1E-6f;
+            double e = 1E-6;
             rm22 = 1.0 - e;
             rm32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
         } else {
@@ -7478,11 +7478,11 @@ public class Matrix4d implements Externalizable {
         boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
-            double e = 1E-6f;
+            double e = 1E-6;
             m22 = e - 1.0;
             m32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
         } else if (nearInf) {
-            double e = 1E-6f;
+            double e = 1E-6;
             m22 = 1.0 - e;
             m32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
         } else {
