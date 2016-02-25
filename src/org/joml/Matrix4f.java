@@ -5556,8 +5556,9 @@ public class Matrix4f implements Externalizable {
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
-            rm22 = -1.0f;
-            rm32 = (zZeroToOne ? -1.0f : -2.0f) * zNear; 
+            float e = 1E-6f;
+            rm22 = e - 1.0f;
+            rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear; 
         } else {
             rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
             rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
@@ -5714,8 +5715,9 @@ public class Matrix4f implements Externalizable {
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
-            m22 = -1.0f;
-            m32 = (zZeroToOne ? -1.0f : -2.0f) * zNear; 
+            float e = 1E-6f;
+            m22 = e - 1.0f;
+            m32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear; 
         } else {
             m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
             m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
@@ -5797,8 +5799,9 @@ public class Matrix4f implements Externalizable {
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
-            rm22 = -1.0f;
-            rm32 = (zZeroToOne ? -1.0f : -2.0f) * zNear; 
+            float e = 1E-6f;
+            rm22 = e - 1.0f;
+            rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear; 
         } else {
             rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
             rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
@@ -5983,8 +5986,9 @@ public class Matrix4f implements Externalizable {
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
-            m22 = -1.0f;
-            m32 = (zZeroToOne ? -1.0f : -2.0f) * zNear; 
+            float e = 1E-6f;
+            m22 = e - 1.0f;
+            m32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear; 
         } else {
             m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
             m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
