@@ -145,7 +145,6 @@ In order to account for this, you need to use a premultiplied scaling transforma
 In essence, to create a projection transformation which will work with Vulkan, use the following code:
 ```Java
 Matrix4f m = new Matrix4f();
-FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 m.scale(1.0f, -1.0f, 1.0f) // <- inversion of Y axis
   .perspective((float) Math.toRadians(45.0f),
                1.0f, 0.01f, 100.0f, true); // <- true indicates Z in [0..1]
