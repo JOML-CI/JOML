@@ -2641,10 +2641,35 @@ public class Quaternionf implements Externalizable {
         float nx = -x * invNorm;
         float ny = -y * invNorm;
         float nz = -z * invNorm;
-        float nw = w * invNorm;
-        float num2 = ny + ny;
-        float num3 = nz + nz;
-        dir.set(1.0f - (ny * num2 + nz * num3), nx * num2 + nw * num3, nx * num3 - nw * num2);
+        float nw =  w * invNorm;
+        float dy = ny + ny;
+        float dz = nz + nz;
+        dir.x = -ny * dy - nz * dz + 1.0f;
+        dir.y =  nx * dy + nw * dz;
+        dir.z =  nx * dz - nw * dy;
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
+     * The quaternion <i>must</i> be {@link #normalize() normalized} for this method to work.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaternionf inv = new Quaternionf(this).conjugate();
+     * inv.transform(dir.set(1, 0, 0));
+     * </pre>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3f normalizedPositiveX(Vector3f dir) {
+        float dy = y + y;
+        float dz = z + z;
+        dir.x = -y * dy - z * dz + 1.0f;
+        dir.y =  x * dy - w * dz;
+        dir.z =  x * dz + w * dy;
         return dir;
     }
 
@@ -2652,7 +2677,6 @@ public class Quaternionf implements Externalizable {
      * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
      * <p>
      * This method is equivalent to the following code:
-     * 
      * <pre>
      * Quaternionf inv = new Quaternionf(this).invert();
      * inv.transform(dir.set(0, 1, 0));
@@ -2667,11 +2691,37 @@ public class Quaternionf implements Externalizable {
         float nx = -x * invNorm;
         float ny = -y * invNorm;
         float nz = -z * invNorm;
-        float nw = w * invNorm;
-        float num = nx + nx;
-        float num2 = ny + ny;
-        float num3 = nz + nz;
-        dir.set(nx * num2 - nw * num3, 1.0f - (nx * num + nz * num3), ny * num3 + nw * num);
+        float nw =  w * invNorm;
+        float dx = nx + nx;
+        float dy = ny + ny;
+        float dz = nz + nz;
+        dir.x =  nx * dy - nw * dz;
+        dir.y = -nx * dx - nz * dz + 1.0f;
+        dir.z =  ny * dz + nw * dx;
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
+     * The quaternion <i>must</i> be {@link #normalize() normalized} for this method to work.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaternionf inv = new Quaternionf(this).conjugate();
+     * inv.transform(dir.set(0, 1, 0));
+     * </pre>
+     * 
+     * @param dir
+     *            will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3f normalizedPositiveY(Vector3f dir) {
+        float dx = x + x;
+        float dy = y + y;
+        float dz = z + z;
+        dir.x =  x * dy + w * dz;
+        dir.y = -x * dx - z * dz + 1.0f;
+        dir.z =  y * dz - w * dx;
         return dir;
     }
 
@@ -2679,7 +2729,6 @@ public class Quaternionf implements Externalizable {
      * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
      * <p>
      * This method is equivalent to the following code:
-     * 
      * <pre>
      * Quaternionf inv = new Quaternionf(this).invert();
      * inv.transform(dir.set(0, 0, 1));
@@ -2694,11 +2743,37 @@ public class Quaternionf implements Externalizable {
         float nx = -x * invNorm;
         float ny = -y * invNorm;
         float nz = -z * invNorm;
-        float nw = w * invNorm;
-        float num = nx + nx;
-        float num2 = ny + ny;
-        float num3 = nz + nz;
-        dir.set(nx * num3 + nw * num2, ny * num3 - nw * num, 1.0f - (nx * num + ny * num2));
+        float nw =  w * invNorm;
+        float dx = nx + nx;
+        float dy = ny + ny;
+        float dz = nz + nz;
+        dir.x =  nx * dz + nw * dy;
+        dir.y =  ny * dz - nw * dx;
+        dir.z = -nx * dx - ny * dy + 1.0f;
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
+     * The quaternion <i>must</i> be {@link #normalize() normalized} for this method to work.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Quaternionf inv = new Quaternionf(this).conjugate();
+     * inv.transform(dir.set(0, 0, 1));
+     * </pre>
+     * 
+     * @param dir
+     *            will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3f normalizedPositiveZ(Vector3f dir) {
+        float dx = x + x;
+        float dy = y + y;
+        float dz = z + z;
+        dir.x =  x * dz - w * dy;
+        dir.y =  y * dz + w * dx;
+        dir.z = -x * dx - y * dy + 1.0f;
         return dir;
     }
 

@@ -2255,6 +2255,7 @@ public class Matrix3f implements Externalizable {
      * Matrix3f inv = new Matrix3f(this).invert();
      * inv.transform(dir.set(0, 0, 1)).normalize();
      * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveZ(Vector3f)} instead.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -2271,6 +2272,29 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).transpose();
+     * inv.transform(dir.set(0, 0, 1)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return dir
+     */
+    public Vector3f normalizedPositiveZ(Vector3f dir) {
+        dir.x = m02;
+        dir.y = m12;
+        dir.z = m22;
+        return dir;
+    }
+
+    /**
      * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method is equivalent to the following code:
@@ -2278,6 +2302,7 @@ public class Matrix3f implements Externalizable {
      * Matrix3f inv = new Matrix3f(this).invert();
      * inv.transform(dir.set(1, 0, 0)).normalize();
      * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveX(Vector3f)} instead.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -2294,6 +2319,29 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).transpose();
+     * inv.transform(dir.set(1, 0, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
+     */
+    public Vector3f normalizedPositiveX(Vector3f dir) {
+        dir.x = m00;
+        dir.y = m10;
+        dir.z = m20;
+        return dir;
+    }
+
+    /**
      * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
      * This method is equivalent to the following code:
@@ -2301,6 +2349,7 @@ public class Matrix3f implements Externalizable {
      * Matrix3f inv = new Matrix3f(this).invert();
      * inv.transform(dir.set(0, 1, 0)).normalize();
      * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveY(Vector3f)} instead.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
      * 
@@ -2313,6 +2362,29 @@ public class Matrix3f implements Externalizable {
         dir.y = m00 * m22 - m02 * m20;
         dir.z = m02 * m10 - m00 * m12;
         dir.normalize();
+        return dir;
+    }
+
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).transpose();
+     * inv.transform(dir.set(0, 1, 0)).normalize();
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return dir
+     */
+    public Vector3f normalizedPositiveY(Vector3f dir) {
+        dir.x = m01;
+        dir.y = m11;
+        dir.z = m21;
         return dir;
     }
 
