@@ -32,7 +32,7 @@ and then translates x by 2.0:
 Vector3f v = ...;
 new Matrix4f().translate(2.0f, 0.0f, 0.0f)
               .scale(0.5f)
-              .transformPoint(v);
+              .transformPosition(v);
 // v is now transformed by the specified transformation
 ```
 
@@ -43,7 +43,7 @@ Vector3f pointToRotate = new Vector3f(0.0f, 4.0f, 4.0f);
 new Matrix4f().translate(center)
               .rotate((float) Math.toRadians(90.0f), 1.0f, 0.0f, 0.0f)
               .translate(center.negate())
-              .transformPoint(pointToRotate);
+              .transformPosition(pointToRotate);
 ```
 The vector *pointToRotate* will now represent (0, 3, 5).
 
@@ -61,7 +61,7 @@ Matrix4f m = new Matrix4f();
 Vector3f point = new Vector3f(1.0f, 2.0f, 3.0f);
 Vector3f offset = new Vector3f(1.0f, 0.0f, 0.0f);
 ...
-m.translation(offset).transformPoint(point);
+m.translation(offset).transformPosition(point);
 ```
 In the above example, the matrix _m_ is being set to a translation, instead of applying the translation to it.
 These methods are useful when the same matrix is being used in a sequence of consecutive operations or repeatedly in a loop without having to set it to the identity each time.
