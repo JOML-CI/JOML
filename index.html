@@ -14,21 +14,20 @@
       <h1 class="project-name">JOML</h1>
       <h2 class="project-tagline">A Java-based math library for OpenGL rendering calculations</h2>
       <a href="https://github.com/JOML-CI/JOML" class="btn">View on GitHub</a>
-      <a href="apidocs/index.html" class="btn">View JavaDocs</a>
       <a href="https://github.com/JOML-CI/JOML/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/JOML-CI/JOML/tarball/master" class="btn">Download .tar.gz</a>
     </section>
 
     <section class="main-content">
       <h2>
-<a id="design-goals" class="anchor" href="#design-goals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Design goals</h2>
+<a id="design-goals" class="anchor" href="#design-goals" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Design goals</h2>
 
 <p>The goal of JOML is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.4 and not making use of JNI.</p>
 
 <p>If you like to know more about JOML's design, see the corresponding <a href="https://github.com/JOML-CI/JOML/wiki/Design">Wiki page</a>.</p>
 
 <h2>
-<a id="vector-arithmetic" class="anchor" href="#vector-arithmetic" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vector arithmetic</h2>
+<a id="vector-arithmetic" class="anchor" href="#vector-arithmetic" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Vector arithmetic</h2>
 
 <p>All operations in JOML are designed to modify the object on which the operation is invoked. This helps in completely eliminating any object allocations, which the client could otherwise not control and which impact the GC performance resulting in small hickups.
 The client is responsible to allocate the needed working objects.</p>
@@ -43,7 +42,7 @@ a<span class="pl-k">.</span>cross(v);
 a<span class="pl-k">.</span>normalize();</pre></div>
 
 <h2>
-<a id="matrix-api" class="anchor" href="#matrix-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matrix API</h2>
+<a id="matrix-api" class="anchor" href="#matrix-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Matrix API</h2>
 
 <p>Using JOML you can build matrices out of basic transformations, such as scale, translate and rotate, using a fluent interface style. All such operations directly modify the matrix instance on which they are invoked.
 The following example builds a transformation matrix which effectively first scales all axes by 0.5
@@ -67,7 +66,7 @@ and then translates x by 2.0:</p>
 <p>The vector <em>pointToRotate</em> will now represent (0, 3, 5).</p>
 
 <h2>
-<a id="post-multiplication" class="anchor" href="#post-multiplication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Post-multiplication</h2>
+<a id="post-multiplication" class="anchor" href="#post-multiplication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Post-multiplication</h2>
 
 <p>All transformation operations in the matrix and quaternion classes act in the same way as OpenGL and GLU by post-multiplying the operation's result to the object on which they are invoked. This allows to chain multiple transformations in the same way as with OpenGL's legacy matrix stack operations, and allows to decompose the resulting effective matrix as a decomposition of multiple matrix multiplications.
 One such common decomposition are the <em>projection</em> and <em>modelview</em> matrices, written as: <code>P * MV</code>. The <em>modelview</em> matrix of course can be further decomposed into individual matrix multiplications, as far as this seems necessary.</p>
@@ -86,7 +85,7 @@ m<span class="pl-k">.</span>translation(offset)<span class="pl-k">.</span>transf
 These methods are useful when the same matrix is being used in a sequence of consecutive operations or repeatedly in a loop without having to set it to the identity each time.</p>
 
 <h2>
-<a id="building-a-camera-transformation" class="anchor" href="#building-a-camera-transformation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building a camera transformation</h2>
+<a id="building-a-camera-transformation" class="anchor" href="#building-a-camera-transformation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building a camera transformation</h2>
 
 <p>In the same way that you can concatenate multiple simple affine transformations, you can use the methods perspective(), frustum() and ortho() to specify a perspective or orthogonal projection and lookAt() to create an orthonormal transformation that mimics a camera <em>looking</em> at a given point.
 Those methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):</p>
@@ -101,7 +100,7 @@ Those methods resemble the ones known from GLU and act in the same way (i.e. the
 <p>The above transformation can then be used as a "view-projection" matrix in a shader.</p>
 
 <h2>
-<a id="computation-result" class="anchor" href="#computation-result" aria-hidden="true"><span class="octicon octicon-link"></span></a>Computation result</h2>
+<a id="computation-result" class="anchor" href="#computation-result" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Computation result</h2>
 
 <p>Usually, instance methods operate on the object (matrix, vector, quaternion) on which they are invoked by writing the computation result back into that object. Most of the methods however also allow to specify another destination object to write the result into. This is useful if you do not want to overwrite the original object with the computation result.
 This can be useful for computing the view-projection matrix and its inverse in one go:</p>
@@ -117,7 +116,7 @@ viewProj<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>)
 <p>The <em>invViewProj</em> matrix now contains the inverse of the <em>viewProj</em> matrix, but the latter is still intact.</p>
 
 <h2>
-<a id="using-with-lwjgl" class="anchor" href="#using-with-lwjgl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using with <a href="https://github.com/LWJGL/lwjgl3">LWJGL</a>
+<a id="using-with-lwjgl" class="anchor" href="#using-with-lwjgl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using with <a href="https://github.com/LWJGL/lwjgl3">LWJGL</a>
 </h2>
 
 <p>JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:</p>
@@ -145,7 +144,29 @@ glMatrixMode(<span class="pl-c1">GL_MODELVIEW</span>);
 glLoadMatrixf(fb);</pre></div>
 
 <h2>
-<a id="using-with-jogl" class="anchor" href="#using-with-jogl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using with <a href="http://jogamp.org/jogl/www/">JOGL</a>
+<a id="using-with-vulkan-and-lwjgl-3" class="anchor" href="#using-with-vulkan-and-lwjgl-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using with Vulkan and LWJGL 3</h2>
+
+<p>You can use <a href="http://javadoc.lwjgl.org/org/lwjgl/vulkan/VK10.html#vkMapMemory(org.lwjgl.vulkan.VkDevice,%20long,%20long,%20long,%20int,%20org.lwjgl.PointerBuffer)">VK10.vkMapMemory()</a> provided by LWJGL to map a Vulkan memory object, which may be the backing store of a Uniform Buffer, into Java and use the returned Java NIO ByteBuffer to upload the matrix like you would with OpenGL by calling <a href="http://joml-ci.github.io/JOML/apidocs/org/joml/Matrix4f.html#get-java.nio.ByteBuffer-">get()</a> on the matrix:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-c1">...</span>;
+<span class="pl-smi">VkDevice</span> device <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- the vulkan device</span>
+<span class="pl-k">long</span> memory <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- address of the vulkan device memory</span>
+<span class="pl-smi">PointerBuffer</span> pb <span class="pl-k">=</span> <span class="pl-smi">MemoryUtil</span><span class="pl-k">.</span>memAllocPointer(<span class="pl-c1">1</span>);
+<span class="pl-k">if</span> (vkMapMemory(device, memory, <span class="pl-c1">0</span>, <span class="pl-c1">16</span> <span class="pl-k">&lt;&lt;</span> <span class="pl-c1">2</span>, <span class="pl-c1">0</span>, pb) <span class="pl-k">==</span> <span class="pl-c1">VK_SUCCESS</span>) {
+  m<span class="pl-k">.</span>get(<span class="pl-smi">MemoryUtil</span><span class="pl-k">.</span>memByteBuffer(pb<span class="pl-k">.</span>get(<span class="pl-c1">0</span>), <span class="pl-c1">16</span> <span class="pl-k">&lt;&lt;</span> <span class="pl-c1">2</span>));
+  vkUnmapMemory(device, memory);
+}
+<span class="pl-smi">MemoryUtil</span><span class="pl-k">.</span>memFree(pb);</pre></div>
+
+<p>Since Vulkan uses a clip space z range between <em>0 &lt;= z &lt;= w</em> you need to use the following code now to build a Vulkan-compatible perspective projection matrix:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
+m<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>, <span class="pl-c1">true</span>);</pre></div>
+
+<p>The additional boolean parameter indicates whether a Vulkan/Direct3D-compatible tranformation matrix should be generated. The existing method overload without that parameter will default to OpenGL behaviour.</p>
+
+<h2>
+<a id="using-with-jogl" class="anchor" href="#using-with-jogl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using with <a href="http://jogamp.org/jogl/www/">JOGL</a>
 </h2>
 
 <p>JOML can be used together with JOGL to build a transformation matrix and set it as a uniform mat4 in a shader (for example as a replacement of com.jogamp.opengl.util.glsl.fixedfunc.FixedFuncUtil and com.jogamp.opengl.util.PMVMatrix to emulate the fixed pipeline). For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by JOGL when calling into OpenGL:</p>
@@ -173,7 +194,7 @@ gl<span class="pl-k">.</span>glMatrixMode(<span class="pl-smi">GLMatrixFunc</spa
 gl<span class="pl-k">.</span>glLoadMatrixf(fb);</pre></div>
 
 <h2>
-<a id="staying-allocation-free" class="anchor" href="#staying-allocation-free" aria-hidden="true"><span class="octicon octicon-link"></span></a>Staying allocation-free</h2>
+<a id="staying-allocation-free" class="anchor" href="#staying-allocation-free" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Staying allocation-free</h2>
 
 <p>JOML is designed to be completely allocation-free for all methods. That means JOML will never allocate Java objects on the heap unless you as the client specifically requests to do so via the <em>new</em> keyword when creating a new matrix or vector or calling the <em>toString()</em> method on them.</p>
 
@@ -209,34 +230,31 @@ gl<span class="pl-k">.</span>glLoadMatrixf(fb);</pre></div>
 <p>In the example above, a single Matrix4f is allocated during some initialization time when the <em>init()</em> method is called. Then each <em>frame()</em> we reinitialize the same matrix with the <em>identity()</em> and recompute the camera transformation based on some other parameters.</p>
 
 <h2>
-<a id="multithreading" class="anchor" href="#multithreading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multithreading</h2>
+<a id="multithreading" class="anchor" href="#multithreading" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multithreading</h2>
 
 <p>Due to JOML not using any internal temporary objects during any computations, you can use JOML in a multithreaded application. You only need to make sure not to call a method modifying the same matrix or vector from two different threads. Other than that, there is no internal or external synchronization necessary.</p>
 
 <h2>
-<a id="matrix-stack" class="anchor" href="#matrix-stack" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matrix stack</h2>
+<a id="matrix-stack" class="anchor" href="#matrix-stack" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Matrix stack</h2>
 
 <p>JOML also features an interface that resembles the matrix stack from legacy OpenGL.
 This allows you to use all of the legacy OpenGL matrix stack operations even in modern OpenGL applications,
 but without the otherwise necessary JNI calls into the graphics driver.
 <em>Note that JOML does not interface in any way with the OpenGL API. It merely provides matrix and vector arithmetics.</em></p>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-smi">MatrixStack</span> s <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">MatrixStack</span>(<span class="pl-c1">2</span>);
-<span class="pl-smi">Matrix4f</span> result <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">MatrixStackf</span> s <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">MatrixStackf</span>(<span class="pl-c1">2</span>);
 s<span class="pl-k">.</span>translate(<span class="pl-c1">2.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>);
 s<span class="pl-k">.</span>pushMatrix();
 {
   s<span class="pl-k">.</span>scale(<span class="pl-c1">0.5f</span>, <span class="pl-c1">0.5f</span>, <span class="pl-c1">0.5f</span>);
-  s<span class="pl-k">.</span>get(result);
-  <span class="pl-c">// do something with result</span>
+  <span class="pl-c">// do something with the Matrix4f of 's'</span>
 }
 s<span class="pl-k">.</span>popMatrix();
 s<span class="pl-k">.</span>rotate((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>);
-s<span class="pl-k">.</span>get(result);
-<span class="pl-c">// do something with result</span></pre></div>
+<span class="pl-c">// do something with the Matrix4f of 's'</span></pre></div>
 
 <h2>
-<a id="projects-using-joml" class="anchor" href="#projects-using-joml" aria-hidden="true"><span class="octicon octicon-link"></span></a>Projects using JOML</h2>
+<a id="projects-using-joml" class="anchor" href="#projects-using-joml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projects using JOML</h2>
 
 <p>This section names real-world projects using JOML. All owners of the projects listed here were asked for permission before.</p>
 
