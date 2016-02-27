@@ -142,7 +142,7 @@ Since Vulkan uses a clip space z range between *0 <= z <= w* you need to tell JO
 Also, care must be taken regarding the difference between Vulkan's viewport transformation on the one side and Direct3D's and OpenGL's different viewport transformation on the other side. Since Vulkan does not perform any inversion of the Y-axis from NDC to window coordinates, NDC space and clip space will have its +Y axis pointing downwards (with regard to the screen).
 In order to account for this, you need to use a premultiplied scaling transformation that inverts the Y-axis.
 
-In essence, to create a projection transformation which with Vulkan, use the following code:
+In essence, to create a projection transformation which will work with Vulkan, use the following code:
 ```Java
 Matrix4f m = new Matrix4f();
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
