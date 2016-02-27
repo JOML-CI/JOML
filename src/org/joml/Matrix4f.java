@@ -5822,7 +5822,7 @@ public class Matrix4f implements Externalizable {
             rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            rm22 = 1.0f - e;
+            rm22 = (zZeroToOne ? 0.0f : 1.0f) - e;
             rm32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
             rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
@@ -6017,7 +6017,7 @@ public class Matrix4f implements Externalizable {
             m32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            m22 = 1.0f - e;
+            m22 = (zZeroToOne ? 0.0f : 1.0f) - e;
             m32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
             m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
