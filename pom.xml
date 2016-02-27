@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.joml</groupId>
 	<artifactId>joml-mini</artifactId>
-	<version>1.7.1</version>
+	<version>1.7.2-SNAPSHOT</version>
 	<name>JOML Mini</name>
 	<description>Java OpenGL Math Library - Minimal</description>
 	<inceptionYear>2015</inceptionYear>
