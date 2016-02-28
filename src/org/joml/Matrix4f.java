@@ -2277,8 +2277,20 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotationX(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         m00 = 1.0f;
         m01 = 0.0f;
         m02 = 0.0f;
@@ -2308,8 +2320,20 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotationY(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         m00 = cos;
         m01 = 0.0f;
         m02 = -sin;
@@ -2339,8 +2363,20 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f rotationZ(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         m00 = cos;
         m01 = sin;
         m02 = 0.0f;
@@ -3375,8 +3411,20 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateX(float ang, Matrix4f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         float rm11 = cos;
         float rm12 = sin;
         float rm21 = -sin;
@@ -3534,8 +3582,20 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateY(float ang, Matrix4f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float cos, sin;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         float rm00 = cos;
         float rm02 = -sin;
         float rm20 = sin;
@@ -3693,8 +3753,20 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateZ(float ang, Matrix4f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         float rm00 = cos;
         float rm01 = sin;
         float rm10 = -sin;
