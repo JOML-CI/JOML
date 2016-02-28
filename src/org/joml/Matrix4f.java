@@ -3268,6 +3268,96 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply rotation about the X axis to this matrix by rotating exactly the given amount of degrees
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param specialDegrees
+     *            must be either 90, -90, 180, -180, 270 or -270
+     * @param dest
+     *            will hold the result
+     * @return dest
+     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
+     */
+    public Matrix4f rotateXExact(int specialDegrees, Matrix4f dest) throws IllegalArgumentException {
+        float nm10, nm11, nm12, nm13;
+        int d = specialDegrees;
+        if (d == 270)
+            d = -90;
+        else if (d == -270)
+            d = 90;
+        if (d == 90) {
+            nm10 = m20;
+            nm11 = m21;
+            nm12 = m22;
+            nm13 = m23;
+            dest.m20 = -m10;
+            dest.m21 = -m11;
+            dest.m22 = -m12;
+            dest.m23 = -m13;
+        } else if (d == -90) {
+            nm10 = -m20;
+            nm11 = -m21;
+            nm12 = -m22;
+            nm13 = -m23;
+            dest.m20 = m10;
+            dest.m21 = m11;
+            dest.m22 = m12;
+            dest.m23 = m13;
+        } else if (d == 180 || d == -180) {
+            nm10 = -m10;
+            nm11 = -m11;
+            nm12 = -m12;
+            nm13 = -m13;
+            dest.m20 = -m20;
+            dest.m21 = -m21;
+            dest.m22 = -m22;
+            dest.m23 = -m23;
+        } else {
+            throw new IllegalArgumentException();
+        }
+        // set other values
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m03 = m03;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation about the X axis to this matrix by rotating exactly the given amount of degrees.
+     * <p>
+     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param specialDegrees
+     *            must be either 90, -90, 180, -180, 270 or -270
+     * @return dest
+     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
+     */
+    public Matrix4f rotateXExact(int specialDegrees) throws IllegalArgumentException {
+        return rotateXExact(specialDegrees, this);
+    }
+
+    /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
@@ -3337,6 +3427,96 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply rotation about the Y axis to this matrix by rotating exactly the given amount of degrees
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param specialDegrees
+     *            must be either 90, -90, 180, -180, 270 or -270
+     * @param dest
+     *            will hold the result
+     * @return dest
+     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
+     */
+    public Matrix4f rotateYExact(int specialDegrees, Matrix4f dest) throws IllegalArgumentException {
+        float nm00, nm01, nm02, nm03;
+        int d = specialDegrees;
+        if (d == 270)
+            d = -90;
+        else if (d == -270)
+            d = 90;
+        if (d == 90) {
+            nm00 = -m20;
+            nm01 = -m21;
+            nm02 = -m22;
+            nm03 = -m23;
+            dest.m20 = m00;
+            dest.m21 = m01;
+            dest.m22 = m02;
+            dest.m23 = m03;
+        } else if (d == -90) {
+            nm00 = m20;
+            nm01 = m21;
+            nm02 = m22;
+            nm03 = m23;
+            dest.m20 = -m00;
+            dest.m21 = -m01;
+            dest.m22 = -m02;
+            dest.m23 = -m03;
+        } else if (d == 180 || d == -180) {
+            nm00 = -m00;
+            nm01 = -m01;
+            nm02 = -m02;
+            nm03 = -m03;
+            dest.m20 = -m20;
+            dest.m21 = -m21;
+            dest.m22 = -m22;
+            dest.m23 = -m23;
+        } else {
+            throw new IllegalArgumentException();
+        }
+        // set other values
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m03 = m03;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation about the Y axis to this matrix by rotating exactly the given amount of degrees.
+     * <p>
+     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param specialDegrees
+     *            must be either 90, -90, 180, -180, 270 or -270
+     * @return dest
+     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
+     */
+    public Matrix4f rotateYExact(int specialDegrees) throws IllegalArgumentException {
+        return rotateYExact(specialDegrees, this);
+    }
+
+    /**
      * Apply rotation about the Y axis to this matrix by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
@@ -3403,6 +3583,96 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f rotateY(float ang) {
         return rotateY(ang, this);
+    }
+
+    /**
+     * Apply rotation about the Z axis to this matrix by rotating exactly the given amount of degrees
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param specialDegrees
+     *            must be either 90, -90, 180, -180, 270 or -270
+     * @param dest
+     *            will hold the result
+     * @return dest
+     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
+     */
+    public Matrix4f rotateZExact(int specialDegrees, Matrix4f dest) throws IllegalArgumentException {
+        float nm00, nm01, nm02, nm03;
+        int d = specialDegrees;
+        if (d == 270)
+            d = -90;
+        else if (d == -270)
+            d = 90;
+        if (d == 90) {
+            nm00 = m10;
+            nm01 = m11;
+            nm02 = m12;
+            nm03 = m13;
+            dest.m10 = -m00;
+            dest.m11 = -m01;
+            dest.m12 = -m02;
+            dest.m13 = -m03;
+        } else if (d == -90) {
+            nm00 = -m10;
+            nm01 = -m11;
+            nm02 = -m12;
+            nm03 = -m13;
+            dest.m10 = m00;
+            dest.m11 = m01;
+            dest.m12 = m02;
+            dest.m13 = m03;
+        } else if (d == 180 || d == -180) {
+            nm00 = -m00;
+            nm01 = -m01;
+            nm02 = -m02;
+            nm03 = -m03;
+            dest.m10 = -m10;
+            dest.m11 = -m11;
+            dest.m12 = -m12;
+            dest.m13 = -m13;
+        } else {
+            throw new IllegalArgumentException();
+        }
+        // set other values
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m03 = m03;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation about the Z axis to this matrix by rotating exactly the given amount of degrees.
+     * <p>
+     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param specialDegrees
+     *            must be either 90, -90, 180, -180, 270 or -270
+     * @return dest
+     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
+     */
+    public Matrix4f rotateZExact(int specialDegrees) throws IllegalArgumentException {
+        return rotateZExact(specialDegrees, this);
     }
 
     /**
