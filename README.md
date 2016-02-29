@@ -128,7 +128,7 @@ You can use [VK10.vkMapMemory()](http://javadoc.lwjgl.org/org/lwjgl/vulkan/VK10.
 ```Java
 Matrix4f m = ...;
 VkDevice device = ...; // <- the vulkan device
-long memory = ...; // <- address of the vulkan device memory
+long memory = ...; // <- handle to the vulkan device memory
 PointerBuffer pb = MemoryUtil.memAllocPointer(1);
 if (vkMapMemory(device, memory, 0, 16 << 2, 0, pb) == VK_SUCCESS) {
   m.get(MemoryUtil.memByteBuffer(pb.get(0), 16 << 2));
@@ -139,6 +139,16 @@ MemoryUtil.memFree(pb);
 
 Since Vulkan uses a clip space z range between *0 <= z <= w* you need to tell JOML about it when creating a projection matrix. For this, the projection methods on the Matrix4f class have an additional overload taking a boolean parameter to indicate whether Z should be within [0..1] like in Vulkan or [-1..+1] like in OpenGL. The existing method overload without that parameter will default to OpenGL behaviour.
 
+Alternatively, you can use Vulkan's Push Constants to quickly upload a matrix in a shader push-constant when recording a command buffer. The following code updates a Matrix4f used as a push-constant in the vertex shader:
+```Java
+Matrix4f m = ...;
+VkCommandBuffer cmdBuf = ...; // <- the VkCommandBuffer
+long layout = ...; // <- handle to a Vulkan VkPipelineLayout
+ByteBuffer bb = MemoryUtil.memAlloc(16 << 2);
+vkCmdPushConstants(cmdBuf, layout, VK_SHADER_STAGE_VERTEX_BIT, 0, m.get(bb));
+MemoryUtil.memFree(bb);
+```
+
 Also, care must be taken regarding the difference between Vulkan's viewport transformation on the one side and Direct3D's and OpenGL's different viewport transformation on the other side. Since Vulkan does not perform any inversion of the Y-axis from NDC to window coordinates, NDC space and clip space will have its +Y axis pointing downwards (with regard to the screen).
 In order to account for this, you need to use a premultiplied scaling transformation that inverts the Y-axis.
 
@@ -146,7 +156,7 @@ In essence, to create a projection transformation which will work with Vulkan, u
 ```Java
 Matrix4f m = new Matrix4f();
 m.scale(1.0f, -1.0f, 1.0f) // <- inversion of Y axis
-  .perspective((float) Math.toRadians(45.0f),
+ .perspective((float) Math.toRadians(45.0f),
                1.0f, 0.01f, 100.0f, true); // <- true indicates Z in [0..1]
 ```
 
