@@ -6306,10 +6306,74 @@ public class Matrix4d implements Externalizable {
         double normalZ = 1.0 - (orientation.x * num1 + orientation.y * num2);
         return reflection(normalX, normalY, normalZ, point.x, point.y, point.z);
     }
-    
 
     /**
-     * Apply an orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * Apply an orthographic projection transformation using the given NDC z range to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(double, double, double, double, double, double, boolean) setOrtho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho(double, double, double, double, double, double, boolean)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        // calculate right matrix elements
+        double rm00 = 2.0 / (right - left);
+        double rm11 = 2.0 / (top - bottom);
+        double rm22 = (zZeroToOne ? 1.0 : 2.0) / (zNear - zFar);
+        double rm30 = (left + right) / (left - right);
+        double rm31 = (top + bottom) / (bottom - top);
+        double rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+
+        // perform optimized multiplication
+        // compute the last column first, because other columns do not depend on it
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m20 = m20 * rm22;
+        dest.m21 = m21 * rm22;
+        dest.m22 = m22 * rm22;
+        dest.m23 = m23 * rm22;
+
+        return dest;
+    }
+
+    /**
+     * Apply an orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -6340,38 +6404,47 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
-        // calculate right matrix elements
-        double rm00 = 2.0 / (right - left);
-        double rm11 = 2.0 / (top - bottom);
-        double rm22 = -2.0 / (zFar - zNear);
-        double rm30 = -(right + left) / (right - left);
-        double rm31 = -(top + bottom) / (top - bottom);
-        double rm32 = -(zFar + zNear) / (zFar - zNear);
-
-        // perform optimized multiplication
-        // compute the last column first, because other columns do not depend on it
-        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
-        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
-        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
-        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m02 = m02 * rm00;
-        dest.m03 = m03 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
-        dest.m12 = m12 * rm11;
-        dest.m13 = m13 * rm11;
-        dest.m20 = m20 * rm22;
-        dest.m21 = m21 * rm22;
-        dest.m22 = m22 * rm22;
-        dest.m23 = m23 * rm22;
-
-        return dest;
+        return ortho(left, right, bottom, top, zNear, zFar, false, dest);
     }
 
     /**
-     * Apply an orthographic projection transformation to this matrix.
+     * Apply an orthographic projection transformation using the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to an orthographic projection without post-multiplying it,
+     * use {@link #setOrtho(double, double, double, double, double, double, boolean) setOrtho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrtho(double, double, double, double, double, double, boolean)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        return ortho(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply an orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
      * then the new matrix will be <code>M * O</code>. So when transforming a
@@ -6400,11 +6473,58 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar) {
-        return ortho(left, right, bottom, top, zNear, zFar, this);
+        return ortho(left, right, bottom, top, zNear, zFar, false);
     }
 
     /**
-     * Set this matrix to be an orthographic projection transformation.
+     * Set this matrix to be an orthographic projection transformation using the given NDC z range.
+     * <p>
+     * In order to apply the orthographic projection to an already existing transformation,
+     * use {@link #ortho(double, double, double, double, double, double, boolean) ortho()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #ortho(double, double, double, double, double, double, boolean)
+     * 
+     * @param left
+     *            the distance from the center to the left frustum edge
+     * @param right
+     *            the distance from the center to the right frustum edge
+     * @param bottom
+     *            the distance from the center to the bottom frustum edge
+     * @param top
+     *            the distance from the center to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d setOrtho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        m00 = 2.0 / (right - left);
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 2.0 / (top - bottom);
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = (zZeroToOne ? 1.0 : 2.0) / (zNear - zFar);
+        m23 = 0.0;
+        m30 = (right + left) / (left - right);
+        m31 = (top + bottom) / (bottom - top);
+        m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to be an orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * In order to apply the orthographic projection to an already existing transformation,
      * use {@link #ortho(double, double, double, double, double, double) ortho()}.
@@ -6428,28 +6548,73 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setOrtho(double left, double right, double bottom, double top, double zNear, double zFar) {
-        m00 = 2.0 / (right - left);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
-        m11 = 2.0 / (top - bottom);
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = -2.0 / (zFar - zNear);
-        m23 = 0.0;
-        m30 = -(right + left) / (right - left);
-        m31 = -(top + bottom) / (top - bottom);
-        m32 = -(zFar + zNear) / (zFar - zNear);
-        m33 = 1.0;
-        return this;
+        return setOrtho(left, right, bottom, top, zNear, zFar, false);
     }
-    
 
     /**
-     * Apply a symmetric orthographic projection transformation to this matrix and store the result in <code>dest</code>.
+     * Apply a symmetric orthographic projection transformation using the given NDC z range to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling {@link #ortho(double, double, double, double, double, double, boolean, Matrix4d) ortho()} with
+     * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a symmetric orthographic projection without post-multiplying it,
+     * use {@link #setOrthoSymmetric(double, double, double, double, boolean) setOrthoSymmetric()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrthoSymmetric(double, double, double, double, boolean)
+     * 
+     * @param width
+     *            the distance between the right and left frustum edges
+     * @param height
+     *            the distance between the top and bottom frustum edges
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return dest
+     */
+    public Matrix4d orthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        // calculate right matrix elements
+        double rm00 = 2.0 / width;
+        double rm11 = 2.0 / height;
+        double rm22 = (zZeroToOne ? 1.0 : 2.0) / (zNear - zFar);
+        double rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+
+        // perform optimized multiplication
+        // compute the last column first, because other columns do not depend on it
+        dest.m30 = m20 * rm32 + m30;
+        dest.m31 = m21 * rm32 + m31;
+        dest.m32 = m22 * rm32 + m32;
+        dest.m33 = m23 * rm32 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m20 = m20 * rm22;
+        dest.m21 = m21 * rm22;
+        dest.m22 = m22 * rm22;
+        dest.m23 = m23 * rm22;
+
+        return dest;
+    }
+
+    /**
+     * Apply a symmetric orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
      * <p>
      * This method is equivalent to calling {@link #ortho(double, double, double, double, double, double, Matrix4d) ortho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -6479,36 +6644,46 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d orthoSymmetric(double width, double height, double zNear, double zFar, Matrix4d dest) {
-        // calculate right matrix elements
-        double rm00 = 2.0 / width;
-        double rm11 = 2.0 / height;
-        double rm22 = -2.0 / (zFar - zNear);
-        double rm32 = -(zFar + zNear) / (zFar - zNear);
-
-        // perform optimized multiplication
-        // compute the last column first, because other columns do not depend on it
-        dest.m30 = m20 * rm32 + m30;
-        dest.m31 = m21 * rm32 + m31;
-        dest.m32 = m22 * rm32 + m32;
-        dest.m33 = m23 * rm32 + m33;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m02 = m02 * rm00;
-        dest.m03 = m03 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
-        dest.m12 = m12 * rm11;
-        dest.m13 = m13 * rm11;
-        dest.m20 = m20 * rm22;
-        dest.m21 = m21 * rm22;
-        dest.m22 = m22 * rm22;
-        dest.m23 = m23 * rm22;
-
-        return dest;
+        return orthoSymmetric(width, height, zNear, zFar, false, dest);
     }
 
     /**
-     * Apply a symmetric orthographic projection transformation to this matrix.
+     * Apply a symmetric orthographic projection transformation using the given NDC z range to this matrix.
+     * <p>
+     * This method is equivalent to calling {@link #ortho(double, double, double, double, double, double, boolean) ortho()} with
+     * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>O</code> the orthographic projection matrix,
+     * then the new matrix will be <code>M * O</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * O * v</code>, the
+     * orthographic projection transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a symmetric orthographic projection without post-multiplying it,
+     * use {@link #setOrthoSymmetric(double, double, double, double, boolean) setOrthoSymmetric()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #setOrthoSymmetric(double, double, double, double, boolean)
+     * 
+     * @param width
+     *            the distance between the right and left frustum edges
+     * @param height
+     *            the distance between the top and bottom frustum edges
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d orthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
+        return orthoSymmetric(width, height, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply a symmetric orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * This method is equivalent to calling {@link #ortho(double, double, double, double, double, double) ortho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -6536,11 +6711,57 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d orthoSymmetric(double width, double height, double zNear, double zFar) {
-        return orthoSymmetric(width, height, zNear, zFar, this);
+        return orthoSymmetric(width, height, zNear, zFar, false, this);
     }
 
     /**
-     * Set this matrix to be a symmetric orthographic projection transformation.
+     * Set this matrix to be a symmetric orthographic projection transformation using the given NDC z range.
+     * <p>
+     * This method is equivalent to calling {@link #setOrtho(double, double, double, double, double, double, boolean) setOrtho()} with
+     * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
+     * <p>
+     * In order to apply the symmetric orthographic projection to an already existing transformation,
+     * use {@link #orthoSymmetric(double, double, double, double, boolean) orthoSymmetric()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#ortho">http://www.songho.ca</a>
+     * 
+     * @see #orthoSymmetric(double, double, double, double, boolean)
+     * 
+     * @param width
+     *            the distance between the right and left frustum edges
+     * @param height
+     *            the distance between the top and bottom frustum edges
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d setOrthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne) {
+        m00 = 2.0 / width;
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 2.0 / height;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = (zZeroToOne ? 1.0 : 2.0) / (zNear - zFar);
+        m23 = 0.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to be a symmetric orthographic projection transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * This method is equivalent to calling {@link #setOrtho(double, double, double, double, double, double) setOrtho()} with
      * <code>left=-width/2</code>, <code>right=+width/2</code>, <code>bottom=-height/2</code> and <code>top=+height/2</code>.
@@ -6563,23 +6784,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setOrthoSymmetric(double width, double height, double zNear, double zFar) {
-        m00 = 2.0 / width;
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
-        m11 = 2.0 / height;
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = -2.0 / (zFar - zNear);
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = -(zFar + zNear) / (zFar - zNear);
-        m33 = 1.0;
-        return this;
+        return setOrthoSymmetric(width, height, zNear, zFar, false);
     }
 
     /**

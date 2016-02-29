@@ -4676,8 +4676,8 @@ public class Matrix4f implements Externalizable {
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
         float rm22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
-        float rm30 = -(right + left) / (right - left);
-        float rm31 = -(top + bottom) / (top - bottom);
+        float rm30 = (left + right) / (left - right);
+        float rm31 = (top + bottom) / (bottom - top);
         float rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
 
         // perform optimized multiplication
@@ -4846,8 +4846,8 @@ public class Matrix4f implements Externalizable {
         m21 = 0.0f;
         m22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
         m23 = 0.0f;
-        m30 = -(right + left) / (right - left);
-        m31 = -(top + bottom) / (top - bottom);
+        m30 = (right + left) / (left - right);
+        m31 = (top + bottom) / (bottom - top);
         m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
         m33 = 1.0f;
         return this;
