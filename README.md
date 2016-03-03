@@ -108,6 +108,16 @@ glUniformMatrix4fv(mat4Location, false, fb);
 ```
 The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method [*glUniformMatrix4fv*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv%28int,%20boolean,%20java.nio.FloatBuffer%29).
 
+Instead of using the uniform methods, one or multiple matrices can also be uploaded to an OpenGL buffer object and then sourced from that buffer object from within a shader when used as an uniform buffer object or a shader storage buffer object.
+The following uploads a matrix to an OpenGL buffer object which can then be used as an uniform buffer object in a shader:
+```Java
+Matrix4f m = ...; // <- the matrix to upload
+int ubo = ...; // <- name of a created and already initialized UBO
+FloatBuffer fb = BufferUtils.createFloatBuffer(16);
+glBindBuffer(GL_UNIFORM_BUFFER, ubo);
+glBufferSubData(GL_UNIFORM_BUFFER, 0, fb);
+```
+
 If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call [*glLoadMatrixf()*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf%28java.nio.FloatBuffer%29) provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
