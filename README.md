@@ -115,7 +115,7 @@ Matrix4f m = ...; // <- the matrix to upload
 int ubo = ...; // <- name of a created and already initialized UBO
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-glBufferSubData(GL_UNIFORM_BUFFER, 0, fb);
+glBufferSubData(GL_UNIFORM_BUFFER, 0, m.get(fb));
 ```
 
 If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call [*glLoadMatrixf()*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf%28java.nio.FloatBuffer%29) provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
