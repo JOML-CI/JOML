@@ -7559,10 +7559,9 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         double h = Math.tan(fovy * 0.5);
-        double w = h * aspect;
 
         // calculate right matrix elements
-        double rm00 = 1.0 / w;
+        double rm00 = 1.0 / (h * aspect);
         double rm11 = 1.0 / h;
         double rm22;
         double rm32;
@@ -7723,8 +7722,7 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d setPerspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
         double h = Math.tan(fovy * 0.5);
-        double w = h * aspect;
-        m00 = 1.0 / w;
+        m00 = 1.0 / (h * aspect);
         m01 = 0.0;
         m02 = 0.0;
         m03 = 0.0;

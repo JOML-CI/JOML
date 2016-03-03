@@ -5889,10 +5889,9 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         float h = (float) Math.tan(fovy * 0.5f);
-        float w = h * aspect;
 
         // calculate right matrix elements
-        float rm00 = 1.0f / w;
+        float rm00 = 1.0f / (h * aspect);
         float rm11 = 1.0f / h;
         float rm22;
         float rm32;
@@ -6053,8 +6052,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne) {
         float h = (float) Math.tan(fovy * 0.5f);
-        float w = h * aspect;
-        m00 = 1.0f / w;
+        m00 = 1.0f / (h * aspect);
         m01 = 0.0f;
         m02 = 0.0f;
         m03 = 0.0f;
