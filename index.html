@@ -14,7 +14,6 @@
       <h1 class="project-name">JOML</h1>
       <h2 class="project-tagline">A Java math library for OpenGL rendering calculations</h2>
       <a href="https://github.com/JOML-CI/JOML" class="btn">View on GitHub</a>
-      <a href="apidocs/index.html" class="btn">View JavaDocs</a>
       <a href="https://github.com/JOML-CI/JOML/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/JOML-CI/JOML/tarball/master" class="btn">Download .tar.gz</a>
     </section>
@@ -52,7 +51,7 @@ and then translates x by 2.0:</p>
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">Vector3f</span> v <span class="pl-k">=</span> <span class="pl-c1">...</span>;
 <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()<span class="pl-k">.</span>translate(<span class="pl-c1">2.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>)
               .scale(<span class="pl-c1">0.5f</span>)
-              .transformPoint(v);
+              .transformPosition(v);
 <span class="pl-c">// v is now transformed by the specified transformation</span></pre></div>
 
 <p>Common transformation idioms, such as rotating about a given axis using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 4, 4) about the x-axis and uses (0, 3, 4) as the rotation center:</p>
@@ -62,7 +61,7 @@ and then translates x by 2.0:</p>
 <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()<span class="pl-k">.</span>translate(center)
               .rotate((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">90.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>)
               .translate(center<span class="pl-k">.</span>negate())
-              .transformPoint(pointToRotate);</pre></div>
+              .transformPosition(pointToRotate);</pre></div>
 
 <p>The vector <em>pointToRotate</em> will now represent (0, 3, 5).</p>
 
@@ -80,7 +79,7 @@ One such common decomposition are the <em>projection</em> and <em>modelview</em>
 <span class="pl-smi">Vector3f</span> point <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">1.0f</span>, <span class="pl-c1">2.0f</span>, <span class="pl-c1">3.0f</span>);
 <span class="pl-smi">Vector3f</span> offset <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Vector3f</span>(<span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>);
 <span class="pl-c1">...</span>
-m<span class="pl-k">.</span>translation(offset)<span class="pl-k">.</span>transformPoint(point);</pre></div>
+m<span class="pl-k">.</span>translation(offset)<span class="pl-k">.</span>transformPosition(point);</pre></div>
 
 <p>In the above example, the matrix <em>m</em> is being set to a translation, instead of applying the translation to it.
 These methods are useful when the same matrix is being used in a sequence of consecutive operations or repeatedly in a loop without having to set it to the identity each time.</p>
@@ -131,6 +130,15 @@ glUniformMatrix4fv(mat4Location, <span class="pl-c1">false</span>, fb);</pre></d
 
 <p>The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method <a href="http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv%28int,%20boolean,%20java.nio.FloatBuffer%29"><em>glUniformMatrix4fv</em></a>.</p>
 
+<p>Instead of using the uniform methods, one or multiple matrices can also be uploaded to an OpenGL buffer object and then sourced from that buffer object from within a shader when used as an uniform buffer object or a shader storage buffer object.
+The following uploads a matrix to an OpenGL buffer object which can then be used as an uniform buffer object in a shader:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- the matrix to upload</span>
+<span class="pl-k">int</span> ubo <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- name of a created and already initialized UBO</span>
+<span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
+glBindBuffer(<span class="pl-c1">GL_UNIFORM_BUFFER</span>, ubo);
+glBufferSubData(<span class="pl-c1">GL_UNIFORM_BUFFER</span>, <span class="pl-c1">0</span>, m<span class="pl-k">.</span>get(fb));</pre></div>
+
 <p>If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call <a href="http://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf%28java.nio.FloatBuffer%29"><em>glLoadMatrixf()</em></a> provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
@@ -151,7 +159,7 @@ glLoadMatrixf(fb);</pre></div>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-c1">...</span>;
 <span class="pl-smi">VkDevice</span> device <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- the vulkan device</span>
-<span class="pl-k">long</span> memory <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- address of the vulkan device memory</span>
+<span class="pl-k">long</span> memory <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- handle to the vulkan device memory</span>
 <span class="pl-smi">PointerBuffer</span> pb <span class="pl-k">=</span> <span class="pl-smi">MemoryUtil</span><span class="pl-k">.</span>memAllocPointer(<span class="pl-c1">1</span>);
 <span class="pl-k">if</span> (vkMapMemory(device, memory, <span class="pl-c1">0</span>, <span class="pl-c1">16</span> <span class="pl-k">&lt;&lt;</span> <span class="pl-c1">2</span>, <span class="pl-c1">0</span>, pb) <span class="pl-k">==</span> <span class="pl-c1">VK_SUCCESS</span>) {
   m<span class="pl-k">.</span>get(<span class="pl-smi">MemoryUtil</span><span class="pl-k">.</span>memByteBuffer(pb<span class="pl-k">.</span>get(<span class="pl-c1">0</span>), <span class="pl-c1">16</span> <span class="pl-k">&lt;&lt;</span> <span class="pl-c1">2</span>));
@@ -159,12 +167,26 @@ glLoadMatrixf(fb);</pre></div>
 }
 <span class="pl-smi">MemoryUtil</span><span class="pl-k">.</span>memFree(pb);</pre></div>
 
-<p>Since Vulkan uses a clip space z range between <em>0 &lt;= z &lt;= w</em> you need to use the following code now to build a Vulkan-compatible perspective projection matrix:</p>
+<p>Since Vulkan uses a clip space z range between <em>0 &lt;= z &lt;= w</em> you need to tell JOML about it when creating a projection matrix. For this, the projection methods on the Matrix4f class have an additional overload taking a boolean parameter to indicate whether Z should be within [0..1] like in Vulkan or [-1..+1] like in OpenGL. The existing method overload without that parameter will default to OpenGL behaviour.</p>
+
+<p>Alternatively, you can use Vulkan's Push Constants to quickly upload a matrix in a shader push-constant when recording a command buffer. The following code updates a Matrix4f used as a push-constant in the vertex shader:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-c1">...</span>;
+<span class="pl-smi">VkCommandBuffer</span> cmdBuf <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- the VkCommandBuffer</span>
+<span class="pl-k">long</span> layout <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- handle to a Vulkan VkPipelineLayout</span>
+<span class="pl-smi">ByteBuffer</span> bb <span class="pl-k">=</span> <span class="pl-smi">MemoryUtil</span><span class="pl-k">.</span>memAlloc(<span class="pl-c1">16</span> <span class="pl-k">&lt;&lt;</span> <span class="pl-c1">2</span>);
+vkCmdPushConstants(cmdBuf, layout, <span class="pl-c1">VK_SHADER_STAGE_VERTEX_BIT</span>, <span class="pl-c1">0</span>, m<span class="pl-k">.</span>get(bb));
+<span class="pl-smi">MemoryUtil</span><span class="pl-k">.</span>memFree(bb);</pre></div>
+
+<p>Also, care must be taken regarding the difference between Vulkan's viewport transformation on the one side and Direct3D's and OpenGL's different viewport transformation on the other side. Since Vulkan does not perform any inversion of the Y-axis from NDC to window coordinates, NDC space and clip space will have its +Y axis pointing downwards (with regard to the screen).
+In order to account for this, you need to use a premultiplied scaling transformation that inverts the Y-axis.</p>
+
+<p>In essence, to create a projection transformation which will work with Vulkan, use the following code:</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
-m<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>, <span class="pl-c1">true</span>);</pre></div>
-
-<p>The additional boolean parameter indicates whether a Vulkan/Direct3D-compatible tranformation matrix should be generated. The existing method overload without that parameter will default to OpenGL behaviour.</p>
+m<span class="pl-k">.</span>scale(<span class="pl-c1">1.0f</span>, <span class="pl-k">-</span><span class="pl-c1">1.0f</span>, <span class="pl-c1">1.0f</span>) <span class="pl-c">// &lt;- inversion of Y axis</span>
+ .perspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>),
+               <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>, <span class="pl-c1">true</span>); <span class="pl-c">// &lt;- true indicates Z in [0..1]</span></pre></div>
 
 <h2>
 <a id="using-with-jogl" class="anchor" href="#using-with-jogl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using with <a href="http://jogamp.org/jogl/www/">JOGL</a>
