@@ -34,7 +34,7 @@ public class GeometryUtils {
      * Compute two arbitrary vectors perpendicular to the given normalized vector <tt>(x, y, z)</tt>, and store them in <code>dest1</code> and <code>dest2</code>,
      * respectively.
      * <p>
-     * The computed vectors will itself be perpendicular to each another and normalized. So the tree vectors <tt>(x, y, z)</tt>, <code>dest1</code> and
+     * The computed vectors will themselves be perpendicular to each another and normalized. So the tree vectors <tt>(x, y, z)</tt>, <code>dest1</code> and
      * <code>dest2</code> form an orthonormal basis.
      * 
      * @param x
@@ -82,7 +82,7 @@ public class GeometryUtils {
      * Compute two arbitrary vectors perpendicular to the given normalized vector <code>v</code>, and store them in <code>dest1</code> and <code>dest2</code>,
      * respectively.
      * <p>
-     * The computed vectors will itself be perpendicular to each another and normalized. So the tree vectors <code>v</code>, <code>dest1</code> and
+     * The computed vectors will themselves be perpendicular to each another and normalized. So the tree vectors <code>v</code>, <code>dest1</code> and
      * <code>dest2</code> form an orthonormal basis.
      * 
      * @param v
