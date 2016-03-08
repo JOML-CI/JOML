@@ -5823,68 +5823,6 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Project the given <tt>(x, y, z)</tt> position via the given <code>view</code> and <code>projection</code> matrices using the specified viewport
-     * and store the resulting window coordinates in <code>winCoordsDest</code>.
-     * <p>
-     * This method transforms the given coordinates by <code>projection * view</code> including perspective division to 
-     * obtain normalized device coordinates, and then translates these into window coordinates by using the
-     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
-     * <p>
-     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
-     * 
-     * @param x
-     *          the x-coordinate of the position to project
-     * @param y
-     *          the y-coordinate of the position to project
-     * @param z
-     *          the z-coordinate of the position to project
-     * @param projection
-     *          the projection matrix
-     * @param view
-     *          the view matrix
-     * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param winCoordsDest
-     *          will hold the projected window coordinates
-     */
-    public static void project(double x, double y, double z, Matrix4d projection, Matrix4d view, int[] viewport, Vector4d winCoordsDest) {
-        winCoordsDest.set(x, y, z, 1.0);
-        view.transform(winCoordsDest);
-        projection.transform(winCoordsDest);
-        winCoordsDest.div(winCoordsDest.w);
-        winCoordsDest.x = (winCoordsDest.x*0.5+0.5) * viewport[2] + viewport[0];
-        winCoordsDest.y = (winCoordsDest.y*0.5+0.5) * viewport[3] + viewport[1];
-        winCoordsDest.z = (1.0+winCoordsDest.z)*0.5;
-    }
-
-    /**
-     * Project the given <code>position</code> via the given <code>view</code> and <code>projection</code> matrices using the specified viewport
-     * and store the resulting window coordinates in <code>winCoordsDest</code>.
-     * <p>
-     * This method transforms the given coordinates by <code>projection * view</code> including perspective division to 
-     * obtain normalized device coordinates, and then translates these into window coordinates by using the
-     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
-     * <p>
-     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
-     * 
-     * @see #project(double, double, double, Matrix4d, Matrix4d, int[], Vector4d)
-     * 
-     * @param position
-     *          the position to project into window coordinates
-     * @param projection
-     *          the projection matrix
-     * @param view
-     *          the view matrix
-     * @param viewport
-     *          the viewport described by <tt>[x, y, width, height]</tt>
-     * @param winCoordsDest
-     *          will hold the projected window coordinates
-     */
-    public static void project(Vector3d position, Matrix4d projection, Matrix4d view, int[] viewport, Vector4d winCoordsDest) {
-        project(position.x, position.y, position.z, projection, view, viewport, winCoordsDest);
-    }
-
-    /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
      * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt> and store the result in <code>dest</code>.
      * <p>
