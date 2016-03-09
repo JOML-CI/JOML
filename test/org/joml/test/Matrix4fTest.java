@@ -331,7 +331,7 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(r, n, 1E-8f);
     }
 
-    public static void testInvert4x3() {
+    public static void testInvertAffine() {
         Matrix4f invm = new Matrix4f();
         Matrix4f m = new Matrix4f();
         m.rotateX(1.2f).rotateY(0.2f).rotateZ(0.1f).translate(1, 2, 3).invertAffine(invm);
@@ -377,19 +377,19 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public static void testRotateXYZ4x3() {
+    public static void testRotateAffineXYZ() {
         Matrix4f m = new Matrix4f().rotateX(0.12f).rotateY(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateAffineXYZ(0.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public static void testRotateZYX4x3() {
+    public static void testRotateAffineZYX() {
         Matrix4f m = new Matrix4f().rotateZ(1.12f).rotateY(0.0623f).rotateX(0.95f);
         Matrix4f n = new Matrix4f().rotateAffineZYX(1.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
-    public static void testRotateYXZ4x3() {
+    public static void testRotateAffineYXZ() {
         Matrix4f m = new Matrix4f().rotateY(1.12f).rotateX(0.0623f).rotateZ(0.95f);
         Matrix4f n = new Matrix4f().rotateAffineYXZ(1.12f, 0.0623f, 0.95f);
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
