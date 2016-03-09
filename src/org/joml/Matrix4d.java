@@ -682,7 +682,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>this</code>.
      * <p>
      * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
@@ -696,12 +696,12 @@ public class Matrix4d implements Externalizable {
      *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
      * @return this
      */
-    public Matrix4d mul4x3r(Matrix4d right) {
-       return mul4x3r(right, this);
+    public Matrix4d mulAffineR(Matrix4d right) {
+       return mulAffineR(right, this);
     }
 
     /**
-     * Multiply this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
      * <p>
      * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
@@ -717,7 +717,7 @@ public class Matrix4d implements Externalizable {
      *          the destination matrix, which will hold the result
      * @return dest
      */
-    public Matrix4d mul4x3r(Matrix4d right, Matrix4d dest) {
+    public Matrix4d mulAffineR(Matrix4d right, Matrix4d dest) {
         dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
                  m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
                  m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
@@ -738,7 +738,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>this</code>.
      * <p>
      * This method assumes that <code>this</code> matrix and the given <code>right</code> matrix both represent an {@link #isAffine() affine} transformation
      * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
@@ -755,12 +755,12 @@ public class Matrix4d implements Externalizable {
      *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
      * @return this
      */
-    public Matrix4d mul4x3(Matrix4d right) {
-       return mul4x3(right, this);
+    public Matrix4d mulAffine(Matrix4d right) {
+       return mulAffine(right, this);
     }
 
     /**
-     * Multiply the top 4x3 submatrix of this matrix by the top 4x3 submatrix of the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
      * <p>
      * This method assumes that <code>this</code> matrix and the given <code>right</code> matrix both represent an {@link #isAffine() affine} transformation
      * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
@@ -779,7 +779,7 @@ public class Matrix4d implements Externalizable {
      *          the destination matrix, which will hold the result
      * @return dest
      */
-    public Matrix4d mul4x3(Matrix4d right, Matrix4d dest) {
+    public Matrix4d mulAffine(Matrix4d right, Matrix4d dest) {
         dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
                  m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
                  m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
@@ -1418,9 +1418,9 @@ public class Matrix4d implements Externalizable {
      * Return the determinant of this matrix.
      * <p>
      * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
-     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #determinant4x3()} can be used instead of this method.
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #determinantAffine()} can be used instead of this method.
      * 
-     * @see #determinant4x3()
+     * @see #determinantAffine()
      * 
      * @return the determinant
      */
@@ -1450,7 +1450,7 @@ public class Matrix4d implements Externalizable {
      * 
      * @return the determinant
      */
-    public double determinant4x3() {
+    public double determinantAffine() {
         return (m00 * m11 - m01 * m10) * m22
              + (m02 * m10 - m00 * m12) * m21
              + (m01 * m12 - m02 * m11) * m20;
@@ -1460,9 +1460,9 @@ public class Matrix4d implements Externalizable {
      * Invert this matrix.
      * <p>
      * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
-     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3()} can be used instead of this method.
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invertAffine()} can be used instead of this method.
      * 
-     * @see #invert4x3()
+     * @see #invertAffine()
      * 
      * @return this
      */
@@ -1474,9 +1474,9 @@ public class Matrix4d implements Externalizable {
      * Invert <code>this</code> matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
-     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invert4x3(Matrix4d)} can be used instead of this method.
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invertAffine(Matrix4d)} can be used instead of this method.
      * 
-     * @see #invert4x3(Matrix4d)
+     * @see #invertAffine(Matrix4d)
      * 
      * @param dest
      *             will hold the result
@@ -1524,8 +1524,8 @@ public class Matrix4d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4d invert4x3(Matrix4d dest) {
-        double s = determinant4x3();
+    public Matrix4d invertAffine(Matrix4d dest) {
+        double s = determinantAffine();
         s = 1.0 / s;
         double m10m22 = m10 * m22;
         double m10m21 = m10 * m21;
@@ -1569,8 +1569,8 @@ public class Matrix4d implements Externalizable {
      * 
      * @return this
      */
-    public Matrix4d invert4x3() {
-        return invert4x3(this);
+    public Matrix4d invertAffine() {
+        return invertAffine(this);
     }
 
     /**
@@ -4005,8 +4005,8 @@ public class Matrix4d implements Externalizable {
      *            the angle to rotate about Z
      * @return this
      */
-    public Matrix4d rotateXYZ4x3(double angleX, double angleY, double angleZ) {
-        return rotateXYZ4x3(angleX, angleY, angleZ, this);
+    public Matrix4d rotateAffineXYZ(double angleX, double angleY, double angleZ) {
+        return rotateAffineXYZ(angleX, angleY, angleZ, this);
     }
 
     /**
@@ -4031,7 +4031,7 @@ public class Matrix4d implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix4d rotateXYZ4x3(double angleX, double angleY, double angleZ, Matrix4d dest) {
+    public Matrix4d rotateAffineXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
         double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
         double cosY = Math.cos(angleY);
@@ -4184,8 +4184,8 @@ public class Matrix4d implements Externalizable {
      *            the angle to rotate about X
      * @return this
      */
-    public Matrix4d rotateZYX4x3(double angleZ, double angleY, double angleX) {
-        return rotateZYX4x3(angleZ, angleY, angleX, this);
+    public Matrix4d rotateAffineZYX(double angleZ, double angleY, double angleX) {
+        return rotateAffineZYX(angleZ, angleY, angleX, this);
     }
 
     /**
@@ -4210,7 +4210,7 @@ public class Matrix4d implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix4d rotateZYX4x3(double angleZ, double angleY, double angleX, Matrix4d dest) {
+    public Matrix4d rotateAffineZYX(double angleZ, double angleY, double angleX, Matrix4d dest) {
         double cosZ = Math.cos(angleZ);
         double sinZ = Math.sin(angleZ);
         double cosY = Math.cos(angleY);
@@ -4363,8 +4363,8 @@ public class Matrix4d implements Externalizable {
      *            the angle to rotate about Z
      * @return this
      */
-    public Matrix4d rotateYXZ4x3(double angleY, double angleX, double angleZ) {
-        return rotateYXZ4x3(angleY, angleX, angleZ, this);
+    public Matrix4d rotateAffineYXZ(double angleY, double angleX, double angleZ) {
+        return rotateAffineYXZ(angleY, angleX, angleZ, this);
     }
 
     /**
@@ -4389,7 +4389,7 @@ public class Matrix4d implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix4d rotateYXZ4x3(double angleY, double angleX, double angleZ, Matrix4d dest) {
+    public Matrix4d rotateAffineYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
         double cosY =  Math.cos(angleY);
         double sinY =  Math.sin(angleY);
         double cosX =  Math.cos(angleX);
