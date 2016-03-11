@@ -8390,7 +8390,7 @@ public class Matrix4d implements Externalizable {
      *          will hold the position transformed to the origin
      * @return origin
      */
-    public Vector3d origin(Vector3d origin) {
+    public Vector3d originAffine(Vector3d origin) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
         double d = m01 * m12 - m02 * m11;
@@ -8401,6 +8401,45 @@ public class Matrix4d implements Externalizable {
         origin.y =  m00 * j - m01 * h + m02 * g;
         origin.z = -m30 * d + m31 * b - m32 * a;
         return origin;
+    }
+
+    /**
+     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
+     * This can be used to get the position of the "camera" from a given <i>view/projection</i> transformation matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).invert();
+     * inv.transformPosition(origin.set(0, 0, 0));
+     * </pre>
+     * 
+     * @param origin
+     *          will hold the position transformed to the origin
+     * @return origin
+     */
+    public Vector3d origin(Vector3d origin) {
+        double a = m00 * m11 - m01 * m10;
+        double b = m00 * m12 - m02 * m10;
+        double c = m00 * m13 - m03 * m10;
+        double d = m01 * m12 - m02 * m11;
+        double e = m01 * m13 - m03 * m11;
+        double f = m02 * m13 - m03 * m12;
+        double g = m20 * m31 - m21 * m30;
+        double h = m20 * m32 - m22 * m30;
+        double i = m20 * m33 - m23 * m30;
+        double j = m21 * m32 - m22 * m31;
+        double k = m21 * m33 - m23 * m31;
+        double l = m22 * m33 - m23 * m32;
+        double det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0 / det;
+        double nm30 = (-m10 * j + m11 * h - m12 * g) * det;
+        double nm31 = ( m00 * j - m01 * h + m02 * g) * det;
+        double nm32 = (-m30 * d + m31 * b - m32 * a) * det;
+        double nm33 = ( m20 * d - m21 * b + m22 * a) * det;
+        double x = nm30 / nm33;
+        double y = nm31 / nm33;
+        double z = nm32 / nm33;
+        return origin.set(x, y, z);
     }
 
     /**
