@@ -8107,14 +8107,14 @@ public class Matrix4f implements Externalizable {
         float k = m21 * m33 - m23 * m31;
         float l = m22 * m33 - m23 * m32;
         float det = a * l - b * k + c * j + d * i - e * h + f * g;
-        det = 1.0f / det;
-        float nm30 = (-m10 * j + m11 * h - m12 * g) * det;
-        float nm31 = ( m00 * j - m01 * h + m02 * g) * det;
-        float nm32 = (-m30 * d + m31 * b - m32 * a) * det;
-        float nm33 = ( m20 * d - m21 * b + m22 * a) * det;
-        float x = nm30 / nm33;
-        float y = nm31 / nm33;
-        float z = nm32 / nm33;
+        float invDet = 1.0f / det;
+        float nm30 = (-m10 * j + m11 * h - m12 * g) * invDet;
+        float nm31 = ( m00 * j - m01 * h + m02 * g) * invDet;
+        float nm32 = (-m30 * d + m31 * b - m32 * a) * invDet;
+        float nm33 = det / ( m20 * d - m21 * b + m22 * a);
+        float x = nm30 * nm33;
+        float y = nm31 * nm33;
+        float z = nm32 * nm33;
         return origin.set(x, y, z);
     }
 

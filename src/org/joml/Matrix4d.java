@@ -8431,14 +8431,14 @@ public class Matrix4d implements Externalizable {
         double k = m21 * m33 - m23 * m31;
         double l = m22 * m33 - m23 * m32;
         double det = a * l - b * k + c * j + d * i - e * h + f * g;
-        det = 1.0 / det;
-        double nm30 = (-m10 * j + m11 * h - m12 * g) * det;
-        double nm31 = ( m00 * j - m01 * h + m02 * g) * det;
-        double nm32 = (-m30 * d + m31 * b - m32 * a) * det;
-        double nm33 = ( m20 * d - m21 * b + m22 * a) * det;
-        double x = nm30 / nm33;
-        double y = nm31 / nm33;
-        double z = nm32 / nm33;
+        double invDet = 1.0 / det;
+        double nm30 = (-m10 * j + m11 * h - m12 * g) * invDet;
+        double nm31 = ( m00 * j - m01 * h + m02 * g) * invDet;
+        double nm32 = (-m30 * d + m31 * b - m32 * a) * invDet;
+        double nm33 = det / ( m20 * d - m21 * b + m22 * a);
+        double x = nm30 * nm33;
+        double y = nm31 * nm33;
+        double z = nm32 * nm33;
         return origin.set(x, y, z);
     }
 
