@@ -1552,12 +1552,12 @@ public class Matrix3f implements Externalizable {
      * inv.transform(origin.set(0, 0));
      * </pre>
      * 
-     * @param dest
+     * @param origin
      *          will hold the position transformed to the origin
      * @return origin
      */
-    public Vector2f origin(Vector2f dest) {
-        return dest.set(m10 * m21 - m11 * m20, m01 * m20 - m00 * m21);
+    public Vector2f origin(Vector2f origin) {
+        return origin.set(m10 * m21 - m11 * m20, m01 * m20 - m00 * m21);
     }
 
 }
