@@ -624,6 +624,38 @@ public class Vector2f implements Externalizable {
         return dest;
     }
 
+    /**
+     * Multiply this Vector2f by the given matrix <code>mat</code>, perform perspective division
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>z=1.0</tt> as the fourth vector component.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f mulProject(Matrix3f mat, Vector2f dest) {
+        float invZ = 1.0f / (mat.m02 * x + mat.m12 * y + mat.m22);
+        dest.set((mat.m00 * x + mat.m10 * y + mat.m20) * invZ,
+                 (mat.m01 * x + mat.m11 * y + mat.m21) * invZ);
+        return dest;
+    }
+
+    /**
+     * Multiply this Vector2f by the given matrix <code>mat</code>, perform perspective division.
+     * <p>
+     * This method uses <tt>z=1.0</tt> as the fourth vector component.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector2f mulProject(Matrix3f mat) {
+        return mulProject(mat, this);
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;

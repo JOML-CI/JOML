@@ -994,18 +994,136 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Transform the given vector by this matrix.
+     * Transform/multiply the given vector by this matrix and store the result in that vector.
+     * 
+     * @see Vector3f#mul(Matrix3f)
      * 
      * @param v
-     *          the vector to transform
+     *          the vector to transform and to hold the final result
      * @return v
      */
-    public Vector2f transform(Vector2f v) {
+    public Vector3f transform(Vector3f v) {
         return v.mul(this);
     }
 
     /**
-     * Transform the given vector by this matrix and store the result in <code>dest</code>.
+     * Transform/multiply the given vector by this matrix and store the result in <code>dest</code>.
+     * 
+     * @see Vector3f#mul(Matrix3f, Vector3f)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector3f transform(Vector3f v, Vector3f dest) {
+        return v.mul(this, dest);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
+     * 
+     * @see Vector3f#mulProject(Matrix3f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector3f transformProject(Vector3f v) {
+        return v.mulProject(this);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * 
+     * @see Vector3f#mulProject(Matrix3f, Vector3f)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector3f transformProject(Vector3f v, Vector3f dest) {
+        return v.mulProject(this, dest);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
+     * <p>
+     * This method uses <tt>z=1.0</tt> as the fourth vector component.
+     * 
+     * @see Vector2f#mulProject(Matrix3f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector2f transformProject(Vector2f v) {
+        return v.mulProject(this);
+    }
+
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>z=1.0</tt> as the fourth vector component.
+     * 
+     * @see Vector2f#mulProject(Matrix3f, Vector2f)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector2f transformProject(Vector2f v, Vector2f dest) {
+        return v.mulProject(this, dest);
+    }
+
+    /**
+     * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=1, by
+     * this matrix and store the result in that vector.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
+     * will represent a position/location in 2D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(Vector3f)} or {@link #transformProject(Vector2f)}
+     * when perspective divide should be applied, too.
+     * <p>
+     * In order to store the result in another vector, use {@link #transformPosition(Vector2f, Vector2f)}.
+     * 
+     * @see #transformPosition(Vector2f, Vector2f)
+     * @see #transform(Vector3f)
+     * @see #transformProject(Vector2f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector2f transformPosition(Vector2f v) {
+        v.set(m00 * v.x + m10 * v.y + m20,
+              m01 * v.x + m11 * v.y + m21);
+        return v;
+    }
+
+    /**
+     * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
+     * will represent a position/location in 2D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>z</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(Vector3f, Vector3f)} or
+     * {@link #transformProject(Vector2f, Vector2f)} when perspective divide should be applied, too.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformPosition(Vector2f)}.
+     * 
+     * @see #transformPosition(Vector2f)
+     * @see #transform(Vector3f, Vector3f)
+     * @see #transformProject(Vector2f, Vector2f)
      * 
      * @param v
      *          the vector to transform
@@ -1013,8 +1131,96 @@ public class Matrix3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector2f transform(Vector2f v, Vector2f dest) {
-        return v.mul(this, dest);
+    public Vector2f transformPosition(Vector2f v, Vector2f dest) {
+        dest.set(m00 * v.x + m10 * v.y + m20,
+                 m01 * v.x + m11 * v.y + m21);
+        return dest;
+    }
+
+    /**
+     * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
+     * this matrix and store the result in that vector.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * will represent a direction in 2D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in another vector, use {@link #transformDirection(Vector2f, Vector2f)}.
+     * 
+     * @see #transformDirection(Vector2f, Vector2f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector2f transformDirection(Vector2f v) {
+        v.set(m00 * v.x + m10 * v.y,
+              m01 * v.x + m11 * v.y);
+        return v;
+    }
+
+    /**
+     * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * will represent a direction in 2D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformDirection(Vector2f)}.
+     * 
+     * @see #transformDirection(Vector2f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f transformDirection(Vector2f v, Vector2f dest) {
+        dest.set(m00 * v.x + m10 * v.y,
+                 m01 * v.x + m11 * v.y);
+        return dest;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation
+     * (i.e. its last row is equal to <tt>(0, 0, 1)</tt>).
+     * <p>
+     * In order to store the result in another vector, use {@link #transformAffine(Vector3f, Vector3f)}.
+     * 
+     * @see #transformAffine(Vector3f, Vector3f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    public Vector3f transformAffine(Vector3f v) {
+        v.set(m00 * v.x + m10 * v.y + m20 * v.z,
+              m01 * v.x + m11 * v.y + m21 * v.z,
+              v.z);
+        return v;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation
+     * (i.e. its last row is equal to <tt>(0, 0, 1)</tt>) and store the result in <code>dest</code>.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformAffine(Vector3f)}.
+     * 
+     * @see #transformAffine(Vector3f)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transformAffine(Vector3f v, Vector3f dest) {
+        dest.set(m00 * v.x + m10 * v.y + m20 * v.z,
+                 m01 * v.x + m11 * v.y + m21 * v.z,
+                 v.z);
+        return dest;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -1323,6 +1529,35 @@ public class Matrix3f implements Externalizable {
         m21 = (bottom + top) / (bottom - top);
         m22 = -1.0f;
         return this;
+    }
+
+    /**
+     * Determine whether this matrix describes an affine transformation. This is the case iff its last row is equal to <tt>(0, 0, 1)</tt>.
+     * 
+     * @return <code>true</code> iff this matrix is affine; <code>false</code> otherwise
+     */
+    public boolean isAffine() {
+        return m02 == 0.0f && m12 == 0.0f && m22 == 1.0f;
+    }
+
+    /**
+     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
+     * This can be used to get the position of the "camera" from a given <i>view</i> transformation matrix.
+     * <p>
+     * This method only works with {@link #isAffine() affine} matrices.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix3f inv = new Matrix3f(this).invertAffine();
+     * inv.transform(origin.set(0, 0, 0));
+     * </pre>
+     * 
+     * @param dest
+     *          will hold the position transformed to the origin
+     * @return origin
+     */
+    public Vector2f origin(Vector2f dest) {
+        return dest.set(m10 * m21 - m11 * m20, m01 * m20 - m00 * m21);
     }
 
 }
