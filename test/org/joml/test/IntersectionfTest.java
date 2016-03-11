@@ -18,11 +18,11 @@ public class IntersectionfTest extends TestCase {
         Vector2f dir = new Vector2f(1, 0);
         Vector2f center = new Vector2f(5, 0);
         float radiusSquared = 1.0f;
-        float[] result = new float[2];
+        Vector2f result = new Vector2f();
         boolean intersect = Intersectionf.intersectRayCircle(origin, dir, center, radiusSquared, result);
         assertTrue(intersect);
-        assertEquals(4.0f, result[0], 1E-6f);
-        assertEquals(6.0f, result[1], 1E-6f);
+        assertEquals(4.0f, result.x, 1E-6f);
+        assertEquals(6.0f, result.y, 1E-6f);
     }
 
     public static void testIntersectRayLine() {

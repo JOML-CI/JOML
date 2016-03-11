@@ -15,7 +15,7 @@ import java.util.List;
  * <p>
  * Additionally this algorithm is able to handle a set of (overlapping/intersecting) polygons.
  * <p>
- * The method {@link #pointInPolygon(float, float)} in this class is <i>not</i> thread-safe!
+ * The method {@link #pointInPolygons(float, float)} in this class is <i>not</i> thread-safe!
  * <p>
  * Reference: <a href="http://alienryderflex.com/polygon/">http://alienryderflex.com</a>
  * 
