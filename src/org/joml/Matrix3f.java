@@ -652,6 +652,96 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed(FloatBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
+        buffer.put(index,    m00);
+        buffer.put(index+1,  m10);
+        buffer.put(index+2,  m20);
+        buffer.put(index+3,  m01);
+        buffer.put(index+4,  m11);
+        buffer.put(index+5,  m21);
+        buffer.put(index+6,  m02);
+        buffer.put(index+7,  m12);
+        buffer.put(index+8, m22);
+        return buffer;
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed(ByteBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
+        buffer.putFloat(index,    m00);
+        buffer.putFloat(index+4,  m10);
+        buffer.putFloat(index+8,  m20);
+        buffer.putFloat(index+12, m01);
+        buffer.putFloat(index+16, m11);
+        buffer.putFloat(index+20, m21);
+        buffer.putFloat(index+24, m02);
+        buffer.putFloat(index+28, m12);
+        buffer.putFloat(index+32, m22);
+        return buffer;
+    }
+
+    /**
      * Set the values of this matrix by reading 9 float values from the given {@link FloatBuffer} in column-major order,
      * starting at its current position.
      * <p>
@@ -692,14 +782,14 @@ public class Matrix3f implements Externalizable {
     public Matrix3f set(ByteBuffer buffer) {
         int pos = buffer.position();
         m00 = buffer.getFloat(pos);
-        m01 = buffer.getFloat(pos+4);
-        m02 = buffer.getFloat(pos+8);
-        m10 = buffer.getFloat(pos+12);
-        m11 = buffer.getFloat(pos+16);
-        m12 = buffer.getFloat(pos+20);
-        m20 = buffer.getFloat(pos+24);
-        m21 = buffer.getFloat(pos+28);
-        m22 = buffer.getFloat(pos+32);
+        m01 = buffer.getFloat(pos+4*1);
+        m02 = buffer.getFloat(pos+4*2);
+        m10 = buffer.getFloat(pos+4*3);
+        m11 = buffer.getFloat(pos+4*4);
+        m12 = buffer.getFloat(pos+4*5);
+        m20 = buffer.getFloat(pos+4*6);
+        m21 = buffer.getFloat(pos+4*7);
+        m22 = buffer.getFloat(pos+4*8);
         return this;
     }
 
@@ -908,11 +998,10 @@ public class Matrix3f implements Externalizable {
      * 
      * @param v
      *          the vector to transform
-     * @return this
+     * @return v
      */
-    public Matrix3f transform(Vector2f v) {
-        v.mul(this);
-        return this;
+    public Vector2f transform(Vector2f v) {
+        return v.mul(this);
     }
 
     /**
@@ -925,8 +1014,7 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Vector2f transform(Vector2f v, Vector2f dest) {
-        v.mul(this, dest);
-        return dest;
+        return v.mul(this, dest);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -1164,8 +1252,8 @@ public class Matrix3f implements Externalizable {
         // calculate right matrix elements
         float rm00 = 2.0f / (right - left);
         float rm11 = 2.0f / (top - bottom);
-        float rm20 = -(right + left) / (right - left);
-        float rm21 = -(top + bottom) / (top - bottom);
+        float rm20 = (left + right) / (left - right);
+        float rm21 = (bottom + top) / (bottom - top);
         float rm22 = -1.0f;
 
         // perform optimized multiplication
@@ -1231,8 +1319,8 @@ public class Matrix3f implements Externalizable {
         m10 = 0.0f;
         m11 = 2.0f / (top - bottom);
         m12 = 0.0f;
-        m20 = -(right + left) / (right - left);
-        m21 = -(top + bottom) / (top - bottom);
+        m20 = (left + right) / (left - right);
+        m21 = (bottom + top) / (bottom - top);
         m22 = -1.0f;
         return this;
     }
