@@ -1549,7 +1549,7 @@ public class Matrix3f implements Externalizable {
      * This method is equivalent to the following code:
      * <pre>
      * Matrix3f inv = new Matrix3f(this).invertAffine();
-     * inv.transform(origin.set(0, 0, 0));
+     * inv.transform(origin.set(0, 0));
      * </pre>
      * 
      * @param dest
