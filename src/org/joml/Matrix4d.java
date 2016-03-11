@@ -8375,12 +8375,14 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
+     * Obtain the position that gets transformed to the origin by <code>this</code> {@link #isAffine() affine} matrix.
      * This can be used to get the position of the "camera" from a given <i>view</i> transformation matrix.
+     * <p>
+     * This method only works with {@link #isAffine() affine} matrices.
      * <p>
      * This method is equivalent to the following code:
      * <pre>
-     * Matrix4d inv = new Matrix4d(this).invert();
+     * Matrix4f inv = new Matrix4f(this).invertAffine();
      * inv.transformPosition(origin.set(0, 0, 0));
      * </pre>
      * 
