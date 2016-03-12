@@ -27,10 +27,10 @@ Using JOML you can build matrices out of basic transformations, such as scale, t
 The following example builds a transformation matrix which effectively first scales all axes by 0.5
 and then translates x by 2.0:
 ```Java
-Vector2f v = ...;
+Vector2f v = ...; // <- some position to transform
 new Matrix3f().translate(2.0f, 0.0f)
               .scale(0.5f);
-              .transform(v);
+              .transformPosition(v);
 // v is now transformed by the specified transformation
 ```
 
@@ -41,7 +41,7 @@ Vector2f pointToRotate = new Vector2f(0.0f, 3.0f);
 new Matrix3f().translate(center)
               .rotate((float) Math.toRadians(90.0f))
               .translate(center.negate())
-              .transform(pointToRotate);
+              .transformPosition(pointToRotate);
 ```
 The vector *pointToRotate* will now represent (0, -3).
 
@@ -58,7 +58,7 @@ Matrix3f m = new Matrix3f();
 Vector2f point = new Vector2f(1.0f, 2.0f);
 Vector2f offset = new Vector2f(1.0f, 0.0f);
 ...
-m.translation(offset).transform(point);
+m.translation(offset).transformPosition(point);
 ```
 In the above example, the matrix _m_ is being set to a translation, instead of applying the translation to it.
 These methods are useful when the same matrix is being used in a sequence of consecutive operations or repeatedly in a loop without having to set it to the identity each time.
