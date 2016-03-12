@@ -1,13 +1,13 @@
 module JOML {
-    export class Vector2f {
+    export class Vector2 {
         x: number;
         y: number;
 
         constructor();
         constructor(x: number, y: number);
-        constructor(v: Vector2f);
-        constructor(vx?: (Vector2f | number), y?: number) {
-            if (vx instanceof Vector2f) {
+        constructor(v: Vector2);
+        constructor(vx?: (Vector2 | number), y?: number) {
+            if (vx instanceof Vector2) {
                 this.x = vx.x;
                 this.y = vx.y;
             } else if (typeof (vx) === "number") {
@@ -19,10 +19,10 @@ module JOML {
             }
         }
 
-        add(x: number, y: number): Vector2f;
-        add(v: Vector2f): Vector2f;
-        add(vx: (Vector2f | number), y?: number): Vector2f {
-            if (vx instanceof Vector2f) {
+        add(x: number, y: number): Vector2;
+        add(v: Vector2): Vector2;
+        add(vx: (Vector2 | number), y?: number): Vector2 {
+            if (vx instanceof Vector2) {
                 this.x += vx.x;
                 this.y += vx.y;
             } else {
@@ -32,7 +32,7 @@ module JOML {
             return this;
         }
 
-        set(x: number, y: number): Vector2f {
+        set(x: number, y: number): Vector2 {
             this.x = x;
             this.y = y;
             return this;
