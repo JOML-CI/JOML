@@ -1578,14 +1578,14 @@ public class Matrix3f implements Externalizable {
         float rm11 =  m00 * s;
         float rm20 = (m10 * m21 - m20 * m11) * s;
         float rm21 = (m20 * m01 - m00 * m21) * s;
-        float nxnyX = -rm00 - rm10 + rm20;
-        float nxnyY = -rm01 - rm11 + rm21;
-        float pxnyX =  rm00 - rm10 + rm20;
-        float pxnyY =  rm01 - rm11 + rm21;
-        float nxpyX = -rm00 + rm10 + rm20;
-        float nxpyY = -rm01 + rm11 + rm21;
-        float pxpyX =  rm00 + rm10 + rm20;
-        float pxpyY =  rm01 + rm11 + rm21;
+        float nxnyX = -rm00 - rm10;
+        float nxnyY = -rm01 - rm11;
+        float pxnyX =  rm00 - rm10;
+        float pxnyY =  rm01 - rm11;
+        float nxpyX = -rm00 + rm10;
+        float nxpyY = -rm01 + rm11;
+        float pxpyX =  rm00 + rm10;
+        float pxpyY =  rm01 + rm11;
         float minX = nxnyX;
         minX = minX < nxpyX ? minX : nxpyX;
         minX = minX < pxnyX ? minX : pxnyX;
@@ -1602,10 +1602,10 @@ public class Matrix3f implements Externalizable {
         maxY = maxY > nxpyY ? maxY : nxpyY;
         maxY = maxY > pxnyY ? maxY : pxnyY;
         maxY = maxY > pxpyY ? maxY : pxpyY;
-        area[0] = minX;
-        area[1] = minY;
-        area[2] = maxX;
-        area[3] = maxY;
+        area[0] = minX + rm20;
+        area[1] = minY + rm21;
+        area[2] = maxX + rm20;
+        area[3] = maxY + rm21;
         return area;
     }
 
