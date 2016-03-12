@@ -1560,4 +1560,53 @@ public class Matrix3f implements Externalizable {
         return origin.set(m10 * m21 - m11 * m20, m01 * m20 - m00 * m21);
     }
 
+    /**
+     * Obtain the extents of the view transformation of <code>this</code> matrix and store it in <code>area</code>.
+     * This can be used to determine which region of the screen (i.e. the NDC space) is covered by the view.
+     * <p>
+     * This method only works with {@link #isAffine() affine} matrices.
+     * 
+     * @param area
+     *          will hold the view area as <tt>[minX, minY, maxX, maxY]</tt>
+     * @return area
+     */
+    public float[] viewArea(float[] area) {
+        float s = 1.0f / (m00 * m11 - m01 * m10);
+        float rm00 =  m11 * s;
+        float rm01 = -m01 * s;
+        float rm10 = -m10 * s;
+        float rm11 =  m00 * s;
+        float rm20 = (m10 * m21 - m20 * m11) * s;
+        float rm21 = (m20 * m01 - m00 * m21) * s;
+        float nxnyX = -rm00 - rm10 + rm20;
+        float nxnyY = -rm01 - rm11 + rm21;
+        float pxnyX =  rm00 - rm10 + rm20;
+        float pxnyY =  rm01 - rm11 + rm21;
+        float nxpyX = -rm00 + rm10 + rm20;
+        float nxpyY = -rm01 + rm11 + rm21;
+        float pxpyX =  rm00 + rm10 + rm20;
+        float pxpyY =  rm01 + rm11 + rm21;
+        float minX = nxnyX;
+        minX = minX < nxpyX ? minX : nxpyX;
+        minX = minX < pxnyX ? minX : pxnyX;
+        minX = minX < pxpyX ? minX : pxpyX;
+        float minY = nxnyY;
+        minY = minY < nxpyY ? minY : nxpyY;
+        minY = minY < pxnyY ? minY : pxnyY;
+        minY = minY < pxpyY ? minY : pxpyY;
+        float maxX = nxnyX;
+        maxX = maxX > nxpyX ? maxX : nxpyX;
+        maxX = maxX > pxnyX ? maxX : pxnyX;
+        maxX = maxX > pxpyX ? maxX : pxpyX;
+        float maxY = nxnyY;
+        maxY = maxY > nxpyY ? maxY : nxpyY;
+        maxY = maxY > pxnyY ? maxY : pxnyY;
+        maxY = maxY > pxpyY ? maxY : pxpyY;
+        area[0] = minX;
+        area[1] = minY;
+        area[2] = maxX;
+        area[3] = maxY;
+        return area;
+    }
+
 }
