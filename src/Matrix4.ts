@@ -110,7 +110,7 @@ module JOML {
             return this;
         }
 
-        determinant():number {
+        determinant(): number {
             return (this.m00 * this.m11 - this.m01 * this.m10) * (this.m22 * this.m33 - this.m23 * this.m32)
                  + (this.m02 * this.m10 - this.m00 * this.m12) * (this.m21 * this.m33 - this.m23 * this.m31)
                  + (this.m00 * this.m13 - this.m03 * this.m10) * (this.m21 * this.m32 - this.m22 * this.m31)
@@ -119,7 +119,7 @@ module JOML {
                  + (this.m02 * this.m13 - this.m03 * this.m12) * (this.m20 * this.m31 - this.m21 * this.m30);
         }
 
-        determinant3x3():number {
+        determinant3x3(): number {
             return (this.m00 * this.m11 - this.m01 * this.m10) * this.m22
                  + (this.m02 * this.m10 - this.m00 * this.m12) * this.m21
                  + (this.m01 * this.m12 - this.m02 * this.m11) * this.m20;
@@ -141,22 +141,22 @@ module JOML {
             var l = this.m22 * this.m33 - this.m23 * this.m32;
             var det = a * l - b * k + c * j + d * i - e * h + f * g;
             det = 1.0 / det;
-            dest.set((this.m11 * l - this.m12 * k + this.m13 * j) * det,
-                (-this.m01 * l + this.m02 * k - this.m03 * j) * det,
-                ( this.m31 * f - this.m32 * e + this.m33 * d) * det,
-                (-this.m21 * f + this.m22 * e - this.m23 * d) * det,
-                (-this.m10 * l + this.m12 * i - this.m13 * h) * det,
-                ( this.m00 * l - this.m02 * i + this.m03 * h) * det,
-                (-this.m30 * f + this.m32 * c - this.m33 * b) * det,
-                ( this.m20 * f - this.m22 * c + this.m23 * b) * det,
-                ( this.m10 * k - this.m11 * i + this.m13 * g) * det,
-                (-this.m00 * k + this.m01 * i - this.m03 * g) * det,
-                ( this.m30 * e - this.m31 * c + this.m33 * a) * det,
-                (-this.m20 * e + this.m21 * c - this.m23 * a) * det,
-                (-this.m10 * j + this.m11 * h - this.m12 * g) * det,
-                ( this.m00 * j - this.m01 * h + this.m02 * g) * det,
-                (-this.m30 * d + this.m31 * b - this.m32 * a) * det,
-                ( this.m20 * d - this.m21 * b + this.m22 * a) * det);
+            dest.set(( this.m11 * l - this.m12 * k + this.m13 * j) * det,
+                     (-this.m01 * l + this.m02 * k - this.m03 * j) * det,
+                     ( this.m31 * f - this.m32 * e + this.m33 * d) * det,
+                     (-this.m21 * f + this.m22 * e - this.m23 * d) * det,
+                     (-this.m10 * l + this.m12 * i - this.m13 * h) * det,
+                     ( this.m00 * l - this.m02 * i + this.m03 * h) * det,
+                     (-this.m30 * f + this.m32 * c - this.m33 * b) * det,
+                     ( this.m20 * f - this.m22 * c + this.m23 * b) * det,
+                     ( this.m10 * k - this.m11 * i + this.m13 * g) * det,
+                     (-this.m00 * k + this.m01 * i - this.m03 * g) * det,
+                     ( this.m30 * e - this.m31 * c + this.m33 * a) * det,
+                     (-this.m20 * e + this.m21 * c - this.m23 * a) * det,
+                     (-this.m10 * j + this.m11 * h - this.m12 * g) * det,
+                     ( this.m00 * j - this.m01 * h + this.m02 * g) * det,
+                     (-this.m30 * d + this.m31 * b - this.m32 * a) * det,
+                     ( this.m20 * d - this.m21 * b + this.m22 * a) * det);
             return dest;
         }
 
@@ -183,21 +183,21 @@ module JOML {
             var m22m01 = this.m22 * this.m01;
             var m22m00 = this.m22 * this.m00;
             dest.set((m11m22 - m12m21) * s,
-                (m21m02 - m22m01) * s,
-                (m12m01 - m11m02) * s,
-                0.0,
-                (m12m20 - m10m22) * s,
-                (m22m00 - m20m02) * s,
-                (m10m02 - m12m00) * s,
-                0.0,
-                (m10m21 - m11m20) * s,
-                (m20m01 - m21m00) * s,
-                (m11m00 - m10m01) * s,
-                0.0,
-                (m10m22 * this.m31 - m10m21 * this.m32 + m11m20 * this.m32 - m11m22 * this.m30 + m12m21 * this.m30 - m12m20 * this.m31) * s,
-                (m20m02 * this.m31 - m20m01 * this.m32 + m21m00 * this.m32 - m21m02 * this.m30 + m22m01 * this.m30 - m22m00 * this.m31) * s,
-                (m11m02 * this.m30 - m12m01 * this.m30 + m12m00 * this.m31 - m10m02 * this.m31 + m10m01 * this.m32 - m11m00 * this. m32) * s,
-                1.0);
+                     (m21m02 - m22m01) * s,
+                     (m12m01 - m11m02) * s,
+                     0.0,
+                     (m12m20 - m10m22) * s,
+                     (m22m00 - m20m02) * s,
+                     (m10m02 - m12m00) * s,
+                     0.0,
+                     (m10m21 - m11m20) * s,
+                     (m20m01 - m21m00) * s,
+                     (m11m00 - m10m01) * s,
+                     0.0,
+                     (m10m22 * this.m31 - m10m21 * this.m32 + m11m20 * this.m32 - m11m22 * this.m30 + m12m21 * this.m30 - m12m20 * this.m31) * s,
+                     (m20m02 * this.m31 - m20m01 * this.m32 + m21m00 * this.m32 - m21m02 * this.m30 + m22m01 * this.m30 - m22m00 * this.m31) * s,
+                     (m11m02 * this.m30 - m12m01 * this.m30 + m12m00 * this.m31 - m10m02 * this.m31 + m10m01 * this.m32 - m11m00 * this.m32) * s,
+                     1.0);
             return dest;
         }
 
@@ -242,7 +242,7 @@ module JOML {
             return this;
         }
 
-        rotation(angle:number, x:number, y:number, z:number): Matrix4 {
+        rotation(angle: number, x: number, y: number, z: number): Matrix4 {
             var cos = Math.cos(angle);
             var sin = Math.sin(angle);
             var C = 1.0 - cos;
@@ -300,7 +300,7 @@ module JOML {
             return this;
         }
 
-        rotationY(ang:number): Matrix4 {
+        rotationY(ang: number): Matrix4 {
             var sin: number, cos: number;
             if (ang == Math.PI || ang == -Math.PI) {
                 cos = -1.0;
@@ -427,7 +427,7 @@ module JOML {
             this.m33 = 1.0;
             return this;
         }
-        
+
         transform(v: Vector4, dest?: Vector4): Vector4 {
             dest = dest || v;
             dest.set(this.m00 * v.x + this.m10 * v.y + this.m20 * v.z + this.m30 * v.w,
@@ -442,7 +442,7 @@ module JOML {
         transformProject(v: any, dest?: any): any {
             dest = dest || v;
             if (v instanceof Vector4) {
-                var d: Vector4 = <Vector4> dest;
+                var d: Vector4 = <Vector4>dest;
                 var invW = 1.0 / (this.m03 * v.x + this.m13 * v.y + this.m23 * v.z + this.m33 * v.w);
                 d.set((this.m00 * v.x + this.m10 * v.y + this.m20 * v.z + this.m30 * v.w) * invW,
                       (this.m01 * v.x + this.m11 * v.y + this.m21 * v.z + this.m31 * v.w) * invW,
@@ -634,8 +634,20 @@ module JOML {
             return dest;
         }
 
-        rotate(ang: number, x: number, y: number, z: number, dest?: Matrix4): Matrix4 {
+        rotate(ang: number, axis: Vector3, dest?: Matrix4): Matrix4
+        rotate(ang: number, x: number, y: number, z: number, dest?: Matrix4): Matrix4;
+        rotate(ang: number, axisX: any, destY?: any, zParam?: number, dest?: Matrix4): Matrix4 {
             dest = dest || this;
+            var x, y, z;
+            if (axisX instanceof Vector3) {
+                x = axisX.x;
+                y = axisX.y;
+                z = axisX.z;
+            } else {
+                x = <number>axisX;
+                y = <number>destY;
+                z = zParam;
+            }
             var s = Math.sin(ang);
             var c = Math.cos(ang);
             var C = 1.0 - c;
@@ -715,8 +727,17 @@ module JOML {
             return dest;
         }
 
-        ortho(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number, zZeroToOne: boolean, dest?: Matrix4): Matrix4 {
-            dest = dest || this;
+        ortho(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number, dest?: Matrix4): Matrix4;
+        ortho(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number, zZeroToOne: boolean, dest?: Matrix4): Matrix4
+        ortho(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number, zZeroToOneDest: any, otherDest?: Matrix4): Matrix4 {
+            var dest: Matrix4, zZeroToOne: boolean;
+            if (typeof (zZeroToOneDest) === 'boolean') {
+                dest = otherDest || this;
+                zZeroToOne = <boolean>zZeroToOneDest;
+            } else {
+                dest = zZeroToOneDest || this;
+                zZeroToOne = false;
+            }
             var rm00 = 2.0 / (right - left);
             var rm11 = 2.0 / (top - bottom);
             var rm22 = (zZeroToOne ? 1.0 : 2.0) / (zNear - zFar);
@@ -848,9 +869,17 @@ module JOML {
             dest.m13 = nm13;
             return dest;
         }
-
-        perspective(fovy: number, aspect: number, zNear: number, zFar: number, zZeroToOne: boolean, dest?: Matrix4): Matrix4 {
-            dest = dest || this;
+        perspective(fovy: number, aspect: number, zNear: number, zFar: number, dest?: Matrix4): Matrix4;
+        perspective(fovy: number, aspect: number, zNear: number, zFar: number, zZeroToOne: boolean, dest?: Matrix4): Matrix4;
+        perspective(fovy: number, aspect: number, zNear: number, zFar: number, zZeroToOneDest: any, otherDest?: Matrix4): Matrix4 {
+            var dest: Matrix4, zZeroToOne: boolean;
+            if (typeof (zZeroToOneDest) === 'boolean') {
+                dest = otherDest || this;
+                zZeroToOne = <boolean>zZeroToOneDest;
+            } else {
+                dest = zZeroToOneDest || this;
+                zZeroToOne = false;
+            }
             var h = Math.tan(fovy * 0.5);
             var rm00 = 1.0 / (h * aspect);
             var rm11 = 1.0 / h;
@@ -893,8 +922,17 @@ module JOML {
             return dest;
         }
 
-        frustum(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number, zZeroToOne: boolean, dest?: Matrix4): Matrix4 {
-            dest = dest || this;
+        frustum(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number, dest?: Matrix4): Matrix4;
+        frustum(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number, zZeroToOne: boolean, dest?: Matrix4): Matrix4;
+        frustum(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number, zZeroToOneDest: any, otherDest?: Matrix4): Matrix4 {
+            var dest: Matrix4, zZeroToOne: boolean;
+            if (typeof (zZeroToOneDest) === 'boolean') {
+                dest = otherDest || this;
+                zZeroToOne = <boolean>zZeroToOneDest;
+            } else {
+                dest = zZeroToOneDest || this;
+                zZeroToOne = false;
+            }
             var rm00 = (zNear + zNear) / (right - left);
             var rm11 = (zNear + zNear) / (top - bottom);
             var rm20 = (right + left) / (right - left);
