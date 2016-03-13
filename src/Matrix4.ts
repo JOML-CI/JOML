@@ -591,7 +591,7 @@ module JOML {
             return dest;
         }
 
-        rotateZ(ang: number, dest: Matrix4): Matrix4 {
+        rotateZ(ang: number, dest?: Matrix4): Matrix4 {
             dest = dest || this;
             var sin: number, cos: number;
             if (ang == Math.PI || ang == -Math.PI) {
@@ -849,7 +849,7 @@ module JOML {
             return dest;
         }
 
-        perspective(fovy: number, aspect: number, zNear: number, zFar: number, zZeroToOne: number, dest?: Matrix4): Matrix4 {
+        perspective(fovy: number, aspect: number, zNear: number, zFar: number, zZeroToOne: boolean, dest?: Matrix4): Matrix4 {
             dest = dest || this;
             var h = Math.tan(fovy * 0.5);
             var rm00 = 1.0 / (h * aspect);
