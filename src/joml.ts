@@ -1,4 +1,5 @@
 /// <reference path="Vector2.ts"/>
+/// <reference path="Vector3.ts"/>
 /// <reference path="Matrix3.ts"/>
 
 module JOML {
