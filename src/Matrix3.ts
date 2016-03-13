@@ -16,18 +16,47 @@ module JOML {
             this.m22 = 1.0;
         }
 
+        get(b: Float32Array): Float32Array {
+            b[0] = this.m00;
+            b[1] = this.m01;
+            b[2] = this.m02;
+            b[3] = this.m10;
+            b[4] = this.m11;
+            b[5] = this.m12;
+            b[6] = this.m20;
+            b[7] = this.m21;
+            b[8] = this.m22;
+            return b;
+        }
+
+        set(b: Float32Array): Matrix3;
         set(m00: number, m01: number, m02: number,
             m10: number, m11: number, m12: number,
-            m20: number, m21: number, m22: number): Matrix3 {
-            this.m00 = m00;
-            this.m01 = m01;
-            this.m02 = m02;
-            this.m10 = m10;
-            this.m11 = m11;
-            this.m12 = m12;
-            this.m20 = m20;
-            this.m21 = m21;
-            this.m22 = m22;
+            m20: number, m21: number, m22: number): Matrix3;
+        set(m00: (Float32Array | number), m01?: number, m02?: number,
+            m10?: number, m11?: number, m12?: number,
+            m20?: number, m21?: number, m22?: number): Matrix3 {
+            if (m00 instanceof Float32Array) {
+                var b: Float32Array = m00;
+                this.m01 = b[1];
+                this.m02 = b[2];
+                this.m10 = b[3];
+                this.m11 = b[4];
+                this.m12 = b[5];
+                this.m20 = b[6];
+                this.m21 = b[7];
+                this.m22 = b[8];
+            } else {
+                this.m00 = <number>m00;
+                this.m01 = m01;
+                this.m02 = m02;
+                this.m10 = m10;
+                this.m11 = m11;
+                this.m12 = m12;
+                this.m20 = m20;
+                this.m21 = m21;
+                this.m22 = m22;
+            }
             return this;
         }
 
