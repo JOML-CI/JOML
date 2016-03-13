@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "amd",
         "sourceMap": true,
         "removeComments": true,
-        "outDir": "./target/"
+        "outFile": "./target/joml.js"
     },
     "files": [
         "./src/joml.ts"
