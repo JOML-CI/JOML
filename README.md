@@ -1,4 +1,4 @@
-# [JOML.js](http://joml-ci.github.io/JOML) – JavaScript OpenGL Math Library
+# [JOML.js](http://joml-ci.github.io/JOML) – JavaScript OpenGL Math Library [![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=2d-js)](https://travis-ci.org/JOML-CI/JOML)
 A JavaScript-based Math library for WebGL/OpenGL rendering calculations
 
 Matrix API
