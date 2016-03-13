@@ -650,9 +650,13 @@ module JOML {
             return dest;
         }
 
-        rotate(ang: number, axis: Vector3, dest?: Matrix4): Matrix4
+        rotate(quat: Quaternion, dest?: Matrix4): Matrix4;
+        rotate(ang: number, axis: Vector3, dest?: Matrix4): Matrix4;
         rotate(ang: number, x: number, y: number, z: number, dest?: Matrix4): Matrix4;
-        rotate(ang: number, axisX: any, destY?: any, zParam?: number, otherDest?: Matrix4): Matrix4 {
+        rotate(ang: any, axisX: any, destY?: any, zParam?: number, otherDest?: Matrix4): Matrix4 {
+            if (ang instanceof Quaternion) {
+                return this.rotateQuaternion(<Quaternion>ang, <Matrix4>axisX);
+            }
             var x, y, z;
             var dest: Matrix4;
             if (axisX instanceof Vector3) {
@@ -708,6 +712,55 @@ module JOML {
             return dest;
         }
 
+        private rotateQuaternion(quat: Quaternion, dest?: Matrix4): Matrix4 {
+            dest = dest || this;
+            var dqx = quat.x + quat.x;
+            var dqy = quat.y + quat.y;
+            var dqz = quat.z + quat.z;
+            var q00 = dqx * quat.x;
+            var q11 = dqy * quat.y;
+            var q22 = dqz * quat.z;
+            var q01 = dqx * quat.y;
+            var q02 = dqx * quat.z;
+            var q03 = dqx * quat.w;
+            var q12 = dqy * quat.z;
+            var q13 = dqy * quat.w;
+            var q23 = dqz * quat.w;
+            var rm00 = 1.0 - q11 - q22;
+            var rm01 = q01 + q23;
+            var rm02 = q02 - q13;
+            var rm10 = q01 - q23;
+            var rm11 = 1.0 - q22 - q00;
+            var rm12 = q12 + q03;
+            var rm20 = q02 + q13;
+            var rm21 = q12 - q03;
+            var rm22 = 1.0 - q11 - q00;
+            var nm00 = this.m00 * rm00 + this.m10 * rm01 + this.m20 * rm02;
+            var nm01 = this.m01 * rm00 + this.m11 * rm01 + this.m21 * rm02;
+            var nm02 = this.m02 * rm00 + this.m12 * rm01 + this.m22 * rm02;
+            var nm03 = this.m03 * rm00 + this.m13 * rm01 + this.m23 * rm02;
+            var nm10 = this.m00 * rm10 + this.m10 * rm11 + this.m20 * rm12;
+            var nm11 = this.m01 * rm10 + this.m11 * rm11 + this.m21 * rm12;
+            var nm12 = this.m02 * rm10 + this.m12 * rm11 + this.m22 * rm12;
+            var nm13 = this.m03 * rm10 + this.m13 * rm11 + this.m23 * rm12;
+            dest.m20 = this.m00 * rm20 + this.m10 * rm21 + this.m20 * rm22;
+            dest.m21 = this.m01 * rm20 + this.m11 * rm21 + this.m21 * rm22;
+            dest.m22 = this.m02 * rm20 + this.m12 * rm21 + this.m22 * rm22;
+            dest.m23 = this.m03 * rm20 + this.m13 * rm21 + this.m23 * rm22;
+            dest.m00 = nm00;
+            dest.m01 = nm01;
+            dest.m02 = nm02;
+            dest.m03 = nm03;
+            dest.m10 = nm10;
+            dest.m11 = nm11;
+            dest.m12 = nm12;
+            dest.m13 = nm13;
+            dest.m30 = this.m30;
+            dest.m31 = this.m31;
+            dest.m32 = this.m32;
+            dest.m33 = this.m33;
+            return dest;
+        }
 
         translate(offset: Vector3, dest?: Matrix4): Matrix4;
         translate(x: number, y: number, z: number, dest?: Matrix4): Matrix4;
