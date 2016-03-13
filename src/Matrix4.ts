@@ -50,7 +50,7 @@ module JOML {
             m10: number, m11: number, m12: number, m13: number,
             m20: number, m21: number, m22: number, m23: number,
             m30: number, m31: number, m32: number, m33: number): Matrix4;
-        set(m00: (Matrix4 | Float32Array | number), m01?: number, m02?: number, m03?: number,
+        set(m00: any, m01?: number, m02?: number, m03?: number,
             m10?: number, m11?: number, m12?: number, m13?: number,
             m20?: number, m21?: number, m22?: number, m23?: number,
             m30?: number, m31?: number, m32?: number, m33?: number): Matrix4 {
@@ -212,7 +212,7 @@ module JOML {
 
         translation(x: number, y: number, z: number): Matrix4;
         translation(v: Vector3): Matrix4;
-        translation(xv: (Vector3 | number), y?: number, z?: number): Matrix4 {
+        translation(xv: any, y?: number, z?: number): Matrix4 {
             var tx, ty, tz;
             if (xv instanceof Vector3) {
                 tx = xv.x;
@@ -681,7 +681,7 @@ module JOML {
 
         translate(offset: Vector3, dest?: Matrix4): Matrix4;
         translate(x: number, y: number, z: number, dest?: Matrix4): Matrix4;
-        translate(offsetX: (Vector3 | number), yDest?: (Matrix4 | number), zDest?: (Matrix4 | number), dest?: Matrix4): Matrix4 {
+        translate(offsetX: any, yDest?: any, zDest?: any, dest?: Matrix4): Matrix4 {
             var rm30: number;
             var rm31: number;
             var rm32: number;

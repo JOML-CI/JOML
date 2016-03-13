@@ -8,7 +8,7 @@ module JOML {
         constructor();
         constructor(x: number, y: number, z: number, w: number);
         constructor(v: Vector4);
-        constructor(vx?: (Vector4 | number), y?: number, z?: number, w?: number) {
+        constructor(vx?: any, y?: number, z?: number, w?: number) {
             if (vx instanceof Vector4) {
                 this.x = vx.x;
                 this.y = vx.y;

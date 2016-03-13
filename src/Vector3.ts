@@ -7,7 +7,7 @@ module JOML {
         constructor();
         constructor(x: number, y: number, z: number);
         constructor(v: Vector3);
-        constructor(vx?: (Vector3 | number), y?: number, z?: number) {
+        constructor(vx?: any, y?: number, z?: number) {
             if (vx instanceof Vector3) {
                 this.x = vx.x;
                 this.y = vx.y;
@@ -25,7 +25,7 @@ module JOML {
 
         add(x: number, y: number, z: number): Vector3;
         add(v: Vector3): Vector3;
-        add(vx: (Vector3 | number), y?: number, z?: number): Vector3 {
+        add(vx: any, y?: number, z?: number): Vector3 {
             if (vx instanceof Vector3) {
                 this.x += vx.x;
                 this.y += vx.y;
