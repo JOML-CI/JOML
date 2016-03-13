@@ -13,7 +13,7 @@ node_js:
   - "iojs"
 
 before_script:
-  - npm install tsc
+  - npm install typescript
 
 script:
   - make
