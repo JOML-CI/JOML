@@ -548,22 +548,6 @@ public class Vector3d implements Externalizable {
     }
 
     /**
-     * Subtract <code>v2</code> from <code>v1</code> and store the result in <code>dest</code>.
-     * 
-     * @param v1
-     *          the vector to subtract from
-     * @param v2
-     *          the vector to subtract
-     * @param dest
-     *          will hold the result
-     */
-    public static void sub(Vector3f v1, Vector3d v2, Vector3d dest) {
-        dest.x = v1.x - v2.x;
-        dest.y = v1.y - v2.y;
-        dest.z = v1.z - v2.z;
-    }
-
-    /**
      * Add the supplied vector to this one.
      * 
      * @param v
@@ -1403,22 +1387,6 @@ public class Vector3d implements Externalizable {
         dest.y = this.y / y;
         dest.z = this.z / z;
         return dest;
-    }
-
-    /**
-     * Multiply <code>v</code> by the <code>scalar</code> value and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to multiply
-     * @param scalar
-     *          the scalar to multiply the given vector by
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul(Vector3f v, double scalar, Vector3d dest) {
-        dest.x = v.x * scalar;
-        dest.y = v.y * scalar;
-        dest.z = v.z * scalar;
     }
 
     /**

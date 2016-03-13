@@ -377,26 +377,11 @@ public class Vector2i implements Externalizable {
     }
 
     /**
-     * Subtract <code>b</code> from <code>a</code> and store the result in
-     * <code>dest</code>.
-     *
-     * @param a
-     *          the first operand
-     * @param b
-     *          the second operand
-     * @param dest
-     *          will hold the result of <code>a - b</code>
-     */
-    public static void sub(Vector2i a, Vector2i b, Vector2i dest) {
-        dest.x = a.x - b.x;
-        dest.y = a.y - b.y;
-    }
-
-    /**
-     * Subtract <code>v</code> from this vector.
+     * Subtract the supplied vector from this one and store the result in
+     * <code>this</code>.
      *
      * @param v
-     *          the vector to subtract from this
+     *          the vector to subtract
      * @return this
      */
     public Vector2i sub(Vector2i v) {
@@ -406,7 +391,23 @@ public class Vector2i implements Externalizable {
     }
 
     /**
-     * Subtract <tt>(x, y)</tt> from this vector.
+     * Subtract the supplied vector from this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2i sub(Vector2i v, Vector2i dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        return dest;
+    }
+
+    /**
+     * Decrement the components of this vector by the given values.
      *
      * @param x
      *          the x component to subtract
@@ -418,6 +419,24 @@ public class Vector2i implements Externalizable {
         this.x -= x;
         this.y -= y;
         return this;
+    }
+
+    /**
+     * Decrement the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to subtract
+     * @param y
+     *          the y component to subtract
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2i sub(int x, int y, Vector2i dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        return dest;
     }
 
     /**
@@ -505,18 +524,128 @@ public class Vector2i implements Externalizable {
     }
 
     /**
-     * Add <code>a</code> to <code>b</code> and store the result in
+     * Add the supplied vector to this one and store the result in
      * <code>dest</code>.
      *
-     * @param a
-     *          the first addend
-     * @param b
-     *          the second addend
-     * @param dest will hold the result
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public static void add(Vector2i a, Vector2i b, Vector2i dest) {
-        dest.x = a.x + b.x;
-        dest.y = a.y + b.y;
+    public Vector2i add(Vector2i v, Vector2i dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        return dest;
+    }
+
+    /**
+     * Increment the components of this vector by the given values.
+     *
+     * @param x
+     *          the x component to add
+     * @param y
+     *          the y component to add
+     * @return this
+     */
+    public Vector2i add(int x, int y) {
+        this.x += x;
+        this.y += y;
+        return this;
+    }
+
+    /**
+     * Increment the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to add
+     * @param y
+     *          the y component to add
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2i add(int x, int y, Vector2i dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        return dest;
+    }
+
+    /**
+     * Multiply all components of this {@link Vector2i} by the given scalar
+     * value.
+     * 
+     * @param scalar
+     *          the scalar to multiply this vector by
+     * @return this
+     */
+    public Vector2i mul(int scalar) {
+        x *= scalar;
+        y *= scalar;
+        return this;
+    }
+
+    /**
+     * Add the supplied vector by this one.
+     *
+     * @param v
+     *          the vector to multiply
+     * @return this
+     */
+    public Vector2i mul(Vector2i v) {
+        x += v.x;
+        y += v.y;
+        return this;
+    }
+
+    /**
+     * Multiply the supplied vector by this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to multiply
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2i mul(Vector2i v, Vector2i dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        return dest;
+    }
+
+    /**
+     * Multiply the components of this vector by the given values.
+     *
+     * @param x
+     *          the x component to multiply
+     * @param y
+     *          the y component to multiply
+     * @return this
+     */
+    public Vector2i mul(int x, int y) {
+        this.x *= x;
+        this.y *= y;
+        return this;
+    }
+
+    /**
+     * Multiply the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to multiply
+     * @param y
+     *          the y component to multiply
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2i mul(int x, int y, Vector2i dest) {
+        dest.x = this.x * x;
+        dest.y = this.y * y;
+        return dest;
     }
 
     /**

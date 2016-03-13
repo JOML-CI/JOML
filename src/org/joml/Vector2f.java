@@ -361,19 +361,6 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Store one perpendicular vector of <code>v</code> in <code>dest</code>.
-     * 
-     * @param v
-     *        the vector to build one perpendicular vector of
-     * @param dest
-     *        will hold the result
-     */
-    public static void perpendicular(Vector2f v, Vector2f dest) {
-        dest.x = v.y;
-        dest.y = v.x * -1;
-    }
-
-    /**
      * Set this vector to be one of its perpendicular vectors.
      * 
      * @return this
@@ -383,25 +370,10 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
-     * 
-     * @param a
-     *        the first operand
-     * @param b
-     *        the second operand
-     * @param dest
-     *        will hold the result of <code>a - b</code>
-     */
-    public static void sub(Vector2f a, Vector2f b, Vector2f dest) {
-        dest.x = a.x - b.x;
-        dest.y = a.y - b.y;
-    }
-
-    /**
      * Subtract <code>v</code> from this vector.
      * 
      * @param v
-     *        the vector to subtract from this
+     *          the vector to subtract
      * @return this
      */
     public Vector2f sub(Vector2f v) {
@@ -414,15 +386,47 @@ public class Vector2f implements Externalizable {
      * Subtract <tt>(x, y)</tt> from this vector.
      * 
      * @param x
-     *        the x component to subtract
+     *          the x component to subtract
      * @param y
-     *        the y component to subtract
+     *          the y component to subtract
      * @return this
      */
     public Vector2f sub(float x, float y) {
         this.x -= x;
         this.y -= y;
         return this;
+    }
+
+    /**
+     * Subtract <tt>(x, y)</tt> from this vector and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to subtract
+     * @param y
+     *          the y component to subtract
+     * @param dest
+     *          will hold the result         
+     * @return dest
+     */
+    public Vector2f sub(float x, float y, Vector2f dest) {
+        dest.x = this.x - x;
+        dest.y = this.y - y;
+        return dest;
+    }
+
+    /**
+     * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f sub(Vector2f v, Vector2f dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        return dest;
     }
 
     /**
@@ -520,18 +524,35 @@ public class Vector2f implements Externalizable {
     }
 
     /**
-     * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
+     * Increment the components of this vector by the given values.
      * 
-     * @param a
-     *        the first addend
-     * @param b
-     *        the second addend
-     * @param dest
-     *        will hold the result
+     * @param x
+     *          the x component to add
+     * @param y
+     *          the y component to add
+     * @return this
      */
-    public static void add(Vector2f a, Vector2f b, Vector2f dest) {
-        dest.x = a.x + b.x;
-        dest.y = a.y + b.y;
+    public Vector2f add(float x, float y) {
+        this.x += x;
+        this.y += y;
+        return this;
+    }
+
+    /**
+     * Increment the components of this vector by the given values and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to add
+     * @param y
+     *          the y component to add
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f add(float x, float y, Vector2f dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        return dest;
     }
 
     /**

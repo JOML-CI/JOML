@@ -565,6 +565,90 @@ public class Vector3i implements Externalizable {
         return dest;
     }
 
+    /**
+     * Multiply all components of this {@link Vector3i} by the given scalar
+     * value.
+     * 
+     * @param scalar
+     *          the scalar to multiply this vector by
+     * @return this
+     */
+    public Vector3i mul(int scalar) {
+        x *= scalar;
+        y *= scalar;
+        z *= scalar;
+        return this;
+    }
+
+    /**
+     * Add the supplied vector by this one.
+     *
+     * @param v
+     *          the vector to multiply
+     * @return this
+     */
+    public Vector3i mul(Vector3i v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        return this;
+    }
+
+    /**
+     * Multiply the supplied vector by this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to multiply
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3i mul(Vector3i v, Vector3i dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        dest.z = z * v.z;
+        return dest;
+    }
+
+    /**
+     * Multiply the components of this vector by the given values.
+     *
+     * @param x
+     *          the x component to multiply
+     * @param y
+     *          the y component to multiply
+     * @param z
+     *          the z component to multiply
+     * @return this
+     */
+    public Vector3i mul(int x, int y, int z) {
+        this.x *= x;
+        this.y *= y;
+        this.z *= z;
+        return this;
+    }
+
+    /**
+     * Multiply the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to multiply
+     * @param y
+     *          the y component to multiply
+     * @param z
+     *          the z component to multiply
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3i mul(int x, int y, int z, Vector3i dest) {
+        dest.x = this.x * x;
+        dest.y = this.y * y;
+        dest.z = this.z * z;
+        return dest;
+    }
 
     /**
      * Return the length squared of this vector.

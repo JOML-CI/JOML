@@ -370,19 +370,6 @@ public class Vector2d implements Externalizable {
     }
 
     /**
-     * Store one perpendicular vector of <code>v</code> in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to build one perpendicular vector of
-     * @param dest
-     *          will hold the result
-     */
-    public static void perpendicular(Vector2d v, Vector2d dest) {
-        dest.x = v.y;
-        dest.y = v.x * -1;
-    }
-
-    /**
      * Set this vector to be one of its perpendicular vectors.
      * 
      * @return this
@@ -477,21 +464,6 @@ public class Vector2d implements Externalizable {
         dest.x = x + v.x;
         dest.y = y + v.y;
         return dest;
-    }
-
-    /**
-     * Subtract <code>b</code> from <code>a</code> and store the result in <code>dest</code>.
-     * 
-     * @param a
-     *          the vector to subtract from
-     * @param b
-     *          the vector to subtract
-     * @param dest
-     *          will hold the result
-     */
-    public static void sub(Vector2f a, Vector2d b, Vector2d dest) {
-        dest.x = a.x - b.x;
-        dest.y = a.y - b.y;
     }
 
     /**
@@ -665,21 +637,6 @@ public class Vector2d implements Externalizable {
         dest.x = x + v.x;
         dest.y = y + v.y;
         return dest;
-    }
-
-    /**
-     * Add <code>a</code> to <code>b</code> and store the result in <code>dest</code>.
-     * 
-     * @param a
-     *          the first addend
-     * @param b
-     *          the second addend
-     * @param dest
-     *          will hold the result
-     */
-    public static void add(Vector2f a, Vector2d b, Vector2d dest) {
-        dest.x = a.x + b.x;
-        dest.y = a.y + b.y;
     }
 
     /**
