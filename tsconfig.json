@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "sourceMap": true,
+        "removeComments": true,
+        "outDir": "./target/"
+    },
+    "files": [
+        "./src/joml.ts"
+    ]
+}
