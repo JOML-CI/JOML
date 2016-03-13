@@ -34,5 +34,17 @@ module JOML {
             this.w = w;
             return this;
         }
+
+        div(scalar: number): Vector4 {
+            this.x /= scalar;
+            this.y /= scalar;
+            this.z /= scalar;
+            this.w /= scalar;
+            return this;
+        }
+
+        toString(): string {
+            return "(" + this.x + " " + this.y + " " + this.z + " " + this.w + ")";
+        }
     }
 }

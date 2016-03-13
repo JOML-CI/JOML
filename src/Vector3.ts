@@ -44,5 +44,16 @@ module JOML {
             this.z = z;
             return this;
         }
+
+        div(scalar: number): Vector3 {
+            this.x /= scalar;
+            this.y /= scalar;
+            this.z /= scalar;
+            return this;
+        }
+
+        toString(): string {
+            return "(" + this.x + " " + this.y + " " + this.z + ")";
+        }
     }
 }

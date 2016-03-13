@@ -37,5 +37,9 @@ module JOML {
             this.y = y;
             return this;
         }
+
+        toString(): string {
+            return "(" + this.x + " " + this.y + ")";
+        }
     }
 }

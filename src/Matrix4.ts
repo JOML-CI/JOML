@@ -980,5 +980,96 @@ module JOML {
             dest.m33 = this.m33;
             return dest;
         }
+
+        project(x: number, y: number, z: number, viewport: number[], winCoordsDest: Vector4);
+        project(x: number, y: number, z: number, viewport: number[], winCoordsDest: Vector3);
+        project(x: number, y: number, z: number, viewport: number[], winCoordsDest: any) {
+            winCoordsDest.x = this.m00 * x + this.m10 * y + this.m20 * z + this.m30;
+            winCoordsDest.y = this.m01 * x + this.m11 * y + this.m21 * z + this.m31;
+            winCoordsDest.z = this.m02 * x + this.m12 * y + this.m22 * z + this.m32;
+            if (winCoordsDest instanceof Vector3) {
+                var w = this.m03 * x + this.m13 * y + this.m23 * z + this.m33;
+                winCoordsDest.div(w);
+                winCoordsDest.x = (winCoordsDest.x*0.5+0.5) * viewport[2] + viewport[0];
+                winCoordsDest.y = (winCoordsDest.y*0.5+0.5) * viewport[3] + viewport[1];
+                winCoordsDest.z = (1.0+winCoordsDest.z)*0.5;
+                return winCoordsDest;
+            } else {
+                winCoordsDest.w = this.m03 * x + this.m13 * y + this.m23 * z + this.m33;
+                winCoordsDest.div(winCoordsDest.w);
+                winCoordsDest.x = (winCoordsDest.x*0.5+0.5) * viewport[2] + viewport[0];
+                winCoordsDest.y = (winCoordsDest.y*0.5+0.5) * viewport[3] + viewport[1];
+                winCoordsDest.z = (1.0+winCoordsDest.z)*0.5;
+                return winCoordsDest;
+            }
+        }
+
+        unproject(winX: number, winY: number, winZ: number, viewport: number[], dest: Vector4);
+        unproject(winX: number, winY: number, winZ: number, viewport: number[], dest: Vector3)
+        unproject(winX: number, winY: number, winZ: number, viewport: number[], dest: any) {
+            var a = this.m00 * this.m11 - this.m01 * this.m10;
+            var b = this.m00 * this.m12 - this.m02 * this.m10;
+            var c = this.m00 * this.m13 - this.m03 * this.m10;
+            var d = this.m01 * this.m12 - this.m02 * this.m11;
+            var e = this.m01 * this.m13 - this.m03 * this.m11;
+            var f = this.m02 * this.m13 - this.m03 * this.m12;
+            var g = this.m20 * this.m31 - this.m21 * this.m30;
+            var h = this.m20 * this.m32 - this.m22 * this.m30;
+            var i = this.m20 * this.m33 - this.m23 * this.m30;
+            var j = this.m21 * this.m32 - this.m22 * this.m31;
+            var k = this.m21 * this.m33 - this.m23 * this.m31;
+            var l = this.m22 * this.m33 - this.m23 * this.m32;
+            var det = a * l - b * k + c * j + d * i - e * h + f * g;
+            det = 1.0 / det;
+            var im00 = ( this.m11 * l - this.m12 * k + this.m13 * j) * det;
+            var im01 = (-this.m01 * l + this.m02 * k - this.m03 * j) * det;
+            var im02 = ( this.m31 * f - this.m32 * e + this.m33 * d) * det;
+            var im03 = (-this.m21 * f + this.m22 * e - this.m23 * d) * det;
+            var im10 = (-this.m10 * l + this.m12 * i - this.m13 * h) * det;
+            var im11 = ( this.m00 * l - this.m02 * i + this.m03 * h) * det;
+            var im12 = (-this.m30 * f + this.m32 * c - this.m33 * b) * det;
+            var im13 = ( this.m20 * f - this.m22 * c + this.m23 * b) * det;
+            var im20 = ( this.m10 * k - this.m11 * i + this.m13 * g) * det;
+            var im21 = (-this.m00 * k + this.m01 * i - this.m03 * g) * det;
+            var im22 = ( this.m30 * e - this.m31 * c + this.m33 * a) * det;
+            var im23 = (-this.m20 * e + this.m21 * c - this.m23 * a) * det;
+            var im30 = (-this.m10 * j + this.m11 * h - this.m12 * g) * det;
+            var im31 = ( this.m00 * j - this.m01 * h + this.m02 * g) * det;
+            var im32 = (-this.m30 * d + this.m31 * b - this.m32 * a) * det;
+            var im33 = ( this.m20 * d - this.m21 * b + this.m22 * a) * det;
+            var ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
+            var ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
+            var ndcZ = winZ+winZ-1.0;
+            dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
+            dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
+            dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
+            if (dest instanceof Vector4) {
+                dest.w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
+                dest.div(dest.w);
+            } else {
+                var w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
+                dest.div(w);
+            }
+            return dest;
+        }
+
+        unprojectInv(winX: number, winY: number, winZ: number, viewport: number[], dest: Vector4);
+        unprojectInv(winX: number, winY: number, winZ: number, viewport: number[], dest: Vector3);
+        unprojectInv(winX: number, winY: number, winZ: number, viewport: number[], dest: any) {
+            var ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
+            var ndcY = (winY-viewport[1])/viewport[3]*2.0-1.0;
+            var ndcZ = winZ+winZ-1.0;
+            dest.x = this.m00 * ndcX + this.m10 * ndcY + this.m20 * ndcZ + this.m30;
+            dest.y = this.m01 * ndcX + this.m11 * ndcY + this.m21 * ndcZ + this.m31;
+            dest.z = this.m02 * ndcX + this.m12 * ndcY + this.m22 * ndcZ + this.m32;
+            if (dest instanceof Vector4) {
+                dest.w = this.m03 * ndcX + this.m13 * ndcY + this.m23 * ndcZ + this.m33;
+                dest.div(dest.w);
+            } else {
+                var w = this.m03 * ndcX + this.m13 * ndcY + this.m23 * ndcZ + this.m33;
+                dest.div(w);
+            }
+            return dest;
+        }
     }
 }
