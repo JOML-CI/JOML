@@ -500,7 +500,7 @@ module JOML {
             return dest;
         }
 
-        scale(x: number, y: number, z: number, dest: Matrix4): Matrix4 {
+        scale(x: number, y: number, z: number, dest?: Matrix4): Matrix4 {
             dest = dest || this;
             dest.m00 = this.m00 * x;
             dest.m01 = this.m01 * x;
@@ -776,7 +776,7 @@ module JOML {
             } else {
                 rm30 = <number>offsetX;
                 rm31 = <number>yDest;
-                rm31 = <number>zDest;
+                rm32 = <number>zDest;
                 dest = dest || this;
             }
             dest.m30 = this.m00 * rm30 + this.m10 * rm31 + this.m20 * rm32 + this.m30;
