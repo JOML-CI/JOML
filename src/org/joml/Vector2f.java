@@ -383,6 +383,21 @@ public class Vector2f implements Externalizable {
     }
 
     /**
+     * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f sub(Vector2f v, Vector2f dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        return dest;
+    }
+
+    /**
      * Subtract <tt>(x, y)</tt> from this vector.
      * 
      * @param x
@@ -411,21 +426,6 @@ public class Vector2f implements Externalizable {
     public Vector2f sub(float x, float y, Vector2f dest) {
         dest.x = this.x - x;
         dest.y = this.y - y;
-        return dest;
-    }
-
-    /**
-     * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to subtract
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector2f sub(Vector2f v, Vector2f dest) {
-        dest.x = x - v.x;
-        dest.y = y - v.y;
         return dest;
     }
 
@@ -521,6 +521,22 @@ public class Vector2f implements Externalizable {
         x += v.x;
         y += v.y;
         return this;
+    }
+
+    /**
+     * Add the supplied vector to this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f add(Vector2f v, Vector2f dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        return dest;
     }
 
     /**
@@ -626,6 +642,66 @@ public class Vector2f implements Externalizable {
     public Vector2f mul(float scalar, Vector2f dest) {
         dest.x = x * scalar;
         dest.y = y * scalar;
+        return dest;
+    }
+
+    /**
+     * Multiply the components of this Vector2f by the given scalar values and store the result in <code>this</code>.
+     * 
+     * @param x
+     *          the x component to multiply this vector by
+     * @param y
+     *          the y component to multiply this vector by
+     * @return this
+     */
+    public Vector2f mul(float x, float y) {
+        this.x *= x;
+        this.y *= y;
+        return this;
+    }
+
+    /**
+     * Multiply the components of this Vector2f by the given scalar values and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to multiply this vector by
+     * @param y
+     *          the y component to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f mul(float x, float y, Vector2f dest) {
+        dest.x = this.x * x;
+        dest.y = this.y * y;
+        return dest;
+    }
+
+    /**
+     * Multiply this Vector2f component-wise by another Vector2f.
+     * 
+     * @param v
+     *          the vector to multiply by
+     * @return this
+     */
+    public Vector2f mul(Vector2f v) {
+        x *= v.x;
+        y *= v.y;
+        return this;
+    }
+
+    /**
+     * Multiply this Vector2f component-wise by another Vector2f and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to multiply by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f mul(Vector2f v, Vector2f dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
         return dest;
     }
 

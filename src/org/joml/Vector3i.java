@@ -581,6 +581,22 @@ public class Vector3i implements Externalizable {
     }
 
     /**
+     * Multiply the components of this vector by the given scalar and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *        the value to multiply this vector's components by
+     * @param dest
+     *        will hold the result
+     * @return dest
+     */
+    public Vector3i mul(int scalar, Vector3i dest) {
+        dest.x = x * scalar;
+        dest.y = y * scalar;
+        dest.y = z * scalar;
+        return dest;
+    }
+
+    /**
      * Add the supplied vector by this one.
      *
      * @param v

@@ -467,6 +467,94 @@ public class Vector2d implements Externalizable {
     }
 
     /**
+     * Multiply the components of this vector by the given scalar.
+     * 
+     * @param scalar
+     *        the value to multiply this vector's components by
+     * @return this
+     */
+    public Vector2d mul(double scalar) {
+        this.x *= scalar;
+        this.y *= scalar;
+        return this;
+    }
+
+    /**
+     * Multiply the components of this vector by the given scalar and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *        the value to multiply this vector's components by
+     * @param dest
+     *        will hold the result
+     * @return dest
+     */
+    public Vector2d mul(double scalar, Vector2d dest) {
+        dest.x = x * scalar;
+        dest.y = y * scalar;
+        return dest;
+    }
+
+    /**
+     * Multiply the components of this Vector2d by the given scalar values and store the result in <code>this</code>.
+     * 
+     * @param x
+     *          the x component to multiply this vector by
+     * @param y
+     *          the y component to multiply this vector by
+     * @return this
+     */
+    public Vector2d mul(double x, double y) {
+        this.x *= x;
+        this.y *= y;
+        return this;
+    }
+
+    /**
+     * Multiply the components of this Vector2d by the given scalar values and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to multiply this vector by
+     * @param y
+     *          the y component to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2d mul(double x, double y, Vector2d dest) {
+        dest.x = this.x * x;
+        dest.y = this.y * y;
+        return dest;
+    }
+
+    /**
+     * Multiply this Vector2d component-wise by another Vector2d.
+     * 
+     * @param v
+     *          the vector to multiply by
+     * @return this
+     */
+    public Vector2d mul(Vector2d v) {
+        x *= v.x;
+        y *= v.y;
+        return this;
+    }
+
+    /**
+     * Multiply this Vector2d component-wise by another Vector2d and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to multiply by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2d mul(Vector2d v, Vector2d dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        return dest;
+    }
+
+    /**
      * Return the dot product of this vector and <code>v</code>.
      * 
      * @param v

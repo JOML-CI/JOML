@@ -587,6 +587,22 @@ public class Vector2i implements Externalizable {
     }
 
     /**
+     * Multiply all components of this {@link Vector2i} by the given scalar
+     * value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *          the scalar to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2i mul(int scalar, Vector2i dest) {
+        dest.x = x * scalar;
+        dest.y = y * scalar;
+        return dest;
+    }
+
+    /**
      * Add the supplied vector by this one.
      *
      * @param v
