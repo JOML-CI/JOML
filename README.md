@@ -31,7 +31,7 @@ JOML.js is meant to be used with WebGL in a Browser environment. Using JOML.js y
 ```TypeScript
 var fa = new Float32Array(9);
 new JOML.Matrix3().view(-10.0, 10.0, -10.0, 10.0)
-                  .rotate(JOML.toRadians(45.0f))
+                  .rotate(JOML.toRadians(45.0))
                   .get(fa);
 gl.uniformMatrix3fv(mat3Location, false, fa);
 ```
