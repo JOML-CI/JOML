@@ -652,17 +652,19 @@ module JOML {
 
         rotate(ang: number, axis: Vector3, dest?: Matrix4): Matrix4
         rotate(ang: number, x: number, y: number, z: number, dest?: Matrix4): Matrix4;
-        rotate(ang: number, axisX: any, destY?: any, zParam?: number, dest?: Matrix4): Matrix4 {
-            dest = dest || this;
+        rotate(ang: number, axisX: any, destY?: any, zParam?: number, otherDest?: Matrix4): Matrix4 {
             var x, y, z;
+            var dest: Matrix4;
             if (axisX instanceof Vector3) {
                 x = axisX.x;
                 y = axisX.y;
                 z = axisX.z;
+                dest = <Matrix4>destY || this;
             } else {
                 x = <number>axisX;
                 y = <number>destY;
                 z = zParam;
+                dest = otherDest || this;
             }
             var s = Math.sin(ang);
             var c = Math.cos(ang);
@@ -1088,7 +1090,7 @@ module JOML {
             return dest;
         }
 
-        reflect(a: number, b: number, c: number, d: number, dest: Matrix4): Matrix4 {
+        reflect(a: number, b: number, c: number, d: number, dest?: Matrix4): Matrix4 {
             dest = dest || this;
             var da = a + a, db = b + b, dc = c + c, dd = d + d;
             var rm00 = 1.0 - da * a;
