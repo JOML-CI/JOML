@@ -43,6 +43,15 @@ module JOML {
             return this;
         }
 
+        normalize3(): Vector4 {
+            var invLength = (1.0 / Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z));
+            this.x *= invLength;
+            this.y *= invLength;
+            this.z *= invLength;
+            this.w *= invLength;
+            return this;
+        }
+
         toString(): string {
             return "(" + this.x + " " + this.y + " " + this.z + " " + this.w + ")";
         }

@@ -52,6 +52,23 @@ module JOML {
             return this;
         }
 
+        lengthSquared(): number {
+            return this.x * this.x + this.y * this.y + this.z * this.z;
+        }
+
+        length(): number {
+            return Math.sqrt(this.lengthSquared());
+        }
+
+        normalize(dest?: Vector3): Vector3 {
+            dest = dest || this;
+            var invLength = 1.0 / this.length();
+            dest.x = this.x * invLength;
+            dest.y = this.y * invLength;
+            dest.z = this.z * invLength;
+            return dest;
+        }
+
         toString(): string {
             return "(" + this.x + " " + this.y + " " + this.z + ")";
         }
