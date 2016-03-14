@@ -14,7 +14,7 @@ new JOML.Matrix4().translate(2.0, 0.0, 0.0)
 // v is now transformed by the specified transformation
 ```
 
-Common transformation idioms, such as rotating using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 3) and uses (3, 0) as the rotation center:
+Common transformation idioms, such as rotating using a specific rotation center, can be expressed in a simple way. The following example rotates the point (0, 4, 4) and uses (0, 3, 4) as the rotation center:
 ```TypeScript
 var center = new JOML.Vector3(0.0, 3.0, 4.0);
 var pointToRotate = new JOML.Vector3(0.0, 4.0, 4.0);
