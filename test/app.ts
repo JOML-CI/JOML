@@ -1,6 +1,7 @@
 /// <reference path="joml.d.ts"/>
 
 var gl: WebGLRenderingContext;
+var prog: WebGLProgram;
 
 var shaderProgram = (gl: WebGLRenderingContext, vs: string, fs: string): WebGLProgram => {
     var prog = gl.createProgram();
@@ -38,40 +39,49 @@ var initAndDraw = (): void => {
     } catch (err) {
         throw "Your web browser does not support WebGL";
     }
-
     gl.clearColor(0.2, 0.4, 0.6, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    var prog = shaderProgram(gl,
+    prog = shaderProgram(gl,
         "attribute vec3 pos;" +
         "uniform mat4 m;" +
+        "varying vec2 p;" + 
         "void main() {" +
-        "	gl_Position = m * vec4(pos, 1.0);" +
+        "   p = pos.xy;" +
+        "   gl_Position = m * vec4(pos, 1.0);" +
         "}",
+        "precision mediump float;"+
+        "varying vec2 p;" +
         "void main() {" +
-        "	gl_FragColor = vec4(0.6, 0.7, 0.8, 1.0);" +
+        "   gl_FragColor = vec4(0.6, 0.7, 0.8, 1.0);" +
         "}"
     );
     gl.useProgram(prog);
-
     setAttributeBuffer(gl, prog, "pos", 3, [
         -1, -1, 0,
          1, -1, 0,
         -1,  1, 0,
          1,  1, 0
     ]);
-    
-    var arr = new Float32Array(16);
-    var m = new JOML.Matrix4()
-        .perspective(JOML.toRadians(45.0), 1.0, 0.1, 100.0, false)
-        .lookAt(0, 2, 10,
-                0, 0, 0,
-                0, 1, 0)
-        .rotateZ(JOML.toRadians(45));
+}
+
+var arr = new Float32Array(16);
+var ang: number = 0;
+var m: JOML.Matrix4;
+var q: JOML.Quaternion;
+var draw = (): void => {
+    ang += 0.01;
+    m.identity()
+     .perspective(0.8, gl.canvas.clientWidth / gl.canvas.clientHeight, 0.1, 100.0)
+     .translate(0, 0, -4)
+     .rotateY(ang);
     gl.uniformMatrix4fv(gl.getUniformLocation(prog, "m"), false, m.get(arr));
+    gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(draw);
 }
 
 window.onload = () => {
+    m = new JOML.Matrix4();
+    q = new JOML.Quaternion();
     initAndDraw();
+    draw();
 }
