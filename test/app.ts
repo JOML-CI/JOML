@@ -69,8 +69,7 @@ var m: JOML.Matrix4;
 var q: JOML.Quaternion;
 var draw = (): void => {
     ang += 0.01;
-    m.identity()
-     .perspective(0.8, gl.canvas.clientWidth / gl.canvas.clientHeight, 0.1, 100.0)
+    m.setPerspective(0.8, gl.canvas.clientWidth / gl.canvas.clientHeight, 0.1, 100.0)
      .translate(0, 0, -4)
      .rotateY(ang);
     gl.uniformMatrix4fv(gl.getUniformLocation(prog, "m"), false, m.get(arr));

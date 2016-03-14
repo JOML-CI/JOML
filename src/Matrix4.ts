@@ -977,6 +977,48 @@ module JOML {
             dest.m13 = nm13;
             return dest;
         }
+
+        setLookAt(eyeX: number, eyeY: number, eyeZ: number,
+                  centerX: number, centerY: number, centerZ: number,
+                  upX: number, upY: number, upZ: number): Matrix4 {
+            var dirX, dirY, dirZ;
+            dirX = eyeX - centerX;
+            dirY = eyeY - centerY;
+            dirZ = eyeZ - centerZ;
+            var invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+            dirX *= invDirLength;
+            dirY *= invDirLength;
+            dirZ *= invDirLength;
+            var leftX, leftY, leftZ;
+            leftX = upY * dirZ - upZ * dirY;
+            leftY = upZ * dirX - upX * dirZ;
+            leftZ = upX * dirY - upY * dirX;
+            var invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+            leftX *= invLeftLength;
+            leftY *= invLeftLength;
+            leftZ *= invLeftLength;
+            var upnX = dirY * leftZ - dirZ * leftY;
+            var upnY = dirZ * leftX - dirX * leftZ;
+            var upnZ = dirX * leftY - dirY * leftX;
+            this.m00 = leftX;
+            this.m01 = upnX;
+            this.m02 = dirX;
+            this.m03 = 0.0;
+            this.m10 = leftY;
+            this.m11 = upnY;
+            this.m12 = dirY;
+            this.m13 = 0.0;
+            this.m20 = leftZ;
+            this.m21 = upnZ;
+            this.m22 = dirZ;
+            this.m23 = 0.0;
+            this.m30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
+            this.m31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+            this.m32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
+            this.m33 = 1.0;
+            return this;
+        }
+
         perspective(fovy: number, aspect: number, zNear: number, zFar: number, dest?: Matrix4): Matrix4;
         perspective(fovy: number, aspect: number, zNear: number, zFar: number, zZeroToOne: boolean, dest?: Matrix4): Matrix4;
         perspective(fovy: number, aspect: number, zNear: number, zFar: number, zZeroToOneDest: any, otherDest?: Matrix4): Matrix4 {
@@ -1028,6 +1070,39 @@ module JOML {
             dest.m22 = nm22;
             dest.m23 = nm23;
             return dest;
+        }
+
+        setPerspective(fovy: number, aspect: number, zNear: number, zFar: number, zZeroToOne?: boolean): Matrix4 {
+            var h = Math.tan(fovy * 0.5);
+            this.m00 = 1.0 / (h * aspect);
+            this.m01 = 0.0;
+            this.m02 = 0.0;
+            this.m03 = 0.0;
+            this.m10 = 0.0;
+            this.m11 = 1.0 / h;
+            this.m12 = 0.0;
+            this.m13 = 0.0;
+            this.m20 = 0.0;
+            this.m21 = 0.0;
+            var farInf = zFar > 0 && !isFinite(zFar);
+            var nearInf = zNear > 0 && !isFinite(zNear);
+            if (farInf) {
+                var e = 1E-6;
+                this.m22 = e - 1.0;
+                this.m32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
+            } else if (nearInf) {
+                var e = 1E-6;
+                this.m22 = (zZeroToOne ? 0.0 : 1.0) - e;
+                this.m32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
+            } else {
+                this.m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+                this.m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+            }
+            this.m23 = -1.0;
+            this.m30 = 0.0;
+            this.m31 = 0.0;
+            this.m33 = 0.0;
+            return this;
         }
 
         frustum(left: number, right: number, bottom: number, top: number, zNear: number, zFar: number, dest?: Matrix4): Matrix4;
