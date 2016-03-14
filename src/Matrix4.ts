@@ -258,7 +258,12 @@ module JOML {
             return this;
         }
 
-        rotation(angle: number, x: number, y: number, z: number): Matrix4 {
+        rotation(quat: Quaternion): Matrix4;
+        rotation(angle: number, x: number, y: number, z: number): Matrix4;
+        rotation(angle: any, x?: number, y?: number, z?: number): Matrix4 {
+            if (angle instanceof Quaternion) {
+                return this.rotationQuaternion(<Quaternion>angle);
+            }
             var cos = Math.cos(angle);
             var sin = Math.sin(angle);
             var C = 1.0 - cos;
@@ -278,6 +283,38 @@ module JOML {
             this.m03 = 0.0;
             this.m13 = 0.0;
             this.m23 = 0.0;
+            this.m33 = 1.0;
+            return this;
+        }
+
+        private rotationQuaternion(quat: Quaternion): Matrix4 {
+            var dqx = quat.x + quat.x;
+            var dqy = quat.y + quat.y;
+            var dqz = quat.z + quat.z;
+            var q00 = dqx * quat.x;
+            var q11 = dqy * quat.y;
+            var q22 = dqz * quat.z;
+            var q01 = dqx * quat.y;
+            var q02 = dqx * quat.z;
+            var q03 = dqx * quat.w;
+            var q12 = dqy * quat.z;
+            var q13 = dqy * quat.w;
+            var q23 = dqz * quat.w;
+            this.m00 = 1.0 - q11 - q22;
+            this.m01 = q01 + q23;
+            this.m02 = q02 - q13;
+            this.m03 = 0.0;
+            this.m10 = q01 - q23;
+            this.m11 = 1.0 - q22 - q00;
+            this.m12 = q12 + q03;
+            this.m13 = 0.0;
+            this.m20 = q02 + q13;
+            this.m21 = q12 - q03;
+            this.m22 = 1.0 - q11 - q00;
+            this.m23 = 0.0;
+            this.m30 = 0.0;
+            this.m31 = 0.0;
+            this.m32 = 0.0;
             this.m33 = 1.0;
             return this;
         }

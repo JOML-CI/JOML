@@ -78,6 +78,45 @@ module JOML {
             return this;
         }
 
+        setFromNormalized(m: Matrix3): Quaternion;
+        setFromNormalized(m: Matrix4): Quaternion;
+        setFromNormalized(m: any): Quaternion {
+            var t;
+            var tr = m.m00 + m.m11 + m.m22;
+            if (tr >= 0.0) {
+                t = Math.sqrt(tr + 1.0);
+                this.w = t * 0.5;
+                t = 0.5 / t;
+                this.x = (m.m12 - m.m21) * t;
+                this.y = (m.m20 - m.m02) * t;
+                this.z = (m.m01 - m.m10) * t;
+            } else {
+                if (m.m00 >= m.m11 && m.m00 >= m.m22) {
+                    t = Math.sqrt(m.m00 - (m.m11 + m.m22) + 1.0);
+                    this.x = t * 0.5;
+                    t = 0.5 / t;
+                    this.y = (m.m10 + m.m01) * t;
+                    this.z = (m.m02 + m.m20) * t;
+                    this.w = (m.m12 - m.m21) * t;
+                } else if (m.m11 > m.m22) {
+                    t = Math.sqrt(m.m11 - (m.m22 + m.m00) + 1.0);
+                    this.y = t * 0.5;
+                    t = 0.5 / t;
+                    this.z = (m.m21 + m.m12) * t;
+                    this.x = (m.m10 + m.m01) * t;
+                    this.w = (m.m20 - m.m02) * t;
+                } else {
+                    t = Math.sqrt(m.m22 - (m.m00 + m.m11) + 1.0);
+                    this.z = t * 0.5;
+                    t = 0.5 / t;
+                    this.x = (m.m02 + m.m20) * t;
+                    this.y = (m.m21 + m.m12) * t;
+                    this.w = (m.m01 - m.m10) * t;
+                }
+            }
+            return this;
+        }
+
         rotationAxis(angle: number, axisX: number, axisY: number, axisZ: number): Quaternion {
             var hangle = angle / 2.0;
             var sinAngle = Math.sin(hangle);
