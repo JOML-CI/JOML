@@ -1,4 +1,4 @@
-/// <reference path="joml.ts"/>
+/// <reference path="joml.d.ts"/>
 
 var gl: WebGLRenderingContext;
 
