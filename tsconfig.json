@@ -3,7 +3,8 @@
         "module": "amd",
         "sourceMap": true,
         "removeComments": true,
-        "outFile": "./target/joml.js"
+        "outFile": "./target/joml.js",
+        "declaration": true
     },
     "files": [
         "./src/joml.ts"
