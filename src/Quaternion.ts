@@ -9,48 +9,51 @@ module JOML {
         constructor(q: Quaternion);
         constructor(x: number, y: number, z: number, w: number);
         constructor(x?: any, y?: number, z?: number, w?: number) {
+            var thiz = this;
             if (x instanceof Quaternion) {
                 var q: Quaternion = <Quaternion>x;
-                this.x = q.x;
-                this.y = q.y;
-                this.z = q.z;
-                this.w = q.w;
+                thiz.x = q.x;
+                thiz.y = q.y;
+                thiz.z = q.z;
+                thiz.w = q.w;
             } else if (typeof x === 'undefined') {
-                this.x = 0.0;
-                this.y = 0.0;
-                this.z = 0.0;
-                this.w = 1.0;
+                thiz.x = 0.0;
+                thiz.y = 0.0;
+                thiz.z = 0.0;
+                thiz.w = 1.0;
             } else {
-                this.x = x;
-                this.y = y;
-                this.z = z;
-                this.w = w;
+                thiz.x = x;
+                thiz.y = y;
+                thiz.z = z;
+                thiz.w = w;
             }
         }
 
         normalize(dest?: Quaternion): Quaternion {
-            dest = dest || this;
-            var invNorm = 1.0 / Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
-            this.x *= invNorm;
-            this.y *= invNorm;
-            this.z *= invNorm;
-            this.w *= invNorm;
+            var thiz = this;
+            dest = dest || thiz;
+            var invNorm = 1.0 / Math.sqrt(thiz.x * thiz.x + thiz.y * thiz.y + thiz.z * thiz.z + thiz.w * thiz.w);
+            thiz.x *= invNorm;
+            thiz.y *= invNorm;
+            thiz.z *= invNorm;
+            thiz.w *= invNorm;
             return this;
         }
 
         get(dest: Matrix4): Matrix4 {
-            var dx = this.x + this.x;
-            var dy = this.y + this.y;
-            var dz = this.z + this.z;
-            var q00 = dx * this.x;
-            var q11 = dy * this.y;
-            var q22 = dz * this.z;
-            var q01 = dx * this.y;
-            var q02 = dx * this.z;
-            var q03 = dx * this.w;
-            var q12 = dy * this.z;
-            var q13 = dy * this.w;
-            var q23 = dz * this.w;
+            var thiz = this;
+            var dx = thiz.x + thiz.x;
+            var dy = thiz.y + thiz.y;
+            var dz = thiz.z + thiz.z;
+            var q00 = dx * thiz.x;
+            var q11 = dy * thiz.y;
+            var q22 = dz * thiz.z;
+            var q01 = dx * thiz.y;
+            var q02 = dx * thiz.z;
+            var q03 = dx * thiz.w;
+            var q12 = dy * thiz.z;
+            var q13 = dy * thiz.w;
+            var q23 = dz * thiz.w;
             dest.m00 = 1.0 - q11 - q22;
             dest.m01 = q01 + q23;
             dest.m02 = q02 - q13;
@@ -71,10 +74,11 @@ module JOML {
         }
 
         set(x: number, y: number, z: number, w: number): Quaternion {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.w = w;
+            var thiz = this;
+            thiz.x = x;
+            thiz.y = y;
+            thiz.z = z;
+            thiz.w = w;
             return this;
         }
 
@@ -83,126 +87,134 @@ module JOML {
         setFromNormalized(m: any): Quaternion {
             var t;
             var tr = m.m00 + m.m11 + m.m22;
+            var thiz = this;
             if (tr >= 0.0) {
                 t = Math.sqrt(tr + 1.0);
-                this.w = t * 0.5;
+                thiz.w = t * 0.5;
                 t = 0.5 / t;
-                this.x = (m.m12 - m.m21) * t;
-                this.y = (m.m20 - m.m02) * t;
-                this.z = (m.m01 - m.m10) * t;
+                thiz.x = (m.m12 - m.m21) * t;
+                thiz.y = (m.m20 - m.m02) * t;
+                thiz.z = (m.m01 - m.m10) * t;
             } else {
                 if (m.m00 >= m.m11 && m.m00 >= m.m22) {
                     t = Math.sqrt(m.m00 - (m.m11 + m.m22) + 1.0);
-                    this.x = t * 0.5;
+                    thiz.x = t * 0.5;
                     t = 0.5 / t;
-                    this.y = (m.m10 + m.m01) * t;
-                    this.z = (m.m02 + m.m20) * t;
-                    this.w = (m.m12 - m.m21) * t;
+                    thiz.y = (m.m10 + m.m01) * t;
+                    thiz.z = (m.m02 + m.m20) * t;
+                    thiz.w = (m.m12 - m.m21) * t;
                 } else if (m.m11 > m.m22) {
                     t = Math.sqrt(m.m11 - (m.m22 + m.m00) + 1.0);
-                    this.y = t * 0.5;
+                    thiz.y = t * 0.5;
                     t = 0.5 / t;
-                    this.z = (m.m21 + m.m12) * t;
-                    this.x = (m.m10 + m.m01) * t;
-                    this.w = (m.m20 - m.m02) * t;
+                    thiz.z = (m.m21 + m.m12) * t;
+                    thiz.x = (m.m10 + m.m01) * t;
+                    thiz.w = (m.m20 - m.m02) * t;
                 } else {
                     t = Math.sqrt(m.m22 - (m.m00 + m.m11) + 1.0);
-                    this.z = t * 0.5;
+                    thiz.z = t * 0.5;
                     t = 0.5 / t;
-                    this.x = (m.m02 + m.m20) * t;
-                    this.y = (m.m21 + m.m12) * t;
-                    this.w = (m.m01 - m.m10) * t;
+                    thiz.x = (m.m02 + m.m20) * t;
+                    thiz.y = (m.m21 + m.m12) * t;
+                    thiz.w = (m.m01 - m.m10) * t;
                 }
             }
             return this;
         }
 
         rotationAxis(angle: number, axisX: number, axisY: number, axisZ: number): Quaternion {
+            var thiz = this;
             var hangle = angle / 2.0;
             var sinAngle = Math.sin(hangle);
             var invVLength = 1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-            this.x = axisX * invVLength * sinAngle;
-            this.y = axisY * invVLength * sinAngle;
-            this.z = axisZ * invVLength * sinAngle;
-            this.w = Math.cos(hangle);
+            thiz.x = axisX * invVLength * sinAngle;
+            thiz.y = axisY * invVLength * sinAngle;
+            thiz.z = axisZ * invVLength * sinAngle;
+            thiz.w = Math.cos(hangle);
             return this;
         }
 
         rotation(angleX: number, angleY: number, angleZ: number): Quaternion {
+            var thiz = this;
             var thetaX = angleX * 0.5;
             var thetaY = angleY * 0.5;
             var thetaZ = angleZ * 0.5;
             var thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
             var s;
             if (thetaMagSq * thetaMagSq / 24.0 < 1E-8) {
-                this.w = 1.0 - thetaMagSq / 2.0;
+                thiz.w = 1.0 - thetaMagSq / 2.0;
                 s = 1.0 - thetaMagSq / 6.0;
             } else {
                 var thetaMag = Math.sqrt(thetaMagSq);
-                this.w = Math.cos(thetaMag);
+                thiz.w = Math.cos(thetaMag);
                 s = Math.sin(thetaMag) / thetaMag;
             }
-            this.x = thetaX * s;
-            this.y = thetaY * s;
-            this.z = thetaZ * s;
+            thiz.x = thetaX * s;
+            thiz.y = thetaY * s;
+            thiz.z = thetaZ * s;
             return this;
         }
 
         rotationX(angle: number): Quaternion {
+            var thiz = this;
             var cos = Math.cos(angle * 0.5);
             var sin = Math.sin(angle * 0.5);
-            this.w = cos;
-            this.x = sin;
-            this.y = 0.0;
-            this.z = 0.0;
+            thiz.w = cos;
+            thiz.x = sin;
+            thiz.y = 0.0;
+            thiz.z = 0.0;
             return this;
         }
 
         rotationY(angle: number): Quaternion {
+            var thiz = this;
             var cos = Math.cos(angle * 0.5);
             var sin = Math.sin(angle * 0.5);
-            this.w = cos;
-            this.x = 0.0;
-            this.y = sin;
-            this.z = 0.0;
+            thiz.w = cos;
+            thiz.x = 0.0;
+            thiz.y = sin;
+            thiz.z = 0.0;
             return this;
         }
 
         rotationZ(angle: number): Quaternion {
+            var thiz = this;
             var cos = Math.cos(angle * 0.5);
             var sin = Math.sin(angle * 0.5);
-            this.w = cos;
-            this.x = 0.0;
-            this.y = 0.0;
-            this.z = sin;
+            thiz.w = cos;
+            thiz.x = 0.0;
+            thiz.y = 0.0;
+            thiz.z = sin;
             return this;
         }
 
         mul(q: Quaternion, dest?: Quaternion): Quaternion {
-            dest = dest || this;
-            dest.set(this.w * q.x + this.x * q.w + this.y * q.z - this.z * q.y,
-                     this.w * q.y - this.x * q.z + this.y * q.w + this.z * q.x,
-                     this.w * q.z + this.x * q.y - this.y * q.x + this.z * q.w,
-                     this.w * q.w - this.x * q.x - this.y * q.y - this.z * q.z);
+            var thiz = this;
+            dest = dest || thiz;
+            dest.set(thiz.w * q.x + thiz.x * q.w + thiz.y * q.z - thiz.z * q.y,
+                     thiz.w * q.y - thiz.x * q.z + thiz.y * q.w + thiz.z * q.x,
+                     thiz.w * q.z + thiz.x * q.y - thiz.y * q.x + thiz.z * q.w,
+                     thiz.w * q.w - thiz.x * q.x - thiz.y * q.y - thiz.z * q.z);
             return dest;
         }
 
         transform(vec: Vector3, dest?: Vector3): Vector3;
         transform(vec: Vector4, dest?: Vector4): Vector4;
         transform(vec: any, dest?: any): any {
+            var thiz = this;
             dest = dest || vec;
-            var num = this.x + this.x;
-            var num2 = this.y + this.y;
-            var num3 = this.z + this.z;
-            var num4 = this.x * num;
-            var num5 = this.y * num2;
-            var num6 = this.z * num3;
-            var num7 = this.x * num2;
-            var num8 = this.x * num3;
-            var num9 = this.y * num3;
-            var num10 = this.w * num;
-            var num11 = this.w * num2;
-            var num12 = this.w * num3;
+            var num = thiz.x + thiz.x;
+            var num2 = thiz.y + thiz.y;
+            var num3 = thiz.z + thiz.z;
+            var num4 = thiz.x * num;
+            var num5 = thiz.y * num2;
+            var num6 = thiz.z * num3;
+            var num7 = thiz.x * num2;
+            var num8 = thiz.x * num3;
+            var num9 = thiz.y * num3;
+            var num10 = thiz.w * num;
+            var num11 = thiz.w * num2;
+            var num12 = thiz.w * num3;
             if (vec instanceof Vector3) {
                 dest.set((1.0 - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z,
                          (num7 + num12) * vec.x + (1.0 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z,
@@ -217,48 +229,53 @@ module JOML {
         }
 
         invert(dest?: Quaternion): Quaternion {
-            dest = dest || this;
-            var invNorm = 1.0 / (this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
-            dest.x = -this.x * invNorm;
-            dest.y = -this.y * invNorm;
-            dest.z = -this.z * invNorm;
-            dest.w =  this.w * invNorm;
+            var thiz = this;
+            dest = dest || thiz;
+            var invNorm = 1.0 / (thiz.x * thiz.x + thiz.y * thiz.y + thiz.z * thiz.z + thiz.w * thiz.w);
+            dest.x = -thiz.x * invNorm;
+            dest.y = -thiz.y * invNorm;
+            dest.z = -thiz.z * invNorm;
+            dest.w =  thiz.w * invNorm;
             return dest;
         }
 
         div(b: Quaternion, dest?: Quaternion): Quaternion {
-            dest = dest || this;
+            var thiz = this;
+            dest = dest || thiz;
             var invNorm = 1.0 / (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
             var x = -b.x * invNorm;
             var y = -b.y * invNorm;
             var z = -b.z * invNorm;
             var w =  b.w * invNorm;
-            dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
-                     this.w * y - this.x * z + this.y * w + this.z * x,
-                     this.w * z + this.x * y - this.y * x + this.z * w,
-                     this.w * w - this.x * x - this.y * y - this.z * z);
+            dest.set(thiz.w * x + thiz.x * w + thiz.y * z - thiz.z * y,
+                     thiz.w * y - thiz.x * z + thiz.y * w + thiz.z * x,
+                     thiz.w * z + thiz.x * y - thiz.y * x + thiz.z * w,
+                     thiz.w * w - thiz.x * x - thiz.y * y - thiz.z * z);
             return dest;
         }
 
         conjugate(dest?: Quaternion): Quaternion {
-            dest = dest || this;
-            dest.x = -this.x;
-            dest.y = -this.y;
-            dest.z = -this.z;
+            var thiz = this;
+            dest = dest || thiz;
+            dest.x = -thiz.x;
+            dest.y = -thiz.y;
+            dest.z = -thiz.z;
             return this;
         }
 
         identity(): Quaternion {
-            this.x = 0.0;
-            this.y = 0.0;
-            this.z = 0.0;
-            this.w = 1.0;
+            var thiz = this;
+            thiz.x = 0.0;
+            thiz.y = 0.0;
+            thiz.z = 0.0;
+            thiz.w = 1.0;
             return this;
         }
 
         slerp(target: Quaternion, alpha: number, dest?: Quaternion): Quaternion {
-            dest = dest || this;
-            var cosom = this.x * target.x + this.y * target.y + this.z * target.z + this.w * target.w;
+            var thiz = this;
+            dest = dest || thiz;
+            var cosom = thiz.x * target.x + thiz.y * target.y + thiz.z * target.z + thiz.w * target.w;
             var absCosom = Math.abs(cosom);
             var scale0, scale1;
             if (1.0 - absCosom > 1E-6) {
@@ -272,16 +289,17 @@ module JOML {
                 scale1 = alpha;
             }
             scale1 = cosom >= 0.0 ? scale1 : -scale1;
-            dest.x = scale0 * this.x + scale1 * target.x;
-            dest.y = scale0 * this.y + scale1 * target.y;
-            dest.z = scale0 * this.z + scale1 * target.z;
-            dest.w = scale0 * this.w + scale1 * target.w;
+            dest.x = scale0 * thiz.x + scale1 * target.x;
+            dest.y = scale0 * thiz.y + scale1 * target.y;
+            dest.z = scale0 * thiz.z + scale1 * target.z;
+            dest.w = scale0 * thiz.w + scale1 * target.w;
             return dest;
         }
 
         scale(factor: number, dest?: Quaternion): Quaternion {
-            dest = dest || this;
-            var absCosom = Math.abs(this.w);
+            var thiz = this;
+            dest = dest || thiz;
+            var absCosom = Math.abs(thiz.w);
             var scale0, scale1;
             if (1.0 - absCosom > 1E-6) {
                 var sinSqr = 1.0 - absCosom * absCosom;
@@ -293,16 +311,17 @@ module JOML {
                 scale0 = 1.0 - factor;
                 scale1 = factor;
             }
-            scale1 = this.w >= 0.0 ? scale1 : -scale1;
-            dest.x = scale1 * this.x;
-            dest.y = scale1 * this.y;
-            dest.z = scale1 * this.z;
-            dest.w = scale0 + scale1 * this.w;
+            scale1 = thiz.w >= 0.0 ? scale1 : -scale1;
+            dest.x = scale1 * thiz.x;
+            dest.y = scale1 * thiz.y;
+            dest.z = scale1 * thiz.z;
+            dest.w = scale0 + scale1 * thiz.w;
             return this;
         }
 
         rotateLocal(angleX: number, angleY: number, angleZ: number, dest?: Quaternion): Quaternion {
-            dest = dest || this;
+            var thiz = this;
+            dest = dest || thiz;
             var thetaX = angleX * 0.5;
             var thetaY = angleY * 0.5;
             var thetaZ = angleZ * 0.5;
@@ -320,26 +339,28 @@ module JOML {
             dqX = thetaX * s;
             dqY = thetaY * s;
             dqZ = thetaZ * s;
-            dest.set(dqW * this.x + dqX * this.w + dqY * this.z - dqZ * this.y,
-                     dqW * this.y - dqX * this.z + dqY * this.w + dqZ * this.x,
-                     dqW * this.z + dqX * this.y - dqY * this.x + dqZ * this.w,
-                     dqW * this.w - dqX * this.x - dqY * this.y - dqZ * this.z);
+            dest.set(dqW * thiz.x + dqX * thiz.w + dqY * thiz.z - dqZ * thiz.y,
+                     dqW * thiz.y - dqX * thiz.z + dqY * thiz.w + dqZ * thiz.x,
+                     dqW * thiz.z + dqX * thiz.y - dqY * thiz.x + dqZ * thiz.w,
+                     dqW * thiz.w - dqX * thiz.x - dqY * thiz.y - dqZ * thiz.z);
             return dest;
         }
 
         integrate(dt: number, vx: number, vy: number, vz: number, dest?: Quaternion): Quaternion {
-            return this.rotateLocal(dt * vx, dt * vy, dt * vz, dest);
+            var thiz = this;
+            return thiz.rotateLocal(dt * vx, dt * vy, dt * vz, dest);
         }
 
         nlerp(q: Quaternion, factor: number, dest?: Quaternion): Quaternion {
-            dest = dest || this;
-            var cosom = this.x * q.x + this.y * q.y + this.z * q.z + this.w * q.w;
+            var thiz = this;
+            dest = dest || thiz;
+            var cosom = thiz.x * q.x + thiz.y * q.y + thiz.z * q.z + thiz.w * q.w;
             var scale0 = 1.0 - factor;
             var scale1 = (cosom >= 0.0) ? factor : -factor;
-            dest.x = scale0 * this.x + scale1 * q.x;
-            dest.y = scale0 * this.y + scale1 * q.y;
-            dest.z = scale0 * this.z + scale1 * q.z;
-            dest.w = scale0 * this.w + scale1 * q.w;
+            dest.x = scale0 * thiz.x + scale1 * q.x;
+            dest.y = scale0 * thiz.y + scale1 * q.y;
+            dest.z = scale0 * thiz.z + scale1 * q.z;
+            dest.w = scale0 * thiz.w + scale1 * q.w;
             var s = 1.0 / Math.sqrt(dest.x * dest.x + dest.y * dest.y + dest.z * dest.z + dest.w * dest.w);
             dest.x *= s;
             dest.y *= s;
@@ -349,7 +370,8 @@ module JOML {
         }
 
         lookRotate(dirX: number, dirY: number, dirZ: number, upX: number, upY: number, upZ: number, dest?: Quaternion): Quaternion {
-            dest = dest || this;
+            var thiz = this;
+            dest = dest || thiz;
             var invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
             var dirnX = dirX * invDirLength;
             var dirnY = dirY * invDirLength;
@@ -399,15 +421,16 @@ module JOML {
                     w = (upnX - leftY) * t;
                 }
             }
-            dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
-                     this.w * y - this.x * z + this.y * w + this.z * x,
-                     this.w * z + this.x * y - this.y * x + this.z * w,
-                     this.w * w - this.x * x - this.y * y - this.z * z);
+            dest.set(thiz.w * x + thiz.x * w + thiz.y * z - thiz.z * y,
+                     thiz.w * y - thiz.x * z + thiz.y * w + thiz.z * x,
+                     thiz.w * z + thiz.x * y - thiz.y * x + thiz.z * w,
+                     thiz.w * w - thiz.x * x - thiz.y * y - thiz.z * z);
             return dest;
         }
 
         rotate(angleX: number, angleY: number, angleZ: number, dest?: Quaternion): Quaternion {
-            dest = dest || this;
+            var thiz = this;
+            dest = dest || thiz;
             var thetaX = angleX * 0.5;
             var thetaY = angleY * 0.5;
             var thetaZ = angleZ * 0.5;
@@ -425,52 +448,56 @@ module JOML {
             dqX = thetaX * s;
             dqY = thetaY * s;
             dqZ = thetaZ * s;
-            dest.set(this.w * dqX + this.x * dqW + this.y * dqZ - this.z * dqY,
-                     this.w * dqY - this.x * dqZ + this.y * dqW + this.z * dqX,
-                     this.w * dqZ + this.x * dqY - this.y * dqX + this.z * dqW,
-                     this.w * dqW - this.x * dqX - this.y * dqY - this.z * dqZ);
+            dest.set(thiz.w * dqX + thiz.x * dqW + thiz.y * dqZ - thiz.z * dqY,
+                     thiz.w * dqY - thiz.x * dqZ + thiz.y * dqW + thiz.z * dqX,
+                     thiz.w * dqZ + thiz.x * dqY - thiz.y * dqX + thiz.z * dqW,
+                     thiz.w * dqW - thiz.x * dqX - thiz.y * dqY - thiz.z * dqZ);
             return dest;
         }
 
         rotateX(angle: number, dest?: Quaternion): Quaternion {
-            dest = dest || this;
+            var thiz = this;
+            dest = dest || thiz;
             var cos = Math.cos(angle * 0.5);
             var sin = Math.sin(angle * 0.5);
-            dest.set(this.w * sin + this.x * cos,
-                     this.y * cos + this.z * sin,
-                     this.z * cos - this.y * sin,
-                     this.w * cos - this.x * sin);
+            dest.set(thiz.w * sin + thiz.x * cos,
+                     thiz.y * cos + thiz.z * sin,
+                     thiz.z * cos - thiz.y * sin,
+                     thiz.w * cos - thiz.x * sin);
             return dest;
         }
 
         rotateY(angle: number, dest?: Quaternion): Quaternion {
-            dest = dest || this;
+            var thiz = this;
+            dest = dest || thiz;
             var cos = Math.cos(angle * 0.5);
             var sin = Math.sin(angle * 0.5);
-            dest.set(this.x * cos - this.z * sin,
-                     this.w * sin + this.y * cos,
-                     this.x * sin + this.z * cos,
-                     this.w * cos - this.y * sin);
+            dest.set(thiz.x * cos - thiz.z * sin,
+                     thiz.w * sin + thiz.y * cos,
+                     thiz.x * sin + thiz.z * cos,
+                     thiz.w * cos - thiz.y * sin);
             return dest;
         }
 
         rotateZ(angle: number, dest?: Quaternion): Quaternion {
-            dest = dest || this;
+            var thiz = this;
+            dest = dest || thiz;
             var cos = Math.cos(angle * 0.5);
             var sin = Math.sin(angle * 0.5);
-            dest.set(this.x * cos + this.y * sin,
-                     this.y * cos - this.x * sin,
-                     this.w * sin + this.z * cos,
-                     this.w * cos - this.z * sin);
+            dest.set(thiz.x * cos + thiz.y * sin,
+                     thiz.y * cos - thiz.x * sin,
+                     thiz.w * sin + thiz.z * cos,
+                     thiz.w * cos - thiz.z * sin);
             return dest;
         }
 
         positiveX(dir: Vector3): Vector3 {
-            var invNorm = 1.0 / (this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
-            var nx = -this.x * invNorm;
-            var ny = -this.y * invNorm;
-            var nz = -this.z * invNorm;
-            var nw =  this.w * invNorm;
+            var thiz = this;
+            var invNorm = 1.0 / (thiz.x * thiz.x + thiz.y * thiz.y + thiz.z * thiz.z + thiz.w * thiz.w);
+            var nx = -thiz.x * invNorm;
+            var ny = -thiz.y * invNorm;
+            var nz = -thiz.z * invNorm;
+            var nw =  thiz.w * invNorm;
             var dy = ny + ny;
             var dz = nz + nz;
             dir.x = -ny * dy - nz * dz + 1.0;
@@ -480,20 +507,22 @@ module JOML {
         }
 
         normalizedPositiveX(dir: Vector3): Vector3 {
-            var dy = this.y + this.y;
-            var dz = this.z + this.z;
-            dir.x = -this.y * dy - this.z * dz + 1.0;
-            dir.y =  this.x * dy - this.w * dz;
-            dir.z =  this.x * dz + this.w * dy;
+            var thiz = this;
+            var dy = thiz.y + thiz.y;
+            var dz = thiz.z + thiz.z;
+            dir.x = -thiz.y * dy - thiz.z * dz + 1.0;
+            dir.y =  thiz.x * dy - thiz.w * dz;
+            dir.z =  thiz.x * dz + thiz.w * dy;
             return dir;
         }
 
         positiveY(dir: Vector3): Vector3 {
-            var invNorm = 1.0 / (this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
-            var nx = -this.x * invNorm;
-            var ny = -this.y * invNorm;
-            var nz = -this.z * invNorm;
-            var nw =  this.w * invNorm;
+            var thiz = this;
+            var invNorm = 1.0 / (thiz.x * thiz.x + thiz.y * thiz.y + thiz.z * thiz.z + thiz.w * thiz.w);
+            var nx = -thiz.x * invNorm;
+            var ny = -thiz.y * invNorm;
+            var nz = -thiz.z * invNorm;
+            var nw =  thiz.w * invNorm;
             var dx = nx + nx;
             var dy = ny + ny;
             var dz = nz + nz;
@@ -504,21 +533,23 @@ module JOML {
         }
 
         normalizedPositiveY(dir: Vector3): Vector3 {
-            var dx = this.x + this.x;
-            var dy = this.y + this.y;
-            var dz = this.z + this.z;
-            dir.x =  this.x * dy + this.w * dz;
-            dir.y = -this.x * dx - this.z * dz + 1.0;
-            dir.z =  this.y * dz - this.w * dx;
+            var thiz = this;
+            var dx = thiz.x + thiz.x;
+            var dy = thiz.y + thiz.y;
+            var dz = thiz.z + thiz.z;
+            dir.x =  thiz.x * dy + thiz.w * dz;
+            dir.y = -thiz.x * dx - thiz.z * dz + 1.0;
+            dir.z =  thiz.y * dz - thiz.w * dx;
             return dir;
         }
 
         positiveZ(dir: Vector3): Vector3 {
-            var invNorm = 1.0 / (this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
-            var nx = -this.x * invNorm;
-            var ny = -this.y * invNorm;
-            var nz = -this.z * invNorm;
-            var nw =  this.w * invNorm;
+            var thiz = this;
+            var invNorm = 1.0 / (thiz.x * thiz.x + thiz.y * thiz.y + thiz.z * thiz.z + thiz.w * thiz.w);
+            var nx = -thiz.x * invNorm;
+            var ny = -thiz.y * invNorm;
+            var nz = -thiz.z * invNorm;
+            var nw =  thiz.w * invNorm;
             var dx = nx + nx;
             var dy = ny + ny;
             var dz = nz + nz;
@@ -529,17 +560,19 @@ module JOML {
         }
 
         normalizedPositiveZ(dir: Vector3): Vector3 {
-            var dx = this.x + this.x;
-            var dy = this.y + this.y;
-            var dz = this.z + this.z;
-            dir.x =  this.x * dz - this.w * dy;
-            dir.y =  this.y * dz + this.w * dx;
-            dir.z = -this.x * dx - this.y * dy + 1.0;
+            var thiz = this;
+            var dx = thiz.x + thiz.x;
+            var dy = thiz.y + thiz.y;
+            var dz = thiz.z + thiz.z;
+            dir.x =  thiz.x * dz - thiz.w * dy;
+            dir.y =  thiz.y * dz + thiz.w * dx;
+            dir.z = -thiz.x * dx - thiz.y * dy + 1.0;
             return dir;
         }
 
         toString(): string {
-            return "(" + this.x + " " + this.y + " " + this.z + " " + this.w + ")";
+            var thiz = this;
+            return "(" + thiz.x + " " + thiz.y + " " + thiz.z + " " + thiz.w + ")";
         }
     }
 }
