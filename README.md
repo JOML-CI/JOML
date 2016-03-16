@@ -1,4 +1,4 @@
-# [JOML](http://joml-ci.github.io/JOML) - Java OpenGL Math Library [![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=2d)](https://travis-ci.org/JOML-CI/JOML)
+# [JOML](http://joml-ci.github.io/JOML) - Java OpenGL Math Library [![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=2d)](https://travis-ci.org/JOML-CI/JOML) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.joml/joml-2d/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22joml-2d%22)
 A Java-based math library for OpenGL rendering calculations
 
 Design goals
