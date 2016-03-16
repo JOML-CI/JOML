@@ -1354,6 +1354,10 @@ public class Matrix4f implements Externalizable {
     /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and write the result into <code>dest</code>.
+     * <p>
+     * Note that if <code>this</code> matrix also has unit scaling, then the method {@link #invertAffineUnitScale(Matrix4f)} should be used instead.
+     * 
+     * @see #invertAffineUnitScale(Matrix4f)
      * 
      * @param dest
      *          will hold the result
@@ -1401,11 +1405,49 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>).
+     * <p>
+     * Note that if <code>this</code> matrix also has unit scaling, then the method {@link #invertAffineUnitScale()} should be used instead.
+     * 
+     * @see #invertAffineUnitScale()
      * 
      * @return this
      */
     public Matrix4f invertAffine() {
         return invertAffine(this);
+    }
+
+    /**
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3f) transformDirection} does not change the {@link Vector3f#length() length} of the vector)
+     * and write the result into <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f invertAffineUnitScale(Matrix4f dest) {
+        dest.set(m00, m10, m20, 0.0f,
+                 m01, m11, m21, 0.0f,
+                 m02, m12, m22, 0.0f,
+                 m00 * -m30 + m01 * -m31 + m02 * -m32,
+                 m10 * -m30 + m11 * -m31 + m12 * -m32,
+                 m20 * -m30 + m21 * -m31 + m22 * -m32,
+                 1.0f);
+        return dest;
+    }
+
+    /**
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3f) transformDirection} does not change the {@link Vector3f#length() length} of the vector).
+     * <p>
+     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
+     * 
+     * @return this
+     */
+    public Matrix4f invertAffineUnitScale() {
+        return invertAffineUnitScale(this);
     }
 
     /**
