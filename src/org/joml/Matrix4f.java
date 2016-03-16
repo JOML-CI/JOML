@@ -1400,7 +1400,7 @@ public class Matrix4f implements Externalizable {
      * other methods, that build affine matrices, such as {@link #translate(float, float, float) translate} and {@link #rotate(float, float, float, float)}, except for {@link #scale(float, float, float) scale()}.
      * 
      * @param view
-     *          the view transformation (must be {@link #isAffine() affine} and 
+     *          the view transformation (must be {@link #isAffine() affine} and have unit scaling
      * @param dest
      *          will hold the inverse of <tt>this * view</tt>
      * @return dest
