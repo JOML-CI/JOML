@@ -1517,6 +1517,78 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(double, double, double, double) perspective()} methods
+     * or via {@link #setPerspective(double, double, double, double) setPerspective()}, that is, if <code>this</code> is a symmetrical perspective frustum transformation,
+     * then this method builds the inverse of <code>this</code> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of a perspective projection matrix when being obtained via {@link #perspective(double, double, double, double) perspective()}.
+     * 
+     * @see #perspective(double, double, double, double)
+     * 
+     * @param dest
+     *          will hold the inverse of <code>this</code>
+     * @return dest
+     */
+    public Matrix4d invertPerspective(Matrix4d dest) {
+        double a =  1.0 / (m00 * m11);
+        double l = -1.0 / (m23 * m32);
+        dest.set(m11 * a, 0, 0, 0,
+                 0, m00 * a, 0, 0,
+                 0, 0, 0, -m23 * l,
+                 0, 0, -m32 * l, m22 * l);
+        return dest;
+    }
+
+    /**
+     * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(double, double, double, double) perspective()} methods
+     * or via {@link #setPerspective(double, double, double, double) setPerspective()}, that is, if <code>this</code> is a symmetrical perspective frustum transformation,
+     * then this method builds the inverse of <code>this</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of a perspective projection matrix when being obtained via {@link #perspective(double, double, double, double) perspective()}.
+     * 
+     * @see #perspective(double, double, double, double)
+     * 
+     * @return this
+     */
+    public Matrix4d invertPerspective() {
+        return invertPerspective(this);
+    }
+
+    /**
+     * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(double, double, double, double) perspective()} methods
+     * or via {@link #setPerspective(double, double, double, double) setPerspective()}, that is, if <code>this</code> is a symmetrical perspective frustum transformation
+     * and the given <code>view</code> matrix is {@link #isAffine() affine} and has unit scaling (for example by being obtained via {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt()}),
+     * then this method builds the inverse of <tt>this * view</tt> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of the combination of the view and projection matrices, when both were obtained
+     * via the common methods {@link #perspective(double, double, double, double) perspective()} and {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt()} or
+     * other methods, that build affine matrices, such as {@link #translate(double, double, double) translate} and {@link #rotate(double, double, double, double)}, except for {@link #scale(double, double, double) scale()}.
+     * 
+     * @param view
+     *          the view transformation (must be {@link #isAffine() affine} and 
+     * @param dest
+     *          will hold the inverse of <tt>this * view</tt>
+     * @return dest
+     */
+    public Matrix4d invertPerspectiveView(Matrix4d view, Matrix4d dest) {
+        double a =  1.0 / (m00 * m11);
+        double l = -1.0 / (m23 * m32);
+        double pm00 =  m11 * a;
+        double pm11 =  m00 * a;
+        double pm23 = -m23 * l;
+        double pm32 = -m32 * l;
+        double pm33 =  m22 * l;
+        double vm30 = -view.m00 * view.m30 - view.m01 * view.m31 - view.m02 * view.m32;
+        double vm31 = -view.m10 * view.m30 - view.m11 * view.m31 - view.m12 * view.m32;
+        double vm32 = -view.m20 * view.m30 - view.m21 * view.m31 - view.m22 * view.m32;
+        dest.set(view.m00 * pm00, view.m10 * pm00, view.m20 * pm00, 0.0f,
+                 view.m01 * pm11, view.m11 * pm11, view.m21 * pm11, 0.0f,
+                 vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
+                 view.m02 * pm32 + vm30 * pm33, view.m12 * pm32 + vm31 * pm33, view.m22 * pm32 + vm32 * pm33, pm33);
+        return dest;
+    }
+
+    /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and write the result into <code>dest</code>.
      * <p>
@@ -1596,9 +1668,9 @@ public class Matrix4d implements Externalizable {
         dest.set(m00, m10, m20, 0.0,
                  m01, m11, m21, 0.0,
                  m02, m12, m22, 0.0,
-                 m00 * -m30 + m01 * -m31 + m02 * -m32,
-                 m10 * -m30 + m11 * -m31 + m12 * -m32,
-                 m20 * -m30 + m21 * -m31 + m22 * -m32,
+                 -m00 * m30 - m01 * m31 - m02 * m32,
+                 -m10 * m30 - m11 * m31 - m12 * m32,
+                 -m20 * m30 - m21 * m31 - m22 * m32,
                  1.0);
         return dest;
     }
