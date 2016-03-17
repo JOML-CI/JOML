@@ -682,6 +682,44 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Multiply <code>this</code> symmetric perspective projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>M * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * V * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param view
+     *          the {@link #isAffine() affine} matrix to multiply <code>this</code> symmetric perspective projection matrix by
+     * @return dest
+     */
+    public Matrix4d mulPerspectiveAffine(Matrix4d view) {
+       return mulPerspectiveAffine(view, this);
+    }
+
+    /**
+     * Multiply <code>this</code> symmetric perspective projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>M * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * V * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param view
+     *          the {@link #isAffine() affine} matrix to multiply <code>this</code> symmetric perspective projection matrix by
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4d mulPerspectiveAffine(Matrix4d view, Matrix4d dest) {
+        dest.set(m00 * view.m00, m11 * view.m01, m22 * view.m02, m23 * view.m02,
+                 m00 * view.m10, m11 * view.m11, m22 * view.m12, m23 * view.m12,
+                 m00 * view.m20, m11 * view.m21, m22 * view.m22, m23 * view.m22,
+                 m00 * view.m30, m11 * view.m31, m22 * view.m32 + m32, m23 * view.m32);
+        return dest;
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>this</code>.
      * <p>
      * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
