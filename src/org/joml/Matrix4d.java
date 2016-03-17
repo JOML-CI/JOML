@@ -1555,6 +1555,52 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * If <code>this</code> is an arbitrary perspective projection matrix obtained via one of the {@link #frustum(double, double, double, double, double, double) frustum()}  methods
+     * or via {@link #setFrustum(double, double, double, double, double, double) setFrustum()},
+     * then this method builds the inverse of <code>this</code> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of a perspective projection matrix.
+     * <p>
+     * If this matrix represents a symmetric perspective frustum transformation, as obtained via {@link #perspective(double, double, double, double) perspective()}, then
+     * {@link #invertPerspective(Matrix4d)} should be used instead.
+     * 
+     * @see #frustum(double, double, double, double, double, double)
+     * @see #invertPerspective(Matrix4d)
+     * 
+     * @param dest
+     *          will hold the inverse of <code>this</code>
+     * @return dest
+     */
+    public Matrix4d invertFrustum(Matrix4d dest) {
+        double a = 1.0 / (m00 * m11);
+        double l = -1.0 / (m23 * m32);
+        dest.set(m11 * a, 0, 0, 0,
+                 0, m00 * a, 0, 0,
+                 0, 0, 0, -m23 * l,
+                 m20 / (m00 * -m23), m21 / (m11 * -m23), -m32 * l, m22 * l);
+        return dest;
+    }
+
+    /**
+     * If <code>this</code> is an arbitrary perspective projection matrix obtained via one of the {@link #frustum(double, double, double, double, double, double) frustum()}  methods
+     * or via {@link #setFrustum(double, double, double, double, double, double) setFrustum()},
+     * then this method builds the inverse of <code>this</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of a perspective projection matrix.
+     * <p>
+     * If this matrix represents a symmetric perspective frustum transformation, as obtained via {@link #perspective(double, double, double, double) perspective()}, then
+     * {@link #invertPerspective()} should be used instead.
+     * 
+     * @see #frustum(double, double, double, double, double, double)
+     * @see #invertPerspective()
+     * 
+     * @return this
+     */
+    public Matrix4d invertFrustum() {
+        return invertFrustum(this);
+    }
+
+    /**
      * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(double, double, double, double) perspective()} methods
      * or via {@link #setPerspective(double, double, double, double) setPerspective()}, that is, if <code>this</code> is a symmetrical perspective frustum transformation
      * and the given <code>view</code> matrix is {@link #isAffine() affine} and has unit scaling (for example by being obtained via {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt()}),
@@ -1581,8 +1627,8 @@ public class Matrix4d implements Externalizable {
         double vm30 = -view.m00 * view.m30 - view.m01 * view.m31 - view.m02 * view.m32;
         double vm31 = -view.m10 * view.m30 - view.m11 * view.m31 - view.m12 * view.m32;
         double vm32 = -view.m20 * view.m30 - view.m21 * view.m31 - view.m22 * view.m32;
-        dest.set(view.m00 * pm00, view.m10 * pm00, view.m20 * pm00, 0.0f,
-                 view.m01 * pm11, view.m11 * pm11, view.m21 * pm11, 0.0f,
+        dest.set(view.m00 * pm00, view.m10 * pm00, view.m20 * pm00, 0.0,
+                 view.m01 * pm11, view.m11 * pm11, view.m21 * pm11, 0.0,
                  vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
                  view.m02 * pm32 + vm30 * pm33, view.m12 * pm32 + vm31 * pm33, view.m22 * pm32 + vm32 * pm33, pm33);
         return dest;
@@ -5396,16 +5442,16 @@ public class Matrix4d implements Externalizable {
         dest.set((m11 * m22 - m21 * m12) * s,
                  (m20 * m12 - m10 * m22) * s,
                  (m10 * m21 - m20 * m11) * s,
-                 0.0f,
+                 0.0,
                  (m21 * m02 - m01 * m22) * s,
                  (m00 * m22 - m20 * m02) * s,
                  (m20 * m01 - m00 * m21) * s,
-                 0.0f,
+                 0.0,
                  (m01 * m12 - m11 * m02) * s,
                  (m10 * m02 - m00 * m12) * s,
                  (m00 * m11 - m10 * m01) * s,
-                 0.0f,
-                 0.0f, 0.0f, 0.0f, 1.0f);
+                 0.0,
+                 0.0, 0.0, 0.0, 1.0);
         return dest;
     }
 
@@ -7415,7 +7461,7 @@ public class Matrix4d implements Externalizable {
         leftY = upZ * dirX - upX * dirZ;
         leftZ = upX * dirY - upY * dirX;
         // normalize left
-        double invLeftLength = 1.0f / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        double invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLength;
         leftY *= invLeftLength;
         leftZ *= invLeftLength;

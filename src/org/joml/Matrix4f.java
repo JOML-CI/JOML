@@ -1390,6 +1390,52 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * If <code>this</code> is an arbitrary perspective projection matrix obtained via one of the {@link #frustum(float, float, float, float, float, float) frustum()}  methods
+     * or via {@link #setFrustum(float, float, float, float, float, float) setFrustum()},
+     * then this method builds the inverse of <code>this</code> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of a perspective projection matrix.
+     * <p>
+     * If this matrix represents a symmetric perspective frustum transformation, as obtained via {@link #perspective(float, float, float, float) perspective()}, then
+     * {@link #invertPerspective(Matrix4f)} should be used instead.
+     * 
+     * @see #frustum(float, float, float, float, float, float)
+     * @see #invertPerspective(Matrix4f)
+     * 
+     * @param dest
+     *          will hold the inverse of <code>this</code>
+     * @return dest
+     */
+    public Matrix4f invertFrustum(Matrix4f dest) {
+        float a = 1.0f / (m00 * m11);
+        float l = -1.0f / (m23 * m32);
+        dest.set(m11 * a, 0, 0, 0,
+                 0, m00 * a, 0, 0,
+                 0, 0, 0, -m23 * l,
+                 m20 / (m00 * -m23), m21 / (m11 * -m23), -m32 * l, m22 * l);
+        return dest;
+    }
+
+    /**
+     * If <code>this</code> is an arbitrary perspective projection matrix obtained via one of the {@link #frustum(float, float, float, float, float, float) frustum()}  methods
+     * or via {@link #setFrustum(float, float, float, float, float, float) setFrustum()},
+     * then this method builds the inverse of <code>this</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of a perspective projection matrix.
+     * <p>
+     * If this matrix represents a symmetric perspective frustum transformation, as obtained via {@link #perspective(float, float, float, float) perspective()}, then
+     * {@link #invertPerspective()} should be used instead.
+     * 
+     * @see #frustum(float, float, float, float, float, float)
+     * @see #invertPerspective()
+     * 
+     * @return this
+     */
+    public Matrix4f invertFrustum() {
+        return invertFrustum(this);
+    }
+
+    /**
      * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(float, float, float, float) perspective()} methods
      * or via {@link #setPerspective(float, float, float, float) setPerspective()}, that is, if <code>this</code> is a symmetrical perspective frustum transformation
      * and the given <code>view</code> matrix is {@link #isAffine() affine} and has unit scaling (for example by being obtained via {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt()}),
