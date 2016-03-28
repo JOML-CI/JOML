@@ -1474,6 +1474,37 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Invert <code>this</code> orthographic projection matrix and store the result into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of an orthographic projection matrix.
+     * 
+     * @param dest
+     *          will hold the inverse of <code>this</code>
+     * @return dest
+     */
+    public Matrix4f invertOrtho(Matrix4f dest) {
+        float invM00 = 1.0f / m00;
+        float invM11 = 1.0f / m11;
+        float invM22 = 1.0f / m22;
+        dest.set(invM00, 0, 0, 0,
+                 0, invM11, 0, 0,
+                 0, 0, invM22, 0,
+                 -m30 * invM00, -m31 * invM11, -m32 * invM22, 1);
+        return dest;
+    }
+
+    /**
+     * Invert <code>this</code> orthographic projection matrix.
+     * <p>
+     * This method can be used to quickly obtain the inverse of an orthographic projection matrix.
+     * 
+     * @return this
+     */
+    public Matrix4f invertOrtho() {
+        return invertOrtho(this);
+    }
+
+    /**
      * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(float, float, float, float) perspective()} methods
      * or via {@link #setPerspective(float, float, float, float) setPerspective()}, that is, if <code>this</code> is a symmetrical perspective frustum transformation
      * and the given <code>view</code> matrix is {@link #isAffine() affine} and has unit scaling (for example by being obtained via {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt()}),
