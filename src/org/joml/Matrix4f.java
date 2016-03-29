@@ -1658,7 +1658,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invertLookAt(Matrix4f dest) {
-    	return invertAffineUnitScale(dest);
+        return invertAffineUnitScale(dest);
     }
 
     /**
@@ -1675,7 +1675,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f invertLookAt() {
-    	return invertAffineUnitScale(this);
+        return invertAffineUnitScale(this);
     }
 
     /**
@@ -9062,40 +9062,40 @@ public class Matrix4f implements Externalizable {
      * The axis-aligned bounding box of the unit frustum is <tt>(-1, -1, -1)</tt>, <tt>(1, 1, 1)</tt>.
      * 
      * @param min
-     * 			will hold the minimum corner coordinates of the axis-aligned bounding box
+     *          will hold the minimum corner coordinates of the axis-aligned bounding box
      * @param max
-     * 			will hold the maximum corner coordinates of the axis-aligned bounding box
+     *          will hold the maximum corner coordinates of the axis-aligned bounding box
      * @return this
      */
     public Matrix4f frustumAabbInv(Vector3f min, Vector3f max) {
-    	float minX = Float.MAX_VALUE;
-    	float minY = Float.MAX_VALUE;
-    	float minZ = Float.MAX_VALUE;
-    	float maxX = -Float.MAX_VALUE;
-    	float maxY = -Float.MAX_VALUE;
-    	float maxZ = -Float.MAX_VALUE;
-    	for (int t = 0; t < 8; t++) {
-    		float x = ((t % 2) << 1) - 1.0f;
-    		float y = (((t / 2) % 2) << 1) - 1.0f;
-    		float z = (((t / 4) % 2) << 1) - 1.0f;
-	    	float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
-	    	float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
-	        float ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
-	        float nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
-	        minX = minX < nx ? minX : nx;
-	        minY = minY < ny ? minY : ny;
-	        minZ = minZ < nz ? minZ : nz;
-	        maxX = maxX > nx ? maxX : nx;
-	        maxY = maxY > ny ? maxY : ny;
-	        maxZ = maxZ > nz ? maxZ : nz;
-    	}
-    	min.x = minX;
-    	min.y = minY;
-    	min.z = minZ;
-    	max.x = maxX;
-    	max.y = maxY;
-    	max.z = maxZ;
-    	return this;
+        float minX = Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE;
+        float minZ = Float.MAX_VALUE;
+        float maxX = -Float.MAX_VALUE;
+        float maxY = -Float.MAX_VALUE;
+        float maxZ = -Float.MAX_VALUE;
+        for (int t = 0; t < 8; t++) {
+            float x = ((t % 2) << 1) - 1.0f;
+            float y = (((t / 2) % 2) << 1) - 1.0f;
+            float z = (((t / 4) % 2) << 1) - 1.0f;
+            float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
+            float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
+            float ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
+            float nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
+            minX = minX < nx ? minX : nx;
+            minY = minY < ny ? minY : ny;
+            minZ = minZ < nz ? minZ : nz;
+            maxX = maxX > nx ? maxX : nx;
+            maxY = maxY > ny ? maxY : ny;
+            maxZ = maxZ > nz ? maxZ : nz;
+        }
+        min.x = minX;
+        min.y = minY;
+        min.z = minZ;
+        max.x = maxX;
+        max.y = maxY;
+        max.z = maxZ;
+        return this;
     }
 
     /**
@@ -9109,9 +9109,9 @@ public class Matrix4f implements Externalizable {
      * The axis-aligned bounding box of the unit frustum is <tt>(-1, -1, -1)</tt>, <tt>(1, 1, 1)</tt>.
      * 
      * @param min
-     * 			will hold the minimum corner coordinates of the axis-aligned bounding box
+     *          will hold the minimum corner coordinates of the axis-aligned bounding box
      * @param max
-     * 			will hold the maximum corner coordinates of the axis-aligned bounding box
+     *          will hold the maximum corner coordinates of the axis-aligned bounding box
      * @return this
      */
     public Matrix4f frustumAabb(Vector3f min, Vector3f max) {
@@ -9145,34 +9145,34 @@ public class Matrix4f implements Externalizable {
         float nm31 = ( m00 * j - m01 * h + m02 * g) * det;
         float nm32 = (-m30 * d + m31 * b - m32 * a) * det;
         float nm33 = ( m20 * d - m21 * b + m22 * a) * det;
-    	float minX = Float.MAX_VALUE;
-    	float minY = Float.MAX_VALUE;
-    	float minZ = Float.MAX_VALUE;
-    	float maxX = -Float.MAX_VALUE;
-    	float maxY = -Float.MAX_VALUE;
-    	float maxZ = -Float.MAX_VALUE;
-    	for (int t = 0; t < 8; t++) {
-    		float x = ((t % 2) << 1) - 1.0f;
-    		float y = (((t / 2) % 2) << 1) - 1.0f;
-    		float z = (((t / 4) % 2) << 1) - 1.0f;
-	    	float invW = 1.0f / (nm03 * x + nm13 * y + nm23 * z + nm33);
-	    	float nx = (nm00 * x + nm10 * y + nm20 * z + nm30) * invW;
-	        float ny = (nm01 * x + nm11 * y + nm21 * z + nm31) * invW;
-	        float nz = (nm02 * x + nm12 * y + nm22 * z + nm32) * invW;
-	        minX = minX < nx ? minX : nx;
-	        minY = minY < ny ? minY : ny;
-	        minZ = minZ < nz ? minZ : nz;
-	        maxX = maxX > nx ? maxX : nx;
-	        maxY = maxY > ny ? maxY : ny;
-	        maxZ = maxZ > nz ? maxZ : nz;
-    	}
-    	min.x = minX;
-    	min.y = minY;
-    	min.z = minZ;
-    	max.x = maxX;
-    	max.y = maxY;
-    	max.z = maxZ;
-    	return this;
+        float minX = Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE;
+        float minZ = Float.MAX_VALUE;
+        float maxX = -Float.MAX_VALUE;
+        float maxY = -Float.MAX_VALUE;
+        float maxZ = -Float.MAX_VALUE;
+        for (int t = 0; t < 8; t++) {
+            float x = ((t % 2) << 1) - 1.0f;
+            float y = (((t / 2) % 2) << 1) - 1.0f;
+            float z = (((t / 4) % 2) << 1) - 1.0f;
+            float invW = 1.0f / (nm03 * x + nm13 * y + nm23 * z + nm33);
+            float nx = (nm00 * x + nm10 * y + nm20 * z + nm30) * invW;
+            float ny = (nm01 * x + nm11 * y + nm21 * z + nm31) * invW;
+            float nz = (nm02 * x + nm12 * y + nm22 * z + nm32) * invW;
+            minX = minX < nx ? minX : nx;
+            minY = minY < ny ? minY : ny;
+            minZ = minZ < nz ? minZ : nz;
+            maxX = maxX > nx ? maxX : nx;
+            maxY = maxY > ny ? maxY : ny;
+            maxZ = maxZ > nz ? maxZ : nz;
+        }
+        min.x = minX;
+        min.y = minY;
+        min.z = minZ;
+        max.x = maxX;
+        max.y = maxY;
+        max.z = maxZ;
+        return this;
     }
 
 }
