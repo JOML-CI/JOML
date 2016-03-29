@@ -9053,4 +9053,126 @@ public class Matrix4f implements Externalizable {
         return translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z);
     }
 
+    /**
+     * Compute the axis-aligned bounding box of the frustum described by <code>this</code> matrix and store the minimum corner
+     * coordinates in the given <code>min</code> and the maximum corner coordinates in the given <code>max</code> vector.
+     * <p>
+     * The matrix <code>this</code> is assumed to be the {@link #invert() inverse} of the origial view-projection matrix.
+     * <p>
+     * The axis-aligned bounding box of the unit frustum is <tt>(-1, -1, -1)</tt>, <tt>(1, 1, 1)</tt>.
+     * 
+     * @param min
+     * 			will hold the minimum corner coordinates of the axis-aligned bounding box
+     * @param max
+     * 			will hold the maximum corner coordinates of the axis-aligned bounding box
+     * @return this
+     */
+    public Matrix4f frustumAabbInv(Vector3f min, Vector3f max) {
+    	float minX = Float.MAX_VALUE;
+    	float minY = Float.MAX_VALUE;
+    	float minZ = Float.MAX_VALUE;
+    	float maxX = -Float.MAX_VALUE;
+    	float maxY = -Float.MAX_VALUE;
+    	float maxZ = -Float.MAX_VALUE;
+    	for (int t = 0; t < 8; t++) {
+    		float x = ((t % 2) << 1) - 1.0f;
+    		float y = (((t / 2) % 2) << 1) - 1.0f;
+    		float z = (((t / 4) % 2) << 1) - 1.0f;
+	    	float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
+	    	float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
+	        float ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
+	        float nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
+	        minX = minX < nx ? minX : nx;
+	        minY = minY < ny ? minY : ny;
+	        minZ = minZ < nz ? minZ : nz;
+	        maxX = maxX > nx ? maxX : nx;
+	        maxY = maxY > ny ? maxY : ny;
+	        maxZ = maxZ > nz ? maxZ : nz;
+    	}
+    	min.x = minX;
+    	min.y = minY;
+    	min.z = minZ;
+    	max.x = maxX;
+    	max.y = maxY;
+    	max.z = maxZ;
+    	return this;
+    }
+
+    /**
+     * Compute the axis-aligned bounding box of the frustum described by <code>this</code> matrix and store the minimum corner
+     * coordinates in the given <code>min</code> and the maximum corner coordinates in the given <code>max</code> vector.
+     * <p>
+     * A matrix inversion on <code>this</code> is performed during this calculation. If the inverted matrix is needed afterwards
+     * then the inverse should be built before calling this method using {@link #invert()} and then the method {@link #frustumAabbInv(Vector3f, Vector3f)}
+     * should be used on the already inverted matrix.
+     * <p>
+     * The axis-aligned bounding box of the unit frustum is <tt>(-1, -1, -1)</tt>, <tt>(1, 1, 1)</tt>.
+     * 
+     * @param min
+     * 			will hold the minimum corner coordinates of the axis-aligned bounding box
+     * @param max
+     * 			will hold the maximum corner coordinates of the axis-aligned bounding box
+     * @return this
+     */
+    public Matrix4f frustumAabb(Vector3f min, Vector3f max) {
+        float a = m00 * m11 - m01 * m10;
+        float b = m00 * m12 - m02 * m10;
+        float c = m00 * m13 - m03 * m10;
+        float d = m01 * m12 - m02 * m11;
+        float e = m01 * m13 - m03 * m11;
+        float f = m02 * m13 - m03 * m12;
+        float g = m20 * m31 - m21 * m30;
+        float h = m20 * m32 - m22 * m30;
+        float i = m20 * m33 - m23 * m30;
+        float j = m21 * m32 - m22 * m31;
+        float k = m21 * m33 - m23 * m31;
+        float l = m22 * m33 - m23 * m32;
+        float det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0f / det;
+        float nm00 = ( m11 * l - m12 * k + m13 * j) * det;
+        float nm01 = (-m01 * l + m02 * k - m03 * j) * det;
+        float nm02 = ( m31 * f - m32 * e + m33 * d) * det;
+        float nm03 = (-m21 * f + m22 * e - m23 * d) * det;
+        float nm10 = (-m10 * l + m12 * i - m13 * h) * det;
+        float nm11 = ( m00 * l - m02 * i + m03 * h) * det;
+        float nm12 = (-m30 * f + m32 * c - m33 * b) * det;
+        float nm13 = ( m20 * f - m22 * c + m23 * b) * det;
+        float nm20 = ( m10 * k - m11 * i + m13 * g) * det;
+        float nm21 = (-m00 * k + m01 * i - m03 * g) * det;
+        float nm22 = ( m30 * e - m31 * c + m33 * a) * det;
+        float nm23 = (-m20 * e + m21 * c - m23 * a) * det;
+        float nm30 = (-m10 * j + m11 * h - m12 * g) * det;
+        float nm31 = ( m00 * j - m01 * h + m02 * g) * det;
+        float nm32 = (-m30 * d + m31 * b - m32 * a) * det;
+        float nm33 = ( m20 * d - m21 * b + m22 * a) * det;
+    	float minX = Float.MAX_VALUE;
+    	float minY = Float.MAX_VALUE;
+    	float minZ = Float.MAX_VALUE;
+    	float maxX = -Float.MAX_VALUE;
+    	float maxY = -Float.MAX_VALUE;
+    	float maxZ = -Float.MAX_VALUE;
+    	for (int t = 0; t < 8; t++) {
+    		float x = ((t % 2) << 1) - 1.0f;
+    		float y = (((t / 2) % 2) << 1) - 1.0f;
+    		float z = (((t / 4) % 2) << 1) - 1.0f;
+	    	float invW = 1.0f / (nm03 * x + nm13 * y + nm23 * z + nm33);
+	    	float nx = (nm00 * x + nm10 * y + nm20 * z + nm30) * invW;
+	        float ny = (nm01 * x + nm11 * y + nm21 * z + nm31) * invW;
+	        float nz = (nm02 * x + nm12 * y + nm22 * z + nm32) * invW;
+	        minX = minX < nx ? minX : nx;
+	        minY = minY < ny ? minY : ny;
+	        minZ = minZ < nz ? minZ : nz;
+	        maxX = maxX > nx ? maxX : nx;
+	        maxY = maxY > ny ? maxY : ny;
+	        maxZ = maxZ > nz ? maxZ : nz;
+    	}
+    	min.x = minX;
+    	min.y = minY;
+    	min.z = minZ;
+    	max.x = maxX;
+    	max.y = maxY;
+    	max.z = maxZ;
+    	return this;
+    }
+
 }
