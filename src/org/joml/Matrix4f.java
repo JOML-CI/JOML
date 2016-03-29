@@ -1643,6 +1643,42 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3f) transformDirection} does not change the {@link Vector3f#length() length} of the vector),
+     * as is the case for matrices built via {@link #lookAt(Vector3f, Vector3f, Vector3f)} and their overloads, and write the result into <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling {@link #invertAffineUnitScale(Matrix4f)}
+     * <p>
+     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
+     * 
+     * @see #invertAffineUnitScale(Matrix4f)
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f invertLookAt(Matrix4f dest) {
+    	return invertAffineUnitScale(dest);
+    }
+
+    /**
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3f) transformDirection} does not change the {@link Vector3f#length() length} of the vector),
+     * as is the case for matrices built via {@link #lookAt(Vector3f, Vector3f, Vector3f)} and their overloads.
+     * <p>
+     * This method is equivalent to calling {@link #invertAffineUnitScale()}
+     * <p>
+     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
+     * 
+     * @see #invertAffineUnitScale()
+     * 
+     * @return this
+     */
+    public Matrix4f invertLookAt() {
+    	return invertAffineUnitScale(this);
+    }
+
+    /**
      * Transpose this matrix and store the result in <code>dest</code>.
      * 
      * @param dest

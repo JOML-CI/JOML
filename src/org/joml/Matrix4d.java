@@ -1808,6 +1808,42 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3d#length() length} of the vector),
+     * as is the case for matrices built via {@link #lookAt(Vector3d, Vector3d, Vector3d)} and their overloads, and write the result into <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling {@link #invertAffineUnitScale(Matrix4d)}
+     * <p>
+     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
+     * 
+     * @see #invertAffineUnitScale(Matrix4d)
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4d invertLookAt(Matrix4d dest) {
+    	return invertAffineUnitScale(dest);
+    }
+
+    /**
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3d#length() length} of the vector),
+     * as is the case for matrices built via {@link #lookAt(Vector3d, Vector3d, Vector3d)} and their overloads.
+     * <p>
+     * This method is equivalent to calling {@link #invertAffineUnitScale()}
+     * <p>
+     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
+     * 
+     * @see #invertAffineUnitScale()
+     * 
+     * @return this
+     */
+    public Matrix4d invertLookAt() {
+    	return invertAffineUnitScale(this);
+    }
+
+    /**
      * Transpose this matrix.
      * 
      * @return this
@@ -3561,7 +3597,7 @@ public class Matrix4d implements Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3f)}.
+     * it, use {@link #translation(Vector3d)}.
      * 
      * @see #translation(Vector3d)
      * 
