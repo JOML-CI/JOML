@@ -9076,8 +9076,8 @@ public class Matrix4f implements Externalizable {
         float maxZ = -Float.MAX_VALUE;
         for (int t = 0; t < 8; t++) {
             float x = ((t % 2) << 1) - 1.0f;
-            float y = (((t / 2) % 2) << 1) - 1.0f;
-            float z = (((t / 4) % 2) << 1) - 1.0f;
+            float y = (((t >>> 1) % 2) << 1) - 1.0f;
+            float z = (((t >>> 2) % 2) << 1) - 1.0f;
             float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
             float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
             float ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
@@ -9153,8 +9153,8 @@ public class Matrix4f implements Externalizable {
         float maxZ = -Float.MAX_VALUE;
         for (int t = 0; t < 8; t++) {
             float x = ((t % 2) << 1) - 1.0f;
-            float y = (((t / 2) % 2) << 1) - 1.0f;
-            float z = (((t / 4) % 2) << 1) - 1.0f;
+            float y = (((t >>> 1) % 2) << 1) - 1.0f;
+            float z = (((t >>> 2) % 2) << 1) - 1.0f;
             float invW = 1.0f / (nm03 * x + nm13 * y + nm23 * z + nm33);
             float nx = (nm00 * x + nm10 * y + nm20 * z + nm30) * invW;
             float ny = (nm01 * x + nm11 * y + nm21 * z + nm31) * invW;
