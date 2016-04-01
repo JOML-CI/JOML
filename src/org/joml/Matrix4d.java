@@ -2201,22 +2201,7 @@ public class Matrix4d implements Externalizable {
      * @return the passed in buffer
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
-        buffer.put(index, m00);
-        buffer.put(index+1, m01);
-        buffer.put(index+2, m02);
-        buffer.put(index+3, m03);
-        buffer.put(index+4, m10);
-        buffer.put(index+5, m11);
-        buffer.put(index+6, m12);
-        buffer.put(index+7, m13);
-        buffer.put(index+8, m20);
-        buffer.put(index+9, m21);
-        buffer.put(index+10, m22);
-        buffer.put(index+11, m23);
-        buffer.put(index+12, m30);
-        buffer.put(index+13, m31);
-        buffer.put(index+14, m32);
-        buffer.put(index+15, m33);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -2260,22 +2245,7 @@ public class Matrix4d implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index,    (float) m00);
-        buffer.put(index+1,  (float) m01);
-        buffer.put(index+2,  (float) m02);
-        buffer.put(index+3,  (float) m03);
-        buffer.put(index+4,  (float) m10);
-        buffer.put(index+5,  (float) m11);
-        buffer.put(index+6,  (float) m12);
-        buffer.put(index+7,  (float) m13);
-        buffer.put(index+8,  (float) m20);
-        buffer.put(index+9,  (float) m21);
-        buffer.put(index+10, (float) m22);
-        buffer.put(index+11, (float) m23);
-        buffer.put(index+12, (float) m30);
-        buffer.put(index+13, (float) m31);
-        buffer.put(index+14, (float) m32);
-        buffer.put(index+15, (float) m33);
+        MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
@@ -2312,22 +2282,7 @@ public class Matrix4d implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putDouble(index+8*0,  m00);
-        buffer.putDouble(index+8*1,  m01);
-        buffer.putDouble(index+8*2,  m02);
-        buffer.putDouble(index+8*3,  m03);
-        buffer.putDouble(index+8*4,  m10);
-        buffer.putDouble(index+8*5,  m11);
-        buffer.putDouble(index+8*6,  m12);
-        buffer.putDouble(index+8*7,  m13);
-        buffer.putDouble(index+8*8,  m20);
-        buffer.putDouble(index+8*9,  m21);
-        buffer.putDouble(index+8*10, m22);
-        buffer.putDouble(index+8*11, m23);
-        buffer.putDouble(index+8*12, m30);
-        buffer.putDouble(index+8*13, m31);
-        buffer.putDouble(index+8*14, m32);
-        buffer.putDouble(index+8*15, m33);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -2370,22 +2325,7 @@ public class Matrix4d implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer getFloats(int index, ByteBuffer buffer) {
-        buffer.putFloat(index+4*0,  (float)m00);
-        buffer.putFloat(index+4*1,  (float)m01);
-        buffer.putFloat(index+4*2,  (float)m02);
-        buffer.putFloat(index+4*3,  (float)m03);
-        buffer.putFloat(index+4*4,  (float)m10);
-        buffer.putFloat(index+4*5,  (float)m11);
-        buffer.putFloat(index+4*6,  (float)m12);
-        buffer.putFloat(index+4*7,  (float)m13);
-        buffer.putFloat(index+4*8,  (float)m20);
-        buffer.putFloat(index+4*9,  (float)m21);
-        buffer.putFloat(index+4*10, (float)m22);
-        buffer.putFloat(index+4*11, (float)m23);
-        buffer.putFloat(index+4*12, (float)m30);
-        buffer.putFloat(index+4*13, (float)m31);
-        buffer.putFloat(index+4*14, (float)m32);
-        buffer.putFloat(index+4*15, (float)m33);
+        MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
