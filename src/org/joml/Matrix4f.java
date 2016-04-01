@@ -1445,12 +1445,14 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invertFrustum(Matrix4f dest) {
-        float a = 1.0f / (m00 * m11);
-        float l = -1.0f / (m23 * m32);
-        dest.set(m11 * a, 0, 0, 0,
-                 0, m00 * a, 0, 0,
-                 0, 0, 0, -m23 * l,
-                 m20 / (m00 * -m23), m21 / (m11 * -m23), -m32 * l, m22 * l);
+        float invM00 = 1.0f / m00;
+        float invM11 = 1.0f / m11;
+        float invM23 = 1.0f / m23;
+        float invM32 = 1.0f / m32;
+        dest.set(invM00, 0, 0, 0,
+                 0, invM11, 0, 0,
+                 0, 0, 0, invM32,
+                 -m20 * invM00 * invM23, -m21 * invM11 * invM23, invM23, -m22 * invM23 * invM32);
         return dest;
     }
 

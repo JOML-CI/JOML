@@ -1610,12 +1610,14 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d invertFrustum(Matrix4d dest) {
-        double a = 1.0 / (m00 * m11);
-        double l = -1.0 / (m23 * m32);
-        dest.set(m11 * a, 0, 0, 0,
-                 0, m00 * a, 0, 0,
-                 0, 0, 0, -m23 * l,
-                 m20 / (m00 * -m23), m21 / (m11 * -m23), -m32 * l, m22 * l);
+        double invM00 = 1.0 / m00;
+        double invM11 = 1.0 / m11;
+        double invM23 = 1.0 / m23;
+        double invM32 = 1.0 / m32;
+        dest.set(invM00, 0, 0, 0,
+                 0, invM11, 0, 0,
+                 0, 0, 0, invM32,
+                 -m20 * invM00 * invM23, -m21 * invM11 * invM23, invM23, -m22 * invM23 * invM32);
         return dest;
     }
 
