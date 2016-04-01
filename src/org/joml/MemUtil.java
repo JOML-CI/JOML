@@ -295,13 +295,13 @@ abstract class MemUtil {
         {
             UNSAFE = getUnsafeInstance();
             try {
-                ADDRESS = UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address"));
+                ADDRESS = UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
             } catch (NoSuchFieldException e) {
                 throw new AssertionError();
             }
         }
 
-        private final java.lang.reflect.Field getDeclaredField(Class root, String fieldName) throws NoSuchFieldException {
+        private static final java.lang.reflect.Field getDeclaredField(Class root, String fieldName) throws NoSuchFieldException {
             Class type = root;
             do {
                 try {
@@ -312,10 +312,10 @@ abstract class MemUtil {
                     type = type.getSuperclass();
                 }
             } while (type != null);
-            throw new NoSuchFieldException(fieldName + " does not exist in " + root.getName() + " or any of its superclasses.");
+            throw new NoSuchFieldException(fieldName + " does not exist in " + root.getName() + " or any of its superclasses."); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
-        private final sun.misc.Unsafe getUnsafeInstance() {
+        private static final sun.misc.Unsafe getUnsafeInstance() {
             java.lang.reflect.Field[] fields = sun.misc.Unsafe.class.getDeclaredFields();
             for (int i = 0; i < fields.length; i++) {
                 java.lang.reflect.Field field = fields[i];
@@ -328,10 +328,10 @@ abstract class MemUtil {
                 try {
                     return (sun.misc.Unsafe) field.get(null);
                 } catch (IllegalAccessException e) {
+                    /* Ignore */
                 }
                 break;
             }
-
             throw new UnsupportedOperationException();
         }
 
