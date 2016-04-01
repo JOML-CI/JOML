@@ -151,7 +151,7 @@ abstract class MemUtil {
 	                type = type.getSuperclass();
 	            }
 	        } while (type != null);
-	        throw new NoSuchFieldException(fieldName + " does not exist in " + root.getSimpleName() + " or any of its superclasses.");
+	        throw new NoSuchFieldException(fieldName + " does not exist in " + root.getName() + " or any of its superclasses.");
 	    }
 
 	    private final sun.misc.Unsafe getUnsafeInstance() {
