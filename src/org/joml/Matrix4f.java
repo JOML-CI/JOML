@@ -166,6 +166,26 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix4f} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3f}
+     * and the rest to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix3f}
+     */
+    public Matrix4f(Matrix3f mat) {
+        ms[M00] = mat.ms[Matrix3f.M00];
+        ms[M01] = mat.ms[Matrix3f.M01];
+        ms[M02] = mat.ms[Matrix3f.M02];
+        ms[M10] = mat.ms[Matrix3f.M10];
+        ms[M11] = mat.ms[Matrix3f.M11];
+        ms[M12] = mat.ms[Matrix3f.M12];
+        ms[M20] = mat.ms[Matrix3f.M20];
+        ms[M21] = mat.ms[Matrix3f.M21];
+        ms[M22] = mat.ms[Matrix3f.M22];
+        ms[M33] = 1.0f;
+    }
+
+    /**
      * Create a new {@link Matrix4f} and make it a copy of the given matrix.
      * 
      * @param mat
@@ -307,6 +327,36 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f set(Matrix4f m) {
         System.arraycopy(m.ms, 0, ms, 0, 16);
+        return this;
+    }
+
+    /**
+     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} 
+     * and the rest to identity.
+     * 
+     * @see #Matrix4f(Matrix3f)
+     * 
+     * @param mat
+     *          the {@link Matrix3f}
+     * @return this
+     */
+    public Matrix4f set(Matrix3f mat) {
+        ms[M00] = mat.ms[Matrix3f.M00];
+        ms[M01] = mat.ms[Matrix3f.M01];
+        ms[M02] = mat.ms[Matrix3f.M02];
+        ms[M03] = 0.0f;
+        ms[M10] = mat.ms[Matrix3f.M10];
+        ms[M11] = mat.ms[Matrix3f.M11];
+        ms[M12] = mat.ms[Matrix3f.M12];
+        ms[M13] = 0.0f;
+        ms[M20] = mat.ms[Matrix3f.M20];
+        ms[M21] = mat.ms[Matrix3f.M21];
+        ms[M22] = mat.ms[Matrix3f.M22];
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 

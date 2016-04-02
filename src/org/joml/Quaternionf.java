@@ -208,6 +208,38 @@ public class Quaternionf implements Externalizable {
      *          the matrix to write the rotation into
      * @return the passed in destination
      */
+    public Matrix3f get(Matrix3f dest) {
+        float dx = x + x;
+        float dy = y + y;
+        float dz = z + z;
+        float q00 = dx * x;
+        float q11 = dy * y;
+        float q22 = dz * z;
+        float q01 = dx * y;
+        float q02 = dx * z;
+        float q03 = dx * w;
+        float q12 = dy * z;
+        float q13 = dy * w;
+        float q23 = dz * w;
+        dest.ms[Matrix3f.M00] = 1.0f - q11 - q22;
+        dest.ms[Matrix3f.M01] = q01 + q23;
+        dest.ms[Matrix3f.M02] = q02 - q13;
+        dest.ms[Matrix3f.M10] = q01 - q23;
+        dest.ms[Matrix3f.M11] = 1.0f - q22 - q00;
+        dest.ms[Matrix3f.M12] = q12 + q03;
+        dest.ms[Matrix3f.M20] = q02 + q13;
+        dest.ms[Matrix3f.M21] = q12 - q03;
+        dest.ms[Matrix3f.M22] = 1.0f - q11 - q00;
+        return dest;
+    }
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @param dest
+     *          the matrix to write the rotation into
+     * @return the passed in destination
+     */
     public Matrix4f get(Matrix4f dest) {
         float dx = x + x;
         float dy = y + y;
@@ -554,6 +586,34 @@ public class Quaternionf implements Externalizable {
      */
     public Quaternionf setFromNormalized(Matrix4f mat) {
         setFromNormalized(mat.ms[Matrix4f.M00], mat.ms[Matrix4f.M01], mat.ms[Matrix4f.M02], mat.ms[Matrix4f.M10], mat.ms[Matrix4f.M11], mat.ms[Matrix4f.M12], mat.ms[Matrix4f.M20], mat.ms[Matrix4f.M21], mat.ms[Matrix4f.M22]);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are no unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaternionf setFromUnnormalized(Matrix3f mat) {
+        setFromUnnormalized(mat.ms[Matrix3f.M00], mat.ms[Matrix3f.M01], mat.ms[Matrix3f.M02], mat.ms[Matrix3f.M10], mat.ms[Matrix3f.M11], mat.ms[Matrix3f.M12], mat.ms[Matrix3f.M20], mat.ms[Matrix3f.M21], mat.ms[Matrix3f.M22]);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaternionf setFromNormalized(Matrix3f mat) {
+        setFromNormalized(mat.ms[Matrix3f.M00], mat.ms[Matrix3f.M01], mat.ms[Matrix3f.M02], mat.ms[Matrix3f.M10], mat.ms[Matrix3f.M11], mat.ms[Matrix3f.M12], mat.ms[Matrix3f.M20], mat.ms[Matrix3f.M21], mat.ms[Matrix3f.M22]);
         return this;
     }
 

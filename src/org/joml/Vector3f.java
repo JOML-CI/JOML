@@ -663,6 +663,33 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Multiply this Vector3f by the given matrix and store the result in <code>this</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @return this
+     */
+    public Vector3f mul(Matrix3f mat) {
+        return mul(mat, this);
+    }
+
+    /**
+     * Multiply this Vector3f by the given matrix and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f mul(Matrix3f mat, Vector3f dest) {
+        dest.set(mat.ms[Matrix3f.M00] * x + mat.ms[Matrix3f.M10] * y + mat.ms[Matrix3f.M20] * z,
+                 mat.ms[Matrix3f.M01] * x + mat.ms[Matrix3f.M11] * y + mat.ms[Matrix3f.M21] * z,
+                 mat.ms[Matrix3f.M02] * x + mat.ms[Matrix3f.M12] * y + mat.ms[Matrix3f.M22] * z);
+        return dest;
+    }
+
+    /**
      * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
