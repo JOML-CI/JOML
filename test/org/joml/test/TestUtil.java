@@ -103,21 +103,6 @@ public class TestUtil {
     }
 
     /**
-     * Return whether two quaternions are equal. They are considered equal when their difference is 
-     * less than or equal to the precision.
-     * @param a the first quaternion
-     * @param b the second quaternion
-     * @param precision if abs(a.[comp] - b.[comp]) <= precision for every component comp (x, y, z, w), a and b are considered equal
-     * @return whether a and b are equal
-     */
-    public static boolean quatEqual(Quaterniond a, Quaterniond b, double precision) {
-        return doubleEqual(a.x, b.x, precision)
-            && doubleEqual(a.y, b.y, precision)
-            && doubleEqual(a.z, b.z, precision)
-            && doubleEqual(a.w, b.w, precision);
-    }
-
-    /**
      * Assert that both matrices are equal with respect to the given delta.
      * 
      * @param m1
@@ -125,22 +110,22 @@ public class TestUtil {
      * @param delta
      */
     public static void assertMatrix4fEquals(Matrix4f m1, Matrix4f m2, float delta) {
-        Assert.assertEquals(m1.m00, m2.m00, delta);
-        Assert.assertEquals(m1.m01, m2.m01, delta);
-        Assert.assertEquals(m1.m02, m2.m02, delta);
-        Assert.assertEquals(m1.m03, m2.m03, delta);
-        Assert.assertEquals(m1.m10, m2.m10, delta);
-        Assert.assertEquals(m1.m11, m2.m11, delta);
-        Assert.assertEquals(m1.m12, m2.m12, delta);
-        Assert.assertEquals(m1.m13, m2.m13, delta);
-        Assert.assertEquals(m1.m20, m2.m20, delta);
-        Assert.assertEquals(m1.m21, m2.m21, delta);
-        Assert.assertEquals(m1.m22, m2.m22, delta);
-        Assert.assertEquals(m1.m23, m2.m23, delta);
-        Assert.assertEquals(m1.m30, m2.m30, delta);
-        Assert.assertEquals(m1.m31, m2.m31, delta);
-        Assert.assertEquals(m1.m32, m2.m32, delta);
-        Assert.assertEquals(m1.m33, m2.m33, delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M00], m2.ms[Matrix4f.M00], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M01], m2.ms[Matrix4f.M01], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M02], m2.ms[Matrix4f.M02], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M03], m2.ms[Matrix4f.M03], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M10], m2.ms[Matrix4f.M10], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M11], m2.ms[Matrix4f.M11], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M12], m2.ms[Matrix4f.M12], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M13], m2.ms[Matrix4f.M13], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M20], m2.ms[Matrix4f.M20], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M21], m2.ms[Matrix4f.M21], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M22], m2.ms[Matrix4f.M22], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M23], m2.ms[Matrix4f.M23], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M30], m2.ms[Matrix4f.M30], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M31], m2.ms[Matrix4f.M31], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M32], m2.ms[Matrix4f.M32], delta);
+        Assert.assertEquals(m1.ms[Matrix4f.M33], m2.ms[Matrix4f.M33], delta);
     }
 
     /**
@@ -168,18 +153,6 @@ public class TestUtil {
         Assert.assertEquals(expected.x, actual.x, delta);
         Assert.assertEquals(expected.y, actual.y, delta);
         Assert.assertEquals(expected.z, actual.z, delta);
-    }
-
-    /**
-     * Assert that both vectors are equal with respect to the given delta.
-     * 
-     * @param expected
-     * @param actual
-     * @param delta
-     */
-    public static void assertVector2fEquals(Vector2f expected, Vector2f actual, float delta) {
-        Assert.assertEquals(expected.x, actual.x, delta);
-        Assert.assertEquals(expected.y, actual.y, delta);
     }
 
 }

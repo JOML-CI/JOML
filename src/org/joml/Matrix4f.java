@@ -27,10 +27,9 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
 
 /**
  * Contains the definition of a 4x4 Matrix of floats, and associated functions to transform
@@ -47,6 +46,23 @@ import java.text.NumberFormat;
 public class Matrix4f implements Externalizable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final int M00 = 0;
+    public static final int M01 = 1;
+    public static final int M02 = 2;
+    public static final int M03 = 3;
+    public static final int M10 = 4;
+    public static final int M11 = 5;
+    public static final int M12 = 6;
+    public static final int M13 = 7;
+    public static final int M20 = 8;
+    public static final int M21 = 9;
+    public static final int M22 = 10;
+    public static final int M23 = 11;
+    public static final int M30 = 12;
+    public static final int M31 = 13;
+    public static final int M32 = 14;
+    public static final int M33 = 15;
 
     /**
      * Argument to the first parameter of {@link #frustumPlane(int, Vector4f)}
@@ -120,51 +136,31 @@ public class Matrix4f implements Externalizable {
      */
     public static final int CORNER_PXPYPZ = 7;
 
-    public float m00, m10, m20, m30;
-    public float m01, m11, m21, m31;
-    public float m02, m12, m22, m32;
-    public float m03, m13, m23, m33;
+    /**
+     * The components of this matrix in column-major order.
+     */
+    public final float[] ms = new float[16];
 
     /**
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
      */
     public Matrix4f() {
-        m00 = 1.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 1.0f;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = 1.0f;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
-    }
-
-    /**
-     * Create a new {@link Matrix4f} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3f}
-     * and the rest to identity.
-     * 
-     * @param mat
-     *          the {@link Matrix3f}
-     */
-    public Matrix4f(Matrix3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m33 = 1.0f;
+        ms[M00] = 1.0f;
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = 1.0f;
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
+        ms[M22] = 1.0f;
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
     }
 
     /**
@@ -174,139 +170,65 @@ public class Matrix4f implements Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix4f(Matrix4f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m03 = mat.m03;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m13 = mat.m13;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m23 = mat.m23;
-        m30 = mat.m30;
-        m31 = mat.m31;
-        m32 = mat.m32;
-        m33 = mat.m33;
-    }
-
-    /**
-     * Create a new {@link Matrix4f} and make it a copy of the given matrix.
-     * <p>
-     * Note that due to the given {@link Matrix4d} storing values in double-precision and the constructed {@link Matrix4f} storing them
-     * in single-precision, there is the possibility of losing precision.
-     * 
-     * @param mat
-     *          the {@link Matrix4d} to copy the values from
-     */
-    public Matrix4f(Matrix4d mat) {
-        m00 = (float) mat.m00;
-        m01 = (float) mat.m01;
-        m02 = (float) mat.m02;
-        m03 = (float) mat.m03;
-        m10 = (float) mat.m10;
-        m11 = (float) mat.m11;
-        m12 = (float) mat.m12;
-        m13 = (float) mat.m13;
-        m20 = (float) mat.m20;
-        m21 = (float) mat.m21;
-        m22 = (float) mat.m22;
-        m23 = (float) mat.m23;
-        m30 = (float) mat.m30;
-        m31 = (float) mat.m31;
-        m32 = (float) mat.m32;
-        m33 = (float) mat.m33;
+        System.arraycopy(mat.ms, 0, ms, 0, 16);
     }
 
     /**
      * Create a new 4x4 matrix using the supplied float values.
      * 
-     * @param m00
-     *          the value of m00
-     * @param m01
-     *          the value of m01
-     * @param m02
-     *          the value of m02
-     * @param m03
-     *          the value of m03
-     * @param m10
-     *          the value of m10
-     * @param m11
-     *          the value of m11
-     * @param m12
-     *          the value of m12
-     * @param m13
-     *          the value of m13
-     * @param m20
-     *          the value of m20
-     * @param m21
-     *          the value of m21
-     * @param m22
-     *          the value of m22
-     * @param m23
-     *          the value of m23
-     * @param m30
-     *          the value of m30
-     * @param m31
-     *          the value of m31
-     * @param m32
-     *          the value of m32
-     * @param m33
-     *          the value of m33
+     * @param n00
+     *          the value of ms[M00]
+     * @param n01
+     *          the value of ms[M01]
+     * @param n02
+     *          the value of ms[M02]
+     * @param n03
+     *          the value of ms[M03]
+     * @param n10
+     *          the value of ms[M10]
+     * @param n11
+     *          the value of ms[M11]
+     * @param n12
+     *          the value of ms[M12]
+     * @param n13
+     *          the value of ms[M13]
+     * @param n20
+     *          the value of ms[M20]
+     * @param n21
+     *          the value of ms[M21]
+     * @param n22
+     *          the value of ms[M22]
+     * @param n23
+     *          the value of ms[M23]
+     * @param n30
+     *          the value of ms[M30]
+     * @param n31
+     *          the value of ms[M31]
+     * @param n32
+     *          the value of ms[M32]
+     * @param n33
+     *          the value of ms[M33]
      */
-    public Matrix4f(float m00, float m01, float m02, float m03, 
-                    float m10, float m11, float m12, float m13, 
-                    float m20, float m21, float m22, float m23,
-                    float m30, float m31, float m32, float m33) {
-        this.m00 = m00;
-        this.m01 = m01;
-        this.m02 = m02;
-        this.m03 = m03;
-        this.m10 = m10;
-        this.m11 = m11;
-        this.m12 = m12;
-        this.m13 = m13;
-        this.m20 = m20;
-        this.m21 = m21;
-        this.m22 = m22;
-        this.m23 = m23;
-        this.m30 = m30;
-        this.m31 = m31;
-        this.m32 = m32;
-        this.m33 = m33;
-    }
-
-    /**
-     * Create a new {@link Matrix4f} by reading its 16 float components from the given {@link FloatBuffer}
-     * at the buffer's current position.
-     * <p>
-     * That FloatBuffer is expected to hold the values in column-major order.
-     * <p>
-     * The buffer's position will not be changed by this method.
-     * 
-     * @param buffer
-     *          the {@link FloatBuffer} to read the matrix values from
-     */
-    public Matrix4f(FloatBuffer buffer) {
-        int pos = buffer.position();
-        m00 = buffer.get(pos);
-        m01 = buffer.get(pos+1);
-        m02 = buffer.get(pos+2);
-        m03 = buffer.get(pos+3);
-        m10 = buffer.get(pos+4);
-        m11 = buffer.get(pos+5);
-        m12 = buffer.get(pos+6);
-        m13 = buffer.get(pos+7);
-        m20 = buffer.get(pos+8);
-        m21 = buffer.get(pos+9);
-        m22 = buffer.get(pos+10);
-        m23 = buffer.get(pos+11);
-        m30 = buffer.get(pos+12);
-        m31 = buffer.get(pos+13);
-        m32 = buffer.get(pos+14);
-        m33 = buffer.get(pos+15);
+    public Matrix4f(float n00, float n01, float n02, float n03,
+                    float n10, float n11, float n12, float n13,
+                    float n20, float n21, float n22, float n23, 
+                    float n30, float n31, float n32, float n33) {
+        ms[M00] = n00;
+        ms[M01] = n01;
+        ms[M02] = n02;
+        ms[M03] = n03;
+        ms[M10] = n10;
+        ms[M11] = n11;
+        ms[M12] = n12;
+        ms[M13] = n13;
+        ms[M20] = n20;
+        ms[M21] = n21;
+        ms[M22] = n22;
+        ms[M23] = n23;
+        ms[M30] = n30;
+        ms[M31] = n31;
+        ms[M32] = n32;
+        ms[M33] = n33;
     }
 
     /**
@@ -337,22 +259,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f identity() {
-        m00 = 1.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 1.0f;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = 1.0f;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = 1.0f;
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = 1.0f;
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
+        ms[M22] = 1.0f;
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -367,169 +289,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(Matrix4f m) {
-        m00 = m.m00;
-        m01 = m.m01;
-        m02 = m.m02;
-        m03 = m.m03;
-        m10 = m.m10;
-        m11 = m.m11;
-        m12 = m.m12;
-        m13 = m.m13;
-        m20 = m.m20;
-        m21 = m.m21;
-        m22 = m.m22;
-        m23 = m.m23;
-        m30 = m.m30;
-        m31 = m.m31;
-        m32 = m.m32;
-        m33 = m.m33;
-        return this;
-    }
-
-    /**
-     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
-     * <p>
-     * Note that due to the given matrix <code>m</code> storing values in double-precision and <code>this</code> matrix storing
-     * them in single-precision, there is the possibility to lose precision.
-     * 
-     * @see #Matrix4f(Matrix4d)
-     * @see #get(Matrix4d)
-     * 
-     * @param m
-     *          the matrix to copy the values from
-     * @return this
-     */
-    public Matrix4f set(Matrix4d m) {
-        m00 = (float) m.m00;
-        m01 = (float) m.m01;
-        m02 = (float) m.m02;
-        m03 = (float) m.m03;
-        m10 = (float) m.m10;
-        m11 = (float) m.m11;
-        m12 = (float) m.m12;
-        m13 = (float) m.m13;
-        m20 = (float) m.m20;
-        m21 = (float) m.m21;
-        m22 = (float) m.m22;
-        m23 = (float) m.m23;
-        m30 = (float) m.m30;
-        m31 = (float) m.m31;
-        m32 = (float) m.m32;
-        m33 = (float) m.m33;
-        return this;
-    }
-
-    /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} 
-     * and the rest to identity.
-     * 
-     * @see #Matrix4f(Matrix3f)
-     * 
-     * @param mat
-     *          the {@link Matrix3f}
-     * @return this
-     */
-    public Matrix4f set(Matrix3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m03 = 0.0f;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m13 = 0.0f;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
-        return this;
-    }
-
-    /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f}
-     * @return this
-     */
-    public Matrix4f set(AxisAngle4f axisAngle) {
-        float x = axisAngle.x;
-        float y = axisAngle.y;
-        float z = axisAngle.z;
-        double angle = axisAngle.angle;
-        double n = Math.sqrt(x*x + y*y + z*z);
-        n = 1/n;
-        x *= n;
-        y *= n;
-        z *= n;
-        double c = Math.cos(angle);
-        double s = Math.sin(angle);
-        double omc = 1.0 - c;
-        m00 = (float)(c + x*x*omc);
-        m11 = (float)(c + y*y*omc);
-        m22 = (float)(c + z*z*omc);
-        double tmp1 = x*y*omc;
-        double tmp2 = z*s;
-        m10 = (float)(tmp1 - tmp2);
-        m01 = (float)(tmp1 + tmp2);
-        tmp1 = x*z*omc;
-        tmp2 = y*s;
-        m20 = (float)(tmp1 + tmp2);
-        m02 = (float)(tmp1 - tmp2);
-        tmp1 = y*z*omc;
-        tmp2 = x*s;
-        m21 = (float)(tmp1 - tmp2);
-        m12 = (float)(tmp1 + tmp2);
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
-        return this;
-    }
-
-    /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4d}.
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4d}
-     * @return this
-     */
-    public Matrix4f set(AxisAngle4d axisAngle) {
-        double x = axisAngle.x;
-        double y = axisAngle.y;
-        double z = axisAngle.z;
-        double angle = axisAngle.angle;
-        double n = Math.sqrt(x*x + y*y + z*z);
-        n = 1/n;
-        x *= n;
-        y *= n;
-        z *= n;
-        double c = Math.cos(angle);
-        double s = Math.sin(angle);
-        double omc = 1.0 - c;
-        m00 = (float)(c + x*x*omc);
-        m11 = (float)(c + y*y*omc);
-        m22 = (float)(c + z*z*omc);
-        double tmp1 = x*y*omc;
-        double tmp2 = z*s;
-        m10 = (float)(tmp1 - tmp2);
-        m01 = (float)(tmp1 + tmp2);
-        tmp1 = x*z*omc;
-        tmp2 = y*s;
-        m20 = (float)(tmp1 + tmp2);
-        m02 = (float)(tmp1 - tmp2);
-        tmp1 = y*z*omc;
-        tmp2 = x*s;
-        m21 = (float)(tmp1 - tmp2);
-        m12 = (float)(tmp1 + tmp2);
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        System.arraycopy(m.ms, 0, ms, 0, 16);
         return this;
     }
 
@@ -548,20 +308,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniond}.
-     * 
-     * @see Quaterniond#get(Matrix4f)
-     * 
-     * @param q
-     *          the {@link Quaterniond}
-     * @return this
-     */
-    public Matrix4f set(Quaterniond q) {
-        q.get(this);
-        return this;
-    }
-
-    /**
      * Set the upper left 3x3 submatrix of this {@link Matrix4f} to that of the given {@link Matrix4f} 
      * and the rest to identity.
      * 
@@ -570,22 +316,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set3x3(Matrix4f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m03 = 0.0f;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m13 = 0.0f;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = mat.ms[M00];
+        ms[M01] = mat.ms[M01];
+        ms[M02] = mat.ms[M02];
+        ms[M03] = 0.0f;
+        ms[M10] = mat.ms[M10];
+        ms[M11] = mat.ms[M11];
+        ms[M12] = mat.ms[M12];
+        ms[M13] = 0.0f;
+        ms[M20] = mat.ms[M20];
+        ms[M21] = mat.ms[M21];
+        ms[M22] = mat.ms[M22];
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -620,22 +366,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
-        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03,
-                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03,
-                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03,
-                 m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03,
-                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13,
-                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13,
-                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13,
-                 m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13,
-                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23,
-                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23,
-                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23,
-                 m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23,
-                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33,
-                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33,
-                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33,
-                 m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33);
+        dest.set(ms[M00] * right.ms[M00] + ms[M10] * right.ms[M01] + ms[M20] * right.ms[M02] + ms[M30] * right.ms[M03],
+                 ms[M01] * right.ms[M00] + ms[M11] * right.ms[M01] + ms[M21] * right.ms[M02] + ms[M31] * right.ms[M03],
+                 ms[M02] * right.ms[M00] + ms[M12] * right.ms[M01] + ms[M22] * right.ms[M02] + ms[M32] * right.ms[M03],
+                 ms[M03] * right.ms[M00] + ms[M13] * right.ms[M01] + ms[M23] * right.ms[M02] + ms[M33] * right.ms[M03],
+                 ms[M00] * right.ms[M10] + ms[M10] * right.ms[M11] + ms[M20] * right.ms[M12] + ms[M30] * right.ms[M13],
+                 ms[M01] * right.ms[M10] + ms[M11] * right.ms[M11] + ms[M21] * right.ms[M12] + ms[M31] * right.ms[M13],
+                 ms[M02] * right.ms[M10] + ms[M12] * right.ms[M11] + ms[M22] * right.ms[M12] + ms[M32] * right.ms[M13],
+                 ms[M03] * right.ms[M10] + ms[M13] * right.ms[M11] + ms[M23] * right.ms[M12] + ms[M33] * right.ms[M13],
+                 ms[M00] * right.ms[M20] + ms[M10] * right.ms[M21] + ms[M20] * right.ms[M22] + ms[M30] * right.ms[M23],
+                 ms[M01] * right.ms[M20] + ms[M11] * right.ms[M21] + ms[M21] * right.ms[M22] + ms[M31] * right.ms[M23],
+                 ms[M02] * right.ms[M20] + ms[M12] * right.ms[M21] + ms[M22] * right.ms[M22] + ms[M32] * right.ms[M23],
+                 ms[M03] * right.ms[M20] + ms[M13] * right.ms[M21] + ms[M23] * right.ms[M22] + ms[M33] * right.ms[M23],
+                 ms[M00] * right.ms[M30] + ms[M10] * right.ms[M31] + ms[M20] * right.ms[M32] + ms[M30] * right.ms[M33],
+                 ms[M01] * right.ms[M30] + ms[M11] * right.ms[M31] + ms[M21] * right.ms[M32] + ms[M31] * right.ms[M33],
+                 ms[M02] * right.ms[M30] + ms[M12] * right.ms[M31] + ms[M22] * right.ms[M32] + ms[M32] * right.ms[M33],
+                 ms[M03] * right.ms[M30] + ms[M13] * right.ms[M31] + ms[M23] * right.ms[M32] + ms[M33] * right.ms[M33]);
         return dest;
     }
 
@@ -670,10 +416,10 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulPerspectiveAffine(Matrix4f view, Matrix4f dest) {
-        dest.set(m00 * view.m00, m11 * view.m01, m22 * view.m02, m23 * view.m02,
-                 m00 * view.m10, m11 * view.m11, m22 * view.m12, m23 * view.m12,
-                 m00 * view.m20, m11 * view.m21, m22 * view.m22, m23 * view.m22,
-                 m00 * view.m30, m11 * view.m31, m22 * view.m32 + m32, m23 * view.m32);
+        dest.set(ms[M00] * view.ms[M00], ms[M11] * view.ms[M01], ms[M22] * view.ms[M02], ms[M23] * view.ms[M02],
+                 ms[M00] * view.ms[M10], ms[M11] * view.ms[M11], ms[M22] * view.ms[M12], ms[M23] * view.ms[M12],
+                 ms[M00] * view.ms[M20], ms[M11] * view.ms[M21], ms[M22] * view.ms[M22], ms[M23] * view.ms[M22],
+                 ms[M00] * view.ms[M30], ms[M11] * view.ms[M31], ms[M22] * view.ms[M32] + ms[M32], ms[M23] * view.ms[M32]);
         return dest;
     }
 
@@ -714,22 +460,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffineR(Matrix4f right, Matrix4f dest) {
-        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
-                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
-                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
-                 m03 * right.m00 + m13 * right.m01 + m23 * right.m02,
-                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
-                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
-                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
-                 m03 * right.m10 + m13 * right.m11 + m23 * right.m12,
-                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
-                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
-                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
-                 m03 * right.m20 + m13 * right.m21 + m23 * right.m22,
-                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
-                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
-                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
-                 m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33);
+        dest.set(ms[M00] * right.ms[M00] + ms[M10] * right.ms[M01] + ms[M20] * right.ms[M02],
+                 ms[M01] * right.ms[M00] + ms[M11] * right.ms[M01] + ms[M21] * right.ms[M02],
+                 ms[M02] * right.ms[M00] + ms[M12] * right.ms[M01] + ms[M22] * right.ms[M02],
+                 ms[M03] * right.ms[M00] + ms[M13] * right.ms[M01] + ms[M23] * right.ms[M02],
+                 ms[M00] * right.ms[M10] + ms[M10] * right.ms[M11] + ms[M20] * right.ms[M12],
+                 ms[M01] * right.ms[M10] + ms[M11] * right.ms[M11] + ms[M21] * right.ms[M12],
+                 ms[M02] * right.ms[M10] + ms[M12] * right.ms[M11] + ms[M22] * right.ms[M12],
+                 ms[M03] * right.ms[M10] + ms[M13] * right.ms[M11] + ms[M23] * right.ms[M12],
+                 ms[M00] * right.ms[M20] + ms[M10] * right.ms[M21] + ms[M20] * right.ms[M22],
+                 ms[M01] * right.ms[M20] + ms[M11] * right.ms[M21] + ms[M21] * right.ms[M22],
+                 ms[M02] * right.ms[M20] + ms[M12] * right.ms[M21] + ms[M22] * right.ms[M22],
+                 ms[M03] * right.ms[M20] + ms[M13] * right.ms[M21] + ms[M23] * right.ms[M22],
+                 ms[M00] * right.ms[M30] + ms[M10] * right.ms[M31] + ms[M20] * right.ms[M32] + ms[M30],
+                 ms[M01] * right.ms[M30] + ms[M11] * right.ms[M31] + ms[M21] * right.ms[M32] + ms[M31],
+                 ms[M02] * right.ms[M30] + ms[M12] * right.ms[M31] + ms[M22] * right.ms[M32] + ms[M32],
+                 ms[M03] * right.ms[M30] + ms[M13] * right.ms[M31] + ms[M23] * right.ms[M32] + ms[M33]);
         return dest;
     }
 
@@ -776,22 +522,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffine(Matrix4f right, Matrix4f dest) {
-        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
-                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
-                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
-                 m03,
-                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
-                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
-                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
-                 m13,
-                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
-                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
-                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
-                 m23,
-                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
-                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
-                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
-                 m33);
+        dest.set(ms[M00] * right.ms[M00] + ms[M10] * right.ms[M01] + ms[M20] * right.ms[M02],
+                 ms[M01] * right.ms[M00] + ms[M11] * right.ms[M01] + ms[M21] * right.ms[M02],
+                 ms[M02] * right.ms[M00] + ms[M12] * right.ms[M01] + ms[M22] * right.ms[M02],
+                 ms[M03],
+                 ms[M00] * right.ms[M10] + ms[M10] * right.ms[M11] + ms[M20] * right.ms[M12],
+                 ms[M01] * right.ms[M10] + ms[M11] * right.ms[M11] + ms[M21] * right.ms[M12],
+                 ms[M02] * right.ms[M10] + ms[M12] * right.ms[M11] + ms[M22] * right.ms[M12],
+                 ms[M13],
+                 ms[M00] * right.ms[M20] + ms[M10] * right.ms[M21] + ms[M20] * right.ms[M22],
+                 ms[M01] * right.ms[M20] + ms[M11] * right.ms[M21] + ms[M21] * right.ms[M22],
+                 ms[M02] * right.ms[M20] + ms[M12] * right.ms[M21] + ms[M22] * right.ms[M22],
+                 ms[M23],
+                 ms[M00] * right.ms[M30] + ms[M10] * right.ms[M31] + ms[M20] * right.ms[M32] + ms[M30],
+                 ms[M01] * right.ms[M30] + ms[M11] * right.ms[M31] + ms[M21] * right.ms[M32] + ms[M31],
+                 ms[M02] * right.ms[M30] + ms[M12] * right.ms[M31] + ms[M22] * right.ms[M32] + ms[M32],
+                 ms[M33]);
         return dest;
     }
 
@@ -830,22 +576,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f fma4x3(Matrix4f other, float otherFactor, Matrix4f dest) {
-        dest.m00 = m00 + other.m00 * otherFactor;
-        dest.m01 = m01 + other.m01 * otherFactor;
-        dest.m02 = m02 + other.m02 * otherFactor;
-        dest.m03 = m03;
-        dest.m10 = m10 + other.m10 * otherFactor;
-        dest.m11 = m11 + other.m11 * otherFactor;
-        dest.m12 = m12 + other.m12 * otherFactor;
-        dest.m13 = m13;
-        dest.m20 = m20 + other.m20 * otherFactor;
-        dest.m21 = m21 + other.m21 * otherFactor;
-        dest.m22 = m22 + other.m22 * otherFactor;
-        dest.m23 = m23;
-        dest.m30 = m30 + other.m30 * otherFactor;
-        dest.m31 = m31 + other.m31 * otherFactor;
-        dest.m32 = m32 + other.m32 * otherFactor;
-        dest.m33 = m33;
+        dest.ms[M00] = ms[M00] + other.ms[M00] * otherFactor;
+        dest.ms[M01] = ms[M01] + other.ms[M01] * otherFactor;
+        dest.ms[M02] = ms[M02] + other.ms[M02] * otherFactor;
+        dest.ms[M03] = ms[M03];
+        dest.ms[M10] = ms[M10] + other.ms[M10] * otherFactor;
+        dest.ms[M11] = ms[M11] + other.ms[M11] * otherFactor;
+        dest.ms[M12] = ms[M12] + other.ms[M12] * otherFactor;
+        dest.ms[M13] = ms[M13];
+        dest.ms[M20] = ms[M20] + other.ms[M20] * otherFactor;
+        dest.ms[M21] = ms[M21] + other.ms[M21] * otherFactor;
+        dest.ms[M22] = ms[M22] + other.ms[M22] * otherFactor;
+        dest.ms[M23] = ms[M23];
+        dest.ms[M30] = ms[M30] + other.ms[M30] * otherFactor;
+        dest.ms[M31] = ms[M31] + other.ms[M31] * otherFactor;
+        dest.ms[M32] = ms[M32] + other.ms[M32] * otherFactor;
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -870,22 +616,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f add(Matrix4f other, Matrix4f dest) {
-        dest.m00 = m00 + other.m00;
-        dest.m01 = m01 + other.m01;
-        dest.m02 = m02 + other.m02;
-        dest.m03 = m03 + other.m03;
-        dest.m10 = m10 + other.m10;
-        dest.m11 = m11 + other.m11;
-        dest.m12 = m12 + other.m12;
-        dest.m13 = m13 + other.m13;
-        dest.m20 = m20 + other.m20;
-        dest.m21 = m21 + other.m21;
-        dest.m22 = m22 + other.m22;
-        dest.m23 = m23 + other.m23;
-        dest.m30 = m30 + other.m30;
-        dest.m31 = m31 + other.m31;
-        dest.m32 = m32 + other.m32;
-        dest.m33 = m33 + other.m33;
+        dest.ms[M00] = ms[M00] + other.ms[M00];
+        dest.ms[M01] = ms[M01] + other.ms[M01];
+        dest.ms[M02] = ms[M02] + other.ms[M02];
+        dest.ms[M03] = ms[M03] + other.ms[M03];
+        dest.ms[M10] = ms[M10] + other.ms[M10];
+        dest.ms[M11] = ms[M11] + other.ms[M11];
+        dest.ms[M12] = ms[M12] + other.ms[M12];
+        dest.ms[M13] = ms[M13] + other.ms[M13];
+        dest.ms[M20] = ms[M20] + other.ms[M20];
+        dest.ms[M21] = ms[M21] + other.ms[M21];
+        dest.ms[M22] = ms[M22] + other.ms[M22];
+        dest.ms[M23] = ms[M23] + other.ms[M23];
+        dest.ms[M30] = ms[M30] + other.ms[M30];
+        dest.ms[M31] = ms[M31] + other.ms[M31];
+        dest.ms[M32] = ms[M32] + other.ms[M32];
+        dest.ms[M33] = ms[M33] + other.ms[M33];
         return dest;
     }
 
@@ -910,22 +656,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f sub(Matrix4f subtrahend, Matrix4f dest) {
-        dest.m00 = m00 - subtrahend.m00;
-        dest.m01 = m01 - subtrahend.m01;
-        dest.m02 = m02 - subtrahend.m02;
-        dest.m03 = m03 - subtrahend.m03;
-        dest.m10 = m10 - subtrahend.m10;
-        dest.m11 = m11 - subtrahend.m11;
-        dest.m12 = m12 - subtrahend.m12;
-        dest.m13 = m13 - subtrahend.m13;
-        dest.m20 = m20 - subtrahend.m20;
-        dest.m21 = m21 - subtrahend.m21;
-        dest.m22 = m22 - subtrahend.m22;
-        dest.m23 = m23 - subtrahend.m23;
-        dest.m30 = m30 - subtrahend.m30;
-        dest.m31 = m31 - subtrahend.m31;
-        dest.m32 = m32 - subtrahend.m32;
-        dest.m33 = m33 - subtrahend.m33;
+        dest.ms[M00] = ms[M00] - subtrahend.ms[M00];
+        dest.ms[M01] = ms[M01] - subtrahend.ms[M01];
+        dest.ms[M02] = ms[M02] - subtrahend.ms[M02];
+        dest.ms[M03] = ms[M03] - subtrahend.ms[M03];
+        dest.ms[M10] = ms[M10] - subtrahend.ms[M10];
+        dest.ms[M11] = ms[M11] - subtrahend.ms[M11];
+        dest.ms[M12] = ms[M12] - subtrahend.ms[M12];
+        dest.ms[M13] = ms[M13] - subtrahend.ms[M13];
+        dest.ms[M20] = ms[M20] - subtrahend.ms[M20];
+        dest.ms[M21] = ms[M21] - subtrahend.ms[M21];
+        dest.ms[M22] = ms[M22] - subtrahend.ms[M22];
+        dest.ms[M23] = ms[M23] - subtrahend.ms[M23];
+        dest.ms[M30] = ms[M30] - subtrahend.ms[M30];
+        dest.ms[M31] = ms[M31] - subtrahend.ms[M31];
+        dest.ms[M32] = ms[M32] - subtrahend.ms[M32];
+        dest.ms[M33] = ms[M33] - subtrahend.ms[M33];
         return dest;
     }
 
@@ -950,22 +696,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulComponentWise(Matrix4f other, Matrix4f dest) {
-        dest.m00 = m00 * other.m00;
-        dest.m01 = m01 * other.m01;
-        dest.m02 = m02 * other.m02;
-        dest.m03 = m03 * other.m03;
-        dest.m10 = m10 * other.m10;
-        dest.m11 = m11 * other.m11;
-        dest.m12 = m12 * other.m12;
-        dest.m13 = m13 * other.m13;
-        dest.m20 = m20 * other.m20;
-        dest.m21 = m21 * other.m21;
-        dest.m22 = m22 * other.m22;
-        dest.m23 = m23 * other.m23;
-        dest.m30 = m30 * other.m30;
-        dest.m31 = m31 * other.m31;
-        dest.m32 = m32 * other.m32;
-        dest.m33 = m33 * other.m33;
+        dest.ms[M00] = ms[M00] * other.ms[M00];
+        dest.ms[M01] = ms[M01] * other.ms[M01];
+        dest.ms[M02] = ms[M02] * other.ms[M02];
+        dest.ms[M03] = ms[M03] * other.ms[M03];
+        dest.ms[M10] = ms[M10] * other.ms[M10];
+        dest.ms[M11] = ms[M11] * other.ms[M11];
+        dest.ms[M12] = ms[M12] * other.ms[M12];
+        dest.ms[M13] = ms[M13] * other.ms[M13];
+        dest.ms[M20] = ms[M20] * other.ms[M20];
+        dest.ms[M21] = ms[M21] * other.ms[M21];
+        dest.ms[M22] = ms[M22] * other.ms[M22];
+        dest.ms[M23] = ms[M23] * other.ms[M23];
+        dest.ms[M30] = ms[M30] * other.ms[M30];
+        dest.ms[M31] = ms[M31] * other.ms[M31];
+        dest.ms[M32] = ms[M32] * other.ms[M32];
+        dest.ms[M33] = ms[M33] * other.ms[M33];
         return dest;
     }
 
@@ -993,22 +739,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f add4x3(Matrix4f other, Matrix4f dest) {
-        dest.m00 = m00 + other.m00;
-        dest.m01 = m01 + other.m01;
-        dest.m02 = m02 + other.m02;
-        dest.m03 = m03;
-        dest.m10 = m10 + other.m10;
-        dest.m11 = m11 + other.m11;
-        dest.m12 = m12 + other.m12;
-        dest.m13 = m13;
-        dest.m20 = m20 + other.m20;
-        dest.m21 = m21 + other.m21;
-        dest.m22 = m22 + other.m22;
-        dest.m23 = m23;
-        dest.m30 = m30 + other.m30;
-        dest.m31 = m31 + other.m31;
-        dest.m32 = m32 + other.m32;
-        dest.m33 = m33;
+        dest.ms[M00] = ms[M00] + other.ms[M00];
+        dest.ms[M01] = ms[M01] + other.ms[M01];
+        dest.ms[M02] = ms[M02] + other.ms[M02];
+        dest.ms[M03] = ms[M03];
+        dest.ms[M10] = ms[M10] + other.ms[M10];
+        dest.ms[M11] = ms[M11] + other.ms[M11];
+        dest.ms[M12] = ms[M12] + other.ms[M12];
+        dest.ms[M13] = ms[M13];
+        dest.ms[M20] = ms[M20] + other.ms[M20];
+        dest.ms[M21] = ms[M21] + other.ms[M21];
+        dest.ms[M22] = ms[M22] + other.ms[M22];
+        dest.ms[M23] = ms[M23];
+        dest.ms[M30] = ms[M30] + other.ms[M30];
+        dest.ms[M31] = ms[M31] + other.ms[M31];
+        dest.ms[M32] = ms[M32] + other.ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -1036,22 +782,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f sub4x3(Matrix4f subtrahend, Matrix4f dest) {
-        dest.m00 = m00 - subtrahend.m00;
-        dest.m01 = m01 - subtrahend.m01;
-        dest.m02 = m02 - subtrahend.m02;
-        dest.m03 = m03;
-        dest.m10 = m10 - subtrahend.m10;
-        dest.m11 = m11 - subtrahend.m11;
-        dest.m12 = m12 - subtrahend.m12;
-        dest.m13 = m13;
-        dest.m20 = m20 - subtrahend.m20;
-        dest.m21 = m21 - subtrahend.m21;
-        dest.m22 = m22 - subtrahend.m22;
-        dest.m23 = m23;
-        dest.m30 = m30 - subtrahend.m30;
-        dest.m31 = m31 - subtrahend.m31;
-        dest.m32 = m32 - subtrahend.m32;
-        dest.m33 = m33;
+        dest.ms[M00] = ms[M00] - subtrahend.ms[M00];
+        dest.ms[M01] = ms[M01] - subtrahend.ms[M01];
+        dest.ms[M02] = ms[M02] - subtrahend.ms[M02];
+        dest.ms[M03] = ms[M03];
+        dest.ms[M10] = ms[M10] - subtrahend.ms[M10];
+        dest.ms[M11] = ms[M11] - subtrahend.ms[M11];
+        dest.ms[M12] = ms[M12] - subtrahend.ms[M12];
+        dest.ms[M13] = ms[M13];
+        dest.ms[M20] = ms[M20] - subtrahend.ms[M20];
+        dest.ms[M21] = ms[M21] - subtrahend.ms[M21];
+        dest.ms[M22] = ms[M22] - subtrahend.ms[M22];
+        dest.ms[M23] = ms[M23];
+        dest.ms[M30] = ms[M30] - subtrahend.ms[M30];
+        dest.ms[M31] = ms[M31] - subtrahend.ms[M31];
+        dest.ms[M32] = ms[M32] - subtrahend.ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -1079,22 +825,22 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mul4x3ComponentWise(Matrix4f other, Matrix4f dest) {
-        dest.m00 = m00 * other.m00;
-        dest.m01 = m01 * other.m01;
-        dest.m02 = m02 * other.m02;
-        dest.m03 = m03;
-        dest.m10 = m10 * other.m10;
-        dest.m11 = m11 * other.m11;
-        dest.m12 = m12 * other.m12;
-        dest.m13 = m13;
-        dest.m20 = m20 * other.m20;
-        dest.m21 = m21 * other.m21;
-        dest.m22 = m22 * other.m22;
-        dest.m23 = m23;
-        dest.m30 = m30 * other.m30;
-        dest.m31 = m31 * other.m31;
-        dest.m32 = m32 * other.m32;
-        dest.m33 = m33;
+        dest.ms[M00] = ms[M00] * other.ms[M00];
+        dest.ms[M01] = ms[M01] * other.ms[M01];
+        dest.ms[M02] = ms[M02] * other.ms[M02];
+        dest.ms[M03] = ms[M03];
+        dest.ms[M10] = ms[M10] * other.ms[M10];
+        dest.ms[M11] = ms[M11] * other.ms[M11];
+        dest.ms[M12] = ms[M12] * other.ms[M12];
+        dest.ms[M13] = ms[M13];
+        dest.ms[M20] = ms[M20] * other.ms[M20];
+        dest.ms[M21] = ms[M21] * other.ms[M21];
+        dest.ms[M22] = ms[M22] * other.ms[M22];
+        dest.ms[M23] = ms[M23];
+        dest.ms[M30] = ms[M30] * other.ms[M30];
+        dest.ms[M31] = ms[M31] * other.ms[M31];
+        dest.ms[M32] = ms[M32] * other.ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -1106,60 +852,60 @@ public class Matrix4f implements Externalizable {
      *  m02, m12, m22, m32<br>
      *  m03, m13, m23, m33
      * 
-     * @param m00
-     *          the new value of m00
-     * @param m01
-     *          the new value of m01
-     * @param m02
-     *          the new value of m02
-     * @param m03
-     *          the new value of m03
-     * @param m10
-     *          the new value of m10
-     * @param m11
-     *          the new value of m11
-     * @param m12
-     *          the new value of m12
-     * @param m13
-     *          the new value of m13
-     * @param m20
-     *          the new value of m20
-     * @param m21
-     *          the new value of m21
-     * @param m22
-     *          the new value of m22
-     * @param m23
-     *          the new value of m23
-     * @param m30
-     *          the new value of m30
-     * @param m31
-     *          the new value of m31
-     * @param m32
-     *          the new value of m32
-     * @param m33
-     *          the new value of m33
+     * @param n00
+     *          the new value of ms[M00]
+     * @param n01
+     *          the new value of ms[M01]
+     * @param n02
+     *          the new value of ms[M02]
+     * @param n03
+     *          the new value of ms[M03]
+     * @param n10
+     *          the new value of ms[M10]
+     * @param n11
+     *          the new value of ms[M11]
+     * @param n12
+     *          the new value of ms[M12]
+     * @param n13
+     *          the new value of ms[M13]
+     * @param n20
+     *          the new value of ms[M20]
+     * @param n21
+     *          the new value of ms[M21]
+     * @param n22
+     *          the new value of ms[M22]
+     * @param n23
+     *          the new value of ms[M23]
+     * @param n30
+     *          the new value of ms[M30]
+     * @param n31
+     *          the new value of ms[M31]
+     * @param n32
+     *          the new value of ms[M32]
+     * @param n33
+     *          the new value of ms[M33]
      * @return this
      */
-    public Matrix4f set(float m00, float m01, float m02, float m03,
-                        float m10, float m11, float m12, float m13,
-                        float m20, float m21, float m22, float m23, 
-                        float m30, float m31, float m32, float m33) {
-        this.m00 = m00;
-        this.m01 = m01;
-        this.m02 = m02;
-        this.m03 = m03;
-        this.m10 = m10;
-        this.m11 = m11;
-        this.m12 = m12;
-        this.m13 = m13;
-        this.m20 = m20;
-        this.m21 = m21;
-        this.m22 = m22;
-        this.m23 = m23;
-        this.m30 = m30;
-        this.m31 = m31;
-        this.m32 = m32;
-        this.m33 = m33;
+    public Matrix4f set(float n00, float n01, float n02, float n03,
+                        float n10, float n11, float n12, float n13,
+                        float n20, float n21, float n22, float n23, 
+                        float n30, float n31, float n32, float n33) {
+        this.ms[M00] = n00;
+        this.ms[M01] = n01;
+        this.ms[M02] = n02;
+        this.ms[M03] = n03;
+        this.ms[M10] = n10;
+        this.ms[M11] = n11;
+        this.ms[M12] = n12;
+        this.ms[M13] = n13;
+        this.ms[M20] = n20;
+        this.ms[M21] = n21;
+        this.ms[M22] = n22;
+        this.ms[M23] = n23;
+        this.ms[M30] = n30;
+        this.ms[M31] = n31;
+        this.ms[M32] = n32;
+        this.ms[M33] = n33;
         return this;
     }
 
@@ -1182,22 +928,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(float m[], int off) {
-        m00 = m[off+0];
-        m01 = m[off+1];
-        m02 = m[off+2];
-        m03 = m[off+3];
-        m10 = m[off+4];
-        m11 = m[off+5];
-        m12 = m[off+6];
-        m13 = m[off+7];
-        m20 = m[off+8];
-        m21 = m[off+9];
-        m22 = m[off+10];
-        m23 = m[off+11];
-        m30 = m[off+12];
-        m31 = m[off+13];
-        m32 = m[off+14];
-        m33 = m[off+15];
+    	System.arraycopy(m, off, ms, 0, 16);
         return this;
     }
 
@@ -1222,72 +953,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set the values of this matrix by reading 16 float values from the given {@link FloatBuffer} in column-major order,
-     * starting at its current position.
-     * <p>
-     * The FloatBuffer is expected to contain the values in column-major order.
-     * <p>
-     * The position of the FloatBuffer will not be changed by this method.
-     * 
-     * @param buffer
-     *              the FloatBuffer to read the matrix values from in column-major order
-     * @return this
-     */
-    public Matrix4f set(FloatBuffer buffer) {
-        int pos = buffer.position();
-        m00 = buffer.get(pos);
-        m01 = buffer.get(pos+1);
-        m02 = buffer.get(pos+2);
-        m03 = buffer.get(pos+3);
-        m10 = buffer.get(pos+4);
-        m11 = buffer.get(pos+5);
-        m12 = buffer.get(pos+6);
-        m13 = buffer.get(pos+7);
-        m20 = buffer.get(pos+8);
-        m21 = buffer.get(pos+9);
-        m22 = buffer.get(pos+10);
-        m23 = buffer.get(pos+11);
-        m30 = buffer.get(pos+12);
-        m31 = buffer.get(pos+13);
-        m32 = buffer.get(pos+14);
-        m33 = buffer.get(pos+15);
-        return this;
-    }
-
-    /**
-     * Set the values of this matrix by reading 16 float values from the given {@link ByteBuffer} in column-major order,
-     * starting at its current position.
-     * <p>
-     * The ByteBuffer is expected to contain the values in column-major order.
-     * <p>
-     * The position of the ByteBuffer will not be changed by this method.
-     * 
-     * @param buffer
-     *              the ByteBuffer to read the matrix values from in column-major order
-     * @return this
-     */
-    public Matrix4f set(ByteBuffer buffer) {
-        int pos = buffer.position();
-        m00 = buffer.getFloat(pos);
-        m01 = buffer.getFloat(pos+4);
-        m02 = buffer.getFloat(pos+8);
-        m03 = buffer.getFloat(pos+12);
-        m10 = buffer.getFloat(pos+16);
-        m11 = buffer.getFloat(pos+20);
-        m12 = buffer.getFloat(pos+24);
-        m13 = buffer.getFloat(pos+28);
-        m20 = buffer.getFloat(pos+32);
-        m21 = buffer.getFloat(pos+36);
-        m22 = buffer.getFloat(pos+40);
-        m23 = buffer.getFloat(pos+44);
-        m30 = buffer.getFloat(pos+48);
-        m31 = buffer.getFloat(pos+52);
-        m32 = buffer.getFloat(pos+56);
-        m33 = buffer.getFloat(pos+60);
-        return this;
-    }
-
-    /**
      * Return the determinant of this matrix.
      * <p>
      * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
@@ -1298,12 +963,12 @@ public class Matrix4f implements Externalizable {
      * @return the determinant
      */
     public float determinant() {
-        return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32)
-             + (m02 * m10 - m00 * m12) * (m21 * m33 - m23 * m31)
-             + (m00 * m13 - m03 * m10) * (m21 * m32 - m22 * m31)
-             + (m01 * m12 - m02 * m11) * (m20 * m33 - m23 * m30)
-             + (m03 * m11 - m01 * m13) * (m20 * m32 - m22 * m30)
-             + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
+        return (ms[M00] * ms[M11] - ms[M01] * ms[M10]) * (ms[M22] * ms[M33] - ms[M23] * ms[M32])
+             + (ms[M02] * ms[M10] - ms[M00] * ms[M12]) * (ms[M21] * ms[M33] - ms[M23] * ms[M31])
+             + (ms[M00] * ms[M13] - ms[M03] * ms[M10]) * (ms[M21] * ms[M32] - ms[M22] * ms[M31])
+             + (ms[M01] * ms[M12] - ms[M02] * ms[M11]) * (ms[M20] * ms[M33] - ms[M23] * ms[M30])
+             + (ms[M03] * ms[M11] - ms[M01] * ms[M13]) * (ms[M20] * ms[M32] - ms[M22] * ms[M30])
+             + (ms[M02] * ms[M13] - ms[M03] * ms[M12]) * (ms[M20] * ms[M31] - ms[M21] * ms[M30]);
     }
 
     /**
@@ -1312,9 +977,9 @@ public class Matrix4f implements Externalizable {
      * @return the determinant
      */
     public float determinant3x3() {
-        return (m00 * m11 - m01 * m10) * m22
-             + (m02 * m10 - m00 * m12) * m21
-             + (m01 * m12 - m02 * m11) * m20;
+        return (ms[M00] * ms[M11] - ms[M01] * ms[M10]) * ms[M22]
+             + (ms[M02] * ms[M10] - ms[M00] * ms[M12]) * ms[M21]
+             + (ms[M01] * ms[M12] - ms[M02] * ms[M11]) * ms[M20];
     }
 
     /**
@@ -1324,9 +989,9 @@ public class Matrix4f implements Externalizable {
      * @return the determinant
      */
     public float determinantAffine() {
-        return (m00 * m11 - m01 * m10) * m22
-             + (m02 * m10 - m00 * m12) * m21
-             + (m01 * m12 - m02 * m11) * m20;
+        return (ms[M00] * ms[M11] - ms[M01] * ms[M10]) * ms[M22]
+             + (ms[M02] * ms[M10] - ms[M00] * ms[M12]) * ms[M21]
+             + (ms[M01] * ms[M12] - ms[M02] * ms[M11]) * ms[M20];
     }
 
     /**
@@ -1342,36 +1007,36 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invert(Matrix4f dest) {
-        float a = m00 * m11 - m01 * m10;
-        float b = m00 * m12 - m02 * m10;
-        float c = m00 * m13 - m03 * m10;
-        float d = m01 * m12 - m02 * m11;
-        float e = m01 * m13 - m03 * m11;
-        float f = m02 * m13 - m03 * m12;
-        float g = m20 * m31 - m21 * m30;
-        float h = m20 * m32 - m22 * m30;
-        float i = m20 * m33 - m23 * m30;
-        float j = m21 * m32 - m22 * m31;
-        float k = m21 * m33 - m23 * m31;
-        float l = m22 * m33 - m23 * m32;
+        float a = ms[M00] * ms[M11] - ms[M01] * ms[M10];
+        float b = ms[M00] * ms[M12] - ms[M02] * ms[M10];
+        float c = ms[M00] * ms[M13] - ms[M03] * ms[M10];
+        float d = ms[M01] * ms[M12] - ms[M02] * ms[M11];
+        float e = ms[M01] * ms[M13] - ms[M03] * ms[M11];
+        float f = ms[M02] * ms[M13] - ms[M03] * ms[M12];
+        float g = ms[M20] * ms[M31] - ms[M21] * ms[M30];
+        float h = ms[M20] * ms[M32] - ms[M22] * ms[M30];
+        float i = ms[M20] * ms[M33] - ms[M23] * ms[M30];
+        float j = ms[M21] * ms[M32] - ms[M22] * ms[M31];
+        float k = ms[M21] * ms[M33] - ms[M23] * ms[M31];
+        float l = ms[M22] * ms[M33] - ms[M23] * ms[M32];
         float det = a * l - b * k + c * j + d * i - e * h + f * g;
         det = 1.0f / det;
-        dest.set(( m11 * l - m12 * k + m13 * j) * det,
-                 (-m01 * l + m02 * k - m03 * j) * det,
-                 ( m31 * f - m32 * e + m33 * d) * det,
-                 (-m21 * f + m22 * e - m23 * d) * det,
-                 (-m10 * l + m12 * i - m13 * h) * det,
-                 ( m00 * l - m02 * i + m03 * h) * det,
-                 (-m30 * f + m32 * c - m33 * b) * det,
-                 ( m20 * f - m22 * c + m23 * b) * det,
-                 ( m10 * k - m11 * i + m13 * g) * det,
-                 (-m00 * k + m01 * i - m03 * g) * det,
-                 ( m30 * e - m31 * c + m33 * a) * det,
-                 (-m20 * e + m21 * c - m23 * a) * det,
-                 (-m10 * j + m11 * h - m12 * g) * det,
-                 ( m00 * j - m01 * h + m02 * g) * det,
-                 (-m30 * d + m31 * b - m32 * a) * det,
-                 ( m20 * d - m21 * b + m22 * a) * det);
+        dest.set(( ms[M11] * l - ms[M12] * k + ms[M13] * j) * det,
+                 (-ms[M01] * l + ms[M02] * k - ms[M03] * j) * det,
+                 ( ms[M31] * f - ms[M32] * e + ms[M33] * d) * det,
+                 (-ms[M21] * f + ms[M22] * e - ms[M23] * d) * det,
+                 (-ms[M10] * l + ms[M12] * i - ms[M13] * h) * det,
+                 ( ms[M00] * l - ms[M02] * i + ms[M03] * h) * det,
+                 (-ms[M30] * f + ms[M32] * c - ms[M33] * b) * det,
+                 ( ms[M20] * f - ms[M22] * c + ms[M23] * b) * det,
+                 ( ms[M10] * k - ms[M11] * i + ms[M13] * g) * det,
+                 (-ms[M00] * k + ms[M01] * i - ms[M03] * g) * det,
+                 ( ms[M30] * e - ms[M31] * c + ms[M33] * a) * det,
+                 (-ms[M20] * e + ms[M21] * c - ms[M23] * a) * det,
+                 (-ms[M10] * j + ms[M11] * h - ms[M12] * g) * det,
+                 ( ms[M00] * j - ms[M01] * h + ms[M02] * g) * det,
+                 (-ms[M30] * d + ms[M31] * b - ms[M32] * a) * det,
+                 ( ms[M20] * d - ms[M21] * b + ms[M22] * a) * det);
         return dest;
     }
 
@@ -1403,12 +1068,12 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invertPerspective(Matrix4f dest) {
-        float a =  1.0f / (m00 * m11);
-        float l = -1.0f / (m23 * m32);
-        dest.set(m11 * a, 0, 0, 0,
-                 0, m00 * a, 0, 0,
-                 0, 0, 0, -m23 * l,
-                 0, 0, -m32 * l, m22 * l);
+        float a =  1.0f / (ms[M00] * ms[M11]);
+        float l = -1.0f / (ms[M23] * ms[M32]);
+        dest.set(ms[M11] * a, 0, 0, 0,
+                 0, ms[M00] * a, 0, 0,
+                 0, 0, 0, -ms[M23] * l,
+                 0, 0, -ms[M32] * l, ms[M22] * l);
         return dest;
     }
 
@@ -1445,14 +1110,14 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invertFrustum(Matrix4f dest) {
-        float invM00 = 1.0f / m00;
-        float invM11 = 1.0f / m11;
-        float invM23 = 1.0f / m23;
-        float invM32 = 1.0f / m32;
+        float invM00 = 1.0f / ms[M00];
+        float invM11 = 1.0f / ms[M11];
+        float invM23 = 1.0f / ms[M23];
+        float invM32 = 1.0f / ms[M32];
         dest.set(invM00, 0, 0, 0,
                  0, invM11, 0, 0,
                  0, 0, 0, invM32,
-                 -m20 * invM00 * invM23, -m21 * invM11 * invM23, invM23, -m22 * invM23 * invM32);
+                 -ms[M20] * invM00 * invM23, -ms[M21] * invM11 * invM23, invM23, -ms[M22] * invM23 * invM32);
         return dest;
     }
 
@@ -1485,13 +1150,13 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invertOrtho(Matrix4f dest) {
-        float invM00 = 1.0f / m00;
-        float invM11 = 1.0f / m11;
-        float invM22 = 1.0f / m22;
+        float invM00 = 1.0f / ms[M00];
+        float invM11 = 1.0f / ms[M11];
+        float invM22 = 1.0f / ms[M22];
         dest.set(invM00, 0, 0, 0,
                  0, invM11, 0, 0,
                  0, 0, invM22, 0,
-                 -m30 * invM00, -m31 * invM11, -m32 * invM22, 1);
+                 -ms[M30] * invM00, -ms[M31] * invM11, -ms[M32] * invM22, 1);
         return dest;
     }
 
@@ -1528,20 +1193,20 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invertPerspectiveView(Matrix4f view, Matrix4f dest) {
-        float a =  1.0f / (m00 * m11);
-        float l = -1.0f / (m23 * m32);
-        float pm00 =  m11 * a;
-        float pm11 =  m00 * a;
-        float pm23 = -m23 * l;
-        float pm32 = -m32 * l;
-        float pm33 =  m22 * l;
-        float vm30 = -view.m00 * view.m30 - view.m01 * view.m31 - view.m02 * view.m32;
-        float vm31 = -view.m10 * view.m30 - view.m11 * view.m31 - view.m12 * view.m32;
-        float vm32 = -view.m20 * view.m30 - view.m21 * view.m31 - view.m22 * view.m32;
-        dest.set(view.m00 * pm00, view.m10 * pm00, view.m20 * pm00, 0.0f,
-                 view.m01 * pm11, view.m11 * pm11, view.m21 * pm11, 0.0f,
-                 vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
-                 view.m02 * pm32 + vm30 * pm33, view.m12 * pm32 + vm31 * pm33, view.m22 * pm32 + vm32 * pm33, pm33);
+        float a =  1.0f / (ms[M00] * ms[M11]);
+        float l = -1.0f / (ms[M23] * ms[M32]);
+        float pmsM00 =  ms[M11] * a;
+        float pmsM11 =  ms[M00] * a;
+        float pmsM23 = -ms[M23] * l;
+        float pmsM32 = -ms[M32] * l;
+        float pmsM33 =  ms[M22] * l;
+        float vmsM30 = -view.ms[M00] * view.ms[M30] - view.ms[M01] * view.ms[M31] - view.ms[M02] * view.ms[M32];
+        float vmsM31 = -view.ms[M10] * view.ms[M30] - view.ms[M11] * view.ms[M31] - view.ms[M12] * view.ms[M32];
+        float vmsM32 = -view.ms[M20] * view.ms[M30] - view.ms[M21] * view.ms[M31] - view.ms[M22] * view.ms[M32];
+        dest.set(view.ms[M00] * pmsM00, view.ms[M10] * pmsM00, view.ms[M20] * pmsM00, 0.0f,
+                 view.ms[M01] * pmsM11, view.ms[M11] * pmsM11, view.ms[M21] * pmsM11, 0.0f,
+                 vmsM30 * pmsM23, vmsM31 * pmsM23, vmsM32 * pmsM23, pmsM23,
+                 view.ms[M02] * pmsM32 + vmsM30 * pmsM33, view.ms[M12] * pmsM32 + vmsM31 * pmsM33, view.ms[M22] * pmsM32 + vmsM32 * pmsM33, pmsM33);
         return dest;
     }
 
@@ -1560,39 +1225,39 @@ public class Matrix4f implements Externalizable {
     public Matrix4f invertAffine(Matrix4f dest) {
         float s = determinantAffine();
         s = 1.0f / s;
-        float m10m22 = m10 * m22;
-        float m10m21 = m10 * m21;
-        float m10m02 = m10 * m02;
-        float m10m01 = m10 * m01;
-        float m11m22 = m11 * m22;
-        float m11m20 = m11 * m20;
-        float m11m02 = m11 * m02;
-        float m11m00 = m11 * m00;
-        float m12m21 = m12 * m21;
-        float m12m20 = m12 * m20;
-        float m12m01 = m12 * m01;
-        float m12m00 = m12 * m00;
-        float m20m02 = m20 * m02;
-        float m20m01 = m20 * m01;
-        float m21m02 = m21 * m02;
-        float m21m00 = m21 * m00;
-        float m22m01 = m22 * m01;
-        float m22m00 = m22 * m00;
-        dest.set((m11m22 - m12m21) * s,
-                 (m21m02 - m22m01) * s,
-                 (m12m01 - m11m02) * s,
+        float msM10M22 = ms[M10] * ms[M22];
+        float msM10M21 = ms[M10] * ms[M21];
+        float msM10M02 = ms[M10] * ms[M02];
+        float msM10M01 = ms[M10] * ms[M01];
+        float msM11M22 = ms[M11] * ms[M22];
+        float msM11M20 = ms[M11] * ms[M20];
+        float msM11M02 = ms[M11] * ms[M02];
+        float msM11M00 = ms[M11] * ms[M00];
+        float msM12M21 = ms[M12] * ms[M21];
+        float msM12M20 = ms[M12] * ms[M20];
+        float msM12M01 = ms[M12] * ms[M01];
+        float msM12M00 = ms[M12] * ms[M00];
+        float msM20M02 = ms[M20] * ms[M02];
+        float msM20M01 = ms[M20] * ms[M01];
+        float msM21M02 = ms[M21] * ms[M02];
+        float msM21M00 = ms[M21] * ms[M00];
+        float msM22M01 = ms[M22] * ms[M01];
+        float msM22M00 = ms[M22] * ms[M00];
+        dest.set((msM11M22 - msM12M21) * s,
+                 (msM21M02 - msM22M01) * s,
+                 (msM12M01 - msM11M02) * s,
                  0.0f,
-                 (m12m20 - m10m22) * s,
-                 (m22m00 - m20m02) * s,
-                 (m10m02 - m12m00) * s,
+                 (msM12M20 - msM10M22) * s,
+                 (msM22M00 - msM20M02) * s,
+                 (msM10M02 - msM12M00) * s,
                  0.0f,
-                 (m10m21 - m11m20) * s,
-                 (m20m01 - m21m00) * s,
-                 (m11m00 - m10m01) * s,
+                 (msM10M21 - msM11M20) * s,
+                 (msM20M01 - msM21M00) * s,
+                 (msM11M00 - msM10M01) * s,
                  0.0f,
-                 (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s,
-                 (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s,
-                 (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s,
+                 (msM10M22 * ms[M31] - msM10M21 * ms[M32] + msM11M20 * ms[M32] - msM11M22 * ms[M30] + msM12M21 * ms[M30] - msM12M20 * ms[M31]) * s,
+                 (msM20M02 * ms[M31] - msM20M01 * ms[M32] + msM21M00 * ms[M32] - msM21M02 * ms[M30] + msM22M01 * ms[M30] - msM22M00 * ms[M31]) * s,
+                 (msM11M02 * ms[M30] - msM12M01 * ms[M30] + msM12M00 * ms[M31] - msM10M02 * ms[M31] + msM10M01 * ms[M32] - msM11M00 * ms[M32]) * s,
                  1.0f);
         return dest;
     }
@@ -1622,12 +1287,12 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invertAffineUnitScale(Matrix4f dest) {
-        dest.set(m00, m10, m20, 0.0f,
-                 m01, m11, m21, 0.0f,
-                 m02, m12, m22, 0.0f,
-                 -m00 * m30 - m01 * m31 - m02 * m32,
-                 -m10 * m30 - m11 * m31 - m12 * m32,
-                 -m20 * m30 - m21 * m31 - m22 * m32,
+        dest.set(ms[M00], ms[M10], ms[M20], 0.0f,
+                 ms[M01], ms[M11], ms[M21], 0.0f,
+                 ms[M02], ms[M12], ms[M22], 0.0f,
+                 -ms[M00] * ms[M30] - ms[M01] * ms[M31] - ms[M02] * ms[M32],
+                 -ms[M10] * ms[M30] - ms[M11] * ms[M31] - ms[M12] * ms[M32],
+                 -ms[M20] * ms[M30] - ms[M21] * ms[M31] - ms[M22] * ms[M32],
                  1.0f);
         return dest;
     }
@@ -1688,10 +1353,10 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f transpose(Matrix4f dest) {
-        dest.set(m00, m10, m20, m30,
-                 m01, m11, m21, m31,
-                 m02, m12, m22, m32,
-                 m03, m13, m23, m33);
+        dest.set(ms[M00], ms[M10], ms[M20], ms[M30],
+                 ms[M01], ms[M11], ms[M21], ms[M31],
+                 ms[M02], ms[M12], ms[M22], ms[M32],
+                 ms[M03], ms[M13], ms[M23], ms[M33]);
         return dest;
     }
 
@@ -1714,30 +1379,10 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f transpose3x3(Matrix4f dest) {
-        dest.set(m00,  m10,  m20,  0.0f,
-                 m01,  m11,  m21,  0.0f,
-                 m02,  m12,  m22,  0.0f,
+        dest.set(ms[M00],  ms[M10],  ms[M20],  0.0f,
+                 ms[M01],  ms[M11],  ms[M21],  0.0f,
+                 ms[M02],  ms[M12],  ms[M22],  0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f);
-        return dest;
-    }
-
-    /**
-     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *             will hold the result
-     * @return dest
-     */
-    public Matrix3f transpose3x3(Matrix3f dest) {
-        dest.m00 = m00;
-        dest.m01 = m10;
-        dest.m02 = m20;
-        dest.m10 = m01;
-        dest.m11 = m11;
-        dest.m12 = m21;
-        dest.m20 = m02;
-        dest.m21 = m12;
-        dest.m22 = m22;
         return dest;
     }
 
@@ -1770,22 +1415,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f translation(float x, float y, float z) {
-        m00 = 1.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 1.0f;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = 1.0f;
-        m23 = 0.0f;
-        m30 = x;
-        m31 = y;
-        m32 = z;
-        m33 = 1.0f;
+        ms[M00] = 1.0f;
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = 1.0f;
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
+        ms[M22] = 1.0f;
+        ms[M23] = 0.0f;
+        ms[M30] = x;
+        ms[M31] = y;
+        ms[M32] = z;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -1809,7 +1454,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(x, y, z)</tt>.
+     * Set only the translation components <tt>(ms[M30], ms[M31], ms[M32])</tt> of this matrix to the given values <tt>(x, y, z)</tt>.
      * <p>
      * Note that this will only work properly for orthogonal matrices (without any perspective).
      * <p>
@@ -1828,14 +1473,14 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setTranslation(float x, float y, float z) {
-        m30 = x;
-        m31 = y;
-        m32 = z;
+        ms[M30] = x;
+        ms[M31] = y;
+        ms[M32] = z;
         return this;
     }
 
     /**
-     * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
+     * Set only the translation components <tt>(ms[M30], ms[M31], ms[M32])</tt> of this matrix to the values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
      * Note that this will only work properly for orthogonal matrices (without any perspective).
      * <p>
@@ -1850,23 +1495,23 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setTranslation(Vector3f xyz) {
-        m30 = xyz.x;
-        m31 = xyz.y;
-        m32 = xyz.z;
+        ms[M30] = xyz.x;
+        ms[M31] = xyz.y;
+        ms[M32] = xyz.z;
         return this;
     }
 
     /**
-     * Get only the translation components <tt>(m30, m31, m32)</tt> of this matrix and store them in the given vector <code>xyz</code>.
+     * Get only the translation components <tt>(ms[M30], ms[M31], ms[M32])</tt> of this matrix and store them in the given vector <code>xyz</code>.
      * 
      * @param dest
      *          will hold the translation components of this matrix
      * @return dest
      */
     public Vector3f getTranslation(Vector3f dest) {
-        dest.x = m30;
-        dest.y = m31;
-        dest.z = m32;
+        dest.x = ms[M30];
+        dest.y = ms[M31];
+        dest.z = ms[M32];
         return dest;
     }
 
@@ -1878,9 +1523,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Vector3f getScale(Vector3f dest) {
-        dest.x = (float) Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
-        dest.y = (float) Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
-        dest.z = (float) Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        dest.x = (float) Math.sqrt(ms[M00] * ms[M00] + ms[M01] * ms[M01] + ms[M02] * ms[M02]);
+        dest.y = (float) Math.sqrt(ms[M10] * ms[M10] + ms[M11] * ms[M11] + ms[M12] * ms[M12]);
+        dest.z = (float) Math.sqrt(ms[M20] * ms[M20] + ms[M21] * ms[M21] + ms[M22] * ms[M22]);
         return dest;
     }
 
@@ -1904,10 +1549,10 @@ public class Matrix4f implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return formatter.format(m00) + formatter.format(m10) + formatter.format(m20) + formatter.format(m30) + "\n" //$NON-NLS-1$
-             + formatter.format(m01) + formatter.format(m11) + formatter.format(m21) + formatter.format(m31) + "\n" //$NON-NLS-1$
-             + formatter.format(m02) + formatter.format(m12) + formatter.format(m22) + formatter.format(m32) + "\n" //$NON-NLS-1$
-             + formatter.format(m03) + formatter.format(m13) + formatter.format(m23) + formatter.format(m33) + "\n"; //$NON-NLS-1$
+        return formatter.format(ms[M00]) + formatter.format(ms[M10]) + formatter.format(ms[M20]) + formatter.format(ms[M30]) + "\n" //$NON-NLS-1$
+             + formatter.format(ms[M01]) + formatter.format(ms[M11]) + formatter.format(ms[M21]) + formatter.format(ms[M31]) + "\n" //$NON-NLS-1$
+             + formatter.format(ms[M02]) + formatter.format(ms[M12]) + formatter.format(ms[M22]) + formatter.format(ms[M32]) + "\n" //$NON-NLS-1$
+             + formatter.format(ms[M03]) + formatter.format(ms[M13]) + formatter.format(ms[M23]) + formatter.format(ms[M33]) + "\n"; //$NON-NLS-1$
     }
 
     /**
@@ -1924,75 +1569,6 @@ public class Matrix4f implements Externalizable {
      * @return the passed in destination
      */
     public Matrix4f get(Matrix4f dest) {
-        return dest.set(this);
-    }
-
-    /**
-     * Get the current values of <code>this</code> matrix and store them into
-     * <code>dest</code>.
-     * <p>
-     * This is the reverse method of {@link #set(Matrix4d)} and allows to obtain
-     * intermediate calculation results when chaining multiple transformations.
-     * 
-     * @see #set(Matrix4d)
-     * 
-     * @param dest
-     *            the destination matrix
-     * @return the passed in destination
-     */
-    public Matrix4d get(Matrix4d dest) {
-        return dest.set(this);
-    }
-
-    /**
-     * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
-     * <code>dest</code>.
-     * 
-     * @param dest
-     *            the destination matrix
-     * @return the passed in destination
-     */
-    public Matrix3f get3x3(Matrix3f dest) {
-        return dest.set(this);
-    }
-
-    /**
-     * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
-     * <code>dest</code>.
-     * 
-     * @param dest
-     *            the destination matrix
-     * @return the passed in destination
-     */
-    public Matrix3d get3x3(Matrix3d dest) {
-        return dest.set(this);
-    }
-
-    /**
-     * Get the rotational component of <code>this</code> matrix and store the represented rotation
-     * into the given {@link AxisAngle4f}.
-     * 
-     * @see AxisAngle4f#set(Matrix4f)
-     * 
-     * @param dest
-     *          the destination {@link AxisAngle4f}
-     * @return the passed in destination
-     */
-    public AxisAngle4f getRotation(AxisAngle4f dest) {
-        return dest.set(this);
-    }
-
-    /**
-     * Get the rotational component of <code>this</code> matrix and store the represented rotation
-     * into the given {@link AxisAngle4d}.
-     * 
-     * @see AxisAngle4f#set(Matrix4d)
-     * 
-     * @param dest
-     *          the destination {@link AxisAngle4d}
-     * @return the passed in destination
-     */
-    public AxisAngle4d getRotation(AxisAngle4d dest) {
         return dest.set(this);
     }
 
@@ -2030,187 +1606,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Get the current values of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaterniond}.
-     * <p>
-     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized and
-     * thus allows to ignore any additional scaling factor that is applied to the matrix.
-     * 
-     * @see Quaterniond#setFromUnnormalized(Matrix4f)
-     * 
-     * @param dest
-     *          the destination {@link Quaterniond}
-     * @return the passed in destination
-     */
-    public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
-        return dest.setFromUnnormalized(this);
-    }
-
-    /**
-     * Get the current values of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaterniond}.
-     * <p>
-     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
-     * 
-     * @see Quaterniond#setFromNormalized(Matrix4f)
-     * 
-     * @param dest
-     *          the destination {@link Quaterniond}
-     * @return the passed in destination
-     */
-    public Quaterniond getNormalizedRotation(Quaterniond dest) {
-        return dest.setFromNormalized(this);
-    }
-
-    /**
-     * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
-     * buffer {@link FloatBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * In order to specify the offset into the FloatBuffer at which
-     * the matrix is stored, use {@link #get(int, FloatBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #get(int, FloatBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
-     */
-    public FloatBuffer get(FloatBuffer buffer) {
-        return get(buffer.position(), buffer);
-    }
-
-    /**
-     * Store this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * 
-     * @param index
-     *            the absolute position into the FloatBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
-     */
-    public FloatBuffer get(int index, FloatBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
-    }
-
-    /**
-     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #get(int, ByteBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
-     */
-    public ByteBuffer get(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
-    }
-
-    /**
-     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * 
-     * @param index
-     *            the absolute position into the ByteBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
-     */
-    public ByteBuffer get(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
-    }
-
-    /**
-     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} at the current
-     * buffer {@link FloatBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * In order to specify the offset into the FloatBuffer at which
-     * the matrix is stored, use {@link #getTransposed(int, FloatBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #getTransposed(int, FloatBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
-     */
-    public FloatBuffer getTransposed(FloatBuffer buffer) {
-        return getTransposed(buffer.position(), buffer);
-    }
-
-    /**
-     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * 
-     * @param index
-     *            the absolute position into the FloatBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
-     */
-    public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
-        MemUtil.INSTANCE.putTransposed(this, index, buffer);
-        return buffer;
-    }
-
-    /**
-     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the matrix is stored, use {@link #getTransposed(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #getTransposed(int, ByteBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
-     */
-    public ByteBuffer getTransposed(ByteBuffer buffer) {
-        return getTransposed(buffer.position(), buffer);
-    }
-
-    /**
-     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * 
-     * @param index
-     *            the absolute position into the ByteBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
-     */
-    public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.putTransposed(this, index, buffer);
-        return buffer;
-    }
-
-    /**
      * Store this matrix into the supplied float array in column-major order at the given offset.
      * 
      * @param arr
@@ -2220,22 +1615,7 @@ public class Matrix4f implements Externalizable {
      * @return the passed in array
      */
     public float[] get(float[] arr, int offset) {
-        arr[offset+0] =  m00;
-        arr[offset+1] =  m01;
-        arr[offset+2] =  m02;
-        arr[offset+3] =  m03;
-        arr[offset+4] =  m10;
-        arr[offset+5] =  m11;
-        arr[offset+6] =  m12;
-        arr[offset+7] =  m13;
-        arr[offset+8] =  m20;
-        arr[offset+9] =  m21;
-        arr[offset+10] = m22;
-        arr[offset+11] = m23;
-        arr[offset+12] = m30;
-        arr[offset+13] = m31;
-        arr[offset+14] = m32;
-        arr[offset+15] = m33;
+        System.arraycopy(ms, 0, arr, offset, 16);
         return arr;
     }
 
@@ -2251,23 +1631,7 @@ public class Matrix4f implements Externalizable {
      * @return the passed in array
      */
     public float[] get(float[] arr) {
-        arr[0] =  m00;
-        arr[1] =  m01;
-        arr[2] =  m02;
-        arr[3] =  m03;
-        arr[4] =  m10;
-        arr[5] =  m11;
-        arr[6] =  m12;
-        arr[7] =  m13;
-        arr[8] =  m20;
-        arr[9] =  m21;
-        arr[10] = m22;
-        arr[11] = m23;
-        arr[12] = m30;
-        arr[13] = m31;
-        arr[14] = m32;
-        arr[15] = m33;
-        return arr;
+        return get(arr, 0);
     }
 
     /**
@@ -2276,22 +1640,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f zero() {
-        m00 = 0.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 0.0f;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = 0.0f;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 0.0f;
+        Arrays.fill(ms, 0.0f);
         return this;
     }
 
@@ -2311,22 +1660,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f scaling(float factor) {
-        m00 = factor;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = factor;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = factor;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = factor;
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = factor;
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
+        ms[M22] = factor;
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -2350,22 +1699,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f scaling(float x, float y, float z) {
-        m00 = x;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = y;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = z;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = x;
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = y;
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
+        ms[M22] = z;
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
     
@@ -2410,27 +1759,6 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set this matrix to a rotation transformation using the given {@link AxisAngle4f}.
-     * <p>
-     * The resulting matrix can be multiplied against another transformation
-     * matrix to obtain an additional rotation.
-     * <p>
-     * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(AxisAngle4f) rotate()} instead.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     *
-     * @see #rotate(AxisAngle4f)
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
-     * @return this
-     */
-    public Matrix4f rotation(AxisAngle4f axisAngle) {
-        return rotation(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
-    }
-
-    /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * The axis described by the three components needs to be a unit vector.
@@ -2460,22 +1788,22 @@ public class Matrix4f implements Externalizable {
         float sin = (float) Math.sin(angle);
         float C = 1.0f - cos;
         float xy = x * y, xz = x * z, yz = y * z;
-        m00 = cos + x * x * C;
-        m10 = xy * C - z * sin;
-        m20 = xz * C + y * sin;
-        m30 = 0.0f;
-        m01 = xy * C + z * sin;
-        m11 = cos + y * y * C;
-        m21 = yz * C - x * sin;
-        m31 = 0.0f;
-        m02 = xz * C - y * sin;
-        m12 = yz * C + x * sin;
-        m22 = cos + z * z * C;
-        m32 = 0.0f;
-        m03 = 0.0f;
-        m13 = 0.0f;
-        m23 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = cos + x * x * C;
+        ms[M10] = xy * C - z * sin;
+        ms[M20] = xz * C + y * sin;
+        ms[M30] = 0.0f;
+        ms[M01] = xy * C + z * sin;
+        ms[M11] = cos + y * y * C;
+        ms[M21] = yz * C - x * sin;
+        ms[M31] = 0.0f;
+        ms[M02] = xz * C - y * sin;
+        ms[M12] = yz * C + x * sin;
+        ms[M22] = cos + z * z * C;
+        ms[M32] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M23] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -2503,22 +1831,22 @@ public class Matrix4f implements Externalizable {
             cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
         }
-        m00 = 1.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = cos;
-        m12 = sin;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = -sin;
-        m22 = cos;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = 1.0f;
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = cos;
+        ms[M12] = sin;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = -sin;
+        ms[M22] = cos;
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -2546,22 +1874,22 @@ public class Matrix4f implements Externalizable {
             cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
         }
-        m00 = cos;
-        m01 = 0.0f;
-        m02 = -sin;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 1.0f;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = sin;
-        m21 = 0.0f;
-        m22 = cos;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = cos;
+        ms[M01] = 0.0f;
+        ms[M02] = -sin;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = 1.0f;
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = sin;
+        ms[M21] = 0.0f;
+        ms[M22] = cos;
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -2589,22 +1917,22 @@ public class Matrix4f implements Externalizable {
             cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
         }
-        m00 = cos;
-        m01 = sin;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = -sin;
-        m11 = cos;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = 1.0f;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = cos;
+        ms[M01] = sin;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = -sin;
+        ms[M11] = cos;
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
+        ms[M22] = 1.0f;
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -2634,32 +1962,32 @@ public class Matrix4f implements Externalizable {
         float m_sinZ = -sinZ;
 
         // rotateX
-        float nm11 = cosX;
-        float nm12 = sinX;
-        float nm21 = m_sinX;
-        float nm22 = cosX;
+        float nn11 = cosX;
+        float nn12 = sinX;
+        float nn21 = m_sinX;
+        float nn22 = cosX;
         // rotateY
-        float nm00 = cosY;
-        float nm01 = nm21 * m_sinY;
-        float nm02 = nm22 * m_sinY;
-        m20 = sinY;
-        m21 = nm21 * cosY;
-        m22 = nm22 * cosY;
-        m23 = 0.0f;
+        float nn00 = cosY;
+        float nn01 = nn21 * m_sinY;
+        float nn02 = nn22 * m_sinY;
+        ms[M20] = sinY;
+        ms[M21] = nn21 * cosY;
+        ms[M22] = nn22 * cosY;
+        ms[M23] = 0.0f;
         // rotateZ
-        m00 = nm00 * cosZ;
-        m01 = nm01 * cosZ + nm11 * sinZ;
-        m02 = nm02 * cosZ + nm12 * sinZ;
-        m03 = 0.0f;
-        m10 = nm00 * m_sinZ;
-        m11 = nm01 * m_sinZ + nm11 * cosZ;
-        m12 = nm02 * m_sinZ + nm12 * cosZ;
-        m13 = 0.0f;
+        ms[M00] = nn00 * cosZ;
+        ms[M01] = nn01 * cosZ + nn11 * sinZ;
+        ms[M02] = nn02 * cosZ + nn12 * sinZ;
+        ms[M03] = 0.0f;
+        ms[M10] = nn00 * m_sinZ;
+        ms[M11] = nn01 * m_sinZ + nn11 * cosZ;
+        ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
+        ms[M13] = 0.0f;
         // set last column to identity
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -2689,32 +2017,32 @@ public class Matrix4f implements Externalizable {
         float m_sinX = -sinX;
 
         // rotateZ
-        float nm00 = cosZ;
-        float nm01 = sinZ;
-        float nm10 = m_sinZ;
-        float nm11 = cosZ;
+        float nn00 = cosZ;
+        float nn01 = sinZ;
+        float nn10 = m_sinZ;
+        float nn11 = cosZ;
         // rotateY
-        float nm20 = nm00 * sinY;
-        float nm21 = nm01 * sinY;
-        float nm22 = cosY;
-        m00 = nm00 * cosY;
-        m01 = nm01 * cosY;
-        m02 = m_sinY;
-        m03 = 0.0f;
+        float nn20 = nn00 * sinY;
+        float nn21 = nn01 * sinY;
+        float nn22 = cosY;
+        ms[M00] = nn00 * cosY;
+        ms[M01] = nn01 * cosY;
+        ms[M02] = m_sinY;
+        ms[M03] = 0.0f;
         // rotateX
-        m10 = nm10 * cosX + nm20 * sinX;
-        m11 = nm11 * cosX + nm21 * sinX;
-        m12 = nm22 * sinX;
-        m13 = 0.0f;
-        m20 = nm10 * m_sinX + nm20 * cosX;
-        m21 = nm11 * m_sinX + nm21 * cosX;
-        m22 = nm22 * cosX;
-        m23 = 0.0f;
+        ms[M10] = nn10 * cosX + nn20 * sinX;
+        ms[M11] = nn11 * cosX + nn21 * sinX;
+        ms[M12] = nn22 * sinX;
+        ms[M13] = 0.0f;
+        ms[M20] = nn10 * m_sinX + nn20 * cosX;
+        ms[M21] = nn11 * m_sinX + nn21 * cosX;
+        ms[M22] = nn22 * cosX;
+        ms[M23] = 0.0f;
         // set last column to identity
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -2744,32 +2072,32 @@ public class Matrix4f implements Externalizable {
         float m_sinZ = -sinZ;
 
         // rotateY
-        float nm00 = cosY;
-        float nm02 = m_sinY;
-        float nm20 = sinY;
-        float nm22 = cosY;
+        float nn00 = cosY;
+        float nn02 = m_sinY;
+        float nn20 = sinY;
+        float nn22 = cosY;
         // rotateX
-        float nm10 = nm20 * sinX;
-        float nm11 = cosX;
-        float nm12 = nm22 * sinX;
-        m20 = nm20 * cosX;
-        m21 = m_sinX;
-        m22 = nm22 * cosX;
-        m23 = 0.0f;
+        float nn10 = nn20 * sinX;
+        float nn11 = cosX;
+        float nn12 = nn22 * sinX;
+        ms[M20] = nn20 * cosX;
+        ms[M21] = m_sinX;
+        ms[M22] = nn22 * cosX;
+        ms[M23] = 0.0f;
         // rotateZ
-        m00 = nm00 * cosZ + nm10 * sinZ;
-        m01 = nm11 * sinZ;
-        m02 = nm02 * cosZ + nm12 * sinZ;
-        m03 = 0.0f;
-        m10 = nm00 * m_sinZ + nm10 * cosZ;
-        m11 = nm11 * cosZ;
-        m12 = nm02 * m_sinZ + nm12 * cosZ;
-        m13 = 0.0f;
+        ms[M00] = nn00 * cosZ + nn10 * sinZ;
+        ms[M01] = nn11 * sinZ;
+        ms[M02] = nn02 * cosZ + nn12 * sinZ;
+        ms[M03] = 0.0f;
+        ms[M10] = nn00 * m_sinZ + nn10 * cosZ;
+        ms[M11] = nn11 * cosZ;
+        ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
+        ms[M13] = 0.0f;
         // set last column to identity
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -2797,24 +2125,24 @@ public class Matrix4f implements Externalizable {
         float m_sinZ = -sinZ;
 
         // rotateX
-        float nm11 = cosX;
-        float nm12 = sinX;
-        float nm21 = m_sinX;
-        float nm22 = cosX;
+        float nn11 = cosX;
+        float nn12 = sinX;
+        float nn21 = m_sinX;
+        float nn22 = cosX;
         // rotateY
-        float nm00 = cosY;
-        float nm01 = nm21 * m_sinY;
-        float nm02 = nm22 * m_sinY;
-        m20 = sinY;
-        m21 = nm21 * cosY;
-        m22 = nm22 * cosY;
+        float nn00 = cosY;
+        float nn01 = nn21 * m_sinY;
+        float nn02 = nn22 * m_sinY;
+        ms[M20] = sinY;
+        ms[M21] = nn21 * cosY;
+        ms[M22] = nn22 * cosY;
         // rotateZ
-        m00 = nm00 * cosZ;
-        m01 = nm01 * cosZ + nm11 * sinZ;
-        m02 = nm02 * cosZ + nm12 * sinZ;
-        m10 = nm00 * m_sinZ;
-        m11 = nm01 * m_sinZ + nm11 * cosZ;
-        m12 = nm02 * m_sinZ + nm12 * cosZ;
+        ms[M00] = nn00 * cosZ;
+        ms[M01] = nn01 * cosZ + nn11 * sinZ;
+        ms[M02] = nn02 * cosZ + nn12 * sinZ;
+        ms[M10] = nn00 * m_sinZ;
+        ms[M11] = nn01 * m_sinZ + nn11 * cosZ;
+        ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
         return this;
     }
 
@@ -2842,24 +2170,24 @@ public class Matrix4f implements Externalizable {
         float m_sinX = -sinX;
 
         // rotateZ
-        float nm00 = cosZ;
-        float nm01 = sinZ;
-        float nm10 = m_sinZ;
-        float nm11 = cosZ;
+        float nn00 = cosZ;
+        float nn01 = sinZ;
+        float nn10 = m_sinZ;
+        float nn11 = cosZ;
         // rotateY
-        float nm20 = nm00 * sinY;
-        float nm21 = nm01 * sinY;
-        float nm22 = cosY;
-        m00 = nm00 * cosY;
-        m01 = nm01 * cosY;
-        m02 = m_sinY;
+        float nn20 = nn00 * sinY;
+        float nn21 = nn01 * sinY;
+        float nn22 = cosY;
+        ms[M00] = nn00 * cosY;
+        ms[M01] = nn01 * cosY;
+        ms[M02] = m_sinY;
         // rotateX
-        m10 = nm10 * cosX + nm20 * sinX;
-        m11 = nm11 * cosX + nm21 * sinX;
-        m12 = nm22 * sinX;
-        m20 = nm10 * m_sinX + nm20 * cosX;
-        m21 = nm11 * m_sinX + nm21 * cosX;
-        m22 = nm22 * cosX;
+        ms[M10] = nn10 * cosX + nn20 * sinX;
+        ms[M11] = nn11 * cosX + nn21 * sinX;
+        ms[M12] = nn22 * sinX;
+        ms[M20] = nn10 * m_sinX + nn20 * cosX;
+        ms[M21] = nn11 * m_sinX + nn21 * cosX;
+        ms[M22] = nn22 * cosX;
         return this;
     }
 
@@ -2887,24 +2215,24 @@ public class Matrix4f implements Externalizable {
         float m_sinZ = -sinZ;
 
         // rotateY
-        float nm00 = cosY;
-        float nm02 = m_sinY;
-        float nm20 = sinY;
-        float nm22 = cosY;
+        float nn00 = cosY;
+        float nn02 = m_sinY;
+        float nn20 = sinY;
+        float nn22 = cosY;
         // rotateX
-        float nm10 = nm20 * sinX;
-        float nm11 = cosX;
-        float nm12 = nm22 * sinX;
-        m20 = nm20 * cosX;
-        m21 = m_sinX;
-        m22 = nm22 * cosX;
+        float nn10 = nn20 * sinX;
+        float nn11 = cosX;
+        float nn12 = nn22 * sinX;
+        ms[M20] = nn20 * cosX;
+        ms[M21] = m_sinX;
+        ms[M22] = nn22 * cosX;
         // rotateZ
-        m00 = nm00 * cosZ + nm10 * sinZ;
-        m01 = nm11 * sinZ;
-        m02 = nm02 * cosZ + nm12 * sinZ;
-        m10 = nm00 * m_sinZ + nm10 * cosZ;
-        m11 = nm11 * cosZ;
-        m12 = nm02 * m_sinZ + nm12 * cosZ;
+        ms[M00] = nn00 * cosZ + nn10 * sinZ;
+        ms[M01] = nn11 * sinZ;
+        ms[M02] = nn02 * cosZ + nn12 * sinZ;
+        ms[M10] = nn00 * m_sinZ + nn10 * cosZ;
+        ms[M11] = nn11 * cosZ;
+        ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
         return this;
     }
 
@@ -2939,24 +2267,51 @@ public class Matrix4f implements Externalizable {
         float q13 = dqy * quat.w;
         float q23 = dqz * quat.w;
 
-        m00 = 1.0f - q11 - q22;
-        m01 = q01 + q23;
-        m02 = q02 - q13;
-        m03 = 0.0f;
-        m10 = q01 - q23;
-        m11 = 1.0f - q22 - q00;
-        m12 = q12 + q03;
-        m13 = 0.0f;
-        m20 = q02 + q13;
-        m21 = q12 - q03;
-        m22 = 1.0f - q11 - q00;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = 1.0f - q11 - q22;
+        ms[M01] = q01 + q23;
+        ms[M02] = q02 - q13;
+        ms[M03] = 0.0f;
+        ms[M10] = q01 - q23;
+        ms[M11] = 1.0f - q22 - q00;
+        ms[M12] = q12 + q03;
+        ms[M13] = 0.0f;
+        ms[M20] = q02 + q13;
+        ms[M21] = q12 - q03;
+        ms[M22] = 1.0f - q11 - q00;
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
 
         return this;
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code>.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
+     * 
+     * @see #translation(Vector3f)
+     * @see #rotate(Quaternionf)
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @return this
+     */
+    public Matrix4f translationRotateScale(Vector3f translation, 
+                                           Quaternionf quat, 
+                                           Vector3f scale) {
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
     }
 
     /**
@@ -3010,129 +2365,22 @@ public class Matrix4f implements Externalizable {
         float q12 = dqy * qz;
         float q13 = dqy * qw;
         float q23 = dqz * qw;
-        m00 = sx - (q11 + q22) * sx;
-        m01 = (q01 + q23) * sx;
-        m02 = (q02 - q13) * sx;
-        m03 = 0.0f;
-        m10 = (q01 - q23) * sy;
-        m11 = sy - (q22 + q00) * sy;
-        m12 = (q12 + q03) * sy;
-        m13 = 0.0f;
-        m20 = (q02 + q13) * sz;
-        m21 = (q12 - q03) * sz;
-        m22 = sz - (q11 + q00) * sz;
-        m23 = 0.0f;
-        m30 = tx;
-        m31 = ty;
-        m32 = tz;
-        m33 = 1.0f;
-        return this;
-    }
-
-    /**
-     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
-     * which scales the axes by <code>scale</code>.
-     * <p>
-     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
-     * at last the translation.
-     * <p>
-     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
-     * 
-     * @see #translation(Vector3f)
-     * @see #rotate(Quaternionf)
-     * 
-     * @param translation
-     *          the translation
-     * @param quat
-     *          the quaternion representing a rotation
-     * @param scale
-     *          the scaling factors
-     * @return this
-     */
-    public Matrix4f translationRotateScale(Vector3f translation, 
-                                           Quaternionf quat, 
-                                           Vector3f scale) {
-        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
-    }
-
-    /**
-     * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion.
-     * <p>
-     * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
-     * <p>
-     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
-     * 
-     * @see #translation(float, float, float)
-     * @see #rotate(Quaternionf)
-     * 
-     * @param tx
-     *          the number of units by which to translate the x-component
-     * @param ty
-     *          the number of units by which to translate the y-component
-     * @param tz
-     *          the number of units by which to translate the z-component
-     * @param quat
-     *          the quaternion representing a rotation
-     * @return this
-     */
-    public Matrix4f translationRotate(float tx, float ty, float tz, Quaternionf quat) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
-        m00 = 1.0f - (q11 + q22);
-        m01 = q01 + q23;
-        m02 = q02 - q13;
-        m03 = 0.0f;
-        m10 = q01 - q23;
-        m11 = 1.0f - (q22 + q00);
-        m12 = q12 + q03;
-        m13 = 0.0f;
-        m20 = q02 + q13;
-        m21 = q12 - q03;
-        m22 = 1.0f - (q11 + q00);
-        m23 = 0.0f;
-        m30 = tx;
-        m31 = ty;
-        m32 = tz;
-        m33 = 1.0f;
-        return this;
-    }
-
-    /**
-     * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
-     * 
-     * @param mat
-     *          the 3x3 matrix
-     * @return this
-     */
-    public Matrix4f set3x3(Matrix3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m03 = 0.0f;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m13 = 0.0f;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = sx - (q11 + q22) * sx;
+        ms[M01] = (q01 + q23) * sx;
+        ms[M02] = (q02 - q13) * sx;
+        ms[M03] = 0.0f;
+        ms[M10] = (q01 - q23) * sy;
+        ms[M11] = sy - (q22 + q00) * sy;
+        ms[M12] = (q12 + q03) * sy;
+        ms[M13] = 0.0f;
+        ms[M20] = (q02 + q13) * sz;
+        ms[M21] = (q12 - q03) * sz;
+        ms[M22] = sz - (q11 + q00) * sz;
+        ms[M23] = 0.0f;
+        ms[M30] = tx;
+        ms[M31] = ty;
+        ms[M32] = tz;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -3246,9 +2494,9 @@ public class Matrix4f implements Externalizable {
      * @return v
      */
     public Vector3f transformPosition(Vector3f v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
-              m01 * v.x + m11 * v.y + m21 * v.z + m31,
-              m02 * v.x + m12 * v.y + m22 * v.z + m32);
+        v.set(ms[M00] * v.x + ms[M10] * v.y + ms[M20] * v.z + ms[M30],
+              ms[M01] * v.x + ms[M11] * v.y + ms[M21] * v.z + ms[M31],
+              ms[M02] * v.x + ms[M12] * v.y + ms[M22] * v.z + ms[M32]);
         return v;
     }
 
@@ -3276,9 +2524,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Vector3f transformPosition(Vector3f v, Vector3f dest) {
-        dest.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
-                 m01 * v.x + m11 * v.y + m21 * v.z + m31,
-                 m02 * v.x + m12 * v.y + m22 * v.z + m32);
+        dest.set(ms[M00] * v.x + ms[M10] * v.y + ms[M20] * v.z + ms[M30],
+                 ms[M01] * v.x + ms[M11] * v.y + ms[M21] * v.z + ms[M31],
+                 ms[M02] * v.x + ms[M12] * v.y + ms[M22] * v.z + ms[M32]);
         return dest;
     }
 
@@ -3299,9 +2547,9 @@ public class Matrix4f implements Externalizable {
      * @return v
      */
     public Vector3f transformDirection(Vector3f v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z,
-              m01 * v.x + m11 * v.y + m21 * v.z,
-              m02 * v.x + m12 * v.y + m22 * v.z);
+        v.set(ms[M00] * v.x + ms[M10] * v.y + ms[M20] * v.z,
+              ms[M01] * v.x + ms[M11] * v.y + ms[M21] * v.z,
+              ms[M02] * v.x + ms[M12] * v.y + ms[M22] * v.z);
         return v;
     }
 
@@ -3324,9 +2572,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Vector3f transformDirection(Vector3f v, Vector3f dest) {
-        dest.set(m00 * v.x + m10 * v.y + m20 * v.z,
-                 m01 * v.x + m11 * v.y + m21 * v.z,
-                 m02 * v.x + m12 * v.y + m22 * v.z);
+        dest.set(ms[M00] * v.x + ms[M10] * v.y + ms[M20] * v.z,
+                 ms[M01] * v.x + ms[M11] * v.y + ms[M21] * v.z,
+                 ms[M02] * v.x + ms[M12] * v.y + ms[M22] * v.z);
         return dest;
     }
 
@@ -3343,9 +2591,9 @@ public class Matrix4f implements Externalizable {
      * @return v
      */
     public Vector4f transformAffine(Vector4f v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30 * v.w,
-              m01 * v.x + m11 * v.y + m21 * v.z + m31 * v.w,
-              m02 * v.x + m12 * v.y + m22 * v.z + m32 * v.w,
+        v.set(ms[M00] * v.x + ms[M10] * v.y + ms[M20] * v.z + ms[M30] * v.w,
+              ms[M01] * v.x + ms[M11] * v.y + ms[M21] * v.z + ms[M31] * v.w,
+              ms[M02] * v.x + ms[M12] * v.y + ms[M22] * v.z + ms[M32] * v.w,
               v.w);
         return v;
     }
@@ -3365,9 +2613,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Vector4f transformAffine(Vector4f v, Vector4f dest) {
-        dest.set(m00 * v.x + m10 * v.y + m20 * v.z + m30 * v.w,
-                 m01 * v.x + m11 * v.y + m21 * v.z + m31 * v.w,
-                 m02 * v.x + m12 * v.y + m22 * v.z + m32 * v.w,
+        dest.set(ms[M00] * v.x + ms[M10] * v.y + ms[M20] * v.z + ms[M30] * v.w,
+                 ms[M01] * v.x + ms[M11] * v.y + ms[M21] * v.z + ms[M31] * v.w,
+                 ms[M02] * v.x + ms[M12] * v.y + ms[M22] * v.z + ms[M32] * v.w,
                  v.w);
         return dest;
     }
@@ -3472,25 +2720,25 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f scale(float x, float y, float z, Matrix4f dest) {
         // scale matrix elements:
-        // m00 = x, m11 = y, m22 = z
-        // m33 = 1
+        // ms[M00] = x, ms[M11] = y, ms[M22] = z
+        // ms[M33] = 1
         // all others = 0
-        dest.m00 = m00 * x;
-        dest.m01 = m01 * x;
-        dest.m02 = m02 * x;
-        dest.m03 = m03 * x;
-        dest.m10 = m10 * y;
-        dest.m11 = m11 * y;
-        dest.m12 = m12 * y;
-        dest.m13 = m13 * y;
-        dest.m20 = m20 * z;
-        dest.m21 = m21 * z;
-        dest.m22 = m22 * z;
-        dest.m23 = m23 * z;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M00] = ms[M00] * x;
+        dest.ms[M01] = ms[M01] * x;
+        dest.ms[M02] = ms[M02] * x;
+        dest.ms[M03] = ms[M03] * x;
+        dest.ms[M10] = ms[M10] * y;
+        dest.ms[M11] = ms[M11] * y;
+        dest.ms[M12] = ms[M12] * y;
+        dest.ms[M13] = ms[M13] * y;
+        dest.ms[M20] = ms[M20] * z;
+        dest.ms[M21] = ms[M21] * z;
+        dest.ms[M22] = ms[M22] * z;
+        dest.ms[M23] = ms[M23] * z;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -3513,96 +2761,6 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f scale(float x, float y, float z) {
         return scale(x, y, z, this);
-    }
-
-    /**
-     * Apply rotation about the X axis to this matrix by rotating exactly the given amount of degrees
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * 
-     * @param specialDegrees
-     *            must be either 90, -90, 180, -180, 270 or -270
-     * @param dest
-     *            will hold the result
-     * @return dest
-     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
-     */
-    public Matrix4f rotateXExact(int specialDegrees, Matrix4f dest) throws IllegalArgumentException {
-        float nm10, nm11, nm12, nm13;
-        int d = specialDegrees;
-        if (d == 270)
-            d = -90;
-        else if (d == -270)
-            d = 90;
-        if (d == 90) {
-            nm10 = m20;
-            nm11 = m21;
-            nm12 = m22;
-            nm13 = m23;
-            dest.m20 = -m10;
-            dest.m21 = -m11;
-            dest.m22 = -m12;
-            dest.m23 = -m13;
-        } else if (d == -90) {
-            nm10 = -m20;
-            nm11 = -m21;
-            nm12 = -m22;
-            nm13 = -m23;
-            dest.m20 = m10;
-            dest.m21 = m11;
-            dest.m22 = m12;
-            dest.m23 = m13;
-        } else if (d == 180 || d == -180) {
-            nm10 = -m10;
-            nm11 = -m11;
-            nm12 = -m12;
-            nm13 = -m13;
-            dest.m20 = -m20;
-            dest.m21 = -m21;
-            dest.m22 = -m22;
-            dest.m23 = -m23;
-        } else {
-            throw new IllegalArgumentException();
-        }
-        // set other values
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m00 = m00;
-        dest.m01 = m01;
-        dest.m02 = m02;
-        dest.m03 = m03;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
-        return dest;
-    }
-
-    /**
-     * Apply rotation about the X axis to this matrix by rotating exactly the given amount of degrees.
-     * <p>
-     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * 
-     * @param specialDegrees
-     *            must be either 90, -90, 180, -180, 270 or -270
-     * @return dest
-     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
-     */
-    public Matrix4f rotateXExact(int specialDegrees) throws IllegalArgumentException {
-        return rotateXExact(specialDegrees, this);
     }
 
     /**
@@ -3637,34 +2795,34 @@ public class Matrix4f implements Externalizable {
             cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
         }
-        float rm11 = cos;
-        float rm12 = sin;
-        float rm21 = -sin;
-        float rm22 = cos;
+        float rn11 = cos;
+        float rn12 = sin;
+        float rn21 = -sin;
+        float rn22 = cos;
 
         // add temporaries for dependent values
-        float nm10 = m10 * rm11 + m20 * rm12;
-        float nm11 = m11 * rm11 + m21 * rm12;
-        float nm12 = m12 * rm11 + m22 * rm12;
-        float nm13 = m13 * rm11 + m23 * rm12;
+        float nn10 = ms[M10] * rn11 + ms[M20] * rn12;
+        float nn11 = ms[M11] * rn11 + ms[M21] * rn12;
+        float nn12 = ms[M12] * rn11 + ms[M22] * rn12;
+        float nn13 = ms[M13] * rn11 + ms[M23] * rn12;
         // set non-dependent values directly
-        dest.m20 = m10 * rm21 + m20 * rm22;
-        dest.m21 = m11 * rm21 + m21 * rm22;
-        dest.m22 = m12 * rm21 + m22 * rm22;
-        dest.m23 = m13 * rm21 + m23 * rm22;
+        dest.ms[M20] = ms[M10] * rn21 + ms[M20] * rn22;
+        dest.ms[M21] = ms[M11] * rn21 + ms[M21] * rn22;
+        dest.ms[M22] = ms[M12] * rn21 + ms[M22] * rn22;
+        dest.ms[M23] = ms[M13] * rn21 + ms[M23] * rn22;
         // set other values
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m00 = m00;
-        dest.m01 = m01;
-        dest.m02 = m02;
-        dest.m03 = m03;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M10] = nn10;
+        dest.ms[M11] = nn11;
+        dest.ms[M12] = nn12;
+        dest.ms[M13] = nn13;
+        dest.ms[M00] = ms[M00];
+        dest.ms[M01] = ms[M01];
+        dest.ms[M02] = ms[M02];
+        dest.ms[M03] = ms[M03];
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -3684,96 +2842,6 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f rotateX(float ang) {
         return rotateX(ang, this);
-    }
-
-    /**
-     * Apply rotation about the Y axis to this matrix by rotating exactly the given amount of degrees
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * 
-     * @param specialDegrees
-     *            must be either 90, -90, 180, -180, 270 or -270
-     * @param dest
-     *            will hold the result
-     * @return dest
-     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
-     */
-    public Matrix4f rotateYExact(int specialDegrees, Matrix4f dest) throws IllegalArgumentException {
-        float nm00, nm01, nm02, nm03;
-        int d = specialDegrees;
-        if (d == 270)
-            d = -90;
-        else if (d == -270)
-            d = 90;
-        if (d == 90) {
-            nm00 = -m20;
-            nm01 = -m21;
-            nm02 = -m22;
-            nm03 = -m23;
-            dest.m20 = m00;
-            dest.m21 = m01;
-            dest.m22 = m02;
-            dest.m23 = m03;
-        } else if (d == -90) {
-            nm00 = m20;
-            nm01 = m21;
-            nm02 = m22;
-            nm03 = m23;
-            dest.m20 = -m00;
-            dest.m21 = -m01;
-            dest.m22 = -m02;
-            dest.m23 = -m03;
-        } else if (d == 180 || d == -180) {
-            nm00 = -m00;
-            nm01 = -m01;
-            nm02 = -m02;
-            nm03 = -m03;
-            dest.m20 = -m20;
-            dest.m21 = -m21;
-            dest.m22 = -m22;
-            dest.m23 = -m23;
-        } else {
-            throw new IllegalArgumentException();
-        }
-        // set other values
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m00 = m00;
-        dest.m01 = m01;
-        dest.m02 = m02;
-        dest.m03 = m03;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
-        return dest;
-    }
-
-    /**
-     * Apply rotation about the Y axis to this matrix by rotating exactly the given amount of degrees.
-     * <p>
-     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * 
-     * @param specialDegrees
-     *            must be either 90, -90, 180, -180, 270 or -270
-     * @return dest
-     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
-     */
-    public Matrix4f rotateYExact(int specialDegrees) throws IllegalArgumentException {
-        return rotateYExact(specialDegrees, this);
     }
 
     /**
@@ -3808,34 +2876,34 @@ public class Matrix4f implements Externalizable {
             cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
         }
-        float rm00 = cos;
-        float rm02 = -sin;
-        float rm20 = sin;
-        float rm22 = cos;
+        float rn00 = cos;
+        float rn02 = -sin;
+        float rn20 = sin;
+        float rn22 = cos;
 
         // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m20 * rm02;
-        float nm01 = m01 * rm00 + m21 * rm02;
-        float nm02 = m02 * rm00 + m22 * rm02;
-        float nm03 = m03 * rm00 + m23 * rm02;
+        float nn00 = ms[M00] * rn00 + ms[M20] * rn02;
+        float nn01 = ms[M01] * rn00 + ms[M21] * rn02;
+        float nn02 = ms[M02] * rn00 + ms[M22] * rn02;
+        float nn03 = ms[M03] * rn00 + ms[M23] * rn02;
         // set non-dependent values directly
-        dest.m20 = m00 * rm20 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m22 * rm22;
-        dest.m23 = m03 * rm20 + m23 * rm22;
+        dest.ms[M20] = ms[M00] * rn20 + ms[M20] * rn22;
+        dest.ms[M21] = ms[M01] * rn20 + ms[M21] * rn22;
+        dest.ms[M22] = ms[M02] * rn20 + ms[M22] * rn22;
+        dest.ms[M23] = ms[M03] * rn20 + ms[M23] * rn22;
         // set other values
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = m10;
-        dest.m11 = m11;
-        dest.m12 = m12;
-        dest.m13 = m13;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M00] = nn00;
+        dest.ms[M01] = nn01;
+        dest.ms[M02] = nn02;
+        dest.ms[M03] = nn03;
+        dest.ms[M10] = ms[M10];
+        dest.ms[M11] = ms[M11];
+        dest.ms[M12] = ms[M12];
+        dest.ms[M13] = ms[M13];
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -3855,96 +2923,6 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f rotateY(float ang) {
         return rotateY(ang, this);
-    }
-
-    /**
-     * Apply rotation about the Z axis to this matrix by rotating exactly the given amount of degrees
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * 
-     * @param specialDegrees
-     *            must be either 90, -90, 180, -180, 270 or -270
-     * @param dest
-     *            will hold the result
-     * @return dest
-     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
-     */
-    public Matrix4f rotateZExact(int specialDegrees, Matrix4f dest) throws IllegalArgumentException {
-        float nm00, nm01, nm02, nm03;
-        int d = specialDegrees;
-        if (d == 270)
-            d = -90;
-        else if (d == -270)
-            d = 90;
-        if (d == 90) {
-            nm00 = m10;
-            nm01 = m11;
-            nm02 = m12;
-            nm03 = m13;
-            dest.m10 = -m00;
-            dest.m11 = -m01;
-            dest.m12 = -m02;
-            dest.m13 = -m03;
-        } else if (d == -90) {
-            nm00 = -m10;
-            nm01 = -m11;
-            nm02 = -m12;
-            nm03 = -m13;
-            dest.m10 = m00;
-            dest.m11 = m01;
-            dest.m12 = m02;
-            dest.m13 = m03;
-        } else if (d == 180 || d == -180) {
-            nm00 = -m00;
-            nm01 = -m01;
-            nm02 = -m02;
-            nm03 = -m03;
-            dest.m10 = -m10;
-            dest.m11 = -m11;
-            dest.m12 = -m12;
-            dest.m13 = -m13;
-        } else {
-            throw new IllegalArgumentException();
-        }
-        // set other values
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m00 = m00;
-        dest.m01 = m01;
-        dest.m02 = m02;
-        dest.m03 = m03;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
-        return dest;
-    }
-
-    /**
-     * Apply rotation about the Z axis to this matrix by rotating exactly the given amount of degrees.
-     * <p>
-     * This method can only be used for the special degrees 90, -90, 180, -180, 270 and -270.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * 
-     * @param specialDegrees
-     *            must be either 90, -90, 180, -180, 270 or -270
-     * @return dest
-     * @throws IllegalArgumentException if <code>specialDegrees</code> is not one of 90, -90, 180, -180, 270 or -270
-     */
-    public Matrix4f rotateZExact(int specialDegrees) throws IllegalArgumentException {
-        return rotateZExact(specialDegrees, this);
     }
 
     /**
@@ -3979,34 +2957,34 @@ public class Matrix4f implements Externalizable {
             cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
         }
-        float rm00 = cos;
-        float rm01 = sin;
-        float rm10 = -sin;
-        float rm11 = cos;
+        float rn00 = cos;
+        float rn01 = sin;
+        float rn10 = -sin;
+        float rn11 = cos;
 
         // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m10 * rm01;
-        float nm01 = m01 * rm00 + m11 * rm01;
-        float nm02 = m02 * rm00 + m12 * rm01;
-        float nm03 = m03 * rm00 + m13 * rm01;
+        float nn00 = ms[M00] * rn00 + ms[M10] * rn01;
+        float nn01 = ms[M01] * rn00 + ms[M11] * rn01;
+        float nn02 = ms[M02] * rn00 + ms[M12] * rn01;
+        float nn03 = ms[M03] * rn00 + ms[M13] * rn01;
         // set non-dependent values directly
-        dest.m10 = m00 * rm10 + m10 * rm11;
-        dest.m11 = m01 * rm10 + m11 * rm11;
-        dest.m12 = m02 * rm10 + m12 * rm11;
-        dest.m13 = m03 * rm10 + m13 * rm11;
+        dest.ms[M10] = ms[M00] * rn10 + ms[M10] * rn11;
+        dest.ms[M11] = ms[M01] * rn10 + ms[M11] * rn11;
+        dest.ms[M12] = ms[M02] * rn10 + ms[M12] * rn11;
+        dest.ms[M13] = ms[M03] * rn10 + ms[M13] * rn11;
         // set other values
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m20 = m20;
-        dest.m21 = m21;
-        dest.m22 = m22;
-        dest.m23 = m23;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M00] = nn00;
+        dest.ms[M01] = nn01;
+        dest.ms[M02] = nn02;
+        dest.ms[M03] = nn03;
+        dest.ms[M20] = ms[M20];
+        dest.ms[M21] = ms[M21];
+        dest.ms[M22] = ms[M22];
+        dest.ms[M23] = ms[M23];
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -4084,37 +3062,37 @@ public class Matrix4f implements Externalizable {
         float m_sinZ = -sinZ;
 
         // rotateX
-        float nm10 = m10 * cosX + m20 * sinX;
-        float nm11 = m11 * cosX + m21 * sinX;
-        float nm12 = m12 * cosX + m22 * sinX;
-        float nm13 = m13 * cosX + m23 * sinX;
-        float nm20 = m10 * m_sinX + m20 * cosX;
-        float nm21 = m11 * m_sinX + m21 * cosX;
-        float nm22 = m12 * m_sinX + m22 * cosX;
-        float nm23 = m13 * m_sinX + m23 * cosX;
+        float nn10 = ms[M10] * cosX + ms[M20] * sinX;
+        float nn11 = ms[M11] * cosX + ms[M21] * sinX;
+        float nn12 = ms[M12] * cosX + ms[M22] * sinX;
+        float nn13 = ms[M13] * cosX + ms[M23] * sinX;
+        float nn20 = ms[M10] * m_sinX + ms[M20] * cosX;
+        float nn21 = ms[M11] * m_sinX + ms[M21] * cosX;
+        float nn22 = ms[M12] * m_sinX + ms[M22] * cosX;
+        float nn23 = ms[M13] * m_sinX + ms[M23] * cosX;
         // rotateY
-        float nm00 = m00 * cosY + nm20 * m_sinY;
-        float nm01 = m01 * cosY + nm21 * m_sinY;
-        float nm02 = m02 * cosY + nm22 * m_sinY;
-        float nm03 = m03 * cosY + nm23 * m_sinY;
-        dest.m20 = m00 * sinY + nm20 * cosY;
-        dest.m21 = m01 * sinY + nm21 * cosY;
-        dest.m22 = m02 * sinY + nm22 * cosY;
-        dest.m23 = m03 * sinY + nm23 * cosY;
+        float nn00 = ms[M00] * cosY + nn20 * m_sinY;
+        float nn01 = ms[M01] * cosY + nn21 * m_sinY;
+        float nn02 = ms[M02] * cosY + nn22 * m_sinY;
+        float nn03 = ms[M03] * cosY + nn23 * m_sinY;
+        dest.ms[M20] = ms[M00] * sinY + nn20 * cosY;
+        dest.ms[M21] = ms[M01] * sinY + nn21 * cosY;
+        dest.ms[M22] = ms[M02] * sinY + nn22 * cosY;
+        dest.ms[M23] = ms[M03] * sinY + nn23 * cosY;
         // rotateZ
-        dest.m00 = nm00 * cosZ + nm10 * sinZ;
-        dest.m01 = nm01 * cosZ + nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m03 = nm03 * cosZ + nm13 * sinZ;
-        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
-        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        dest.m13 = nm03 * m_sinZ + nm13 * cosZ;
+        dest.ms[M00] = nn00 * cosZ + nn10 * sinZ;
+        dest.ms[M01] = nn01 * cosZ + nn11 * sinZ;
+        dest.ms[M02] = nn02 * cosZ + nn12 * sinZ;
+        dest.ms[M03] = nn03 * cosZ + nn13 * sinZ;
+        dest.ms[M10] = nn00 * m_sinZ + nn10 * cosZ;
+        dest.ms[M11] = nn01 * m_sinZ + nn11 * cosZ;
+        dest.ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
+        dest.ms[M13] = nn03 * m_sinZ + nn13 * cosZ;
         // copy last column from 'this'
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -4178,34 +3156,34 @@ public class Matrix4f implements Externalizable {
         float m_sinZ = -sinZ;
 
         // rotateX
-        float nm10 = m10 * cosX + m20 * sinX;
-        float nm11 = m11 * cosX + m21 * sinX;
-        float nm12 = m12 * cosX + m22 * sinX;
-        float nm20 = m10 * m_sinX + m20 * cosX;
-        float nm21 = m11 * m_sinX + m21 * cosX;
-        float nm22 = m12 * m_sinX + m22 * cosX;
+        float nn10 = ms[M10] * cosX + ms[M20] * sinX;
+        float nn11 = ms[M11] * cosX + ms[M21] * sinX;
+        float nn12 = ms[M12] * cosX + ms[M22] * sinX;
+        float nn20 = ms[M10] * m_sinX + ms[M20] * cosX;
+        float nn21 = ms[M11] * m_sinX + ms[M21] * cosX;
+        float nn22 = ms[M12] * m_sinX + ms[M22] * cosX;
         // rotateY
-        float nm00 = m00 * cosY + nm20 * m_sinY;
-        float nm01 = m01 * cosY + nm21 * m_sinY;
-        float nm02 = m02 * cosY + nm22 * m_sinY;
-        dest.m20 = m00 * sinY + nm20 * cosY;
-        dest.m21 = m01 * sinY + nm21 * cosY;
-        dest.m22 = m02 * sinY + nm22 * cosY;
-        dest.m23 = 0.0f;
+        float nn00 = ms[M00] * cosY + nn20 * m_sinY;
+        float nn01 = ms[M01] * cosY + nn21 * m_sinY;
+        float nn02 = ms[M02] * cosY + nn22 * m_sinY;
+        dest.ms[M20] = ms[M00] * sinY + nn20 * cosY;
+        dest.ms[M21] = ms[M01] * sinY + nn21 * cosY;
+        dest.ms[M22] = ms[M02] * sinY + nn22 * cosY;
+        dest.ms[M23] = 0.0f;
         // rotateZ
-        dest.m00 = nm00 * cosZ + nm10 * sinZ;
-        dest.m01 = nm01 * cosZ + nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m03 = 0.0f;
-        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
-        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        dest.m13 = 0.0f;
+        dest.ms[M00] = nn00 * cosZ + nn10 * sinZ;
+        dest.ms[M01] = nn01 * cosZ + nn11 * sinZ;
+        dest.ms[M02] = nn02 * cosZ + nn12 * sinZ;
+        dest.ms[M03] = 0.0f;
+        dest.ms[M10] = nn00 * m_sinZ + nn10 * cosZ;
+        dest.ms[M11] = nn01 * m_sinZ + nn11 * cosZ;
+        dest.ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
+        dest.ms[M13] = 0.0f;
         // copy last column from 'this'
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -4265,37 +3243,37 @@ public class Matrix4f implements Externalizable {
         float m_sinX = -sinX;
 
         // rotateZ
-        float nm00 = m00 * cosZ + m10 * sinZ;
-        float nm01 = m01 * cosZ + m11 * sinZ;
-        float nm02 = m02 * cosZ + m12 * sinZ;
-        float nm03 = m03 * cosZ + m13 * sinZ;
-        float nm10 = m00 * m_sinZ + m10 * cosZ;
-        float nm11 = m01 * m_sinZ + m11 * cosZ;
-        float nm12 = m02 * m_sinZ + m12 * cosZ;
-        float nm13 = m03 * m_sinZ + m13 * cosZ;
+        float nn00 = ms[M00] * cosZ + ms[M10] * sinZ;
+        float nn01 = ms[M01] * cosZ + ms[M11] * sinZ;
+        float nn02 = ms[M02] * cosZ + ms[M12] * sinZ;
+        float nn03 = ms[M03] * cosZ + ms[M13] * sinZ;
+        float nn10 = ms[M00] * m_sinZ + ms[M10] * cosZ;
+        float nn11 = ms[M01] * m_sinZ + ms[M11] * cosZ;
+        float nn12 = ms[M02] * m_sinZ + ms[M12] * cosZ;
+        float nn13 = ms[M03] * m_sinZ + ms[M13] * cosZ;
         // rotateY
-        float nm20 = nm00 * sinY + m20 * cosY;
-        float nm21 = nm01 * sinY + m21 * cosY;
-        float nm22 = nm02 * sinY + m22 * cosY;
-        float nm23 = nm03 * sinY + m23 * cosY;
-        dest.m00 = nm00 * cosY + m20 * m_sinY;
-        dest.m01 = nm01 * cosY + m21 * m_sinY;
-        dest.m02 = nm02 * cosY + m22 * m_sinY;
-        dest.m03 = nm03 * cosY + m23 * m_sinY;
+        float nn20 = nn00 * sinY + ms[M20] * cosY;
+        float nn21 = nn01 * sinY + ms[M21] * cosY;
+        float nn22 = nn02 * sinY + ms[M22] * cosY;
+        float nn23 = nn03 * sinY + ms[M23] * cosY;
+        dest.ms[M00] = nn00 * cosY + ms[M20] * m_sinY;
+        dest.ms[M01] = nn01 * cosY + ms[M21] * m_sinY;
+        dest.ms[M02] = nn02 * cosY + ms[M22] * m_sinY;
+        dest.ms[M03] = nn03 * cosY + ms[M23] * m_sinY;
         // rotateX
-        dest.m10 = nm10 * cosX + nm20 * sinX;
-        dest.m11 = nm11 * cosX + nm21 * sinX;
-        dest.m12 = nm12 * cosX + nm22 * sinX;
-        dest.m13 = nm13 * cosX + nm23 * sinX;
-        dest.m20 = nm10 * m_sinX + nm20 * cosX;
-        dest.m21 = nm11 * m_sinX + nm21 * cosX;
-        dest.m22 = nm12 * m_sinX + nm22 * cosX;
-        dest.m23 = nm13 * m_sinX + nm23 * cosX;
+        dest.ms[M10] = nn10 * cosX + nn20 * sinX;
+        dest.ms[M11] = nn11 * cosX + nn21 * sinX;
+        dest.ms[M12] = nn12 * cosX + nn22 * sinX;
+        dest.ms[M13] = nn13 * cosX + nn23 * sinX;
+        dest.ms[M20] = nn10 * m_sinX + nn20 * cosX;
+        dest.ms[M21] = nn11 * m_sinX + nn21 * cosX;
+        dest.ms[M22] = nn12 * m_sinX + nn22 * cosX;
+        dest.ms[M23] = nn13 * m_sinX + nn23 * cosX;
         // copy last column from 'this'
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -4357,34 +3335,34 @@ public class Matrix4f implements Externalizable {
         float m_sinX = -sinX;
 
         // rotateZ
-        float nm00 = m00 * cosZ + m10 * sinZ;
-        float nm01 = m01 * cosZ + m11 * sinZ;
-        float nm02 = m02 * cosZ + m12 * sinZ;
-        float nm10 = m00 * m_sinZ + m10 * cosZ;
-        float nm11 = m01 * m_sinZ + m11 * cosZ;
-        float nm12 = m02 * m_sinZ + m12 * cosZ;
+        float nn00 = ms[M00] * cosZ + ms[M10] * sinZ;
+        float nn01 = ms[M01] * cosZ + ms[M11] * sinZ;
+        float nn02 = ms[M02] * cosZ + ms[M12] * sinZ;
+        float nn10 = ms[M00] * m_sinZ + ms[M10] * cosZ;
+        float nn11 = ms[M01] * m_sinZ + ms[M11] * cosZ;
+        float nn12 = ms[M02] * m_sinZ + ms[M12] * cosZ;
         // rotateY
-        float nm20 = nm00 * sinY + m20 * cosY;
-        float nm21 = nm01 * sinY + m21 * cosY;
-        float nm22 = nm02 * sinY + m22 * cosY;
-        dest.m00 = nm00 * cosY + m20 * m_sinY;
-        dest.m01 = nm01 * cosY + m21 * m_sinY;
-        dest.m02 = nm02 * cosY + m22 * m_sinY;
-        dest.m03 = 0.0f;
+        float nn20 = nn00 * sinY + ms[M20] * cosY;
+        float nn21 = nn01 * sinY + ms[M21] * cosY;
+        float nn22 = nn02 * sinY + ms[M22] * cosY;
+        dest.ms[M00] = nn00 * cosY + ms[M20] * m_sinY;
+        dest.ms[M01] = nn01 * cosY + ms[M21] * m_sinY;
+        dest.ms[M02] = nn02 * cosY + ms[M22] * m_sinY;
+        dest.ms[M03] = 0.0f;
         // rotateX
-        dest.m10 = nm10 * cosX + nm20 * sinX;
-        dest.m11 = nm11 * cosX + nm21 * sinX;
-        dest.m12 = nm12 * cosX + nm22 * sinX;
-        dest.m13 = 0.0f;
-        dest.m20 = nm10 * m_sinX + nm20 * cosX;
-        dest.m21 = nm11 * m_sinX + nm21 * cosX;
-        dest.m22 = nm12 * m_sinX + nm22 * cosX;
-        dest.m23 = 0.0f;
+        dest.ms[M10] = nn10 * cosX + nn20 * sinX;
+        dest.ms[M11] = nn11 * cosX + nn21 * sinX;
+        dest.ms[M12] = nn12 * cosX + nn22 * sinX;
+        dest.ms[M13] = 0.0f;
+        dest.ms[M20] = nn10 * m_sinX + nn20 * cosX;
+        dest.ms[M21] = nn11 * m_sinX + nn21 * cosX;
+        dest.ms[M22] = nn12 * m_sinX + nn22 * cosX;
+        dest.ms[M23] = 0.0f;
         // copy last column from 'this'
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -4444,37 +3422,37 @@ public class Matrix4f implements Externalizable {
         float m_sinZ = -sinZ;
 
         // rotateY
-        float nm20 = m00 * sinY + m20 * cosY;
-        float nm21 = m01 * sinY + m21 * cosY;
-        float nm22 = m02 * sinY + m22 * cosY;
-        float nm23 = m03 * sinY + m23 * cosY;
-        float nm00 = m00 * cosY + m20 * m_sinY;
-        float nm01 = m01 * cosY + m21 * m_sinY;
-        float nm02 = m02 * cosY + m22 * m_sinY;
-        float nm03 = m03 * cosY + m23 * m_sinY;
+        float nn20 = ms[M00] * sinY + ms[M20] * cosY;
+        float nn21 = ms[M01] * sinY + ms[M21] * cosY;
+        float nn22 = ms[M02] * sinY + ms[M22] * cosY;
+        float nn23 = ms[M03] * sinY + ms[M23] * cosY;
+        float nn00 = ms[M00] * cosY + ms[M20] * m_sinY;
+        float nn01 = ms[M01] * cosY + ms[M21] * m_sinY;
+        float nn02 = ms[M02] * cosY + ms[M22] * m_sinY;
+        float nn03 = ms[M03] * cosY + ms[M23] * m_sinY;
         // rotateX
-        float nm10 = m10 * cosX + nm20 * sinX;
-        float nm11 = m11 * cosX + nm21 * sinX;
-        float nm12 = m12 * cosX + nm22 * sinX;
-        float nm13 = m13 * cosX + nm23 * sinX;
-        dest.m20 = m10 * m_sinX + nm20 * cosX;
-        dest.m21 = m11 * m_sinX + nm21 * cosX;
-        dest.m22 = m12 * m_sinX + nm22 * cosX;
-        dest.m23 = m13 * m_sinX + nm23 * cosX;
+        float nn10 = ms[M10] * cosX + nn20 * sinX;
+        float nn11 = ms[M11] * cosX + nn21 * sinX;
+        float nn12 = ms[M12] * cosX + nn22 * sinX;
+        float nn13 = ms[M13] * cosX + nn23 * sinX;
+        dest.ms[M20] = ms[M10] * m_sinX + nn20 * cosX;
+        dest.ms[M21] = ms[M11] * m_sinX + nn21 * cosX;
+        dest.ms[M22] = ms[M12] * m_sinX + nn22 * cosX;
+        dest.ms[M23] = ms[M13] * m_sinX + nn23 * cosX;
         // rotateZ
-        dest.m00 = nm00 * cosZ + nm10 * sinZ;
-        dest.m01 = nm01 * cosZ + nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m03 = nm03 * cosZ + nm13 * sinZ;
-        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
-        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        dest.m13 = nm03 * m_sinZ + nm13 * cosZ;
+        dest.ms[M00] = nn00 * cosZ + nn10 * sinZ;
+        dest.ms[M01] = nn01 * cosZ + nn11 * sinZ;
+        dest.ms[M02] = nn02 * cosZ + nn12 * sinZ;
+        dest.ms[M03] = nn03 * cosZ + nn13 * sinZ;
+        dest.ms[M10] = nn00 * m_sinZ + nn10 * cosZ;
+        dest.ms[M11] = nn01 * m_sinZ + nn11 * cosZ;
+        dest.ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
+        dest.ms[M13] = nn03 * m_sinZ + nn13 * cosZ;
         // copy last column from 'this'
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -4536,34 +3514,34 @@ public class Matrix4f implements Externalizable {
         float m_sinZ = -sinZ;
 
         // rotateY
-        float nm20 = m00 * sinY + m20 * cosY;
-        float nm21 = m01 * sinY + m21 * cosY;
-        float nm22 = m02 * sinY + m22 * cosY;
-        float nm00 = m00 * cosY + m20 * m_sinY;
-        float nm01 = m01 * cosY + m21 * m_sinY;
-        float nm02 = m02 * cosY + m22 * m_sinY;
+        float nn20 = ms[M00] * sinY + ms[M20] * cosY;
+        float nn21 = ms[M01] * sinY + ms[M21] * cosY;
+        float nn22 = ms[M02] * sinY + ms[M22] * cosY;
+        float nn00 = ms[M00] * cosY + ms[M20] * m_sinY;
+        float nn01 = ms[M01] * cosY + ms[M21] * m_sinY;
+        float nn02 = ms[M02] * cosY + ms[M22] * m_sinY;
         // rotateX
-        float nm10 = m10 * cosX + nm20 * sinX;
-        float nm11 = m11 * cosX + nm21 * sinX;
-        float nm12 = m12 * cosX + nm22 * sinX;
-        dest.m20 = m10 * m_sinX + nm20 * cosX;
-        dest.m21 = m11 * m_sinX + nm21 * cosX;
-        dest.m22 = m12 * m_sinX + nm22 * cosX;
-        dest.m23 = 0.0f;
+        float nn10 = ms[M10] * cosX + nn20 * sinX;
+        float nn11 = ms[M11] * cosX + nn21 * sinX;
+        float nn12 = ms[M12] * cosX + nn22 * sinX;
+        dest.ms[M20] = ms[M10] * m_sinX + nn20 * cosX;
+        dest.ms[M21] = ms[M11] * m_sinX + nn21 * cosX;
+        dest.ms[M22] = ms[M12] * m_sinX + nn22 * cosX;
+        dest.ms[M23] = 0.0f;
         // rotateZ
-        dest.m00 = nm00 * cosZ + nm10 * sinZ;
-        dest.m01 = nm01 * cosZ + nm11 * sinZ;
-        dest.m02 = nm02 * cosZ + nm12 * sinZ;
-        dest.m03 = 0.0f;
-        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
-        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
-        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
-        dest.m13 = 0.0f;
+        dest.ms[M00] = nn00 * cosZ + nn10 * sinZ;
+        dest.ms[M01] = nn01 * cosZ + nn11 * sinZ;
+        dest.ms[M02] = nn02 * cosZ + nn12 * sinZ;
+        dest.ms[M03] = 0.0f;
+        dest.ms[M10] = nn00 * m_sinZ + nn10 * cosZ;
+        dest.ms[M11] = nn01 * m_sinZ + nn11 * cosZ;
+        dest.ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
+        dest.ms[M13] = 0.0f;
         // copy last column from 'this'
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
         return dest;
     }
 
@@ -4603,48 +3581,48 @@ public class Matrix4f implements Externalizable {
         float C = 1.0f - c;
 
         // rotation matrix elements:
-        // m30, m31, m32, m03, m13, m23 = 0
-        // m33 = 1
+        // ms[M30], ms[M31], ms[M32], ms[M03], ms[M13], ms[M23] = 0
+        // ms[M33] = 1
         float xx = x * x, xy = x * y, xz = x * z;
         float yy = y * y, yz = y * z;
         float zz = z * z;
-        float rm00 = xx * C + c;
-        float rm01 = xy * C + z * s;
-        float rm02 = xz * C - y * s;
-        float rm10 = xy * C - z * s;
-        float rm11 = yy * C + c;
-        float rm12 = yz * C + x * s;
-        float rm20 = xz * C + y * s;
-        float rm21 = yz * C - x * s;
-        float rm22 = zz * C + c;
+        float rn00 = xx * C + c;
+        float rn01 = xy * C + z * s;
+        float rn02 = xz * C - y * s;
+        float rn10 = xy * C - z * s;
+        float rn11 = yy * C + c;
+        float rn12 = yz * C + x * s;
+        float rn20 = xz * C + y * s;
+        float rn21 = yz * C - x * s;
+        float rn22 = zz * C + c;
 
         // add temporaries for dependent values
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        float nn00 = ms[M00] * rn00 + ms[M10] * rn01 + ms[M20] * rn02;
+        float nn01 = ms[M01] * rn00 + ms[M11] * rn01 + ms[M21] * rn02;
+        float nn02 = ms[M02] * rn00 + ms[M12] * rn01 + ms[M22] * rn02;
+        float nn03 = ms[M03] * rn00 + ms[M13] * rn01 + ms[M23] * rn02;
+        float nn10 = ms[M00] * rn10 + ms[M10] * rn11 + ms[M20] * rn12;
+        float nn11 = ms[M01] * rn10 + ms[M11] * rn11 + ms[M21] * rn12;
+        float nn12 = ms[M02] * rn10 + ms[M12] * rn11 + ms[M22] * rn12;
+        float nn13 = ms[M03] * rn10 + ms[M13] * rn11 + ms[M23] * rn12;
         // set non-dependent values directly
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        dest.ms[M20] = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22;
+        dest.ms[M21] = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22;
+        dest.ms[M22] = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22;
+        dest.ms[M23] = ms[M03] * rn20 + ms[M13] * rn21 + ms[M23] * rn22;
         // set other values
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M00] = nn00;
+        dest.ms[M01] = nn01;
+        dest.ms[M02] = nn02;
+        dest.ms[M03] = nn03;
+        dest.ms[M10] = nn10;
+        dest.ms[M11] = nn11;
+        dest.ms[M12] = nn12;
+        dest.ms[M13] = nn13;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
 
         return dest;
     }
@@ -4753,25 +3731,25 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f translate(float x, float y, float z, Matrix4f dest) {
         // translation matrix elements:
-        // m00, m11, m22, m33 = 1
-        // m30 = x, m31 = y, m32 = z
+        // ms[M00], ms[M11], ms[M22], ms[M33] = 1
+        // ms[M30] = x, ms[M31] = y, ms[M32] = z
         // all others = 0
-        dest.m00 = m00;
-        dest.m01 = m01;
-        dest.m02 = m02;
-        dest.m03 = m03;
-        dest.m10 = m10;
-        dest.m11 = m11;
-        dest.m12 = m12;
-        dest.m13 = m13;
-        dest.m20 = m20;
-        dest.m21 = m21;
-        dest.m22 = m22;
-        dest.m23 = m23;
-        dest.m30 = m00 * x + m10 * y + m20 * z + m30;
-        dest.m31 = m01 * x + m11 * y + m21 * z + m31;
-        dest.m32 = m02 * x + m12 * y + m22 * z + m32;
-        dest.m33 = m03 * x + m13 * y + m23 * z + m33;
+        dest.ms[M00] = ms[M00];
+        dest.ms[M01] = ms[M01];
+        dest.ms[M02] = ms[M02];
+        dest.ms[M03] = ms[M03];
+        dest.ms[M10] = ms[M10];
+        dest.ms[M11] = ms[M11];
+        dest.ms[M12] = ms[M12];
+        dest.ms[M13] = ms[M13];
+        dest.ms[M20] = ms[M20];
+        dest.ms[M21] = ms[M21];
+        dest.ms[M22] = ms[M22];
+        dest.ms[M23] = ms[M23];
+        dest.ms[M30] = ms[M00] * x + ms[M10] * y + ms[M20] * z + ms[M30];
+        dest.ms[M31] = ms[M01] * x + ms[M11] * y + ms[M21] * z + ms[M31];
+        dest.ms[M32] = ms[M02] * x + ms[M12] * y + ms[M22] * z + ms[M32];
+        dest.ms[M33] = ms[M03] * x + ms[M13] * y + ms[M23] * z + ms[M33];
         return dest;
     }
 
@@ -4800,53 +3778,53 @@ public class Matrix4f implements Externalizable {
     public Matrix4f translate(float x, float y, float z) {
         Matrix4f c = this;
         // translation matrix elements:
-        // m00, m11, m22, m33 = 1
-        // m30 = x, m31 = y, m32 = z
+        // ms[M00], ms[M11], ms[M22], ms[M33] = 1
+        // ms[M30] = x, ms[M31] = y, ms[M32] = z
         // all others = 0
-        c.m30 = c.m00 * x + c.m10 * y + c.m20 * z + c.m30;
-        c.m31 = c.m01 * x + c.m11 * y + c.m21 * z + c.m31;
-        c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
-        c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
+        c.ms[M30] = c.ms[M00] * x + c.ms[M10] * y + c.ms[M20] * z + c.ms[M30];
+        c.ms[M31] = c.ms[M01] * x + c.ms[M11] * y + c.ms[M21] * z + c.ms[M31];
+        c.ms[M32] = c.ms[M02] * x + c.ms[M12] * y + c.ms[M22] * z + c.ms[M32];
+        c.ms[M33] = c.ms[M03] * x + c.ms[M13] * y + c.ms[M23] * z + c.ms[M33];
         return this;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeFloat(m00);
-        out.writeFloat(m01);
-        out.writeFloat(m02);
-        out.writeFloat(m03);
-        out.writeFloat(m10);
-        out.writeFloat(m11);
-        out.writeFloat(m12);
-        out.writeFloat(m13);
-        out.writeFloat(m20);
-        out.writeFloat(m21);
-        out.writeFloat(m22);
-        out.writeFloat(m23);
-        out.writeFloat(m30);
-        out.writeFloat(m31);
-        out.writeFloat(m32);
-        out.writeFloat(m33);
+        out.writeFloat(ms[M00]);
+        out.writeFloat(ms[M01]);
+        out.writeFloat(ms[M02]);
+        out.writeFloat(ms[M03]);
+        out.writeFloat(ms[M10]);
+        out.writeFloat(ms[M11]);
+        out.writeFloat(ms[M12]);
+        out.writeFloat(ms[M13]);
+        out.writeFloat(ms[M20]);
+        out.writeFloat(ms[M21]);
+        out.writeFloat(ms[M22]);
+        out.writeFloat(ms[M23]);
+        out.writeFloat(ms[M30]);
+        out.writeFloat(ms[M31]);
+        out.writeFloat(ms[M32]);
+        out.writeFloat(ms[M33]);
     }
 
     public void readExternal(ObjectInput in) throws IOException,
             ClassNotFoundException {
-        m00 = in.readFloat();
-        m01 = in.readFloat();
-        m02 = in.readFloat();
-        m03 = in.readFloat();
-        m10 = in.readFloat();
-        m11 = in.readFloat();
-        m12 = in.readFloat();
-        m13 = in.readFloat();
-        m20 = in.readFloat();
-        m21 = in.readFloat();
-        m22 = in.readFloat();
-        m23 = in.readFloat();
-        m30 = in.readFloat();
-        m31 = in.readFloat();
-        m32 = in.readFloat();
-        m33 = in.readFloat();
+        ms[M00] = in.readFloat();
+        ms[M01] = in.readFloat();
+        ms[M02] = in.readFloat();
+        ms[M03] = in.readFloat();
+        ms[M10] = in.readFloat();
+        ms[M11] = in.readFloat();
+        ms[M12] = in.readFloat();
+        ms[M13] = in.readFloat();
+        ms[M20] = in.readFloat();
+        ms[M21] = in.readFloat();
+        ms[M22] = in.readFloat();
+        ms[M23] = in.readFloat();
+        ms[M30] = in.readFloat();
+        ms[M31] = in.readFloat();
+        ms[M32] = in.readFloat();
+        ms[M33] = in.readFloat();
     }
 
     /**
@@ -4885,31 +3863,31 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
-        float rm00 = 2.0f / (right - left);
-        float rm11 = 2.0f / (top - bottom);
-        float rm22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
-        float rm30 = (left + right) / (left - right);
-        float rm31 = (top + bottom) / (bottom - top);
-        float rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+        float rn00 = 2.0f / (right - left);
+        float rn11 = 2.0f / (top - bottom);
+        float rn22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
+        float rn30 = (left + right) / (left - right);
+        float rn31 = (top + bottom) / (bottom - top);
+        float rn32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
 
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
-        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
-        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
-        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
-        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m02 = m02 * rm00;
-        dest.m03 = m03 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
-        dest.m12 = m12 * rm11;
-        dest.m13 = m13 * rm11;
-        dest.m20 = m20 * rm22;
-        dest.m21 = m21 * rm22;
-        dest.m22 = m22 * rm22;
-        dest.m23 = m23 * rm22;
+        dest.ms[M30] = ms[M00] * rn30 + ms[M10] * rn31 + ms[M20] * rn32 + ms[M30];
+        dest.ms[M31] = ms[M01] * rn30 + ms[M11] * rn31 + ms[M21] * rn32 + ms[M31];
+        dest.ms[M32] = ms[M02] * rn30 + ms[M12] * rn31 + ms[M22] * rn32 + ms[M32];
+        dest.ms[M33] = ms[M03] * rn30 + ms[M13] * rn31 + ms[M23] * rn32 + ms[M33];
+        dest.ms[M00] = ms[M00] * rn00;
+        dest.ms[M01] = ms[M01] * rn00;
+        dest.ms[M02] = ms[M02] * rn00;
+        dest.ms[M03] = ms[M03] * rn00;
+        dest.ms[M10] = ms[M10] * rn11;
+        dest.ms[M11] = ms[M11] * rn11;
+        dest.ms[M12] = ms[M12] * rn11;
+        dest.ms[M13] = ms[M13] * rn11;
+        dest.ms[M20] = ms[M20] * rn22;
+        dest.ms[M21] = ms[M21] * rn22;
+        dest.ms[M22] = ms[M22] * rn22;
+        dest.ms[M23] = ms[M23] * rn22;
 
         return dest;
     }
@@ -5046,22 +4024,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setOrtho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
-        m00 = 2.0f / (right - left);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 2.0f / (top - bottom);
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
-        m23 = 0.0f;
-        m30 = (right + left) / (left - right);
-        m31 = (top + bottom) / (bottom - top);
-        m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        m33 = 1.0f;
+        ms[M00] = 2.0f / (right - left);
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = 2.0f / (top - bottom);
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
+        ms[M22] = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
+        ms[M23] = 0.0f;
+        ms[M30] = (right + left) / (left - right);
+        ms[M31] = (top + bottom) / (bottom - top);
+        ms[M32] = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -5128,29 +4106,29 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f orthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
-        float rm00 = 2.0f / width;
-        float rm11 = 2.0f / height;
-        float rm22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
-        float rm32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+        float rn00 = 2.0f / width;
+        float rn11 = 2.0f / height;
+        float rn22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
+        float rn32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
 
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
-        dest.m30 = m20 * rm32 + m30;
-        dest.m31 = m21 * rm32 + m31;
-        dest.m32 = m22 * rm32 + m32;
-        dest.m33 = m23 * rm32 + m33;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m02 = m02 * rm00;
-        dest.m03 = m03 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
-        dest.m12 = m12 * rm11;
-        dest.m13 = m13 * rm11;
-        dest.m20 = m20 * rm22;
-        dest.m21 = m21 * rm22;
-        dest.m22 = m22 * rm22;
-        dest.m23 = m23 * rm22;
+        dest.ms[M30] = ms[M20] * rn32 + ms[M30];
+        dest.ms[M31] = ms[M21] * rn32 + ms[M31];
+        dest.ms[M32] = ms[M22] * rn32 + ms[M32];
+        dest.ms[M33] = ms[M23] * rn32 + ms[M33];
+        dest.ms[M00] = ms[M00] * rn00;
+        dest.ms[M01] = ms[M01] * rn00;
+        dest.ms[M02] = ms[M02] * rn00;
+        dest.ms[M03] = ms[M03] * rn00;
+        dest.ms[M10] = ms[M10] * rn11;
+        dest.ms[M11] = ms[M11] * rn11;
+        dest.ms[M12] = ms[M12] * rn11;
+        dest.ms[M13] = ms[M13] * rn11;
+        dest.ms[M20] = ms[M20] * rn22;
+        dest.ms[M21] = ms[M21] * rn22;
+        dest.ms[M22] = ms[M22] * rn22;
+        dest.ms[M23] = ms[M23] * rn22;
 
         return dest;
     }
@@ -5283,22 +4261,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setOrthoSymmetric(float width, float height, float zNear, float zFar, boolean zZeroToOne) {
-        m00 = 2.0f / width;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 2.0f / height;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
-        m33 = 1.0f;
+        ms[M00] = 2.0f / width;
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = 2.0f / height;
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
+        ms[M22] = (zZeroToOne ? 1.0f : 2.0f) / (zNear - zFar);
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = (zZeroToOne ? zNear : (zFar + zNear)) / (zNear - zFar);
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -5362,29 +4340,29 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f ortho2D(float left, float right, float bottom, float top, Matrix4f dest) {
         // calculate right matrix elements
-        float rm00 = 2.0f / (right - left);
-        float rm11 = 2.0f / (top - bottom);
-        float rm30 = -(right + left) / (right - left);
-        float rm31 = -(top + bottom) / (top - bottom);
+        float rn00 = 2.0f / (right - left);
+        float rn11 = 2.0f / (top - bottom);
+        float rn30 = -(right + left) / (right - left);
+        float rn31 = -(top + bottom) / (top - bottom);
 
         // perform optimized multiplication
         // compute the last column first, because other columns do not depend on it
-        dest.m30 = m00 * rm30 + m10 * rm31 + m30;
-        dest.m31 = m01 * rm30 + m11 * rm31 + m31;
-        dest.m32 = m02 * rm30 + m12 * rm31 + m32;
-        dest.m33 = m03 * rm30 + m13 * rm31 + m33;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m02 = m02 * rm00;
-        dest.m03 = m03 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
-        dest.m12 = m12 * rm11;
-        dest.m13 = m13 * rm11;
-        dest.m20 = -m20;
-        dest.m21 = -m21;
-        dest.m22 = -m22;
-        dest.m23 = -m23;
+        dest.ms[M30] = ms[M00] * rn30 + ms[M10] * rn31 + ms[M30];
+        dest.ms[M31] = ms[M01] * rn30 + ms[M11] * rn31 + ms[M31];
+        dest.ms[M32] = ms[M02] * rn30 + ms[M12] * rn31 + ms[M32];
+        dest.ms[M33] = ms[M03] * rn30 + ms[M13] * rn31 + ms[M33];
+        dest.ms[M00] = ms[M00] * rn00;
+        dest.ms[M01] = ms[M01] * rn00;
+        dest.ms[M02] = ms[M02] * rn00;
+        dest.ms[M03] = ms[M03] * rn00;
+        dest.ms[M10] = ms[M10] * rn11;
+        dest.ms[M11] = ms[M11] * rn11;
+        dest.ms[M12] = ms[M12] * rn11;
+        dest.ms[M13] = ms[M13] * rn11;
+        dest.ms[M20] = -ms[M20];
+        dest.ms[M21] = -ms[M21];
+        dest.ms[M22] = -ms[M22];
+        dest.ms[M23] = -ms[M23];
 
         return dest;
     }
@@ -5447,22 +4425,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setOrtho2D(float left, float right, float bottom, float top) {
-        m00 = 2.0f / (right - left);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 2.0f / (top - bottom);
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = -1.0f;
-        m23 = 0.0f;
-        m30 = -(right + left) / (right - left);
-        m31 = -(top + bottom) / (top - bottom);
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = 2.0f / (right - left);
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = 2.0f / (top - bottom);
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
+        ms[M22] = -1.0f;
+        ms[M23] = 0.0f;
+        ms[M30] = -(right + left) / (right - left);
+        ms[M31] = -(top + bottom) / (top - bottom);
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -5585,43 +4563,43 @@ public class Matrix4f implements Externalizable {
         float upnZ = rightX * dirnY - rightY * dirnX;
 
         // calculate right matrix elements
-        float rm00 = rightX;
-        float rm01 = upnX;
-        float rm02 = -dirnX;
-        float rm10 = rightY;
-        float rm11 = upnY;
-        float rm12 = -dirnY;
-        float rm20 = rightZ;
-        float rm21 = upnZ;
-        float rm22 = -dirnZ;
+        float rn00 = rightX;
+        float rn01 = upnX;
+        float rn02 = -dirnX;
+        float rn10 = rightY;
+        float rn11 = upnY;
+        float rn12 = -dirnY;
+        float rn20 = rightZ;
+        float rn21 = upnZ;
+        float rn22 = -dirnZ;
 
         // perform optimized matrix multiplication
         // introduce temporaries for dependent results
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        float nn00 = ms[M00] * rn00 + ms[M10] * rn01 + ms[M20] * rn02;
+        float nn01 = ms[M01] * rn00 + ms[M11] * rn01 + ms[M21] * rn02;
+        float nn02 = ms[M02] * rn00 + ms[M12] * rn01 + ms[M22] * rn02;
+        float nn03 = ms[M03] * rn00 + ms[M13] * rn01 + ms[M23] * rn02;
+        float nn10 = ms[M00] * rn10 + ms[M10] * rn11 + ms[M20] * rn12;
+        float nn11 = ms[M01] * rn10 + ms[M11] * rn11 + ms[M21] * rn12;
+        float nn12 = ms[M02] * rn10 + ms[M12] * rn11 + ms[M22] * rn12;
+        float nn13 = ms[M03] * rn10 + ms[M13] * rn11 + ms[M23] * rn12;
+        dest.ms[M20] = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22;
+        dest.ms[M21] = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22;
+        dest.ms[M22] = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22;
+        dest.ms[M23] = ms[M03] * rn20 + ms[M13] * rn21 + ms[M23] * rn22;
         // set the rest of the matrix elements
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        dest.ms[M00] = nn00;
+        dest.ms[M01] = nn01;
+        dest.ms[M02] = nn02;
+        dest.ms[M03] = nn03;
+        dest.ms[M10] = nn10;
+        dest.ms[M11] = nn11;
+        dest.ms[M12] = nn12;
+        dest.ms[M13] = nn13;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
 
         return dest;
     }
@@ -5737,22 +4715,22 @@ public class Matrix4f implements Externalizable {
         float upnY = rightZ * dirnX - rightX * dirnZ;
         float upnZ = rightX * dirnY - rightY * dirnX;
 
-        m00 = rightX;
-        m01 = upnX;
-        m02 = -dirnX;
-        m03 = 0.0f;
-        m10 = rightY;
-        m11 = upnY;
-        m12 = -dirnY;
-        m13 = 0.0f;
-        m20 = rightZ;
-        m21 = upnZ;
-        m22 = -dirnZ;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 1.0f;
+        ms[M00] = rightX;
+        ms[M01] = upnX;
+        ms[M02] = -dirnX;
+        ms[M03] = 0.0f;
+        ms[M10] = rightY;
+        ms[M11] = upnY;
+        ms[M12] = -dirnY;
+        ms[M13] = 0.0f;
+        ms[M20] = rightZ;
+        ms[M21] = upnZ;
+        ms[M22] = -dirnZ;
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
+        ms[M33] = 1.0f;
 
         return this;
     }
@@ -5841,22 +4819,22 @@ public class Matrix4f implements Externalizable {
         float upnY = dirZ * leftX - dirX * leftZ;
         float upnZ = dirX * leftY - dirY * leftX;
 
-        m00 = leftX;
-        m01 = upnX;
-        m02 = dirX;
-        m03 = 0.0f;
-        m10 = leftY;
-        m11 = upnY;
-        m12 = dirY;
-        m13 = 0.0f;
-        m20 = leftZ;
-        m21 = upnZ;
-        m22 = dirZ;
-        m23 = 0.0f;
-        m30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
-        m31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
-        m32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
-        m33 = 1.0f;
+        ms[M00] = leftX;
+        ms[M01] = upnX;
+        ms[M02] = dirX;
+        ms[M03] = 0.0f;
+        ms[M10] = leftY;
+        ms[M11] = upnY;
+        ms[M12] = dirY;
+        ms[M13] = 0.0f;
+        ms[M20] = leftZ;
+        ms[M21] = upnZ;
+        ms[M22] = dirZ;
+        ms[M23] = 0.0f;
+        ms[M30] = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
+        ms[M31] = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+        ms[M32] = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
+        ms[M33] = 1.0f;
 
         return this;
     }
@@ -5983,47 +4961,47 @@ public class Matrix4f implements Externalizable {
         float upnZ = dirX * leftY - dirY * leftX;
 
         // calculate right matrix elements
-        float rm00 = leftX;
-        float rm01 = upnX;
-        float rm02 = dirX;
-        float rm10 = leftY;
-        float rm11 = upnY;
-        float rm12 = dirY;
-        float rm20 = leftZ;
-        float rm21 = upnZ;
-        float rm22 = dirZ;
-        float rm30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
-        float rm31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
-        float rm32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
+        float rn00 = leftX;
+        float rn01 = upnX;
+        float rn02 = dirX;
+        float rn10 = leftY;
+        float rn11 = upnY;
+        float rn12 = dirY;
+        float rn20 = leftZ;
+        float rn21 = upnZ;
+        float rn22 = dirZ;
+        float rn30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
+        float rn31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+        float rn32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
 
         // perform optimized matrix multiplication
         // compute last column first, because others do not depend on it
-        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
-        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
-        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
-        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        dest.ms[M30] = ms[M00] * rn30 + ms[M10] * rn31 + ms[M20] * rn32 + ms[M30];
+        dest.ms[M31] = ms[M01] * rn30 + ms[M11] * rn31 + ms[M21] * rn32 + ms[M31];
+        dest.ms[M32] = ms[M02] * rn30 + ms[M12] * rn31 + ms[M22] * rn32 + ms[M32];
+        dest.ms[M33] = ms[M03] * rn30 + ms[M13] * rn31 + ms[M23] * rn32 + ms[M33];
         // introduce temporaries for dependent results
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        float nn00 = ms[M00] * rn00 + ms[M10] * rn01 + ms[M20] * rn02;
+        float nn01 = ms[M01] * rn00 + ms[M11] * rn01 + ms[M21] * rn02;
+        float nn02 = ms[M02] * rn00 + ms[M12] * rn01 + ms[M22] * rn02;
+        float nn03 = ms[M03] * rn00 + ms[M13] * rn01 + ms[M23] * rn02;
+        float nn10 = ms[M00] * rn10 + ms[M10] * rn11 + ms[M20] * rn12;
+        float nn11 = ms[M01] * rn10 + ms[M11] * rn11 + ms[M21] * rn12;
+        float nn12 = ms[M02] * rn10 + ms[M12] * rn11 + ms[M22] * rn12;
+        float nn13 = ms[M03] * rn10 + ms[M13] * rn11 + ms[M23] * rn12;
+        dest.ms[M20] = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22;
+        dest.ms[M21] = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22;
+        dest.ms[M22] = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22;
+        dest.ms[M23] = ms[M03] * rn20 + ms[M13] * rn21 + ms[M23] * rn22;
         // set the rest of the matrix elements
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
+        dest.ms[M00] = nn00;
+        dest.ms[M01] = nn01;
+        dest.ms[M02] = nn02;
+        dest.ms[M03] = nn03;
+        dest.ms[M10] = nn10;
+        dest.ms[M11] = nn11;
+        dest.ms[M12] = nn12;
+        dest.ms[M13] = nn13;
 
         return dest;
     }
@@ -6103,46 +5081,46 @@ public class Matrix4f implements Externalizable {
         float h = (float) Math.tan(fovy * 0.5f);
 
         // calculate right matrix elements
-        float rm00 = 1.0f / (h * aspect);
-        float rm11 = 1.0f / h;
-        float rm22;
-        float rm32;
+        float rn00 = 1.0f / (h * aspect);
+        float rn11 = 1.0f / h;
+        float rn22;
+        float rn32;
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         boolean nearInf = zNear > 0 && Float.isInfinite(zNear);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
             float e = 1E-6f;
-            rm22 = e - 1.0f;
-            rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
+            rn22 = e - 1.0f;
+            rn32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            rm22 = (zZeroToOne ? 0.0f : 1.0f) - e;
-            rm32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
+            rn22 = (zZeroToOne ? 0.0f : 1.0f) - e;
+            rn32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
-            rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
-            rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+            rn22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            rn32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
         // perform optimized matrix multiplication
-        float nm20 = m20 * rm22 - m30;
-        float nm21 = m21 * rm22 - m31;
-        float nm22 = m22 * rm22 - m32;
-        float nm23 = m23 * rm22 - m33;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m02 = m02 * rm00;
-        dest.m03 = m03 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
-        dest.m12 = m12 * rm11;
-        dest.m13 = m13 * rm11;
-        dest.m30 = m20 * rm32;
-        dest.m31 = m21 * rm32;
-        dest.m32 = m22 * rm32;
-        dest.m33 = m23 * rm32;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
-        dest.m22 = nm22;
-        dest.m23 = nm23;
+        float nn20 = ms[M20] * rn22 - ms[M30];
+        float nn21 = ms[M21] * rn22 - ms[M31];
+        float nn22 = ms[M22] * rn22 - ms[M32];
+        float nn23 = ms[M23] * rn22 - ms[M33];
+        dest.ms[M00] = ms[M00] * rn00;
+        dest.ms[M01] = ms[M01] * rn00;
+        dest.ms[M02] = ms[M02] * rn00;
+        dest.ms[M03] = ms[M03] * rn00;
+        dest.ms[M10] = ms[M10] * rn11;
+        dest.ms[M11] = ms[M11] * rn11;
+        dest.ms[M12] = ms[M12] * rn11;
+        dest.ms[M13] = ms[M13] * rn11;
+        dest.ms[M30] = ms[M20] * rn32;
+        dest.ms[M31] = ms[M21] * rn32;
+        dest.ms[M32] = ms[M22] * rn32;
+        dest.ms[M33] = ms[M23] * rn32;
+        dest.ms[M20] = nn20;
+        dest.ms[M21] = nn21;
+        dest.ms[M22] = nn22;
+        dest.ms[M23] = nn23;
 
         return dest;
     }
@@ -6264,35 +5242,35 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne) {
         float h = (float) Math.tan(fovy * 0.5f);
-        m00 = 1.0f / (h * aspect);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 1.0f / h;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
+        ms[M00] = 1.0f / (h * aspect);
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = 1.0f / h;
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = 0.0f;
+        ms[M21] = 0.0f;
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         boolean nearInf = zNear > 0 && Float.isInfinite(zNear);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
             float e = 1E-6f;
-            m22 = e - 1.0f;
-            m32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
+            ms[M22] = e - 1.0f;
+            ms[M32] = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            m22 = (zZeroToOne ? 0.0f : 1.0f) - e;
-            m32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
+            ms[M22] = (zZeroToOne ? 0.0f : 1.0f) - e;
+            ms[M32] = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
-            m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
-            m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+            ms[M22] = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            ms[M32] = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
-        m23 = -1.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m33 = 0.0f;
+        ms[M23] = -1.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M33] = 0.0f;
         return this;
     }
 
@@ -6359,52 +5337,52 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f frustum(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         // calculate right matrix elements
-        float rm00 = (zNear + zNear) / (right - left);
-        float rm11 = (zNear + zNear) / (top - bottom);
-        float rm20 = (right + left) / (right - left);
-        float rm21 = (top + bottom) / (top - bottom);
-        float rm22;
-        float rm32;
+        float rn00 = (zNear + zNear) / (right - left);
+        float rn11 = (zNear + zNear) / (top - bottom);
+        float rn20 = (right + left) / (right - left);
+        float rn21 = (top + bottom) / (top - bottom);
+        float rn22;
+        float rn32;
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         boolean nearInf = zNear > 0 && Float.isInfinite(zNear);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
             float e = 1E-6f;
-            rm22 = e - 1.0f;
-            rm32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
+            rn22 = e - 1.0f;
+            rn32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            rm22 = (zZeroToOne ? 0.0f : 1.0f) - e;
-            rm32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
+            rn22 = (zZeroToOne ? 0.0f : 1.0f) - e;
+            rn32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
-            rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
-            rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+            rn22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            rn32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
         // perform optimized matrix multiplication
-        float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 - m30;
-        float nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 - m31;
-        float nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 - m32;
-        float nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 - m33;
-        dest.m00 = m00 * rm00;
-        dest.m01 = m01 * rm00;
-        dest.m02 = m02 * rm00;
-        dest.m03 = m03 * rm00;
-        dest.m10 = m10 * rm11;
-        dest.m11 = m11 * rm11;
-        dest.m12 = m12 * rm11;
-        dest.m13 = m13 * rm11;
-        dest.m30 = m20 * rm32;
-        dest.m31 = m21 * rm32;
-        dest.m32 = m22 * rm32;
-        dest.m33 = m23 * rm32;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
-        dest.m22 = nm22;
-        dest.m23 = nm23;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        float nn20 = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22 - ms[M30];
+        float nn21 = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22 - ms[M31];
+        float nn22 = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22 - ms[M32];
+        float nn23 = ms[M03] * rn20 + ms[M13] * rn21 + ms[M23] * rn22 - ms[M33];
+        dest.ms[M00] = ms[M00] * rn00;
+        dest.ms[M01] = ms[M01] * rn00;
+        dest.ms[M02] = ms[M02] * rn00;
+        dest.ms[M03] = ms[M03] * rn00;
+        dest.ms[M10] = ms[M10] * rn11;
+        dest.ms[M11] = ms[M11] * rn11;
+        dest.ms[M12] = ms[M12] * rn11;
+        dest.ms[M13] = ms[M13] * rn11;
+        dest.ms[M30] = ms[M20] * rn32;
+        dest.ms[M31] = ms[M21] * rn32;
+        dest.ms[M32] = ms[M22] * rn32;
+        dest.ms[M33] = ms[M23] * rn32;
+        dest.ms[M20] = nn20;
+        dest.ms[M21] = nn21;
+        dest.ms[M22] = nn22;
+        dest.ms[M23] = nn23;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
 
         return dest;
     }
@@ -6550,35 +5528,35 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
-        m00 = (zNear + zNear) / (right - left);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = (zNear + zNear) / (top - bottom);
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = (right + left) / (right - left);
-        m21 = (top + bottom) / (top - bottom);
+        ms[M00] = (zNear + zNear) / (right - left);
+        ms[M01] = 0.0f;
+        ms[M02] = 0.0f;
+        ms[M03] = 0.0f;
+        ms[M10] = 0.0f;
+        ms[M11] = (zNear + zNear) / (top - bottom);
+        ms[M12] = 0.0f;
+        ms[M13] = 0.0f;
+        ms[M20] = (right + left) / (right - left);
+        ms[M21] = (top + bottom) / (top - bottom);
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         boolean nearInf = zNear > 0 && Float.isInfinite(zNear);
         if (farInf) {
             // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
             float e = 1E-6f;
-            m22 = e - 1.0f;
-            m32 = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
+            ms[M22] = e - 1.0f;
+            ms[M32] = (e - (zZeroToOne ? 1.0f : 2.0f)) * zNear;
         } else if (nearInf) {
             float e = 1E-6f;
-            m22 = (zZeroToOne ? 0.0f : 1.0f) - e;
-            m32 = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
+            ms[M22] = (zZeroToOne ? 0.0f : 1.0f) - e;
+            ms[M32] = ((zZeroToOne ? 1.0f : 2.0f) - e) * zFar;
         } else {
-            m22 = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
-            m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+            ms[M22] = (zZeroToOne ? zFar : zFar + zNear) / (zNear - zFar);
+            ms[M32] = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
-        m23 = -1.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m33 = 0.0f;
+        ms[M23] = -1.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M33] = 0.0f;
         return this;
     }
 
@@ -6648,40 +5626,40 @@ public class Matrix4f implements Externalizable {
         float q13 = dqy * quat.w;
         float q23 = dqz * quat.w;
 
-        float rm00 = 1.0f - q11 - q22;
-        float rm01 = q01 + q23;
-        float rm02 = q02 - q13;
-        float rm10 = q01 - q23;
-        float rm11 = 1.0f - q22 - q00;
-        float rm12 = q12 + q03;
-        float rm20 = q02 + q13;
-        float rm21 = q12 - q03;
-        float rm22 = 1.0f - q11 - q00;
+        float rn00 = 1.0f - q11 - q22;
+        float rn01 = q01 + q23;
+        float rn02 = q02 - q13;
+        float rn10 = q01 - q23;
+        float rn11 = 1.0f - q22 - q00;
+        float rn12 = q12 + q03;
+        float rn20 = q02 + q13;
+        float rn21 = q12 - q03;
+        float rn22 = 1.0f - q11 - q00;
 
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
+        float nn00 = ms[M00] * rn00 + ms[M10] * rn01 + ms[M20] * rn02;
+        float nn01 = ms[M01] * rn00 + ms[M11] * rn01 + ms[M21] * rn02;
+        float nn02 = ms[M02] * rn00 + ms[M12] * rn01 + ms[M22] * rn02;
+        float nn03 = ms[M03] * rn00 + ms[M13] * rn01 + ms[M23] * rn02;
+        float nn10 = ms[M00] * rn10 + ms[M10] * rn11 + ms[M20] * rn12;
+        float nn11 = ms[M01] * rn10 + ms[M11] * rn11 + ms[M21] * rn12;
+        float nn12 = ms[M02] * rn10 + ms[M12] * rn11 + ms[M22] * rn12;
+        float nn13 = ms[M03] * rn10 + ms[M13] * rn11 + ms[M23] * rn12;
+        dest.ms[M20] = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22;
+        dest.ms[M21] = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22;
+        dest.ms[M22] = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22;
+        dest.ms[M23] = ms[M03] * rn20 + ms[M13] * rn21 + ms[M23] * rn22;
+        dest.ms[M00] = nn00;
+        dest.ms[M01] = nn01;
+        dest.ms[M02] = nn02;
+        dest.ms[M03] = nn03;
+        dest.ms[M10] = nn10;
+        dest.ms[M11] = nn11;
+        dest.ms[M12] = nn12;
+        dest.ms[M13] = nn13;
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = ms[M32];
+        dest.ms[M33] = ms[M33];
 
         return dest;
     }
@@ -6707,56 +5685,6 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f rotate(Quaternionf quat) {
         return rotate(quat, this);
-    }
-
-    /**
-     * Apply a rotation transformation, rotating about the given {@link AxisAngle4f}, to this matrix.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
-     * then the new matrix will be <code>M * A</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the {@link AxisAngle4f} rotation will be applied first!
-     * <p>
-     * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(AxisAngle4f)}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @see #rotate(float, float, float, float)
-     * @see #rotation(AxisAngle4f)
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
-     * @return this
-     */
-    public Matrix4f rotate(AxisAngle4f axisAngle) {
-        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
-    }
-
-    /**
-     * Apply a rotation transformation, rotating about the given {@link AxisAngle4f} and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
-     * then the new matrix will be <code>M * A</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
-     * the {@link AxisAngle4f} rotation will be applied first!
-     * <p>
-     * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(AxisAngle4f)}.
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @see #rotate(float, float, float, float)
-     * @see #rotation(AxisAngle4f)
-     * 
-     * @param axisAngle
-     *          the {@link AxisAngle4f} (needs to be {@link AxisAngle4f#normalize() normalized})
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Matrix4f rotate(AxisAngle4f axisAngle, Matrix4f dest) {
-        return rotate(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z, dest);
     }
 
     /**
@@ -6841,43 +5769,43 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Vector4f unproject(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
-        float a = m00 * m11 - m01 * m10;
-        float b = m00 * m12 - m02 * m10;
-        float c = m00 * m13 - m03 * m10;
-        float d = m01 * m12 - m02 * m11;
-        float e = m01 * m13 - m03 * m11;
-        float f = m02 * m13 - m03 * m12;
-        float g = m20 * m31 - m21 * m30;
-        float h = m20 * m32 - m22 * m30;
-        float i = m20 * m33 - m23 * m30;
-        float j = m21 * m32 - m22 * m31;
-        float k = m21 * m33 - m23 * m31;
-        float l = m22 * m33 - m23 * m32;
+        float a = ms[M00] * ms[M11] - ms[M01] * ms[M10];
+        float b = ms[M00] * ms[M12] - ms[M02] * ms[M10];
+        float c = ms[M00] * ms[M13] - ms[M03] * ms[M10];
+        float d = ms[M01] * ms[M12] - ms[M02] * ms[M11];
+        float e = ms[M01] * ms[M13] - ms[M03] * ms[M11];
+        float f = ms[M02] * ms[M13] - ms[M03] * ms[M12];
+        float g = ms[M20] * ms[M31] - ms[M21] * ms[M30];
+        float h = ms[M20] * ms[M32] - ms[M22] * ms[M30];
+        float i = ms[M20] * ms[M33] - ms[M23] * ms[M30];
+        float j = ms[M21] * ms[M32] - ms[M22] * ms[M31];
+        float k = ms[M21] * ms[M33] - ms[M23] * ms[M31];
+        float l = ms[M22] * ms[M33] - ms[M23] * ms[M32];
         float det = a * l - b * k + c * j + d * i - e * h + f * g;
         det = 1.0f / det;
-        float im00 = ( m11 * l - m12 * k + m13 * j) * det;
-        float im01 = (-m01 * l + m02 * k - m03 * j) * det;
-        float im02 = ( m31 * f - m32 * e + m33 * d) * det;
-        float im03 = (-m21 * f + m22 * e - m23 * d) * det;
-        float im10 = (-m10 * l + m12 * i - m13 * h) * det;
-        float im11 = ( m00 * l - m02 * i + m03 * h) * det;
-        float im12 = (-m30 * f + m32 * c - m33 * b) * det;
-        float im13 = ( m20 * f - m22 * c + m23 * b) * det;
-        float im20 = ( m10 * k - m11 * i + m13 * g) * det;
-        float im21 = (-m00 * k + m01 * i - m03 * g) * det;
-        float im22 = ( m30 * e - m31 * c + m33 * a) * det;
-        float im23 = (-m20 * e + m21 * c - m23 * a) * det;
-        float im30 = (-m10 * j + m11 * h - m12 * g) * det;
-        float im31 = ( m00 * j - m01 * h + m02 * g) * det;
-        float im32 = (-m30 * d + m31 * b - m32 * a) * det;
-        float im33 = ( m20 * d - m21 * b + m22 * a) * det;
+        float imsM00 = ( ms[M11] * l - ms[M12] * k + ms[M13] * j) * det;
+        float imsM01 = (-ms[M01] * l + ms[M02] * k - ms[M03] * j) * det;
+        float imsM02 = ( ms[M31] * f - ms[M32] * e + ms[M33] * d) * det;
+        float imsM03 = (-ms[M21] * f + ms[M22] * e - ms[M23] * d) * det;
+        float imsM10 = (-ms[M10] * l + ms[M12] * i - ms[M13] * h) * det;
+        float imsM11 = ( ms[M00] * l - ms[M02] * i + ms[M03] * h) * det;
+        float imsM12 = (-ms[M30] * f + ms[M32] * c - ms[M33] * b) * det;
+        float imsM13 = ( ms[M20] * f - ms[M22] * c + ms[M23] * b) * det;
+        float imsM20 = ( ms[M10] * k - ms[M11] * i + ms[M13] * g) * det;
+        float imsM21 = (-ms[M00] * k + ms[M01] * i - ms[M03] * g) * det;
+        float imsM22 = ( ms[M30] * e - ms[M31] * c + ms[M33] * a) * det;
+        float imsM23 = (-ms[M20] * e + ms[M21] * c - ms[M23] * a) * det;
+        float imsM30 = (-ms[M10] * j + ms[M11] * h - ms[M12] * g) * det;
+        float imsM31 = ( ms[M00] * j - ms[M01] * h + ms[M02] * g) * det;
+        float imsM32 = (-ms[M30] * d + ms[M31] * b - ms[M32] * a) * det;
+        float imsM33 = ( ms[M20] * d - ms[M21] * b + ms[M22] * a) * det;
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
         float ndcZ = winZ+winZ-1.0f;
-        dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
-        dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
-        dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
-        dest.w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
+        dest.x = imsM00 * ndcX + imsM10 * ndcY + imsM20 * ndcZ + imsM30;
+        dest.y = imsM01 * ndcX + imsM11 * ndcY + imsM21 * ndcZ + imsM31;
+        dest.z = imsM02 * ndcX + imsM12 * ndcY + imsM22 * ndcZ + imsM32;
+        dest.w = imsM03 * ndcX + imsM13 * ndcY + imsM23 * ndcZ + imsM33;
         dest.div(dest.w);
         return dest;
     }
@@ -6910,43 +5838,43 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Vector3f unproject(float winX, float winY, float winZ, int[] viewport, Vector3f dest) {
-        float a = m00 * m11 - m01 * m10;
-        float b = m00 * m12 - m02 * m10;
-        float c = m00 * m13 - m03 * m10;
-        float d = m01 * m12 - m02 * m11;
-        float e = m01 * m13 - m03 * m11;
-        float f = m02 * m13 - m03 * m12;
-        float g = m20 * m31 - m21 * m30;
-        float h = m20 * m32 - m22 * m30;
-        float i = m20 * m33 - m23 * m30;
-        float j = m21 * m32 - m22 * m31;
-        float k = m21 * m33 - m23 * m31;
-        float l = m22 * m33 - m23 * m32;
+        float a = ms[M00] * ms[M11] - ms[M01] * ms[M10];
+        float b = ms[M00] * ms[M12] - ms[M02] * ms[M10];
+        float c = ms[M00] * ms[M13] - ms[M03] * ms[M10];
+        float d = ms[M01] * ms[M12] - ms[M02] * ms[M11];
+        float e = ms[M01] * ms[M13] - ms[M03] * ms[M11];
+        float f = ms[M02] * ms[M13] - ms[M03] * ms[M12];
+        float g = ms[M20] * ms[M31] - ms[M21] * ms[M30];
+        float h = ms[M20] * ms[M32] - ms[M22] * ms[M30];
+        float i = ms[M20] * ms[M33] - ms[M23] * ms[M30];
+        float j = ms[M21] * ms[M32] - ms[M22] * ms[M31];
+        float k = ms[M21] * ms[M33] - ms[M23] * ms[M31];
+        float l = ms[M22] * ms[M33] - ms[M23] * ms[M32];
         float det = a * l - b * k + c * j + d * i - e * h + f * g;
         det = 1.0f / det;
-        float im00 = ( m11 * l - m12 * k + m13 * j) * det;
-        float im01 = (-m01 * l + m02 * k - m03 * j) * det;
-        float im02 = ( m31 * f - m32 * e + m33 * d) * det;
-        float im03 = (-m21 * f + m22 * e - m23 * d) * det;
-        float im10 = (-m10 * l + m12 * i - m13 * h) * det;
-        float im11 = ( m00 * l - m02 * i + m03 * h) * det;
-        float im12 = (-m30 * f + m32 * c - m33 * b) * det;
-        float im13 = ( m20 * f - m22 * c + m23 * b) * det;
-        float im20 = ( m10 * k - m11 * i + m13 * g) * det;
-        float im21 = (-m00 * k + m01 * i - m03 * g) * det;
-        float im22 = ( m30 * e - m31 * c + m33 * a) * det;
-        float im23 = (-m20 * e + m21 * c - m23 * a) * det;
-        float im30 = (-m10 * j + m11 * h - m12 * g) * det;
-        float im31 = ( m00 * j - m01 * h + m02 * g) * det;
-        float im32 = (-m30 * d + m31 * b - m32 * a) * det;
-        float im33 = ( m20 * d - m21 * b + m22 * a) * det;
+        float imsM00 = ( ms[M11] * l - ms[M12] * k + ms[M13] * j) * det;
+        float imsM01 = (-ms[M01] * l + ms[M02] * k - ms[M03] * j) * det;
+        float imsM02 = ( ms[M31] * f - ms[M32] * e + ms[M33] * d) * det;
+        float imsM03 = (-ms[M21] * f + ms[M22] * e - ms[M23] * d) * det;
+        float imsM10 = (-ms[M10] * l + ms[M12] * i - ms[M13] * h) * det;
+        float imsM11 = ( ms[M00] * l - ms[M02] * i + ms[M03] * h) * det;
+        float imsM12 = (-ms[M30] * f + ms[M32] * c - ms[M33] * b) * det;
+        float imsM13 = ( ms[M20] * f - ms[M22] * c + ms[M23] * b) * det;
+        float imsM20 = ( ms[M10] * k - ms[M11] * i + ms[M13] * g) * det;
+        float imsM21 = (-ms[M00] * k + ms[M01] * i - ms[M03] * g) * det;
+        float imsM22 = ( ms[M30] * e - ms[M31] * c + ms[M33] * a) * det;
+        float imsM23 = (-ms[M20] * e + ms[M21] * c - ms[M23] * a) * det;
+        float imsM30 = (-ms[M10] * j + ms[M11] * h - ms[M12] * g) * det;
+        float imsM31 = ( ms[M00] * j - ms[M01] * h + ms[M02] * g) * det;
+        float imsM32 = (-ms[M30] * d + ms[M31] * b - ms[M32] * a) * det;
+        float imsM33 = ( ms[M20] * d - ms[M21] * b + ms[M22] * a) * det;
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
         float ndcZ = winZ+winZ-1.0f;
-        dest.x = im00 * ndcX + im10 * ndcY + im20 * ndcZ + im30;
-        dest.y = im01 * ndcX + im11 * ndcY + im21 * ndcZ + im31;
-        dest.z = im02 * ndcX + im12 * ndcY + im22 * ndcZ + im32;
-        float w = im03 * ndcX + im13 * ndcY + im23 * ndcZ + im33;
+        dest.x = imsM00 * ndcX + imsM10 * ndcY + imsM20 * ndcZ + imsM30;
+        dest.y = imsM01 * ndcX + imsM11 * ndcY + imsM21 * ndcZ + imsM31;
+        dest.z = imsM02 * ndcX + imsM12 * ndcY + imsM22 * ndcZ + imsM32;
+        float w = imsM03 * ndcX + imsM13 * ndcY + imsM23 * ndcZ + imsM33;
         dest.div(w);
         return dest;
     }
@@ -7060,10 +5988,10 @@ public class Matrix4f implements Externalizable {
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
         float ndcZ = winZ+winZ-1.0f;
-        dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
-        dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
-        dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
-        dest.w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
+        dest.x = ms[M00] * ndcX + ms[M10] * ndcY + ms[M20] * ndcZ + ms[M30];
+        dest.y = ms[M01] * ndcX + ms[M11] * ndcY + ms[M21] * ndcZ + ms[M31];
+        dest.z = ms[M02] * ndcX + ms[M12] * ndcY + ms[M22] * ndcZ + ms[M32];
+        dest.w = ms[M03] * ndcX + ms[M13] * ndcY + ms[M23] * ndcZ + ms[M33];
         dest.div(dest.w);
         return dest;
     }
@@ -7118,10 +6046,10 @@ public class Matrix4f implements Externalizable {
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
         float ndcZ = winZ+winZ-1.0f;
-        dest.x = m00 * ndcX + m10 * ndcY + m20 * ndcZ + m30;
-        dest.y = m01 * ndcX + m11 * ndcY + m21 * ndcZ + m31;
-        dest.z = m02 * ndcX + m12 * ndcY + m22 * ndcZ + m32;
-        float w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
+        dest.x = ms[M00] * ndcX + ms[M10] * ndcY + ms[M20] * ndcZ + ms[M30];
+        dest.y = ms[M01] * ndcX + ms[M11] * ndcY + ms[M21] * ndcZ + ms[M31];
+        dest.z = ms[M02] * ndcX + ms[M12] * ndcY + ms[M22] * ndcZ + ms[M32];
+        float w = ms[M03] * ndcX + ms[M13] * ndcY + ms[M23] * ndcZ + ms[M33];
         dest.div(w);
         return dest;
     }
@@ -7149,10 +6077,10 @@ public class Matrix4f implements Externalizable {
      * @return winCoordsDest
      */
     public Vector4f project(float x, float y, float z, int[] viewport, Vector4f winCoordsDest) {
-        winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
-        winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
-        winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
-        winCoordsDest.w = m03 * x + m13 * y + m23 * z + m33;
+        winCoordsDest.x = ms[M00] * x + ms[M10] * y + ms[M20] * z + ms[M30];
+        winCoordsDest.y = ms[M01] * x + ms[M11] * y + ms[M21] * z + ms[M31];
+        winCoordsDest.z = ms[M02] * x + ms[M12] * y + ms[M22] * z + ms[M32];
+        winCoordsDest.w = ms[M03] * x + ms[M13] * y + ms[M23] * z + ms[M33];
         winCoordsDest.div(winCoordsDest.w);
         winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport[2] + viewport[0];
         winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport[3] + viewport[1];
@@ -7183,10 +6111,10 @@ public class Matrix4f implements Externalizable {
      * @return winCoordsDest
      */
     public Vector3f project(float x, float y, float z, int[] viewport, Vector3f winCoordsDest) {
-        winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
-        winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
-        winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
-        float w = m03 * x + m13 * y + m23 * z + m33;
+        winCoordsDest.x = ms[M00] * x + ms[M10] * y + ms[M20] * z + ms[M30];
+        winCoordsDest.y = ms[M01] * x + ms[M11] * y + ms[M21] * z + ms[M31];
+        winCoordsDest.z = ms[M02] * x + ms[M12] * y + ms[M22] * z + ms[M32];
+        float w = ms[M03] * x + ms[M13] * y + ms[M23] * z + ms[M33];
         winCoordsDest.div(w);
         winCoordsDest.x = (winCoordsDest.x*0.5f+0.5f) * viewport[2] + viewport[0];
         winCoordsDest.y = (winCoordsDest.y*0.5f+0.5f) * viewport[3] + viewport[1];
@@ -7269,44 +6197,44 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f reflect(float a, float b, float c, float d, Matrix4f dest) {
         float da = a + a, db = b + b, dc = c + c, dd = d + d;
-        float rm00 = 1.0f - da * a;
-        float rm01 = -da * b;
-        float rm02 = -da * c;
-        float rm10 = -db * a;
-        float rm11 = 1.0f - db * b;
-        float rm12 = -db * c;
-        float rm20 = -dc * a;
-        float rm21 = -dc * b;
-        float rm22 = 1.0f - dc * c;
-        float rm30 = -dd * a;
-        float rm31 = -dd * b;
-        float rm32 = -dd * c;
+        float rn00 = 1.0f - da * a;
+        float rn01 = -da * b;
+        float rn02 = -da * c;
+        float rn10 = -db * a;
+        float rn11 = 1.0f - db * b;
+        float rn12 = -db * c;
+        float rn20 = -dc * a;
+        float rn21 = -dc * b;
+        float rn22 = 1.0f - dc * c;
+        float rn30 = -dd * a;
+        float rn31 = -dd * b;
+        float rn32 = -dd * c;
 
         // matrix multiplication
-        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
-        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
-        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
-        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
-        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
-        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
-        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
-        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
-        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
+        dest.ms[M30] = ms[M00] * rn30 + ms[M10] * rn31 + ms[M20] * rn32 + ms[M30];
+        dest.ms[M31] = ms[M01] * rn30 + ms[M11] * rn31 + ms[M21] * rn32 + ms[M31];
+        dest.ms[M32] = ms[M02] * rn30 + ms[M12] * rn31 + ms[M22] * rn32 + ms[M32];
+        dest.ms[M33] = ms[M03] * rn30 + ms[M13] * rn31 + ms[M23] * rn32 + ms[M33];
+        float nn00 = ms[M00] * rn00 + ms[M10] * rn01 + ms[M20] * rn02;
+        float nn01 = ms[M01] * rn00 + ms[M11] * rn01 + ms[M21] * rn02;
+        float nn02 = ms[M02] * rn00 + ms[M12] * rn01 + ms[M22] * rn02;
+        float nn03 = ms[M03] * rn00 + ms[M13] * rn01 + ms[M23] * rn02;
+        float nn10 = ms[M00] * rn10 + ms[M10] * rn11 + ms[M20] * rn12;
+        float nn11 = ms[M01] * rn10 + ms[M11] * rn11 + ms[M21] * rn12;
+        float nn12 = ms[M02] * rn10 + ms[M12] * rn11 + ms[M22] * rn12;
+        float nn13 = ms[M03] * rn10 + ms[M13] * rn11 + ms[M23] * rn12;
+        dest.ms[M20] = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22;
+        dest.ms[M21] = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22;
+        dest.ms[M22] = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22;
+        dest.ms[M23] = ms[M03] * rn20 + ms[M13] * rn21 + ms[M23] * rn22;
+        dest.ms[M00] = nn00;
+        dest.ms[M01] = nn01;
+        dest.ms[M02] = nn02;
+        dest.ms[M03] = nn03;
+        dest.ms[M10] = nn10;
+        dest.ms[M11] = nn11;
+        dest.ms[M12] = nn12;
+        dest.ms[M13] = nn13;
 
         return dest;
     }
@@ -7513,22 +6441,22 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f reflection(float a, float b, float c, float d) {
         float da = a + a, db = b + b, dc = c + c, dd = d + d;
-        m00 = 1.0f - da * a;
-        m01 = -da * b;
-        m02 = -da * c;
-        m03 = 0.0f;
-        m10 = -db * a;
-        m11 = 1.0f - db * b;
-        m12 = -db * c;
-        m13 = 0.0f;
-        m20 = -dc * a;
-        m21 = -dc * b;
-        m22 = 1.0f - dc * c;
-        m23 = 0.0f;
-        m30 = -dd * a;
-        m31 = -dd * b;
-        m32 = -dd * c;
-        m33 = 1.0f;
+        ms[M00] = 1.0f - da * a;
+        ms[M01] = -da * b;
+        ms[M02] = -da * c;
+        ms[M03] = 0.0f;
+        ms[M10] = -db * a;
+        ms[M11] = 1.0f - db * b;
+        ms[M12] = -db * c;
+        ms[M13] = 0.0f;
+        ms[M20] = -dc * a;
+        ms[M21] = -dc * b;
+        ms[M22] = 1.0f - dc * c;
+        ms[M23] = 0.0f;
+        ms[M30] = -dd * a;
+        ms[M31] = -dd * b;
+        ms[M32] = -dd * c;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -7610,28 +6538,28 @@ public class Matrix4f implements Externalizable {
     public Vector4f getRow(int row, Vector4f dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
-            dest.x = m00;
-            dest.y = m10;
-            dest.z = m20;
-            dest.w = m30;
+            dest.x = ms[M00];
+            dest.y = ms[M10];
+            dest.z = ms[M20];
+            dest.w = ms[M30];
             break;
         case 1:
-            dest.x = m01;
-            dest.y = m11;
-            dest.z = m21;
-            dest.w = m31;
+            dest.x = ms[M01];
+            dest.y = ms[M11];
+            dest.z = ms[M21];
+            dest.w = ms[M31];
             break;
         case 2:
-            dest.x = m02;
-            dest.y = m12;
-            dest.z = m22;
-            dest.w = m32;
+            dest.x = ms[M02];
+            dest.y = ms[M12];
+            dest.z = ms[M22];
+            dest.w = ms[M32];
             break;
         case 3:
-            dest.x = m03;
-            dest.y = m13;
-            dest.z = m23;
-            dest.w = m33;
+            dest.x = ms[M03];
+            dest.y = ms[M13];
+            dest.z = ms[M23];
+            dest.w = ms[M33];
             break;
         default:
             throw new IndexOutOfBoundsException();
@@ -7652,28 +6580,28 @@ public class Matrix4f implements Externalizable {
     public Vector4f getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
-            dest.x = m00;
-            dest.y = m01;
-            dest.z = m02;
-            dest.w = m03;
+            dest.x = ms[M00];
+            dest.y = ms[M01];
+            dest.z = ms[M02];
+            dest.w = ms[M03];
             break;
         case 1:
-            dest.x = m10;
-            dest.y = m11;
-            dest.z = m12;
-            dest.w = m13;
+            dest.x = ms[M10];
+            dest.y = ms[M11];
+            dest.z = ms[M12];
+            dest.w = ms[M13];
             break;
         case 2:
-            dest.x = m20;
-            dest.y = m21;
-            dest.z = m22;
-            dest.w = m23;
+            dest.x = ms[M20];
+            dest.y = ms[M21];
+            dest.z = ms[M22];
+            dest.w = ms[M23];
             break;
         case 3:
-            dest.x = m30;
-            dest.y = m31;
-            dest.z = m32;
-            dest.w = m32;
+            dest.x = ms[M30];
+            dest.y = ms[M31];
+            dest.z = ms[M32];
+            dest.w = ms[M32];
             break;
         default:
             throw new IndexOutOfBoundsException();
@@ -7723,53 +6651,19 @@ public class Matrix4f implements Externalizable {
         float det = determinant3x3();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
-        dest.set((m11 * m22 - m21 * m12) * s,
-                 (m20 * m12 - m10 * m22) * s,
-                 (m10 * m21 - m20 * m11) * s,
+        dest.set((ms[M11] * ms[M22] - ms[M21] * ms[M12]) * s,
+                 (ms[M20] * ms[M12] - ms[M10] * ms[M22]) * s,
+                 (ms[M10] * ms[M21] - ms[M20] * ms[M11]) * s,
                  0.0f,
-                 (m21 * m02 - m01 * m22) * s,
-                 (m00 * m22 - m20 * m02) * s,
-                 (m20 * m01 - m00 * m21) * s,
+                 (ms[M21] * ms[M02] - ms[M01] * ms[M22]) * s,
+                 (ms[M00] * ms[M22] - ms[M20] * ms[M02]) * s,
+                 (ms[M20] * ms[M01] - ms[M00] * ms[M21]) * s,
                  0.0f,
-                 (m01 * m12 - m11 * m02) * s,
-                 (m10 * m02 - m00 * m12) * s,
-                 (m00 * m11 - m10 * m01) * s,
+                 (ms[M01] * ms[M12] - ms[M11] * ms[M02]) * s,
+                 (ms[M10] * ms[M02] - ms[M00] * ms[M12]) * s,
+                 (ms[M00] * ms[M11] - ms[M10] * ms[M01]) * s,
                  0.0f,
                  0.0f, 0.0f, 0.0f, 1.0f);
-        return dest;
-    }
-
-    /**
-     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
-     * and store it into <code>dest</code>.
-     * <p>
-     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
-     * <p>
-     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
-     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link Matrix3f#set(Matrix4f)} to set a given Matrix3f to only the upper left 3x3 submatrix
-     * of this matrix.
-     * 
-     * @see Matrix3f#set(Matrix4f)
-     * @see #get3x3(Matrix3f)
-     * 
-     * @param dest
-     *             will hold the result
-     * @return dest
-     */
-    public Matrix3f normal(Matrix3f dest) {
-        float det = determinant3x3();
-        float s = 1.0f / det;
-        /* Invert and transpose in one go */
-        dest.m00 = (m11 * m22 - m21 * m12) * s;
-        dest.m01 = (m20 * m12 - m10 * m22) * s;
-        dest.m02 = (m10 * m21 - m20 * m11) * s;
-        dest.m10 = (m21 * m02 - m01 * m22) * s;
-        dest.m11 = (m00 * m22 - m20 * m02) * s;
-        dest.m12 = (m20 * m01 - m00 * m21) * s;
-        dest.m20 = (m01 * m12 - m11 * m02) * s;
-        dest.m21 = (m10 * m02 - m00 * m12) * s;
-        dest.m22 = (m00 * m11 - m10 * m01) * s;
         return dest;
     }
 
@@ -7798,33 +6692,12 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f normalize3x3(Matrix4f dest) {
-        float invXlen = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
-        float invYlen = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
-        float invZlen = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
-        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
-        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
-        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
-        return dest;
-    }
-
-    /**
-     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
-     * <p>
-     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
-     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
-     * (i.e. had <i>skewing</i>).
-     * 
-     * @param dest
-     *             will hold the result
-     * @return dest
-     */
-    public Matrix3f normalize3x3(Matrix3f dest) {
-        float invXlen = (float) (1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02));
-        float invYlen = (float) (1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12));
-        float invZlen = (float) (1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22));
-        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
-        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
-        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
+        float invXlen = (float) (1.0 / Math.sqrt(ms[M00] * ms[M00] + ms[M01] * ms[M01] + ms[M02] * ms[M02]));
+        float invYlen = (float) (1.0 / Math.sqrt(ms[M10] * ms[M10] + ms[M11] * ms[M11] + ms[M12] * ms[M12]));
+        float invZlen = (float) (1.0 / Math.sqrt(ms[M20] * ms[M20] + ms[M21] * ms[M21] + ms[M22] * ms[M22]));
+        dest.ms[M00] = ms[M00] * invXlen; dest.ms[M01] = ms[M01] * invXlen; dest.ms[M02] = ms[M02] * invXlen;
+        dest.ms[M10] = ms[M10] * invYlen; dest.ms[M11] = ms[M11] * invYlen; dest.ms[M12] = ms[M12] * invYlen;
+        dest.ms[M20] = ms[M20] * invZlen; dest.ms[M21] = ms[M21] * invZlen; dest.ms[M22] = ms[M22] * invZlen;
         return dest;
     }
 
@@ -7861,22 +6734,22 @@ public class Matrix4f implements Externalizable {
     public Vector4f frustumPlane(int plane, Vector4f planeEquation) {
         switch (plane) {
         case PLANE_NX:
-            planeEquation.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
+            planeEquation.set(ms[M03] + ms[M00], ms[M13] + ms[M10], ms[M23] + ms[M20], ms[M33] + ms[M30]).normalize3();
             break;
         case PLANE_PX:
-            planeEquation.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3();
+            planeEquation.set(ms[M03] - ms[M00], ms[M13] - ms[M10], ms[M23] - ms[M20], ms[M33] - ms[M30]).normalize3();
             break;
         case PLANE_NY:
-            planeEquation.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3();
+            planeEquation.set(ms[M03] + ms[M01], ms[M13] + ms[M11], ms[M23] + ms[M21], ms[M33] + ms[M31]).normalize3();
             break;
         case PLANE_PY:
-            planeEquation.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3();
+            planeEquation.set(ms[M03] - ms[M01], ms[M13] - ms[M11], ms[M23] - ms[M21], ms[M33] - ms[M31]).normalize3();
             break;
         case PLANE_NZ:
-            planeEquation.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3();
+            planeEquation.set(ms[M03] + ms[M02], ms[M13] + ms[M12], ms[M23] + ms[M22], ms[M33] + ms[M32]).normalize3();
             break;
         case PLANE_PZ:
-            planeEquation.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3();
+            planeEquation.set(ms[M03] - ms[M02], ms[M13] - ms[M12], ms[M23] - ms[M22], ms[M33] - ms[M32]).normalize3();
             break;
         default:
             throw new IllegalArgumentException("plane"); //$NON-NLS-1$
@@ -7911,44 +6784,44 @@ public class Matrix4f implements Externalizable {
         float n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
         switch (corner) {
         case CORNER_NXNYNZ: // left, bottom, near
-            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
-            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
+            n1x = ms[M03] + ms[M00]; n1y = ms[M13] + ms[M10]; n1z = ms[M23] + ms[M20]; d1 = ms[M33] + ms[M30]; // left
+            n2x = ms[M03] + ms[M01]; n2y = ms[M13] + ms[M11]; n2z = ms[M23] + ms[M21]; d2 = ms[M33] + ms[M31]; // bottom
+            n3x = ms[M03] + ms[M02]; n3y = ms[M13] + ms[M12]; n3z = ms[M23] + ms[M22]; d3 = ms[M33] + ms[M32]; // near
             break;
         case CORNER_PXNYNZ: // right, bottom, near
-            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
-            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
-            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
+            n1x = ms[M03] - ms[M00]; n1y = ms[M13] - ms[M10]; n1z = ms[M23] - ms[M20]; d1 = ms[M33] - ms[M30]; // right
+            n2x = ms[M03] + ms[M01]; n2y = ms[M13] + ms[M11]; n2z = ms[M23] + ms[M21]; d2 = ms[M33] + ms[M31]; // bottom
+            n3x = ms[M03] + ms[M02]; n3y = ms[M13] + ms[M12]; n3z = ms[M23] + ms[M22]; d3 = ms[M33] + ms[M32]; // near
             break;
         case CORNER_PXPYNZ: // right, top, near
-            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
-            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
-            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
+            n1x = ms[M03] - ms[M00]; n1y = ms[M13] - ms[M10]; n1z = ms[M23] - ms[M20]; d1 = ms[M33] - ms[M30]; // right
+            n2x = ms[M03] - ms[M01]; n2y = ms[M13] - ms[M11]; n2z = ms[M23] - ms[M21]; d2 = ms[M33] - ms[M31]; // top
+            n3x = ms[M03] + ms[M02]; n3y = ms[M13] + ms[M12]; n3z = ms[M23] + ms[M22]; d3 = ms[M33] + ms[M32]; // near
             break;
         case CORNER_NXPYNZ: // left, top, near
-            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
-            n3x = m03 + m02; n3y = m13 + m12; n3z = m23 + m22; d3 = m33 + m32; // near
+            n1x = ms[M03] + ms[M00]; n1y = ms[M13] + ms[M10]; n1z = ms[M23] + ms[M20]; d1 = ms[M33] + ms[M30]; // left
+            n2x = ms[M03] - ms[M01]; n2y = ms[M13] - ms[M11]; n2z = ms[M23] - ms[M21]; d2 = ms[M33] - ms[M31]; // top
+            n3x = ms[M03] + ms[M02]; n3y = ms[M13] + ms[M12]; n3z = ms[M23] + ms[M22]; d3 = ms[M33] + ms[M32]; // near
             break;
         case CORNER_PXNYPZ: // right, bottom, far
-            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
-            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
-            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
+            n1x = ms[M03] - ms[M00]; n1y = ms[M13] - ms[M10]; n1z = ms[M23] - ms[M20]; d1 = ms[M33] - ms[M30]; // right
+            n2x = ms[M03] + ms[M01]; n2y = ms[M13] + ms[M11]; n2z = ms[M23] + ms[M21]; d2 = ms[M33] + ms[M31]; // bottom
+            n3x = ms[M03] - ms[M02]; n3y = ms[M13] - ms[M12]; n3z = ms[M23] - ms[M22]; d3 = ms[M33] - ms[M32]; // far
             break;
         case CORNER_NXNYPZ: // left, bottom, far
-            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-            n2x = m03 + m01; n2y = m13 + m11; n2z = m23 + m21; d2 = m33 + m31; // bottom
-            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
+            n1x = ms[M03] + ms[M00]; n1y = ms[M13] + ms[M10]; n1z = ms[M23] + ms[M20]; d1 = ms[M33] + ms[M30]; // left
+            n2x = ms[M03] + ms[M01]; n2y = ms[M13] + ms[M11]; n2z = ms[M23] + ms[M21]; d2 = ms[M33] + ms[M31]; // bottom
+            n3x = ms[M03] - ms[M02]; n3y = ms[M13] - ms[M12]; n3z = ms[M23] - ms[M22]; d3 = ms[M33] - ms[M32]; // far
             break;
         case CORNER_NXPYPZ: // left, top, far
-            n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
-            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
+            n1x = ms[M03] + ms[M00]; n1y = ms[M13] + ms[M10]; n1z = ms[M23] + ms[M20]; d1 = ms[M33] + ms[M30]; // left
+            n2x = ms[M03] - ms[M01]; n2y = ms[M13] - ms[M11]; n2z = ms[M23] - ms[M21]; d2 = ms[M33] - ms[M31]; // top
+            n3x = ms[M03] - ms[M02]; n3y = ms[M13] - ms[M12]; n3z = ms[M23] - ms[M22]; d3 = ms[M33] - ms[M32]; // far
             break;
         case CORNER_PXPYPZ: // right, top, far
-            n1x = m03 - m00; n1y = m13 - m10; n1z = m23 - m20; d1 = m33 - m30; // right
-            n2x = m03 - m01; n2y = m13 - m11; n2z = m23 - m21; d2 = m33 - m31; // top
-            n3x = m03 - m02; n3y = m13 - m12; n3z = m23 - m22; d3 = m33 - m32; // far
+            n1x = ms[M03] - ms[M00]; n1y = ms[M13] - ms[M10]; n1z = ms[M23] - ms[M20]; d1 = ms[M33] - ms[M30]; // right
+            n2x = ms[M03] - ms[M01]; n2y = ms[M13] - ms[M11]; n2z = ms[M23] - ms[M21]; d2 = ms[M33] - ms[M31]; // top
+            n3x = ms[M03] - ms[M02]; n3y = ms[M13] - ms[M12]; n3z = ms[M23] - ms[M22]; d3 = ms[M33] - ms[M32]; // far
             break;
         default:
             throw new IllegalArgumentException("corner"); //$NON-NLS-1$
@@ -8001,9 +6874,9 @@ public class Matrix4f implements Externalizable {
          */
         float d1, d2, d3;
         float n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
-        n1x = m03 + m00; n1y = m13 + m10; n1z = m23 + m20; d1 = m33 + m30; // left
-        n2x = m03 - m00; n2y = m13 - m10; n2z = m23 - m20; d2 = m33 - m30; // right
-        n3x = m03 - m01; n3y = m13 - m11; n3z = m23 - m21; d3 = m33 - m31; // top
+        n1x = ms[M03] + ms[M00]; n1y = ms[M13] + ms[M10]; n1z = ms[M23] + ms[M20]; d1 = ms[M33] + ms[M30]; // left
+        n2x = ms[M03] - ms[M00]; n2y = ms[M13] - ms[M10]; n2z = ms[M23] - ms[M20]; d2 = ms[M33] - ms[M30]; // right
+        n3x = ms[M03] - ms[M01]; n3y = ms[M13] - ms[M11]; n3z = ms[M23] - ms[M21]; d3 = ms[M33] - ms[M31]; // top
         float c23x, c23y, c23z;
         c23x = n2y * n3z - n2z * n3y;
         c23y = n2z * n3x - n2x * n3z;
@@ -8042,8 +6915,8 @@ public class Matrix4f implements Externalizable {
          * Compute the angle between the bottom and top frustum plane normals.
          */
         float n1x, n1y, n1z, n2x, n2y, n2z;
-        n1x = m03 + m01; n1y = m13 + m11; n1z = m23 + m21; // bottom
-        n2x = m01 - m03; n2y = m11 - m13; n2z = m21 - m23; // top
+        n1x = ms[M03] + ms[M01]; n1y = ms[M13] + ms[M11]; n1z = ms[M23] + ms[M21]; // bottom
+        n2x = ms[M01] - ms[M03]; n2y = ms[M11] - ms[M13]; n2z = ms[M21] - ms[M23]; // top
         float n1len = (float) Math.sqrt(n1x * n1x + n1y * n1y + n1z * n1z);
         float n2len = (float) Math.sqrt(n2x * n2x + n2y * n2y + n2z * n2z);
         return (float) Math.acos((n1x * n2x + n1y * n2y + n1z * n2z) / (n1len * n2len));
@@ -8063,7 +6936,7 @@ public class Matrix4f implements Externalizable {
      * For optimal efficiency when building many ray directions over the whole frustum,
      * it is recommended to use this method only in order to compute the four corner rays at
      * <tt>(0, 0)</tt>, <tt>(1, 0)</tt>, <tt>(0, 1)</tt> and <tt>(1, 1)</tt>
-     * and then bilinearly interpolating between them; or to use the {@link FrustumRayBuilder}.
+     * and then bilinearly interpolating between them.
      * <p>
      * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -8085,9 +6958,9 @@ public class Matrix4f implements Externalizable {
          * The code below uses a condense form of doing all this making use 
          * of some mathematical identities to simplify the overall expression.
          */
-        float a = m10 * m23, b = m13 * m21, c = m10 * m21, d = m11 * m23, e = m13 * m20, f = m11 * m20;
-        float g = m03 * m20, h = m01 * m23, i = m01 * m20, j = m03 * m21, k = m00 * m23, l = m00 * m21;
-        float m = m00 * m13, n = m03 * m11, o = m00 * m11, p = m01 * m13, q = m03 * m10, r = m01 * m10;
+        float a = ms[M10] * ms[M23], b = ms[M13] * ms[M21], c = ms[M10] * ms[M21], d = ms[M11] * ms[M23], e = ms[M13] * ms[M20], f = ms[M11] * ms[M20];
+        float g = ms[M03] * ms[M20], h = ms[M01] * ms[M23], i = ms[M01] * ms[M20], j = ms[M03] * ms[M21], k = ms[M00] * ms[M23], l = ms[M00] * ms[M21];
+        float m = ms[M00] * ms[M13], n = ms[M03] * ms[M11], o = ms[M00] * ms[M11], p = ms[M01] * ms[M13], q = ms[M03] * ms[M10], r = ms[M01] * ms[M10];
         float m1x, m1y, m1z;
         m1x = (d + e + f - a - b - c) * (1.0f - y) + (a - b - c + d - e + f) * y;
         m1y = (j + k + l - g - h - i) * (1.0f - y) + (g - h - i + j - k + l) * y;
@@ -8123,9 +6996,9 @@ public class Matrix4f implements Externalizable {
      * @return dir
      */
     public Vector3f positiveZ(Vector3f dir) {
-        dir.x = m10 * m21 - m11 * m20;
-        dir.y = m20 * m01 - m21 * m00;
-        dir.z = m00 * m11 - m01 * m10;
+        dir.x = ms[M10] * ms[M21] - ms[M11] * ms[M20];
+        dir.y = ms[M20] * ms[M01] - ms[M21] * ms[M00];
+        dir.z = ms[M00] * ms[M11] - ms[M01] * ms[M10];
         dir.normalize();
         return dir;
     }
@@ -8150,9 +7023,9 @@ public class Matrix4f implements Externalizable {
      * @return dir
      */
     public Vector3f normalizedPositiveZ(Vector3f dir) {
-        dir.x = m02;
-        dir.y = m12;
-        dir.z = m22;
+        dir.x = ms[M02];
+        dir.y = ms[M12];
+        dir.z = ms[M22];
         return dir;
     }
 
@@ -8176,9 +7049,9 @@ public class Matrix4f implements Externalizable {
      * @return dir
      */
     public Vector3f positiveX(Vector3f dir) {
-        dir.x = m11 * m22 - m12 * m21;
-        dir.y = m02 * m21 - m01 * m22;
-        dir.z = m01 * m12 - m02 * m11;
+        dir.x = ms[M11] * ms[M22] - ms[M12] * ms[M21];
+        dir.y = ms[M02] * ms[M21] - ms[M01] * ms[M22];
+        dir.z = ms[M01] * ms[M12] - ms[M02] * ms[M11];
         dir.normalize();
         return dir;
     }
@@ -8203,9 +7076,9 @@ public class Matrix4f implements Externalizable {
      * @return dir
      */
     public Vector3f normalizedPositiveX(Vector3f dir) {
-        dir.x = m00;
-        dir.y = m10;
-        dir.z = m20;
+        dir.x = ms[M00];
+        dir.y = ms[M10];
+        dir.z = ms[M20];
         return dir;
     }
 
@@ -8229,9 +7102,9 @@ public class Matrix4f implements Externalizable {
      * @return dir
      */
     public Vector3f positiveY(Vector3f dir) {
-        dir.x = m12 * m20 - m10 * m22;
-        dir.y = m00 * m22 - m02 * m20;
-        dir.z = m02 * m10 - m00 * m12;
+        dir.x = ms[M12] * ms[M20] - ms[M10] * ms[M22];
+        dir.y = ms[M00] * ms[M22] - ms[M02] * ms[M20];
+        dir.z = ms[M02] * ms[M10] - ms[M00] * ms[M12];
         dir.normalize();
         return dir;
     }
@@ -8256,9 +7129,9 @@ public class Matrix4f implements Externalizable {
      * @return dir
      */
     public Vector3f normalizedPositiveY(Vector3f dir) {
-        dir.x = m01;
-        dir.y = m11;
-        dir.z = m21;
+        dir.x = ms[M01];
+        dir.y = ms[M11];
+        dir.z = ms[M21];
         return dir;
     }
 
@@ -8279,15 +7152,15 @@ public class Matrix4f implements Externalizable {
      * @return origin
      */
     public Vector3f originAffine(Vector3f origin) {
-        float a = m00 * m11 - m01 * m10;
-        float b = m00 * m12 - m02 * m10;
-        float d = m01 * m12 - m02 * m11;
-        float g = m20 * m31 - m21 * m30;
-        float h = m20 * m32 - m22 * m30;
-        float j = m21 * m32 - m22 * m31;
-        origin.x = -m10 * j + m11 * h - m12 * g;
-        origin.y =  m00 * j - m01 * h + m02 * g;
-        origin.z = -m30 * d + m31 * b - m32 * a;
+        float a = ms[M00] * ms[M11] - ms[M01] * ms[M10];
+        float b = ms[M00] * ms[M12] - ms[M02] * ms[M10];
+        float d = ms[M01] * ms[M12] - ms[M02] * ms[M11];
+        float g = ms[M20] * ms[M31] - ms[M21] * ms[M30];
+        float h = ms[M20] * ms[M32] - ms[M22] * ms[M30];
+        float j = ms[M21] * ms[M32] - ms[M22] * ms[M31];
+        origin.x = -ms[M10] * j + ms[M11] * h - ms[M12] * g;
+        origin.y =  ms[M00] * j - ms[M01] * h + ms[M02] * g;
+        origin.z = -ms[M30] * d + ms[M31] * b - ms[M32] * a;
         return origin;
     }
 
@@ -8306,27 +7179,27 @@ public class Matrix4f implements Externalizable {
      * @return origin
      */
     public Vector3f origin(Vector3f origin) {
-        float a = m00 * m11 - m01 * m10;
-        float b = m00 * m12 - m02 * m10;
-        float c = m00 * m13 - m03 * m10;
-        float d = m01 * m12 - m02 * m11;
-        float e = m01 * m13 - m03 * m11;
-        float f = m02 * m13 - m03 * m12;
-        float g = m20 * m31 - m21 * m30;
-        float h = m20 * m32 - m22 * m30;
-        float i = m20 * m33 - m23 * m30;
-        float j = m21 * m32 - m22 * m31;
-        float k = m21 * m33 - m23 * m31;
-        float l = m22 * m33 - m23 * m32;
+        float a = ms[M00] * ms[M11] - ms[M01] * ms[M10];
+        float b = ms[M00] * ms[M12] - ms[M02] * ms[M10];
+        float c = ms[M00] * ms[M13] - ms[M03] * ms[M10];
+        float d = ms[M01] * ms[M12] - ms[M02] * ms[M11];
+        float e = ms[M01] * ms[M13] - ms[M03] * ms[M11];
+        float f = ms[M02] * ms[M13] - ms[M03] * ms[M12];
+        float g = ms[M20] * ms[M31] - ms[M21] * ms[M30];
+        float h = ms[M20] * ms[M32] - ms[M22] * ms[M30];
+        float i = ms[M20] * ms[M33] - ms[M23] * ms[M30];
+        float j = ms[M21] * ms[M32] - ms[M22] * ms[M31];
+        float k = ms[M21] * ms[M33] - ms[M23] * ms[M31];
+        float l = ms[M22] * ms[M33] - ms[M23] * ms[M32];
         float det = a * l - b * k + c * j + d * i - e * h + f * g;
         float invDet = 1.0f / det;
-        float nm30 = (-m10 * j + m11 * h - m12 * g) * invDet;
-        float nm31 = ( m00 * j - m01 * h + m02 * g) * invDet;
-        float nm32 = (-m30 * d + m31 * b - m32 * a) * invDet;
-        float nm33 = det / ( m20 * d - m21 * b + m22 * a);
-        float x = nm30 * nm33;
-        float y = nm31 * nm33;
-        float z = nm32 * nm33;
+        float nn30 = (-ms[M10] * j + ms[M11] * h - ms[M12] * g) * invDet;
+        float nn31 = ( ms[M00] * j - ms[M01] * h + ms[M02] * g) * invDet;
+        float nn32 = (-ms[M30] * d + ms[M31] * b - ms[M32] * a) * invDet;
+        float nn33 = det / ( ms[M20] * d - ms[M21] * b + ms[M22] * a);
+        float x = nn30 * nn33;
+        float y = nn31 * nn33;
+        float z = nn32 * nn33;
         return origin.set(x, y, z);
     }
 
@@ -8471,52 +7344,52 @@ public class Matrix4f implements Externalizable {
         float dot = an * lightX + bn * lightY + cn * lightZ + dn * lightW;
 
         // compute right matrix elements
-        float rm00 = dot - an * lightX;
-        float rm01 = -an * lightY;
-        float rm02 = -an * lightZ;
-        float rm03 = -an * lightW;
-        float rm10 = -bn * lightX;
-        float rm11 = dot - bn * lightY;
-        float rm12 = -bn * lightZ;
-        float rm13 = -bn * lightW;
-        float rm20 = -cn * lightX;
-        float rm21 = -cn * lightY;
-        float rm22 = dot - cn * lightZ;
-        float rm23 = -cn * lightW;
-        float rm30 = -dn * lightX;
-        float rm31 = -dn * lightY;
-        float rm32 = -dn * lightZ;
-        float rm33 = dot - dn * lightW;
+        float rn00 = dot - an * lightX;
+        float rn01 = -an * lightY;
+        float rn02 = -an * lightZ;
+        float rn03 = -an * lightW;
+        float rn10 = -bn * lightX;
+        float rn11 = dot - bn * lightY;
+        float rn12 = -bn * lightZ;
+        float rn13 = -bn * lightW;
+        float rn20 = -cn * lightX;
+        float rn21 = -cn * lightY;
+        float rn22 = dot - cn * lightZ;
+        float rn23 = -cn * lightW;
+        float rn30 = -dn * lightX;
+        float rn31 = -dn * lightY;
+        float rn32 = -dn * lightZ;
+        float rn33 = dot - dn * lightW;
 
         // matrix multiplication
-        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02 + m30 * rm03;
-        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02 + m31 * rm03;
-        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02 + m32 * rm03;
-        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02 + m33 * rm03;
-        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12 + m30 * rm13;
-        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12 + m31 * rm13;
-        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12 + m32 * rm13;
-        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12 + m33 * rm13;
-        float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 + m30 * rm23;
-        float nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 + m31 * rm23;
-        float nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 + m32 * rm23;
-        float nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 + m33 * rm23;
-        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30 * rm33;
-        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31 * rm33;
-        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32 * rm33;
-        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33 * rm33;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
-        dest.m22 = nm22;
-        dest.m23 = nm23;
+        float nn00 = ms[M00] * rn00 + ms[M10] * rn01 + ms[M20] * rn02 + ms[M30] * rn03;
+        float nn01 = ms[M01] * rn00 + ms[M11] * rn01 + ms[M21] * rn02 + ms[M31] * rn03;
+        float nn02 = ms[M02] * rn00 + ms[M12] * rn01 + ms[M22] * rn02 + ms[M32] * rn03;
+        float nn03 = ms[M03] * rn00 + ms[M13] * rn01 + ms[M23] * rn02 + ms[M33] * rn03;
+        float nn10 = ms[M00] * rn10 + ms[M10] * rn11 + ms[M20] * rn12 + ms[M30] * rn13;
+        float nn11 = ms[M01] * rn10 + ms[M11] * rn11 + ms[M21] * rn12 + ms[M31] * rn13;
+        float nn12 = ms[M02] * rn10 + ms[M12] * rn11 + ms[M22] * rn12 + ms[M32] * rn13;
+        float nn13 = ms[M03] * rn10 + ms[M13] * rn11 + ms[M23] * rn12 + ms[M33] * rn13;
+        float nn20 = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22 + ms[M30] * rn23;
+        float nn21 = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22 + ms[M31] * rn23;
+        float nn22 = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22 + ms[M32] * rn23;
+        float nn23 = ms[M03] * rn20 + ms[M13] * rn21 + ms[M23] * rn22 + ms[M33] * rn23;
+        dest.ms[M30] = ms[M00] * rn30 + ms[M10] * rn31 + ms[M20] * rn32 + ms[M30] * rn33;
+        dest.ms[M31] = ms[M01] * rn30 + ms[M11] * rn31 + ms[M21] * rn32 + ms[M31] * rn33;
+        dest.ms[M32] = ms[M02] * rn30 + ms[M12] * rn31 + ms[M22] * rn32 + ms[M32] * rn33;
+        dest.ms[M33] = ms[M03] * rn30 + ms[M13] * rn31 + ms[M23] * rn32 + ms[M33] * rn33;
+        dest.ms[M00] = nn00;
+        dest.ms[M01] = nn01;
+        dest.ms[M02] = nn02;
+        dest.ms[M03] = nn03;
+        dest.ms[M10] = nn10;
+        dest.ms[M11] = nn11;
+        dest.ms[M12] = nn12;
+        dest.ms[M13] = nn13;
+        dest.ms[M20] = nn20;
+        dest.ms[M21] = nn21;
+        dest.ms[M22] = nn22;
+        dest.ms[M23] = nn23;
 
         return dest;
     }
@@ -8545,10 +7418,10 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f shadow(Vector4f light, Matrix4f planeTransform, Matrix4f dest) {
         // compute plane equation by transforming (y = 0)
-        float a = planeTransform.m10;
-        float b = planeTransform.m11;
-        float c = planeTransform.m12;
-        float d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
+        float a = planeTransform.ms[M10];
+        float b = planeTransform.ms[M11];
+        float c = planeTransform.ms[M12];
+        float d = -a * planeTransform.ms[M30] - b * planeTransform.ms[M31] - c * planeTransform.ms[M32];
         return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
     }
 
@@ -8605,10 +7478,10 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f shadow(float lightX, float lightY, float lightZ, float lightW, Matrix4f planeTransform, Matrix4f dest) {
         // compute plane equation by transforming (y = 0)
-        float a = planeTransform.m10;
-        float b = planeTransform.m11;
-        float c = planeTransform.m12;
-        float d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
+        float a = planeTransform.ms[M10];
+        float b = planeTransform.ms[M11];
+        float c = planeTransform.ms[M12];
+        float d = -a * planeTransform.ms[M30] - b * planeTransform.ms[M31] - c * planeTransform.ms[M32];
         return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, dest);
     }
 
@@ -8680,22 +7553,22 @@ public class Matrix4f implements Externalizable {
         dirY *= invDirLen;
         dirZ *= invDirLen;
         // set matrix elements
-        m00 = leftX;
-        m01 = leftY;
-        m02 = leftZ;
-        m03 = 0.0f;
-        m10 = up.x;
-        m11 = up.y;
-        m12 = up.z;
-        m13 = 0.0f;
-        m20 = dirX;
-        m21 = dirY;
-        m22 = dirZ;
-        m23 = 0.0f;
-        m30 = objPos.x;
-        m31 = objPos.y;
-        m32 = objPos.z;
-        m33 = 1.0f;
+        ms[M00] = leftX;
+        ms[M01] = leftY;
+        ms[M02] = leftZ;
+        ms[M03] = 0.0f;
+        ms[M10] = up.x;
+        ms[M11] = up.y;
+        ms[M12] = up.z;
+        ms[M13] = 0.0f;
+        ms[M20] = dirX;
+        ms[M21] = dirY;
+        ms[M22] = dirZ;
+        ms[M23] = 0.0f;
+        ms[M30] = objPos.x;
+        ms[M31] = objPos.y;
+        ms[M32] = objPos.z;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -8742,22 +7615,22 @@ public class Matrix4f implements Externalizable {
         float upY = dirZ * leftX - dirX * leftZ;
         float upZ = dirX * leftY - dirY * leftX;
         // set matrix elements
-        m00 = leftX;
-        m01 = leftY;
-        m02 = leftZ;
-        m03 = 0.0f;
-        m10 = upX;
-        m11 = upY;
-        m12 = upZ;
-        m13 = 0.0f;
-        m20 = dirX;
-        m21 = dirY;
-        m22 = dirZ;
-        m23 = 0.0f;
-        m30 = objPos.x;
-        m31 = objPos.y;
-        m32 = objPos.z;
-        m33 = 1.0f;
+        ms[M00] = leftX;
+        ms[M01] = leftY;
+        ms[M02] = leftZ;
+        ms[M03] = 0.0f;
+        ms[M10] = upX;
+        ms[M11] = upY;
+        ms[M12] = upZ;
+        ms[M13] = 0.0f;
+        ms[M20] = dirX;
+        ms[M21] = dirY;
+        ms[M22] = dirZ;
+        ms[M23] = 0.0f;
+        ms[M30] = objPos.x;
+        ms[M31] = objPos.y;
+        ms[M32] = objPos.z;
+        ms[M33] = 1.0f;
         return this;
     }
 
@@ -8795,44 +7668,44 @@ public class Matrix4f implements Externalizable {
         float q01 = (x + x) * y;
         float q03 = (x + x) * w;
         float q13 = (y + y) * w;
-        m00 = 1.0f - q11;
-        m01 = q01;
-        m02 = -q13;
-        m03 = 0.0f;
-        m10 = q01;
-        m11 = 1.0f - q00;
-        m12 = q03;
-        m13 = 0.0f;
-        m20 = q13;
-        m21 = -q03;
-        m22 = 1.0f - q11 - q00;
-        m23 = 0.0f;
-        m30 = objPos.x;
-        m31 = objPos.y;
-        m32 = objPos.z;
-        m33 = 1.0f;
+        ms[M00] = 1.0f - q11;
+        ms[M01] = q01;
+        ms[M02] = -q13;
+        ms[M03] = 0.0f;
+        ms[M10] = q01;
+        ms[M11] = 1.0f - q00;
+        ms[M12] = q03;
+        ms[M13] = 0.0f;
+        ms[M20] = q13;
+        ms[M21] = -q03;
+        ms[M22] = 1.0f - q11 - q00;
+        ms[M23] = 0.0f;
+        ms[M30] = objPos.x;
+        ms[M31] = objPos.y;
+        ms[M32] = objPos.z;
+        ms[M33] = 1.0f;
         return this;
     }
 
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Float.floatToIntBits(m00);
-        result = prime * result + Float.floatToIntBits(m01);
-        result = prime * result + Float.floatToIntBits(m02);
-        result = prime * result + Float.floatToIntBits(m03);
-        result = prime * result + Float.floatToIntBits(m10);
-        result = prime * result + Float.floatToIntBits(m11);
-        result = prime * result + Float.floatToIntBits(m12);
-        result = prime * result + Float.floatToIntBits(m13);
-        result = prime * result + Float.floatToIntBits(m20);
-        result = prime * result + Float.floatToIntBits(m21);
-        result = prime * result + Float.floatToIntBits(m22);
-        result = prime * result + Float.floatToIntBits(m23);
-        result = prime * result + Float.floatToIntBits(m30);
-        result = prime * result + Float.floatToIntBits(m31);
-        result = prime * result + Float.floatToIntBits(m32);
-        result = prime * result + Float.floatToIntBits(m33);
+        result = prime * result + Float.floatToIntBits(ms[M00]);
+        result = prime * result + Float.floatToIntBits(ms[M01]);
+        result = prime * result + Float.floatToIntBits(ms[M02]);
+        result = prime * result + Float.floatToIntBits(ms[M03]);
+        result = prime * result + Float.floatToIntBits(ms[M10]);
+        result = prime * result + Float.floatToIntBits(ms[M11]);
+        result = prime * result + Float.floatToIntBits(ms[M12]);
+        result = prime * result + Float.floatToIntBits(ms[M13]);
+        result = prime * result + Float.floatToIntBits(ms[M20]);
+        result = prime * result + Float.floatToIntBits(ms[M21]);
+        result = prime * result + Float.floatToIntBits(ms[M22]);
+        result = prime * result + Float.floatToIntBits(ms[M23]);
+        result = prime * result + Float.floatToIntBits(ms[M30]);
+        result = prime * result + Float.floatToIntBits(ms[M31]);
+        result = prime * result + Float.floatToIntBits(ms[M32]);
+        result = prime * result + Float.floatToIntBits(ms[M33]);
         return result;
     }
 
@@ -8844,37 +7717,37 @@ public class Matrix4f implements Externalizable {
         if (!(obj instanceof Matrix4f))
             return false;
         Matrix4f other = (Matrix4f) obj;
-        if (Float.floatToIntBits(m00) != Float.floatToIntBits(other.m00))
+        if (Float.floatToIntBits(ms[M00]) != Float.floatToIntBits(other.ms[M00]))
             return false;
-        if (Float.floatToIntBits(m01) != Float.floatToIntBits(other.m01))
+        if (Float.floatToIntBits(ms[M01]) != Float.floatToIntBits(other.ms[M01]))
             return false;
-        if (Float.floatToIntBits(m02) != Float.floatToIntBits(other.m02))
+        if (Float.floatToIntBits(ms[M02]) != Float.floatToIntBits(other.ms[M02]))
             return false;
-        if (Float.floatToIntBits(m03) != Float.floatToIntBits(other.m03))
+        if (Float.floatToIntBits(ms[M03]) != Float.floatToIntBits(other.ms[M03]))
             return false;
-        if (Float.floatToIntBits(m10) != Float.floatToIntBits(other.m10))
+        if (Float.floatToIntBits(ms[M10]) != Float.floatToIntBits(other.ms[M10]))
             return false;
-        if (Float.floatToIntBits(m11) != Float.floatToIntBits(other.m11))
+        if (Float.floatToIntBits(ms[M11]) != Float.floatToIntBits(other.ms[M11]))
             return false;
-        if (Float.floatToIntBits(m12) != Float.floatToIntBits(other.m12))
+        if (Float.floatToIntBits(ms[M12]) != Float.floatToIntBits(other.ms[M12]))
             return false;
-        if (Float.floatToIntBits(m13) != Float.floatToIntBits(other.m13))
+        if (Float.floatToIntBits(ms[M13]) != Float.floatToIntBits(other.ms[M13]))
             return false;
-        if (Float.floatToIntBits(m20) != Float.floatToIntBits(other.m20))
+        if (Float.floatToIntBits(ms[M20]) != Float.floatToIntBits(other.ms[M20]))
             return false;
-        if (Float.floatToIntBits(m21) != Float.floatToIntBits(other.m21))
+        if (Float.floatToIntBits(ms[M21]) != Float.floatToIntBits(other.ms[M21]))
             return false;
-        if (Float.floatToIntBits(m22) != Float.floatToIntBits(other.m22))
+        if (Float.floatToIntBits(ms[M22]) != Float.floatToIntBits(other.ms[M22]))
             return false;
-        if (Float.floatToIntBits(m23) != Float.floatToIntBits(other.m23))
+        if (Float.floatToIntBits(ms[M23]) != Float.floatToIntBits(other.ms[M23]))
             return false;
-        if (Float.floatToIntBits(m30) != Float.floatToIntBits(other.m30))
+        if (Float.floatToIntBits(ms[M30]) != Float.floatToIntBits(other.ms[M30]))
             return false;
-        if (Float.floatToIntBits(m31) != Float.floatToIntBits(other.m31))
+        if (Float.floatToIntBits(ms[M31]) != Float.floatToIntBits(other.ms[M31]))
             return false;
-        if (Float.floatToIntBits(m32) != Float.floatToIntBits(other.m32))
+        if (Float.floatToIntBits(ms[M32]) != Float.floatToIntBits(other.ms[M32]))
             return false;
-        if (Float.floatToIntBits(m33) != Float.floatToIntBits(other.m33))
+        if (Float.floatToIntBits(ms[M33]) != Float.floatToIntBits(other.ms[M33]))
             return false;
         return true;
     }
@@ -8903,18 +7776,18 @@ public class Matrix4f implements Externalizable {
         float sy = viewport[3] / height;
         float tx = (viewport[2] + 2.0f * (viewport[0] - x)) / width;
         float ty = (viewport[3] + 2.0f * (viewport[1] - y)) / height;
-        dest.m30 = m00 * tx + m10 * ty + m30;
-        dest.m31 = m01 * tx + m11 * ty + m31;
-        dest.m32 = m02 * tx + m12 * ty + m32;
-        dest.m33 = m03 * tx + m13 * ty + m33;
-        dest.m00 = m00 * sx;
-        dest.m01 = m01 * sx;
-        dest.m02 = m02 * sx;
-        dest.m03 = m03 * sx;
-        dest.m10 = m10 * sy;
-        dest.m11 = m11 * sy;
-        dest.m12 = m12 * sy;
-        dest.m13 = m13 * sy;
+        dest.ms[M30] = ms[M00] * tx + ms[M10] * ty + ms[M30];
+        dest.ms[M31] = ms[M01] * tx + ms[M11] * ty + ms[M31];
+        dest.ms[M32] = ms[M02] * tx + ms[M12] * ty + ms[M32];
+        dest.ms[M33] = ms[M03] * tx + ms[M13] * ty + ms[M33];
+        dest.ms[M00] = ms[M00] * sx;
+        dest.ms[M01] = ms[M01] * sx;
+        dest.ms[M02] = ms[M02] * sx;
+        dest.ms[M03] = ms[M03] * sx;
+        dest.ms[M10] = ms[M10] * sy;
+        dest.ms[M11] = ms[M11] * sy;
+        dest.ms[M12] = ms[M12] * sy;
+        dest.ms[M13] = ms[M13] * sy;
         return dest;
     }
 
@@ -8944,7 +7817,7 @@ public class Matrix4f implements Externalizable {
      * @return <code>true</code> iff this matrix is affine; <code>false</code> otherwise
      */
     public boolean isAffine() {
-        return m03 == 0.0f && m13 == 0.0f && m23 == 0.0f && m33 == 1.0f;
+        return ms[M03] == 0.0f && ms[M13] == 0.0f && ms[M23] == 0.0f && ms[M33] == 1.0f;
     }
 
     /**
@@ -8956,22 +7829,22 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f swap(Matrix4f other) {
         float tmp;
-        tmp = m00; m00 = other.m00; other.m00 = tmp;
-        tmp = m01; m01 = other.m01; other.m01 = tmp;
-        tmp = m02; m02 = other.m02; other.m02 = tmp;
-        tmp = m03; m03 = other.m03; other.m03 = tmp;
-        tmp = m10; m10 = other.m10; other.m10 = tmp;
-        tmp = m11; m11 = other.m11; other.m11 = tmp;
-        tmp = m12; m12 = other.m12; other.m12 = tmp;
-        tmp = m13; m13 = other.m13; other.m13 = tmp;
-        tmp = m20; m20 = other.m20; other.m20 = tmp;
-        tmp = m21; m21 = other.m21; other.m21 = tmp;
-        tmp = m22; m22 = other.m22; other.m22 = tmp;
-        tmp = m23; m23 = other.m23; other.m23 = tmp;
-        tmp = m30; m30 = other.m30; other.m30 = tmp;
-        tmp = m31; m31 = other.m31; other.m31 = tmp;
-        tmp = m32; m32 = other.m32; other.m32 = tmp;
-        tmp = m33; m33 = other.m33; other.m33 = tmp;
+        tmp = ms[M00]; ms[M00] = other.ms[M00]; other.ms[M00] = tmp;
+        tmp = ms[M01]; ms[M01] = other.ms[M01]; other.ms[M01] = tmp;
+        tmp = ms[M02]; ms[M02] = other.ms[M02]; other.ms[M02] = tmp;
+        tmp = ms[M03]; ms[M03] = other.ms[M03]; other.ms[M03] = tmp;
+        tmp = ms[M10]; ms[M10] = other.ms[M10]; other.ms[M10] = tmp;
+        tmp = ms[M11]; ms[M11] = other.ms[M11]; other.ms[M11] = tmp;
+        tmp = ms[M12]; ms[M12] = other.ms[M12]; other.ms[M12] = tmp;
+        tmp = ms[M13]; ms[M13] = other.ms[M13]; other.ms[M13] = tmp;
+        tmp = ms[M20]; ms[M20] = other.ms[M20]; other.ms[M20] = tmp;
+        tmp = ms[M21]; ms[M21] = other.ms[M21]; other.ms[M21] = tmp;
+        tmp = ms[M22]; ms[M22] = other.ms[M22]; other.ms[M22] = tmp;
+        tmp = ms[M23]; ms[M23] = other.ms[M23]; other.ms[M23] = tmp;
+        tmp = ms[M30]; ms[M30] = other.ms[M30]; other.ms[M30] = tmp;
+        tmp = ms[M31]; ms[M31] = other.ms[M31]; other.ms[M31] = tmp;
+        tmp = ms[M32]; ms[M32] = other.ms[M32]; other.ms[M32] = tmp;
+        tmp = ms[M33]; ms[M33] = other.ms[M33]; other.ms[M33] = tmp;
         return this;
     }
 
@@ -9020,10 +7893,10 @@ public class Matrix4f implements Externalizable {
             float x = ((t % 2) << 1) - 1.0f;
             float y = (((t >>> 1) % 2) << 1) - 1.0f;
             float z = (((t >>> 2) % 2) << 1) - 1.0f;
-            float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
-            float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
-            float ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
-            float nz = (m02 * x + m12 * y + m22 * z + m32) * invW;
+            float invW = 1.0f / (ms[M03] * x + ms[M13] * y + ms[M23] * z + ms[M33]);
+            float nx = (ms[M00] * x + ms[M10] * y + ms[M20] * z + ms[M30]) * invW;
+            float ny = (ms[M01] * x + ms[M11] * y + ms[M21] * z + ms[M31]) * invW;
+            float nz = (ms[M02] * x + ms[M12] * y + ms[M22] * z + ms[M32]) * invW;
             minX = minX < nx ? minX : nx;
             minY = minY < ny ? minY : ny;
             minZ = minZ < nz ? minZ : nz;
@@ -9057,36 +7930,36 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f frustumAabb(Vector3f min, Vector3f max) {
-        float a = m00 * m11 - m01 * m10;
-        float b = m00 * m12 - m02 * m10;
-        float c = m00 * m13 - m03 * m10;
-        float d = m01 * m12 - m02 * m11;
-        float e = m01 * m13 - m03 * m11;
-        float f = m02 * m13 - m03 * m12;
-        float g = m20 * m31 - m21 * m30;
-        float h = m20 * m32 - m22 * m30;
-        float i = m20 * m33 - m23 * m30;
-        float j = m21 * m32 - m22 * m31;
-        float k = m21 * m33 - m23 * m31;
-        float l = m22 * m33 - m23 * m32;
+        float a = ms[M00] * ms[M11] - ms[M01] * ms[M10];
+        float b = ms[M00] * ms[M12] - ms[M02] * ms[M10];
+        float c = ms[M00] * ms[M13] - ms[M03] * ms[M10];
+        float d = ms[M01] * ms[M12] - ms[M02] * ms[M11];
+        float e = ms[M01] * ms[M13] - ms[M03] * ms[M11];
+        float f = ms[M02] * ms[M13] - ms[M03] * ms[M12];
+        float g = ms[M20] * ms[M31] - ms[M21] * ms[M30];
+        float h = ms[M20] * ms[M32] - ms[M22] * ms[M30];
+        float i = ms[M20] * ms[M33] - ms[M23] * ms[M30];
+        float j = ms[M21] * ms[M32] - ms[M22] * ms[M31];
+        float k = ms[M21] * ms[M33] - ms[M23] * ms[M31];
+        float l = ms[M22] * ms[M33] - ms[M23] * ms[M32];
         float det = a * l - b * k + c * j + d * i - e * h + f * g;
         det = 1.0f / det;
-        float nm00 = ( m11 * l - m12 * k + m13 * j) * det;
-        float nm01 = (-m01 * l + m02 * k - m03 * j) * det;
-        float nm02 = ( m31 * f - m32 * e + m33 * d) * det;
-        float nm03 = (-m21 * f + m22 * e - m23 * d) * det;
-        float nm10 = (-m10 * l + m12 * i - m13 * h) * det;
-        float nm11 = ( m00 * l - m02 * i + m03 * h) * det;
-        float nm12 = (-m30 * f + m32 * c - m33 * b) * det;
-        float nm13 = ( m20 * f - m22 * c + m23 * b) * det;
-        float nm20 = ( m10 * k - m11 * i + m13 * g) * det;
-        float nm21 = (-m00 * k + m01 * i - m03 * g) * det;
-        float nm22 = ( m30 * e - m31 * c + m33 * a) * det;
-        float nm23 = (-m20 * e + m21 * c - m23 * a) * det;
-        float nm30 = (-m10 * j + m11 * h - m12 * g) * det;
-        float nm31 = ( m00 * j - m01 * h + m02 * g) * det;
-        float nm32 = (-m30 * d + m31 * b - m32 * a) * det;
-        float nm33 = ( m20 * d - m21 * b + m22 * a) * det;
+        float nn00 = ( ms[M11] * l - ms[M12] * k + ms[M13] * j) * det;
+        float nn01 = (-ms[M01] * l + ms[M02] * k - ms[M03] * j) * det;
+        float nn02 = ( ms[M31] * f - ms[M32] * e + ms[M33] * d) * det;
+        float nn03 = (-ms[M21] * f + ms[M22] * e - ms[M23] * d) * det;
+        float nn10 = (-ms[M10] * l + ms[M12] * i - ms[M13] * h) * det;
+        float nn11 = ( ms[M00] * l - ms[M02] * i + ms[M03] * h) * det;
+        float nn12 = (-ms[M30] * f + ms[M32] * c - ms[M33] * b) * det;
+        float nn13 = ( ms[M20] * f - ms[M22] * c + ms[M23] * b) * det;
+        float nn20 = ( ms[M10] * k - ms[M11] * i + ms[M13] * g) * det;
+        float nn21 = (-ms[M00] * k + ms[M01] * i - ms[M03] * g) * det;
+        float nn22 = ( ms[M30] * e - ms[M31] * c + ms[M33] * a) * det;
+        float nn23 = (-ms[M20] * e + ms[M21] * c - ms[M23] * a) * det;
+        float nn30 = (-ms[M10] * j + ms[M11] * h - ms[M12] * g) * det;
+        float nn31 = ( ms[M00] * j - ms[M01] * h + ms[M02] * g) * det;
+        float nn32 = (-ms[M30] * d + ms[M31] * b - ms[M32] * a) * det;
+        float nn33 = ( ms[M20] * d - ms[M21] * b + ms[M22] * a) * det;
         float minX = Float.MAX_VALUE;
         float minY = Float.MAX_VALUE;
         float minZ = Float.MAX_VALUE;
@@ -9097,10 +7970,10 @@ public class Matrix4f implements Externalizable {
             float x = ((t % 2) << 1) - 1.0f;
             float y = (((t >>> 1) % 2) << 1) - 1.0f;
             float z = (((t >>> 2) % 2) << 1) - 1.0f;
-            float invW = 1.0f / (nm03 * x + nm13 * y + nm23 * z + nm33);
-            float nx = (nm00 * x + nm10 * y + nm20 * z + nm30) * invW;
-            float ny = (nm01 * x + nm11 * y + nm21 * z + nm31) * invW;
-            float nz = (nm02 * x + nm12 * y + nm22 * z + nm32) * invW;
+            float invW = 1.0f / (nn03 * x + nn13 * y + nn23 * z + nn33);
+            float nx = (nn00 * x + nn10 * y + nn20 * z + nn30) * invW;
+            float ny = (nn01 * x + nn11 * y + nn21 * z + nn31) * invW;
+            float nz = (nn02 * x + nn12 * y + nn22 * z + nn32) * invW;
             minX = minX < nx ? minX : nx;
             minY = minY < ny ? minY : ny;
             minZ = minZ < nz ? minZ : nz;

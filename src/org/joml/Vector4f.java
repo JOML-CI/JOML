@@ -95,24 +95,6 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4f} with the first two components from the
-     * given <code>v</code> and the given <code>z</code>, and <code>w</code>.
-     * 
-     * @param v
-     *          the {@link Vector2f}
-     * @param z
-     *          the z component
-     * @param w
-     *          the w component
-     */
-    public Vector4f(Vector2f v, float z, float w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = z;
-        this.w = w;
-    }
-
-    /**
      * Create a new {@link Vector4f} and initialize all four components with the given value.
      *
      * @param d
@@ -229,24 +211,6 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Set this {@link Vector4f} to the values of the given <code>v</code>.
-     * <p>
-     * Note that due to the given vector <code>v</code> storing the components in double-precision,
-     * there is the possibility to lose precision.
-     * 
-     * @param v
-     *          the vector whose values will be copied into this
-     * @return this
-     */
-    public Vector4f set(Vector4d v) {
-        this.x = (float) v.x;
-        this.y = (float) v.y;
-        this.z = (float) v.z;
-        this.w = (float) v.w;
-        return this;
-    }
-
-    /**
      * Set the first three components of this to the components of
      * <code>v</code> and the last component to <code>w</code>.
      * 
@@ -260,26 +224,6 @@ public class Vector4f implements Externalizable {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
-        this.w = w;
-        return this;
-    }
-
-    /**
-     * Sets the first two components of this to the components of given <code>v</code>
-     * and last two components to the given <code>z</code>, and <code>w</code>.
-     *
-     * @param v
-     *          the {@link Vector2f}
-     * @param z
-     *          the z component
-     * @param w
-     *          the w component
-     * @return this
-     */
-    public Vector4f set(Vector2f v, float z, float w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = z;
         this.w = w;
         return this;
     }
@@ -785,10 +729,10 @@ public class Vector4f implements Externalizable {
      * @return dest
      */
     public Vector4f mul(Matrix4f mat, Vector4f dest) {
-        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
-                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
-                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w,
-                 mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
+        dest.set(mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z + mat.ms[Matrix4f.M30] * w,
+                 mat.ms[Matrix4f.M01] * x + mat.ms[Matrix4f.M11] * y + mat.ms[Matrix4f.M21] * z + mat.ms[Matrix4f.M31] * w,
+                 mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z + mat.ms[Matrix4f.M32] * w,
+                 mat.ms[Matrix4f.M03] * x + mat.ms[Matrix4f.M13] * y + mat.ms[Matrix4f.M23] * z + mat.ms[Matrix4f.M33] * w);
         return dest;
     }
 
@@ -803,10 +747,10 @@ public class Vector4f implements Externalizable {
      * @return dest
      */
     public Vector4f mulProject(Matrix4f mat, Vector4f dest) {
-        float invW = 1.0f / (mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
-        dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w) * invW,
-                 (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w) * invW,
-                 (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w) * invW,
+        float invW = 1.0f / (mat.ms[Matrix4f.M03] * x + mat.ms[Matrix4f.M13] * y + mat.ms[Matrix4f.M23] * z + mat.ms[Matrix4f.M33] * w);
+        dest.set((mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z + mat.ms[Matrix4f.M30] * w) * invW,
+                 (mat.ms[Matrix4f.M01] * x + mat.ms[Matrix4f.M11] * y + mat.ms[Matrix4f.M21] * z + mat.ms[Matrix4f.M31] * w) * invW,
+                 (mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z + mat.ms[Matrix4f.M32] * w) * invW,
                  1.0f);
         return dest;
     }
@@ -976,34 +920,6 @@ public class Vector4f implements Externalizable {
         dest.z = this.z / z;
         dest.w = this.w / w;
         return dest;
-    }
-
-    /**
-     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
-     * 
-     * @see Quaternionf#transform(Vector4f)
-     * 
-     * @param quat
-     *          the quaternion to rotate this vector
-     * @return this
-     */
-    public Vector4f rotate(Quaternionf quat) {
-        return rotate(quat, this);
-    }
-
-    /**
-     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
-     * 
-     * @see Quaternionf#transform(Vector4f)
-     * 
-     * @param quat
-     *          the quaternion to rotate this vector
-     * @param dest
-     *          will hold the result
-     * @return dest
-     */
-    public Vector4f rotate(Quaternionf quat, Vector4f dest) {
-        return quat.transform(this, dest);
     }
 
     /**
