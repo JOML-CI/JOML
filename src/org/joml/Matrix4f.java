@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -229,6 +231,21 @@ public class Matrix4f implements Externalizable {
         ms[M31] = n31;
         ms[M32] = n32;
         ms[M33] = n33;
+    }
+
+    /**
+     * Create a new {@link Matrix4f} by reading its 16 float components from the given {@link FloatBuffer}
+     * at the buffer's current position.
+     * <p>
+     * That FloatBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     * 
+     * @param buffer
+     *          the {@link FloatBuffer} to read the matrix values from
+     */
+    public Matrix4f(FloatBuffer buffer) {
+        MemUtil.INSTANCE.get(this, 0, buffer);
     }
 
     /**
@@ -953,6 +970,40 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set the values of this matrix by reading 16 float values from the given {@link FloatBuffer} in column-major order,
+     * starting at its current position.
+     * <p>
+     * The FloatBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the FloatBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the FloatBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix4f set(FloatBuffer buffer) {
+        MemUtil.INSTANCE.get(this, 0, buffer);
+        return this;
+    }
+
+    /**
+     * Set the values of this matrix by reading 16 float values from the given {@link ByteBuffer} in column-major order,
+     * starting at its current position.
+     * <p>
+     * The ByteBuffer is expected to contain the values in column-major order.
+     * <p>
+     * The position of the ByteBuffer will not be changed by this method.
+     * 
+     * @param buffer
+     *              the ByteBuffer to read the matrix values from in column-major order
+     * @return this
+     */
+    public Matrix4f set(ByteBuffer buffer) {
+        MemUtil.INSTANCE.get(this, 0, buffer);
+        return this;
+    }
+
+    /**
      * Return the determinant of this matrix.
      * <p>
      * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
@@ -1603,6 +1654,154 @@ public class Matrix4f implements Externalizable {
      */
     public Quaternionf getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public FloatBuffer get(FloatBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public FloatBuffer get(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.put(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer get(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.put(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed(FloatBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed(ByteBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
     }
 
     /**
