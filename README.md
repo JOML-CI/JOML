@@ -122,14 +122,14 @@ If you prefer not to use shaders but the fixed-function pipeline and want to use
 ```Java
 FloatBuffer fb = BufferUtils.createFloatBuffer(16);
 Matrix4f m = new Matrix4f();
-m.setPerspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f).get(fb);
+m.setPerspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f);
 glMatrixMode(GL_PROJECTION);
-glLoadMatrixf(fb);
+glLoadMatrixf(m.get(fb));
 m.setLookAt(0.0f, 0.0f, 10.0f,
             0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f).get(fb);
+            0.0f, 1.0f, 0.0f);
 glMatrixMode(GL_MODELVIEW);
-glLoadMatrixf(fb);
+glLoadMatrixf(m.get(fb));
 ```
 
 Using with Vulkan and LWJGL 3
@@ -187,14 +187,14 @@ If you prefer not to use shaders but the fixed-function pipeline and want to use
 ```Java
 FloatBuffer fb = Buffers.newDirectFloatBuffer(16);
 Matrix4f m = new Matrix4f();
-m.setPerspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f).get(fb);
+m.setPerspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f);
 gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
-gl.glLoadMatrixf(fb);
+gl.glLoadMatrixf(m.get(fb));
 m.setLookAt(0.0f, 0.0f, 10.0f,
             0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f).get(fb);
+            0.0f, 1.0f, 0.0f);
 gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
-gl.glLoadMatrixf(fb);
+gl.glLoadMatrixf(m.get(fb));
 ```
 
 Staying allocation-free
@@ -226,8 +226,7 @@ void frame() {
   // possibly apply more model transformations
   m.rotateY(angle);
   // get matrix into FloatBuffer and upload to OpenGL
-  m.get(fb);
-  glUniformMatrix4fv(mat4Location, false, fb);
+  glUniformMatrix4fv(mat4Location, false, m.get(fb));
   ...
 }
 ```
