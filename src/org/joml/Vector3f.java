@@ -101,6 +101,21 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector3f} with the first two components from the
+     * given <code>v</code> and the given <code>z</code>
+     * 
+     * @param v
+     *          the {@link Vector2f} to copy the values from
+     * @param z
+     *          the z component
+     */
+    public Vector3f(Vector2f v, float z) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
+    }
+
+    /**
      * Create a new {@link Vector3f} and read this vector from the supplied {@link ByteBuffer}
      * at the current buffer {@link ByteBuffer#position() position}.
      * <p>
@@ -175,6 +190,23 @@ public class Vector3f implements Externalizable {
         x = v.x;
         y = v.y;
         z = v.z;
+        return this;
+    }
+
+    /**
+     * Set the first two components from the given <code>v</code>
+     * and the z component from the given <code>z</code>
+     *
+     * @param v
+     *          the {@link Vector2f} to copy the values from
+     * @param z
+     *          the z component
+     * @return this
+     */
+    public Vector3f set(Vector2f v, float z) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
         return this;
     }
 
@@ -924,6 +956,36 @@ public class Vector3f implements Externalizable {
         dest.x = this.x / x;
         dest.y = this.y / y;
         dest.z = this.z / z;
+        return dest;
+    }
+
+    /**
+     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
+     * 
+     * @see Quaternionf#transform(Vector3f)
+     * 
+     * @param quat
+     *          the quaternion to rotate this vector
+     * @return this
+     */
+    public Vector3f rotate(Quaternionf quat) {
+        quat.transform(this, this);
+        return this;
+    }
+
+    /**
+     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
+     * 
+     * @see Quaternionf#transform(Vector3f)
+     * 
+     * @param quat
+     *          the quaternion to rotate this vector
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f rotate(Quaternionf quat, Vector3f dest) {
+        quat.transform(this, dest);
         return dest;
     }
 

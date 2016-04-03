@@ -95,6 +95,24 @@ public class Vector4f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector4f} with the first two components from the
+     * given <code>v</code> and the given <code>z</code>, and <code>w</code>.
+     * 
+     * @param v
+     *          the {@link Vector2f}
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
+     */
+    public Vector4f(Vector2f v, float z, float w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
+        this.w = w;
+    }
+
+    /**
      * Create a new {@link Vector4f} and initialize all four components with the given value.
      *
      * @param d
@@ -224,6 +242,26 @@ public class Vector4f implements Externalizable {
         this.x = v.x;
         this.y = v.y;
         this.z = v.z;
+        this.w = w;
+        return this;
+    }
+
+    /**
+     * Sets the first two components of this to the components of given <code>v</code>
+     * and last two components to the given <code>z</code>, and <code>w</code>.
+     *
+     * @param v
+     *          the {@link Vector2f}
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
+     * @return this
+     */
+    public Vector4f set(Vector2f v, float z, float w) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = z;
         this.w = w;
         return this;
     }
@@ -920,6 +958,34 @@ public class Vector4f implements Externalizable {
         dest.z = this.z / z;
         dest.w = this.w / w;
         return dest;
+    }
+
+    /**
+     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
+     * 
+     * @see Quaternionf#transform(Vector4f)
+     * 
+     * @param quat
+     *          the quaternion to rotate this vector
+     * @return this
+     */
+    public Vector4f rotate(Quaternionf quat) {
+        return rotate(quat, this);
+    }
+
+    /**
+     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
+     * 
+     * @see Quaternionf#transform(Vector4f)
+     * 
+     * @param quat
+     *          the quaternion to rotate this vector
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector4f rotate(Quaternionf quat, Vector4f dest) {
+        return quat.transform(this, dest);
     }
 
     /**
