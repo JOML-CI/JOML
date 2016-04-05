@@ -8747,9 +8747,9 @@ public class Matrix4f implements Externalizable {
         float maxY = -Float.MAX_VALUE;
         float maxZ = -Float.MAX_VALUE;
         for (int t = 0; t < 8; t++) {
-            float x = ((t % 2) << 1) - 1.0f;
-            float y = (((t >>> 1) % 2) << 1) - 1.0f;
-            float z = (((t >>> 2) % 2) << 1) - 1.0f;
+            float x = ((t & 1) << 1) - 1.0f;
+            float y = (((t >>> 1) & 1) << 1) - 1.0f;
+            float z = (((t >>> 2) & 1) << 1) - 1.0f;
             float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
             float nx = (m00 * x + m10 * y + m20 * z + m30) * invW;
             float ny = (m01 * x + m11 * y + m21 * z + m31) * invW;
@@ -8824,9 +8824,9 @@ public class Matrix4f implements Externalizable {
         float maxY = -Float.MAX_VALUE;
         float maxZ = -Float.MAX_VALUE;
         for (int t = 0; t < 8; t++) {
-            float x = ((t % 2) << 1) - 1.0f;
-            float y = (((t >>> 1) % 2) << 1) - 1.0f;
-            float z = (((t >>> 2) % 2) << 1) - 1.0f;
+            float x = ((t & 1) << 1) - 1.0f;
+            float y = (((t >>> 1) & 1) << 1) - 1.0f;
+            float z = (((t >>> 2) & 1) << 1) - 1.0f;
             float invW = 1.0f / (nm03 * x + nm13 * y + nm23 * z + nm33);
             float nx = (nm00 * x + nm10 * y + nm20 * z + nm30) * invW;
             float ny = (nm01 * x + nm11 * y + nm21 * z + nm31) * invW;
@@ -8878,18 +8878,18 @@ public class Matrix4f implements Externalizable {
             if (t < 4) {
                 // all x edges
                 c0X = -1; c1X = +1;
-                c0Y = c1Y = ((t % 2) << 1) - 1.0f;
-                c0Z = c1Z = (((t >>> 1) % 2) << 1) - 1.0f;
+                c0Y = c1Y = ((t & 1) << 1) - 1.0f;
+                c0Z = c1Z = (((t >>> 1) & 1) << 1) - 1.0f;
             } else if (t < 8) {
                 // all y edges
                 c0Y = -1; c1Y = +1;
-                c0X = c1X = ((t % 2) << 1) - 1.0f;
-                c0Z = c1Z = (((t >>> 1) % 2) << 1) - 1.0f;
+                c0X = c1X = ((t & 1) << 1) - 1.0f;
+                c0Z = c1Z = (((t >>> 1) & 1) << 1) - 1.0f;
             } else {
                 // all z edges
                 c0Z = -1; c1Z = +1;
-                c0X = c1X = ((t % 2) << 1) - 1.0f;
-                c0Y = c1Y = (((t >>> 1) % 2) << 1) - 1.0f;
+                c0X = c1X = ((t & 1) << 1) - 1.0f;
+                c0Y = c1Y = (((t >>> 1) & 1) << 1) - 1.0f;
             }
             // unproject corners
             float invW = 1.0f / (m03 * c0X + m13 * c0Y + m23 * c0Z + m33);
