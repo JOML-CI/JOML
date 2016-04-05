@@ -2330,6 +2330,51 @@ public class Intersectionf {
     }
 
     /**
+     * Determine whether the line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
+     * intersects the plane given as the general plane equation <i>a*x + b*y + c*z + d = 0</i>,
+     * and return the point of intersection.
+     * 
+     * @param p0X
+     *              the x coordinate of the line segment's first end point
+     * @param p0Y
+     *              the y coordinate of the line segment's first end point
+     * @param p0Z
+     *              the z coordinate of the line segment's first end point
+     * @param p1X
+     *              the x coordinate of the line segment's second end point
+     * @param p1Y
+     *              the y coordinate of the line segment's second end point
+     * @param p1Z
+     *              the z coordinate of the line segment's second end point
+     * @param a
+     *              the x factor in the plane equation
+     * @param b
+     *              the y factor in the plane equation
+     * @param c
+     *              the z factor in the plane equation
+     * @param d
+     *              the constant in the plane equation
+     * @param intersectionPoint
+     *              the point of intersection
+     * @return <code>true</code> if the given line segment intersects the plane; <code>false</code> otherwise
+     */
+    public static boolean intersectLineSegmentPlane(float p0X, float p0Y, float p0Z, float p1X, float p1Y, float p1Z,
+            float a, float b, float c, float d, Vector3f intersectionPoint) {
+        float dirX = p1X - p0X;
+        float dirY = p1Y - p0Y;
+        float dirZ = p1Z - p0Z;
+        float denom = a * dirX + b * dirY + c * dirZ;
+        float t = -(a * p0X + b * p0Y + c * p0Z + d) / denom;
+        if (t >= 0.0f && t <= 1.0f) {
+            intersectionPoint.x = p0X + t * dirX;
+            intersectionPoint.y = p0Y + t * dirY;
+            intersectionPoint.z = p0Z + t * dirZ;
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Test whether the line with the general line equation <i>a*x + b*y + c = 0</i> intersects the circle with center
      * <tt>(centerX, centerY)</tt> and <code>radius</code>.
      * <p>
