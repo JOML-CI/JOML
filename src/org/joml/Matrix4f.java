@@ -8870,8 +8870,8 @@ public class Matrix4f implements Externalizable {
         // Compute intersection with frustum edges and plane
         float c0X, c0Y, c0Z;
         float c1X, c1Y, c1Z;
-        float minX = Float.MAX_VALUE, minY = Float.MAX_VALUE, minZ = Float.MAX_VALUE;
-        float maxX = -Float.MAX_VALUE, maxY = -Float.MAX_VALUE, maxZ = -Float.MAX_VALUE;
+        float minX = Float.MAX_VALUE, minY = Float.MAX_VALUE;
+        float maxX = -Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
         boolean intersection = false;
         for (int t = 0; t < 3 * 4; t++) {
             float ix, iz;
@@ -8915,13 +8915,10 @@ public class Matrix4f implements Externalizable {
                     invW = 1.0f / (projector.m03 * ix + projector.m23 * iz + projector.m33);
                     float px = (projector.m00 * ix + projector.m20 * iz + projector.m30) * invW;
                     float py = (projector.m01 * ix + projector.m21 * iz + projector.m31) * invW;
-                    float pz = (projector.m02 * ix + projector.m22 * iz + projector.m32) * invW;
                     minX = minX < px ? minX : px;
                     minY = minY < py ? minY : py;
-                    minZ = minZ < pz ? minZ : pz;
                     maxX = maxX > px ? maxX : px;
                     maxY = maxY > py ? maxY : py;
-                    maxZ = maxZ > pz ? maxZ : pz;
                 }
             }
         }

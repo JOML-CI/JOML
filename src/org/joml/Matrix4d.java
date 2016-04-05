@@ -9211,8 +9211,8 @@ public class Matrix4d implements Externalizable {
         // Compute intersection with frustum edges and plane
         double c0X, c0Y, c0Z;
         double c1X, c1Y, c1Z;
-        double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE, minZ = Double.MAX_VALUE;
-        double maxX = -Double.MAX_VALUE, maxY = -Double.MAX_VALUE, maxZ = -Double.MAX_VALUE;
+        double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE;
+        double maxX = -Double.MAX_VALUE, maxY = -Double.MAX_VALUE;
         boolean intersection = false;
         for (int t = 0; t < 3 * 4; t++) {
             double ix, iz;
@@ -9256,13 +9256,10 @@ public class Matrix4d implements Externalizable {
                     invW = 1.0 / (projector.m03 * ix + projector.m23 * iz + projector.m33);
                     double px = (projector.m00 * ix + projector.m20 * iz + projector.m30) * invW;
                     double py = (projector.m01 * ix + projector.m21 * iz + projector.m31) * invW;
-                    double pz = (projector.m02 * ix + projector.m22 * iz + projector.m32) * invW;
                     minX = minX < px ? minX : px;
                     minY = minY < py ? minY : py;
-                    minZ = minZ < pz ? minZ : pz;
                     maxX = maxX > px ? maxX : px;
                     maxY = maxY > py ? maxY : py;
-                    maxZ = maxZ > pz ? maxZ : pz;
                 }
             }
         }
