@@ -9188,4 +9188,118 @@ public class Matrix4d implements Externalizable {
         return this;
     }
 
+    /**
+     * Compute the <i>range matrix</i> for the Projected Grid transformation as described in chapter "2.4.2 Creating the range conversion matrix"
+     * of the paper <a href="http://fileadmin.cs.lth.se/graphics/theses/projects/projgrid/projgrid-lq.pdf">Real-time water rendering - Introducing the projected grid concept</a>
+     * based on the camera view-projection matrix which is assumed to be <code>this</code>, and store that range matrix into <code>dest</code>.
+     * <p>
+     * If the projected grid will not be visible then this method returns <code>null</code>.
+     * <p>
+     * This method uses the <tt>y = 0</tt> plane for the projection.
+     * 
+     * @param projector
+     *          the projector view-projection transformation
+     * @param sLower
+     *          the lower (smallest) Y-coordinate which any transformed vertex might have while still being visible on the projected grid
+     * @param sUpper
+     *          the upper (highest) Y-coordinate which any transformed vertex might have while still being visible on the projected grid
+     * @param dest
+     *          will hold the resulting range matrix
+     * @return the computed range matrix; or <code>null</code> if the projected grid will not be visible
+     */
+    public Matrix4d projectedGridRange(Matrix4d projector, double sLower, double sUpper, Matrix4d dest) {
+        // Invert 'this'
+        double a = m00 * m11 - m01 * m10;
+        double b = m00 * m12 - m02 * m10;
+        double c = m00 * m13 - m03 * m10;
+        double d = m01 * m12 - m02 * m11;
+        double e = m01 * m13 - m03 * m11;
+        double f = m02 * m13 - m03 * m12;
+        double g = m20 * m31 - m21 * m30;
+        double h = m20 * m32 - m22 * m30;
+        double i = m20 * m33 - m23 * m30;
+        double j = m21 * m32 - m22 * m31;
+        double k = m21 * m33 - m23 * m31;
+        double l = m22 * m33 - m23 * m32;
+        double det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0 / det;
+        dest.set(( m11 * l - m12 * k + m13 * j) * det,
+                 (-m01 * l + m02 * k - m03 * j) * det,
+                 ( m31 * f - m32 * e + m33 * d) * det,
+                 (-m21 * f + m22 * e - m23 * d) * det,
+                 (-m10 * l + m12 * i - m13 * h) * det,
+                 ( m00 * l - m02 * i + m03 * h) * det,
+                 (-m30 * f + m32 * c - m33 * b) * det,
+                 ( m20 * f - m22 * c + m23 * b) * det,
+                 ( m10 * k - m11 * i + m13 * g) * det,
+                 (-m00 * k + m01 * i - m03 * g) * det,
+                 ( m30 * e - m31 * c + m33 * a) * det,
+                 (-m20 * e + m21 * c - m23 * a) * det,
+                 (-m10 * j + m11 * h - m12 * g) * det,
+                 ( m00 * j - m01 * h + m02 * g) * det,
+                 (-m30 * d + m31 * b - m32 * a) * det,
+                 ( m20 * d - m21 * b + m22 * a) * det);
+        // Compute intersection with frustum edges and plane
+        double c0X, c0Y, c0Z;
+        double c1X, c1Y, c1Z;
+        double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE, minZ = Double.MAX_VALUE;
+        double maxX = -Double.MAX_VALUE, maxY = -Double.MAX_VALUE, maxZ = -Double.MAX_VALUE;
+        boolean intersection = false;
+        for (int t = 0; t < 3 * 4; t++) {
+            double ix, iz;
+            if (t < 4) {
+                // all x edges
+                c0X = -1; c1X = +1;
+                c0Y = c1Y = ((t % 2) << 1) - 1.0;
+                c0Z = c1Z = (((t >>> 1) % 2) << 1) - 1.0;
+            } else if (t < 8) {
+                // all y edges
+                c0Y = -1; c1Y = +1;
+                c0X = c1X = ((t % 2) << 1) - 1.0;
+                c0Z = c1Z = (((t >>> 1) % 2) << 1) - 1.0;
+            } else {
+                // all z edges
+                c0Z = -1; c1Z = +1;
+                c0X = c1X = ((t % 2) << 1) - 1.0;
+                c0Y = c1Y = (((t >>> 1) % 2) << 1) - 1.0;
+            }
+            // unproject corners
+            double invW = 1.0 / (dest.m03 * c0X + dest.m13 * c0Y + dest.m23 * c0Z + dest.m33);
+            double p0x = (dest.m00 * c0X + dest.m10 * c0Y + dest.m20 * c0Z + dest.m30) * invW;
+            double p0y = (dest.m01 * c0X + dest.m11 * c0Y + dest.m21 * c0Z + dest.m31) * invW;
+            double p0z = (dest.m02 * c0X + dest.m12 * c0Y + dest.m22 * c0Z + dest.m32) * invW;
+            invW = 1.0 / (dest.m03 * c1X + dest.m13 * c1Y + dest.m23 * c1Z + dest.m33);
+            double p1x = (dest.m00 * c1X + dest.m10 * c1Y + dest.m20 * c1Z + dest.m30) * invW;
+            double p1y = (dest.m01 * c1X + dest.m11 * c1Y + dest.m21 * c1Z + dest.m31) * invW;
+            double p1z = (dest.m02 * c1X + dest.m12 * c1Y + dest.m22 * c1Z + dest.m32) * invW;
+            double dirX = p1x - p0x;
+            double dirY = p1y - p0y;
+            double dirZ = p1z - p0z;
+            double invDenom = 1.0 / dirY;
+            // test for intersection
+            for (int s = 0; s < 2; s++) {
+                double isectT = -(p0y + (s == 0 ? sLower : sUpper)) * invDenom;
+                if (isectT >= 0.0 && isectT <= 1.0) {
+                    intersection = true;
+                    // project with projector matrix
+                    ix = p0x + isectT * dirX;
+                    iz = p0z + isectT * dirZ;
+                    invW = 1.0 / (projector.m03 * ix + projector.m23 * iz + projector.m33);
+                    double px = (projector.m00 * ix + projector.m20 * iz + projector.m30) * invW;
+                    double py = (projector.m01 * ix + projector.m21 * iz + projector.m31) * invW;
+                    double pz = (projector.m02 * ix + projector.m22 * iz + projector.m32) * invW;
+                    minX = minX < px ? minX : px;
+                    minY = minY < py ? minY : py;
+                    minZ = minZ < pz ? minZ : pz;
+                    maxX = maxX > px ? maxX : px;
+                    maxY = maxY > py ? maxY : py;
+                    maxZ = maxZ > pz ? maxZ : pz;
+                }
+            }
+        }
+        if (!intersection)
+            return null; // <- projected grid is not visible
+        return dest.set(maxX - minX, 0, 0, 0, 0, maxY - minY, 0, 0, 0, 0, 1, 0, minX, minY, 0, 1);
+    }
+
 }
