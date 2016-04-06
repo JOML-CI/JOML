@@ -8931,7 +8931,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f orthoCrop(Matrix4f view, Matrix4f dest) {
-        // determine min/max world z and min/max orthographically view-projected x/y
+    	// determine min/max world z and min/max orthographically view-projected x/y
         float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE;
         float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
         float minZ = Float.MAX_VALUE, maxZ = -Float.MAX_VALUE;
@@ -8943,11 +8943,10 @@ public class Matrix4f implements Externalizable {
             float wx = (m00 * x + m10 * y + m20 * z + m30) * invW;
             float wy = (m01 * x + m11 * y + m21 * z + m31) * invW;
             float wz = (m02 * x + m12 * y + m22 * z + m32) * invW;
-            float xyinvW = 1.0f / m33;
-            float zinvW = 1.0f / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
-            float vx = (view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30) * xyinvW;
-            float vy = (view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31) * xyinvW;
-            float vz = (view.m02 * wx + view.m12 * wy + view.m22 * wz + view.m32) * zinvW;
+            invW = 1.0f / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
+            float vx = view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30;
+            float vy = view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31;
+            float vz = (view.m02 * wx + view.m12 * wy + view.m22 * wz + view.m32) * invW;
             minX = minX < vx ? minX : vx;
             maxX = maxX > vx ? maxX : vx;
             minY = minY < vy ? minY : vy;
