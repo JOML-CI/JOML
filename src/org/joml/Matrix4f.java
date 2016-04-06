@@ -8873,7 +8873,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Change the near and far clip plane distances of <code>this</code> perspective frustum transforming
+     * Change the near and far clip plane distances of <code>this</code> perspective frustum transformation matrix
      * and store the result in <code>dest</code>.
      * <p>
      * This method only works if <code>this</code> is a perspective projection frustum transformation, for example obtained
