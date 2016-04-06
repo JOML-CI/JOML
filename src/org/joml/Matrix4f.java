@@ -796,6 +796,45 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Multiply <code>this</code> orthographic projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>M * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the affine matrix which to multiply <code>this</code> with
+     * @return dest
+     */
+    public Matrix4f mulOrthoAffine(Matrix4f view) {
+        return mulOrthoAffine(view, this);
+    }
+
+    /**
+     * Multiply <code>this</code> orthographic projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>M * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the affine matrix which to multiply <code>this</code> with
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f mulOrthoAffine(Matrix4f view, Matrix4f dest) {
+        dest.set(m00 * view.m00, m11 * view.m01, m22 * view.m02, 0.0f,
+                 m00 * view.m10, m11 * view.m11, m22 * view.m12, 0.0f,
+                 m00 * view.m20, m11 * view.m21, m22 * view.m22, 0.0f,
+                 m00 * view.m30 + m30, m11 * view.m31 + m31, m22 * view.m32 + m32, 1.0f);
+        return dest;
+    }
+
+    /**
      * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
      * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code> and
      * adding that result to <code>this</code>.

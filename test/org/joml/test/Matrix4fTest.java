@@ -418,10 +418,9 @@ public class Matrix4fTest extends TestCase {
                 .lookAt(0, 5, 0,
                         0, 0, 0,
                        -1, 0, 0);
-        Matrix4f camInv = new Matrix4f();
         Matrix4f crop = new Matrix4f();
         Matrix4f fin = new Matrix4f();
-        new Matrix4f().ortho2D(-1, 1, -1, 1).invert(camInv).orthoCrop(lightView, crop).mul(lightView, fin);
+        new Matrix4f().ortho2D(-1, 1, -1, 1).invertAffine().orthoCrop(lightView, crop).mulOrthoAffine(lightView, fin);
         Vector3f p = new Vector3f();
         fin.transformProject(p.set(1, -1, -1));
         assertEquals(+1.0f, p.x, 1E-6f);
@@ -438,10 +437,9 @@ public class Matrix4fTest extends TestCase {
                 .lookAt(0, 5, 0,
                         0, 0, 0,
                         0, 0, -1);
-        Matrix4f camInv = new Matrix4f();
         Matrix4f crop = new Matrix4f();
         Matrix4f fin = new Matrix4f();
-        new Matrix4f().perspective((float) Math.toRadians(90), 1.0f, 5, 10).invert(camInv).orthoCrop(lightView, crop).mul(lightView, fin);
+        new Matrix4f().perspective((float) Math.toRadians(90), 1.0f, 5, 10).invertPerspective().orthoCrop(lightView, crop).mulOrthoAffine(lightView, fin);
         Vector3f p = new Vector3f();
         fin.transformProject(p.set(0, 0, -5));
         assertEquals(+0.0f, p.x, 1E-6f);
