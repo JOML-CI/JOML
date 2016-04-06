@@ -8931,7 +8931,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f orthoCrop(Matrix4f view, Matrix4f dest) {
-        // determine min/max world z
+        // determine min/max world z and min/max orthographically view-projected x/y
+        float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
         float minZ = Float.MAX_VALUE, maxZ = -Float.MAX_VALUE;
         for (int t = 0; t < 8; t++) {
             float x = ((t & 1) << 1) - 1.0f;
@@ -8941,29 +8943,17 @@ public class Matrix4f implements Externalizable {
             float wx = (m00 * x + m10 * y + m20 * z + m30) * invW;
             float wy = (m01 * x + m11 * y + m21 * z + m31) * invW;
             float wz = (m02 * x + m12 * y + m22 * z + m32) * invW;
-            invW = 1.0f / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
-            float vz = (view.m02 * wx + view.m12 * wy + view.m22 * wz + view.m32) * invW;
-            minZ = minZ < vz ? minZ : vz;
-            maxZ = maxZ > vz ? maxZ : vz;
-        }
-        // determine min/max ortographic projected view x/y
-        float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE;
-        float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
-        for (int t = 0; t < 8; t++) {
-            float x = ((t & 1) << 1) - 1.0f;
-            float y = (((t >>> 1) & 1) << 1) - 1.0f;
-            float z = (((t >>> 2) & 1) << 1) - 1.0f;
-            float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
-            float wx = (m00 * x + m10 * y + m20 * z + m30) * invW;
-            float wy = (m01 * x + m11 * y + m21 * z + m31) * invW;
-            float wz = (m02 * x + m12 * y + m22 * z + m32) * invW;
-            invW = 1.0f / m33;
-            float vx = (view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30) * invW;
-            float vy = (view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31) * invW;
+            float xyinvW = 1.0f / m33;
+            float zinvW = 1.0f / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
+            float vx = (view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30) * xyinvW;
+            float vy = (view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31) * xyinvW;
+            float vz = (view.m02 * wx + view.m12 * wy + view.m22 * wz + view.m32) * zinvW;
             minX = minX < vx ? minX : vx;
             maxX = maxX > vx ? maxX : vx;
             minY = minY < vy ? minY : vy;
             maxY = maxY > vy ? maxY : vy;
+            minZ = minZ < vz ? minZ : vz;
+            maxZ = maxZ > vz ? maxZ : vz;
         }
         // build crop projection matrix to fit 'this' frustum into view
         float scaleX = 2.0f / (maxX - minX);
