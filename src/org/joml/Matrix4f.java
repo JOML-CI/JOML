@@ -8872,4 +8872,44 @@ public class Matrix4f implements Externalizable {
         return dest.set(maxX - minX, 0, 0, 0, 0, maxY - minY, 0, 0, 0, 0, 1, 0, minX, minY, 0, 1);
     }
 
+    /**
+     * Change the near and far clip plane distances of <code>this</code> perspective frustum transforming
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method only works if <code>this</code> is a perspective projection frustum transformation, for example obtained
+     * via {@link #perspective(float, float, float, float) perspective()} or {@link #frustum(float, float, float, float, float, float) frustum()}.
+     * 
+     * @see #perspective(float, float, float, float)
+     * @see #frustum(float, float, float, float, float, float)
+     * 
+     * @param near
+     *          the new near clip plane distance
+     * @param far
+     *          the new far clip plane distance
+     * @param dest
+     *          will hold the resulting matrix
+     * @return dest
+     */
+    public Matrix4f perspectiveFrustumSlice(float near, float far, Matrix4f dest) {
+        float invOldNear = (m23 + m22) / m32;
+        float invNearFar = 1.0f / (near - far);
+        dest.m00 = m00 * invOldNear * near;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m03 = m03;
+        dest.m10 = m10;
+        dest.m11 = m11 * invOldNear * near;
+        dest.m12 = m12;
+        dest.m13 = m13;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = (far + near) * invNearFar;
+        dest.m23 = m23;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = (far + far) * near * invNearFar;
+        dest.m33 = m33;
+        return dest;
+    }
+
 }
