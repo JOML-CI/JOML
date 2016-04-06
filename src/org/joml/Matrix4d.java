@@ -9280,7 +9280,7 @@ public class Matrix4d implements Externalizable {
             double x = ((t & 1) << 1) - 1.0;
             double y = (((t >>> 1) & 1) << 1) - 1.0;
             double z = (((t >>> 2) & 1) << 1) - 1.0;
-            double invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
+            double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33);
             double wx = (m00 * x + m10 * y + m20 * z + m30) * invW;
             double wy = (m01 * x + m11 * y + m21 * z + m31) * invW;
             double wz = (m02 * x + m12 * y + m22 * z + m32) * invW;
@@ -9302,7 +9302,7 @@ public class Matrix4d implements Externalizable {
         double offsetY = -0.5 * (maxY + minY) * scaleY;
         dest.set(scaleX, 0, 0, 0,
                  0, scaleY, 0, 0,
-                 0, 0, 2.0f / (minZ - maxZ), 0,
+                 0, 0, 2.0 / (minZ - maxZ), 0,
                  offsetX, offsetY, (-minZ - maxZ) / (minZ - maxZ), 1);
         return dest;
     }
