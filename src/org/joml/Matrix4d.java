@@ -8104,6 +8104,28 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Extract the near clip plane distance from <code>this</code> perspective projection matrix.
+     * <p>
+     * This method only works if <code>this</code> is a perspective projection matrix, for example obtained via {@link #perspective(double, double, double, double)}.
+     * 
+     * @return the near clip plane distance
+     */
+    public double perspectiveNear() {
+        return m32 / (m23 + m22);
+    }
+
+    /**
+     * Extract the far clip plane distance from <code>this</code> perspective projection matrix.
+     * <p>
+     * This method only works if <code>this</code> is a perspective projection matrix, for example obtained via {@link #perspective(double, double, double, double)}.
+     * 
+     * @return the far clip plane distance
+     */
+    public double perspectiveFar() {
+        return m32 / (m22 - m23);
+    }
+
+    /**
      * Obtain the direction of a ray starting at the center of the coordinate system and going
      * through the near frustum plane.
      * <p>
