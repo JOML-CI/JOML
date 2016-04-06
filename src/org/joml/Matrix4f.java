@@ -8912,4 +8912,69 @@ public class Matrix4f implements Externalizable {
         return dest;
     }
 
+    /**
+     * Build an ortographic projection transformation that fits the view-projection transformation represented by <code>this</code>
+     * into the given affine <code>view</code> transformation.
+     * <p>
+     * The transformation represented by <code>this</code> must be given as the {@link #invert() inverse} of a typical combined camera view-projection
+     * transformation, whose projection can be either orthographic or perspective.
+     * <p>
+     * The <code>view</code> must be an {@link #isAffine() affine} transformation which in the application of Cascaded Shadow Maps is usually the light view transformation.
+     * It be obtained via any affine transformation or for example via {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt()}.
+     * <p>
+     * Reference: <a href="http://developer.download.nvidia.com/SDK/10.5/opengl/screenshots/samples/cascaded_shadow_maps.html">OpenGL SDK - Cascaded Shadow Maps</a>
+     * 
+     * @param view
+     *          the view transformation to build a corresponding orthographic projection to fit the frustum of <code>this</code>
+     * @param dest
+     *          will hold the crop projection transformation
+     * @return dest
+     */
+    public Matrix4f orthoCrop(Matrix4f view, Matrix4f dest) {
+        // determine min/max world z
+        float minZ = Float.MAX_VALUE, maxZ = -Float.MAX_VALUE;
+        for (int t = 0; t < 8; t++) {
+            float x = ((t & 1) << 1) - 1.0f;
+            float y = (((t >>> 1) & 1) << 1) - 1.0f;
+            float z = (((t >>> 2) & 1) << 1) - 1.0f;
+            float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
+            float wx = (m00 * x + m10 * y + m20 * z + m30) * invW;
+            float wy = (m01 * x + m11 * y + m21 * z + m31) * invW;
+            float wz = (m02 * x + m12 * y + m22 * z + m32) * invW;
+            invW = 1.0f / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
+            float vz = (view.m02 * wx + view.m12 * wy + view.m22 * wz + view.m32) * invW;
+            minZ = minZ < vz ? minZ : vz;
+            maxZ = maxZ > vz ? maxZ : vz;
+        }
+        // determine min/max ortographic projected view x/y
+        float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
+        for (int t = 0; t < 8; t++) {
+            float x = ((t & 1) << 1) - 1.0f;
+            float y = (((t >>> 1) & 1) << 1) - 1.0f;
+            float z = (((t >>> 2) & 1) << 1) - 1.0f;
+            float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
+            float wx = (m00 * x + m10 * y + m20 * z + m30) * invW;
+            float wy = (m01 * x + m11 * y + m21 * z + m31) * invW;
+            float wz = (m02 * x + m12 * y + m22 * z + m32) * invW;
+            invW = 1.0f / m33;
+            float vx = (view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30) * invW;
+            float vy = (view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31) * invW;
+            minX = minX < vx ? minX : vx;
+            maxX = maxX > vx ? maxX : vx;
+            minY = minY < vy ? minY : vy;
+            maxY = maxY > vy ? maxY : vy;
+        }
+        // build crop projection matrix to fit 'this' frustum into view
+        float scaleX = 2.0f / (maxX - minX);
+        float scaleY = 2.0f / (maxY - minY);
+        float offsetX = -0.5f * (maxX + minX) * scaleX;
+        float offsetY = -0.5f * (maxY + minY) * scaleY;
+        dest.set(scaleX, 0, 0, 0,
+                 0, scaleY, 0, 0,
+                 0, 0, 2.0f / (minZ - maxZ), 0,
+                 offsetX, offsetY, (-minZ - maxZ) / (minZ - maxZ), 1);
+        return dest;
+    }
+
 }

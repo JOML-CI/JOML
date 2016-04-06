@@ -413,4 +413,24 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertMatrix4fEquals(m, n, 1E-6f);
     }
 
+    public static void testOrthoCrop() {
+        Matrix4f light = new Matrix4f()
+                .lookAt(0, 5, 0,
+                        0, 0, 0,
+                       -1, 0, 0);
+        Matrix4f viewInv = new Matrix4f();
+        Matrix4f crop = new Matrix4f();
+        Matrix4f fin = new Matrix4f();
+        new Matrix4f().ortho2D(-1, 1, -1, 1).invert(viewInv).orthoCrop(light, crop).mul(light, fin);
+        Vector3f p = new Vector3f();
+        fin.transformProject(p.set(1, -1, -1));
+        assertEquals(1.0f, p.x, 1E-6f);
+        assertEquals(-1.0f, p.y, 1E-6f);
+        assertEquals(1.0f, p.z, 1E-6f);
+        fin.transformProject(p.set(-1, -1, -1));
+        assertEquals(1.0f, p.x, 1E-6f);
+        assertEquals(1.0f, p.y, 1E-6f);
+        assertEquals(1.0f, p.z, 1E-6f);
+    }
+
 }
