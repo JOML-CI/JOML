@@ -96,7 +96,7 @@ public class TrapezoidOrthoCrop {
      * @param lightView
      *          the new view transformation of a directional light
      * @param delta
-     *          the distance from the camera's frustum near plane which specifies the are to map to 80% of the space
+     *          the distance from the camera's frustum near plane which specifies the area to map to 80% of the trapezoidal space
      *          after applying the trapezoidal crop matrix computed by this method
      * @param dest
      *          will hold the computed transformation matrix
