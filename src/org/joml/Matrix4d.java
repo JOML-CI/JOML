@@ -9335,15 +9335,39 @@ public class Matrix4d implements Externalizable {
             maxZ = maxZ > vz ? maxZ : vz;
         }
         // build crop projection matrix to fit 'this' frustum into view
+        return dest.orthoFromAab(minX, minY, maxZ, maxX, maxY, minZ);
+    }
+
+    /**
+     * Set <code>this</code> matrix to an orthographic projection transformation that will map all coordinates within the extents of the given axis-aligned box
+     * to the unit cube <tt>[(-1, -1, -1)..(+1, +1, +1)]</tt>.
+     * 
+     * @param minX
+     *          the x coordinate of the minimum corner of the axis-aligned box
+     * @param minY
+     *          the y coordinate of the minimum corner of the axis-aligned box
+     * @param minZ
+     *          the z coordinate of the minimum corner of the axis-aligned box
+     * @param maxX
+     *          the x coordinate of the maximum corner of the axis-aligned box
+     * @param maxY
+     *          the y coordinate of the maximum corner of the axis-aligned box
+     * @param maxZ
+     *          the z coordinate of the maximum corner of the axis-aligned box
+     * @return this
+     */
+    public Matrix4d orthoFromAab(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         double scaleX = 2.0 / (maxX - minX);
         double scaleY = 2.0 / (maxY - minY);
+        double scaleZ = 2.0 / (maxZ - minZ);
         double offsetX = -0.5 * (maxX + minX) * scaleX;
         double offsetY = -0.5 * (maxY + minY) * scaleY;
-        dest.set(scaleX, 0, 0, 0,
-                 0, scaleY, 0, 0,
-                 0, 0, 2.0 / (minZ - maxZ), 0,
-                 offsetX, offsetY, (-minZ - maxZ) / (minZ - maxZ), 1);
-        return dest;
+        double offsetZ = -0.5 * (maxZ + minZ) * scaleZ;
+        set(scaleX, 0, 0, 0,
+            0, scaleY, 0, 0,
+            0, 0, scaleZ, 0,
+            offsetX, offsetY, offsetZ, 1);
+        return this;
     }
 
 }
