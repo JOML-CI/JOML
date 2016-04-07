@@ -66,7 +66,7 @@ public class TrapezoidOrthoCrop {
     }
 
     /**
-     * The convex hull of {@link #projectFrustumCorners()}.
+     * The convex hull of {@link #projectedFrustumCorners}.
      */
     private final Vector2f[] convexHull = new Vector2f[16];
     /**
@@ -74,10 +74,10 @@ public class TrapezoidOrthoCrop {
      */
     private int convexHullSize;
 
-    /**
-     * The light's view transformation
-     */
-    private final Matrix4f lightView = new Matrix4f();
+    /* The centroid of the near plane in light/view space */
+    private float Nx, Ny;
+    /* The centroid of the far plane in light/view space */
+    private float Fx, Fy;
 
     /**
      * The camera's inverse view-projection transformation.
@@ -85,40 +85,132 @@ public class TrapezoidOrthoCrop {
     private final Matrix4f invCamViewProj = new Matrix4f();
 
     /**
-     * Create a new {@link TrapezoidOrthoCrop} using the given "camera" <code>camViewProj</code> matrix
-     * and the specified "light" <code>lightView</code> transformation.
-     * 
-     * @param camViewProj
-     *          the view-projection transformation of a typical perspective camera
-     * @param lightView
-     *          the view transformation of a directional light
-     */
-    public TrapezoidOrthoCrop(Matrix4f camViewProj, Matrix4f lightView) {
-        update(camViewProj, lightView);
-    }
-
-    /**
-     * Recompute the trapezoidal transformation based on a new camera view-projection and light view transformation.
+     * Compute the trapezoidal transformation based on the given camera view-projection and light view transformation
+     * as well as the given <i>focus frustum</i> distance <code>delta</code> and store the resulting matrix into <code>dest</code>.
+     * <p>
+     * The transformation matrix computed by this method can be applied to coordinates in light's view-space to obtain the 
+     * coordinates on trapezoidal texture space.
      * 
      * @param camViewProj
      *          the new view-projection transformation of a typical perspective camera
      * @param lightView
      *          the new view transformation of a directional light
-     * @return this
+     * @param delta
+     *          the distance from the camera's frustum near plane which specifies the are to map to 80% of the space
+     *          after applying the trapezoidal crop matrix computed by this method
+     * @param dest
+     *          will hold the computed transformation matrix
+     * @return dest
      */
-    public TrapezoidOrthoCrop update(Matrix4f camViewProj, Matrix4f lightView) {
-        this.lightView.set(lightView);
+    public Matrix4f compute(Matrix4f camViewProj, Matrix4f lightView, float delta, Matrix4f dest) {
         camViewProj.invert(invCamViewProj);
-        projectFrustumCorners();
+        projectFrustumCorners(lightView);
         computeConvexHull();
-        return this;
+        computeMatrix(delta, dest);
+        return dest;
+    }
+
+    /**
+     * Compute the trapezoid and the final transformation matrix.
+     * 
+     * References:
+     * <ul>
+     * <li><a href="https://kenai.com/downloads/wpbdc/Documents/tsm.pdf">Notes On Implementation Of Trapezoidal Shadow Maps</a>
+     * <li><a href="http://www.comp.nus.edu.sg/~tants/tsm/tsm.pdf">Anti-aliasing and Continuity with Trapezoidal Shadow Maps</a>
+     * </ul>
+     */
+    private void computeMatrix(float delta, Matrix4f dest) {
+        float aX = Fx - Nx, aY = Fy - Ny;
+        float invLen = 1.0f / (float) Math.sqrt(aX * aX + aY * aY);
+        aX *= invLen; aY *= invLen;
+        float tTop = 0.0f, tBase = 0.0f;
+        // Compute the distances from N to the top and base lines of the trapezoid
+        for (int i = 0; i < convexHullSize; i++) {
+            float x = convexHull[i].x - Nx;
+            float y = convexHull[i].y - Ny;
+            float ti = (x * aX) + (y * aY);
+            tTop = tTop < ti ? tTop : ti;
+            tBase = tBase > ti ? tTop : ti;
+        }
+        // use the 80% rule to find Q (the center of projection)
+        float lambda = tBase - tTop;
+        float xi = -0.6f; // <- see original TSM paper section 6.2
+        float eta = (lambda * delta + lambda * delta * xi) / (lambda - 2 * delta - lambda * xi);
+        float qX = Nx + (tTop - eta) * aX;
+        float qY = Ny + (tTop - eta) * aY;
+        // Now find the left-most and right-most corners of the convex hull to build the trapezoid
+        float maxS = -Float.MAX_VALUE, minS = Float.MAX_VALUE;
+        float uLx = 0.0f, uLy = 0.0f;
+        float uRx = 0.0f, uRy = 0.0f;
+        for (int i = 0; i < convexHullSize; i++) {
+            float uX = convexHull[i].x - qX;
+            float uY = convexHull[i].y - qY;
+            invLen = 1.0f / (float) Math.sqrt(uX * uX + uY * uY);
+            uX *= invLen; uY *= invLen;
+            float aPerpX = -aY, aPerpY =  aX;
+            float si = aPerpX * uX + aPerpY * uY;
+            if (si > maxS) {
+                maxS = si;
+                uLx = uX;
+                uLy = uY;
+            }
+            if (si < minS) {
+                minS = si;
+                uRx = uX;
+                uRy = uY;
+            }
+        }
+        // Compute the four trapezoid corners (2 near and 2 far)
+        float tB = eta + lambda;
+        float tT = eta;
+        float p3x = qX + tB / (uLx * aX + uLy * aY) * uLx;
+        float p3y = qY + tB / (uLx * aX + uLy * aY) * uLy;
+        float p2x = qX + tB / (uRx * aX + uRy * aY) * uRx;
+        float p2y = qY + tB / (uRx * aX + uRy * aY) * uRy;
+        float p1x = qX + tT / (uRx * aX + uRy * aY) * uRx;
+        float p1y = qY + tT / (uRx * aX + uRy * aY) * uRy;
+        float p0x = qX + tT / (uLx * aX + uLy * aY) * uLx;
+        float p0y = qY + tT / (uLx * aX + uLy * aY) * uLy;
+        // Compute final transformation matrix
+        float m00 = aY;
+        float m10 = -aX;
+        float m20 = aX * p0y - aY * p0x;
+        float m01 = aX;
+        float m11 = aY;
+        float m21 = -(aX * p0x + aY * p0y);
+        float c3x = m00 * p3x + m10 * p3y + m20;
+        float c3y = m01 * p3x + m11 * p3y + m21;
+        float s = -c3x / c3y;
+        m00 += s * m01;
+        m10 += s * m11;
+        m20 += s * m21;
+        float d1x = m00 * p1x + m10 * p1y + m20;
+        float d2x = m00 * p2x + m10 * p2y + m20;
+        float d = d1x * c3y / (d2x - d1x);
+        m21 += d;
+        float sx = 1.0f / d2x;
+        float sy = 1.0f / (c3y + d);
+        float u = 2.0f * sy * d / (1.0f - sy * d);
+        float m02 = m01 * sy;
+        float m12 = m11 * sy;
+        float m22 = m21 * sy;
+        m01 = (u + 1.0f) * m02;
+        m11 = (u + 1.0f) * m12;
+        m21 = (u + 1.0f) * m22 - u;
+        m00 = 2.0f * sx * m00 - m02;
+        m10 = 2.0f * sx * m10 - m12;
+        m20 = 2.0f * sx * m20 - m22;
+        dest.set(m00, m01, 0, m02,
+                 m10, m11, 0, m12,
+                   0,   0, 1,   0,
+                 m20, m21, 0, m22);
     }
 
     /**
      * Unproject NDC frustum corners to world-space and then project it back with an orthographic projection
      * using the given <code>view</code> matrix.
      */
-    private void projectFrustumCorners() {
+    private void projectFrustumCorners(Matrix4f view) {
         for (int t = 0; t < 8; t++) {
             float x = ((t & 1) << 1) - 1.0f;
             float y = (((t >>> 1) & 1) << 1) - 1.0f;
@@ -127,11 +219,22 @@ public class TrapezoidOrthoCrop {
             float wx = (invCamViewProj.m00 * x + invCamViewProj.m10 * y + invCamViewProj.m20 * z + invCamViewProj.m30) * invW;
             float wy = (invCamViewProj.m01 * x + invCamViewProj.m11 * y + invCamViewProj.m21 * z + invCamViewProj.m31) * invW;
             float wz = (invCamViewProj.m02 * x + invCamViewProj.m12 * y + invCamViewProj.m22 * z + invCamViewProj.m32) * invW;
-            invW = 1.0f / (lightView.m03 * wx + lightView.m13 * wy + lightView.m23 * wz + lightView.m33);
-            float pvx = lightView.m00 * wx + lightView.m10 * wy + lightView.m20 * wz + lightView.m30;
-            float pvy = lightView.m01 * wx + lightView.m11 * wy + lightView.m21 * wz + lightView.m31;
+            invW = 1.0f / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
+            float pvx = view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30;
+            float pvy = view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31;
             projectedFrustumCorners[t].set(pvx, pvy);
         }
+        Fx = Fy = Nx = Ny = 0.0f;
+        for (int i = 0; i < 4; i++) {
+            Nx += projectedFrustumCorners[i].x;
+            Ny += projectedFrustumCorners[i].y;
+            Fx += projectedFrustumCorners[i+4].x;
+            Fy += projectedFrustumCorners[i+4].y;
+        }
+        Fx *= 0.25f;
+        Fy *= 0.25f;
+        Nx *= 0.25f;
+        Ny *= 0.25f;
     }
 
     /**
@@ -175,20 +278,6 @@ public class TrapezoidOrthoCrop {
         }
         k--;
         convexHullSize = k;
-    }
-
-    /**
-     * Based on the convex hull of the camera's frustum computed by the methods above,
-     * now calculate the final trapezoidal crop projection matrix and store the result
-     * into <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the computed trapezoidal projection transformation
-     * @return dest
-     */
-    public Matrix4f calculate(Matrix4f dest) {
-        // TODO
-        return dest;
     }
 
 }
