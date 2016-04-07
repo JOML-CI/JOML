@@ -163,14 +163,16 @@ public class TrapezoidOrthoCrop {
         // Compute the four trapezoid corners (2 near and 2 far)
         float tB = eta + lambda;
         float tT = eta;
-        float p3x = qX + tB / (uLx * aX + uLy * aY) * uLx;
-        float p3y = qY + tB / (uLx * aX + uLy * aY) * uLy;
-        float p2x = qX + tB / (uRx * aX + uRy * aY) * uRx;
-        float p2y = qY + tB / (uRx * aX + uRy * aY) * uRy;
-        float p1x = qX + tT / (uRx * aX + uRy * aY) * uRx;
-        float p1y = qY + tT / (uRx * aX + uRy * aY) * uRy;
-        float p0x = qX + tT / (uLx * aX + uLy * aY) * uLx;
-        float p0y = qY + tT / (uLx * aX + uLy * aY) * uLy;
+        float invULdotA = 1.0f / (uLx * aX + uLy * aY);
+        float invURdotA = 1.0f / (uRx * aX + uRy * aY);
+        float p3x = qX + tB * invULdotA * uLx;
+        float p3y = qY + tB * invULdotA * uLy;
+        float p2x = qX + tB * invURdotA * uRx;
+        float p2y = qY + tB * invURdotA * uRy;
+        float p1x = qX + tT * invURdotA * uRx;
+        float p1y = qY + tT * invURdotA * uRy;
+        float p0x = qX + tT * invULdotA * uLx;
+        float p0y = qY + tT * invULdotA * uLy;
         // Compute final transformation matrix
         float m00 = aY;
         float m10 = -aX;
@@ -188,7 +190,7 @@ public class TrapezoidOrthoCrop {
         float d2x = m00 * p2x + m10 * p2y + m20;
         float d = d1x * c3y / (d2x - d1x);
         m21 += d;
-        float sx = 1.0f / d2x;
+        float sx = 2.0f / d2x;
         float sy = 1.0f / (c3y + d);
         float u = 2.0f * sy * d / (1.0f - sy * d);
         float m02 = m01 * sy;
@@ -197,9 +199,9 @@ public class TrapezoidOrthoCrop {
         m01 = (u + 1.0f) * m02;
         m11 = (u + 1.0f) * m12;
         m21 = (u + 1.0f) * m22 - u;
-        m00 = 2.0f * sx * m00 - m02;
-        m10 = 2.0f * sx * m10 - m12;
-        m20 = 2.0f * sx * m20 - m22;
+        m00 = sx * m00 - m02;
+        m10 = sx * m10 - m12;
+        m20 = sx * m20 - m22;
         dest.set(m00, m01, 0, m02,
                  m10, m11, 0, m12,
                    0,   0, 1,   0,
@@ -240,7 +242,7 @@ public class TrapezoidOrthoCrop {
     /**
      * Compute the convex hull of the view-projected camera frustum corners.
      * 
-     * Reference: http://www.algorithmist.com/index.php/Monotone_Chain_Convex_Hull.java
+     * Reference: <a href="http://www.algorithmist.com/index.php/Monotone_Chain_Convex_Hull.java">Monotone_Chain_Convex_Hull.java</a>
      */
     private void computeConvexHull() {
         java.util.Arrays.sort(projectedFrustumCorners, cmp);
