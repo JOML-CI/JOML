@@ -130,7 +130,7 @@ public class TrapezoidOrthoCrop {
             float y = convexHull[i].y - Ny;
             float ti = (x * aX) + (y * aY);
             tTop = tTop < ti ? tTop : ti;
-            tBase = tBase > ti ? tTop : ti;
+            tBase = tBase > ti ? tBase : ti;
         }
         // use the 80% rule to find Q (the center of projection)
         float lambda = tBase - tTop;
