@@ -94,9 +94,9 @@ public class TrapezoidOrthoCrop {
      * coordinates on trapezoidal texture space.
      * 
      * @param camViewProj
-     *          the new view-projection transformation of a typical perspective camera
+     *          the view-projection transformation of a typical perspective camera
      * @param lightView
-     *          the new view transformation of a directional light
+     *          the view transformation of a directional light
      * @param delta
      *          the distance from the camera's frustum near plane which specifies the area to map to 80% of the trapezoidal space
      *          after applying the trapezoidal crop matrix computed by this method
