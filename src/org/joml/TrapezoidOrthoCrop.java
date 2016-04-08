@@ -178,40 +178,42 @@ public class TrapezoidOrthoCrop {
         // Compute final transformation matrix
         float m00 = aY;
         float m10 = -aX;
-        float m20 = aX * p0y - aY * p0x;
+        float m30 = aX * p0y - aY * p0x;
         float m01 = aX;
         float m11 = aY;
-        float m21 = -(aX * p0x + aY * p0y);
-        float c3x = m00 * p3x + m10 * p3y + m20;
-        float c3y = m01 * p3x + m11 * p3y + m21;
+        float m31 = -(aX * p0x + aY * p0y);
+        float c3x = m00 * p3x + m10 * p3y + m30;
+        float c3y = m01 * p3x + m11 * p3y + m31;
         float s = -c3x / c3y;
         m00 += s * m01;
         m10 += s * m11;
-        m20 += s * m21;
-        float d1x = m00 * p1x + m10 * p1y + m20;
-        float d2x = m00 * p2x + m10 * p2y + m20;
+        m30 += s * m31;
+        float d1x = m00 * p1x + m10 * p1y + m30;
+        float d2x = m00 * p2x + m10 * p2y + m30;
         float d = d1x * c3y / (d2x - d1x);
-        m21 += d;
+        m31 += d;
         float sx = 2.0f / d2x;
         float sy = 1.0f / (c3y + d);
         float u = 2.0f * sy * d / (1.0f - sy * d);
-        float m02 = m01 * sy;
-        float m12 = m11 * sy;
-        float m22 = m21 * sy;
-        m01 = (u + 1.0f) * m02;
-        m11 = (u + 1.0f) * m12;
-        m21 = (u + 1.0f) * m22 - u;
-        m00 = sx * m00 - m02;
-        m10 = sx * m10 - m12;
-        m20 = sx * m20 - m22;
+        float m03 = m01 * sy;
+        float m13 = m11 * sy;
+        float m33 = m31 * sy;
+        m01 = (u + 1.0f) * m03;
+        m11 = (u + 1.0f) * m13;
+        m31 = (u + 1.0f) * m33 - u;
+        m00 = sx * m00 - m03;
+        m10 = sx * m10 - m13;
+        m30 = sx * m30 - m33;
         // Not in the original paper or the "Notes On Implementation":
         //   Adjusting view-space z to fit to unit cube.
-        float zs = 2.0f / (minZ - maxZ);
-        float zo = (-minZ - maxZ) / (minZ - maxZ);
-        dest.set(m00, m01,  0, m02,
-                 m10, m11,  0, m12,
-                   0,   0, zs,   0,
-                 m20, m21, zo, m22);
+        float sz = 2.0f / (maxZ - minZ);
+        float tz = -0.5f * (minZ + maxZ);
+        float m22 = sz;
+        float m32 = sz * tz;
+        dest.set(m00, m01,   0, m03,
+                 m10, m11,   0, m13,
+                   0,   0, m22,   0,
+                 m30, m31, m32, m33);
     }
 
     /**
