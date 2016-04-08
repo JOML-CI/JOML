@@ -23,7 +23,6 @@ public class TrapezoidOrthoCropTest extends TestCase {
         Matrix4f crop = new TrapezoidOrthoCrop().compute(camViewProj, lightView, 3.0f, new Matrix4f());
         Vector3f corner = new Vector3f();
         Random rnd = new Random();
-        float minZ = Float.MAX_VALUE, maxZ = -Float.MAX_VALUE;
         for (int i = 0; i < 5000; i++) {
             float x = rnd.nextFloat() * 2.0f - 1.0f;
             float y = rnd.nextFloat() * 2.0f - 1.0f;
@@ -32,14 +31,12 @@ public class TrapezoidOrthoCropTest extends TestCase {
             invCamViewProj.transformProject(corner);
             lightView.transformProject(corner);
             crop.transformProject(corner);
-            float d = 1E5f;
+            float d = 1E-5f;
             boolean withinBounds =
                     corner.x >= -1.0f - d && corner.x <= +1.0f + d &&
                     corner.y >= -1.0f - d && corner.y <= +1.0f + d &&
                     corner.z >= -1.0f - d && corner.z <= +1.0f + d;
             assertTrue(withinBounds);
-            minZ = minZ < corner.z ? minZ : corner.z;
-            maxZ = maxZ > corner.z ? maxZ : corner.z;
         }
     }
 
