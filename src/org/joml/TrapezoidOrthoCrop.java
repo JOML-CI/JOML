@@ -162,7 +162,7 @@ public class TrapezoidOrthoCrop {
                 uRy = uY;
             }
         }
-        // Compute the four trapezoid corners (2 near and 2 far)
+        // Compute the four trapezoid corners in the order expected by Matrix4f.trapezoidCrop()
         float tB = eta + lambda;
         float tT = eta;
         float invULdotA = 1.0f / (uLx * aX + uLy * aY);
@@ -175,45 +175,11 @@ public class TrapezoidOrthoCrop {
         float p1y = qY + tT * invURdotA * uRy;
         float p0x = qX + tT * invULdotA * uLx;
         float p0y = qY + tT * invULdotA * uLy;
-        // Compute final transformation matrix
-        float m00 = aY;
-        float m10 = -aX;
-        float m30 = aX * p0y - aY * p0x;
-        float m01 = aX;
-        float m11 = aY;
-        float m31 = -(aX * p0x + aY * p0y);
-        float c3x = m00 * p3x + m10 * p3y + m30;
-        float c3y = m01 * p3x + m11 * p3y + m31;
-        float s = -c3x / c3y;
-        m00 += s * m01;
-        m10 += s * m11;
-        m30 += s * m31;
-        float d1x = m00 * p1x + m10 * p1y + m30;
-        float d2x = m00 * p2x + m10 * p2y + m30;
-        float d = d1x * c3y / (d2x - d1x);
-        m31 += d;
-        float sx = 2.0f / d2x;
-        float sy = 1.0f / (c3y + d);
-        float u = 2.0f * sy * d / (1.0f - sy * d);
-        float m03 = m01 * sy;
-        float m13 = m11 * sy;
-        float m33 = m31 * sy;
-        m01 = (u + 1.0f) * m03;
-        m11 = (u + 1.0f) * m13;
-        m31 = (u + 1.0f) * m33 - u;
-        m00 = sx * m00 - m03;
-        m10 = sx * m10 - m13;
-        m30 = sx * m30 - m33;
-        // Not in the original paper or the "Notes On Implementation":
-        //   Adjusting view-space z to fit to unit cube.
+        // Compute final transformation matrix by mapping the trapezoid to the unit square
+        // and mapping the min/max of the light space projected frustum corner z to [-1..+1]
         float sz = 2.0f / (maxZ - minZ);
         float tz = -0.5f * (minZ + maxZ);
-        float m22 = sz;
-        float m32 = sz * tz;
-        dest.set(m00, m01,   0, m03,
-                 m10, m11,   0, m13,
-                   0,   0, m22,   0,
-                 m30, m31, m32, m33);
+        dest.trapezoidCrop(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y).scale(1, 1, sz).translate(0, 0, tz);
     }
 
     /**

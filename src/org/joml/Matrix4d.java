@@ -9338,4 +9338,67 @@ public class Matrix4d implements Externalizable {
         return dest.setOrtho(minX, maxX, minY, maxY, -maxZ, -minZ);
     }
 
+    /**
+     * Set <code>this</code> matrix to a perspective transformation that maps the trapezoid spanned by the four corner coordinates
+     * <code>(p0x, p0y)</code>, <code>(p1x, p1y)</code>, <code>(p2x, p2y)</code> and <code>(p3x, p3y)</code> to the unit square <tt>[(-1, -1)..(+1, +1)]</tt>.
+     * <p>
+     * The corner coordinates are given in counter-clockwise order starting from the <i>left</i> corner on the smaller parallel side of the trapezoid
+     * seen when looking at the trapezoid oriented with its shorter parallel edge at the bottom and its longer parallel edge at the top.
+     * <p>
+     * Reference: <a href="https://kenai.com/downloads/wpbdc/Documents/tsm.pdf">Notes On Implementation Of Trapezoidal Shadow Maps</a>
+     * 
+     * @param p0x
+     *          the x coordinate of the left corner at the shorter edge of the trapezoid
+     * @param p0y
+     *          the y coordinate of the left corner at the shorter edge of the trapezoid
+     * @param p1x
+     *          the x coordinate of the right corner at the shorter edge of the trapezoid
+     * @param p1y
+     *          the y coordinate of the right corner at the shorter edge of the trapezoid
+     * @param p2x
+     *          the x coordinate of the right corner at the longer edge of the trapezoid
+     * @param p2y
+     *          the y coordinate of the right corner at the longer edge of the trapezoid
+     * @param p3x
+     *          the x coordinate of the left corner at the longer edge of the trapezoid
+     * @param p3y
+     *          the y coordinate of the left corner at the longer edge of the trapezoid
+     * @return this
+     */
+    public Matrix4d trapezoidCrop(double p0x, double p0y, double p1x, double p1y, double p2x, double p2y, double p3x, double p3y) {
+        double aX = p1y - p0y, aY = p0x - p1x;
+        double m00 = aY;
+        double m10 = -aX;
+        double m30 = aX * p0y - aY * p0x;
+        double m01 = aX;
+        double m11 = aY;
+        double m31 = -(aX * p0x + aY * p0y);
+        double c3x = m00 * p3x + m10 * p3y + m30;
+        double c3y = m01 * p3x + m11 * p3y + m31;
+        double s = -c3x / c3y;
+        m00 += s * m01;
+        m10 += s * m11;
+        m30 += s * m31;
+        double d1x = m00 * p1x + m10 * p1y + m30;
+        double d2x = m00 * p2x + m10 * p2y + m30;
+        double d = d1x * c3y / (d2x - d1x);
+        m31 += d;
+        double sx = 2.0 / d2x;
+        double sy = 1.0 / (c3y + d);
+        double u = 2.0 * sy * d / (1.0 - sy * d);
+        double m03 = m01 * sy;
+        double m13 = m11 * sy;
+        double m33 = m31 * sy;
+        m01 = (u + 1.0) * m03;
+        m11 = (u + 1.0) * m13;
+        m31 = (u + 1.0) * m33 - u;
+        m00 = sx * m00 - m03;
+        m10 = sx * m10 - m13;
+        m30 = sx * m30 - m33;
+        return set(m00, m01, 0, m03,
+                   m10, m11, 0, m13,
+                     0,   0, 1,   0,
+                   m30, m31, 0, m33);
+    }
+
 }
