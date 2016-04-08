@@ -40,8 +40,8 @@ public class TrapezoidOrthoCrop {
     /**
      * Sort by x asc, y asc.
      */
-    private static final class PointComparator implements Comparator {
-        PointComparator() {}
+    private static final class Vector2fComparator implements Comparator {
+        Vector2fComparator() {}
         public int compare(Object a, Object b) {
             Vector2f p1 = (Vector2f) a;
             Vector2f p2 = (Vector2f) b;
@@ -54,7 +54,7 @@ public class TrapezoidOrthoCrop {
     /**
      * Comparator for Vector2f points.
      */
-    private static final PointComparator cmp = new PointComparator();
+    private static final Vector2fComparator cmp = new Vector2fComparator();
 
     /**
      * Frustum corners of the camera when projected via the light's ortographic view.
@@ -74,6 +74,8 @@ public class TrapezoidOrthoCrop {
      */
     private int convexHullSize;
 
+    /* The minimum and maximum view-space Z */
+    private float minZ, maxZ;
     /* The centroid of the near plane in light/view space */
     private float Nx, Ny;
     /* The centroid of the far plane in light/view space */
@@ -202,10 +204,14 @@ public class TrapezoidOrthoCrop {
         m00 = sx * m00 - m02;
         m10 = sx * m10 - m12;
         m20 = sx * m20 - m22;
-        dest.set(m00, m01, 0, m02,
-                 m10, m11, 0, m12,
-                   0,   0, 1,   0,
-                 m20, m21, 0, m22);
+        // Not in the original paper or the "Notes On Implementation":
+        //   Adjusting view-space z to fit to unit cube.
+        float zs = 2.0f / (minZ - maxZ);
+        float zo = (-minZ - maxZ) / (minZ - maxZ);
+        dest.set(m00, m01,  0, m02,
+                 m10, m11,  0, m12,
+                   0,   0, zs,   0,
+                 m20, m21, zo, m22);
     }
 
     /**
@@ -213,6 +219,7 @@ public class TrapezoidOrthoCrop {
      * using the given <code>view</code> matrix.
      */
     private void projectFrustumCorners(Matrix4f view) {
+        minZ = Float.MAX_VALUE; maxZ = -Float.MAX_VALUE;
         for (int t = 0; t < 8; t++) {
             float x = ((t & 1) << 1) - 1.0f;
             float y = (((t >>> 1) & 1) << 1) - 1.0f;
@@ -224,6 +231,9 @@ public class TrapezoidOrthoCrop {
             invW = 1.0f / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
             float pvx = view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30;
             float pvy = view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31;
+            float pvz = view.m02 * wx + view.m12 * wy + view.m22 * wz + view.m32;
+            minZ = minZ < pvz ? minZ : pvz;
+            maxZ = maxZ > pvz ? maxZ : pvz;
             projectedFrustumCorners[t].set(pvx, pvy);
         }
         Fx = Fy = Nx = Ny = 0.0f;
