@@ -92,13 +92,18 @@ public class TrapezoidOrthoCrop {
      * <p>
      * The transformation matrix computed by this method can be applied to coordinates in light's view-space to obtain the 
      * coordinates on trapezoidal texture space.
+     * <p>
+     * Additionally to mapping the 2D trapezoid to the unit square, this method can also apply a linear z/depth mapping to 
+     * map the light's view z/depth space to <tt>[-1..+1]|</tt>.
      * 
      * @param camViewProj
      *          the view-projection transformation of a typical perspective camera
      * @param lightView
      *          the view transformation of a directional light
      * @param sceneMinZ
-     *          the minimum z/depth of any possible shadow caster/occluder in the <code>lightView</code> space
+     *          the minimum z/depth of any possible shadow caster/occluder in the <code>lightView</code> space. This is used
+     *          to map the light's view-space z/depth to <tt>[-1..+1]</tt>. If no z-mapping should be applied, the value {@link Float#NaN} can
+     *          be specified
      * @param delta
      *          the distance from the camera's frustum near plane which specifies the area to map to 80% of the trapezoidal space
      *          after applying the trapezoidal crop matrix computed by this method
@@ -110,7 +115,7 @@ public class TrapezoidOrthoCrop {
         camViewProj.invert(invCamViewProj);
         projectFrustumCorners(lightView, sceneMinZ);
         computeConvexHull();
-        computeMatrix(delta, dest);
+        computeMatrix(delta, dest, !Float.isNaN(sceneMinZ));
         return dest;
     }
 
@@ -123,7 +128,7 @@ public class TrapezoidOrthoCrop {
      * <li><a href="http://www.comp.nus.edu.sg/~tants/tsm/tsm.pdf">Anti-aliasing and Continuity with Trapezoidal Shadow Maps</a>
      * </ul>
      */
-    private void computeMatrix(float delta, Matrix4f dest) {
+    private void computeMatrix(float delta, Matrix4f dest, boolean mapZ) {
         float aX = Fx - Nx, aY = Fy - Ny;
         float invLen = 1.0f / (float) Math.sqrt(aX * aX + aY * aY);
         aX *= invLen; aY *= invLen;
@@ -179,12 +184,14 @@ public class TrapezoidOrthoCrop {
         float p0y = qY + tT * invULdotA * uLy;
         // Compute final transformation matrix by mapping the trapezoid to the unit square
         // and mapping the min/max of the light space projected frustum corner z to [-1..+1]
-        float sz = 2.0f / (maxZ - minZ);
-        float tz = -0.5f * (minZ + maxZ);
         dest.trapezoidCrop(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y);
-        // Scale 
-        dest.m22 = sz;
-        dest.m32 = sz * tz;
+        if (mapZ) {
+            // Scale z to fit into [-1..+1]
+            float sz = 2.0f / (maxZ - minZ);
+            float tz = -0.5f * (minZ + maxZ);
+            dest.m22 = sz;
+            dest.m32 = sz * tz;
+        }
     }
 
     /**
