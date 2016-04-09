@@ -97,6 +97,8 @@ public class TrapezoidOrthoCrop {
      *          the view-projection transformation of a typical perspective camera
      * @param lightView
      *          the view transformation of a directional light
+     * @param sceneMinZ
+     *          the minimum z/depth of any possible shadow caster/occluder in the <code>lightView</code> space
      * @param delta
      *          the distance from the camera's frustum near plane which specifies the area to map to 80% of the trapezoidal space
      *          after applying the trapezoidal crop matrix computed by this method
@@ -104,9 +106,9 @@ public class TrapezoidOrthoCrop {
      *          will hold the computed transformation matrix
      * @return dest
      */
-    public Matrix4f compute(Matrix4f camViewProj, Matrix4f lightView, float delta, Matrix4f dest) {
+    public Matrix4f compute(Matrix4f camViewProj, Matrix4f lightView, float sceneMinZ, float delta, Matrix4f dest) {
         camViewProj.invert(invCamViewProj);
-        projectFrustumCorners(lightView);
+        projectFrustumCorners(lightView, sceneMinZ);
         computeConvexHull();
         computeMatrix(delta, dest);
         return dest;
@@ -179,15 +181,18 @@ public class TrapezoidOrthoCrop {
         // and mapping the min/max of the light space projected frustum corner z to [-1..+1]
         float sz = 2.0f / (maxZ - minZ);
         float tz = -0.5f * (minZ + maxZ);
-        dest.trapezoidCrop(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y).scale(1, 1, sz).translate(0, 0, tz);
+        dest.trapezoidCrop(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y);
+        // Scale 
+        dest.m22 = sz;
+        dest.m32 = sz * tz;
     }
 
     /**
      * Unproject NDC frustum corners to world-space and then project it back with an orthographic projection
      * using the given <code>view</code> matrix.
      */
-    private void projectFrustumCorners(Matrix4f view) {
-        minZ = Float.MAX_VALUE; maxZ = -Float.MAX_VALUE;
+    private void projectFrustumCorners(Matrix4f view, float sceneMinZ) {
+        this.minZ = Float.MAX_VALUE; maxZ = -Float.MAX_VALUE;
         for (int t = 0; t < 8; t++) {
             float x = ((t & 1) << 1) - 1.0f;
             float y = (((t >>> 1) & 1) << 1) - 1.0f;
@@ -204,6 +209,7 @@ public class TrapezoidOrthoCrop {
             maxZ = maxZ > pvz ? maxZ : pvz;
             projectedFrustumCorners[t].set(pvx, pvy);
         }
+        minZ = minZ < sceneMinZ ? minZ : sceneMinZ;
         Fx = Fy = Nx = Ny = 0.0f;
         for (int i = 0; i < 4; i++) {
             Nx += projectedFrustumCorners[i].x;

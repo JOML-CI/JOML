@@ -25,7 +25,7 @@ public class TrapezoidOrthoCropTest extends TestCase {
         Matrix4f lightView = new Matrix4f().lookAt(2, 4, 1,
                                                    0, 0, 0,
                                                    0, 0, -1);
-        Matrix4f crop = new TrapezoidOrthoCrop().compute(camViewProj, lightView, 3.0f, new Matrix4f());
+        Matrix4f crop = new TrapezoidOrthoCrop().compute(camViewProj, lightView, Float.MAX_VALUE, 3.0f, new Matrix4f());
         Vector4f corner = new Vector4f();
         Random rnd = new Random(123L);
         for (int i = 0; i < 50000; i++) {

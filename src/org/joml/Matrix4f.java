@@ -9044,7 +9044,7 @@ public class Matrix4f implements Externalizable {
         m31 += d;
         float sx = 2.0f / d2x;
         float sy = 1.0f / (c3y + d);
-        float u = 2.0f * sy * d / (1.0f - sy * d);
+        float u = (sy + sy) * d / (1.0f - sy * d);
         float m03 = m01 * sy;
         float m13 = m11 * sy;
         float m33 = m31 * sy;

@@ -9385,7 +9385,7 @@ public class Matrix4d implements Externalizable {
         m31 += d;
         double sx = 2.0 / d2x;
         double sy = 1.0 / (c3y + d);
-        double u = 2.0 * sy * d / (1.0 - sy * d);
+        double u = (sy + sy) * d / (1.0 - sy * d);
         double m03 = m01 * sy;
         double m13 = m11 * sy;
         double m33 = m31 * sy;
