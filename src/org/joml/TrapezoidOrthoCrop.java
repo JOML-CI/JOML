@@ -74,8 +74,6 @@ public class TrapezoidOrthoCrop {
      */
     private int convexHullSize;
 
-    /* The minimum and maximum view-space Z */
-    private float minZ, maxZ;
     /* The centroid of the near plane in light/view space */
     private float Nx, Ny;
     /* The centroid of the far plane in light/view space */
@@ -92,18 +90,11 @@ public class TrapezoidOrthoCrop {
      * <p>
      * The transformation matrix computed by this method can be applied to coordinates in light's view-space to obtain the 
      * coordinates on trapezoidal texture space.
-     * <p>
-     * Additionally to mapping the 2D trapezoid to the unit square, this method can also apply a linear z/depth mapping to 
-     * map the light's view z/depth space to <tt>[-1..+1]|</tt>.
      * 
      * @param camViewProj
      *          the view-projection transformation of a typical perspective camera
      * @param lightView
      *          the view transformation of a directional light
-     * @param sceneMinZ
-     *          the minimum z/depth of any possible shadow caster/occluder in the <code>lightView</code> space. This is used
-     *          to map the light's view-space z/depth to <tt>[-1..+1]</tt>. If no z-mapping should be applied, the value {@link Float#NaN} can
-     *          be specified
      * @param delta
      *          the distance from the camera's frustum near plane which specifies the area to map to 80% of the trapezoidal space
      *          after applying the trapezoidal crop matrix computed by this method
@@ -111,11 +102,11 @@ public class TrapezoidOrthoCrop {
      *          will hold the computed transformation matrix
      * @return dest
      */
-    public Matrix4f compute(Matrix4f camViewProj, Matrix4f lightView, float sceneMinZ, float delta, Matrix4f dest) {
+    public Matrix4f compute(Matrix4f camViewProj, Matrix4f lightView, float delta, Matrix4f dest) {
         camViewProj.invert(invCamViewProj);
-        projectFrustumCorners(lightView, sceneMinZ);
+        projectFrustumCorners(lightView);
         computeConvexHull();
-        computeMatrix(delta, dest, !Float.isNaN(sceneMinZ));
+        computeMatrix(delta, dest);
         return dest;
     }
 
@@ -128,7 +119,7 @@ public class TrapezoidOrthoCrop {
      * <li><a href="http://www.comp.nus.edu.sg/~tants/tsm/tsm.pdf">Anti-aliasing and Continuity with Trapezoidal Shadow Maps</a>
      * </ul>
      */
-    private void computeMatrix(float delta, Matrix4f dest, boolean mapZ) {
+    private void computeMatrix(float delta, Matrix4f dest) {
         float aX = Fx - Nx, aY = Fy - Ny;
         float invLen = 1.0f / (float) Math.sqrt(aX * aX + aY * aY);
         aX *= invLen; aY *= invLen;
@@ -183,23 +174,19 @@ public class TrapezoidOrthoCrop {
         float p0x = qX + tT * invULdotA * uLx;
         float p0y = qY + tT * invULdotA * uLy;
         // Compute final transformation matrix by mapping the trapezoid to the unit square
-        // and mapping the min/max of the light space projected frustum corner z to [-1..+1]
         dest.trapezoidCrop(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y);
-        if (mapZ) {
-            // Scale z to fit into [-1..+1]
-            float sz = 2.0f / (maxZ - minZ);
-            float tz = -0.5f * (minZ + maxZ);
-            dest.m22 = sz;
-            dest.m32 = sz * tz;
-        }
+        // Scale z to fit into [-1..+1]
+        // float sz = 2.0f / (maxZ - minZ);
+        // float tz = -0.5f * (minZ + maxZ);
+        // dest.m22 = sz;
+        // dest.m32 = sz * tz;
     }
 
     /**
      * Unproject NDC frustum corners to world-space and then project it back with an orthographic projection
      * using the given <code>view</code> matrix.
      */
-    private void projectFrustumCorners(Matrix4f view, float sceneMinZ) {
-        this.minZ = Float.MAX_VALUE; maxZ = -Float.MAX_VALUE;
+    private void projectFrustumCorners(Matrix4f view) {
         for (int t = 0; t < 8; t++) {
             float x = ((t & 1) << 1) - 1.0f;
             float y = (((t >>> 1) & 1) << 1) - 1.0f;
@@ -211,12 +198,8 @@ public class TrapezoidOrthoCrop {
             invW = 1.0f / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
             float pvx = view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30;
             float pvy = view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31;
-            float pvz = view.m02 * wx + view.m12 * wy + view.m22 * wz + view.m32;
-            minZ = minZ < pvz ? minZ : pvz;
-            maxZ = maxZ > pvz ? maxZ : pvz;
             projectedFrustumCorners[t].set(pvx, pvy);
         }
-        minZ = minZ < sceneMinZ ? minZ : sceneMinZ;
         Fx = Fy = Nx = Ny = 0.0f;
         for (int i = 0; i < 4; i++) {
             Nx += projectedFrustumCorners[i].x;
