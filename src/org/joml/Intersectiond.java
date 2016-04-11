@@ -3776,4 +3776,43 @@ public class Intersectiond {
         return edgeIndex;
     }
 
+    /**
+     * Determine whether the two lines, specified via two points lying on each line, intersect each other, and store the point of intersection
+     * into the given vector <code>p</code>.
+     * 
+     * @param ps1x
+     *          the x coordinate of the first point on the first line
+     * @param ps1y
+     *          the y coordinate of the first point on the first line
+     * @param pe1x
+     *          the x coordinate of the second point on the first line
+     * @param pe1y
+     *          the y coordinate of the second point on the first line
+     * @param ps2x
+     *          the x coordinate of the first point on the second line
+     * @param ps2y
+     *          the y coordinate of the first point on the second line
+     * @param pe2x
+     *          the x coordinate of the second point on the second line
+     * @param pe2y
+     *          the y coordinate of the second point on the second line
+     * @param p
+     *          will hold the point of intersection
+     * @return <code>true</code> iff the two lines intersect; <code>false</code> otherwise
+     */
+    public static boolean intersectLineLine(double ps1x, double ps1y, double pe1x, double pe1y, double ps2x, double ps2y, double pe2x, double pe2y, Vector2d p) {
+        double d1x = ps1x - pe1x;
+        double d1y = pe1y - ps1y;
+        double d1ps1 = d1y * ps1x + d1x * ps1y;
+        double d2x = ps2x - pe2x;
+        double d2y = pe2y - ps2y;
+        double d2ps2 = d2y * ps2x + d2x * ps2y;
+        double det = d1y * d2x - d2y * d1x;
+        if (det == 0.0)
+            return false;
+        p.x = (d2x * d1ps1 - d1x * d2ps2) / det;
+        p.y = (d1y * d2ps2 - d2y * d1ps1) / det;
+        return true;
+    }
+
 }
