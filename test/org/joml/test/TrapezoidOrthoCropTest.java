@@ -15,18 +15,18 @@ public class TrapezoidOrthoCropTest extends TestCase {
 
     public static void testRandomNdcWithinBounds() {
         Matrix4f camViewProj = new Matrix4f()
-            .perspective((float) Math.toRadians(90.0), 1.0f, 0.1f, 10.0f)
+            .perspective((float) Math.toRadians(90.0), 1.0f, 5f, 8.0f)
             .lookAt(0, 1, 5,
                     0, 0, 0,
                     0, 1, 0);
         Matrix4f invCamViewProj = camViewProj.invert(new Matrix4f());
-        Matrix4f lightView = new Matrix4f().lookAt(5, 1, 0,
+        Matrix4f lightView = new Matrix4f().lookAt(0, 2, 5,
                                                    0, 0, 0,
                                                    0, 1, 0);
         float minLightZ = -17.016415f;
         float maxLightZ = 6.441378f;
         Matrix4f zscale = new Matrix4f().ortho(-1, 1, -1, 1, -maxLightZ, -minLightZ);
-        Matrix4f crop = new TrapezoidOrthoCrop().compute(camViewProj, lightView, 3.0f, new Matrix4f());
+        Matrix4f crop = new TrapezoidOrthoCrop().compute(camViewProj, lightView, new Matrix4f());
         Vector4f corner = new Vector4f();
         for (int i = 0; i < 8; i++) {
             float x = ((i & 1) << 1) - 1.0f;
@@ -59,7 +59,7 @@ public class TrapezoidOrthoCropTest extends TestCase {
         Matrix4f lightView = new Matrix4f().lookAt(2, 15, 1,
                                                    0, 0, 0,
                                                    0, 0, -1);
-        Matrix4f crop = new TrapezoidOrthoCrop().compute(camViewProj, lightView, 10.0f, new Matrix4f());
+        Matrix4f crop = new TrapezoidOrthoCrop().compute(camViewProj, lightView, new Matrix4f());
         Matrix4f lightProj = new Matrix4f().perspective((float) Math.toRadians(90), 1.0f, 4.0f, 27.0f);
         Vector4f corner = new Vector4f();
         for (int i = 0; i < 8; i++) {
