@@ -32,6 +32,12 @@ import java.util.Comparator;
  * <p>
  * The algorithm implemented by this class is described in the paper
  * <a href="https://kenai.com/downloads/wpbdc/Documents/tsm.pdf">Notes On Implementation Of Trapezoidal Shadow Maps</a>.
+ * <p>
+ * PLEASE NOTE THAT THE ALGORITHM IMPLEMENTED BY THIS CLASS <a href="http://www.google.com/patents/US20070040832">IS PATENTED</a>
+ * WITH AN ISSUE DATE OF JUL 30TH, 2004 AND WILL REMAIN SO UNTIL JUL 30TH, 2024. THAT MEANS, YOU CAN USE THE ALGORITHM FREELY
+ * IN NON-COMMERCIAL APPLICATIONS BUT YOU HAVE TO CONTACT THE PATENT HOLDER AND PAY THEM SOME FEE IF YOU WANT TO USE
+ * THE ALGORITHM BEFORE JUL 30TH, 2024 IN COMMERCIAL APPLICATIONS. SEE THE SECOND PARAGRAPH OF <a href="http://www.comp.nus.edu.sg/~tants/tsm.html">THIS SITE</a>
+ * UNDER SECTION "ABSTRACT" FOR MORE INFORMATION.
  * 
  * @author Kai Burjack
  */
