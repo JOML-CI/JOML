@@ -37,6 +37,8 @@ public class SutherlandHodgman {
     /**
      * Clip the given <code>subject</code> polygon against the given <code>clipper</code> polygon and store the resulting
      * clipped polygon into <code>result</code>.
+     * <p>
+     * This method allocates one ArrayList instance internally whose size is equal to the size of the given <code>subject</code> list.
      * 
      * @param subject
      *          the subject polygon, which is a convex or concave simple polygon
@@ -47,14 +49,15 @@ public class SutherlandHodgman {
      * @return result
      */
     public static List/* <Vector2f> */compute(List/* <Vector2f> */subject, List/* <Vector2f> */clipper, List/* <Vector2f> */result) {
-        ArrayList/* <Vector2f> */res = new ArrayList/* <Vector2f> */(subject);
+        result.clear();
+        result.addAll(subject);
         ArrayList/* <Vector2f> */tmp = new ArrayList/* <Vector2f> */();
         int len = clipper.size();
         for (int i = 0; i < len; i++) {
-            int len2 = res.size();
+            int len2 = result.size();
             tmp.clear();
-            tmp.addAll(res);
-            res.clear();
+            tmp.addAll(result);
+            result.clear();
             Vector2f A = (Vector2f) clipper.get((i + len - 1) % len);
             Vector2f B = (Vector2f) clipper.get(i);
             for (int j = 0; j < len2; j++) {
@@ -64,18 +67,16 @@ public class SutherlandHodgman {
                     if (!isInside(A, B, P)) {
                         Vector2f isect = intersection(A, B, P, Q);
                         //if (!contains(res, isect))
-                            res.add(isect);
+                            result.add(isect);
                     }
-                    res.add(Q);
+                    result.add(Q);
                 } else if (isInside(A, B, P)) {
                     Vector2f isect = intersection(A, B, P, Q);
                     //if (!contains(res, isect))
-                        res.add(isect);
+                        result.add(isect);
                 }
             }
         }
-        result.clear();
-        result.addAll(res);
         return result;
     }
 
