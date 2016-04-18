@@ -183,7 +183,7 @@ public class Quadtree {
             return true;
         }
 
-        int query(Rectangle rect, List res, boolean countOnly) {
+        int query(Rectangle rect, List res) {
             int count = 0;
             if (children != null) {
                 // query children
@@ -195,15 +195,15 @@ public class Quadtree {
                 boolean intersectsPy = rect.y < bounds.y + bounds.height && rect.y + rect.height >= ym;
                 if (intersectsNy) {
                     if (intersectsPx)
-                        count += children[PXNY].query(rect, res, countOnly);
+                        count += children[PXNY].query(rect, res);
                     if (intersectsNx)
-                        count += children[NXNY].query(rect, res, countOnly);
+                        count += children[NXNY].query(rect, res);
                 }
                 if (intersectsPy) {
                     if (intersectsPx)
-                        count += children[PXPY].query(rect, res, countOnly);
+                        count += children[PXPY].query(rect, res);
                     if (intersectsNx)
-                        count += children[NXPY].query(rect, res, countOnly);
+                        count += children[NXPY].query(rect, res);
                 }
             }
             if (objects != null) {
@@ -212,7 +212,7 @@ public class Quadtree {
                         && rect.y + rect.height >= bounds.y + bounds.height) {
                     // node lies completely within query -> simply add all objects
                     count += objects.size();
-                    if (!countOnly)
+                    if (res != null)
                         res.addAll(objects);
                 } else {
                     // must check each object individually
@@ -222,7 +222,7 @@ public class Quadtree {
                         if (rect.x < bounds.x + bounds.width && rect.x + rect.width >= bounds.x && rect.y < bounds.y + bounds.height
                                 && rect.y + rect.height >= bounds.y) {
                             count++;
-                            if (!countOnly)
+                            if (res != null)
                                 res.add(o);
                         }
                     }
@@ -265,41 +265,17 @@ public class Quadtree {
     /**
      * Query this Quadtree for all objects within the given search rectangle <code>rect</code>.
      * <p>
-     * All found objects will be added to the given <code>res</code> list.
+     * All found objects will be added to the given <code>res</code> list if it is not <code>null</code>.
      * 
      * @param rect
      *            the search rectangle
      * @param res
-     *            the list to add all found objects
+     *            the list to add all found objects (may be <code>null</code>)
      * @return the number of objects within the search rectangle
      */
     public int query(Rectangle rect, List res) {
         if (rect == null)
             throw new IllegalArgumentException("rect must not be null"); //$NON-NLS-1$
-        if (res == null)
-            throw new IllegalArgumentException("res must not be null"); //$NON-NLS-1$
-        return query(rect, res, false);
-    }
-
-    /**
-     * Query this Quadtree for all objects within the given search rectangle <code>rect</code>.
-     * <p>
-     * All found objects will be added to the given <code>res</code> list. If <code>countOnly</code> is <code>true</code> then no objects will be added to
-     * <code>res</code> but only the number of found objects will be returned by this method.
-     * 
-     * @param rect
-     *            the search rectangle
-     * @param res
-     *            the list to add all found objects, if <code>countOnly</code> is false
-     * @param countOnly
-     *            if <code>true</code> no objects will be added to <code>res</code>
-     * @return the number of objects within the search rectangle
-     */
-    public int query(Rectangle rect, List res, boolean countOnly) {
-        if (rect == null)
-            throw new IllegalArgumentException("rect must not be null"); //$NON-NLS-1$
-        if (!countOnly && res == null)
-            throw new IllegalArgumentException("res must not be null if countOnly is false"); //$NON-NLS-1$
-        return root.query(rect, res, countOnly);
+        return root.query(rect, res);
     }
 }
