@@ -23,6 +23,7 @@
 package org.joml;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -149,6 +150,42 @@ public class Quadtree {
             return inserted;
         }
 
+        int remove(Boundable object) {
+            int count = 0;
+            Rectangle rect = object.getBounds();
+            if (children != null) {
+                // query children
+                float xm = bounds.x + bounds.width / 2.0f;
+                float ym = bounds.y + bounds.height / 2.0f;
+                boolean intersectsNx = rect.x < xm && rect.x + rect.width >= bounds.x;
+                boolean intersectsPx = rect.x < bounds.x + bounds.width && rect.x + rect.width >= xm;
+                boolean intersectsNy = rect.y < ym && rect.y + rect.height >= bounds.y;
+                boolean intersectsPy = rect.y < bounds.y + bounds.height && rect.y + rect.height >= ym;
+                if (intersectsNy) {
+                    if (intersectsPx)
+                        count += children[PXNY].remove(object);
+                    if (intersectsNx)
+                        count += children[NXNY].remove(object);
+                }
+                if (intersectsPy) {
+                    if (intersectsPx)
+                        count += children[PXPY].remove(object);
+                    if (intersectsNx)
+                        count += children[NXPY].remove(object);
+                }
+            }
+            if (objects != null) {
+                Iterator it = objects.iterator();
+                while (it.hasNext()) {
+                    if (object.equals(it.next())) {
+                        it.remove();
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
         boolean insert(Boundable object) {
             if (children != null && insertIntoChild(object))
                 return true;
@@ -260,6 +297,21 @@ public class Quadtree {
         if (object == null)
             throw new IllegalArgumentException("object must not be null"); //$NON-NLS-1$
         return root.insert(object);
+    }
+
+    /**
+     * Remove the given object from this Quadtree.
+     * <p>
+     * More formally, all {@link Boundable} instances contained in this quadtree are removed that are {@link Object#equals(Object)} to the given object.
+     * 
+     * @param object
+     *          the {@link Boundable} to remove
+     * @return the number of removed objects
+     */
+    public int remove(Boundable object) {
+        if (object == null)
+            throw new IllegalArgumentException("object must not be null"); //$NON-NLS-1$
+        return root.remove(object);
     }
 
     /**
