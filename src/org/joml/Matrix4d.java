@@ -3539,7 +3539,53 @@ public class Matrix4d implements Externalizable {
      * units in x, y and z.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
-     * matrix, then the new current matrix will be <code>M * T</code>. So when
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(Vector3d)}.
+     * 
+     * @see #translation(Vector3d)
+     * 
+     * @param offset
+     *          the number of units in x, y and z by which to translate
+     * @return this
+     */
+    public Matrix4d translate(Vector3d offset) {
+        return translate(offset.x, offset.y, offset.z);
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of
+     * units in x, y and z and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>M * T * v</code>, the translation will be applied first!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(Vector3d)}.
+     * 
+     * @see #translation(Vector3d)
+     * 
+     * @param offset
+     *          the number of units in x, y and z by which to translate
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4d translate(Vector3d offset, Matrix4d dest) {
+        return translate(offset.x, offset.y, offset.z, dest);
+    }
+
+    /**
+     * Apply a translation to this matrix by translating by the given number of
+     * units in x, y and z and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>M * T</code>. So when
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
@@ -3549,23 +3595,37 @@ public class Matrix4d implements Externalizable {
      * @see #translation(double, double, double)
      * 
      * @param x
-     *            the offset in x
+     *          the offset to translate in x
      * @param y
-     *            the offset in y
+     *          the offset to translate in y
      * @param z
-     *            the offset in z
-     * @return this
+     *          the offset to translate in z
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d translate(double x, double y, double z) {
+    public Matrix4d translate(double x, double y, double z, Matrix4d dest) {
         // translation matrix elements:
         // m00, m11, m22, m33 = 1
         // m30 = x, m31 = y, m32 = z
         // all others = 0
-        m30 = m00 * x + m10 * y + m20 * z + m30;
-        m31 = m01 * x + m11 * y + m21 * z + m31;
-        m32 = m02 * x + m12 * y + m22 * z + m32;
-        m33 = m03 * x + m13 * y + m23 * z + m33;
-        return this;
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m02 = m02;
+        dest.m03 = m03;
+        dest.m10 = m10;
+        dest.m11 = m11;
+        dest.m12 = m12;
+        dest.m13 = m13;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
+        dest.m23 = m23;
+        dest.m30 = m00 * x + m10 * y + m20 * z + m30;
+        dest.m31 = m01 * x + m11 * y + m21 * z + m31;
+        dest.m32 = m02 * x + m12 * y + m22 * z + m32;
+        dest.m33 = m03 * x + m13 * y + m23 * z + m33;
+        return dest;
     }
 
     /**
@@ -3578,16 +3638,29 @@ public class Matrix4d implements Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3d)}.
+     * it, use {@link #translation(double, double, double)}.
      * 
-     * @see #translation(Vector3d)
+     * @see #translation(double, double, double)
      * 
-     * @param point
-     *          the point by which to translate
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param z
+     *          the offset to translate in z
      * @return this
      */
-    public Matrix4d translate(Vector3d point) {
-        return translate(point.x, point.y, point.z);
+    public Matrix4d translate(double x, double y, double z) {
+        Matrix4d c = this;
+        // translation matrix elements:
+        // m00, m11, m22, m33 = 1
+        // m30 = x, m31 = y, m32 = z
+        // all others = 0
+        c.m30 = c.m00 * x + c.m10 * y + c.m20 * z + c.m30;
+        c.m31 = c.m01 * x + c.m11 * y + c.m21 * z + c.m31;
+        c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
+        c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
+        return this;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -9109,6 +9182,28 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Apply an arcball view transformation to this matrix with the given <code>radius</code> and <code>center</code>
+     * position of the arcball and the specified X and Y rotation angles, and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</tt>
+     * 
+     * @param radius
+     *          the arcball radius
+     * @param center
+     *          the center position of the arcball
+     * @param angleX
+     *          the rotation angle around the X axis in radians
+     * @param angleY
+     *          the rotation angle around the Y axis in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4d arcball(double radius, Vector3d center, double angleX, double angleY, Matrix4d dest) {
+        return translate(0, 0, -radius, dest).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z);
+    }
+
+    /**
+     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and <code>center</code>
      * position of the arcball and the specified X and Y rotation angles.
      * <p>
      * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</tt>
@@ -9124,7 +9219,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d arcball(double radius, Vector3d center, double angleX, double angleY) {
-        return translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z);
+        return arcball(radius, center, angleX, angleY, this);
     }
 
     /**
