@@ -113,6 +113,16 @@ public class Vector4d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Vector4d} and initialize all four components with the given value.     
+     *        
+     * @param d       
+     *          the value of all four components      
+     */       
+    public Vector4d(double d) {       
+        this(d, d, d, d);     
+    }
+
+    /**
      * Create a new {@link Vector4d} with the same values as <code>v</code>.
      * 
      * @param v
@@ -330,7 +340,18 @@ public class Vector4d implements Externalizable {
         this.w = w;
         return this;
     }
-    
+
+    /**
+     * Set the x, y, z, and w components to the supplied value.       
+     *        
+     * @param d       
+     *          the value of all four components      
+     * @return this       
+     */       
+    public Vector4d set(double d) {       
+        return set(d, d, d, d);       
+    }
+
     /**
      * Set the x and y components from the given <code>v</code>
      * and the z and w components to the given <code>z</code> and <code>w</code>.
