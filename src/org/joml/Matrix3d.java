@@ -788,7 +788,7 @@ public class Matrix3d implements Externalizable {
      * @return the passed in buffer
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
-        buffer.put(index, m00);
+        buffer.put(index,   m00);
         buffer.put(index+1, m01);
         buffer.put(index+2, m02);
         buffer.put(index+3, m10);
@@ -839,7 +839,7 @@ public class Matrix3d implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index, (float) m00);
+        buffer.put(index,   (float) m00);
         buffer.put(index+1, (float) m01);
         buffer.put(index+2, (float) m02);
         buffer.put(index+3, (float) m10);
@@ -935,16 +935,96 @@ public class Matrix3d implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer getFloats(int index, ByteBuffer buffer) {
-        buffer.putFloat(index+4*0,  (float)m00);
-        buffer.putFloat(index+4*1,  (float)m01);
-        buffer.putFloat(index+4*2,  (float)m02);
-        buffer.putFloat(index+4*3,  (float)m10);
-        buffer.putFloat(index+4*4,  (float)m11);
-        buffer.putFloat(index+4*5,  (float)m12);
-        buffer.putFloat(index+4*6,  (float)m20);
-        buffer.putFloat(index+4*7,  (float)m21);
+        buffer.putFloat(index+4*0, (float)m00);
+        buffer.putFloat(index+4*1, (float)m01);
+        buffer.putFloat(index+4*2, (float)m02);
+        buffer.putFloat(index+4*3, (float)m10);
+        buffer.putFloat(index+4*4, (float)m11);
+        buffer.putFloat(index+4*5, (float)m12);
+        buffer.putFloat(index+4*6, (float)m20);
+        buffer.putFloat(index+4*7, (float)m21);
         buffer.putFloat(index+4*8, (float)m22);
         return buffer;
+    }
+
+    /**
+     * Store this matrix into the supplied double array in column-major order at the given offset.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public double[] get(double[] arr, int offset) {
+        arr[offset+0] = m00;
+        arr[offset+1] = m01;
+        arr[offset+2] = m02;
+        arr[offset+3] = m10;
+        arr[offset+4] = m11;
+        arr[offset+5] = m12;
+        arr[offset+6] = m20;
+        arr[offset+7] = m21;
+        arr[offset+8] = m22;
+        return arr;
+    }
+
+    /**
+     * Store this matrix into the supplied double array in column-major order.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get(double[], int)}.
+     * 
+     * @see #get(double[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
+     */
+    public double[] get(double[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
+     * Store the elements of this matrix as float values in column-major order into the supplied float array at the given offset.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given float array.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public float[] get(float[] arr, int offset) {
+        arr[offset+0] = (float)m00;
+        arr[offset+1] = (float)m01;
+        arr[offset+2] = (float)m02;
+        arr[offset+3] = (float)m10;
+        arr[offset+4] = (float)m11;
+        arr[offset+5] = (float)m12;
+        arr[offset+6] = (float)m20;
+        arr[offset+7] = (float)m21;
+        arr[offset+8] = (float)m22;
+        return arr;
+    }
+
+    /**
+     * Store the elements of this matrix as float values in column-major order into the supplied float array.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given float array.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get(float[], int)}.
+     * 
+     * @see #get(float[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
+     */
+    public float[] get(float[] arr) {
+        return get(arr, 0);
     }
 
     /**

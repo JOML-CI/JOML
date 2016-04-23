@@ -717,14 +717,14 @@ public class Matrix3f implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
-        buffer.put(index,    m00);
-        buffer.put(index+1,  m10);
-        buffer.put(index+2,  m20);
-        buffer.put(index+3,  m01);
-        buffer.put(index+4,  m11);
-        buffer.put(index+5,  m21);
-        buffer.put(index+6,  m02);
-        buffer.put(index+7,  m12);
+        buffer.put(index,   m00);
+        buffer.put(index+1, m10);
+        buffer.put(index+2, m20);
+        buffer.put(index+3, m01);
+        buffer.put(index+4, m11);
+        buffer.put(index+5, m21);
+        buffer.put(index+6, m02);
+        buffer.put(index+7, m12);
         buffer.put(index+8, m22);
         return buffer;
     }
@@ -772,6 +772,43 @@ public class Matrix3f implements Externalizable {
         buffer.putFloat(index+28, m12);
         buffer.putFloat(index+32, m22);
         return buffer;
+    }
+
+    /**
+     * Store this matrix into the supplied float array in column-major order at the given offset.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public float[] get(float[] arr, int offset) {
+        arr[offset+0] = m00;
+        arr[offset+1] = m01;
+        arr[offset+2] = m02;
+        arr[offset+3] = m10;
+        arr[offset+4] = m11;
+        arr[offset+5] = m12;
+        arr[offset+6] = m20;
+        arr[offset+7] = m21;
+        arr[offset+8] = m22;
+        return arr;
+    }
+
+    /**
+     * Store this matrix into the supplied float array in column-major order.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get(float[], int)}.
+     * 
+     * @see #get(float[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
+     */
+    public float[] get(float[] arr) {
+        return get(arr, 0);
     }
 
     /**

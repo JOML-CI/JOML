@@ -2259,16 +2259,16 @@ public class Matrix4f implements Externalizable {
      * @return the passed in array
      */
     public float[] get(float[] arr, int offset) {
-        arr[offset+0] =  m00;
-        arr[offset+1] =  m01;
-        arr[offset+2] =  m02;
-        arr[offset+3] =  m03;
-        arr[offset+4] =  m10;
-        arr[offset+5] =  m11;
-        arr[offset+6] =  m12;
-        arr[offset+7] =  m13;
-        arr[offset+8] =  m20;
-        arr[offset+9] =  m21;
+        arr[offset+0]  = m00;
+        arr[offset+1]  = m01;
+        arr[offset+2]  = m02;
+        arr[offset+3]  = m03;
+        arr[offset+4]  = m10;
+        arr[offset+5]  = m11;
+        arr[offset+6]  = m12;
+        arr[offset+7]  = m13;
+        arr[offset+8]  = m20;
+        arr[offset+9]  = m21;
         arr[offset+10] = m22;
         arr[offset+11] = m23;
         arr[offset+12] = m30;
@@ -2290,23 +2290,7 @@ public class Matrix4f implements Externalizable {
      * @return the passed in array
      */
     public float[] get(float[] arr) {
-        arr[0] =  m00;
-        arr[1] =  m01;
-        arr[2] =  m02;
-        arr[3] =  m03;
-        arr[4] =  m10;
-        arr[5] =  m11;
-        arr[6] =  m12;
-        arr[7] =  m13;
-        arr[8] =  m20;
-        arr[9] =  m21;
-        arr[10] = m22;
-        arr[11] = m23;
-        arr[12] = m30;
-        arr[13] = m31;
-        arr[14] = m32;
-        arr[15] = m33;
-        return arr;
+        return get(arr, 0);
     }
 
     /**
