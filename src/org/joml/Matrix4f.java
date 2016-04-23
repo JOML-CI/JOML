@@ -1548,15 +1548,15 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix3f transpose3x3(Matrix3f dest) {
-        dest.ms[M00] = ms[M00];
-        dest.ms[M01] = ms[M10];
-        dest.ms[M02] = ms[M20];
-        dest.ms[M10] = ms[M01];
-        dest.ms[M11] = ms[M11];
-        dest.ms[M12] = ms[M21];
-        dest.ms[M20] = ms[M02];
-        dest.ms[M21] = ms[M12];
-        dest.ms[M22] = ms[M22];
+        dest.ms[Matrix3f.M00] = ms[M00];
+        dest.ms[Matrix3f.M01] = ms[M10];
+        dest.ms[Matrix3f.M02] = ms[M20];
+        dest.ms[Matrix3f.M10] = ms[M01];
+        dest.ms[Matrix3f.M11] = ms[M11];
+        dest.ms[Matrix3f.M12] = ms[M21];
+        dest.ms[Matrix3f.M20] = ms[M02];
+        dest.ms[Matrix3f.M21] = ms[M12];
+        dest.ms[Matrix3f.M22] = ms[M22];
         return dest;
     }
 
@@ -2811,17 +2811,17 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set3x3(Matrix3f mat) {
-        ms[M00] = mat.ms[M00];
-        ms[M01] = mat.ms[M01];
-        ms[M02] = mat.ms[M02];
+        ms[M00] = mat.ms[Matrix3f.M00];
+        ms[M01] = mat.ms[Matrix3f.M01];
+        ms[M02] = mat.ms[Matrix3f.M02];
         ms[M03] = 0.0f;
-        ms[M10] = mat.ms[M10];
-        ms[M11] = mat.ms[M11];
-        ms[M12] = mat.ms[M12];
+        ms[M10] = mat.ms[Matrix3f.M10];
+        ms[M11] = mat.ms[Matrix3f.M11];
+        ms[M12] = mat.ms[Matrix3f.M12];
         ms[M13] = 0.0f;
-        ms[M20] = mat.ms[M20];
-        ms[M21] = mat.ms[M21];
-        ms[M22] = mat.ms[M22];
+        ms[M20] = mat.ms[Matrix3f.M20];
+        ms[M21] = mat.ms[Matrix3f.M21];
+        ms[M22] = mat.ms[Matrix3f.M22];
         ms[M23] = 0.0f;
         ms[M30] = 0.0f;
         ms[M31] = 0.0f;
@@ -7135,15 +7135,15 @@ public class Matrix4f implements Externalizable {
         float det = determinant3x3();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
-        dest.ms[M00] = (ms[M11] * ms[M22] - ms[M21] * ms[M12]) * s;
-        dest.ms[M01] = (ms[M20] * ms[M12] - ms[M10] * ms[M22]) * s;
-        dest.ms[M02] = (ms[M10] * ms[M21] - ms[M20] * ms[M11]) * s;
-        dest.ms[M10] = (ms[M21] * ms[M02] - ms[M01] * ms[M22]) * s;
-        dest.ms[M11] = (ms[M00] * ms[M22] - ms[M20] * ms[M02]) * s;
-        dest.ms[M12] = (ms[M20] * ms[M01] - ms[M00] * ms[M21]) * s;
-        dest.ms[M20] = (ms[M01] * ms[M12] - ms[M11] * ms[M02]) * s;
-        dest.ms[M21] = (ms[M10] * ms[M02] - ms[M00] * ms[M12]) * s;
-        dest.ms[M22] = (ms[M00] * ms[M11] - ms[M10] * ms[M01]) * s;
+        dest.ms[Matrix3f.M00] = (ms[M11] * ms[M22] - ms[M21] * ms[M12]) * s;
+        dest.ms[Matrix3f.M01] = (ms[M20] * ms[M12] - ms[M10] * ms[M22]) * s;
+        dest.ms[Matrix3f.M02] = (ms[M10] * ms[M21] - ms[M20] * ms[M11]) * s;
+        dest.ms[Matrix3f.M10] = (ms[M21] * ms[M02] - ms[M01] * ms[M22]) * s;
+        dest.ms[Matrix3f.M11] = (ms[M00] * ms[M22] - ms[M20] * ms[M02]) * s;
+        dest.ms[Matrix3f.M12] = (ms[M20] * ms[M01] - ms[M00] * ms[M21]) * s;
+        dest.ms[Matrix3f.M20] = (ms[M01] * ms[M12] - ms[M11] * ms[M02]) * s;
+        dest.ms[Matrix3f.M21] = (ms[M10] * ms[M02] - ms[M00] * ms[M12]) * s;
+        dest.ms[Matrix3f.M22] = (ms[M00] * ms[M11] - ms[M10] * ms[M01]) * s;
         return dest;
     }
 
@@ -7196,9 +7196,9 @@ public class Matrix4f implements Externalizable {
         float invXlen = (float) (1.0 / Math.sqrt(ms[M00] * ms[M00] + ms[M01] * ms[M01] + ms[M02] * ms[M02]));
         float invYlen = (float) (1.0 / Math.sqrt(ms[M10] * ms[M10] + ms[M11] * ms[M11] + ms[M12] * ms[M12]));
         float invZlen = (float) (1.0 / Math.sqrt(ms[M20] * ms[M20] + ms[M21] * ms[M21] + ms[M22] * ms[M22]));
-        dest.ms[M00] = ms[M00] * invXlen; dest.ms[M01] = ms[M01] * invXlen; dest.ms[M02] = ms[M02] * invXlen;
-        dest.ms[M10] = ms[M10] * invYlen; dest.ms[M11] = ms[M11] * invYlen; dest.ms[M12] = ms[M12] * invYlen;
-        dest.ms[M20] = ms[M20] * invZlen; dest.ms[M21] = ms[M21] * invZlen; dest.ms[M22] = ms[M22] * invZlen;
+        dest.ms[Matrix3f.M00] = ms[M00] * invXlen; dest.ms[Matrix3f.M01] = ms[M01] * invXlen; dest.ms[Matrix3f.M02] = ms[M02] * invXlen;
+        dest.ms[Matrix3f.M10] = ms[M10] * invYlen; dest.ms[Matrix3f.M11] = ms[M11] * invYlen; dest.ms[Matrix3f.M12] = ms[M12] * invYlen;
+        dest.ms[Matrix3f.M20] = ms[M20] * invZlen; dest.ms[Matrix3f.M21] = ms[M21] * invZlen; dest.ms[Matrix3f.M22] = ms[M22] * invZlen;
         return dest;
     }
 
