@@ -103,6 +103,21 @@ public class TestUtil {
     }
 
     /**
+     * Return whether two quaternions are equal. They are considered equal when their difference is 
+     * less than or equal to the precision.
+     * @param a the first quaternion
+     * @param b the second quaternion
+     * @param precision if abs(a.[comp] - b.[comp]) <= precision for every component comp (x, y, z, w), a and b are considered equal
+     * @return whether a and b are equal
+     */
+    public static boolean quatEqual(Quaterniond a, Quaterniond b, double precision) {
+        return doubleEqual(a.x, b.x, precision)
+            && doubleEqual(a.y, b.y, precision)
+            && doubleEqual(a.z, b.z, precision)
+            && doubleEqual(a.w, b.w, precision);
+    }
+
+    /**
      * Assert that both matrices are equal with respect to the given delta.
      * 
      * @param m1
@@ -153,6 +168,18 @@ public class TestUtil {
         Assert.assertEquals(expected.x, actual.x, delta);
         Assert.assertEquals(expected.y, actual.y, delta);
         Assert.assertEquals(expected.z, actual.z, delta);
+    }
+
+    /**
+     * Assert that both vectors are equal with respect to the given delta.
+     * 
+     * @param expected
+     * @param actual
+     * @param delta
+     */
+    public static void assertVector2fEquals(Vector2f expected, Vector2f actual, float delta) {
+        Assert.assertEquals(expected.x, actual.x, delta);
+        Assert.assertEquals(expected.y, actual.y, delta);
     }
 
 }
