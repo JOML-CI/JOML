@@ -132,6 +132,34 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Create a new {@link Quaterniond} and initialize it to represent the same rotation as the given {@link AxisAngle4f}.
+     * 
+     * @param axisAngle
+     *          the axis-angle to initialize this quaternion with
+     */
+    public Quaterniond(AxisAngle4f axisAngle) {
+        double s = Math.sin(axisAngle.angle * 0.5);
+        x = axisAngle.x * s;
+        y = axisAngle.y * s;
+        z = axisAngle.z * s;
+        w = Math.cos(axisAngle.angle * 0.5);
+    }
+
+    /**
+     * Create a new {@link Quaterniond} and initialize it to represent the same rotation as the given {@link AxisAngle4d}.
+     * 
+     * @param axisAngle
+     *          the axis-angle to initialize this quaternion with
+     */
+    public Quaterniond(AxisAngle4d axisAngle) {
+        double s = Math.sin(axisAngle.angle * 0.5);
+        x = axisAngle.x * s;
+        y = axisAngle.y * s;
+        z = axisAngle.z * s;
+        w = Math.cos(axisAngle.angle * 0.5);
+    }
+
+    /**
      * Normalize this quaternion.
      * 
      * @return this
@@ -365,6 +393,30 @@ public class Quaterniond implements Externalizable {
         z = q.z;
         w = q.w;
         return this;
+    }
+
+    /**
+     * Set this {@link Quaterniond} to be equivalent to the given
+     * {@link AxisAngle4f}.
+     * 
+     * @param axisAngle
+     *            the {@link AxisAngle4f}
+     * @return this
+     */
+    public Quaterniond set(AxisAngle4f axisAngle) {
+        return setAngleAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
+    }
+
+    /**
+     * Set this {@link Quaterniond} to be equivalent to the given
+     * {@link AxisAngle4d}.
+     * 
+     * @param axisAngle
+     *            the {@link AxisAngle4d}
+     * @return this
+     */
+    public Quaterniond set(AxisAngle4d axisAngle) {
+        return setAngleAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
@@ -1790,6 +1842,20 @@ public class Quaterniond implements Externalizable {
                  this.w * z + this.x * y - this.y * x + this.z * w,
                  this.w * w - this.x * x - this.y * y - this.z * z);
         return dest;
+    }
+
+    /**
+     * Set this {@link Quaterniond} to a rotation of the given angle in radians about the supplied
+     * axis, all of which are specified via the {@link AxisAngle4f}.
+     * 
+     * @see #rotationAxis(double, double, double, double)
+     * 
+     * @param axisAngle
+     *            the {@link AxisAngle4f} giving the rotation angle in radians and the axis to rotate about
+     * @return this
+     */
+    public Quaterniond rotationAxis(AxisAngle4f axisAngle) {
+        return rotationAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
     }
 
     /**
