@@ -113,17 +113,17 @@ public class Vector4i implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4i} and initialize all four components with the      
-     * given value.       
-     *        
-     * @param s       
-     *          scalar value of all four components       
-     */       
-    public Vector4i(int s) {      
-        this.x = s;       
-        this.y = s;       
-        this.z = s;       
-        this.w = s;       
+     * Create a new {@link Vector4i} and initialize all four components with the
+     * given value.
+     *
+     * @param s
+     *          scalar value of all four components
+     */
+    public Vector4i(int s) {
+        this.x = s;
+        this.y = s;
+        this.z = s;
+        this.w = s;
     }
 
     /**
@@ -278,18 +278,18 @@ public class Vector4i implements Externalizable {
     }
 
     /**
-     * Set the x, y, z, and w components to the supplied value.       
-     *        
-     * @param s       
-     *          the value of all four components      
-     * @return this       
-     */       
-    public Vector4i set(int s) {      
-        this.x = s;       
-        this.y = s;       
-        this.z = s;       
-        this.w = s;       
-        return this;      
+     * Set the x, y, z, and w components to the supplied value.
+     *
+     * @param s
+     *          the value of all four components
+     * @return this
+     */
+    public Vector4i set(int s) {
+        this.x = s;
+        this.y = s;
+        this.z = s;
+        this.w = s;
+        return this;
     }
 
     /**

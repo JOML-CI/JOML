@@ -113,13 +113,13 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Vector4f} and initialize all four components with the given value.     
-     *        
-     * @param d       
-     *          the value of all four components      
-     */       
-    public Vector4f(float d) {        
-        this(d, d, d, d);     
+     * Create a new {@link Vector4f} and initialize all four components with the given value.
+     *
+     * @param d
+     *          the value of all four components
+     */
+    public Vector4f(float d) {
+        this(d, d, d, d);
     }
 
     /**
@@ -285,14 +285,14 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Set the x, y, z, and w components to the supplied value.       
-     *        
-     * @param d       
-     *          the value of all four components      
-     * @return this       
-     */       
-    public Vector4f set(float d) {        
-        return set(d, d, d, d);       
+     * Set the x, y, z, and w components to the supplied value.
+     *
+     * @param d
+     *          the value of all four components
+     * @return this
+     */
+    public Vector4f set(float d) {
+        return set(d, d, d, d);
     }
 
     /**
