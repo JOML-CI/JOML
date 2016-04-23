@@ -194,6 +194,23 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Set the x, y and z components to match the supplied vector.
+     * <p>
+     * Note that due to the given vector <code>v</code> storing the components in double-precision,
+     * there is the possibility to lose precision.
+     * 
+     * @param v
+     *          contains the values of x, y and z to set
+     * @return this
+     */
+    public Vector3f set(Vector3d v) {
+        x = (float) v.x;
+        y = (float) v.y;
+        z = (float) v.z;
+        return this;
+    }
+
+    /**
      * Set the first two components from the given <code>v</code>
      * and the z component from the given <code>z</code>
      *
