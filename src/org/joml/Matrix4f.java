@@ -609,6 +609,45 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Multiply <code>this</code> orthographic projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>M * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the affine matrix which to multiply <code>this</code> with
+     * @return dest
+     */
+    public Matrix4f mulOrthoAffine(Matrix4f view) {
+        return mulOrthoAffine(view, this);
+    }
+
+    /**
+     * Multiply <code>this</code> orthographic projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>M * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the affine matrix which to multiply <code>this</code> with
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f mulOrthoAffine(Matrix4f view, Matrix4f dest) {
+        dest.set(ms[M00] * view.ms[M00], ms[M11] * view.ms[M01], ms[M22] * view.ms[M02], 0.0f,
+                 ms[M00] * view.ms[M10], ms[M11] * view.ms[M11], ms[M22] * view.ms[M12], 0.0f,
+                 ms[M00] * view.ms[M20], ms[M11] * view.ms[M21], ms[M22] * view.ms[M22], 0.0f,
+                 ms[M00] * view.ms[M30] + ms[M30], ms[M11] * view.ms[M31] + ms[M31], ms[M22] * view.ms[M32] + ms[M32], 1.0f);
+        return dest;
+    }
+
+    /**
      * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
      * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code> and
      * adding that result to <code>this</code>.
@@ -1488,6 +1527,26 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix3f transpose3x3(Matrix3f dest) {
+        dest.ms[M00] = ms[M00];
+        dest.ms[M01] = ms[M10];
+        dest.ms[M02] = ms[M20];
+        dest.ms[M10] = ms[M01];
+        dest.ms[M11] = ms[M11];
+        dest.ms[M12] = ms[M21];
+        dest.ms[M20] = ms[M02];
+        dest.ms[M21] = ms[M12];
+        dest.ms[M22] = ms[M22];
+        return dest;
+    }
+
+    /**
      * Transpose this matrix.
      * 
      * @return this
@@ -1670,6 +1729,17 @@ public class Matrix4f implements Externalizable {
      * @return the passed in destination
      */
     public Matrix4f get(Matrix4f dest) {
+        return dest.set(this);
+    }
+    /**
+     * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    public Matrix3f get3x3(Matrix3f dest) {
         return dest.set(this);
     }
 
@@ -2629,6 +2699,86 @@ public class Matrix4f implements Externalizable {
         ms[M30] = tx;
         ms[M31] = ty;
         ms[M32] = tz;
+        ms[M33] = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion.
+     * <p>
+     * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
+     * 
+     * @see #translation(float, float, float)
+     * @see #rotate(Quaternionf)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param quat
+     *          the quaternion representing a rotation
+     * @return this
+     */
+    public Matrix4f translationRotate(float tx, float ty, float tz, Quaternionf quat) {
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
+        ms[M00] = 1.0f - (q11 + q22);
+        ms[M01] = q01 + q23;
+        ms[M02] = q02 - q13;
+        ms[M03] = 0.0f;
+        ms[M10] = q01 - q23;
+        ms[M11] = 1.0f - (q22 + q00);
+        ms[M12] = q12 + q03;
+        ms[M13] = 0.0f;
+        ms[M20] = q02 + q13;
+        ms[M21] = q12 - q03;
+        ms[M22] = 1.0f - (q11 + q00);
+        ms[M23] = 0.0f;
+        ms[M30] = tx;
+        ms[M31] = ty;
+        ms[M32] = tz;
+        ms[M33] = 1.0f;
+        return this;
+    }
+
+    /**
+     * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and the rest to the identity.
+     * 
+     * @param mat
+     *          the 3x3 matrix
+     * @return this
+     */
+    public Matrix4f set3x3(Matrix3f mat) {
+        ms[M00] = mat.ms[M00];
+        ms[M01] = mat.ms[M01];
+        ms[M02] = mat.ms[M02];
+        ms[M03] = 0.0f;
+        ms[M10] = mat.ms[M10];
+        ms[M11] = mat.ms[M11];
+        ms[M12] = mat.ms[M12];
+        ms[M13] = 0.0f;
+        ms[M20] = mat.ms[M20];
+        ms[M21] = mat.ms[M21];
+        ms[M22] = mat.ms[M22];
+        ms[M23] = 0.0f;
+        ms[M30] = 0.0f;
+        ms[M31] = 0.0f;
+        ms[M32] = 0.0f;
         ms[M33] = 1.0f;
         return this;
     }
@@ -6917,6 +7067,40 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * <p>
+     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In that case, use {@link Matrix3f#set(Matrix4f)} to set a given Matrix3f to only the upper left 3x3 submatrix
+     * of this matrix.
+     * 
+     * @see Matrix3f#set(Matrix4f)
+     * @see #get3x3(Matrix3f)
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix3f normal(Matrix3f dest) {
+        float det = determinant3x3();
+        float s = 1.0f / det;
+        /* Invert and transpose in one go */
+        dest.ms[M00] = (ms[M11] * ms[M22] - ms[M21] * ms[M12]) * s;
+        dest.ms[M01] = (ms[M20] * ms[M12] - ms[M10] * ms[M22]) * s;
+        dest.ms[M02] = (ms[M10] * ms[M21] - ms[M20] * ms[M11]) * s;
+        dest.ms[M10] = (ms[M21] * ms[M02] - ms[M01] * ms[M22]) * s;
+        dest.ms[M11] = (ms[M00] * ms[M22] - ms[M20] * ms[M02]) * s;
+        dest.ms[M12] = (ms[M20] * ms[M01] - ms[M00] * ms[M21]) * s;
+        dest.ms[M20] = (ms[M01] * ms[M12] - ms[M11] * ms[M02]) * s;
+        dest.ms[M21] = (ms[M10] * ms[M02] - ms[M00] * ms[M12]) * s;
+        dest.ms[M22] = (ms[M00] * ms[M11] - ms[M10] * ms[M01]) * s;
+        return dest;
+    }
+
+    /**
      * Normalize the upper left 3x3 submatrix of this matrix.
      * <p>
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
@@ -6941,6 +7125,27 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f normalize3x3(Matrix4f dest) {
+        float invXlen = (float) (1.0 / Math.sqrt(ms[M00] * ms[M00] + ms[M01] * ms[M01] + ms[M02] * ms[M02]));
+        float invYlen = (float) (1.0 / Math.sqrt(ms[M10] * ms[M10] + ms[M11] * ms[M11] + ms[M12] * ms[M12]));
+        float invZlen = (float) (1.0 / Math.sqrt(ms[M20] * ms[M20] + ms[M21] * ms[M21] + ms[M22] * ms[M22]));
+        dest.ms[M00] = ms[M00] * invXlen; dest.ms[M01] = ms[M01] * invXlen; dest.ms[M02] = ms[M02] * invXlen;
+        dest.ms[M10] = ms[M10] * invYlen; dest.ms[M11] = ms[M11] * invYlen; dest.ms[M12] = ms[M12] * invYlen;
+        dest.ms[M20] = ms[M20] * invZlen; dest.ms[M21] = ms[M21] * invZlen; dest.ms[M22] = ms[M22] * invZlen;
+        return dest;
+    }
+
+    /**
+     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix3f normalize3x3(Matrix3f dest) {
         float invXlen = (float) (1.0 / Math.sqrt(ms[M00] * ms[M00] + ms[M01] * ms[M01] + ms[M02] * ms[M02]));
         float invYlen = (float) (1.0 / Math.sqrt(ms[M10] * ms[M10] + ms[M11] * ms[M11] + ms[M12] * ms[M12]));
         float invZlen = (float) (1.0 / Math.sqrt(ms[M20] * ms[M20] + ms[M21] * ms[M21] + ms[M22] * ms[M22]));
@@ -7169,6 +7374,28 @@ public class Matrix4f implements Externalizable {
         float n1len = (float) Math.sqrt(n1x * n1x + n1y * n1y + n1z * n1z);
         float n2len = (float) Math.sqrt(n2x * n2x + n2y * n2y + n2z * n2z);
         return (float) Math.acos((n1x * n2x + n1y * n2y + n1z * n2z) / (n1len * n2len));
+    }
+
+    /**
+     * Extract the near clip plane distance from <code>this</code> perspective projection matrix.
+     * <p>
+     * This method only works if <code>this</code> is a perspective projection matrix, for example obtained via {@link #perspective(float, float, float, float)}.
+     * 
+     * @return the near clip plane distance
+     */
+    public float perspectiveNear() {
+        return ms[M32] / (ms[M23] + ms[M22]);
+    }
+
+    /**
+     * Extract the far clip plane distance from <code>this</code> perspective projection matrix.
+     * <p>
+     * This method only works if <code>this</code> is a perspective projection matrix, for example obtained via {@link #perspective(float, float, float, float)}.
+     * 
+     * @return the far clip plane distance
+     */
+    public float perspectiveFar() {
+        return ms[M32] / (ms[M22] - ms[M23]);
     }
 
     /**
@@ -8099,6 +8326,28 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Apply an arcball view transformation to this matrix with the given <code>radius</code> and <code>center</code>
+     * position of the arcball and the specified X and Y rotation angles, and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</tt>
+     * 
+     * @param radius
+     *          the arcball radius
+     * @param center
+     *          the center position of the arcball
+     * @param angleX
+     *          the rotation angle around the X axis in radians
+     * @param angleY
+     *          the rotation angle around the Y axis in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f arcball(float radius, Vector3f center, float angleX, float angleY, Matrix4f dest) {
+        return translate(0, 0, -radius, dest).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z);
+    }
+
+    /**
+     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and <code>center</code>
      * position of the arcball and the specified X and Y rotation angles.
      * <p>
      * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</tt>
@@ -8114,14 +8363,15 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f arcball(float radius, Vector3f center, float angleX, float angleY) {
-        return translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z);
+        return arcball(radius, center, angleX, angleY, this);
     }
 
     /**
      * Compute the axis-aligned bounding box of the frustum described by <code>this</code> matrix and store the minimum corner
      * coordinates in the given <code>min</code> and the maximum corner coordinates in the given <code>max</code> vector.
      * <p>
-     * The matrix <code>this</code> is assumed to be the {@link #invert() inverse} of the origial view-projection matrix.
+     * The matrix <code>this</code> is assumed to be the {@link #invert() inverse} of the origial view-projection matrix
+     * for which to compute the axis-aligned bounding box in world-space.
      * <p>
      * The axis-aligned bounding box of the unit frustum is <tt>(-1, -1, -1)</tt>, <tt>(1, 1, 1)</tt>.
      * 
@@ -8237,6 +8487,234 @@ public class Matrix4f implements Externalizable {
         max.y = maxY;
         max.z = maxZ;
         return this;
+    }
+
+    /**
+     * Compute the <i>range matrix</i> for the Projected Grid transformation as described in chapter "2.4.2 Creating the range conversion matrix"
+     * of the paper <a href="http://fileadmin.cs.lth.se/graphics/theses/projects/projgrid/projgrid-lq.pdf">Real-time water rendering - Introducing the projected grid concept</a>
+     * based on the <i>inverse</i> of the view-projection matrix which is assumed to be <code>this</code>, and store that range matrix into <code>dest</code>.
+     * <p>
+     * If the projected grid will not be visible then this method returns <code>null</code>.
+     * <p>
+     * This method uses the <tt>y = 0</tt> plane for the projection.
+     * 
+     * @param projector
+     *          the projector view-projection transformation
+     * @param sLower
+     *          the lower (smallest) Y-coordinate which any transformed vertex might have while still being visible on the projected grid
+     * @param sUpper
+     *          the upper (highest) Y-coordinate which any transformed vertex might have while still being visible on the projected grid
+     * @param dest
+     *          will hold the resulting range matrix
+     * @return the computed range matrix; or <code>null</code> if the projected grid will not be visible
+     */
+    public Matrix4f projectedGridRange(Matrix4f projector, float sLower, float sUpper, Matrix4f dest) {
+        // Compute intersection with frustum edges and plane
+        float minX = Float.MAX_VALUE, minY = Float.MAX_VALUE;
+        float maxX = -Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
+        boolean intersection = false;
+        for (int t = 0; t < 3 * 4; t++) {
+            float c0X, c0Y, c0Z;
+            float c1X, c1Y, c1Z;
+            if (t < 4) {
+                // all x edges
+                c0X = -1; c1X = +1;
+                c0Y = c1Y = ((t & 1) << 1) - 1.0f;
+                c0Z = c1Z = (((t >>> 1) & 1) << 1) - 1.0f;
+            } else if (t < 8) {
+                // all y edges
+                c0Y = -1; c1Y = +1;
+                c0X = c1X = ((t & 1) << 1) - 1.0f;
+                c0Z = c1Z = (((t >>> 1) & 1) << 1) - 1.0f;
+            } else {
+                // all z edges
+                c0Z = -1; c1Z = +1;
+                c0X = c1X = ((t & 1) << 1) - 1.0f;
+                c0Y = c1Y = (((t >>> 1) & 1) << 1) - 1.0f;
+            }
+            // unproject corners
+            float invW = 1.0f / (ms[M03] * c0X + ms[M13] * c0Y + ms[M23] * c0Z + ms[M33]);
+            float p0x = (ms[M00] * c0X + ms[M10] * c0Y + ms[M20] * c0Z + ms[M30]) * invW;
+            float p0y = (ms[M01] * c0X + ms[M11] * c0Y + ms[M21] * c0Z + ms[M31]) * invW;
+            float p0z = (ms[M02] * c0X + ms[M12] * c0Y + ms[M22] * c0Z + ms[M32]) * invW;
+            invW = 1.0f / (ms[M03] * c1X + ms[M13] * c1Y + ms[M23] * c1Z + ms[M33]);
+            float p1x = (ms[M00] * c1X + ms[M10] * c1Y + ms[M20] * c1Z + ms[M30]) * invW;
+            float p1y = (ms[M01] * c1X + ms[M11] * c1Y + ms[M21] * c1Z + ms[M31]) * invW;
+            float p1z = (ms[M02] * c1X + ms[M12] * c1Y + ms[M22] * c1Z + ms[M32]) * invW;
+            float dirX = p1x - p0x;
+            float dirY = p1y - p0y;
+            float dirZ = p1z - p0z;
+            float invDenom = 1.0f / dirY;
+            // test for intersection
+            for (int s = 0; s < 2; s++) {
+                float isectT = -(p0y + (s == 0 ? sLower : sUpper)) * invDenom;
+                if (isectT >= 0.0f && isectT <= 1.0f) {
+                    intersection = true;
+                    // project with projector matrix
+                    float ix = p0x + isectT * dirX;
+                    float iz = p0z + isectT * dirZ;
+                    invW = 1.0f / (projector.ms[M03] * ix + projector.ms[M23] * iz + projector.ms[M33]);
+                    float px = (projector.ms[M00] * ix + projector.ms[M20] * iz + projector.ms[M30]) * invW;
+                    float py = (projector.ms[M01] * ix + projector.ms[M21] * iz + projector.ms[M31]) * invW;
+                    minX = minX < px ? minX : px;
+                    minY = minY < py ? minY : py;
+                    maxX = maxX > px ? maxX : px;
+                    maxY = maxY > py ? maxY : py;
+                }
+            }
+        }
+        if (!intersection)
+            return null; // <- projected grid is not visible
+        return dest.set(maxX - minX, 0, 0, 0, 0, maxY - minY, 0, 0, 0, 0, 1, 0, minX, minY, 0, 1);
+    }
+
+    /**
+     * Change the near and far clip plane distances of <code>this</code> perspective frustum transformation matrix
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method only works if <code>this</code> is a perspective projection frustum transformation, for example obtained
+     * via {@link #perspective(float, float, float, float) perspective()} or {@link #frustum(float, float, float, float, float, float) frustum()}.
+     * 
+     * @see #perspective(float, float, float, float)
+     * @see #frustum(float, float, float, float, float, float)
+     * 
+     * @param near
+     *          the new near clip plane distance
+     * @param far
+     *          the new far clip plane distance
+     * @param dest
+     *          will hold the resulting matrix
+     * @return dest
+     */
+    public Matrix4f perspectiveFrustumSlice(float near, float far, Matrix4f dest) {
+        float invOldNear = (ms[M23] + ms[M22]) / ms[M32];
+        float invNearFar = 1.0f / (near - far);
+        dest.ms[M00] = ms[M00] * invOldNear * near;
+        dest.ms[M01] = ms[M01];
+        dest.ms[M02] = ms[M02];
+        dest.ms[M03] = ms[M03];
+        dest.ms[M10] = ms[M10];
+        dest.ms[M11] = ms[M11] * invOldNear * near;
+        dest.ms[M12] = ms[M12];
+        dest.ms[M13] = ms[M13];
+        dest.ms[M20] = ms[M20];
+        dest.ms[M21] = ms[M21];
+        dest.ms[M22] = (far + near) * invNearFar;
+        dest.ms[M23] = ms[M23];
+        dest.ms[M30] = ms[M30];
+        dest.ms[M31] = ms[M31];
+        dest.ms[M32] = (far + far) * near * invNearFar;
+        dest.ms[M33] = ms[M33];
+        return dest;
+    }
+
+    /**
+     * Build an ortographic projection transformation that fits the view-projection transformation represented by <code>this</code>
+     * into the given affine <code>view</code> transformation.
+     * <p>
+     * The transformation represented by <code>this</code> must be given as the {@link #invert() inverse} of a typical combined camera view-projection
+     * transformation, whose projection can be either orthographic or perspective.
+     * <p>
+     * The <code>view</code> must be an {@link #isAffine() affine} transformation which in the application of Cascaded Shadow Maps is usually the light view transformation.
+     * It be obtained via any affine transformation or for example via {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt()}.
+     * <p>
+     * Reference: <a href="http://developer.download.nvidia.com/SDK/10.5/opengl/screenshots/samples/cascaded_shadow_maps.html">OpenGL SDK - Cascaded Shadow Maps</a>
+     * 
+     * @param view
+     *          the view transformation to build a corresponding orthographic projection to fit the frustum of <code>this</code>
+     * @param dest
+     *          will hold the crop projection transformation
+     * @return dest
+     */
+    public Matrix4f orthoCrop(Matrix4f view, Matrix4f dest) {
+        // determine min/max world z and min/max orthographically view-projected x/y
+        float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
+        float minZ = Float.MAX_VALUE, maxZ = -Float.MAX_VALUE;
+        for (int t = 0; t < 8; t++) {
+            float x = ((t & 1) << 1) - 1.0f;
+            float y = (((t >>> 1) & 1) << 1) - 1.0f;
+            float z = (((t >>> 2) & 1) << 1) - 1.0f;
+            float invW = 1.0f / (ms[M03] * x + ms[M13] * y + ms[M23] * z + ms[M33]);
+            float wx = (ms[M00] * x + ms[M10] * y + ms[M20] * z + ms[M30]) * invW;
+            float wy = (ms[M01] * x + ms[M11] * y + ms[M21] * z + ms[M31]) * invW;
+            float wz = (ms[M02] * x + ms[M12] * y + ms[M22] * z + ms[M32]) * invW;
+            invW = 1.0f / (view.ms[M03] * wx + view.ms[M13] * wy + view.ms[M23] * wz + view.ms[M33]);
+            float vx = view.ms[M00] * wx + view.ms[M10] * wy + view.ms[M20] * wz + view.ms[M30];
+            float vy = view.ms[M01] * wx + view.ms[M11] * wy + view.ms[M21] * wz + view.ms[M31];
+            float vz = (view.ms[M02] * wx + view.ms[M12] * wy + view.ms[M22] * wz + view.ms[M32]) * invW;
+            minX = minX < vx ? minX : vx;
+            maxX = maxX > vx ? maxX : vx;
+            minY = minY < vy ? minY : vy;
+            maxY = maxY > vy ? maxY : vy;
+            minZ = minZ < vz ? minZ : vz;
+            maxZ = maxZ > vz ? maxZ : vz;
+        }
+        // build crop projection matrix to fit 'this' frustum into view
+        return dest.setOrtho(minX, maxX, minY, maxY, -maxZ, -minZ);
+    }
+
+    /**
+     * Set <code>this</code> matrix to a perspective transformation that maps the trapezoid spanned by the four corner coordinates
+     * <code>(p0x, p0y)</code>, <code>(p1x, p1y)</code>, <code>(p2x, p2y)</code> and <code>(p3x, p3y)</code> to the unit square <tt>[(-1, -1)..(+1, +1)]</tt>.
+     * <p>
+     * The corner coordinates are given in counter-clockwise order starting from the <i>left</i> corner on the smaller parallel side of the trapezoid
+     * seen when looking at the trapezoid oriented with its shorter parallel edge at the bottom and its longer parallel edge at the top.
+     * <p>
+     * Reference: <a href="https://kenai.com/downloads/wpbdc/Documents/tsm.pdf">Notes On Implementation Of Trapezoidal Shadow Maps</a>
+     * 
+     * @param p0x
+     *          the x coordinate of the left corner at the shorter edge of the trapezoid
+     * @param p0y
+     *          the y coordinate of the left corner at the shorter edge of the trapezoid
+     * @param p1x
+     *          the x coordinate of the right corner at the shorter edge of the trapezoid
+     * @param p1y
+     *          the y coordinate of the right corner at the shorter edge of the trapezoid
+     * @param p2x
+     *          the x coordinate of the right corner at the longer edge of the trapezoid
+     * @param p2y
+     *          the y coordinate of the right corner at the longer edge of the trapezoid
+     * @param p3x
+     *          the x coordinate of the left corner at the longer edge of the trapezoid
+     * @param p3y
+     *          the y coordinate of the left corner at the longer edge of the trapezoid
+     * @return this
+     */
+    public Matrix4f trapezoidCrop(float p0x, float p0y, float p1x, float p1y, float p2x, float p2y, float p3x, float p3y) {
+        float aX = p1y - p0y, aY = p0x - p1x;
+        float m00 = aY;
+        float m10 = -aX;
+        float m30 = aX * p0y - aY * p0x;
+        float m01 = aX;
+        float m11 = aY;
+        float m31 = -(aX * p0x + aY * p0y);
+        float c3x = m00 * p3x + m10 * p3y + m30;
+        float c3y = m01 * p3x + m11 * p3y + m31;
+        float s = -c3x / c3y;
+        m00 += s * m01;
+        m10 += s * m11;
+        m30 += s * m31;
+        float d1x = m00 * p1x + m10 * p1y + m30;
+        float d2x = m00 * p2x + m10 * p2y + m30;
+        float d = d1x * c3y / (d2x - d1x);
+        m31 += d;
+        float sx = 2.0f / d2x;
+        float sy = 1.0f / (c3y + d);
+        float u = (sy + sy) * d / (1.0f - sy * d);
+        float m03 = m01 * sy;
+        float m13 = m11 * sy;
+        float m33 = m31 * sy;
+        m01 = (u + 1.0f) * m03;
+        m11 = (u + 1.0f) * m13;
+        m31 = (u + 1.0f) * m33 - u;
+        m00 = sx * m00 - m03;
+        m10 = sx * m10 - m13;
+        m30 = sx * m30 - m33;
+        return set(m00, m01, 0, m03,
+                   m10, m11, 0, m13,
+                     0,   0, 1,   0,
+                   m30, m31, 0, m33);
     }
 
 }

@@ -39,7 +39,7 @@ abstract class MemUtil {
         MemUtil accessor;
         try {
             accessor = new MemUtilUnsafe();
-        } catch (Throwable t0) {
+        } catch (UnsupportedOperationException e) {
             accessor = new MemUtilNIO();
         }
         return accessor;
@@ -171,12 +171,13 @@ abstract class MemUtil {
     static final class MemUtilUnsafe extends MemUtil {
         private final sun.misc.Unsafe UNSAFE;
         private final long ADDRESS;
-        {
+
+        MemUtilUnsafe() throws UnsupportedOperationException {
             UNSAFE = getUnsafeInstance();
             try {
                 ADDRESS = UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
             } catch (NoSuchFieldException e) {
-                throw new AssertionError();
+                throw new UnsupportedOperationException();
             }
         }
 
@@ -189,12 +190,14 @@ abstract class MemUtil {
                     return field;
                 } catch (NoSuchFieldException e) {
                     type = type.getSuperclass();
+                } catch (SecurityException e) {
+                    type = type.getSuperclass();
                 }
             } while (type != null);
             throw new NoSuchFieldException(fieldName + " does not exist in " + root.getName() + " or any of its superclasses."); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
-        private static final sun.misc.Unsafe getUnsafeInstance() {
+        private static final sun.misc.Unsafe getUnsafeInstance() throws SecurityException {
             java.lang.reflect.Field[] fields = sun.misc.Unsafe.class.getDeclaredFields();
             for (int i = 0; i < fields.length; i++) {
                 java.lang.reflect.Field field = fields[i];
