@@ -734,7 +734,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Multiply this matrix by the supplied <code>right</code>, both of which are assumed to be {@link #isAffine() affine}, matrix and store the result in <code>this</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>this</code>.
      * <p>
      * This method assumes that <code>this</code> matrix and the given <code>right</code> matrix both represent an {@link #isAffine() affine} transformation
      * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
@@ -756,7 +756,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Multiply this matrix by the supplied <code>right</code>, both of which are assumed to be {@link #isAffine() affine}, matrix and store the result in <code>dest</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
      * <p>
      * This method assumes that <code>this</code> matrix and the given <code>right</code> matrix both represent an {@link #isAffine() affine} transformation
      * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
