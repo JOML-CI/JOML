@@ -375,6 +375,20 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniond}.
+     * 
+     * @see Quaterniond#get(Matrix4f)
+     * 
+     * @param q
+     *          the {@link Quaterniond}
+     * @return this
+     */
+    public Matrix4f set(Quaterniond q) {
+        q.get(this);
+        return this;
+    }
+
+    /**
      * Set the upper left 3x3 submatrix of this {@link Matrix4f} to that of the given {@link Matrix4f} 
      * and the rest to identity.
      * 
@@ -1773,6 +1787,39 @@ public class Matrix4f implements Externalizable {
      * @return the passed in destination
      */
     public Quaternionf getNormalizedRotation(Quaternionf dest) {
+        return dest.setFromNormalized(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * <p>
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized and
+     * thus allows to ignore any additional scaling factor that is applied to the matrix.
+     * 
+     * @see Quaterniond#setFromUnnormalized(Matrix4f)
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return the passed in destination
+     */
+    public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
+        return dest.setFromUnnormalized(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * <p>
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
+     * 
+     * @see Quaterniond#setFromNormalized(Matrix4f)
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return the passed in destination
+     */
+    public Quaterniond getNormalizedRotation(Quaterniond dest) {
         return dest.setFromNormalized(this);
     }
 

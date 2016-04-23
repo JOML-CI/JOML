@@ -189,6 +189,20 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Set this matrix to a rotation equivalent to the given quaternion.
+     * 
+     * @see Quaterniond#get(Matrix3f)
+     * 
+     * @param q
+     *          the quaternion
+     * @return this
+     */
+    public Matrix3f set(Quaterniond q) {
+        q.get(this);
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
@@ -440,6 +454,39 @@ public class Matrix3f implements Externalizable {
      * @return the passed in destination
      */
     public Quaternionf getNormalizedRotation(Quaternionf dest) {
+        return dest.setFromNormalized(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * <p>
+     * This method assumes that the three column vectors of this matrix are not normalized and
+     * thus allows to ignore any additional scaling factor that is applied to the matrix.
+     * 
+     * @see Quaterniond#setFromUnnormalized(Matrix3f)
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return the passed in destination
+     */
+    public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
+        return dest.setFromUnnormalized(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * <p>
+     * This method assumes that the three column vectors of this matrix are normalized.
+     * 
+     * @see Quaterniond#setFromNormalized(Matrix3f)
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return the passed in destination
+     */
+    public Quaterniond getNormalizedRotation(Quaterniond dest) {
         return dest.setFromNormalized(this);
     }
 
