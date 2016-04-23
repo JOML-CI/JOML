@@ -525,9 +525,9 @@ public class Matrix4f implements Externalizable {
      * transformation of the right matrix will be applied first!
      *
      * @param right
-     *          the right operand of the matrix multiplication
+     *          the right operand of the multiplication
      * @param dest
-     *          the destination matrix, which will hold the result
+     *          will hold the result
      * @return dest
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
@@ -608,7 +608,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Multiply this matrix the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
      * <p>
      * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
@@ -645,7 +645,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Multiply this matrix by the supplied <code>right</code>, both of which are assumed to be {@link #isAffine() affine}, matrix and store the result in <code>this</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>this</code>.
      * <p>
      * This method assumes that <code>this</code> matrix and the given <code>right</code> matrix both represent an {@link #isAffine() affine} transformation
      * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
@@ -667,7 +667,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Multiply this matrix by the supplied <code>right</code>, both of which are assumed to be {@link #isAffine() affine}, matrix and store the result in <code>dest</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
      * <p>
      * This method assumes that <code>this</code> matrix and the given <code>right</code> matrix both represent an {@link #isAffine() affine} transformation
      * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
@@ -753,7 +753,7 @@ public class Matrix4f implements Externalizable {
      * The matrix <code>other</code> will not be changed.
      * 
      * @param other
-     *          the other matrix 
+     *          the other matrix
      * @param otherFactor
      *          the factor to multiply each of the other matrix's 4x3 components
      * @return this
@@ -772,7 +772,7 @@ public class Matrix4f implements Externalizable {
      * The matrices <code>this</code> and <code>other</code> will not be changed.
      * 
      * @param other
-     *          the other matrix 
+     *          the other matrix
      * @param otherFactor
      *          the factor to multiply each of the other matrix's 4x3 components
      * @param dest
@@ -803,7 +803,7 @@ public class Matrix4f implements Externalizable {
      * Component-wise add <code>this</code> and <code>other</code>.
      * 
      * @param other
-     *          the other addend 
+     *          the other addend
      * @return this
      */
     public Matrix4f add(Matrix4f other) {
@@ -814,7 +814,7 @@ public class Matrix4f implements Externalizable {
      * Component-wise add <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
      * 
      * @param other
-     *          the other addend 
+     *          the other addend
      * @param dest
      *          will hold the result
      * @return dest
@@ -854,7 +854,7 @@ public class Matrix4f implements Externalizable {
      * Component-wise subtract <code>subtrahend</code> from <code>this</code> and store the result in <code>dest</code>.
      * 
      * @param subtrahend
-     *          the subtrahend 
+     *          the subtrahend
      * @param dest
      *          will hold the result
      * @return dest
@@ -923,7 +923,7 @@ public class Matrix4f implements Externalizable {
      * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>.
      * 
      * @param other
-     *          the other addend 
+     *          the other addend
      * @return this
      */
     public Matrix4f add4x3(Matrix4f other) {
@@ -1433,18 +1433,18 @@ public class Matrix4f implements Externalizable {
     public Matrix4f invertPerspectiveView(Matrix4f view, Matrix4f dest) {
         float a =  1.0f / (ms[M00] * ms[M11]);
         float l = -1.0f / (ms[M23] * ms[M32]);
-        float pmsM00 =  ms[M11] * a;
-        float pmsM11 =  ms[M00] * a;
-        float pmsM23 = -ms[M23] * l;
-        float pmsM32 = -ms[M32] * l;
-        float pmsM33 =  ms[M22] * l;
+        float pms00 =  ms[M11] * a;
+        float pms11 =  ms[M00] * a;
+        float pms23 = -ms[M23] * l;
+        float pms32 = -ms[M32] * l;
+        float pms33 =  ms[M22] * l;
         float vmsM30 = -view.ms[M00] * view.ms[M30] - view.ms[M01] * view.ms[M31] - view.ms[M02] * view.ms[M32];
         float vmsM31 = -view.ms[M10] * view.ms[M30] - view.ms[M11] * view.ms[M31] - view.ms[M12] * view.ms[M32];
         float vmsM32 = -view.ms[M20] * view.ms[M30] - view.ms[M21] * view.ms[M31] - view.ms[M22] * view.ms[M32];
-        dest.set(view.ms[M00] * pmsM00, view.ms[M10] * pmsM00, view.ms[M20] * pmsM00, 0.0f,
-                 view.ms[M01] * pmsM11, view.ms[M11] * pmsM11, view.ms[M21] * pmsM11, 0.0f,
-                 vmsM30 * pmsM23, vmsM31 * pmsM23, vmsM32 * pmsM23, pmsM23,
-                 view.ms[M02] * pmsM32 + vmsM30 * pmsM33, view.ms[M12] * pmsM32 + vmsM31 * pmsM33, view.ms[M22] * pmsM32 + vmsM32 * pmsM33, pmsM33);
+        dest.set(view.ms[M00] * pms00, view.ms[M10] * pms00, view.ms[M20] * pms00, 0.0f,
+                 view.ms[M01] * pms11, view.ms[M11] * pms11, view.ms[M21] * pms11, 0.0f,
+                 vmsM30 * pms23, vmsM31 * pms23, vmsM32 * pms23, pms23,
+                 view.ms[M02] * pms32 + vmsM30 * pms33, view.ms[M12] * pms32 + vmsM31 * pms33, view.ms[M22] * pms32 + vmsM32 * pms33, pms33);
         return dest;
     }
 

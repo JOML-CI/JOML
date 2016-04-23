@@ -288,6 +288,45 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @param dest
+     *          the matrix to write the rotation into
+     * @return the passed in destination
+     */
+    public Matrix4d get(Matrix4d dest) {
+        float dx = x + x;
+        float dy = y + y;
+        float dz = z + z;
+        float q00 = dx * x;
+        float q11 = dy * y;
+        float q22 = dz * z;
+        float q01 = dx * y;
+        float q02 = dx * z;
+        float q03 = dx * w;
+        float q12 = dy * z;
+        float q13 = dy * w;
+        float q23 = dz * w;
+        dest.ms[Matrix4d.M00] = 1.0 - q11 - q22;
+        dest.ms[Matrix4d.M01] = q01 + q23;
+        dest.ms[Matrix4d.M02] = q02 - q13;
+        dest.ms[Matrix4d.M03] = 0.0;
+        dest.ms[Matrix4d.M10] = q01 - q23;
+        dest.ms[Matrix4d.M11] = 1.0 - q22 - q00;
+        dest.ms[Matrix4d.M12] = q12 + q03;
+        dest.ms[Matrix4d.M13] = 0.0;
+        dest.ms[Matrix4d.M20] = q02 + q13;
+        dest.ms[Matrix4d.M21] = q12 - q03;
+        dest.ms[Matrix4d.M22] = 1.0 - q11 - q00;
+        dest.ms[Matrix4d.M23] = 0.0;
+        dest.ms[Matrix4d.M30] = 0.0;
+        dest.ms[Matrix4d.M31] = 0.0;
+        dest.ms[Matrix4d.M32] = 0.0;
+        dest.ms[Matrix4d.M33] = 1.0;
+        return dest;
+    }
+
+    /**
      * Set the given {@link AxisAngle4f} to represent the rotation of
      * <code>this</code> quaternion.
      * 
@@ -660,6 +699,55 @@ public class Quaternionf implements Externalizable {
         }
     }
 
+    private void setFromUnnormalized(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22) {
+        double nm00 = m00, nm01 = m01, nm02 = m02;
+        double nm10 = m10, nm11 = m11, nm12 = m12;
+        double nm20 = m20, nm21 = m21, nm22 = m22;
+        double lenX = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
+        double lenY = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
+        double lenZ = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
+        nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
+        nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
+        nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
+        setFromNormalized(nm00, nm01, nm02, nm10, nm11, nm12, nm20, nm21, nm22);
+    }
+
+    private void setFromNormalized(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22) {
+        double t;
+        double tr = m00 + m11 + m22;
+        if (tr >= 0.0) {
+            t = Math.sqrt(tr + 1.0);
+            w = (float) (t * 0.5);
+            t = 0.5 / t;
+            x = (float) ((m12 - m21) * t);
+            y = (float) ((m20 - m02) * t);
+            z = (float) ((m01 - m10) * t);
+        } else {
+            if (m00 >= m11 && m00 >= m22) {
+                t = Math.sqrt(m00 - (m11 + m22) + 1.0);
+                x = (float) (t * 0.5);
+                t = 0.5 / t;
+                y = (float) ((m10 + m01) * t);
+                z = (float) ((m02 + m20) * t);
+                w = (float) ((m12 - m21) * t);
+            } else if (m11 > m22) {
+                t = (float) Math.sqrt(m11 - (m22 + m00) + 1.0);
+                y = (float) (t * 0.5);
+                t = 0.5 / t;
+                z = (float) ((m21 + m12) * t);
+                x = (float) ((m10 + m01) * t);
+                w = (float) ((m20 - m02) * t);
+            } else {
+                t = (float) Math.sqrt(m22 - (m00 + m11) + 1.0);
+                z = (float) (t * 0.5);
+                t = 0.5 / t;
+                x = (float) ((m02 + m20) * t);
+                y = (float) ((m21 + m12) * t);
+                w = (float) ((m01 - m10) * t);
+            }
+        }
+    }
+
     /**
      * Set this quaternion to be a representation of the rotational component of the given matrix.
      * <p>
@@ -685,6 +773,34 @@ public class Quaternionf implements Externalizable {
      */
     public Quaternionf setFromNormalized(Matrix4f mat) {
         setFromNormalized(mat.ms[Matrix4f.M00], mat.ms[Matrix4f.M01], mat.ms[Matrix4f.M02], mat.ms[Matrix4f.M10], mat.ms[Matrix4f.M11], mat.ms[Matrix4f.M12], mat.ms[Matrix4f.M20], mat.ms[Matrix4f.M21], mat.ms[Matrix4f.M22]);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are no unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaternionf setFromUnnormalized(Matrix4d mat) {
+        setFromUnnormalized(mat.ms[Matrix4d.M00], mat.ms[Matrix4d.M01], mat.ms[Matrix4d.M02], mat.ms[Matrix4d.M10], mat.ms[Matrix4d.M11], mat.ms[Matrix4d.M12], mat.ms[Matrix4d.M20], mat.ms[Matrix4d.M21], mat.ms[Matrix4d.M22]);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaternionf setFromNormalized(Matrix4d mat) {
+        setFromNormalized(mat.ms[Matrix4d.M00], mat.ms[Matrix4d.M01], mat.ms[Matrix4d.M02], mat.ms[Matrix4d.M10], mat.ms[Matrix4d.M11], mat.ms[Matrix4d.M12], mat.ms[Matrix4d.M20], mat.ms[Matrix4d.M21], mat.ms[Matrix4d.M22]);
         return this;
     }
 

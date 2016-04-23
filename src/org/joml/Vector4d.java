@@ -959,6 +959,34 @@ public class Vector4d implements Externalizable {
      *          the matrix to multiply by
      * @return this
      */
+    public Vector4d mul(Matrix4d mat) {
+        return mul(mat, this);
+    }
+
+    /**
+     * Multiply this {@link Vector4d} by the given matrix mat and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply <code>this</code> by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector4d mul(Matrix4d mat, Vector4d dest) {
+        dest.set(mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z + mat.ms[Matrix4d.M30] * w,
+                 mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z + mat.ms[Matrix4d.M31] * w,
+                 mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z + mat.ms[Matrix4d.M32] * w, 
+                 mat.ms[Matrix4d.M03] * x + mat.ms[Matrix4d.M13] * y + mat.ms[Matrix4d.M23] * z + mat.ms[Matrix4d.M33] * w);
+        return dest;
+    }
+
+    /**
+     * Multiply this {@link Vector4d} by the given matrix <code>mat</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply by
+     * @return this
+     */
     public Vector4d mul(Matrix4f mat) {
         return mul(mat, this);
     }
@@ -978,6 +1006,36 @@ public class Vector4d implements Externalizable {
                  mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z + mat.ms[Matrix4f.M32] * w, 
                  mat.ms[Matrix4f.M03] * x + mat.ms[Matrix4f.M13] * y + mat.ms[Matrix4f.M23] * z + mat.ms[Matrix4f.M33] * w);
         return dest;
+    }
+
+    /**
+     * Multiply this Vector4d by the given matrix <code>mat</code>, perform perspective division
+     * and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector4d mulProject(Matrix4d mat, Vector4d dest) {
+        double invW = 1.0 / (mat.ms[Matrix4d.M03] * x + mat.ms[Matrix4d.M13] * y + mat.ms[Matrix4d.M23] * z + mat.ms[Matrix4d.M33] * w);
+        dest.set((mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z + mat.ms[Matrix4d.M30] * w) * invW,
+                 (mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z + mat.ms[Matrix4d.M31] * w) * invW,
+                 (mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z + mat.ms[Matrix4d.M32] * w) * invW,
+                 1.0);
+        return dest;
+    }
+
+    /**
+     * Multiply this Vector4d by the given matrix <code>mat</code>, perform perspective division.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector4d mulProject(Matrix4d mat) {
+        return mulProject(mat, this);
     }
 
     /**

@@ -917,6 +917,39 @@ public class Vector3d implements Externalizable {
      *          will hold the result
      * @return dest
      */
+    public Vector3d mulProject(Matrix4d mat, Vector3d dest) {
+        double invW = 1.0 / (mat.ms[Matrix4d.M03] * x + mat.ms[Matrix4d.M13] * y + mat.ms[Matrix4d.M23] * z + mat.ms[Matrix4d.M33]);
+        dest.set((mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z + mat.ms[Matrix4d.M30]) * invW,
+                 (mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z + mat.ms[Matrix4d.M31]) * invW,
+                 (mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z + mat.ms[Matrix4d.M32]) * invW);
+        return dest;
+    }
+
+    /**
+     * Multiply this Vector3d by the given matrix <code>mat</code>, perform perspective division.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulProject(Matrix4d mat) {
+        return mulProject(mat, this);
+    }
+
+    /**
+     * Multiply this Vector3d by the given matrix <code>mat</code>, perform perspective division
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
     public Vector3d mulProject(Matrix4f mat, Vector3d dest) {
         double invW = 1.0 / (mat.ms[Matrix4f.M03] * x + mat.ms[Matrix4f.M13] * y + mat.ms[Matrix4f.M23] * z + mat.ms[Matrix4f.M33]);
         dest.set((mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z + mat.ms[Matrix4f.M30]) * invW,
@@ -960,9 +993,9 @@ public class Vector3d implements Externalizable {
      * @return dest
      */
     public Vector3d mul(Matrix3f mat, Vector3d dest) {
-        dest.set(mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z,
-                 mat.ms[Matrix4f.M01] * x + mat.ms[Matrix4f.M11] * y + mat.ms[Matrix4f.M21] * z,
-                 mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z);
+        dest.set(mat.ms[Matrix3f.M00] * x + mat.ms[Matrix3f.M10] * y + mat.ms[Matrix3f.M20] * z,
+                 mat.ms[Matrix3f.M01] * x + mat.ms[Matrix3f.M11] * y + mat.ms[Matrix3f.M21] * z,
+                 mat.ms[Matrix3f.M02] * x + mat.ms[Matrix3f.M12] * y + mat.ms[Matrix3f.M22] * z);
         return dest;
     }
 
@@ -980,6 +1013,38 @@ public class Vector3d implements Externalizable {
     }
 
     /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPosition(Matrix4d mat) {
+        return mulPosition(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d mulPosition(Matrix4d mat, Vector3d dest) {
+        dest.set(mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z + mat.ms[Matrix4d.M30],
+                 mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z + mat.ms[Matrix4d.M31],
+                 mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z + mat.ms[Matrix4d.M32]);
+        return dest;
+    }
+
+    /**
      * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
      * result in <code>dest</code>.
      * <p>
@@ -992,9 +1057,9 @@ public class Vector3d implements Externalizable {
      * @return dest
      */
     public Vector3d mulPosition(Matrix4f mat, Vector3d dest) {
-        dest.set(mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z + mat.ms[Matrix4f.M30],
-                 mat.ms[Matrix4f.M01] * x + mat.ms[Matrix4f.M11] * y + mat.ms[Matrix4f.M21] * z + mat.ms[Matrix4f.M31],
-                 mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z + mat.ms[Matrix4f.M32]);
+        dest.set(mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z + mat.ms[Matrix4d.M30],
+                 mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z + mat.ms[Matrix4d.M31],
+                 mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z + mat.ms[Matrix4d.M32]);
         return dest;
     }
 
@@ -1025,10 +1090,44 @@ public class Vector3d implements Externalizable {
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
     public double mulPositionW(Matrix4f mat, Vector3d dest) {
-        double w = mat.ms[Matrix4f.M03] * x + mat.ms[Matrix4f.M13] * y + mat.ms[Matrix4f.M23] * z + mat.ms[Matrix4f.M33];
-        dest.set(mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z + mat.ms[Matrix4f.M30],
-                 mat.ms[Matrix4f.M01] * x + mat.ms[Matrix4f.M11] * y + mat.ms[Matrix4f.M21] * z + mat.ms[Matrix4f.M31],
-                 mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z + mat.ms[Matrix4f.M32]);
+        double w = mat.ms[Matrix4d.M03] * x + mat.ms[Matrix4d.M13] * y + mat.ms[Matrix4d.M23] * z + mat.ms[Matrix4d.M33];
+        dest.set(mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z + mat.ms[Matrix4d.M30],
+                 mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z + mat.ms[Matrix4d.M31],
+                 mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z + mat.ms[Matrix4d.M32]);
+        return w;
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and return the <i>w</i> component
+     * of the resulting 4D vector.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return the <i>w</i> component of the resulting 4D vector after multiplication
+     */
+    public double mulPositionW(Matrix4d mat) {
+        return mulPositionW(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>, store the
+     * result in <code>dest</code> and return the <i>w</i> component of the resulting 4D vector.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the <tt>(x, y, z)</tt> components of the resulting vector
+     * @return the <i>w</i> component of the resulting 4D vector after multiplication
+     */
+    public double mulPositionW(Matrix4d mat, Vector3d dest) {
+        double w = mat.ms[Matrix4d.M03] * x + mat.ms[Matrix4d.M13] * y + mat.ms[Matrix4d.M23] * z + mat.ms[Matrix4d.M33];
+        dest.set(mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z + mat.ms[Matrix4d.M30],
+                 mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z + mat.ms[Matrix4d.M31],
+                 mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z + mat.ms[Matrix4d.M32]);
         return w;
     }
 
@@ -1043,6 +1142,38 @@ public class Vector3d implements Externalizable {
      */
     public Vector3d mulDirection(Matrix4f mat) {
         return mulDirection(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulDirection(Matrix4d mat) {
+        return mulDirection(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d mulDirection(Matrix4d mat, Vector3d dest) {
+        dest.set(mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z,
+                 mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z,
+                 mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z);
+        return dest;
     }
 
     /**
