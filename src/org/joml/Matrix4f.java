@@ -2025,7 +2025,7 @@ public class Matrix4f implements Externalizable {
      * Get the rotational component of <code>this</code> matrix and store the represented rotation
      * into the given {@link AxisAngle4d}.
      * 
-     * @see AxisAngle4f#set(Matrix4d)
+     * @see AxisAngle4f#set(Matrix4f)
      * 
      * @param dest
      *          the destination {@link AxisAngle4d}
