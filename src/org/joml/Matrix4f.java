@@ -310,7 +310,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Returns the value of the matrix element at column 0 and row 0.
+     * Return the value of the matrix element at column 0 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -318,7 +318,7 @@ public class Matrix4f implements Externalizable {
         return m00;
     }
     /**
-     * Returns the value of the matrix element at column 0 and row 1.
+     * Return the value of the matrix element at column 0 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -326,7 +326,7 @@ public class Matrix4f implements Externalizable {
         return m01;
     }
     /**
-     * Returns the value of the matrix element at column 0 and row 2.
+     * Return the value of the matrix element at column 0 and row 2.
      * 
      * @return the value of the matrix element
      */
@@ -334,7 +334,7 @@ public class Matrix4f implements Externalizable {
         return m02;
     }
     /**
-     * Returns the value of the matrix element at column 0 and row 3.
+     * Return the value of the matrix element at column 0 and row 3.
      * 
      * @return the value of the matrix element
      */
@@ -342,7 +342,7 @@ public class Matrix4f implements Externalizable {
         return m03;
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 0.
+     * Return the value of the matrix element at column 1 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -350,7 +350,7 @@ public class Matrix4f implements Externalizable {
         return m10;
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 1.
+     * Return the value of the matrix element at column 1 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -358,7 +358,7 @@ public class Matrix4f implements Externalizable {
         return m11;
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 2.
+     * Return the value of the matrix element at column 1 and row 2.
      * 
      * @return the value of the matrix element
      */
@@ -366,7 +366,7 @@ public class Matrix4f implements Externalizable {
         return m12;
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 3.
+     * Return the value of the matrix element at column 1 and row 3.
      * 
      * @return the value of the matrix element
      */
@@ -374,7 +374,7 @@ public class Matrix4f implements Externalizable {
         return m13;
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 0.
+     * Return the value of the matrix element at column 2 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -382,7 +382,7 @@ public class Matrix4f implements Externalizable {
         return m20;
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 1.
+     * Return the value of the matrix element at column 2 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -390,7 +390,7 @@ public class Matrix4f implements Externalizable {
         return m21;
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 2.
+     * Return the value of the matrix element at column 2 and row 2.
      * 
      * @return the value of the matrix element
      */
@@ -398,7 +398,7 @@ public class Matrix4f implements Externalizable {
         return m22;
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 3.
+     * Return the value of the matrix element at column 2 and row 3.
      * 
      * @return the value of the matrix element
      */
@@ -406,7 +406,7 @@ public class Matrix4f implements Externalizable {
         return m23;
     }
     /**
-     * Returns the value of the matrix element at column 3 and row 0.
+     * Return the value of the matrix element at column 3 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -414,7 +414,7 @@ public class Matrix4f implements Externalizable {
         return m30;
     }
     /**
-     * Returns the value of the matrix element at column 3 and row 1.
+     * Return the value of the matrix element at column 3 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -422,7 +422,7 @@ public class Matrix4f implements Externalizable {
         return m31;
     }
     /**
-     * Returns the value of the matrix element at column 3 and row 2.
+     * Return the value of the matrix element at column 3 and row 2.
      * 
      * @return the value of the matrix element
      */
@@ -430,12 +430,189 @@ public class Matrix4f implements Externalizable {
         return m32;
     }
     /**
-     * Returns the value of the matrix element at column 3 and row 3.
+     * Return the value of the matrix element at column 3 and row 3.
      * 
      * @return the value of the matrix element
      */
     public float m33() {
         return m33;
+    }
+
+    /**
+     * Set the value of the matrix element at column 0 and row 0
+     * 
+     * @param m00
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m00(float m00) {
+        this.m00 = m00;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 1
+     * 
+     * @param m01
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m01(float m01) {
+        this.m01 = m01;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 2
+     * 
+     * @param m02
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m02(float m02) {
+        this.m02 = m02;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 3
+     * 
+     * @param m03
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m03(float m03) {
+        this.m03 = m03;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 0
+     * 
+     * @param m10
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m10(float m10) {
+        this.m10 = m10;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 1
+     * 
+     * @param m11
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m11(float m11) {
+        this.m11 = m11;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 2
+     * 
+     * @param m12
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m12(float m12) {
+        this.m12 = m12;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 3
+     * 
+     * @param m13
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m13(float m13) {
+        this.m13 = m13;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 0
+     * 
+     * @param m20
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m20(float m20) {
+        this.m20 = m20;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 1
+     * 
+     * @param m21
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m21(float m21) {
+        this.m21 = m21;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 2
+     * 
+     * @param m22
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m22(float m22) {
+        this.m22 = m22;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 3
+     * 
+     * @param m23
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m23(float m23) {
+        this.m23 = m23;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 3 and row 0
+     * 
+     * @param m30
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m30(float m30) {
+        this.m30 = m30;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 3 and row 1
+     * 
+     * @param m31
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m31(float m31) {
+        this.m31 = m31;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 3 and row 2
+     * 
+     * @param m32
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix4f m32(float m32) {
+        this.m32 = m32;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 3 and row 3
+     * 
+     * @param m33
+     *          the new value
+     * @return this
+     */
+    public Matrix4f m33(float m33) {
+        this.m33 = m33;
+        return this;
     }
 
     /**

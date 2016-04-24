@@ -139,7 +139,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Returns the value of the matrix element at column 0 and row 0.
+     * Return the value of the matrix element at column 0 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -147,7 +147,7 @@ public class Matrix3f implements Externalizable {
         return m00;
     }
     /**
-     * Returns the value of the matrix element at column 0 and row 1.
+     * Return the value of the matrix element at column 0 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -155,7 +155,7 @@ public class Matrix3f implements Externalizable {
         return m01;
     }
     /**
-     * Returns the value of the matrix element at column 0 and row 2.
+     * Return the value of the matrix element at column 0 and row 2.
      * 
      * @return the value of the matrix element
      */
@@ -163,7 +163,7 @@ public class Matrix3f implements Externalizable {
         return m02;
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 0.
+     * Return the value of the matrix element at column 1 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -171,7 +171,7 @@ public class Matrix3f implements Externalizable {
         return m10;
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 1.
+     * Return the value of the matrix element at column 1 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -179,7 +179,7 @@ public class Matrix3f implements Externalizable {
         return m11;
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 2.
+     * Return the value of the matrix element at column 1 and row 2.
      * 
      * @return the value of the matrix element
      */
@@ -187,7 +187,7 @@ public class Matrix3f implements Externalizable {
         return m12;
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 0.
+     * Return the value of the matrix element at column 2 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -195,7 +195,7 @@ public class Matrix3f implements Externalizable {
         return m20;
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 1.
+     * Return the value of the matrix element at column 2 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -203,12 +203,112 @@ public class Matrix3f implements Externalizable {
         return m21;
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 2.
+     * Return the value of the matrix element at column 2 and row 2.
      * 
      * @return the value of the matrix element
      */
     public float m22() {
         return m22;
+    }
+
+    /**
+     * Set the value of the matrix element at column 0 and row 0
+     * 
+     * @param m00
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m00(float m00) {
+        this.m00 = m00;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 1
+     * 
+     * @param m01
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m01(float m01) {
+        this.m01 = m01;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 2
+     * 
+     * @param m02
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m02(float m02) {
+        this.m02 = m02;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 0
+     * 
+     * @param m10
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m10(float m10) {
+        this.m10 = m10;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 1
+     * 
+     * @param m11
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m11(float m11) {
+        this.m11 = m11;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 2
+     * 
+     * @param m12
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m12(float m12) {
+        this.m12 = m12;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 0
+     * 
+     * @param m20
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m20(float m20) {
+        this.m20 = m20;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 1
+     * 
+     * @param m21
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m21(float m21) {
+        this.m21 = m21;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 2
+     * 
+     * @param m22
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m22(float m22) {
+        this.m22 = m22;
+        return this;
     }
 
     /**
