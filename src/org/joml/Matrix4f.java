@@ -310,6 +310,135 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Returns the value of the matrix element at column 0 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m00() {
+        return m00;
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m01() {
+        return m01;
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m02() {
+        return m02;
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 3.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m03() {
+        return m03;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m10() {
+        return m10;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m11() {
+        return m11;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m12() {
+        return m12;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 3.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m13() {
+        return m13;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m20() {
+        return m20;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m21() {
+        return m21;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m22() {
+        return m22;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 3.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m23() {
+        return m23;
+    }
+    /**
+     * Returns the value of the matrix element at column 3 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m30() {
+        return m30;
+    }
+    /**
+     * Returns the value of the matrix element at column 3 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m31() {
+        return m31;
+    }
+    /**
+     * Returns the value of the matrix element at column 3 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m32() {
+        return m32;
+    }
+    /**
+     * Returns the value of the matrix element at column 3 and row 3.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m33() {
+        return m33;
+    }
+
+    /**
      * Reset this matrix to the identity.
      * <p>
      * Please note that if a call to {@link #identity()} is immediately followed by a call to:

@@ -139,6 +139,79 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Returns the value of the matrix element at column 0 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m00() {
+        return m00;
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m01() {
+        return m01;
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m02() {
+        return m02;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m10() {
+        return m10;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m11() {
+        return m11;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m12() {
+        return m12;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m20() {
+        return m20;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m21() {
+        return m21;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m22() {
+        return m22;
+    }
+
+    /**
      * Set the elements of this matrix to the ones in <code>m</code>.
      * 
      * @param m

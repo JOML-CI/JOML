@@ -175,6 +175,79 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Returns the value of the matrix element at column 0 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m00() {
+        return m00;
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m01() {
+        return m01;
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m02() {
+        return m02;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m10() {
+        return m10;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m11() {
+        return m11;
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m12() {
+        return m12;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m20() {
+        return m20;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m21() {
+        return m21;
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m22() {
+        return m22;
+    }
+
+    /**
      * Set the values in this matrix to the ones in m.
      * 
      * @param m
@@ -253,7 +326,7 @@ public class Matrix3d implements Externalizable {
         m22 = mat.m22;
         return this;
     }
-    
+
     /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link AxisAngle4f}.
      * 
