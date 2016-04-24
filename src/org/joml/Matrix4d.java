@@ -5039,6 +5039,98 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, <tt>S</tt> is a scaling transformation
+     * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt> and <code>M</code> is an {@link #isAffine() affine} matrix.
+     * <p>
+     * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz).mulAffine(m)</tt>
+     * 
+     * @see #translation(double, double, double)
+     * @see #rotate(Quaterniond)
+     * @see #scale(double, double, double)
+     * @see #mulAffine(Matrix4d)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
+     * @param sx
+     *          the scaling factor for the x-axis
+     * @param sy
+     *          the scaling factor for the y-axis
+     * @param sz
+     *          the scaling factor for the z-axis
+     * @param m
+     *          the {@link #isAffine() affine} matrix to multiply by
+     * @return this
+     */
+    public Matrix4d translationRotateScaleMulAffine(
+            double tx, double ty, double tz, 
+            double qx, double qy, double qz, double qw, 
+            double sx, double sy, double sz,
+            Matrix4d m) {
+        double dqx = qx + qx;
+        double dqy = qy + qy;
+        double dqz = qz + qz;
+        double q00 = dqx * qx;
+        double q11 = dqy * qy;
+        double q22 = dqz * qz;
+        double q01 = dqx * qy;
+        double q02 = dqx * qz;
+        double q03 = dqx * qw;
+        double q12 = dqy * qz;
+        double q13 = dqy * qw;
+        double q23 = dqz * qw;
+        double nm00 = sx - (q11 + q22) * sx;
+        double nm01 = (q01 + q23) * sx;
+        double nm02 = (q02 - q13) * sx;
+        double nm10 = (q01 - q23) * sy;
+        double nm11 = sy - (q22 + q00) * sy;
+        double nm12 = (q12 + q03) * sy;
+        double nm20 = (q02 + q13) * sz;
+        double nm21 = (q12 - q03) * sz;
+        double nm22 = sz - (q11 + q00) * sz;
+        double m00 = nm00 * m.m00 + nm10 * m.m01 + nm20 * m.m02;
+        double m01 = nm01 * m.m00 + nm11 * m.m01 + nm21 * m.m02;
+        m02 = nm02 * m.m00 + nm12 * m.m01 + nm22 * m.m02;
+        this.m00 = m00;
+        this.m01 = m01;
+        m03 = 0.0;
+        double m10 = nm00 * m.m10 + nm10 * m.m11 + nm20 * m.m12;
+        double m11 = nm01 * m.m10 + nm11 * m.m11 + nm21 * m.m12;
+        m12 = nm02 * m.m10 + nm12 * m.m11 + nm22 * m.m12;
+        this.m10 = m10;
+        this.m11 = m11;
+        m13 = 0.0;
+        double m20 = nm00 * m.m20 + nm10 * m.m21 + nm20 * m.m22;
+        double m21 = nm01 * m.m20 + nm11 * m.m21 + nm21 * m.m22;
+        m22 = nm02 * m.m20 + nm12 * m.m21 + nm22 * m.m22;
+        this.m20 = m20;
+        this.m21 = m21;
+        m23 = 0.0;
+        double m30 = nm00 * m.m30 + nm10 * m.m31 + nm20 * m.m32 + tx;
+        double m31 = nm01 * m.m30 + nm11 * m.m31 + nm21 * m.m32 + ty;
+        m32 = nm02 * m.m30 + nm12 * m.m31 + nm22 * m.m32 + tz;
+        this.m30 = m30;
+        this.m31 = m31;
+        m33 = 1.0;
+        return this;
+    }
+
+    /**
      * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
      * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
      * which scales the axes by <code>scale</code>.
