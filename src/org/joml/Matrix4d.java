@@ -5185,6 +5185,37 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code> and <code>M</code> is an {@link #isAffine() affine} matrix.
+     * <p>
+     * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale).mulAffine(m)</tt>
+     * 
+     * @see #translation(Vector3d)
+     * @see #rotate(Quaterniond)
+     * @see #mulAffine(Matrix4d)
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @param m
+     *          the {@link #isAffine() affine} matrix to multiply by
+     * @return this
+     */
+    public Matrix4d translationRotateScaleMulAffine(Vector3d translation, 
+                                                    Quaterniond quat, 
+                                                    Vector3d scale,
+                                                    Matrix4d m) {
+        return translationRotateScaleMulAffine(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z, m);
+    }
+
+    /**
      * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
      * <tt>R</tt> is a rotation transformation specified by the given quaternion.
      * <p>
