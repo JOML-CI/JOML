@@ -187,7 +187,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Returns the value of the matrix element at column 0 and row 0.
+     * Return the value of the matrix element at column 0 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -195,7 +195,7 @@ public class Matrix3d implements Externalizable {
         return ms[M00];
     }
     /**
-     * Returns the value of the matrix element at column 0 and row 1.
+     * Return the value of the matrix element at column 0 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -203,7 +203,7 @@ public class Matrix3d implements Externalizable {
         return ms[M01];
     }
     /**
-     * Returns the value of the matrix element at column 0 and row 2.
+     * Return the value of the matrix element at column 0 and row 2.
      * 
      * @return the value of the matrix element
      */
@@ -211,7 +211,7 @@ public class Matrix3d implements Externalizable {
         return ms[M02];
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 0.
+     * Return the value of the matrix element at column 1 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -219,7 +219,7 @@ public class Matrix3d implements Externalizable {
         return ms[M10];
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 1.
+     * Return the value of the matrix element at column 1 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -227,7 +227,7 @@ public class Matrix3d implements Externalizable {
         return ms[M11];
     }
     /**
-     * Returns the value of the matrix element at column 1 and row 2.
+     * Return the value of the matrix element at column 1 and row 2.
      * 
      * @return the value of the matrix element
      */
@@ -235,7 +235,7 @@ public class Matrix3d implements Externalizable {
         return ms[M12];
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 0.
+     * Return the value of the matrix element at column 2 and row 0.
      * 
      * @return the value of the matrix element
      */
@@ -243,7 +243,7 @@ public class Matrix3d implements Externalizable {
         return ms[M20];
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 1.
+     * Return the value of the matrix element at column 2 and row 1.
      * 
      * @return the value of the matrix element
      */
@@ -251,12 +251,112 @@ public class Matrix3d implements Externalizable {
         return ms[M21];
     }
     /**
-     * Returns the value of the matrix element at column 2 and row 2.
+     * Return the value of the matrix element at column 2 and row 2.
      * 
      * @return the value of the matrix element
      */
     public double m22() {
         return ms[M22];
+    }
+
+    /**
+     * Set the value of the matrix element at column 0 and row 0
+     * 
+     * @param m00
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3d m00(double m00) {
+        this.ms[M00] = m00;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 1
+     * 
+     * @param m01
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3d m01(double m01) {
+        this.ms[M01] = m01;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 2
+     * 
+     * @param m02
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3d m02(double m02) {
+        this.ms[M02] = m02;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 0
+     * 
+     * @param m10
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3d m10(double m10) {
+        this.ms[M10] = m10;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 1
+     * 
+     * @param m11
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3d m11(double m11) {
+        this.ms[M11] = m11;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 2
+     * 
+     * @param m12
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3d m12(double m12) {
+        this.ms[M12] = m12;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 0
+     * 
+     * @param m20
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3d m20(double m20) {
+        this.ms[M20] = m20;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 1
+     * 
+     * @param m21
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3d m21(double m21) {
+        this.ms[M21] = m21;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 2
+     * 
+     * @param m22
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3d m22(double m22) {
+        this.ms[M22] = m22;
+        return this;
     }
 
     /**
