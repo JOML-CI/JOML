@@ -992,6 +992,34 @@ public class Vector3d implements Externalizable {
      *          will hold the result
      * @return dest
      */
+    public Vector3d mul(Matrix3d mat, Vector3d dest) {
+        dest.set(mat.ms[Matrix3d.M00] * x + mat.ms[Matrix3d.M10] * y + mat.ms[Matrix3d.M20] * z,
+                 mat.ms[Matrix3d.M01] * x + mat.ms[Matrix3d.M11] * y + mat.ms[Matrix3d.M21] * z,
+                 mat.ms[Matrix3d.M02] * x + mat.ms[Matrix3d.M12] * y + mat.ms[Matrix3d.M22] * z);
+        return dest;
+    }
+
+    /**
+     * Multiply this Vector3d by the given matrix <code>mat</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mul(Matrix3d mat) {
+        return mul(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the given matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
     public Vector3d mul(Matrix3f mat, Vector3d dest) {
         dest.set(mat.ms[Matrix3f.M00] * x + mat.ms[Matrix3f.M10] * y + mat.ms[Matrix3f.M20] * z,
                  mat.ms[Matrix3f.M01] * x + mat.ms[Matrix3f.M11] * y + mat.ms[Matrix3f.M21] * z,
