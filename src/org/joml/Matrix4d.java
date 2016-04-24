@@ -5039,6 +5039,60 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code>.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
+     * 
+     * @see #translation(Vector3f)
+     * @see #rotate(Quaternionf)
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @return this
+     */
+    public Matrix4d translationRotateScale(Vector3f translation, 
+                                           Quaternionf quat, 
+                                           Vector3f scale) {
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code>.
+     * <p>
+     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
+     * 
+     * @see #translation(Vector3d)
+     * @see #rotate(Quaterniond)
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @return this
+     */
+    public Matrix4d translationRotateScale(Vector3d translation, 
+                                           Quaterniond quat, 
+                                           Vector3d scale) {
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
+    }
+
+    /**
      * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
      * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, <tt>S</tt> is a scaling transformation
      * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt> and <code>M</code> is an {@link #isAffine() affine} matrix.
@@ -5128,60 +5182,6 @@ public class Matrix4d implements Externalizable {
         this.m31 = m31;
         m33 = 1.0;
         return this;
-    }
-
-    /**
-     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
-     * which scales the axes by <code>scale</code>.
-     * <p>
-     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
-     * at last the translation.
-     * <p>
-     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
-     * 
-     * @see #translation(Vector3f)
-     * @see #rotate(Quaternionf)
-     * 
-     * @param translation
-     *          the translation
-     * @param quat
-     *          the quaternion representing a rotation
-     * @param scale
-     *          the scaling factors
-     * @return this
-     */
-    public Matrix4d translationRotateScale(Vector3f translation, 
-                                           Quaternionf quat, 
-                                           Vector3f scale) {
-        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
-    }
-
-    /**
-     * Set <code>this</code> matrix to <tt>T * R * S</tt>, where <tt>T</tt> is the given <code>translation</code>,
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
-     * which scales the axes by <code>scale</code>.
-     * <p>
-     * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
-     * at last the translation.
-     * <p>
-     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
-     * 
-     * @see #translation(Vector3d)
-     * @see #rotate(Quaterniond)
-     * 
-     * @param translation
-     *          the translation
-     * @param quat
-     *          the quaternion representing a rotation
-     * @param scale
-     *          the scaling factors
-     * @return this
-     */
-    public Matrix4d translationRotateScale(Vector3d translation, 
-                                           Quaterniond quat, 
-                                           Vector3d scale) {
-        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
     }
 
     /**
