@@ -97,6 +97,72 @@ public class GeometryUtils {
     }
 
     /**
+     * Compute two arbitrary vectors perpendicular to the given normalized vector <tt>(x, y, z)</tt>, and store them in <code>dest1</code> and <code>dest2</code>,
+     * respectively.
+     * <p>
+     * The computed vectors will themselves be perpendicular to each another and normalized. So the tree vectors <tt>(x, y, z)</tt>, <code>dest1</code> and
+     * <code>dest2</code> form an orthonormal basis.
+     * 
+     * @param x
+     *            the x coordinate of the normalized input vector
+     * @param y
+     *            the y coordinate of the normalized input vector
+     * @param z
+     *            the z coordinate of the normalized input vector
+     * @param dest1
+     *            will hold the first perpendicular vector
+     * @param dest2
+     *            will hold the second perpendicular vector
+     */
+    public static void perpendicular(double x, double y, double z, Vector3d dest1, Vector3d dest2) {
+        double magX = z * z + y * y;
+        double magY = z * z + x * x;
+        double magZ = y * y + x * x;
+        double mag;
+        if (magX > magY && magX > magZ) {
+            dest1.x = 0;
+            dest1.y = z;
+            dest1.z = -y;
+            mag = magX;
+        } else if (magY > magZ) {
+            dest1.x = z;
+            dest1.y = 0;
+            dest1.z = x;
+            mag = magY;
+        } else {
+            dest1.x = y;
+            dest1.y = -x;
+            dest1.z = 0;
+            mag = magZ;
+        }
+        double len = 1.0 / Math.sqrt(mag);
+        dest1.x *= len;
+        dest1.y *= len;
+        dest1.z *= len;
+        dest2.x = y * dest1.z - z * dest1.y;
+        dest2.y = z * dest1.x - x * dest1.z;
+        dest2.z = x * dest1.y - y * dest1.x;
+    }
+
+    /**
+     * Compute two arbitrary vectors perpendicular to the given normalized vector <code>v</code>, and store them in <code>dest1</code> and <code>dest2</code>,
+     * respectively.
+     * <p>
+     * The computed vectors will themselves be perpendicular to each another and normalized. So the tree vectors <code>v</code>, <code>dest1</code> and
+     * <code>dest2</code> form an orthonormal basis.
+     * 
+     * @param v
+     *            the {@link Vector3d#normalize() normalized} input vector
+     * @param dest1
+     *            will hold the first perpendicular vector
+     * @param dest2
+     *            will hold the second perpendicular vector
+     */
+    public static void perpendicular(Vector3d v, Vector3d dest1, Vector3d dest2) {
+        perpendicular(v.x, v.y, v.z, dest1, dest2);
+    }
+
+    /**
      * Calculate the normal of a surface defined by points <code>v1</code>, <code>v2</code> and <code>v3</code> and store it in <code>dest</code>.
      * 
      * @param v0
@@ -138,9 +204,57 @@ public class GeometryUtils {
      *            will hold the result
      */
     public static void normal(float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z, Vector3f dest) {
-        dest.x = ((v1Y - v0Y) * (v2Z - v0Z)) - ((v1Z - v0Z) * (v2Y - v0Y));
-        dest.y = ((v1Z - v0Z) * (v2X - v0X)) - ((v1X - v0X) * (v2Z - v0Z));
-        dest.z = ((v1X - v0X) * (v2Y - v0Y)) - ((v1Y - v0Y) * (v2X - v0X));
+        dest.x = (v1Y - v0Y) * (v2Z - v0Z) - (v1Z - v0Z) * (v2Y - v0Y);
+        dest.y = (v1Z - v0Z) * (v2X - v0X) - (v1X - v0X) * (v2Z - v0Z);
+        dest.z = (v1X - v0X) * (v2Y - v0Y) - (v1Y - v0Y) * (v2X - v0X);
+        dest.normalize();
+    }
+
+    /**
+     * Calculate the normal of a surface defined by points <code>v1</code>, <code>v2</code> and <code>v3</code> and store it in <code>dest</code>.
+     * 
+     * @param v0
+     *            the first position
+     * @param v1
+     *            the second position
+     * @param v2
+     *            the third position
+     * @param dest
+     *            will hold the result
+     */
+    public static void normal(Vector3d v0, Vector3d v1, Vector3d v2, Vector3d dest) {
+        normal(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, dest);
+    }
+
+    /**
+     * Calculate the normal of a surface defined by points <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt> and <tt>(v3X, v3Y, v3Z)</tt>
+     * and store it in <code>dest</code>.
+     * 
+     * @param v0X
+     *            the x coordinate of the first position
+     * @param v0Y
+     *            the y coordinate of the first position
+     * @param v0Z
+     *            the z coordinate of the first position
+     * @param v1X
+     *            the x coordinate of the second position
+     * @param v1Y
+     *            the y coordinate of the second position
+     * @param v1Z
+     *            the z coordinate of the second position
+     * @param v2X
+     *            the x coordinate of the third position
+     * @param v2Y
+     *            the y coordinate of the third position
+     * @param v2Z
+     *            the z coordinate of the third position
+     * @param dest
+     *            will hold the result
+     */
+    public static void normal(double v0X, double v0Y, double v0Z, double v1X, double v1Y, double v1Z, double v2X, double v2Y, double v2Z, Vector3d dest) {
+        dest.x = (v1Y - v0Y) * (v2Z - v0Z) - (v1Z - v0Z) * (v2Y - v0Y);
+        dest.y = (v1Z - v0Z) * (v2X - v0X) - (v1X - v0X) * (v2Z - v0Z);
+        dest.z = (v1X - v0X) * (v2Y - v0Y) - (v1Y - v0Y) * (v2X - v0X);
         dest.normalize();
     }
 
