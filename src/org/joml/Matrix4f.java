@@ -196,6 +196,34 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix4f} and make it a copy of the given matrix.
+     * <p>
+     * Note that due to the given {@link Matrix4d} storing values in double-precision and the constructed {@link Matrix4f} storing them
+     * in single-precision, there is the possibility of losing precision.
+     * 
+     * @param mat
+     *          the {@link Matrix4d} to copy the values from
+     */
+    public Matrix4f(Matrix4d mat) {
+        ms[M00] = (float) mat.ms[Matrix4d.M00];
+        ms[M01] = (float) mat.ms[Matrix4d.M01];
+        ms[M02] = (float) mat.ms[Matrix4d.M02];
+        ms[M03] = (float) mat.ms[Matrix4d.M03];
+        ms[M10] = (float) mat.ms[Matrix4d.M10];
+        ms[M11] = (float) mat.ms[Matrix4d.M11];
+        ms[M12] = (float) mat.ms[Matrix4d.M12];
+        ms[M13] = (float) mat.ms[Matrix4d.M13];
+        ms[M20] = (float) mat.ms[Matrix4d.M20];
+        ms[M21] = (float) mat.ms[Matrix4d.M21];
+        ms[M22] = (float) mat.ms[Matrix4d.M22];
+        ms[M23] = (float) mat.ms[Matrix4d.M23];
+        ms[M30] = (float) mat.ms[Matrix4d.M30];
+        ms[M31] = (float) mat.ms[Matrix4d.M31];
+        ms[M32] = (float) mat.ms[Matrix4d.M32];
+        ms[M33] = (float) mat.ms[Matrix4d.M33];
+    }
+
+    /**
      * Create a new 4x4 matrix using the supplied float values.
      * 
      * @param n00
@@ -633,6 +661,39 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f set(Matrix4f m) {
         System.arraycopy(m.ms, 0, ms, 0, 16);
+        return this;
+    }
+
+    /**
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
+     * <p>
+     * Note that due to the given matrix <code>m</code> storing values in double-precision and <code>this</code> matrix storing
+     * them in single-precision, there is the possibility to lose precision.
+     * 
+     * @see #Matrix4f(Matrix4d)
+     * @see #get(Matrix4d)
+     * 
+     * @param m
+     *          the matrix to copy the values from
+     * @return this
+     */
+    public Matrix4f set(Matrix4d m) {
+        ms[M00] = (float) m.ms[Matrix4d.M00];
+        ms[M01] = (float) m.ms[Matrix4d.M01];
+        ms[M02] = (float) m.ms[Matrix4d.M02];
+        ms[M03] = (float) m.ms[Matrix4d.M03];
+        ms[M10] = (float) m.ms[Matrix4d.M10];
+        ms[M11] = (float) m.ms[Matrix4d.M11];
+        ms[M12] = (float) m.ms[Matrix4d.M12];
+        ms[M13] = (float) m.ms[Matrix4d.M13];
+        ms[M20] = (float) m.ms[Matrix4d.M20];
+        ms[M21] = (float) m.ms[Matrix4d.M21];
+        ms[M22] = (float) m.ms[Matrix4d.M22];
+        ms[M23] = (float) m.ms[Matrix4d.M23];
+        ms[M30] = (float) m.ms[Matrix4d.M30];
+        ms[M31] = (float) m.ms[Matrix4d.M31];
+        ms[M32] = (float) m.ms[Matrix4d.M32];
+        ms[M33] = (float) m.ms[Matrix4d.M33];
         return this;
     }
 
@@ -2135,6 +2196,24 @@ public class Matrix4f implements Externalizable {
     public Matrix4f get(Matrix4f dest) {
         return dest.set(this);
     }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * <p>
+     * This is the reverse method of {@link #set(Matrix4d)} and allows to obtain
+     * intermediate calculation results when chaining multiple transformations.
+     * 
+     * @see #set(Matrix4d)
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    public Matrix4d get(Matrix4d dest) {
+        return dest.set(this);
+    }
+
     /**
      * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
      * <code>dest</code>.
@@ -2144,6 +2223,18 @@ public class Matrix4f implements Externalizable {
      * @return the passed in destination
      */
     public Matrix3f get3x3(Matrix3f dest) {
+        return dest.set(this);
+    }
+
+    /**
+     * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    public Matrix3d get3x3(Matrix3d dest) {
         return dest.set(this);
     }
 

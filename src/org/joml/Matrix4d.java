@@ -215,6 +215,26 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix4d} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3d}
+     * and the rest to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix3d}
+     */
+    public Matrix4d(Matrix3d mat) {
+        ms[M00] = mat.ms[Matrix3d.M00];
+        ms[M01] = mat.ms[Matrix3d.M01];
+        ms[M02] = mat.ms[Matrix3d.M02];
+        ms[M10] = mat.ms[Matrix3d.M10];
+        ms[M11] = mat.ms[Matrix3d.M11];
+        ms[M12] = mat.ms[Matrix3d.M12];
+        ms[M20] = mat.ms[Matrix3d.M20];
+        ms[M21] = mat.ms[Matrix3d.M21];
+        ms[M22] = mat.ms[Matrix3d.M22];
+        ms[M33] = 1.0;
+    }
+
+    /**
      * Create a new 4x4 matrix using the supplied float values.
      * 
      * @param n00
@@ -652,6 +672,36 @@ public class Matrix4d implements Externalizable {
         ms[M31] = m.ms[M31];
         ms[M32] = m.ms[M32];
         ms[M33] = m.ms[M33];
+        return this;
+    }
+
+    /**
+     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3d} 
+     * and the rest to identity.
+     * 
+     * @see #Matrix4d(Matrix3d)
+     * 
+     * @param mat
+     *          the {@link Matrix3d}
+     * @return this
+     */
+    public Matrix4d set(Matrix3d mat) {
+        ms[M00] = mat.ms[Matrix3d.M00];
+        ms[M01] = mat.ms[Matrix3d.M01];
+        ms[M02] = mat.ms[Matrix3d.M02];
+        ms[M03] = 0.0;
+        ms[M10] = mat.ms[Matrix3d.M10];
+        ms[M11] = mat.ms[Matrix3d.M11];
+        ms[M12] = mat.ms[Matrix3d.M12];
+        ms[M13] = 0.0;
+        ms[M20] = mat.ms[Matrix3d.M20];
+        ms[M21] = mat.ms[Matrix3d.M21];
+        ms[M22] = mat.ms[Matrix3d.M22];
+        ms[M23] = 0.0;
+        ms[M30] = 0.0;
+        ms[M31] = 0.0;
+        ms[M32] = 0.0;
+        ms[M33] = 1.0;
         return this;
     }
 
@@ -2209,6 +2259,26 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix3d transpose3x3(Matrix3d dest) {
+        dest.ms[Matrix3d.M00] = ms[M00];
+        dest.ms[Matrix3d.M01] = ms[M10];
+        dest.ms[Matrix3d.M02] = ms[M20];
+        dest.ms[Matrix3d.M10] = ms[M01];
+        dest.ms[Matrix3d.M11] = ms[M11];
+        dest.ms[Matrix3d.M12] = ms[M21];
+        dest.ms[Matrix3d.M20] = ms[M02];
+        dest.ms[Matrix3d.M21] = ms[M12];
+        dest.ms[Matrix3d.M22] = ms[M22];
+        return dest;
+    }
+
+    /**
      * Set this matrix to be a simple translation matrix.
      * <p>
      * The resulting matrix can be multiplied against another transformation
@@ -2382,6 +2452,18 @@ public class Matrix4d implements Externalizable {
      * @return the passed in destination
      */
     public Matrix4d get(Matrix4d dest) {
+        return dest.set(this);
+    }
+
+    /**
+     * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    public Matrix3d get3x3(Matrix3d dest) {
         return dest.set(this);
     }
 
@@ -3541,6 +3623,33 @@ public class Matrix4d implements Externalizable {
                  ms[M02] * v.x + ms[M12] * v.y + ms[M22] * v.z + ms[M32] * v.w,
                  v.w);
         return dest;
+    }
+
+    /**
+     * Set the upper 3x3 matrix of this {@link Matrix4d} to the given {@link Matrix3d} and the rest to the identity.
+     * 
+     * @param mat
+     *          the 3x3 matrix
+     * @return this
+     */
+    public Matrix4d set3x3(Matrix3d mat) {
+        ms[M00] = mat.ms[Matrix3d.M00];
+        ms[M01] = mat.ms[Matrix3d.M01];
+        ms[M02] = mat.ms[Matrix3d.M02];
+        ms[M03] = 0.0;
+        ms[M10] = mat.ms[Matrix3d.M10];
+        ms[M11] = mat.ms[Matrix3d.M11];
+        ms[M12] = mat.ms[Matrix3d.M12];
+        ms[M13] = 0.0;
+        ms[M20] = mat.ms[Matrix3d.M20];
+        ms[M21] = mat.ms[Matrix3d.M21];
+        ms[M22] = mat.ms[Matrix3d.M22];
+        ms[M23] = 0.0;
+        ms[M30] = 0.0;
+        ms[M31] = 0.0;
+        ms[M32] = 0.0;
+        ms[M33] = 1.0;
+        return this;
     }
 
     /**
@@ -5599,6 +5708,40 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
+     * and store it into <code>dest</code>.
+     * <p>
+     * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
+     * <p>
+     * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
+     * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
+     * In that case, use {@link Matrix3d#set(Matrix4d)} to set a given Matrix3d to only the upper left 3x3 submatrix
+     * of this matrix.
+     * 
+     * @see Matrix3d#set(Matrix4d)
+     * @see #get3x3(Matrix3d)
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix3d normal(Matrix3d dest) {
+        double det = determinant3x3();
+        double s = 1.0 / det;
+        /* Invert and transpose in one go */
+        dest.ms[Matrix3d.M00] = (ms[M11] * ms[M22] - ms[M21] * ms[M12]) * s;
+        dest.ms[Matrix3d.M01] = (ms[M20] * ms[M12] - ms[M10] * ms[M22]) * s;
+        dest.ms[Matrix3d.M02] = (ms[M10] * ms[M21] - ms[M20] * ms[M11]) * s;
+        dest.ms[Matrix3d.M10] = (ms[M21] * ms[M02] - ms[M01] * ms[M22]) * s;
+        dest.ms[Matrix3d.M11] = (ms[M00] * ms[M22] - ms[M20] * ms[M02]) * s;
+        dest.ms[Matrix3d.M12] = (ms[M20] * ms[M01] - ms[M00] * ms[M21]) * s;
+        dest.ms[Matrix3d.M20] = (ms[M01] * ms[M12] - ms[M11] * ms[M02]) * s;
+        dest.ms[Matrix3d.M21] = (ms[M10] * ms[M02] - ms[M00] * ms[M12]) * s;
+        dest.ms[Matrix3d.M22] = (ms[M00] * ms[M11] - ms[M10] * ms[M01]) * s;
+        return dest;
+    }
+
+    /**
      * Normalize the upper left 3x3 submatrix of this matrix.
      * <p>
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
@@ -5629,6 +5772,27 @@ public class Matrix4d implements Externalizable {
         dest.ms[M00] = ms[M00] * invXlen; dest.ms[M01] = ms[M01] * invXlen; dest.ms[M02] = ms[M02] * invXlen;
         dest.ms[M10] = ms[M10] * invYlen; dest.ms[M11] = ms[M11] * invYlen; dest.ms[M12] = ms[M12] * invYlen;
         dest.ms[M20] = ms[M20] * invZlen; dest.ms[M21] = ms[M21] * invZlen; dest.ms[M22] = ms[M22] * invZlen;
+        return dest;
+    }
+
+    /**
+     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
+     */
+    public Matrix3d normalize3x3(Matrix3d dest) {
+        double invXlen = 1.0 / Math.sqrt(ms[M00] * ms[M00] + ms[M01] * ms[M01] + ms[M02] * ms[M02]);
+        double invYlen = 1.0 / Math.sqrt(ms[M10] * ms[M10] + ms[M11] * ms[M11] + ms[M12] * ms[M12]);
+        double invZlen = 1.0 / Math.sqrt(ms[M20] * ms[M20] + ms[M21] * ms[M21] + ms[M22] * ms[M22]);
+        dest.ms[Matrix3d.M00] = ms[M00] * invXlen; dest.ms[Matrix3d.M01] = ms[M01] * invXlen; dest.ms[Matrix3d.M02] = ms[M02] * invXlen;
+        dest.ms[Matrix3d.M10] = ms[M10] * invYlen; dest.ms[Matrix3d.M11] = ms[M11] * invYlen; dest.ms[Matrix3d.M12] = ms[M12] * invYlen;
+        dest.ms[Matrix3d.M20] = ms[M20] * invZlen; dest.ms[Matrix3d.M21] = ms[M21] * invZlen; dest.ms[Matrix3d.M22] = ms[M22] * invZlen;
         return dest;
     }
 
