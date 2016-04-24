@@ -187,6 +187,79 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Returns the value of the matrix element at column 0 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m00() {
+        return ms[M00];
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m01() {
+        return ms[M01];
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m02() {
+        return ms[M02];
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m10() {
+        return ms[M10];
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m11() {
+        return ms[M11];
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m12() {
+        return ms[M12];
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m20() {
+        return ms[M20];
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m21() {
+        return ms[M21];
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m22() {
+        return ms[M22];
+    }
+
+    /**
      * Set the values in this matrix to the ones in m.
      * 
      * @param m

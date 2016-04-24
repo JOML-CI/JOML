@@ -273,6 +273,135 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Returns the value of the matrix element at column 0 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m00() {
+        return ms[M00];
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m01() {
+        return ms[M01];
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m02() {
+        return ms[M02];
+    }
+    /**
+     * Returns the value of the matrix element at column 0 and row 3.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m03() {
+        return ms[M03];
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m10() {
+        return ms[M10];
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m11() {
+        return ms[M11];
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m12() {
+        return ms[M12];
+    }
+    /**
+     * Returns the value of the matrix element at column 1 and row 3.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m13() {
+        return ms[M13];
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m20() {
+        return ms[M20];
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m21() {
+        return ms[M21];
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m22() {
+        return ms[M22];
+    }
+    /**
+     * Returns the value of the matrix element at column 2 and row 3.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m23() {
+        return ms[M23];
+    }
+    /**
+     * Returns the value of the matrix element at column 3 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m30() {
+        return ms[M30];
+    }
+    /**
+     * Returns the value of the matrix element at column 3 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m31() {
+        return ms[M31];
+    }
+    /**
+     * Returns the value of the matrix element at column 3 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m32() {
+        return ms[M32];
+    }
+    /**
+     * Returns the value of the matrix element at column 3 and row 3.
+     * 
+     * @return the value of the matrix element
+     */
+    public double m33() {
+        return ms[M33];
+    }
+
+    /**
      * Reset this matrix to the identity.
      * <p>
      * Please note that if a call to {@link #identity()} is immediately followed by a call to:
