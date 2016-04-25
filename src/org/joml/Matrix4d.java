@@ -9959,4 +9959,129 @@ public class Matrix4d implements Externalizable {
                    m30, m31, 0, m33);
     }
 
+    /**
+     * Transform the axis-aligned box given as the minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
+     * by <code>this</code> matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
+     * and maximum corner stored in <code>outMax</code>.
+     * <p>
+     * Reference: <a href="http://dev.theomader.com/transform-bounding-boxes/">http://dev.theomader.com</a>
+     * 
+     * @param minX
+     *              the x coordinate of the minimum corner of the axis-aligned box
+     * @param minY
+     *              the y coordinate of the minimum corner of the axis-aligned box
+     * @param minZ
+     *              the z coordinate of the minimum corner of the axis-aligned box
+     * @param maxX
+     *              the x coordinate of the minimum corner of the axis-aligned box
+     * @param maxY
+     *              the y coordinate of the maximum corner of the axis-aligned box
+     * @param maxZ
+     *              the y coordinate of the maximum corner of the axis-aligned box
+     * @param outMin
+     *              will hold the minimum corner of the resulting axis-aligned box
+     * @param outMax
+     *              will hold the maximum corner of the resulting axis-aligned box
+     * @return this
+     */
+    public Matrix4d transformAab(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, Vector3d outMin, Vector3d outMax) {
+        double xax = m00 * minX, xay = m01 * minX, xaz = m02 * minX;
+        double xbx = m00 * maxX, xby = m01 * maxX, xbz = m02 * maxX;
+        double yax = m10 * minY, yay = m11 * minY, yaz = m12 * minY;
+        double ybx = m10 * maxY, yby = m11 * maxY, ybz = m12 * maxY;
+        double zax = m20 * minZ, zay = m21 * minZ, zaz = m22 * minZ;
+        double zbx = m20 * maxZ, zby = m21 * maxZ, zbz = m22 * maxZ;
+        double xminx, xminy, xminz, yminx, yminy, yminz, zminx, zminy, zminz;
+        double xmaxx, xmaxy, xmaxz, ymaxx, ymaxy, ymaxz, zmaxx, zmaxy, zmaxz;
+        if (xax < xbx) {
+            xminx = xax;
+            xmaxx = xbx;
+        } else {
+            xminx = xbx;
+            xmaxx = xax;
+        }
+        if (xay < xby) {
+            xminy = xay;
+            xmaxy = xby;
+        } else {
+            xminy = xby;
+            xmaxy = xay;
+        }
+        if (xaz < xbz) {
+            xminz = xaz;
+            xmaxz = xbz;
+        } else {
+            xminz = xbz;
+            xmaxz = xaz;
+        }
+        if (yax < ybx) {
+            yminx = yax;
+            ymaxx = ybx;
+        } else {
+            yminx = ybx;
+            ymaxx = yax;
+        }
+        if (yay < yby) {
+            yminy = yay;
+            ymaxy = yby;
+        } else {
+            yminy = yby;
+            ymaxy = yay;
+        }
+        if (yaz < ybz) {
+            yminz = yaz;
+            ymaxz = ybz;
+        } else {
+            yminz = ybz;
+            ymaxz = yaz;
+        }
+        if (zax < zbx) {
+            zminx = zax;
+            zmaxx = zbx;
+        } else {
+            zminx = zbx;
+            zmaxx = zax;
+        }
+        if (zay < zby) {
+            zminy = zay;
+            zmaxy = zby;
+        } else {
+            zminy = zby;
+            zmaxy = zay;
+        }
+        if (zaz < zbz) {
+            zminz = zaz;
+            zmaxz = zbz;
+        } else {
+            zminz = zbz;
+            zmaxz = zaz;
+        }
+        outMin.x = xminx + yminx + zminx + m30;
+        outMin.y = xminy + yminy + zminy + m31;
+        outMin.z = xminz + yminz + zminz + m32;
+        outMax.x = xmaxx + ymaxx + zmaxx + m30;
+        outMax.y = xmaxy + ymaxy + zmaxy + m31;
+        outMax.z = xmaxz + ymaxz + zmaxz + m32;
+        return this;
+    }
+
+    /**
+     * Transform the axis-aligned box given as the minimum corner <code>min</code> and maximum corner <code>max</code>
+     * by <code>this</code> matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
+     * and maximum corner stored in <code>outMax</code>.
+     * 
+     * @param min
+     *              the minimum corner of the axis-aligned box
+     * @param max
+     *              the maximum corner of the axis-aligned box
+     * @param outMin
+     *              will hold the minimum corner of the resulting axis-aligned box
+     * @param outMax
+     *              will hold the maximum corner of the resulting axis-aligned box
+     * @return this
+     */
+    public Matrix4d transformAab(Vector3d min, Vector3d max, Vector3d outMin, Vector3d outMax) {
+        return transformAab(min.x, min.y, min.z, max.x, max.y, max.z, outMin, outMax);
+    }
+
 }
