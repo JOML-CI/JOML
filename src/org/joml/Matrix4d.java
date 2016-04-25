@@ -9973,7 +9973,7 @@ public class Matrix4d implements Externalizable {
      * @param minZ
      *              the z coordinate of the minimum corner of the axis-aligned box
      * @param maxX
-     *              the x coordinate of the minimum corner of the axis-aligned box
+     *              the x coordinate of the maximum corner of the axis-aligned box
      * @param maxY
      *              the y coordinate of the maximum corner of the axis-aligned box
      * @param maxZ
