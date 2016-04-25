@@ -65,6 +65,7 @@ public class FrustumIntersectionTest extends TestCase {
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAabMasked(5.1f, 0, -3, 8, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_PX));
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAabMasked(-6.1f, 0, -3, -5, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_NX));
         Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAabMasked(-6.1f, 0, -3, -5, 2, -2, FrustumIntersection.PLANE_MASK_NX));
+        Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAabMasked(-6.1f, 0, -3, -5, 2, -2, ~0, Matrix4f.PLANE_NX));
     }
 
 }
