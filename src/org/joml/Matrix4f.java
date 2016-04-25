@@ -9496,7 +9496,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Transform the axis-aligned box given as the minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
-     * by <code>this</code> matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
+     * by <code>this</code> {@link #isAffine() affine} matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
      * and maximum corner stored in <code>outMax</code>.
      * <p>
      * Reference: <a href="http://dev.theomader.com/transform-bounding-boxes/">http://dev.theomader.com</a>
@@ -9602,7 +9602,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Transform the axis-aligned box given as the minimum corner <code>min</code> and maximum corner <code>max</code>
-     * by <code>this</code> matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
+     * by <code>this</code> {@link #isAffine() affine} matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
      * and maximum corner stored in <code>outMax</code>.
      * 
      * @param min
