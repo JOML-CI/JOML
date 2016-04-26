@@ -586,7 +586,10 @@ public class FrustumIntersection {
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
      * <p>
-     * In addition, the <code>startPlane</code> denotes the first frustum plane to test the box against.
+     * In addition, the <code>startPlane</code> denotes the first frustum plane to test the box against. To use this effectively means to store the
+     * plane that previously culled an axis-aligned box (as returned by <tt>intersectAab()</tt>) and in the next frame use the return value
+     * as the argument to the <code>startPlane</code> parameter of this method. The assumption is that the plane that culled the object previously will also
+     * cull it now (temporal coherency) and the culling computation is likely reduced in that case.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
@@ -623,7 +626,10 @@ public class FrustumIntersection {
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
      * <p>
-     * In addition, the <code>startPlane</code> denotes the first frustum plane to test the box against.
+     * In addition, the <code>startPlane</code> denotes the first frustum plane to test the box against. To use this effectively means to store the
+     * plane that previously culled an axis-aligned box (as returned by <tt>intersectAab()</tt>) and in the next frame use the return value
+     * as the argument to the <code>startPlane</code> parameter of this method. The assumption is that the plane that culled the object previously will also
+     * cull it now (temporal coherency) and the culling computation is likely reduced in that case.
      * <p>
      * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
      * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
