@@ -62,10 +62,10 @@ public class FrustumIntersectionTest extends TestCase {
     public static void testIsAabInPerspectiveMask() {
         Matrix4f m = new Matrix4f().perspective((float) Math.PI / 2.0f, 1.0f, 0.1f, 100.0f);
         FrustumIntersection c = new FrustumIntersection(m);
-        Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAabMasked(5.1f, 0, -3, 8, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_PX));
-        Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAabMasked(-6.1f, 0, -3, -5, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_NX));
-        Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAabMasked(-6.1f, 0, -3, -5, 2, -2, FrustumIntersection.PLANE_MASK_NX));
-        Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAabMasked(-6.1f, 0, -3, -5, 2, -2, ~0, Matrix4f.PLANE_NX));
+        Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(5.1f, 0, -3, 8, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_PX));
+        Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(-6.1f, 0, -3, -5, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_NX));
+        Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAab(-6.1f, 0, -3, -5, 2, -2, FrustumIntersection.PLANE_MASK_NX));
+        Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAab(-6.1f, 0, -3, -5, 2, -2, ~0, Matrix4f.PLANE_NX));
     }
 
 }
