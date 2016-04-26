@@ -543,7 +543,7 @@ public class FrustumIntersection {
      */
     public int intersectAab(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, int mask) {
         /*
-         * This is an implementation of the "2.5 Plane masking and coherency" of the mentioned site.
+         * This is an implementation of the first algorithm in "2.5 Plane masking and coherency" of the mentioned site.
          * 
          * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box.
          */
@@ -658,7 +658,7 @@ public class FrustumIntersection {
      */
     public int intersectAab(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, int mask, int startPlane) {
         /*
-         * This is an implementation of the "2.5 Plane masking and coherency" of the mentioned site. Especially the "coherency" algorithm.
+         * This is an implementation of the second algorithm in "2.5 Plane masking and coherency" of the mentioned site.
          * 
          * In addition to the algorithm in the paper, this method also returns the index of the first plane that culled the box.
          */
