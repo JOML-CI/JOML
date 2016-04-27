@@ -36,9 +36,9 @@ import java.text.NumberFormat;
  * Contains the definition of a 3x3 Matrix of doubles, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
- *      ms[M00]  ms[M10]  ms[M20]<br>
- *      ms[M01]  ms[M11]  ms[M21]<br>
- *      ms[M02]  ms[M12]  ms[M22]<br>
+ *      m00  m10  m20<br>
+ *      m01  m11  m21<br>
+ *      m02  m12  m22<br>
  * 
  * @author Richard Greenlees
  * @author Kai Burjack

@@ -3281,6 +3281,37 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code> and <code>M</code> is an {@link #isAffine() affine} matrix.
+     * <p>
+     * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
+     * at last the translation.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale).mulAffine(m)</tt>
+     * 
+     * @see #translation(Vector3f)
+     * @see #rotate(Quaternionf)
+     * @see #mulAffine(Matrix4f)
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @param m
+     *          the {@link #isAffine() affine} matrix to multiply by
+     * @return this
+     */
+    public Matrix4f translationRotateScaleMulAffine(Vector3f translation, 
+                                                    Quaternionf quat, 
+                                                    Vector3f scale,
+                                                    Matrix4f m) {
+        return translationRotateScaleMulAffine(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z, m);
+    }
+
+    /**
      * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
      * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, <tt>S</tt> is a scaling transformation
      * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt> and <code>M</code> is an {@link #isAffine() affine} matrix.
@@ -9099,7 +9130,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the maximum corner coordinates of the axis-aligned bounding box
      * @return this
      */
-    public Matrix4f frustumAabbInv(Vector3f min, Vector3f max) {
+    public Matrix4f frustumAabb(Vector3f min, Vector3f max) {
         float minX = Float.MAX_VALUE;
         float minY = Float.MAX_VALUE;
         float minZ = Float.MAX_VALUE;
@@ -9114,83 +9145,6 @@ public class Matrix4f implements Externalizable {
             float nx = (ms[M00] * x + ms[M10] * y + ms[M20] * z + ms[M30]) * invW;
             float ny = (ms[M01] * x + ms[M11] * y + ms[M21] * z + ms[M31]) * invW;
             float nz = (ms[M02] * x + ms[M12] * y + ms[M22] * z + ms[M32]) * invW;
-            minX = minX < nx ? minX : nx;
-            minY = minY < ny ? minY : ny;
-            minZ = minZ < nz ? minZ : nz;
-            maxX = maxX > nx ? maxX : nx;
-            maxY = maxY > ny ? maxY : ny;
-            maxZ = maxZ > nz ? maxZ : nz;
-        }
-        min.x = minX;
-        min.y = minY;
-        min.z = minZ;
-        max.x = maxX;
-        max.y = maxY;
-        max.z = maxZ;
-        return this;
-    }
-
-    /**
-     * Compute the axis-aligned bounding box of the frustum described by <code>this</code> matrix and store the minimum corner
-     * coordinates in the given <code>min</code> and the maximum corner coordinates in the given <code>max</code> vector.
-     * <p>
-     * A matrix inversion on <code>this</code> is performed during this calculation. If the inverted matrix is needed afterwards
-     * then the inverse should be built before calling this method using {@link #invert()} and then the method {@link #frustumAabbInv(Vector3f, Vector3f)}
-     * should be used on the already inverted matrix.
-     * <p>
-     * The axis-aligned bounding box of the unit frustum is <tt>(-1, -1, -1)</tt>, <tt>(1, 1, 1)</tt>.
-     * 
-     * @param min
-     *          will hold the minimum corner coordinates of the axis-aligned bounding box
-     * @param max
-     *          will hold the maximum corner coordinates of the axis-aligned bounding box
-     * @return this
-     */
-    public Matrix4f frustumAabb(Vector3f min, Vector3f max) {
-        float a = ms[M00] * ms[M11] - ms[M01] * ms[M10];
-        float b = ms[M00] * ms[M12] - ms[M02] * ms[M10];
-        float c = ms[M00] * ms[M13] - ms[M03] * ms[M10];
-        float d = ms[M01] * ms[M12] - ms[M02] * ms[M11];
-        float e = ms[M01] * ms[M13] - ms[M03] * ms[M11];
-        float f = ms[M02] * ms[M13] - ms[M03] * ms[M12];
-        float g = ms[M20] * ms[M31] - ms[M21] * ms[M30];
-        float h = ms[M20] * ms[M32] - ms[M22] * ms[M30];
-        float i = ms[M20] * ms[M33] - ms[M23] * ms[M30];
-        float j = ms[M21] * ms[M32] - ms[M22] * ms[M31];
-        float k = ms[M21] * ms[M33] - ms[M23] * ms[M31];
-        float l = ms[M22] * ms[M33] - ms[M23] * ms[M32];
-        float det = a * l - b * k + c * j + d * i - e * h + f * g;
-        det = 1.0f / det;
-        float nn00 = ( ms[M11] * l - ms[M12] * k + ms[M13] * j) * det;
-        float nn01 = (-ms[M01] * l + ms[M02] * k - ms[M03] * j) * det;
-        float nn02 = ( ms[M31] * f - ms[M32] * e + ms[M33] * d) * det;
-        float nn03 = (-ms[M21] * f + ms[M22] * e - ms[M23] * d) * det;
-        float nn10 = (-ms[M10] * l + ms[M12] * i - ms[M13] * h) * det;
-        float nn11 = ( ms[M00] * l - ms[M02] * i + ms[M03] * h) * det;
-        float nn12 = (-ms[M30] * f + ms[M32] * c - ms[M33] * b) * det;
-        float nn13 = ( ms[M20] * f - ms[M22] * c + ms[M23] * b) * det;
-        float nn20 = ( ms[M10] * k - ms[M11] * i + ms[M13] * g) * det;
-        float nn21 = (-ms[M00] * k + ms[M01] * i - ms[M03] * g) * det;
-        float nn22 = ( ms[M30] * e - ms[M31] * c + ms[M33] * a) * det;
-        float nn23 = (-ms[M20] * e + ms[M21] * c - ms[M23] * a) * det;
-        float nn30 = (-ms[M10] * j + ms[M11] * h - ms[M12] * g) * det;
-        float nn31 = ( ms[M00] * j - ms[M01] * h + ms[M02] * g) * det;
-        float nn32 = (-ms[M30] * d + ms[M31] * b - ms[M32] * a) * det;
-        float nn33 = ( ms[M20] * d - ms[M21] * b + ms[M22] * a) * det;
-        float minX = Float.MAX_VALUE;
-        float minY = Float.MAX_VALUE;
-        float minZ = Float.MAX_VALUE;
-        float maxX = -Float.MAX_VALUE;
-        float maxY = -Float.MAX_VALUE;
-        float maxZ = -Float.MAX_VALUE;
-        for (int t = 0; t < 8; t++) {
-            float x = ((t % 2) << 1) - 1.0f;
-            float y = (((t >>> 1) % 2) << 1) - 1.0f;
-            float z = (((t >>> 2) % 2) << 1) - 1.0f;
-            float invW = 1.0f / (nn03 * x + nn13 * y + nn23 * z + nn33);
-            float nx = (nn00 * x + nn10 * y + nn20 * z + nn30) * invW;
-            float ny = (nn01 * x + nn11 * y + nn21 * z + nn31) * invW;
-            float nz = (nn02 * x + nn12 * y + nn22 * z + nn32) * invW;
             minX = minX < nx ? minX : nx;
             minY = minY < ny ? minY : ny;
             minZ = minZ < nz ? minZ : nz;
@@ -9433,6 +9387,131 @@ public class Matrix4f implements Externalizable {
                    m10, m11, 0, m13,
                      0,   0, 1,   0,
                    m30, m31, 0, m33);
+    }
+
+    /**
+     * Transform the axis-aligned box given as the minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
+     * by <code>this</code> {@link #isAffine() affine} matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
+     * and maximum corner stored in <code>outMax</code>.
+     * <p>
+     * Reference: <a href="http://dev.theomader.com/transform-bounding-boxes/">http://dev.theomader.com</a>
+     * 
+     * @param minX
+     *              the x coordinate of the minimum corner of the axis-aligned box
+     * @param minY
+     *              the y coordinate of the minimum corner of the axis-aligned box
+     * @param minZ
+     *              the z coordinate of the minimum corner of the axis-aligned box
+     * @param maxX
+     *              the x coordinate of the maximum corner of the axis-aligned box
+     * @param maxY
+     *              the y coordinate of the maximum corner of the axis-aligned box
+     * @param maxZ
+     *              the y coordinate of the maximum corner of the axis-aligned box
+     * @param outMin
+     *              will hold the minimum corner of the resulting axis-aligned box
+     * @param outMax
+     *              will hold the maximum corner of the resulting axis-aligned box
+     * @return this
+     */
+    public Matrix4f transformAab(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, Vector3f outMin, Vector3f outMax) {
+        float xax = ms[M00] * minX, xay = ms[M01] * minX, xaz = ms[M02] * minX;
+        float xbx = ms[M00] * maxX, xby = ms[M01] * maxX, xbz = ms[M02] * maxX;
+        float yax = ms[M10] * minY, yay = ms[M11] * minY, yaz = ms[M12] * minY;
+        float ybx = ms[M10] * maxY, yby = ms[M11] * maxY, ybz = ms[M12] * maxY;
+        float zax = ms[M20] * minZ, zay = ms[M21] * minZ, zaz = ms[M22] * minZ;
+        float zbx = ms[M20] * maxZ, zby = ms[M21] * maxZ, zbz = ms[M22] * maxZ;
+        float xminx, xminy, xminz, yminx, yminy, yminz, zminx, zminy, zminz;
+        float xmaxx, xmaxy, xmaxz, ymaxx, ymaxy, ymaxz, zmaxx, zmaxy, zmaxz;
+        if (xax < xbx) {
+            xminx = xax;
+            xmaxx = xbx;
+        } else {
+            xminx = xbx;
+            xmaxx = xax;
+        }
+        if (xay < xby) {
+            xminy = xay;
+            xmaxy = xby;
+        } else {
+            xminy = xby;
+            xmaxy = xay;
+        }
+        if (xaz < xbz) {
+            xminz = xaz;
+            xmaxz = xbz;
+        } else {
+            xminz = xbz;
+            xmaxz = xaz;
+        }
+        if (yax < ybx) {
+            yminx = yax;
+            ymaxx = ybx;
+        } else {
+            yminx = ybx;
+            ymaxx = yax;
+        }
+        if (yay < yby) {
+            yminy = yay;
+            ymaxy = yby;
+        } else {
+            yminy = yby;
+            ymaxy = yay;
+        }
+        if (yaz < ybz) {
+            yminz = yaz;
+            ymaxz = ybz;
+        } else {
+            yminz = ybz;
+            ymaxz = yaz;
+        }
+        if (zax < zbx) {
+            zminx = zax;
+            zmaxx = zbx;
+        } else {
+            zminx = zbx;
+            zmaxx = zax;
+        }
+        if (zay < zby) {
+            zminy = zay;
+            zmaxy = zby;
+        } else {
+            zminy = zby;
+            zmaxy = zay;
+        }
+        if (zaz < zbz) {
+            zminz = zaz;
+            zmaxz = zbz;
+        } else {
+            zminz = zbz;
+            zmaxz = zaz;
+        }
+        outMin.x = xminx + yminx + zminx + ms[M30];
+        outMin.y = xminy + yminy + zminy + ms[M31];
+        outMin.z = xminz + yminz + zminz + ms[M32];
+        outMax.x = xmaxx + ymaxx + zmaxx + ms[M30];
+        outMax.y = xmaxy + ymaxy + zmaxy + ms[M31];
+        outMax.z = xmaxz + ymaxz + zmaxz + ms[M32];
+        return this;
+    }
+
+    /**
+     * Transform the axis-aligned box given as the minimum corner <code>min</code> and maximum corner <code>max</code>
+     * by <code>this</code> {@link #isAffine() affine} matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
+     * and maximum corner stored in <code>outMax</code>.
+     * 
+     * @param min
+     *              the minimum corner of the axis-aligned box
+     * @param max
+     *              the maximum corner of the axis-aligned box
+     * @param outMin
+     *              will hold the minimum corner of the resulting axis-aligned box
+     * @param outMax
+     *              will hold the maximum corner of the resulting axis-aligned box
+     * @return this
+     */
+    public Matrix4f transformAab(Vector3f min, Vector3f max, Vector3f outMin, Vector3f outMax) {
+        return transformAab(min.x, min.y, min.z, max.x, max.y, max.z, outMin, outMax);
     }
 
 }
