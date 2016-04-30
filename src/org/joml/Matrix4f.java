@@ -197,20 +197,6 @@ public class Matrix4f implements Externalizable {
     public static final native void mulNative(long left, long right, long dest);
 
     /**
-     * Multiply the {@link #isAffine() affine} matrix stored at address <code>left</code> by the {@link #isAffine() affine} matrix stored at address <code>right</code> and store the result into <code>dest</code>.
-     * <p>
-     * All addresses must be 16-byte aligned.
-     * 
-     * @param left
-     *          the 16-byte aligned address of the left operand matrix
-     * @param right
-     *          the 16-byte aligned address of the right operand matrix
-     * @param dest
-     *          the 16-byte aligned address of the destination matrix
-     */
-    public static final native void mulAffineNative(long left, long right, long dest);
-
-    /**
      * Invert the matrix stored at address <code>addr</code> and store the result into <code>dest</code>.
      * <p>
      * All addresses must be 16-byte aligned.
@@ -1134,7 +1120,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffine(Matrix4f right, Matrix4f dest) {
-        mulAffineNative(address, right.address, dest.address);
+        mulNative(address, right.address, dest.address);
         return dest;
     }
 
