@@ -187,6 +187,21 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3d} by reading its 9 double components from the given {@link DoubleBuffer}
+     * at the buffer's current position.
+     * <p>
+     * That DoubleBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     * 
+     * @param buffer
+     *          the {@link DoubleBuffer} to read the matrix values from
+     */
+    public Matrix3d(DoubleBuffer buffer) {
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+    }
+
+    /**
      * Return the value of the matrix element at column 0 and row 0.
      * 
      * @return the value of the matrix element
@@ -969,15 +984,7 @@ public class Matrix3d implements Externalizable {
      * @return the passed in buffer
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
-        buffer.put(index,   ms[M00]);
-        buffer.put(index+1, ms[M01]);
-        buffer.put(index+2, ms[M02]);
-        buffer.put(index+3, ms[M10]);
-        buffer.put(index+4, ms[M11]);
-        buffer.put(index+5, ms[M12]);
-        buffer.put(index+6, ms[M20]);
-        buffer.put(index+7, ms[M21]);
-        buffer.put(index+8, ms[M22]);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -1020,15 +1027,7 @@ public class Matrix3d implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index,   (float) ms[M00]);
-        buffer.put(index+1, (float) ms[M01]);
-        buffer.put(index+2, (float) ms[M02]);
-        buffer.put(index+3, (float) ms[M10]);
-        buffer.put(index+4, (float) ms[M11]);
-        buffer.put(index+5, (float) ms[M12]);
-        buffer.put(index+6, (float) ms[M20]);
-        buffer.put(index+7, (float) ms[M21]);
-        buffer.put(index+8, (float) ms[M22]);
+        MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
@@ -1065,15 +1064,7 @@ public class Matrix3d implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putDouble(index+8*0, ms[M00]);
-        buffer.putDouble(index+8*1, ms[M01]);
-        buffer.putDouble(index+8*2, ms[M02]);
-        buffer.putDouble(index+8*3, ms[M10]);
-        buffer.putDouble(index+8*4, ms[M11]);
-        buffer.putDouble(index+8*5, ms[M12]);
-        buffer.putDouble(index+8*6, ms[M20]);
-        buffer.putDouble(index+8*7, ms[M21]);
-        buffer.putDouble(index+8*8, ms[M22]);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -1116,15 +1107,7 @@ public class Matrix3d implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer getFloats(int index, ByteBuffer buffer) {
-        buffer.putFloat(index+4*0, (float)ms[M00]);
-        buffer.putFloat(index+4*1, (float)ms[M01]);
-        buffer.putFloat(index+4*2, (float)ms[M02]);
-        buffer.putFloat(index+4*3, (float)ms[M10]);
-        buffer.putFloat(index+4*4, (float)ms[M11]);
-        buffer.putFloat(index+4*5, (float)ms[M12]);
-        buffer.putFloat(index+4*6, (float)ms[M20]);
-        buffer.putFloat(index+4*7, (float)ms[M21]);
-        buffer.putFloat(index+4*8, (float)ms[M22]);
+        MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
@@ -1221,16 +1204,7 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d set(DoubleBuffer buffer) {
-        int pos = buffer.position();
-        ms[M00] = buffer.get(pos);
-        ms[M01] = buffer.get(pos+1);
-        ms[M02] = buffer.get(pos+2);
-        ms[M10] = buffer.get(pos+3);
-        ms[M11] = buffer.get(pos+4);
-        ms[M12] = buffer.get(pos+5);
-        ms[M20] = buffer.get(pos+6);
-        ms[M21] = buffer.get(pos+7);
-        ms[M22] = buffer.get(pos+8);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -1247,16 +1221,7 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d set(FloatBuffer buffer) {
-        int pos = buffer.position();
-        ms[M00] = buffer.get(pos);
-        ms[M01] = buffer.get(pos+1);
-        ms[M02] = buffer.get(pos+2);
-        ms[M10] = buffer.get(pos+3);
-        ms[M11] = buffer.get(pos+4);
-        ms[M12] = buffer.get(pos+5);
-        ms[M20] = buffer.get(pos+6);
-        ms[M21] = buffer.get(pos+7);
-        ms[M22] = buffer.get(pos+8);
+        MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         return this;
     }
 
@@ -1273,16 +1238,7 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d set(ByteBuffer buffer) {
-        int pos = buffer.position();
-        ms[M00] = buffer.getDouble(pos);
-        ms[M01] = buffer.getDouble(pos+8*1);
-        ms[M02] = buffer.getDouble(pos+8*2);
-        ms[M10] = buffer.getDouble(pos+8*3);
-        ms[M11] = buffer.getDouble(pos+8*4);
-        ms[M12] = buffer.getDouble(pos+8*5);
-        ms[M20] = buffer.getDouble(pos+8*6);
-        ms[M21] = buffer.getDouble(pos+8*7);
-        ms[M22] = buffer.getDouble(pos+8*8);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -1299,16 +1255,7 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d setFloats(ByteBuffer buffer) {
-        int pos = buffer.position();
-        ms[M00] = buffer.getFloat(pos);
-        ms[M01] = buffer.getFloat(pos+4*1);
-        ms[M02] = buffer.getFloat(pos+4*2);
-        ms[M10] = buffer.getFloat(pos+4*3);
-        ms[M11] = buffer.getFloat(pos+4*4);
-        ms[M12] = buffer.getFloat(pos+4*5);
-        ms[M20] = buffer.getFloat(pos+4*6);
-        ms[M21] = buffer.getFloat(pos+4*7);
-        ms[M22] = buffer.getFloat(pos+4*8);
+        MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         return this;
     }
 

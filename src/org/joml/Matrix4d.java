@@ -293,7 +293,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix4d} by reading its 16 float components from the given {@link DoubleBuffer}
+     * Create a new {@link Matrix4d} by reading its 16 double components from the given {@link DoubleBuffer}
      * at the buffer's current position.
      * <p>
      * That DoubleBuffer is expected to hold the values in column-major order.
@@ -304,7 +304,7 @@ public class Matrix4d implements Externalizable {
      *          the {@link DoubleBuffer} to read the matrix values from
      */
     public Matrix4d(DoubleBuffer buffer) {
-        MemUtil.INSTANCE.get(this, 0, buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -1711,7 +1711,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d set(DoubleBuffer buffer) {
-        MemUtil.INSTANCE.get(this, 0, buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -1728,7 +1728,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d set(FloatBuffer buffer) {
-        MemUtil.INSTANCE.getf(this, 0, buffer);
+        MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         return this;
     }
 
@@ -1745,7 +1745,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d set(ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, 0, buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -1762,7 +1762,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setFloats(ByteBuffer buffer) {
-        MemUtil.INSTANCE.getf(this, 0, buffer);
+        MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         return this;
     }
 
