@@ -163,27 +163,27 @@ public class FrustumIntersection {
      */
     public FrustumIntersection set(Matrix4f m) {
         float invl;
-        nxX = m.ms[Matrix4f.M03] + m.ms[Matrix4f.M00]; nxY = m.ms[Matrix4f.M13] + m.ms[Matrix4f.M10]; nxZ = m.ms[Matrix4f.M23] + m.ms[Matrix4f.M20]; nxW = m.ms[Matrix4f.M33] + m.ms[Matrix4f.M30];
+        nxX = m.m03() + m.m00(); nxY = m.m13() + m.m10(); nxZ = m.m23() + m.m20(); nxW = m.m33() + m.m30();
         invl = (float) (1.0 / Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ));
         nxX *= invl; nxY *= invl; nxZ *= invl; nxW *= invl;
         planes[0].set(nxX, nxY, nxZ, nxW);
-        pxX = m.ms[Matrix4f.M03] - m.ms[Matrix4f.M00]; pxY = m.ms[Matrix4f.M13] - m.ms[Matrix4f.M10]; pxZ = m.ms[Matrix4f.M23] - m.ms[Matrix4f.M20]; pxW = m.ms[Matrix4f.M33] - m.ms[Matrix4f.M30];
+        pxX = m.m03() - m.m00(); pxY = m.m13() - m.m10(); pxZ = m.m23() - m.m20(); pxW = m.m33() - m.m30();
         invl = (float) (1.0 / Math.sqrt(pxX * pxX + pxY * pxY + pxZ * pxZ));
         pxX *= invl; pxY *= invl; pxZ *= invl; pxW *= invl;
         planes[1].set(pxX, pxY, pxZ, pxW);
-        nyX = m.ms[Matrix4f.M03] + m.ms[Matrix4f.M01]; nyY = m.ms[Matrix4f.M13] + m.ms[Matrix4f.M11]; nyZ = m.ms[Matrix4f.M23] + m.ms[Matrix4f.M21]; nyW = m.ms[Matrix4f.M33] + m.ms[Matrix4f.M31];
+        nyX = m.m03() + m.m01(); nyY = m.m13() + m.m11(); nyZ = m.m23() + m.m21(); nyW = m.m33() + m.m31();
         invl = (float) (1.0 / Math.sqrt(nyX * nyX + nyY * nyY + nyZ * nyZ));
         nyX *= invl; nyY *= invl; nyZ *= invl; nyW *= invl;
         planes[2].set(nyX, nyY, nyZ, nyW);
-        pyX = m.ms[Matrix4f.M03] - m.ms[Matrix4f.M01]; pyY = m.ms[Matrix4f.M13] - m.ms[Matrix4f.M11]; pyZ = m.ms[Matrix4f.M23] - m.ms[Matrix4f.M21]; pyW = m.ms[Matrix4f.M33] - m.ms[Matrix4f.M31];
+        pyX = m.m03() - m.m01(); pyY = m.m13() - m.m11(); pyZ = m.m23() - m.m21(); pyW = m.m33() - m.m31();
         invl = (float) (1.0 / Math.sqrt(pyX * pyX + pyY * pyY + pyZ * pyZ));
         pyX *= invl; pyY *= invl; pyZ *= invl; pyW *= invl;
         planes[3].set(pyX, pyY, pyZ, pyW);
-        nzX = m.ms[Matrix4f.M03] + m.ms[Matrix4f.M02]; nzY = m.ms[Matrix4f.M13] + m.ms[Matrix4f.M12]; nzZ = m.ms[Matrix4f.M23] + m.ms[Matrix4f.M22]; nzW = m.ms[Matrix4f.M33] + m.ms[Matrix4f.M32];
+        nzX = m.m03() + m.m02(); nzY = m.m13() + m.m12(); nzZ = m.m23() + m.m22(); nzW = m.m33() + m.m32();
         invl = (float) (1.0 / Math.sqrt(nzX * nzX + nzY * nzY + nzZ * nzZ));
         nzX *= invl; nzY *= invl; nzZ *= invl; nzW *= invl;
         planes[4].set(nzX, nzY, nzZ, nzW);
-        pzX = m.ms[Matrix4f.M03] - m.ms[Matrix4f.M02]; pzY = m.ms[Matrix4f.M13] - m.ms[Matrix4f.M12]; pzZ = m.ms[Matrix4f.M23] - m.ms[Matrix4f.M22]; pzW = m.ms[Matrix4f.M33] - m.ms[Matrix4f.M32];
+        pzX = m.m03() - m.m02(); pzY = m.m13() - m.m12(); pzZ = m.m23() - m.m22(); pzW = m.m33() - m.m32();
         invl = (float) (1.0 / Math.sqrt(pzX * pzX + pzY * pzY + pzZ * pzZ));
         pzX *= invl; pzY *= invl; pzZ *= invl; pzW *= invl;
         planes[5].set(pzX, pzY, pzZ, pzW);

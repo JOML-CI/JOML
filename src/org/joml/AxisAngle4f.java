@@ -257,10 +257,10 @@ public class AxisAngle4f implements Externalizable {
      * @return this
      */
     public AxisAngle4f set(Matrix4f m) {
-        double cos = (m.ms[Matrix4f.M00] + m.ms[Matrix4f.M11] + m.ms[Matrix4f.M22] - 1.0)*0.5;
-        x = m.ms[Matrix4f.M12] - m.ms[Matrix4f.M21];
-        y = m.ms[Matrix4f.M20] - m.ms[Matrix4f.M02];
-        z = m.ms[Matrix4f.M01] - m.ms[Matrix4f.M10];
+        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
+        x = m.m12() - m.m21();
+        y = m.m20() - m.m02();
+        z = m.m01() - m.m10();
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = (float) Math.atan2(sin, cos);
         return this;

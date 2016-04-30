@@ -691,10 +691,10 @@ public class Vector3f implements Externalizable {
      * @return dest
      */
     public Vector3f mulProject(Matrix4f mat, Vector3f dest) {
-        float invW = 1.0f / (mat.ms[Matrix4f.M03] * x + mat.ms[Matrix4f.M13] * y + mat.ms[Matrix4f.M23] * z + mat.ms[Matrix4f.M33]);
-        dest.set((mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z + mat.ms[Matrix4f.M30]) * invW,
-                 (mat.ms[Matrix4f.M01] * x + mat.ms[Matrix4f.M11] * y + mat.ms[Matrix4f.M21] * z + mat.ms[Matrix4f.M31]) * invW,
-                 (mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z + mat.ms[Matrix4f.M32]) * invW);
+        float invW = 1.0f / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33());
+        dest.set((mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30()) * invW,
+                 (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31()) * invW,
+                 (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32()) * invW);
         return dest;
     }
 
@@ -764,9 +764,9 @@ public class Vector3f implements Externalizable {
      * @return dest
      */
     public Vector3f mulPosition(Matrix4f mat, Vector3f dest) {
-        dest.set(mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z + mat.ms[Matrix4f.M30],
-                 mat.ms[Matrix4f.M01] * x + mat.ms[Matrix4f.M11] * y + mat.ms[Matrix4f.M21] * z + mat.ms[Matrix4f.M31],
-                 mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z + mat.ms[Matrix4f.M32]);
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
         return dest;
     }
 
@@ -797,10 +797,10 @@ public class Vector3f implements Externalizable {
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
     public float mulPositionW(Matrix4f mat, Vector3f dest) {
-        float w = mat.ms[Matrix4f.M03] * x + mat.ms[Matrix4f.M13] * y + mat.ms[Matrix4f.M23] * z + mat.ms[Matrix4f.M33];
-        dest.set(mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z + mat.ms[Matrix4f.M30],
-                 mat.ms[Matrix4f.M01] * x + mat.ms[Matrix4f.M11] * y + mat.ms[Matrix4f.M21] * z + mat.ms[Matrix4f.M31],
-                 mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z + mat.ms[Matrix4f.M32]);
+        float w = mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33();
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
         return w;
     }
 
@@ -830,9 +830,9 @@ public class Vector3f implements Externalizable {
      * @return dest
      */
     public Vector3f mulDirection(Matrix4f mat, Vector3f dest) {
-        dest.set(mat.ms[Matrix4f.M00] * x + mat.ms[Matrix4f.M10] * y + mat.ms[Matrix4f.M20] * z,
-                 mat.ms[Matrix4f.M01] * x + mat.ms[Matrix4f.M11] * y + mat.ms[Matrix4f.M21] * z,
-                 mat.ms[Matrix4f.M02] * x + mat.ms[Matrix4f.M12] * y + mat.ms[Matrix4f.M22] * z);
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
         return dest;
     }
 

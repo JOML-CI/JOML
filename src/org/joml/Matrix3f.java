@@ -94,15 +94,15 @@ public class Matrix3f implements Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix3f(Matrix4f mat) {
-        ms[M00] = mat.ms[Matrix4f.M00];
-        ms[M01] = mat.ms[Matrix4f.M01];
-        ms[M02] = mat.ms[Matrix4f.M02];
-        ms[M10] = mat.ms[Matrix4f.M10];
-        ms[M11] = mat.ms[Matrix4f.M11];
-        ms[M12] = mat.ms[Matrix4f.M12];
-        ms[M20] = mat.ms[Matrix4f.M20];
-        ms[M21] = mat.ms[Matrix4f.M21];
-        ms[M22] = mat.ms[Matrix4f.M22];
+        ms[M00] = mat.m00();
+        ms[M01] = mat.m01();
+        ms[M02] = mat.m02();
+        ms[M10] = mat.m10();
+        ms[M11] = mat.m11();
+        ms[M12] = mat.m12();
+        ms[M20] = mat.m20();
+        ms[M21] = mat.m21();
+        ms[M22] = mat.m22();
     }
 
     /**
@@ -350,15 +350,15 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f set(Matrix4f mat) {
-        ms[M00] = mat.ms[Matrix4f.M00];
-        ms[M01] = mat.ms[Matrix4f.M01];
-        ms[M02] = mat.ms[Matrix4f.M02];
-        ms[M10] = mat.ms[Matrix4f.M10];
-        ms[M11] = mat.ms[Matrix4f.M11];
-        ms[M12] = mat.ms[Matrix4f.M12];
-        ms[M20] = mat.ms[Matrix4f.M20];
-        ms[M21] = mat.ms[Matrix4f.M21];
-        ms[M22] = mat.ms[Matrix4f.M22];
+        ms[M00] = mat.m00();
+        ms[M01] = mat.m01();
+        ms[M02] = mat.m02();
+        ms[M10] = mat.m10();
+        ms[M11] = mat.m11();
+        ms[M12] = mat.m12();
+        ms[M20] = mat.m20();
+        ms[M21] = mat.m21();
+        ms[M22] = mat.m22();
         return this;
     }
 

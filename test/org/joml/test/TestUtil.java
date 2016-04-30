@@ -125,22 +125,22 @@ public class TestUtil {
      * @param delta
      */
     public static void assertMatrix4fEquals(Matrix4f m1, Matrix4f m2, float delta) {
-        Assert.assertEquals(m1.ms[Matrix4f.M00], m2.ms[Matrix4f.M00], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M01], m2.ms[Matrix4f.M01], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M02], m2.ms[Matrix4f.M02], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M03], m2.ms[Matrix4f.M03], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M10], m2.ms[Matrix4f.M10], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M11], m2.ms[Matrix4f.M11], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M12], m2.ms[Matrix4f.M12], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M13], m2.ms[Matrix4f.M13], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M20], m2.ms[Matrix4f.M20], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M21], m2.ms[Matrix4f.M21], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M22], m2.ms[Matrix4f.M22], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M23], m2.ms[Matrix4f.M23], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M30], m2.ms[Matrix4f.M30], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M31], m2.ms[Matrix4f.M31], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M32], m2.ms[Matrix4f.M32], delta);
-        Assert.assertEquals(m1.ms[Matrix4f.M33], m2.ms[Matrix4f.M33], delta);
+        Assert.assertEquals(m1.m00(), m2.m00(), delta);
+        Assert.assertEquals(m1.m01(), m2.m01(), delta);
+        Assert.assertEquals(m1.m02(), m2.m02(), delta);
+        Assert.assertEquals(m1.m03(), m2.m03(), delta);
+        Assert.assertEquals(m1.m10(), m2.m10(), delta);
+        Assert.assertEquals(m1.m11(), m2.m11(), delta);
+        Assert.assertEquals(m1.m12(), m2.m12(), delta);
+        Assert.assertEquals(m1.m13(), m2.m13(), delta);
+        Assert.assertEquals(m1.m20(), m2.m20(), delta);
+        Assert.assertEquals(m1.m21(), m2.m21(), delta);
+        Assert.assertEquals(m1.m22(), m2.m22(), delta);
+        Assert.assertEquals(m1.m23(), m2.m23(), delta);
+        Assert.assertEquals(m1.m30(), m2.m30(), delta);
+        Assert.assertEquals(m1.m31(), m2.m31(), delta);
+        Assert.assertEquals(m1.m32(), m2.m32(), delta);
+        Assert.assertEquals(m1.m33(), m2.m33(), delta);
     }
 
     /**

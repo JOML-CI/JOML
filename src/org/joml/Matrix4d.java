@@ -196,22 +196,22 @@ public class Matrix4d implements Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix4d(Matrix4f mat) {
-        ms[M00] = mat.ms[M00];
-        ms[M01] = mat.ms[M01];
-        ms[M02] = mat.ms[M02];
-        ms[M03] = mat.ms[M03];
-        ms[M10] = mat.ms[M10];
-        ms[M11] = mat.ms[M11];
-        ms[M12] = mat.ms[M12];
-        ms[M13] = mat.ms[M13];
-        ms[M20] = mat.ms[M20];
-        ms[M21] = mat.ms[M21];
-        ms[M22] = mat.ms[M22];
-        ms[M23] = mat.ms[M23];
-        ms[M30] = mat.ms[M30];
-        ms[M31] = mat.ms[M31];
-        ms[M32] = mat.ms[M32];
-        ms[M33] = mat.ms[M33];
+        ms[M00] = mat.m00();
+        ms[M01] = mat.m01();
+        ms[M02] = mat.m02();
+        ms[M03] = mat.m03();
+        ms[M10] = mat.m10();
+        ms[M11] = mat.m11();
+        ms[M12] = mat.m12();
+        ms[M13] = mat.m13();
+        ms[M20] = mat.m20();
+        ms[M21] = mat.m21();
+        ms[M22] = mat.m22();
+        ms[M23] = mat.m23();
+        ms[M30] = mat.m30();
+        ms[M31] = mat.m31();
+        ms[M32] = mat.m32();
+        ms[M33] = mat.m33();
     }
 
     /**
@@ -730,22 +730,22 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d set(Matrix4f m) {
-        ms[M00] = m.ms[M00];
-        ms[M01] = m.ms[M01];
-        ms[M02] = m.ms[M02];
-        ms[M03] = m.ms[M03];
-        ms[M10] = m.ms[M10];
-        ms[M11] = m.ms[M11];
-        ms[M12] = m.ms[M12];
-        ms[M13] = m.ms[M13];
-        ms[M20] = m.ms[M20];
-        ms[M21] = m.ms[M21];
-        ms[M22] = m.ms[M22];
-        ms[M23] = m.ms[M23];
-        ms[M30] = m.ms[M30];
-        ms[M31] = m.ms[M31];
-        ms[M32] = m.ms[M32];
-        ms[M33] = m.ms[M33];
+        ms[M00] = m.m00();
+        ms[M01] = m.m01();
+        ms[M02] = m.m02();
+        ms[M03] = m.m03();
+        ms[M10] = m.m10();
+        ms[M11] = m.m11();
+        ms[M12] = m.m12();
+        ms[M13] = m.m13();
+        ms[M20] = m.m20();
+        ms[M21] = m.m21();
+        ms[M22] = m.m22();
+        ms[M23] = m.m23();
+        ms[M30] = m.m30();
+        ms[M31] = m.m31();
+        ms[M32] = m.m32();
+        ms[M33] = m.m33();
         return this;
     }
 
@@ -966,57 +966,23 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d mul(Matrix4f right, Matrix4d dest) {
-        dest.set(ms[M00] * right.ms[M00] + ms[M10] * right.ms[M01] + ms[M20] * right.ms[M02] + ms[M30] * right.ms[M03],
-                 ms[M01] * right.ms[M00] + ms[M11] * right.ms[M01] + ms[M21] * right.ms[M02] + ms[M31] * right.ms[M03],
-                 ms[M02] * right.ms[M00] + ms[M12] * right.ms[M01] + ms[M22] * right.ms[M02] + ms[M32] * right.ms[M03],
-                 ms[M03] * right.ms[M00] + ms[M13] * right.ms[M01] + ms[M23] * right.ms[M02] + ms[M33] * right.ms[M03],
-                 ms[M00] * right.ms[M10] + ms[M10] * right.ms[M11] + ms[M20] * right.ms[M12] + ms[M30] * right.ms[M13],
-                 ms[M01] * right.ms[M10] + ms[M11] * right.ms[M11] + ms[M21] * right.ms[M12] + ms[M31] * right.ms[M13],
-                 ms[M02] * right.ms[M10] + ms[M12] * right.ms[M11] + ms[M22] * right.ms[M12] + ms[M32] * right.ms[M13],
-                 ms[M03] * right.ms[M10] + ms[M13] * right.ms[M11] + ms[M23] * right.ms[M12] + ms[M33] * right.ms[M13],
-                 ms[M00] * right.ms[M20] + ms[M10] * right.ms[M21] + ms[M20] * right.ms[M22] + ms[M30] * right.ms[M23],
-                 ms[M01] * right.ms[M20] + ms[M11] * right.ms[M21] + ms[M21] * right.ms[M22] + ms[M31] * right.ms[M23],
-                 ms[M02] * right.ms[M20] + ms[M12] * right.ms[M21] + ms[M22] * right.ms[M22] + ms[M32] * right.ms[M23],
-                 ms[M03] * right.ms[M20] + ms[M13] * right.ms[M21] + ms[M23] * right.ms[M22] + ms[M33] * right.ms[M23],
-                 ms[M00] * right.ms[M30] + ms[M10] * right.ms[M31] + ms[M20] * right.ms[M32] + ms[M30] * right.ms[M33],
-                 ms[M01] * right.ms[M30] + ms[M11] * right.ms[M31] + ms[M21] * right.ms[M32] + ms[M31] * right.ms[M33],
-                 ms[M02] * right.ms[M30] + ms[M12] * right.ms[M31] + ms[M22] * right.ms[M32] + ms[M32] * right.ms[M33],
-                 ms[M03] * right.ms[M30] + ms[M13] * right.ms[M31] + ms[M23] * right.ms[M32] + ms[M33] * right.ms[M33]);
+        dest.set(ms[M00] * right.m00() + ms[M10] * right.m01() + ms[M20] * right.m02() + ms[M30] * right.m03(),
+                 ms[M01] * right.m00() + ms[M11] * right.m01() + ms[M21] * right.m02() + ms[M31] * right.m03(),
+                 ms[M02] * right.m00() + ms[M12] * right.m01() + ms[M22] * right.m02() + ms[M32] * right.m03(),
+                 ms[M03] * right.m00() + ms[M13] * right.m01() + ms[M23] * right.m02() + ms[M33] * right.m03(),
+                 ms[M00] * right.m10() + ms[M10] * right.m11() + ms[M20] * right.m12() + ms[M30] * right.m13(),
+                 ms[M01] * right.m10() + ms[M11] * right.m11() + ms[M21] * right.m12() + ms[M31] * right.m13(),
+                 ms[M02] * right.m10() + ms[M12] * right.m11() + ms[M22] * right.m12() + ms[M32] * right.m13(),
+                 ms[M03] * right.m10() + ms[M13] * right.m11() + ms[M23] * right.m12() + ms[M33] * right.m13(),
+                 ms[M00] * right.m20() + ms[M10] * right.m21() + ms[M20] * right.m22() + ms[M30] * right.m23(),
+                 ms[M01] * right.m20() + ms[M11] * right.m21() + ms[M21] * right.m22() + ms[M31] * right.m23(),
+                 ms[M02] * right.m20() + ms[M12] * right.m21() + ms[M22] * right.m22() + ms[M32] * right.m23(),
+                 ms[M03] * right.m20() + ms[M13] * right.m21() + ms[M23] * right.m22() + ms[M33] * right.m23(),
+                 ms[M00] * right.m30() + ms[M10] * right.m31() + ms[M20] * right.m32() + ms[M30] * right.m33(),
+                 ms[M01] * right.m30() + ms[M11] * right.m31() + ms[M21] * right.m32() + ms[M31] * right.m33(),
+                 ms[M02] * right.m30() + ms[M12] * right.m31() + ms[M22] * right.m32() + ms[M32] * right.m33(),
+                 ms[M03] * right.m30() + ms[M13] * right.m31() + ms[M23] * right.m32() + ms[M33] * right.m33());
         return dest;
-    }
-
-    /**
-     * Multiply the supplied <code>left</code> matrix by the <code>right</code> and store the result into <code>dest</code>.
-     * <p>
-     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>L * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     * 
-     * @param left
-     *          the left operand of the multiplication
-     * @param right
-     *          the right operand of the multiplication
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul(Matrix4f left, Matrix4d right, Matrix4d dest) {
-        dest.set(left.ms[M00] * right.ms[M00] + left.ms[M10] * right.ms[M01] + left.ms[M20] * right.ms[M02] + left.ms[M30] * right.ms[M03],
-                 left.ms[M01] * right.ms[M00] + left.ms[M11] * right.ms[M01] + left.ms[M21] * right.ms[M02] + left.ms[M31] * right.ms[M03],
-                 left.ms[M02] * right.ms[M00] + left.ms[M12] * right.ms[M01] + left.ms[M22] * right.ms[M02] + left.ms[M32] * right.ms[M03],
-                 left.ms[M03] * right.ms[M00] + left.ms[M13] * right.ms[M01] + left.ms[M23] * right.ms[M02] + left.ms[M33] * right.ms[M03],
-                 left.ms[M00] * right.ms[M10] + left.ms[M10] * right.ms[M11] + left.ms[M20] * right.ms[M12] + left.ms[M30] * right.ms[M13],
-                 left.ms[M01] * right.ms[M10] + left.ms[M11] * right.ms[M11] + left.ms[M21] * right.ms[M12] + left.ms[M31] * right.ms[M13],
-                 left.ms[M02] * right.ms[M10] + left.ms[M12] * right.ms[M11] + left.ms[M22] * right.ms[M12] + left.ms[M32] * right.ms[M13],
-                 left.ms[M03] * right.ms[M10] + left.ms[M13] * right.ms[M11] + left.ms[M23] * right.ms[M12] + left.ms[M33] * right.ms[M13],
-                 left.ms[M00] * right.ms[M20] + left.ms[M10] * right.ms[M21] + left.ms[M20] * right.ms[M22] + left.ms[M30] * right.ms[M23],
-                 left.ms[M01] * right.ms[M20] + left.ms[M11] * right.ms[M21] + left.ms[M21] * right.ms[M22] + left.ms[M31] * right.ms[M23],
-                 left.ms[M02] * right.ms[M20] + left.ms[M12] * right.ms[M21] + left.ms[M22] * right.ms[M22] + left.ms[M32] * right.ms[M23],
-                 left.ms[M03] * right.ms[M20] + left.ms[M13] * right.ms[M21] + left.ms[M23] * right.ms[M22] + left.ms[M33] * right.ms[M23],
-                 left.ms[M00] * right.ms[M30] + left.ms[M10] * right.ms[M31] + left.ms[M20] * right.ms[M32] + left.ms[M30] * right.ms[M33],
-                 left.ms[M01] * right.ms[M30] + left.ms[M11] * right.ms[M31] + left.ms[M21] * right.ms[M32] + left.ms[M31] * right.ms[M33],
-                 left.ms[M02] * right.ms[M30] + left.ms[M12] * right.ms[M31] + left.ms[M22] * right.ms[M32] + left.ms[M32] * right.ms[M33],
-                 left.ms[M03] * right.ms[M30] + left.ms[M13] * right.ms[M31] + left.ms[M23] * right.ms[M32] + left.ms[M33] * right.ms[M33]);
     }
 
     /**

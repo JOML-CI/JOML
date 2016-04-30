@@ -356,7 +356,7 @@ public class Matrix4fTest extends TestCase {
         invm.transform(v, w);
         TestUtil.assertVector4fEquals(orig, w, 1E-4f);
         invm.invert();
-        TestUtil.assertMatrix4fEquals(m, invm, 1E-4f);
+        TestUtil.assertMatrix4fEquals(m, invm, 1E-3f);
     }
 
     public static void testRotateXYZ() {
