@@ -105,23 +105,23 @@ static void mulNative(jlong m0, jlong m1, jlong dest) {
 	const float* a = (const float*)(intptr_t)m0;
 	const float* b = (const float*)(intptr_t)m1;
 	float* r = (float*)(intptr_t)dest;
-	__m128 col1 = _mm_load_ps(&b[0]);
-	__m128 col2 = _mm_load_ps(&b[4]);
-	__m128 col3 = _mm_load_ps(&b[8]);
-	__m128 col4 = _mm_load_ps(&b[12]);
+	__m128 row1 = _mm_load_ps(&a[0]);
+	__m128 row2 = _mm_load_ps(&a[4]);
+	__m128 row3 = _mm_load_ps(&a[8]);
+	__m128 row4 = _mm_load_ps(&a[12]);
 	for (int i = 0; i < 4; i++) {
-		__m128 brod1 = _mm_set1_ps(a[(i << 2) + 0]);
-		__m128 brod2 = _mm_set1_ps(a[(i << 2) + 1]);
-		__m128 brod3 = _mm_set1_ps(a[(i << 2) + 2]);
-		__m128 brod4 = _mm_set1_ps(a[(i << 2) + 3]);
-		__m128 col = _mm_add_ps(
+		__m128 brod1 = _mm_set1_ps(b[4 * i + 0]);
+		__m128 brod2 = _mm_set1_ps(b[4 * i + 1]);
+		__m128 brod3 = _mm_set1_ps(b[4 * i + 2]);
+		__m128 brod4 = _mm_set1_ps(b[4 * i + 3]);
+		__m128 row = _mm_add_ps(
 			_mm_add_ps(
-				_mm_mul_ps(brod1, col1),
-				_mm_mul_ps(brod2, col2)),
+				_mm_mul_ps(brod1, row1),
+				_mm_mul_ps(brod2, row2)),
 			_mm_add_ps(
-				_mm_mul_ps(brod3, col3),
-				_mm_mul_ps(brod4, col4)));
-		_mm_store_ps(&r[i << 2], col);
+				_mm_mul_ps(brod3, row3),
+				_mm_mul_ps(brod4, row4)));
+		_mm_store_ps(&r[4 * i], row);
 	}
 }
 
@@ -136,15 +136,15 @@ static void mulAffineNative(jlong m0, jlong m1, jlong dest) {
 	const float* a = (const float*)(intptr_t)m0;
 	const float* b = (const float*)(intptr_t)m1;
 	float* r = (float*)(intptr_t)dest;
-	__m128 col1 = _mm_load_ps(&b[0]);
-	__m128 col2 = _mm_load_ps(&b[4]);
-	__m128 col3 = _mm_load_ps(&b[8]);
-	__m128 col4 = _mm_load_ps(&b[12]);
+	__m128 col1 = _mm_load_ps(&a[0]);
+	__m128 col2 = _mm_load_ps(&a[4]);
+	__m128 col3 = _mm_load_ps(&a[8]);
+	__m128 col4 = _mm_load_ps(&a[12]);
 	for (int i = 0; i < 3; i++) {
-		__m128 brod1 = _mm_set1_ps(a[(i << 2) + 0]);
-		__m128 brod2 = _mm_set1_ps(a[(i << 2) + 1]);
-		__m128 brod3 = _mm_set1_ps(a[(i << 2) + 2]);
-		__m128 brod4 = _mm_set1_ps(a[(i << 2) + 3]);
+		__m128 brod1 = _mm_set1_ps(b[(i << 2) + 0]);
+		__m128 brod2 = _mm_set1_ps(b[(i << 2) + 1]);
+		__m128 brod3 = _mm_set1_ps(b[(i << 2) + 2]);
+		__m128 brod4 = _mm_set1_ps(b[(i << 2) + 3]);
 		__m128 col = _mm_add_ps(
 			_mm_add_ps(
 				_mm_mul_ps(brod1, col1),
