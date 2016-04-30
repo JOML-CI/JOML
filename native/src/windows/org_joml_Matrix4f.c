@@ -170,7 +170,7 @@ JNIEXPORT void JNICALL Java_org_joml_Matrix4f_copy(JNIEnv* env, jclass clazz, jl
 	copy(src, dst);
 }
 
-JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_copy(jlong m, jlong src, jlong dst) {
+JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_copy(jlong src, jlong dst) {
 	copy(src, dst);
 }
 
