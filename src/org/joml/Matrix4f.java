@@ -1579,23 +1579,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(FloatBuffer buffer) {
-        int pos = buffer.position();
-        m00 = buffer.get(pos);
-        m01 = buffer.get(pos+1);
-        m02 = buffer.get(pos+2);
-        m03 = buffer.get(pos+3);
-        m10 = buffer.get(pos+4);
-        m11 = buffer.get(pos+5);
-        m12 = buffer.get(pos+6);
-        m13 = buffer.get(pos+7);
-        m20 = buffer.get(pos+8);
-        m21 = buffer.get(pos+9);
-        m22 = buffer.get(pos+10);
-        m23 = buffer.get(pos+11);
-        m30 = buffer.get(pos+12);
-        m31 = buffer.get(pos+13);
-        m32 = buffer.get(pos+14);
-        m33 = buffer.get(pos+15);
+        MemUtil.INSTANCE.get(this, 0, buffer);
         return this;
     }
 
@@ -1612,23 +1596,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(ByteBuffer buffer) {
-        int pos = buffer.position();
-        m00 = buffer.getFloat(pos);
-        m01 = buffer.getFloat(pos+4);
-        m02 = buffer.getFloat(pos+8);
-        m03 = buffer.getFloat(pos+12);
-        m10 = buffer.getFloat(pos+16);
-        m11 = buffer.getFloat(pos+20);
-        m12 = buffer.getFloat(pos+24);
-        m13 = buffer.getFloat(pos+28);
-        m20 = buffer.getFloat(pos+32);
-        m21 = buffer.getFloat(pos+36);
-        m22 = buffer.getFloat(pos+40);
-        m23 = buffer.getFloat(pos+44);
-        m30 = buffer.getFloat(pos+48);
-        m31 = buffer.getFloat(pos+52);
-        m32 = buffer.getFloat(pos+56);
-        m33 = buffer.getFloat(pos+60);
+        MemUtil.INSTANCE.get(this, 0, buffer);
         return this;
     }
 
