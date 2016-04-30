@@ -290,23 +290,7 @@ public class Matrix4f implements Externalizable {
      *          the {@link FloatBuffer} to read the matrix values from
      */
     public Matrix4f(FloatBuffer buffer) {
-        int pos = buffer.position();
-        m00 = buffer.get(pos);
-        m01 = buffer.get(pos+1);
-        m02 = buffer.get(pos+2);
-        m03 = buffer.get(pos+3);
-        m10 = buffer.get(pos+4);
-        m11 = buffer.get(pos+5);
-        m12 = buffer.get(pos+6);
-        m13 = buffer.get(pos+7);
-        m20 = buffer.get(pos+8);
-        m21 = buffer.get(pos+9);
-        m22 = buffer.get(pos+10);
-        m23 = buffer.get(pos+11);
-        m30 = buffer.get(pos+12);
-        m31 = buffer.get(pos+13);
-        m32 = buffer.get(pos+14);
-        m33 = buffer.get(pos+15);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
 
     /**
@@ -1579,7 +1563,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(FloatBuffer buffer) {
-        MemUtil.INSTANCE.get(this, 0, buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -1596,7 +1580,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, 0, buffer);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
 
