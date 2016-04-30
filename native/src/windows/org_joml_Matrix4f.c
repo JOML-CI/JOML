@@ -2,8 +2,12 @@
 #include <jni.h>
 #include <xmmintrin.h>
 
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+	return JNI_VERSION_1_4;
+}
+
 JNIEXPORT jlong JNICALL Java_org_joml_Matrix4f_allocate(JNIEnv* env, jclass clazz) {
-	return (jlong) (intptr_t) _aligned_malloc(16*4, 16);
+	return (jlong)(intptr_t)_aligned_malloc(16 << 2, 16);
 }
 
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_free(JNIEnv* env, jclass clazz, jlong mem) {
@@ -101,23 +105,23 @@ static void mulNative(jlong m0, jlong m1, jlong dest) {
 	const float* a = (const float*)(intptr_t)m0;
 	const float* b = (const float*)(intptr_t)m1;
 	float* r = (float*)(intptr_t)dest;
-	__m128 row1 = _mm_load_ps(&b[0]);
-	__m128 row2 = _mm_load_ps(&b[4]);
-	__m128 row3 = _mm_load_ps(&b[8]);
-	__m128 row4 = _mm_load_ps(&b[12]);
+	__m128 col1 = _mm_load_ps(&b[0]);
+	__m128 col2 = _mm_load_ps(&b[4]);
+	__m128 col3 = _mm_load_ps(&b[8]);
+	__m128 col4 = _mm_load_ps(&b[12]);
 	for (int i = 0; i < 4; i++) {
-		__m128 brod1 = _mm_set1_ps(a[4 * i + 0]);
-		__m128 brod2 = _mm_set1_ps(a[4 * i + 1]);
-		__m128 brod3 = _mm_set1_ps(a[4 * i + 2]);
-		__m128 brod4 = _mm_set1_ps(a[4 * i + 3]);
-		__m128 row = _mm_add_ps(
+		__m128 brod1 = _mm_set1_ps(a[(i << 2) + 0]);
+		__m128 brod2 = _mm_set1_ps(a[(i << 2) + 1]);
+		__m128 brod3 = _mm_set1_ps(a[(i << 2) + 2]);
+		__m128 brod4 = _mm_set1_ps(a[(i << 2) + 3]);
+		__m128 col = _mm_add_ps(
 			_mm_add_ps(
-				_mm_mul_ps(brod1, row1),
-				_mm_mul_ps(brod2, row2)),
+				_mm_mul_ps(brod1, col1),
+				_mm_mul_ps(brod2, col2)),
 			_mm_add_ps(
-				_mm_mul_ps(brod3, row3),
-				_mm_mul_ps(brod4, row4)));
-		_mm_store_ps(&r[4 * i], row);
+				_mm_mul_ps(brod3, col3),
+				_mm_mul_ps(brod4, col4)));
+		_mm_store_ps(&r[i << 2], col);
 	}
 }
 
@@ -128,7 +132,42 @@ JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulNative(jlong m0, jlong 
 	mulNative(m0, m1, dest);
 }
 
-JNIEXPORT void JNICALL Java_org_joml_Matrix4f_identity(JNIEnv* env, jclass clazz, jlong m) {
+static void mulAffineNative(jlong m0, jlong m1, jlong dest) {
+	const float* a = (const float*)(intptr_t)m0;
+	const float* b = (const float*)(intptr_t)m1;
+	float* r = (float*)(intptr_t)dest;
+	__m128 col1 = _mm_load_ps(&b[0]);
+	__m128 col2 = _mm_load_ps(&b[4]);
+	__m128 col3 = _mm_load_ps(&b[8]);
+	__m128 col4 = _mm_load_ps(&b[12]);
+	for (int i = 0; i < 3; i++) {
+		__m128 brod1 = _mm_set1_ps(a[(i << 2) + 0]);
+		__m128 brod2 = _mm_set1_ps(a[(i << 2) + 1]);
+		__m128 brod3 = _mm_set1_ps(a[(i << 2) + 2]);
+		__m128 brod4 = _mm_set1_ps(a[(i << 2) + 3]);
+		__m128 col = _mm_add_ps(
+			_mm_add_ps(
+				_mm_mul_ps(brod1, col1),
+				_mm_mul_ps(brod2, col2)),
+			_mm_add_ps(
+				_mm_mul_ps(brod3, col3),
+				_mm_mul_ps(brod4, col4)));
+		_mm_store_ps(&r[i << 2], col);
+	}
+	r[3] = 0.0f;
+	r[7] = 0.0f;
+	r[11] = 0.0f;
+	r[15] = 1.0f;
+}
+
+JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulAffineNative(JNIEnv* env, jclass clazz, jlong m0, jlong m1, jlong dest) {
+	mulAffineNative(m0, m1, dest);
+}
+JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulAffineNative(jlong m0, jlong m1, jlong dest) {
+	mulAffineNative(m0, m1, dest);
+}
+
+static void identity(jlong m) {
 	float* a = (float*)(intptr_t)m;
 	float val = 1.0f;
 	__m128 mem = _mm_load_ss(&val);
@@ -140,59 +179,49 @@ JNIEXPORT void JNICALL Java_org_joml_Matrix4f_identity(JNIEnv* env, jclass clazz
 	mem = _mm_shuffle_ps(mem, mem, _MM_SHUFFLE(2, 1, 0, 3));
 	_mm_store_ps(&a[12], mem);
 }
+
+JNIEXPORT void JNICALL Java_org_joml_Matrix4f_identity(JNIEnv* env, jclass clazz, jlong m) {
+	identity(m);
+}
+
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_identity(jlong m) {
-	float* a = (float*)(intptr_t)m;
-	float val = 1.0f;
-	__m128 mem = _mm_load_ss(&val);
-	_mm_store_ps(&a[0], mem);
-	mem = _mm_shuffle_ps(mem, mem, _MM_SHUFFLE(2, 1, 0, 3));
-	_mm_store_ps(&a[4], mem);
-	mem = _mm_shuffle_ps(mem, mem, _MM_SHUFFLE(2, 1, 0, 3));
-	_mm_store_ps(&a[8], mem);
-	mem = _mm_shuffle_ps(mem, mem, _MM_SHUFFLE(2, 1, 0, 3));
-	_mm_store_ps(&a[12], mem);
+	identity(m);
+}
+
+static void copy(jlong src, jlong dst) {
+	const float* a = (const float*)(intptr_t)src;
+	float* b = (float*)(intptr_t)dst;
+	__m128 mem = _mm_load_ps(&a[0]);
+	_mm_store_ps(&b[0], mem);
+	mem = _mm_load_ps(&a[4]);
+	_mm_store_ps(&b[4], mem);
+	mem = _mm_load_ps(&a[8]);
+	_mm_store_ps(&b[8], mem);
+	mem = _mm_load_ps(&a[12]);
+	_mm_store_ps(&b[12], mem);
 }
 
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_copy(JNIEnv* env, jclass clazz, jlong src, jlong dst) {
-	const float* a = (const float*)(intptr_t)src;
-	float* b = (float*)(intptr_t)dst;
-	__m128 mem = _mm_load_ps(&a[0]);
-	_mm_store_ps(&b[0], mem);
-	mem = _mm_load_ps(&a[4]);
-	_mm_store_ps(&b[4], mem);
-	mem = _mm_load_ps(&a[8]);
-	_mm_store_ps(&b[8], mem);
-	mem = _mm_load_ps(&a[12]);
-	_mm_store_ps(&b[12], mem);
+	copy(src, dst);
 }
+
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_copy(jlong m, jlong src, jlong dst) {
-	const float* a = (const float*)(intptr_t)src;
-	float* b = (float*)(intptr_t)dst;
-	__m128 mem = _mm_load_ps(&a[0]);
-	_mm_store_ps(&b[0], mem);
-	mem = _mm_load_ps(&a[4]);
-	_mm_store_ps(&b[4], mem);
-	mem = _mm_load_ps(&a[8]);
-	_mm_store_ps(&b[8], mem);
-	mem = _mm_load_ps(&a[12]);
-	_mm_store_ps(&b[12], mem);
+	copy(src, dst);
+}
+
+static void zero(jlong m) {
+	float* a = (float*)(intptr_t)m;
+	__m128 zero;
+	_mm_xor_ps(zero, zero);
+	_mm_store_ps(a, zero);
+	_mm_store_ps(&a[4], zero);
+	_mm_store_ps(&a[8], zero);
+	_mm_store_ps(&a[12], zero);
 }
 
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_zero(JNIEnv* env, jclass clazz, jlong m) {
-	float* a = (float*)(intptr_t)m;
-	__m128 zero;
-	_mm_xor_ps(zero, zero);
-	_mm_store_ps(a, zero);
-	_mm_store_ps(&a[4], zero);
-	_mm_store_ps(&a[8], zero);
-	_mm_store_ps(&a[12], zero);
+	zero(m);
 }
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_zero(jlong m) {
-	float* a = (float*)(intptr_t)m;
-	__m128 zero;
-	_mm_xor_ps(zero, zero);
-	_mm_store_ps(a, zero);
-	_mm_store_ps(&a[4], zero);
-	_mm_store_ps(&a[8], zero);
-	_mm_store_ps(&a[12], zero);
+	zero(m);
 }

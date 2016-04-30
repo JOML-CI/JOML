@@ -157,13 +157,70 @@ public class Matrix4f implements Externalizable {
 
     /* Native functions */
 
-    private static final native long allocate();
-    private static final native long free(long addr);
-    private static final native void zero(long addr);
-    private static final native void identity(long addr);
-    private static final native void copy(long src, long dst);
-    private static final native void mulNative(long a, long b, long dest);
-    private static final native void invertNative(long a, long dest);
+    /**
+     * Allocate 16-byte aligned memory to hold 16 float values.
+     * 
+     * @return the memory address
+     */
+    public static final native long allocate();
+
+    /**
+     * Free memory allocated via {@link #allocate()}.
+     * 
+     * @param addr
+     *          the address returned by {@link #allocate()}
+     */
+    public static final native void free(long addr);
+
+    /**
+     * Copy the 16 float fields from <code>src</code> to <code>dst</code>. Both addresses must be 16-byte aligned.
+     * 
+     * @param src
+     *          the 16-byte aligned address of the source matrix memory
+     * @param dst
+     *          the 16-byte aligned address of the destination matrix memory
+     */
+    public static final native void copy(long src, long dst);
+
+    /**
+     * Multiply the matrix stored at address <code>left</code> by the matrix stored at address <code>right</code> and store the result into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * 
+     * @param left
+     *          the 16-byte aligned address of the left operand matrix
+     * @param right
+     *          the 16-byte aligned address of the right operand matrix
+     * @param dest
+     *          the 16-byte aligned address of the destination matrix
+     */
+    public static final native void mulNative(long left, long right, long dest);
+
+    /**
+     * Multiply the {@link #isAffine() affine} matrix stored at address <code>left</code> by the {@link #isAffine() affine} matrix stored at address <code>right</code> and store the result into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * 
+     * @param left
+     *          the 16-byte aligned address of the left operand matrix
+     * @param right
+     *          the 16-byte aligned address of the right operand matrix
+     * @param dest
+     *          the 16-byte aligned address of the destination matrix
+     */
+    public static final native void mulAffineNative(long left, long right, long dest);
+
+    /**
+     * Invert the matrix stored at address <code>addr</code> and store the result into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * 
+     * @param addr
+     *          the 16-byte aligned address of the matrix to invert
+     * @param dest
+     *          the 16-byte aligned address of the destination matrix
+     */
+    public static final native void invertNative(long addr, long dest);
 
     /**
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
@@ -171,7 +228,7 @@ public class Matrix4f implements Externalizable {
     public Matrix4f() {
     	this.address = allocate();
     	this.ownedMemory = address;
-        identity(address);
+        identity();
     }
 
     /**
@@ -184,16 +241,21 @@ public class Matrix4f implements Externalizable {
     public Matrix4f(Matrix3f mat) {
     	this.address = allocate();
     	this.ownedMemory = address;
-    	identity(address);
         m00(mat.ms[Matrix3f.M00]);
         m01(mat.ms[Matrix3f.M01]);
         m02(mat.ms[Matrix3f.M02]);
+        m03(0.0f);
         m10(mat.ms[Matrix3f.M10]);
         m11(mat.ms[Matrix3f.M11]);
         m12(mat.ms[Matrix3f.M12]);
+        m13(0.0f);
         m20(mat.ms[Matrix3f.M20]);
         m21(mat.ms[Matrix3f.M21]);
         m22(mat.ms[Matrix3f.M22]);
+        m23(0.0f);
+        m30(0.0f);
+        m31(0.0f);
+        m32(0.0f);
         m33(1.0f);
     }
 
@@ -663,7 +725,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f identity() {
-        identity(address);
+        m00(1.0f);
+        m01(0.0f);
+        m02(0.0f);
+        m03(0.0f);
+        m10(0.0f);
+        m11(1.0f);
+        m12(0.0f);
+        m13(0.0f);
+        m20(0.0f);
+        m21(0.0f);
+        m22(1.0f);
+        m23(0.0f);
+        m30(0.0f);
+        m31(0.0f);
+        m32(0.0f);
+        m33(1.0f);
         return this;
     }
 
@@ -1057,22 +1134,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffine(Matrix4f right, Matrix4f dest) {
-        dest.set(m00() * right.m00() + m10() * right.m01() + m20() * right.m02(),
-                 m01() * right.m00() + m11() * right.m01() + m21() * right.m02(),
-                 m02() * right.m00() + m12() * right.m01() + m22() * right.m02(),
-                 m03(),
-                 m00() * right.m10() + m10() * right.m11() + m20() * right.m12(),
-                 m01() * right.m10() + m11() * right.m11() + m21() * right.m12(),
-                 m02() * right.m10() + m12() * right.m11() + m22() * right.m12(),
-                 m13(),
-                 m00() * right.m20() + m10() * right.m21() + m20() * right.m22(),
-                 m01() * right.m20() + m11() * right.m21() + m21() * right.m22(),
-                 m02() * right.m20() + m12() * right.m21() + m22() * right.m22(),
-                 m23(),
-                 m00() * right.m30() + m10() * right.m31() + m20() * right.m32() + m30(),
-                 m01() * right.m30() + m11() * right.m31() + m21() * right.m32() + m31(),
-                 m02() * right.m30() + m12() * right.m31() + m22() * right.m32() + m32(),
-                 m33());
+        mulAffineNative(address, right.address, dest.address);
         return dest;
     }
 
@@ -2309,7 +2371,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f zero() {
-        zero(address);
+        m00(0.0f);
+        m01(0.0f);
+        m02(0.0f);
+        m03(0.0f);
+        m10(0.0f);
+        m11(0.0f);
+        m12(0.0f);
+        m13(0.0f);
+        m20(0.0f);
+        m21(0.0f);
+        m22(0.0f);
+        m23(0.0f);
+        m30(0.0f);
+        m31(0.0f);
+        m32(0.0f);
+        m33(0.0f);
         return this;
     }
 
