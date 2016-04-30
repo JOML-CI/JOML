@@ -103,7 +103,7 @@ public class Vector4f implements Externalizable {
     public Vector4f(float d) {
         this(d, d, d, d);
     }
-    
+
     /**
      * Create a new {@link Vector4f} with the given component values.
      * 

@@ -139,6 +139,194 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3f} by reading its 9 float components from the given {@link FloatBuffer}
+     * at the buffer's current position.
+     * <p>
+     * That FloatBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     * 
+     * @param buffer
+     *          the {@link FloatBuffer} to read the matrix values from
+     */
+    public Matrix3f(FloatBuffer buffer) {
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
+    }
+
+    /**
+     * Return the value of the matrix element at column 0 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m00() {
+        return m00;
+    }
+    /**
+     * Return the value of the matrix element at column 0 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m01() {
+        return m01;
+    }
+    /**
+     * Return the value of the matrix element at column 0 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m02() {
+        return m02;
+    }
+    /**
+     * Return the value of the matrix element at column 1 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m10() {
+        return m10;
+    }
+    /**
+     * Return the value of the matrix element at column 1 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m11() {
+        return m11;
+    }
+    /**
+     * Return the value of the matrix element at column 1 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m12() {
+        return m12;
+    }
+    /**
+     * Return the value of the matrix element at column 2 and row 0.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m20() {
+        return m20;
+    }
+    /**
+     * Return the value of the matrix element at column 2 and row 1.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m21() {
+        return m21;
+    }
+    /**
+     * Return the value of the matrix element at column 2 and row 2.
+     * 
+     * @return the value of the matrix element
+     */
+    public float m22() {
+        return m22;
+    }
+
+    /**
+     * Set the value of the matrix element at column 0 and row 0
+     * 
+     * @param m00
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m00(float m00) {
+        this.m00 = m00;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 1
+     * 
+     * @param m01
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m01(float m01) {
+        this.m01 = m01;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 0 and row 2
+     * 
+     * @param m02
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m02(float m02) {
+        this.m02 = m02;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 0
+     * 
+     * @param m10
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m10(float m10) {
+        this.m10 = m10;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 1
+     * 
+     * @param m11
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m11(float m11) {
+        this.m11 = m11;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 1 and row 2
+     * 
+     * @param m12
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m12(float m12) {
+        this.m12 = m12;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 0
+     * 
+     * @param m20
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m20(float m20) {
+        this.m20 = m20;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 1
+     * 
+     * @param m21
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m21(float m21) {
+        this.m21 = m21;
+        return this;
+    }
+    /**
+     * Set the value of the matrix element at column 2 and row 2
+     * 
+     * @param m22
+     *          the new value
+     * @return the value of the matrix element
+     */
+    public Matrix3f m22(float m22) {
+        this.m22 = m22;
+        return this;
+    }
+
+    /**
      * Set the elements of this matrix to the ones in <code>m</code>.
      * 
      * @param m
@@ -492,15 +680,7 @@ public class Matrix3f implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index,   m00);
-        buffer.put(index+1, m01);
-        buffer.put(index+2, m02);
-        buffer.put(index+3, m10);
-        buffer.put(index+4, m11);
-        buffer.put(index+5, m12);
-        buffer.put(index+6, m20);
-        buffer.put(index+7, m21);
-        buffer.put(index+8, m22);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -537,15 +717,7 @@ public class Matrix3f implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putFloat(index,    m00);
-        buffer.putFloat(index+4,  m01);
-        buffer.putFloat(index+8,  m02);
-        buffer.putFloat(index+12, m10);
-        buffer.putFloat(index+16, m11);
-        buffer.putFloat(index+20, m12);
-        buffer.putFloat(index+24, m20);
-        buffer.putFloat(index+28, m21);
-        buffer.putFloat(index+32, m22);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -582,14 +754,14 @@ public class Matrix3f implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
-        buffer.put(index,    m00);
-        buffer.put(index+1,  m10);
-        buffer.put(index+2,  m20);
-        buffer.put(index+3,  m01);
-        buffer.put(index+4,  m11);
-        buffer.put(index+5,  m21);
-        buffer.put(index+6,  m02);
-        buffer.put(index+7,  m12);
+        buffer.put(index,   m00);
+        buffer.put(index+1, m10);
+        buffer.put(index+2, m20);
+        buffer.put(index+3, m01);
+        buffer.put(index+4, m11);
+        buffer.put(index+5, m21);
+        buffer.put(index+6, m02);
+        buffer.put(index+7, m12);
         buffer.put(index+8, m22);
         return buffer;
     }
@@ -640,6 +812,43 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Store this matrix into the supplied float array in column-major order at the given offset.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    public float[] get(float[] arr, int offset) {
+        arr[offset+0] = m00;
+        arr[offset+1] = m01;
+        arr[offset+2] = m02;
+        arr[offset+3] = m10;
+        arr[offset+4] = m11;
+        arr[offset+5] = m12;
+        arr[offset+6] = m20;
+        arr[offset+7] = m21;
+        arr[offset+8] = m22;
+        return arr;
+    }
+
+    /**
+     * Store this matrix into the supplied float array in column-major order.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get(float[], int)}.
+     * 
+     * @see #get(float[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
+     */
+    public float[] get(float[] arr) {
+        return get(arr, 0);
+    }
+
+    /**
      * Set the values of this matrix by reading 9 float values from the given {@link FloatBuffer} in column-major order,
      * starting at its current position.
      * <p>
@@ -652,16 +861,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f set(FloatBuffer buffer) {
-        int pos = buffer.position();
-        m00 = buffer.get(pos);
-        m01 = buffer.get(pos+1);
-        m02 = buffer.get(pos+2);
-        m10 = buffer.get(pos+3);
-        m11 = buffer.get(pos+4);
-        m12 = buffer.get(pos+5);
-        m20 = buffer.get(pos+6);
-        m21 = buffer.get(pos+7);
-        m22 = buffer.get(pos+8);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -678,16 +878,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f set(ByteBuffer buffer) {
-        int pos = buffer.position();
-        m00 = buffer.getFloat(pos);
-        m01 = buffer.getFloat(pos+4*1);
-        m02 = buffer.getFloat(pos+4*2);
-        m10 = buffer.getFloat(pos+4*3);
-        m11 = buffer.getFloat(pos+4*4);
-        m12 = buffer.getFloat(pos+4*5);
-        m20 = buffer.getFloat(pos+4*6);
-        m21 = buffer.getFloat(pos+4*7);
-        m22 = buffer.getFloat(pos+4*8);
+        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
 
@@ -1002,8 +1193,20 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f rotationX(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         m00 = 1.0f;
         m01 = 0.0f;
         m02 = 0.0f;
@@ -1026,8 +1229,20 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f rotationY(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         m00 = cos;
         m01 = 0.0f;
         m02 = -sin;
@@ -1050,8 +1265,20 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f rotationZ(float ang) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         m00 = cos;
         m01 = sin;
         m02 = 0.0f;
@@ -1317,8 +1544,20 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotateX(float ang, Matrix3f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         float rm11 = cos;
         float rm21 = -sin;
         float rm12 = sin;
@@ -1379,8 +1618,20 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotateY(float ang, Matrix3f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         float rm00 = cos;
         float rm20 = sin;
         float rm02 = -sin;
@@ -1441,8 +1692,20 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f rotateZ(float ang, Matrix3f dest) {
-        float cos = (float) Math.cos(ang);
-        float sin = (float) Math.sin(ang);
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
         float rm00 = cos;
         float rm10 = -sin;
         float rm01 = sin;
