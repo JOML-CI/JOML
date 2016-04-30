@@ -293,6 +293,21 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix4d} by reading its 16 float components from the given {@link DoubleBuffer}
+     * at the buffer's current position.
+     * <p>
+     * That DoubleBuffer is expected to hold the values in column-major order.
+     * <p>
+     * The buffer's position will not be changed by this method.
+     * 
+     * @param buffer
+     *          the {@link DoubleBuffer} to read the matrix values from
+     */
+    public Matrix4d(DoubleBuffer buffer) {
+        MemUtil.INSTANCE.get(this, 0, buffer);
+    }
+
+    /**
      * Return the value of the matrix element at column 0 and row 0.
      * 
      * @return the value of the matrix element
@@ -1696,23 +1711,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d set(DoubleBuffer buffer) {
-        int pos = buffer.position();
-        ms[M00] = buffer.get(pos);
-        ms[M01] = buffer.get(pos+1);
-        ms[M02] = buffer.get(pos+2);
-        ms[M03] = buffer.get(pos+3);
-        ms[M10] = buffer.get(pos+4);
-        ms[M11] = buffer.get(pos+5);
-        ms[M12] = buffer.get(pos+6);
-        ms[M13] = buffer.get(pos+7);
-        ms[M20] = buffer.get(pos+8);
-        ms[M21] = buffer.get(pos+9);
-        ms[M22] = buffer.get(pos+10);
-        ms[M23] = buffer.get(pos+11);
-        ms[M30] = buffer.get(pos+12);
-        ms[M31] = buffer.get(pos+13);
-        ms[M32] = buffer.get(pos+14);
-        ms[M33] = buffer.get(pos+15);
+        MemUtil.INSTANCE.get(this, 0, buffer);
         return this;
     }
 
@@ -1729,23 +1728,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d set(FloatBuffer buffer) {
-        int pos = buffer.position();
-        ms[M00] = buffer.get(pos);
-        ms[M01] = buffer.get(pos+1);
-        ms[M02] = buffer.get(pos+2);
-        ms[M03] = buffer.get(pos+3);
-        ms[M10] = buffer.get(pos+4);
-        ms[M11] = buffer.get(pos+5);
-        ms[M12] = buffer.get(pos+6);
-        ms[M13] = buffer.get(pos+7);
-        ms[M20] = buffer.get(pos+8);
-        ms[M21] = buffer.get(pos+9);
-        ms[M22] = buffer.get(pos+10);
-        ms[M23] = buffer.get(pos+11);
-        ms[M30] = buffer.get(pos+12);
-        ms[M31] = buffer.get(pos+13);
-        ms[M32] = buffer.get(pos+14);
-        ms[M33] = buffer.get(pos+15);
+        MemUtil.INSTANCE.getf(this, 0, buffer);
         return this;
     }
 
@@ -1762,23 +1745,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d set(ByteBuffer buffer) {
-        int pos = buffer.position();
-        ms[M00] = buffer.getDouble(pos);
-        ms[M01] = buffer.getDouble(pos+8*1);
-        ms[M02] = buffer.getDouble(pos+8*2);
-        ms[M03] = buffer.getDouble(pos+8*3);
-        ms[M10] = buffer.getDouble(pos+8*4);
-        ms[M11] = buffer.getDouble(pos+8*5);
-        ms[M12] = buffer.getDouble(pos+8*6);
-        ms[M13] = buffer.getDouble(pos+8*7);
-        ms[M20] = buffer.getDouble(pos+8*8);
-        ms[M21] = buffer.getDouble(pos+8*9);
-        ms[M22] = buffer.getDouble(pos+8*10);
-        ms[M23] = buffer.getDouble(pos+8*11);
-        ms[M30] = buffer.getDouble(pos+8*12);
-        ms[M31] = buffer.getDouble(pos+8*13);
-        ms[M32] = buffer.getDouble(pos+8*14);
-        ms[M33] = buffer.getDouble(pos+8*15);
+        MemUtil.INSTANCE.get(this, 0, buffer);
         return this;
     }
 
@@ -1795,23 +1762,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setFloats(ByteBuffer buffer) {
-        int pos = buffer.position();
-        ms[M00] = buffer.getFloat(pos);
-        ms[M01] = buffer.getFloat(pos+4*1);
-        ms[M02] = buffer.getFloat(pos+4*2);
-        ms[M03] = buffer.getFloat(pos+4*3);
-        ms[M10] = buffer.getFloat(pos+4*4);
-        ms[M11] = buffer.getFloat(pos+4*5);
-        ms[M12] = buffer.getFloat(pos+4*6);
-        ms[M13] = buffer.getFloat(pos+4*7);
-        ms[M20] = buffer.getFloat(pos+4*8);
-        ms[M21] = buffer.getFloat(pos+4*9);
-        ms[M22] = buffer.getFloat(pos+4*10);
-        ms[M23] = buffer.getFloat(pos+4*11);
-        ms[M30] = buffer.getFloat(pos+4*12);
-        ms[M31] = buffer.getFloat(pos+4*13);
-        ms[M32] = buffer.getFloat(pos+4*14);
-        ms[M33] = buffer.getFloat(pos+4*15);
+        MemUtil.INSTANCE.getf(this, 0, buffer);
         return this;
     }
 

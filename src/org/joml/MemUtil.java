@@ -60,6 +60,10 @@ abstract class MemUtil {
     abstract void putfTransposed(Matrix4d m, int offset, ByteBuffer dest);
     abstract void get(Matrix4f m, int offset, FloatBuffer src);
     abstract void get(Matrix4f m, int offset, ByteBuffer src);
+    abstract void get(Matrix4d m, int offset, DoubleBuffer src);
+    abstract void get(Matrix4d m, int offset, ByteBuffer src);
+    abstract void getf(Matrix4d m, int offset, FloatBuffer src);
+    abstract void getf(Matrix4d m, int offset, ByteBuffer src);
 
     static final class MemUtilNIO extends MemUtil {
         final void put(Matrix4f m, int offset, FloatBuffer dest) {
@@ -327,6 +331,82 @@ abstract class MemUtil {
             m.ms[Matrix4f.M32] = src.getFloat(offset+56);
             m.ms[Matrix4f.M33] = src.getFloat(offset+60);
         }
+
+        final void get(Matrix4d m, int offset, DoubleBuffer src) {
+            m.ms[Matrix4d.M00] = src.get(offset);
+            m.ms[Matrix4d.M01] = src.get(offset+1);
+            m.ms[Matrix4d.M02] = src.get(offset+2);
+            m.ms[Matrix4d.M03] = src.get(offset+3);
+            m.ms[Matrix4d.M10] = src.get(offset+4);
+            m.ms[Matrix4d.M11] = src.get(offset+5);
+            m.ms[Matrix4d.M12] = src.get(offset+6);
+            m.ms[Matrix4d.M13] = src.get(offset+7);
+            m.ms[Matrix4d.M20] = src.get(offset+8);
+            m.ms[Matrix4d.M21] = src.get(offset+9);
+            m.ms[Matrix4d.M22] = src.get(offset+10);
+            m.ms[Matrix4d.M23] = src.get(offset+11);
+            m.ms[Matrix4d.M30] = src.get(offset+12);
+            m.ms[Matrix4d.M31] = src.get(offset+13);
+            m.ms[Matrix4d.M32] = src.get(offset+14);
+            m.ms[Matrix4d.M33] = src.get(offset+15);
+        }
+
+        final void get(Matrix4d m, int offset, ByteBuffer src) {
+            m.ms[Matrix4d.M00] = src.getDouble(offset);
+            m.ms[Matrix4d.M01] = src.getDouble(offset+4);
+            m.ms[Matrix4d.M02] = src.getDouble(offset+8);
+            m.ms[Matrix4d.M03] = src.getDouble(offset+12);
+            m.ms[Matrix4d.M10] = src.getDouble(offset+16);
+            m.ms[Matrix4d.M11] = src.getDouble(offset+20);
+            m.ms[Matrix4d.M12] = src.getDouble(offset+24);
+            m.ms[Matrix4d.M13] = src.getDouble(offset+28);
+            m.ms[Matrix4d.M20] = src.getDouble(offset+32);
+            m.ms[Matrix4d.M21] = src.getDouble(offset+36);
+            m.ms[Matrix4d.M22] = src.getDouble(offset+40);
+            m.ms[Matrix4d.M23] = src.getDouble(offset+44);
+            m.ms[Matrix4d.M30] = src.getDouble(offset+48);
+            m.ms[Matrix4d.M31] = src.getDouble(offset+52);
+            m.ms[Matrix4d.M32] = src.getDouble(offset+56);
+            m.ms[Matrix4d.M33] = src.getDouble(offset+60);
+        }
+
+        final void getf(Matrix4d m, int offset, FloatBuffer src) {
+            m.ms[Matrix4d.M00] = src.get(offset);
+            m.ms[Matrix4d.M01] = src.get(offset+1);
+            m.ms[Matrix4d.M02] = src.get(offset+2);
+            m.ms[Matrix4d.M03] = src.get(offset+3);
+            m.ms[Matrix4d.M10] = src.get(offset+4);
+            m.ms[Matrix4d.M11] = src.get(offset+5);
+            m.ms[Matrix4d.M12] = src.get(offset+6);
+            m.ms[Matrix4d.M13] = src.get(offset+7);
+            m.ms[Matrix4d.M20] = src.get(offset+8);
+            m.ms[Matrix4d.M21] = src.get(offset+9);
+            m.ms[Matrix4d.M22] = src.get(offset+10);
+            m.ms[Matrix4d.M23] = src.get(offset+11);
+            m.ms[Matrix4d.M30] = src.get(offset+12);
+            m.ms[Matrix4d.M31] = src.get(offset+13);
+            m.ms[Matrix4d.M32] = src.get(offset+14);
+            m.ms[Matrix4d.M33] = src.get(offset+15);
+        }
+
+        final void getf(Matrix4d m, int offset, ByteBuffer src) {
+            m.ms[Matrix4d.M00] = src.getFloat(offset);
+            m.ms[Matrix4d.M01] = src.getFloat(offset+4);
+            m.ms[Matrix4d.M02] = src.getFloat(offset+8);
+            m.ms[Matrix4d.M03] = src.getFloat(offset+12);
+            m.ms[Matrix4d.M10] = src.getFloat(offset+16);
+            m.ms[Matrix4d.M11] = src.getFloat(offset+20);
+            m.ms[Matrix4d.M12] = src.getFloat(offset+24);
+            m.ms[Matrix4d.M13] = src.getFloat(offset+28);
+            m.ms[Matrix4d.M20] = src.getFloat(offset+32);
+            m.ms[Matrix4d.M21] = src.getFloat(offset+36);
+            m.ms[Matrix4d.M22] = src.getFloat(offset+40);
+            m.ms[Matrix4d.M23] = src.getFloat(offset+44);
+            m.ms[Matrix4d.M30] = src.getFloat(offset+48);
+            m.ms[Matrix4d.M31] = src.getFloat(offset+52);
+            m.ms[Matrix4d.M32] = src.getFloat(offset+56);
+            m.ms[Matrix4d.M33] = src.getFloat(offset+60);
+        }
     }
 
     static final class MemUtilUnsafe extends MemUtil {
@@ -550,6 +630,25 @@ abstract class MemUtil {
             m.ms[Matrix4f.M33] = memGetDouble(srcAddr+60);
         }
 
+        private final void getf(Matrix4d m, long srcAddr) {
+            m.ms[Matrix4d.M00] = memGetFloat(srcAddr);
+            m.ms[Matrix4d.M01] = memGetFloat(srcAddr+4);
+            m.ms[Matrix4d.M02] = memGetFloat(srcAddr+8);
+            m.ms[Matrix4d.M03] = memGetFloat(srcAddr+12);
+            m.ms[Matrix4d.M10] = memGetFloat(srcAddr+16);
+            m.ms[Matrix4d.M11] = memGetFloat(srcAddr+20);
+            m.ms[Matrix4d.M12] = memGetFloat(srcAddr+24);
+            m.ms[Matrix4d.M13] = memGetFloat(srcAddr+28);
+            m.ms[Matrix4d.M20] = memGetFloat(srcAddr+32);
+            m.ms[Matrix4d.M21] = memGetFloat(srcAddr+36);
+            m.ms[Matrix4d.M22] = memGetFloat(srcAddr+40);
+            m.ms[Matrix4d.M23] = memGetFloat(srcAddr+44);
+            m.ms[Matrix4d.M30] = memGetFloat(srcAddr+48);
+            m.ms[Matrix4d.M31] = memGetFloat(srcAddr+52);
+            m.ms[Matrix4d.M32] = memGetFloat(srcAddr+56);
+            m.ms[Matrix4d.M33] = memGetFloat(srcAddr+60);
+        }
+
         final void put(Matrix4f m, int offset, FloatBuffer dest) {
             put(m, addressOf(dest) + offset * 4);
         }
@@ -598,16 +697,28 @@ abstract class MemUtil {
             putfTransposed(m, addressOf(dest) + offset);
         }
 
-        final void get(Matrix4d m, int offset, DoubleBuffer src) {
-            get(m, addressOf(src) + offset * 8);
-        }
-
         final void get(Matrix4f m, int offset, FloatBuffer src) {
             get(m, addressOf(src) + offset * 4);
         }
 
         final void get(Matrix4f m, int offset, ByteBuffer src) {
             get(m, addressOf(src) + offset);
+        }
+
+        final void get(Matrix4d m, int offset, DoubleBuffer src) {
+            get(m, addressOf(src) + offset * 8);
+        }
+
+        final void get(Matrix4d m, int offset, ByteBuffer src) {
+            get(m, addressOf(src) + offset);
+        }
+
+        final void getf(Matrix4d m, int offset, FloatBuffer src) {
+            getf(m, addressOf(src) + offset * 4);
+        }
+
+        final void getf(Matrix4d m, int offset, ByteBuffer src) {
+            getf(m, addressOf(src) + offset);
         }
     }
 }
