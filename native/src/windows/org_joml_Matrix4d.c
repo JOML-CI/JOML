@@ -2,8 +2,8 @@
 #include <jni.h>
 #include <immintrin.h>
 
-JNIEXPORT jlong JNICALL Java_org_joml_Matrix4d_allocate(JNIEnv* env, jclass clazz) {
-	return (jlong)(intptr_t)_aligned_malloc(16 << 3, 32);
+JNIEXPORT jlong JNICALL Java_org_joml_Matrix4d_allocate(JNIEnv* env, jclass clazz, jint count) {
+	return (jlong)(intptr_t)_aligned_malloc((16 << 3) * count, 32);
 }
 
 JNIEXPORT void JNICALL Java_org_joml_Matrix4d_free(JNIEnv* env, jclass clazz, jlong mem) {

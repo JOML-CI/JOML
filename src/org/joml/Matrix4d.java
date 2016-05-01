@@ -156,17 +156,19 @@ public class Matrix4d implements Externalizable {
     /* Native functions */
 
     /**
-     * Allocate 32-byte aligned memory to hold 16 double values.
+     * Allocate 32-byte aligned memory to hold <code>count</code> * 16 double values.
      * 
+     * @param count
+     *          the number of matrices to allocate memory for
      * @return the memory address
      */
-    public static final native long allocate();
+    public static final native long allocate(int count);
 
     /**
-     * Free memory allocated via {@link #allocate()}.
+     * Free memory allocated via {@link #allocate(int)}.
      * 
      * @param addr
-     *          the address returned by {@link #allocate()}
+     *          the address returned by {@link #allocate(int)}
      */
     public static final native void free(long addr);
 
@@ -198,11 +200,15 @@ public class Matrix4d implements Externalizable {
      */
     public static final native void mulAffineNative(long left, long right, long dest);
 
+    public Matrix4d(long address) {
+        this.address = address;
+    }
+
     /**
      * Create a new {@link Matrix4d} and set it to {@link #identity() identity}.
      */
     public Matrix4d() {
-        this.address = allocate();
+        this.address = allocate(1);
         this.ownedMemory = address;
         identity();
     }
@@ -214,7 +220,7 @@ public class Matrix4d implements Externalizable {
      *          the {@link Matrix4d} to copy the values from
      */
     public Matrix4d(Matrix4d mat) {
-        this.address = allocate();
+        this.address = allocate(1);
         this.ownedMemory = address;
         m00(mat.m00());
         m01(mat.m01());
@@ -241,7 +247,7 @@ public class Matrix4d implements Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix4d(Matrix4f mat) {
-        this.address = allocate();
+        this.address = allocate(1);
         this.ownedMemory = address;
         m00(mat.m00());
         m01(mat.m01());
@@ -269,7 +275,7 @@ public class Matrix4d implements Externalizable {
      *          the {@link Matrix3d}
      */
     public Matrix4d(Matrix3d mat) {
-        this.address = allocate();
+        this.address = allocate(1);
         this.ownedMemory = address;
         m00(mat.ms[Matrix3d.M00]);
         m01(mat.ms[Matrix3d.M01]);
@@ -329,7 +335,7 @@ public class Matrix4d implements Externalizable {
                     double n10, double n11, double n12, double n13,
                     double n20, double n21, double n22, double n23, 
                     double n30, double n31, double n32, double n33) {
-        this.address = allocate();
+        this.address = allocate(1);
         this.ownedMemory = address;
         m00(n00);
         m01(n01);

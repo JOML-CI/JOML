@@ -156,17 +156,19 @@ public class Matrix4f implements Externalizable {
     /* Native functions */
 
     /**
-     * Allocate 16-byte aligned memory to hold 16 float values.
-     * 
+     * Allocate 16-byte aligned memory to hold <code>count</code> * 16 float values.
+     *
+     * @param count
+     *          the number of matrices to allocate memory for
      * @return the memory address
      */
-    public static final native long allocate();
+    public static final native long allocate(int count);
 
     /**
-     * Free memory allocated via {@link #allocate()}.
+     * Free memory allocated via {@link #allocate(int)}.
      * 
      * @param addr
-     *          the address returned by {@link #allocate()}
+     *          the address returned by {@link #allocate(int)}
      */
     public static final native void free(long addr);
 
@@ -195,6 +197,23 @@ public class Matrix4f implements Externalizable {
     public static final native void mulNative(long left, long right, long dest);
 
     /**
+     * Multiply <code>count</code> matrices stored at address <code>left</code> by <code>count</code> matrices stored at address <code>right</code>
+     * and store the resulting <code>count</code> matrices into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * 
+     * @param count
+     *          the number of matrices to multiply
+     * @param left
+     *          the 16-byte aligned address of the first left operand matrix
+     * @param right
+     *          the 16-byte aligned address of the first right operand matrix
+     * @param dest
+     *          the 16-byte aligned address of the first destination matrix
+     */
+    public static final native void mulBatchedNative(int count, long left, long right, long dest);
+
+    /**
      * Multiply the matrix stored at address <code>left</code> by the affine matrix stored at address <code>right</code> and store the result into <code>dest</code>.
      * <p>
      * All addresses must be 16-byte aligned.
@@ -209,6 +228,23 @@ public class Matrix4f implements Externalizable {
     public static final native void mulAffineNative(long left, long right, long dest);
 
     /**
+     * Multiply <code>count</code> matrices stored at address <code>left</code> by <code>count</code> affine matrices stored at address <code>right</code>
+     * and store the resulting <code>count</code> matrices into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * 
+     * @param count
+     *          the number of matrices to multiply
+     * @param left
+     *          the 16-byte aligned address of the first left operand matrix
+     * @param right
+     *          the 16-byte aligned address of the first right operand matrix
+     * @param dest
+     *          the 16-byte aligned address of the first destination matrix
+     */
+    public static final native void mulAffineBatchedNative(int count, long left, long right, long dest);
+
+    /**
      * Invert the matrix stored at address <code>addr</code> and store the result into <code>dest</code>.
      * <p>
      * All addresses must be 16-byte aligned.
@@ -220,11 +256,15 @@ public class Matrix4f implements Externalizable {
      */
     public static final native void invertNative(long addr, long dest);
 
+    public Matrix4f(long address) {
+        this.address = address;
+    }
+
     /**
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
      */
     public Matrix4f() {
-    	this.address = allocate();
+    	this.address = allocate(1);
     	this.ownedMemory = address;
         identity();
     }
@@ -237,7 +277,7 @@ public class Matrix4f implements Externalizable {
      *          the {@link Matrix3f}
      */
     public Matrix4f(Matrix3f mat) {
-    	this.address = allocate();
+    	this.address = allocate(1);
     	this.ownedMemory = address;
         m00(mat.ms[Matrix3f.M00]);
         m01(mat.ms[Matrix3f.M01]);
@@ -264,7 +304,7 @@ public class Matrix4f implements Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix4f(Matrix4f mat) {
-    	this.address = allocate();
+    	this.address = allocate(1);
     	this.ownedMemory = address;
     	copy(mat.address, address);
     }
@@ -279,7 +319,7 @@ public class Matrix4f implements Externalizable {
      *          the {@link Matrix4d} to copy the values from
      */
     public Matrix4f(Matrix4d mat) {
-        this.address = allocate();
+        this.address = allocate(1);
         this.ownedMemory = address;
         m00((float) mat.m00());
         m01((float) mat.m01());
@@ -339,7 +379,7 @@ public class Matrix4f implements Externalizable {
                     float n10, float n11, float n12, float n13,
                     float n20, float n21, float n22, float n23, 
                     float n30, float n31, float n32, float n33) {
-        this.address = allocate();
+        this.address = allocate(1);
         this.ownedMemory = address;
         m00(n00);
         m01(n01);
@@ -740,6 +780,25 @@ public class Matrix4f implements Externalizable {
         m32(0.0f);
         m33(1.0f);
         return this;
+    }
+
+    public static void identity(long address) {
+        Unsafe.set(address,    1.0f);
+        Unsafe.set(address+4,  0.0f);
+        Unsafe.set(address+8,  0.0f);
+        Unsafe.set(address+12, 0.0f);
+        Unsafe.set(address+16, 0.0f);
+        Unsafe.set(address+20, 1.0f);
+        Unsafe.set(address+24, 0.0f);
+        Unsafe.set(address+28, 0.0f);
+        Unsafe.set(address+32, 0.0f);
+        Unsafe.set(address+36, 0.0f);
+        Unsafe.set(address+40, 1.0f);
+        Unsafe.set(address+44, 0.0f);
+        Unsafe.set(address+48, 0.0f);
+        Unsafe.set(address+52, 0.0f);
+        Unsafe.set(address+56, 0.0f);
+        Unsafe.set(address+60, 1.0f);
     }
 
     /**

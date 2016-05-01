@@ -2,8 +2,8 @@
 #include <jni.h>
 #include <xmmintrin.h>
 
-JNIEXPORT jlong JNICALL Java_org_joml_Matrix4f_allocate(JNIEnv* env, jclass clazz) {
-	return (jlong)(intptr_t)_aligned_malloc(16 << 2, 16);
+JNIEXPORT jlong JNICALL Java_org_joml_Matrix4f_allocate(JNIEnv* env, jclass clazz, jint count) {
+	return (jlong)(intptr_t)_aligned_malloc((16 << 2) * count, 16);
 }
 
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_free(JNIEnv* env, jclass clazz, jlong mem) {
@@ -127,6 +127,14 @@ JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulNative(JNIEnv* env, jclass claz
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulNative(jlong m0, jlong m1, jlong dest) {
 	mulNative(m0, m1, dest);
 }
+JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulBatchedNative(JNIEnv* env, jclass clazz, jint count, jlong m0, jlong m1, jlong dest) {
+	for (int i = 0; i < count; i++)
+		mulNative(m0 + (16<<2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
+}
+JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulBatchedNative(jint count, jlong m0, jlong m1, jlong dest) {
+	for (int i = 0; i < count; i++)
+		mulNative(m0 + (16 << 2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
+}
 
 static void mulAffineNative(jlong m0, jlong m1, jlong dest) {
 	const float* a = (const float*)(intptr_t)m0;
@@ -187,6 +195,15 @@ JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulAffineNative(JNIEnv* env, jclas
 }
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulAffineNative(jlong m0, jlong m1, jlong dest) {
 	mulAffineNative(m0, m1, dest);
+}
+
+JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulAffineBatchedNative(JNIEnv* env, jclass clazz, jint count, jlong m0, jlong m1, jlong dest) {
+	for (int i = 0; i < count; i++)
+		mulAffineNative(m0 + (16 << 2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
+}
+JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulAffineBatchedNative(jint count, jlong m0, jlong m1, jlong dest) {
+	for (int i = 0; i < count; i++)
+		mulAffineNative(m0 + (16 << 2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
 }
 
 static void identity(jlong m) {
