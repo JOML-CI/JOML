@@ -235,7 +235,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Create a new 4x4 matrix using the supplied float values.
+     * Create a new 4x4 matrix using the supplied double values.
      * 
      * @param n00
      *          the value of ms[M00]
@@ -1484,7 +1484,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set the values within this matrix to the supplied float values. The matrix will look like this:<br><br>
+     * Set the values within this matrix to the supplied double values. The matrix will look like this:<br><br>
      *
      *  m00, m10, m20, m30<br>
      *  m01, m11, m21, m31<br>
