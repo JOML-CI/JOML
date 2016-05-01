@@ -351,6 +351,37 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Free the native memory of this {@link Matrix4d}.
+     * <p>
+     * Doing so is only valid when this Matrix4d was created via one of the following constructors:
+     * <ul>
+     * <li>{@link #Matrix4d()}
+     * <li>{@link #Matrix4d(DoubleBuffer)}
+     * <li>{@link #Matrix4d(Matrix3d)}
+     * <li>{@link #Matrix4d(Matrix4d)}
+     * <li>{@link #Matrix4d(Matrix4f)}
+     * <li>{@link #Matrix4d(double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double)}
+     * </ul>
+     */
+    public void free() {
+        synchronized (this) {
+            if (address != 0L && ownedMemory == address) {
+                free(address);
+                address = 0L;
+                ownedMemory = 0L;
+            }
+        }
+    }
+
+    /**
+     * Eventually free the native memory of this Matrix4d.
+     */
+    protected void finalize() throws Throwable {
+        super.finalize();
+        free();
+    }
+
+    /**
      * Return the value of the matrix element at column 0 and row 0.
      * 
      * @return the value of the matrix element

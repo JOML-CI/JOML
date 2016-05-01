@@ -27,8 +27,6 @@ abstract class JNI {
     static final void touch() {
     }
 
-    private static final native void registerNatives();
-
     static final native int supportedExtensions();
 
 }
