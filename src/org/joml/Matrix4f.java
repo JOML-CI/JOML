@@ -47,12 +47,7 @@ import java.text.NumberFormat;
 public class Matrix4f implements Externalizable {
 
 	static {
-		try {
-            SharedLibraryLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new AssertionError("Could not load JOML shared library: " + e.getMessage());
-        }
+	    JNI.touch();
 	}
 
     private static final long serialVersionUID = 1L;
@@ -156,6 +151,8 @@ public class Matrix4f implements Externalizable {
     private long ownedMemory;
 
     /* Native functions */
+
+    private static final native void registerNatives();
 
     /**
      * Allocate 16-byte aligned memory to hold 16 float values.
@@ -995,6 +992,8 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
+        if (!JNI.hasSse)
+            throw new UnsupportedOperationException("CPU does not support SSE");
     	mulNative(address, right.address, dest.address);
         return dest;
     }
@@ -1136,6 +1135,8 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffine(Matrix4f right, Matrix4f dest) {
+        if (!JNI.hasSse)
+            throw new UnsupportedOperationException("CPU does not support SSE");
         mulNative(address, right.address, dest.address);
         return dest;
     }
@@ -1602,6 +1603,8 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invert(Matrix4f dest) {
+        if (!JNI.hasSse)
+            throw new UnsupportedOperationException("CPU does not support SSE");
         invertNative(address, dest.address);
         return dest;
     }
