@@ -195,6 +195,20 @@ public class Matrix4f implements Externalizable {
     public static final native void mulNative(long left, long right, long dest);
 
     /**
+     * Multiply the matrix stored at address <code>left</code> by the affine matrix stored at address <code>right</code> and store the result into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * 
+     * @param left
+     *          the 16-byte aligned address of the left operand matrix
+     * @param right
+     *          the 16-byte aligned address of the right operand matrix
+     * @param dest
+     *          the 16-byte aligned address of the destination matrix
+     */
+    public static final native void mulAffineNative(long left, long right, long dest);
+
+    /**
      * Invert the matrix stored at address <code>addr</code> and store the result into <code>dest</code>.
      * <p>
      * All addresses must be 16-byte aligned.
@@ -1072,22 +1086,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffineR(Matrix4f right, Matrix4f dest) {
-        dest.set(m00() * right.m00() + m10() * right.m01() + m20() * right.m02(),
-                 m01() * right.m00() + m11() * right.m01() + m21() * right.m02(),
-                 m02() * right.m00() + m12() * right.m01() + m22() * right.m02(),
-                 m03() * right.m00() + m13() * right.m01() + m23() * right.m02(),
-                 m00() * right.m10() + m10() * right.m11() + m20() * right.m12(),
-                 m01() * right.m10() + m11() * right.m11() + m21() * right.m12(),
-                 m02() * right.m10() + m12() * right.m11() + m22() * right.m12(),
-                 m03() * right.m10() + m13() * right.m11() + m23() * right.m12(),
-                 m00() * right.m20() + m10() * right.m21() + m20() * right.m22(),
-                 m01() * right.m20() + m11() * right.m21() + m21() * right.m22(),
-                 m02() * right.m20() + m12() * right.m21() + m22() * right.m22(),
-                 m03() * right.m20() + m13() * right.m21() + m23() * right.m22(),
-                 m00() * right.m30() + m10() * right.m31() + m20() * right.m32() + m30(),
-                 m01() * right.m30() + m11() * right.m31() + m21() * right.m32() + m31(),
-                 m02() * right.m30() + m12() * right.m31() + m22() * right.m32() + m32(),
-                 m03() * right.m30() + m13() * right.m31() + m23() * right.m32() + m33());
+        mulAffineNative(address, right.address, dest.address);
         return dest;
     }
 
@@ -1134,7 +1133,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffine(Matrix4f right, Matrix4f dest) {
-        mulNative(address, right.address, dest.address);
+        mulAffineNative(address, right.address, dest.address);
         return dest;
     }
 

@@ -128,6 +128,67 @@ JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulNative(jlong m0, jlong 
 	mulNative(m0, m1, dest);
 }
 
+static void mulAffineNative(jlong m0, jlong m1, jlong dest) {
+	const float* a = (const float*)(intptr_t)m0;
+	const float* b = (const float*)(intptr_t)m1;
+	float* r = (float*)(intptr_t)dest;
+	__m128 col1 = _mm_load_ps(&a[0]);
+	__m128 col2 = _mm_load_ps(&a[4]);
+	__m128 col3 = _mm_load_ps(&a[8]);
+	__m128 col4 = _mm_load_ps(&a[12]);
+	{
+		__m128 brod1 = _mm_set1_ps(b[0 * 4 + 0]);
+		__m128 brod2 = _mm_set1_ps(b[0 * 4 + 1]);
+		__m128 brod3 = _mm_set1_ps(b[0 * 4 + 2]);
+		__m128 col = _mm_add_ps(
+			_mm_add_ps(
+				_mm_mul_ps(brod1, col1),
+				_mm_mul_ps(brod2, col2)),
+			_mm_mul_ps(brod3, col3));
+		_mm_store_ps(&r[0 * 4], col);
+	}
+	{
+		__m128 brod1 = _mm_set1_ps(b[1 * 4 + 0]);
+		__m128 brod2 = _mm_set1_ps(b[1 * 4 + 1]);
+		__m128 brod3 = _mm_set1_ps(b[1 * 4 + 2]);
+		__m128 col = _mm_add_ps(
+			_mm_add_ps(
+				_mm_mul_ps(brod1, col1),
+				_mm_mul_ps(brod2, col2)),
+			_mm_mul_ps(brod3, col3));
+		_mm_store_ps(&r[1 * 4], col);
+	}
+	{
+		__m128 brod1 = _mm_set1_ps(b[2 * 4 + 0]);
+		__m128 brod2 = _mm_set1_ps(b[2 * 4 + 1]);
+		__m128 brod3 = _mm_set1_ps(b[2 * 4 + 2]);
+		__m128 col = _mm_add_ps(
+			_mm_add_ps(
+				_mm_mul_ps(brod1, col1),
+				_mm_mul_ps(brod2, col2)),
+			_mm_mul_ps(brod3, col3));
+		_mm_store_ps(&r[2 * 4], col);
+	}
+	{
+		__m128 brod1 = _mm_set1_ps(b[3 * 4 + 0]);
+		__m128 brod2 = _mm_set1_ps(b[3 * 4 + 1]);
+		__m128 brod3 = _mm_set1_ps(b[3 * 4 + 2]);
+		__m128 col = _mm_add_ps(
+			_mm_add_ps(
+				_mm_mul_ps(brod1, col1),
+				_mm_mul_ps(brod2, col2)),
+			_mm_add_ps(_mm_mul_ps(brod3, col3), col4));
+		_mm_store_ps(&r[3 * 4], col);
+	}
+}
+
+JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulAffineNative(JNIEnv* env, jclass clazz, jlong m0, jlong m1, jlong dest) {
+	mulAffineNative(m0, m1, dest);
+}
+JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulAffineNative(jlong m0, jlong m1, jlong dest) {
+	mulAffineNative(m0, m1, dest);
+}
+
 static void identity(jlong m) {
 	float* a = (float*)(intptr_t)m;
 	float val = 1.0f;
