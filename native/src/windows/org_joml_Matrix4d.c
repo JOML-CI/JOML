@@ -3,7 +3,7 @@
 #include <immintrin.h>
 
 JNIEXPORT jlong JNICALL Java_org_joml_Matrix4d_allocate(JNIEnv* env, jclass clazz) {
-	return (jlong)(intptr_t)_aligned_malloc(16 << 4, 32);
+	return (jlong)(intptr_t)_aligned_malloc(16 << 3, 32);
 }
 
 JNIEXPORT void JNICALL Java_org_joml_Matrix4d_free(JNIEnv* env, jclass clazz, jlong mem) {
@@ -11,8 +11,8 @@ JNIEXPORT void JNICALL Java_org_joml_Matrix4d_free(JNIEnv* env, jclass clazz, jl
 }
 
 static void mulNative(jlong m0, jlong m1, jlong dest) {
-	const double* a = (const float*)(intptr_t)m0;
-	const double* b = (const float*)(intptr_t)m1;
+	const double* a = (const double*)(intptr_t)m0;
+	const double* b = (const double*)(intptr_t)m1;
 	double* r = (double*)(intptr_t)dest;
 	__m256d col1 = _mm256_load_pd(&a[0]);
 	__m256d col2 = _mm256_load_pd(&a[4]);

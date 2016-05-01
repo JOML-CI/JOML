@@ -145,11 +145,11 @@ public class Matrix4d implements Externalizable {
     public static final int CORNER_PXPYPZ = 7;
 
     /**
-     * The address of the native memory.
+     * The address of the native memory. It <i>MUST</i> be 32-byte aligned.
      */
     public long address;
     /**
-     * We also store internally, whether the {@link #address} is really owned by this Matrix4f.
+     * We also store internally, whether the {@link #address} is really owned by this Matrix4d.
      */
     private long ownedMemory;
 
@@ -276,7 +276,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Create a new 4x4 matrix using the supplied float values.
+     * Create a new 4x4 matrix using the supplied double values.
      * 
      * @param n00
      *          the value of m00()
@@ -1512,7 +1512,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set the values within this matrix to the supplied float values. The matrix will look like this:<br><br>
+     * Set the values within this matrix to the supplied double values. The matrix will look like this:<br><br>
      *
      *  m00, m10, m20, m30<br>
      *  m01, m11, m21, m31<br>

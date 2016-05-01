@@ -145,7 +145,7 @@ public class Matrix4f implements Externalizable {
     public static final int CORNER_PXPYPZ = 7;
 
     /**
-     * The address of the native memory.
+     * The address of the native memory. It <i>MUST</i> be 16-byte aligned.
      */
     public long address;
     /**

@@ -144,7 +144,6 @@ static void identity(jlong m) {
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_identity(JNIEnv* env, jclass clazz, jlong m) {
 	identity(m);
 }
-
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_identity(jlong m) {
 	identity(m);
 }
@@ -165,7 +164,6 @@ static void copy(jlong src, jlong dst) {
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_copy(JNIEnv* env, jclass clazz, jlong src, jlong dst) {
 	copy(src, dst);
 }
-
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_copy(jlong src, jlong dst) {
 	copy(src, dst);
 }
