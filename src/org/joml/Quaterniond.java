@@ -365,22 +365,22 @@ public class Quaterniond implements Externalizable {
         double q12 = dy * z;
         double q13 = dy * w;
         double q23 = dz * w;
-        dest.ms[Matrix4d.M00] = 1.0 - q11 - q22;
-        dest.ms[Matrix4d.M01] = q01 + q23;
-        dest.ms[Matrix4d.M02] = q02 - q13;
-        dest.ms[Matrix4d.M03] = 0.0;
-        dest.ms[Matrix4d.M10] = q01 - q23;
-        dest.ms[Matrix4d.M11] = 1.0 - q22 - q00;
-        dest.ms[Matrix4d.M12] = q12 + q03;
-        dest.ms[Matrix4d.M13] = 0.0;
-        dest.ms[Matrix4d.M20] = q02 + q13;
-        dest.ms[Matrix4d.M21] = q12 - q03;
-        dest.ms[Matrix4d.M22] = 1.0 - q11 - q00;
-        dest.ms[Matrix4d.M23] = 0.0;
-        dest.ms[Matrix4d.M30] = 0.0;
-        dest.ms[Matrix4d.M31] = 0.0;
-        dest.ms[Matrix4d.M32] = 0.0;
-        dest.ms[Matrix4d.M33] = 1.0;
+        dest.m00(1.0 - q11 - q22);
+        dest.m01(q01 + q23);
+        dest.m02(q02 - q13);
+        dest.m03(0.0);
+        dest.m10(q01 - q23);
+        dest.m11(1.0 - q22 - q00);
+        dest.m12(q12 + q03);
+        dest.m13(0.0);
+        dest.m20(q02 + q13);
+        dest.m21(q12 - q03);
+        dest.m22(1.0 - q11 - q00);
+        dest.m23(0.0);
+        dest.m30(0.0);
+        dest.m31(0.0);
+        dest.m32(0.0);
+        dest.m33(1.0);
         return dest;
     }
 
@@ -616,7 +616,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond setFromUnnormalized(Matrix4d mat) {
-        setFromUnnormalized(mat.ms[Matrix4d.M00], mat.ms[Matrix4d.M01], mat.ms[Matrix4d.M02], mat.ms[Matrix4d.M10], mat.ms[Matrix4d.M11], mat.ms[Matrix4d.M12], mat.ms[Matrix4d.M20], mat.ms[Matrix4d.M21], mat.ms[Matrix4d.M22]);
+        setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
@@ -630,7 +630,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond setFromNormalized(Matrix4d mat) {
-        setFromNormalized(mat.ms[Matrix4d.M00], mat.ms[Matrix4d.M01], mat.ms[Matrix4d.M02], mat.ms[Matrix4d.M10], mat.ms[Matrix4d.M11], mat.ms[Matrix4d.M12], mat.ms[Matrix4d.M20], mat.ms[Matrix4d.M21], mat.ms[Matrix4d.M22]);
+        setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 

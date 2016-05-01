@@ -48,6 +48,9 @@ public class Matrix4f implements Externalizable {
 
 	static {
 	    JNI.touch();
+	    if (!JNI.hasSse) {
+	        throw new AssertionError("Your CPU does not support the Streaming SIMD Extensions (SSE) instructions.");
+	    }
 	}
 
     private static final long serialVersionUID = 1L;
@@ -151,8 +154,6 @@ public class Matrix4f implements Externalizable {
     private long ownedMemory;
 
     /* Native functions */
-
-    private static final native void registerNatives();
 
     /**
      * Allocate 16-byte aligned memory to hold 16 float values.
@@ -266,22 +267,22 @@ public class Matrix4f implements Externalizable {
     public Matrix4f(Matrix4d mat) {
         this.address = allocate();
         this.ownedMemory = address;
-        m00((float) mat.ms[Matrix4d.M00]);
-        m01((float) mat.ms[Matrix4d.M01]);
-        m02((float) mat.ms[Matrix4d.M02]);
-        m03((float) mat.ms[Matrix4d.M03]);
-        m10((float) mat.ms[Matrix4d.M10]);
-        m11((float) mat.ms[Matrix4d.M11]);
-        m12((float) mat.ms[Matrix4d.M12]);
-        m13((float) mat.ms[Matrix4d.M13]);
-        m20((float) mat.ms[Matrix4d.M20]);
-        m21((float) mat.ms[Matrix4d.M21]);
-        m22((float) mat.ms[Matrix4d.M22]);
-        m23((float) mat.ms[Matrix4d.M23]);
-        m30((float) mat.ms[Matrix4d.M30]);
-        m31((float) mat.ms[Matrix4d.M31]);
-        m32((float) mat.ms[Matrix4d.M32]);
-        m33((float) mat.ms[Matrix4d.M33]);
+        m00((float) mat.m00());
+        m01((float) mat.m01());
+        m02((float) mat.m02());
+        m03((float) mat.m03());
+        m10((float) mat.m10());
+        m11((float) mat.m11());
+        m12((float) mat.m12());
+        m13((float) mat.m13());
+        m20((float) mat.m20());
+        m21((float) mat.m21());
+        m22((float) mat.m22());
+        m23((float) mat.m23());
+        m30((float) mat.m30());
+        m31((float) mat.m31());
+        m32((float) mat.m32());
+        m33((float) mat.m33());
     }
 
     /**
@@ -772,22 +773,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(Matrix4d m) {
-        m00((float) m.ms[Matrix4d.M00]);
-        m01((float) m.ms[Matrix4d.M01]);
-        m02((float) m.ms[Matrix4d.M02]);
-        m03((float) m.ms[Matrix4d.M03]);
-        m10((float) m.ms[Matrix4d.M10]);
-        m11((float) m.ms[Matrix4d.M11]);
-        m12((float) m.ms[Matrix4d.M12]);
-        m13((float) m.ms[Matrix4d.M13]);
-        m20((float) m.ms[Matrix4d.M20]);
-        m21((float) m.ms[Matrix4d.M21]);
-        m22((float) m.ms[Matrix4d.M22]);
-        m23((float) m.ms[Matrix4d.M23]);
-        m30((float) m.ms[Matrix4d.M30]);
-        m31((float) m.ms[Matrix4d.M31]);
-        m32((float) m.ms[Matrix4d.M32]);
-        m33((float) m.ms[Matrix4d.M33]);
+        m00((float) m.m00());
+        m01((float) m.m01());
+        m02((float) m.m02());
+        m03((float) m.m03());
+        m10((float) m.m10());
+        m11((float) m.m11());
+        m12((float) m.m12());
+        m13((float) m.m13());
+        m20((float) m.m20());
+        m21((float) m.m21());
+        m22((float) m.m22());
+        m23((float) m.m23());
+        m30((float) m.m30());
+        m31((float) m.m31());
+        m32((float) m.m32());
+        m33((float) m.m33());
         return this;
     }
 

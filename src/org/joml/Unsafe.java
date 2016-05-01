@@ -61,8 +61,16 @@ class Unsafe {
         return UNSAFE.getFloat(address);
     }
 
+    static final double getDouble(long address) {
+        return UNSAFE.getDouble(address);
+    }
+
     static final void set(long address, float value) {
         UNSAFE.putFloat(address, value);
+    }
+
+    static final void set(long address, double value) {
+        UNSAFE.putDouble(address, value);
     }
 
 }

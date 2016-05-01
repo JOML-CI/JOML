@@ -4,11 +4,17 @@ import java.io.IOException;
 
 abstract class JNI {
 
+    private static final int SSE = 1;
+    private static final int AVX = 2;
+
     static final boolean hasSse;
+    static final boolean hasAvx;
     static {
         try {
             SharedLibraryLoader.load();
-            hasSse = hasSse();
+            int supportedExtensions = supportedExtensions();
+            hasSse = (supportedExtensions & SSE) != 0;
+            hasAvx = (supportedExtensions & AVX) != 0;
         } catch (IOException e) {
             e.printStackTrace();
             throw new AssertionError("Could not load JOML shared library: " + e.getMessage());
@@ -19,13 +25,10 @@ abstract class JNI {
     }
 
     static final void touch() {
-        if (!hasSse) {
-            throw new AssertionError("Your CPU does not support the Streaming SIMD Extensions (SSE) instructions.");
-        }
     }
 
     private static final native void registerNatives();
 
-    static final native boolean hasSse();
+    static final native int supportedExtensions();
 
 }

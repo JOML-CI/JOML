@@ -973,10 +973,10 @@ public class Vector4d implements Externalizable {
      * @return dest
      */
     public Vector4d mul(Matrix4d mat, Vector4d dest) {
-        dest.set(mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z + mat.ms[Matrix4d.M30] * w,
-                 mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z + mat.ms[Matrix4d.M31] * w,
-                 mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z + mat.ms[Matrix4d.M32] * w, 
-                 mat.ms[Matrix4d.M03] * x + mat.ms[Matrix4d.M13] * y + mat.ms[Matrix4d.M23] * z + mat.ms[Matrix4d.M33] * w);
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w, 
+                 mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
         return dest;
     }
 
@@ -1019,10 +1019,10 @@ public class Vector4d implements Externalizable {
      * @return dest
      */
     public Vector4d mulProject(Matrix4d mat, Vector4d dest) {
-        double invW = 1.0 / (mat.ms[Matrix4d.M03] * x + mat.ms[Matrix4d.M13] * y + mat.ms[Matrix4d.M23] * z + mat.ms[Matrix4d.M33] * w);
-        dest.set((mat.ms[Matrix4d.M00] * x + mat.ms[Matrix4d.M10] * y + mat.ms[Matrix4d.M20] * z + mat.ms[Matrix4d.M30] * w) * invW,
-                 (mat.ms[Matrix4d.M01] * x + mat.ms[Matrix4d.M11] * y + mat.ms[Matrix4d.M21] * z + mat.ms[Matrix4d.M31] * w) * invW,
-                 (mat.ms[Matrix4d.M02] * x + mat.ms[Matrix4d.M12] * y + mat.ms[Matrix4d.M22] * z + mat.ms[Matrix4d.M32] * w) * invW,
+        double invW = 1.0 / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
+        dest.set((mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW,
+                 (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW,
+                 (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW,
                  1.0);
         return dest;
     }
