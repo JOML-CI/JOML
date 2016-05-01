@@ -50,7 +50,7 @@ JNIEXPORT jint JNICALL Java_org_joml_JNI_supportedExtensions(JNIEnv* env, jclass
 	if (HW_FMA4)
 		res |= 16;
 	if (HW_AVX) {
-		char osUsesXSAVE_XRSTORE = info[2] & (1 << 27) != 0;
+		char osUsesXSAVE_XRSTORE = (info[2] & (1 << 27)) != 0;
 		if (osUsesXSAVE_XRSTORE) {
 			unsigned long long xcrFeatureMask = _xgetbv(_XCR_XFEATURE_ENABLED_MASK);
 			char AVX = (xcrFeatureMask & 0x6) == 0x6;

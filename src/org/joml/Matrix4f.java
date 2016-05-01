@@ -257,6 +257,24 @@ public class Matrix4f implements Externalizable {
     public static final native void invertNative(long addr, long dest);
 
     /**
+     * Native function of {@link #rotate(float, float, float, float, Matrix4f)}.
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @param addr
+     *            the address of the left matrix
+     * @param dest
+     *            the address of the destination matrix 
+     */
+    public static final native void rotateAngleXYZ(float ang, float x, float y, float z, long addr, long dest);
+
+    /**
      * Create a new {@link Matrix4f} that is backed by the native memory at the given <code>address</code>.
      * 
      * @param address
@@ -4605,51 +4623,7 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotate(float ang, float x, float y, float z, Matrix4f dest) {
-        float s = (float) Math.sin(ang);
-        float c = (float) Math.cos(ang);
-        float C = 1.0f - c;
-
-        float xx = x * x, xy = x * y, xz = x * z;
-        float yy = y * y, yz = y * z;
-        float zz = z * z;
-        float rn00 = xx * C + c;
-        float rn01 = xy * C + z * s;
-        float rn02 = xz * C - y * s;
-        float rn10 = xy * C - z * s;
-        float rn11 = yy * C + c;
-        float rn12 = yz * C + x * s;
-        float rn20 = xz * C + y * s;
-        float rn21 = yz * C - x * s;
-        float rn22 = zz * C + c;
-
-        // add temporaries for dependent values
-        float nn00 = m00() * rn00 + m10() * rn01 + m20() * rn02;
-        float nn01 = m01() * rn00 + m11() * rn01 + m21() * rn02;
-        float nn02 = m02() * rn00 + m12() * rn01 + m22() * rn02;
-        float nn03 = m03() * rn00 + m13() * rn01 + m23() * rn02;
-        float nn10 = m00() * rn10 + m10() * rn11 + m20() * rn12;
-        float nn11 = m01() * rn10 + m11() * rn11 + m21() * rn12;
-        float nn12 = m02() * rn10 + m12() * rn11 + m22() * rn12;
-        float nn13 = m03() * rn10 + m13() * rn11 + m23() * rn12;
-        // set non-dependent values directly
-        dest.m20(m00() * rn20 + m10() * rn21 + m20() * rn22);
-        dest.m21(m01() * rn20 + m11() * rn21 + m21() * rn22);
-        dest.m22(m02() * rn20 + m12() * rn21 + m22() * rn22);
-        dest.m23(m03() * rn20 + m13() * rn21 + m23() * rn22);
-        // set other values
-        dest.m00(nn00);
-        dest.m01(nn01);
-        dest.m02(nn02);
-        dest.m03(nn03);
-        dest.m10(nn10);
-        dest.m11(nn11);
-        dest.m12(nn12);
-        dest.m13(nn13);
-        dest.m30(m30());
-        dest.m31(m31());
-        dest.m32(m32());
-        dest.m33(m33());
-
+        rotateAngleXYZ(ang, x, y, z, address, dest.address);
         return dest;
     }
 

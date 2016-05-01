@@ -129,7 +129,7 @@ JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulNative(jlong m0, jlong 
 }
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulBatchedNative(JNIEnv* env, jclass clazz, jint count, jlong m0, jlong m1, jlong dest) {
 	for (int i = 0; i < count; i++)
-		mulNative(m0 + (16<<2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
+		mulNative(m0 + (16 << 2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
 }
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulBatchedNative(jint count, jlong m0, jlong m1, jlong dest) {
 	for (int i = 0; i < count; i++)
@@ -261,4 +261,66 @@ JNIEXPORT void JNICALL Java_org_joml_Matrix4f_zero(JNIEnv* env, jclass clazz, jl
 }
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_zero(jlong m) {
 	zero(m);
+}
+
+static void rotateAngleXYZ(float angle, float x, float y, float z, const float* src, float* dst) {
+	float s = (float)sin(angle), c = (float)cos(angle);
+	float C = 1.0f - c;
+	float xx = x * x, xy = x * y, xz = x * z;
+	float yy = y * y, yz = y * z;
+	float zz = z * z;
+	float rn00 = xx * C + c;
+	float rn01 = xy * C + z * s;
+	float rn02 = xz * C - y * s;
+	float rn10 = xy * C - z * s;
+	float rn11 = yy * C + c;
+	float rn12 = yz * C + x * s;
+	float rn20 = xz * C + y * s;
+	float rn21 = yz * C - x * s;
+	float rn22 = zz * C + c;
+	__m128 col1 = _mm_load_ps(&src[0]);
+	__m128 col2 = _mm_load_ps(&src[4]);
+	__m128 col3 = _mm_load_ps(&src[8]);
+	{
+		__m128 brod1 = _mm_set1_ps(rn00);
+		__m128 brod2 = _mm_set1_ps(rn01);
+		__m128 brod3 = _mm_set1_ps(rn02);
+		__m128 col = _mm_add_ps(
+			_mm_add_ps(
+				_mm_mul_ps(brod1, col1),
+				_mm_mul_ps(brod2, col2)),
+			_mm_mul_ps(brod3, col3));
+		_mm_store_ps(&dst[0 * 4], col);
+	}
+	{
+		__m128 brod1 = _mm_set1_ps(rn10);
+		__m128 brod2 = _mm_set1_ps(rn11);
+		__m128 brod3 = _mm_set1_ps(rn12);
+		__m128 col = _mm_add_ps(
+			_mm_add_ps(
+				_mm_mul_ps(brod1, col1),
+				_mm_mul_ps(brod2, col2)),
+			_mm_mul_ps(brod3, col3));
+		_mm_store_ps(&dst[1 * 4], col);
+	}
+	{
+		__m128 brod1 = _mm_set1_ps(rn20);
+		__m128 brod2 = _mm_set1_ps(rn21);
+		__m128 brod3 = _mm_set1_ps(rn22);
+		__m128 col = _mm_add_ps(
+			_mm_add_ps(
+				_mm_mul_ps(brod1, col1),
+				_mm_mul_ps(brod2, col2)),
+			_mm_mul_ps(brod3, col3));
+		_mm_store_ps(&dst[2 * 4], col);
+	}
+	__m128 mem = _mm_load_ps(&src[3 * 4]);
+	_mm_store_ps(&dst[3 * 4], mem);
+}
+
+JNIEXPORT void JNICALL Java_org_joml_Matrix4f_rotateAngleXYZ(JNIEnv* env, jclass clazz, jfloat angle, jfloat x, jfloat y, jfloat z, jlong src, jlong dst) {
+	rotateAngleXYZ((float)angle, (float)x, (float)y, (float)z, (const float*)(intptr_t)src, (float*)(intptr_t)dst);
+}
+JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_rotateAngleXYZ(jfloat angle, jfloat x, jfloat y, jfloat z, jlong src, jlong dst) {
+	rotateAngleXYZ((float)angle, (float)x, (float)y, (float)z, (const float*)(intptr_t)src, (float*)(intptr_t)dst);
 }
