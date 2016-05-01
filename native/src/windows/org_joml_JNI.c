@@ -1,4 +1,5 @@
 #include <jni.h>
+#include <intrin.h>
 
 #define cpuid(info, x)  __cpuidex(info, x, 0)
 
@@ -11,6 +12,9 @@ JNIEXPORT jint JNICALL Java_org_joml_JNI_supportedExtensions(JNIEnv* env, jclass
 	//char HW_SSE42;
 	//char HW_SSE4a;
 	char HW_AVX;
+	char HW_AVX2;
+	char HW_FMA3;
+	char HW_FMA4;
 	int info[4];
 	cpuid(info, 0);
 	int nIds = info[0];
@@ -24,16 +28,35 @@ JNIEXPORT jint JNICALL Java_org_joml_JNI_supportedExtensions(JNIEnv* env, jclass
 		//HW_SSSE3 = (info[2] & ((int)1 << 9)) != 0;
 		//HW_SSE41 = (info[2] & ((int)1 << 19)) != 0;
 		//HW_SSE42 = (info[2] & ((int)1 << 20)) != 0;
+		HW_FMA3 = (info[2] & ((int)1 << 12)) != 0;
 		HW_AVX = (info[2] & ((int)1 << 28)) != 0;
+	}
+	if (nIds >= 0x00000007) {
+		cpuid(info, 0x00000007);
+		HW_AVX2 = (info[1] & ((int)1 << 5)) != 0;
 	}
 	if (nExIds >= 0x80000001) {
 		cpuid(info, 0x80000001);
 		//HW_SSE4a = (info[2] & ((int)1 << 6)) != 0;
+		HW_FMA4 = (info[2] & ((int)1 << 16)) != 0;
 	}
 	jint res = 0;
 	if (HW_SSE)
 		res |= 1;
-	if (HW_AVX)
-		res |= 2;
+	if (HW_AVX2)
+		res |= 4;
+	if (HW_FMA3)
+		res |= 8;
+	if (HW_FMA4)
+		res |= 16;
+	if (HW_AVX) {
+		char osUsesXSAVE_XRSTORE = info[2] & (1 << 27) != 0;
+		if (osUsesXSAVE_XRSTORE) {
+			unsigned long long xcrFeatureMask = _xgetbv(_XCR_XFEATURE_ENABLED_MASK);
+			char AVX = (xcrFeatureMask & 0x6) == 0x6;
+			if (AVX)
+				res |= 2;
+		}
+	}
 	return res;
 }

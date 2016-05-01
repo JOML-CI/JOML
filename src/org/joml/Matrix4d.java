@@ -49,7 +49,7 @@ public class Matrix4d implements Externalizable {
     static {
         JNI.touch();
         if (!JNI.hasAvx) {
-            throw new AssertionError("Your CPU does not support the Advanced Vector Extensions (AVX) instructions.");
+            throw new AssertionError("Your CPU or OS does not support the Advanced Vector Extensions (AVX) instructions.");
         }
     }
 
