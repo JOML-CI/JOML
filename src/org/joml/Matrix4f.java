@@ -256,6 +256,12 @@ public class Matrix4f implements Externalizable {
      */
     public static final native void invertNative(long addr, long dest);
 
+    /**
+     * Create a new {@link Matrix4f} that is backed by the native memory at the given <code>address</code>.
+     * 
+     * @param address
+     *          the address of the memory used by the new Matrix4f
+     */
     public Matrix4f(long address) {
         this.address = address;
     }

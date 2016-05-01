@@ -200,6 +200,12 @@ public class Matrix4d implements Externalizable {
      */
     public static final native void mulAffineNative(long left, long right, long dest);
 
+    /**
+     * Create a new {@link Matrix4d} that is backed by the native memory at the given <code>address</code>.
+     * 
+     * @param address
+     *          the address of the memory used by the new Matrix4d
+     */
     public Matrix4d(long address) {
         this.address = address;
     }
