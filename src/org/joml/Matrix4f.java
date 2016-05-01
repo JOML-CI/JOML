@@ -992,8 +992,6 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
-        if (!JNI.hasSse)
-            throw new UnsupportedOperationException("CPU does not support SSE");
     	mulNative(address, right.address, dest.address);
         return dest;
     }
@@ -1135,8 +1133,6 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffine(Matrix4f right, Matrix4f dest) {
-        if (!JNI.hasSse)
-            throw new UnsupportedOperationException("CPU does not support SSE");
         mulNative(address, right.address, dest.address);
         return dest;
     }
@@ -1603,8 +1599,6 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invert(Matrix4f dest) {
-        if (!JNI.hasSse)
-            throw new UnsupportedOperationException("CPU does not support SSE");
         invertNative(address, dest.address);
         return dest;
     }
