@@ -207,22 +207,6 @@ public class Matrix4f implements Externalizable {
     public static final native void mulNativeAVX(long left, long right, long dest);
 
     /**
-     * Multiply the matrix stored at address <code>left</code> by the matrix stored at address <code>right</code> and store the result into <code>dest</code>.
-     * <p>
-     * All addresses must be 16-byte aligned.
-     * <p>
-     * This uses AVX instructions.
-     * 
-     * @param left
-     *          the 16-byte aligned address of the left operand matrix
-     * @param right
-     *          the 16-byte aligned address of the right operand matrix
-     * @param dest
-     *          the 16-byte aligned address of the destination matrix
-     */
-    public static final native void mulNativeAVX256(long left, long right, long dest);
-
-    /**
      * Multiply <code>count</code> matrices stored at address <code>left</code> by <code>count</code> matrices stored at address <code>right</code>
      * and store the resulting <code>count</code> matrices into <code>dest</code>.
      * <p>
@@ -1150,7 +1134,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
         if (hasAVX)
-            mulNativeAVX256(address, right.address, dest.address);
+            mulNativeAVX(address, right.address, dest.address);
         else
             mulNative(address, right.address, dest.address);
         return dest;
