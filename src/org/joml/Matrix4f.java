@@ -46,8 +46,10 @@ import java.text.NumberFormat;
  */
 public class Matrix4f implements Externalizable {
 
+    private static final boolean hasAVX;
 	static {
 	    JNI.touch();
+	    hasAVX = JNI.hasAvx;
 	    if (!JNI.hasSse) {
 	        throw new AssertionError("Your CPU does not support the Streaming SIMD Extensions (SSE) instructions.");
 	    }
@@ -173,19 +175,11 @@ public class Matrix4f implements Externalizable {
     public static final native void free(long addr);
 
     /**
-     * Copy the 16 float fields from <code>src</code> to <code>dst</code>. Both addresses must be 16-byte aligned.
-     * 
-     * @param src
-     *          the 16-byte aligned address of the source matrix memory
-     * @param dst
-     *          the 16-byte aligned address of the destination matrix memory
-     */
-    public static final native void copy(long src, long dst);
-
-    /**
      * Multiply the matrix stored at address <code>left</code> by the matrix stored at address <code>right</code> and store the result into <code>dest</code>.
      * <p>
      * All addresses must be 16-byte aligned.
+     * <p>
+     * This uses SSE instructions.
      * 
      * @param left
      *          the 16-byte aligned address of the left operand matrix
@@ -195,6 +189,38 @@ public class Matrix4f implements Externalizable {
      *          the 16-byte aligned address of the destination matrix
      */
     public static final native void mulNative(long left, long right, long dest);
+
+    /**
+     * Multiply the matrix stored at address <code>left</code> by the matrix stored at address <code>right</code> and store the result into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * <p>
+     * This uses AVX instructions.
+     * 
+     * @param left
+     *          the 16-byte aligned address of the left operand matrix
+     * @param right
+     *          the 16-byte aligned address of the right operand matrix
+     * @param dest
+     *          the 16-byte aligned address of the destination matrix
+     */
+    public static final native void mulNativeAVX(long left, long right, long dest);
+
+    /**
+     * Multiply the matrix stored at address <code>left</code> by the matrix stored at address <code>right</code> and store the result into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * <p>
+     * This uses AVX instructions.
+     * 
+     * @param left
+     *          the 16-byte aligned address of the left operand matrix
+     * @param right
+     *          the 16-byte aligned address of the right operand matrix
+     * @param dest
+     *          the 16-byte aligned address of the destination matrix
+     */
+    public static final native void mulNativeAVX256(long left, long right, long dest);
 
     /**
      * Multiply <code>count</code> matrices stored at address <code>left</code> by <code>count</code> matrices stored at address <code>right</code>
@@ -217,6 +243,8 @@ public class Matrix4f implements Externalizable {
      * Multiply the matrix stored at address <code>left</code> by the affine matrix stored at address <code>right</code> and store the result into <code>dest</code>.
      * <p>
      * All addresses must be 16-byte aligned.
+     * <p>
+     * This uses SSE instructions.
      * 
      * @param left
      *          the 16-byte aligned address of the left operand matrix
@@ -226,6 +254,22 @@ public class Matrix4f implements Externalizable {
      *          the 16-byte aligned address of the destination matrix
      */
     public static final native void mulAffineNative(long left, long right, long dest);
+
+    /**
+     * Multiply the matrix stored at address <code>left</code> by the affine matrix stored at address <code>right</code> and store the result into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * <p>
+     * This uses AVX instructions.
+     * 
+     * @param left
+     *          the 16-byte aligned address of the left operand matrix
+     * @param right
+     *          the 16-byte aligned address of the right operand matrix
+     * @param dest
+     *          the 16-byte aligned address of the destination matrix
+     */
+    public static final native void mulAffineNativeAVX(long left, long right, long dest);
 
     /**
      * Multiply <code>count</code> matrices stored at address <code>left</code> by <code>count</code> affine matrices stored at address <code>right</code>
@@ -330,7 +374,22 @@ public class Matrix4f implements Externalizable {
     public Matrix4f(Matrix4f mat) {
     	this.address = allocate(1);
     	this.ownedMemory = address;
-    	copy(mat.address, address);
+        m00(mat.m00());
+        m01(mat.m01());
+        m02(mat.m02());
+        m03(mat.m03());
+        m10(mat.m10());
+        m11(mat.m11());
+        m12(mat.m12());
+        m13(mat.m13());
+        m20(mat.m20());
+        m21(mat.m21());
+        m22(mat.m22());
+        m23(mat.m23());
+        m30(mat.m30());
+        m31(mat.m31());
+        m32(mat.m32());
+        m33(mat.m33());
     }
 
     /**
@@ -1090,7 +1149,10 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
-    	mulNative(address, right.address, dest.address);
+        if (hasAVX)
+            mulNativeAVX256(address, right.address, dest.address);
+        else
+            mulNative(address, right.address, dest.address);
         return dest;
     }
 
@@ -1169,7 +1231,10 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffineR(Matrix4f right, Matrix4f dest) {
-        mulAffineNative(address, right.address, dest.address);
+        if (hasAVX)
+            mulAffineNativeAVX(address, right.address, dest.address);
+        else
+            mulAffineNative(address, right.address, dest.address);
         return dest;
     }
 
@@ -1216,7 +1281,10 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffine(Matrix4f right, Matrix4f dest) {
-        mulAffineNative(address, right.address, dest.address);
+        if (hasAVX)
+            mulAffineNativeAVX(address, right.address, dest.address);
+        else
+            mulAffineNative(address, right.address, dest.address);
         return dest;
     }
 

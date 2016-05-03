@@ -127,6 +127,7 @@ JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulNative(JNIEnv* env, jclass claz
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulNative(jlong m0, jlong m1, jlong dest) {
 	mulNative(m0, m1, dest);
 }
+
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulBatchedNative(JNIEnv* env, jclass clazz, jint count, jlong m0, jlong m1, jlong dest) {
 	for (int i = 0; i < count; i++)
 		mulNative(m0 + (16 << 2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
@@ -204,63 +205,6 @@ JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulAffineBatchedNative(JNIEnv* env
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulAffineBatchedNative(jint count, jlong m0, jlong m1, jlong dest) {
 	for (int i = 0; i < count; i++)
 		mulAffineNative(m0 + (16 << 2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
-}
-
-static void identity(jlong m) {
-	float* a = (float*)(intptr_t)m;
-	float val = 1.0f;
-	__m128 mem = _mm_load_ss(&val);
-	_mm_store_ps(&a[0], mem);
-	mem = _mm_shuffle_ps(mem, mem, _MM_SHUFFLE(2, 1, 0, 3));
-	_mm_store_ps(&a[4], mem);
-	mem = _mm_shuffle_ps(mem, mem, _MM_SHUFFLE(2, 1, 0, 3));
-	_mm_store_ps(&a[8], mem);
-	mem = _mm_shuffle_ps(mem, mem, _MM_SHUFFLE(2, 1, 0, 3));
-	_mm_store_ps(&a[12], mem);
-}
-
-JNIEXPORT void JNICALL Java_org_joml_Matrix4f_identity(JNIEnv* env, jclass clazz, jlong m) {
-	identity(m);
-}
-JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_identity(jlong m) {
-	identity(m);
-}
-
-static void copy(jlong src, jlong dst) {
-	const float* a = (const float*)(intptr_t)src;
-	float* b = (float*)(intptr_t)dst;
-	__m128 mem = _mm_load_ps(&a[0]);
-	_mm_store_ps(&b[0], mem);
-	mem = _mm_load_ps(&a[4]);
-	_mm_store_ps(&b[4], mem);
-	mem = _mm_load_ps(&a[8]);
-	_mm_store_ps(&b[8], mem);
-	mem = _mm_load_ps(&a[12]);
-	_mm_store_ps(&b[12], mem);
-}
-
-JNIEXPORT void JNICALL Java_org_joml_Matrix4f_copy(JNIEnv* env, jclass clazz, jlong src, jlong dst) {
-	copy(src, dst);
-}
-JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_copy(jlong src, jlong dst) {
-	copy(src, dst);
-}
-
-static void zero(jlong m) {
-	float* a = (float*)(intptr_t)m;
-	__m128 zero;
-	_mm_xor_ps(zero, zero);
-	_mm_store_ps(a, zero);
-	_mm_store_ps(&a[4], zero);
-	_mm_store_ps(&a[8], zero);
-	_mm_store_ps(&a[12], zero);
-}
-
-JNIEXPORT void JNICALL Java_org_joml_Matrix4f_zero(JNIEnv* env, jclass clazz, jlong m) {
-	zero(m);
-}
-JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_zero(jlong m) {
-	zero(m);
 }
 
 static void rotateAngleXYZ(float angle, float x, float y, float z, const float* src, float* dst) {
