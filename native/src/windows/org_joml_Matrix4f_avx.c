@@ -114,40 +114,11 @@ static void mulNative(jlong m0, jlong m1, jlong dest) {
 	}
 }
 
-static void mulNative256(jlong m0, jlong m1, jlong dest) {
-	const float* a = (const float*)(intptr_t)m0;
-	const float* b = (const float*)(intptr_t)m1;
-	float* r = (float*)(intptr_t)dest;
-	__m256 col12 = _mm256_load_ps(&a[0]);
-	__m256 col34 = _mm256_load_ps(&a[8]);
-	for (int i = 0; i < 4; i++) {
-		__m128 brod1 = _mm_set1_ps(b[i * 4 + 0]);
-		__m128 brod2 = _mm_set1_ps(b[i * 4 + 1]);
-		__m256 brod12 = _mm256_castps128_ps256(brod1);
-		brod12 = _mm256_insertf128_ps(brod12, brod2, 1);
-		__m128 brod3 = _mm_set1_ps(b[i * 4 + 2]);
-		__m128 brod4 = _mm_set1_ps(b[i * 4 + 3]);
-		__m256 brod34 = _mm256_castps128_ps256(brod3);
-		brod34 = _mm256_insertf128_ps(brod34, brod4, 1);
-		__m256 col = _mm256_add_ps(_mm256_mul_ps(brod12, col12), _mm256_mul_ps(brod34, col34));
-		__m128 upper = _mm256_extractf128_ps(col, 0);
-		__m128 lower = _mm256_extractf128_ps(col, 1);
-		_mm_store_ps(&r[i * 4], _mm_add_ps(upper, lower));
-	}
-}
-
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulNativeAVX(JNIEnv* env, jclass clazz, jlong m0, jlong m1, jlong dest) {
 	mulNative(m0, m1, dest);
 }
 JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulNativeAVX(jlong m0, jlong m1, jlong dest) {
 	mulNative(m0, m1, dest);
-}
-
-JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulNativeAVX256(JNIEnv* env, jclass clazz, jlong m0, jlong m1, jlong dest) {
-	mulNative256(m0, m1, dest);
-}
-JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulNativeAVX256(jlong m0, jlong m1, jlong dest) {
-	mulNative256(m0, m1, dest);
 }
 
 JNIEXPORT void JNICALL Java_org_joml_Matrix4f_mulBatchedNativeAVX(JNIEnv* env, jclass clazz, jint count, jlong m0, jlong m1, jlong dest) {
