@@ -751,22 +751,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
-        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03,
-                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03,
-                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03,
-                 m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03,
-                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13,
-                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13,
-                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13,
-                 m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13,
-                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23,
-                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23,
-                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23,
-                 m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23,
-                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33,
-                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33,
-                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33,
-                 m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33);
+        float nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03;
+        float nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03;
+        float nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03;
+        float nm03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03;
+        float nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13;
+        float nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13;
+        float nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13;
+        float nm13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13;
+        float nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23;
+        float nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23;
+        float nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23;
+        float nm23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23;
+        float nm30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33;
+        float nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33;
+        float nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33;
+        float nm33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -801,10 +817,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulPerspectiveAffine(Matrix4f view, Matrix4f dest) {
-        dest.set(m00 * view.m00, m11 * view.m01, m22 * view.m02, m23 * view.m02,
-                 m00 * view.m10, m11 * view.m11, m22 * view.m12, m23 * view.m12,
-                 m00 * view.m20, m11 * view.m21, m22 * view.m22, m23 * view.m22,
-                 m00 * view.m30, m11 * view.m31, m22 * view.m32 + m32, m23 * view.m32);
+        float nm00 = m00 * view.m00;
+        float nm01 = m11 * view.m01;
+        float nm02 = m22 * view.m02;
+        float nm03 = m23 * view.m02;
+        float nm10 = m00 * view.m10;
+        float nm11 = m11 * view.m11;
+        float nm12 = m22 * view.m12;
+        float nm13 = m23 * view.m12;
+        float nm20 = m00 * view.m20;
+        float nm21 = m11 * view.m21;
+        float nm22 = m22 * view.m22;
+        float nm23 = m23 * view.m22;
+        float nm30 = m00 * view.m30;
+        float nm31 = m11 * view.m31;
+        float nm32 = m22 * view.m32 + m32;
+        float nm33 = m23 * view.m32;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -845,22 +889,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffineR(Matrix4f right, Matrix4f dest) {
-        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
-                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
-                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
-                 m03 * right.m00 + m13 * right.m01 + m23 * right.m02,
-                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
-                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
-                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
-                 m03 * right.m10 + m13 * right.m11 + m23 * right.m12,
-                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
-                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
-                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
-                 m03 * right.m20 + m13 * right.m21 + m23 * right.m22,
-                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
-                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
-                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
-                 m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33);
+        float nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+        float nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+        float nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+        float nm03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02;
+        float nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+        float nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+        float nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+        float nm13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12;
+        float nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+        float nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+        float nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        float nm23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22;
+        float nm30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
+        float nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
+        float nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
+        float nm33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -907,22 +967,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffine(Matrix4f right, Matrix4f dest) {
-        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
-                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
-                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
-                 m03,
-                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
-                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
-                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
-                 m13,
-                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
-                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
-                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22,
-                 m23,
-                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30,
-                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31,
-                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32,
-                 m33);
+        float nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+        float nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+        float nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+        float nm03 = m03;
+        float nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+        float nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+        float nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+        float nm13 = m13;
+        float nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+        float nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+        float nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        float nm23 = m23;
+        float nm30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
+        float nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
+        float nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
+        float nm33 = m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -958,10 +1034,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulOrthoAffine(Matrix4f view, Matrix4f dest) {
-        dest.set(m00 * view.m00, m11 * view.m01, m22 * view.m02, 0.0f,
-                 m00 * view.m10, m11 * view.m11, m22 * view.m12, 0.0f,
-                 m00 * view.m20, m11 * view.m21, m22 * view.m22, 0.0f,
-                 m00 * view.m30 + m30, m11 * view.m31 + m31, m22 * view.m32 + m32, 1.0f);
+        float nm00 = m00 * view.m00;
+        float nm01 = m11 * view.m01;
+        float nm02 = m22 * view.m02;
+        float nm03 = 0.0f;
+        float nm10 = m00 * view.m10;
+        float nm11 = m11 * view.m11;
+        float nm12 = m22 * view.m12;
+        float nm13 = 0.0f;
+        float nm20 = m00 * view.m20;
+        float nm21 = m11 * view.m21;
+        float nm22 = m22 * view.m22;
+        float nm23 = 0.0f;
+        float nm30 = m00 * view.m30 + m30;
+        float nm31 = m11 * view.m31 + m31;
+        float nm32 = m22 * view.m32 + m32;
+        float nm33 = 1.0f;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -1494,22 +1598,38 @@ public class Matrix4f implements Externalizable {
         float l = m22 * m33 - m23 * m32;
         float det = a * l - b * k + c * j + d * i - e * h + f * g;
         det = 1.0f / det;
-        dest.set(( m11 * l - m12 * k + m13 * j) * det,
-                 (-m01 * l + m02 * k - m03 * j) * det,
-                 ( m31 * f - m32 * e + m33 * d) * det,
-                 (-m21 * f + m22 * e - m23 * d) * det,
-                 (-m10 * l + m12 * i - m13 * h) * det,
-                 ( m00 * l - m02 * i + m03 * h) * det,
-                 (-m30 * f + m32 * c - m33 * b) * det,
-                 ( m20 * f - m22 * c + m23 * b) * det,
-                 ( m10 * k - m11 * i + m13 * g) * det,
-                 (-m00 * k + m01 * i - m03 * g) * det,
-                 ( m30 * e - m31 * c + m33 * a) * det,
-                 (-m20 * e + m21 * c - m23 * a) * det,
-                 (-m10 * j + m11 * h - m12 * g) * det,
-                 ( m00 * j - m01 * h + m02 * g) * det,
-                 (-m30 * d + m31 * b - m32 * a) * det,
-                 ( m20 * d - m21 * b + m22 * a) * det);
+        float nm00 = ( m11 * l - m12 * k + m13 * j) * det;
+        float nm01 = (-m01 * l + m02 * k - m03 * j) * det;
+        float nm02 = ( m31 * f - m32 * e + m33 * d) * det;
+        float nm03 = (-m21 * f + m22 * e - m23 * d) * det;
+        float nm10 = (-m10 * l + m12 * i - m13 * h) * det;
+        float nm11 = ( m00 * l - m02 * i + m03 * h) * det;
+        float nm12 = (-m30 * f + m32 * c - m33 * b) * det;
+        float nm13 = ( m20 * f - m22 * c + m23 * b) * det;
+        float nm20 = ( m10 * k - m11 * i + m13 * g) * det;
+        float nm21 = (-m00 * k + m01 * i - m03 * g) * det;
+        float nm22 = ( m30 * e - m31 * c + m33 * a) * det;
+        float nm23 = (-m20 * e + m21 * c - m23 * a) * det;
+        float nm30 = (-m10 * j + m11 * h - m12 * g) * det;
+        float nm31 = ( m00 * j - m01 * h + m02 * g) * det;
+        float nm32 = (-m30 * d + m31 * b - m32 * a) * det;
+        float nm33 = ( m20 * d - m21 * b + m22 * a) * det;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -1716,22 +1836,38 @@ public class Matrix4f implements Externalizable {
         float m21m00 = m21 * m00;
         float m22m01 = m22 * m01;
         float m22m00 = m22 * m00;
-        dest.set((m11m22 - m12m21) * s,
-                 (m21m02 - m22m01) * s,
-                 (m12m01 - m11m02) * s,
-                 0.0f,
-                 (m12m20 - m10m22) * s,
-                 (m22m00 - m20m02) * s,
-                 (m10m02 - m12m00) * s,
-                 0.0f,
-                 (m10m21 - m11m20) * s,
-                 (m20m01 - m21m00) * s,
-                 (m11m00 - m10m01) * s,
-                 0.0f,
-                 (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s,
-                 (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s,
-                 (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s,
-                 1.0f);
+        float nm00 = (m11m22 - m12m21) * s;
+        float nm01 = (m21m02 - m22m01) * s;
+        float nm02 = (m12m01 - m11m02) * s;
+        float nm03 = 0.0f;
+        float nm10 = (m12m20 - m10m22) * s;
+        float nm11 = (m22m00 - m20m02) * s;
+        float nm12 = (m10m02 - m12m00) * s;
+        float nm13 = 0.0f;
+        float nm20 = (m10m21 - m11m20) * s;
+        float nm21 = (m20m01 - m21m00) * s;
+        float nm22 = (m11m00 - m10m01) * s;
+        float nm23 = 0.0f;
+        float nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
+        float nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
+        float nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
+        float nm33 = 1.0f;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -1826,10 +1962,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f transpose(Matrix4f dest) {
-        dest.set(m00, m10, m20, m30,
-                 m01, m11, m21, m31,
-                 m02, m12, m22, m32,
-                 m03, m13, m23, m33);
+        float nm00 = m00;
+        float nm01 = m10;
+        float nm02 = m20;
+        float nm03 = m30;
+        float nm10 = m01;
+        float nm11 = m11;
+        float nm12 = m21;
+        float nm13 = m31;
+        float nm20 = m02;
+        float nm21 = m12;
+        float nm22 = m22;
+        float nm23 = m32;
+        float nm30 = m03;
+        float nm31 = m13;
+        float nm32 = m23;
+        float nm33 = m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -1852,10 +2016,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f transpose3x3(Matrix4f dest) {
-        dest.set(m00,  m10,  m20,  0.0f,
-                 m01,  m11,  m21,  0.0f,
-                 m02,  m12,  m22,  0.0f,
-                 0.0f, 0.0f, 0.0f, 1.0f);
+        float nm00 = m00;
+        float nm01 = m10;
+        float nm02 = m20;
+        float nm03 = 0.0f;
+        float nm10 = m01;
+        float nm11 = m11;
+        float nm12 = m21;
+        float nm13 = 0.0f;
+        float nm20 = m02;
+        float nm21 = m12;
+        float nm22 = m22;
+        float nm23 = 0.0f;
+        float nm30 = 0.0f;
+        float nm31 = 0.0f;
+        float nm32 = 0.0f;
+        float nm33 = 1.0f;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -7536,19 +7728,38 @@ public class Matrix4f implements Externalizable {
         float det = determinant3x3();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
-        dest.set((m11 * m22 - m21 * m12) * s,
-                 (m20 * m12 - m10 * m22) * s,
-                 (m10 * m21 - m20 * m11) * s,
-                 0.0f,
-                 (m21 * m02 - m01 * m22) * s,
-                 (m00 * m22 - m20 * m02) * s,
-                 (m20 * m01 - m00 * m21) * s,
-                 0.0f,
-                 (m01 * m12 - m11 * m02) * s,
-                 (m10 * m02 - m00 * m12) * s,
-                 (m00 * m11 - m10 * m01) * s,
-                 0.0f,
-                 0.0f, 0.0f, 0.0f, 1.0f);
+        float nm00 = (m11 * m22 - m21 * m12) * s;
+        float nm01 = (m20 * m12 - m10 * m22) * s;
+        float nm02 = (m10 * m21 - m20 * m11) * s;
+        float nm03 = 0.0f;
+        float nm10 = (m21 * m02 - m01 * m22) * s;
+        float nm11 = (m00 * m22 - m20 * m02) * s;
+        float nm12 = (m20 * m01 - m00 * m21) * s;
+        float nm13 = 0.0f;
+        float nm20 = (m01 * m12 - m11 * m02) * s;
+        float nm21 = (m10 * m02 - m00 * m12) * s;
+        float nm22 = (m00 * m11 - m10 * m01) * s;
+        float nm23 = 0.0f;
+        float nm30 = 0.0f;
+        float nm31 = 0.0f;
+        float nm32 = 0.0f;
+        float nm33 = 1.0f;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
