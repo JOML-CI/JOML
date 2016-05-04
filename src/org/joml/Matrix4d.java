@@ -985,40 +985,6 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Multiply the supplied <code>left</code> matrix by the <code>right</code> and store the result into <code>dest</code>.
-     * <p>
-     * If <code>L</code> is the <code>left</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>L * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>L * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     * 
-     * @param left
-     *          the left operand of the multiplication
-     * @param right
-     *          the right operand of the multiplication
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul(Matrix4f left, Matrix4d right, Matrix4d dest) {
-        dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02 + left.m30 * right.m03,
-                 left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02 + left.m31 * right.m03,
-                 left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02 + left.m32 * right.m03,
-                 left.m03 * right.m00 + left.m13 * right.m01 + left.m23 * right.m02 + left.m33 * right.m03,
-                 left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12 + left.m30 * right.m13,
-                 left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12 + left.m31 * right.m13,
-                 left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12 + left.m32 * right.m13,
-                 left.m03 * right.m10 + left.m13 * right.m11 + left.m23 * right.m12 + left.m33 * right.m13,
-                 left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22 + left.m30 * right.m23,
-                 left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22 + left.m31 * right.m23,
-                 left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 + left.m32 * right.m23,
-                 left.m03 * right.m20 + left.m13 * right.m21 + left.m23 * right.m22 + left.m33 * right.m23,
-                 left.m00 * right.m30 + left.m10 * right.m31 + left.m20 * right.m32 + left.m30 * right.m33,
-                 left.m01 * right.m30 + left.m11 * right.m31 + left.m21 * right.m32 + left.m31 * right.m33,
-                 left.m02 * right.m30 + left.m12 * right.m31 + left.m22 * right.m32 + left.m32 * right.m33,
-                 left.m03 * right.m30 + left.m13 * right.m31 + left.m23 * right.m32 + left.m33 * right.m33);
-    }
-
-    /**
      * Multiply <code>this</code> symmetric perspective projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix.
      * <p>
      * If <code>P</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
@@ -1049,10 +1015,38 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d mulPerspectiveAffine(Matrix4d view, Matrix4d dest) {
-        dest.set(m00 * view.m00, m11 * view.m01, m22 * view.m02, m23 * view.m02,
-                 m00 * view.m10, m11 * view.m11, m22 * view.m12, m23 * view.m12,
-                 m00 * view.m20, m11 * view.m21, m22 * view.m22, m23 * view.m22,
-                 m00 * view.m30, m11 * view.m31, m22 * view.m32 + m32, m23 * view.m32);
+        double nm00 = m00 * view.m00;
+        double nm01 = m11 * view.m01;
+        double nm02 = m22 * view.m02;
+        double nm03 = m23 * view.m02;
+        double nm10 = m00 * view.m10;
+        double nm11 = m11 * view.m11;
+        double nm12 = m22 * view.m12;
+        double nm13 = m23 * view.m12;
+        double nm20 = m00 * view.m20;
+        double nm21 = m11 * view.m21;
+        double nm22 = m22 * view.m22;
+        double nm23 = m23 * view.m22;
+        double nm30 = m00 * view.m30;
+        double nm31 = m11 * view.m31;
+        double nm32 = m22 * view.m32 + m32;
+        double nm33 = m23 * view.m32;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -1238,10 +1232,38 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d mulOrthoAffine(Matrix4d view, Matrix4d dest) {
-        dest.set(m00 * view.m00, m11 * view.m01, m22 * view.m02, 0.0,
-                 m00 * view.m10, m11 * view.m11, m22 * view.m12, 0.0,
-                 m00 * view.m20, m11 * view.m21, m22 * view.m22, 0.0,
-                 m00 * view.m30 + m30, m11 * view.m31 + m31, m22 * view.m32 + m32, 1.0);
+        double nm00 = m00 * view.m00;
+        double nm01 = m11 * view.m01;
+        double nm02 = m22 * view.m02;
+        double nm03 = 0.0;
+        double nm10 = m00 * view.m10;
+        double nm11 = m11 * view.m11;
+        double nm12 = m22 * view.m12;
+        double nm13 = 0.0;
+        double nm20 = m00 * view.m20;
+        double nm21 = m11 * view.m21;
+        double nm22 = m22 * view.m22;
+        double nm23 = 0.0;
+        double nm30 = m00 * view.m30 + m30;
+        double nm31 = m11 * view.m31 + m31;
+        double nm32 = m22 * view.m32 + m32;
+        double nm33 = 1.0;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -2238,10 +2260,38 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d transpose(Matrix4d dest) {
-        dest.set(m00, m10, m20, m30,
-                 m01, m11, m21, m31,
-                 m02, m12, m22, m32,
-                 m03, m13, m23, m33);
+        double nm00 = m00;
+        double nm01 = m10;
+        double nm02 = m20;
+        double nm03 = m30;
+        double nm10 = m01;
+        double nm11 = m11;
+        double nm12 = m21;
+        double nm13 = m31;
+        double nm20 = m02;
+        double nm21 = m12;
+        double nm22 = m22;
+        double nm23 = m32;
+        double nm30 = m03;
+        double nm31 = m13;
+        double nm32 = m23;
+        double nm33 = m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -2264,10 +2314,38 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d transpose3x3(Matrix4d dest) {
-        dest.set(m00, m10, m20, 0.0,
-                 m01, m11, m21, 0.0,
-                 m02, m12, m22, 0.0,
-                 0.0, 0.0, 0.0, 1.0);
+        double nm00 = m00;
+        double nm01 = m10;
+        double nm02 = m20;
+        double nm03 = 0.0;
+        double nm10 = m01;
+        double nm11 = m11;
+        double nm12 = m21;
+        double nm13 = 0.0;
+        double nm20 = m02;
+        double nm21 = m12;
+        double nm22 = m22;
+        double nm23 = 0.0;
+        double nm30 = 0.0;
+        double nm31 = 0.0;
+        double nm32 = 0.0;
+        double nm33 = 1.0;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 

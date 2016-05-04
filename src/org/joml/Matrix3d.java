@@ -635,33 +635,6 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Multiply the <code>left</code> matrix by the <code>right</code> and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     * 
-     * @param left
-     *          the left matrix
-     * @param right
-     *          the right matrix
-     * @param dest
-     *          will hold the result
-     */
-    public static void mul(Matrix3f left, Matrix3d right, Matrix3d dest) {
-        dest.set(left.m00 * right.m00 + left.m10 * right.m01 + left.m20 * right.m02,
-                 left.m01 * right.m00 + left.m11 * right.m01 + left.m21 * right.m02,
-                 left.m02 * right.m00 + left.m12 * right.m01 + left.m22 * right.m02,
-                 left.m00 * right.m10 + left.m10 * right.m11 + left.m20 * right.m12,
-                 left.m01 * right.m10 + left.m11 * right.m11 + left.m21 * right.m12,
-                 left.m02 * right.m10 + left.m12 * right.m11 + left.m22 * right.m12,
-                 left.m00 * right.m20 + left.m10 * right.m21 + left.m20 * right.m22,
-                 left.m01 * right.m20 + left.m11 * right.m21 + left.m21 * right.m22,
-                 left.m02 * right.m20 + left.m12 * right.m21 + left.m22 * right.m22 );
-    }
-
-    /**
      * Set the values within this matrix to the supplied double values. The result looks like this:
      * <p>
      * m00, m10, m20<br>

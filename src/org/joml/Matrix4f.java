@@ -976,10 +976,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulPerspectiveAffine(Matrix4f view, Matrix4f dest) {
-        dest.set(m00 * view.m00, m11 * view.m01, m22 * view.m02, m23 * view.m02,
-                 m00 * view.m10, m11 * view.m11, m22 * view.m12, m23 * view.m12,
-                 m00 * view.m20, m11 * view.m21, m22 * view.m22, m23 * view.m22,
-                 m00 * view.m30, m11 * view.m31, m22 * view.m32 + m32, m23 * view.m32);
+        float nm00 = m00 * view.m00;
+        float nm01 = m11 * view.m01;
+        float nm02 = m22 * view.m02;
+        float nm03 = m23 * view.m02;
+        float nm10 = m00 * view.m10;
+        float nm11 = m11 * view.m11;
+        float nm12 = m22 * view.m12;
+        float nm13 = m23 * view.m12;
+        float nm20 = m00 * view.m20;
+        float nm21 = m11 * view.m21;
+        float nm22 = m22 * view.m22;
+        float nm23 = m23 * view.m22;
+        float nm30 = m00 * view.m30;
+        float nm31 = m11 * view.m31;
+        float nm32 = m22 * view.m32 + m32;
+        float nm33 = m23 * view.m32;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -1165,10 +1193,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulOrthoAffine(Matrix4f view, Matrix4f dest) {
-        dest.set(m00 * view.m00, m11 * view.m01, m22 * view.m02, 0.0f,
-                 m00 * view.m10, m11 * view.m11, m22 * view.m12, 0.0f,
-                 m00 * view.m20, m11 * view.m21, m22 * view.m22, 0.0f,
-                 m00 * view.m30 + m30, m11 * view.m31 + m31, m22 * view.m32 + m32, 1.0f);
+        float nm00 = m00 * view.m00;
+        float nm01 = m11 * view.m01;
+        float nm02 = m22 * view.m02;
+        float nm03 = 0.0f;
+        float nm10 = m00 * view.m10;
+        float nm11 = m11 * view.m11;
+        float nm12 = m22 * view.m12;
+        float nm13 = 0.0f;
+        float nm20 = m00 * view.m20;
+        float nm21 = m11 * view.m21;
+        float nm22 = m22 * view.m22;
+        float nm23 = 0.0f;
+        float nm30 = m00 * view.m30 + m30;
+        float nm31 = m11 * view.m31 + m31;
+        float nm32 = m22 * view.m32 + m32;
+        float nm33 = 1.0f;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -2065,10 +2121,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f transpose(Matrix4f dest) {
-        dest.set(m00, m10, m20, m30,
-                 m01, m11, m21, m31,
-                 m02, m12, m22, m32,
-                 m03, m13, m23, m33);
+        float nm00 = m00;
+        float nm01 = m10;
+        float nm02 = m20;
+        float nm03 = m30;
+        float nm10 = m01;
+        float nm11 = m11;
+        float nm12 = m21;
+        float nm13 = m31;
+        float nm20 = m02;
+        float nm21 = m12;
+        float nm22 = m22;
+        float nm23 = m32;
+        float nm30 = m03;
+        float nm31 = m13;
+        float nm32 = m23;
+        float nm33 = m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
@@ -2091,10 +2175,38 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f transpose3x3(Matrix4f dest) {
-        dest.set(m00,  m10,  m20,  0.0f,
-                 m01,  m11,  m21,  0.0f,
-                 m02,  m12,  m22,  0.0f,
-                 0.0f, 0.0f, 0.0f, 1.0f);
+        float nm00 = m00;
+        float nm01 = m10;
+        float nm02 = m20;
+        float nm03 = 0.0f;
+        float nm10 = m01;
+        float nm11 = m11;
+        float nm12 = m21;
+        float nm13 = 0.0f;
+        float nm20 = m02;
+        float nm21 = m12;
+        float nm22 = m22;
+        float nm23 = 0.0f;
+        float nm30 = 0.0f;
+        float nm31 = 0.0f;
+        float nm32 = 0.0f;
+        float nm33 = 1.0f;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
         return dest;
     }
 
