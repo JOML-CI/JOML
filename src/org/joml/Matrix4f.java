@@ -47,13 +47,13 @@ import java.text.NumberFormat;
 public class Matrix4f implements Externalizable {
 
     private static final boolean hasAVX;
-	static {
-	    JNI.touch();
-	    hasAVX = JNI.hasAvx;
-	    if (!JNI.hasSse) {
-	        throw new AssertionError("Your CPU does not support the Streaming SIMD Extensions (SSE) instructions.");
-	    }
-	}
+    static {
+        JNI.touch();
+        hasAVX = JNI.hasAvx;
+        if (!JNI.hasSse) {
+            throw new AssertionError("Your CPU does not support the Streaming SIMD Extensions (SSE) instructions.");
+        }
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -316,8 +316,8 @@ public class Matrix4f implements Externalizable {
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
      */
     public Matrix4f() {
-    	this.address = allocate(1);
-    	this.ownedMemory = address;
+        this.address = allocate(1);
+        this.ownedMemory = address;
         identity();
     }
 
@@ -329,8 +329,8 @@ public class Matrix4f implements Externalizable {
      *          the {@link Matrix3f}
      */
     public Matrix4f(Matrix3f mat) {
-    	this.address = allocate(1);
-    	this.ownedMemory = address;
+        this.address = allocate(1);
+        this.ownedMemory = address;
         m00(mat.ms[Matrix3f.M00]);
         m01(mat.ms[Matrix3f.M01]);
         m02(mat.ms[Matrix3f.M02]);
@@ -356,24 +356,9 @@ public class Matrix4f implements Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix4f(Matrix4f mat) {
-    	this.address = allocate(1);
-    	this.ownedMemory = address;
-        m00(mat.m00());
-        m01(mat.m01());
-        m02(mat.m02());
-        m03(mat.m03());
-        m10(mat.m10());
-        m11(mat.m11());
-        m12(mat.m12());
-        m13(mat.m13());
-        m20(mat.m20());
-        m21(mat.m21());
-        m22(mat.m22());
-        m23(mat.m23());
-        m30(mat.m30());
-        m31(mat.m31());
-        m32(mat.m32());
-        m33(mat.m33());
+        this.address = allocate(1);
+        this.ownedMemory = address;
+        Unsafe.copy16x4(mat.address, address);
     }
 
     /**
@@ -830,42 +815,8 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f identity() {
-        m00(1.0f);
-        m01(0.0f);
-        m02(0.0f);
-        m03(0.0f);
-        m10(0.0f);
-        m11(1.0f);
-        m12(0.0f);
-        m13(0.0f);
-        m20(0.0f);
-        m21(0.0f);
-        m22(1.0f);
-        m23(0.0f);
-        m30(0.0f);
-        m31(0.0f);
-        m32(0.0f);
-        m33(1.0f);
+        Unsafe.identity16x4(address);
         return this;
-    }
-
-    public static void identity(long address) {
-        Unsafe.set(address,    1.0f);
-        Unsafe.set(address+4,  0.0f);
-        Unsafe.set(address+8,  0.0f);
-        Unsafe.set(address+12, 0.0f);
-        Unsafe.set(address+16, 0.0f);
-        Unsafe.set(address+20, 1.0f);
-        Unsafe.set(address+24, 0.0f);
-        Unsafe.set(address+28, 0.0f);
-        Unsafe.set(address+32, 0.0f);
-        Unsafe.set(address+36, 0.0f);
-        Unsafe.set(address+40, 1.0f);
-        Unsafe.set(address+44, 0.0f);
-        Unsafe.set(address+48, 0.0f);
-        Unsafe.set(address+52, 0.0f);
-        Unsafe.set(address+56, 0.0f);
-        Unsafe.set(address+60, 1.0f);
     }
 
     /**
@@ -879,23 +830,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(Matrix4f m) {
-//        copy(m.address, address);
-        m00(m.m00());
-        m01(m.m01());
-        m02(m.m02());
-        m03(m.m03());
-        m10(m.m10());
-        m11(m.m11());
-        m12(m.m12());
-        m13(m.m13());
-        m20(m.m20());
-        m21(m.m21());
-        m22(m.m22());
-        m23(m.m23());
-        m30(m.m30());
-        m31(m.m31());
-        m32(m.m32());
-        m33(m.m33());
+        Unsafe.copy16x4(m.address, address);
         return this;
     }
 
@@ -2505,22 +2440,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f zero() {
-        m00(0.0f);
-        m01(0.0f);
-        m02(0.0f);
-        m03(0.0f);
-        m10(0.0f);
-        m11(0.0f);
-        m12(0.0f);
-        m13(0.0f);
-        m20(0.0f);
-        m21(0.0f);
-        m22(0.0f);
-        m23(0.0f);
-        m30(0.0f);
-        m31(0.0f);
-        m32(0.0f);
-        m33(0.0f);
+        Unsafe.zero16x4(address);
         return this;
     }
 

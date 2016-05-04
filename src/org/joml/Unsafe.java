@@ -73,4 +73,37 @@ class Unsafe {
         UNSAFE.putDouble(address, value);
     }
 
+    static final void zero16x4(long address) {
+        UNSAFE.putLong(address, 0L);
+        UNSAFE.putLong(address+8, 0L);
+        UNSAFE.putLong(address+16, 0L);
+        UNSAFE.putLong(address+24, 0L);
+        UNSAFE.putLong(address+32, 0L);
+        UNSAFE.putLong(address+40, 0L);
+        UNSAFE.putLong(address+48, 0L);
+        UNSAFE.putLong(address+56, 0L);
+    }
+
+    static final void identity16x4(long address) {
+        UNSAFE.putLong(address, 0x3F800000L);
+        UNSAFE.putLong(address+8, 0L);
+        UNSAFE.putLong(address+16, 0x3F80000000000000L);
+        UNSAFE.putLong(address+24, 0L);
+        UNSAFE.putLong(address+32, 0L);
+        UNSAFE.putLong(address+40, 0x3F800000L);
+        UNSAFE.putLong(address+48, 0L);
+        UNSAFE.putLong(address+56, 0x3F80000000000000L);
+    }
+
+    static final void copy16x4(long src, long dst) {
+        UNSAFE.putLong(dst,    UNSAFE.getLong(src));
+        UNSAFE.putLong(dst+8,  UNSAFE.getLong(src+8));
+        UNSAFE.putLong(dst+16, UNSAFE.getLong(src+16));
+        UNSAFE.putLong(dst+24, UNSAFE.getLong(src+24));
+        UNSAFE.putLong(dst+32, UNSAFE.getLong(src+32));
+        UNSAFE.putLong(dst+40, UNSAFE.getLong(src+40));
+        UNSAFE.putLong(dst+48, UNSAFE.getLong(src+48));
+        UNSAFE.putLong(dst+56, UNSAFE.getLong(src+56));
+    }
+
 }
