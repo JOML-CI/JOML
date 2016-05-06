@@ -3,7 +3,7 @@
 #include <xmmintrin.h>
 #include <immintrin.h>
 
-static void invertNative(jlong m0, jlong m1) {
+static void __inline invertNative(jlong m0, jlong m1) {
 	const float* src = (const float*)(intptr_t)m0;
 	float* dst = (float*)(intptr_t)m1;
 	__m128 minor0, minor1, minor2, minor3;
@@ -90,7 +90,7 @@ JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_invertNativeAVX(jlong m0, 
 	invertNative(m0, m1);
 }
 
-static void mulNative(jlong m0, jlong m1, jlong dest) {
+static void __inline mulNative(jlong m0, jlong m1, jlong dest) {
 	const float* a = (const float*)(intptr_t)m0;
 	const float* b = (const float*)(intptr_t)m1;
 	float* r = (float*)(intptr_t)dest;
@@ -130,7 +130,7 @@ JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulBatchedNativeAVX(jint c
 		mulNative(m0 + (16 << 2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
 }
 
-static void mulAffineNative(jlong m0, jlong m1, jlong dest) {
+static void __inline mulAffineNative(jlong m0, jlong m1, jlong dest) {
 	const float* a = (const float*)(intptr_t)m0;
 	const float* b = (const float*)(intptr_t)m1;
 	float* r = (float*)(intptr_t)dest;
@@ -200,7 +200,7 @@ JNIEXPORT void JNICALL JavaCritical_org_joml_Matrix4f_mulAffineBatchedNativeAVX(
 		mulAffineNative(m0 + (16 << 2)*i, m1 + (16 << 2)*i, dest + (16 << 2)*i);
 }
 
-static void rotateAngleXYZ(float angle, float x, float y, float z, const float* src, float* dst) {
+static void __inline rotateAngleXYZ(float angle, float x, float y, float z, const float* src, float* dst) {
 	float s = (float)sin(angle), c = (float)cos(angle);
 	float C = 1.0f - c;
 	float xx = x * x, xy = x * y, xz = x * z;

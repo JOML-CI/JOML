@@ -262,15 +262,15 @@ public class Quaterniond implements Externalizable {
         double q12 = dy * z;
         double q13 = dy * w;
         double q23 = dz * w;
-        dest.ms[Matrix3f.M00] = (float) (1.0 - q11 - q22);
-        dest.ms[Matrix3f.M01] = (float) (q01 + q23);
-        dest.ms[Matrix3f.M02] = (float) (q02 - q13);
-        dest.ms[Matrix3f.M10] = (float) (q01 - q23);
-        dest.ms[Matrix3f.M11] = (float) (1.0 - q22 - q00);
-        dest.ms[Matrix3f.M12] = (float) (q12 + q03);
-        dest.ms[Matrix3f.M20] = (float) (q02 + q13);
-        dest.ms[Matrix3f.M21] = (float) (q12 - q03);
-        dest.ms[Matrix3f.M22] = (float) (1.0 - q11 - q00);
+        dest.m00((float) (1.0 - q11 - q22));
+        dest.m01((float) (q01 + q23));
+        dest.m02((float) (q02 - q13));
+        dest.m10((float) (q01 - q23));
+        dest.m11((float) (1.0 - q22 - q00));
+        dest.m12((float) (q12 + q03));
+        dest.m20((float) (q02 + q13));
+        dest.m21((float) (q12 - q03));
+        dest.m22((float) (1.0 - q11 - q00));
         return dest;
     }
 
@@ -644,7 +644,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond setFromUnnormalized(Matrix3f mat) {
-        setFromUnnormalized(mat.ms[Matrix3f.M00], mat.ms[Matrix3f.M01], mat.ms[Matrix3f.M02], mat.ms[Matrix3f.M10], mat.ms[Matrix3f.M11], mat.ms[Matrix3f.M12], mat.ms[Matrix3f.M20], mat.ms[Matrix3f.M21], mat.ms[Matrix3f.M22]);
+        setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
@@ -658,7 +658,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond setFromNormalized(Matrix3f mat) {
-        setFromNormalized(mat.ms[Matrix3f.M00], mat.ms[Matrix3f.M01], mat.ms[Matrix3f.M02], mat.ms[Matrix3f.M10], mat.ms[Matrix3f.M11], mat.ms[Matrix3f.M12], mat.ms[Matrix3f.M20], mat.ms[Matrix3f.M21], mat.ms[Matrix3f.M22]);
+        setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 

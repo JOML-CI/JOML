@@ -102,15 +102,15 @@ public class Matrix3d implements Externalizable {
      *          the matrix to initialize this matrix with
      */
     public Matrix3d(Matrix3f mat) {
-        ms[M00] = mat.ms[Matrix3f.M00];
-        ms[M01] = mat.ms[Matrix3f.M01];
-        ms[M02] = mat.ms[Matrix3f.M02];
-        ms[M10] = mat.ms[Matrix3f.M10];
-        ms[M11] = mat.ms[Matrix3f.M11];
-        ms[M12] = mat.ms[Matrix3f.M12];
-        ms[M20] = mat.ms[Matrix3f.M20];
-        ms[M21] = mat.ms[Matrix3f.M21];
-        ms[M22] = mat.ms[Matrix3f.M22];
+        ms[M00] = mat.m00();
+        ms[M01] = mat.m01();
+        ms[M02] = mat.m02();
+        ms[M10] = mat.m10();
+        ms[M11] = mat.m11();
+        ms[M12] = mat.m12();
+        ms[M20] = mat.m20();
+        ms[M21] = mat.m21();
+        ms[M22] = mat.m22();
     }
 
     /**
@@ -402,15 +402,15 @@ public class Matrix3d implements Externalizable {
      * @return this
      */
     public Matrix3d set(Matrix3f m) {
-        ms[M00] = m.ms[Matrix3f.M00];
-        ms[M01] = m.ms[Matrix3f.M01];
-        ms[M02] = m.ms[Matrix3f.M02];
-        ms[M10] = m.ms[Matrix3f.M10];
-        ms[M11] = m.ms[Matrix3f.M11];
-        ms[M12] = m.ms[Matrix3f.M12];
-        ms[M20] = m.ms[Matrix3f.M20];
-        ms[M21] = m.ms[Matrix3f.M21];
-        ms[M22] = m.ms[Matrix3f.M22];
+        ms[M00] = m.m00();
+        ms[M01] = m.m01();
+        ms[M02] = m.m02();
+        ms[M10] = m.m10();
+        ms[M11] = m.m11();
+        ms[M12] = m.m12();
+        ms[M20] = m.m20();
+        ms[M21] = m.m21();
+        ms[M22] = m.m22();
         return this;
     }
 
@@ -634,15 +634,15 @@ public class Matrix3d implements Externalizable {
      * @return dest
      */
     public Matrix3d mul(Matrix3f right, Matrix3d dest) {
-        dest.set(ms[M00] * right.ms[Matrix3f.M00] + ms[M10] * right.ms[Matrix3f.M01] + ms[M20] * right.ms[Matrix3f.M02],
-                 ms[M01] * right.ms[Matrix3f.M00] + ms[M11] * right.ms[Matrix3f.M01] + ms[M21] * right.ms[Matrix3f.M02],
-                 ms[M02] * right.ms[Matrix3f.M00] + ms[M12] * right.ms[Matrix3f.M01] + ms[M22] * right.ms[Matrix3f.M02],
-                 ms[M00] * right.ms[Matrix3f.M10] + ms[M10] * right.ms[Matrix3f.M11] + ms[M20] * right.ms[Matrix3f.M12],
-                 ms[M01] * right.ms[Matrix3f.M10] + ms[M11] * right.ms[Matrix3f.M11] + ms[M21] * right.ms[Matrix3f.M12],
-                 ms[M02] * right.ms[Matrix3f.M10] + ms[M12] * right.ms[Matrix3f.M11] + ms[M22] * right.ms[Matrix3f.M12],
-                 ms[M00] * right.ms[Matrix3f.M20] + ms[M10] * right.ms[Matrix3f.M21] + ms[M20] * right.ms[Matrix3f.M22],
-                 ms[M01] * right.ms[Matrix3f.M20] + ms[M11] * right.ms[Matrix3f.M21] + ms[M21] * right.ms[Matrix3f.M22],
-                 ms[M02] * right.ms[Matrix3f.M20] + ms[M12] * right.ms[Matrix3f.M21] + ms[M22] * right.ms[Matrix3f.M22]);
+        dest.set(ms[M00] * right.m00() + ms[M10] * right.m01() + ms[M20] * right.m02(),
+                 ms[M01] * right.m00() + ms[M11] * right.m01() + ms[M21] * right.m02(),
+                 ms[M02] * right.m00() + ms[M12] * right.m01() + ms[M22] * right.m02(),
+                 ms[M00] * right.m10() + ms[M10] * right.m11() + ms[M20] * right.m12(),
+                 ms[M01] * right.m10() + ms[M11] * right.m11() + ms[M21] * right.m12(),
+                 ms[M02] * right.m10() + ms[M12] * right.m11() + ms[M22] * right.m12(),
+                 ms[M00] * right.m20() + ms[M10] * right.m21() + ms[M20] * right.m22(),
+                 ms[M01] * right.m20() + ms[M11] * right.m21() + ms[M21] * right.m22(),
+                 ms[M02] * right.m20() + ms[M12] * right.m21() + ms[M22] * right.m22());
         return dest;
     }
 
@@ -662,15 +662,15 @@ public class Matrix3d implements Externalizable {
      *          will hold the result
      */
     public static void mul(Matrix3f left, Matrix3d right, Matrix3d dest) {
-        dest.set(left.ms[Matrix3f.M00] * right.ms[M00] + left.ms[Matrix3f.M10] * right.ms[M01] + left.ms[Matrix3f.M20] * right.ms[M02],
-                 left.ms[Matrix3f.M01] * right.ms[M00] + left.ms[Matrix3f.M11] * right.ms[M01] + left.ms[Matrix3f.M21] * right.ms[M02],
-                 left.ms[Matrix3f.M02] * right.ms[M00] + left.ms[Matrix3f.M12] * right.ms[M01] + left.ms[Matrix3f.M22] * right.ms[M02],
-                 left.ms[Matrix3f.M00] * right.ms[M10] + left.ms[Matrix3f.M10] * right.ms[M11] + left.ms[Matrix3f.M20] * right.ms[M12],
-                 left.ms[Matrix3f.M01] * right.ms[M10] + left.ms[Matrix3f.M11] * right.ms[M11] + left.ms[Matrix3f.M21] * right.ms[M12],
-                 left.ms[Matrix3f.M02] * right.ms[M10] + left.ms[Matrix3f.M12] * right.ms[M11] + left.ms[Matrix3f.M22] * right.ms[M12],
-                 left.ms[Matrix3f.M00] * right.ms[M20] + left.ms[Matrix3f.M10] * right.ms[M21] + left.ms[Matrix3f.M20] * right.ms[M22],
-                 left.ms[Matrix3f.M01] * right.ms[M20] + left.ms[Matrix3f.M11] * right.ms[M21] + left.ms[Matrix3f.M21] * right.ms[M22],
-                 left.ms[Matrix3f.M02] * right.ms[M20] + left.ms[Matrix3f.M12] * right.ms[M21] + left.ms[Matrix3f.M22] * right.ms[M22] );
+        dest.set(left.m00() * right.ms[M00] + left.m10() * right.ms[M01] + left.m20() * right.ms[M02],
+                 left.m01() * right.ms[M00] + left.m11() * right.ms[M01] + left.m21() * right.ms[M02],
+                 left.m02() * right.ms[M00] + left.m12() * right.ms[M01] + left.m22() * right.ms[M02],
+                 left.m00() * right.ms[M10] + left.m10() * right.ms[M11] + left.m20() * right.ms[M12],
+                 left.m01() * right.ms[M10] + left.m11() * right.ms[M11] + left.m21() * right.ms[M12],
+                 left.m02() * right.ms[M10] + left.m12() * right.ms[M11] + left.m22() * right.ms[M12],
+                 left.m00() * right.ms[M20] + left.m10() * right.ms[M21] + left.m20() * right.ms[M22],
+                 left.m01() * right.ms[M20] + left.m11() * right.ms[M21] + left.m21() * right.ms[M22],
+                 left.m02() * right.ms[M20] + left.m12() * right.ms[M21] + left.m22() * right.ms[M22] );
     }
 
     /**

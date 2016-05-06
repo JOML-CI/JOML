@@ -307,27 +307,27 @@ abstract class MemUtil {
         }
 
         final void put(Matrix3f m, int offset, FloatBuffer dest) {
-            dest.put(offset,   m.ms[Matrix3f.M00]);
-            dest.put(offset+1, m.ms[Matrix3f.M01]);
-            dest.put(offset+2, m.ms[Matrix3f.M02]);
-            dest.put(offset+3, m.ms[Matrix3f.M10]);
-            dest.put(offset+4, m.ms[Matrix3f.M11]);
-            dest.put(offset+5, m.ms[Matrix3f.M12]);
-            dest.put(offset+6, m.ms[Matrix3f.M20]);
-            dest.put(offset+7, m.ms[Matrix3f.M21]);
-            dest.put(offset+8, m.ms[Matrix3f.M22]);
+            dest.put(offset,   m.m00());
+            dest.put(offset+1, m.m01());
+            dest.put(offset+2, m.m02());
+            dest.put(offset+3, m.m10());
+            dest.put(offset+4, m.m11());
+            dest.put(offset+5, m.m12());
+            dest.put(offset+6, m.m20());
+            dest.put(offset+7, m.m21());
+            dest.put(offset+8, m.m22());
         }
 
         final void put(Matrix3f m, int offset, ByteBuffer dest) {
-            dest.putFloat(offset,    m.ms[Matrix3f.M00]);
-            dest.putFloat(offset+4,  m.ms[Matrix3f.M01]);
-            dest.putFloat(offset+8,  m.ms[Matrix3f.M02]);
-            dest.putFloat(offset+12, m.ms[Matrix3f.M10]);
-            dest.putFloat(offset+16, m.ms[Matrix3f.M11]);
-            dest.putFloat(offset+20, m.ms[Matrix3f.M12]);
-            dest.putFloat(offset+24, m.ms[Matrix3f.M20]);
-            dest.putFloat(offset+28, m.ms[Matrix3f.M21]);
-            dest.putFloat(offset+32, m.ms[Matrix3f.M22]);
+            dest.putFloat(offset,    m.m00());
+            dest.putFloat(offset+4,  m.m01());
+            dest.putFloat(offset+8,  m.m02());
+            dest.putFloat(offset+12, m.m10());
+            dest.putFloat(offset+16, m.m11());
+            dest.putFloat(offset+20, m.m12());
+            dest.putFloat(offset+24, m.m20());
+            dest.putFloat(offset+28, m.m21());
+            dest.putFloat(offset+32, m.m22());
         }
 
         final void put(Matrix3d m, int offset, DoubleBuffer dest) {
@@ -493,27 +493,27 @@ abstract class MemUtil {
         }
 
         final void get(Matrix3f m, int offset, FloatBuffer src) {
-            m.ms[Matrix3f.M00] = src.get(offset);
-            m.ms[Matrix3f.M01] = src.get(offset+1);
-            m.ms[Matrix3f.M02] = src.get(offset+2);
-            m.ms[Matrix3f.M10] = src.get(offset+3);
-            m.ms[Matrix3f.M11] = src.get(offset+4);
-            m.ms[Matrix3f.M12] = src.get(offset+5);
-            m.ms[Matrix3f.M20] = src.get(offset+6);
-            m.ms[Matrix3f.M21] = src.get(offset+7);
-            m.ms[Matrix3f.M22] = src.get(offset+8);
+            m.m00(src.get(offset));
+            m.m01(src.get(offset+1));
+            m.m02(src.get(offset+2));
+            m.m10(src.get(offset+3));
+            m.m11(src.get(offset+4));
+            m.m12(src.get(offset+5));
+            m.m20(src.get(offset+6));
+            m.m21(src.get(offset+7));
+            m.m22(src.get(offset+8));
         }
 
         final void get(Matrix3f m, int offset, ByteBuffer src) {
-            m.ms[Matrix3f.M00] = src.getFloat(offset);
-            m.ms[Matrix3f.M01] = src.getFloat(offset+4);
-            m.ms[Matrix3f.M02] = src.getFloat(offset+8);
-            m.ms[Matrix3f.M10] = src.getFloat(offset+12);
-            m.ms[Matrix3f.M11] = src.getFloat(offset+16);
-            m.ms[Matrix3f.M12] = src.getFloat(offset+20);
-            m.ms[Matrix3f.M20] = src.getFloat(offset+24);
-            m.ms[Matrix3f.M21] = src.getFloat(offset+28);
-            m.ms[Matrix3f.M22] = src.getFloat(offset+32);
+            m.m00(src.getFloat(offset));
+            m.m01(src.getFloat(offset+4));
+            m.m02(src.getFloat(offset+8));
+            m.m10(src.getFloat(offset+12));
+            m.m11(src.getFloat(offset+16));
+            m.m12(src.getFloat(offset+20));
+            m.m20(src.getFloat(offset+24));
+            m.m21(src.getFloat(offset+28));
+            m.m22(src.getFloat(offset+32));
         }
 
         final void get(Matrix3d m, int offset, DoubleBuffer src) {
@@ -622,6 +622,10 @@ abstract class MemUtil {
             UNSAFE.putFloat(ptr, value);
         }
 
+        private final void memPutLong(long ptr, long value) {
+            UNSAFE.putLong(ptr, value);
+        }
+
         private final void memPutDouble(long ptr, double value) {
             UNSAFE.putDouble(ptr, value);
         }
@@ -630,27 +634,23 @@ abstract class MemUtil {
             return UNSAFE.getFloat(ptr);
         }
 
+        private final long memGetLong(long ptr) {
+            return UNSAFE.getLong(ptr);
+        }
+
         private final double memGetDouble(long ptr) {
             return UNSAFE.getDouble(ptr);
         }
 
         private final void put(Matrix4f m, long destAddr) {
-            memPutFloat(destAddr,      m.m00());
-            memPutFloat(destAddr + 4,  m.m01());
-            memPutFloat(destAddr + 8,  m.m02());
-            memPutFloat(destAddr + 12, m.m03());
-            memPutFloat(destAddr + 16, m.m10());
-            memPutFloat(destAddr + 20, m.m11());
-            memPutFloat(destAddr + 24, m.m12());
-            memPutFloat(destAddr + 28, m.m13());
-            memPutFloat(destAddr + 32, m.m20());
-            memPutFloat(destAddr + 36, m.m21());
-            memPutFloat(destAddr + 40, m.m22());
-            memPutFloat(destAddr + 44, m.m23());
-            memPutFloat(destAddr + 48, m.m30());
-            memPutFloat(destAddr + 52, m.m31());
-            memPutFloat(destAddr + 56, m.m32());
-            memPutFloat(destAddr + 60, m.m33());
+            memPutLong(destAddr,      memGetLong(m.address));
+            memPutLong(destAddr + 8,  memGetLong(m.address + 8));
+            memPutLong(destAddr + 16, memGetLong(m.address + 16));
+            memPutLong(destAddr + 24, memGetLong(m.address + 24));
+            memPutLong(destAddr + 32, memGetLong(m.address + 32));
+            memPutLong(destAddr + 40, memGetLong(m.address + 40));
+            memPutLong(destAddr + 48, memGetLong(m.address + 48));
+            memPutLong(destAddr + 56, memGetLong(m.address + 56));
         }
 
         private final void putTransposed(Matrix4f m, long destAddr) {
@@ -749,15 +749,11 @@ abstract class MemUtil {
         }
 
         private final void put(Matrix3f m, long destAddr) {
-            memPutFloat(destAddr,      m.ms[Matrix3f.M00]);
-            memPutFloat(destAddr + 4,  m.ms[Matrix3f.M01]);
-            memPutFloat(destAddr + 8,  m.ms[Matrix3f.M02]);
-            memPutFloat(destAddr + 12, m.ms[Matrix3f.M10]);
-            memPutFloat(destAddr + 16, m.ms[Matrix3f.M11]);
-            memPutFloat(destAddr + 20, m.ms[Matrix3f.M12]);
-            memPutFloat(destAddr + 24, m.ms[Matrix3f.M20]);
-            memPutFloat(destAddr + 28, m.ms[Matrix3f.M21]);
-            memPutFloat(destAddr + 32, m.ms[Matrix3f.M22]);
+            UNSAFE.putLong(destAddr,    UNSAFE.getLong(m.address));
+            UNSAFE.putLong(destAddr+8,  UNSAFE.getLong(m.address+8));
+            UNSAFE.putLong(destAddr+16, UNSAFE.getLong(m.address+16));
+            UNSAFE.putLong(destAddr+24, UNSAFE.getLong(m.address+24));
+            UNSAFE.putInt( destAddr+32, UNSAFE.getInt( m.address+32));
         }
 
         private final void put(Matrix3d m, long destAddr) {
@@ -785,22 +781,14 @@ abstract class MemUtil {
         }
 
         private final void get(Matrix4f m, long srcAddr) {
-            m.m00(memGetFloat(srcAddr));
-            m.m01(memGetFloat(srcAddr+4));
-            m.m02(memGetFloat(srcAddr+8));
-            m.m03(memGetFloat(srcAddr+12));
-            m.m10(memGetFloat(srcAddr+16));
-            m.m11(memGetFloat(srcAddr+20));
-            m.m12(memGetFloat(srcAddr+24));
-            m.m13(memGetFloat(srcAddr+28));
-            m.m20(memGetFloat(srcAddr+32));
-            m.m21(memGetFloat(srcAddr+36));
-            m.m22(memGetFloat(srcAddr+40));
-            m.m23(memGetFloat(srcAddr+44));
-            m.m30(memGetFloat(srcAddr+48));
-            m.m31(memGetFloat(srcAddr+52));
-            m.m32(memGetFloat(srcAddr+56));
-            m.m33(memGetFloat(srcAddr+60));
+            memPutLong(m.address,      memGetLong(srcAddr));
+            memPutLong(m.address + 8,  memGetLong(srcAddr + 8));
+            memPutLong(m.address + 16, memGetLong(srcAddr + 16));
+            memPutLong(m.address + 24, memGetLong(srcAddr + 24));
+            memPutLong(m.address + 32, memGetLong(srcAddr + 32));
+            memPutLong(m.address + 40, memGetLong(srcAddr + 40));
+            memPutLong(m.address + 48, memGetLong(srcAddr + 48));
+            memPutLong(m.address + 56, memGetLong(srcAddr + 56));
         }
 
         private final void get(Matrix4d m, long srcAddr) {
@@ -842,15 +830,11 @@ abstract class MemUtil {
         }
 
         private final void get(Matrix3f m, long srcAddr) {
-            m.ms[Matrix3f.M00] = memGetFloat(srcAddr);
-            m.ms[Matrix3f.M01] = memGetFloat(srcAddr+4);
-            m.ms[Matrix3f.M02] = memGetFloat(srcAddr+8);
-            m.ms[Matrix3f.M10] = memGetFloat(srcAddr+12);
-            m.ms[Matrix3f.M11] = memGetFloat(srcAddr+16);
-            m.ms[Matrix3f.M12] = memGetFloat(srcAddr+20);
-            m.ms[Matrix3f.M20] = memGetFloat(srcAddr+24);
-            m.ms[Matrix3f.M21] = memGetFloat(srcAddr+28);
-            m.ms[Matrix3f.M22] = memGetFloat(srcAddr+32);
+            UNSAFE.putLong(m.address,    UNSAFE.getLong(srcAddr));
+            UNSAFE.putLong(m.address+8,  UNSAFE.getLong(srcAddr+8));
+            UNSAFE.putLong(m.address+16, UNSAFE.getLong(srcAddr+16));
+            UNSAFE.putLong(m.address+24, UNSAFE.getLong(srcAddr+24));
+            UNSAFE.putInt( m.address+32, UNSAFE.getInt( srcAddr+32));
         }
 
         private final void get(Matrix3d m, long srcAddr) {

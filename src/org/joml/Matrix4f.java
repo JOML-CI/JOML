@@ -340,17 +340,17 @@ public class Matrix4f implements Externalizable {
     public Matrix4f(Matrix3f mat) {
         this.address = allocate(1);
         this.ownedMemory = address;
-        m00(mat.ms[Matrix3f.M00]);
-        m01(mat.ms[Matrix3f.M01]);
-        m02(mat.ms[Matrix3f.M02]);
+        m00(mat.m00());
+        m01(mat.m01());
+        m02(mat.m02());
         m03(0.0f);
-        m10(mat.ms[Matrix3f.M10]);
-        m11(mat.ms[Matrix3f.M11]);
-        m12(mat.ms[Matrix3f.M12]);
+        m10(mat.m10());
+        m11(mat.m11());
+        m12(mat.m12());
         m13(0.0f);
-        m20(mat.ms[Matrix3f.M20]);
-        m21(mat.ms[Matrix3f.M21]);
-        m22(mat.ms[Matrix3f.M22]);
+        m20(mat.m20());
+        m21(mat.m21());
+        m22(mat.m22());
         m23(0.0f);
         m30(0.0f);
         m31(0.0f);
@@ -887,17 +887,17 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(Matrix3f mat) {
-        m00(mat.ms[Matrix3f.M00]);
-        m01(mat.ms[Matrix3f.M01]);
-        m02(mat.ms[Matrix3f.M02]);
+        m00(mat.m00());
+        m01(mat.m01());
+        m02(mat.m02());
         m03(0.0f);
-        m10(mat.ms[Matrix3f.M10]);
-        m11(mat.ms[Matrix3f.M11]);
-        m12(mat.ms[Matrix3f.M12]);
+        m10(mat.m10());
+        m11(mat.m11());
+        m12(mat.m12());
         m13(0.0f);
-        m20(mat.ms[Matrix3f.M20]);
-        m21(mat.ms[Matrix3f.M21]);
-        m22(mat.ms[Matrix3f.M22]);
+        m20(mat.m20());
+        m21(mat.m21());
+        m22(mat.m22());
         m23(0.0f);
         m30(0.0f);
         m31(0.0f);
@@ -2054,15 +2054,15 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix3f transpose3x3(Matrix3f dest) {
-        dest.ms[Matrix3f.M00] = m00();
-        dest.ms[Matrix3f.M01] = m10();
-        dest.ms[Matrix3f.M02] = m20();
-        dest.ms[Matrix3f.M10] = m01();
-        dest.ms[Matrix3f.M11] = m11();
-        dest.ms[Matrix3f.M12] = m21();
-        dest.ms[Matrix3f.M20] = m02();
-        dest.ms[Matrix3f.M21] = m12();
-        dest.ms[Matrix3f.M22] = m22();
+        dest.m00(m00());
+        dest.m01(m10());
+        dest.m02(m20());
+        dest.m10(m01());
+        dest.m11(m11());
+        dest.m12(m21());
+        dest.m20(m02());
+        dest.m21(m12());
+        dest.m22(m22());
         return dest;
     }
 
@@ -2385,6 +2385,80 @@ public class Matrix4f implements Externalizable {
      */
     public Quaterniond getNormalizedRotation(Quaterniond dest) {
         return dest.setFromNormalized(this);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public FloatBuffer get(FloatBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public FloatBuffer get(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.put(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer get(ByteBuffer buffer) {
+        return get(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer get(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.put(this, index, buffer);
+        return buffer;
     }
 
     /**
@@ -3415,17 +3489,17 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set3x3(Matrix3f mat) {
-        m00(mat.ms[Matrix3f.M00]);
-        m01(mat.ms[Matrix3f.M01]);
-        m02(mat.ms[Matrix3f.M02]);
+        m00(mat.m00());
+        m01(mat.m01());
+        m02(mat.m02());
         m03(0.0f);
-        m10(mat.ms[Matrix3f.M10]);
-        m11(mat.ms[Matrix3f.M11]);
-        m12(mat.ms[Matrix3f.M12]);
+        m10(mat.m10());
+        m11(mat.m11());
+        m12(mat.m12());
         m13(0.0f);
-        m20(mat.ms[Matrix3f.M20]);
-        m21(mat.ms[Matrix3f.M21]);
-        m22(mat.ms[Matrix3f.M22]);
+        m20(mat.m20());
+        m21(mat.m21());
+        m22(mat.m22());
         m23(0.0f);
         m30(0.0f);
         m31(0.0f);
@@ -7734,15 +7808,15 @@ public class Matrix4f implements Externalizable {
         float det = determinant3x3();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
-        dest.ms[Matrix3f.M00] = (m11() * m22() - m21() * m12()) * s;
-        dest.ms[Matrix3f.M01] = (m20() * m12() - m10() * m22()) * s;
-        dest.ms[Matrix3f.M02] = (m10() * m21() - m20() * m11()) * s;
-        dest.ms[Matrix3f.M10] = (m21() * m02() - m01() * m22()) * s;
-        dest.ms[Matrix3f.M11] = (m00() * m22() - m20() * m02()) * s;
-        dest.ms[Matrix3f.M12] = (m20() * m01() - m00() * m21()) * s;
-        dest.ms[Matrix3f.M20] = (m01() * m12() - m11() * m02()) * s;
-        dest.ms[Matrix3f.M21] = (m10() * m02() - m00() * m12()) * s;
-        dest.ms[Matrix3f.M22] = (m00() * m11() - m10() * m01()) * s;
+        dest.m00((m11() * m22() - m21() * m12()) * s);
+        dest.m01((m20() * m12() - m10() * m22()) * s);
+        dest.m02((m10() * m21() - m20() * m11()) * s);
+        dest.m10((m21() * m02() - m01() * m22()) * s);
+        dest.m11((m00() * m22() - m20() * m02()) * s);
+        dest.m12((m20() * m01() - m00() * m21()) * s);
+        dest.m20((m01() * m12() - m11() * m02()) * s);
+        dest.m21((m10() * m02() - m00() * m12()) * s);
+        dest.m22((m00() * m11() - m10() * m01()) * s);
         return dest;
     }
 
@@ -7795,9 +7869,9 @@ public class Matrix4f implements Externalizable {
         float invXlen = (float) (1.0 / Math.sqrt(m00() * m00() + m01() * m01() + m02() * m02()));
         float invYlen = (float) (1.0 / Math.sqrt(m10() * m10() + m11() * m11() + m12() * m12()));
         float invZlen = (float) (1.0 / Math.sqrt(m20() * m20() + m21() * m21() + m22() * m22()));
-        dest.ms[Matrix3f.M00] = m00() * invXlen; dest.ms[Matrix3f.M01] = m01() * invXlen; dest.ms[Matrix3f.M02] = m02() * invXlen;
-        dest.ms[Matrix3f.M10] = m10() * invYlen; dest.ms[Matrix3f.M11] = m11() * invYlen; dest.ms[Matrix3f.M12] = m12() * invYlen;
-        dest.ms[Matrix3f.M20] = m20() * invZlen; dest.ms[Matrix3f.M21] = m21() * invZlen; dest.ms[Matrix3f.M22] = m22() * invZlen;
+        dest.m00(m00() * invXlen); dest.m01(m01() * invXlen); dest.m02(m02() * invXlen);
+        dest.m10(m10() * invYlen); dest.m11(m11() * invYlen); dest.m12(m12() * invYlen);
+        dest.m20(m20() * invZlen); dest.m21(m21() * invZlen); dest.m22(m22() * invZlen);
         return dest;
     }
 

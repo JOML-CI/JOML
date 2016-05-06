@@ -732,9 +732,9 @@ public class Vector3f implements Externalizable {
      * @return dest
      */
     public Vector3f mul(Matrix3f mat, Vector3f dest) {
-        dest.set(mat.ms[Matrix3f.M00] * x + mat.ms[Matrix3f.M10] * y + mat.ms[Matrix3f.M20] * z,
-                 mat.ms[Matrix3f.M01] * x + mat.ms[Matrix3f.M11] * y + mat.ms[Matrix3f.M21] * z,
-                 mat.ms[Matrix3f.M02] * x + mat.ms[Matrix3f.M12] * y + mat.ms[Matrix3f.M22] * z);
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
         return dest;
     }
 

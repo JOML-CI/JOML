@@ -30,7 +30,6 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Arrays;
 
 /**
  * Contains the definition of a 3x3 Matrix of floats, and associated functions to transform
@@ -45,6 +44,15 @@ import java.util.Arrays;
  */
 public class Matrix3f implements Externalizable {
 
+    private static final boolean hasAVX;
+    static {
+        JNI.touch();
+        hasAVX = JNI.hasAvx;
+        if (!JNI.hasSse) {
+            throw new AssertionError("Your CPU does not support the Streaming SIMD Extensions (SSE) instructions.");
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
     public static final int M00 = 0;
@@ -58,23 +66,40 @@ public class Matrix3f implements Externalizable {
     public static final int M22 = 8;
 
     /**
-     * The components of this matrix stored in column-major order.
+     * The address of the native memory. It <i>MUST</i> be 16-byte aligned.
      */
-    public final float[] ms = new float[9];
+    public long address;
+    /**
+     * We also store internally, whether the {@link #address} is really owned by this Matrix4f.
+     */
+    private long ownedMemory;
+
+    /* Native functions */
+
+    /**
+     * Allocate 16-byte aligned memory to hold <code>count</code> * 9 float values.
+     *
+     * @param count
+     *          the number of matrices to allocate memory for
+     * @return the memory address
+     */
+    public static final native long allocate(int count);
+
+    /**
+     * Free memory allocated via {@link #allocate(int)}.
+     * 
+     * @param addr
+     *          the address returned by {@link #allocate(int)}
+     */
+    public static final native void free(long addr);
 
     /**
      * Create a new {@link Matrix3f} and set it to {@link #identity() identity}.
      */
     public Matrix3f() {
-        ms[M00] = 1.0f;
-        ms[M01] = 0.0f;
-        ms[M02] = 0.0f;
-        ms[M10] = 0.0f;
-        ms[M11] = 1.0f;
-        ms[M12] = 0.0f;
-        ms[M20] = 0.0f;
-        ms[M21] = 0.0f;
-        ms[M22] = 1.0f;
+        this.address = allocate(1);
+        this.ownedMemory = address;
+        identity();
     }
 
     /**
@@ -84,7 +109,9 @@ public class Matrix3f implements Externalizable {
      *          the {@link Matrix3f} to copy the values from
      */
     public Matrix3f(Matrix3f mat) {
-    	System.arraycopy(mat.ms, 0, ms, 0, 9);
+        this.address = allocate(1);
+        this.ownedMemory = address;
+        Unsafe.copy9x4(mat.address, address);
     }
 
     /**
@@ -94,15 +121,17 @@ public class Matrix3f implements Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix3f(Matrix4f mat) {
-        ms[M00] = mat.m00();
-        ms[M01] = mat.m01();
-        ms[M02] = mat.m02();
-        ms[M10] = mat.m10();
-        ms[M11] = mat.m11();
-        ms[M12] = mat.m12();
-        ms[M20] = mat.m20();
-        ms[M21] = mat.m21();
-        ms[M22] = mat.m22();
+        this.address = allocate(1);
+        this.ownedMemory = address;
+        m00(mat.m00());
+        m01(mat.m01());
+        m02(mat.m02());
+        m10(mat.m10());
+        m11(mat.m11());
+        m12(mat.m12());
+        m20(mat.m20());
+        m21(mat.m21());
+        m22(mat.m22());
     }
 
     /**
@@ -110,36 +139,38 @@ public class Matrix3f implements Externalizable {
      * so the first three parameters specify the three elements of the first column.
      * 
      * @param m00
-     *          the value of ms[M00]
+     *          the value of m00()
      * @param m01
-     *          the value of ms[M01]
+     *          the value of m01()
      * @param m02
-     *          the value of ms[M02]
+     *          the value of m02()
      * @param m10
-     *          the value of ms[M10]
+     *          the value of m10()
      * @param m11
-     *          the value of ms[M11]
+     *          the value of m11()
      * @param m12
-     *          the value of ms[M12]
+     *          the value of m12()
      * @param m20
-     *          the value of ms[M20]
+     *          the value of m20()
      * @param m21
-     *          the value of ms[M21]
+     *          the value of m21()
      * @param m22
-     *          the value of ms[M22]
+     *          the value of m22()
      */
-    public Matrix3f(float m00, float m01, float m02,
-                    float m10, float m11, float m12, 
-                    float m20, float m21, float m22) {
-        ms[M00] = m00;
-        ms[M01] = m01;
-        ms[M02] = m02;
-        ms[M10] = m10;
-        ms[M11] = m11;
-        ms[M12] = m12;
-        ms[M20] = m20;
-        ms[M21] = m21;
-        ms[M22] = m22;
+    public Matrix3f(float n00, float n01, float n02,
+                    float n10, float n11, float n12, 
+                    float n20, float n21, float n22) {
+        this.address = allocate(1);
+        this.ownedMemory = address;
+        m00(n00);
+        m01(n01);
+        m02(n02);
+        m10(n10);
+        m11(n11);
+        m12(n12);
+        m20(n20);
+        m21(n21);
+        m22(n22);
     }
 
     /**
@@ -162,72 +193,72 @@ public class Matrix3f implements Externalizable {
      * 
      * @return the value of the matrix element
      */
-    public float m00() {
-        return ms[M00];
+    public final float m00() {
+        return Unsafe.get(address+M00*4);
     }
     /**
      * Return the value of the matrix element at column 0 and row 1.
      * 
      * @return the value of the matrix element
      */
-    public float m01() {
-        return ms[M01];
+    public final float m01() {
+        return Unsafe.get(address+M01*4);
     }
     /**
      * Return the value of the matrix element at column 0 and row 2.
      * 
      * @return the value of the matrix element
      */
-    public float m02() {
-        return ms[M02];
+    public final float m02() {
+        return Unsafe.get(address+M02*4);
     }
     /**
      * Return the value of the matrix element at column 1 and row 0.
      * 
      * @return the value of the matrix element
      */
-    public float m10() {
-        return ms[M10];
+    public final float m10() {
+        return Unsafe.get(address+M10*4);
     }
     /**
      * Return the value of the matrix element at column 1 and row 1.
      * 
      * @return the value of the matrix element
      */
-    public float m11() {
-        return ms[M11];
+    public final float m11() {
+        return Unsafe.get(address+M11*4);
     }
     /**
      * Return the value of the matrix element at column 1 and row 2.
      * 
      * @return the value of the matrix element
      */
-    public float m12() {
-        return ms[M12];
+    public final float m12() {
+        return Unsafe.get(address+M12*4);
     }
     /**
      * Return the value of the matrix element at column 2 and row 0.
      * 
      * @return the value of the matrix element
      */
-    public float m20() {
-        return ms[M20];
+    public final float m20() {
+        return Unsafe.get(address+M20*4);
     }
     /**
      * Return the value of the matrix element at column 2 and row 1.
      * 
      * @return the value of the matrix element
      */
-    public float m21() {
-        return ms[M21];
+    public final float m21() {
+        return Unsafe.get(address+M21*4);
     }
     /**
      * Return the value of the matrix element at column 2 and row 2.
      * 
      * @return the value of the matrix element
      */
-    public float m22() {
-        return ms[M22];
+    public final float m22() {
+        return Unsafe.get(address+M22*4);
     }
 
     /**
@@ -237,8 +268,8 @@ public class Matrix3f implements Externalizable {
      *          the new value
      * @return the value of the matrix element
      */
-    public Matrix3f m00(float m00) {
-        this.ms[M00] = m00;
+    public final Matrix3f m00(float m00) {
+        Unsafe.set(address+M00*4, m00);
         return this;
     }
     /**
@@ -248,8 +279,8 @@ public class Matrix3f implements Externalizable {
      *          the new value
      * @return the value of the matrix element
      */
-    public Matrix3f m01(float m01) {
-        this.ms[M01] = m01;
+    public final Matrix3f m01(float m01) {
+        Unsafe.set(address+M01*4, m01);
         return this;
     }
     /**
@@ -259,8 +290,8 @@ public class Matrix3f implements Externalizable {
      *          the new value
      * @return the value of the matrix element
      */
-    public Matrix3f m02(float m02) {
-        this.ms[M02] = m02;
+    public final Matrix3f m02(float m02) {
+        Unsafe.set(address+M02*4, m02);
         return this;
     }
     /**
@@ -270,8 +301,8 @@ public class Matrix3f implements Externalizable {
      *          the new value
      * @return the value of the matrix element
      */
-    public Matrix3f m10(float m10) {
-        this.ms[M10] = m10;
+    public final Matrix3f m10(float m10) {
+        Unsafe.set(address+M10*4, m10);
         return this;
     }
     /**
@@ -281,8 +312,8 @@ public class Matrix3f implements Externalizable {
      *          the new value
      * @return the value of the matrix element
      */
-    public Matrix3f m11(float m11) {
-        this.ms[M11] = m11;
+    public final Matrix3f m11(float m11) {
+        Unsafe.set(address+M11*4, m11);
         return this;
     }
     /**
@@ -292,8 +323,8 @@ public class Matrix3f implements Externalizable {
      *          the new value
      * @return the value of the matrix element
      */
-    public Matrix3f m12(float m12) {
-        this.ms[M12] = m12;
+    public final Matrix3f m12(float m12) {
+        Unsafe.set(address+M12*4, m12);
         return this;
     }
     /**
@@ -303,8 +334,8 @@ public class Matrix3f implements Externalizable {
      *          the new value
      * @return the value of the matrix element
      */
-    public Matrix3f m20(float m20) {
-        this.ms[M20] = m20;
+    public final Matrix3f m20(float m20) {
+        Unsafe.set(address+M20*4, m20);
         return this;
     }
     /**
@@ -314,8 +345,8 @@ public class Matrix3f implements Externalizable {
      *          the new value
      * @return the value of the matrix element
      */
-    public Matrix3f m21(float m21) {
-        this.ms[M21] = m21;
+    public final Matrix3f m21(float m21) {
+        Unsafe.set(address+M21*4, m21);
         return this;
     }
     /**
@@ -325,8 +356,8 @@ public class Matrix3f implements Externalizable {
      *          the new value
      * @return the value of the matrix element
      */
-    public Matrix3f m22(float m22) {
-        this.ms[M22] = m22;
+    public final Matrix3f m22(float m22) {
+        Unsafe.set(address+M22*4, m22);
         return this;
     }
 
@@ -338,7 +369,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f set(Matrix3f m) {
-    	System.arraycopy(m.ms, 0, ms, 0, 9);
+    	Unsafe.copy9x4(m.address, address);
         return this;
     }
 
@@ -350,15 +381,15 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f set(Matrix4f mat) {
-        ms[M00] = mat.m00();
-        ms[M01] = mat.m01();
-        ms[M02] = mat.m02();
-        ms[M10] = mat.m10();
-        ms[M11] = mat.m11();
-        ms[M12] = mat.m12();
-        ms[M20] = mat.m20();
-        ms[M21] = mat.m21();
-        ms[M22] = mat.m22();
+        m00(mat.m00());
+        m01(mat.m01());
+        m02(mat.m02());
+        m10(mat.m10());
+        m11(mat.m11());
+        m12(mat.m12());
+        m20(mat.m20());
+        m21(mat.m21());
+        m22(mat.m22());
         return this;
     }
 
@@ -381,21 +412,21 @@ public class Matrix3f implements Externalizable {
         float c = (float) Math.cos(angle);
         float s = (float) Math.sin(angle);
         float omc = 1.0f - c;
-        ms[M00] = c + x*x*omc;
-        ms[M11] = c + y*y*omc;
-        ms[M22] = c + z*z*omc;
+        m00(c + x*x*omc);
+        m11(c + y*y*omc);
+        m22(c + z*z*omc);
         float tmp1 = x*y*omc;
         float tmp2 = z*s;
-        ms[M10] = tmp1 - tmp2;
-        ms[M01] = tmp1 + tmp2;
+        m10(tmp1 - tmp2);
+        m01(tmp1 + tmp2);
         tmp1 = x*z*omc;
         tmp2 = y*s;
-        ms[M20] = tmp1 + tmp2;
-        ms[M02] = tmp1 - tmp2;
+        m20(tmp1 + tmp2);
+        m02(tmp1 - tmp2);
         tmp1 = y*z*omc;
         tmp2 = x*s;
-        ms[M21] = tmp1 - tmp2;
-        ms[M12] = tmp1 + tmp2;
+        m21(tmp1 - tmp2);
+        m12(tmp1 + tmp2);
         return this;
     }
 
@@ -418,21 +449,21 @@ public class Matrix3f implements Externalizable {
         double c = Math.cos(angle);
         double s = Math.sin(angle);
         double omc = 1.0f - c;
-        ms[M00] = (float)(c + x*x*omc);
-        ms[M11] = (float)(c + y*y*omc);
-        ms[M22] = (float)(c + z*z*omc);
+        m00((float)(c + x*x*omc));
+        m11((float)(c + y*y*omc));
+        m22((float)(c + z*z*omc));
         double tmp1 = x*y*omc;
         double tmp2 = z*s;
-        ms[M10] = (float)(tmp1 - tmp2);
-        ms[M01] = (float)(tmp1 + tmp2);
+        m10((float)(tmp1 - tmp2));
+        m01((float)(tmp1 + tmp2));
         tmp1 = x*z*omc;
         tmp2 = y*s;
-        ms[M20] = (float)(tmp1 + tmp2);
-        ms[M02] = (float)(tmp1 - tmp2);
+        m20((float)(tmp1 + tmp2));
+        m02((float)(tmp1 - tmp2));
         tmp1 = y*z*omc;
         tmp2 = x*s;
-        ms[M21] = (float)(tmp1 - tmp2);
-        ms[M12] = (float)(tmp1 + tmp2);
+        m21((float)(tmp1 - tmp2));
+        m12((float)(tmp1 + tmp2));
         return this;
     }
 
@@ -495,15 +526,15 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f mul(Matrix3f right, Matrix3f dest) {
-        dest.set(ms[M00] * right.ms[M00] + ms[M10] * right.ms[M01] + ms[M20] * right.ms[M02],
-                 ms[M01] * right.ms[M00] + ms[M11] * right.ms[M01] + ms[M21] * right.ms[M02],
-                 ms[M02] * right.ms[M00] + ms[M12] * right.ms[M01] + ms[M22] * right.ms[M02],
-                 ms[M00] * right.ms[M10] + ms[M10] * right.ms[M11] + ms[M20] * right.ms[M12],
-                 ms[M01] * right.ms[M10] + ms[M11] * right.ms[M11] + ms[M21] * right.ms[M12],
-                 ms[M02] * right.ms[M10] + ms[M12] * right.ms[M11] + ms[M22] * right.ms[M12],
-                 ms[M00] * right.ms[M20] + ms[M10] * right.ms[M21] + ms[M20] * right.ms[M22],
-                 ms[M01] * right.ms[M20] + ms[M11] * right.ms[M21] + ms[M21] * right.ms[M22],
-                 ms[M02] * right.ms[M20] + ms[M12] * right.ms[M21] + ms[M22] * right.ms[M22]);
+        dest.set(m00() * right.m00() + m10() * right.m01() + m20() * right.m02(),
+                 m01() * right.m00() + m11() * right.m01() + m21() * right.m02(),
+                 m02() * right.m00() + m12() * right.m01() + m22() * right.m02(),
+                 m00() * right.m10() + m10() * right.m11() + m20() * right.m12(),
+                 m01() * right.m10() + m11() * right.m11() + m21() * right.m12(),
+                 m02() * right.m10() + m12() * right.m11() + m22() * right.m12(),
+                 m00() * right.m20() + m10() * right.m21() + m20() * right.m22(),
+                 m01() * right.m20() + m11() * right.m21() + m21() * right.m22(),
+                 m02() * right.m20() + m12() * right.m21() + m22() * right.m22());
         return dest;
     }
 
@@ -511,55 +542,37 @@ public class Matrix3f implements Externalizable {
      * Set the values within this matrix to the supplied float values. The result looks like this:
      * 
      * @param m00
-     *          the new value of ms[M00]
+     *          the new value of m00()
      * @param m01
-     *          the new value of ms[M01]
+     *          the new value of m01()
      * @param m02
-     *          the new value of ms[M02]
+     *          the new value of m02()
      * @param m10
-     *          the new value of ms[M10]
+     *          the new value of m10()
      * @param m11
-     *          the new value of ms[M11]
+     *          the new value of m11()
      * @param m12
-     *          the new value of ms[M12]
+     *          the new value of m12()
      * @param m20
-     *          the new value of ms[M20]
+     *          the new value of m20()
      * @param m21
-     *          the new value of ms[M21]
+     *          the new value of m21()
      * @param m22
-     *          the new value of ms[M22]
+     *          the new value of m22()
      * @return this
      */
     public Matrix3f set(float m00, float m01, float m02,
                         float m10, float m11, float m12, 
                         float m20, float m21, float m22) {
-        ms[M00] = m00;
-        ms[M01] = m01;
-        ms[M02] = m02;
-        ms[M10] = m10;
-        ms[M11] = m11;
-        ms[M12] = m12;
-        ms[M20] = m20;
-        ms[M21] = m21;
-        ms[M22] = m22;
-        return this;
-    }
-
-    /**
-     * Set the values in this matrix based on the supplied float array. The result looks like this:
-     * <p>
-     * 0, 3, 6<br>
-     * 1, 4, 7<br>
-     * 2, 5, 8<br>
-     * 
-     * This method only uses the first 9 values, all others are ignored.
-     * 
-     * @param m
-     *          the array to read the matrix values from
-     * @return this
-     */
-    public Matrix3f set(float m[]) {
-    	System.arraycopy(m, 0, ms, 0, 9);
+        m00(m00);
+        m01(m01);
+        m02(m02);
+        m10(m10);
+        m11(m11);
+        m12(m12);
+        m20(m20);
+        m21(m21);
+        m22(m22);
         return this;
     }
 
@@ -569,9 +582,9 @@ public class Matrix3f implements Externalizable {
      * @return the determinant
      */
     public float determinant() {
-        return (ms[M00] * ms[M11] - ms[M01] * ms[M10]) * ms[M22]
-             + (ms[M02] * ms[M10] - ms[M00] * ms[M12]) * ms[M21]
-             + (ms[M01] * ms[M12] - ms[M02] * ms[M11]) * ms[M20];
+        return (m00() * m11() - m01() * m10()) * m22()
+             + (m02() * m10() - m00() * m12()) * m21()
+             + (m01() * m12() - m02() * m11()) * m20();
     }
 
     /**
@@ -594,15 +607,15 @@ public class Matrix3f implements Externalizable {
         float s = determinant();
         // client must make sure that matrix is invertible
         s = 1.0f / s;
-        dest.set((ms[M11] * ms[M22] - ms[M21] * ms[M12]) * s,
-                 (ms[M21] * ms[M02] - ms[M01] * ms[M22]) * s,
-                 (ms[M01] * ms[M12] - ms[M11] * ms[M02]) * s,
-                 (ms[M20] * ms[M12] - ms[M10] * ms[M22]) * s,
-                 (ms[M00] * ms[M22] - ms[M20] * ms[M02]) * s,
-                 (ms[M10] * ms[M02] - ms[M00] * ms[M12]) * s,
-                 (ms[M10] * ms[M21] - ms[M20] * ms[M11]) * s,
-                 (ms[M20] * ms[M01] - ms[M00] * ms[M21]) * s,
-                 (ms[M00] * ms[M11] - ms[M10] * ms[M01]) * s);
+        dest.set((m11() * m22() - m21() * m12()) * s,
+                 (m21() * m02() - m01() * m22()) * s,
+                 (m01() * m12() - m11() * m02()) * s,
+                 (m20() * m12() - m10() * m22()) * s,
+                 (m00() * m22() - m20() * m02()) * s,
+                 (m10() * m02() - m00() * m12()) * s,
+                 (m10() * m21() - m20() * m11()) * s,
+                 (m20() * m01() - m00() * m21()) * s,
+                 (m00() * m11() - m10() * m01()) * s);
         return dest;
     }
 
@@ -623,9 +636,9 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f transpose(Matrix3f dest) {
-        dest.set(ms[M00], ms[M10], ms[M20],
-                 ms[M01], ms[M11], ms[M21],
-                 ms[M02], ms[M12], ms[M22]);
+        dest.set(m00(), m10(), m20(),
+                 m01(), m11(), m21(),
+                 m02(), m12(), m22());
         return dest;
     }
 
@@ -649,9 +662,9 @@ public class Matrix3f implements Externalizable {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return formatter.format(ms[M00]) + formatter.format(ms[M10]) + formatter.format(ms[M20]) + "\n" //$NON-NLS-1$
-             + formatter.format(ms[M01]) + formatter.format(ms[M11]) + formatter.format(ms[M21]) + "\n" //$NON-NLS-1$
-             + formatter.format(ms[M02]) + formatter.format(ms[M12]) + formatter.format(ms[M22]) + "\n"; //$NON-NLS-1$
+        return formatter.format(m00()) + formatter.format(m10()) + formatter.format(m20()) + "\n" //$NON-NLS-1$
+             + formatter.format(m01()) + formatter.format(m11()) + formatter.format(m21()) + "\n" //$NON-NLS-1$
+             + formatter.format(m02()) + formatter.format(m12()) + formatter.format(m22()) + "\n"; //$NON-NLS-1$
     }
 
     /**
@@ -841,35 +854,6 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Store this matrix into the supplied float array in column-major order at the given offset.
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @param offset
-     *          the offset into the array
-     * @return the passed in array
-     */
-    public float[] get(float[] arr, int offset) {
-        System.arraycopy(ms, 0, arr, offset, 9);
-        return arr;
-    }
-
-    /**
-     * Store this matrix into the supplied float array in column-major order.
-     * <p>
-     * In order to specify an explicit offset into the array, use the method {@link #get(float[], int)}.
-     * 
-     * @see #get(float[], int)
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @return the passed in array
-     */
-    public float[] get(float[] arr) {
-        return get(arr, 0);
-    }
-
-    /**
      * Store the transpose of this matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
      * <p>
@@ -902,15 +886,15 @@ public class Matrix3f implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
-        buffer.put(index,   ms[M00]);
-        buffer.put(index+1, ms[M10]);
-        buffer.put(index+2, ms[M20]);
-        buffer.put(index+3, ms[M01]);
-        buffer.put(index+4, ms[M11]);
-        buffer.put(index+5, ms[M21]);
-        buffer.put(index+6, ms[M02]);
-        buffer.put(index+7, ms[M12]);
-        buffer.put(index+8, ms[M22]);
+        buffer.put(index,   m00());
+        buffer.put(index+1, m10());
+        buffer.put(index+2, m20());
+        buffer.put(index+3, m01());
+        buffer.put(index+4, m11());
+        buffer.put(index+5, m21());
+        buffer.put(index+6, m02());
+        buffer.put(index+7, m12());
+        buffer.put(index+8, m22());
         return buffer;
     }
 
@@ -947,15 +931,15 @@ public class Matrix3f implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
-        buffer.putFloat(index,    ms[M00]);
-        buffer.putFloat(index+4,  ms[M10]);
-        buffer.putFloat(index+8,  ms[M20]);
-        buffer.putFloat(index+12, ms[M01]);
-        buffer.putFloat(index+16, ms[M11]);
-        buffer.putFloat(index+20, ms[M21]);
-        buffer.putFloat(index+24, ms[M02]);
-        buffer.putFloat(index+28, ms[M12]);
-        buffer.putFloat(index+32, ms[M22]);
+        buffer.putFloat(index,    m00());
+        buffer.putFloat(index+4,  m10());
+        buffer.putFloat(index+8,  m20());
+        buffer.putFloat(index+12, m01());
+        buffer.putFloat(index+16, m11());
+        buffer.putFloat(index+20, m21());
+        buffer.putFloat(index+24, m02());
+        buffer.putFloat(index+28, m12());
+        buffer.putFloat(index+32, m22());
         return buffer;
     }
 
@@ -999,25 +983,25 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f zero() {
-    	Arrays.fill(ms, 0.0f);
+    	Unsafe.zero9x4(address);
         return this;
     }
-    
+
     /**
      * Set this matrix to the identity.
      * 
      * @return this
      */
     public Matrix3f identity() {
-        ms[M00] = 1.0f;
-        ms[M01] = 0.0f;
-        ms[M02] = 0.0f;
-        ms[M10] = 0.0f;
-        ms[M11] = 1.0f;
-        ms[M12] = 0.0f;
-        ms[M20] = 0.0f;
-        ms[M21] = 0.0f;
-        ms[M22] = 1.0f;
+        m00(1.0f);
+        m01(0.0f);
+        m02(0.0f);
+        m10(0.0f);
+        m11(1.0f);
+        m12(0.0f);
+        m20(0.0f);
+        m21(0.0f);
+        m22(1.0f);
         return this;
     }
 
@@ -1077,18 +1061,15 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f scale(float x, float y, float z, Matrix3f dest) {
-        // scale matrix elements:
-        // ms[M00] = x, ms[M11] = y, ms[M22] = z
-        // all others = 0
-        dest.ms[M00] = ms[M00] * x;
-        dest.ms[M01] = ms[M01] * x;
-        dest.ms[M02] = ms[M02] * x;
-        dest.ms[M10] = ms[M10] * y;
-        dest.ms[M11] = ms[M11] * y;
-        dest.ms[M12] = ms[M12] * y;
-        dest.ms[M20] = ms[M20] * z;
-        dest.ms[M21] = ms[M21] * z;
-        dest.ms[M22] = ms[M22] * z;
+        dest.m00(m00() * x);
+        dest.m01(m01() * x);
+        dest.m02(m02() * x);
+        dest.m10(m10() * y);
+        dest.m11(m11() * y);
+        dest.m12(m12() * y);
+        dest.m20(m20() * z);
+        dest.m21(m21() * z);
+        dest.m22(m22() * z);
         return dest;
     }
 
@@ -1168,15 +1149,15 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f scaling(float factor) {
-        ms[M00] = factor;
-        ms[M01] = 0.0f;
-        ms[M02] = 0.0f;
-        ms[M10] = 0.0f;
-        ms[M11] = factor;
-        ms[M12] = 0.0f;
-        ms[M20] = 0.0f;
-        ms[M21] = 0.0f;
-        ms[M22] = factor;
+        m00(factor);
+        m01(0.0f);
+        m02(0.0f);
+        m10(0.0f);
+        m11(factor);
+        m12(0.0f);
+        m20(0.0f);
+        m21(0.0f);
+        m22(factor);
         return this;
     }
 
@@ -1192,15 +1173,15 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f scaling(float x, float y, float z) {
-        ms[M00] = x;
-        ms[M01] = 0.0f;
-        ms[M02] = 0.0f;
-        ms[M10] = 0.0f;
-        ms[M11] = y;
-        ms[M12] = 0.0f;
-        ms[M20] = 0.0f;
-        ms[M21] = 0.0f;
-        ms[M22] = z;
+        m00(x);
+        m01(0.0f);
+        m02(0.0f);
+        m10(0.0f);
+        m11(y);
+        m12(0.0f);
+        m20(0.0f);
+        m21(0.0f);
+        m22(z);
         return this;
     }
 
@@ -1295,15 +1276,15 @@ public class Matrix3f implements Externalizable {
         float sin = (float) Math.sin(angle);
         float C = 1.0f - cos;
         float xy = x * y, xz = x * z, yz = y * z;
-        ms[M00] = cos + x * x * C;
-        ms[M10] = xy * C - z * sin;
-        ms[M20] = xz * C + y * sin;
-        ms[M01] = xy * C + z * sin;
-        ms[M11] = cos + y * y * C;
-        ms[M21] = yz * C - x * sin;
-        ms[M02] = xz * C - y * sin;
-        ms[M12] = yz * C + x * sin;
-        ms[M22] = cos + z * z * C;
+        m00(cos + x * x * C);
+        m10(xy * C - z * sin);
+        m20(xz * C + y * sin);
+        m01(xy * C + z * sin);
+        m11(cos + y * y * C);
+        m21(yz * C - x * sin);
+        m02(xz * C - y * sin);
+        m12(yz * C + x * sin);
+        m22(cos + z * z * C);
         return this;
     }
 
@@ -1331,15 +1312,15 @@ public class Matrix3f implements Externalizable {
             cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
         }
-        ms[M00] = 1.0f;
-        ms[M01] = 0.0f;
-        ms[M02] = 0.0f;
-        ms[M10] = 0.0f;
-        ms[M11] = cos;
-        ms[M12] = sin;
-        ms[M20] = 0.0f;
-        ms[M21] = -sin;
-        ms[M22] = cos;
+        m00(1.0f);
+        m01(0.0f);
+        m02(0.0f);
+        m10(0.0f);
+        m11(cos);
+        m12(sin);
+        m20(0.0f);
+        m21(-sin);
+        m22(cos);
         return this;
     }
 
@@ -1367,15 +1348,15 @@ public class Matrix3f implements Externalizable {
             cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
         }
-        ms[M00] = cos;
-        ms[M01] = 0.0f;
-        ms[M02] = -sin;
-        ms[M10] = 0.0f;
-        ms[M11] = 1.0f;
-        ms[M12] = 0.0f;
-        ms[M20] = sin;
-        ms[M21] = 0.0f;
-        ms[M22] = cos;
+        m00(cos);
+        m01(0.0f);
+        m02(-sin);
+        m10(0.0f);
+        m11(1.0f);
+        m12(0.0f);
+        m20(sin);
+        m21(0.0f);
+        m22(cos);
         return this;
     }
 
@@ -1403,15 +1384,15 @@ public class Matrix3f implements Externalizable {
             cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
         }
-        ms[M00] = cos;
-        ms[M01] = sin;
-        ms[M02] = 0.0f;
-        ms[M10] = -sin;
-        ms[M11] = cos;
-        ms[M12] = 0.0f;
-        ms[M20] = 0.0f;
-        ms[M21] = 0.0f;
-        ms[M22] = 1.0f;
+        m00(cos);
+        m01(sin);
+        m02(0.0f);
+        m10(-sin);
+        m11(cos);
+        m12(0.0f);
+        m20(0.0f);
+        m21(0.0f);
+        m22(1.0f);
         return this;
     }
 
@@ -1449,16 +1430,16 @@ public class Matrix3f implements Externalizable {
         float nn00 = cosY;
         float nn01 = nn21 * m_sinY;
         float nn02 = nn22 * m_sinY;
-        ms[M20] = sinY;
-        ms[M21] = nn21 * cosY;
-        ms[M22] = nn22 * cosY;
+        m20(sinY);
+        m21(nn21 * cosY);
+        m22(nn22 * cosY);
         // rotateZ
-        ms[M00] = nn00 * cosZ;
-        ms[M01] = nn01 * cosZ + nn11 * sinZ;
-        ms[M02] = nn02 * cosZ + nn12 * sinZ;
-        ms[M10] = nn00 * m_sinZ;
-        ms[M11] = nn01 * m_sinZ + nn11 * cosZ;
-        ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
+        m00(nn00 * cosZ);
+        m01(nn01 * cosZ + nn11 * sinZ);
+        m02(nn02 * cosZ + nn12 * sinZ);
+        m10(nn00 * m_sinZ);
+        m11(nn01 * m_sinZ + nn11 * cosZ);
+        m12(nn02 * m_sinZ + nn12 * cosZ);
         return this;
     }
 
@@ -1496,16 +1477,16 @@ public class Matrix3f implements Externalizable {
         float nn20 = nn00 * sinY;
         float nn21 = nn01 * sinY;
         float nn22 = cosY;
-        ms[M00] = nn00 * cosY;
-        ms[M01] = nn01 * cosY;
-        ms[M02] = m_sinY;
+        m00(nn00 * cosY);
+        m01(nn01 * cosY);
+        m02(m_sinY);
         // rotateX
-        ms[M10] = nn10 * cosX + nn20 * sinX;
-        ms[M11] = nn11 * cosX + nn21 * sinX;
-        ms[M12] = nn22 * sinX;
-        ms[M20] = nn10 * m_sinX + nn20 * cosX;
-        ms[M21] = nn11 * m_sinX + nn21 * cosX;
-        ms[M22] = nn22 * cosX;
+        m10(nn10 * cosX + nn20 * sinX);
+        m11(nn11 * cosX + nn21 * sinX);
+        m12(nn22 * sinX);
+        m20(nn10 * m_sinX + nn20 * cosX);
+        m21(nn11 * m_sinX + nn21 * cosX);
+        m22(nn22 * cosX);
         return this;
     }
 
@@ -1543,16 +1524,16 @@ public class Matrix3f implements Externalizable {
         float nn10 = nn20 * sinX;
         float nn11 = cosX;
         float nn12 = nn22 * sinX;
-        ms[M20] = nn20 * cosX;
-        ms[M21] = m_sinX;
-        ms[M22] = nn22 * cosX;
+        m20(nn20 * cosX);
+        m21(m_sinX);
+        m22(nn22 * cosX);
         // rotateZ
-        ms[M00] = nn00 * cosZ + nn10 * sinZ;
-        ms[M01] = nn11 * sinZ;
-        ms[M02] = nn02 * cosZ + nn12 * sinZ;
-        ms[M10] = nn00 * m_sinZ + nn10 * cosZ;
-        ms[M11] = nn11 * cosZ;
-        ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
+        m00(nn00 * cosZ + nn10 * sinZ);
+        m01(nn11 * sinZ);
+        m02(nn02 * cosZ + nn12 * sinZ);
+        m10(nn00 * m_sinZ + nn10 * cosZ);
+        m11(nn11 * cosZ);
+        m12(nn02 * m_sinZ + nn12 * cosZ);
         return this;
     }
 
@@ -1587,15 +1568,15 @@ public class Matrix3f implements Externalizable {
         float q13 = dqy * quat.w;
         float q23 = dqz * quat.w;
 
-        ms[M00] = 1.0f - q11 - q22;
-        ms[M01] = q01 + q23;
-        ms[M02] = q02 - q13;
-        ms[M10] = q01 - q23;
-        ms[M11] = 1.0f - q22 - q00;
-        ms[M12] = q12 + q03;
-        ms[M20] = q02 + q13;
-        ms[M21] = q12 - q03;
-        ms[M22] = 1.0f - q11 - q00;
+        m00(1.0f - q11 - q22);
+        m01(q01 + q23);
+        m02(q02 - q13);
+        m10(q01 - q23);
+        m11(1.0f - q22 - q00);
+        m12(q12 + q03);
+        m20(q02 + q13);
+        m21(q12 - q03);
+        m22(1.0f - q11 - q00);
 
         return this;
     }
@@ -1626,28 +1607,28 @@ public class Matrix3f implements Externalizable {
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeFloat(ms[M00]);
-        out.writeFloat(ms[M01]);
-        out.writeFloat(ms[M02]);
-        out.writeFloat(ms[M10]);
-        out.writeFloat(ms[M11]);
-        out.writeFloat(ms[M12]);
-        out.writeFloat(ms[M20]);
-        out.writeFloat(ms[M21]);
-        out.writeFloat(ms[M22]);
+        out.writeFloat(m00());
+        out.writeFloat(m01());
+        out.writeFloat(m02());
+        out.writeFloat(m10());
+        out.writeFloat(m11());
+        out.writeFloat(m12());
+        out.writeFloat(m20());
+        out.writeFloat(m21());
+        out.writeFloat(m22());
     }
 
     public void readExternal(ObjectInput in) throws IOException,
             ClassNotFoundException {
-        ms[M00] = in.readFloat();
-        ms[M01] = in.readFloat();
-        ms[M02] = in.readFloat();
-        ms[M10] = in.readFloat();
-        ms[M11] = in.readFloat();
-        ms[M12] = in.readFloat();
-        ms[M20] = in.readFloat();
-        ms[M21] = in.readFloat();
-        ms[M22] = in.readFloat();
+        m00(in.readFloat());
+        m01(in.readFloat());
+        m02(in.readFloat());
+        m10(in.readFloat());
+        m11(in.readFloat());
+        m12(in.readFloat());
+        m20(in.readFloat());
+        m21(in.readFloat());
+        m22(in.readFloat());
     }
 
     /**
@@ -1688,20 +1669,20 @@ public class Matrix3f implements Externalizable {
         float rn22 = cos;
 
         // add temporaries for dependent values
-        float nn10 = ms[M10] * rn11 + ms[M20] * rn12;
-        float nn11 = ms[M11] * rn11 + ms[M21] * rn12;
-        float nn12 = ms[M12] * rn11 + ms[M22] * rn12;
+        float nn10 = m10() * rn11 + m20() * rn12;
+        float nn11 = m11() * rn11 + m21() * rn12;
+        float nn12 = m12() * rn11 + m22() * rn12;
         // set non-dependent values directly
-        dest.ms[M20] = ms[M10] * rn21 + ms[M20] * rn22;
-        dest.ms[M21] = ms[M11] * rn21 + ms[M21] * rn22;
-        dest.ms[M22] = ms[M12] * rn21 + ms[M22] * rn22;
+        dest.m20(m10() * rn21 + m20() * rn22);
+        dest.m21(m11() * rn21 + m21() * rn22);
+        dest.m22(m12() * rn21 + m22() * rn22);
         // set other values
-        dest.ms[M10] = nn10;
-        dest.ms[M11] = nn11;
-        dest.ms[M12] = nn12;
-        dest.ms[M00] = ms[M00];
-        dest.ms[M01] = ms[M01];
-        dest.ms[M02] = ms[M02];
+        dest.m10(nn10);
+        dest.m11(nn11);
+        dest.m12(nn12);
+        dest.m00(m00());
+        dest.m01(m01());
+        dest.m02(m02());
 
         return dest;
     }
@@ -1762,20 +1743,20 @@ public class Matrix3f implements Externalizable {
         float rn22 = cos;
 
         // add temporaries for dependent values
-        float nn00 = ms[M00] * rn00 + ms[M20] * rn02;
-        float nn01 = ms[M01] * rn00 + ms[M21] * rn02;
-        float nn02 = ms[M02] * rn00 + ms[M22] * rn02;
+        float nn00 = m00() * rn00 + m20() * rn02;
+        float nn01 = m01() * rn00 + m21() * rn02;
+        float nn02 = m02() * rn00 + m22() * rn02;
         // set non-dependent values directly
-        dest.ms[M20] = ms[M00] * rn20 + ms[M20] * rn22;
-        dest.ms[M21] = ms[M01] * rn20 + ms[M21] * rn22;
-        dest.ms[M22] = ms[M02] * rn20 + ms[M22] * rn22;
+        dest.m20(m00() * rn20 + m20() * rn22);
+        dest.m21(m01() * rn20 + m21() * rn22);
+        dest.m22(m02() * rn20 + m22() * rn22);
         // set other values
-        dest.ms[M00] = nn00;
-        dest.ms[M01] = nn01;
-        dest.ms[M02] = nn02;
-        dest.ms[M10] = ms[M10];
-        dest.ms[M11] = ms[M11];
-        dest.ms[M12] = ms[M12];
+        dest.m00(nn00);
+        dest.m01(nn01);
+        dest.m02(nn02);
+        dest.m10(m10());
+        dest.m11(m11());
+        dest.m12(m12());
 
         return dest;
     }
@@ -1836,20 +1817,20 @@ public class Matrix3f implements Externalizable {
         float rn11 = cos;
 
         // add temporaries for dependent values
-        float nn00 = ms[M00] * rn00 + ms[M10] * rn01;
-        float nn01 = ms[M01] * rn00 + ms[M11] * rn01;
-        float nn02 = ms[M02] * rn00 + ms[M12] * rn01;
+        float nn00 = m00() * rn00 + m10() * rn01;
+        float nn01 = m01() * rn00 + m11() * rn01;
+        float nn02 = m02() * rn00 + m12() * rn01;
         // set non-dependent values directly
-        dest.ms[M10] = ms[M00] * rn10 + ms[M10] * rn11;
-        dest.ms[M11] = ms[M01] * rn10 + ms[M11] * rn11;
-        dest.ms[M12] = ms[M02] * rn10 + ms[M12] * rn11;
+        dest.m10(m00() * rn10 + m10() * rn11);
+        dest.m11(m01() * rn10 + m11() * rn11);
+        dest.m12(m02() * rn10 + m12() * rn11);
         // set other values
-        dest.ms[M00] = nn00;
-        dest.ms[M01] = nn01;
-        dest.ms[M02] = nn02;
-        dest.ms[M20] = ms[M20];
-        dest.ms[M21] = ms[M21];
-        dest.ms[M22] = ms[M22];
+        dest.m00(nn00);
+        dest.m01(nn01);
+        dest.m02(nn02);
+        dest.m20(m20());
+        dest.m21(m21());
+        dest.m22(m22());
 
         return dest;
     }
@@ -1928,26 +1909,26 @@ public class Matrix3f implements Externalizable {
         float m_sinZ = -sinZ;
 
         // rotateX
-        float nn10 = ms[M10] * cosX + ms[M20] * sinX;
-        float nn11 = ms[M11] * cosX + ms[M21] * sinX;
-        float nn12 = ms[M12] * cosX + ms[M22] * sinX;
-        float nn20 = ms[M10] * m_sinX + ms[M20] * cosX;
-        float nn21 = ms[M11] * m_sinX + ms[M21] * cosX;
-        float nn22 = ms[M12] * m_sinX + ms[M22] * cosX;
+        float nn10 = m10() * cosX + m20() * sinX;
+        float nn11 = m11() * cosX + m21() * sinX;
+        float nn12 = m12() * cosX + m22() * sinX;
+        float nn20 = m10() * m_sinX + m20() * cosX;
+        float nn21 = m11() * m_sinX + m21() * cosX;
+        float nn22 = m12() * m_sinX + m22() * cosX;
         // rotateY
-        float nn00 = ms[M00] * cosY + nn20 * m_sinY;
-        float nn01 = ms[M01] * cosY + nn21 * m_sinY;
-        float nn02 = ms[M02] * cosY + nn22 * m_sinY;
-        dest.ms[M20] = ms[M00] * sinY + nn20 * cosY;
-        dest.ms[M21] = ms[M01] * sinY + nn21 * cosY;
-        dest.ms[M22] = ms[M02] * sinY + nn22 * cosY;
+        float nn00 = m00() * cosY + nn20 * m_sinY;
+        float nn01 = m01() * cosY + nn21 * m_sinY;
+        float nn02 = m02() * cosY + nn22 * m_sinY;
+        dest.m20(m00() * sinY + nn20 * cosY);
+        dest.m21(m01() * sinY + nn21 * cosY);
+        dest.m22(m02() * sinY + nn22 * cosY);
         // rotateZ
-        dest.ms[M00] = nn00 * cosZ + nn10 * sinZ;
-        dest.ms[M01] = nn01 * cosZ + nn11 * sinZ;
-        dest.ms[M02] = nn02 * cosZ + nn12 * sinZ;
-        dest.ms[M10] = nn00 * m_sinZ + nn10 * cosZ;
-        dest.ms[M11] = nn01 * m_sinZ + nn11 * cosZ;
-        dest.ms[M12] = nn02 * m_sinZ + nn12 * cosZ;
+        dest.m00(nn00 * cosZ + nn10 * sinZ);
+        dest.m01(nn01 * cosZ + nn11 * sinZ);
+        dest.m02(nn02 * cosZ + nn12 * sinZ);
+        dest.m10(nn00 * m_sinZ + nn10 * cosZ);
+        dest.m11(nn01 * m_sinZ + nn11 * cosZ);
+        dest.m12(nn02 * m_sinZ + nn12 * cosZ);
         return dest;
     }
 
@@ -2007,26 +1988,26 @@ public class Matrix3f implements Externalizable {
         float m_sinX = -sinX;
 
         // rotateZ
-        float nn00 = ms[M00] * cosZ + ms[M10] * sinZ;
-        float nn01 = ms[M01] * cosZ + ms[M11] * sinZ;
-        float nn02 = ms[M02] * cosZ + ms[M12] * sinZ;
-        float nn10 = ms[M00] * m_sinZ + ms[M10] * cosZ;
-        float nn11 = ms[M01] * m_sinZ + ms[M11] * cosZ;
-        float nn12 = ms[M02] * m_sinZ + ms[M12] * cosZ;
+        float nn00 = m00() * cosZ + m10() * sinZ;
+        float nn01 = m01() * cosZ + m11() * sinZ;
+        float nn02 = m02() * cosZ + m12() * sinZ;
+        float nn10 = m00() * m_sinZ + m10() * cosZ;
+        float nn11 = m01() * m_sinZ + m11() * cosZ;
+        float nn12 = m02() * m_sinZ + m12() * cosZ;
         // rotateY
-        float nn20 = nn00 * sinY + ms[M20] * cosY;
-        float nn21 = nn01 * sinY + ms[M21] * cosY;
-        float nn22 = nn02 * sinY + ms[M22] * cosY;
-        dest.ms[M00] = nn00 * cosY + ms[M20] * m_sinY;
-        dest.ms[M01] = nn01 * cosY + ms[M21] * m_sinY;
-        dest.ms[M02] = nn02 * cosY + ms[M22] * m_sinY;
+        float nn20 = nn00 * sinY + m20() * cosY;
+        float nn21 = nn01 * sinY + m21() * cosY;
+        float nn22 = nn02 * sinY + m22() * cosY;
+        dest.m00(nn00 * cosY + m20() * m_sinY);
+        dest.m01(nn01 * cosY + m21() * m_sinY);
+        dest.m02(nn02 * cosY + m22() * m_sinY);
         // rotateX
-        dest.ms[M10] = nn10 * cosX + nn20 * sinX;
-        dest.ms[M11] = nn11 * cosX + nn21 * sinX;
-        dest.ms[M12] = nn12 * cosX + nn22 * sinX;
-        dest.ms[M20] = nn10 * m_sinX + nn20 * cosX;
-        dest.ms[M21] = nn11 * m_sinX + nn21 * cosX;
-        dest.ms[M22] = nn12 * m_sinX + nn22 * cosX;
+        dest.m10(nn10 * cosX + nn20 * sinX);
+        dest.m11(nn11 * cosX + nn21 * sinX);
+        dest.m12(nn12 * cosX + nn22 * sinX);
+        dest.m20(nn10 * m_sinX + nn20 * cosX);
+        dest.m21(nn11 * m_sinX + nn21 * cosX);
+        dest.m22(nn12 * m_sinX + nn22 * cosX);
         return dest;
     }
 
@@ -2083,8 +2064,6 @@ public class Matrix3f implements Externalizable {
         float c = (float) Math.cos(ang);
         float C = 1.0f - c;
 
-        // rotation matrix elements:
-        // ms[M30], ms[M31], ms[M32], ms[M03], ms[M13], ms[M23] = 0
         float xx = x * x, xy = x * y, xz = x * z;
         float yy = y * y, yz = y * z;
         float zz = z * z;
@@ -2099,23 +2078,23 @@ public class Matrix3f implements Externalizable {
         float rn22 = zz * C + c;
 
         // add temporaries for dependent values
-        float nn00 = ms[M00] * rn00 + ms[M10] * rn01 + ms[M20] * rn02;
-        float nn01 = ms[M01] * rn00 + ms[M11] * rn01 + ms[M21] * rn02;
-        float nn02 = ms[M02] * rn00 + ms[M12] * rn01 + ms[M22] * rn02;
-        float nn10 = ms[M00] * rn10 + ms[M10] * rn11 + ms[M20] * rn12;
-        float nn11 = ms[M01] * rn10 + ms[M11] * rn11 + ms[M21] * rn12;
-        float nn12 = ms[M02] * rn10 + ms[M12] * rn11 + ms[M22] * rn12;
+        float nn00 = m00() * rn00 + m10() * rn01 + m20() * rn02;
+        float nn01 = m01() * rn00 + m11() * rn01 + m21() * rn02;
+        float nn02 = m02() * rn00 + m12() * rn01 + m22() * rn02;
+        float nn10 = m00() * rn10 + m10() * rn11 + m20() * rn12;
+        float nn11 = m01() * rn10 + m11() * rn11 + m21() * rn12;
+        float nn12 = m02() * rn10 + m12() * rn11 + m22() * rn12;
         // set non-dependent values directly
-        dest.ms[M20] = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22;
-        dest.ms[M21] = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22;
-        dest.ms[M22] = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22;
+        dest.m20(m00() * rn20 + m10() * rn21 + m20() * rn22);
+        dest.m21(m01() * rn20 + m11() * rn21 + m21() * rn22);
+        dest.m22(m02() * rn20 + m12() * rn21 + m22() * rn22);
         // set other values
-        dest.ms[M00] = nn00;
-        dest.ms[M01] = nn01;
-        dest.ms[M02] = nn02;
-        dest.ms[M10] = nn10;
-        dest.ms[M11] = nn11;
-        dest.ms[M12] = nn12;
+        dest.m00(nn00);
+        dest.m01(nn01);
+        dest.m02(nn02);
+        dest.m10(nn10);
+        dest.m11(nn11);
+        dest.m12(nn12);
 
         return dest;
     }
@@ -2189,21 +2168,21 @@ public class Matrix3f implements Externalizable {
         float rn21 = q12 - q03;
         float rn22 = 1.0f - q11 - q00;
 
-        float nn00 = ms[M00] * rn00 + ms[M10] * rn01 + ms[M20] * rn02;
-        float nn01 = ms[M01] * rn00 + ms[M11] * rn01 + ms[M21] * rn02;
-        float nn02 = ms[M02] * rn00 + ms[M12] * rn01 + ms[M22] * rn02;
-        float nn10 = ms[M00] * rn10 + ms[M10] * rn11 + ms[M20] * rn12;
-        float nn11 = ms[M01] * rn10 + ms[M11] * rn11 + ms[M21] * rn12;
-        float nn12 = ms[M02] * rn10 + ms[M12] * rn11 + ms[M22] * rn12;
-        dest.ms[M20] = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22;
-        dest.ms[M21] = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22;
-        dest.ms[M22] = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22;
-        dest.ms[M00] = nn00;
-        dest.ms[M01] = nn01;
-        dest.ms[M02] = nn02;
-        dest.ms[M10] = nn10;
-        dest.ms[M11] = nn11;
-        dest.ms[M12] = nn12;
+        float nn00 = m00() * rn00 + m10() * rn01 + m20() * rn02;
+        float nn01 = m01() * rn00 + m11() * rn01 + m21() * rn02;
+        float nn02 = m02() * rn00 + m12() * rn01 + m22() * rn02;
+        float nn10 = m00() * rn10 + m10() * rn11 + m20() * rn12;
+        float nn11 = m01() * rn10 + m11() * rn11 + m21() * rn12;
+        float nn12 = m02() * rn10 + m12() * rn11 + m22() * rn12;
+        dest.m20(m00() * rn20 + m10() * rn21 + m20() * rn22);
+        dest.m21(m01() * rn20 + m11() * rn21 + m21() * rn22);
+        dest.m22(m02() * rn20 + m12() * rn21 + m22() * rn22);
+        dest.m00(nn00);
+        dest.m01(nn01);
+        dest.m02(nn02);
+        dest.m10(nn10);
+        dest.m11(nn11);
+        dest.m12(nn12);
 
         return dest;
     }
@@ -2428,22 +2407,22 @@ public class Matrix3f implements Externalizable {
 
         // perform optimized matrix multiplication
         // introduce temporaries for dependent results
-        float nn00 = ms[M00] * rn00 + ms[M10] * rn01 + ms[M20] * rn02;
-        float nn01 = ms[M01] * rn00 + ms[M11] * rn01 + ms[M21] * rn02;
-        float nn02 = ms[M02] * rn00 + ms[M12] * rn01 + ms[M22] * rn02;
-        float nn10 = ms[M00] * rn10 + ms[M10] * rn11 + ms[M20] * rn12;
-        float nn11 = ms[M01] * rn10 + ms[M11] * rn11 + ms[M21] * rn12;
-        float nn12 = ms[M02] * rn10 + ms[M12] * rn11 + ms[M22] * rn12;
-        dest.ms[M20] = ms[M00] * rn20 + ms[M10] * rn21 + ms[M20] * rn22;
-        dest.ms[M21] = ms[M01] * rn20 + ms[M11] * rn21 + ms[M21] * rn22;
-        dest.ms[M22] = ms[M02] * rn20 + ms[M12] * rn21 + ms[M22] * rn22;
+        float nn00 = m00() * rn00 + m10() * rn01 + m20() * rn02;
+        float nn01 = m01() * rn00 + m11() * rn01 + m21() * rn02;
+        float nn02 = m02() * rn00 + m12() * rn01 + m22() * rn02;
+        float nn10 = m00() * rn10 + m10() * rn11 + m20() * rn12;
+        float nn11 = m01() * rn10 + m11() * rn11 + m21() * rn12;
+        float nn12 = m02() * rn10 + m12() * rn11 + m22() * rn12;
+        dest.m20(m00() * rn20 + m10() * rn21 + m20() * rn22);
+        dest.m21(m01() * rn20 + m11() * rn21 + m21() * rn22);
+        dest.m22(m02() * rn20 + m12() * rn21 + m22() * rn22);
         // set the rest of the matrix elements
-        dest.ms[M00] = nn00;
-        dest.ms[M01] = nn01;
-        dest.ms[M02] = nn02;
-        dest.ms[M10] = nn10;
-        dest.ms[M11] = nn11;
-        dest.ms[M12] = nn12;
+        dest.m00(nn00);
+        dest.m01(nn01);
+        dest.m02(nn02);
+        dest.m10(nn10);
+        dest.m11(nn11);
+        dest.m12(nn12);
 
         return dest;
     }
@@ -2546,15 +2525,15 @@ public class Matrix3f implements Externalizable {
         float upnY = rightZ * dirnX - rightX * dirnZ;
         float upnZ = rightX * dirnY - rightY * dirnX;
 
-        ms[M00] = rightX;
-        ms[M01] = upnX;
-        ms[M02] = -dirnX;
-        ms[M10] = rightY;
-        ms[M11] = upnY;
-        ms[M12] = -dirnY;
-        ms[M20] = rightZ;
-        ms[M21] = upnZ;
-        ms[M22] = -dirnZ;
+        m00(rightX);
+        m01(upnX);
+        m02(-dirnX);
+        m10(rightY);
+        m11(upnY);
+        m12(-dirnY);
+        m20(rightZ);
+        m21(upnZ);
+        m22(-dirnZ);
 
         return this;
     }
@@ -2572,19 +2551,19 @@ public class Matrix3f implements Externalizable {
     public Vector3f getRow(int row, Vector3f dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
-            dest.x = ms[M00];
-            dest.y = ms[M10];
-            dest.z = ms[M20];
+            dest.x = m00();
+            dest.y = m10();
+            dest.z = m20();
             break;
         case 1:
-            dest.x = ms[M01];
-            dest.y = ms[M11];
-            dest.z = ms[M21];
+            dest.x = m01();
+            dest.y = m11();
+            dest.z = m21();
             break;
         case 2:
-            dest.x = ms[M02];
-            dest.y = ms[M12];
-            dest.z = ms[M22];
+            dest.x = m02();
+            dest.y = m12();
+            dest.z = m22();
             break;
         default:
             throw new IndexOutOfBoundsException();
@@ -2606,19 +2585,19 @@ public class Matrix3f implements Externalizable {
     public Vector3f getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
-            dest.x = ms[M00];
-            dest.y = ms[M01];
-            dest.z = ms[M02];
+            dest.x = m00();
+            dest.y = m01();
+            dest.z = m02();
             break;
         case 1:
-            dest.x = ms[M10];
-            dest.y = ms[M11];
-            dest.z = ms[M12];
+            dest.x = m10();
+            dest.y = m11();
+            dest.z = m12();
             break;
         case 2:
-            dest.x = ms[M20];
-            dest.y = ms[M21];
-            dest.z = ms[M22];
+            dest.x = m20();
+            dest.y = m21();
+            dest.z = m22();
             break;
         default:
             throw new IndexOutOfBoundsException();
@@ -2658,15 +2637,15 @@ public class Matrix3f implements Externalizable {
         float det = determinant();
         float s = 1.0f / det;
         /* Invert and transpose in one go */
-        dest.set((ms[M11] * ms[M22] - ms[M21] * ms[M12]) * s,
-                 (ms[M20] * ms[M12] - ms[M10] * ms[M22]) * s,
-                 (ms[M10] * ms[M21] - ms[M20] * ms[M11]) * s,
-                 (ms[M21] * ms[M02] - ms[M01] * ms[M22]) * s,
-                 (ms[M00] * ms[M22] - ms[M20] * ms[M02]) * s,
-                 (ms[M20] * ms[M01] - ms[M00] * ms[M21]) * s,
-                 (ms[M01] * ms[M12] - ms[M11] * ms[M02]) * s,
-                 (ms[M10] * ms[M02] - ms[M00] * ms[M12]) * s,
-                 (ms[M00] * ms[M11] - ms[M10] * ms[M01]) * s);
+        dest.set((m11() * m22() - m21() * m12()) * s,
+                 (m20() * m12() - m10() * m22()) * s,
+                 (m10() * m21() - m20() * m11()) * s,
+                 (m21() * m02() - m01() * m22()) * s,
+                 (m00() * m22() - m20() * m02()) * s,
+                 (m20() * m01() - m00() * m21()) * s,
+                 (m01() * m12() - m11() * m02()) * s,
+                 (m10() * m02() - m00() * m12()) * s,
+                 (m00() * m11() - m10() * m01()) * s);
         return dest;
     }
 
@@ -2678,9 +2657,9 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Vector3f getScale(Vector3f dest) {
-        dest.x = (float) Math.sqrt(ms[M00] * ms[M00] + ms[M01] * ms[M01] + ms[M02] * ms[M02]);
-        dest.y = (float) Math.sqrt(ms[M10] * ms[M10] + ms[M11] * ms[M11] + ms[M12] * ms[M12]);
-        dest.z = (float) Math.sqrt(ms[M20] * ms[M20] + ms[M21] * ms[M21] + ms[M22] * ms[M22]);
+        dest.x = (float) Math.sqrt(m00() * m00() + m01() * m01() + m02() * m02());
+        dest.y = (float) Math.sqrt(m10() * m10() + m11() * m11() + m12() * m12());
+        dest.z = (float) Math.sqrt(m20() * m20() + m21() * m21() + m22() * m22());
         return dest;
     }
 
@@ -2701,9 +2680,9 @@ public class Matrix3f implements Externalizable {
      * @return dir
      */
     public Vector3f positiveZ(Vector3f dir) {
-        dir.x = ms[M10] * ms[M21] - ms[M11] * ms[M20];
-        dir.y = ms[M20] * ms[M01] - ms[M21] * ms[M00];
-        dir.z = ms[M00] * ms[M11] - ms[M01] * ms[M10];
+        dir.x = m10() * m21() - m11() * m20();
+        dir.y = m20() * m01() - m21() * m00();
+        dir.z = m00() * m11() - m01() * m10();
         dir.normalize();
         return dir;
     }
@@ -2725,9 +2704,9 @@ public class Matrix3f implements Externalizable {
      * @return dir
      */
     public Vector3f normalizedPositiveZ(Vector3f dir) {
-        dir.x = ms[M02];
-        dir.y = ms[M12];
-        dir.z = ms[M22];
+        dir.x = m02();
+        dir.y = m12();
+        dir.z = m22();
         return dir;
     }
 
@@ -2748,9 +2727,9 @@ public class Matrix3f implements Externalizable {
      * @return dir
      */
     public Vector3f positiveX(Vector3f dir) {
-        dir.x = ms[M11] * ms[M22] - ms[M12] * ms[M21];
-        dir.y = ms[M02] * ms[M21] - ms[M01] * ms[M22];
-        dir.z = ms[M01] * ms[M12] - ms[M02] * ms[M11];
+        dir.x = m11() * m22() - m12() * m21();
+        dir.y = m02() * m21() - m01() * m22();
+        dir.z = m01() * m12() - m02() * m11();
         dir.normalize();
         return dir;
     }
@@ -2772,9 +2751,9 @@ public class Matrix3f implements Externalizable {
      * @return dir
      */
     public Vector3f normalizedPositiveX(Vector3f dir) {
-        dir.x = ms[M00];
-        dir.y = ms[M10];
-        dir.z = ms[M20];
+        dir.x = m00();
+        dir.y = m10();
+        dir.z = m20();
         return dir;
     }
 
@@ -2795,9 +2774,9 @@ public class Matrix3f implements Externalizable {
      * @return dir
      */
     public Vector3f positiveY(Vector3f dir) {
-        dir.x = ms[M12] * ms[M20] - ms[M10] * ms[M22];
-        dir.y = ms[M00] * ms[M22] - ms[M02] * ms[M20];
-        dir.z = ms[M02] * ms[M10] - ms[M00] * ms[M12];
+        dir.x = m12() * m20() - m10() * m22();
+        dir.y = m00() * m22() - m02() * m20();
+        dir.z = m02() * m10() - m00() * m12();
         dir.normalize();
         return dir;
     }
@@ -2819,24 +2798,24 @@ public class Matrix3f implements Externalizable {
      * @return dir
      */
     public Vector3f normalizedPositiveY(Vector3f dir) {
-        dir.x = ms[M01];
-        dir.y = ms[M11];
-        dir.z = ms[M21];
+        dir.x = m01();
+        dir.y = m11();
+        dir.z = m21();
         return dir;
     }
 
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Float.floatToIntBits(ms[M00]);
-        result = prime * result + Float.floatToIntBits(ms[M01]);
-        result = prime * result + Float.floatToIntBits(ms[M02]);
-        result = prime * result + Float.floatToIntBits(ms[M10]);
-        result = prime * result + Float.floatToIntBits(ms[M11]);
-        result = prime * result + Float.floatToIntBits(ms[M12]);
-        result = prime * result + Float.floatToIntBits(ms[M20]);
-        result = prime * result + Float.floatToIntBits(ms[M21]);
-        result = prime * result + Float.floatToIntBits(ms[M22]);
+        result = prime * result + Float.floatToIntBits(m00());
+        result = prime * result + Float.floatToIntBits(m01());
+        result = prime * result + Float.floatToIntBits(m02());
+        result = prime * result + Float.floatToIntBits(m10());
+        result = prime * result + Float.floatToIntBits(m11());
+        result = prime * result + Float.floatToIntBits(m12());
+        result = prime * result + Float.floatToIntBits(m20());
+        result = prime * result + Float.floatToIntBits(m21());
+        result = prime * result + Float.floatToIntBits(m22());
         return result;
     }
 
@@ -2848,23 +2827,23 @@ public class Matrix3f implements Externalizable {
         if (getClass() != obj.getClass())
             return false;
         Matrix3f other = (Matrix3f) obj;
-        if (Float.floatToIntBits(ms[M00]) != Float.floatToIntBits(other.ms[M00]))
+        if (Float.floatToIntBits(m00()) != Float.floatToIntBits(other.m00()))
             return false;
-        if (Float.floatToIntBits(ms[M01]) != Float.floatToIntBits(other.ms[M01]))
+        if (Float.floatToIntBits(m01()) != Float.floatToIntBits(other.m01()))
             return false;
-        if (Float.floatToIntBits(ms[M02]) != Float.floatToIntBits(other.ms[M02]))
+        if (Float.floatToIntBits(m02()) != Float.floatToIntBits(other.m02()))
             return false;
-        if (Float.floatToIntBits(ms[M10]) != Float.floatToIntBits(other.ms[M10]))
+        if (Float.floatToIntBits(m10()) != Float.floatToIntBits(other.m10()))
             return false;
-        if (Float.floatToIntBits(ms[M11]) != Float.floatToIntBits(other.ms[M11]))
+        if (Float.floatToIntBits(m11()) != Float.floatToIntBits(other.m11()))
             return false;
-        if (Float.floatToIntBits(ms[M12]) != Float.floatToIntBits(other.ms[M12]))
+        if (Float.floatToIntBits(m12()) != Float.floatToIntBits(other.m12()))
             return false;
-        if (Float.floatToIntBits(ms[M20]) != Float.floatToIntBits(other.ms[M20]))
+        if (Float.floatToIntBits(m20()) != Float.floatToIntBits(other.m20()))
             return false;
-        if (Float.floatToIntBits(ms[M21]) != Float.floatToIntBits(other.ms[M21]))
+        if (Float.floatToIntBits(m21()) != Float.floatToIntBits(other.m21()))
             return false;
-        if (Float.floatToIntBits(ms[M22]) != Float.floatToIntBits(other.ms[M22]))
+        if (Float.floatToIntBits(m22()) != Float.floatToIntBits(other.m22()))
             return false;
         return true;
     }
@@ -2878,15 +2857,15 @@ public class Matrix3f implements Externalizable {
      */
     public Matrix3f swap(Matrix3f other) {
         float tmp;
-        tmp = ms[M00]; ms[M00] = other.ms[M00]; other.ms[M00] = tmp;
-        tmp = ms[M01]; ms[M01] = other.ms[M01]; other.ms[M01] = tmp;
-        tmp = ms[M02]; ms[M02] = other.ms[M02]; other.ms[M02] = tmp;
-        tmp = ms[M10]; ms[M10] = other.ms[M10]; other.ms[M10] = tmp;
-        tmp = ms[M11]; ms[M11] = other.ms[M11]; other.ms[M11] = tmp;
-        tmp = ms[M12]; ms[M12] = other.ms[M12]; other.ms[M12] = tmp;
-        tmp = ms[M20]; ms[M20] = other.ms[M20]; other.ms[M20] = tmp;
-        tmp = ms[M21]; ms[M21] = other.ms[M21]; other.ms[M21] = tmp;
-        tmp = ms[M22]; ms[M22] = other.ms[M22]; other.ms[M22] = tmp;
+        tmp = m00(); m00(other.m00()); other.m00(tmp);
+        tmp = m01(); m01(other.m01()); other.m01(tmp);
+        tmp = m02(); m02(other.m02()); other.m02(tmp);
+        tmp = m10(); m10(other.m10()); other.m10(tmp);
+        tmp = m11(); m11(other.m11()); other.m11(tmp);
+        tmp = m12(); m12(other.m12()); other.m12(tmp);
+        tmp = m20(); m20(other.m20()); other.m20(tmp);
+        tmp = m21(); m21(other.m21()); other.m21(tmp);
+        tmp = m22(); m22(other.m22()); other.m22(tmp);
         return this;
     }
 

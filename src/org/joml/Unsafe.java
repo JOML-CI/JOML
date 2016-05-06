@@ -106,4 +106,28 @@ class Unsafe {
         UNSAFE.putLong(dst+56, UNSAFE.getLong(src+56));
     }
 
+    static final void zero9x4(long address) {
+        UNSAFE.putLong(address, 0L);
+        UNSAFE.putLong(address+8, 0L);
+        UNSAFE.putLong(address+16, 0L);
+        UNSAFE.putLong(address+24, 0L);
+        UNSAFE.putInt( address+32, 0);
+    }
+
+    static final void identity9x4(long address) {
+        UNSAFE.putLong(address, 0x3F800000L);
+        UNSAFE.putLong(address+8, 0L);
+        UNSAFE.putLong(address+16, 0x3F800000L);
+        UNSAFE.putLong(address+24, 0L);
+        UNSAFE.putInt( address+32, 0);
+    }
+
+    static final void copy9x4(long src, long dst) {
+        UNSAFE.putLong(dst,    UNSAFE.getLong(src));
+        UNSAFE.putLong(dst+8,  UNSAFE.getLong(src+8));
+        UNSAFE.putLong(dst+16, UNSAFE.getLong(src+16));
+        UNSAFE.putLong(dst+24, UNSAFE.getLong(src+24));
+        UNSAFE.putInt( dst+32, UNSAFE.getInt( src+32));
+    }
+
 }
