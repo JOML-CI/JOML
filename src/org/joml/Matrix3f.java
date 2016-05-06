@@ -157,20 +157,20 @@ public class Matrix3f implements Externalizable {
      * @param m22
      *          the value of m22()
      */
-    public Matrix3f(float n00, float n01, float n02,
-                    float n10, float n11, float n12, 
-                    float n20, float n21, float n22) {
+    public Matrix3f(float m00, float m01, float m02,
+                    float m10, float m11, float m12, 
+                    float m20, float m21, float m22) {
         this.address = allocate(1);
         this.ownedMemory = address;
-        m00(n00);
-        m01(n01);
-        m02(n02);
-        m10(n10);
-        m11(n11);
-        m12(n12);
-        m20(n20);
-        m21(n21);
-        m22(n22);
+        m00(m00);
+        m01(m01);
+        m02(m02);
+        m10(m10);
+        m11(m11);
+        m12(m12);
+        m20(m20);
+        m21(m21);
+        m22(m22);
     }
 
     /**
