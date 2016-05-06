@@ -2,6 +2,7 @@
 #include <jni.h>
 #include <xmmintrin.h>
 #include <immintrin.h>
+#include <math.h>
 
 static void __inline invertNative(jlong m0, jlong m1) {
 	const float* src = (const float*)(intptr_t)m0;

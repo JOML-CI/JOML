@@ -1,6 +1,7 @@
 #include <malloc.h>
 #include <jni.h>
 #include <xmmintrin.h>
+#include <math.h>
 
 JNIEXPORT jlong JNICALL Java_org_joml_Matrix4f_allocate(JNIEnv* env, jclass clazz, jint count) {
 	return (jlong)(intptr_t)_aligned_malloc((16 << 2) * count, 16);
