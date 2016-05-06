@@ -34,12 +34,16 @@ import java.text.NumberFormat;
 
 /**
  * Contains the definition of a 4x4 Matrix of floats, and associated functions to transform
- * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
+ * it. The  matrix memory layout is either column-major or row-major, depending on the value of the {@link #ROW_MAJOR} field.
+ * Regardless of which memory layout is being used, the indices when referring to any particular matrix element are always interpreted the following way:
  * <p>
  *      m00  m10  m20  m30<br>
  *      m01  m11  m21  m31<br>
  *      m02  m12  m22  m32<br>
  *      m03  m13  m23  m33<br>
+ * <p>
+ * That is, the first index <tt>C</tt> in an element <tt>mCR</tt> always refers to the <i>column</i> <tt>C</tt> and the second index <tt>R</tt> always
+ * refers to the <i>row</i> <tt>R</tt>.
  * 
  * @author Richard Greenlees
  * @author Kai Burjack
@@ -57,21 +61,26 @@ public class Matrix4f implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Whether to use row-major memory layout.
+     */
+    private static final boolean ROW_MAJOR = false;
+
     public static final int M00 = 0;
-    public static final int M01 = 1;
-    public static final int M02 = 2;
-    public static final int M03 = 3;
-    public static final int M10 = 4;
+    public static final int M01 = ROW_MAJOR ? 4 : 1;
+    public static final int M02 = ROW_MAJOR ? 8 : 2;
+    public static final int M03 = ROW_MAJOR ? 12 : 3;
+    public static final int M10 = ROW_MAJOR ? 1 : 4;
     public static final int M11 = 5;
-    public static final int M12 = 6;
-    public static final int M13 = 7;
-    public static final int M20 = 8;
-    public static final int M21 = 9;
+    public static final int M12 = ROW_MAJOR ? 9 : 6;
+    public static final int M13 = ROW_MAJOR ? 13 : 7;
+    public static final int M20 = ROW_MAJOR ? 2 : 8;
+    public static final int M21 = ROW_MAJOR ? 6 : 9;
     public static final int M22 = 10;
-    public static final int M23 = 11;
-    public static final int M30 = 12;
-    public static final int M31 = 13;
-    public static final int M32 = 14;
+    public static final int M23 = ROW_MAJOR ? 14 : 11;
+    public static final int M30 = ROW_MAJOR ? 3 : 12;
+    public static final int M31 = ROW_MAJOR ? 7 : 13;
+    public static final int M32 = ROW_MAJOR ? 11 : 14;
     public static final int M33 = 15;
 
     /**
@@ -1069,9 +1078,15 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
         if (hasAVX)
-            mulNativeAVX(address, right.address, dest.address);
+            if (ROW_MAJOR)
+                throw new UnsupportedOperationException("NYI");
+            else
+                mulNativeAVX(address, right.address, dest.address);
         else
-            mulNative(address, right.address, dest.address);
+            if (ROW_MAJOR)
+                throw new UnsupportedOperationException("NYI");
+            else
+                mulNative(address, right.address, dest.address);
         return dest;
     }
 
@@ -1151,9 +1166,15 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f mulAffineR(Matrix4f right, Matrix4f dest) {
         if (hasAVX)
-            mulAffineNativeAVX(address, right.address, dest.address);
+            if (ROW_MAJOR)
+                throw new UnsupportedOperationException("NYI");
+            else    
+                mulAffineNativeAVX(address, right.address, dest.address);
         else
-            mulAffineNative(address, right.address, dest.address);
+            if (ROW_MAJOR)
+                throw new UnsupportedOperationException("NYI");
+            else
+                mulAffineNative(address, right.address, dest.address);
         return dest;
     }
 
@@ -1201,9 +1222,15 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f mulAffine(Matrix4f right, Matrix4f dest) {
         if (hasAVX)
-            mulAffineNativeAVX(address, right.address, dest.address);
+            if (ROW_MAJOR)
+                throw new UnsupportedOperationException("NYI");
+            else
+                mulAffineNativeAVX(address, right.address, dest.address);
         else
-            mulAffineNative(address, right.address, dest.address);
+            if (ROW_MAJOR)
+                throw new UnsupportedOperationException("NYI");
+            else
+                mulAffineNative(address, right.address, dest.address);
         return dest;
     }
 
