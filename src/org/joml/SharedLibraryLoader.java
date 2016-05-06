@@ -12,6 +12,8 @@ final class SharedLibraryLoader {
 
     private static final int BUFFER_SIZE = 8192;
 
+    private static final String JOML_LIBRARY_NAME = System.getProperty("os.arch").contains("64") ? "joml" : "joml32";
+
     private static File extractPath;
 
     private SharedLibraryLoader() {
@@ -19,11 +21,11 @@ final class SharedLibraryLoader {
 
     static void load() throws IOException {
         try {
-            extractPath = extractFile(Platform.PLATFORM.mapLibraryName("joml"), null).getParentFile();
+            extractPath = extractFile(Platform.PLATFORM.mapLibraryName(JOML_LIBRARY_NAME), null).getParentFile();
         } catch (Exception e) {
             throw new RuntimeException("Unable to extract the JOML shared library", e);
         }
-        load("joml");
+        load(Platform.PLATFORM.mapLibraryName(JOML_LIBRARY_NAME));
     }
 
     private static void load(String library) throws IOException {
