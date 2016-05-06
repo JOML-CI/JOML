@@ -29,7 +29,7 @@ JNIEXPORT jint JNICALL Java_org_joml_JNI_supportedExtensions(JNIEnv* env, jclass
 		//HW_SSE41 = (info[2] & ((int)1 << 19)) != 0;
 		//HW_SSE42 = (info[2] & ((int)1 << 20)) != 0;
 		HW_FMA3 = (info[2] & ((int)1 << 12)) != 0;
-		HW_AVX = (info[2] & ((int)1 << 28)) != 0;
+		HW_AVX = (((info[2] & (1 << 28)) != 0) && ((info[2] & (1 << 27)) != 0));
 	}
 	if (nIds >= 0x00000007) {
 		cpuid(info, 0x00000007);
@@ -50,13 +50,10 @@ JNIEXPORT jint JNICALL Java_org_joml_JNI_supportedExtensions(JNIEnv* env, jclass
 	if (HW_FMA4)
 		res |= 16;
 	if (HW_AVX) {
-		char osUsesXSAVE_XRSTORE = (info[2] & (1 << 27)) != 0;
-		if (osUsesXSAVE_XRSTORE) {
-			unsigned long long xcrFeatureMask = _xgetbv(_XCR_XFEATURE_ENABLED_MASK);
-			char AVX = (xcrFeatureMask & 0x6) == 0x6;
-			if (AVX)
-				res |= 2;
-		}
+		unsigned long long xcrFeatureMask = _xgetbv(_XCR_XFEATURE_ENABLED_MASK);
+		char AVX = (xcrFeatureMask & 0x6) == 0x6;
+		if (AVX)
+			res |= 2;
 	}
 	return res;
 }
