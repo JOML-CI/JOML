@@ -1,15 +1,27 @@
-#include <malloc.h>
 #include <jni.h>
 #include <xmmintrin.h>
 #include <math.h>
+#include <stdint.h>
 
-JNIEXPORT jlong JNICALL Java_org_joml_Matrix4f_allocate(JNIEnv* env, jclass clazz, jint count) {
-	return (jlong)(intptr_t)_aligned_malloc((16 << 2) * count, 16);
-}
-
-JNIEXPORT void JNICALL Java_org_joml_Matrix4f_free(JNIEnv* env, jclass clazz, jlong mem) {
-	_aligned_free((void*)(intptr_t)mem);
-}
+#ifdef _WIN32
+	#include <malloc.h>
+	JNIEXPORT jlong JNICALL Java_org_joml_Matrix4f_allocate(JNIEnv* env, jclass clazz, jint count) {
+		return (jlong)(intptr_t)_aligned_malloc((16 << 2) * count, 16);
+	}
+	JNIEXPORT void JNICALL Java_org_joml_Matrix4f_free(JNIEnv* env, jclass clazz, jlong mem) {
+		_aligned_free((void*)(intptr_t)mem);
+	}
+#else
+	#include <stdlib.h>
+	JNIEXPORT jlong JNICALL Java_org_joml_Matrix4f_allocate(JNIEnv* env, jclass clazz, jint count) {
+		void* ptr;
+		posix_memalign(&ptr, 16, 16 << 2);
+		return (jlong)(intptr_t)ptr;
+	}
+	JNIEXPORT void JNICALL Java_org_joml_Matrix4f_free(JNIEnv* env, jclass clazz, jlong mem) {
+		free((void*)(intptr_t)mem);
+	}
+#endif
 
 static void invertNative(jlong m0, jlong m1) {
 	const float* src = (const float*)(intptr_t)m0;

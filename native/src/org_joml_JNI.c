@@ -1,7 +1,22 @@
 #include <jni.h>
-#include <intrin.h>
+#include <stdint.h>
 
-#define cpuid(info, x)  __cpuidex(info, x, 0)
+#if _WIN32
+	#include <intrin.h>
+	#define cpuid(info, x)  __cpuidex(info, x, 0)
+#else
+	//  GCC Intrinsics
+	#include <cpuid.h>
+	void cpuid(int info[4], int InfoType){
+	    __cpuid_count(InfoType, 0, info[0], info[1], info[2], info[3]);
+	}
+	uint64_t _xgetbv(unsigned int index){
+	    uint32_t eax, edx;
+	    __asm__ __volatile__("xgetbv" : "=a"(eax), "=d"(edx) : "c"(index));
+	    return ((uint64_t)edx << 32) | eax;
+	}
+	#define _XCR_XFEATURE_ENABLED_MASK  0
+#endif
 
 JNIEXPORT jint JNICALL Java_org_joml_JNI_supportedExtensions(JNIEnv* env, jclass clazz) {
 	char HW_SSE;
