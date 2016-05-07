@@ -734,7 +734,7 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Set the upper left 3x3 submatrix of this {@link Matrix4d} to that of the given {@link Matrix4d} 
-     * and the rest to identity.
+     * and don't change the other elements.
      * 
      * @param mat
      *          the {@link Matrix4d}
@@ -744,19 +744,12 @@ public class Matrix4d implements Externalizable {
         m00 = mat.m00;
         m01 = mat.m01;
         m02 = mat.m02;
-        m03 = 0.0;
         m10 = mat.m10;
         m11 = mat.m11;
         m12 = mat.m12;
-        m13 = 0.0;
         m20 = mat.m20;
         m21 = mat.m21;
         m22 = mat.m22;
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         return this;
     }
 
@@ -3717,7 +3710,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set the upper 3x3 matrix of this {@link Matrix4d} to the given {@link Matrix3d} and the rest to the identity.
+     * Set the upper 3x3 matrix of this {@link Matrix4d} to the given {@link Matrix3d} and don't change the other elements..
      * 
      * @param mat
      *          the 3x3 matrix
@@ -3727,19 +3720,12 @@ public class Matrix4d implements Externalizable {
         m00 = mat.m00;
         m01 = mat.m01;
         m02 = mat.m02;
-        m03 = 0.0;
         m10 = mat.m10;
         m11 = mat.m11;
         m12 = mat.m12;
-        m13 = 0.0;
         m20 = mat.m20;
         m21 = mat.m21;
         m22 = mat.m22;
-        m23 = 0.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
-        m33 = 1.0;
         return this;
     }
 
