@@ -751,7 +751,7 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Set the upper left 3x3 submatrix of this {@link Matrix4d} to that of the given {@link Matrix4d} 
-     * and the rest to identity.
+     * and don't change the other elements.
      * 
      * @param mat
      *          the {@link Matrix4d}
@@ -761,19 +761,12 @@ public class Matrix4d implements Externalizable {
         ms[M00] = mat.ms[M00];
         ms[M01] = mat.ms[M01];
         ms[M02] = mat.ms[M02];
-        ms[M03] = 0.0;
         ms[M10] = mat.ms[M10];
         ms[M11] = mat.ms[M11];
         ms[M12] = mat.ms[M12];
-        ms[M13] = 0.0;
         ms[M20] = mat.ms[M20];
         ms[M21] = mat.ms[M21];
         ms[M22] = mat.ms[M22];
-        ms[M23] = 0.0;
-        ms[M30] = 0.0;
-        ms[M31] = 0.0;
-        ms[M32] = 0.0;
-        ms[M33] = 1.0;
         return this;
     }
 
@@ -3543,7 +3536,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set the upper 3x3 matrix of this {@link Matrix4d} to the given {@link Matrix3d} and the rest to the identity.
+     * Set the upper 3x3 matrix of this {@link Matrix4d} to the given {@link Matrix3d} and don't change the other elements.
      * 
      * @param mat
      *          the 3x3 matrix
@@ -3553,19 +3546,12 @@ public class Matrix4d implements Externalizable {
         ms[M00] = mat.ms[Matrix3d.M00];
         ms[M01] = mat.ms[Matrix3d.M01];
         ms[M02] = mat.ms[Matrix3d.M02];
-        ms[M03] = 0.0;
         ms[M10] = mat.ms[Matrix3d.M10];
         ms[M11] = mat.ms[Matrix3d.M11];
         ms[M12] = mat.ms[Matrix3d.M12];
-        ms[M13] = 0.0;
         ms[M20] = mat.ms[Matrix3d.M20];
         ms[M21] = mat.ms[Matrix3d.M21];
         ms[M22] = mat.ms[Matrix3d.M22];
-        ms[M23] = 0.0;
-        ms[M30] = 0.0;
-        ms[M31] = 0.0;
-        ms[M32] = 0.0;
-        ms[M33] = 1.0;
         return this;
     }
 
