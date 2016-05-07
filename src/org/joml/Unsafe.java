@@ -130,4 +130,22 @@ class Unsafe {
         UNSAFE.putInt( dst+32, UNSAFE.getInt( src+32));
     }
 
+    static final void copy16x4_9x4(long src, long dst) {
+        UNSAFE.putLong(dst,    UNSAFE.getLong(src));
+        UNSAFE.putInt( dst+8,  UNSAFE.getInt( src+8));
+        UNSAFE.putLong(dst+12, UNSAFE.getLong(src+16));
+        UNSAFE.putInt( dst+20, UNSAFE.getInt( src+24));
+        UNSAFE.putLong(dst+24, UNSAFE.getLong(src+32));
+        UNSAFE.putInt( dst+32, UNSAFE.getInt( src+40));
+    }
+
+    static final void copy9x4_16x4(long src, long dst) {
+        UNSAFE.putLong(dst,    UNSAFE.getLong(src));
+        UNSAFE.putInt( dst+8,  UNSAFE.getInt( src+8));
+        UNSAFE.putLong(dst+16, UNSAFE.getLong(src+12));
+        UNSAFE.putInt( dst+24, UNSAFE.getInt( src+20));
+        UNSAFE.putLong(dst+32, UNSAFE.getLong(src+24));
+        UNSAFE.putInt( dst+40, UNSAFE.getInt( src+32));
+    }
+
 }

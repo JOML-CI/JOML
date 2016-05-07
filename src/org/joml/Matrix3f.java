@@ -123,15 +123,7 @@ public class Matrix3f implements Externalizable {
     public Matrix3f(Matrix4f mat) {
         this.address = allocate(1);
         this.ownedMemory = address;
-        m00(mat.m00());
-        m01(mat.m01());
-        m02(mat.m02());
-        m10(mat.m10());
-        m11(mat.m11());
-        m12(mat.m12());
-        m20(mat.m20());
-        m21(mat.m21());
-        m22(mat.m22());
+        Unsafe.copy16x4_9x4(mat.address, address);
     }
 
     /**
@@ -381,15 +373,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f set(Matrix4f mat) {
-        m00(mat.m00());
-        m01(mat.m01());
-        m02(mat.m02());
-        m10(mat.m10());
-        m11(mat.m11());
-        m12(mat.m12());
-        m20(mat.m20());
-        m21(mat.m21());
-        m22(mat.m22());
+        Unsafe.copy16x4_9x4(mat.address, address);
         return this;
     }
 
@@ -526,15 +510,24 @@ public class Matrix3f implements Externalizable {
      * @return dest
      */
     public Matrix3f mul(Matrix3f right, Matrix3f dest) {
-        dest.set(m00() * right.m00() + m10() * right.m01() + m20() * right.m02(),
-                 m01() * right.m00() + m11() * right.m01() + m21() * right.m02(),
-                 m02() * right.m00() + m12() * right.m01() + m22() * right.m02(),
-                 m00() * right.m10() + m10() * right.m11() + m20() * right.m12(),
-                 m01() * right.m10() + m11() * right.m11() + m21() * right.m12(),
-                 m02() * right.m10() + m12() * right.m11() + m22() * right.m12(),
-                 m00() * right.m20() + m10() * right.m21() + m20() * right.m22(),
-                 m01() * right.m20() + m11() * right.m21() + m21() * right.m22(),
-                 m02() * right.m20() + m12() * right.m21() + m22() * right.m22());
+        float nm00 = m00() * right.m00() + m10() * right.m01() + m20() * right.m02();
+        float nm01 = m01() * right.m00() + m11() * right.m01() + m21() * right.m02();
+        float nm02 = m02() * right.m00() + m12() * right.m01() + m22() * right.m02();
+        float nm10 = m00() * right.m10() + m10() * right.m11() + m20() * right.m12();
+        float nm11 = m01() * right.m10() + m11() * right.m11() + m21() * right.m12();
+        float nm12 = m02() * right.m10() + m12() * right.m11() + m22() * right.m12();
+        float nm20 = m00() * right.m20() + m10() * right.m21() + m20() * right.m22();
+        float nm21 = m01() * right.m20() + m11() * right.m21() + m21() * right.m22();
+        float nm22 = m02() * right.m20() + m12() * right.m21() + m22() * right.m22();
+        dest.m00(nm00);
+        dest.m01(nm01);
+        dest.m02(nm02);
+        dest.m10(nm10);
+        dest.m11(nm11);
+        dest.m12(nm12);
+        dest.m20(nm20);
+        dest.m21(nm21);
+        dest.m22(nm22);
         return dest;
     }
 
