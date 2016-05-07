@@ -1,10 +1,10 @@
-# [JOML](http://joml-ci.github.io/JOML) – Java OpenGL Math Library [![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=master)](https://travis-ci.org/JOML-CI/JOML) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.joml/joml/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22joml%22)
+# [JOML](http://joml-ci.github.io/JOML) – Java OpenGL Math Library [![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=jni)](https://travis-ci.org/JOML-CI/JOML) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.joml/joml/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22joml%22)
 A Java math library for OpenGL rendering calculations
 
 Design goals
 ------------
 
-The goal of JOML is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.4 and not making use of JNI.
+The goal of JOML is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.4.
 
 If you like to know more about JOML's design, see the corresponding [Wiki page](https://github.com/JOML-CI/JOML/wiki/Design).
 
