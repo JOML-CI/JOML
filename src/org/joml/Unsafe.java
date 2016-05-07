@@ -31,12 +31,6 @@ class Unsafe {
 
     static final sun.misc.Unsafe UNSAFE = getUnsafeInstance();
 
-    private static final native long allocate();
-
-    private static final native void mulNative(long a, long b, long dest);
-
-    private static final native void invertNative(long a, long dest);
-
     private static sun.misc.Unsafe getUnsafeInstance() {
         java.lang.reflect.Field[] fields = sun.misc.Unsafe.class.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
@@ -74,8 +68,8 @@ class Unsafe {
     }
 
     static final void zero16x4(long address) {
-        UNSAFE.putLong(address, 0L);
-        UNSAFE.putLong(address+8, 0L);
+        UNSAFE.putLong(address,    0L);
+        UNSAFE.putLong(address+8,  0L);
         UNSAFE.putLong(address+16, 0L);
         UNSAFE.putLong(address+24, 0L);
         UNSAFE.putLong(address+32, 0L);
@@ -85,8 +79,8 @@ class Unsafe {
     }
 
     static final void identity16x4(long address) {
-        UNSAFE.putLong(address, 0x3F800000L);
-        UNSAFE.putLong(address+8, 0L);
+        UNSAFE.putLong(address,    0x3F800000L);
+        UNSAFE.putLong(address+8,  0L);
         UNSAFE.putLong(address+16, 0x3F80000000000000L);
         UNSAFE.putLong(address+24, 0L);
         UNSAFE.putLong(address+32, 0L);
@@ -107,16 +101,16 @@ class Unsafe {
     }
 
     static final void zero9x4(long address) {
-        UNSAFE.putLong(address, 0L);
-        UNSAFE.putLong(address+8, 0L);
+        UNSAFE.putLong(address,    0L);
+        UNSAFE.putLong(address+8,  0L);
         UNSAFE.putLong(address+16, 0L);
         UNSAFE.putLong(address+24, 0L);
         UNSAFE.putInt( address+32, 0);
     }
 
     static final void identity9x4(long address) {
-        UNSAFE.putLong(address, 0x3F800000L);
-        UNSAFE.putLong(address+8, 0L);
+        UNSAFE.putLong(address,    0x3F800000L);
+        UNSAFE.putLong(address+8,  0L);
         UNSAFE.putLong(address+16, 0x3F800000L);
         UNSAFE.putLong(address+24, 0L);
         UNSAFE.putInt( address+32, 0);
