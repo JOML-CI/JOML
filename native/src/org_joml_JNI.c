@@ -7,10 +7,10 @@
 #else
 	//  GCC Intrinsics
 	#include <cpuid.h>
-	void cpuid(int info[4], int InfoType){
+	static void cpuid(int info[4], int InfoType){
 	    __cpuid_count(InfoType, 0, info[0], info[1], info[2], info[3]);
 	}
-	uint64_t _xgetbv(unsigned int index){
+	static uint64_t _xgetbv(unsigned int index){
 	    uint32_t eax, edx;
 	    __asm__ __volatile__("xgetbv" : "=a"(eax), "=d"(edx) : "c"(index));
 	    return ((uint64_t)edx << 32) | eax;
@@ -72,3 +72,4 @@ JNIEXPORT jint JNICALL Java_org_joml_JNI_supportedExtensions(JNIEnv* env, jclass
 	}
 	return res;
 }
+
