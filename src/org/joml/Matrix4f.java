@@ -294,6 +294,20 @@ public class Matrix4f implements Externalizable {
     public static final native void invertNative(long addr, long dest);
 
     /**
+     * Invert the matrix stored at address <code>addr</code> and store the result into <code>dest</code>.
+     * <p>
+     * All addresses must be 16-byte aligned.
+     * <p>
+     * This uses AVX instructions.
+     * 
+     * @param addr
+     *          the 16-byte aligned address of the matrix to invert
+     * @param dest
+     *          the 16-byte aligned address of the destination matrix
+     */
+    public static final native void invertNativeAVX(long addr, long dest);
+
+    /**
      * Native function of {@link #rotate(float, float, float, float, Matrix4f)}.
      * 
      * @param ang
@@ -1681,7 +1695,10 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f invert(Matrix4f dest) {
-        invertNative(address, dest.address);
+        if (hasAVX)
+            invertNativeAVX(address, dest.address);
+        else
+            invertNative(address, dest.address);
         return dest;
     }
 

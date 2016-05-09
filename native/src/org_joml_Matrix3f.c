@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <stdint.h>
 
-#if _WIN32
+#ifdef _WIN32
 	#include <malloc.h>
 	JNIEXPORT jlong JNICALL Java_org_joml_Matrix3f_allocate(JNIEnv* env, jclass clazz, jint count) {
 		return (jlong)(intptr_t)_aligned_malloc((9 << 2) * count, 16);

@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <stdint.h>
 
-#if _WIN32
+#ifdef _WIN32
 	#include <intrin.h>
 	#define cpuid(info, x)  __cpuidex(info, x, 0)
 #else
