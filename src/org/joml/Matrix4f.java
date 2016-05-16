@@ -9008,6 +9008,68 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and center <tt>(centerX, centerY, centerZ)</tt>
+     * position of the arcball and the specified X and Y rotation angles, and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-centerX, -centerY, -centerZ)</tt>
+     * 
+     * @param radius
+     *          the arcball radius
+     * @param centerX
+     *          the x coordinate of the center position of the arcball
+     * @param centerY
+     *          the y coordinate of the center position of the arcball
+     * @param centerZ
+     *          the z coordinate of the center position of the arcball
+     * @param angleX
+     *          the rotation angle around the X axis in radians
+     * @param angleY
+     *          the rotation angle around the Y axis in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f arcball(float radius, float centerX, float centerY, float centerZ, float angleX, float angleY, Matrix4f dest) {
+        float m30 = m20 * -radius + this.m30;
+        float m31 = m21 * -radius + this.m31;
+        float m32 = m22 * -radius + this.m32;
+        float m33 = m23 * -radius + this.m33;
+        float cos = (float) Math.cos(angleX);
+        float sin = (float) Math.sin(angleX);
+        float nm10 = m10 * cos + m20 * sin;
+        float nm11 = m11 * cos + m21 * sin;
+        float nm12 = m12 * cos + m22 * sin;
+        float nm13 = m13 * cos + m23 * sin;
+        float m20 = m10 * -sin + this.m20 * cos;
+        float m21 = m11 * -sin + this.m21 * cos;
+        float m22 = m12 * -sin + this.m22 * cos;
+        float m23 = m13 * -sin + this.m23 * cos;
+        cos = (float) Math.cos(angleY);
+        sin = (float) Math.sin(angleY);
+        float nm00 = m00 * cos + m20 * -sin;
+        float nm01 = m01 * cos + m21 * -sin;
+        float nm02 = m02 * cos + m22 * -sin;
+        float nm03 = m03 * cos + m23 * -sin;
+        dest.m30 = nm00 * -centerX + m10 * -centerY + m20 * -centerZ + m30;
+        dest.m31 = nm01 * -centerX + m11 * -centerY + m21 * -centerZ + m31;
+        dest.m32 = nm02 * -centerX + m12 * -centerY + m22 * -centerZ + m32;
+        dest.m33 = nm03 * -centerX + m13 * -centerY + m23 * -centerZ + m33;
+        dest.m20 = m00 * sin + m20 * cos;
+        dest.m21 = m01 * sin + m21 * cos;
+        dest.m22 = m02 * sin + m22 * cos;
+        dest.m23 = m03 * sin + m23 * cos;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        return dest;
+    }
+
+    /**
      * Apply an arcball view transformation to this matrix with the given <code>radius</code> and <code>center</code>
      * position of the arcball and the specified X and Y rotation angles, and store the result in <code>dest</code>.
      * <p>
@@ -9026,7 +9088,31 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f arcball(float radius, Vector3f center, float angleX, float angleY, Matrix4f dest) {
-        return translate(0, 0, -radius, dest).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z);
+        return arcball(radius, center.x, center.y, center.z, angleX, angleY, dest);
+    }
+
+    /**
+     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and center <tt>(centerX, centerY, centerZ)</tt>
+     * position of the arcball and the specified X and Y rotation angles.
+     * <p>
+     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-centerX, -centerY, -centerZ)</tt>
+     * 
+     * @param radius
+     *          the arcball radius
+     * @param centerX
+     *          the x coordinate of the center position of the arcball
+     * @param centerY
+     *          the y coordinate of the center position of the arcball
+     * @param centerZ
+     *          the z coordinate of the center position of the arcball
+     * @param angleX
+     *          the rotation angle around the X axis in radians
+     * @param angleY
+     *          the rotation angle around the Y axis in radians
+     * @return dest
+     */
+    public Matrix4f arcball(float radius, float centerX, float centerY, float centerZ, float angleX, float angleY) {
+        return arcball(radius, centerX, centerY, centerZ, angleX, angleY, this);
     }
 
     /**
@@ -9046,7 +9132,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f arcball(float radius, Vector3f center, float angleX, float angleY) {
-        return arcball(radius, center, angleX, angleY, this);
+        return arcball(radius, center.x, center.y, center.z, angleX, angleY, this);
     }
 
     /**
