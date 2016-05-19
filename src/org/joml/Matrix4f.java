@@ -6382,7 +6382,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Set this matrix to be a "lookat" transformation for a left-handed coordinate system, that aligns
-     * <code>-z</code> with <code>center - eye</code>.
+     * <code>+z</code> with <code>center - eye</code>.
      * <p>
      * In order to not make use of vectors to specify <code>eye</code>, <code>center</code> and <code>up</code> but use primitives,
      * like in the GLU function, use {@link #setLookAtLH(float, float, float, float, float, float, float, float, float) setLookAtLH()}
@@ -6408,7 +6408,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Set this matrix to be a "lookat" transformation for a left-handed coordinate system, 
-     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * that aligns <code>+z</code> with <code>center - eye</code>.
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
      * use {@link #lookAtLH(float, float, float, float, float, float, float, float, float) lookAtLH}.
@@ -6486,7 +6486,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Apply a "lookat" transformation to this matrix for a left-handed coordinate system, 
-     * that aligns <code>-z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
+     * that aligns <code>+z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -6514,7 +6514,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Apply a "lookat" transformation to this matrix for a left-handed coordinate system, 
-     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * that aligns <code>+z</code> with <code>center - eye</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -6540,7 +6540,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Apply a "lookat" transformation to this matrix for a left-handed coordinate system, 
-     * that aligns <code>-z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
+     * that aligns <code>+z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -6651,7 +6651,7 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Apply a "lookat" transformation to this matrix for a left-handed coordinate system, 
-     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * that aligns <code>+z</code> with <code>center - eye</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
