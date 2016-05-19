@@ -8029,7 +8029,318 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply a symmetric perspective projection frustum transformation using the given NDC z range to this matrix and store the result in <code>dest</code>.
+     * Set this matrix to be a "lookat" transformation for a left-handed coordinate system, that aligns
+     * <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * In order to not make use of vectors to specify <code>eye</code>, <code>center</code> and <code>up</code> but use primitives,
+     * like in the GLU function, use {@link #setLookAtLH(double, double, double, double, double, double, double, double, double) setLookAtLH()}
+     * instead.
+     * <p>
+     * In order to apply the lookat transformation to a previous existing transformation,
+     * use {@link #lookAtLH(Vector3d, Vector3d, Vector3d) lookAt()}.
+     * 
+     * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
+     * @see #lookAtLH(Vector3d, Vector3d, Vector3d)
+     * 
+     * @param eye
+     *            the position of the camera
+     * @param center
+     *            the point in space to look at
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix4d setLookAtLH(Vector3d eye, Vector3d center, Vector3d up) {
+        return setLookAtLH(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Set this matrix to be a "lookat" transformation for a left-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * In order to apply the lookat transformation to a previous existing transformation,
+     * use {@link #lookAtLH(double, double, double, double, double, double, double, double, double) lookAtLH}.
+     * 
+     * @see #setLookAtLH(Vector3d, Vector3d, Vector3d)
+     * @see #lookAtLH(double, double, double, double, double, double, double, double, double)
+     * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
+     * @return this
+     */
+    public Matrix4d setLookAtLH(double eyeX, double eyeY, double eyeZ,
+                                double centerX, double centerY, double centerZ,
+                                double upX, double upY, double upZ) {
+        // Compute direction from position to lookAt
+        double dirX, dirY, dirZ;
+        dirX = centerX - eyeX;
+        dirY = centerY - eyeY;
+        dirZ = centerZ - eyeZ;
+        // Normalize direction
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
+        // left = up x direction
+        double leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        double invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        double upnX = dirY * leftZ - dirZ * leftY;
+        double upnY = dirZ * leftX - dirX * leftZ;
+        double upnZ = dirX * leftY - dirY * leftX;
+
+        m00 = leftX;
+        m01 = upnX;
+        m02 = dirX;
+        m03 = 0.0;
+        m10 = leftY;
+        m11 = upnY;
+        m12 = dirY;
+        m13 = 0.0;
+        m20 = leftZ;
+        m21 = upnZ;
+        m22 = dirZ;
+        m23 = 0.0;
+        m30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
+        m31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+        m32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
+        m33 = 1.0;
+
+        return this;
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a left-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAtLH(Vector3d, Vector3d, Vector3d)}.
+     * 
+     * @see #lookAtLH(double, double, double, double, double, double, double, double, double)
+     * 
+     * @param eye
+     *            the position of the camera
+     * @param center
+     *            the point in space to look at
+     * @param up
+     *            the direction of 'up'
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d lookAtLH(Vector3d eye, Vector3d center, Vector3d up, Matrix4d dest) {
+        return lookAtLH(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a left-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAtLH(Vector3d, Vector3d, Vector3d)}.
+     * 
+     * @see #lookAtLH(double, double, double, double, double, double, double, double, double)
+     * 
+     * @param eye
+     *            the position of the camera
+     * @param center
+     *            the point in space to look at
+     * @param up
+     *            the direction of 'up'
+     * @return this
+     */
+    public Matrix4d lookAtLH(Vector3d eye, Vector3d center, Vector3d up) {
+        return lookAtLH(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, this);
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a left-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAtLH(double, double, double, double, double, double, double, double, double) setLookAtLH()}.
+     * 
+     * @see #lookAtLH(Vector3d, Vector3d, Vector3d)
+     * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
+     * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4d lookAtLH(double eyeX, double eyeY, double eyeZ,
+                             double centerX, double centerY, double centerZ,
+                             double upX, double upY, double upZ, Matrix4d dest) {
+        // Compute direction from position to lookAt
+        double dirX, dirY, dirZ;
+        dirX = centerX - eyeX;
+        dirY = centerY - eyeY;
+        dirZ = centerZ - eyeZ;
+        // Normalize direction
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
+        // left = up x direction
+        double leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        double invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        double upnX = dirY * leftZ - dirZ * leftY;
+        double upnY = dirZ * leftX - dirX * leftZ;
+        double upnZ = dirX * leftY - dirY * leftX;
+
+        // calculate right matrix elements
+        double rm00 = leftX;
+        double rm01 = upnX;
+        double rm02 = dirX;
+        double rm10 = leftY;
+        double rm11 = upnY;
+        double rm12 = dirY;
+        double rm20 = leftZ;
+        double rm21 = upnZ;
+        double rm22 = dirZ;
+        double rm30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
+        double rm31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+        double rm32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
+
+        // perform optimized matrix multiplication
+        // compute last column first, because others do not depend on it
+        dest.m30 = m00 * rm30 + m10 * rm31 + m20 * rm32 + m30;
+        dest.m31 = m01 * rm30 + m11 * rm31 + m21 * rm32 + m31;
+        dest.m32 = m02 * rm30 + m12 * rm31 + m22 * rm32 + m32;
+        dest.m33 = m03 * rm30 + m13 * rm31 + m23 * rm32 + m33;
+        // introduce temporaries for dependent results
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        // set the rest of the matrix elements
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+
+        return dest;
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a left-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAtLH(double, double, double, double, double, double, double, double, double) setLookAtLH()}.
+     * 
+     * @see #lookAtLH(Vector3d, Vector3d, Vector3d)
+     * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
+     * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
+     * @return this
+     */
+    public Matrix4d lookAtLH(double eyeX, double eyeY, double eyeZ,
+                             double centerX, double centerY, double centerZ,
+                             double upX, double upY, double upZ) {
+        return lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -8037,9 +8348,9 @@ public class Matrix4d implements Externalizable {
      * the perspective projection will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setPerspective(double, double, double, double) setPerspective}.
+     * use {@link #setPerspective(double, double, double, double, boolean) setPerspective}.
      * 
-     * @see #setPerspective(double, double, double, double)
+     * @see #setPerspective(double, double, double, double, boolean)
      * 
      * @param fovy
      *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
@@ -8059,7 +8370,7 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-        double h = Math.tan(fovy * 0.5);
+        double h = Math.tan(fovy * 0.5f);
 
         // calculate right matrix elements
         double rm00 = 1.0 / (h * aspect);
@@ -8107,7 +8418,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply a symmetric perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * Apply a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -8138,7 +8450,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply a symmetric perspective projection frustum transformation using the given NDC z range to this matrix.
+     * Apply a symmetric perspective projection frustum transformation using for a right-handed coordinate system
+     * the given NDC z range to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -8170,7 +8483,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply a symmetric perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * Apply a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -8199,7 +8513,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set this matrix to be a symmetric perspective projection frustum transformation using the given NDC z range.
+     * Set this matrix to be a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range.
      * <p>
      * In order to apply the perspective projection transformation to an existing transformation,
      * use {@link #perspective(double, double, double, double, boolean) perspective()}.
@@ -8222,7 +8537,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setPerspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
-        double h = Math.tan(fovy * 0.5);
+        double h = Math.tan(fovy * 0.5f);
         m00 = 1.0 / (h * aspect);
         m01 = 0.0;
         m02 = 0.0;
@@ -8256,7 +8571,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set this matrix to be a symmetric perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * Set this matrix to be a symmetric perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * In order to apply the perspective projection transformation to an existing transformation,
      * use {@link #perspective(double, double, double, double) perspective()}.
@@ -8280,8 +8596,133 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply an arbitrary perspective projection frustum transformation using the given NDC z range to this matrix 
-     * and store the result in <code>dest</code>.
+     * Apply a symmetric perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveLH(double, double, double, double) setPerspectiveLH}.
+     * 
+     * @see #setPerspectiveLH(double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
+        double h = Math.tan(fovy * 0.5f);
+        // calculate right matrix elements
+        double rm00 = 1.0 / (h * aspect);
+        double rm11 = 1.0 / h;
+        double rm22 = (zFar + zNear) / (zFar - zNear);
+        double rm32 = -2 * zFar * zNear / (zFar - zNear);
+        // perform optimized matrix multiplication
+        double nm20 = m20 * rm22 + m30;
+        double nm21 = m21 * rm22 + m31;
+        double nm22 = m22 * rm22 + m32;
+        double nm23 = m23 * rm22 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m30 = m20 * rm32;
+        dest.m31 = m21 * rm32;
+        dest.m32 = m22 * rm32;
+        dest.m33 = m23 * rm32;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        return dest;
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveLH(double, double, double, double) setPerspectiveLH}.
+     * 
+     * @see #setPerspectiveLH(double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar) {
+        return perspectiveLH(fovy, aspect, zNear, zFar, this);
+    }
+
+    /**
+     * Set this matrix to be a symmetric perspective projection frustum transformation for a left-handed coordiante system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspectiveLH(double, double, double, double) perspectiveLH()}.
+     * 
+     * @see #perspectiveLH(double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4d setPerspectiveLH(double fovy, double aspect, double zNear, double zFar) {
+        double h = Math.tan(fovy * 0.5f);
+        m00 = 1.0 / (h * aspect);
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0 / h;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        m22 = (zFar + zNear) / (zFar - zNear);
+        m32 = -2 * zFar * zNear / (zFar - zNear);
+        m23 = 1.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m33 = 0.0;
+        return this;
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
      * then the new matrix will be <code>M * F</code>. So when transforming a
@@ -8369,8 +8810,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply an arbitrary perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix 
-     * and store the result in <code>dest</code>.
+     * Apply an arbitrary perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
      * then the new matrix will be <code>M * F</code>. So when transforming a
@@ -8407,7 +8848,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply an arbitrary perspective projection frustum transformation using the given NDC z range to this matrix.
+     * Apply an arbitrary perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
      * then the new matrix will be <code>M * F</code>. So when transforming a
@@ -8445,7 +8887,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply an arbitrary perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * Apply an arbitrary perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
      * then the new matrix will be <code>M * F</code>. So when transforming a
@@ -8480,7 +8923,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set this matrix to be an arbitrary perspective projection frustum transformation using the given NDC z range.
+     * Set this matrix to be an arbitrary perspective projection frustum transformation for a right-handed coordinate system
+     * using the given NDC z range.
      * <p>
      * In order to apply the perspective frustum transformation to an existing transformation,
      * use {@link #frustum(double, double, double, double, double, double, boolean) frustum()}.
@@ -8542,7 +8986,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set this matrix to be an arbitrary perspective projection frustum transformation using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * Set this matrix to be an arbitrary perspective projection frustum transformation for a right-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
      * <p>
      * In order to apply the perspective frustum transformation to an existing transformation,
      * use {@link #frustum(double, double, double, double, double, double) frustum()}.
@@ -9784,8 +10229,8 @@ public class Matrix4d implements Externalizable {
         double m31 = m21 * -radius + this.m31;
         double m32 = m22 * -radius + this.m32;
         double m33 = m23 * -radius + this.m33;
-        double cos = (double) Math.cos(angleX);
-        double sin = (double) Math.sin(angleX);
+        double cos = Math.cos(angleX);
+        double sin = Math.sin(angleX);
         double nm10 = m10 * cos + m20 * sin;
         double nm11 = m11 * cos + m21 * sin;
         double nm12 = m12 * cos + m22 * sin;
@@ -9794,8 +10239,8 @@ public class Matrix4d implements Externalizable {
         double m21 = this.m21 * cos - m11 * sin;
         double m22 = this.m22 * cos - m12 * sin;
         double m23 = this.m23 * cos - m13 * sin;
-        cos = (double) Math.cos(angleY);
-        sin = (double) Math.sin(angleY);
+        cos = Math.cos(angleY);
+        sin = Math.sin(angleY);
         double nm00 = m00 * cos - m20 * sin;
         double nm01 = m01 * cos - m21 * sin;
         double nm02 = m02 * cos - m22 * sin;
