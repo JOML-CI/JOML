@@ -8627,7 +8627,7 @@ public class Matrix4d implements Externalizable {
         double rm00 = 1.0 / (h * aspect);
         double rm11 = 1.0 / h;
         double rm22 = (zFar + zNear) / (zFar - zNear);
-        double rm32 = -2 * zFar * zNear / (zFar - zNear);
+        double rm32 = (zFar + zFar) * zNear / (zNear - zFar);
         // perform optimized matrix multiplication
         double nm20 = m20 * rm22 + m30;
         double nm21 = m21 * rm22 + m31;
@@ -8712,7 +8712,7 @@ public class Matrix4d implements Externalizable {
         m20 = 0.0;
         m21 = 0.0;
         m22 = (zFar + zNear) / (zFar - zNear);
-        m32 = -2 * zFar * zNear / (zFar - zNear);
+        m32 = (zFar + zFar) * zNear / (zNear - zFar);
         m23 = 1.0;
         m30 = 0.0;
         m31 = 0.0;
