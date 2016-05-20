@@ -7521,6 +7521,153 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply an arbitrary perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustumLH(float, float, float, float, float, float) setFrustumLH()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustumLH(float, float, float, float, float, float)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f frustumLH(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest) {
+        // calculate right matrix elements
+        float rm00 = (zNear + zNear) / (right - left);
+        float rm11 = (zNear + zNear) / (top - bottom);
+        float rm20 = (right + left) / (right - left);
+        float rm21 = (top + bottom) / (top - bottom);
+        float rm22 = (zFar + zNear) / (zFar - zNear);
+        float rm32 = (zFar + zFar) * zNear / (zNear - zFar);
+        // perform optimized matrix multiplication
+        float nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 + m30;
+        float nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 + m31;
+        float nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 + m32;
+        float nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m30 = m20 * rm32;
+        dest.m31 = m21 * rm32;
+        dest.m32 = m22 * rm32;
+        dest.m33 = m23 * rm32;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustumLH(float, float, float, float, float, float) setFrustumLH()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustumLH(float, float, float, float, float, float)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4f frustumLH(float left, float right, float bottom, float top, float zNear, float zFar) {
+        return frustumLH(left, right, bottom, top, zNear, zFar, this);
+    }
+
+    /**
+     * Set this matrix to be an arbitrary perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * <p>
+     * In order to apply the perspective frustum transformation to an existing transformation,
+     * use {@link #frustumLH(float, float, float, float, float, float) frustumLH()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #frustumLH(float, float, float, float, float, float)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4f setFrustumLH(float left, float right, float bottom, float top, float zNear, float zFar) {
+        m00 = (zNear + zNear) / (right - left);
+        m01 = 0.0f;
+        m02 = 0.0f;
+        m03 = 0.0f;
+        m10 = 0.0f;
+        m11 = (zNear + zNear) / (top - bottom);
+        m12 = 0.0f;
+        m13 = 0.0f;
+        m20 = (right + left) / (right - left);
+        m21 = (top + bottom) / (top - bottom);
+        m22 = (zFar + zNear) / (zFar - zNear);
+        m32 = (zFar + zFar) * zNear / (zNear - zFar);
+        m23 = 1.0f;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m33 = 0.0f;
+        return this;
+    }
+
+    /**
      * Apply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
      * <p>

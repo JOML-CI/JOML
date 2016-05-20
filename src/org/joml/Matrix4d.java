@@ -9233,6 +9233,153 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Apply an arbitrary perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustumLH(double, double, double, double, double, double) setFrustumLH()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustumLH(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
+        // calculate right matrix elements
+        double rm00 = (zNear + zNear) / (right - left);
+        double rm11 = (zNear + zNear) / (top - bottom);
+        double rm20 = (right + left) / (right - left);
+        double rm21 = (top + bottom) / (top - bottom);
+        double rm22 = (zFar + zNear) / (zFar - zNear);
+        double rm32 = (zFar + zFar) * zNear / (zNear - zFar);
+        // perform optimized matrix multiplication
+        double nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 + m30;
+        double nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 + m31;
+        double nm22 = m02 * rm20 + m12 * rm21 + m22 * rm22 + m32;
+        double nm23 = m03 * rm20 + m13 * rm21 + m23 * rm22 + m33;
+        dest.m00 = m00 * rm00;
+        dest.m01 = m01 * rm00;
+        dest.m02 = m02 * rm00;
+        dest.m03 = m03 * rm00;
+        dest.m10 = m10 * rm11;
+        dest.m11 = m11 * rm11;
+        dest.m12 = m12 * rm11;
+        dest.m13 = m13 * rm11;
+        dest.m30 = m20 * rm32;
+        dest.m31 = m21 * rm32;
+        dest.m32 = m22 * rm32;
+        dest.m33 = m23 * rm32;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustumLH(double, double, double, double, double, double) setFrustumLH()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustumLH(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar) {
+        return frustumLH(left, right, bottom, top, zNear, zFar, this);
+    }
+
+    /**
+     * Set this matrix to be an arbitrary perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * <p>
+     * In order to apply the perspective frustum transformation to an existing transformation,
+     * use {@link #frustumLH(double, double, double, double, double, double) frustumLH()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #frustumLH(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance
+     * @param zFar
+     *            far clipping plane distance
+     * @return this
+     */
+    public Matrix4d setFrustumLH(double left, double right, double bottom, double top, double zNear, double zFar) {
+        m00 = (zNear + zNear) / (right - left);
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = (zNear + zNear) / (top - bottom);
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = (right + left) / (right - left);
+        m21 = (top + bottom) / (top - bottom);
+        m22 = (zFar + zNear) / (zFar - zNear);
+        m32 = (zFar + zFar) * zNear / (zNear - zFar);
+        m23 = 1.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m33 = 0.0;
+        return this;
+    }
+
+    /**
      * Calculate a frustum plane of the this matrix, which
      * can be a projection matrix or a combined modelview-projection matrix, and store the result
      * in the given <code>planeEquation</code>.
