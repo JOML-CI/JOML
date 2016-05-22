@@ -8813,7 +8813,7 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Apply a symmetric perspective projection frustum transformation for a left-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using the given NDC z range to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
      * then the new matrix will be <code>M * P</code>. So when transforming a
@@ -8830,20 +8830,40 @@ public class Matrix4d implements Externalizable {
      * @param aspect
      *            the aspect ratio (i.e. width / height; must be greater than zero)
      * @param zNear
-     *            near clipping plane distance
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
      * @param dest
      *            will hold the result
      * @return dest
      */
-    public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
-        double h = Math.tan(fovy * 0.5f);
+    public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        double h = (double) Math.tan(fovy * 0.5f);
         // calculate right matrix elements
         double rm00 = 1.0 / (h * aspect);
         double rm11 = 1.0 / h;
-        double rm22 = (zFar + zNear) / (zFar - zNear);
-        double rm32 = (zFar + zFar) * zNear / (zNear - zFar);
+        double rm22;
+        double rm32;
+        boolean farInf = zFar > 0 && Double.isInfinite(zFar);
+        boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            double e = 1E-6;
+            rm22 = 1.0 - e;
+            rm32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
+        } else if (nearInf) {
+            double e = 1E-6;
+            rm22 = (zZeroToOne ? 0.0 : 1.0) - e;
+            rm32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
+        } else {
+            rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
+            rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
         // perform optimized matrix multiplication
         double nm20 = m20 * rm22 + m30;
         double nm21 = m21 * rm22 + m31;
@@ -8870,6 +8890,71 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Apply a symmetric perspective projection frustum transformation for a left-handed coordinate system
+     * using the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveLH(double, double, double, double, boolean) setPerspectiveLH}.
+     * 
+     * @see #setPerspectiveLH(double, double, double, double, boolean)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
+        return perspectiveLH(fovy, aspect, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
+     * then the new matrix will be <code>M * P</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * P * v</code>,
+     * the perspective projection will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setPerspectiveLH(double, double, double, double) setPerspectiveLH}.
+     * 
+     * @see #setPerspectiveLH(double, double, double, double)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
+        return perspectiveLH(fovy, aspect, zNear, zFar, false, dest);
+    }
+
+    /**
+     * Apply a symmetric perspective projection frustum transformation for a left-handed coordinate system
      * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>P</code> the perspective projection matrix,
@@ -8887,13 +8972,73 @@ public class Matrix4d implements Externalizable {
      * @param aspect
      *            the aspect ratio (i.e. width / height; must be greater than zero)
      * @param zNear
-     *            near clipping plane distance
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @return this
      */
     public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar) {
         return perspectiveLH(fovy, aspect, zNear, zFar, this);
+    }
+
+    /**
+     * Set this matrix to be a symmetric perspective projection frustum transformation for a left-handed coordinate system
+     * using the given NDC z range of <tt>[-1..+1]</tt>.
+     * <p>
+     * In order to apply the perspective projection transformation to an existing transformation,
+     * use {@link #perspectiveLH(double, double, double, double, boolean) perspectiveLH()}.
+     * 
+     * @see #perspectiveLH(double, double, double, double, boolean)
+     * 
+     * @param fovy
+     *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
+     * @param aspect
+     *            the aspect ratio (i.e. width / height; must be greater than zero)
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d setPerspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
+        double h = (double) Math.tan(fovy * 0.5f);
+        m00 = 1.0 / (h * aspect);
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0 / h;
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
+        boolean farInf = zFar > 0 && Double.isInfinite(zFar);
+        boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            double e = 1E-6;
+            m22 = 1.0 - e;
+            m32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
+        } else if (nearInf) {
+            double e = 1E-6;
+            m22 = (zZeroToOne ? 0.0 : 1.0) - e;
+            m32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
+        } else {
+            m22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
+            m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
+        m23 = 1.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m33 = 0.0;
+        return this;
     }
 
     /**
@@ -8910,30 +9055,15 @@ public class Matrix4d implements Externalizable {
      * @param aspect
      *            the aspect ratio (i.e. width / height; must be greater than zero)
      * @param zNear
-     *            near clipping plane distance
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @return this
      */
     public Matrix4d setPerspectiveLH(double fovy, double aspect, double zNear, double zFar) {
-        double h = Math.tan(fovy * 0.5f);
-        m00 = 1.0 / (h * aspect);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
-        m11 = 1.0 / h;
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
-        m22 = (zFar + zNear) / (zFar - zNear);
-        m32 = (zFar + zFar) * zNear / (zNear - zFar);
-        m23 = 1.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m33 = 0.0;
-        return this;
+        return setPerspectiveLH(fovy, aspect, zNear, zFar, false);
     }
 
     /**
@@ -9234,7 +9364,7 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Apply an arbitrary perspective projection frustum transformation for a left-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
+     * using the given NDC z range to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
      * then the new matrix will be <code>M * F</code>. So when transforming a
@@ -9242,11 +9372,11 @@ public class Matrix4d implements Externalizable {
      * the frustum transformation will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setFrustumLH(double, double, double, double, double, double) setFrustumLH()}.
+     * use {@link #setFrustumLH(double, double, double, double, double, double, boolean) setFrustumLH()}.
      * <p>
      * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
      * 
-     * @see #setFrustumLH(double, double, double, double, double, double)
+     * @see #setFrustumLH(double, double, double, double, double, double, boolean)
      * 
      * @param left
      *            the distance along the x-axis to the left frustum edge
@@ -9257,21 +9387,41 @@ public class Matrix4d implements Externalizable {
      * @param top
      *            the distance along the y-axis to the top frustum edge
      * @param zNear
-     *            near clipping plane distance
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
      * @param dest
      *            will hold the result
      * @return dest
      */
-    public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
+    public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         // calculate right matrix elements
         double rm00 = (zNear + zNear) / (right - left);
         double rm11 = (zNear + zNear) / (top - bottom);
         double rm20 = (right + left) / (right - left);
         double rm21 = (top + bottom) / (top - bottom);
-        double rm22 = (zFar + zNear) / (zFar - zNear);
-        double rm32 = (zFar + zFar) * zNear / (zNear - zFar);
+        double rm22;
+        double rm32;
+        boolean farInf = zFar > 0 && Double.isInfinite(zFar);
+        boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            double e = 1E-6;
+            rm22 = 1.0 - e;
+            rm32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
+        } else if (nearInf) {
+            double e = 1E-6;
+            rm22 = (zZeroToOne ? 0.0 : 1.0) - e;
+            rm32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
+        } else {
+            rm22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
+            rm32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
         // perform optimized matrix multiplication
         double nm20 = m00 * rm20 + m10 * rm21 + m20 * rm22 + m30;
         double nm21 = m01 * rm20 + m11 * rm21 + m21 * rm22 + m31;
@@ -9302,7 +9452,46 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Apply an arbitrary perspective projection frustum transformation for a left-handed coordinate system
-     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix.
+     * using the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustumLH(double, double, double, double, double, double, boolean) setFrustumLH()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustumLH(double, double, double, double, double, double, boolean)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        return frustumLH(left, right, bottom, top, zNear, zFar, zZeroToOne, this);
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt> to this matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
      * then the new matrix will be <code>M * F</code>. So when transforming a
@@ -9325,13 +9514,116 @@ public class Matrix4d implements Externalizable {
      * @param top
      *            the distance along the y-axis to the top frustum edge
      * @param zNear
-     *            near clipping plane distance
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
+        return frustumLH(left, right, bottom, top, zNear, zFar, false, dest);
+    }
+
+    /**
+     * Apply an arbitrary perspective projection frustum transformation for a left-handed coordinate system
+     * using the given NDC z range to this matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>F</code> the frustum matrix,
+     * then the new matrix will be <code>M * F</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * F * v</code>,
+     * the frustum transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a perspective frustum transformation without post-multiplying,
+     * use {@link #setFrustumLH(double, double, double, double, double, double) setFrustumLH()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #setFrustumLH(double, double, double, double, double, double)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @return this
      */
     public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar) {
         return frustumLH(left, right, bottom, top, zNear, zFar, this);
+    }
+
+    /**
+     * Set this matrix to be an arbitrary perspective projection frustum transformation for a left-handed coordinate system
+     * using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * <p>
+     * In order to apply the perspective frustum transformation to an existing transformation,
+     * use {@link #frustumLH(double, double, double, double, double, double, boolean) frustumLH()}.
+     * <p>
+     * Reference: <a href="http://www.songho.ca/opengl/gl_projectionmatrix.html#perspective">http://www.songho.ca</a>
+     * 
+     * @see #frustumLH(double, double, double, double, double, double, boolean)
+     * 
+     * @param left
+     *            the distance along the x-axis to the left frustum edge
+     * @param right
+     *            the distance along the x-axis to the right frustum edge
+     * @param bottom
+     *            the distance along the y-axis to the bottom frustum edge
+     * @param top
+     *            the distance along the y-axis to the top frustum edge
+     * @param zNear
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zFar
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
+     * @param zZeroToOne
+     *            whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *            or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
+     * @return this
+     */
+    public Matrix4d setFrustumLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne) {
+        m00 = (zNear + zNear) / (right - left);
+        m01 = 0.0;
+        m02 = 0.0;
+        m03 = 0.0;
+        m10 = 0.0;
+        m11 = (zNear + zNear) / (top - bottom);
+        m12 = 0.0;
+        m13 = 0.0;
+        m20 = (right + left) / (right - left);
+        m21 = (top + bottom) / (top - bottom);
+        boolean farInf = zFar > 0 && Double.isInfinite(zFar);
+        boolean nearInf = zNear > 0 && Double.isInfinite(zNear);
+        if (farInf) {
+            // See: "Infinite Projection Matrix" (http://www.terathon.com/gdc07_lengyel.pdf)
+            double e = 1E-6;
+            m22 = 1.0 - e;
+            m32 = (e - (zZeroToOne ? 1.0 : 2.0)) * zNear;
+        } else if (nearInf) {
+            double e = 1E-6;
+            m22 = (zZeroToOne ? 0.0 : 1.0) - e;
+            m32 = ((zZeroToOne ? 1.0 : 2.0) - e) * zFar;
+        } else {
+            m22 = (zZeroToOne ? zFar : zFar + zNear) / (zFar - zNear);
+            m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
+        }
+        m23 = 1.0;
+        m30 = 0.0;
+        m31 = 0.0;
+        m33 = 0.0;
+        return this;
     }
 
     /**
@@ -9354,29 +9646,15 @@ public class Matrix4d implements Externalizable {
      * @param top
      *            the distance along the y-axis to the top frustum edge
      * @param zNear
-     *            near clipping plane distance
+     *            near clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the near clipping plane will be at positive infinity.
+     *            In that case, <code>zFar</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @param zFar
-     *            far clipping plane distance
+     *            far clipping plane distance. If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *            In that case, <code>zNear</code> may not also be {@link Double#POSITIVE_INFINITY}.
      * @return this
      */
     public Matrix4d setFrustumLH(double left, double right, double bottom, double top, double zNear, double zFar) {
-        m00 = (zNear + zNear) / (right - left);
-        m01 = 0.0;
-        m02 = 0.0;
-        m03 = 0.0;
-        m10 = 0.0;
-        m11 = (zNear + zNear) / (top - bottom);
-        m12 = 0.0;
-        m13 = 0.0;
-        m20 = (right + left) / (right - left);
-        m21 = (top + bottom) / (top - bottom);
-        m22 = (zFar + zNear) / (zFar - zNear);
-        m32 = (zFar + zFar) * zNear / (zNear - zFar);
-        m23 = 1.0;
-        m30 = 0.0;
-        m31 = 0.0;
-        m33 = 0.0;
-        return this;
+        return setFrustumLH(left, right, bottom, top, zNear, zFar, false);
     }
 
     /**
