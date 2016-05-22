@@ -8586,7 +8586,7 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-        double h = Math.tan(fovy * 0.5f);
+        double h = Math.tan(fovy * 0.5);
 
         // calculate right matrix elements
         double rm00 = 1.0 / (h * aspect);
@@ -8753,7 +8753,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setPerspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
-        double h = Math.tan(fovy * 0.5f);
+        double h = Math.tan(fovy * 0.5);
         m00 = 1.0 / (h * aspect);
         m01 = 0.0;
         m02 = 0.0;
@@ -8821,9 +8821,9 @@ public class Matrix4d implements Externalizable {
      * the perspective projection will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setPerspectiveLH(double, double, double, double) setPerspectiveLH}.
+     * use {@link #setPerspectiveLH(double, double, double, double, boolean) setPerspectiveLH}.
      * 
-     * @see #setPerspectiveLH(double, double, double, double)
+     * @see #setPerspectiveLH(double, double, double, double, boolean)
      * 
      * @param fovy
      *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
@@ -8843,7 +8843,7 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-        double h = (double) Math.tan(fovy * 0.5f);
+        double h = Math.tan(fovy * 0.5);
         // calculate right matrix elements
         double rm00 = 1.0 / (h * aspect);
         double rm11 = 1.0 / h;
@@ -9008,7 +9008,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d setPerspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne) {
-        double h = (double) Math.tan(fovy * 0.5f);
+        double h = Math.tan(fovy * 0.5);
         m00 = 1.0 / (h * aspect);
         m01 = 0.0;
         m02 = 0.0;

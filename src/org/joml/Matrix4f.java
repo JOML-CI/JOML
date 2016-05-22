@@ -7109,9 +7109,9 @@ public class Matrix4f implements Externalizable {
      * the perspective projection will be applied first!
      * <p>
      * In order to set the matrix to a perspective frustum transformation without post-multiplying,
-     * use {@link #setPerspectiveLH(float, float, float, float) setPerspectiveLH}.
+     * use {@link #setPerspectiveLH(float, float, float, float, boolean) setPerspectiveLH}.
      * 
-     * @see #setPerspectiveLH(float, float, float, float)
+     * @see #setPerspectiveLH(float, float, float, float, boolean)
      * 
      * @param fovy
      *            the vertical field of view in radians (must be greater than zero and less than {@link Math#PI PI})
