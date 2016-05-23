@@ -82,11 +82,11 @@ The above transformation can then be used as a "view-projection" matrix in a sha
 
 By convention, the methods `perspective()` and `lookAt()` will assume a right-handed coordinate system. This convention was established for OpenGL and first realized in the OpenGL Utility Library (GLU). JOML follows this convention.
 
-In addition, JOML also supports a left-handed coordinate system, as is used by Direct3D's matrix library. To use a left-handed coordinate system, there are the `perspectiveLH()` and `lookAtLH()`, as well as others, whose names end with `LH`, as shown in the following code snippet:
+In addition, JOML also supports a left-handed coordinate system, as is used by Direct3D's matrix library. To use a left-handed coordinate system, there are the methods `perspectiveLH()` and `lookAtLH()`, as well as others, whose names end with `LH`:
 ```Java
 Matrix4f m = new Matrix4f()
      .perspectiveLH((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
-     .lookAtLH(0.0f, 0.0f, 10.0f,
+     .lookAtLH(0.0f, 0.0f, -10.0f,
                0.0f, 0.0f, 0.0f,
                0.0f, 1.0f, 0.0f);
 ```
