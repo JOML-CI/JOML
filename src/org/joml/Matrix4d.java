@@ -3758,7 +3758,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Set the upper 3x3 matrix of this {@link Matrix4d} to the given {@link Matrix3d} and don't change the other elements..
+     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3d} and don't change the other elements..
      * 
      * @param mat
      *          the 3x3 matrix

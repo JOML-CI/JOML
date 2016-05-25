@@ -1024,7 +1024,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Multiply this matrix the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
      * <p>
      * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
@@ -3770,7 +3770,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and don't change the other elements..
+     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} and don't change the other elements..
      * 
      * @param mat
      *          the 3x3 matrix
