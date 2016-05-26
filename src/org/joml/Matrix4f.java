@@ -5516,6 +5516,138 @@ public class Matrix4f implements Externalizable {
         return this;
     }
 
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x, y and z.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(Vector3f)}.
+     * 
+     * @see #translation(Vector3f)
+     * 
+     * @param offset
+     *          the number of units in x, y and z by which to translate
+     * @return this
+     */
+    public Matrix4f translateLocal(Vector3f offset) {
+        return translateLocal(offset.x, offset.y, offset.z);
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x, y and z and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(Vector3f)}.
+     * 
+     * @see #translation(Vector3f)
+     * 
+     * @param offset
+     *          the number of units in x, y and z by which to translate
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f translateLocal(Vector3f offset, Matrix4f dest) {
+        return translateLocal(offset.x, offset.y, offset.z, dest);
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x, y and z and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(float, float, float)}.
+     * 
+     * @see #translation(float, float, float)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param z
+     *          the offset to translate in z
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f translateLocal(float x, float y, float z, Matrix4f dest) {
+        float nm00 = m00 + x * m03;
+        float nm01 = m01 + y * m03;
+        float nm02 = m02 + z * m03;
+        float nm03 = m03;
+        float nm10 = m10 + x * m13;
+        float nm11 = m11 + y * m13;
+        float nm12 = m12 + z * m13;
+        float nm13 = m13;
+        float nm20 = m20 + x * m23;
+        float nm21 = m21 + y * m23;
+        float nm22 = m22 + z * m23;
+        float nm23 = m23;
+        float nm30 = m30 + x * m33;
+        float nm31 = m31 + y * m33;
+        float nm32 = m32 + z * m33;
+        float nm33 = m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x, y and z.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without post-multiplying
+     * it, use {@link #translation(float, float, float)}.
+     * 
+     * @see #translation(float, float, float)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param z
+     *          the offset to translate in z
+     * @return this
+     */
+    public Matrix4f translateLocal(float x, float y, float z) {
+        return translateLocal(x, y, z, this);
+    }
+
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeFloat(m00);
         out.writeFloat(m01);
