@@ -5525,7 +5525,7 @@ public class Matrix4f implements Externalizable {
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
-     * In order to set the matrix to a translation transformation without post-multiplying
+     * In order to set the matrix to a translation transformation without pre-multiplying
      * it, use {@link #translation(Vector3f)}.
      * 
      * @see #translation(Vector3f)
@@ -5547,7 +5547,7 @@ public class Matrix4f implements Externalizable {
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
-     * In order to set the matrix to a translation transformation without post-multiplying
+     * In order to set the matrix to a translation transformation without pre-multiplying
      * it, use {@link #translation(Vector3f)}.
      * 
      * @see #translation(Vector3f)
@@ -5571,7 +5571,7 @@ public class Matrix4f implements Externalizable {
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
-     * In order to set the matrix to a translation transformation without post-multiplying
+     * In order to set the matrix to a translation transformation without pre-multiplying
      * it, use {@link #translation(float, float, float)}.
      * 
      * @see #translation(float, float, float)
@@ -5631,7 +5631,7 @@ public class Matrix4f implements Externalizable {
      * transforming a vector <code>v</code> with the new matrix by using
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
-     * In order to set the matrix to a translation transformation without post-multiplying
+     * In order to set the matrix to a translation transformation without pre-multiplying
      * it, use {@link #translation(float, float, float)}.
      * 
      * @see #translation(float, float, float)
