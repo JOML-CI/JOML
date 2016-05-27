@@ -4169,6 +4169,82 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Pre-multiply scaling to the this matrix by scaling the base axes by the given x,
+     * y and z factors and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
+     * , the scaling will be applied last!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f scaleLocal(float x, float y, float z, Matrix4f dest) {
+        float nm00 = x * m00;
+        float nm01 = y * m01;
+        float nm02 = z * m02;
+        float nm03 = m03;
+        float nm10 = x * m10;
+        float nm11 = y * m11;
+        float nm12 = z * m12;
+        float nm13 = m13;
+        float nm20 = x * m20;
+        float nm21 = y * m21;
+        float nm22 = z * m22;
+        float nm23 = m23;
+        float nm30 = x * m30;
+        float nm31 = y * m31;
+        float nm32 = z * m32;
+        float nm33 = m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling the base axes by the given x,
+     * y and z factors.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @return this
+     */
+    public Matrix4f scaleLocal(float x, float y, float z) {
+        return scaleLocal(x, y, z, this);
+    }
+
+    /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
