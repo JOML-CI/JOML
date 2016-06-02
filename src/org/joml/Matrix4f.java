@@ -8921,7 +8921,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
      * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
-     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()} can be invoked on it.
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInv(float, float, float, int[], Vector3f) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(float, float, float, int[], Vector3f)
      * @see #invert(Matrix4f)
@@ -9037,6 +9037,113 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Unproject the given 2D window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at window <tt>z = 0.0</tt> and goes through window <tt>z = 1.0</tt>.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of window <tt>z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInvRay(float, float, int[], Vector3f, Vector3f) unprojectInv()} can be invoked on it.
+     * 
+     * @see #unprojectInvRay(float, float, int[], Vector3f, Vector3f)
+     * @see #invert(Matrix4f)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
+     */
+    public Matrix4f unprojectRay(float winX, float winY, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        float a = m00 * m11 - m01 * m10;
+        float b = m00 * m12 - m02 * m10;
+        float c = m00 * m13 - m03 * m10;
+        float d = m01 * m12 - m02 * m11;
+        float e = m01 * m13 - m03 * m11;
+        float f = m02 * m13 - m03 * m12;
+        float g = m20 * m31 - m21 * m30;
+        float h = m20 * m32 - m22 * m30;
+        float i = m20 * m33 - m23 * m30;
+        float j = m21 * m32 - m22 * m31;
+        float k = m21 * m33 - m23 * m31;
+        float l = m22 * m33 - m23 * m32;
+        float det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0f / det;
+        float im00 = ( m11 * l - m12 * k + m13 * j) * det;
+        float im01 = (-m01 * l + m02 * k - m03 * j) * det;
+        float im02 = ( m31 * f - m32 * e + m33 * d) * det;
+        float im03 = (-m21 * f + m22 * e - m23 * d) * det;
+        float im10 = (-m10 * l + m12 * i - m13 * h) * det;
+        float im11 = ( m00 * l - m02 * i + m03 * h) * det;
+        float im12 = (-m30 * f + m32 * c - m33 * b) * det;
+        float im13 = ( m20 * f - m22 * c + m23 * b) * det;
+        float im20 = ( m10 * k - m11 * i + m13 * g) * det;
+        float im21 = (-m00 * k + m01 * i - m03 * g) * det;
+        float im22 = ( m30 * e - m31 * c + m33 * a) * det;
+        float im23 = (-m20 * e + m21 * c - m23 * a) * det;
+        float im30 = (-m10 * j + m11 * h - m12 * g) * det;
+        float im31 = ( m00 * j - m01 * h + m02 * g) * det;
+        float im32 = (-m30 * d + m31 * b - m32 * a) * det;
+        float im33 = ( m20 * d - m21 * b + m22 * a) * det;
+        float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
+        float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
+        float nearX = im00 * ndcX + im10 * ndcY - im20 + im30;
+        float nearY = im01 * ndcX + im11 * ndcY - im21 + im31;
+        float nearZ = im02 * ndcX + im12 * ndcY - im22 + im32;
+        float invNearW = 1.0f / (im03 * ndcX + im13 * ndcY - im23 + im33);
+        nearX *= invNearW; nearY *= invNearW; nearZ *= invNearW;
+        float farX = im00 * ndcX + im10 * ndcY + im20 + im30;
+        float farY = im01 * ndcX + im11 * ndcY + im21 + im31;
+        float farZ = im02 * ndcX + im12 * ndcY + im22 + im32;
+        float invFarW = 1.0f / (im03 * ndcX + im13 * ndcY + im23 + im33);
+        farX *= invFarW; farY *= invFarW; farZ *= invFarW;
+        originDest.x = nearX; originDest.y = nearY; originDest.z = nearZ;
+        dirDest.x = farX - nearX; dirDest.y = farY - nearY; dirDest.z = farZ - nearZ;
+        return this;
+    }
+
+    /**
+     * Unproject the given 2D window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at window <tt>z = 0.0</tt> and goes through window <tt>z = 1.0</tt>.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of window <tt>z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInvRay(float, float, int[], Vector3f, Vector3f) unprojectInvRay()} can be invoked on it.
+     * 
+     * @see #unprojectInvRay(float, float, int[], Vector3f, Vector3f)
+     * @see #unprojectRay(float, float, int[], Vector3f, Vector3f)
+     * @see #invert(Matrix4f)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
+     */
+    public Matrix4f unprojectRay(Vector2f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        return unprojectRay(winCoords.x, winCoords.y, viewport, originDest, dirDest);
+    }
+
+    /**
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
      * <p>
      * This method differs from {@link #unproject(Vector3f, int[], Vector4f) unproject()} 
@@ -9095,6 +9202,74 @@ public class Matrix4f implements Externalizable {
         dest.w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
         dest.div(dest.w);
         return dest;
+    }
+
+    /**
+     * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at window <tt>z = 0.0</tt> and goes through window <tt>z = 1.0</tt>.
+     * <p>
+     * This method differs from {@link #unprojectRay(Vector2f, int[], Vector3f, Vector3f) unprojectRay()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * The depth range of window <tt>z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unprojectRay(Vector2f, int[], Vector3f, Vector3f)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
+     */
+    public Matrix4f unprojectInvRay(Vector3f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        return unprojectInvRay(winCoords.x, winCoords.y, viewport, originDest, dirDest);
+    }
+
+    /**
+     * Unproject the given 2D window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at window <tt>z = 0.0</tt> and goes through window <tt>z = 1.0</tt>.
+     * <p>
+     * This method differs from {@link #unprojectRay(float, float, int[], Vector3f, Vector3f) unprojectRay()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * The depth range of window <tt>z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unprojectRay(float, float, int[], Vector3f, Vector3f)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
+     */
+    public Matrix4f unprojectInvRay(float winX, float winY, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
+        float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
+        float nearX = m00 * ndcX + m10 * ndcY - m20 + m30;
+        float nearY = m01 * ndcX + m11 * ndcY - m21 + m31;
+        float nearZ = m02 * ndcX + m12 * ndcY - m22 + m32;
+        float invNearW = 1.0f / (m03 * ndcX + m13 * ndcY - m23 + m33);
+        nearX *= invNearW; nearY *= invNearW; nearZ *= invNearW;
+        float farX = m00 * ndcX + m10 * ndcY + m20 + m30;
+        float farY = m01 * ndcX + m11 * ndcY + m21 + m31;
+        float farZ = m02 * ndcX + m12 * ndcY + m22 + m32;
+        float invFarW = 1.0f / (m03 * ndcX + m13 * ndcY + m23 + m33);
+        farX *= invFarW; farY *= invFarW; farZ *= invFarW;
+        originDest.x = nearX; originDest.y = nearY; originDest.z = nearZ;
+        dirDest.x = farX - nearX; dirDest.y = farY - nearY; dirDest.z = farZ - nearZ;
+        return this;
     }
 
     /**
