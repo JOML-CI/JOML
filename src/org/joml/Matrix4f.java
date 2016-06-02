@@ -9226,7 +9226,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the (unnormalized) ray direction
      * @return this
      */
-    public Matrix4f unprojectInvRay(Vector3f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+    public Matrix4f unprojectInvRay(Vector2f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
         return unprojectInvRay(winCoords.x, winCoords.y, viewport, originDest, dirDest);
     }
 
