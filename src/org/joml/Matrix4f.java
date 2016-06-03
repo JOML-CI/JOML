@@ -865,7 +865,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Multiply this matrix the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
+     * Multiply this matrix by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
      * <p>
      * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
@@ -3496,7 +3496,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set the upper 3x3 matrix of this {@link Matrix4f} to the given {@link Matrix3f} and don't change the other elements..
+     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} and don't change the other elements..
      * 
      * @param mat
      *          the 3x3 matrix
@@ -3892,6 +3892,82 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f scale(float x, float y, float z) {
         return scale(x, y, z, this);
+    }
+
+    /**
+     * Pre-multiply scaling to the this matrix by scaling the base axes by the given x,
+     * y and z factors and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
+     * , the scaling will be applied last!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f scaleLocal(float x, float y, float z, Matrix4f dest) {
+        float nm00 = x * m00;
+        float nm01 = y * m01;
+        float nm02 = z * m02;
+        float nm03 = m03;
+        float nm10 = x * m10;
+        float nm11 = y * m11;
+        float nm12 = z * m12;
+        float nm13 = m13;
+        float nm20 = x * m20;
+        float nm21 = y * m21;
+        float nm22 = z * m22;
+        float nm23 = m23;
+        float nm30 = x * m30;
+        float nm31 = y * m31;
+        float nm32 = z * m32;
+        float nm33 = m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling the base axes by the given x,
+     * y and z factors.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @return this
+     */
+    public Matrix4f scaleLocal(float x, float y, float z) {
+        return scaleLocal(x, y, z, this);
     }
 
     /**
@@ -4871,6 +4947,249 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply rotation to this {@link #isAffine() affine} matrix by rotating the given amount of radians
+     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation matrix without post-multiplying the rotation
+     * transformation, use {@link #rotation(float, float, float, float) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(float, float, float, float)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateAffine(float ang, float x, float y, float z, Matrix4f dest) {
+        float s = (float) Math.sin(ang);
+        float c = (float) Math.cos(ang);
+        float C = 1.0f - c;
+        float xx = x * x, xy = x * y, xz = x * z;
+        float yy = y * y, yz = y * z;
+        float zz = z * z;
+        float rm00 = xx * C + c;
+        float rm01 = xy * C + z * s;
+        float rm02 = xz * C - y * s;
+        float rm10 = xy * C - z * s;
+        float rm11 = yy * C + c;
+        float rm12 = yz * C + x * s;
+        float rm20 = xz * C + y * s;
+        float rm21 = yz * C - x * s;
+        float rm22 = zz * C + c;
+        // add temporaries for dependent values
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        // set non-dependent values directly
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = 0.0f;
+        // set other values
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = 0.0f;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = 0.0f;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        return dest;
+    }
+
+    /**
+     * Apply rotation to this {@link #isAffine() affine} matrix by rotating the given amount of radians
+     * about the specified <tt>(x, y, z)</tt> axis.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation matrix without post-multiplying the rotation
+     * transformation, use {@link #rotation(float, float, float, float) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(float, float, float, float)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @return this
+     */
+    public Matrix4f rotateAffine(float ang, float x, float y, float z) {
+        return rotateAffine(ang, x, y, z, this);
+    }
+
+    /**
+     * Pre-multiply a rotation to this {@link #isAffine() affine} matrix by rotating the given amount of radians
+     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotation(float, float, float, float) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(float, float, float, float)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateAffineLocal(float ang, float x, float y, float z, Matrix4f dest) {
+        float s = (float) Math.sin(ang);
+        float c = (float) Math.cos(ang);
+        float C = 1.0f - c;
+        float xx = x * x, xy = x * y, xz = x * z;
+        float yy = y * y, yz = y * z;
+        float zz = z * z;
+        float lm00 = xx * C + c;
+        float lm01 = xy * C + z * s;
+        float lm02 = xz * C - y * s;
+        float lm10 = xy * C - z * s;
+        float lm11 = yy * C + c;
+        float lm12 = yz * C + x * s;
+        float lm20 = xz * C + y * s;
+        float lm21 = yz * C - x * s;
+        float lm22 = zz * C + c;
+        float nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
+        float nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
+        float nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
+        float nm03 = 0.0f;
+        float nm10 = lm00 * m10 + lm10 * m11 + lm20 * m12;
+        float nm11 = lm01 * m10 + lm11 * m11 + lm21 * m12;
+        float nm12 = lm02 * m10 + lm12 * m11 + lm22 * m12;
+        float nm13 = 0.0f;
+        float nm20 = lm00 * m20 + lm10 * m21 + lm20 * m22;
+        float nm21 = lm01 * m20 + lm11 * m21 + lm21 * m22;
+        float nm22 = lm02 * m20 + lm12 * m21 + lm22 * m22;
+        float nm23 = 0.0f;
+        float nm30 = lm00 * m30 + lm10 * m31 + lm20 * m32;
+        float nm31 = lm01 * m30 + lm11 * m31 + lm21 * m32;
+        float nm32 = lm02 * m30 + lm12 * m31 + lm22 * m32;
+        float nm33 = 1.0f;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a rotation to this {@link #isAffine() affine} matrix by rotating the given amount of radians
+     * about the specified <tt>(x, y, z)</tt> axis.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotation(float, float, float, float) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(float, float, float, float)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @return this
+     */
+    public Matrix4f rotateAffineLocal(float ang, float x, float y, float z) {
+        return rotateAffineLocal(ang, x, y, z, this);
+    }
+
+    /**
      * Apply a translation to this matrix by translating by the given number of
      * units in x, y and z.
      * <p>
@@ -4997,6 +5316,138 @@ public class Matrix4f implements Externalizable {
         c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
         c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
         return this;
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x, y and z.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without pre-multiplying
+     * it, use {@link #translation(Vector3f)}.
+     * 
+     * @see #translation(Vector3f)
+     * 
+     * @param offset
+     *          the number of units in x, y and z by which to translate
+     * @return this
+     */
+    public Matrix4f translateLocal(Vector3f offset) {
+        return translateLocal(offset.x, offset.y, offset.z);
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x, y and z and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without pre-multiplying
+     * it, use {@link #translation(Vector3f)}.
+     * 
+     * @see #translation(Vector3f)
+     * 
+     * @param offset
+     *          the number of units in x, y and z by which to translate
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f translateLocal(Vector3f offset, Matrix4f dest) {
+        return translateLocal(offset.x, offset.y, offset.z, dest);
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x, y and z and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without pre-multiplying
+     * it, use {@link #translation(float, float, float)}.
+     * 
+     * @see #translation(float, float, float)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param z
+     *          the offset to translate in z
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f translateLocal(float x, float y, float z, Matrix4f dest) {
+        float nm00 = m00 + x * m03;
+        float nm01 = m01 + y * m03;
+        float nm02 = m02 + z * m03;
+        float nm03 = m03;
+        float nm10 = m10 + x * m13;
+        float nm11 = m11 + y * m13;
+        float nm12 = m12 + z * m13;
+        float nm13 = m13;
+        float nm20 = m20 + x * m23;
+        float nm21 = m21 + y * m23;
+        float nm22 = m22 + z * m23;
+        float nm23 = m23;
+        float nm30 = m30 + x * m33;
+        float nm31 = m31 + y * m33;
+        float nm32 = m32 + z * m33;
+        float nm33 = m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x, y and z.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without pre-multiplying
+     * it, use {@link #translation(float, float, float)}.
+     * 
+     * @see #translation(float, float, float)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param z
+     *          the offset to translate in z
+     * @return this
+     */
+    public Matrix4f translateLocal(float x, float y, float z) {
+        return translateLocal(x, y, z, this);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -7777,6 +8228,227 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply the rotation transformation of the given {@link Quaternionf} to this {@link #isAffine() affine} matrix and store
+     * the result in <code>dest</code>.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaternionf)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternionf)
+     * 
+     * @param quat
+     *          the {@link Quaternionf}
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateAffine(Quaternionf quat, Matrix4f dest) {
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
+
+        float rm00 = 1.0f - q11 - q22;
+        float rm01 = q01 + q23;
+        float rm02 = q02 - q13;
+        float rm10 = q01 - q23;
+        float rm11 = 1.0f - q22 - q00;
+        float rm12 = q12 + q03;
+        float rm20 = q02 + q13;
+        float rm21 = q12 - q03;
+        float rm22 = 1.0f - q11 - q00;
+
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = 0.0f;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = 0.0f;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = 0.0f;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+
+        return dest;
+    }
+
+    /**
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaternionf)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternionf)
+     * 
+     * @param quat
+     *          the {@link Quaternionf}
+     * @return this
+     */
+    public Matrix4f rotateAffine(Quaternionf quat) {
+        return rotateAffine(quat, this);
+    }
+
+    /**
+     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this {@link #isAffine() affine} matrix and store
+     * the result in <code>dest</code>.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>Q * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>Q * M * v</code>,
+     * the quaternion rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation transformation without pre-multiplying,
+     * use {@link #rotation(Quaternionf)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternionf)
+     * 
+     * @param quat
+     *          the {@link Quaternionf}
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateAffineLocal(Quaternionf quat, Matrix4f dest) {
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
+        float lm00 = 1.0f - q11 - q22;
+        float lm01 = q01 + q23;
+        float lm02 = q02 - q13;
+        float lm10 = q01 - q23;
+        float lm11 = 1.0f - q22 - q00;
+        float lm12 = q12 + q03;
+        float lm20 = q02 + q13;
+        float lm21 = q12 - q03;
+        float lm22 = 1.0f - q11 - q00;
+        float nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
+        float nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
+        float nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
+        float nm03 = 0.0f;
+        float nm10 = lm00 * m10 + lm10 * m11 + lm20 * m12;
+        float nm11 = lm01 * m10 + lm11 * m11 + lm21 * m12;
+        float nm12 = lm02 * m10 + lm12 * m11 + lm22 * m12;
+        float nm13 = 0.0f;
+        float nm20 = lm00 * m20 + lm10 * m21 + lm20 * m22;
+        float nm21 = lm01 * m20 + lm11 * m21 + lm21 * m22;
+        float nm22 = lm02 * m20 + lm12 * m21 + lm22 * m22;
+        float nm23 = 0.0f;
+        float nm30 = lm00 * m30 + lm10 * m31 + lm20 * m32;
+        float nm31 = lm01 * m30 + lm11 * m31 + lm21 * m32;
+        float nm32 = lm02 * m30 + lm12 * m31 + lm22 * m32;
+        float nm33 = 1.0f;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>Q * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>Q * M * v</code>,
+     * the quaternion rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation transformation without pre-multiplying,
+     * use {@link #rotation(Quaternionf)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternionf)
+     * 
+     * @param quat
+     *          the {@link Quaternionf}
+     * @return this
+     */
+    public Matrix4f rotateAffineLocal(Quaternionf quat) {
+        return rotateAffineLocal(quat, this);
+    }
+
+    /**
      * Apply a rotation transformation, rotating the given radians about the specified axis, to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate vector 
@@ -7917,7 +8589,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
      * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
-     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInv(float, float, float, int[], Vector4f) unprojectInv()} can be invoked on it.
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInv(float, float, float, int[], Vector3f) unprojectInv()} can be invoked on it.
      * 
      * @see #unprojectInv(float, float, float, int[], Vector3f)
      * @see #invert(Matrix4f)
@@ -8033,6 +8705,82 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Unproject the given 2D window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at window <tt>z = 0.0</tt> and goes through window <tt>z = 1.0</tt>.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of window <tt>z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInvRay(float, float, int[], Vector3f, Vector3f) unprojectInv()} can be invoked on it.
+     * 
+     * @see #unprojectInvRay(float, float, int[], Vector3f, Vector3f)
+     * @see #invert(Matrix4f)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
+     */
+    public Matrix4f unprojectRay(float winX, float winY, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        float a = m00 * m11 - m01 * m10;
+        float b = m00 * m12 - m02 * m10;
+        float c = m00 * m13 - m03 * m10;
+        float d = m01 * m12 - m02 * m11;
+        float e = m01 * m13 - m03 * m11;
+        float f = m02 * m13 - m03 * m12;
+        float g = m20 * m31 - m21 * m30;
+        float h = m20 * m32 - m22 * m30;
+        float i = m20 * m33 - m23 * m30;
+        float j = m21 * m32 - m22 * m31;
+        float k = m21 * m33 - m23 * m31;
+        float l = m22 * m33 - m23 * m32;
+        float det = a * l - b * k + c * j + d * i - e * h + f * g;
+        det = 1.0f / det;
+        float im00 = ( m11 * l - m12 * k + m13 * j) * det;
+        float im01 = (-m01 * l + m02 * k - m03 * j) * det;
+        float im02 = ( m31 * f - m32 * e + m33 * d) * det;
+        float im03 = (-m21 * f + m22 * e - m23 * d) * det;
+        float im10 = (-m10 * l + m12 * i - m13 * h) * det;
+        float im11 = ( m00 * l - m02 * i + m03 * h) * det;
+        float im12 = (-m30 * f + m32 * c - m33 * b) * det;
+        float im13 = ( m20 * f - m22 * c + m23 * b) * det;
+        float im20 = ( m10 * k - m11 * i + m13 * g) * det;
+        float im21 = (-m00 * k + m01 * i - m03 * g) * det;
+        float im22 = ( m30 * e - m31 * c + m33 * a) * det;
+        float im23 = (-m20 * e + m21 * c - m23 * a) * det;
+        float im30 = (-m10 * j + m11 * h - m12 * g) * det;
+        float im31 = ( m00 * j - m01 * h + m02 * g) * det;
+        float im32 = (-m30 * d + m31 * b - m32 * a) * det;
+        float im33 = ( m20 * d - m21 * b + m22 * a) * det;
+        float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
+        float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
+        float nearX = im00 * ndcX + im10 * ndcY - im20 + im30;
+        float nearY = im01 * ndcX + im11 * ndcY - im21 + im31;
+        float nearZ = im02 * ndcX + im12 * ndcY - im22 + im32;
+        float invNearW = 1.0f / (im03 * ndcX + im13 * ndcY - im23 + im33);
+        nearX *= invNearW; nearY *= invNearW; nearZ *= invNearW;
+        float farX = im00 * ndcX + im10 * ndcY + im20 + im30;
+        float farY = im01 * ndcX + im11 * ndcY + im21 + im31;
+        float farZ = im02 * ndcX + im12 * ndcY + im22 + im32;
+        float invFarW = 1.0f / (im03 * ndcX + im13 * ndcY + im23 + im33);
+        farX *= invFarW; farY *= invFarW; farZ *= invFarW;
+        originDest.x = nearX; originDest.y = nearY; originDest.z = nearZ;
+        dirDest.x = farX - nearX; dirDest.y = farY - nearY; dirDest.z = farZ - nearZ;
+        return this;
+    }
+
+    /**
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
      * <p>
      * This method differs from {@link #unproject(Vector3f, int[], Vector4f) unproject()} 
@@ -8091,6 +8839,48 @@ public class Matrix4f implements Externalizable {
         dest.w = m03 * ndcX + m13 * ndcY + m23 * ndcZ + m33;
         dest.div(dest.w);
         return dest;
+    }
+
+    /**
+     * Unproject the given 2D window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at window <tt>z = 0.0</tt> and goes through window <tt>z = 1.0</tt>.
+     * <p>
+     * This method differs from {@link #unprojectRay(float, float, int[], Vector3f, Vector3f) unprojectRay()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * The depth range of window <tt>z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unprojectRay(float, float, int[], Vector3f, Vector3f)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
+     */
+    public Matrix4f unprojectInvRay(float winX, float winY, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
+        float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
+        float nearX = m00 * ndcX + m10 * ndcY - m20 + m30;
+        float nearY = m01 * ndcX + m11 * ndcY - m21 + m31;
+        float nearZ = m02 * ndcX + m12 * ndcY - m22 + m32;
+        float invNearW = 1.0f / (m03 * ndcX + m13 * ndcY - m23 + m33);
+        nearX *= invNearW; nearY *= invNearW; nearZ *= invNearW;
+        float farX = m00 * ndcX + m10 * ndcY + m20 + m30;
+        float farY = m01 * ndcX + m11 * ndcY + m21 + m31;
+        float farZ = m02 * ndcX + m12 * ndcY + m22 + m32;
+        float invFarW = 1.0f / (m03 * ndcX + m13 * ndcY + m23 + m33);
+        farX *= invFarW; farY *= invFarW; farZ *= invFarW;
+        originDest.x = nearX; originDest.y = nearY; originDest.z = nearZ;
+        dirDest.x = farX - nearX; dirDest.y = farY - nearY; dirDest.z = farZ - nearZ;
+        return this;
     }
 
     /**
