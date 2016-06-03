@@ -1472,6 +1472,68 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Pre-multiply scaling to the this matrix by scaling the base axes by the given x,
+     * y and z factors and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
+     * , the scaling will be applied last!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3d scaleLocal(double x, double y, double z, Matrix3d dest) {
+        double nm00 = x * m00;
+        double nm01 = y * m01;
+        double nm02 = z * m02;
+        double nm10 = x * m10;
+        double nm11 = y * m11;
+        double nm12 = z * m12;
+        double nm20 = x * m20;
+        double nm21 = y * m21;
+        double nm22 = z * m22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling the base axes by the given x,
+     * y and z factors.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @return this
+     */
+    public Matrix3d scaleLocal(double x, double y, double z) {
+        return scaleLocal(x, y, z, this);
+    }
+
+    /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * The resulting matrix can be multiplied against another transformation
@@ -2452,6 +2514,305 @@ public class Matrix3d implements Externalizable {
         dest.m12 = nm12;
 
         return dest;
+    }
+
+    /**
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians
+     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotation(double, double, double, double) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(double, double, double, double)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3d rotateLocal(double ang, double x, double y, double z, Matrix3d dest) {
+        double s = Math.sin(ang);
+        double c = Math.cos(ang);
+        double C = 1.0 - c;
+        double xx = x * x, xy = x * y, xz = x * z;
+        double yy = y * y, yz = y * z;
+        double zz = z * z;
+        double lm00 = xx * C + c;
+        double lm01 = xy * C + z * s;
+        double lm02 = xz * C - y * s;
+        double lm10 = xy * C - z * s;
+        double lm11 = yy * C + c;
+        double lm12 = yz * C + x * s;
+        double lm20 = xz * C + y * s;
+        double lm21 = yz * C - x * s;
+        double lm22 = zz * C + c;
+        double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
+        double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
+        double nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
+        double nm10 = lm00 * m10 + lm10 * m11 + lm20 * m12;
+        double nm11 = lm01 * m10 + lm11 * m11 + lm21 * m12;
+        double nm12 = lm02 * m10 + lm12 * m11 + lm22 * m12;
+        double nm20 = lm00 * m20 + lm10 * m21 + lm20 * m22;
+        double nm21 = lm01 * m20 + lm11 * m21 + lm21 * m22;
+        double nm22 = lm02 * m20 + lm12 * m21 + lm22 * m22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians
+     * about the specified <tt>(x, y, z)</tt> axis.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotation(double, double, double, double) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(double, double, double, double)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @return this
+     */
+    public Matrix3d rotateLocal(double ang, double x, double y, double z) {
+        return rotateLocal(ang, x, y, z, this);
+    }
+
+    /**
+     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix and store
+     * the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>Q * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>Q * M * v</code>,
+     * the quaternion rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation transformation without pre-multiplying,
+     * use {@link #rotation(Quaterniond)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaterniond)
+     * 
+     * @param quat
+     *          the {@link Quaterniond}
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3d rotateLocal(Quaterniond quat, Matrix3d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
+        double lm00 = 1.0 - q11 - q22;
+        double lm01 = q01 + q23;
+        double lm02 = q02 - q13;
+        double lm10 = q01 - q23;
+        double lm11 = 1.0 - q22 - q00;
+        double lm12 = q12 + q03;
+        double lm20 = q02 + q13;
+        double lm21 = q12 - q03;
+        double lm22 = 1.0 - q11 - q00;
+        double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
+        double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
+        double nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
+        double nm10 = lm00 * m10 + lm10 * m11 + lm20 * m12;
+        double nm11 = lm01 * m10 + lm11 * m11 + lm21 * m12;
+        double nm12 = lm02 * m10 + lm12 * m11 + lm22 * m12;
+        double nm20 = lm00 * m20 + lm10 * m21 + lm20 * m22;
+        double nm21 = lm01 * m20 + lm11 * m21 + lm21 * m22;
+        double nm22 = lm02 * m20 + lm12 * m21 + lm22 * m22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>Q * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>Q * M * v</code>,
+     * the quaternion rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation transformation without pre-multiplying,
+     * use {@link #rotation(Quaterniond)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaterniond)
+     * 
+     * @param quat
+     *          the {@link Quaterniond}
+     * @return this
+     */
+    public Matrix3d rotateLocal(Quaterniond quat) {
+        return rotateLocal(quat, this);
+    }
+
+    /**
+     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix and store
+     * the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>Q * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>Q * M * v</code>,
+     * the quaternion rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation transformation without pre-multiplying,
+     * use {@link #rotation(Quaternionf)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternionf)
+     * 
+     * @param quat
+     *          the {@link Quaternionf}
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3d rotateLocal(Quaternionf quat, Matrix3d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
+        double lm00 = 1.0 - q11 - q22;
+        double lm01 = q01 + q23;
+        double lm02 = q02 - q13;
+        double lm10 = q01 - q23;
+        double lm11 = 1.0 - q22 - q00;
+        double lm12 = q12 + q03;
+        double lm20 = q02 + q13;
+        double lm21 = q12 - q03;
+        double lm22 = 1.0 - q11 - q00;
+        double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
+        double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
+        double nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
+        double nm10 = lm00 * m10 + lm10 * m11 + lm20 * m12;
+        double nm11 = lm01 * m10 + lm11 * m11 + lm21 * m12;
+        double nm12 = lm02 * m10 + lm12 * m11 + lm22 * m12;
+        double nm20 = lm00 * m20 + lm10 * m21 + lm20 * m22;
+        double nm21 = lm01 * m20 + lm11 * m21 + lm21 * m22;
+        double nm22 = lm02 * m20 + lm12 * m21 + lm22 * m22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>Q * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>Q * M * v</code>,
+     * the quaternion rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation transformation without pre-multiplying,
+     * use {@link #rotation(Quaternionf)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternionf)
+     * 
+     * @param quat
+     *          the {@link Quaternionf}
+     * @return this
+     */
+    public Matrix3d rotateLocal(Quaternionf quat) {
+        return rotateLocal(quat, this);
     }
 
     /**
