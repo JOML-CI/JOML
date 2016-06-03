@@ -80,6 +80,17 @@ Matrix4f m = new Matrix4f()
 ```
 The above transformation can then be used as a "view-projection" matrix in a shader.
 
+By convention, the methods `perspective()` and `lookAt()` will assume a right-handed coordinate system. This convention was established for OpenGL and first realized in the OpenGL Utility Library (GLU). JOML follows this convention.
+
+In addition, JOML also supports a left-handed coordinate system, as is used by Direct3D's matrix library. To use a left-handed coordinate system, there are the methods `perspectiveLH()` and `lookAtLH()`, as well as others, whose names end with `LH`:
+```Java
+Matrix4f m = new Matrix4f()
+     .perspectiveLH((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
+     .lookAtLH(0.0f, 0.0f, -10.0f,
+               0.0f, 0.0f, 0.0f,
+               0.0f, 1.0f, 0.0f);
+```
+
 Computation result
 ------------------
 Usually, instance methods operate on the object (matrix, vector, quaternion) on which they are invoked by writing the computation result back into that object. Most of the methods however also allow to specify another destination object to write the result into. This is useful if you do not want to overwrite the original object with the computation result.

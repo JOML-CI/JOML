@@ -8706,12 +8706,10 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Unproject the given 2D window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport
-     * and compute the origin and the direction of the resulting ray which starts at window <tt>z = 0.0</tt> and goes through window <tt>z = 1.0</tt>.
+     * and compute the origin and the direction of the resulting ray which starts at NDC <tt>z = -1.0</tt> and goes through NDC <tt>z = +1.0</tt>.
      * <p>
      * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
      * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
-     * <p>
-     * The depth range of window <tt>z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
      * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
@@ -8843,13 +8841,11 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Unproject the given 2D window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport
-     * and compute the origin and the direction of the resulting ray which starts at window <tt>z = 0.0</tt> and goes through window <tt>z = 1.0</tt>.
+     * and compute the origin and the direction of the resulting ray which starts at NDC <tt>z = -1.0</tt> and goes through NDC <tt>z = +1.0</tt>.
      * <p>
      * This method differs from {@link #unprojectRay(float, float, int[], Vector3f, Vector3f) unprojectRay()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
-     * <p>
-     * The depth range of window <tt>z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * 
      * @see #unprojectRay(float, float, int[], Vector3f, Vector3f)
      * 
