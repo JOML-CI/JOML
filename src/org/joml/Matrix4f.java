@@ -2857,7 +2857,9 @@ public class Matrix4f implements Externalizable {
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * The axis described by the <code>axis</code> vector needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -2882,7 +2884,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Set this matrix to a rotation transformation using the given {@link AxisAngle4f}.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -2909,7 +2911,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -2960,7 +2962,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Set this matrix to a rotation transformation about the X axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3007,7 +3009,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Set this matrix to a rotation transformation about the Y axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3054,7 +3056,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Set this matrix to a rotation transformation about the Z axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3102,7 +3104,7 @@ public class Matrix4f implements Externalizable {
      * Set this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
      * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3161,7 +3163,7 @@ public class Matrix4f implements Externalizable {
      * Set this matrix to a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
      * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3220,7 +3222,7 @@ public class Matrix4f implements Externalizable {
      * Set this matrix to a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
      * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3279,7 +3281,7 @@ public class Matrix4f implements Externalizable {
      * Set only the upper left 3x3 submatrix of this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
      * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * 
@@ -3328,7 +3330,7 @@ public class Matrix4f implements Externalizable {
      * Set only the upper left 3x3 submatrix of this matrix to a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
      * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * 
@@ -3377,7 +3379,7 @@ public class Matrix4f implements Externalizable {
      * Set only the upper left 3x3 submatrix of this matrix to a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
      * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * 
@@ -3425,7 +3427,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3485,7 +3487,7 @@ public class Matrix4f implements Externalizable {
      * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
      * at last the translation.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3559,7 +3561,7 @@ public class Matrix4f implements Externalizable {
      * When transforming a vector by the resulting matrix the scaling transformation will be applied first, then the rotation and
      * at last the translation.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3590,7 +3592,7 @@ public class Matrix4f implements Externalizable {
      * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
      * at last the translation.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3685,7 +3687,7 @@ public class Matrix4f implements Externalizable {
      * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
      * at last the translation.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -3718,7 +3720,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4248,9 +4250,9 @@ public class Matrix4f implements Externalizable {
      * Apply rotation about the X axis to this matrix by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
-     * When used with a left-handed coordinate system, the rotation is clockwise. 
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -4314,7 +4316,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of radians.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4337,7 +4339,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation about the Y axis to this matrix by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4403,7 +4405,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Apply rotation about the Y axis to this matrix by rotating the given amount of radians.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4426,7 +4428,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation about the Z axis to this matrix by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4492,7 +4494,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Apply rotation about the Z axis to this matrix by rotating the given amount of radians.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4515,7 +4517,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4542,7 +4544,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4613,7 +4615,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4643,7 +4645,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4712,7 +4714,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4739,7 +4741,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4810,7 +4812,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4838,7 +4840,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4907,7 +4909,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -4934,7 +4936,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -5005,7 +5007,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -5033,7 +5035,7 @@ public class Matrix4f implements Externalizable {
      * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -5104,7 +5106,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -5190,7 +5192,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -5228,7 +5230,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -5308,7 +5310,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -5346,7 +5348,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -5433,7 +5435,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8400,7 +8402,7 @@ public class Matrix4f implements Externalizable {
      * Apply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8477,7 +8479,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8507,7 +8509,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8584,7 +8586,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8614,7 +8616,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8698,7 +8700,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8725,7 +8727,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Apply a rotation transformation, rotating about the given {@link AxisAngle4f}, to this matrix.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8753,7 +8755,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Apply a rotation transformation, rotating about the given {@link AxisAngle4f} and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8783,7 +8785,9 @@ public class Matrix4f implements Externalizable {
     /**
      * Apply a rotation transformation, rotating the given radians about the specified axis, to this matrix.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * The axis described by the <code>axis</code> vector needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -8813,7 +8817,9 @@ public class Matrix4f implements Externalizable {
     /**
      * Apply a rotation transformation, rotating the given radians about the specified axis and store the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * The axis described by the <code>axis</code> vector needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>

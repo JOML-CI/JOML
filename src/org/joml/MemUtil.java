@@ -878,7 +878,7 @@ abstract class MemUtil {
         }
 
         final void put(Matrix4f m, int offset, FloatBuffer dest) {
-            put(m, addressOf(dest) + offset * 4);
+            put(m, addressOf(dest) + (offset << 2));
         }
 
         final void put(Matrix4f m, int offset, ByteBuffer dest) {
@@ -886,7 +886,7 @@ abstract class MemUtil {
         }
 
         final void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
-            putTransposed(m, addressOf(dest) + offset * 4);
+            putTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         final void putTransposed(Matrix4f m, int offset, ByteBuffer dest) {
@@ -894,7 +894,7 @@ abstract class MemUtil {
         }
 
         final void put(Matrix4d m, int offset, DoubleBuffer dest) {
-            put(m, addressOf(dest) + offset * 8);
+            put(m, addressOf(dest) + (offset << 3));
         }
 
         final void put(Matrix4d m, int offset, ByteBuffer dest) {
@@ -902,7 +902,7 @@ abstract class MemUtil {
         }
 
         final void putf(Matrix4d m, int offset, FloatBuffer dest) {
-            putf(m, addressOf(dest) + offset * 4);
+            putf(m, addressOf(dest) + (offset << 2));
         }
 
         final void putf(Matrix4d m, int offset, ByteBuffer dest) {
@@ -910,7 +910,7 @@ abstract class MemUtil {
         }
 
         final void putTransposed(Matrix4d m, int offset, DoubleBuffer dest) {
-            putTransposed(m, addressOf(dest) + offset * 8);
+            putTransposed(m, addressOf(dest) + (offset << 3));
         }
 
         final void putTransposed(Matrix4d m, int offset, ByteBuffer dest) {
@@ -918,7 +918,7 @@ abstract class MemUtil {
         }
 
         final void putfTransposed(Matrix4d m, int offset, FloatBuffer dest) {
-            putfTransposed(m, addressOf(dest) + offset * 4);
+            putfTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         final void putfTransposed(Matrix4d m, int offset, ByteBuffer dest) {
@@ -926,7 +926,7 @@ abstract class MemUtil {
         }
 
         final void put(Matrix3f m, int offset, FloatBuffer dest) {
-            put(m, addressOf(dest) + offset * 4);
+            put(m, addressOf(dest) + (offset << 2));
         }
 
         final void put(Matrix3f m, int offset, ByteBuffer dest) {
@@ -934,7 +934,7 @@ abstract class MemUtil {
         }
 
         final void put(Matrix3d m, int offset, DoubleBuffer dest) {
-            put(m, addressOf(dest) + offset * 4);
+            put(m, addressOf(dest) + (offset << 2));
         }
 
         final void put(Matrix3d m, int offset, ByteBuffer dest) {
@@ -942,7 +942,7 @@ abstract class MemUtil {
         }
 
         final void putf(Matrix3d m, int offset, FloatBuffer dest) {
-            putf(m, addressOf(dest) + offset * 4);
+            putf(m, addressOf(dest) + (offset << 2));
         }
 
         final void putf(Matrix3d m, int offset, ByteBuffer dest) {
@@ -950,7 +950,7 @@ abstract class MemUtil {
         }
 
         final void get(Matrix4f m, int offset, FloatBuffer src) {
-            get(m, addressOf(src) + offset * 4);
+            get(m, addressOf(src) + (offset << 2));
         }
 
         final void get(Matrix4f m, int offset, ByteBuffer src) {
@@ -958,7 +958,7 @@ abstract class MemUtil {
         }
 
         final void get(Matrix4d m, int offset, DoubleBuffer src) {
-            get(m, addressOf(src) + offset * 8);
+            get(m, addressOf(src) + (offset << 3));
         }
 
         final void get(Matrix4d m, int offset, ByteBuffer src) {
@@ -966,7 +966,7 @@ abstract class MemUtil {
         }
 
         final void getf(Matrix4d m, int offset, FloatBuffer src) {
-            getf(m, addressOf(src) + offset * 4);
+            getf(m, addressOf(src) + (offset << 2));
         }
 
         final void getf(Matrix4d m, int offset, ByteBuffer src) {
@@ -974,7 +974,7 @@ abstract class MemUtil {
         }
 
         final void get(Matrix3f m, int offset, FloatBuffer src) {
-            get(m, addressOf(src) + offset * 4);
+            get(m, addressOf(src) + (offset << 2));
         }
 
         final void get(Matrix3f m, int offset, ByteBuffer src) {
@@ -982,7 +982,7 @@ abstract class MemUtil {
         }
 
         final void get(Matrix3d m, int offset, DoubleBuffer src) {
-            get(m, addressOf(src) + offset * 4);
+            get(m, addressOf(src) + (offset << 2));
         }
 
         final void get(Matrix3d m, int offset, ByteBuffer src) {
@@ -990,7 +990,7 @@ abstract class MemUtil {
         }
 
         final void getf(Matrix3d m, int offset, FloatBuffer src) {
-            getf(m, addressOf(src) + offset * 4);
+            getf(m, addressOf(src) + (offset << 2));
         }
 
         final void getf(Matrix3d m, int offset, ByteBuffer src) {

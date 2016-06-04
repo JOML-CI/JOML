@@ -1536,6 +1536,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
@@ -1556,6 +1560,10 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
@@ -1578,6 +1586,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Set this matrix to a rotation transformation using the given {@link AxisAngle4f}.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
@@ -1598,6 +1610,10 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set this matrix to a rotation transformation using the given {@link AxisAngle4d}.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
@@ -1621,6 +1637,10 @@ public class Matrix3d implements Externalizable {
      * Set this matrix to a rotation matrix which rotates the given radians about a given axis.
      * <p>
      * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
@@ -1662,6 +1682,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Set this matrix to a rotation transformation about the X axis.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
@@ -1697,6 +1721,10 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set this matrix to a rotation transformation about the Y axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
@@ -1734,6 +1762,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Set this matrix to a rotation transformation about the Z axis.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
      * 
      * @param ang
@@ -1770,6 +1802,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Set this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
      * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
      * 
@@ -1818,6 +1854,10 @@ public class Matrix3d implements Externalizable {
      * Set this matrix to a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
      * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
      * 
      * @param angleZ
@@ -1865,6 +1905,10 @@ public class Matrix3d implements Externalizable {
      * Set this matrix to a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
      * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
      * 
      * @param angleY
@@ -1911,6 +1955,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Set this matrix to the rotation transformation of the given {@link Quaterniond}.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
      * <p>
@@ -1954,6 +2002,10 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * The resulting matrix can be multiplied against another transformation
      * matrix to obtain an additional rotation.
@@ -2050,6 +2102,10 @@ public class Matrix3d implements Externalizable {
      * Apply rotation about the X axis to this matrix by rotating the given amount of radians
      * and store the result in <code>dest</code>.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
@@ -2105,6 +2161,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of radians.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
@@ -2123,6 +2183,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply rotation about the Y axis to this matrix by rotating the given amount of radians
      * and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -2179,6 +2243,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply rotation about the Y axis to this matrix by rotating the given amount of radians.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
@@ -2197,6 +2265,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply rotation about the Z axis to this matrix by rotating the given amount of radians
      * and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -2253,6 +2325,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply rotation about the Z axis to this matrix by rotating the given amount of radians.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
@@ -2271,6 +2347,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -2294,6 +2374,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -2351,6 +2435,10 @@ public class Matrix3d implements Externalizable {
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
@@ -2373,6 +2461,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -2430,6 +2522,12 @@ public class Matrix3d implements Externalizable {
      * Apply rotation to this matrix by rotating the given amount of radians
      * about the given axis specified as x, y and z components.
      * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
@@ -2454,6 +2552,12 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply rotation to this matrix by rotating the given amount of radians
      * about the given axis specified as x, y and z components, and store the result in <code>dest</code>.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -2522,7 +2626,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -2593,7 +2697,7 @@ public class Matrix3d implements Externalizable {
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -2627,7 +2731,7 @@ public class Matrix3d implements Externalizable {
      * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -2695,7 +2799,7 @@ public class Matrix3d implements Externalizable {
     /**
      * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -2723,7 +2827,7 @@ public class Matrix3d implements Externalizable {
      * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -2791,7 +2895,7 @@ public class Matrix3d implements Externalizable {
     /**
      * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix.
      * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate vector 
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
@@ -2818,6 +2922,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply the rotation transformation of the given {@link Quaterniond} to this matrix.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
@@ -2841,6 +2949,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply the rotation transformation of the given {@link Quaterniond} to this matrix and store
      * the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
@@ -2906,6 +3018,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
@@ -2929,6 +3045,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
      * then the new matrix will be <code>M * Q</code>. So when transforming a
@@ -2994,6 +3114,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply a rotation transformation, rotating about the given {@link AxisAngle4f}, to this matrix.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
      * then the new matrix will be <code>M * A</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
@@ -3017,6 +3141,10 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Apply a rotation transformation, rotating about the given {@link AxisAngle4f} and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4f},
      * then the new matrix will be <code>M * A</code>. So when transforming a
@@ -3044,6 +3172,10 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply a rotation transformation, rotating about the given {@link AxisAngle4d}, to this matrix.
      * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4d},
      * then the new matrix will be <code>M * A</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
@@ -3067,6 +3199,10 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Apply a rotation transformation, rotating about the given {@link AxisAngle4d} and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given {@link AxisAngle4d},
      * then the new matrix will be <code>M * A</code>. So when transforming a
@@ -3094,6 +3230,12 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply a rotation transformation, rotating the given radians about the specified axis, to this matrix.
      * <p>
+     * The axis described by the <code>axis</code> vector needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle and axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
@@ -3119,6 +3261,12 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Apply a rotation transformation, rotating the given radians about the specified axis and store the result in <code>dest</code>.
+     * <p>
+     * The axis described by the <code>axis</code> vector needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given axis and angle,
      * then the new matrix will be <code>M * A</code>. So when transforming a
@@ -3148,6 +3296,12 @@ public class Matrix3d implements Externalizable {
     /**
      * Apply a rotation transformation, rotating the given radians about the specified axis, to this matrix.
      * <p>
+     * The axis described by the <code>axis</code> vector needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given angle and axis,
      * then the new matrix will be <code>M * A</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * A * v</code>,
@@ -3173,6 +3327,12 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Apply a rotation transformation, rotating the given radians about the specified axis and store the result in <code>dest</code>.
+     * <p>
+     * The axis described by the <code>axis</code> vector needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>A</code> the rotation matrix obtained from the given axis and angle,
      * then the new matrix will be <code>M * A</code>. So when transforming a
