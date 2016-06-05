@@ -2002,7 +2002,7 @@ public class Matrix4f implements Externalizable {
     /**
      * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
-     * All other matrix elements of <code>dest</code> will be set to identity.
+     * All other matrix elements are left unchanged.
      * 
      * @param dest
      *             will hold the result
@@ -2012,35 +2012,21 @@ public class Matrix4f implements Externalizable {
         float nm00 = m00;
         float nm01 = m10;
         float nm02 = m20;
-        float nm03 = 0.0f;
         float nm10 = m01;
         float nm11 = m11;
         float nm12 = m21;
-        float nm13 = 0.0f;
         float nm20 = m02;
         float nm21 = m12;
         float nm22 = m22;
-        float nm23 = 0.0f;
-        float nm30 = 0.0f;
-        float nm31 = 0.0f;
-        float nm32 = 0.0f;
-        float nm33 = 1.0f;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
-        dest.m03 = nm03;
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-        dest.m13 = nm13;
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.m23 = nm23;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.m33 = nm33;
         return dest;
     }
 
