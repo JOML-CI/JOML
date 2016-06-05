@@ -2310,35 +2310,21 @@ public class Matrix4d implements Externalizable {
         double nm00 = m00;
         double nm01 = m10;
         double nm02 = m20;
-        double nm03 = 0.0;
         double nm10 = m01;
         double nm11 = m11;
         double nm12 = m21;
-        double nm13 = 0.0;
         double nm20 = m02;
         double nm21 = m12;
         double nm22 = m22;
-        double nm23 = 0.0;
-        double nm30 = 0.0;
-        double nm31 = 0.0;
-        double nm32 = 0.0;
-        double nm33 = 1.0;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
-        dest.m03 = nm03;
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-        dest.m13 = nm13;
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.m23 = nm23;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.m33 = nm33;
         return dest;
     }
 
