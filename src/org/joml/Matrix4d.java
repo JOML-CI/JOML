@@ -2300,7 +2300,7 @@ public class Matrix4d implements Externalizable {
     /**
      * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
-     * All other matrix elements of <code>dest</code> will be set to identity.
+     * All other matrix elements are left unchanged.
      * 
      * @param dest
      *             will hold the result
