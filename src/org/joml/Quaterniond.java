@@ -1331,6 +1331,37 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Interpolate between all of the quaternions given in <code>qs</code> via sperical linear interpolation using the specified interpolation factors <code>weights</code>,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method will interpolate between each two successive quaternions via {@link #slerp(Quaterniond, double)} using their relative interpolation weights.
+     * <p>
+     * This method resorts to non-spherical linear interpolation when the absolute dot product of any two interpolated quaternions is below <tt>1E-6f</tt>.
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/62354/method-for-interpolation-between-3-quaternions#answer-62356">http://gamedev.stackexchange.com/</a>
+     * 
+     * @param qs
+     *          the quaternions to interpolate over
+     * @param weights
+     *          the weights of each individual quaternion in <code>qs</code>
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public static Quaterniond slerp(Quaterniond[] qs, double[] weights, Quaterniond dest) {
+        dest.set(qs[0]);
+        double w = weights[0];
+        for (int i = 1; i < qs.length; i++) {
+            double w0 = w;
+            double w1 = weights[i];
+            double rw1 = w1 / (w0 + w1);
+            w += w1;
+            dest.slerp(qs[i], rw1);
+        }
+        return dest;
+    }
+
+    /**
      * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation.
      * <p>
      * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
@@ -1487,6 +1518,36 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
+     * Interpolate between all of the quaternions given in <code>qs</code> via non-spherical linear interpolation using the
+     * specified interpolation factors <code>weights</code>, and store the result in <code>dest</code>.
+     * <p>
+     * This method will interpolate between each two successive quaternions via {@link #nlerp(Quaterniond, double)}
+     * using their relative interpolation weights.
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/62354/method-for-interpolation-between-3-quaternions#answer-62356">http://gamedev.stackexchange.com/</a>
+     * 
+     * @param qs
+     *          the quaternions to interpolate over
+     * @param weights
+     *          the weights of each individual quaternion in <code>qs</code>
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public static Quaterniond nlerp(Quaterniond[] qs, double[] weights, Quaterniond dest) {
+        dest.set(qs[0]);
+        double w = weights[0];
+        for (int i = 1; i < qs.length; i++) {
+            double w0 = w;
+            double w1 = weights[i];
+            double rw1 = w1 / (w0 + w1);
+            w += w1;
+            dest.nlerp(qs[i], rw1);
+        }
+        return dest;
+    }
+
+    /**
      * Compute linear (non-spherical) interpolations of <code>this</code> and the given quaternion <code>q</code>
      * iteratively and store the result in <code>dest</code>.
      * <p>
@@ -1557,6 +1618,63 @@ public class Quaterniond implements Externalizable {
         dest.y *= s;
         dest.z *= s;
         dest.w *= s;
+        return dest;
+    }
+
+    /**
+     * Compute linear (non-spherical) interpolations of <code>this</code> and the given quaternion <code>q</code>
+     * iteratively and store the result in <code>this</code>.
+     * <p>
+     * This method performs a series of small-step nlerp interpolations to avoid doing a costly spherical linear interpolation, like
+     * {@link #slerp(Quaterniond, double, Quaterniond) slerp},
+     * by subdividing the rotation arc between <code>this</code> and <code>q</code> via non-spherical linear interpolations as long as
+     * the absolute dot product of <code>this</code> and <code>q</code> is greater than the given <code>dotThreshold</code> parameter.
+     * <p>
+     * Thanks to <tt>@theagentd</tt> at <a href="http://www.java-gaming.org/">http://www.java-gaming.org/</a> for providing the code.
+     * 
+     * @param q
+     *          the other quaternion
+     * @param alpha
+     *          the interpolation factor, between 0.0 and 1.0
+     * @param dotThreshold
+     *          the threshold for the dot product of <code>this</code> and <code>q</code> above which this method performs another iteration
+     *          of a small-step linear interpolation
+     * @return this
+     */
+    public Quaterniond nlerpIterative(Quaterniond q, double alpha, double dotThreshold) {
+        return nlerpIterative(q, alpha, dotThreshold, this);
+    }
+
+    /**
+     * Interpolate between all of the quaternions given in <code>qs</code> via iterative non-spherical linear interpolation using the
+     * specified interpolation factors <code>weights</code>, and store the result in <code>dest</code>.
+     * <p>
+     * This method will interpolate between each two successive quaternions via {@link #nlerpIterative(Quaterniond, double, double)}
+     * using their relative interpolation weights.
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/62354/method-for-interpolation-between-3-quaternions#answer-62356">http://gamedev.stackexchange.com/</a>
+     * 
+     * @param qs
+     *          the quaternions to interpolate over
+     * @param weights
+     *          the weights of each individual quaternion in <code>qs</code>
+     * @param dotThreshold
+     *          the threshold for the dot product of each two interpolated quaternions above which {@link #nlerpIterative(Quaterniond, double, double)} performs another iteration
+     *          of a small-step linear interpolation
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public static Quaterniond nlerpIterative(Quaterniond[] qs, double[] weights, double dotThreshold, Quaterniond dest) {
+        dest.set(qs[0]);
+        double w = weights[0];
+        for (int i = 1; i < qs.length; i++) {
+            double w0 = w;
+            double w1 = weights[i];
+            double rw1 = w1 / (w0 + w1);
+            w += w1;
+            dest.nlerpIterative(qs[i], rw1, dotThreshold);
+        }
         return dest;
     }
 
