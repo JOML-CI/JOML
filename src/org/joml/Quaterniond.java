@@ -1275,7 +1275,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Interpolate between <code>this</code> quaternion and the specified
-     * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>.
+     * <code>target</code> using spherical linear interpolation using the specified interpolation factor <code>alpha</code>.
      * <p>
      * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
      * below <tt>1E-6</tt>.
@@ -1292,7 +1292,7 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Interpolate between <code>this</code> quaternion and the specified
-     * <code>target</code> using sperical linear interpolation using the specified interpolation factor <code>alpha</code>,
+     * <code>target</code> using spherical linear interpolation using the specified interpolation factor <code>alpha</code>,
      * and store the result in <code>dest</code>.
      * <p>
      * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
@@ -1331,7 +1331,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Interpolate between all of the quaternions given in <code>qs</code> via sperical linear interpolation using the specified interpolation factors <code>weights</code>,
+     * Interpolate between all of the quaternions given in <code>qs</code> via spherical linear interpolation using the specified interpolation factors <code>weights</code>,
      * and store the result in <code>dest</code>.
      * <p>
      * This method will interpolate between each two successive quaternions via {@link #slerp(Quaterniond, double)} using their relative interpolation weights.
@@ -1362,7 +1362,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation.
+     * Scale the rotation represented by this quaternion by the given <code>factor</code> using spherical linear interpolation.
      * <p>
      * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
      * and thus equivalent to calling: <tt>new Quaterniond().slerp(this, factor)</tt>
@@ -1380,7 +1380,7 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Scale the rotation represented by this quaternion by the given <code>factor</code> using sperical linear interpolation, and store the result in <code>dest</code>.
+     * Scale the rotation represented by this quaternion by the given <code>factor</code> using spherical linear interpolation, and store the result in <code>dest</code>.
      * <p>
      * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
      * and thus equivalent to calling: <tt>new Quaterniond().slerp(this, factor, dest)</tt>
