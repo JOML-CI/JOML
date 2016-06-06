@@ -172,7 +172,7 @@ public class QuaterniondInterpolator {
 
             /* diagonalize the bidiagonal form */
             for (k = 3 - 1; k >= 0; k--) { /* loop over singular values */
-                for (its = 0; its < 30; its++) { /* loop over allowed iterations */
+                for (its = 0; its < maxIterations; its++) { /* loop over allowed iterations */
                     flag = 1;
                     for (l = k; l >= 0; l--) { /* test for splitting */
                         nm = l - 1;
@@ -213,7 +213,7 @@ public class QuaterniondInterpolator {
                         }
                         break;
                     }
-                    if (its >= maxIterations) {
+                    if (its == maxIterations - 1) {
                         throw new RuntimeException("No convergence after " + maxIterations + " iterations");
                     }
 
