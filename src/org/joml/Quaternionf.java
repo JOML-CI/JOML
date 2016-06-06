@@ -164,6 +164,46 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Add the quaternion <tt>(x, y, z, w)</tt> to this quaternion.
+     * 
+     * @param x
+     *          the x component of the vector part
+     * @param y
+     *          the y component of the vector part
+     * @param z
+     *          the z component of the vector part
+     * @param w
+     *          the real/scalar component
+     * @return this
+     */
+    public Quaternionf add(float x, float y, float z, float w) {
+        return add(x, y, z, w, this);
+    }
+
+    /**
+     * Add the quaternion <tt>(x, y, z, w)</tt> to this quaternion and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component of the vector part
+     * @param y
+     *          the y component of the vector part
+     * @param z
+     *          the z component of the vector part
+     * @param w
+     *          the real/scalar component
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaternionf add(float x, float y, float z, float w, Quaternionf dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        dest.z = this.z + z;
+        dest.w = this.w + w;
+        return dest;
+    }
+
+    /**
      * Add <code>q2</code> to this quaternion.
      * 
      * @param q2
