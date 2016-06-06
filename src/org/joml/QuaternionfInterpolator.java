@@ -351,7 +351,7 @@ public class QuaternionfInterpolator {
         // Compute rotation matrix
         u.mul(v.transpose());
         // Build quaternion from it
-        return dest.setFromNormalized(u);
+        return dest.setFromUnnormalized(u);
     }
 
 }
