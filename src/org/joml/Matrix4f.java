@@ -1963,7 +1963,7 @@ public class Matrix4f implements Externalizable {
                  0, m00 * a, 0, 0,
                  0, 0, 0, -m23 * l,
                  0, 0, -m32 * l, m22 * l);
-        // property = PROPERTY_PERSPECTIVE;
+        dest.properties = 0;
         return dest;
     }
 
@@ -2008,6 +2008,7 @@ public class Matrix4f implements Externalizable {
                  0, invM11, 0, 0,
                  0, 0, 0, invM32,
                  -m20 * invM00 * invM23, -m21 * invM11 * invM23, invM23, -m22 * invM23 * invM32);
+        dest.properties = 0;
         return dest;
     }
 
@@ -2047,6 +2048,7 @@ public class Matrix4f implements Externalizable {
                  0, invM11, 0, 0,
                  0, 0, invM22, 0,
                  -m30 * invM00, -m31 * invM11, -m32 * invM22, 1);
+        dest.properties = PROPERTY_AFFINE;
         return dest;
     }
 
@@ -2097,6 +2099,7 @@ public class Matrix4f implements Externalizable {
                  view.m01 * pm11, view.m11 * pm11, view.m21 * pm11, 0.0f,
                  vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
                  view.m02 * pm32 + vm30 * pm33, view.m12 * pm32 + vm31 * pm33, view.m22 * pm32 + vm32 * pm33, pm33);
+        dest.properties = 0;
         return dest;
     }
 
@@ -2165,7 +2168,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        // properties = PROPERTY_AFFINE;
+        dest.properties = PROPERTY_AFFINE;
         return dest;
     }
 
@@ -2201,6 +2204,7 @@ public class Matrix4f implements Externalizable {
                  -m10 * m30 - m11 * m31 - m12 * m32,
                  -m20 * m30 - m21 * m31 - m22 * m32,
                  1.0f);
+        dest.properties = PROPERTY_AFFINE;
         return dest;
     }
 
