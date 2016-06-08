@@ -1011,8 +1011,12 @@ public class Matrix4f implements Externalizable {
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
+        else if ((right.properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
         else if ((properties & PROPERTY_AFFINE) != 0 && (right.properties & PROPERTY_AFFINE) != 0)
             return mulAffine(right, dest);
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties & PROPERTY_AFFINE) != 0)
+            return mulPerspectiveAffine(right, dest);
         else if ((right.properties & PROPERTY_AFFINE) != 0)
             return mulAffineR(right, dest);
 
