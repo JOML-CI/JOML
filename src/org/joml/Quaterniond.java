@@ -2044,16 +2044,22 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond rotationTo(double fromDirX, double fromDirY, double fromDirZ, double toDirX, double toDirY, double toDirZ) {
-        double ax = fromDirY * toDirZ - fromDirZ * toDirY;
-        double ay = fromDirZ * toDirX - fromDirX * toDirZ;
-        double az = fromDirX * toDirY - fromDirY * toDirX;
-        x = ax;
-        y = ay;
-        z = az;
+        x = fromDirY * toDirZ - fromDirZ * toDirY;
+        y = fromDirZ * toDirX - fromDirX * toDirZ;
+        z = fromDirX * toDirY - fromDirY * toDirX;
         w = Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
-                      (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
+                              (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
                  (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
-        normalize();
+        double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+        if (Double.isInfinite(invNorm)) {
+            // Rotation is ambiguous: Simply use the x axis
+            x = 1.0; y = 0.0; z = 0.0; w = 0.0;
+        } else {
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
+        }
         return this;
     }
 
@@ -2105,20 +2111,22 @@ public class Quaterniond implements Externalizable {
      */
     public Quaterniond rotateTo(double fromDirX, double fromDirY, double fromDirZ,
                                 double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
-        double ax = fromDirY * toDirZ - fromDirZ * toDirY;
-        double ay = fromDirZ * toDirX - fromDirX * toDirZ;
-        double az = fromDirX * toDirY - fromDirY * toDirX;
-        double x = ax;
-        double y = ay;
-        double z = az;
+        double x = fromDirY * toDirZ - fromDirZ * toDirY;
+        double y = fromDirZ * toDirX - fromDirX * toDirZ;
+        double z = fromDirX * toDirY - fromDirY * toDirX;
         double w = Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
-                             (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
-                 (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
-        double invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
-        x *= invNorm;
-        y *= invNorm;
-        z *= invNorm;
-        w *= invNorm;
+                                    (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
+                  (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
+        double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
+        if (Double.isInfinite(invNorm)) {
+            // Rotation is ambiguous: Simply use the x axis
+            x = 1.0; y = 0.0; z = 0.0; w = 0.0;
+        } else {
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
+        }
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
