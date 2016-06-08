@@ -1007,6 +1007,46 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <code>toDir</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @see Quaternionf#rotationTo(Vector3f, Vector3f)
+     * 
+     * @param toDir
+     *          the destination direction
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaternionf rotationTo(Vector3f toDir, Quaternionf dest) {
+        return dest.rotationTo(this, toDir);
+    }
+
+    /**
+     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <tt>(toDirX, toDirY, toDirZ)</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @see Quaternionf#rotationTo(float, float, float, float, float, float)
+     * 
+     * @param toDirX
+     *          the x coordinate of the destination direction
+     * @param toDirY
+     *          the y coordinate of the destination direction
+     * @param toDirZ
+     *          the z coordinate of the destination direction
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaternionf rotationTo(float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
+        return dest.rotationTo(x, y, z, toDirX, toDirY, toDirZ);
+    }
+
+    /**
      * Return the length squared of this vector.
      * 
      * @return the length squared

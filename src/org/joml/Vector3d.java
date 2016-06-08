@@ -1322,6 +1322,46 @@ public class Vector3d implements Externalizable {
     }
 
     /**
+     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <code>toDir</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @see Quaterniond#rotationTo(Vector3d, Vector3d)
+     * 
+     * @param toDir
+     *          the destination direction
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaterniond rotationTo(Vector3d toDir, Quaterniond dest) {
+        return dest.rotationTo(this, toDir);
+    }
+
+    /**
+     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <tt>(toDirX, toDirY, toDirZ)</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @see Quaterniond#rotationTo(double, double, double, double, double, double)
+     * 
+     * @param toDirX
+     *          the x coordinate of the destination direction
+     * @param toDirY
+     *          the y coordinate of the destination direction
+     * @param toDirZ
+     *          the z coordinate of the destination direction
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaterniond rotationTo(double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
+        return dest.rotationTo(x, y, z, toDirX, toDirY, toDirZ);
+    }
+
+    /**
      * Divide this Vector3d by the given scalar value.
      * 
      * @param scalar
