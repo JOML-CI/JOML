@@ -56,13 +56,7 @@ public class Matrix3d implements Externalizable {
      */
     public Matrix3d() {
         m00 = 1.0;
-        m01 = 0.0;
-        m02 = 0.0;
-        m10 = 0.0;
         m11 = 1.0;
-        m12 = 0.0;
-        m20 = 0.0;
-        m21 = 0.0;
         m22 = 1.0;
     }
 
