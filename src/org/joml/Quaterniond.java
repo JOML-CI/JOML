@@ -2052,14 +2052,19 @@ public class Quaterniond implements Externalizable {
                  (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
         double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
         if (Double.isInfinite(invNorm)) {
-            // Rotation is ambiguous: Simply use the x axis
-            x = 1.0; y = 0.0; z = 0.0; w = 0.0;
-        } else {
-            x *= invNorm;
-            y *= invNorm;
-            z *= invNorm;
-            w *= invNorm;
+            // Rotation is ambiguous: Find appropriate rotation axis (1. try toDir x +Z)
+            x = toDirY; y = -toDirX; z = 0.0; w = 0.0;
+            invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            if (Double.isInfinite(invNorm)) {
+                // 2. try toDir x +X
+                x = 0.0; y = toDirZ; z = -toDirY; w = 0.0;
+                invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            }
         }
+        x *= invNorm;
+        y *= invNorm;
+        z *= invNorm;
+        w *= invNorm;
         return this;
     }
 
@@ -2119,14 +2124,19 @@ public class Quaterniond implements Externalizable {
                   (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
         double invNorm = 1.0 / Math.sqrt(x * x + y * y + z * z + w * w);
         if (Double.isInfinite(invNorm)) {
-            // Rotation is ambiguous: Simply use the x axis
-            x = 1.0; y = 0.0; z = 0.0; w = 0.0;
-        } else {
-            x *= invNorm;
-            y *= invNorm;
-            z *= invNorm;
-            w *= invNorm;
+            // Rotation is ambiguous: Find appropriate rotation axis (1. try toDir x +Z)
+            x = toDirY; y = -toDirX; z = 0.0; w = 0.0;
+            invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            if (Double.isInfinite(invNorm)) {
+                // 2. try toDir x +X
+                x = 0.0; y = toDirZ; z = -toDirY; w = 0.0;
+                invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            }
         }
+        x *= invNorm;
+        y *= invNorm;
+        z *= invNorm;
+        w *= invNorm;
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
