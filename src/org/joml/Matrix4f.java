@@ -5754,11 +5754,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f translate(float x, float y, float z) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return translation(x, y, z);
         Matrix4f c = this;
-        // translation matrix elements:
-        // m00, m11, m22, m33 = 1
-        // m30 = x, m31 = y, m32 = z
-        // all others = 0
         c.m30 = c.m00 * x + c.m10 * y + c.m20 * z + c.m30;
         c.m31 = c.m01 * x + c.m11 * y + c.m21 * z + c.m31;
         c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
