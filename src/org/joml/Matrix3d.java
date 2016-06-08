@@ -577,15 +577,24 @@ public class Matrix3d implements Externalizable {
      * @return dest
      */
     public Matrix3d mul(Matrix3d right, Matrix3d dest) {
-        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
-                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
-                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
-                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
-                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
-                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
-                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
-                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
-                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22 );
+        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
         return dest;
     }
 
@@ -622,15 +631,24 @@ public class Matrix3d implements Externalizable {
      * @return dest
      */
     public Matrix3d mul(Matrix3f right, Matrix3d dest) {
-        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02,
-                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02,
-                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02,
-                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12,
-                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12,
-                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12,
-                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22,
-                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22,
-                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22);
+        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
         return dest;
     }
 
@@ -759,15 +777,24 @@ public class Matrix3d implements Externalizable {
         double s = determinant();
         // client must make sure that matrix is invertible
         s = 1.0 / s;
-        dest.set((m11 * m22 - m21 * m12) * s,
-                 (m21 * m02 - m01 * m22) * s,
-                 (m01 * m12 - m11 * m02) * s,
-                 (m20 * m12 - m10 * m22) * s,
-                 (m00 * m22 - m20 * m02) * s,
-                 (m10 * m02 - m00 * m12) * s,
-                 (m10 * m21 - m20 * m11) * s,
-                 (m20 * m01 - m00 * m21) * s,
-                 (m00 * m11 - m10 * m01) * s);
+        double nm00 = (m11 * m22 - m21 * m12) * s;
+        double nm01 = (m21 * m02 - m01 * m22) * s;
+        double nm02 = (m01 * m12 - m11 * m02) * s;
+        double nm10 = (m20 * m12 - m10 * m22) * s;
+        double nm11 = (m00 * m22 - m20 * m02) * s;
+        double nm12 = (m10 * m02 - m00 * m12) * s;
+        double nm20 = (m10 * m21 - m20 * m11) * s;
+        double nm21 = (m20 * m01 - m00 * m21) * s;
+        double nm22 = (m00 * m11 - m10 * m01) * s;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
         return dest;
     }
 

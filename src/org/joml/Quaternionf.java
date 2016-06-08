@@ -164,6 +164,46 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Add the quaternion <tt>(x, y, z, w)</tt> to this quaternion.
+     * 
+     * @param x
+     *          the x component of the vector part
+     * @param y
+     *          the y component of the vector part
+     * @param z
+     *          the z component of the vector part
+     * @param w
+     *          the real/scalar component
+     * @return this
+     */
+    public Quaternionf add(float x, float y, float z, float w) {
+        return add(x, y, z, w, this);
+    }
+
+    /**
+     * Add the quaternion <tt>(x, y, z, w)</tt> to this quaternion and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component of the vector part
+     * @param y
+     *          the y component of the vector part
+     * @param z
+     *          the z component of the vector part
+     * @param w
+     *          the real/scalar component
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Quaternionf add(float x, float y, float z, float w, Quaternionf dest) {
+        dest.x = this.x + x;
+        dest.y = this.y + y;
+        dest.z = this.z + z;
+        dest.w = this.w + w;
+        return dest;
+    }
+
+    /**
      * Add <code>q2</code> to this quaternion.
      * 
      * @param q2
@@ -2227,16 +2267,22 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf rotationTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ) {
-        float ax = fromDirY * toDirZ - fromDirZ * toDirY;
-        float ay = fromDirZ * toDirX - fromDirX * toDirZ;
-        float az = fromDirX * toDirY - fromDirY * toDirX;
-        x = ax;
-        y = ay;
-        z = az;
+        x = fromDirY * toDirZ - fromDirZ * toDirY;
+        y = fromDirZ * toDirX - fromDirX * toDirZ;
+        z = fromDirX * toDirY - fromDirY * toDirX;
         w = (float) Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
                               (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
                  (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
-        normalize();
+        float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+        if (Float.isInfinite(invNorm)) {
+            // Rotation is ambiguous: Simply use the x axis
+            x = 1.0f; y = 0.0f; z = 0.0f; w = 0.0f;
+        } else {
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
+        }
         return this;
     }
 
@@ -2287,20 +2333,22 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Quaternionf rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
-        float ax = fromDirY * toDirZ - fromDirZ * toDirY;
-        float ay = fromDirZ * toDirX - fromDirX * toDirZ;
-        float az = fromDirX * toDirY - fromDirY * toDirX;
-        float x = ax;
-        float y = ay;
-        float z = az;
+        float x = fromDirY * toDirZ - fromDirZ * toDirY;
+        float y = fromDirZ * toDirX - fromDirX * toDirZ;
+        float z = fromDirX * toDirY - fromDirY * toDirX;
         float w = (float) Math.sqrt((fromDirX * fromDirX + fromDirY * fromDirY + fromDirZ * fromDirZ) *
                                     (toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ)) +
                   (fromDirX * toDirX + fromDirY * toDirY + fromDirZ * toDirZ);
         float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
-        x *= invNorm;
-        y *= invNorm;
-        z *= invNorm;
-        w *= invNorm;
+        if (Float.isInfinite(invNorm)) {
+            // Rotation is ambiguous: Simply use the x axis
+            x = 1.0f; y = 0.0f; z = 0.0f; w = 0.0f;
+        } else {
+            x *= invNorm;
+            y *= invNorm;
+            z *= invNorm;
+            w *= invNorm;
+        }
         /* Multiply */
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
