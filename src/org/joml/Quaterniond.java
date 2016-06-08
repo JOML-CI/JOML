@@ -2054,11 +2054,11 @@ public class Quaterniond implements Externalizable {
         if (Double.isInfinite(invNorm)) {
             // Rotation is ambiguous: Find appropriate rotation axis (1. try toDir x +Z)
             x = toDirY; y = -toDirX; z = 0.0; w = 0.0;
-            invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            invNorm = (float) (1.0 / Math.sqrt(x * x + y * y));
             if (Double.isInfinite(invNorm)) {
                 // 2. try toDir x +X
                 x = 0.0; y = toDirZ; z = -toDirY; w = 0.0;
-                invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+                invNorm = (float) (1.0 / Math.sqrt(y * y + z * z));
             }
         }
         x *= invNorm;
@@ -2126,11 +2126,11 @@ public class Quaterniond implements Externalizable {
         if (Double.isInfinite(invNorm)) {
             // Rotation is ambiguous: Find appropriate rotation axis (1. try toDir x +Z)
             x = toDirY; y = -toDirX; z = 0.0; w = 0.0;
-            invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+            invNorm = (float) (1.0 / Math.sqrt(x * x + y * y));
             if (Double.isInfinite(invNorm)) {
                 // 2. try toDir x +X
                 x = 0.0; y = toDirZ; z = -toDirY; w = 0.0;
-                invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
+                invNorm = (float) (1.0 / Math.sqrt(y * y + z * z));
             }
         }
         x *= invNorm;
