@@ -388,40 +388,14 @@ public class Quaterniond implements Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
+     * @see Matrix4f#set(Quaterniond)
+     * 
      * @param dest
      *          the matrix to write the rotation into
      * @return the passed in destination
      */
     public Matrix4f get(Matrix4f dest) {
-        double dx = x + x;
-        double dy = y + y;
-        double dz = z + z;
-        double q00 = dx * x;
-        double q11 = dy * y;
-        double q22 = dz * z;
-        double q01 = dx * y;
-        double q02 = dx * z;
-        double q03 = dx * w;
-        double q12 = dy * z;
-        double q13 = dy * w;
-        double q23 = dz * w;
-        dest.m00 = (float) (1.0 - q11 - q22);
-        dest.m01 = (float) (q01 + q23);
-        dest.m02 = (float) (q02 - q13);
-        dest.m03 = 0.0f;
-        dest.m10 = (float) (q01 - q23);
-        dest.m11 = (float) (1.0 - q22 - q00);
-        dest.m12 = (float) (q12 + q03);
-        dest.m13 = 0.0f;
-        dest.m20 = (float) (q02 + q13);
-        dest.m21 = (float) (q12 - q03);
-        dest.m22 = (float) (1.0 - q11 - q00);
-        dest.m23 = 0.0f;
-        dest.m30 = 0.0f;
-        dest.m31 = 0.0f;
-        dest.m32 = 0.0f;
-        dest.m33 = 1.0f;
-        return dest;
+        return dest.set(this);
     }
 
     /**
@@ -628,7 +602,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond setFromUnnormalized(Matrix4f mat) {
-        setFromUnnormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+        setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
@@ -642,7 +616,7 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond setFromNormalized(Matrix4f mat) {
-        setFromNormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+        setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 

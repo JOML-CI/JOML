@@ -973,10 +973,10 @@ public class Vector4d implements Externalizable {
      * @return dest
      */
     public Vector4d mul(Matrix4d mat, Vector4d dest) {
-        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
-                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
-                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
-                 mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w, 
+                 mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
         return dest;
     }
 
@@ -1001,10 +1001,10 @@ public class Vector4d implements Externalizable {
      * @return dest
      */
     public Vector4d mul(Matrix4f mat, Vector4d dest) {
-        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w,
-                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w,
-                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w, 
-                 mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w, 
+                 mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
         return dest;
     }
 
@@ -1019,10 +1019,10 @@ public class Vector4d implements Externalizable {
      * @return dest
      */
     public Vector4d mulProject(Matrix4d mat, Vector4d dest) {
-        double invW = 1.0 / (mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33 * w);
-        dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30 * w) * invW,
-                 (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31 * w) * invW,
-                 (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32 * w) * invW,
+        double invW = 1.0 / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
+        dest.set((mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW,
+                 (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW,
+                 (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w) * invW,
                  1.0);
         return dest;
     }

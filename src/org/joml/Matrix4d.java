@@ -179,22 +179,22 @@ public class Matrix4d implements Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix4d(Matrix4f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m03 = mat.m03;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m13 = mat.m13;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m23 = mat.m23;
-        m30 = mat.m30;
-        m31 = mat.m31;
-        m32 = mat.m32;
-        m33 = mat.m33;
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m03 = mat.m03();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m13 = mat.m13();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
+        m23 = mat.m23();
+        m30 = mat.m30();
+        m31 = mat.m31();
+        m32 = mat.m32();
+        m33 = mat.m33();
     }
 
     /**
@@ -683,22 +683,22 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d set(Matrix4f m) {
-        m00 = m.m00;
-        m01 = m.m01;
-        m02 = m.m02;
-        m03 = m.m03;
-        m10 = m.m10;
-        m11 = m.m11;
-        m12 = m.m12;
-        m13 = m.m13;
-        m20 = m.m20;
-        m21 = m.m21;
-        m22 = m.m22;
-        m23 = m.m23;
-        m30 = m.m30;
-        m31 = m.m31;
-        m32 = m.m32;
-        m33 = m.m33;
+        m00 = m.m00();
+        m01 = m.m01();
+        m02 = m.m02();
+        m03 = m.m03();
+        m10 = m.m10();
+        m11 = m.m11();
+        m12 = m.m12();
+        m13 = m.m13();
+        m20 = m.m20();
+        m21 = m.m21();
+        m22 = m.m22();
+        m23 = m.m23();
+        m30 = m.m30();
+        m31 = m.m31();
+        m32 = m.m32();
+        m33 = m.m33();
         return this;
     }
 
@@ -958,22 +958,22 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d mul(Matrix4f right, Matrix4d dest) {
-        dest.set(m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03,
-                 m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03,
-                 m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03,
-                 m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03,
-                 m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13,
-                 m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13,
-                 m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13,
-                 m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13,
-                 m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23,
-                 m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23,
-                 m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23,
-                 m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23,
-                 m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33,
-                 m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33,
-                 m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33,
-                 m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33);
+        dest.set(m00 * right.m00() + m10 * right.m01() + m20 * right.m02() + m30 * right.m03(),
+                 m01 * right.m00() + m11 * right.m01() + m21 * right.m02() + m31 * right.m03(),
+                 m02 * right.m00() + m12 * right.m01() + m22 * right.m02() + m32 * right.m03(),
+                 m03 * right.m00() + m13 * right.m01() + m23 * right.m02() + m33 * right.m03(),
+                 m00 * right.m10() + m10 * right.m11() + m20 * right.m12() + m30 * right.m13(),
+                 m01 * right.m10() + m11 * right.m11() + m21 * right.m12() + m31 * right.m13(),
+                 m02 * right.m10() + m12 * right.m11() + m22 * right.m12() + m32 * right.m13(),
+                 m03 * right.m10() + m13 * right.m11() + m23 * right.m12() + m33 * right.m13(),
+                 m00 * right.m20() + m10 * right.m21() + m20 * right.m22() + m30 * right.m23(),
+                 m01 * right.m20() + m11 * right.m21() + m21 * right.m22() + m31 * right.m23(),
+                 m02 * right.m20() + m12 * right.m21() + m22 * right.m22() + m32 * right.m23(),
+                 m03 * right.m20() + m13 * right.m21() + m23 * right.m22() + m33 * right.m23(),
+                 m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30 * right.m33(),
+                 m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31 * right.m33(),
+                 m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32 * right.m33(),
+                 m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33 * right.m33());
         return dest;
     }
 

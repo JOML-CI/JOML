@@ -224,9 +224,9 @@ public class TrapezoidOrthoCrop {
             for (int c = 0; c < convexHullSize; c++) {
                 float x = convexHull[c].x;
                 float y = convexHull[c].y;
-                float invW = 1.0f / (work.m03 * x + work.m13 * y + work.m33);
-                float tx = (work.m00 * x + work.m10 * y + work.m30) * invW;
-                float ty = (work.m01 * x + work.m11 * y + work.m31) * invW;
+                float invW = 1.0f / (work.m03() * x + work.m13() * y + work.m33());
+                float tx = (work.m00() * x + work.m10() * y + work.m30()) * invW;
+                float ty = (work.m01() * x + work.m11() * y + work.m31()) * invW;
                 projectedConvexHull[c].set(tx, ty);
             }
             // Compute area
@@ -249,13 +249,13 @@ public class TrapezoidOrthoCrop {
             float x = ((t & 1) << 1) - 1.0f;
             float y = (((t >>> 1) & 1) << 1) - 1.0f;
             float z = (((t >>> 2) & 1) << 1) - 1.0f;
-            float invW = 1.0f / (invCamViewProj.m03 * x + invCamViewProj.m13 * y + invCamViewProj.m23 * z + invCamViewProj.m33);
-            float wx = (invCamViewProj.m00 * x + invCamViewProj.m10 * y + invCamViewProj.m20 * z + invCamViewProj.m30) * invW;
-            float wy = (invCamViewProj.m01 * x + invCamViewProj.m11 * y + invCamViewProj.m21 * z + invCamViewProj.m31) * invW;
-            float wz = (invCamViewProj.m02 * x + invCamViewProj.m12 * y + invCamViewProj.m22 * z + invCamViewProj.m32) * invW;
-            invW = 1.0f / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
-            float pvx = view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30;
-            float pvy = view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31;
+            float invW = 1.0f / (invCamViewProj.m03() * x + invCamViewProj.m13() * y + invCamViewProj.m23() * z + invCamViewProj.m33());
+            float wx = (invCamViewProj.m00() * x + invCamViewProj.m10() * y + invCamViewProj.m20() * z + invCamViewProj.m30()) * invW;
+            float wy = (invCamViewProj.m01() * x + invCamViewProj.m11() * y + invCamViewProj.m21() * z + invCamViewProj.m31()) * invW;
+            float wz = (invCamViewProj.m02() * x + invCamViewProj.m12() * y + invCamViewProj.m22() * z + invCamViewProj.m32()) * invW;
+            invW = 1.0f / (view.m03() * wx + view.m13() * wy + view.m23() * wz + view.m33());
+            float pvx = view.m00() * wx + view.m10() * wy + view.m20() * wz + view.m30();
+            float pvy = view.m01() * wx + view.m11() * wy + view.m21() * wz + view.m31();
             projectedFrustumCorners[t].set(pvx, pvy);
         }
         Fx = Fy = Nx = Ny = 0.0f;

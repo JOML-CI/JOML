@@ -71,10 +71,10 @@ public class FrustumRayBuilder {
      * @return this
      */
     public FrustumRayBuilder set(Matrix4f m) {
-        float nxX = m.m03 + m.m00, nxY = m.m13 + m.m10, nxZ = m.m23 + m.m20, d1 = m.m33 + m.m30;
-        float pxX = m.m03 - m.m00, pxY = m.m13 - m.m10, pxZ = m.m23 - m.m20, d2 = m.m33 - m.m30;
-        float nyX = m.m03 + m.m01, nyY = m.m13 + m.m11, nyZ = m.m23 + m.m21;
-        float pyX = m.m03 - m.m01, pyY = m.m13 - m.m11, pyZ = m.m23 - m.m21, d3 = m.m33 - m.m31;
+        float nxX = m.m03() + m.m00(), nxY = m.m13() + m.m10(), nxZ = m.m23() + m.m20(), d1 = m.m33() + m.m30();
+        float pxX = m.m03() - m.m00(), pxY = m.m13() - m.m10(), pxZ = m.m23() - m.m20(), d2 = m.m33() - m.m30();
+        float nyX = m.m03() + m.m01(), nyY = m.m13() + m.m11(), nyZ = m.m23() + m.m21();
+        float pyX = m.m03() - m.m01(), pyY = m.m13() - m.m11(), pyZ = m.m23() - m.m21(), d3 = m.m33() - m.m31();
         // bottom left
         nxnyX = nyY * nxZ - nyZ * nxY;
         nxnyY = nyZ * nxX - nyX * nxZ;
