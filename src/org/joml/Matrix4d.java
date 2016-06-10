@@ -13101,8 +13101,8 @@ public class Matrix4d implements Externalizable {
             m10, m11, 0, m13,
               0,   0, 1,   0,
             m30, m31, 0, m33);
-            properties = 0;
-            return this;
+        properties = 0;
+        return this;
     }
 
     /**
