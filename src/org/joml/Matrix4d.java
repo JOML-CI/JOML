@@ -4453,6 +4453,9 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotateAffine(double ang, double x, double y, double z, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotation(ang, x, y, z);
+
         double s = Math.sin(ang);
         double c = Math.cos(ang);
         double C = 1.0 - c;
@@ -4533,6 +4536,135 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d rotateAffine(double ang, double x, double y, double z) {
         return rotateAffine(ang, x, y, z, this);
+    }
+
+    /**
+     * Pre-multiply a rotation to this {@link #isAffine() affine} matrix by rotating the given amount of radians
+     * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotation(double, double, double, double) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(double, double, double, double)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d rotateAffineLocal(double ang, double x, double y, double z, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotation(ang, x, y, z);
+
+        double s = Math.sin(ang);
+        double c = Math.cos(ang);
+        double C = 1.0 - c;
+        double xx = x * x, xy = x * y, xz = x * z;
+        double yy = y * y, yz = y * z;
+        double zz = z * z;
+        double lm00 = xx * C + c;
+        double lm01 = xy * C + z * s;
+        double lm02 = xz * C - y * s;
+        double lm10 = xy * C - z * s;
+        double lm11 = yy * C + c;
+        double lm12 = yz * C + x * s;
+        double lm20 = xz * C + y * s;
+        double lm21 = yz * C - x * s;
+        double lm22 = zz * C + c;
+        double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
+        double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
+        double nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
+        double nm03 = 0.0;
+        double nm10 = lm00 * m10 + lm10 * m11 + lm20 * m12;
+        double nm11 = lm01 * m10 + lm11 * m11 + lm21 * m12;
+        double nm12 = lm02 * m10 + lm12 * m11 + lm22 * m12;
+        double nm13 = 0.0;
+        double nm20 = lm00 * m20 + lm10 * m21 + lm20 * m22;
+        double nm21 = lm01 * m20 + lm11 * m21 + lm21 * m22;
+        double nm22 = lm02 * m20 + lm12 * m21 + lm22 * m22;
+        double nm23 = 0.0;
+        double nm30 = lm00 * m30 + lm10 * m31 + lm20 * m32;
+        double nm31 = lm01 * m30 + lm11 * m31 + lm21 * m32;
+        double nm32 = lm02 * m30 + lm12 * m31 + lm22 * m32;
+        double nm33 = 1.0;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a rotation to this {@link #isAffine() affine} matrix by rotating the given amount of radians
+     * about the specified <tt>(x, y, z)</tt> axis.
+     * <p>
+     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
+     * <p>
+     * The axis described by the three components needs to be a unit vector.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotation(double, double, double, double) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(double, double, double, double)
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @return this
+     */
+    public Matrix4d rotateAffineLocal(double ang, double x, double y, double z) {
+        return rotateAffineLocal(ang, x, y, z, this);
     }
 
     /**
@@ -6547,6 +6679,9 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotateAffine(Quaterniond quat, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotation(quat);
+
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
@@ -6807,6 +6942,9 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotateAffineLocal(Quaterniond quat, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotation(quat);
+
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
@@ -9296,6 +9434,9 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d lookAlong(double dirX, double dirY, double dirZ,
                               double upX, double upY, double upZ, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
+
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         double dirnX = dirX * invDirLength;
@@ -9692,6 +9833,11 @@ public class Matrix4d implements Externalizable {
     public Matrix4d lookAt(double eyeX, double eyeY, double eyeZ,
                            double centerX, double centerY, double centerZ,
                            double upX, double upY, double upZ, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0)
+            return lookAtPerspective(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
+
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -9803,6 +9949,126 @@ public class Matrix4d implements Externalizable {
                            double centerX, double centerY, double centerZ,
                            double upX, double upY, double upZ) {
         return lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a right-handed coordinate system, 
+     * that aligns <code>-z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes <code>this</code> to be a perspective transformation, obtained via
+     * {@link #frustum(double, double, double, double, double, double) frustum()} or {@link #perspective(double, double, double, double) perspective()} or
+     * one of their overloads.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt()}.
+     * 
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
+     * @see #setLookAt(double, double, double, double, double, double, double, double, double)
+     * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4d lookAtPerspective(double eyeX, double eyeY, double eyeZ,
+            double centerX, double centerY, double centerZ,
+            double upX, double upY, double upZ, Matrix4d dest) {
+        // Compute direction from position to lookAt
+        double dirX, dirY, dirZ;
+        dirX = eyeX - centerX;
+        dirY = eyeY - centerY;
+        dirZ = eyeZ - centerZ;
+        // Normalize direction
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
+        // left = up x direction
+        double leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        double invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        double upnX = dirY * leftZ - dirZ * leftY;
+        double upnY = dirZ * leftX - dirX * leftZ;
+        double upnZ = dirX * leftY - dirY * leftX;
+
+        // calculate right matrix elements
+        double rm00 = leftX;
+        double rm01 = upnX;
+        double rm02 = dirX;
+        double rm10 = leftY;
+        double rm11 = upnY;
+        double rm12 = dirY;
+        double rm20 = leftZ;
+        double rm21 = upnZ;
+        double rm22 = dirZ;
+        double rm30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
+        double rm31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+        double rm32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
+
+        double nm00 = m00 * rm00;
+        double nm01 = m11 * rm01;
+        double nm02 = m22 * rm02;
+        double nm03 = m23 * rm02;
+        double nm10 = m00 * rm10;
+        double nm11 = m11 * rm11;
+        double nm12 = m22 * rm12;
+        double nm13 = m23 * rm12;
+        double nm20 = m00 * rm20;
+        double nm21 = m11 * rm21;
+        double nm22 = m22 * rm22;
+        double nm23 = m23 * rm22;
+        double nm30 = m00 * rm30;
+        double nm31 = m11 * rm31;
+        double nm32 = m22 * rm32 + m32;
+        double nm33 = m23 * rm32;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = 0;
+
+        return dest;
     }
 
     /**
@@ -10149,8 +10415,10 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-        double h = Math.tan(fovy * 0.5);
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setPerspective(fovy, aspect, zNear, zFar, zZeroToOne);
 
+        double h = Math.tan(fovy * 0.5);
         // calculate right matrix elements
         double rm00 = 1.0 / (h * aspect);
         double rm11 = 1.0 / h;
@@ -10408,6 +10676,9 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setPerspectiveLH(fovy, aspect, zNear, zFar, zZeroToOne);
+
         double h = Math.tan(fovy * 0.5);
         // calculate right matrix elements
         double rm00 = 1.0 / (h * aspect);

@@ -1088,8 +1088,6 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulPerspectiveAffine(Matrix4f view, Matrix4f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.set(view);
         float nm00 = m00 * view.m00;
         float nm01 = m11 * view.m01;
         float nm02 = m22 * view.m02;
@@ -6813,6 +6811,9 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f lookAlong(float dirX, float dirY, float dirZ,
                               float upX, float upY, float upZ, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
+
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float dirnX = dirX * invDirLength;
@@ -7791,9 +7792,8 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setPerspective(fovy, aspect, zNear, zFar, zZeroToOne);
-        }
 
         float h = (float) Math.tan(fovy * 0.5f);
         // calculate right matrix elements
