@@ -125,7 +125,7 @@ public class Matrix4f implements Externalizable {
     private float m02, m12, m22, m32;
     private float m03, m13, m23, m33;
 
-    private byte properties;
+    byte properties;
     private static final byte PROPERTY_PERSPECTIVE = 1<<0;
     private static final byte PROPERTY_AFFINE = 1<<1;
     private static final byte PROPERTY_IDENTITY = 1<<2;
@@ -152,13 +152,13 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f(Matrix3f mat) {
         m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
         m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
         m20 = mat.m20;
+        m01 = mat.m01;
+        m11 = mat.m11;
         m21 = mat.m21;
+        m02 = mat.m02;
+        m12 = mat.m12;
         m22 = mat.m22;
         m33 = 1.0f;
         properties = PROPERTY_AFFINE;
@@ -172,20 +172,20 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f(Matrix4f mat) {
         m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m03 = mat.m03;
         m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m13 = mat.m13;
         m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m23 = mat.m23;
         m30 = mat.m30;
+        m01 = mat.m01;
+        m11 = mat.m11;
+        m21 = mat.m21;
         m31 = mat.m31;
+        m02 = mat.m02;
+        m12 = mat.m12;
+        m22 = mat.m22;
         m32 = mat.m32;
+        m03 = mat.m03;
+        m13 = mat.m13;
+        m23 = mat.m23;
         m33 = mat.m33;
         properties = mat.properties;
     }
@@ -200,22 +200,22 @@ public class Matrix4f implements Externalizable {
      *          the {@link Matrix4d} to copy the values from
      */
     public Matrix4f(Matrix4d mat) {
-        m00 = (float) mat.m00;
-        m01 = (float) mat.m01;
-        m02 = (float) mat.m02;
-        m03 = (float) mat.m03;
-        m10 = (float) mat.m10;
-        m11 = (float) mat.m11;
-        m12 = (float) mat.m12;
-        m13 = (float) mat.m13;
-        m20 = (float) mat.m20;
-        m21 = (float) mat.m21;
-        m22 = (float) mat.m22;
-        m23 = (float) mat.m23;
-        m30 = (float) mat.m30;
-        m31 = (float) mat.m31;
-        m32 = (float) mat.m32;
-        m33 = (float) mat.m33;
+        m00 = (float) mat.m00();
+        m01 = (float) mat.m01();
+        m02 = (float) mat.m02();
+        m03 = (float) mat.m03();
+        m10 = (float) mat.m10();
+        m11 = (float) mat.m11();
+        m12 = (float) mat.m12();
+        m13 = (float) mat.m13();
+        m20 = (float) mat.m20();
+        m21 = (float) mat.m21();
+        m22 = (float) mat.m22();
+        m23 = (float) mat.m23();
+        m30 = (float) mat.m30();
+        m31 = (float) mat.m31();
+        m32 = (float) mat.m32();
+        m33 = (float) mat.m33();
         properties = 0;
     }
 
@@ -260,20 +260,20 @@ public class Matrix4f implements Externalizable {
                     float m20, float m21, float m22, float m23,
                     float m30, float m31, float m32, float m33) {
         this.m00 = m00;
-        this.m01 = m01;
-        this.m02 = m02;
-        this.m03 = m03;
         this.m10 = m10;
-        this.m11 = m11;
-        this.m12 = m12;
-        this.m13 = m13;
         this.m20 = m20;
-        this.m21 = m21;
-        this.m22 = m22;
-        this.m23 = m23;
         this.m30 = m30;
+        this.m01 = m01;
+        this.m11 = m11;
+        this.m21 = m21;
         this.m31 = m31;
+        this.m02 = m02;
+        this.m12 = m12;
+        this.m22 = m22;
         this.m32 = m32;
+        this.m03 = m03;
+        this.m13 = m13;
+        this.m23 = m23;
         this.m33 = m33;
         properties = 0;
     }
@@ -674,20 +674,20 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f identity() {
         m00 = 1.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
         m10 = 0.0f;
-        m11 = 1.0f;
-        m12 = 0.0f;
-        m13 = 0.0f;
         m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = 1.0f;
-        m23 = 0.0f;
         m30 = 0.0f;
+        m01 = 0.0f;
+        m11 = 1.0f;
+        m21 = 0.0f;
         m31 = 0.0f;
-        m32 = 0.0f;
+        m02 = 0.0f;
+        m12 = 0.0f;
+        m22 = 1.0f;
+        m30 = 0.0f;
+        m03 = 0.0f;
+        m13 = 0.0f;
+        m23 = 0.0f;
         m33 = 1.0f;
         properties = PROPERTY_IDENTITY | PROPERTY_AFFINE | PROPERTY_TRANSLATION;
         return this;
@@ -738,22 +738,22 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(Matrix4d m) {
-        m00 = (float) m.m00;
-        m10 = (float) m.m10;
-        m20 = (float) m.m20;
-        m30 = (float) m.m30;
-        m01 = (float) m.m01;
-        m11 = (float) m.m11;
-        m21 = (float) m.m21;
-        m31 = (float) m.m31;
-        m02 = (float) m.m02;
-        m12 = (float) m.m12;
-        m22 = (float) m.m22;
-        m32 = (float) m.m32;
-        m03 = (float) m.m03;
-        m13 = (float) m.m13;
-        m23 = (float) m.m23;
-        m33 = (float) m.m33;
+        m00 = (float) m.m00();
+        m10 = (float) m.m10();
+        m20 = (float) m.m20();
+        m30 = (float) m.m30();
+        m01 = (float) m.m01();
+        m11 = (float) m.m11();
+        m21 = (float) m.m21();
+        m31 = (float) m.m31();
+        m02 = (float) m.m02();
+        m12 = (float) m.m12();
+        m22 = (float) m.m22();
+        m32 = (float) m.m32();
+        m03 = (float) m.m03();
+        m13 = (float) m.m13();
+        m23 = (float) m.m23();
+        m33 = (float) m.m33();
         properties = 0;
         return this;
     }
@@ -1197,7 +1197,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = 0;
+        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ZERO);
         return dest;
     }
 
@@ -1761,20 +1761,20 @@ public class Matrix4f implements Externalizable {
                         float m20, float m21, float m22, float m23, 
                         float m30, float m31, float m32, float m33) {
         this.m00 = m00;
-        this.m01 = m01;
-        this.m02 = m02;
-        this.m03 = m03;
         this.m10 = m10;
-        this.m11 = m11;
-        this.m12 = m12;
-        this.m13 = m13;
         this.m20 = m20;
-        this.m21 = m21;
-        this.m22 = m22;
-        this.m23 = m23;
         this.m30 = m30;
+        this.m01 = m01;
+        this.m11 = m11;
+        this.m21 = m21;
         this.m31 = m31;
+        this.m02 = m02;
+        this.m12 = m12;
+        this.m22 = m22;
         this.m32 = m32;
+        this.m03 = m03;
+        this.m13 = m13;
+        this.m23 = m23;
         this.m33 = m33;
         properties = 0;
         return this;
@@ -4782,6 +4782,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotationXYZ(angleX, angleY, angleZ);
+
         float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
         float cosY = (float) Math.cos(angleY);
@@ -4981,6 +4984,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateZYX(float angleZ, float angleY, float angleX, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotationZYX(angleZ, angleY, angleX);        
+
         float cosZ = (float) Math.cos(angleZ);
         float sinZ = (float) Math.sin(angleZ);
         float cosY = (float) Math.cos(angleY);
@@ -5178,6 +5184,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateYXZ(float angleY, float angleX, float angleZ, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotationYXZ(angleY, angleX, angleZ);
+
         float cosY = (float) Math.cos(angleY);
         float sinY = (float) Math.sin(angleY);
         float cosX = (float) Math.cos(angleX);
@@ -8357,7 +8366,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties = PROPERTY_PERSPECTIVE;
+        dest.properties = 0;
 
         return dest;
     }
@@ -8535,7 +8544,7 @@ public class Matrix4f implements Externalizable {
         m30 = 0.0f;
         m31 = 0.0f;
         m33 = 0.0f;
-        properties = PROPERTY_PERSPECTIVE;
+        properties = 0;
         return this;
     }
 
@@ -8655,7 +8664,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_AFFINE | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        properties = 0;
         return dest;
     }
 
@@ -8832,7 +8841,7 @@ public class Matrix4f implements Externalizable {
         m30 = 0.0f;
         m31 = 0.0f;
         m33 = 0.0f;
-        properties = PROPERTY_PERSPECTIVE;
+        properties = 0;
         return this;
     }
 
