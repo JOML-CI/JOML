@@ -294,6 +294,16 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Assume no properties of the matrix.
+     * 
+     * @return this
+     */
+    public Matrix4f assumeNothing() {
+        properties = 0;
+        return this;
+    }
+
+    /**
      * Assume that this matrix is {@link #isAffine() affine}.
      * 
      * @return this
@@ -695,20 +705,20 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f set(Matrix4f m) {
         m00 = m.m00;
-        m01 = m.m01;
-        m02 = m.m02;
-        m03 = m.m03;
         m10 = m.m10;
-        m11 = m.m11;
-        m12 = m.m12;
-        m13 = m.m13;
         m20 = m.m20;
-        m21 = m.m21;
-        m22 = m.m22;
-        m23 = m.m23;
         m30 = m.m30;
+        m01 = m.m01;
+        m11 = m.m11;
+        m21 = m.m21;
         m31 = m.m31;
+        m02 = m.m02;
+        m12 = m.m12;
+        m22 = m.m22;
         m32 = m.m32;
+        m03 = m.m03;
+        m13 = m.m13;
+        m23 = m.m23;
         m33 = m.m33;
         properties = m.properties;
         return this;
@@ -729,20 +739,20 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f set(Matrix4d m) {
         m00 = (float) m.m00;
-        m01 = (float) m.m01;
-        m02 = (float) m.m02;
-        m03 = (float) m.m03;
         m10 = (float) m.m10;
-        m11 = (float) m.m11;
-        m12 = (float) m.m12;
-        m13 = (float) m.m13;
         m20 = (float) m.m20;
-        m21 = (float) m.m21;
-        m22 = (float) m.m22;
-        m23 = (float) m.m23;
         m30 = (float) m.m30;
+        m01 = (float) m.m01;
+        m11 = (float) m.m11;
+        m21 = (float) m.m21;
         m31 = (float) m.m31;
+        m02 = (float) m.m02;
+        m12 = (float) m.m12;
+        m22 = (float) m.m22;
         m32 = (float) m.m32;
+        m03 = (float) m.m03;
+        m13 = (float) m.m13;
+        m23 = (float) m.m23;
         m33 = (float) m.m33;
         properties = 0;
         return this;
@@ -760,20 +770,20 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f set(Matrix3f mat) {
         m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m03 = 0.0f;
         m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m13 = 0.0f;
         m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m23 = 0.0f;
         m30 = 0.0f;
+        m01 = mat.m01;
+        m11 = mat.m11;
+        m21 = mat.m21;
         m31 = 0.0f;
+        m02 = mat.m02;
+        m12 = mat.m12;
+        m22 = mat.m22;
         m32 = 0.0f;
+        m03 = 0.0f;
+        m13 = 0.0f;
+        m23 = 0.0f;
         m33 = 1.0f;
         properties = PROPERTY_AFFINE;
         return this;
