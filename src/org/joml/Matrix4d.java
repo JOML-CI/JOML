@@ -9952,7 +9952,6 @@ public class Matrix4d implements Externalizable {
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt()}.
      * 
-     * @see #lookAt(Vector3d, Vector3d, Vector3d)
      * @see #setLookAt(double, double, double, double, double, double, double, double, double)
      * 
      * @param eyeX
@@ -10255,6 +10254,11 @@ public class Matrix4d implements Externalizable {
     public Matrix4d lookAtLH(double eyeX, double eyeY, double eyeZ,
                              double centerX, double centerY, double centerZ,
                              double upX, double upY, double upZ, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.setLookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0)
+            return lookAtPerspectiveLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
+
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -10366,6 +10370,125 @@ public class Matrix4d implements Externalizable {
                              double centerX, double centerY, double centerZ,
                              double upX, double upY, double upZ) {
         return lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Apply a "lookat" transformation to this matrix for a left-handed coordinate system, 
+     * that aligns <code>+z</code> with <code>center - eye</code> and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes <code>this</code> to be a perspective transformation, obtained via
+     * {@link #frustumLH(double, double, double, double, double, double) frustumLH()} or {@link #perspectiveLH(double, double, double, double) perspectiveLH()} or
+     * one of their overloads.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a lookat transformation without post-multiplying it,
+     * use {@link #setLookAtLH(double, double, double, double, double, double, double, double, double) setLookAtLH()}.
+     * 
+     * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
+     * 
+     * @param eyeX
+     *              the x-coordinate of the eye/camera location
+     * @param eyeY
+     *              the y-coordinate of the eye/camera location
+     * @param eyeZ
+     *              the z-coordinate of the eye/camera location
+     * @param centerX
+     *              the x-coordinate of the point to look at
+     * @param centerY
+     *              the y-coordinate of the point to look at
+     * @param centerZ
+     *              the z-coordinate of the point to look at
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4d lookAtPerspectiveLH(double eyeX, double eyeY, double eyeZ,
+            double centerX, double centerY, double centerZ,
+            double upX, double upY, double upZ, Matrix4d dest) {
+        // Compute direction from position to lookAt
+        double dirX, dirY, dirZ;
+        dirX = centerX - eyeX;
+        dirY = centerY - eyeY;
+        dirZ = centerZ - eyeZ;
+        // Normalize direction
+        double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        dirX *= invDirLength;
+        dirY *= invDirLength;
+        dirZ *= invDirLength;
+        // left = up x direction
+        double leftX, leftY, leftZ;
+        leftX = upY * dirZ - upZ * dirY;
+        leftY = upZ * dirX - upX * dirZ;
+        leftZ = upX * dirY - upY * dirX;
+        // normalize left
+        double invLeftLength = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        double upnX = dirY * leftZ - dirZ * leftY;
+        double upnY = dirZ * leftX - dirX * leftZ;
+        double upnZ = dirX * leftY - dirY * leftX;
+
+        // calculate right matrix elements
+        double rm00 = leftX;
+        double rm01 = upnX;
+        double rm02 = dirX;
+        double rm10 = leftY;
+        double rm11 = upnY;
+        double rm12 = dirY;
+        double rm20 = leftZ;
+        double rm21 = upnZ;
+        double rm22 = dirZ;
+        double rm30 = -(leftX * eyeX + leftY * eyeY + leftZ * eyeZ);
+        double rm31 = -(upnX * eyeX + upnY * eyeY + upnZ * eyeZ);
+        double rm32 = -(dirX * eyeX + dirY * eyeY + dirZ * eyeZ);
+
+        double nm00 = m00 * rm00;
+        double nm01 = m11 * rm01;
+        double nm02 = m22 * rm02;
+        double nm03 = m23 * rm02;
+        double nm10 = m00 * rm10;
+        double nm11 = m11 * rm11;
+        double nm12 = m22 * rm12;
+        double nm13 = m23 * rm12;
+        double nm20 = m00 * rm20;
+        double nm21 = m11 * rm21;
+        double nm22 = m22 * rm22;
+        double nm23 = m23 * rm22;
+        double nm30 = m00 * rm30;
+        double nm31 = m11 * rm31;
+        double nm32 = m22 * rm32 + m32;
+        double nm33 = m23 * rm32;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = 0;
+
+        return dest;
     }
 
     /**
