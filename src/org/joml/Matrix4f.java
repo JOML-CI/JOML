@@ -1161,8 +1161,6 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f mulAffineR(Matrix4f right, Matrix4f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.set(right);
         float nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
         float nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
         float nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
@@ -5576,9 +5574,6 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateAffine(float ang, float x, float y, float z, Matrix4f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotation(ang, x, y, z);
-
         float s = (float) Math.sin(ang);
         float c = (float) Math.cos(ang);
         float C = 1.0f - c;
@@ -5698,9 +5693,6 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateAffineLocal(float ang, float x, float y, float z, Matrix4f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotation(ang, x, y, z);
-
         float s = (float) Math.sin(ang);
         float c = (float) Math.cos(ang);
         float C = 1.0f - c;
@@ -9018,9 +9010,6 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateAffine(Quaternionf quat, Matrix4f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotation(quat);
-
         float dqx = quat.x + quat.x;
         float dqy = quat.y + quat.y;
         float dqz = quat.z + quat.z;
@@ -9208,9 +9197,6 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f rotateAffineLocal(Quaternionf quat, Matrix4f dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotation(quat);
-
         float dqx = quat.x + quat.x;
         float dqy = quat.y + quat.y;
         float dqz = quat.z + quat.z;

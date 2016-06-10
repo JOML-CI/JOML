@@ -1224,8 +1224,6 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d mulAffineR(Matrix4d right, Matrix4d dest) {
-    	if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.set(right);
         double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
         double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
         double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
@@ -4453,9 +4451,6 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotateAffine(double ang, double x, double y, double z, Matrix4d dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotation(ang, x, y, z);
-
         double s = Math.sin(ang);
         double c = Math.cos(ang);
         double C = 1.0 - c;
@@ -4575,9 +4570,6 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotateAffineLocal(double ang, double x, double y, double z, Matrix4d dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotation(ang, x, y, z);
-
         double s = Math.sin(ang);
         double c = Math.cos(ang);
         double C = 1.0 - c;
@@ -6679,9 +6671,6 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotateAffine(Quaterniond quat, Matrix4d dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotation(quat);
-
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
@@ -6942,9 +6931,6 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotateAffineLocal(Quaterniond quat, Matrix4d dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotation(quat);
-
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
