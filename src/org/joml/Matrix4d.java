@@ -4054,6 +4054,8 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d scale(double x, double y, double z, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.scaling(x, y, z);
         // scale matrix elements:
         // m00 = x, m11 = y, m22 = z
         // m33 = 1
@@ -4158,6 +4160,9 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d scaleLocal(double x, double y, double z, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.scaling(x, y, z);
+
         double nm00 = x * m00;
         double nm01 = y * m01;
         double nm02 = z * m02;
@@ -4647,10 +4652,8 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d translate(double x, double y, double z, Matrix4d dest) {
-        // translation matrix elements:
-        // m00, m11, m22, m33 = 1
-        // m30 = x, m31 = y, m32 = z
-        // all others = 0
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.translation(x, y, z);
         dest.m00 = m00;
         dest.m01 = m01;
         dest.m02 = m02;
@@ -4694,11 +4697,9 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d translate(double x, double y, double z) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return translation(x, y, z);
         Matrix4d c = this;
-        // translation matrix elements:
-        // m00, m11, m22, m33 = 1
-        // m30 = x, m31 = y, m32 = z
-        // all others = 0
         c.m30 = c.m00 * x + c.m10 * y + c.m20 * z + c.m30;
         c.m31 = c.m01 * x + c.m11 * y + c.m21 * z + c.m31;
         c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
@@ -6318,6 +6319,13 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotate(Quaterniond quat, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotation(quat);
+        else if ((properties & PROPERTY_TRANSLATION) != 0)
+            return rotateTranslation(quat, dest);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return rotateAffine(quat, dest);
+
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
@@ -6397,6 +6405,13 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotate(Quaternionf quat, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotation(quat);
+        else if ((properties & PROPERTY_TRANSLATION) != 0)
+            return rotateTranslation(quat, dest);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return rotateAffine(quat, dest);
+
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
@@ -6640,6 +6655,82 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d rotateTranslation(Quaterniond quat, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
+        double rm00 = 1.0 - q11 - q22;
+        double rm01 = q01 + q23;
+        double rm02 = q02 - q13;
+        double rm10 = q01 - q23;
+        double rm11 = 1.0 - q22 - q00;
+        double rm12 = q12 + q03;
+        double rm20 = q02 + q13;
+        double rm21 = q12 - q03;
+        double rm22 = 1.0 - q11 - q00;
+        double nm00 = rm00;
+        double nm01 = rm01;
+        double nm02 = rm02;
+        double nm10 = rm10;
+        double nm11 = rm11;
+        double nm12 = rm12;
+        dest.m20 = rm20;
+        dest.m21 = rm21;
+        dest.m22 = rm22;
+        dest.m23 = 0.0;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = 0.0;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = 0.0;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        return dest;
+    }
+
+    /**
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix, which is assumed to only contain a translation, and store
+     * the result in <code>dest</code>.
+     * <p>
+     * This method assumes <code>this</code> to only contain a translation.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying,
+     * use {@link #rotation(Quaternionf)}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(Quaternionf)
+     * 
+     * @param quat
+     *          the {@link Quaternionf}
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4d rotateTranslation(Quaternionf quat, Matrix4d dest) {
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
