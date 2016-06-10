@@ -1011,7 +1011,9 @@ public class Matrix4d implements Externalizable {
             return mulPerspectiveAffine(right, dest);
         else if ((right.properties & PROPERTY_AFFINE) != 0)
             return mulAffineR(right, dest);
-
+        return mulGeneric(right, dest);
+    }
+    private Matrix4d mulGeneric(Matrix4d right, Matrix4d dest) {
         double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03;
         double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03;
         double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03;
@@ -2105,6 +2107,9 @@ public class Matrix4d implements Externalizable {
             return invertAffine(dest);
         else if ((properties & PROPERTY_PERSPECTIVE) != 0)
             return invertPerspective(dest);
+        return invertGeneric(dest);
+    }
+    private Matrix4d invertGeneric(Matrix4d dest) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
         double c = m00 * m13 - m03 * m10;
@@ -4054,10 +4059,9 @@ public class Matrix4d implements Externalizable {
     public Matrix4d scale(double x, double y, double z, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.scaling(x, y, z);
-        // scale matrix elements:
-        // m00 = x, m11 = y, m22 = z
-        // m33 = 1
-        // all others = 0
+        return scaleGeneric(x, y, z, dest);
+    }
+    private Matrix4d scaleGeneric(double x, double y, double z, Matrix4d dest) {
         dest.m00 = m00 * x;
         dest.m01 = m01 * x;
         dest.m02 = m02 * x;
@@ -4250,14 +4254,12 @@ public class Matrix4d implements Externalizable {
             return rotateTranslation(ang, x, y, z, dest);
         else if ((properties & PROPERTY_AFFINE) != 0)
             return rotateAffine(ang, x, y, z, dest);
-
+        return rotateGeneric(ang, x, y, z, dest);
+    }
+    private Matrix4d rotateGeneric(double ang, double x, double y, double z, Matrix4d dest) {
         double s = Math.sin(ang);
         double c = Math.cos(ang);
         double C = 1.0 - c;
-
-        // rotation matrix elements:
-        // m30, m31, m32, m03, m13, m23 = 0
-        // m33 = 1
         double xx = x * x, xy = x * y, xz = x * z;
         double yy = y * y, yz = y * z;
         double zz = z * z;
@@ -4270,8 +4272,6 @@ public class Matrix4d implements Externalizable {
         double rm20 = xz * C + y * s;
         double rm21 = yz * C - x * s;
         double rm22 = zz * C + c;
-
-        // add temporaries for dependent values
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
@@ -4280,12 +4280,10 @@ public class Matrix4d implements Externalizable {
         double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
         double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
         double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
-        // set non-dependent values directly
         dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
         dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
         dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
         dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
-        // set other values
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -4778,6 +4776,9 @@ public class Matrix4d implements Externalizable {
     public Matrix4d translate(double x, double y, double z, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.translation(x, y, z);
+        return translateGeneric(x, y, z, dest);
+    }
+    private Matrix4d translateGeneric(double x, double y, double z, Matrix4d dest) {
         dest.m00 = m00;
         dest.m01 = m01;
         dest.m02 = m02;
@@ -6449,7 +6450,9 @@ public class Matrix4d implements Externalizable {
             return rotateTranslation(quat, dest);
         else if ((properties & PROPERTY_AFFINE) != 0)
             return rotateAffine(quat, dest);
-
+        return rotateGeneric(quat, dest);
+    }
+    private Matrix4d rotateGeneric(Quaterniond quat, Matrix4d dest) {
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
@@ -6462,7 +6465,6 @@ public class Matrix4d implements Externalizable {
         double q12 = dqy * quat.z;
         double q13 = dqy * quat.w;
         double q23 = dqz * quat.w;
-
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
         double rm02 = q02 - q13;
@@ -6472,7 +6474,6 @@ public class Matrix4d implements Externalizable {
         double rm20 = q02 + q13;
         double rm21 = q12 - q03;
         double rm22 = 1.0 - q11 - q00;
-
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
@@ -6498,7 +6499,6 @@ public class Matrix4d implements Externalizable {
         dest.m32 = m32;
         dest.m33 = m33;
         dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
-
         return dest;
     }
 
@@ -6535,7 +6535,9 @@ public class Matrix4d implements Externalizable {
             return rotateTranslation(quat, dest);
         else if ((properties & PROPERTY_AFFINE) != 0)
             return rotateAffine(quat, dest);
-
+        return rotateGeneric(quat, dest);
+    }
+    private Matrix4d rotateGeneric(Quaternionf quat, Matrix4d dest) {
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
@@ -6548,7 +6550,6 @@ public class Matrix4d implements Externalizable {
         double q12 = dqy * quat.z;
         double q13 = dqy * quat.w;
         double q23 = dqz * quat.w;
-
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
         double rm02 = q02 - q13;
@@ -6558,7 +6559,6 @@ public class Matrix4d implements Externalizable {
         double rm20 = q02 + q13;
         double rm21 = q12 - q03;
         double rm22 = 1.0 - q11 - q00;
-
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
@@ -6584,7 +6584,6 @@ public class Matrix4d implements Externalizable {
         dest.m32 = m32;
         dest.m33 = m33;
         dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
-
         return dest;
     }
 
