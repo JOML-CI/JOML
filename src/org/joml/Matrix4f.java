@@ -4327,7 +4327,7 @@ public class Matrix4f implements Externalizable {
             return dest.scaling(x, y, z);
         return scaleGeneric(x, y, z, dest);
     }
-    public Matrix4f scaleGeneric(float x, float y, float z, Matrix4f dest) {
+    private Matrix4f scaleGeneric(float x, float y, float z, Matrix4f dest) {
         dest.m00 = m00 * x;
         dest.m01 = m01 * x;
         dest.m02 = m02 * x;
