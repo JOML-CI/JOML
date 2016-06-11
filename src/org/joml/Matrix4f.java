@@ -10142,6 +10142,9 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f reflect(float a, float b, float c, float d, Matrix4f dest) {
+    	if ((properties & PROPERTY_IDENTITY) != 0)
+    		return dest.reflection(a, b, c, d);
+
         float da = a + a, db = b + b, dc = c + c, dd = d + d;
         float rm00 = 1.0f - da * a;
         float rm01 = -da * b;

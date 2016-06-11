@@ -8354,6 +8354,9 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d reflect(double a, double b, double c, double d, Matrix4d dest) {
+    	if ((properties & PROPERTY_IDENTITY) != 0)
+    		return dest.reflection(a, b, c, d);
+
         double da = a + a, db = b + b, dc = c + c, dd = d + d;
         double rm00 = 1.0 - da * a;
         double rm01 = -da * b;
