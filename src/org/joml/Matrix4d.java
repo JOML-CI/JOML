@@ -4531,10 +4531,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Pre-multiply a rotation to this {@link #isAffine() affine} matrix by rotating the given amount of radians
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians
      * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
-     * <p>
-     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -4566,7 +4564,7 @@ public class Matrix4d implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix4d rotateAffineLocal(double ang, double x, double y, double z, Matrix4d dest) {
+    public Matrix4d rotateLocal(double ang, double x, double y, double z, Matrix4d dest) {
         double s = Math.sin(ang);
         double c = Math.cos(ang);
         double C = 1.0 - c;
@@ -4585,19 +4583,19 @@ public class Matrix4d implements Externalizable {
         double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
         double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
         double nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
-        double nm03 = 0.0;
+        double nm03 = m03;
         double nm10 = lm00 * m10 + lm10 * m11 + lm20 * m12;
         double nm11 = lm01 * m10 + lm11 * m11 + lm21 * m12;
         double nm12 = lm02 * m10 + lm12 * m11 + lm22 * m12;
-        double nm13 = 0.0;
+        double nm13 = m13;
         double nm20 = lm00 * m20 + lm10 * m21 + lm20 * m22;
         double nm21 = lm01 * m20 + lm11 * m21 + lm21 * m22;
         double nm22 = lm02 * m20 + lm12 * m21 + lm22 * m22;
-        double nm23 = 0.0;
+        double nm23 = m23;
         double nm30 = lm00 * m30 + lm10 * m31 + lm20 * m32;
         double nm31 = lm01 * m30 + lm11 * m31 + lm21 * m32;
         double nm32 = lm02 * m30 + lm12 * m31 + lm22 * m32;
-        double nm33 = 1.0;
+        double nm33 = m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -4619,10 +4617,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Pre-multiply a rotation to this {@link #isAffine() affine} matrix by rotating the given amount of radians
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians
      * about the specified <tt>(x, y, z)</tt> axis.
-     * <p>
-     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
      * The axis described by the three components needs to be a unit vector.
      * <p>
@@ -4652,8 +4648,8 @@ public class Matrix4d implements Externalizable {
      *            the z component of the axis
      * @return this
      */
-    public Matrix4d rotateAffineLocal(double ang, double x, double y, double z) {
-        return rotateAffineLocal(ang, x, y, z, this);
+    public Matrix4d rotateLocal(double ang, double x, double y, double z) {
+        return rotateLocal(ang, x, y, z, this);
     }
 
     /**
@@ -6901,10 +6897,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this {@link #isAffine() affine} matrix and store
+     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix and store
      * the result in <code>dest</code>.
-     * <p>
-     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -6928,7 +6922,7 @@ public class Matrix4d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotateAffineLocal(Quaterniond quat, Matrix4d dest) {
+    public Matrix4d rotateLocal(Quaterniond quat, Matrix4d dest) {
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
@@ -6953,19 +6947,19 @@ public class Matrix4d implements Externalizable {
         double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
         double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
         double nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
-        double nm03 = 0.0;
+        double nm03 = m03;
         double nm10 = lm00 * m10 + lm10 * m11 + lm20 * m12;
         double nm11 = lm01 * m10 + lm11 * m11 + lm21 * m12;
         double nm12 = lm02 * m10 + lm12 * m11 + lm22 * m12;
-        double nm13 = 0.0;
+        double nm13 = m13;
         double nm20 = lm00 * m20 + lm10 * m21 + lm20 * m22;
         double nm21 = lm01 * m20 + lm11 * m21 + lm21 * m22;
         double nm22 = lm02 * m20 + lm12 * m21 + lm22 * m22;
-        double nm23 = 0.0;
+        double nm23 = m23;
         double nm30 = lm00 * m30 + lm10 * m31 + lm20 * m32;
         double nm31 = lm01 * m30 + lm11 * m31 + lm21 * m32;
         double nm32 = lm02 * m30 + lm12 * m31 + lm22 * m32;
-        double nm33 = 1.0;
+        double nm33 = m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -6989,8 +6983,6 @@ public class Matrix4d implements Externalizable {
     /**
      * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix.
      * <p>
-     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
-     * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
@@ -7011,8 +7003,8 @@ public class Matrix4d implements Externalizable {
      *          the {@link Quaterniond}
      * @return this
      */
-    public Matrix4d rotateAffineLocal(Quaterniond quat) {
-        return rotateAffineLocal(quat, this);
+    public Matrix4d rotateLocal(Quaterniond quat) {
+        return rotateLocal(quat, this);
     }
 
     /**
@@ -7124,10 +7116,8 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this {@link #isAffine() affine} matrix and store
+     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
-     * <p>
-     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -7151,7 +7141,7 @@ public class Matrix4d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotateAffineLocal(Quaternionf quat, Matrix4d dest) {
+    public Matrix4d rotateLocal(Quaternionf quat, Matrix4d dest) {
         double dqx = quat.x + quat.x;
         double dqy = quat.y + quat.y;
         double dqz = quat.z + quat.z;
@@ -7176,19 +7166,19 @@ public class Matrix4d implements Externalizable {
         double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
         double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
         double nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
-        double nm03 = 0.0;
+        double nm03 = m03;
         double nm10 = lm00 * m10 + lm10 * m11 + lm20 * m12;
         double nm11 = lm01 * m10 + lm11 * m11 + lm21 * m12;
         double nm12 = lm02 * m10 + lm12 * m11 + lm22 * m12;
-        double nm13 = 0.0;
+        double nm13 = m13;
         double nm20 = lm00 * m20 + lm10 * m21 + lm20 * m22;
         double nm21 = lm01 * m20 + lm11 * m21 + lm21 * m22;
         double nm22 = lm02 * m20 + lm12 * m21 + lm22 * m22;
-        double nm23 = 0.0;
+        double nm23 = m23;
         double nm30 = lm00 * m30 + lm10 * m31 + lm20 * m32;
         double nm31 = lm01 * m30 + lm11 * m31 + lm21 * m32;
         double nm32 = lm02 * m30 + lm12 * m31 + lm22 * m32;
-        double nm33 = 1.0;
+        double nm33 = m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -7212,8 +7202,6 @@ public class Matrix4d implements Externalizable {
     /**
      * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix.
      * <p>
-     * This method assumes <code>this</code> to be {@link #isAffine() affine}.
-     * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
      * When used with a left-handed coordinate system, the rotation is clockwise.
@@ -7234,8 +7222,8 @@ public class Matrix4d implements Externalizable {
      *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix4d rotateAffineLocal(Quaternionf quat) {
-        return rotateAffineLocal(quat, this);
+    public Matrix4d rotateLocal(Quaternionf quat) {
+        return rotateLocal(quat, this);
     }
 
     /**
