@@ -215,7 +215,7 @@ public class Matrix4f implements Externalizable {
         m31 = (float) mat.m31();
         m32 = (float) mat.m32();
         m33 = (float) mat.m33();
-        properties = 0;
+        properties = mat.properties;
     }
 
     /**
@@ -753,7 +753,7 @@ public class Matrix4f implements Externalizable {
         m13 = (float) m.m13();
         m23 = (float) m.m23();
         m33 = (float) m.m33();
-        properties = 0;
+        properties = m.properties;
         return this;
     }
 
