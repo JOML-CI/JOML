@@ -129,8 +129,7 @@ public class Matrix4f implements Externalizable {
     private static final byte PROPERTY_PERSPECTIVE = 1<<0;
     private static final byte PROPERTY_AFFINE = 1<<1;
     private static final byte PROPERTY_IDENTITY = 1<<2;
-    private static final byte PROPERTY_ZERO = 1<<3;
-    private static final byte PROPERTY_TRANSLATION = 1<<4;
+    private static final byte PROPERTY_TRANSLATION = 1<<3;
 
     /**
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
@@ -461,7 +460,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m00(float m00) {
         this.m00 = m00;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -473,7 +472,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m01(float m01) {
         this.m01 = m01;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -485,7 +484,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m02(float m02) {
         this.m02 = m02;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -509,7 +508,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m10(float m10) {
         this.m10 = m10;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -521,7 +520,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m11(float m11) {
         this.m11 = m11;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -533,7 +532,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m12(float m12) {
         this.m12 = m12;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -557,7 +556,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m20(float m20) {
         this.m20 = m20;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -569,7 +568,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m21(float m21) {
         this.m21 = m21;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -581,7 +580,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m22(float m22) {
         this.m22 = m22;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -593,7 +592,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m23(float m23) {
         this.m23 = m23;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_AFFINE | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_AFFINE | PROPERTY_TRANSLATION);
         return this;
     }
     /**
@@ -605,7 +604,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m30(float m30) {
         this.m30 = m30;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_PERSPECTIVE);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE);
         return this;
     }
     /**
@@ -617,7 +616,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m31(float m31) {
         this.m31 = m31;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_PERSPECTIVE);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE);
         return this;
     }
     /**
@@ -629,7 +628,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f m32(float m32) {
         this.m32 = m32;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_PERSPECTIVE);
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE);
         return this;
     }
     /**
@@ -973,7 +972,7 @@ public class Matrix4f implements Externalizable {
         m20 = mat.m20;
         m21 = mat.m21;
         m22 = mat.m22;
-        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
@@ -1195,7 +1194,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION | PROPERTY_ZERO);
+        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -2955,7 +2954,7 @@ public class Matrix4f implements Externalizable {
         m31 = 0.0f;
         m32 = 0.0f;
         m33 = 0.0f;
-        properties = PROPERTY_ZERO;
+        properties = 0;
         return this;
     }
 
@@ -3513,7 +3512,7 @@ public class Matrix4f implements Externalizable {
         m10 = nm00 * m_sinZ;
         m11 = nm01 * m_sinZ + nm11 * cosZ;
         m12 = nm02 * m_sinZ + nm12 * cosZ;
-        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
@@ -3563,7 +3562,7 @@ public class Matrix4f implements Externalizable {
         m20 = nm10 * m_sinX + nm20 * cosX;
         m21 = nm11 * m_sinX + nm21 * cosX;
         m22 = nm22 * cosX;
-        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
@@ -3613,7 +3612,7 @@ public class Matrix4f implements Externalizable {
         m10 = nm00 * m_sinZ + nm10 * cosZ;
         m11 = nm11 * cosZ;
         m12 = nm02 * m_sinZ + nm12 * cosZ;
-        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
@@ -3985,7 +3984,7 @@ public class Matrix4f implements Externalizable {
         m20 = mat.m20;
         m21 = mat.m21;
         m22 = mat.m22;
-        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
@@ -4345,7 +4344,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4425,7 +4424,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4517,7 +4516,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4610,7 +4609,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4703,7 +4702,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4827,7 +4826,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -4927,7 +4926,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5029,7 +5028,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5127,7 +5126,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5229,7 +5228,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5327,7 +5326,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5414,7 +5413,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5529,7 +5528,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -5611,7 +5610,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5737,7 +5736,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -5871,7 +5870,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m01 * x + m11 * y + m21 * z + m31;
         dest.m32 = m02 * x + m12 * y + m22 * z + m32;
         dest.m33 = m03 * x + m13 * y + m23 * z + m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
         return dest;
     }
 
@@ -5905,7 +5904,7 @@ public class Matrix4f implements Externalizable {
         c.m31 = c.m01 * x + c.m11 * y + c.m21 * z + c.m31;
         c.m32 = c.m02 * x + c.m12 * y + c.m22 * z + c.m32;
         c.m33 = c.m03 * x + c.m13 * y + c.m23 * z + c.m33;
-        c.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO);
+        c.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
         return this;
     }
 
@@ -6012,7 +6011,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
         return dest;
     }
 
@@ -6143,7 +6142,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -6386,7 +6385,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -6622,7 +6621,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = -m21;
         dest.m22 = -m22;
         dest.m23 = -m23;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -6864,7 +6863,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -7274,7 +7273,7 @@ public class Matrix4f implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -7710,7 +7709,7 @@ public class Matrix4f implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -7952,7 +7951,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = nm21;
         dest.m22 = nm22;
         dest.m23 = nm23;
-        dest.properties &= ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -8213,7 +8212,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = nm21;
         dest.m22 = nm22;
         dest.m23 = nm23;
-        dest.properties &= ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -9072,7 +9071,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -9177,7 +9176,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -9285,7 +9284,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -9372,7 +9371,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -10190,7 +10189,7 @@ public class Matrix4f implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -11445,7 +11444,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = nm21;
         dest.m22 = nm22;
         dest.m23 = nm23;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
 
         return dest;
     }
@@ -11974,7 +11973,7 @@ public class Matrix4f implements Externalizable {
         dest.m01 = nm01;
         dest.m02 = nm02;
         dest.m03 = nm03;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
@@ -12208,7 +12207,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = (far + far) * near * invNearFar;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_ZERO | PROPERTY_TRANSLATION);
+        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return dest;
     }
 
