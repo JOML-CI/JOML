@@ -125,7 +125,7 @@ public class Matrix4d implements Externalizable {
     private double m02, m12, m22, m32;
     private double m03, m13, m23, m33;
 
-    private byte properties;
+    byte properties;
     private static final byte PROPERTY_PERSPECTIVE = 1<<0;
     private static final byte PROPERTY_AFFINE = 1<<1;
     private static final byte PROPERTY_IDENTITY = 1<<2;
@@ -746,7 +746,7 @@ public class Matrix4d implements Externalizable {
         m13 = m.m13();
         m23 = m.m23();
         m33 = m.m33();
-        properties = 0;
+        properties = m.properties;
         return this;
     }
 
