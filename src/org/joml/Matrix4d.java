@@ -837,6 +837,9 @@ public class Matrix4d implements Externalizable {
         tmp2 = x*s;
         m21 = tmp1 - tmp2;
         m12 = tmp1 + tmp2;
+        m03 = 0.0f;
+        m13 = 0.0f;
+        m23 = 0.0f;
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
@@ -879,6 +882,9 @@ public class Matrix4d implements Externalizable {
         tmp2 = x*s;
         m21 = tmp1 - tmp2;
         m12 = tmp1 + tmp2;
+        m03 = 0.0f;
+        m13 = 0.0f;
+        m23 = 0.0f;
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
@@ -7547,7 +7553,7 @@ public class Matrix4d implements Externalizable {
             dest.x = m30;
             dest.y = m31;
             dest.z = m32;
-            dest.w = m32;
+            dest.w = m33;
             break;
         default:
             throw new IndexOutOfBoundsException();
