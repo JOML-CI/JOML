@@ -65,7 +65,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix4x3f} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3f}
+     * Create a new {@link Matrix4x3f} by setting its left 3x3 submatrix to the values of the given {@link Matrix3f}
      * and the rest to identity.
      * 
      * @param mat
@@ -153,7 +153,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix4x3f} by reading its 11 float components from the given {@link FloatBuffer}
+     * Create a new {@link Matrix4x3f} by reading its 12 float components from the given {@link FloatBuffer}
      * at the buffer's current position.
      * <p>
      * That FloatBuffer is expected to hold the values in column-major order.
@@ -528,7 +528,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4x3f} to the given {@link Matrix3f} 
+     * Set the left 3x3 submatrix of this {@link Matrix4x3f} to the given {@link Matrix3f} 
      * and the rest to identity.
      * 
      * @see #Matrix4x3f(Matrix3f)
@@ -711,7 +711,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4x3f} to that of the given {@link Matrix4x3f} 
+     * Set the left 3x3 submatrix of this {@link Matrix4x3f} to that of the given {@link Matrix4x3f} 
      * and don't change the other elements.
      * 
      * @param mat
@@ -728,7 +728,7 @@ public class Matrix4x3f implements Externalizable {
         m20 = mat.m20;
         m21 = mat.m21;
         m22 = mat.m22;
-        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties &= mat.properties & ~PROPERTY_TRANSLATION;
         return this;
     }
 
@@ -813,7 +813,7 @@ public class Matrix4x3f implements Externalizable {
      * transformation of the right matrix will be applied first!
      *
      * @param right
-     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     *          the right operand of the matrix multiplication
      * @param dest
      *          the destination matrix, which will hold the result
      * @return dest
@@ -1176,7 +1176,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set the values of this matrix by reading 11 float values from the given {@link FloatBuffer} in column-major order,
+     * Set the values of this matrix by reading 12 float values from the given {@link FloatBuffer} in column-major order,
      * starting at its current position.
      * <p>
      * The FloatBuffer is expected to contain the values in column-major order.
@@ -1194,7 +1194,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set the values of this matrix by reading 11 float values from the given {@link ByteBuffer} in column-major order,
+     * Set the values of this matrix by reading 12 float values from the given {@link ByteBuffer} in column-major order,
      * starting at its current position.
      * <p>
      * The ByteBuffer is expected to contain the values in column-major order.
@@ -1359,7 +1359,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Transpose only the upper left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
+     * Transpose only the left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
      * 
      * @return this
      */
@@ -1368,7 +1368,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * Transpose only the left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
      * All other matrix elements are left unchanged.
      * 
@@ -1400,7 +1400,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * Transpose only the left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * 
      * @param dest
      *             will hold the result
@@ -1617,7 +1617,7 @@ public class Matrix4x3f implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
      * <p>
-     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized and
+     * This method assumes that the first three column vectors of the left 3x3 submatrix are not normalized and
      * thus allows to ignore any additional scaling factor that is applied to the matrix.
      * 
      * @see Quaternionf#setFromUnnormalized(Matrix4x3f)
@@ -1634,7 +1634,7 @@ public class Matrix4x3f implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaternionf}.
      * <p>
-     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
+     * This method assumes that the first three column vectors of the left 3x3 submatrix are normalized.
      * 
      * @see Quaternionf#setFromNormalized(Matrix4x3f)
      * 
@@ -1650,7 +1650,7 @@ public class Matrix4x3f implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaterniond}.
      * <p>
-     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized and
+     * This method assumes that the first three column vectors of the left 3x3 submatrix are not normalized and
      * thus allows to ignore any additional scaling factor that is applied to the matrix.
      * 
      * @see Quaterniond#setFromUnnormalized(Matrix4x3f)
@@ -1667,7 +1667,7 @@ public class Matrix4x3f implements Externalizable {
      * Get the current values of <code>this</code> matrix and store the represented rotation
      * into the given {@link Quaterniond}.
      * <p>
-     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
+     * This method assumes that the first three column vectors of the left 3x3 submatrix are normalized.
      * 
      * @see Quaterniond#setFromNormalized(Matrix4x3f)
      * 
@@ -2406,7 +2406,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set only the upper left 3x3 submatrix of this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
+     * Set only the left 3x3 submatrix of this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
      * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2456,7 +2456,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set only the upper left 3x3 submatrix of this matrix to a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
+     * Set only the left 3x3 submatrix of this matrix to a rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation
      * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2506,7 +2506,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set only the upper left 3x3 submatrix of this matrix to a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
+     * Set only the left 3x3 submatrix of this matrix to a rotation of <code>angleY</code> radians about the Y axis, followed by a rotation
      * of <code>angleX</code> radians about the X axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2887,7 +2887,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4x3f} to the given {@link Matrix3f} and don't change the other elements..
+     * Set the left 3x3 submatrix of this {@link Matrix4x3f} to the given {@link Matrix3f} and don't change the other elements.
      * 
      * @param mat
      *          the 3x3 matrix
@@ -3147,7 +3147,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -3218,7 +3218,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -3305,7 +3305,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -3393,7 +3393,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -3481,7 +3481,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -3598,7 +3598,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -3693,7 +3693,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -3788,7 +3788,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -3867,7 +3867,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -3979,7 +3979,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -4058,7 +4058,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -4186,7 +4186,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m00 * x + m10 * y + m20 * z + m30;
         dest.m31 = m01 * x + m11 * y + m21 * z + m31;
         dest.m32 = m02 * x + m12 * y + m22 * z + m32;
-        dest.properties &= ~(PROPERTY_IDENTITY);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY));
         return dest;
     }
 
@@ -4306,7 +4306,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30 + x;
         dest.m31 = m31 + y;
         dest.m32 = m32 + z;
-        dest.properties &= ~(PROPERTY_IDENTITY);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY));
         return dest;
     }
 
@@ -4425,7 +4425,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m20 = m20 * rm22;
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -4660,7 +4660,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m20 = m20 * rm22;
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -4888,7 +4888,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m20 = -m20;
         dest.m21 = -m21;
         dest.m22 = -m22;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -5063,8 +5063,7 @@ public class Matrix4x3f implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Matrix4x3f lookAlong(float dirX, float dirY, float dirZ,
-                              float upX, float upY, float upZ, Matrix4x3f dest) {
+    public Matrix4x3f lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix4x3f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return setLookAlong(dirX, dirY, dirZ, upX, upY, upZ);
 
@@ -5120,7 +5119,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -5157,8 +5156,7 @@ public class Matrix4x3f implements Externalizable {
      *              the z-coordinate of the up vector
      * @return this
      */
-    public Matrix4x3f lookAlong(float dirX, float dirY, float dirZ,
-                              float upX, float upY, float upZ) {
+    public Matrix4x3f lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
@@ -5214,8 +5212,7 @@ public class Matrix4x3f implements Externalizable {
      *              the z-coordinate of the up vector
      * @return this
      */
-    public Matrix4x3f setLookAlong(float dirX, float dirY, float dirZ,
-                                 float upX, float upY, float upZ) {
+    public Matrix4x3f setLookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
         // Normalize direction
         float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         float dirnX = dirX * invDirLength;
@@ -5310,8 +5307,8 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f setLookAt(float eyeX, float eyeY, float eyeZ,
-                              float centerX, float centerY, float centerZ,
-                              float upX, float upY, float upZ) {
+                                float centerX, float centerY, float centerZ,
+                                float upX, float upY, float upZ) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -5448,15 +5445,15 @@ public class Matrix4x3f implements Externalizable {
      * @return dest
      */
     public Matrix4x3f lookAt(float eyeX, float eyeY, float eyeZ,
-                           float centerX, float centerY, float centerZ,
-                           float upX, float upY, float upZ, Matrix4x3f dest) {
+                             float centerX, float centerY, float centerZ,
+                             float upX, float upY, float upZ, Matrix4x3f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         return lookAtGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4x3f lookAtGeneric(float eyeX, float eyeY, float eyeZ,
-						           float centerX, float centerY, float centerZ,
-						           float upX, float upY, float upZ, Matrix4x3f dest) {
+						             float centerX, float centerY, float centerZ,
+						             float upX, float upY, float upZ, Matrix4x3f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -5518,7 +5515,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -5558,8 +5555,8 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f lookAt(float eyeX, float eyeY, float eyeZ,
-                           float centerX, float centerY, float centerZ,
-                           float upX, float upY, float upZ) {
+                             float centerX, float centerY, float centerZ,
+                             float upX, float upY, float upZ) {
         return lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
     }
 
@@ -5620,8 +5617,8 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f setLookAtLH(float eyeX, float eyeY, float eyeZ,
-                                float centerX, float centerY, float centerZ,
-                                float upX, float upY, float upZ) {
+                                  float centerX, float centerY, float centerZ,
+                                  float upX, float upY, float upZ) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -5756,15 +5753,15 @@ public class Matrix4x3f implements Externalizable {
      * @return dest
      */
     public Matrix4x3f lookAtLH(float eyeX, float eyeY, float eyeZ,
-                             float centerX, float centerY, float centerZ,
-                             float upX, float upY, float upZ, Matrix4x3f dest) {
+                               float centerX, float centerY, float centerZ,
+                               float upX, float upY, float upZ, Matrix4x3f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setLookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         return lookAtLHGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4x3f lookAtLHGeneric(float eyeX, float eyeY, float eyeZ,
-						             float centerX, float centerY, float centerZ,
-						             float upX, float upY, float upZ, Matrix4x3f dest) {
+						               float centerX, float centerY, float centerZ,
+						               float upX, float upY, float upZ, Matrix4x3f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -5826,7 +5823,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -5867,8 +5864,8 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f lookAtLH(float eyeX, float eyeY, float eyeZ,
-                             float centerX, float centerY, float centerZ,
-                             float upX, float upY, float upZ) {
+                               float centerX, float centerY, float centerZ,
+                               float upX, float upY, float upZ) {
         return lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
     }
 
@@ -5945,7 +5942,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -6046,7 +6043,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = m30;
         dest.m31 = m31;
         dest.m32 = m32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -6123,7 +6120,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -6340,7 +6337,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -6703,15 +6700,15 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
-     * and store it into the upper left 3x3 submatrix of <code>this</code>.
+     * Compute a normal matrix from the left 3x3 submatrix of <code>this</code>
+     * and store it into the left 3x3 submatrix of <code>this</code>.
      * All other values of <code>this</code> will be set to {@link #identity() identity}.
      * <p>
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link #set3x3(Matrix4x3f)} to set a given Matrix4x3f to only the upper left 3x3 submatrix
+     * In that case, use {@link #set3x3(Matrix4x3f)} to set a given Matrix4x3f to only the left 3x3 submatrix
      * of this matrix.
      * 
      * @see #set3x3(Matrix4x3f)
@@ -6723,15 +6720,15 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code>
-     * and store it into the upper left 3x3 submatrix of <code>dest</code>.
+     * Compute a normal matrix from the left 3x3 submatrix of <code>this</code>
+     * and store it into the left 3x3 submatrix of <code>dest</code>.
      * All other values of <code>dest</code> will be set to {@link #identity() identity}.
      * <p>
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link #set3x3(Matrix4x3f)} to set a given Matrix4x3f to only the upper left 3x3 submatrix
+     * In that case, use {@link #set3x3(Matrix4x3f)} to set a given Matrix4x3f to only the left 3x3 submatrix
      * of this matrix.
      * 
      * @see #set3x3(Matrix4x3f)
@@ -6770,7 +6767,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Compute a normal matrix from the upper left 3x3 submatrix of <code>this</code> and store it into <code>dest</code>.
+     * Compute a normal matrix from the left 3x3 submatrix of <code>this</code> and store it into <code>dest</code>.
      * <p>
      * The normal matrix of <tt>m</tt> is the transpose of the inverse of <tt>m</tt>.
      * 
@@ -6795,7 +6792,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Normalize the upper left 3x3 submatrix of this matrix.
+     * Normalize the left 3x3 submatrix of this matrix.
      * <p>
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
      * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
@@ -6808,7 +6805,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * Normalize the left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
      * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
@@ -6830,7 +6827,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * Normalize the left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
      * <p>
      * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
      * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
@@ -6853,7 +6850,7 @@ public class Matrix4x3f implements Externalizable {
     /**
      * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
-     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
@@ -6881,7 +6878,7 @@ public class Matrix4x3f implements Externalizable {
      * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
-     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
@@ -6906,7 +6903,7 @@ public class Matrix4x3f implements Externalizable {
     /**
      * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
-     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
@@ -6934,7 +6931,7 @@ public class Matrix4x3f implements Externalizable {
      * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
-     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
@@ -6959,7 +6956,7 @@ public class Matrix4x3f implements Externalizable {
     /**
      * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
      * <p>
-     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
@@ -6987,7 +6984,7 @@ public class Matrix4x3f implements Externalizable {
      * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
      * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
      * <p>
-     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * This method uses the rotation component of the left 3x3 submatrix to obtain the direction 
      * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
      * <p>
      * This method is equivalent to the following code:
@@ -7216,7 +7213,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -7696,7 +7693,7 @@ public class Matrix4x3f implements Externalizable {
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
