@@ -9812,7 +9812,11 @@ public class Matrix4d implements Externalizable {
             return dest.setLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         else if ((properties & PROPERTY_PERSPECTIVE) != 0)
             return lookAtPerspective(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
-
+        return lookAtGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
+    }
+    private Matrix4d lookAtGeneric(double eyeX, double eyeY, double eyeZ,
+						           double centerX, double centerY, double centerZ,
+						           double upX, double upY, double upZ, Matrix4d dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -10248,7 +10252,11 @@ public class Matrix4d implements Externalizable {
             return dest.setLookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         else if ((properties & PROPERTY_PERSPECTIVE) != 0)
             return lookAtPerspectiveLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
-
+        return lookAtLHGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
+    }
+    private Matrix4d lookAtLHGeneric(double eyeX, double eyeY, double eyeZ,
+						             double centerX, double centerY, double centerZ,
+						             double upX, double upY, double upZ, Matrix4d dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -10515,7 +10523,9 @@ public class Matrix4d implements Externalizable {
     public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setPerspective(fovy, aspect, zNear, zFar, zZeroToOne);
-
+        return perspectiveGeneric(fovy, aspect, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4d perspectiveGeneric(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         double h = Math.tan(fovy * 0.5);
         // calculate right matrix elements
         double rm00 = 1.0 / (h * aspect);
@@ -10776,7 +10786,9 @@ public class Matrix4d implements Externalizable {
     public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setPerspectiveLH(fovy, aspect, zNear, zFar, zZeroToOne);
-
+        return perspectiveLHGeneric(fovy, aspect, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4d perspectiveLHGeneric(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
         double h = Math.tan(fovy * 0.5);
         // calculate right matrix elements
         double rm00 = 1.0 / (h * aspect);

@@ -7201,7 +7201,11 @@ public class Matrix4f implements Externalizable {
             return dest.setLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         else if ((properties & PROPERTY_PERSPECTIVE) != 0)
             return lookAtPerspective(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
-
+        return lookAtGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
+    }
+    private Matrix4f lookAtGeneric(float eyeX, float eyeY, float eyeZ,
+						           float centerX, float centerY, float centerZ,
+						           float upX, float upY, float upZ, Matrix4f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -7270,7 +7274,6 @@ public class Matrix4f implements Externalizable {
         dest.m12 = nm12;
         dest.m13 = nm13;
         dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
-
         return dest;
     }
 
@@ -7637,7 +7640,11 @@ public class Matrix4f implements Externalizable {
             return dest.setLookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
         else if ((properties & PROPERTY_PERSPECTIVE) != 0)
             return lookAtPerspectiveLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
-
+        return lookAtLHGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
+    }
+    private Matrix4f lookAtLHGeneric(float eyeX, float eyeY, float eyeZ,
+						             float centerX, float centerY, float centerZ,
+						             float upX, float upY, float upZ, Matrix4f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -7904,7 +7911,9 @@ public class Matrix4f implements Externalizable {
     public Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setPerspective(fovy, aspect, zNear, zFar, zZeroToOne);
-
+        return perspectiveGeneric(fovy, aspect, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4f perspectiveGeneric(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         float h = (float) Math.tan(fovy * 0.5f);
         // calculate right matrix elements
         float rm00 = 1.0f / (h * aspect);
@@ -8165,7 +8174,9 @@ public class Matrix4f implements Externalizable {
     public Matrix4f perspectiveLH(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.setPerspectiveLH(fovy, aspect, zNear, zFar, zZeroToOne);
-
+        return perspectiveLHGeneric(fovy, aspect, zNear, zFar, zZeroToOne, dest);
+    }
+    private Matrix4f perspectiveLHGeneric(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne, Matrix4f dest) {
         float h = (float) Math.tan(fovy * 0.5f);
         // calculate right matrix elements
         float rm00 = 1.0f / (h * aspect);
