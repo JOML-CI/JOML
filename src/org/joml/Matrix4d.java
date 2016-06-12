@@ -195,6 +195,30 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix4d} and set its upper 4x3 submatrix to the given matrix <code>mat</code>
+     * and all other elements to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix4x3d} to copy the values from
+     */
+    public Matrix4d(Matrix4x3d mat) {
+        m00 = mat.m00();
+        m10 = mat.m10();
+        m20 = mat.m20();
+        m30 = mat.m30();
+        m01 = mat.m01();
+        m11 = mat.m11();
+        m21 = mat.m21();
+        m31 = mat.m31();
+        m02 = mat.m02();
+        m12 = mat.m12();
+        m22 = mat.m22();
+        m32 = mat.m32();
+        m33 = 1.0;
+        properties = (byte) (mat.properties | PROPERTY_AFFINE);
+    }
+
+    /**
      * Create a new {@link Matrix4d} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3d}
      * and the rest to identity.
      * 
@@ -751,6 +775,37 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix
+     * and set the other matrix elements to identity.
+     * 
+     * @see #Matrix4d(Matrix4x3d)
+     * 
+     * @param m
+     *          the matrix to copy the values from
+     * @return this
+     */
+    public Matrix4d set(Matrix4x3d m) {
+        m00 = m.m00();
+        m10 = m.m10();
+        m20 = m.m20();
+        m30 = m.m30();
+        m01 = m.m01();
+        m11 = m.m11();
+        m21 = m.m21();
+        m31 = m.m31();
+        m02 = m.m02();
+        m12 = m.m12();
+        m22 = m.m22();
+        m32 = m.m32();
+        m03 = 0.0;
+        m13 = 0.0;
+        m23 = 0.0;
+        m33 = 1.0;
+        properties = (byte) (m.properties | PROPERTY_AFFINE);
+        return this;
+    }
+
+    /**
      * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3d} 
      * and the rest to identity.
      * 
@@ -864,9 +919,9 @@ public class Matrix4d implements Externalizable {
         tmp2 = x*s;
         m21 = tmp1 - tmp2;
         m12 = tmp1 + tmp2;
-        m03 = 0.0f;
-        m13 = 0.0f;
-        m23 = 0.0f;
+        m03 = 0.0;
+        m13 = 0.0;
+        m23 = 0.0;
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
@@ -909,9 +964,9 @@ public class Matrix4d implements Externalizable {
         tmp2 = x*s;
         m21 = tmp1 - tmp2;
         m12 = tmp1 + tmp2;
-        m03 = 0.0f;
-        m13 = 0.0f;
-        m23 = 0.0f;
+        m03 = 0.0;
+        m13 = 0.0;
+        m23 = 0.0;
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
@@ -1080,6 +1135,28 @@ public class Matrix4d implements Externalizable {
         dest.m33 = nm33;
         dest.properties = 0;
         return dest;
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4d mul(Matrix4x3d right, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(right);
+        else if ((right.properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        return mulAffineR(right, dest);
     }
 
     /**
@@ -1274,6 +1351,73 @@ public class Matrix4d implements Externalizable {
         double nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
         double nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
         double nm33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
+        return dest;
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4d mulAffineR(Matrix4x3d right) {
+       return mulAffineR(right, this);
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4d mulAffineR(Matrix4x3d right, Matrix4d dest) {
+        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
+        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
+        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
+        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
+        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
+        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
+        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;

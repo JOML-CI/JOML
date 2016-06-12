@@ -190,7 +190,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix4f} and make it a copy of the given matrix.
+     * Create a new {@link Matrix4f} and set its upper 4x3 submatrix to the given matrix <code>mat</code>
+     * and all other elements to identity.
      * 
      * @param mat
      *          the {@link Matrix4x3f} to copy the values from
@@ -747,7 +748,8 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix
+     * and set the other matrix elements to identity.
      * 
      * @see #Matrix4f(Matrix4x3f)
      * 
