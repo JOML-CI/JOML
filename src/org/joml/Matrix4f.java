@@ -33,7 +33,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * Contains the definition of a 4x4 Matrix of floats, and associated functions to transform
+ * Contains the definition of a 4x4 matrix of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
  *      m00  m10  m20  m30<br>
@@ -187,6 +187,29 @@ public class Matrix4f implements Externalizable {
         m23 = mat.m23;
         m33 = mat.m33;
         properties = mat.properties;
+    }
+
+    /**
+     * Create a new {@link Matrix4f} and make it a copy of the given matrix.
+     * 
+     * @param mat
+     *          the {@link Matrix4x3f} to copy the values from
+     */
+    public Matrix4f(Matrix4x3f mat) {
+        m00 = mat.m00();
+        m10 = mat.m10();
+        m20 = mat.m20();
+        m30 = mat.m30();
+        m01 = mat.m01();
+        m11 = mat.m11();
+        m21 = mat.m21();
+        m31 = mat.m31();
+        m02 = mat.m02();
+        m12 = mat.m12();
+        m22 = mat.m22();
+        m32 = mat.m32();
+        m33 = 1.0f;
+        properties = (byte) (mat.properties | PROPERTY_AFFINE);
     }
 
     /**
@@ -725,6 +748,36 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
+     * 
+     * @see #Matrix4f(Matrix4x3f)
+     * 
+     * @param m
+     *          the matrix to copy the values from
+     * @return this
+     */
+    public Matrix4f set(Matrix4x3f m) {
+        m00 = m.m00();
+        m10 = m.m10();
+        m20 = m.m20();
+        m30 = m.m30();
+        m01 = m.m01();
+        m11 = m.m11();
+        m21 = m.m21();
+        m31 = m.m31();
+        m02 = m.m02();
+        m12 = m.m12();
+        m22 = m.m22();
+        m32 = m.m32();
+        m03 = 0.0f;
+        m13 = 0.0f;
+        m23 = 0.0f;
+        m33 = 1.0f;
+        properties = (byte) (m.properties | PROPERTY_AFFINE);
+        return this;
+    }
+
+    /**
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
      * <p>
      * Note that due to the given matrix <code>m</code> storing values in double-precision and <code>this</code> matrix storing
      * them in single-precision, there is the possibility to lose precision.
@@ -983,6 +1036,33 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set the upper 4x3 submatrix of this {@link Matrix4f} to the given {@link Matrix4x3f} 
+     * and don't change the other elements.
+     * 
+     * @see Matrix4x3f#get(Matrix4f)
+     * 
+     * @param mat
+     *          the {@link Matrix4x3f}
+     * @return this
+     */
+    public Matrix4f set4x3(Matrix4x3f mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
+        m30 = mat.m30();
+        m31 = mat.m31();
+        m32 = mat.m32();
+        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
@@ -1065,6 +1145,30 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f mul(Matrix4x3f right, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(right);
+        else if ((right.properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties & PROPERTY_AFFINE) != 0)
+            return mulPerspectiveAffine(right, dest);
+        return mulAffineR(right, dest);
+    }
+
+    /**
      * Multiply <code>this</code> symmetric perspective projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix.
      * <p>
      * If <code>P</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
@@ -1111,6 +1215,73 @@ public class Matrix4f implements Externalizable {
         float nm31 = m11 * view.m31;
         float nm32 = m22 * view.m32 + m32;
         float nm33 = m23 * view.m32;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = 0;
+        return dest;
+    }
+
+    /**
+     * Multiply <code>this</code> symmetric perspective projection matrix by the supplied <code>view</code> matrix.
+     * <p>
+     * If <code>P</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>P * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>P * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the matrix to multiply <code>this</code> symmetric perspective projection matrix by
+     * @return dest
+     */
+    public Matrix4f mulPerspectiveAffine(Matrix4x3f view) {
+       return mulPerspectiveAffine(view, this);
+    }
+
+    /**
+     * Multiply <code>this</code> symmetric perspective projection matrix by the supplied <code>view</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>P</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>P * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>P * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the matrix to multiply <code>this</code> symmetric perspective projection matrix by
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f mulPerspectiveAffine(Matrix4x3f view, Matrix4f dest) {
+        float nm00 = m00 * view.m00();
+        float nm01 = m11 * view.m01();
+        float nm02 = m22 * view.m02();
+        float nm03 = m23 * view.m02();
+        float nm10 = m00 * view.m10();
+        float nm11 = m11 * view.m11();
+        float nm12 = m22 * view.m12();
+        float nm13 = m23 * view.m12();
+        float nm20 = m00 * view.m20();
+        float nm21 = m11 * view.m21();
+        float nm22 = m22 * view.m22();
+        float nm23 = m23 * view.m22();
+        float nm30 = m00 * view.m30();
+        float nm31 = m11 * view.m31();
+        float nm32 = m22 * view.m32() + m32;
+        float nm33 = m23 * view.m32();
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -1184,6 +1355,73 @@ public class Matrix4f implements Externalizable {
         float nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
         float nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
         float nm33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
+        return dest;
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4f mulAffineR(Matrix4x3f right) {
+       return mulAffineR(right, this);
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f mulAffineR(Matrix4x3f right, Matrix4f dest) {
+        float nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        float nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        float nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        float nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
+        float nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        float nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        float nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        float nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
+        float nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        float nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        float nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        float nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
+        float nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
+        float nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
+        float nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
+        float nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -2608,6 +2846,18 @@ public class Matrix4f implements Externalizable {
      * @return the passed in destination
      */
     public Matrix4f get(Matrix4f dest) {
+        return dest.set(this);
+    }
+
+    /**
+     * Get the current values of the upper 4x3 submatrix of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    public Matrix4x3f get4x3(Matrix4x3f dest) {
         return dest.set(this);
     }
 
@@ -10622,35 +10872,28 @@ public class Matrix4f implements Externalizable {
         float nm00 = (m11 * m22 - m21 * m12) * s;
         float nm01 = (m20 * m12 - m10 * m22) * s;
         float nm02 = (m10 * m21 - m20 * m11) * s;
-        float nm03 = 0.0f;
         float nm10 = (m21 * m02 - m01 * m22) * s;
         float nm11 = (m00 * m22 - m20 * m02) * s;
         float nm12 = (m20 * m01 - m00 * m21) * s;
-        float nm13 = 0.0f;
         float nm20 = (m01 * m12 - m11 * m02) * s;
         float nm21 = (m10 * m02 - m00 * m12) * s;
         float nm22 = (m00 * m11 - m10 * m01) * s;
-        float nm23 = 0.0f;
-        float nm30 = 0.0f;
-        float nm31 = 0.0f;
-        float nm32 = 0.0f;
-        float nm33 = 1.0f;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
-        dest.m03 = nm03;
+        dest.m03 = 0.0f;
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-        dest.m13 = nm13;
+        dest.m13 = 0.0f;
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.m23 = nm23;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.m33 = nm33;
+        dest.m23 = 0.0f;
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
         dest.properties = PROPERTY_AFFINE;
         return dest;
     }

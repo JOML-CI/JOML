@@ -33,7 +33,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * Contains the definition of a 3x3 Matrix of doubles, and associated functions to transform
+ * Contains the definition of a 3x3 matrix of doubles, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
  *      m00  m10  m20<br>

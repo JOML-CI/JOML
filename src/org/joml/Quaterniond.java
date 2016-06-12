@@ -583,6 +583,20 @@ public class Quaterniond implements Externalizable {
     /**
      * Set this quaternion to be a representation of the rotational component of the given matrix.
      * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are no unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaterniond setFromUnnormalized(Matrix4x3f mat) {
+        setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
      * This method assumes that the first three columns of the upper left 3x3 submatrix are unit vectors.
      * 
      * @param mat
@@ -590,6 +604,20 @@ public class Quaterniond implements Externalizable {
      * @return this
      */
     public Quaterniond setFromNormalized(Matrix4f mat) {
+        setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the rotational component of the given matrix.
+     * <p>
+     * This method assumes that the first three columns of the upper left 3x3 submatrix are unit vectors.
+     * 
+     * @param mat
+     *          the matrix whose rotational component is used to set this quaternion
+     * @return this
+     */
+    public Quaterniond setFromNormalized(Matrix4x3f mat) {
         setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }

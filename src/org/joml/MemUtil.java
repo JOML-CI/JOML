@@ -48,8 +48,12 @@ abstract class MemUtil {
 
     abstract void put(Matrix4f m, int offset, FloatBuffer dest);
     abstract void put(Matrix4f m, int offset, ByteBuffer dest);
+    abstract void put(Matrix4x3f m, int offset, FloatBuffer dest);
+    abstract void put(Matrix4x3f m, int offset, ByteBuffer dest);
     abstract void putTransposed(Matrix4f m, int offset, FloatBuffer dest);
     abstract void putTransposed(Matrix4f m, int offset, ByteBuffer dest);
+    abstract void putTransposed(Matrix4x3f m, int offset, FloatBuffer dest);
+    abstract void putTransposed(Matrix4x3f m, int offset, ByteBuffer dest);
     abstract void put(Matrix4d m, int offset, DoubleBuffer dest);
     abstract void put(Matrix4d m, int offset, ByteBuffer dest);
     abstract void putf(Matrix4d m, int offset, FloatBuffer dest);
@@ -66,6 +70,8 @@ abstract class MemUtil {
     abstract void putf(Matrix3d m, int offset, ByteBuffer dest);
     abstract void get(Matrix4f m, int offset, FloatBuffer src);
     abstract void get(Matrix4f m, int offset, ByteBuffer src);
+    abstract void get(Matrix4x3f m, int offset, FloatBuffer src);
+    abstract void get(Matrix4x3f m, int offset, ByteBuffer src);
     abstract void get(Matrix4d m, int offset, DoubleBuffer src);
     abstract void get(Matrix4d m, int offset, ByteBuffer src);
     abstract void getf(Matrix4d m, int offset, FloatBuffer src);
@@ -116,6 +122,36 @@ abstract class MemUtil {
             dest.putFloat(offset+60, m.m33());
         }
 
+        final void put(Matrix4x3f m, int offset, FloatBuffer dest) {
+            dest.put(offset,    m.m00());
+            dest.put(offset+1,  m.m01());
+            dest.put(offset+2,  m.m02());
+            dest.put(offset+3,  m.m10());
+            dest.put(offset+4,  m.m11());
+            dest.put(offset+5,  m.m12());
+            dest.put(offset+6,  m.m20());
+            dest.put(offset+7,  m.m21());
+            dest.put(offset+8,  m.m22());
+            dest.put(offset+9,  m.m30());
+            dest.put(offset+10, m.m31());
+            dest.put(offset+11, m.m32());
+        }
+
+        final void put(Matrix4x3f m, int offset, ByteBuffer dest) {
+            dest.putFloat(offset,    m.m00());
+            dest.putFloat(offset+4,  m.m01());
+            dest.putFloat(offset+8,  m.m02());
+            dest.putFloat(offset+12, m.m10());
+            dest.putFloat(offset+16, m.m11());
+            dest.putFloat(offset+20, m.m12());
+            dest.putFloat(offset+24, m.m20());
+            dest.putFloat(offset+28, m.m21());
+            dest.putFloat(offset+32, m.m22());
+            dest.putFloat(offset+36, m.m30());
+            dest.putFloat(offset+40, m.m31());
+            dest.putFloat(offset+44, m.m32());
+        }
+
         final void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
             dest.put(offset,    m.m00());
             dest.put(offset+1,  m.m10());
@@ -152,6 +188,36 @@ abstract class MemUtil {
             dest.putFloat(offset+52, m.m13());
             dest.putFloat(offset+56, m.m23());
             dest.putFloat(offset+60, m.m33());
+        }
+
+        final void putTransposed(Matrix4x3f m, int offset, FloatBuffer dest) {
+            dest.put(offset,    m.m00());
+            dest.put(offset+1,  m.m10());
+            dest.put(offset+2,  m.m20());
+            dest.put(offset+3,  m.m30());
+            dest.put(offset+4,  m.m01());
+            dest.put(offset+5,  m.m11());
+            dest.put(offset+6,  m.m21());
+            dest.put(offset+7,  m.m31());
+            dest.put(offset+8,  m.m02());
+            dest.put(offset+9,  m.m12());
+            dest.put(offset+10, m.m22());
+            dest.put(offset+11, m.m32());
+        }
+
+        final void putTransposed(Matrix4x3f m, int offset, ByteBuffer dest) {
+            dest.putFloat(offset,    m.m00());
+            dest.putFloat(offset+4,  m.m10());
+            dest.putFloat(offset+8,  m.m20());
+            dest.putFloat(offset+12, m.m30());
+            dest.putFloat(offset+16, m.m01());
+            dest.putFloat(offset+20, m.m11());
+            dest.putFloat(offset+24, m.m21());
+            dest.putFloat(offset+28, m.m31());
+            dest.putFloat(offset+32, m.m02());
+            dest.putFloat(offset+36, m.m12());
+            dest.putFloat(offset+40, m.m22());
+            dest.putFloat(offset+44, m.m32());
         }
 
         final void put(Matrix4d m, int offset, DoubleBuffer dest) {
@@ -416,6 +482,36 @@ abstract class MemUtil {
             m.m33(src.getFloat(offset+60));
         }
 
+        final void get(Matrix4x3f m, int offset, FloatBuffer src) {
+            m.m00(src.get(offset));
+            m.m01(src.get(offset+1));
+            m.m02(src.get(offset+2));
+            m.m10(src.get(offset+3));
+            m.m11(src.get(offset+4));
+            m.m12(src.get(offset+5));
+            m.m20(src.get(offset+6));
+            m.m21(src.get(offset+7));
+            m.m22(src.get(offset+8));
+            m.m30(src.get(offset+9));
+            m.m31(src.get(offset+10));
+            m.m32(src.get(offset+11));
+        }
+
+        final void get(Matrix4x3f m, int offset, ByteBuffer src) {
+            m.m00(src.getFloat(offset));
+            m.m01(src.getFloat(offset+4));
+            m.m02(src.getFloat(offset+8));
+            m.m10(src.getFloat(offset+12));
+            m.m11(src.getFloat(offset+16));
+            m.m12(src.getFloat(offset+20));
+            m.m20(src.getFloat(offset+24));
+            m.m21(src.getFloat(offset+28));
+            m.m22(src.getFloat(offset+32));
+            m.m30(src.getFloat(offset+36));
+            m.m31(src.getFloat(offset+40));
+            m.m32(src.getFloat(offset+44));
+        }
+
         final void get(Matrix4d m, int offset, DoubleBuffer src) {
             m.m00(src.get(offset));
             m.m01(src.get(offset+1));
@@ -653,6 +749,21 @@ abstract class MemUtil {
             memPutFloat(destAddr + 60, m.m33());
         }
 
+        private final void put(Matrix4x3f m, long destAddr) {
+            memPutFloat(destAddr,      m.m00());
+            memPutFloat(destAddr + 4,  m.m01());
+            memPutFloat(destAddr + 8,  m.m02());
+            memPutFloat(destAddr + 12, m.m10());
+            memPutFloat(destAddr + 16, m.m11());
+            memPutFloat(destAddr + 20, m.m12());
+            memPutFloat(destAddr + 24, m.m20());
+            memPutFloat(destAddr + 28, m.m21());
+            memPutFloat(destAddr + 32, m.m22());
+            memPutFloat(destAddr + 36, m.m30());
+            memPutFloat(destAddr + 40, m.m31());
+            memPutFloat(destAddr + 44, m.m32());
+        }
+
         private final void putTransposed(Matrix4f m, long destAddr) {
             memPutFloat(destAddr,      m.m00());
             memPutFloat(destAddr + 4,  m.m10());
@@ -670,6 +781,21 @@ abstract class MemUtil {
             memPutFloat(destAddr + 52, m.m13());
             memPutFloat(destAddr + 56, m.m23());
             memPutFloat(destAddr + 60, m.m33());
+        }
+
+        private final void putTransposed(Matrix4x3f m, long destAddr) {
+            memPutFloat(destAddr,      m.m00());
+            memPutFloat(destAddr + 4,  m.m10());
+            memPutFloat(destAddr + 8,  m.m20());
+            memPutFloat(destAddr + 12, m.m30());
+            memPutFloat(destAddr + 16, m.m01());
+            memPutFloat(destAddr + 20, m.m11());
+            memPutFloat(destAddr + 24, m.m21());
+            memPutFloat(destAddr + 28, m.m31());
+            memPutFloat(destAddr + 32, m.m02());
+            memPutFloat(destAddr + 36, m.m12());
+            memPutFloat(destAddr + 40, m.m22());
+            memPutFloat(destAddr + 44, m.m32());
         }
 
         private final void put(Matrix4d m, long destAddr) {
@@ -803,6 +929,21 @@ abstract class MemUtil {
             m.m33(memGetFloat(srcAddr+60));
         }
 
+        private final void get(Matrix4x3f m, long srcAddr) {
+            m.m00(memGetFloat(srcAddr));
+            m.m01(memGetFloat(srcAddr+4));
+            m.m02(memGetFloat(srcAddr+8));
+            m.m10(memGetFloat(srcAddr+12));
+            m.m11(memGetFloat(srcAddr+16));
+            m.m12(memGetFloat(srcAddr+20));
+            m.m20(memGetFloat(srcAddr+24));
+            m.m21(memGetFloat(srcAddr+28));
+            m.m22(memGetFloat(srcAddr+32));
+            m.m30(memGetFloat(srcAddr+36));
+            m.m31(memGetFloat(srcAddr+40));
+            m.m32(memGetFloat(srcAddr+44));
+        }
+
         private final void get(Matrix4d m, long srcAddr) {
             m.m00(memGetDouble(srcAddr));
             m.m01(memGetDouble(srcAddr+8));
@@ -885,11 +1026,27 @@ abstract class MemUtil {
             put(m, addressOf(dest) + offset);
         }
 
+        final void put(Matrix4x3f m, int offset, FloatBuffer dest) {
+            put(m, addressOf(dest) + (offset << 2));
+        }
+
+        final void put(Matrix4x3f m, int offset, ByteBuffer dest) {
+            put(m, addressOf(dest) + offset);
+        }
+
         final void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
             putTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         final void putTransposed(Matrix4f m, int offset, ByteBuffer dest) {
+            putTransposed(m, addressOf(dest) + offset);
+        }
+
+        final void putTransposed(Matrix4x3f m, int offset, FloatBuffer dest) {
+            putTransposed(m, addressOf(dest) + (offset << 2));
+        }
+
+        final void putTransposed(Matrix4x3f m, int offset, ByteBuffer dest) {
             putTransposed(m, addressOf(dest) + offset);
         }
 
@@ -954,6 +1111,14 @@ abstract class MemUtil {
         }
 
         final void get(Matrix4f m, int offset, ByteBuffer src) {
+            get(m, addressOf(src) + offset);
+        }
+
+        final void get(Matrix4x3f m, int offset, FloatBuffer src) {
+            get(m, addressOf(src) + (offset << 2));
+        }
+
+        final void get(Matrix4x3f m, int offset, ByteBuffer src) {
             get(m, addressOf(src) + offset);
         }
 
