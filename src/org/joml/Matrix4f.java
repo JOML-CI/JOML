@@ -33,7 +33,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * Contains the definition of a 4x4 Matrix of floats, and associated functions to transform
+ * Contains the definition of a 4x4 matrix of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
  * <p>
  *      m00  m10  m20  m30<br>
@@ -187,6 +187,30 @@ public class Matrix4f implements Externalizable {
         m23 = mat.m23;
         m33 = mat.m33;
         properties = mat.properties;
+    }
+
+    /**
+     * Create a new {@link Matrix4f} and set its upper 4x3 submatrix to the given matrix <code>mat</code>
+     * and all other elements to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix4x3f} to copy the values from
+     */
+    public Matrix4f(Matrix4x3f mat) {
+        m00 = mat.m00();
+        m10 = mat.m10();
+        m20 = mat.m20();
+        m30 = mat.m30();
+        m01 = mat.m01();
+        m11 = mat.m11();
+        m21 = mat.m21();
+        m31 = mat.m31();
+        m02 = mat.m02();
+        m12 = mat.m12();
+        m22 = mat.m22();
+        m32 = mat.m32();
+        m33 = 1.0f;
+        properties = (byte) (mat.properties | PROPERTY_AFFINE);
     }
 
     /**
@@ -724,6 +748,37 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix
+     * and set the other matrix elements to identity.
+     * 
+     * @see #Matrix4f(Matrix4x3f)
+     * 
+     * @param m
+     *          the matrix to copy the values from
+     * @return this
+     */
+    public Matrix4f set(Matrix4x3f m) {
+        m00 = m.m00();
+        m10 = m.m10();
+        m20 = m.m20();
+        m30 = m.m30();
+        m01 = m.m01();
+        m11 = m.m11();
+        m21 = m.m21();
+        m31 = m.m31();
+        m02 = m.m02();
+        m12 = m.m12();
+        m22 = m.m22();
+        m32 = m.m32();
+        m03 = 0.0f;
+        m13 = 0.0f;
+        m23 = 0.0f;
+        m33 = 1.0f;
+        properties = (byte) (m.properties | PROPERTY_AFFINE);
+        return this;
+    }
+
+    /**
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
      * <p>
      * Note that due to the given matrix <code>m</code> storing values in double-precision and <code>this</code> matrix storing
@@ -983,6 +1038,33 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set the upper 4x3 submatrix of this {@link Matrix4f} to the given {@link Matrix4x3f} 
+     * and don't change the other elements.
+     * 
+     * @see Matrix4x3f#get(Matrix4f)
+     * 
+     * @param mat
+     *          the {@link Matrix4x3f}
+     * @return this
+     */
+    public Matrix4f set4x3(Matrix4x3f mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
+        m30 = mat.m30();
+        m31 = mat.m31();
+        m32 = mat.m32();
+        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        return this;
+    }
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
@@ -1065,6 +1147,30 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f mul(Matrix4x3f right, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(right);
+        else if ((right.properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties & PROPERTY_AFFINE) != 0)
+            return mulPerspectiveAffine(right, dest);
+        return mulAffineR(right, dest);
+    }
+
+    /**
      * Multiply <code>this</code> symmetric perspective projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix.
      * <p>
      * If <code>P</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
@@ -1111,6 +1217,73 @@ public class Matrix4f implements Externalizable {
         float nm31 = m11 * view.m31;
         float nm32 = m22 * view.m32 + m32;
         float nm33 = m23 * view.m32;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = 0;
+        return dest;
+    }
+
+    /**
+     * Multiply <code>this</code> symmetric perspective projection matrix by the supplied <code>view</code> matrix.
+     * <p>
+     * If <code>P</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>P * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>P * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the matrix to multiply <code>this</code> symmetric perspective projection matrix by
+     * @return dest
+     */
+    public Matrix4f mulPerspectiveAffine(Matrix4x3f view) {
+       return mulPerspectiveAffine(view, this);
+    }
+
+    /**
+     * Multiply <code>this</code> symmetric perspective projection matrix by the supplied <code>view</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>P</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>P * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>P * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the matrix to multiply <code>this</code> symmetric perspective projection matrix by
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f mulPerspectiveAffine(Matrix4x3f view, Matrix4f dest) {
+        float nm00 = m00 * view.m00();
+        float nm01 = m11 * view.m01();
+        float nm02 = m22 * view.m02();
+        float nm03 = m23 * view.m02();
+        float nm10 = m00 * view.m10();
+        float nm11 = m11 * view.m11();
+        float nm12 = m22 * view.m12();
+        float nm13 = m23 * view.m12();
+        float nm20 = m00 * view.m20();
+        float nm21 = m11 * view.m21();
+        float nm22 = m22 * view.m22();
+        float nm23 = m23 * view.m22();
+        float nm30 = m00 * view.m30();
+        float nm31 = m11 * view.m31();
+        float nm32 = m22 * view.m32() + m32;
+        float nm33 = m23 * view.m32();
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -1200,7 +1373,74 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
+        return dest;
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4f mulAffineR(Matrix4x3f right) {
+       return mulAffineR(right, this);
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    public Matrix4f mulAffineR(Matrix4x3f right, Matrix4f dest) {
+        float nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        float nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        float nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        float nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
+        float nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        float nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        float nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        float nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
+        float nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        float nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        float nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        float nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
+        float nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
+        float nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
+        float nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
+        float nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -2169,6 +2409,46 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(float, float, float, float) perspective()} methods
+     * or via {@link #setPerspective(float, float, float, float) setPerspective()}, that is, if <code>this</code> is a symmetrical perspective frustum transformation
+     * and the given <code>view</code> matrix has unit scaling,
+     * then this method builds the inverse of <tt>this * view</tt> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of the combination of the view and projection matrices, when both were obtained
+     * via the common methods {@link #perspective(float, float, float, float) perspective()} and {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt()} or
+     * other methods, that build affine matrices, such as {@link #translate(float, float, float) translate} and {@link #rotate(float, float, float, float)}, except for {@link #scale(float, float, float) scale()}.
+     * <p>
+     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above this method, this method is equivalent to the following code:
+     * <pre>
+     * dest.set(this).mul(view).invert();
+     * </pre>
+     * 
+     * @param view
+     *          the view transformation (must have unit scaling)
+     * @param dest
+     *          will hold the inverse of <tt>this * view</tt>
+     * @return dest
+     */
+    public Matrix4f invertPerspectiveView(Matrix4x3f view, Matrix4f dest) {
+        float a =  1.0f / (m00 * m11);
+        float l = -1.0f / (m23 * m32);
+        float pm00 =  m11 * a;
+        float pm11 =  m00 * a;
+        float pm23 = -m23 * l;
+        float pm32 = -m32 * l;
+        float pm33 =  m22 * l;
+        float vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
+        float vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
+        float vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
+        dest.set(view.m00() * pm00, view.m10() * pm00, view.m20() * pm00, 0.0f,
+                 view.m01() * pm11, view.m11() * pm11, view.m21() * pm11, 0.0f,
+                 vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
+                 view.m02() * pm32 + vm30 * pm33, view.m12() * pm32 + vm31 * pm33, view.m22() * pm32 + vm32 * pm33, pm33);
+        dest.properties = 0;
+        return dest;
+    }
+
+    /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and write the result into <code>dest</code>.
      * <p>
@@ -2361,7 +2641,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE));
         return dest;
     }
 
@@ -2402,7 +2682,7 @@ public class Matrix4f implements Externalizable {
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE));
         return dest;
     }
 
@@ -2612,6 +2892,20 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Get the current values of the upper 4x3 submatrix of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @see Matrix4x3f#set(Matrix4f)
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    public Matrix4x3f get4x3(Matrix4x3f dest) {
+        return dest.set(this);
+    }
+
+    /**
      * Get the current values of <code>this</code> matrix and store them into
      * <code>dest</code>.
      * <p>
@@ -2632,6 +2926,8 @@ public class Matrix4f implements Externalizable {
      * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
      * <code>dest</code>.
      * 
+     * @see Matrix3f#set(Matrix4f)
+     * 
      * @param dest
      *            the destination matrix
      * @return the passed in destination
@@ -2643,6 +2939,8 @@ public class Matrix4f implements Externalizable {
     /**
      * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
      * <code>dest</code>.
+     * 
+     * @see Matrix3d#set(Matrix4f)
      * 
      * @param dest
      *            the destination matrix
@@ -2891,6 +3189,80 @@ public class Matrix4f implements Externalizable {
      */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #get4x3Transposed(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get4x3Transposed(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
+     * @return the passed in buffer
+     */
+    public FloatBuffer get4x3Transposed(FloatBuffer buffer) {
+        return get4x3Transposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order
+     * @return the passed in buffer
+     */
+    public FloatBuffer get4x3Transposed(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get4x3Transposed(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get4x3Transposed(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer get4x3Transposed(ByteBuffer buffer) {
+        return get4x3Transposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer get4x3Transposed(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
         return buffer;
     }
 
@@ -3974,7 +4346,7 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} and don't change the other elements..
+     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} and don't change the other elements.
      * 
      * @param mat
      *          the 3x3 matrix
@@ -4350,7 +4722,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -4430,7 +4802,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -4522,7 +4894,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -4615,7 +4987,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -4708,7 +5080,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -4832,7 +5204,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -4932,7 +5304,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -5034,7 +5406,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -5132,7 +5504,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -5234,7 +5606,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -5332,7 +5704,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -5419,7 +5791,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -5534,7 +5906,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -5616,7 +5988,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -5740,7 +6112,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -5872,7 +6244,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m01 * x + m11 * y + m21 * z + m31;
         dest.m32 = m02 * x + m12 * y + m22 * z + m32;
         dest.m33 = m03 * x + m13 * y + m23 * z + m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY));
         return dest;
     }
 
@@ -6013,7 +6385,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY));
         return dest;
     }
 
@@ -6144,7 +6516,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -6387,7 +6759,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = m21 * rm22;
         dest.m22 = m22 * rm22;
         dest.m23 = m23 * rm22;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -6623,7 +6995,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = -m21;
         dest.m22 = -m22;
         dest.m23 = -m23;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -6865,7 +7237,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -7279,7 +7651,7 @@ public class Matrix4f implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -7718,7 +8090,7 @@ public class Matrix4f implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -7962,7 +8334,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = nm21;
         dest.m22 = nm22;
         dest.m23 = nm23;
-        dest.properties &= ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -8225,7 +8597,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = nm21;
         dest.m22 = nm22;
         dest.m23 = nm23;
-        dest.properties &= ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_AFFINE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -9084,7 +9456,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -9189,7 +9561,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -9297,7 +9669,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = m32;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -9382,7 +9754,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -10201,7 +10573,7 @@ public class Matrix4f implements Externalizable {
         dest.m11 = nm11;
         dest.m12 = nm12;
         dest.m13 = nm13;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -10622,35 +10994,28 @@ public class Matrix4f implements Externalizable {
         float nm00 = (m11 * m22 - m21 * m12) * s;
         float nm01 = (m20 * m12 - m10 * m22) * s;
         float nm02 = (m10 * m21 - m20 * m11) * s;
-        float nm03 = 0.0f;
         float nm10 = (m21 * m02 - m01 * m22) * s;
         float nm11 = (m00 * m22 - m20 * m02) * s;
         float nm12 = (m20 * m01 - m00 * m21) * s;
-        float nm13 = 0.0f;
         float nm20 = (m01 * m12 - m11 * m02) * s;
         float nm21 = (m10 * m02 - m00 * m12) * s;
         float nm22 = (m00 * m11 - m10 * m01) * s;
-        float nm23 = 0.0f;
-        float nm30 = 0.0f;
-        float nm31 = 0.0f;
-        float nm32 = 0.0f;
-        float nm33 = 1.0f;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
-        dest.m03 = nm03;
+        dest.m03 = 0.0f;
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-        dest.m13 = nm13;
+        dest.m13 = 0.0f;
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.m23 = nm23;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.m33 = nm33;
+        dest.m23 = 0.0f;
+        dest.m30 = 0.0f;
+        dest.m31 = 0.0f;
+        dest.m32 = 0.0f;
+        dest.m33 = 1.0f;
         dest.properties = PROPERTY_AFFINE;
         return dest;
     }
@@ -11456,7 +11821,7 @@ public class Matrix4f implements Externalizable {
         dest.m21 = nm21;
         dest.m22 = nm22;
         dest.m23 = nm23;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
 
         return dest;
     }
@@ -11985,7 +12350,7 @@ public class Matrix4f implements Externalizable {
         dest.m01 = nm01;
         dest.m02 = nm02;
         dest.m03 = nm03;
-        dest.properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 
@@ -12219,7 +12584,7 @@ public class Matrix4f implements Externalizable {
         dest.m31 = m31;
         dest.m32 = (far + far) * near * invNearFar;
         dest.m33 = m33;
-        dest.properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
     }
 

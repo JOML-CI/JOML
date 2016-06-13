@@ -981,6 +981,36 @@ public class Vector4d implements Externalizable {
     }
 
     /**
+     * Multiply this Vector4d by the given matrix mat and store the result in
+     * <code>this</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply the vector with
+     * @return this
+     */
+    public Vector4d mul(Matrix4x3d mat) {
+        return mul(mat, this);
+    }
+
+    /**
+     * Multiply this Vector4d by the given matrix mat and store the result in
+     * <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply the vector with
+     * @param dest
+     *          the destination vector to hold the result
+     * @return dest
+     */
+    public Vector4d mul(Matrix4x3d mat, Vector4d dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w,
+                 w);
+        return dest;
+    }
+
+    /**
      * Multiply this {@link Vector4d} by the given matrix <code>mat</code>.
      * 
      * @param mat

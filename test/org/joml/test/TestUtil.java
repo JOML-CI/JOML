@@ -144,6 +144,50 @@ public class TestUtil {
     }
 
     /**
+     * Assert that both matrices are equal with respect to the given delta.
+     * 
+     * @param m1
+     * @param m2
+     * @param delta
+     */
+    public static void assertMatrix4x3fEquals(Matrix4x3f m1, Matrix4x3f m2, float delta) {
+        Assert.assertEquals(m1.m00(), m2.m00(), delta);
+        Assert.assertEquals(m1.m01(), m2.m01(), delta);
+        Assert.assertEquals(m1.m02(), m2.m02(), delta);
+        Assert.assertEquals(m1.m10(), m2.m10(), delta);
+        Assert.assertEquals(m1.m11(), m2.m11(), delta);
+        Assert.assertEquals(m1.m12(), m2.m12(), delta);
+        Assert.assertEquals(m1.m20(), m2.m20(), delta);
+        Assert.assertEquals(m1.m21(), m2.m21(), delta);
+        Assert.assertEquals(m1.m22(), m2.m22(), delta);
+        Assert.assertEquals(m1.m30(), m2.m30(), delta);
+        Assert.assertEquals(m1.m31(), m2.m31(), delta);
+        Assert.assertEquals(m1.m32(), m2.m32(), delta);
+    }
+
+    /**
+     * Assert that both matrices are equal with respect to the given delta.
+     * 
+     * @param m1
+     * @param m2
+     * @param delta
+     */
+    public static void assertMatrix4x3dEquals(Matrix4x3d m1, Matrix4x3d m2, double delta) {
+        Assert.assertEquals(m1.m00(), m2.m00(), delta);
+        Assert.assertEquals(m1.m01(), m2.m01(), delta);
+        Assert.assertEquals(m1.m02(), m2.m02(), delta);
+        Assert.assertEquals(m1.m10(), m2.m10(), delta);
+        Assert.assertEquals(m1.m11(), m2.m11(), delta);
+        Assert.assertEquals(m1.m12(), m2.m12(), delta);
+        Assert.assertEquals(m1.m20(), m2.m20(), delta);
+        Assert.assertEquals(m1.m21(), m2.m21(), delta);
+        Assert.assertEquals(m1.m22(), m2.m22(), delta);
+        Assert.assertEquals(m1.m30(), m2.m30(), delta);
+        Assert.assertEquals(m1.m31(), m2.m31(), delta);
+        Assert.assertEquals(m1.m32(), m2.m32(), delta);
+    }
+
+    /**
      * Assert that both vectors are equal with respect to the given delta.
      * 
      * @param expected
@@ -165,6 +209,19 @@ public class TestUtil {
      * @param delta
      */
     public static void assertVector3fEquals(Vector3f expected, Vector3f actual, float delta) {
+        Assert.assertEquals(expected.x, actual.x, delta);
+        Assert.assertEquals(expected.y, actual.y, delta);
+        Assert.assertEquals(expected.z, actual.z, delta);
+    }
+
+    /**
+     * Assert that both vectors are equal with respect to the given delta.
+     * 
+     * @param expected
+     * @param actual
+     * @param delta
+     */
+    public static void assertVector3dEquals(Vector3d expected, Vector3d actual, double delta) {
         Assert.assertEquals(expected.x, actual.x, delta);
         Assert.assertEquals(expected.y, actual.y, delta);
         Assert.assertEquals(expected.z, actual.z, delta);
