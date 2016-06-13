@@ -4142,6 +4142,29 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Transform/multiply the vector <tt>(x, y, z, w)</tt> by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param w
+     *          the w coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector4d transform(double x, double y, double z, double w, Vector4d dest) {
+        dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
+                 m01 * x + m11 * y + m21 * z + m31 * w,
+                 m02 * x + m12 * y + m22 * z + m32 * w,
+                 m03 * x + m13 * y + m23 * z + m33 * w);
+       return dest;
+    }
+
+    /**
      * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
      * 
      * @see Vector4d#mulProject(Matrix4d)
@@ -4167,6 +4190,30 @@ public class Matrix4d implements Externalizable {
      */
     public Vector4d transformProject(Vector4d v, Vector4d dest) {
         return v.mulProject(this, dest);
+    }
+
+    /**
+     * Transform/multiply the vector <tt>(x, y, z, w)</tt> by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * 
+     * @param x
+     * 			the x coordinate of the direction to transform
+     * @param y
+     * 			the y coordinate of the direction to transform
+     * @param z
+     * 			the z coordinate of the direction to transform
+     * @param w
+     * 			the w coordinate of the direction to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector4d transformProject(double x, double y, double z, double w, Vector4d dest) {
+    	double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33 * w);
+        dest.set((m00 * x + m10 * y + m20 * z + m30 * w) * invW,
+                 (m01 * x + m11 * y + m21 * z + m31 * w) * invW,
+                 (m02 * x + m12 * y + m22 * z + m32 * w) * invW,
+                 1.0);
+        return dest;
     }
 
     /**
@@ -4199,6 +4246,29 @@ public class Matrix4d implements Externalizable {
      */
     public Vector3d transformProject(Vector3d v, Vector3d dest) {
         return v.mulProject(this, dest);
+    }
+
+    /**
+     * Transform/multiply the vector <tt>(x, y, z)</tt> by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector3d transformProject(double x, double y, double z, Vector3d dest) {
+    	double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33);
+        dest.set((m00 * x + m10 * y + m20 * z + m30) * invW,
+                 (m01 * x + m11 * y + m21 * z + m31) * invW,
+                 (m02 * x + m12 * y + m22 * z + m32) * invW);
+        return dest;
     }
 
     /**
@@ -4260,6 +4330,37 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Transform/multiply the given 3D-vector <tt>(x, y, z)</tt>, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a position/location in 3D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(double, double, double, double, Vector4d)} or
+     * {@link #transformProject(double, double, double, Vector3d)} when perspective divide should be applied, too.
+     * 
+     * @see #transform(double, double, double, double, Vector4d)
+     * @see #transformProject(double, double, double, Vector3d)
+     * 
+     * @param x
+     *          the x coordinate of the position
+     * @param y
+     *          the y coordinate of the position
+     * @param z
+     *          the z coordinate of the position
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d transformPosition(double x, double y, double z, Vector3d dest) {
+        dest.set(m00 * x + m10 * y + m20 * z + m30,
+                 m01 * x + m11 * y + m21 * z + m31,
+                 m02 * x + m12 * y + m22 * z + m32);
+        return dest;
+    }
+
+    /**
      * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
      * this matrix and store the result in that vector.
      * <p>
@@ -4300,6 +4401,31 @@ public class Matrix4d implements Externalizable {
         dest.set(m00 * v.x + m10 * v.y + m20 * v.z,
                  m01 * v.x + m11 * v.y + m21 * v.z,
                  m02 * v.x + m12 * v.y + m22 * v.z);
+        return dest;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector <tt>(x, y, z)</tt>, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * 
+     * @param x
+     * 			the x coordinate of the direction to transform
+     * @param y
+     * 			the y coordinate of the direction to transform
+     * @param z
+     * 			the z coordinate of the direction to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d transformDirection(double x, double y, double z, Vector3d dest) {
+        dest.set(m00 * x + m10 * y + m20 * z,
+                 m01 * x + m11 * y + m21 * z,
+                 m02 * x + m12 * y + m22 * z);
         return dest;
     }
 

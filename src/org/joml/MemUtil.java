@@ -78,8 +78,12 @@ abstract class MemUtil {
     abstract void putfTransposed(Matrix4x3d m, int offset, ByteBuffer dest);
     abstract void put(Matrix3f m, int offset, FloatBuffer dest);
     abstract void put(Matrix3f m, int offset, ByteBuffer dest);
+    abstract void put(Matrix3x2f m, int offset, FloatBuffer dest);
+    abstract void put(Matrix3x2f m, int offset, ByteBuffer dest);
     abstract void put(Matrix3d m, int offset, DoubleBuffer dest);
     abstract void put(Matrix3d m, int offset, ByteBuffer dest);
+    abstract void put(Matrix3x2d m, int offset, DoubleBuffer dest);
+    abstract void put(Matrix3x2d m, int offset, ByteBuffer dest);
     abstract void putf(Matrix3d m, int offset, FloatBuffer dest);
     abstract void putf(Matrix3d m, int offset, ByteBuffer dest);
     abstract void get(Matrix4f m, int offset, FloatBuffer src);
@@ -632,6 +636,24 @@ abstract class MemUtil {
             dest.putFloat(offset+32, m.m22);
         }
 
+        final void put(Matrix3x2f m, int offset, FloatBuffer dest) {
+            dest.put(offset,   m.m00);
+            dest.put(offset+1, m.m01);
+            dest.put(offset+2, m.m10);
+            dest.put(offset+3, m.m11);
+            dest.put(offset+4, m.m20);
+            dest.put(offset+5, m.m21);
+        }
+
+        final void put(Matrix3x2f m, int offset, ByteBuffer dest) {
+            dest.putFloat(offset,    m.m00);
+            dest.putFloat(offset+4,  m.m01);
+            dest.putFloat(offset+8, m.m10);
+            dest.putFloat(offset+12, m.m11);
+            dest.putFloat(offset+16, m.m20);
+            dest.putFloat(offset+20, m.m21);
+        }
+
         final void put(Matrix3d m, int offset, DoubleBuffer dest) {
             dest.put(offset,   m.m00);
             dest.put(offset+1, m.m01);
@@ -654,6 +676,24 @@ abstract class MemUtil {
             dest.putDouble(offset+48, m.m20);
             dest.putDouble(offset+56, m.m21);
             dest.putDouble(offset+64, m.m22);
+        }
+
+        final void put(Matrix3x2d m, int offset, DoubleBuffer dest) {
+            dest.put(offset,   m.m00);
+            dest.put(offset+1, m.m01);
+            dest.put(offset+2, m.m10);
+            dest.put(offset+3, m.m11);
+            dest.put(offset+4, m.m20);
+            dest.put(offset+5, m.m21);
+        }
+
+        final void put(Matrix3x2d m, int offset, ByteBuffer dest) {
+            dest.putDouble(offset,    m.m00);
+            dest.putDouble(offset+8,  m.m01);
+            dest.putDouble(offset+16, m.m10);
+            dest.putDouble(offset+24, m.m11);
+            dest.putDouble(offset+32, m.m20);
+            dest.putDouble(offset+40, m.m21);
         }
 
         final void putf(Matrix3d m, int offset, FloatBuffer dest) {
@@ -1291,6 +1331,15 @@ abstract class MemUtil {
             memPutFloat(destAddr + 32, m.m22);
         }
 
+        private final void put(Matrix3x2f m, long destAddr) {
+            memPutFloat(destAddr,      m.m00);
+            memPutFloat(destAddr + 4,  m.m01);
+            memPutFloat(destAddr + 8, m.m10);
+            memPutFloat(destAddr + 12, m.m11);
+            memPutFloat(destAddr + 16, m.m20);
+            memPutFloat(destAddr + 20, m.m21);
+        }
+
         private final void put(Matrix3d m, long destAddr) {
             memPutDouble(destAddr,      m.m00);
             memPutDouble(destAddr + 8,  m.m01);
@@ -1301,6 +1350,15 @@ abstract class MemUtil {
             memPutDouble(destAddr + 48, m.m20);
             memPutDouble(destAddr + 56, m.m21);
             memPutDouble(destAddr + 64, m.m22);
+        }
+
+        private final void put(Matrix3x2d m, long destAddr) {
+            memPutDouble(destAddr,      m.m00);
+            memPutDouble(destAddr + 8,  m.m01);
+            memPutDouble(destAddr + 16, m.m10);
+            memPutDouble(destAddr + 24, m.m11);
+            memPutDouble(destAddr + 32, m.m20);
+            memPutDouble(destAddr + 40, m.m21);
         }
 
         private final void putf(Matrix3d m, long destAddr) {
@@ -1581,11 +1639,27 @@ abstract class MemUtil {
             put(m, addressOf(dest) + offset);
         }
 
+        final void put(Matrix3x2f m, int offset, FloatBuffer dest) {
+            put(m, addressOf(dest) + (offset << 2));
+        }
+
+        final void put(Matrix3x2f m, int offset, ByteBuffer dest) {
+            put(m, addressOf(dest) + offset);
+        }
+
         final void put(Matrix3d m, int offset, DoubleBuffer dest) {
             put(m, addressOf(dest) + (offset << 3));
         }
 
         final void put(Matrix3d m, int offset, ByteBuffer dest) {
+            put(m, addressOf(dest) + offset);
+        }
+
+        final void put(Matrix3x2d m, int offset, DoubleBuffer dest) {
+            put(m, addressOf(dest) + (offset << 3));
+        }
+
+        final void put(Matrix3x2d m, int offset, ByteBuffer dest) {
             put(m, addressOf(dest) + offset);
         }
 

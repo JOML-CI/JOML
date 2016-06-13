@@ -735,6 +735,8 @@ public class Matrix4x3f implements Externalizable {
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
@@ -750,6 +752,8 @@ public class Matrix4x3f implements Externalizable {
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -807,6 +811,8 @@ public class Matrix4x3f implements Externalizable {
      * <p>
      * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
      * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
@@ -850,6 +856,8 @@ public class Matrix4x3f implements Externalizable {
     /**
      * Multiply <code>this</code> orthographic projection matrix by the supplied <code>view</code> matrix.
      * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
      * then the new matrix will be <code>M * V</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * V * v</code>, the
@@ -866,6 +874,8 @@ public class Matrix4x3f implements Externalizable {
     /**
      * Multiply <code>this</code> orthographic projection matrix by the supplied <code>view</code> matrix
      * and store the result in <code>dest</code>.
+     * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
      * then the new matrix will be <code>M * V</code>. So when transforming a
@@ -3010,6 +3020,29 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
+     * Transform/multiply the vector <tt>(x, y, z, w)</tt> by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param w
+     *          the w coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector4f transform(float x, float y, float z, float w, Vector4f dest) {
+        dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
+                 m01 * x + m11 * y + m21 * z + m31 * w,
+                 m02 * x + m12 * y + m22 * z + m32 * w,
+                 w);
+       return dest;
+    }
+
+    /**
      * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=1, by
      * this matrix and store the result in that vector.
      * <p>
@@ -3058,6 +3091,30 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
+     * Transform/multiply the given 3D-vector <tt>(x, y, z)</tt>, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a position/location in 3D-space rather than a direction.
+     * 
+     * @param x
+     *          the x coordinate of the position
+     * @param y
+     *          the y coordinate of the position
+     * @param z
+     *          the z coordinate of the position
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transformPosition(float x, float y, float z, Vector3f dest) {
+        dest.set(m00 * x + m10 * y + m20 * z + m30,
+                 m01 * x + m11 * y + m21 * z + m31,
+                 m02 * x + m12 * y + m22 * z + m32);
+        return dest;
+    }
+
+    /**
      * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
      * this matrix and store the result in that vector.
      * <p>
@@ -3102,6 +3159,31 @@ public class Matrix4x3f implements Externalizable {
         dest.set(m00 * v.x + m10 * v.y + m20 * v.z,
                  m01 * v.x + m11 * v.y + m21 * v.z,
                  m02 * v.x + m12 * v.y + m22 * v.z);
+        return dest;
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector <tt>(x, y, z)</tt>, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * 
+     * @param x
+     * 			the x coordinate of the direction to transform
+     * @param y
+     * 			the y coordinate of the direction to transform
+     * @param z
+     * 			the z coordinate of the direction to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transformDirection(float x, float y, float z, Vector3f dest) {
+        dest.set(m00 * x + m10 * y + m20 * z,
+                 m01 * x + m11 * y + m21 * z,
+                 m02 * x + m12 * y + m22 * z);
         return dest;
     }
 

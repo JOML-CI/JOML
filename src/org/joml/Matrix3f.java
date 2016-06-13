@@ -78,6 +78,23 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3f} and set the upper 3x2 submatrix to the given matrix
+     * and the rest to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix3x2f} to copy the upper 3x2 submatrix from
+     */
+    public Matrix3f(Matrix3x2f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = 1.0f;
+    }
+
+    /**
      * Create a new {@link Matrix3f} and make it a copy of the upper left 3x3 of the given {@link Matrix4f}.
      * 
      * @param mat
@@ -1770,6 +1787,26 @@ public class Matrix3f implements Externalizable {
      */
     public Vector3f transform(Vector3f v, Vector3f dest) {
         v.mul(this, dest);
+        return dest;
+    }
+
+    /**
+     * Transform the vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transform(float x, float y, float z, Vector3f dest) {
+        dest.set(m00 * x + m10 * y + m20 * z,
+                 m01 * x + m11 * y + m21 * z,
+                 m02 * x + m12 * y + m22 * z);
         return dest;
     }
 

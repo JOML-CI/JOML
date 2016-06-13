@@ -756,6 +756,8 @@ public class Matrix4x3d implements Externalizable {
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix.
      * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
@@ -771,6 +773,8 @@ public class Matrix4x3d implements Externalizable {
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
@@ -828,6 +832,8 @@ public class Matrix4x3d implements Externalizable {
      * <p>
      * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
      * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
@@ -871,6 +877,8 @@ public class Matrix4x3d implements Externalizable {
     /**
      * Multiply <code>this</code> orthographic projection matrix by the supplied <code>view</code> matrix.
      * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
      * then the new matrix will be <code>M * V</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * V * v</code>, the
@@ -887,6 +895,8 @@ public class Matrix4x3d implements Externalizable {
     /**
      * Multiply <code>this</code> orthographic projection matrix by the supplied <code>view</code> matrix
      * and store the result in <code>dest</code>.
+     * <p>
+     * The multiplication is performed by assuming two 4x4 matrices with their rast row being <tt>(0, 0, 0, 1)</tt>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
      * then the new matrix will be <code>M * V</code>. So when transforming a

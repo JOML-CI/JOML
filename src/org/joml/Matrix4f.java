@@ -164,6 +164,29 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix4f} and set the upper left 2x2 submatrix to the upper left 2x2 of the given matrix,
+     * set the upper right 1x2 submatrix to the right 1x2 submatrix of the given matrix,
+     * and the rest to identity.
+     * <p>
+     * In effect, the newly created Matrix4f will represent a 2D rotation and translation with no z rotation and translation.
+     * 
+     * @param mat
+     *          the {@link Matrix3x2f} to copy construct the new Matrix4f from
+     */
+    public Matrix4f(Matrix3x2f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m22 = 1.0f;
+        m30 = mat.m20;
+        m31 = mat.m21;
+        m22 = 1.0f;
+        m33 = 1.0f;
+        properties = PROPERTY_AFFINE;
+    }
+
+    /**
      * Create a new {@link Matrix4f} and make it a copy of the given matrix.
      * 
      * @param mat
@@ -1034,6 +1057,31 @@ public class Matrix4f implements Externalizable {
         m21 = mat.m21;
         m22 = mat.m22;
         properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
+        return this;
+    }
+
+    /**
+     * Set the upper left 2x2 submatrix of this matrix the upper left 2x2 of the given matrix,
+     * set the upper right 1x2 submatrix of this matrix to the right 1x2 submatrix of the given matrix,
+     * and the rest to identity.
+     * 
+     * @see #Matrix4f(Matrix3x2f)
+     * 
+     * @param mat
+     *          the {@link Matrix3x2f} to retrieve the values from
+     * @return this
+     */
+    public Matrix4f set(Matrix3x2f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m22 = 1.0f;
+        m30 = mat.m20;
+        m31 = mat.m21;
+        m22 = 1.0f;
+        m33 = 1.0f;
+        properties &= PROPERTY_AFFINE;
         return this;
     }
 
@@ -4420,6 +4468,29 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Transform/multiply the vector <tt>(x, y, z, w)</tt> by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param w
+     *          the w coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector4f transform(float x, float y, float z, float w, Vector4f dest) {
+        dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
+                 m01 * x + m11 * y + m21 * z + m31 * w,
+                 m02 * x + m12 * y + m22 * z + m32 * w,
+                 m03 * x + m13 * y + m23 * z + m33 * w);
+       return dest;
+    }
+
+    /**
      * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
      * 
      * @see Vector4f#mulProject(Matrix4f)
@@ -4445,6 +4516,30 @@ public class Matrix4f implements Externalizable {
      */
     public Vector4f transformProject(Vector4f v, Vector4f dest) {
         return v.mulProject(this, dest);
+    }
+
+    /**
+     * Transform/multiply the vector <tt>(x, y, z, w)</tt> by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param w
+     *          the w coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector4f transformProject(float x, float y, float z, float w, Vector4f dest) {
+        float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33 * w);
+        dest.set((m00 * x + m10 * y + m20 * z + m30 * w) * invW,
+                 (m01 * x + m11 * y + m21 * z + m31 * w) * invW,
+                 (m02 * x + m12 * y + m22 * z + m32 * w) * invW,
+                 1.0f);
+        return dest;
     }
 
     /**
@@ -4477,6 +4572,29 @@ public class Matrix4f implements Externalizable {
      */
     public Vector3f transformProject(Vector3f v, Vector3f dest) {
         return v.mulProject(this, dest);
+    }
+
+    /**
+     * Transform/multiply the vector <tt>(x, y, z)</tt> by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector3f transformProject(float x, float y, float z, Vector3f dest) {
+        float invW = 1.0f / (m03 * x + m13 * y + m23 * z + m33);
+        dest.set((m00 * x + m10 * y + m20 * z + m30) * invW,
+                 (m01 * x + m11 * y + m21 * z + m31) * invW,
+                 (m02 * x + m12 * y + m22 * z + m32) * invW);
+        return dest;
     }
 
     /**
@@ -4531,9 +4649,37 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Vector3f transformPosition(Vector3f v, Vector3f dest) {
-        dest.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
-                 m01 * v.x + m11 * v.y + m21 * v.z + m31,
-                 m02 * v.x + m12 * v.y + m22 * v.z + m32);
+        return transformPosition(v.x, v.y, v.z, dest);
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector <tt>(x, y, z)</tt>, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a position/location in 3D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(float, float, float, float, Vector4f)} or
+     * {@link #transformProject(float, float, float, Vector3f)} when perspective divide should be applied, too.
+     * 
+     * @see #transform(float, float, float, float, Vector4f)
+     * @see #transformProject(float, float, float, Vector3f)
+     * 
+     * @param x
+     *          the x coordinate of the position
+     * @param y
+     *          the y coordinate of the position
+     * @param z
+     *          the z coordinate of the position
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transformPosition(float x, float y, float z, Vector3f dest) {
+        dest.set(m00 * x + m10 * y + m20 * z + m30,
+                 m01 * x + m11 * y + m21 * z + m31,
+                 m02 * x + m12 * y + m22 * z + m32);
         return dest;
     }
 
@@ -4579,9 +4725,31 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Vector3f transformDirection(Vector3f v, Vector3f dest) {
-        dest.set(m00 * v.x + m10 * v.y + m20 * v.z,
-                 m01 * v.x + m11 * v.y + m21 * v.z,
-                 m02 * v.x + m12 * v.y + m22 * v.z);
+        return transformDirection(v.x, v.y, v.z, dest);
+    }
+
+    /**
+     * Transform/multiply the given 3D-vector <tt>(x, y, z)</tt>, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * 
+     * @param x
+     * 			the x coordinate of the direction to transform
+     * @param y
+     * 			the y coordinate of the direction to transform
+     * @param z
+     * 			the z coordinate of the direction to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transformDirection(float x, float y, float z, Vector3f dest) {
+        dest.set(m00 * x + m10 * y + m20 * z,
+                 m01 * x + m11 * y + m21 * z,
+                 m02 * x + m12 * y + m22 * z);
         return dest;
     }
 
