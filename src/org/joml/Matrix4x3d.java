@@ -2081,7 +2081,93 @@ public class Matrix4x3d implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store this matrix in row-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in row-major order at its current position
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed(FloatBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in row-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in row-major order
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.putfTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store this matrix as float values in row-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposedFloats(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposedFloats(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix as float values in row-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposedFloats(ByteBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store this matrix in row-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix as float values in row-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposedFloats(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putfTransposed(this, index, buffer);
         return buffer;
     }
 

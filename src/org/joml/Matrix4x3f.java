@@ -1937,7 +1937,7 @@ public class Matrix4x3f implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
