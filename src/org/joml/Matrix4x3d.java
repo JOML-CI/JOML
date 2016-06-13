@@ -486,6 +486,30 @@ public class Matrix4x3d implements Externalizable {
     }
 
     /**
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
+     * 
+     * @param m
+     *          the matrix to copy the values from
+     * @return this
+     */
+    public Matrix4x3d set(Matrix4x3f m) {
+        m00 = m.m00();
+        m10 = m.m10();
+        m20 = m.m20();
+        m30 = m.m30();
+        m01 = m.m01();
+        m11 = m.m11();
+        m21 = m.m21();
+        m31 = m.m31();
+        m02 = m.m02();
+        m12 = m.m12();
+        m22 = m.m22();
+        m32 = m.m32();
+        properties = m.properties;
+        return this;
+    }
+
+    /**
      * Store the values of the upper 4x3 submatrix of <code>m</code> into <code>this</code> matrix.
      * 
      * @see Matrix4d#get4x3(Matrix4x3d)
@@ -2846,6 +2870,27 @@ public class Matrix4x3d implements Externalizable {
      * @return this
      */
     public Matrix4x3d set3x3(Matrix3d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        return this;
+    }
+
+    /**
+     * Set the left 3x3 submatrix of this {@link Matrix4x3d} to the given {@link Matrix3f} and don't change the other elements.
+     * 
+     * @param mat
+     *          the 3x3 matrix
+     * @return this
+     */
+    public Matrix4x3d set3x3(Matrix3f mat) {
         m00 = mat.m00;
         m01 = mat.m01;
         m02 = mat.m02;

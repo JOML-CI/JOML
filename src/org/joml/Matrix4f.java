@@ -2895,6 +2895,8 @@ public class Matrix4f implements Externalizable {
      * Get the current values of the upper 4x3 submatrix of <code>this</code> matrix and store them into
      * <code>dest</code>.
      * 
+     * @see Matrix4x3f#set(Matrix4f)
+     * 
      * @param dest
      *            the destination matrix
      * @return the passed in destination
@@ -2924,6 +2926,8 @@ public class Matrix4f implements Externalizable {
      * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
      * <code>dest</code>.
      * 
+     * @see Matrix3f#set(Matrix4f)
+     * 
      * @param dest
      *            the destination matrix
      * @return the passed in destination
@@ -2935,6 +2939,8 @@ public class Matrix4f implements Externalizable {
     /**
      * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
      * <code>dest</code>.
+     * 
+     * @see Matrix3d#set(Matrix4f)
      * 
      * @param dest
      *            the destination matrix
