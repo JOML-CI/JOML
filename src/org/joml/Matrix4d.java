@@ -3284,6 +3284,154 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * In order to specify the offset into the DoubleBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, DoubleBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public DoubleBuffer getTransposed(DoubleBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * 
+     * @param index
+     *            the absolute position into the DoubleBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public DoubleBuffer getTransposed(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed(ByteBuffer buffer) {
+        return getTransposed(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * In order to specify the offset into the DoubleBuffer at which
+     * the matrix is stored, use {@link #getTransposed3x4(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed3x4(int, DoubleBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
+     * @return the passed in buffer
+     */
+    public DoubleBuffer getTransposed3x4(DoubleBuffer buffer) {
+        return getTransposed3x4(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * 
+     * @param index
+     *            the absolute position into the DoubleBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order
+     * @return the passed in buffer
+     */
+    public DoubleBuffer getTransposed3x4(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed3x4(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposed3x4(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed3x4(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed3x4(ByteBuffer buffer) {
+        return getTransposed3x4(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed3x4(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed3x4(this, index, buffer);
+        return buffer;
+    }
+
+    /**
      * Set all the values within this matrix to 0.
      * 
      * @return this

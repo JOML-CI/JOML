@@ -2409,6 +2409,46 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(float, float, float, float) perspective()} methods
+     * or via {@link #setPerspective(float, float, float, float) setPerspective()}, that is, if <code>this</code> is a symmetrical perspective frustum transformation
+     * and the given <code>view</code> matrix has unit scaling,
+     * then this method builds the inverse of <tt>this * view</tt> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of the combination of the view and projection matrices, when both were obtained
+     * via the common methods {@link #perspective(float, float, float, float) perspective()} and {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt()} or
+     * other methods, that build affine matrices, such as {@link #translate(float, float, float) translate} and {@link #rotate(float, float, float, float)}, except for {@link #scale(float, float, float) scale()}.
+     * <p>
+     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above this method, this method is equivalent to the following code:
+     * <pre>
+     * dest.set(this).mul(view).invert();
+     * </pre>
+     * 
+     * @param view
+     *          the view transformation (must have unit scaling)
+     * @param dest
+     *          will hold the inverse of <tt>this * view</tt>
+     * @return dest
+     */
+    public Matrix4f invertPerspectiveView(Matrix4x3f view, Matrix4f dest) {
+        float a =  1.0f / (m00 * m11);
+        float l = -1.0f / (m23 * m32);
+        float pm00 =  m11 * a;
+        float pm11 =  m00 * a;
+        float pm23 = -m23 * l;
+        float pm32 = -m32 * l;
+        float pm33 =  m22 * l;
+        float vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
+        float vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
+        float vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
+        dest.set(view.m00() * pm00, view.m10() * pm00, view.m20() * pm00, 0.0f,
+                 view.m01() * pm11, view.m11() * pm11, view.m21() * pm11, 0.0f,
+                 vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
+                 view.m02() * pm32 + vm30 * pm33, view.m12() * pm32 + vm31 * pm33, view.m22() * pm32 + vm32 * pm33, pm33);
+        dest.properties = 0;
+        return dest;
+    }
+
+    /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
      * and write the result into <code>dest</code>.
      * <p>
@@ -3143,6 +3183,80 @@ public class Matrix4f implements Externalizable {
      */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #getTransposed3x4(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed3x4(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed3x4(FloatBuffer buffer) {
+        return getTransposed3x4(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order
+     * @return the passed in buffer
+     */
+    public FloatBuffer getTransposed3x4(int index, FloatBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed3x4(this, index, buffer);
+        return buffer;
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposed3x4(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed3x4(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed3x4(ByteBuffer buffer) {
+        return getTransposed3x4(buffer.position(), buffer);
+    }
+
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order
+     * @return the passed in buffer
+     */
+    public ByteBuffer getTransposed3x4(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.putTransposed3x4(this, index, buffer);
         return buffer;
     }
 
