@@ -1033,7 +1033,7 @@ public class Matrix4f implements Externalizable {
         m20 = mat.m20;
         m21 = mat.m21;
         m22 = mat.m22;
-        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
 
@@ -1060,7 +1060,32 @@ public class Matrix4f implements Externalizable {
         m30 = mat.m30();
         m31 = mat.m31();
         m32 = mat.m32();
-        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
+        properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
+        return this;
+    }
+
+    /**
+     * Set the upper 4x3 submatrix of this {@link Matrix4f} to the upper 4x3 submatrix of the given {@link Matrix4f} 
+     * and don't change the other elements.
+     * 
+     * @param mat
+     *          the {@link Matrix4f}
+     * @return this
+     */
+    public Matrix4f set4x3(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
+        properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
 
