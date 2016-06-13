@@ -3364,17 +3364,17 @@ public class Matrix4d implements Externalizable {
      * This method will not increment the position of the given DoubleBuffer.
      * <p>
      * In order to specify the offset into the DoubleBuffer at which
-     * the matrix is stored, use {@link #getTransposed3x4(int, DoubleBuffer)}, taking
+     * the matrix is stored, use {@link #get4x3Transposed(int, DoubleBuffer)}, taking
      * the absolute position as parameter.
      * 
-     * @see #getTransposed3x4(int, DoubleBuffer)
+     * @see #get4x3Transposed(int, DoubleBuffer)
      * 
      * @param buffer
      *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
      * @return the passed in buffer
      */
-    public DoubleBuffer getTransposed3x4(DoubleBuffer buffer) {
-        return getTransposed3x4(buffer.position(), buffer);
+    public DoubleBuffer get4x3Transposed(DoubleBuffer buffer) {
+        return get4x3Transposed(buffer.position(), buffer);
     }
 
     /**
@@ -3389,8 +3389,8 @@ public class Matrix4d implements Externalizable {
      *            will receive the values of the upper 4x3 submatrix in row-major order
      * @return the passed in buffer
      */
-    public DoubleBuffer getTransposed3x4(int index, DoubleBuffer buffer) {
-        MemUtil.INSTANCE.putTransposed3x4(this, index, buffer);
+    public DoubleBuffer get4x3Transposed(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
         return buffer;
     }
 
@@ -3401,17 +3401,17 @@ public class Matrix4d implements Externalizable {
      * This method will not increment the position of the given ByteBuffer.
      * <p>
      * In order to specify the offset into the ByteBuffer at which
-     * the matrix is stored, use {@link #getTransposed3x4(int, ByteBuffer)}, taking
+     * the matrix is stored, use {@link #get4x3Transposed(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      * 
-     * @see #getTransposed3x4(int, ByteBuffer)
+     * @see #get4x3Transposed(int, ByteBuffer)
      * 
      * @param buffer
      *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
      * @return the passed in buffer
      */
-    public ByteBuffer getTransposed3x4(ByteBuffer buffer) {
-        return getTransposed3x4(buffer.position(), buffer);
+    public ByteBuffer get4x3Transposed(ByteBuffer buffer) {
+        return get4x3Transposed(buffer.position(), buffer);
     }
 
     /**
@@ -3426,8 +3426,8 @@ public class Matrix4d implements Externalizable {
      *            will receive the values of the upper 4x3 submatrix in row-major order
      * @return the passed in buffer
      */
-    public ByteBuffer getTransposed3x4(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.putTransposed3x4(this, index, buffer);
+    public ByteBuffer get4x3Transposed(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
         return buffer;
     }
 
