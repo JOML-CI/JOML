@@ -1939,7 +1939,7 @@ public class Intersectionf {
      * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
-     * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
+     * This test implements backface culling, that is, it will return <tt>-1.0</tt> when the triangle is in clockwise
      * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
      * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
      * 
@@ -2019,7 +2019,7 @@ public class Intersectionf {
      * This is an implementation of the <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">
      * Fast, Minimum Storage Ray/Triangle Intersection</a> method.
      * <p>
-     * This test implements backface culling, that is, it will return <code>false</code> when the triangle is in clockwise
+     * This test implements backface culling, that is, it will return <tt>-1.0</tt> when the triangle is in clockwise
      * winding order assuming a <i>right-handed</i> coordinate system when seen along the ray's direction, even if the ray intersects the triangle.
      * This is in compliance with how OpenGL handles backface culling with default frontface/backface settings.
      * 
