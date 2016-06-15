@@ -10305,7 +10305,7 @@ public class Matrix4f implements Externalizable {
      * <p>
      * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
      * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
-     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInvRay(float, float, int[], Vector3f, Vector3f) unprojectInv()} can be invoked on it.
+     * once outside using {@link #invert(Matrix4f)} and then the method {@link #unprojectInvRay(float, float, int[], Vector3f, Vector3f) unprojectInvRay()} can be invoked on it.
      * 
      * @see #unprojectInvRay(float, float, int[], Vector3f, Vector3f)
      * @see #invert(Matrix4f)
