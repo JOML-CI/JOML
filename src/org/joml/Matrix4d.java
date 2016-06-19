@@ -704,7 +704,7 @@ public class Matrix4d implements Externalizable {
         m02 = 0.0;
         m12 = 0.0;
         m22 = 1.0;
-        m30 = 0.0;
+        m32 = 0.0;
         m03 = 0.0;
         m13 = 0.0;
         m23 = 0.0;
