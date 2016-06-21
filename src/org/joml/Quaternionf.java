@@ -1139,7 +1139,7 @@ public class Quaternionf implements Externalizable {
      * @return vec
      */
     public Vector3f transform(Vector3f vec){
-        return transform(vec, vec);
+        return transform(vec.x, vec.y, vec.z, vec);
     }
 
     /**
@@ -1167,21 +1167,39 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Vector3f transform(Vector3f vec, Vector3f dest) {
-        float num = x + x;
-        float num2 = y + y;
-        float num3 = z + z;
-        float num4 = x * num;
-        float num5 = y * num2;
-        float num6 = z * num3;
-        float num7 = x * num2;
-        float num8 = x * num3;
-        float num9 = y * num3;
-        float num10 = w * num;
-        float num11 = w * num2;
-        float num12 = w * num3;
-        dest.set((1.0f - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z,
-                 (num7 + num12) * vec.x + (1.0f - (num4 + num6)) * vec.y + (num9 - num10) * vec.z,
-                 (num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0f - (num4 + num5)) * vec.z);
+    	return transform(vec.x, vec.y, vec.z, dest);
+    }
+
+    /**
+     * Transform the given vector <tt>(x, y, z)</tt> by this quaternion and store the result in <code>dest</code>.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transform(float x, float y, float z, Vector3f dest) {
+        float num = this.x + this.x;
+        float num2 = this.y + this.y;
+        float num3 = this.z + this.z;
+        float num4 = this.x * num;
+        float num5 = this.y * num2;
+        float num6 = this.z * num3;
+        float num7 = this.x * num2;
+        float num8 = this.x * num3;
+        float num9 = this.y * num3;
+        float num10 = this.w * num;
+        float num11 = this.w * num2;
+        float num12 = this.w * num3;
+        dest.set((1.0f - (num5 + num6)) * x + (num7 - num12) * y + (num8 + num11) * z,
+                 (num7 + num12) * x + (1.0f - (num4 + num6)) * y + (num9 - num10) * z,
+                 (num8 - num11) * x + (num9 + num10) * y + (1.0f - (num4 + num5)) * z);
         return dest;
     }
 
@@ -1198,21 +1216,39 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Vector4f transform(Vector4f vec, Vector4f dest) {
-        float num = x + x;
-        float num2 = y + y;
-        float num3 = z + z;
-        float num4 = x * num;
-        float num5 = y * num2;
-        float num6 = z * num3;
-        float num7 = x * num2;
-        float num8 = x * num3;
-        float num9 = y * num3;
-        float num10 = w * num;
-        float num11 = w * num2;
-        float num12 = w * num3;
-        dest.set((1.0f - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z,
-                 (num7 + num12) * vec.x + (1.0f - (num4 + num6)) * vec.y + (num9 - num10) * vec.z,
-                 (num8 - num11) * vec.x + (num9 + num10) * vec.y + (1.0f - (num4 + num5)) * vec.z,
+        return transform(vec.x, vec.y, vec.z, dest);
+    }
+
+    /**
+     * Transform the given vector <tt>(x, y, z)</tt> by this quaternion and store the result in <code>dest</code>.
+     * This will apply the rotation described by this quaternion to the given vector.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector4f transform(float x, float y, float z, Vector4f dest) {
+        float num = this.x + this.x;
+        float num2 = this.y + this.y;
+        float num3 = this.z + this.z;
+        float num4 = this.x * num;
+        float num5 = this.y * num2;
+        float num6 = this.z * num3;
+        float num7 = this.x * num2;
+        float num8 = this.x * num3;
+        float num9 = this.y * num3;
+        float num10 = this.w * num;
+        float num11 = this.w * num2;
+        float num12 = this.w * num3;
+        dest.set((1.0f - (num5 + num6)) * x + (num7 - num12) * y + (num8 + num11) * z,
+                 (num7 + num12) * x + (1.0f - (num4 + num6)) * y + (num9 - num10) * z,
+                 (num8 - num11) * x + (num9 + num10) * y + (1.0f - (num4 + num5)) * z,
                  dest.w);
         return dest;
     }
