@@ -4182,6 +4182,99 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>(T * R * S)<sup>-1</sup></tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, and <tt>S</tt> is a scaling transformation
+     * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>translationRotateScale(...).invert()</tt>
+     * 
+     * @see #translationRotateScale(float, float, float, float, float, float, float, float, float, float)
+     * @see #invert()
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
+     * @param sx
+     *          the scaling factor for the x-axis
+     * @param sy
+     *          the scaling factor for the y-axis
+     * @param sz
+     *          the scaling factor for the z-axis
+     * @return this
+     */
+    public Matrix4f translationRotateScaleInvert(float tx, float ty, float tz, 
+                                                 float qx, float qy, float qz, float qw, 
+                                                 float sx, float sy, float sz) {
+        float nqx = -qx, nqy = -qy, nqz = -qz;
+        float dqx = nqx + nqx;
+        float dqy = nqy + nqy;
+        float dqz = nqz + nqz;
+        float q00 = dqx * nqx;
+        float q11 = dqy * nqy;
+        float q22 = dqz * nqz;
+        float q01 = dqx * nqy;
+        float q02 = dqx * nqz;
+        float q03 = dqx * qw;
+        float q12 = dqy * nqz;
+        float q13 = dqy * qw;
+        float q23 = dqz * qw;
+        float isx = 1/sx, isy = 1/sy, isz = 1/sz;
+        m00 = isx * (1.0f - q11 - q22);
+        m01 = isy * (q01 + q23);
+        m02 = isz * (q02 - q13);
+        m03 = 0.0f;
+        m10 = isx * (q01 - q23);
+        m11 = isy * (1.0f - q22 - q00);
+        m12 = isz * (q12 + q03);
+        m13 = 0.0f;
+        m20 = isx * (q02 + q13);
+        m21 = isy * (q12 - q03);
+        m22 = isz * (1.0f - q11 - q00);
+        m23 = 0.0f;
+        m30 = -m00 * tx - m10 * ty - m20 * tz;
+        m31 = -m01 * tx - m11 * ty - m21 * tz;
+        m32 = -m02 * tx - m12 * ty - m22 * tz;
+        m33 = 1.0f;
+        properties = PROPERTY_AFFINE;
+        return this;
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>(T * R * S)<sup>-1</sup></tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translationRotateScale(...).invert()</tt>
+     * 
+     * @see #translationRotateScale(Vector3f, Quaternionf, Vector3f)
+     * @see #invert()
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @return this
+     */
+    public Matrix4f translationRotateScaleInvert(Vector3f translation, 
+                                                 Quaternionf quat, 
+                                                 Vector3f scale) {
+        return translationRotateScaleInvert(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
+    }
+
+    /**
      * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
      * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, <tt>S</tt> is a scaling transformation
      * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt> and <code>M</code> is an {@link #isAffine() affine} matrix.
@@ -7607,8 +7700,8 @@ public class Matrix4f implements Externalizable {
         return lookAtGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4f lookAtGeneric(float eyeX, float eyeY, float eyeZ,
-						           float centerX, float centerY, float centerZ,
-						           float upX, float upY, float upZ, Matrix4f dest) {
+                                   float centerX, float centerY, float centerZ,
+                                   float upX, float upY, float upZ, Matrix4f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -8046,8 +8139,8 @@ public class Matrix4f implements Externalizable {
         return lookAtLHGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4f lookAtLHGeneric(float eyeX, float eyeY, float eyeZ,
-						             float centerX, float centerY, float centerZ,
-						             float upX, float upY, float upZ, Matrix4f dest) {
+                                     float centerX, float centerY, float centerZ,
+                                     float upX, float upY, float upZ, Matrix4f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -10556,8 +10649,8 @@ public class Matrix4f implements Externalizable {
      * @return dest
      */
     public Matrix4f reflect(float a, float b, float c, float d, Matrix4f dest) {
-    	if ((properties & PROPERTY_IDENTITY) != 0)
-    		return dest.reflection(a, b, c, d);
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.reflection(a, b, c, d);
 
         float da = a + a, db = b + b, dc = c + c, dd = d + d;
         float rm00 = 1.0f - da * a;

@@ -2242,7 +2242,7 @@ public class Matrix4d implements Externalizable {
      * @return the determinant
      */
     public double determinant() {
-    	if ((properties & PROPERTY_AFFINE) != 0)
+        if ((properties & PROPERTY_AFFINE) != 0)
             return determinantAffine();
         return (m00 * m11 - m01 * m10) * (m22 * m33 - m23 * m32)
              + (m02 * m10 - m00 * m12) * (m21 * m33 - m23 * m31)
@@ -6591,6 +6591,123 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>(T * R * S)<sup>-1</sup></tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, and <tt>S</tt> is a scaling transformation
+     * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt>.
+     * <p>
+     * This method is equivalent to calling: <tt>translationRotateScale(...).invert()</tt>
+     * 
+     * @see #translationRotateScale(double, double, double, double, double, double, double, double, double, double)
+     * @see #invert()
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
+     * @param sx
+     *          the scaling factor for the x-axis
+     * @param sy
+     *          the scaling factor for the y-axis
+     * @param sz
+     *          the scaling factor for the z-axis
+     * @return this
+     */
+    public Matrix4d translationRotateScaleInvert(double tx, double ty, double tz, 
+                                                 double qx, double qy, double qz, double qw, 
+                                                 double sx, double sy, double sz) {
+        double nqx = -qx, nqy = -qy, nqz = -qz;
+        double dqx = nqx + nqx;
+        double dqy = nqy + nqy;
+        double dqz = nqz + nqz;
+        double q00 = dqx * nqx;
+        double q11 = dqy * nqy;
+        double q22 = dqz * nqz;
+        double q01 = dqx * nqy;
+        double q02 = dqx * nqz;
+        double q03 = dqx * qw;
+        double q12 = dqy * nqz;
+        double q13 = dqy * qw;
+        double q23 = dqz * qw;
+        double isx = 1/sx, isy = 1/sy, isz = 1/sz;
+        m00 = isx * (1.0 - q11 - q22);
+        m01 = isy * (q01 + q23);
+        m02 = isz * (q02 - q13);
+        m03 = 0.0;
+        m10 = isx * (q01 - q23);
+        m11 = isy * (1.0 - q22 - q00);
+        m12 = isz * (q12 + q03);
+        m13 = 0.0;
+        m20 = isx * (q02 + q13);
+        m21 = isy * (q12 - q03);
+        m22 = isz * (1.0 - q11 - q00);
+        m23 = 0.0;
+        m30 = -m00 * tx - m10 * ty - m20 * tz;
+        m31 = -m01 * tx - m11 * ty - m21 * tz;
+        m32 = -m02 * tx - m12 * ty - m22 * tz;
+        m33 = 1.0;
+        properties = PROPERTY_AFFINE;
+        return this;
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>(T * R * S)<sup>-1</sup></tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translationRotateScale(...).invert()</tt>
+     * 
+     * @see #translationRotateScale(Vector3d, Quaterniond, Vector3d)
+     * @see #invert()
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @return this
+     */
+    public Matrix4d translationRotateScaleInvert(Vector3d translation, 
+                                                 Quaterniond quat, 
+                                                 Vector3d scale) {
+        return translationRotateScaleInvert(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>(T * R * S)<sup>-1</sup></tt>, where <tt>T</tt> is the given <code>translation</code>,
+     * <tt>R</tt> is a rotation transformation specified by the given quaternion, and <tt>S</tt> is a scaling transformation
+     * which scales the axes by <code>scale</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translationRotateScale(...).invert()</tt>
+     * 
+     * @see #translationRotateScale(Vector3f, Quaternionf, Vector3f)
+     * @see #invert()
+     * 
+     * @param translation
+     *          the translation
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param scale
+     *          the scaling factors
+     * @return this
+     */
+    public Matrix4d translationRotateScaleInvert(Vector3f translation, 
+                                                 Quaternionf quat, 
+                                                 Vector3f scale) {
+        return translationRotateScaleInvert(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
+    }
+
+    /**
      * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
      * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, <tt>S</tt> is a scaling transformation
      * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt> and <code>M</code> is an {@link #isAffine() affine} matrix.
@@ -8713,8 +8830,8 @@ public class Matrix4d implements Externalizable {
      * @return dest
      */
     public Matrix4d reflect(double a, double b, double c, double d, Matrix4d dest) {
-    	if ((properties & PROPERTY_IDENTITY) != 0)
-    		return dest.reflection(a, b, c, d);
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.reflection(a, b, c, d);
 
         double da = a + a, db = b + b, dc = c + c, dd = d + d;
         double rm00 = 1.0 - da * a;
@@ -10174,8 +10291,8 @@ public class Matrix4d implements Externalizable {
         return lookAtGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4d lookAtGeneric(double eyeX, double eyeY, double eyeZ,
-						           double centerX, double centerY, double centerZ,
-						           double upX, double upY, double upZ, Matrix4d dest) {
+                                   double centerX, double centerY, double centerZ,
+                                   double upX, double upY, double upZ, Matrix4d dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -10614,8 +10731,8 @@ public class Matrix4d implements Externalizable {
         return lookAtLHGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4d lookAtLHGeneric(double eyeX, double eyeY, double eyeZ,
-						             double centerX, double centerY, double centerZ,
-						             double upX, double upY, double upZ, Matrix4d dest) {
+                                     double centerX, double centerY, double centerZ,
+                                     double upX, double upY, double upZ, Matrix4d dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = centerX - eyeX;
