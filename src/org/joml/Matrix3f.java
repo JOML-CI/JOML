@@ -1773,6 +1773,26 @@ public class Matrix3f implements Externalizable {
         return dest;
     }
 
+    /**
+     * Transform the vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transform(float x, float y, float z, Vector3f dest) {
+        dest.set(m00 * x + m10 * y + m20 * z,
+                 m01 * x + m11 * y + m21 * z,
+                 m02 * x + m12 * y + m22 * z);
+        return dest;
+    }
+
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeFloat(m00);
         out.writeFloat(m01);

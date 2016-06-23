@@ -524,7 +524,7 @@ public class Matrix4x3f implements Externalizable {
      * @return dest
      */
     public Matrix4f get(Matrix4f dest) {
-    	return dest.set4x3(this);
+        return dest.set4x3(this);
     }
 
     /**
@@ -5526,8 +5526,8 @@ public class Matrix4x3f implements Externalizable {
         return lookAtGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4x3f lookAtGeneric(float eyeX, float eyeY, float eyeZ,
-						             float centerX, float centerY, float centerZ,
-						             float upX, float upY, float upZ, Matrix4x3f dest) {
+                                     float centerX, float centerY, float centerZ,
+                                     float upX, float upY, float upZ, Matrix4x3f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -5834,8 +5834,8 @@ public class Matrix4x3f implements Externalizable {
         return lookAtLHGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4x3f lookAtLHGeneric(float eyeX, float eyeY, float eyeZ,
-						               float centerX, float centerY, float centerZ,
-						               float upX, float upY, float upZ, Matrix4x3f dest) {
+                                       float centerX, float centerY, float centerZ,
+                                       float upX, float upY, float upZ, Matrix4x3f dest) {
         // Compute direction from position to lookAt
         float dirX, dirY, dirZ;
         dirX = centerX - eyeX;
@@ -6375,8 +6375,8 @@ public class Matrix4x3f implements Externalizable {
      * @return dest
      */
     public Matrix4x3f reflect(float a, float b, float c, float d, Matrix4x3f dest) {
-    	if ((properties & PROPERTY_IDENTITY) != 0)
-    		return dest.reflection(a, b, c, d);
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.reflection(a, b, c, d);
 
         float da = a + a, db = b + b, dc = c + c, dd = d + d;
         float rm00 = 1.0f - da * a;

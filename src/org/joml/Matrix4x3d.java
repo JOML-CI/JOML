@@ -547,7 +547,7 @@ public class Matrix4x3d implements Externalizable {
      * @return dest
      */
     public Matrix4d get(Matrix4d dest) {
-    	return dest.set4x3(this);
+        return dest.set4x3(this);
     }
 
     /**
@@ -5918,8 +5918,8 @@ public class Matrix4x3d implements Externalizable {
      * @return dest
      */
     public Matrix4x3d reflect(double a, double b, double c, double d, Matrix4x3d dest) {
-    	if ((properties & PROPERTY_IDENTITY) != 0)
-    		return dest.reflection(a, b, c, d);
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.reflection(a, b, c, d);
 
         double da = a + a, db = b + b, dc = c + c, dd = d + d;
         double rm00 = 1.0 - da * a;
@@ -7329,8 +7329,8 @@ public class Matrix4x3d implements Externalizable {
         return lookAtGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4x3d lookAtGeneric(double eyeX, double eyeY, double eyeZ,
-						             double centerX, double centerY, double centerZ,
-						             double upX, double upY, double upZ, Matrix4x3d dest) {
+                                     double centerX, double centerY, double centerZ,
+                                     double upX, double upY, double upZ, Matrix4x3d dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = eyeX - centerX;
@@ -7638,8 +7638,8 @@ public class Matrix4x3d implements Externalizable {
         return lookAtLHGeneric(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
     }
     private Matrix4x3d lookAtLHGeneric(double eyeX, double eyeY, double eyeZ,
-						               double centerX, double centerY, double centerZ,
-						               double upX, double upY, double upZ, Matrix4x3d dest) {
+                                       double centerX, double centerY, double centerZ,
+                                       double upX, double upY, double upZ, Matrix4x3d dest) {
         // Compute direction from position to lookAt
         double dirX, dirY, dirZ;
         dirX = centerX - eyeX;

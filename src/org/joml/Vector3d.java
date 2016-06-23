@@ -819,7 +819,7 @@ public class Vector3d implements Externalizable {
      * @param v
      *          the vector to multiply by
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return dest
      */
     public Vector3d mul(Vector3f v, Vector3d dest) {
@@ -879,7 +879,7 @@ public class Vector3d implements Externalizable {
      * @param v
      *          the vector to divide by
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     public Vector3d div(Vector3f v, Vector3d dest) {

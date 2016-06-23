@@ -1038,7 +1038,7 @@ public class Quaterniond implements Externalizable {
      * @return dest
      */
     public Vector3d transform(Vector3d vec, Vector3d dest) {
-    	return transform(vec.x, vec.y, vec.z, dest);
+        return transform(vec.x, vec.y, vec.z, dest);
     }
 
     /**

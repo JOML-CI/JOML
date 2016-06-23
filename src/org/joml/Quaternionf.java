@@ -1167,7 +1167,7 @@ public class Quaternionf implements Externalizable {
      * @return dest
      */
     public Vector3f transform(Vector3f vec, Vector3f dest) {
-    	return transform(vec.x, vec.y, vec.z, dest);
+        return transform(vec.x, vec.y, vec.z, dest);
     }
 
     /**

@@ -892,9 +892,9 @@ public class Vector4d implements Externalizable {
      * Multiply this {@link Vector4d} component-wise by the given {@link Vector4d} and store the result in <code>dest</code>.
      * 
      * @param v
-     * 			the vector to multiply this by
+     *             the vector to multiply this by
      * @param dest
-     * 			will hold the result
+     *             will hold the result
      * @return dest
      */
     public Vector4d mul(Vector4d v, Vector4d dest) {
@@ -924,9 +924,9 @@ public class Vector4d implements Externalizable {
      * Divide this {@link Vector4d} component-wise by the given {@link Vector4d} and store the result in <code>dest</code>.
      * 
      * @param v
-     * 			the vector to divide this by
+     *          the vector to divide this by
      * @param dest
-     * 			will hold the result
+     *          will hold the result
      * @return dest
      */
     public Vector4d div(Vector4d v, Vector4d dest) {
