@@ -266,8 +266,9 @@ s.rotate((float) Math.toRadians(45.0f), 0.0f, 0.0f, 1.0f);
 // do something with the Matrix4f of 's'
 ```
 
-Projects using JOML
--------------------
-This section names real-world projects using JOML. All owners of the projects listed here were asked for permission before.
+Projects and Organisations using JOML
+-------------------------------------
+This section names real-world projects and organisations using JOML. All owners of the projects and responsible contacts of an organisation listed here were asked for permission before.
 
 * [We Shall Wake](http://www.weshallwake.com/2015/09/we-shall-wake-post-demo-7-briefing.html) – Post-World Accelerated Action.
+* [Computer Graphics course](http://www.cs.unh.edu/~cs770/) at the University of New Hampshire
