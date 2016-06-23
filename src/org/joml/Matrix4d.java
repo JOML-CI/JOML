@@ -693,6 +693,8 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d identity() {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return this;
         m00 = 1.0;
         m10 = 0.0;
         m20 = 0.0;
