@@ -2,7 +2,7 @@
 A Java math library for OpenGL rendering calculations
 
 Design goals
-------------
+------------o
 
 The goal of JOML is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.4 and not making use of JNI.
 
@@ -68,7 +68,7 @@ These methods are useful when the same matrix is being used in a sequence of con
 
 Building a camera transformation
 --------------------------------
-In the same way that you can concatenate multiple simple affine transformations, you can use the methods perspective(), frustum() and ortho() to specify a perspective or orthogonal projection and lookAt() to create an orthonormal transformation that mimics a camera *looking* at a given point.
+In the same way that you can concatenate multiple simple affine transformations, you can use the methods perspective(), frustum() and ortho() to specify a perspective or orthographic projection and lookAt() to create an orthonormal transformation that mimics a camera *looking* at a given point.
 Those methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):
 ```Java
 Matrix4f m = new Matrix4f()
