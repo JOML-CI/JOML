@@ -88,7 +88,7 @@ These methods are useful when the same matrix is being used in a sequence of con
 <h2>
 <a id="building-a-camera-transformation" class="anchor" href="#building-a-camera-transformation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building a camera transformation</h2>
 
-<p>In the same way that you can concatenate multiple simple affine transformations, you can use the methods perspective(), frustum() and ortho() to specify a perspective or orthogonal projection and lookAt() to create an orthonormal transformation that mimics a camera <em>looking</em> at a given point.
+<p>In the same way that you can concatenate multiple simple affine transformations, you can use the methods perspective(), frustum() and ortho() to specify a perspective or orthographic projection and lookAt() to create an orthonormal transformation that mimics a camera <em>looking</em> at a given point.
 Those methods resemble the ones known from GLU and act in the same way (i.e. they apply their transformations to an already existing transformation):</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()
@@ -129,7 +129,7 @@ viewProj<span class="pl-k">.</span>perspective((<span class="pl-k">float</span>)
                       <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>)<span class="pl-k">.</span>get(fb);
 glUniformMatrix4fv(mat4Location, <span class="pl-c1">false</span>, fb);</pre></div>
 
-<p>The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method <a href="http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv%28int,%20boolean,%20java.nio.FloatBuffer%29"><em>glUniformMatrix4fv</em></a>.</p>
+<p>The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method <a href="http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv-int-boolean-java.nio.FloatBuffer-"><em>glUniformMatrix4fv</em></a>.</p>
 
 <p>Instead of using the uniform methods, one or multiple matrices can also be uploaded to an OpenGL buffer object and then sourced from that buffer object from within a shader when used as an uniform buffer object or a shader storage buffer object.
 The following uploads a matrix to an OpenGL buffer object which can then be used as an uniform buffer object in a shader:</p>
@@ -140,7 +140,7 @@ The following uploads a matrix to an OpenGL buffer object which can then be used
 glBindBuffer(<span class="pl-c1">GL_UNIFORM_BUFFER</span>, ubo);
 glBufferSubData(<span class="pl-c1">GL_UNIFORM_BUFFER</span>, <span class="pl-c1">0</span>, m<span class="pl-k">.</span>get(fb));</pre></div>
 
-<p>If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call <a href="http://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf%28java.nio.FloatBuffer%29"><em>glLoadMatrixf()</em></a> provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:</p>
+<p>If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call <a href="http://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf-java.nio.FloatBuffer-"><em>glLoadMatrixf()</em></a> provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
 <span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
@@ -156,7 +156,7 @@ glLoadMatrixf(fb);</pre></div>
 <h2>
 <a id="using-with-vulkan-and-lwjgl-3" class="anchor" href="#using-with-vulkan-and-lwjgl-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using with Vulkan and LWJGL 3</h2>
 
-<p>You can use <a href="http://javadoc.lwjgl.org/org/lwjgl/vulkan/VK10.html#vkMapMemory(org.lwjgl.vulkan.VkDevice,%20long,%20long,%20long,%20int,%20org.lwjgl.PointerBuffer)">VK10.vkMapMemory()</a> provided by LWJGL to map a Vulkan memory object, which may be the backing store of a Uniform Buffer, into Java and use the returned Java NIO ByteBuffer to upload the matrix like you would with OpenGL by calling <a href="http://joml-ci.github.io/JOML/apidocs/org/joml/Matrix4f.html#get-java.nio.ByteBuffer-">get()</a> on the matrix:</p>
+<p>You can use <a href="http://javadoc.lwjgl.org/org/lwjgl/vulkan/VK10.html#vkMapMemory-org.lwjgl.vulkan.VkDevice-long-long-long-int-org.lwjgl.PointerBuffer-">VK10.vkMapMemory()</a> provided by LWJGL to map a Vulkan memory object, which may be the backing store of a Uniform Buffer, into Java and use the returned Java NIO ByteBuffer to upload the matrix like you would with OpenGL by calling <a href="http://joml-ci.github.io/JOML/apidocs/org/joml/Matrix4f.html#get-java.nio.ByteBuffer-">get()</a> on the matrix:</p>
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-c1">...</span>;
 <span class="pl-smi">VkDevice</span> device <span class="pl-k">=</span> <span class="pl-c1">...</span>; <span class="pl-c">// &lt;- the vulkan device</span>
@@ -278,13 +278,15 @@ s<span class="pl-k">.</span>rotate((<span class="pl-k">float</span>) <span class
 <span class="pl-c">// do something with the Matrix4f of 's'</span></pre></div>
 
 <h2>
-<a id="projects-using-joml" class="anchor" href="#projects-using-joml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projects using JOML</h2>
+<a id="projects-using-joml" class="anchor" href="#projects-using-joml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projects and Organisations using JOML</h2>
 
-<p>This section names real-world projects using JOML. All owners of the projects listed here were asked for permission before.</p>
+<p>This section names real-world projects and organisations using JOML. All owners of the projects and responsible contacts of an organisation listed here were asked for permission before.</p>
 
 <ul>
 <li>
 <a href="http://www.weshallwake.com/2015/09/we-shall-wake-post-demo-7-briefing.html">We Shall Wake</a> – Post-World Accelerated Action.</li>
+<li>
+<a href="http://www.weshallwake.com/2015/09/we-shall-wake-post-demo-7-briefing.html">Computer Graphics course</a> at the University of New Hampshire</li>
 </ul>
 
       <footer class="site-footer">
