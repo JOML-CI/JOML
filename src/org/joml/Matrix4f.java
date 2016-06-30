@@ -939,6 +939,8 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/">http://www.euclideanspace.com/</a>
      * 
      * @param q
      *          the {@link Quaternionf}
@@ -979,6 +981,8 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniond}.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/">http://www.euclideanspace.com/</a>
      * 
      * @param q
      *          the {@link Quaterniond}

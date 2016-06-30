@@ -259,65 +259,27 @@ public class Quaternionf implements Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
+     * @see Matrix3f#set(Quaternionf)
+     * 
      * @param dest
      *          the matrix to write the rotation into
      * @return the passed in destination
      */
     public Matrix3f get(Matrix3f dest) {
-        float dx = x + x;
-        float dy = y + y;
-        float dz = z + z;
-        float q00 = dx * x;
-        float q11 = dy * y;
-        float q22 = dz * z;
-        float q01 = dx * y;
-        float q02 = dx * z;
-        float q03 = dx * w;
-        float q12 = dy * z;
-        float q13 = dy * w;
-        float q23 = dz * w;
-        dest.m00 = 1.0f - q11 - q22;
-        dest.m01 = q01 + q23;
-        dest.m02 = q02 - q13;
-        dest.m10 = q01 - q23;
-        dest.m11 = 1.0f - q22 - q00;
-        dest.m12 = q12 + q03;
-        dest.m20 = q02 + q13;
-        dest.m21 = q12 - q03;
-        dest.m22 = 1.0f - q11 - q00;
-        return dest;
+        return dest.set(this);
     }
 
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @see Matrix3d#set(Quaternionf)
      * 
      * @param dest
      *          the matrix to write the rotation into
      * @return the passed in destination
      */
     public Matrix3d get(Matrix3d dest) {
-        double dx = x + x;
-        double dy = y + y;
-        double dz = z + z;
-        double q00 = dx * x;
-        double q11 = dy * y;
-        double q22 = dz * z;
-        double q01 = dx * y;
-        double q02 = dx * z;
-        double q03 = dx * w;
-        double q12 = dy * z;
-        double q13 = dy * w;
-        double q23 = dz * w;
-        dest.m00 = 1.0 - q11 - q22;
-        dest.m01 = q01 + q23;
-        dest.m02 = q02 - q13;
-        dest.m10 = q01 - q23;
-        dest.m11 = 1.0 - q22 - q00;
-        dest.m12 = q12 + q03;
-        dest.m20 = q02 + q13;
-        dest.m21 = q12 - q03;
-        dest.m22 = 1.0 - q11 - q00;
-        return dest;
+        return dest.set(this);
     }
 
     /**

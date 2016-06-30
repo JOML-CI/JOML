@@ -285,65 +285,27 @@ public class Quaterniond implements Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
+     * @see Matrix3d#set(Quaterniond)
+     * 
      * @param dest
      *          the matrix to write the rotation into
      * @return the passed in destination
      */
     public Matrix3d get(Matrix3d dest) {
-        double dx = x + x;
-        double dy = y + y;
-        double dz = z + z;
-        double q00 = dx * x;
-        double q11 = dy * y;
-        double q22 = dz * z;
-        double q01 = dx * y;
-        double q02 = dx * z;
-        double q03 = dx * w;
-        double q12 = dy * z;
-        double q13 = dy * w;
-        double q23 = dz * w;
-        dest.m00 = 1.0 - q11 - q22;
-        dest.m01 = q01 + q23;
-        dest.m02 = q02 - q13;
-        dest.m10 = q01 - q23;
-        dest.m11 = 1.0 - q22 - q00;
-        dest.m12 = q12 + q03;
-        dest.m20 = q02 + q13;
-        dest.m21 = q12 - q03;
-        dest.m22 = 1.0 - q11 - q00;
-        return dest;
+        return dest.set(this);
     }
 
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @see Matrix3f#set(Quaterniond)
      * 
      * @param dest
      *          the matrix to write the rotation into
      * @return the passed in destination
      */
     public Matrix3f get(Matrix3f dest) {
-        double dx = x + x;
-        double dy = y + y;
-        double dz = z + z;
-        double q00 = dx * x;
-        double q11 = dy * y;
-        double q22 = dz * z;
-        double q01 = dx * y;
-        double q02 = dx * z;
-        double q03 = dx * w;
-        double q12 = dy * z;
-        double q13 = dy * w;
-        double q23 = dz * w;
-        dest.m00 = (float) (1.0 - q11 - q22);
-        dest.m01 = (float) (q01 + q23);
-        dest.m02 = (float) (q02 - q13);
-        dest.m10 = (float) (q01 - q23);
-        dest.m11 = (float) (1.0 - q22 - q00);
-        dest.m12 = (float) (q12 + q03);
-        dest.m20 = (float) (q02 + q13);
-        dest.m21 = (float) (q12 - q03);
-        dest.m22 = (float) (1.0 - q11 - q00);
-        return dest;
+        return dest.set(this);
     }
 
     /**

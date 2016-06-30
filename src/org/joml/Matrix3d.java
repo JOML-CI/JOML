@@ -512,29 +512,69 @@ public class Matrix3d implements Externalizable {
 
     /**
      * Set this matrix to a rotation equivalent to the given quaternion.
-     * 
-     * @see Quaternionf#get(Matrix3d)
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/">http://www.euclideanspace.com/</a>
      * 
      * @param q
      *          the quaternion
      * @return this
      */
     public Matrix3d set(Quaternionf q) {
-        q.get(this);
+        float dx = q.x + q.x;
+        float dy = q.y + q.y;
+        float dz = q.z + q.z;
+        float q00 = dx * q.x;
+        float q11 = dy * q.y;
+        float q22 = dz * q.z;
+        float q01 = dx * q.y;
+        float q02 = dx * q.z;
+        float q03 = dx * q.w;
+        float q12 = dy * q.z;
+        float q13 = dy * q.w;
+        float q23 = dz * q.w;
+        m00 = 1.0 - q11 - q22;
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m10 = q01 - q23;
+        m11 = 1.0 - q22 - q00;
+        m12 = q12 + q03;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0 - q11 - q00;
         return this;
     }
 
     /**
      * Set this matrix to a rotation equivalent to the given quaternion.
-     * 
-     * @see Quaterniond#get(Matrix3d)
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/">http://www.euclideanspace.com/</a>
      * 
      * @param q
      *          the quaternion
      * @return this
      */
     public Matrix3d set(Quaterniond q) {
-        q.get(this);
+        double dx = q.x + q.x;
+        double dy = q.y + q.y;
+        double dz = q.z + q.z;
+        double q00 = dx * q.x;
+        double q11 = dy * q.y;
+        double q22 = dz * q.z;
+        double q01 = dx * q.y;
+        double q02 = dx * q.z;
+        double q03 = dx * q.w;
+        double q12 = dy * q.z;
+        double q13 = dy * q.w;
+        double q23 = dz * q.w;
+        m00 = 1.0 - q11 - q22;
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m10 = q01 - q23;
+        m11 = 1.0 - q22 - q00;
+        m12 = q12 + q03;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0 - q11 - q00;
         return this;
     }
 
