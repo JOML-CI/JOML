@@ -2677,7 +2677,9 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Transpose only the upper left 3x3 submatrix of this matrix and set the rest of the matrix elements to identity.
+     * Transpose only the upper left 3x3 submatrix of this matrix.
+     * <p>
+     * All other matrix elements are left unchanged.
      * 
      * @return this
      */
