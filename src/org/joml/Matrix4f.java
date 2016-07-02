@@ -10218,7 +10218,7 @@ public class Matrix4f implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
      * the quaternion rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>translate(-ox, -oy, -oz).rotate(quat).translate(ox, oy, oz)</tt>
+     * This method is equivalent to calling: <tt>translate(ox, oy, oz).rotate(quat).translate(-ox, -oy, -oz)</tt>
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
@@ -10249,7 +10249,7 @@ public class Matrix4f implements Externalizable {
      * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
      * the quaternion rotation will be applied first!
      * <p>
-     * This method is equivalent to calling: <tt>translate(-ox, -oy, -oz, dest).rotate(quat).translate(ox, oy, oz)</tt>
+     * This method is equivalent to calling: <tt>translate(ox, oy, oz, dest).rotate(quat).translate(-ox, -oy, -oz)</tt>
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
