@@ -5314,6 +5314,118 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(-ox, -oy, -oz).rotate(quat).translate(ox, oy, oz)</tt>
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @param quat
+     *          the {@link Quaterniond}
+     * @param ox
+     *          the x coordinate of the rotation origin
+     * @param oy
+     *          the y coordinate of the rotation origin
+     * @param oz
+     *          the z coordinate of the rotation origin
+     * @return this
+     */
+    public Matrix4d rotateAround(Quaterniond quat, double ox, double oy, double oz) {
+        return rotateAround(quat, ox, oy, oz, this);
+    }
+
+    /**
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(-ox, -oy, -oz, dest).rotate(quat).translate(ox, oy, oz)</tt>
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @param quat
+     *          the {@link Quaterniond}
+     * @param ox
+     *          the x coordinate of the rotation origin
+     * @param oy
+     *          the y coordinate of the rotation origin
+     * @param oz
+     *          the z coordinate of the rotation origin
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4d rotateAround(Quaterniond quat, double ox, double oy, double oz, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
+        double rm00 = 1.0 - q11 - q22;
+        double rm01 = q01 + q23;
+        double rm02 = q02 - q13;
+        double rm10 = q01 - q23;
+        double rm11 = 1.0 - q22 - q00;
+        double rm12 = q12 + q03;
+        double rm20 = q02 + q13;
+        double rm21 = q12 - q03;
+        double rm22 = 1.0 - q11 - q00;
+        double tm30 = m00 * ox + m10 * oy + m20 * oz + m30;
+        double tm31 = m01 * ox + m11 * oy + m21 * oz + m31;
+        double tm32 = m02 * ox + m12 * oy + m22 * oz + m32;
+        double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        double nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        double nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        double nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        double nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        double nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m30 = -nm00 * ox - nm10 * oy - m20 * oz + tm30;
+        dest.m31 = -nm01 * ox - nm11 * oy - m21 * oz + tm31;
+        dest.m32 = -nm02 * ox - nm12 * oy - m22 * oz + tm32;
+        dest.m33 = m33;
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        return dest;
+    }
+
+    /**
      * Pre-multiply a rotation to this matrix by rotating the given amount of radians
      * about the specified <tt>(x, y, z)</tt> axis and store the result in <code>dest</code>.
      * <p>

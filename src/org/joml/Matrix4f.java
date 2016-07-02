@@ -10207,6 +10207,118 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(-ox, -oy, -oz).rotate(quat).translate(ox, oy, oz)</tt>
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @param quat
+     *          the {@link Quaternionf}
+     * @param ox
+     *          the x coordinate of the rotation origin
+     * @param oy
+     *          the y coordinate of the rotation origin
+     * @param oz
+     *          the z coordinate of the rotation origin
+     * @return this
+     */
+    public Matrix4f rotateAround(Quaternionf quat, float ox, float oy, float oz) {
+        return rotateAround(quat, ox, oy, oz, this);
+    }
+
+    /**
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(-ox, -oy, -oz, dest).rotate(quat).translate(ox, oy, oz)</tt>
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @param quat
+     *          the {@link Quaternionf}
+     * @param ox
+     *          the x coordinate of the rotation origin
+     * @param oy
+     *          the y coordinate of the rotation origin
+     * @param oz
+     *          the z coordinate of the rotation origin
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateAround(Quaternionf quat, float ox, float oy, float oz, Matrix4f dest) {
+        float dqx = quat.x + quat.x;
+        float dqy = quat.y + quat.y;
+        float dqz = quat.z + quat.z;
+        float q00 = dqx * quat.x;
+        float q11 = dqy * quat.y;
+        float q22 = dqz * quat.z;
+        float q01 = dqx * quat.y;
+        float q02 = dqx * quat.z;
+        float q03 = dqx * quat.w;
+        float q12 = dqy * quat.z;
+        float q13 = dqy * quat.w;
+        float q23 = dqz * quat.w;
+        float rm00 = 1.0f - q11 - q22;
+        float rm01 = q01 + q23;
+        float rm02 = q02 - q13;
+        float rm10 = q01 - q23;
+        float rm11 = 1.0f - q22 - q00;
+        float rm12 = q12 + q03;
+        float rm20 = q02 + q13;
+        float rm21 = q12 - q03;
+        float rm22 = 1.0f - q11 - q00;
+        float tm30 = m00 * ox + m10 * oy + m20 * oz + m30;
+        float tm31 = m01 * ox + m11 * oy + m21 * oz + m31;
+        float tm32 = m02 * ox + m12 * oy + m22 * oz + m32;
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm03 = m03 * rm00 + m13 * rm01 + m23 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        float nm13 = m03 * rm10 + m13 * rm11 + m23 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m23 = m03 * rm20 + m13 * rm21 + m23 * rm22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m30 = -nm00 * ox - nm10 * oy - m20 * oz + tm30;
+        dest.m31 = -nm01 * ox - nm11 * oy - m21 * oz + tm31;
+        dest.m32 = -nm02 * ox - nm12 * oy - m22 * oz + tm32;
+        dest.m33 = m33;
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        return dest;
+    }
+
+    /**
      * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
