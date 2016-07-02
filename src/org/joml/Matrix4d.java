@@ -4518,7 +4518,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given <tt>xyz.x</tt>,
      * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -4554,7 +4554,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the base axes by the given x,
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -4599,7 +4599,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the base axes by the given x,
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given x,
      * y and z factors.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -4659,7 +4659,142 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Pre-multiply scaling to the this matrix by scaling the base axes by the given x,
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given sx,
+     * sy and sz factors while using <tt>(ox, oy, oz)</tt> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(ox, oy, oz, dest).scale(sx, sy, sz).translate(-ox, -oy, -oz)</tt>
+     * 
+     * @param sx
+     *            the scaling factor of the x component
+     * @param sy
+     *            the scaling factor of the y component
+     * @param sz
+     *            the scaling factor of the z component
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d scaleAround(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4d dest) {
+        double nm30 = m00 * ox + m10 * oy + m20 * oz + m30;
+        double nm31 = m01 * ox + m11 * oy + m21 * oz + m31;
+        double nm32 = m02 * ox + m12 * oy + m22 * oz + m32;
+        double nm33 = m03 * ox + m13 * oy + m23 * oz + m33;
+        dest.m00 = m00 * sx;
+        dest.m01 = m01 * sx;
+        dest.m02 = m02 * sx;
+        dest.m03 = m03 * sx;
+        dest.m10 = m10 * sy;
+        dest.m11 = m11 * sy;
+        dest.m12 = m12 * sy;
+        dest.m13 = m13 * sy;
+        dest.m20 = m20 * sz;
+        dest.m21 = m21 * sz;
+        dest.m22 = m22 * sz;
+        dest.m23 = m23 * sz;
+        dest.m30 = -m00 * ox - m10 * oy - m20 * oz + nm30;
+        dest.m31 = -m01 * ox - m11 * oy - m21 * oz + nm31;
+        dest.m32 = -m02 * ox - m12 * oy - m22 * oz + nm32;
+        dest.m33 = -m03 * ox - m13 * oy - m23 * oz + nm33;
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        return dest;
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling the base axes by the given sx,
+     * sy and sz factors while using <tt>(ox, oy, oz)</tt> as the scaling origin.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(ox, oy, oz).scale(sx, sy, sz).translate(-ox, -oy, -oz)</tt>
+     * 
+     * @param sx
+     *            the scaling factor of the x component
+     * @param sy
+     *            the scaling factor of the y component
+     * @param sz
+     *            the scaling factor of the z component
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @return this
+     */
+    public Matrix4d scaleAround(double sx, double sy, double sz, double ox, double oy, double oz) {
+        return scaleAround(sx, sy, sz, ox, oy, oz, this);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling all three base axes by the given <code>factor</code>
+     * while using <tt>(ox, oy, oz)</tt> as the scaling origin.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(ox, oy, oz).scale(factor).translate(-ox, -oy, -oz)</tt>
+     * 
+     * @param factor
+     *            the scaling factor for all three axes
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @return this
+     */
+    public Matrix4d scaleAround(double factor, double ox, double oy, double oz) {
+        return scaleAround(factor, factor, factor, ox, oy, oz, this);
+    }
+
+    /**
+     * Apply scaling to this matrix by scaling all three base axes by the given <code>factor</code>
+     * while using <tt>(ox, oy, oz)</tt> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(ox, oy, oz, dest).scale(factor).translate(-ox, -oy, -oz)</tt>
+     * 
+     * @param factor
+     *            the scaling factor for all three axes
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d scaleAround(double factor, double ox, double oy, double oz, Matrix4d dest) {
+        return scaleAround(factor, factor, factor, ox, oy, oz, dest);
+    }
+
+    /**
+     * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -4736,6 +4871,137 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d scaleLocal(double x, double y, double z) {
         return scaleLocal(x, y, z, this);
+    }
+
+    /**
+     * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given sx,
+     * sy and sz factors while using the given <tt>(ox, oy, oz)</tt> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
+     * , the scaling will be applied last!
+     * <p>
+     * This method is equivalent to calling: <tt>new Matrix4d().translate(ox, oy, oz).scale(sx, sy, sz).translate(-ox, -oy, -oz).mul(this, dest)</tt>
+     * 
+     * @param sx
+     *            the scaling factor of the x component
+     * @param sy
+     *            the scaling factor of the y component
+     * @param sz
+     *            the scaling factor of the z component
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4d scaleAroundLocal(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4d dest) {
+        dest.m00 = sx * (m00 - ox * m03) + ox * m03;
+        dest.m01 = sy * (m01 - oy * m03) + oy * m03;
+        dest.m02 = sz * (m02 - oz * m03) + oz * m03;
+        dest.m03 = m03;
+        dest.m10 = sx * (m10 - ox * m13) + ox * m13;
+        dest.m11 = sy * (m11 - oy * m13) + oy * m13;
+        dest.m12 = sz * (m12 - oz * m13) + oz * m13;
+        dest.m13 = m13;
+        dest.m20 = sx * (m20 - ox * m23) + ox * m23;
+        dest.m21 = sy * (m21 - oy * m23) + oy * m23;
+        dest.m22 = sz * (m22 - oz * m23) + oz * m23;
+        dest.m23 = m23;
+        dest.m30 = sx * (m30 - ox * m33) + ox * m33;
+        dest.m31 = sy * (m31 - oy * m33) + oy * m33;
+        dest.m32 = sz * (m32 - oz * m33) + oz * m33;
+        dest.m33 = m33;
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        return dest;
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling the base axes by the given sx,
+     * sy and sz factors while using <tt>(ox, oy, oz)</tt> as the scaling origin.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * <p>
+     * This method is equivalent to calling: <tt>new Matrix4d().translate(ox, oy, oz).scale(sx, sy, sz).translate(-ox, -oy, -oz).mul(this, this)</tt>
+     * 
+     * @param sx
+     *            the scaling factor of the x component
+     * @param sy
+     *            the scaling factor of the y component
+     * @param sz
+     *            the scaling factor of the z component
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @return this
+     */
+    public Matrix4d scaleAroundLocal(double sx, double sy, double sz, double ox, double oy, double oz) {
+        return scaleAroundLocal(sx, sy, sz, ox, oy, oz, this);
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling all three base axes by the given <code>factor</code>
+     * while using <tt>(ox, oy, oz)</tt> as the scaling origin.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * <p>
+     * This method is equivalent to calling: <tt>new Matrix4d().translate(ox, oy, oz).scale(factor).translate(-ox, -oy, -oz).mul(this, this)</tt>
+     * 
+     * @param factor
+     *            the scaling factor for all three axes
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @return this
+     */
+    public Matrix4d scaleAroundLocal(double factor, double ox, double oy, double oz) {
+        return scaleAroundLocal(factor, factor, factor, ox, oy, oz, this);
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling all three base axes by the given <code>factor</code>
+     * while using <tt>(ox, oy, oz)</tt> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * <p>
+     * This method is equivalent to calling: <tt>new Matrix4d().translate(ox, oy, oz).scale(factor).translate(-ox, -oy, -oz).mul(this, dest)</tt>
+     * 
+     * @param factor
+     *            the scaling factor for all three axes
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return this
+     */
+    public Matrix4d scaleAroundLocal(double factor, double ox, double oy, double oz, Matrix4d dest) {
+        return scaleAroundLocal(factor, factor, factor, ox, oy, oz, dest);
     }
 
     /**
@@ -12237,7 +12503,7 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
-     * Calculate a frustum plane of the this matrix, which
+     * Calculate a frustum plane of <code>this</code> matrix, which
      * can be a projection matrix or a combined modelview-projection matrix, and store the result
      * in the given <code>planeEquation</code>.
      * <p>
