@@ -2715,7 +2715,7 @@ public class Matrix4f implements Externalizable {
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE));
+        dest.properties = 0;
         return dest;
     }
 
@@ -2830,7 +2830,7 @@ public class Matrix4f implements Externalizable {
         m30 = x;
         m31 = y;
         m32 = z;
-        properties &= ~(PROPERTY_PERSPECTIVE);
+        properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY);
         return this;
     }
 
