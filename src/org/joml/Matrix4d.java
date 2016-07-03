@@ -2862,7 +2862,7 @@ public class Matrix4d implements Externalizable {
      * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(x, y, z)</tt>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(double, double, double)}.
-     * To apply a translation to another matrix, use {@link #translate(double, double, double)}.
+     * To apply a translation, use {@link #translate(double, double, double)}.
      * 
      * @see #translation(double, double, double)
      * @see #translate(double, double, double)
@@ -2887,7 +2887,7 @@ public class Matrix4d implements Externalizable {
      * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(Vector3d)}.
-     * To apply a translation to another matrix, use {@link #translate(Vector3d)}.
+     * To apply a translation, use {@link #translate(Vector3d)}.
      * 
      * @see #translation(Vector3d)
      * @see #translate(Vector3d)

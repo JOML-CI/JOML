@@ -2813,7 +2813,7 @@ public class Matrix4f implements Externalizable {
      * Note that this will only work properly for orthogonal matrices (without any perspective).
      * <p>
      * To build a translation matrix instead, use {@link #translation(float, float, float)}.
-     * To apply a translation to another matrix, use {@link #translate(float, float, float)}.
+     * To apply a translation, use {@link #translate(float, float, float)}.
      * 
      * @see #translation(float, float, float)
      * @see #translate(float, float, float)
@@ -2840,7 +2840,7 @@ public class Matrix4f implements Externalizable {
      * Note that this will only work properly for orthogonal matrices (without any perspective).
      * <p>
      * To build a translation matrix instead, use {@link #translation(Vector3f)}.
-     * To apply a translation to another matrix, use {@link #translate(Vector3f)}.
+     * To apply a translation, use {@link #translate(Vector3f)}.
      * 
      * @see #translation(Vector3f)
      * @see #translate(Vector3f)

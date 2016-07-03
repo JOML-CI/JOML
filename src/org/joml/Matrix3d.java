@@ -1402,7 +1402,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given <tt>xyz.x</tt>,
      * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -1533,7 +1533,7 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Pre-multiply scaling to the this matrix by scaling the base axes by the given x,
+     * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,

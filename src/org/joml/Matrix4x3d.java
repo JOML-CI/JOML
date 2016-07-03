@@ -1591,7 +1591,7 @@ public class Matrix4x3d implements Externalizable {
      * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(x, y, z)</tt>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(double, double, double)}.
-     * To apply a translation to another matrix, use {@link #translate(double, double, double)}.
+     * To apply a translation, use {@link #translate(double, double, double)}.
      * 
      * @see #translation(double, double, double)
      * @see #translate(double, double, double)
@@ -1615,7 +1615,7 @@ public class Matrix4x3d implements Externalizable {
      * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
      * To build a translation matrix instead, use {@link #translation(Vector3d)}.
-     * To apply a translation to another matrix, use {@link #translate(Vector3d)}.
+     * To apply a translation, use {@link #translate(Vector3d)}.
      * 
      * @see #translation(Vector3d)
      * @see #translate(Vector3d)
@@ -2991,7 +2991,7 @@ public class Matrix4x3d implements Externalizable {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given <tt>xyz.x</tt>,
      * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -3027,7 +3027,7 @@ public class Matrix4x3d implements Externalizable {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the base axes by the given x,
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -3068,7 +3068,7 @@ public class Matrix4x3d implements Externalizable {
     }
 
     /**
-     * Apply scaling to the this matrix by scaling the base axes by the given x,
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given x,
      * y and z factors.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
@@ -3128,7 +3128,7 @@ public class Matrix4x3d implements Externalizable {
     }
 
     /**
-     * Pre-multiply scaling to the this matrix by scaling the base axes by the given x,
+     * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given x,
      * y and z factors and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
