@@ -42,6 +42,9 @@ abstract class MemUtil {
             accessor = new MemUtilUnsafe();
         } catch (UnsupportedOperationException e) {
             accessor = new MemUtilNIO();
+        } catch (NoClassDefFoundError e) {
+            // when sun.misc.Unsafe is not available at runtime
+            accessor = new MemUtilNIO();
         }
         return accessor;
     }
