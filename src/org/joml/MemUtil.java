@@ -961,10 +961,10 @@ abstract class MemUtil {
     }
 
     static final class MemUtilUnsafe extends MemUtil {
-        private final sun.misc.Unsafe UNSAFE;
-        private final long ADDRESS;
+        private final static sun.misc.Unsafe UNSAFE;
+        private final static long ADDRESS;
 
-        MemUtilUnsafe() throws UnsupportedOperationException {
+        static {
             UNSAFE = getUnsafeInstance();
             try {
                 ADDRESS = UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
