@@ -400,7 +400,7 @@ public class Intersectiond {
      * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
      */
     public static boolean intersectSphereSphere(Vector3d centerA, double radiusSquaredA, Vector3d centerB, double radiusSquaredB, Vector4d centerAndRadiusOfIntersectionCircle) {
-        return intersectSphereSphere(centerA.x, centerA.y, centerA.z, radiusSquaredB, centerB.x, centerB.y, centerB.z, radiusSquaredB, centerAndRadiusOfIntersectionCircle);
+        return intersectSphereSphere(centerA.x, centerA.y, centerA.z, radiusSquaredA, centerB.x, centerB.y, centerB.z, radiusSquaredB, centerAndRadiusOfIntersectionCircle);
     }
 
     /**
@@ -2662,7 +2662,7 @@ public class Intersectiond {
      * @return <code>true</code> iff both circles intersect; <code>false</code> otherwise
      */
     public static boolean intersectCircleCircle(Vector2d centerA, double radiusSquaredA, Vector2d centerB, double radiusSquaredB, Vector3d intersectionCenterAndHL) {
-        return intersectCircleCircle(centerA.x, centerA.y, radiusSquaredB, centerB.x, centerB.y, radiusSquaredB, intersectionCenterAndHL);
+        return intersectCircleCircle(centerA.x, centerA.y, radiusSquaredA, centerB.x, centerB.y, radiusSquaredB, intersectionCenterAndHL);
     }
 
     /**
