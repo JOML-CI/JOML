@@ -28,8 +28,6 @@ import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
-import sun.misc.Unsafe;
-
 /**
  * Helper class to do efficient memory copies.
  * 
@@ -1022,8 +1020,8 @@ abstract class MemUtil {
                         throw new UnsupportedOperationException();
                 }
                 // Check if we can use object field offset/address put/get methods
-                Unsafe.class.getDeclaredMethod("putLong", new Class[] {Object.class, long.class, long.class});
-                Unsafe.class.getDeclaredMethod("getLongVolatile", new Class[] {Object.class, long.class});
+                sun.misc.Unsafe.class.getDeclaredMethod("putLong", new Class[] {Object.class, long.class, long.class});
+                sun.misc.Unsafe.class.getDeclaredMethod("getLongVolatile", new Class[] {Object.class, long.class});
             } catch (NoSuchFieldException e) {
                 throw new UnsupportedOperationException();
             } catch (NoSuchMethodException e) {
