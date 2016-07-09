@@ -47,9 +47,9 @@ public class Matrix4x3d implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
-    private double m00, m10, m20, m30;
-    private double m01, m11, m21, m31;
-    private double m02, m12, m22, m32;
+    double m00, m10, m20, m30;
+    double m01, m11, m21, m31;
+    double m02, m12, m22, m32;
 
     byte properties;
     private static final byte PROPERTY_IDENTITY = 1<<2;

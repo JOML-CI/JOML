@@ -120,10 +120,10 @@ public class Matrix4d implements Externalizable {
      */
     public static final int CORNER_PXPYPZ = 7;
 
-    private double m00, m10, m20, m30;
-    private double m01, m11, m21, m31;
-    private double m02, m12, m22, m32;
-    private double m03, m13, m23, m33;
+    double m00, m10, m20, m30;
+    double m01, m11, m21, m31;
+    double m02, m12, m22, m32;
+    double m03, m13, m23, m33;
 
     byte properties;
     private static final byte PROPERTY_PERSPECTIVE = 1<<0;
