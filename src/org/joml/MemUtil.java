@@ -1012,6 +1012,15 @@ abstract class MemUtil {
                 ADDRESS = UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
                 Field f = Matrix4f.class.getDeclaredField("m00");
                 m00FieldOffset = UNSAFE.objectFieldOffset(f);
+                // Validate expected field offsets
+                for (int i = 1; i < 16; i++) {
+                    int c = i / 4;
+                    int r = i % 4;
+                    f = Matrix4f.class.getDeclaredField("m" + c + r);
+                    long offset = UNSAFE.objectFieldOffset(f);
+                    if (offset != m00FieldOffset + i * 4)
+                        throw new UnsupportedOperationException();
+                }
                 // Check if we can use object field offset/address put/get methods
                 Unsafe.class.getDeclaredMethod("putLong", new Class[] {Object.class, long.class, long.class});
                 Unsafe.class.getDeclaredMethod("getLongVolatile", new Class[] {Object.class, long.class});
