@@ -35,12 +35,25 @@ import java.nio.FloatBuffer;
  * @author Kai Burjack
  */
 abstract class MemUtil {
+    private static final boolean nounsafe = hasOption("joml.nounsafe");
     static final MemUtil INSTANCE = createInstance();
+
+    private static boolean hasOption(String option) {
+    	String v = System.getProperty(option);
+    	if (v == null)
+    		return false;
+    	if (v.trim().length() == 0)
+    		return true;
+    	return Boolean.valueOf(v).booleanValue();
+    }
 
     private static final MemUtil createInstance() {
         MemUtil accessor;
         try {
-            accessor = new MemUtilUnsafe();
+            if (nounsafe)
+                accessor = new MemUtilNIO();
+            else
+                accessor = new MemUtilUnsafe();
         } catch (Throwable e) {
             accessor = new MemUtilNIO();
         }
