@@ -229,6 +229,12 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Create a new 4x4 matrix using the supplied float values.
+     * <p>
+     * The matrix layout will be:<br><br>
+     *   m00, m10, m20, m30<br>
+     *   m01, m11, m21, m31<br>
+     *   m02, m12, m22, m32<br>
+     *   m03, m13, m23, m33
      * 
      * @param m00
      *          the value of m00
