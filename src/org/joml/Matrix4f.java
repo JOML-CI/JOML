@@ -4385,6 +4385,70 @@ public class Matrix4f implements Externalizable {
 
     /**
      * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
+     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>.
+     * <p>
+     * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
+     * 
+     * @see #translation(float, float, float)
+     * @see #rotate(Quaternionf)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
+     * @return this
+     */
+    public Matrix4f translationRotate(float tx, float ty, float tz, float qx, float qy, float qz, float qw) {
+        float dqx = qx + qx;
+        float dqy = qy + qy;
+        float dqz = qz + qz;
+        float q00 = dqx * qx;
+        float q11 = dqy * qy;
+        float q22 = dqz * qz;
+        float q01 = dqx * qy;
+        float q02 = dqx * qz;
+        float q03 = dqx * qw;
+        float q12 = dqy * qz;
+        float q13 = dqy * qw;
+        float q23 = dqz * qw;
+        m00 = 1.0f - (q11 + q22);
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m03 = 0.0f;
+        m10 = q01 - q23;
+        m11 = 1.0f - (q22 + q00);
+        m12 = q12 + q03;
+        m13 = 0.0f;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0f - (q11 + q00);
+        m23 = 0.0f;
+        m30 = tx;
+        m31 = ty;
+        m32 = tz;
+        m33 = 1.0f;
+        properties = PROPERTY_AFFINE;
+        return this;
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
      * <tt>R</tt> is a rotation transformation specified by the given quaternion.
      * <p>
      * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
@@ -4409,36 +4473,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f translationRotate(float tx, float ty, float tz, Quaternionf quat) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
-        m00 = 1.0f - (q11 + q22);
-        m01 = q01 + q23;
-        m02 = q02 - q13;
-        m03 = 0.0f;
-        m10 = q01 - q23;
-        m11 = 1.0f - (q22 + q00);
-        m12 = q12 + q03;
-        m13 = 0.0f;
-        m20 = q02 + q13;
-        m21 = q12 - q03;
-        m22 = 1.0f - (q11 + q00);
-        m23 = 0.0f;
-        m30 = tx;
-        m31 = ty;
-        m32 = tz;
-        m33 = 1.0f;
-        properties = PROPERTY_AFFINE;
-        return this;
+        return translationRotate(tx, ty, tz, quat.x, quat.y, quat.z, quat.w);
     }
 
     /**

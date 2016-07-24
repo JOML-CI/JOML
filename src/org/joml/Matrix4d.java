@@ -7576,6 +7576,70 @@ public class Matrix4d implements Externalizable {
 
     /**
      * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
+     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>.
+     * <p>
+     * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
+     * 
+     * @see #translation(double, double, double)
+     * @see #rotate(Quaterniond)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
+     * @return this
+     */
+    public Matrix4d translationRotate(double tx, double ty, double tz, double qx, double qy, double qz, double qw) {
+        double dqx = qx + qx;
+        double dqy = qy + qy;
+        double dqz = qz + qz;
+        double q00 = dqx * qx;
+        double q11 = dqy * qy;
+        double q22 = dqz * qz;
+        double q01 = dqx * qy;
+        double q02 = dqx * qz;
+        double q03 = dqx * qw;
+        double q12 = dqy * qz;
+        double q13 = dqy * qw;
+        double q23 = dqz * qw;
+        m00 = 1.0 - (q11 + q22);
+        m01 = q01 + q23;
+        m02 = q02 - q13;
+        m03 = 0.0;
+        m10 = q01 - q23;
+        m11 = 1.0 - (q22 + q00);
+        m12 = q12 + q03;
+        m13 = 0.0;
+        m20 = q02 + q13;
+        m21 = q12 - q03;
+        m22 = 1.0 - (q11 + q00);
+        m23 = 0.0;
+        m30 = tx;
+        m31 = ty;
+        m32 = tz;
+        m33 = 1.0;
+        properties = PROPERTY_AFFINE;
+        return this;
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
      * <tt>R</tt> is a rotation transformation specified by the given quaternion.
      * <p>
      * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
@@ -7600,34 +7664,7 @@ public class Matrix4d implements Externalizable {
      * @return this
      */
     public Matrix4d translationRotate(double tx, double ty, double tz, Quaterniond quat) {
-        double dqx = quat.x + quat.x, dqy = quat.y + quat.y, dqz = quat.z + quat.z;
-        double q00 = dqx * quat.x;
-        double q11 = dqy * quat.y;
-        double q22 = dqz * quat.z;
-        double q01 = dqx * quat.y;
-        double q02 = dqx * quat.z;
-        double q03 = dqx * quat.w;
-        double q12 = dqy * quat.z;
-        double q13 = dqy * quat.w;
-        double q23 = dqz * quat.w;
-        m00 = 1.0 - (q11 + q22);
-        m01 = q01 + q23;
-        m02 = q02 - q13;
-        m03 = 0.0;
-        m10 = q01 - q23;
-        m11 = 1.0 - (q22 + q00);
-        m12 = q12 + q03;
-        m13 = 0.0;
-        m20 = q02 + q13;
-        m21 = q12 - q03;
-        m22 = 1.0 - (q11 + q00);
-        m23 = 0.0;
-        m30 = tx;
-        m31 = ty;
-        m32 = tz;
-        m33 = 1.0;
-        properties = PROPERTY_AFFINE;
-        return this;
+        return translationRotate(tx, ty, tz, quat.x, quat.y, quat.z, quat.w);
     }
 
     /**
