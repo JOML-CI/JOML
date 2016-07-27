@@ -37,7 +37,7 @@ import java.text.NumberFormat;
  * @author RGreenlees
  * @author Kai Burjack
  */
-public class Vector2f implements Externalizable {
+public class Vector2f implements Externalizable, Vector {
 
     private static final long serialVersionUID = 1L;
 
