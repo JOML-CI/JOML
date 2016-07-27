@@ -214,6 +214,24 @@ public class Vector4f implements Externalizable, Vector {
     }
 
     /**
+     * Return the number of components of this vector, which is always 4.
+     * 
+     * @return 4
+     */
+    public int size() {
+        return 4;
+    }
+
+    /**
+     * Return the component type of this vector, which is always {@link Float#TYPE}.
+     * 
+     * @return {@link Float#TYPE}
+     */
+    public Class componentType() {
+        return Float.TYPE;
+    }
+
+    /**
      * Set this {@link Vector4f} to the values of the given <code>v</code>.
      * 
      * @param v

@@ -180,6 +180,24 @@ public class Vector3f implements Externalizable, Vector {
     }
 
     /**
+     * Return the number of components of this vector, which is always 3.
+     * 
+     * @return 3
+     */
+    public int size() {
+        return 3;
+    }
+
+    /**
+     * Return the component type of this vector, which is always {@link Float#TYPE}.
+     * 
+     * @return {@link Float#TYPE}
+     */
+    public Class componentType() {
+        return Float.TYPE;
+    }
+
+    /**
      * Set the x, y and z components to match the supplied vector.
      * 
      * @param v

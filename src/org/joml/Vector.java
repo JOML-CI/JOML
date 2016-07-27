@@ -33,6 +33,22 @@ import java.nio.FloatBuffer;
 public interface Vector {
 
     /**
+     * Return the number of components of this vector.
+     * <p>
+     * This is either 2, 3 or 4.
+     * 
+     * @return the number of components
+     */
+    int size();
+
+    /**
+     * Return the component type of this vector. This is either {@link Float#TYPE}, {@link Double#TYPE} or {@link Integer#TYPE}.
+     * 
+     * @return the component type of this vector
+     */
+    Class componentType();
+
+    /**
      * Store this vector into the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
      * <p>

@@ -158,6 +158,24 @@ public class Vector2f implements Externalizable, Vector {
     }
 
     /**
+     * Return the number of components of this vector, which is always 2.
+     * 
+     * @return 2
+     */
+    public int size() {
+        return 2;
+    }
+
+    /**
+     * Return the component type of this vector, which is always {@link Float#TYPE}.
+     * 
+     * @return {@link Float#TYPE}
+     */
+    public Class componentType() {
+        return Float.TYPE;
+    }
+
+    /**
      * Set the x and y components to the supplied value.
      *
      * @param d
