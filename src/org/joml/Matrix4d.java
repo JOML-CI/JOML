@@ -14588,4 +14588,56 @@ public class Matrix4d implements Externalizable {
         return transformAab(min.x, min.y, min.z, max.x, max.y, max.z, outMin, outMax);
     }
 
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>this</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     *
+     * @param other
+     *          the other vector
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @return this
+     */
+    public Matrix4d lerp(Matrix4d other, float t) {
+        return lerp(other, t, this);
+    }
+
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     *
+     * @param other
+     *          the other vector
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix4d lerp(Matrix4d other, float t, Matrix4d dest) {
+        float t2 = 1 - t;
+        dest.m00(m00() * t2 + other.m00() * t);
+        dest.m01(m01() * t2 + other.m01() * t);
+        dest.m02(m02() * t2 + other.m02() * t);
+        dest.m03(m03() * t2 + other.m03() * t);
+        dest.m10(m10() * t2 + other.m10() * t);
+        dest.m11(m11() * t2 + other.m11() * t);
+        dest.m12(m12() * t2 + other.m12() * t);
+        dest.m13(m13() * t2 + other.m13() * t);
+        dest.m20(m20() * t2 + other.m20() * t);
+        dest.m21(m21() * t2 + other.m21() * t);
+        dest.m22(m22() * t2 + other.m22() * t);
+        dest.m23(m23() * t2 + other.m23() * t);
+        dest.m30(m30() * t2 + other.m30() * t);
+        dest.m31(m31() * t2 + other.m31() * t);
+        dest.m32(m32() * t2 + other.m32() * t);
+        dest.m33(m33() * t2 + other.m33() * t);
+        return dest;
+    }
 }

@@ -4028,4 +4028,49 @@ public class Matrix3d implements Externalizable {
         return this;
     }
 
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>this</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     *
+     * @param other
+     *          the other vector
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @return this
+     */
+    public Matrix3d lerp(Matrix3d other, float t) {
+        return lerp(other, t, this);
+    }
+
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     *
+     * @param other
+     *          the other vector
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3d lerp(Matrix3d other, float t, Matrix3d dest) {
+        float t2 = 1 - t;
+        dest.m00(m00() * t2 + other.m00() * t);
+        dest.m01(m01() * t2 + other.m01() * t);
+        dest.m02(m02() * t2 + other.m02() * t);
+        dest.m10(m10() * t2 + other.m10() * t);
+        dest.m11(m11() * t2 + other.m11() * t);
+        dest.m12(m12() * t2 + other.m12() * t);
+        dest.m20(m20() * t2 + other.m20() * t);
+        dest.m21(m21() * t2 + other.m21() * t);
+        dest.m22(m22() * t2 + other.m22() * t);
+        return dest;
+    }
 }
