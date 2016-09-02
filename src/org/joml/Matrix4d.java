@@ -320,6 +320,37 @@ public class Matrix4d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix4d} and initialize its four columns using the supplied vectors.
+     * 
+     * @param col0
+     *          the first column
+     * @param col1
+     *          the second column
+     * @param col2
+     *          the third column
+     * @param col3
+     *          the fourth column
+     */
+    public Matrix4d(Vector4d col0, Vector4d col1, Vector4d col2, Vector4d col3) {
+        this.m00 = col0.x;
+        this.m01 = col0.y;
+        this.m02 = col0.z;
+        this.m03 = col0.w;
+        this.m10 = col1.x;
+        this.m11 = col1.y;
+        this.m12 = col1.z;
+        this.m13 = col1.w;
+        this.m20 = col2.x;
+        this.m21 = col2.y;
+        this.m22 = col2.z;
+        this.m23 = col2.w;
+        this.m30 = col3.x;
+        this.m31 = col3.y;
+        this.m32 = col3.z;
+        this.m33 = col3.w;
+    }
+
+    /**
      * Assume no properties of the matrix.
      * 
      * @return this
@@ -2240,6 +2271,42 @@ public class Matrix4d implements Externalizable {
     public Matrix4d setFloats(ByteBuffer buffer) {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         properties = 0;
+        return this;
+    }
+
+    /**
+     * Set the four columns of this matrix to the supplied vectors, respectively.
+     * 
+     * @param col0
+     *          the first column
+     * @param col1
+     *          the second column
+     * @param col2
+     *          the third column
+     * @param col3
+     *          the fourth column
+     * @return this
+     */
+    public Matrix4d set(Vector4d col0,
+                        Vector4d col1, 
+                        Vector4d col2,
+                        Vector4d col3) {
+        this.m00 = col0.x;
+        this.m01 = col0.y;
+        this.m02 = col0.z;
+        this.m03 = col0.w;
+        this.m10 = col1.x;
+        this.m11 = col1.y;
+        this.m12 = col1.z;
+        this.m13 = col1.w;
+        this.m20 = col2.x;
+        this.m21 = col2.y;
+        this.m22 = col2.z;
+        this.m23 = col2.w;
+        this.m30 = col3.x;
+        this.m31 = col3.y;
+        this.m32 = col3.z;
+        this.m33 = col3.w;
         return this;
     }
 

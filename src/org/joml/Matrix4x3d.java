@@ -578,6 +578,38 @@ public class Matrix4x3d implements Externalizable {
     }
 
     /**
+     * Set the four columns of this matrix to the supplied vectors, respectively.
+     * 
+     * @param col0
+     *          the first column
+     * @param col1
+     *          the second column
+     * @param col2
+     *          the third column
+     * @param col3
+     *          the fourth column
+     * @return this
+     */
+    public Matrix4x3d set(Vector3d col0,
+                          Vector3d col1, 
+                          Vector3d col2,
+                          Vector3d col3) {
+        this.m00 = col0.x;
+        this.m01 = col0.y;
+        this.m02 = col0.z;
+        this.m10 = col1.x;
+        this.m11 = col1.y;
+        this.m12 = col1.z;
+        this.m20 = col2.x;
+        this.m21 = col2.y;
+        this.m22 = col2.z;
+        this.m30 = col3.x;
+        this.m31 = col3.y;
+        this.m32 = col3.z;
+        return this;
+    }
+
+    /**
      * Set the left 3x3 submatrix of this {@link Matrix4x3d} to that of the given {@link Matrix4x3d} 
      * and don't change the other elements.
      * 

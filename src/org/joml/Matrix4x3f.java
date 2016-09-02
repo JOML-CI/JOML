@@ -168,6 +168,33 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix4x3f} and initialize its four columns using the supplied vectors.
+     * 
+     * @param col0
+     *          the first column
+     * @param col1
+     *          the second column
+     * @param col2
+     *          the third column
+     * @param col3
+     *          the fourth column
+     */
+    public Matrix4x3f(Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3) {
+        this.m00 = col0.x;
+        this.m01 = col0.y;
+        this.m02 = col0.z;
+        this.m10 = col1.x;
+        this.m11 = col1.y;
+        this.m12 = col1.z;
+        this.m20 = col2.x;
+        this.m21 = col2.y;
+        this.m22 = col2.z;
+        this.m30 = col3.x;
+        this.m31 = col3.y;
+        this.m32 = col3.z;
+    }
+
+    /**
      * Assume no properties of the matrix.
      * 
      * @return this
@@ -707,6 +734,38 @@ public class Matrix4x3f implements Externalizable {
         m31 = 0.0f;
         m32 = 0.0f;
         properties = 0;
+        return this;
+    }
+
+    /**
+     * Set the four columns of this matrix to the supplied vectors, respectively.
+     * 
+     * @param col0
+     *          the first column
+     * @param col1
+     *          the second column
+     * @param col2
+     *          the third column
+     * @param col3
+     *          the fourth column
+     * @return this
+     */
+    public Matrix4x3f set(Vector3f col0,
+                        Vector3f col1, 
+                        Vector3f col2,
+                        Vector3f col3) {
+        this.m00 = col0.x;
+        this.m01 = col0.y;
+        this.m02 = col0.z;
+        this.m10 = col1.x;
+        this.m11 = col1.y;
+        this.m12 = col1.z;
+        this.m20 = col2.x;
+        this.m21 = col2.y;
+        this.m22 = col2.z;
+        this.m30 = col3.x;
+        this.m31 = col3.y;
+        this.m32 = col3.z;
         return this;
     }
 

@@ -739,6 +739,33 @@ public class Vector3f implements Externalizable {
     }
 
     /**
+     * Multiply this Vector3f by the transpose of the given matrix and store the result in <code>this</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @return this
+     */
+    public Vector3f mulTranspose(Matrix3f mat) {
+        return mul(mat, this);
+    }
+
+    /**
+     * Multiply this Vector3f by the transpose of the given matrix and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f mulTranspose(Matrix3f mat, Vector3f dest) {
+        dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z,
+                 mat.m10() * x + mat.m11() * y + mat.m12() * z,
+                 mat.m20() * x + mat.m21() * y + mat.m22() * z);
+        return dest;
+    }
+
+    /**
      * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
@@ -767,6 +794,38 @@ public class Vector3f implements Externalizable {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
                  mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
                  mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
+        return dest;
+    }
+
+    /**
+     * Multiply <code>this</code> by the transpose of the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply this vector by
+     * @return this
+     */
+    public Vector3f mulTransposePosition(Matrix4f mat) {
+        return mulTransposePosition(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the transpose of the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f mulTransposePosition(Matrix4f mat, Vector3f dest) {
+        dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z + mat.m03(),
+                 mat.m10() * x + mat.m11() * y + mat.m12() * z + mat.m13(),
+                 mat.m20() * x + mat.m21() * y + mat.m22() * z + mat.m23());
         return dest;
     }
 
@@ -833,6 +892,38 @@ public class Vector3f implements Externalizable {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
                  mat.m01() * x + mat.m11() * y + mat.m21() * z,
                  mat.m02() * x + mat.m12() * y + mat.m22() * z);
+        return dest;
+    }
+
+    /**
+     * Multiply <code>this</code> by the transpose of the given 4x4 matrix <code>mat</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply this vector by
+     * @return this
+     */
+    public Vector3f mulTransposeDirection(Matrix4f mat) {
+        return mulTransposeDirection(mat, this);
+    }
+
+    /**
+     * Multiply <code>this</code> by the transpose of the given 4x4 matrix <code>mat</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f mulTransposeDirection(Matrix4f mat, Vector3f dest) {
+        dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z,
+                 mat.m10() * x + mat.m11() * y + mat.m12() * z,
+                 mat.m20() * x + mat.m21() * y + mat.m22() * z);
         return dest;
     }
 

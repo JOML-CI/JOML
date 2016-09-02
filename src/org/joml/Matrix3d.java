@@ -184,6 +184,28 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
+     * Create a new {@link Matrix3d} and initialize its three columns using the supplied vectors.
+     * 
+     * @param col0
+     *          the first column
+     * @param col1
+     *          the second column
+     * @param col2
+     *          the third column
+     */
+    public Matrix3d(Vector3d col0, Vector3d col1, Vector3d col2) {
+        this.m00 = col0.x;
+        this.m01 = col0.y;
+        this.m02 = col0.z;
+        this.m10 = col1.x;
+        this.m11 = col1.y;
+        this.m12 = col1.z;
+        this.m20 = col2.x;
+        this.m21 = col2.y;
+        this.m22 = col2.z;
+    }
+
+    /**
      * Return the value of the matrix element at column 0 and row 0.
      * 
      * @return the value of the matrix element
@@ -1282,6 +1304,32 @@ public class Matrix3d implements Externalizable {
      */
     public Matrix3d setFloats(ByteBuffer buffer) {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
+        return this;
+    }
+
+    /**
+     * Set the three columns of this matrix to the supplied vectors, respectively.
+     * 
+     * @param col0
+     *          the first column
+     * @param col1
+     *          the second column
+     * @param col2
+     *          the third column
+     * @return this
+     */
+    public Matrix3d set(Vector3d col0,
+                        Vector3d col1, 
+                        Vector3d col2) {
+        this.m00 = col0.x;
+        this.m01 = col0.y;
+        this.m02 = col0.z;
+        this.m10 = col1.x;
+        this.m11 = col1.y;
+        this.m12 = col1.z;
+        this.m20 = col2.x;
+        this.m21 = col2.y;
+        this.m22 = col2.z;
         return this;
     }
 
@@ -4025,6 +4073,134 @@ public class Matrix3d implements Externalizable {
         tmp = m20; m20 = other.m20; other.m20 = tmp;
         tmp = m21; m21 = other.m21; other.m21 = tmp;
         tmp = m22; m22 = other.m22; other.m22 = tmp;
+        return this;
+    }
+
+    /**
+     * Component-wise add <code>this</code> and <code>other</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @return this
+     */
+    public Matrix3d add(Matrix3d other) {
+        return add(other, this);
+    }
+
+    /**
+     * Component-wise add <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other addend 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3d add(Matrix3d other, Matrix3d dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
+        return dest;
+    }
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @return this
+     */
+    public Matrix3d sub(Matrix3d subtrahend) {
+        return sub(subtrahend, this);
+    }
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code> and store the result in <code>dest</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3d sub(Matrix3d subtrahend, Matrix3d dest) {
+        dest.m00 = m00 - subtrahend.m00;
+        dest.m01 = m01 - subtrahend.m01;
+        dest.m02 = m02 - subtrahend.m02;
+        dest.m10 = m10 - subtrahend.m10;
+        dest.m11 = m11 - subtrahend.m11;
+        dest.m12 = m12 - subtrahend.m12;
+        dest.m20 = m20 - subtrahend.m20;
+        dest.m21 = m21 - subtrahend.m21;
+        dest.m22 = m22 - subtrahend.m22;
+        return dest;
+    }
+
+    /**
+     * Component-wise multiply <code>this</code> by <code>other</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @return this
+     */
+    public Matrix3d mulComponentWise(Matrix3d other) {
+        return mulComponentWise(other, this);
+    }
+
+    /**
+     * Component-wise multiply <code>this</code> by <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3d mulComponentWise(Matrix3d other, Matrix3d dest) {
+        dest.m00 = m00 * other.m00;
+        dest.m01 = m01 * other.m01;
+        dest.m02 = m02 * other.m02;
+        dest.m10 = m10 * other.m10;
+        dest.m11 = m11 * other.m11;
+        dest.m12 = m12 * other.m12;
+        dest.m20 = m20 * other.m20;
+        dest.m21 = m21 * other.m21;
+        dest.m22 = m22 * other.m22;
+        return dest;
+    }
+
+    /**
+     * Set this matrix to a skew-symmetric matrix using the following layout:
+     * <pre>
+     *  0,  a, -b
+     * -a,  0,  c
+     *  b, -c,  0
+     * </pre>
+     * 
+     * Reference: <a href="https://en.wikipedia.org/wiki/Skew-symmetric_matrix">https://en.wikipedia.org</a>
+     * 
+     * @param a
+     *          the value used for the matrix elements m01 and m10
+     * @param b
+     *          the value used for the matrix elements m02 and m20
+     * @param c
+     *          the value used for the matrix elements m12 and m21
+     * @return this
+     */
+    public Matrix3d setSkewSymmetric(double a, double b, double c) {
+        m00 = m11 = m22 = 0;
+        m01 = -a;
+        m02 = b;
+        m10 = a;
+        m12 = -c;
+        m20 = -b;
+        m21 = c;
         return this;
     }
 
