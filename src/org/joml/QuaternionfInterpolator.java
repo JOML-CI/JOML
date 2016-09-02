@@ -88,7 +88,7 @@ public class QuaternionfInterpolator {
                     for (k = i; k < 3; k++)
                         a[k + 3 * i] = a[k + 3 * i] * scale;
                 }
-                w[i] = (float) (scale * g);
+                w[i] = scale * g;
 
                 /* right-hand reduction */
                 g = s = scale = 0.0f;

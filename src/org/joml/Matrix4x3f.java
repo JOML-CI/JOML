@@ -6871,7 +6871,13 @@ public class Matrix4x3f implements Externalizable {
      * @return dest
      */
     public Matrix4x3f normal(Matrix4x3f dest) {
-        float det = determinant();
+        float m00m11 = m00 * m11;
+        float m01m10 = m01 * m10;
+        float m02m10 = m02 * m10;
+        float m00m12 = m00 * m12;
+        float m01m12 = m01 * m12;
+        float m02m11 = m02 * m11;
+        float det = (m00m11 - m01m10) * m22 + (m02m10 - m00m12) * m21 + (m01m12 - m02m11) * m20;
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         float nm00 = (m11 * m22 - m21 * m12) * s;
@@ -6880,9 +6886,9 @@ public class Matrix4x3f implements Externalizable {
         float nm10 = (m21 * m02 - m01 * m22) * s;
         float nm11 = (m00 * m22 - m20 * m02) * s;
         float nm12 = (m20 * m01 - m00 * m21) * s;
-        float nm20 = (m01 * m12 - m11 * m02) * s;
-        float nm21 = (m10 * m02 - m00 * m12) * s;
-        float nm22 = (m00 * m11 - m10 * m01) * s;
+        float nm20 = (m01m12 - m02m11) * s;
+        float nm21 = (m02m10 - m00m12) * s;
+        float nm22 = (m00m11 - m01m10) * s;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -6909,7 +6915,13 @@ public class Matrix4x3f implements Externalizable {
      * @return dest
      */
     public Matrix3f normal(Matrix3f dest) {
-        float det = determinant();
+        float m00m11 = m00 * m11;
+        float m01m10 = m01 * m10;
+        float m02m10 = m02 * m10;
+        float m00m12 = m00 * m12;
+        float m01m12 = m01 * m12;
+        float m02m11 = m02 * m11;
+        float det = (m00m11 - m01m10) * m22 + (m02m10 - m00m12) * m21 + (m01m12 - m02m11) * m20;
         float s = 1.0f / det;
         /* Invert and transpose in one go */
         dest.m00 = (m11 * m22 - m21 * m12) * s;
@@ -6918,9 +6930,9 @@ public class Matrix4x3f implements Externalizable {
         dest.m10 = (m21 * m02 - m01 * m22) * s;
         dest.m11 = (m00 * m22 - m20 * m02) * s;
         dest.m12 = (m20 * m01 - m00 * m21) * s;
-        dest.m20 = (m01 * m12 - m11 * m02) * s;
-        dest.m21 = (m10 * m02 - m00 * m12) * s;
-        dest.m22 = (m00 * m11 - m10 * m01) * s;
+        dest.m20 = (m01m12 - m02m11) * s;
+        dest.m21 = (m02m10 - m00m12) * s;
+        dest.m22 = (m00m11 - m01m10) * s;
         return dest;
     }
 
