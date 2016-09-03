@@ -1214,27 +1214,21 @@ abstract class MemUtil {
         }
 
         private final void put(Matrix4x3f m, long destAddr) {
-            UNSAFE.putOrderedLong(null, destAddr, UNSAFE.getLong(m, Matrix4x3f_m00));
-            memPutFloat(destAddr + 8,  m.m02);
-            UNSAFE.putOrderedLong(null, destAddr + 12, UNSAFE.getLong(m, Matrix4x3f_m00 + 12));
-            memPutFloat(destAddr + 20, m.m12);
-            UNSAFE.putOrderedLong(null, destAddr + 24, UNSAFE.getLong(m, Matrix4x3f_m00 + 24));
-            memPutFloat(destAddr + 32, m.m22);
-            UNSAFE.putOrderedLong(null, destAddr + 36, UNSAFE.getLong(m, Matrix4x3f_m00 + 36));
-            memPutFloat(destAddr + 44, m.m32);
+            for (int i = 0; i < 6; i++) {
+                UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
+            }
         }
 
         private final void put4x4(Matrix4x3f m, long destAddr) {
-            UNSAFE.putOrderedLong(null, destAddr, UNSAFE.getLong(m, Matrix4x3f_m00));
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putOrderedLong(null, destAddr + (i << 4), UNSAFE.getLong(m, Matrix4x3f_m00 + 12 * i));
+            }
+            for (int i = 0; i < 3; i++) {
+                memPutFloat(destAddr + 12 + (i << 4), 0.0f);
+            }
             memPutFloat(destAddr + 8,  m.m02);
-            memPutFloat(destAddr + 12, 0.0f);
-            UNSAFE.putOrderedLong(null, destAddr + 16, UNSAFE.getLong(m, Matrix4x3f_m00 + 12));
             memPutFloat(destAddr + 24, m.m12);
-            memPutFloat(destAddr + 28, 0.0f);
-            UNSAFE.putOrderedLong(null, destAddr + 32, UNSAFE.getLong(m, Matrix4x3f_m00 + 24));
             memPutFloat(destAddr + 40, m.m22);
-            memPutFloat(destAddr + 44, 0.0f);
-            UNSAFE.putOrderedLong(null, destAddr + 48, UNSAFE.getLong(m, Matrix4x3f_m00 + 36));
             memPutFloat(destAddr + 56, m.m32);
             memPutFloat(destAddr + 60, 1.0f);
         }
@@ -1440,11 +1434,9 @@ abstract class MemUtil {
         }
 
         private final void put(Matrix3f m, long destAddr) {
-            UNSAFE.putOrderedLong(null, destAddr, UNSAFE.getLong(m, Matrix3f_m00));
-            memPutFloat(destAddr + 8,  m.m02);
-            UNSAFE.putOrderedLong(null, destAddr + 12, UNSAFE.getLong(m, Matrix3f_m00 + 12));
-            memPutFloat(destAddr + 20, m.m12);
-            UNSAFE.putOrderedLong(null, destAddr + 24, UNSAFE.getLong(m, Matrix3f_m00 + 24));
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3f_m00 + (i << 3)));
+            }
             memPutFloat(destAddr + 32, m.m22);
         }
 
@@ -1479,14 +1471,9 @@ abstract class MemUtil {
         }
 
         private final void get(Matrix4x3f m, long srcAddr) {
-            UNSAFE.putOrderedLong(m, Matrix4x3f_m00, UNSAFE.getLong(null, srcAddr));
-            m.m02 = memGetFloat(srcAddr+8);
-            UNSAFE.putOrderedLong(m, Matrix4x3f_m00 + 12, UNSAFE.getLong(null, srcAddr + 12));
-            m.m12 = memGetFloat(srcAddr+20);
-            UNSAFE.putOrderedLong(m, Matrix4x3f_m00 + 24, UNSAFE.getLong(null, srcAddr + 24));
-            m.m22 = memGetFloat(srcAddr+32);
-            UNSAFE.putOrderedLong(m, Matrix4x3f_m00 + 36, UNSAFE.getLong(null, srcAddr + 36));
-            m.m32 = memGetFloat(srcAddr+44);
+            for (int i = 0; i < 6; i++) {
+                UNSAFE.putOrderedLong(m, Matrix4f_m00 + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
+            }
         }
 
         private final void get(Matrix4d m, long srcAddr) {
@@ -1558,11 +1545,9 @@ abstract class MemUtil {
         }
 
         private final void get(Matrix3f m, long srcAddr) {
-            UNSAFE.putOrderedLong(m, Matrix3f_m00, UNSAFE.getLong(null, srcAddr));
-            m.m02 = memGetFloat(srcAddr+8);
-            UNSAFE.putOrderedLong(m, Matrix3f_m00 + 12, UNSAFE.getLong(null, srcAddr + 12));
-            m.m12 = memGetFloat(srcAddr+20);
-            UNSAFE.putOrderedLong(m, Matrix3f_m00 + 24, UNSAFE.getLong(null, srcAddr + 24));
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putOrderedLong(m, Matrix3f_m00 + (i << 3), UNSAFE.getLong(null, srcAddr + (i << 3)));
+            }
             m.m22 = memGetFloat(srcAddr+32);
         }
 
