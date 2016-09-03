@@ -65,15 +65,20 @@ public class Math {
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
     private static final int lookupTableSizeWithMargin = lookupTableSize + 1;
-    private static final float sinTable[] = new float[lookupTableSizeWithMargin];
     private static final double pi2OverLookupSize = PI2 / lookupTableSize;
     private static final double lookupSizeOverPi2 = lookupTableSize / PI2;
     private static final int BIG_ENOUGH_INT = 65536; // whatever makes sense
     private static final float BIG_ENOUGH_FLOAT = BIG_ENOUGH_INT;
+    private static final float sinTable[];
     static {
-        for (int i = 0; i < lookupTableSizeWithMargin; i++) {
-            double d = i * pi2OverLookupSize;
-            sinTable[i] = (float) java.lang.Math.sin(d);
+        if (fastMath && sinlookup) {
+            sinTable = new float[lookupTableSizeWithMargin];
+            for (int i = 0; i < lookupTableSizeWithMargin; i++) {
+                double d = i * pi2OverLookupSize;
+                sinTable[i] = (float) java.lang.Math.sin(d);
+            }
+        } else {
+            sinTable = null;
         }
     }
 
