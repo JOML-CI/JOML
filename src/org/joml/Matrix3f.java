@@ -350,15 +350,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f set(Matrix3f m) {
-        m00 = m.m00;
-        m01 = m.m01;
-        m02 = m.m02;
-        m10 = m.m10;
-        m11 = m.m11;
-        m12 = m.m12;
-        m20 = m.m20;
-        m21 = m.m21;
-        m22 = m.m22;
+        MemUtil.INSTANCE.copy(m, this);
         return this;
     }
 
@@ -370,15 +362,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f set(Matrix4f mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+        MemUtil.INSTANCE.copy(mat, this);
         return this;
     }
 
@@ -1123,33 +1107,17 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f zero() {
-        m00 = 0.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m10 = 0.0f;
-        m11 = 0.0f;
-        m12 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = 0.0f;
+        MemUtil.INSTANCE.zero(this);
         return this;
     }
-    
+
     /**
      * Set this matrix to the identity.
      * 
      * @return this
      */
     public Matrix3f identity() {
-        m00 = 1.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m10 = 0.0f;
-        m11 = 1.0f;
-        m12 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = 1.0f;
+        MemUtil.INSTANCE.identity(this);
         return this;
     }
 
@@ -3427,16 +3395,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f swap(Matrix3f other) {
-        float tmp;
-        tmp = m00; m00 = other.m00; other.m00 = tmp;
-        tmp = m01; m01 = other.m01; other.m01 = tmp;
-        tmp = m02; m02 = other.m02; other.m02 = tmp;
-        tmp = m10; m10 = other.m10; other.m10 = tmp;
-        tmp = m11; m11 = other.m11; other.m11 = tmp;
-        tmp = m12; m12 = other.m12; other.m12 = tmp;
-        tmp = m20; m20 = other.m20; other.m20 = tmp;
-        tmp = m21; m21 = other.m21; other.m21 = tmp;
-        tmp = m22; m22 = other.m22; other.m22 = tmp;
+        MemUtil.INSTANCE.swap(this, other);
         return this;
     }
 

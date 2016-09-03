@@ -817,22 +817,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(Matrix3f mat) {
-        m00 = mat.m00;
-        m10 = mat.m10;
-        m20 = mat.m20;
-        m30 = 0.0f;
-        m01 = mat.m01;
-        m11 = mat.m11;
-        m21 = mat.m21;
-        m31 = 0.0f;
-        m02 = mat.m02;
-        m12 = mat.m12;
-        m22 = mat.m22;
-        m32 = 0.0f;
-        m03 = 0.0f;
-        m13 = 0.0f;
-        m23 = 0.0f;
-        m33 = 1.0f;
+        MemUtil.INSTANCE.copy(mat, this);
         properties = PROPERTY_AFFINE;
         return this;
     }
@@ -1022,18 +1007,11 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set3x3(Matrix4f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
+        MemUtil.INSTANCE.copy3x3(mat, this);
         properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
+
 
     /**
      * Set the upper 4x3 submatrix of this {@link Matrix4f} to the given {@link Matrix4x3f} 
@@ -1046,18 +1024,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set4x3(Matrix4x3f mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
+        MemUtil.INSTANCE.copy4x3(mat, this);
         properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
@@ -1071,18 +1038,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set4x3(Matrix4f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m30 = mat.m30;
-        m31 = mat.m31;
-        m32 = mat.m32;
+        MemUtil.INSTANCE.copy4x3(mat, this);
         properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
@@ -3365,22 +3321,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f zero() {
-        m00 = 0.0f;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
-        m11 = 0.0f;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        m22 = 0.0f;
-        m23 = 0.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
-        m33 = 0.0f;
+        MemUtil.INSTANCE.zero(this);
         properties = 0;
         return this;
     }
