@@ -1215,7 +1215,7 @@ abstract class MemUtil {
 
         private final void put(Matrix4x3f m, long destAddr) {
             for (int i = 0; i < 6; i++) {
-                UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
+                UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4x3f_m00 + (i << 3)));
             }
         }
 
@@ -1472,7 +1472,7 @@ abstract class MemUtil {
 
         private final void get(Matrix4x3f m, long srcAddr) {
             for (int i = 0; i < 6; i++) {
-                UNSAFE.putOrderedLong(m, Matrix4f_m00 + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
+                UNSAFE.putOrderedLong(m, Matrix4x3f_m00 + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
             }
         }
 
