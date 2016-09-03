@@ -42,7 +42,6 @@ public class Math {
 
     private static final boolean fastMath = hasOption("joml.fastmath");
     private static final boolean sinlookup = hasOption("joml.sinLookup");
-
     private static boolean hasOption(String option) {
         String v = System.getProperty(option);
         if (v == null)
@@ -53,9 +52,11 @@ public class Math {
     }
 
     /*
-     * The following implementation of an approximation of sine and cosine was thankfully donated by Riven from http://java-gaming.org/.
+     * The following implementation of an approximation of sine and cosine was
+     * thankfully donated by Riven from http://java-gaming.org/.
      * 
-     * The code for linear interpolation was gratefully donated by theagentd from the same site.
+     * The code for linear interpolation was gratefully donated by theagentd
+     * from the same site.
      */
     public static final double PI = java.lang.Math.PI;
     private static final double PI2 = PI * 2.0;
@@ -77,7 +78,7 @@ public class Math {
     }
 
     /**
-     * @author Riven from <a href= "http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/349546/view.html#msg349546" >java-gaming.org</a>
+     * @author Riven from <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/349546/view.html#msg349546" >java-gaming.org</a>
      * @param x
      *            within [-BIG_ENOUGH..+inf)
      */
@@ -89,16 +90,28 @@ public class Math {
      * Reference: <a href="http://www.gamedev.net/topic/681723-faster-sin-and-cos/#entry5308906">http://www.gamedev.net/</a>
      */
     private static double sin_L_Spiro(double rad) {
-        int i32I = (int) (rad * (1.0f / PI));
+        int i32I = (int)( rad * (1.0f / PI) );
         double rad_ = (rad - i32I * PI);
         double rad2 = rad_ * rad_;
         return (i32I & 1) != 0
-                ? -rad_ * ((float) (1.00000000000000000000e+00) + rad2 * ((float) (-1.66666671633720397949e-01)
-                        + rad2 * ((float) (8.33333376795053482056e-03) + rad2 * ((float) (-1.98412497411482036114e-04) + rad2 * ((float) (2.75565571428160183132e-06)
-                                + rad2 * ((float) (-2.50368472620721149724e-08) + rad2 * ((float) (1.58849267073435385100e-10) + rad2 * (float) (-6.58925550841432672300e-13))))))))
-                : rad_ * ((float) (1.00000000000000000000e+00) + rad2 * ((float) (-1.66666671633720397949e-01)
-                        + rad2 * ((float) (8.33333376795053482056e-03) + rad2 * ((float) (-1.98412497411482036114e-04) + rad2 * ((float) (2.75565571428160183132e-06)
-                                + rad2 * ((float) (-2.50368472620721149724e-08) + rad2 * ((float) (1.58849267073435385100e-10) + rad2 * (float) (-6.58925550841432672300e-13))))))));
+               ?
+               -rad_ * ((float)( 1.00000000000000000000e+00) +
+                rad2 * ((float)(-1.66666671633720397949e-01) +
+                rad2 * ((float)( 8.33333376795053482056e-03) +
+                rad2 * ((float)(-1.98412497411482036114e-04) +
+                rad2 * ((float)( 2.75565571428160183132e-06) +
+                rad2 * ((float)(-2.50368472620721149724e-08) +
+                rad2 * ((float)( 1.58849267073435385100e-10) +
+                rad2 *  (float)(-6.58925550841432672300e-13))))))))
+               :
+                rad_ * ((float)( 1.00000000000000000000e+00) +
+                rad2 * ((float)(-1.66666671633720397949e-01) +
+                rad2 * ((float)( 8.33333376795053482056e-03) +
+                rad2 * ((float)(-1.98412497411482036114e-04) +
+                rad2 * ((float)( 2.75565571428160183132e-06) +
+                rad2 * ((float)(-2.50368472620721149724e-08) +
+                rad2 * ((float)( 1.58849267073435385100e-10) +
+                rad2 *  (float)(-6.58925550841432672300e-13))))))));
     }
 
     /**
