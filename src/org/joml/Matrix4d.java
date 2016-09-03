@@ -13270,7 +13270,7 @@ public class Matrix4d implements Externalizable {
      * This method is equivalent to the following code:
      * <pre>
      * Matrix4d inv = new Matrix4d(this).transpose();
-     * inv.transformDirection(dir.set(0, 0, 1)).normalize();
+     * inv.transformDirection(dir.set(0, 0, 1));
      * </pre>
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
@@ -13323,7 +13323,7 @@ public class Matrix4d implements Externalizable {
      * This method is equivalent to the following code:
      * <pre>
      * Matrix4d inv = new Matrix4d(this).transpose();
-     * inv.transformDirection(dir.set(1, 0, 0)).normalize();
+     * inv.transformDirection(dir.set(1, 0, 0));
      * </pre>
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
@@ -13376,7 +13376,7 @@ public class Matrix4d implements Externalizable {
      * This method is equivalent to the following code:
      * <pre>
      * Matrix4d inv = new Matrix4d(this).transpose();
-     * inv.transformDirection(dir.set(0, 1, 0)).normalize();
+     * inv.transformDirection(dir.set(0, 1, 0));
      * </pre>
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
