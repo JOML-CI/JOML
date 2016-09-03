@@ -8938,17 +8938,10 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setPerspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne) {
+        MemUtil.INSTANCE.zero(this);
         float h = (float) Math.tan(fovy * 0.5f);
         m00 = 1.0f / (h * aspect);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
         m11 = 1.0f / h;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         boolean nearInf = zNear > 0 && Float.isInfinite(zNear);
         if (farInf) {
@@ -8965,9 +8958,6 @@ public class Matrix4f implements Externalizable {
             m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
         m23 = -1.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m33 = 0.0f;
         properties = PROPERTY_PERSPECTIVE;
         return this;
     }
@@ -9200,17 +9190,10 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setPerspectiveLH(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne) {
+        MemUtil.INSTANCE.zero(this);
         float h = (float) Math.tan(fovy * 0.5f);
         m00 = 1.0f / (h * aspect);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
         m11 = 1.0f / h;
-        m12 = 0.0f;
-        m13 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
         boolean nearInf = zNear > 0 && Float.isInfinite(zNear);
         if (farInf) {
@@ -9227,9 +9210,6 @@ public class Matrix4f implements Externalizable {
             m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
         m23 = 1.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m33 = 0.0f;
         properties = PROPERTY_PERSPECTIVE;
         return this;
     }
@@ -9493,14 +9473,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setFrustum(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
+        MemUtil.INSTANCE.zero(this);
         m00 = (zNear + zNear) / (right - left);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
         m11 = (zNear + zNear) / (top - bottom);
-        m12 = 0.0f;
-        m13 = 0.0f;
         m20 = (right + left) / (right - left);
         m21 = (top + bottom) / (top - bottom);
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
@@ -9519,9 +9494,6 @@ public class Matrix4f implements Externalizable {
             m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
         m23 = -1.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m33 = 0.0f;
         properties = 0;
         return this;
     }
@@ -9790,14 +9762,9 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f setFrustumLH(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne) {
+        MemUtil.INSTANCE.zero(this);
         m00 = (zNear + zNear) / (right - left);
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m03 = 0.0f;
-        m10 = 0.0f;
         m11 = (zNear + zNear) / (top - bottom);
-        m12 = 0.0f;
-        m13 = 0.0f;
         m20 = (right + left) / (right - left);
         m21 = (top + bottom) / (top - bottom);
         boolean farInf = zFar > 0 && Float.isInfinite(zFar);
@@ -9816,9 +9783,6 @@ public class Matrix4f implements Externalizable {
             m32 = (zZeroToOne ? zFar : zFar + zFar) * zNear / (zNear - zFar);
         }
         m23 = 1.0f;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m33 = 0.0f;
         properties = 0;
         return this;
     }

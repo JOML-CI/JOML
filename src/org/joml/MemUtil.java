@@ -1863,7 +1863,7 @@ abstract class MemUtil {
             for (int i = 0; i < 4; i++) {
                 UNSAFE.putOrderedLong(dest, Matrix3f_m00 + (i << 3), UNSAFE.getLong(src, Matrix3f_m00 + (i << 3)));
             }
-            UNSAFE.putFloat(dest, Matrix3f_m00 + 32, UNSAFE.getFloat(src, Matrix3f_m00 + 32));
+            dest.m22 = src.m22;
         }
 
         final void identity(Matrix4f dest) {
@@ -1891,7 +1891,7 @@ abstract class MemUtil {
             UNSAFE.putOrderedLong(dest, Matrix3f_m00+8,  0L);
             UNSAFE.putOrderedLong(dest, Matrix3f_m00+16, 0x3F800000L);
             UNSAFE.putOrderedLong(dest, Matrix3f_m00+24, 0L);
-            UNSAFE.putFloat(dest, Matrix3f_m00+32, 1.0f);
+            dest.m22 = 1.0f;
         }
 
         final void swap(Matrix4f m1, Matrix4f m2) {
@@ -1940,7 +1940,7 @@ abstract class MemUtil {
             for (int i = 0; i < 4; i++) {
                 UNSAFE.putOrderedLong(dest, Matrix3f_m00 + (i << 3), 0L);
             }
-            UNSAFE.putFloat(dest, Matrix3f_m00+32, 0.0f);
+            dest.m22 = 0.0f;
         }
 
         final void put(Matrix4f m, int offset, FloatBuffer dest) {
