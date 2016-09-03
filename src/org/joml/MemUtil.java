@@ -1133,7 +1133,7 @@ abstract class MemUtil {
                 if (offset != Matrix4x3f_m00 + (i << 2))
                     throw new UnsupportedOperationException();
             }
-            return Matrix4f_m00;
+            return Matrix4x3f_m00;
         }
 
         private static long checkMatrix3f() throws NoSuchFieldException, SecurityException {
