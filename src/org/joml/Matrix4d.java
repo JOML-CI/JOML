@@ -2569,7 +2569,7 @@ public class Matrix4d implements Externalizable {
      * via the common methods {@link #perspective(double, double, double, double) perspective()} and {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt()} or
      * other methods, that build affine matrices, such as {@link #translate(double, double, double) translate} and {@link #rotate(double, double, double, double)}, except for {@link #scale(double, double, double) scale()}.
      * <p>
-     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above this method, this method is equivalent to the following code:
+     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above, this method is equivalent to the following code:
      * <pre>
      * dest.set(this).mul(view).invert();
      * </pre>

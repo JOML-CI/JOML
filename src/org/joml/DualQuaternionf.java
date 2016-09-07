@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -81,14 +83,7 @@ public class DualQuaternionf {
      *          the {@link DualQuaternionf} to copy the values from
      */
     public DualQuaternionf(DualQuaternionf other) {
-        rx = other.rx;
-        ry = other.ry;
-        rz = other.rz;
-        rw = other.rw;
-        tx = other.tx;
-        ty = other.ty;
-        tz = other.tz;
-        tw = other.tw;
+        MemUtil.INSTANCE.copy(other, this);
     }
 
     /**
@@ -98,6 +93,18 @@ public class DualQuaternionf {
      */
     public DualQuaternionf identity() {
         MemUtil.INSTANCE.identity(this);
+        return this;
+    }
+
+    /**
+     * Copy the values of the given <code>src</code> dual quaternion into <code>this</code>.
+     * 
+     * @param src
+     *          the {@link DualQuaternionf} to copy its values from
+     * @return this
+     */
+    public DualQuaternionf set(DualQuaternionf src) {
+        MemUtil.INSTANCE.copy(src, this);
         return this;
     }
 
@@ -512,6 +519,62 @@ public class DualQuaternionf {
     }
 
     /**
+     * Store the 4x4 float matrix representation of <code>this</code> dual quaternion in column-major order into the given {@link ByteBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix4f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public ByteBuffer getAsMatrix4f(ByteBuffer dest) {
+        MemUtil.INSTANCE.putMatrix4f(this, dest.position(), dest);
+        return dest;
+    }
+
+    /**
+     * Store the 4x4 float matrix representation of <code>this</code> dual quaternion in column-major order into the given {@link FloatBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix4f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public FloatBuffer getAsMatrix4f(FloatBuffer dest) {
+        MemUtil.INSTANCE.putMatrix4f(this, dest.position(), dest);
+        return dest;
+    }
+
+    /**
+     * Store the 4x3 float matrix representation of <code>this</code> dual quaternion in column-major order into the given {@link ByteBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix4x3f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public ByteBuffer getAsMatrix4x3f(ByteBuffer dest) {
+        MemUtil.INSTANCE.putMatrix4x3f(this, dest.position(), dest);
+        return dest;
+    }
+
+    /**
+     * Store the 4x3 float matrix representation of <code>this</code> dual quaternion in column-major order into the given {@link FloatBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix4x3f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public FloatBuffer getAsMatrix4x3f(FloatBuffer dest) {
+        MemUtil.INSTANCE.putMatrix4x3f(this, dest.position(), dest);
+        return dest;
+    }
+
+    /**
      * Set the given matrix to the rotation and translation represented by <code>this</code>.
      * 
      * @param dest
@@ -583,6 +646,37 @@ public class DualQuaternionf {
         dest.m31 = 2.0f * (rw*ty - ry*tw - rx*tz + rz*tx);
         dest.m32 = 2.0f * (rw*tz - rz*tw + rx*ty - ry*tx);
         return dest;
+    }
+
+    /**
+     * Invert this dual quaternion and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public DualQuaternionf invert(DualQuaternionf dest) {
+        float realNorm = rx*rx + ry*ry + rz*rz + rw*rw;
+        float dualNorm = rx*tx + ry*ty + rz*tz + rw*tw;
+        float f = realNorm - 2.0f * dualNorm;
+        dest.rx = -rx * realNorm;
+        dest.ry = -ry * realNorm;
+        dest.rz = -rz * realNorm;
+        dest.rw =  rw * realNorm;
+        dest.tx = -tx * f;
+        dest.ty = -ty * f;
+        dest.tz = -tz * f;
+        dest.tw =  tw * f;
+        return dest;
+    }
+
+    /**
+     * Invert this dual quaternion.
+     * 
+     * @return this
+     */
+    public DualQuaternionf invert() {
+        return invert(this);
     }
 
     /**

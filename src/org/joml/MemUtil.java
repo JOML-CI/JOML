@@ -137,6 +137,13 @@ abstract class MemUtil {
 
     abstract void identity(DualQuaternionf dq);
     abstract void zero(DualQuaternionf dq);
+    abstract void copy(DualQuaternionf src, DualQuaternionf dest);
+    abstract void putMatrix4f(DualQuaternionf dq, int position, ByteBuffer dest);
+    abstract void putMatrix4f(DualQuaternionf dq, int position, FloatBuffer dest);
+    abstract void putMatrix4x3f(DualQuaternionf dq, int position, ByteBuffer dest);
+    abstract void putMatrix4x3f(DualQuaternionf dq, int position, FloatBuffer dest);
+    abstract void putMatrix3f(Quaternionf q, int position, ByteBuffer dest);
+    abstract void putMatrix3f(Quaternionf q, int position, FloatBuffer dest);
 
     static final class MemUtilNIO extends MemUtil {
         final void put(Matrix4f m, int offset, FloatBuffer dest) {
@@ -1304,6 +1311,181 @@ abstract class MemUtil {
             dq.tz = 0.0f;
             dq.tw = 0.0f;
         }
+
+        final void putMatrix4f(DualQuaternionf dq, int position, ByteBuffer dest) {
+            float dqx = dq.rx + dq.rx;
+            float dqy = dq.ry + dq.ry;
+            float dqz = dq.rz + dq.rz;
+            float q00 = dqx * dq.rx;
+            float q11 = dqy * dq.ry;
+            float q22 = dqz * dq.rz;
+            float q01 = dqx * dq.ry;
+            float q02 = dqx * dq.rz;
+            float q03 = dqx * dq.rw;
+            float q12 = dqy * dq.rz;
+            float q13 = dqy * dq.rw;
+            float q23 = dqz * dq.rw;
+            dest.putFloat(position, 1.0f - q11 - q22);
+            dest.putFloat(position + 4, q01 + q23);
+            dest.putFloat(position + 8, q02 - q13);
+            dest.putFloat(position + 12, 0.0f);
+            dest.putFloat(position + 16, q01 - q23);
+            dest.putFloat(position + 20, 1.0f - q22 - q00);
+            dest.putFloat(position + 24, q12 + q03);
+            dest.putFloat(position + 28, 0.0f);
+            dest.putFloat(position + 32, q02 + q13);
+            dest.putFloat(position + 36, q12 - q03);
+            dest.putFloat(position + 40, 1.0f - q11 - q00);
+            dest.putFloat(position + 44, 0.0f);
+            dest.putFloat(position + 48, 2.0f * (dq.rw*dq.tx - dq.rx*dq.tw + dq.ry*dq.tz - dq.rz*dq.ty));
+            dest.putFloat(position + 52, 2.0f * (dq.rw*dq.ty - dq.ry*dq.tw - dq.rx*dq.tz + dq.rz*dq.tx));
+            dest.putFloat(position + 56, 2.0f * (dq.rw*dq.tz - dq.rz*dq.tw + dq.rx*dq.ty - dq.ry*dq.tx));
+            dest.putFloat(position + 60, 1.0f);
+        }
+
+        final void putMatrix4f(DualQuaternionf dq, int position, FloatBuffer dest) {
+            float dqx = dq.rx + dq.rx;
+            float dqy = dq.ry + dq.ry;
+            float dqz = dq.rz + dq.rz;
+            float q00 = dqx * dq.rx;
+            float q11 = dqy * dq.ry;
+            float q22 = dqz * dq.rz;
+            float q01 = dqx * dq.ry;
+            float q02 = dqx * dq.rz;
+            float q03 = dqx * dq.rw;
+            float q12 = dqy * dq.rz;
+            float q13 = dqy * dq.rw;
+            float q23 = dqz * dq.rw;
+            dest.put(position, 1.0f - q11 - q22);
+            dest.put(position + 1, q01 + q23);
+            dest.put(position + 2, q02 - q13);
+            dest.put(position + 3, 0.0f);
+            dest.put(position + 4, q01 - q23);
+            dest.put(position + 5, 1.0f - q22 - q00);
+            dest.put(position + 6, q12 + q03);
+            dest.put(position + 7, 0.0f);
+            dest.put(position + 8, q02 + q13);
+            dest.put(position + 9, q12 - q03);
+            dest.put(position + 10, 1.0f - q11 - q00);
+            dest.put(position + 11, 0.0f);
+            dest.put(position + 12, 2.0f * (dq.rw*dq.tx - dq.rx*dq.tw + dq.ry*dq.tz - dq.rz*dq.ty));
+            dest.put(position + 13, 2.0f * (dq.rw*dq.ty - dq.ry*dq.tw - dq.rx*dq.tz + dq.rz*dq.tx));
+            dest.put(position + 14, 2.0f * (dq.rw*dq.tz - dq.rz*dq.tw + dq.rx*dq.ty - dq.ry*dq.tx));
+            dest.put(position + 15, 1.0f);
+        }
+
+        final void putMatrix4x3f(DualQuaternionf dq, int position, ByteBuffer dest) {
+            float dqx = dq.rx + dq.rx;
+            float dqy = dq.ry + dq.ry;
+            float dqz = dq.rz + dq.rz;
+            float q00 = dqx * dq.rx;
+            float q11 = dqy * dq.ry;
+            float q22 = dqz * dq.rz;
+            float q01 = dqx * dq.ry;
+            float q02 = dqx * dq.rz;
+            float q03 = dqx * dq.rw;
+            float q12 = dqy * dq.rz;
+            float q13 = dqy * dq.rw;
+            float q23 = dqz * dq.rw;
+            dest.putFloat(position, 1.0f - q11 - q22);
+            dest.putFloat(position + 4, q01 + q23);
+            dest.putFloat(position + 8, q02 - q13);
+            dest.putFloat(position + 12, q01 - q23);
+            dest.putFloat(position + 16, 1.0f - q22 - q00);
+            dest.putFloat(position + 20, q12 + q03);
+            dest.putFloat(position + 24, q02 + q13);
+            dest.putFloat(position + 28, q12 - q03);
+            dest.putFloat(position + 32, 1.0f - q11 - q00);
+            dest.putFloat(position + 36, 2.0f * (dq.rw*dq.tx - dq.rx*dq.tw + dq.ry*dq.tz - dq.rz*dq.ty));
+            dest.putFloat(position + 40, 2.0f * (dq.rw*dq.ty - dq.ry*dq.tw - dq.rx*dq.tz + dq.rz*dq.tx));
+            dest.putFloat(position + 44, 2.0f * (dq.rw*dq.tz - dq.rz*dq.tw + dq.rx*dq.ty - dq.ry*dq.tx));
+        }
+
+        final void putMatrix4x3f(DualQuaternionf dq, int position, FloatBuffer dest) {
+            float dqx = dq.rx + dq.rx;
+            float dqy = dq.ry + dq.ry;
+            float dqz = dq.rz + dq.rz;
+            float q00 = dqx * dq.rx;
+            float q11 = dqy * dq.ry;
+            float q22 = dqz * dq.rz;
+            float q01 = dqx * dq.ry;
+            float q02 = dqx * dq.rz;
+            float q03 = dqx * dq.rw;
+            float q12 = dqy * dq.rz;
+            float q13 = dqy * dq.rw;
+            float q23 = dqz * dq.rw;
+            dest.put(position, 1.0f - q11 - q22);
+            dest.put(position + 1, q01 + q23);
+            dest.put(position + 2, q02 - q13);
+            dest.put(position + 3, q01 - q23);
+            dest.put(position + 4, 1.0f - q22 - q00);
+            dest.put(position + 5, q12 + q03);
+            dest.put(position + 6, q02 + q13);
+            dest.put(position + 7, q12 - q03);
+            dest.put(position + 8, 1.0f - q11 - q00);
+            dest.put(position + 9, 2.0f * (dq.rw*dq.tx - dq.rx*dq.tw + dq.ry*dq.tz - dq.rz*dq.ty));
+            dest.put(position + 10, 2.0f * (dq.rw*dq.ty - dq.ry*dq.tw - dq.rx*dq.tz + dq.rz*dq.tx));
+            dest.put(position + 11, 2.0f * (dq.rw*dq.tz - dq.rz*dq.tw + dq.rx*dq.ty - dq.ry*dq.tx));
+        }
+
+        final void putMatrix3f(Quaternionf q, int position, ByteBuffer dest) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            dest.putFloat(position, 1.0f - q11 - q22);
+            dest.putFloat(position + 4, q01 + q23);
+            dest.putFloat(position + 8, q02 - q13);
+            dest.putFloat(position + 12, q01 - q23);
+            dest.putFloat(position + 16, 1.0f - q22 - q00);
+            dest.putFloat(position + 20, q12 + q03);
+            dest.putFloat(position + 24, q02 + q13);
+            dest.putFloat(position + 28, q12 - q03);
+            dest.putFloat(position + 32, 1.0f - q11 - q00);
+        }
+
+        final void putMatrix3f(Quaternionf q, int position, FloatBuffer dest) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            dest.put(position, 1.0f - q11 - q22);
+            dest.put(position + 1, q01 + q23);
+            dest.put(position + 2, q02 - q13);
+            dest.put(position + 3, q01 - q23);
+            dest.put(position + 4, 1.0f - q22 - q00);
+            dest.put(position + 5, q12 + q03);
+            dest.put(position + 6, q02 + q13);
+            dest.put(position + 7, q12 - q03);
+            dest.put(position + 8, 1.0f - q11 - q00);
+        }
+
+        final void copy(DualQuaternionf src, DualQuaternionf dest) {
+            dest.rx = src.rx;
+            dest.ry = src.ry;
+            dest.rz = src.rz;
+            dest.rw = src.rw;
+            dest.tx = src.tx;
+            dest.ty = src.ty;
+            dest.tz = src.tz;
+            dest.tw = src.tw;
+        }
     }
 
     static final class MemUtilUnsafe extends MemUtil {
@@ -1993,7 +2175,183 @@ abstract class MemUtil {
 
         final void zero(DualQuaternionf dq) {
             for (int i = 0; i < 4; i++) {
-                UNSAFE.putOrderedLong(dq, DualQuaternionf_rx + (i << 2), 0L);
+                UNSAFE.putOrderedLong(dq, DualQuaternionf_rx + (i << 3), 0L);
+            }
+        }
+
+        final void putMatrix4f(DualQuaternionf dq, int position, ByteBuffer dest) {
+            float dqx = dq.rx + dq.rx;
+            float dqy = dq.ry + dq.ry;
+            float dqz = dq.rz + dq.rz;
+            float q00 = dqx * dq.rx;
+            float q11 = dqy * dq.ry;
+            float q22 = dqz * dq.rz;
+            float q01 = dqx * dq.ry;
+            float q02 = dqx * dq.rz;
+            float q03 = dqx * dq.rw;
+            float q12 = dqy * dq.rz;
+            float q13 = dqy * dq.rw;
+            float q23 = dqz * dq.rw;
+            long addr = addressOf(dest) + position;
+            UNSAFE.putFloat(null, addr, 1.0f - q11 - q22);
+            UNSAFE.putFloat(null, addr + 4, q01 + q23);
+            UNSAFE.putFloat(null, addr + 8, q02 - q13);
+            UNSAFE.putFloat(null, addr + 12, 0.0f);
+            UNSAFE.putFloat(null, addr + 16, q01 - q23);
+            UNSAFE.putFloat(null, addr + 20, 1.0f - q22 - q00);
+            UNSAFE.putFloat(null, addr + 24, q12 + q03);
+            UNSAFE.putFloat(null, addr + 28, 0.0f);
+            UNSAFE.putFloat(null, addr + 32, q02 + q13);
+            UNSAFE.putFloat(null, addr + 36, q12 - q03);
+            UNSAFE.putFloat(null, addr + 40, 1.0f - q11 - q00);
+            UNSAFE.putFloat(null, addr + 44, 0.0f);
+            UNSAFE.putFloat(null, addr + 48, 2.0f * (dq.rw*dq.tx - dq.rx*dq.tw + dq.ry*dq.tz - dq.rz*dq.ty));
+            UNSAFE.putFloat(null, addr + 52, 2.0f * (dq.rw*dq.ty - dq.ry*dq.tw - dq.rx*dq.tz + dq.rz*dq.tx));
+            UNSAFE.putFloat(null, addr + 56, 2.0f * (dq.rw*dq.tz - dq.rz*dq.tw + dq.rx*dq.ty - dq.ry*dq.tx));
+            UNSAFE.putFloat(null, addr + 60, 1.0f);
+        }
+
+        final void putMatrix4f(DualQuaternionf dq, int position, FloatBuffer dest) {
+            float dqx = dq.rx + dq.rx;
+            float dqy = dq.ry + dq.ry;
+            float dqz = dq.rz + dq.rz;
+            float q00 = dqx * dq.rx;
+            float q11 = dqy * dq.ry;
+            float q22 = dqz * dq.rz;
+            float q01 = dqx * dq.ry;
+            float q02 = dqx * dq.rz;
+            float q03 = dqx * dq.rw;
+            float q12 = dqy * dq.rz;
+            float q13 = dqy * dq.rw;
+            float q23 = dqz * dq.rw;
+            long addr = addressOf(dest) + (position << 2);
+            UNSAFE.putFloat(null, addr, 1.0f - q11 - q22);
+            UNSAFE.putFloat(null, addr + 4, q01 + q23);
+            UNSAFE.putFloat(null, addr + 8, q02 - q13);
+            UNSAFE.putFloat(null, addr + 12, 0.0f);
+            UNSAFE.putFloat(null, addr + 16, q01 - q23);
+            UNSAFE.putFloat(null, addr + 20, 1.0f - q22 - q00);
+            UNSAFE.putFloat(null, addr + 24, q12 + q03);
+            UNSAFE.putFloat(null, addr + 28, 0.0f);
+            UNSAFE.putFloat(null, addr + 32, q02 + q13);
+            UNSAFE.putFloat(null, addr + 36, q12 - q03);
+            UNSAFE.putFloat(null, addr + 40, 1.0f - q11 - q00);
+            UNSAFE.putFloat(null, addr + 44, 0.0f);
+            UNSAFE.putFloat(null, addr + 48, 2.0f * (dq.rw*dq.tx - dq.rx*dq.tw + dq.ry*dq.tz - dq.rz*dq.ty));
+            UNSAFE.putFloat(null, addr + 52, 2.0f * (dq.rw*dq.ty - dq.ry*dq.tw - dq.rx*dq.tz + dq.rz*dq.tx));
+            UNSAFE.putFloat(null, addr + 56, 2.0f * (dq.rw*dq.tz - dq.rz*dq.tw + dq.rx*dq.ty - dq.ry*dq.tx));
+            UNSAFE.putFloat(null, addr + 60, 1.0f);
+        }
+
+        final void putMatrix4x3f(DualQuaternionf dq, int position, ByteBuffer dest) {
+            float dqx = dq.rx + dq.rx;
+            float dqy = dq.ry + dq.ry;
+            float dqz = dq.rz + dq.rz;
+            float q00 = dqx * dq.rx;
+            float q11 = dqy * dq.ry;
+            float q22 = dqz * dq.rz;
+            float q01 = dqx * dq.ry;
+            float q02 = dqx * dq.rz;
+            float q03 = dqx * dq.rw;
+            float q12 = dqy * dq.rz;
+            float q13 = dqy * dq.rw;
+            float q23 = dqz * dq.rw;
+            long addr = addressOf(dest) + position;
+            UNSAFE.putFloat(null, addr, 1.0f - q11 - q22);
+            UNSAFE.putFloat(null, addr + 4, q01 + q23);
+            UNSAFE.putFloat(null, addr + 8, q02 - q13);
+            UNSAFE.putFloat(null, addr + 12, q01 - q23);
+            UNSAFE.putFloat(null, addr + 16, 1.0f - q22 - q00);
+            UNSAFE.putFloat(null, addr + 20, q12 + q03);
+            UNSAFE.putFloat(null, addr + 24, q02 + q13);
+            UNSAFE.putFloat(null, addr + 28, q12 - q03);
+            UNSAFE.putFloat(null, addr + 32, 1.0f - q11 - q00);
+            UNSAFE.putFloat(null, addr + 36, 2.0f * (dq.rw*dq.tx - dq.rx*dq.tw + dq.ry*dq.tz - dq.rz*dq.ty));
+            UNSAFE.putFloat(null, addr + 40, 2.0f * (dq.rw*dq.ty - dq.ry*dq.tw - dq.rx*dq.tz + dq.rz*dq.tx));
+            UNSAFE.putFloat(null, addr + 44, 2.0f * (dq.rw*dq.tz - dq.rz*dq.tw + dq.rx*dq.ty - dq.ry*dq.tx));
+        }
+
+        final void putMatrix4x3f(DualQuaternionf dq, int position, FloatBuffer dest) {
+            float dqx = dq.rx + dq.rx;
+            float dqy = dq.ry + dq.ry;
+            float dqz = dq.rz + dq.rz;
+            float q00 = dqx * dq.rx;
+            float q11 = dqy * dq.ry;
+            float q22 = dqz * dq.rz;
+            float q01 = dqx * dq.ry;
+            float q02 = dqx * dq.rz;
+            float q03 = dqx * dq.rw;
+            float q12 = dqy * dq.rz;
+            float q13 = dqy * dq.rw;
+            float q23 = dqz * dq.rw;
+            long addr = addressOf(dest) + (position << 2);
+            UNSAFE.putFloat(null, addr, 1.0f - q11 - q22);
+            UNSAFE.putFloat(null, addr + 4, q01 + q23);
+            UNSAFE.putFloat(null, addr + 8, q02 - q13);
+            UNSAFE.putFloat(null, addr + 12, q01 - q23);
+            UNSAFE.putFloat(null, addr + 16, 1.0f - q22 - q00);
+            UNSAFE.putFloat(null, addr + 20, q12 + q03);
+            UNSAFE.putFloat(null, addr + 24, q02 + q13);
+            UNSAFE.putFloat(null, addr + 28, q12 - q03);
+            UNSAFE.putFloat(null, addr + 32, 1.0f - q11 - q00);
+            UNSAFE.putFloat(null, addr + 36, 2.0f * (dq.rw*dq.tx - dq.rx*dq.tw + dq.ry*dq.tz - dq.rz*dq.ty));
+            UNSAFE.putFloat(null, addr + 40, 2.0f * (dq.rw*dq.ty - dq.ry*dq.tw - dq.rx*dq.tz + dq.rz*dq.tx));
+            UNSAFE.putFloat(null, addr + 44, 2.0f * (dq.rw*dq.tz - dq.rz*dq.tw + dq.rx*dq.ty - dq.ry*dq.tx));
+        }
+
+        final void putMatrix3f(Quaternionf q, int position, ByteBuffer dest) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            long addr = addressOf(dest) + position;
+            UNSAFE.putFloat(null, addr, 1.0f - q11 - q22);
+            UNSAFE.putFloat(null, addr + 4, q01 + q23);
+            UNSAFE.putFloat(null, addr + 8, q02 - q13);
+            UNSAFE.putFloat(null, addr + 12, q01 - q23);
+            UNSAFE.putFloat(null, addr + 16, 1.0f - q22 - q00);
+            UNSAFE.putFloat(null, addr + 20, q12 + q03);
+            UNSAFE.putFloat(null, addr + 24, q02 + q13);
+            UNSAFE.putFloat(null, addr + 28, q12 - q03);
+            UNSAFE.putFloat(null, addr + 32, 1.0f - q11 - q00);
+        }
+
+        final void putMatrix3f(Quaternionf q, int position, FloatBuffer dest) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            long addr = addressOf(dest) + (position << 2);
+            UNSAFE.putFloat(null, addr, 1.0f - q11 - q22);
+            UNSAFE.putFloat(null, addr + 4, q01 + q23);
+            UNSAFE.putFloat(null, addr + 8, q02 - q13);
+            UNSAFE.putFloat(null, addr + 12, q01 - q23);
+            UNSAFE.putFloat(null, addr + 16, 1.0f - q22 - q00);
+            UNSAFE.putFloat(null, addr + 20, q12 + q03);
+            UNSAFE.putFloat(null, addr + 24, q02 + q13);
+            UNSAFE.putFloat(null, addr + 28, q12 - q03);
+            UNSAFE.putFloat(null, addr + 32, 1.0f - q11 - q00);
+        }
+
+        final void copy(DualQuaternionf src, DualQuaternionf dest) {
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putOrderedLong(dest, DualQuaternionf_rx + (i << 2), UNSAFE.getLong(src, DualQuaternionf_rx + (i << 2)));
             }
         }
 
