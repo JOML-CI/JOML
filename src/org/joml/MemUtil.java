@@ -135,6 +135,9 @@ abstract class MemUtil {
     abstract void zero(Matrix4x3f dest);
     abstract void zero(Matrix3f dest);
 
+    abstract void identity(DualQuaternionf dq);
+    abstract void zero(DualQuaternionf dq);
+
     static final class MemUtilNIO extends MemUtil {
         final void put(Matrix4f m, int offset, FloatBuffer dest) {
             dest.put(offset,    m.m00);
@@ -1279,6 +1282,28 @@ abstract class MemUtil {
             dest.m21 = 0.0f;
             dest.m22 = 0.0f;
         }
+
+        final void identity(DualQuaternionf dq) {
+            dq.rx = 0.0f;
+            dq.ry = 0.0f;
+            dq.rz = 0.0f;
+            dq.rw = 1.0f;
+            dq.tx = 0.0f;
+            dq.ty = 0.0f;
+            dq.tz = 0.0f;
+            dq.tw = 0.0f;
+        }
+
+        final void zero(DualQuaternionf dq) {
+            dq.rx = 0.0f;
+            dq.ry = 0.0f;
+            dq.rz = 0.0f;
+            dq.rw = 0.0f;
+            dq.tx = 0.0f;
+            dq.ty = 0.0f;
+            dq.tz = 0.0f;
+            dq.tw = 0.0f;
+        }
     }
 
     static final class MemUtilUnsafe extends MemUtil {
@@ -1287,6 +1312,7 @@ abstract class MemUtil {
         private static final long Matrix3f_m00;
         private static final long Matrix4f_m00;
         private static final long Matrix4x3f_m00;
+        private static final long DualQuaternionf_rx;
 
         static {
             UNSAFE = getUnsafeInstance();
@@ -1295,6 +1321,7 @@ abstract class MemUtil {
                 Matrix4f_m00 = checkMatrix4f();
                 Matrix4x3f_m00 = checkMatrix4x3f();
                 Matrix3f_m00 = checkMatrix3f();
+                DualQuaternionf_rx = checkDualQuaternionf();
                 // Check if we can use object field offset/address put/get methods
                 sun.misc.Unsafe.class.getDeclaredMethod("getLong", new Class[] {Object.class, long.class});
                 sun.misc.Unsafe.class.getDeclaredMethod("putOrderedLong", new Class[] {Object.class, long.class, long.class});
@@ -1348,6 +1375,20 @@ abstract class MemUtil {
                     throw new UnsupportedOperationException();
             }
             return Matrix3f_m00;
+        }
+
+        private static long checkDualQuaternionf() throws NoSuchFieldException, SecurityException {
+            Field f = DualQuaternionf.class.getDeclaredField("rx");
+            long DualQuaternionf_rx = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            String[] fields = {"ry", "rz", "rw", "tx", "ty", "tz", "tw"};
+            for (int i = 0; i < 7; i++) {
+                f = DualQuaternionf.class.getDeclaredField(fields[i]);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != DualQuaternionf_rx + ((i+1) << 2))
+                    throw new UnsupportedOperationException();
+            }
+            return DualQuaternionf_rx;
         }
 
         private static final java.lang.reflect.Field getDeclaredField(Class root, String fieldName) throws NoSuchFieldException {
@@ -1941,6 +1982,19 @@ abstract class MemUtil {
                 UNSAFE.putOrderedLong(dest, Matrix3f_m00 + (i << 3), 0L);
             }
             dest.m22 = 0.0f;
+        }
+
+        final void identity(DualQuaternionf dq) {
+            UNSAFE.putOrderedLong(dq, DualQuaternionf_rx, 0L);
+            UNSAFE.putOrderedLong(dq, DualQuaternionf_rx + 8, 0x3F80000000000000L);
+            UNSAFE.putOrderedLong(dq, DualQuaternionf_rx + 16, 0L);
+            UNSAFE.putOrderedLong(dq, DualQuaternionf_rx + 24, 0L);
+        }
+
+        final void zero(DualQuaternionf dq) {
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putOrderedLong(dq, DualQuaternionf_rx + (i << 2), 0L);
+            }
         }
 
         final void put(Matrix4f m, int offset, FloatBuffer dest) {
