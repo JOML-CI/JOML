@@ -132,6 +132,46 @@ public class DualQuaternionf {
     }
 
     /**
+     * Apply the rotation of the given {@link Quaternionf} to this dual quaternion and store the result in <code>dest</code>.
+     * 
+     * @param quat
+     *          the quaternion to apply its rotation to <code>this</code>
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public DualQuaternionf rotate(Quaternionf quat, DualQuaternionf dest) {
+        float nrw = rw*quat.w - rx*quat.x - ry*quat.y - rz*quat.z;
+        float nrx = rw*quat.x + rx*quat.w + ry*quat.z - rz*quat.y;
+        float nry = rw*quat.y + ry*quat.w - rx*quat.z + rz*quat.x;
+        float nrz = rw*quat.z + rz*quat.w + rx*quat.y - ry*quat.x;
+        float ntx = tx*quat.w + tw*quat.x - tz*quat.y + ty*quat.z;
+        float nty = ty*quat.w + tz*quat.x + tw*quat.y - tx*quat.z;
+        float ntz = tz*quat.w - ty*quat.x + tx*quat.y + tw*quat.z;
+        float ntw = tw*quat.w - tx*quat.x - ty*quat.y - tz*quat.z;
+        dest.rx = nrx;
+        dest.ry = nry;
+        dest.rz = nrz;
+        dest.rw = nrw;
+        dest.tx = ntx;
+        dest.ty = nty;
+        dest.tz = ntz;
+        dest.tw = ntw;
+        return dest;
+    }
+
+    /**
+     * Apply the rotation of the given {@link Quaternionf} to this dual quaternion.
+     * 
+     * @param quat
+     *          the quaternion to apply its rotation to <code>this</code>
+     * @return this
+     */
+    public DualQuaternionf rotate(Quaternionf quat) {
+        return rotate(quat, this);
+    }
+
+    /**
      * Apply rotation about the X axis to this dual quaternion by rotating the given amount of radians 
      * and store the result in <code>dest</code>.
      * <p>
@@ -321,6 +361,221 @@ public class DualQuaternionf {
     }
 
     /**
+     * Apply a rotation to <code>this</code> dual quaternion rotating the given radians about the basis unit axes of the cartesian space.
+     * <p>
+     * If <code>Q</code> is <code>this</code> dual quaternion and <code>R</code> the dual quaternion representing the 
+     * specified rotation, then the new dual quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new dual quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @see #rotate(float, float, float, DualQuaternionf)
+     * 
+     * @param angleX
+     *              the angle in radians to rotate about the x axis
+     * @param angleY
+     *              the angle in radians to rotate about the y axis
+     * @param angleZ
+     *              the angle in radians to rotate about the z axis
+     * @return this
+     */
+    public DualQuaternionf rotate(float angleX, float angleY, float angleZ) {
+        return rotate(angleX, angleY, angleZ, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> dual quaternion rotating the given radians about the basis unit axes of the
+     * cartesian space and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> dual quaternion and <code>R</code> the dual quaternion representing the 
+     * specified rotation, then the new dual quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new dual quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @see #rotate(float, float, float)
+     * 
+     * @param angleX
+     *              the angle in radians to rotate about the x axis
+     * @param angleY
+     *              the angle in radians to rotate about the y axis
+     * @param angleZ
+     *              the angle in radians to rotate about the z axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public DualQuaternionf rotate(float angleX, float angleY, float angleZ, DualQuaternionf dest) {
+        float thetaX = angleX * 0.5f;
+        float thetaY = angleY * 0.5f;
+        float thetaZ = angleZ * 0.5f;
+        float thetaMagSq = thetaX * thetaX + thetaY * thetaY + thetaZ * thetaZ;
+        float s;
+        float dqx, dqy, dqz, dqw;
+        if (thetaMagSq * thetaMagSq / 24.0f < 1E-8f) {
+            dqw = 1.0f - thetaMagSq / 2.0f;
+            s = 1.0f - thetaMagSq / 6.0f;
+        } else {
+            double thetaMag = Math.sqrt(thetaMagSq);
+            dqw = (float) Math.cos(thetaMag);
+            s = (float) (Math.sin(thetaMag) / thetaMag);
+        }
+        dqx = thetaX * s;
+        dqy = thetaY * s;
+        dqz = thetaZ * s;
+        float nrw = rw*dqw - rx*dqx - ry*dqy - rz*dqz;
+        float nrx = rw*dqx + rx*dqw + ry*dqz - rz*dqy;
+        float nry = rw*dqy + ry*dqw - rx*dqz + rz*dqx;
+        float nrz = rw*dqz + rz*dqw + rx*dqy - ry*dqx;
+        float ntx = tx*dqw + tw*dqx - tz*dqy + ty*dqz;
+        float nty = ty*dqw + tz*dqx + tw*dqy - tx*dqz;
+        float ntz = tz*dqw - ty*dqx + tx*dqy + tw*dqz;
+        float ntw = tw*dqw - tx*dqx - ty*dqy - tz*dqz;
+        dest.rx = nrx;
+        dest.ry = nry;
+        dest.rz = nrz;
+        dest.rw = nrw;
+        dest.tx = ntx;
+        dest.ty = nty;
+        dest.tz = ntz;
+        dest.tw = ntw;
+        return dest;
+    }
+    
+
+    /**
+     * Apply a rotation to <code>this</code> dual quaternion rotating the given radians about the specified axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> dual quaternion and <code>R</code> the dual quaternion representing the 
+     * specified rotation, then the new dual quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new dual quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the specified axis
+     * @param axisX
+     *              the x coordinate of the rotation axis
+     * @param axisY
+     *              the y coordinate of the rotation axis
+     * @param axisZ
+     *              the z coordinate of the rotation axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public DualQuaternionf rotateAxis(float angle, float axisX, float axisY, float axisZ, DualQuaternionf dest) {
+        float hangle = angle / 2.0f;
+        float sinAngle = (float) Math.sin(hangle);
+        float invVLength = (float) (1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ));
+        float rrx = axisX * invVLength * sinAngle;
+        float rry = axisY * invVLength * sinAngle;
+        float rrz = axisZ * invVLength * sinAngle;
+        float rrw = (float) Math.cos(hangle);
+        float nrw = rw*rrw - rx*rrx - ry*rry - rz*rrz;
+        float nrx = rw*rrx + rx*rrw + ry*rrz - rz*rry;
+        float nry = rw*rry + ry*rrw - rx*rrz + rz*rrx;
+        float nrz = rw*rrz + rz*rrw + rx*rry - ry*rrx;
+        float ntx = tx*rrw + tw*rrx - tz*rry + ty*rrz;
+        float nty = ty*rrw + tz*rrx + tw*rry - tx*rrz;
+        float ntz = tz*rrw - ty*rrx + tx*rry + tw*rrz;
+        float ntw = tw*rrw - tx*rrx - ty*rry - tz*rrz;
+        dest.rx = nrx;
+        dest.ry = nry;
+        dest.rz = nrz;
+        dest.rw = nrw;
+        dest.tx = ntx;
+        dest.ty = nty;
+        dest.tz = ntz;
+        dest.tw = ntw;
+        return dest;
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> dual quaternion rotating the given radians about the specified axis
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>Q</code> is <code>this</code> dual quaternion and <code>R</code> the dual quaternion representing the 
+     * specified rotation, then the new dual quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new dual quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @see #rotateAxis(float, float, float, float, DualQuaternionf)
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the specified axis
+     * @param axis
+     *              the rotation axis
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public DualQuaternionf rotateAxis(float angle, Vector3f axis, DualQuaternionf dest) {
+        return rotateAxis(angle, axis.x, axis.y, axis.z, dest);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> dual quaternion rotating the given radians about the specified axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> dual quaternion and <code>R</code> the dual quaternion representing the 
+     * specified rotation, then the new dual quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new dual quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @see #rotateAxis(float, float, float, float, DualQuaternionf)
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the specified axis
+     * @param axis
+     *              the rotation axis
+     * @return this
+     */
+    public DualQuaternionf rotateAxis(float angle, Vector3f axis) {
+        return rotateAxis(angle, axis.x, axis.y, axis.z, this);
+    }
+
+    /**
+     * Apply a rotation to <code>this</code> dual quaternion rotating the given radians about the specified axis.
+     * <p>
+     * If <code>Q</code> is <code>this</code> dual quaternion and <code>R</code> the dual quaternion representing the 
+     * specified rotation, then the new dual quaternion will be <code>Q * R</code>. So when transforming a
+     * vector <code>v</code> with the new dual quaternion by using <code>Q * R * v</code>, the
+     * rotation added by this method will be applied first!
+     * 
+     * @see #rotateAxis(float, float, float, float, DualQuaternionf)
+     * 
+     * @param angle
+     *              the angle in radians to rotate about the specified axis
+     * @param axisX
+     *              the x coordinate of the rotation axis
+     * @param axisY
+     *              the y coordinate of the rotation axis
+     * @param axisZ
+     *              the z coordinate of the rotation axis
+     * @return this
+     */
+    public DualQuaternionf rotateAxis(float angle, float axisX, float axisY, float axisZ) {
+        return rotateAxis(angle, axisX, axisY, axisZ, this);
+    }
+
+    /**
+     * Set this dual quaternion to the rotation represented by the given {@link Quaternionf}.
+     * 
+     * @param quat
+     *          the quaternion to use as this dual quaternion's rotation
+     * @return this
+     */
+    public DualQuaternionf rotation(Quaternionf quat) {
+        rx = quat.x;
+        ry = quat.y;
+        rz = quat.z;
+        rw = quat.w;
+        tx = 0.0f;
+        ty = 0.0f;
+        tz = 0.0f;
+        tw = 0.0f;
+        return this;
+    }
+
+    /**
      * Set this dual quaternion to represent a rotation of the given radians about the X axis.
      * 
      * @param angle
@@ -365,6 +620,174 @@ public class DualQuaternionf {
         float sin = (float) Math.sin(angle * 0.5);
         rw = cos;
         rz = sin;
+        return this;
+    }
+
+    /**
+     * Set this {@link DualQuaternionf} to a rotation of the given angle in radians about the supplied
+     * axis, all of which are specified via the {@link AxisAngle4f}.
+     * 
+     * @see #rotationAxis(float, float, float, float)
+     * 
+     * @param axisAngle
+     *            the {@link AxisAngle4f} giving the rotation angle in radians and the axis to rotate about
+     * @return this
+     */
+    public DualQuaternionf rotationAxis(AxisAngle4f axisAngle) {
+        return rotationAxis(axisAngle.angle, axisAngle.x, axisAngle.y, axisAngle.z);
+    }
+
+    /**
+     * Set this dual quaternion to a rotation of the given angle in radians about the supplied axis.
+     * 
+     * @param angle
+     *          the rotation angle in radians
+     * @param axisX
+     *          the x-coordinate of the rotation axis
+     * @param axisY
+     *          the y-coordinate of the rotation axis
+     * @param axisZ
+     *          the z-coordinate of the rotation axis
+     * @return this
+     */
+    public DualQuaternionf rotationAxis(float angle, float axisX, float axisY, float axisZ) {
+        float hangle = angle / 2.0f;
+        float sinAngle = (float) Math.sin(hangle);
+        float invVLength = (float) (1.0 / Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ));
+        rx = axisX * invVLength * sinAngle;
+        ry = axisY * invVLength * sinAngle;
+        rz = axisZ * invVLength * sinAngle;
+        rw = (float) Math.cos(hangle);
+        tx = 0.0f;
+        ty = 0.0f;
+        tz = 0.0f;
+        tw = 0.0f;
+        return this;
+    }
+
+    /**
+     * Set this dual quaternion to a rotation of the given angle in radians about the supplied axis.
+     * 
+     * @see #rotationAxis(float, float, float, float)
+     * 
+     * @param angle
+     *          the rotation angle in radians
+     * @param axis
+     *          the axis to rotate about
+     * @return this
+     */
+    public DualQuaternionf rotationAxis(float angle, Vector3f axis) {
+        return rotationAxis(angle, axis.x, axis.y, axis.z);
+    }
+
+    /**
+     * Set this dual quaternion from the supplied euler angles (in radians) with rotation order XYZ.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationX(angleX).rotateY(angleY).rotateZ(angleZ)</tt>
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>
+     * 
+     * @param angleX
+     *          the angle in radians to rotate about x
+     * @param angleY
+     *          the angle in radians to rotate about y
+     * @param angleZ
+     *          the angle in radians to rotate about z
+     * @return this
+     */
+    public DualQuaternionf rotationXYZ(float angleX, float angleY, float angleZ) {
+        float sx = (float) Math.sin(angleX * 0.5);
+        float cx = (float) Math.cos(angleX * 0.5);
+        float sy = (float) Math.sin(angleY * 0.5);
+        float cy = (float) Math.cos(angleY * 0.5);
+        float sz = (float) Math.sin(angleZ * 0.5);
+        float cz = (float) Math.cos(angleZ * 0.5);
+        float cycz = cy * cz;
+        float sysz = sy * sz;
+        float sycz = sy * cz;
+        float cysz = cy * sz;
+        rw = cx*cycz - sx*sysz;
+        rx = sx*cycz + cx*sysz;
+        ry = cx*sycz - sx*cysz;
+        rz = cx*cysz + sx*sycz;
+        tx = 0.0f;
+        ty = 0.0f;
+        tz = 0.0f;
+        tw = 0.0f;
+        return this;
+    }
+
+    /**
+     * Set this dual quaternion from the supplied euler angles (in radians) with rotation order ZYX.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationZ(angleZ).rotateY(angleY).rotateX(angleX)</tt>
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/13436/glm-euler-angles-to-quaternion#answer-13446">this stackexchange answer</a>
+     * 
+     * @param angleX
+     *          the angle in radians to rotate about x
+     * @param angleY
+     *          the angle in radians to rotate about y
+     * @param angleZ
+     *          the angle in radians to rotate about z
+     * @return this
+     */
+    public DualQuaternionf rotationZYX(float angleZ, float angleY, float angleX) {
+        float sx = (float) Math.sin(angleX * 0.5);
+        float cx = (float) Math.cos(angleX * 0.5);
+        float sy = (float) Math.sin(angleY * 0.5);
+        float cy = (float) Math.cos(angleY * 0.5);
+        float sz = (float) Math.sin(angleZ * 0.5);
+        float cz = (float) Math.cos(angleZ * 0.5);
+        float cycz = cy * cz;
+        float sysz = sy * sz;
+        float sycz = sy * cz;
+        float cysz = cy * sz;
+        rw = cx*cycz + sx*sysz;
+        rx = sx*cycz - cx*sysz;
+        ry = cx*sycz + sx*cysz;
+        rz = cx*cysz - sx*sycz;
+        tx = 0.0f;
+        ty = 0.0f;
+        tz = 0.0f;
+        tw = 0.0f;
+        return this;
+    }
+
+    /**
+     * Set this dual quaternion from the supplied euler angles (in radians) with rotation order YXZ.
+     * <p>
+     * This method is equivalent to calling: <tt>rotationY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">https://en.wikipedia.org</a>
+     * 
+     * @param angleY
+     *          the angle in radians to rotate about y
+     * @param angleX
+     *          the angle in radians to rotate about x
+     * @param angleZ
+     *          the angle in radians to rotate about z
+     * @return this
+     */
+    public DualQuaternionf rotationYXZ(float angleY, float angleX, float angleZ) {
+        float sx = (float) Math.sin(angleX * 0.5);
+        float cx = (float) Math.cos(angleX * 0.5);
+        float sy = (float) Math.sin(angleY * 0.5);
+        float cy = (float) Math.cos(angleY * 0.5);
+        float sz = (float) Math.sin(angleZ * 0.5);
+        float cz = (float) Math.cos(angleZ * 0.5);
+        float x = cy * sx;
+        float y = sy * cx;
+        float z = sy * sx;
+        float w = cy * cx;
+        rx = x * cz + y * sz;
+        ry = y * cz - x * sz;
+        rz = w * sz - z * cz;
+        rw = w * cz + z * sz;
+        tx = 0.0f;
+        ty = 0.0f;
+        tz = 0.0f;
+        tw = 0.0f;
         return this;
     }
 
