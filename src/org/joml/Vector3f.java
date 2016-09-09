@@ -1813,9 +1813,10 @@ public class Vector3f implements Externalizable {
         float vx = v.x * invLenV;
         float vy = v.y * invLenV;
         float vz = v.z * invLenV;
-        float rx = x - (vx * x + vy * y + vz * z) * vx;
-        float ry = y - (vx * x + vy * y + vz * z) * vy;
-        float rz = z - (vx * x + vy * y + vz * z) * vz;
+        float dot = (vx * x + vy * y + vz * z);
+        float rx = x - dot * vx;
+        float ry = y - dot * vy;
+        float rz = z - dot * vz;
         float invLen = 1.0f / (float) Math.sqrt(rx * rx + ry * ry + rz * rz);
         dest.x = rx * invLen;
         dest.y = ry * invLen;
@@ -1853,9 +1854,10 @@ public class Vector3f implements Externalizable {
         float vx = v.x;
         float vy = v.y;
         float vz = v.z;
-        float rx = x - (vx * x + vy * y + vz * z) * vx;
-        float ry = y - (vx * x + vy * y + vz * z) * vy;
-        float rz = z - (vx * x + vy * y + vz * z) * vz;
+        float dot = (vx * x + vy * y + vz * z);
+        float rx = x - dot * vx;
+        float ry = y - dot * vy;
+        float rz = z - dot * vz;
         float invLen = 1.0f / (float) Math.sqrt(rx * rx + ry * ry + rz * rz);
         dest.x = rx * invLen;
         dest.y = ry * invLen;

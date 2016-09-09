@@ -2266,9 +2266,10 @@ public class Vector3d implements Externalizable {
         double vx = v.x * invLenV;
         double vy = v.y * invLenV;
         double vz = v.z * invLenV;
-        double rx = x - (vx * x + vy * y + vz * z) * vx;
-        double ry = y - (vx * x + vy * y + vz * z) * vy;
-        double rz = z - (vx * x + vy * y + vz * z) * vz;
+        double dot = (vx * x + vy * y + vz * z);
+        double rx = x - dot * vx;
+        double ry = y - dot * vy;
+        double rz = z - dot * vz;
         double invLen = 1.0 / Math.sqrt(rx * rx + ry * ry + rz * rz);
         dest.x = rx * invLen;
         dest.y = ry * invLen;
@@ -2306,9 +2307,10 @@ public class Vector3d implements Externalizable {
         double vx = v.x;
         double vy = v.y;
         double vz = v.z;
-        double rx = x - (vx * x + vy * y + vz * z) * vx;
-        double ry = y - (vx * x + vy * y + vz * z) * vy;
-        double rz = z - (vx * x + vy * y + vz * z) * vz;
+        double dot = (vx * x + vy * y + vz * z);
+        double rx = x - dot * vx;
+        double ry = y - dot * vy;
+        double rz = z - dot * vz;
         double invLen = 1.0 / Math.sqrt(rx * rx + ry * ry + rz * rz);
         dest.x = rx * invLen;
         dest.y = ry * invLen;
