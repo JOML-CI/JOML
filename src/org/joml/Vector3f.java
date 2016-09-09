@@ -1797,4 +1797,85 @@ public class Vector3f implements Externalizable {
         return 2;
     }
 
+    /**
+     * Transform <code>this</code> vector so that it is orthogonal to the given vector <code>v</code>, normalize the result and store it into <code>dest</code>.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram–Schmidt process</a>
+     * 
+     * @param v
+     *          the reference vector which the result should be orthogonal to
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f orthogonalize(Vector3f v, Vector3f dest) {
+        float invLenV = 1.0f / (float) Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        float vx = v.x * invLenV;
+        float vy = v.y * invLenV;
+        float vz = v.z * invLenV;
+        float rx = x - (vx * x + vy * y + vz * z) * vx;
+        float ry = y - (vx * x + vy * y + vz * z) * vy;
+        float rz = z - (vx * x + vy * y + vz * z) * vz;
+        float invLen = 1.0f / (float) Math.sqrt(rx * rx + ry * ry + rz * rz);
+        dest.x = rx * invLen;
+        dest.y = ry * invLen;
+        dest.z = rz * invLen;
+        return dest;
+    }
+
+    /**
+     * Transform <code>this</code> vector so that it is orthogonal to the given vector <code>v</code> and normalize the result.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram–Schmidt process</a>
+     * 
+     * @param v
+     *          the reference vector which the result should be orthogonal to
+     * @return this
+     */
+    public Vector3f orthogonalize(Vector3f v) {
+        return orthogonalize(v, this);
+    }
+
+    /**
+     * Transform <code>this</code> vector so that it is orthogonal to the given unit vector <code>v</code>, normalize the result and store it into <code>dest</code>.
+     * <p>
+     * The vector <code>v</code> is assumed to be a {@link #normalize() unit} vector.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram–Schmidt process</a>
+     * 
+     * @param v
+     *          the reference unit vector which the result should be orthogonal to
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f orthogonalizeUnit(Vector3f v, Vector3f dest) {
+        float vx = v.x;
+        float vy = v.y;
+        float vz = v.z;
+        float rx = x - (vx * x + vy * y + vz * z) * vx;
+        float ry = y - (vx * x + vy * y + vz * z) * vy;
+        float rz = z - (vx * x + vy * y + vz * z) * vz;
+        float invLen = 1.0f / (float) Math.sqrt(rx * rx + ry * ry + rz * rz);
+        dest.x = rx * invLen;
+        dest.y = ry * invLen;
+        dest.z = rz * invLen;
+        return dest;
+    }
+
+    /**
+     * Transform <code>this</code> vector so that it is orthogonal to the given unit vector <code>v</code> and normalize the result.
+     * <p>
+     * The vector <code>v</code> is assumed to be a {@link #normalize() unit} vector.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram–Schmidt process</a>
+     * 
+     * @param v
+     *          the reference unit vector which the result should be orthogonal to
+     * @return this
+     */
+    public Vector3f orthogonalizeUnit(Vector3f v) {
+        return orthogonalizeUnit(v, this);
+    }
+
 }
