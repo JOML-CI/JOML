@@ -2080,7 +2080,7 @@ public class Quaternionf implements Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #lookRotate(float, float, float, float, float, float, Quaternionf)
+     * @see #lookAlong(float, float, float, float, float, float, Quaternionf)
      * 
      * @param dir
      *              the direction to map to the positive Z axis
@@ -2089,8 +2089,8 @@ public class Quaternionf implements Externalizable {
      *              spanned by the given <code>dir</code> and <code>up</code>
      * @return this
      */
-    public Quaternionf lookRotate(Vector3f dir, Vector3f up) {
-        return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    public Quaternionf lookAlong(Vector3f dir, Vector3f up) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
     }
 
     /**
@@ -2106,7 +2106,7 @@ public class Quaternionf implements Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #lookRotate(float, float, float, float, float, float, Quaternionf)
+     * @see #lookAlong(float, float, float, float, float, float, Quaternionf)
      * 
      * @param dir
      *              the direction to map to the positive Z axis
@@ -2117,8 +2117,8 @@ public class Quaternionf implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Quaternionf lookRotate(Vector3f dir, Vector3f up, Quaternionf dest) {
-        return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    public Quaternionf lookAlong(Vector3f dir, Vector3f up, Quaternionf dest) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
     }
 
     /**
@@ -2134,7 +2134,7 @@ public class Quaternionf implements Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #lookRotate(float, float, float, float, float, float, Quaternionf)
+     * @see #lookAlong(float, float, float, float, float, float, Quaternionf)
      * 
      * @param dirX
      *              the x-coordinate of the direction to look along
@@ -2150,8 +2150,8 @@ public class Quaternionf implements Externalizable {
      *              the z-coordinate of the up vector
      * @return this
      */
-    public Quaternionf lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
-        return lookRotate(dirX, dirY, dirZ, upX, upY, upZ, this);
+    public Quaternionf lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
+        return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
     /**
@@ -2183,7 +2183,7 @@ public class Quaternionf implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Quaternionf lookRotate(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternionf dest) {
+    public Quaternionf lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternionf dest) {
         // Normalize direction
         float invDirLength = (float) (1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ));
         float dirnX = dirX * invDirLength;

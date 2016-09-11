@@ -1733,7 +1733,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
+     * @see #lookAlong(double, double, double, double, double, double, Quaterniond)
      * 
      * @param dir
      *              the direction to map to the positive Z axis
@@ -1742,8 +1742,8 @@ public class Quaterniond implements Externalizable {
      *              spanned by the given <code>dir</code> and <code>up</code>
      * @return this
      */
-    public Quaterniond lookRotate(Vector3d dir, Vector3d up) {
-        return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    public Quaterniond lookAlong(Vector3d dir, Vector3d up) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
     }
 
     /**
@@ -1759,7 +1759,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
+     * @see #lookAlong(double, double, double, double, double, double, Quaterniond)
      * 
      * @param dir
      *              the direction to map to the positive Z axis
@@ -1770,8 +1770,8 @@ public class Quaterniond implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Quaterniond lookRotate(Vector3d dir, Vector3d up, Quaterniond dest) {
-        return lookRotate(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    public Quaterniond lookAlong(Vector3d dir, Vector3d up, Quaterniond dest) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
     }
 
     /**
@@ -1787,7 +1787,7 @@ public class Quaterniond implements Externalizable {
      * <p>
      * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
      * 
-     * @see #lookRotate(double, double, double, double, double, double, Quaterniond)
+     * @see #lookAlong(double, double, double, double, double, double, Quaterniond)
      * 
      * @param dirX
      *              the x-coordinate of the direction to look along
@@ -1803,8 +1803,8 @@ public class Quaterniond implements Externalizable {
      *              the z-coordinate of the up vector
      * @return this
      */
-    public Quaterniond lookRotate(double dirX, double dirY, double dirZ, double upX, double upY, double upZ) {
-        return lookRotate(dirX, dirY, dirZ, upX, upY, upZ, this);
+    public Quaterniond lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ) {
+        return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
     /**
@@ -1836,7 +1836,7 @@ public class Quaterniond implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Quaterniond lookRotate(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Quaterniond dest) {
+    public Quaterniond lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Quaterniond dest) {
         // Normalize direction
         double invDirLength = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         double dirnX = dirX * invDirLength;
