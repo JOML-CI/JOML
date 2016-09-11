@@ -1421,14 +1421,9 @@ abstract class MemUtil {
         private final void put4x4(Matrix4x3f m, long destAddr) {
             for (int i = 0; i < 4; i++) {
                 UNSAFE.putOrderedLong(null, destAddr + (i << 4), UNSAFE.getLong(m, Matrix4x3f_m00 + 12 * i));
+                long lng = UNSAFE.getInt(m, Matrix4x3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
+                UNSAFE.putOrderedLong(null, destAddr + 8 + (i << 4), lng);
             }
-            for (int i = 0; i < 3; i++) {
-                memPutFloat(destAddr + 12 + (i << 4), 0.0f);
-            }
-            memPutFloat(destAddr + 8,  m.m02);
-            memPutFloat(destAddr + 24, m.m12);
-            memPutFloat(destAddr + 40, m.m22);
-            memPutFloat(destAddr + 56, m.m32);
             memPutFloat(destAddr + 60, 1.0f);
         }
 
