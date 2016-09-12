@@ -1762,7 +1762,7 @@ abstract class MemUtil {
         final void copy(Matrix3f src, Matrix4f dest) {
             for (int i = 0; i < 3; i++) {
                 UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix3f_m00 + 12 * i));
-                long lng = UNSAFE.getLong(src, Matrix3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
+                long lng = UNSAFE.getInt(src, Matrix3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
                 UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 8 + (i << 4), lng);
             }
             UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 48, 0L);
