@@ -1390,22 +1390,6 @@ abstract class MemUtil {
             return UNSAFE.getLong(buffer, ADDRESS);
         }
 
-        private final void memPutFloat(long ptr, float value) {
-            UNSAFE.putFloat(ptr, value);
-        }
-
-        private final void memPutDouble(long ptr, double value) {
-            UNSAFE.putDouble(ptr, value);
-        }
-
-        private final float memGetFloat(long ptr) {
-            return UNSAFE.getFloat(ptr);
-        }
-
-        private final double memGetDouble(long ptr) {
-            return UNSAFE.getDouble(ptr);
-        }
-
         private final void put(Matrix4f m, long destAddr) {
             for (int i = 0; i < 8; i++) {
                 UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
@@ -1424,238 +1408,238 @@ abstract class MemUtil {
                 long lng = UNSAFE.getInt(m, Matrix4x3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
                 UNSAFE.putOrderedLong(null, destAddr + 8 + (i << 4), lng);
             }
-            memPutFloat(destAddr + 60, 1.0f);
+            UNSAFE.putFloat(null, destAddr + 60, 1.0f);
         }
 
         private final void putTransposed(Matrix4f m, long destAddr) {
-            memPutFloat(destAddr,      m.m00);
-            memPutFloat(destAddr + 4,  m.m10);
-            memPutFloat(destAddr + 8,  m.m20);
-            memPutFloat(destAddr + 12, m.m30);
-            memPutFloat(destAddr + 16, m.m01);
-            memPutFloat(destAddr + 20, m.m11);
-            memPutFloat(destAddr + 24, m.m21);
-            memPutFloat(destAddr + 28, m.m31);
-            memPutFloat(destAddr + 32, m.m02);
-            memPutFloat(destAddr + 36, m.m12);
-            memPutFloat(destAddr + 40, m.m22);
-            memPutFloat(destAddr + 44, m.m32);
-            memPutFloat(destAddr + 48, m.m03);
-            memPutFloat(destAddr + 52, m.m13);
-            memPutFloat(destAddr + 56, m.m23);
-            memPutFloat(destAddr + 60, m.m33);
+            UNSAFE.putFloat(null, destAddr,      m.m00);
+            UNSAFE.putFloat(null, destAddr + 4,  m.m10);
+            UNSAFE.putFloat(null, destAddr + 8,  m.m20);
+            UNSAFE.putFloat(null, destAddr + 12, m.m30);
+            UNSAFE.putFloat(null, destAddr + 16, m.m01);
+            UNSAFE.putFloat(null, destAddr + 20, m.m11);
+            UNSAFE.putFloat(null, destAddr + 24, m.m21);
+            UNSAFE.putFloat(null, destAddr + 28, m.m31);
+            UNSAFE.putFloat(null, destAddr + 32, m.m02);
+            UNSAFE.putFloat(null, destAddr + 36, m.m12);
+            UNSAFE.putFloat(null, destAddr + 40, m.m22);
+            UNSAFE.putFloat(null, destAddr + 44, m.m32);
+            UNSAFE.putFloat(null, destAddr + 48, m.m03);
+            UNSAFE.putFloat(null, destAddr + 52, m.m13);
+            UNSAFE.putFloat(null, destAddr + 56, m.m23);
+            UNSAFE.putFloat(null, destAddr + 60, m.m33);
         }
 
         private final void put4x3Transposed(Matrix4f m, long destAddr) {
-            memPutFloat(destAddr,      m.m00);
-            memPutFloat(destAddr + 4,  m.m10);
-            memPutFloat(destAddr + 8,  m.m20);
-            memPutFloat(destAddr + 12, m.m30);
-            memPutFloat(destAddr + 16, m.m01);
-            memPutFloat(destAddr + 20, m.m11);
-            memPutFloat(destAddr + 24, m.m21);
-            memPutFloat(destAddr + 28, m.m31);
-            memPutFloat(destAddr + 32, m.m02);
-            memPutFloat(destAddr + 36, m.m12);
-            memPutFloat(destAddr + 40, m.m22);
-            memPutFloat(destAddr + 44, m.m32);
+            UNSAFE.putFloat(null, destAddr,      m.m00);
+            UNSAFE.putFloat(null, destAddr + 4,  m.m10);
+            UNSAFE.putFloat(null, destAddr + 8,  m.m20);
+            UNSAFE.putFloat(null, destAddr + 12, m.m30);
+            UNSAFE.putFloat(null, destAddr + 16, m.m01);
+            UNSAFE.putFloat(null, destAddr + 20, m.m11);
+            UNSAFE.putFloat(null, destAddr + 24, m.m21);
+            UNSAFE.putFloat(null, destAddr + 28, m.m31);
+            UNSAFE.putFloat(null, destAddr + 32, m.m02);
+            UNSAFE.putFloat(null, destAddr + 36, m.m12);
+            UNSAFE.putFloat(null, destAddr + 40, m.m22);
+            UNSAFE.putFloat(null, destAddr + 44, m.m32);
         }
 
         private final void putTransposed(Matrix4x3f m, long destAddr) {
-            memPutFloat(destAddr,      m.m00);
-            memPutFloat(destAddr + 4,  m.m10);
-            memPutFloat(destAddr + 8,  m.m20);
-            memPutFloat(destAddr + 12, m.m30);
-            memPutFloat(destAddr + 16, m.m01);
-            memPutFloat(destAddr + 20, m.m11);
-            memPutFloat(destAddr + 24, m.m21);
-            memPutFloat(destAddr + 28, m.m31);
-            memPutFloat(destAddr + 32, m.m02);
-            memPutFloat(destAddr + 36, m.m12);
-            memPutFloat(destAddr + 40, m.m22);
-            memPutFloat(destAddr + 44, m.m32);
+            UNSAFE.putFloat(null, destAddr,      m.m00);
+            UNSAFE.putFloat(null, destAddr + 4,  m.m10);
+            UNSAFE.putFloat(null, destAddr + 8,  m.m20);
+            UNSAFE.putFloat(null, destAddr + 12, m.m30);
+            UNSAFE.putFloat(null, destAddr + 16, m.m01);
+            UNSAFE.putFloat(null, destAddr + 20, m.m11);
+            UNSAFE.putFloat(null, destAddr + 24, m.m21);
+            UNSAFE.putFloat(null, destAddr + 28, m.m31);
+            UNSAFE.putFloat(null, destAddr + 32, m.m02);
+            UNSAFE.putFloat(null, destAddr + 36, m.m12);
+            UNSAFE.putFloat(null, destAddr + 40, m.m22);
+            UNSAFE.putFloat(null, destAddr + 44, m.m32);
         }
 
         private final void put(Matrix4d m, long destAddr) {
-            memPutDouble(destAddr,       m.m00);
-            memPutDouble(destAddr + 8,   m.m01);
-            memPutDouble(destAddr + 16,  m.m02);
-            memPutDouble(destAddr + 24,  m.m03);
-            memPutDouble(destAddr + 32,  m.m10);
-            memPutDouble(destAddr + 40,  m.m11);
-            memPutDouble(destAddr + 48,  m.m12);
-            memPutDouble(destAddr + 56,  m.m13);
-            memPutDouble(destAddr + 64,  m.m20);
-            memPutDouble(destAddr + 72,  m.m21);
-            memPutDouble(destAddr + 80,  m.m22);
-            memPutDouble(destAddr + 88,  m.m23);
-            memPutDouble(destAddr + 96,  m.m30);
-            memPutDouble(destAddr + 104, m.m31);
-            memPutDouble(destAddr + 112, m.m32);
-            memPutDouble(destAddr + 120, m.m33);
+            UNSAFE.putDouble(null, destAddr,       m.m00);
+            UNSAFE.putDouble(null, destAddr + 8,   m.m01);
+            UNSAFE.putDouble(null, destAddr + 16,  m.m02);
+            UNSAFE.putDouble(null, destAddr + 24,  m.m03);
+            UNSAFE.putDouble(null, destAddr + 32,  m.m10);
+            UNSAFE.putDouble(null, destAddr + 40,  m.m11);
+            UNSAFE.putDouble(null, destAddr + 48,  m.m12);
+            UNSAFE.putDouble(null, destAddr + 56,  m.m13);
+            UNSAFE.putDouble(null, destAddr + 64,  m.m20);
+            UNSAFE.putDouble(null, destAddr + 72,  m.m21);
+            UNSAFE.putDouble(null, destAddr + 80,  m.m22);
+            UNSAFE.putDouble(null, destAddr + 88,  m.m23);
+            UNSAFE.putDouble(null, destAddr + 96,  m.m30);
+            UNSAFE.putDouble(null, destAddr + 104, m.m31);
+            UNSAFE.putDouble(null, destAddr + 112, m.m32);
+            UNSAFE.putDouble(null, destAddr + 120, m.m33);
         }
 
         private final void put(Matrix4x3d m, long destAddr) {
-            memPutDouble(destAddr,      m.m00);
-            memPutDouble(destAddr + 8,  m.m01);
-            memPutDouble(destAddr + 16, m.m02);
-            memPutDouble(destAddr + 24, m.m10);
-            memPutDouble(destAddr + 32, m.m11);
-            memPutDouble(destAddr + 40, m.m12);
-            memPutDouble(destAddr + 48, m.m20);
-            memPutDouble(destAddr + 56, m.m21);
-            memPutDouble(destAddr + 64, m.m22);
-            memPutDouble(destAddr + 72, m.m30);
-            memPutDouble(destAddr + 80, m.m31);
-            memPutDouble(destAddr + 88, m.m32);
+            UNSAFE.putDouble(null, destAddr,      m.m00);
+            UNSAFE.putDouble(null, destAddr + 8,  m.m01);
+            UNSAFE.putDouble(null, destAddr + 16, m.m02);
+            UNSAFE.putDouble(null, destAddr + 24, m.m10);
+            UNSAFE.putDouble(null, destAddr + 32, m.m11);
+            UNSAFE.putDouble(null, destAddr + 40, m.m12);
+            UNSAFE.putDouble(null, destAddr + 48, m.m20);
+            UNSAFE.putDouble(null, destAddr + 56, m.m21);
+            UNSAFE.putDouble(null, destAddr + 64, m.m22);
+            UNSAFE.putDouble(null, destAddr + 72, m.m30);
+            UNSAFE.putDouble(null, destAddr + 80, m.m31);
+            UNSAFE.putDouble(null, destAddr + 88, m.m32);
         }
 
         private final void putTransposed(Matrix4d m, long destAddr) {
-            memPutDouble(destAddr,       m.m00);
-            memPutDouble(destAddr + 8,   m.m10);
-            memPutDouble(destAddr + 16,  m.m20);
-            memPutDouble(destAddr + 24,  m.m30);
-            memPutDouble(destAddr + 32,  m.m01);
-            memPutDouble(destAddr + 40,  m.m11);
-            memPutDouble(destAddr + 48,  m.m21);
-            memPutDouble(destAddr + 56,  m.m31);
-            memPutDouble(destAddr + 64,  m.m02);
-            memPutDouble(destAddr + 72,  m.m12);
-            memPutDouble(destAddr + 80,  m.m22);
-            memPutDouble(destAddr + 88,  m.m32);
-            memPutDouble(destAddr + 96,  m.m03);
-            memPutDouble(destAddr + 104, m.m13);
-            memPutDouble(destAddr + 112, m.m23);
-            memPutDouble(destAddr + 120, m.m33);
+            UNSAFE.putDouble(null, destAddr,       m.m00);
+            UNSAFE.putDouble(null, destAddr + 8,   m.m10);
+            UNSAFE.putDouble(null, destAddr + 16,  m.m20);
+            UNSAFE.putDouble(null, destAddr + 24,  m.m30);
+            UNSAFE.putDouble(null, destAddr + 32,  m.m01);
+            UNSAFE.putDouble(null, destAddr + 40,  m.m11);
+            UNSAFE.putDouble(null, destAddr + 48,  m.m21);
+            UNSAFE.putDouble(null, destAddr + 56,  m.m31);
+            UNSAFE.putDouble(null, destAddr + 64,  m.m02);
+            UNSAFE.putDouble(null, destAddr + 72,  m.m12);
+            UNSAFE.putDouble(null, destAddr + 80,  m.m22);
+            UNSAFE.putDouble(null, destAddr + 88,  m.m32);
+            UNSAFE.putDouble(null, destAddr + 96,  m.m03);
+            UNSAFE.putDouble(null, destAddr + 104, m.m13);
+            UNSAFE.putDouble(null, destAddr + 112, m.m23);
+            UNSAFE.putDouble(null, destAddr + 120, m.m33);
         }
 
         private final void putfTransposed(Matrix4d m, long destAddr) {
-            memPutFloat(destAddr,      (float)m.m00);
-            memPutFloat(destAddr + 4,  (float)m.m10);
-            memPutFloat(destAddr + 8,  (float)m.m20);
-            memPutFloat(destAddr + 12, (float)m.m30);
-            memPutFloat(destAddr + 16, (float)m.m01);
-            memPutFloat(destAddr + 20, (float)m.m11);
-            memPutFloat(destAddr + 24, (float)m.m21);
-            memPutFloat(destAddr + 28, (float)m.m31);
-            memPutFloat(destAddr + 32, (float)m.m02);
-            memPutFloat(destAddr + 36, (float)m.m12);
-            memPutFloat(destAddr + 40, (float)m.m22);
-            memPutFloat(destAddr + 44, (float)m.m32);
-            memPutFloat(destAddr + 48, (float)m.m03);
-            memPutFloat(destAddr + 52, (float)m.m13);
-            memPutFloat(destAddr + 56, (float)m.m23);
-            memPutFloat(destAddr + 60, (float)m.m33);
+            UNSAFE.putFloat(null, destAddr,      (float)m.m00);
+            UNSAFE.putFloat(null, destAddr + 4,  (float)m.m10);
+            UNSAFE.putFloat(null, destAddr + 8,  (float)m.m20);
+            UNSAFE.putFloat(null, destAddr + 12, (float)m.m30);
+            UNSAFE.putFloat(null, destAddr + 16, (float)m.m01);
+            UNSAFE.putFloat(null, destAddr + 20, (float)m.m11);
+            UNSAFE.putFloat(null, destAddr + 24, (float)m.m21);
+            UNSAFE.putFloat(null, destAddr + 28, (float)m.m31);
+            UNSAFE.putFloat(null, destAddr + 32, (float)m.m02);
+            UNSAFE.putFloat(null, destAddr + 36, (float)m.m12);
+            UNSAFE.putFloat(null, destAddr + 40, (float)m.m22);
+            UNSAFE.putFloat(null, destAddr + 44, (float)m.m32);
+            UNSAFE.putFloat(null, destAddr + 48, (float)m.m03);
+            UNSAFE.putFloat(null, destAddr + 52, (float)m.m13);
+            UNSAFE.putFloat(null, destAddr + 56, (float)m.m23);
+            UNSAFE.putFloat(null, destAddr + 60, (float)m.m33);
         }
 
         private final void put4x3Transposed(Matrix4d m, long destAddr) {
-            memPutDouble(destAddr,      m.m00);
-            memPutDouble(destAddr + 8,  m.m10);
-            memPutDouble(destAddr + 16, m.m20);
-            memPutDouble(destAddr + 24, m.m30);
-            memPutDouble(destAddr + 32, m.m01);
-            memPutDouble(destAddr + 40, m.m11);
-            memPutDouble(destAddr + 48, m.m21);
-            memPutDouble(destAddr + 56, m.m31);
-            memPutDouble(destAddr + 64, m.m02);
-            memPutDouble(destAddr + 72, m.m12);
-            memPutDouble(destAddr + 80, m.m22);
-            memPutDouble(destAddr + 88, m.m32);
+            UNSAFE.putDouble(null, destAddr,      m.m00);
+            UNSAFE.putDouble(null, destAddr + 8,  m.m10);
+            UNSAFE.putDouble(null, destAddr + 16, m.m20);
+            UNSAFE.putDouble(null, destAddr + 24, m.m30);
+            UNSAFE.putDouble(null, destAddr + 32, m.m01);
+            UNSAFE.putDouble(null, destAddr + 40, m.m11);
+            UNSAFE.putDouble(null, destAddr + 48, m.m21);
+            UNSAFE.putDouble(null, destAddr + 56, m.m31);
+            UNSAFE.putDouble(null, destAddr + 64, m.m02);
+            UNSAFE.putDouble(null, destAddr + 72, m.m12);
+            UNSAFE.putDouble(null, destAddr + 80, m.m22);
+            UNSAFE.putDouble(null, destAddr + 88, m.m32);
         }
 
         private final void putTransposed(Matrix4x3d m, long destAddr) {
-            memPutDouble(destAddr,      m.m00);
-            memPutDouble(destAddr + 8,  m.m10);
-            memPutDouble(destAddr + 16, m.m20);
-            memPutDouble(destAddr + 24, m.m30);
-            memPutDouble(destAddr + 32, m.m01);
-            memPutDouble(destAddr + 40, m.m11);
-            memPutDouble(destAddr + 48, m.m21);
-            memPutDouble(destAddr + 56, m.m31);
-            memPutDouble(destAddr + 64, m.m02);
-            memPutDouble(destAddr + 72, m.m12);
-            memPutDouble(destAddr + 80, m.m22);
-            memPutDouble(destAddr + 88, m.m32);
+            UNSAFE.putDouble(null, destAddr,      m.m00);
+            UNSAFE.putDouble(null, destAddr + 8,  m.m10);
+            UNSAFE.putDouble(null, destAddr + 16, m.m20);
+            UNSAFE.putDouble(null, destAddr + 24, m.m30);
+            UNSAFE.putDouble(null, destAddr + 32, m.m01);
+            UNSAFE.putDouble(null, destAddr + 40, m.m11);
+            UNSAFE.putDouble(null, destAddr + 48, m.m21);
+            UNSAFE.putDouble(null, destAddr + 56, m.m31);
+            UNSAFE.putDouble(null, destAddr + 64, m.m02);
+            UNSAFE.putDouble(null, destAddr + 72, m.m12);
+            UNSAFE.putDouble(null, destAddr + 80, m.m22);
+            UNSAFE.putDouble(null, destAddr + 88, m.m32);
         }
 
         private final void putfTransposed(Matrix4x3d m, long destAddr) {
-            memPutFloat(destAddr,      (float)m.m00);
-            memPutFloat(destAddr + 4,  (float)m.m10);
-            memPutFloat(destAddr + 8,  (float)m.m20);
-            memPutFloat(destAddr + 12, (float)m.m30);
-            memPutFloat(destAddr + 16, (float)m.m01);
-            memPutFloat(destAddr + 20, (float)m.m11);
-            memPutFloat(destAddr + 24, (float)m.m21);
-            memPutFloat(destAddr + 28, (float)m.m31);
-            memPutFloat(destAddr + 32, (float)m.m02);
-            memPutFloat(destAddr + 36, (float)m.m12);
-            memPutFloat(destAddr + 40, (float)m.m22);
-            memPutFloat(destAddr + 44, (float)m.m32);
+            UNSAFE.putFloat(null, destAddr,      (float)m.m00);
+            UNSAFE.putFloat(null, destAddr + 4,  (float)m.m10);
+            UNSAFE.putFloat(null, destAddr + 8,  (float)m.m20);
+            UNSAFE.putFloat(null, destAddr + 12, (float)m.m30);
+            UNSAFE.putFloat(null, destAddr + 16, (float)m.m01);
+            UNSAFE.putFloat(null, destAddr + 20, (float)m.m11);
+            UNSAFE.putFloat(null, destAddr + 24, (float)m.m21);
+            UNSAFE.putFloat(null, destAddr + 28, (float)m.m31);
+            UNSAFE.putFloat(null, destAddr + 32, (float)m.m02);
+            UNSAFE.putFloat(null, destAddr + 36, (float)m.m12);
+            UNSAFE.putFloat(null, destAddr + 40, (float)m.m22);
+            UNSAFE.putFloat(null, destAddr + 44, (float)m.m32);
         }
 
         private final void putf(Matrix4d m, long destAddr) {
-            memPutFloat(destAddr,      (float)m.m00);
-            memPutFloat(destAddr + 4,  (float)m.m01);
-            memPutFloat(destAddr + 8,  (float)m.m02);
-            memPutFloat(destAddr + 12, (float)m.m03);
-            memPutFloat(destAddr + 16, (float)m.m10);
-            memPutFloat(destAddr + 20, (float)m.m11);
-            memPutFloat(destAddr + 24, (float)m.m12);
-            memPutFloat(destAddr + 28, (float)m.m13);
-            memPutFloat(destAddr + 32, (float)m.m20);
-            memPutFloat(destAddr + 36, (float)m.m21);
-            memPutFloat(destAddr + 40, (float)m.m22);
-            memPutFloat(destAddr + 44, (float)m.m23);
-            memPutFloat(destAddr + 48, (float)m.m30);
-            memPutFloat(destAddr + 52, (float)m.m31);
-            memPutFloat(destAddr + 56, (float)m.m32);
-            memPutFloat(destAddr + 60, (float)m.m33);
+            UNSAFE.putFloat(null, destAddr,      (float)m.m00);
+            UNSAFE.putFloat(null, destAddr + 4,  (float)m.m01);
+            UNSAFE.putFloat(null, destAddr + 8,  (float)m.m02);
+            UNSAFE.putFloat(null, destAddr + 12, (float)m.m03);
+            UNSAFE.putFloat(null, destAddr + 16, (float)m.m10);
+            UNSAFE.putFloat(null, destAddr + 20, (float)m.m11);
+            UNSAFE.putFloat(null, destAddr + 24, (float)m.m12);
+            UNSAFE.putFloat(null, destAddr + 28, (float)m.m13);
+            UNSAFE.putFloat(null, destAddr + 32, (float)m.m20);
+            UNSAFE.putFloat(null, destAddr + 36, (float)m.m21);
+            UNSAFE.putFloat(null, destAddr + 40, (float)m.m22);
+            UNSAFE.putFloat(null, destAddr + 44, (float)m.m23);
+            UNSAFE.putFloat(null, destAddr + 48, (float)m.m30);
+            UNSAFE.putFloat(null, destAddr + 52, (float)m.m31);
+            UNSAFE.putFloat(null, destAddr + 56, (float)m.m32);
+            UNSAFE.putFloat(null, destAddr + 60, (float)m.m33);
         }
 
         private final void putf(Matrix4x3d m, long destAddr) {
-            memPutFloat(destAddr,      (float)m.m00);
-            memPutFloat(destAddr + 4,  (float)m.m01);
-            memPutFloat(destAddr + 8,  (float)m.m02);
-            memPutFloat(destAddr + 12, (float)m.m10);
-            memPutFloat(destAddr + 16, (float)m.m11);
-            memPutFloat(destAddr + 20, (float)m.m12);
-            memPutFloat(destAddr + 24, (float)m.m20);
-            memPutFloat(destAddr + 28, (float)m.m21);
-            memPutFloat(destAddr + 32, (float)m.m22);
-            memPutFloat(destAddr + 36, (float)m.m30);
-            memPutFloat(destAddr + 40, (float)m.m31);
-            memPutFloat(destAddr + 44, (float)m.m32);
+            UNSAFE.putFloat(null, destAddr,      (float)m.m00);
+            UNSAFE.putFloat(null, destAddr + 4,  (float)m.m01);
+            UNSAFE.putFloat(null, destAddr + 8,  (float)m.m02);
+            UNSAFE.putFloat(null, destAddr + 12, (float)m.m10);
+            UNSAFE.putFloat(null, destAddr + 16, (float)m.m11);
+            UNSAFE.putFloat(null, destAddr + 20, (float)m.m12);
+            UNSAFE.putFloat(null, destAddr + 24, (float)m.m20);
+            UNSAFE.putFloat(null, destAddr + 28, (float)m.m21);
+            UNSAFE.putFloat(null, destAddr + 32, (float)m.m22);
+            UNSAFE.putFloat(null, destAddr + 36, (float)m.m30);
+            UNSAFE.putFloat(null, destAddr + 40, (float)m.m31);
+            UNSAFE.putFloat(null, destAddr + 44, (float)m.m32);
         }
 
         private final void put(Matrix3f m, long destAddr) {
             for (int i = 0; i < 4; i++) {
                 UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3f_m00 + (i << 3)));
             }
-            memPutFloat(destAddr + 32, m.m22);
+            UNSAFE.putFloat(null, destAddr + 32, m.m22);
         }
 
         private final void put(Matrix3d m, long destAddr) {
-            memPutDouble(destAddr,      m.m00);
-            memPutDouble(destAddr + 8,  m.m01);
-            memPutDouble(destAddr + 16, m.m02);
-            memPutDouble(destAddr + 24, m.m10);
-            memPutDouble(destAddr + 32, m.m11);
-            memPutDouble(destAddr + 40, m.m12);
-            memPutDouble(destAddr + 48, m.m20);
-            memPutDouble(destAddr + 56, m.m21);
-            memPutDouble(destAddr + 64, m.m22);
+            UNSAFE.putDouble(null, destAddr,      m.m00);
+            UNSAFE.putDouble(null, destAddr + 8,  m.m01);
+            UNSAFE.putDouble(null, destAddr + 16, m.m02);
+            UNSAFE.putDouble(null, destAddr + 24, m.m10);
+            UNSAFE.putDouble(null, destAddr + 32, m.m11);
+            UNSAFE.putDouble(null, destAddr + 40, m.m12);
+            UNSAFE.putDouble(null, destAddr + 48, m.m20);
+            UNSAFE.putDouble(null, destAddr + 56, m.m21);
+            UNSAFE.putDouble(null, destAddr + 64, m.m22);
         }
 
         private final void putf(Matrix3d m, long destAddr) {
-            memPutFloat(destAddr,      (float)m.m00);
-            memPutFloat(destAddr + 4,  (float)m.m01);
-            memPutFloat(destAddr + 8,  (float)m.m02);
-            memPutFloat(destAddr + 12, (float)m.m10);
-            memPutFloat(destAddr + 16, (float)m.m11);
-            memPutFloat(destAddr + 20, (float)m.m12);
-            memPutFloat(destAddr + 24, (float)m.m20);
-            memPutFloat(destAddr + 28, (float)m.m21);
-            memPutFloat(destAddr + 32, (float)m.m22);
+            UNSAFE.putFloat(null, destAddr,      (float)m.m00);
+            UNSAFE.putFloat(null, destAddr + 4,  (float)m.m01);
+            UNSAFE.putFloat(null, destAddr + 8,  (float)m.m02);
+            UNSAFE.putFloat(null, destAddr + 12, (float)m.m10);
+            UNSAFE.putFloat(null, destAddr + 16, (float)m.m11);
+            UNSAFE.putFloat(null, destAddr + 20, (float)m.m12);
+            UNSAFE.putFloat(null, destAddr + 24, (float)m.m20);
+            UNSAFE.putFloat(null, destAddr + 28, (float)m.m21);
+            UNSAFE.putFloat(null, destAddr + 32, (float)m.m22);
         }
 
         private final void get(Matrix4f m, long srcAddr) {
@@ -1671,102 +1655,102 @@ abstract class MemUtil {
         }
 
         private final void get(Matrix4d m, long srcAddr) {
-            m.m00 = memGetDouble(srcAddr);
-            m.m01 = memGetDouble(srcAddr+8);
-            m.m02 = memGetDouble(srcAddr+16);
-            m.m03 = memGetDouble(srcAddr+24);
-            m.m10 = memGetDouble(srcAddr+32);
-            m.m11 = memGetDouble(srcAddr+40);
-            m.m12 = memGetDouble(srcAddr+48);
-            m.m13 = memGetDouble(srcAddr+56);
-            m.m20 = memGetDouble(srcAddr+64);
-            m.m21 = memGetDouble(srcAddr+72);
-            m.m22 = memGetDouble(srcAddr+80);
-            m.m23 = memGetDouble(srcAddr+88);
-            m.m30 = memGetDouble(srcAddr+96);
-            m.m31 = memGetDouble(srcAddr+104);
-            m.m32 = memGetDouble(srcAddr+112);
-            m.m33 = memGetDouble(srcAddr+120);
+            m.m00 = UNSAFE.getDouble(null, srcAddr);
+            m.m01 = UNSAFE.getDouble(null, srcAddr+8);
+            m.m02 = UNSAFE.getDouble(null, srcAddr+16);
+            m.m03 = UNSAFE.getDouble(null, srcAddr+24);
+            m.m10 = UNSAFE.getDouble(null, srcAddr+32);
+            m.m11 = UNSAFE.getDouble(null, srcAddr+40);
+            m.m12 = UNSAFE.getDouble(null, srcAddr+48);
+            m.m13 = UNSAFE.getDouble(null, srcAddr+56);
+            m.m20 = UNSAFE.getDouble(null, srcAddr+64);
+            m.m21 = UNSAFE.getDouble(null, srcAddr+72);
+            m.m22 = UNSAFE.getDouble(null, srcAddr+80);
+            m.m23 = UNSAFE.getDouble(null, srcAddr+88);
+            m.m30 = UNSAFE.getDouble(null, srcAddr+96);
+            m.m31 = UNSAFE.getDouble(null, srcAddr+104);
+            m.m32 = UNSAFE.getDouble(null, srcAddr+112);
+            m.m33 = UNSAFE.getDouble(null, srcAddr+120);
         }
 
         private final void get(Matrix4x3d m, long srcAddr) {
-            m.m00 = memGetDouble(srcAddr);
-            m.m01 = memGetDouble(srcAddr+8);
-            m.m02 = memGetDouble(srcAddr+16);
-            m.m10 = memGetDouble(srcAddr+24);
-            m.m11 = memGetDouble(srcAddr+32);
-            m.m12 = memGetDouble(srcAddr+40);
-            m.m20 = memGetDouble(srcAddr+48);
-            m.m21 = memGetDouble(srcAddr+56);
-            m.m22 = memGetDouble(srcAddr+64);
-            m.m30 = memGetDouble(srcAddr+72);
-            m.m31 = memGetDouble(srcAddr+80);
-            m.m32 = memGetDouble(srcAddr+88);
+            m.m00 = UNSAFE.getDouble(null, srcAddr);
+            m.m01 = UNSAFE.getDouble(null, srcAddr+8);
+            m.m02 = UNSAFE.getDouble(null, srcAddr+16);
+            m.m10 = UNSAFE.getDouble(null, srcAddr+24);
+            m.m11 = UNSAFE.getDouble(null, srcAddr+32);
+            m.m12 = UNSAFE.getDouble(null, srcAddr+40);
+            m.m20 = UNSAFE.getDouble(null, srcAddr+48);
+            m.m21 = UNSAFE.getDouble(null, srcAddr+56);
+            m.m22 = UNSAFE.getDouble(null, srcAddr+64);
+            m.m30 = UNSAFE.getDouble(null, srcAddr+72);
+            m.m31 = UNSAFE.getDouble(null, srcAddr+80);
+            m.m32 = UNSAFE.getDouble(null, srcAddr+88);
         }
 
         private final void getf(Matrix4d m, long srcAddr) {
-            m.m00 = memGetFloat(srcAddr);
-            m.m01 = memGetFloat(srcAddr+4);
-            m.m02 = memGetFloat(srcAddr+8);
-            m.m03 = memGetFloat(srcAddr+12);
-            m.m10 = memGetFloat(srcAddr+16);
-            m.m11 = memGetFloat(srcAddr+20);
-            m.m12 = memGetFloat(srcAddr+24);
-            m.m13 = memGetFloat(srcAddr+28);
-            m.m20 = memGetFloat(srcAddr+32);
-            m.m21 = memGetFloat(srcAddr+36);
-            m.m22 = memGetFloat(srcAddr+40);
-            m.m23 = memGetFloat(srcAddr+44);
-            m.m30 = memGetFloat(srcAddr+48);
-            m.m31 = memGetFloat(srcAddr+52);
-            m.m32 = memGetFloat(srcAddr+56);
-            m.m33 = memGetFloat(srcAddr+60);
+            m.m00 = UNSAFE.getFloat(null, srcAddr);
+            m.m01 = UNSAFE.getFloat(null, srcAddr+4);
+            m.m02 = UNSAFE.getFloat(null, srcAddr+8);
+            m.m03 = UNSAFE.getFloat(null, srcAddr+12);
+            m.m10 = UNSAFE.getFloat(null, srcAddr+16);
+            m.m11 = UNSAFE.getFloat(null, srcAddr+20);
+            m.m12 = UNSAFE.getFloat(null, srcAddr+24);
+            m.m13 = UNSAFE.getFloat(null, srcAddr+28);
+            m.m20 = UNSAFE.getFloat(null, srcAddr+32);
+            m.m21 = UNSAFE.getFloat(null, srcAddr+36);
+            m.m22 = UNSAFE.getFloat(null, srcAddr+40);
+            m.m23 = UNSAFE.getFloat(null, srcAddr+44);
+            m.m30 = UNSAFE.getFloat(null, srcAddr+48);
+            m.m31 = UNSAFE.getFloat(null, srcAddr+52);
+            m.m32 = UNSAFE.getFloat(null, srcAddr+56);
+            m.m33 = UNSAFE.getFloat(null, srcAddr+60);
         }
 
         private final void getf(Matrix4x3d m, long srcAddr) {
-            m.m00 = memGetFloat(srcAddr);
-            m.m01 = memGetFloat(srcAddr+4);
-            m.m02 = memGetFloat(srcAddr+8);
-            m.m10 = memGetFloat(srcAddr+12);
-            m.m11 = memGetFloat(srcAddr+16);
-            m.m12 = memGetFloat(srcAddr+20);
-            m.m20 = memGetFloat(srcAddr+24);
-            m.m21 = memGetFloat(srcAddr+28);
-            m.m22 = memGetFloat(srcAddr+32);
-            m.m30 = memGetFloat(srcAddr+36);
-            m.m31 = memGetFloat(srcAddr+40);
-            m.m32 = memGetFloat(srcAddr+44);
+            m.m00 = UNSAFE.getFloat(null, srcAddr);
+            m.m01 = UNSAFE.getFloat(null, srcAddr+4);
+            m.m02 = UNSAFE.getFloat(null, srcAddr+8);
+            m.m10 = UNSAFE.getFloat(null, srcAddr+12);
+            m.m11 = UNSAFE.getFloat(null, srcAddr+16);
+            m.m12 = UNSAFE.getFloat(null, srcAddr+20);
+            m.m20 = UNSAFE.getFloat(null, srcAddr+24);
+            m.m21 = UNSAFE.getFloat(null, srcAddr+28);
+            m.m22 = UNSAFE.getFloat(null, srcAddr+32);
+            m.m30 = UNSAFE.getFloat(null, srcAddr+36);
+            m.m31 = UNSAFE.getFloat(null, srcAddr+40);
+            m.m32 = UNSAFE.getFloat(null, srcAddr+44);
         }
 
         private final void get(Matrix3f m, long srcAddr) {
             for (int i = 0; i < 4; i++) {
                 UNSAFE.putOrderedLong(m, Matrix3f_m00 + (i << 3), UNSAFE.getLong(null, srcAddr + (i << 3)));
             }
-            m.m22 = memGetFloat(srcAddr+32);
+            m.m22 = UNSAFE.getFloat(null, srcAddr+32);
         }
 
         private final void get(Matrix3d m, long srcAddr) {
-            m.m00 = memGetDouble(srcAddr);
-            m.m01 = memGetDouble(srcAddr+8);
-            m.m02 = memGetDouble(srcAddr+16);
-            m.m10 = memGetDouble(srcAddr+24);
-            m.m11 = memGetDouble(srcAddr+32);
-            m.m12 = memGetDouble(srcAddr+40);
-            m.m20 = memGetDouble(srcAddr+48);
-            m.m21 = memGetDouble(srcAddr+56);
-            m.m22 = memGetDouble(srcAddr+64);
+            m.m00 = UNSAFE.getDouble(null, srcAddr);
+            m.m01 = UNSAFE.getDouble(null, srcAddr+8);
+            m.m02 = UNSAFE.getDouble(null, srcAddr+16);
+            m.m10 = UNSAFE.getDouble(null, srcAddr+24);
+            m.m11 = UNSAFE.getDouble(null, srcAddr+32);
+            m.m12 = UNSAFE.getDouble(null, srcAddr+40);
+            m.m20 = UNSAFE.getDouble(null, srcAddr+48);
+            m.m21 = UNSAFE.getDouble(null, srcAddr+56);
+            m.m22 = UNSAFE.getDouble(null, srcAddr+64);
         }
 
         private final void getf(Matrix3d m, long srcAddr) {
-            m.m00 = memGetFloat(srcAddr);
-            m.m01 = memGetFloat(srcAddr+4);
-            m.m02 = memGetFloat(srcAddr+8);
-            m.m10 = memGetFloat(srcAddr+12);
-            m.m11 = memGetFloat(srcAddr+16);
-            m.m12 = memGetFloat(srcAddr+20);
-            m.m20 = memGetFloat(srcAddr+24);
-            m.m21 = memGetFloat(srcAddr+28);
-            m.m22 = memGetFloat(srcAddr+32);
+            m.m00 = UNSAFE.getFloat(null, srcAddr);
+            m.m01 = UNSAFE.getFloat(null, srcAddr+4);
+            m.m02 = UNSAFE.getFloat(null, srcAddr+8);
+            m.m10 = UNSAFE.getFloat(null, srcAddr+12);
+            m.m11 = UNSAFE.getFloat(null, srcAddr+16);
+            m.m12 = UNSAFE.getFloat(null, srcAddr+20);
+            m.m20 = UNSAFE.getFloat(null, srcAddr+24);
+            m.m21 = UNSAFE.getFloat(null, srcAddr+28);
+            m.m22 = UNSAFE.getFloat(null, srcAddr+32);
         }
 
         final void copy(Matrix4f src, Matrix4f dest) {
@@ -1778,15 +1762,11 @@ abstract class MemUtil {
         final void copy(Matrix3f src, Matrix4f dest) {
             for (int i = 0; i < 3; i++) {
                 UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix3f_m00 + 12 * i));
+                long lng = UNSAFE.getLong(src, Matrix3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
+                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 8 + (i << 4), lng);
             }
             UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 48, 0L);
             UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 56, 0x3F80000000000000L);
-            dest.m02 = src.m02;
-            dest.m03 = 0.0f;
-            dest.m12 = src.m12;
-            dest.m13 = 0.0f;
-            dest.m22 = src.m22;
-            dest.m23 = 0.0f;
         }
 
         final void copy(Matrix4f src, Matrix3f dest) {
