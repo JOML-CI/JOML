@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.joml</groupId>
 	<artifactId>joml</artifactId>
-	<version>1.8.3-SNAPSHOT</version>
+	<version>1.8.3</version>
 	<name>JOML</name>
 	<description>Java OpenGL Math Library</description>
 	<inceptionYear>2015</inceptionYear>
