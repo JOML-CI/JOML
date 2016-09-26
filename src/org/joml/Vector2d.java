@@ -595,9 +595,7 @@ public class Vector2d implements Externalizable {
      * @return the euclidean distance
      */
     public double distance(Vector2d v) {
-        double dx = v.x - x;
-        double dy = v.y - y;
-        return Math.sqrt(dx * dx + dy * dy);
+        return distance(v.x, v.y);
     }
 
     /**
@@ -608,8 +606,21 @@ public class Vector2d implements Externalizable {
      * @return the euclidean distance
      */
     public double distance(Vector2f v) {
-        double dx = v.x - x;
-        double dy = v.y - y;
+        return distance(v.x, v.y);
+    }
+
+    /**
+     * Return the distance between <code>this</code> vector and <tt>(x, y)</tt>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @return the euclidean distance
+     */
+    public double distance(double x, double y) {
+        double dx = this.x - x;
+        double dy = this.y - y;
         return Math.sqrt(dx * dx + dy * dy);
     }
 

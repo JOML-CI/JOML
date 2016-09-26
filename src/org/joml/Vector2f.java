@@ -479,8 +479,21 @@ public class Vector2f implements Externalizable {
      * @return the distance
      */
     public float distance(Vector2f v) {
-        float dx = v.x - x;
-        float dy = v.y - y;
+        return distance(v.x, v.y);
+    }
+
+    /**
+     * Return the distance between <code>this</code> vector and <tt>(x, y)</tt>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @return the euclidean distance
+     */
+    public float distance(float x, float y) {
+        float dx = this.x - x;
+        float dy = this.y - y;
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
