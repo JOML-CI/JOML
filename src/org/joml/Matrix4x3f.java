@@ -8583,7 +8583,7 @@ public class Matrix4x3f implements Externalizable {
 
     /**
      * Apply a model transformation to this matrix for a right-handed coordinate system, 
-     * that aligns the <code>-z</code> axis with <code>direction</code>
+     * that aligns the <code>-z</code> axis with <code>dir</code>
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
@@ -8597,21 +8597,21 @@ public class Matrix4x3f implements Externalizable {
      * @see #rotateTowards(float, float, float, float, float, float, Matrix4x3f)
      * @see #rotationTowards(Vector3f, Vector3f)
      * 
-     * @param direction
+     * @param dir
      *              the direction to rotate towards
      * @param up
-     *              the model's up vector
+     *              the up vector
      * @param dest
      *              will hold the result
      * @return dest
      */
-    public Matrix4x3f rotateTowards(Vector3f direction, Vector3f up, Matrix4x3f dest) {
-        return rotateTowards(direction.x, direction.y, direction.z, up.x, up.y, up.z, dest);
+    public Matrix4x3f rotateTowards(Vector3f dir, Vector3f up, Matrix4x3f dest) {
+        return rotateTowards(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
     }
 
     /**
      * Apply a model transformation to this matrix for a right-handed coordinate system, 
-     * that aligns the <code>-z</code> axis with <code>direction</code>.
+     * that aligns the <code>-z</code> axis with <code>dir</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -8624,19 +8624,19 @@ public class Matrix4x3f implements Externalizable {
      * @see #rotateTowards(float, float, float, float, float, float)
      * @see #rotationTowards(Vector3f, Vector3f)
      * 
-     * @param direction
+     * @param dir
      *              the direction to orient towards
      * @param up
      *              the up vector
      * @return this
      */
-    public Matrix4x3f rotateTowards(Vector3f direction, Vector3f up) {
-        return rotateTowards(direction.x, direction.y, direction.z, up.x, up.y, up.z, this);
+    public Matrix4x3f rotateTowards(Vector3f dir, Vector3f up) {
+        return rotateTowards(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
     }
 
     /**
      * Apply a model transformation to this matrix for a right-handed coordinate system, 
-     * that aligns the <code>-z</code> axis with <code>direction</code>.
+     * that aligns the <code>-z</code> axis with <code>(dirX, dirY, dirZ)</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -8669,7 +8669,7 @@ public class Matrix4x3f implements Externalizable {
 
     /**
      * Apply a model transformation to this matrix for a right-handed coordinate system, 
-     * that aligns the <code>-z</code> axis with <code>dir</code>
+     * that aligns the <code>-z</code> axis with <code>(dirX, dirY, dirZ)</code>
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
@@ -8752,7 +8752,7 @@ public class Matrix4x3f implements Externalizable {
 
     /**
      * Set this matrix to a model transformation for a right-handed coordinate system, 
-     * that aligns the local <code>-z</code> axis with <code>center - eye</code>.
+     * that aligns the local <code>-z</code> axis with <code>dir</code>.
      * <p>
      * In order to apply the rotation transformation to a previous existing transformation,
      * use {@link #rotateTowards(float, float, float, float, float, float) rotateTowards}.
@@ -8772,7 +8772,7 @@ public class Matrix4x3f implements Externalizable {
 
     /**
      * Set this matrix to a model transformation for a right-handed coordinate system, 
-     * that aligns the local <code>-z</code> axis with <code>center - eye</code>.
+     * that aligns the local <code>-z</code> axis with <code>(dirX, dirY, dirZ)</code>.
      * <p>
      * In order to apply the rotation transformation to a previous existing transformation,
      * use {@link #rotateTowards(float, float, float, float, float, float) rotateTowards}.
@@ -8826,6 +8826,94 @@ public class Matrix4x3f implements Externalizable {
         this.m30 = 0.0f;
         this.m31 = 0.0f;
         this.m32 = 0.0f;
+        properties = 0;
+        return this;
+    }
+
+    /**
+     * Set this matrix to a model transformation for a right-handed coordinate system, 
+     * that translates to the given <code>pos</code> and aligns the local <code>-z</code>
+     * axis with <code>dir</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(pos).rotateTowards(dir, up)</tt>
+     * 
+     * @see #translation(Vector3f)
+     * @see #rotateTowards(Vector3f, Vector3f)
+     *
+     * @param pos
+     *              the position to translate to
+     * @param dir
+     *              the direction to rotate towards
+     * @param up
+     *              the up vector
+     * @return this
+     */
+    public Matrix4x3f translationRotateTowards(Vector3f pos, Vector3f dir, Vector3f up) {
+        return translationRotateTowards(pos.x, pos.y, pos.z, dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Set this matrix to a model transformation for a right-handed coordinate system, 
+     * that translates to the given <code>(posX, posY, posZ)</code> and aligns the local <code>-z</code>
+     * axis with <code>(dirX, dirY, dirZ)</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(posX, posY, posZ).rotateTowards(dirX, dirY, dirZ, upX, upY, upZ)</tt>
+     * 
+     * @see #translation(float, float, float)
+     * @see #rotateTowards(float, float, float, float, float, float)
+     * 
+     * @param posX
+     *              the x-coordinate of the position to translate to
+     * @param posY
+     *              the y-coordinate of the position to translate to
+     * @param posZ
+     *              the z-coordinate of the position to translate to
+     * @param dirX
+     *              the x-coordinate of the direction to rotate towards
+     * @param dirY
+     *              the y-coordinate of the direction to rotate towards
+     * @param dirZ
+     *              the z-coordinate of the direction to rotate towards
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
+     * @return this
+     */
+    public Matrix4x3f translationRotateTowards(float posX, float posY, float posZ, float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
+        // Normalize direction
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float ndirX = dirX * invDirLength;
+        float ndirY = dirY * invDirLength;
+        float ndirZ = dirZ * invDirLength;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * ndirZ - upZ * ndirY;
+        leftY = upZ * ndirX - upX * ndirZ;
+        leftZ = upX * ndirY - upY * ndirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = ndirY * leftZ - ndirZ * leftY;
+        float upnY = ndirZ * leftX - ndirX * leftZ;
+        float upnZ = ndirX * leftY - ndirY * leftX;
+        this.m00 = leftX;
+        this.m01 = leftY;
+        this.m02 = leftZ;
+        this.m10 = upnX;
+        this.m11 = upnY;
+        this.m12 = upnZ;
+        this.m20 = ndirX;
+        this.m21 = ndirY;
+        this.m22 = ndirZ;
+        this.m30 = posX;
+        this.m31 = posY;
+        this.m32 = posZ;
         properties = 0;
         return this;
     }
