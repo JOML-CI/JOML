@@ -3555,4 +3555,245 @@ public class Matrix3f implements Externalizable {
         return dest;
     }
 
+    /**
+     * Apply a model transformation to this matrix for a right-handed coordinate system, 
+     * that aligns the <code>-z</code> axis with <code>direction</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying it,
+     * use {@link #rotationTowards(Vector3f, Vector3f) rotationTowards()}.
+     * 
+     * @see #rotateTowards(float, float, float, float, float, float, Matrix3f)
+     * @see #rotationTowards(Vector3f, Vector3f)
+     * 
+     * @param direction
+     *              the direction to rotate towards
+     * @param up
+     *              the model's up vector
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public Matrix3f rotateTowards(Vector3f direction, Vector3f up, Matrix3f dest) {
+        return rotateTowards(direction.x, direction.y, direction.z, up.x, up.y, up.z, dest);
+    }
+
+    /**
+     * Apply a model transformation to this matrix for a right-handed coordinate system, 
+     * that aligns the <code>-z</code> axis with <code>direction</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying it,
+     * use {@link #rotationTowards(Vector3f, Vector3f) rotationTowards()}.
+     * 
+     * @see #rotateTowards(float, float, float, float, float, float)
+     * @see #rotationTowards(Vector3f, Vector3f)
+     * 
+     * @param direction
+     *              the direction to orient towards
+     * @param up
+     *              the up vector
+     * @return this
+     */
+    public Matrix3f rotateTowards(Vector3f direction, Vector3f up) {
+        return rotateTowards(direction.x, direction.y, direction.z, up.x, up.y, up.z, this);
+    }
+
+    /**
+     * Apply a model transformation to this matrix for a right-handed coordinate system, 
+     * that aligns the <code>-z</code> axis with <code>direction</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying it,
+     * use {@link #rotationTowards(float, float, float, float, float, float) rotationTowards()}.
+     * 
+     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #rotationTowards(float, float, float, float, float, float)
+     * 
+     * @param dirX
+     *              the x-coordinate of the direction to rotate towards
+     * @param dirY
+     *              the y-coordinate of the direction to rotate towards
+     * @param dirZ
+     *              the z-coordinate of the direction to rotate towards
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
+     * @return this
+     */
+    public Matrix3f rotateTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
+        return rotateTowards(dirX, dirY, dirZ, upX, upY, upZ, this);
+    }
+
+    /**
+     * Apply a model transformation to this matrix for a right-handed coordinate system, 
+     * that aligns the <code>-z</code> axis with <code>dir</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
+     * then the new matrix will be <code>M * L</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * L * v</code>,
+     * the lookat transformation will be applied first!
+     * <p>
+     * In order to set the matrix to a rotation transformation without post-multiplying it,
+     * use {@link #rotationTowards(float, float, float, float, float, float) rotationTowards()}.
+     * 
+     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #rotationTowards(float, float, float, float, float, float)
+     * 
+     * @param dirX
+     *              the x-coordinate of the direction to rotate towards
+     * @param dirY
+     *              the y-coordinate of the direction to rotate towards
+     * @param dirZ
+     *              the z-coordinate of the direction to rotate towards
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
+     * @param dest
+     *              will hold the result
+     * @return dest
+     */
+    public Matrix3f rotateTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix3f dest) {
+        // Normalize direction
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float ndirX = dirX * invDirLength;
+        float ndirY = dirY * invDirLength;
+        float ndirZ = dirZ * invDirLength;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * ndirZ - upZ * ndirY;
+        leftY = upZ * ndirX - upX * ndirZ;
+        leftZ = upX * ndirY - upY * ndirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = ndirY * leftZ - ndirZ * leftY;
+        float upnY = ndirZ * leftX - ndirX * leftZ;
+        float upnZ = ndirX * leftY - ndirY * leftX;
+        float rm00 = leftX;
+        float rm01 = leftY;
+        float rm02 = leftZ;
+        float rm10 = upnX;
+        float rm11 = upnY;
+        float rm12 = upnZ;
+        float rm20 = ndirX;
+        float rm21 = ndirY;
+        float rm22 = ndirZ;
+        float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
+        float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
+        float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
+        float nm10 = m00 * rm10 + m10 * rm11 + m20 * rm12;
+        float nm11 = m01 * rm10 + m11 * rm11 + m21 * rm12;
+        float nm12 = m02 * rm10 + m12 * rm11 + m22 * rm12;
+        dest.m20 = m00 * rm20 + m10 * rm21 + m20 * rm22;
+        dest.m21 = m01 * rm20 + m11 * rm21 + m21 * rm22;
+        dest.m22 = m02 * rm20 + m12 * rm21 + m22 * rm22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        return dest;
+    }
+
+    /**
+     * Set this matrix to a model transformation for a right-handed coordinate system, 
+     * that aligns the local <code>-z</code> axis with <code>center - eye</code>.
+     * <p>
+     * In order to apply the rotation transformation to a previous existing transformation,
+     * use {@link #rotateTowards(float, float, float, float, float, float) rotateTowards}.
+     * 
+     * @see #rotationTowards(Vector3f, Vector3f)
+     * @see #rotateTowards(float, float, float, float, float, float)
+     * 
+     * @param dir
+     *              the direction to orient the local -z axis towards
+     * @param up
+     *              the up vector
+     * @return this
+     */
+    public Matrix3f rotationTowards(Vector3f dir, Vector3f up) {
+        return rotationTowards(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    }
+
+    /**
+     * Set this matrix to a model transformation for a right-handed coordinate system, 
+     * that aligns the local <code>-z</code> axis with <code>center - eye</code>.
+     * <p>
+     * In order to apply the rotation transformation to a previous existing transformation,
+     * use {@link #rotateTowards(float, float, float, float, float, float) rotateTowards}.
+     * 
+     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #rotationTowards(float, float, float, float, float, float)
+     * 
+     * @param dirX
+     *              the x-coordinate of the direction to rotate towards
+     * @param dirY
+     *              the y-coordinate of the direction to rotate towards
+     * @param dirZ
+     *              the z-coordinate of the direction to rotate towards
+     * @param upX
+     *              the x-coordinate of the up vector
+     * @param upY
+     *              the y-coordinate of the up vector
+     * @param upZ
+     *              the z-coordinate of the up vector
+     * @return this
+     */
+    public Matrix3f rotationTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ) {
+        // Normalize direction
+        float invDirLength = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+        float ndirX = dirX * invDirLength;
+        float ndirY = dirY * invDirLength;
+        float ndirZ = dirZ * invDirLength;
+        // left = up x direction
+        float leftX, leftY, leftZ;
+        leftX = upY * ndirZ - upZ * ndirY;
+        leftY = upZ * ndirX - upX * ndirZ;
+        leftZ = upX * ndirY - upY * ndirX;
+        // normalize left
+        float invLeftLength = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
+        leftX *= invLeftLength;
+        leftY *= invLeftLength;
+        leftZ *= invLeftLength;
+        // up = direction x left
+        float upnX = ndirY * leftZ - ndirZ * leftY;
+        float upnY = ndirZ * leftX - ndirX * leftZ;
+        float upnZ = ndirX * leftY - ndirY * leftX;
+        this.m00 = leftX;
+        this.m01 = leftY;
+        this.m02 = leftZ;
+        this.m10 = upnX;
+        this.m11 = upnY;
+        this.m12 = upnZ;
+        this.m20 = ndirX;
+        this.m21 = ndirY;
+        this.m22 = ndirZ;
+        return this;
+    }
+
 }
