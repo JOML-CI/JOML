@@ -139,6 +139,8 @@ abstract class MemUtil {
     abstract void putMatrix3f(Quaternionf q, int position, FloatBuffer dest);
     abstract void putMatrix4f(Quaternionf q, int position, ByteBuffer dest);
     abstract void putMatrix4f(Quaternionf q, int position, FloatBuffer dest);
+    abstract void putMatrix4x3f(Quaternionf q, int position, ByteBuffer dest);
+    abstract void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest);
 
     static final class MemUtilNIO extends MemUtil {
         final void put(Matrix4f m, int offset, FloatBuffer dest) {
@@ -1358,10 +1360,8 @@ abstract class MemUtil {
             dest.putFloat(position + 36, q12 - q03);
             dest.putFloat(position + 40, 1.0f - q11 - q00);
             dest.putFloat(position + 44, 0.0f);
-            dest.putFloat(position + 48, 0.0f);
-            dest.putFloat(position + 52, 0.0f);
-            dest.putFloat(position + 56, 0.0f);
-            dest.putFloat(position + 60, 1.0f);
+            dest.putLong(position + 48, 0L);
+            dest.putLong(position + 56, 0x3F80000000000000L);
         }
 
         final void putMatrix4f(Quaternionf q, int position, FloatBuffer dest) {
@@ -1393,6 +1393,59 @@ abstract class MemUtil {
             dest.put(position + 13, 0.0f);
             dest.put(position + 14, 0.0f);
             dest.put(position + 15, 1.0f);
+        }
+
+        final void putMatrix4x3f(Quaternionf q, int position, ByteBuffer dest) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            dest.putFloat(position, 1.0f - q11 - q22);
+            dest.putFloat(position + 4, q01 + q23);
+            dest.putFloat(position + 8, q02 - q13);
+            dest.putFloat(position + 12, q01 - q23);
+            dest.putFloat(position + 16, 1.0f - q22 - q00);
+            dest.putFloat(position + 20, q12 + q03);
+            dest.putFloat(position + 24, q02 + q13);
+            dest.putFloat(position + 28, q12 - q03);
+            dest.putFloat(position + 32, 1.0f - q11 - q00);
+            dest.putLong(position + 36, 0L);
+            dest.putFloat(position + 44, 0.0f);
+        }
+
+        final void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            dest.put(position, 1.0f - q11 - q22);
+            dest.put(position + 1, q01 + q23);
+            dest.put(position + 2, q02 - q13);
+            dest.put(position + 3, q01 - q23);
+            dest.put(position + 4, 1.0f - q22 - q00);
+            dest.put(position + 5, q12 + q03);
+            dest.put(position + 6, q02 + q13);
+            dest.put(position + 7, q12 - q03);
+            dest.put(position + 8, 1.0f - q11 - q00);
+            dest.put(position + 9, 0.0f);
+            dest.put(position + 10, 0.0f);
+            dest.put(position + 11, 0.0f);
         }
     }
 
@@ -2086,6 +2139,32 @@ abstract class MemUtil {
             UNSAFE.putOrderedLong(null, addr + 56, 0x3F80000000000000L);
         }
 
+        private void putMatrix4x3f(Quaternionf q, long addr) {
+            float dx = q.x + q.x;
+            float dy = q.y + q.y;
+            float dz = q.z + q.z;
+            float q00 = dx * q.x;
+            float q11 = dy * q.y;
+            float q22 = dz * q.z;
+            float q01 = dx * q.y;
+            float q02 = dx * q.z;
+            float q03 = dx * q.w;
+            float q12 = dy * q.z;
+            float q13 = dy * q.w;
+            float q23 = dz * q.w;
+            UNSAFE.putFloat(null, addr, 1.0f - q11 - q22);
+            UNSAFE.putFloat(null, addr + 4, q01 + q23);
+            UNSAFE.putFloat(null, addr + 8, q02 - q13);
+            UNSAFE.putFloat(null, addr + 12, q01 - q23);
+            UNSAFE.putFloat(null, addr + 16, 1.0f - q22 - q00);
+            UNSAFE.putFloat(null, addr + 20, q12 + q03);
+            UNSAFE.putFloat(null, addr + 24, q02 + q13);
+            UNSAFE.putFloat(null, addr + 28, q12 - q03);
+            UNSAFE.putFloat(null, addr + 32, 1.0f - q11 - q00);
+            UNSAFE.putOrderedLong(null, addr + 36, 0L);
+            UNSAFE.putFloat(null, addr + 44, 0.0f);
+        }
+
         final void putMatrix3f(Quaternionf q, int position, ByteBuffer dest) {
             long addr = addressOf(dest) + position;
             putMatrix3f(q, addr);
@@ -2104,6 +2183,16 @@ abstract class MemUtil {
         final void putMatrix4f(Quaternionf q, int position, FloatBuffer dest) {
             long addr = addressOf(dest) + (position << 2);
             putMatrix4f(q, addr);
+        }
+
+        final void putMatrix4x3f(Quaternionf q, int position, ByteBuffer dest) {
+            long addr = addressOf(dest) + position;
+            putMatrix4x3f(q, addr);
+        }
+
+        final void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest) {
+            long addr = addressOf(dest) + (position << 2);
+            putMatrix4x3f(q, addr);
         }
 
         final void put(Matrix4f m, int offset, FloatBuffer dest) {

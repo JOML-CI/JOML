@@ -311,6 +311,32 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @see Matrix4x3f#set(Quaternionf)
+     * 
+     * @param dest
+     *          the matrix to write the rotation into
+     * @return the passed in destination
+     */
+    public Matrix4x3f get(Matrix4x3f dest) {
+        return dest.set(this);
+    }
+
+    /**
+     * Set the given destination matrix to the rotation represented by <code>this</code>.
+     * 
+     * @see Matrix4x3d#set(Quaterniond)
+     * 
+     * @param dest
+     *          the matrix to write the rotation into
+     * @return the passed in destination
+     */
+    public Matrix4x3d get(Matrix4x3d dest) {
+        return dest.set(this);
+    }
+
+    /**
      * Set the given {@link AxisAngle4f} to represent the rotation of
      * <code>this</code> quaternion.
      * 
@@ -424,6 +450,34 @@ public class Quaternionf implements Externalizable {
      */
     public FloatBuffer getAsMatrix4f(FloatBuffer dest) {
         MemUtil.INSTANCE.putMatrix4f(this, dest.position(), dest);
+        return dest;
+    }
+
+    /**
+     * Store the 4x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link ByteBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix4x3f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public ByteBuffer getAsMatrix4x3f(ByteBuffer dest) {
+        MemUtil.INSTANCE.putMatrix4x3f(this, dest.position(), dest);
+        return dest;
+    }
+
+    /**
+     * Store the 4x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link FloatBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix4x3f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public FloatBuffer getAsMatrix4x3f(FloatBuffer dest) {
+        MemUtil.INSTANCE.putMatrix4x3f(this, dest.position(), dest);
         return dest;
     }
 
