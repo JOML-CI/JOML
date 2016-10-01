@@ -26,6 +26,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -367,6 +369,62 @@ public class Quaternionf implements Externalizable {
      */
     public Quaternionf get(Quaternionf dest) {
         return dest.set(this);
+    }
+
+    /**
+     * Store the 3x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link ByteBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix3f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public ByteBuffer getAsMatrix3f(ByteBuffer dest) {
+        MemUtil.INSTANCE.putMatrix3f(this, dest.position(), dest);
+        return dest;
+    }
+
+    /**
+     * Store the 3x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link FloatBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix3f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public FloatBuffer getAsMatrix3f(FloatBuffer dest) {
+        MemUtil.INSTANCE.putMatrix3f(this, dest.position(), dest);
+        return dest;
+    }
+
+    /**
+     * Store the 4x4 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link ByteBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix4f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public ByteBuffer getAsMatrix4f(ByteBuffer dest) {
+        MemUtil.INSTANCE.putMatrix4f(this, dest.position(), dest);
+        return dest;
+    }
+
+    /**
+     * Store the 4x4 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link FloatBuffer}.
+     * <p>
+     * This is equivalent to calling: <code>this.get(new Matrix4f()).get(dest)</code>
+     * 
+     * @param dest
+     *            the destination buffer
+     * @return dest
+     */
+    public FloatBuffer getAsMatrix4f(FloatBuffer dest) {
+        MemUtil.INSTANCE.putMatrix4f(this, dest.position(), dest);
+        return dest;
     }
 
     /**
