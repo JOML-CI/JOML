@@ -300,7 +300,7 @@ public class Quaternionf implements Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
-     * @see Matrix4d#set(Quaterniond)
+     * @see Matrix4d#set(Quaternionf)
      * 
      * @param dest
      *          the matrix to write the rotation into
@@ -326,7 +326,7 @@ public class Quaternionf implements Externalizable {
     /**
      * Set the given destination matrix to the rotation represented by <code>this</code>.
      * 
-     * @see Matrix4x3d#set(Quaterniond)
+     * @see Matrix4x3d#set(Quaternionf)
      * 
      * @param dest
      *          the matrix to write the rotation into
@@ -1866,7 +1866,7 @@ public class Quaternionf implements Externalizable {
      * Scale the rotation represented by this quaternion by the given <code>factor</code> using spherical linear interpolation.
      * <p>
      * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
-     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this, factor)</tt>
+     * and thus equivalent to calling: <tt>new Quaternionf().slerp(this, factor)</tt>
      * <p>
      * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
      * 
