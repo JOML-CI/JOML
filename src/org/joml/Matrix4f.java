@@ -14143,6 +14143,8 @@ public class Matrix4f implements Externalizable {
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(Vector3f, Vector3f) rotationTowards()}.
+     * <p>
+     * This method is equivalent to calling: <tt>mulAffine(new Matrix4f().lookAt(new Vector3f(), new Vector3f(dir).negate(), up).invertAffine(), dest)</tt>
      * 
      * @see #rotateTowards(float, float, float, float, float, float, Matrix4f)
      * @see #rotationTowards(Vector3f, Vector3f)
@@ -14170,6 +14172,8 @@ public class Matrix4f implements Externalizable {
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(Vector3f, Vector3f) rotationTowards()}.
+     * <p>
+     * This method is equivalent to calling: <tt>mulAffine(new Matrix4f().lookAt(new Vector3f(), new Vector3f(dir).negate(), up).invertAffine())</tt>
      * 
      * @see #rotateTowards(float, float, float, float, float, float)
      * @see #rotationTowards(Vector3f, Vector3f)
@@ -14195,6 +14199,8 @@ public class Matrix4f implements Externalizable {
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(float, float, float, float, float, float) rotationTowards()}.
+     * <p>
+     * This method is equivalent to calling: <tt>mulAffine(new Matrix4f().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invertAffine())</tt>
      * 
      * @see #rotateTowards(Vector3f, Vector3f)
      * @see #rotationTowards(float, float, float, float, float, float)
@@ -14229,6 +14235,8 @@ public class Matrix4f implements Externalizable {
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(float, float, float, float, float, float) rotationTowards()}.
+     * <p>
+     * This method is equivalent to calling: <tt>mulAffine(new Matrix4f().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invertAffine(), dest)</tt>
      * 
      * @see #rotateTowards(Vector3f, Vector3f)
      * @see #rotationTowards(float, float, float, float, float, float)
@@ -14312,6 +14320,8 @@ public class Matrix4f implements Externalizable {
      * <p>
      * In order to apply the rotation transformation to a previous existing transformation,
      * use {@link #rotateTowards(float, float, float, float, float, float) rotateTowards}.
+     * <p>
+     * This method is equivalent to calling: <tt>setLookAt(new Vector3f(), new Vector3f(dir).negate(), up).invertAffine()</tt>
      * 
      * @see #rotationTowards(Vector3f, Vector3f)
      * @see #rotateTowards(float, float, float, float, float, float)
@@ -14332,6 +14342,8 @@ public class Matrix4f implements Externalizable {
      * <p>
      * In order to apply the rotation transformation to a previous existing transformation,
      * use {@link #rotateTowards(float, float, float, float, float, float) rotateTowards}.
+     * <p>
+     * This method is equivalent to calling: <tt>setLookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invertAffine()</tt>
      * 
      * @see #rotateTowards(Vector3f, Vector3f)
      * @see #rotationTowards(float, float, float, float, float, float)

@@ -4242,6 +4242,8 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(Vector3d, Vector3d) rotationTowards()}.
+     * <p>
+     * This method is equivalent to calling: <tt>mul(new Matrix3d().lookAlong(new Vector3d(dir).negate(), up).invert(), dest)</tt>
      * 
      * @see #rotateTowards(double, double, double, double, double, double, Matrix3d)
      * @see #rotationTowards(Vector3d, Vector3d)
@@ -4269,6 +4271,8 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(Vector3d, Vector3d) rotationTowards()}.
+     * <p>
+     * This method is equivalent to calling: <tt>mul(new Matrix3d().lookAlong(new Vector3d(dir).negate(), up).invert())</tt>
      * 
      * @see #rotateTowards(double, double, double, double, double, double)
      * @see #rotationTowards(Vector3d, Vector3d)
@@ -4294,6 +4298,8 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(double, double, double, double, double, double) rotationTowards()}.
+     * <p>
+     * This method is equivalent to calling: <tt>mul(new Matrix3d().lookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert())</tt>
      * 
      * @see #rotateTowards(Vector3d, Vector3d)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -4328,6 +4334,8 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
      * use {@link #rotationTowards(double, double, double, double, double, double) rotationTowards()}.
+     * <p>
+     * This method is equivalent to calling: <tt>mul(new Matrix3d().lookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</tt>
      * 
      * @see #rotateTowards(Vector3d, Vector3d)
      * @see #rotationTowards(double, double, double, double, double, double)
@@ -4401,6 +4409,8 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to apply the rotation transformation to a previous existing transformation,
      * use {@link #rotateTowards(double, double, double, double, double, double) rotateTowards}.
+     * <p>
+     * This method is equivalent to calling: <tt>setLookAlong(new Vector3d(dir).negate(), up).invert()</tt>
      * 
      * @see #rotationTowards(Vector3d, Vector3d)
      * @see #rotateTowards(double, double, double, double, double, double)
@@ -4421,6 +4431,8 @@ public class Matrix3d implements Externalizable {
      * <p>
      * In order to apply the rotation transformation to a previous existing transformation,
      * use {@link #rotateTowards(double, double, double, double, double, double) rotateTowards}.
+     * <p>
+     * This method is equivalent to calling: <tt>setLookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert()</tt>
      * 
      * @see #rotateTowards(Vector3d, Vector3d)
      * @see #rotationTowards(double, double, double, double, double, double)
