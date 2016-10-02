@@ -120,10 +120,10 @@ public class Matrix4d implements Externalizable {
      */
     public static final int CORNER_PXPYPZ = 7;
 
-    double m00, m10, m20, m30;
-    double m01, m11, m21, m31;
-    double m02, m12, m22, m32;
-    double m03, m13, m23, m33;
+    double m00, m01, m02, m03;
+    double m10, m11, m12, m13;
+    double m20, m21, m22, m23;
+    double m30, m31, m32, m33;
 
     byte properties;
     private static final byte PROPERTY_PERSPECTIVE = 1<<0;
@@ -150,20 +150,20 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d(Matrix4d mat) {
         m00 = mat.m00;
-        m10 = mat.m10;
-        m20 = mat.m20;
-        m30 = mat.m30;
         m01 = mat.m01;
-        m11 = mat.m11;
-        m21 = mat.m21;
-        m31 = mat.m31;
         m02 = mat.m02;
-        m12 = mat.m12;
-        m22 = mat.m22;
-        m32 = mat.m32;
         m03 = mat.m03;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
         m13 = mat.m13;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
         m23 = mat.m23;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
         m33 = mat.m33;
         properties = mat.properties;
     }
@@ -203,16 +203,16 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d(Matrix4x3d mat) {
         m00 = mat.m00();
-        m10 = mat.m10();
-        m20 = mat.m20();
-        m30 = mat.m30();
         m01 = mat.m01();
-        m11 = mat.m11();
-        m21 = mat.m21();
-        m31 = mat.m31();
         m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
         m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
         m22 = mat.m22();
+        m30 = mat.m30();
+        m31 = mat.m31();
         m32 = mat.m32();
         m33 = 1.0;
         properties = (byte) (mat.properties | PROPERTY_AFFINE);
@@ -227,13 +227,13 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d(Matrix3d mat) {
         m00 = mat.m00;
-        m10 = mat.m10;
-        m20 = mat.m20;
         m01 = mat.m01;
-        m11 = mat.m11;
-        m21 = mat.m21;
         m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
         m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
         m22 = mat.m22;
         m33 = 1.0;
         properties = PROPERTY_AFFINE;
@@ -286,20 +286,20 @@ public class Matrix4d implements Externalizable {
                     double m20, double m21, double m22, double m23, 
                     double m30, double m31, double m32, double m33) {
         this.m00 = m00;
-        this.m10 = m10;
-        this.m20 = m20;
-        this.m30 = m30;
         this.m01 = m01;
-        this.m11 = m11;
-        this.m21 = m21;
-        this.m31 = m31;
         this.m02 = m02;
-        this.m12 = m12;
-        this.m22 = m22;
-        this.m32 = m32;
         this.m03 = m03;
+        this.m10 = m10;
+        this.m11 = m11;
+        this.m12 = m12;
         this.m13 = m13;
+        this.m20 = m20;
+        this.m21 = m21;
+        this.m22 = m22;
         this.m23 = m23;
+        this.m30 = m30;
+        this.m31 = m31;
+        this.m32 = m32;
         this.m33 = m33;
         properties = 0;
     }
@@ -764,20 +764,20 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d set(Matrix4d m) {
         m00 = m.m00;
-        m10 = m.m10;
-        m20 = m.m20;
-        m30 = m.m30;
         m01 = m.m01;
-        m11 = m.m11;
-        m21 = m.m21;
-        m31 = m.m31;
         m02 = m.m02;
-        m12 = m.m12;
-        m22 = m.m22;
-        m32 = m.m32;
         m03 = m.m03;
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
         m13 = m.m13;
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
         m23 = m.m23;
+        m30 = m.m30;
+        m31 = m.m31;
+        m32 = m.m32;
         m33 = m.m33;
         properties = m.properties;
         return this;
@@ -794,20 +794,20 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d set(Matrix4f m) {
         m00 = m.m00();
-        m10 = m.m10();
-        m20 = m.m20();
-        m30 = m.m30();
         m01 = m.m01();
-        m11 = m.m11();
-        m21 = m.m21();
-        m31 = m.m31();
         m02 = m.m02();
-        m12 = m.m12();
-        m22 = m.m22();
-        m32 = m.m32();
         m03 = m.m03();
+        m10 = m.m10();
+        m11 = m.m11();
+        m12 = m.m12();
         m13 = m.m13();
+        m20 = m.m20();
+        m21 = m.m21();
+        m22 = m.m22();
         m23 = m.m23();
+        m30 = m.m30();
+        m31 = m.m31();
+        m32 = m.m32();
         m33 = m.m33();
         properties = m.properties;
         return this;
@@ -825,20 +825,20 @@ public class Matrix4d implements Externalizable {
      */
     public Matrix4d set(Matrix4x3d m) {
         m00 = m.m00();
-        m10 = m.m10();
-        m20 = m.m20();
-        m30 = m.m30();
         m01 = m.m01();
-        m11 = m.m11();
-        m21 = m.m21();
-        m31 = m.m31();
         m02 = m.m02();
-        m12 = m.m12();
-        m22 = m.m22();
-        m32 = m.m32();
         m03 = 0.0;
+        m10 = m.m10();
+        m11 = m.m11();
+        m12 = m.m12();
         m13 = 0.0;
+        m20 = m.m20();
+        m21 = m.m21();
+        m22 = m.m22();
         m23 = 0.0;
+        m30 = m.m30();
+        m31 = m.m31();
+        m32 = m.m32();
         m33 = 1.0;
         properties = (byte) (m.properties | PROPERTY_AFFINE);
         return this;

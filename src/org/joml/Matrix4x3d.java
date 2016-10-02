@@ -47,9 +47,10 @@ public class Matrix4x3d implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
-    double m00, m10, m20, m30;
-    double m01, m11, m21, m31;
-    double m02, m12, m22, m32;
+    double m00, m01, m02;
+    double m10, m11, m12;
+    double m20, m21, m22;
+    double m30, m31, m32;
 
     byte properties;
     private static final byte PROPERTY_IDENTITY = 1<<2;
@@ -73,16 +74,16 @@ public class Matrix4x3d implements Externalizable {
      */
     public Matrix4x3d(Matrix4x3d mat) {
         m00 = mat.m00;
-        m10 = mat.m10;
-        m20 = mat.m20;
-        m30 = mat.m30;
         m01 = mat.m01;
-        m11 = mat.m11;
-        m21 = mat.m21;
-        m31 = mat.m31;
         m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
         m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
         m22 = mat.m22;
+        m30 = mat.m30;
+        m31 = mat.m31;
         m32 = mat.m32;
         properties = mat.properties;
     }
@@ -96,13 +97,13 @@ public class Matrix4x3d implements Externalizable {
      */
     public Matrix4x3d(Matrix3d mat) {
         m00 = mat.m00;
-        m10 = mat.m10;
-        m20 = mat.m20;
         m01 = mat.m01;
-        m11 = mat.m11;
-        m21 = mat.m21;
         m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
         m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
         m22 = mat.m22;
         properties = 0;
     }
@@ -140,16 +141,16 @@ public class Matrix4x3d implements Externalizable {
                       double m20, double m21, double m22, 
                       double m30, double m31, double m32) {
         this.m00 = m00;
-        this.m10 = m10;
-        this.m20 = m20;
-        this.m30 = m30;
         this.m01 = m01;
-        this.m11 = m11;
-        this.m21 = m21;
-        this.m31 = m31;
         this.m02 = m02;
+        this.m10 = m10;
+        this.m11 = m11;
         this.m12 = m12;
+        this.m20 = m20;
+        this.m21 = m21;
         this.m22 = m22;
+        this.m30 = m30;
+        this.m31 = m31;
         this.m32 = m32;
         properties = 0;
     }
@@ -446,17 +447,17 @@ public class Matrix4x3d implements Externalizable {
      */
     public Matrix4x3d identity() {
         m00 = 1.0;
-        m10 = 0.0;
-        m20 = 0.0;
-        m30 = 0.0;
         m01 = 0.0;
-        m11 = 1.0;
-        m21 = 0.0;
-        m31 = 0.0;
         m02 = 0.0;
+        m10 = 0.0;
+        m11 = 1.0;
         m12 = 0.0;
+        m20 = 0.0;
+        m21 = 0.0;
         m22 = 1.0;
         m30 = 0.0;
+        m31 = 0.0;
+        m32 = 0.0;
         properties = PROPERTY_IDENTITY | PROPERTY_TRANSLATION;
         return this;
     }
@@ -470,16 +471,16 @@ public class Matrix4x3d implements Externalizable {
      */
     public Matrix4x3d set(Matrix4x3d m) {
         m00 = m.m00;
-        m10 = m.m10;
-        m20 = m.m20;
-        m30 = m.m30;
         m01 = m.m01;
-        m11 = m.m11;
-        m21 = m.m21;
-        m31 = m.m31;
         m02 = m.m02;
+        m10 = m.m10;
+        m11 = m.m11;
         m12 = m.m12;
+        m20 = m.m20;
+        m21 = m.m21;
         m22 = m.m22;
+        m30 = m.m30;
+        m31 = m.m31;
         m32 = m.m32;
         properties = m.properties;
         return this;
@@ -494,16 +495,16 @@ public class Matrix4x3d implements Externalizable {
      */
     public Matrix4x3d set(Matrix4x3f m) {
         m00 = m.m00();
-        m10 = m.m10();
-        m20 = m.m20();
-        m30 = m.m30();
         m01 = m.m01();
-        m11 = m.m11();
-        m21 = m.m21();
-        m31 = m.m31();
         m02 = m.m02();
+        m10 = m.m10();
+        m11 = m.m11();
         m12 = m.m12();
+        m20 = m.m20();
+        m21 = m.m21();
         m22 = m.m22();
+        m30 = m.m30();
+        m31 = m.m31();
         m32 = m.m32();
         properties = m.properties;
         return this;
@@ -520,16 +521,16 @@ public class Matrix4x3d implements Externalizable {
      */
     public Matrix4x3d set(Matrix4d m) {
         m00 = m.m00();
-        m10 = m.m10();
-        m20 = m.m20();
-        m30 = m.m30();
         m01 = m.m01();
-        m11 = m.m11();
-        m21 = m.m21();
-        m31 = m.m31();
         m02 = m.m02();
+        m10 = m.m10();
+        m11 = m.m11();
         m12 = m.m12();
+        m20 = m.m20();
+        m21 = m.m21();
         m22 = m.m22();
+        m30 = m.m30();
+        m31 = m.m31();
         m32 = m.m32();
         properties = (byte) (m.properties & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return this;
