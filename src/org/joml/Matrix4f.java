@@ -1966,22 +1966,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(float m[], int off) {
-        m00 = m[off+0];
-        m01 = m[off+1];
-        m02 = m[off+2];
-        m03 = m[off+3];
-        m10 = m[off+4];
-        m11 = m[off+5];
-        m12 = m[off+6];
-        m13 = m[off+7];
-        m20 = m[off+8];
-        m21 = m[off+9];
-        m22 = m[off+10];
-        m23 = m[off+11];
-        m30 = m[off+12];
-        m31 = m[off+13];
-        m32 = m[off+14];
-        m33 = m[off+15];
+        MemUtil.INSTANCE.copy(m, off, this);
         properties = 0;
         return this;
     }
@@ -3209,22 +3194,7 @@ public class Matrix4f implements Externalizable {
      * @return the passed in array
      */
     public float[] get(float[] arr, int offset) {
-        arr[offset+0]  = m00;
-        arr[offset+1]  = m01;
-        arr[offset+2]  = m02;
-        arr[offset+3]  = m03;
-        arr[offset+4]  = m10;
-        arr[offset+5]  = m11;
-        arr[offset+6]  = m12;
-        arr[offset+7]  = m13;
-        arr[offset+8]  = m20;
-        arr[offset+9]  = m21;
-        arr[offset+10] = m22;
-        arr[offset+11] = m23;
-        arr[offset+12] = m30;
-        arr[offset+13] = m31;
-        arr[offset+14] = m32;
-        arr[offset+15] = m33;
+        MemUtil.INSTANCE.copy(this, arr, offset);
         return arr;
     }
 

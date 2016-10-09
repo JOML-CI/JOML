@@ -126,6 +126,8 @@ abstract class MemUtil {
     abstract void copy3x3(Matrix4f src, Matrix4f dest);
     abstract void copy4x3(Matrix4f src, Matrix4f dest);
     abstract void copy4x3(Matrix4x3f src, Matrix4f dest);
+    abstract void copy(float[] arr, int off, Matrix4f dest);
+    abstract void copy(Matrix4f src, float[] dest, int off);
     abstract void identity(Matrix4f dest);
     abstract void identity(Matrix4x3f dest);
     abstract void identity(Matrix3f dest);
@@ -1168,6 +1170,44 @@ abstract class MemUtil {
             dest.m22 = src.m22;
         }
 
+        final void copy(float[] arr, int off, Matrix4f dest) {
+            dest.m00 = arr[off+0];
+            dest.m01 = arr[off+1];
+            dest.m02 = arr[off+2];
+            dest.m03 = arr[off+3];
+            dest.m10 = arr[off+4];
+            dest.m11 = arr[off+5];
+            dest.m12 = arr[off+6];
+            dest.m13 = arr[off+7];
+            dest.m20 = arr[off+8];
+            dest.m21 = arr[off+9];
+            dest.m22 = arr[off+10];
+            dest.m23 = arr[off+11];
+            dest.m30 = arr[off+12];
+            dest.m31 = arr[off+13];
+            dest.m32 = arr[off+14];
+            dest.m33 = arr[off+15];
+        }
+
+        final void copy(Matrix4f src, float[] dest, int off) {
+            dest[off+0]  = src.m00;
+            dest[off+1]  = src.m01;
+            dest[off+2]  = src.m02;
+            dest[off+3]  = src.m03;
+            dest[off+4]  = src.m10;
+            dest[off+5]  = src.m11;
+            dest[off+6]  = src.m12;
+            dest[off+7]  = src.m13;
+            dest[off+8]  = src.m20;
+            dest[off+9]  = src.m21;
+            dest[off+10] = src.m22;
+            dest[off+11] = src.m23;
+            dest[off+12] = src.m30;
+            dest[off+13] = src.m31;
+            dest[off+14] = src.m32;
+            dest[off+15] = src.m33;
+        }
+
         final void identity(Matrix4f dest) {
             dest.m00 = 1.0f;
             dest.m01 = 0.0f;
@@ -1497,6 +1537,7 @@ abstract class MemUtil {
         private static final long Matrix4f_m00;
         private static final long Matrix4x3f_m00;
         private static final long Vector4f_x;
+        private static final long floatArrayOffset;
 
         static {
             UNSAFE = getUnsafeInstance();
@@ -1506,6 +1547,7 @@ abstract class MemUtil {
                 Matrix4x3f_m00 = checkMatrix4x3f();
                 Matrix3f_m00 = checkMatrix3f();
                 Vector4f_x = checkVector4f();
+                floatArrayOffset = UNSAFE.arrayBaseOffset(float[].class);
                 // Check if we can use object field offset/address put/get methods
                 sun.misc.Unsafe.class.getDeclaredMethod("getLong", new Class[] {Object.class, long.class});
                 sun.misc.Unsafe.class.getDeclaredMethod("putOrderedLong", new Class[] {Object.class, long.class, long.class});
@@ -2074,6 +2116,18 @@ abstract class MemUtil {
                 UNSAFE.putOrderedLong(dest, Matrix3f_m00 + (i << 3), UNSAFE.getLong(src, Matrix3f_m00 + (i << 3)));
             }
             dest.m22 = src.m22;
+        }
+
+        final void copy(float[] arr, int off, Matrix4f dest) {
+            for (int i = 0; i < 8; i++) {
+                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 3), UNSAFE.getLong(arr, floatArrayOffset + (off << 2) + (i << 3)));
+            }
+        }
+
+        final void copy(Matrix4f src, float[] dest, int off) {
+            for (int i = 0; i < 8; i++) {
+                UNSAFE.putOrderedLong(dest, floatArrayOffset + (off << 2) + (i << 3), UNSAFE.getLong(src, Matrix4f_m00 + (i << 3)));
+            }
         }
 
         final void identity(Matrix4f dest) {
