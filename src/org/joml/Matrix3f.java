@@ -66,15 +66,7 @@ public class Matrix3f implements Externalizable {
      *          the {@link Matrix3f} to copy the values from
      */
     public Matrix3f(Matrix3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
+        MemUtil.INSTANCE.copy(mat, this);
     }
 
     /**
@@ -84,15 +76,7 @@ public class Matrix3f implements Externalizable {
      *          the {@link Matrix4f} to copy the values from
      */
     public Matrix3f(Matrix4f mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+        MemUtil.INSTANCE.copy(mat, this);
     }
 
     /**
@@ -158,15 +142,7 @@ public class Matrix3f implements Externalizable {
      *          the third column
      */
     public Matrix3f(Vector3f col0, Vector3f col1, Vector3f col2) {
-        this.m00 = col0.x;
-        this.m01 = col0.y;
-        this.m02 = col0.z;
-        this.m10 = col1.x;
-        this.m11 = col1.y;
-        this.m12 = col1.z;
-        this.m20 = col2.x;
-        this.m21 = col2.y;
-        this.m22 = col2.z;
+        MemUtil.INSTANCE.set(this, col0, col1, col2);
     }
 
     /**
@@ -599,15 +575,7 @@ public class Matrix3f implements Externalizable {
      * @return this
      */
     public Matrix3f set(float m[]) {
-        m00 = m[0];
-        m01 = m[1];
-        m02 = m[2];
-        m10 = m[3];
-        m11 = m[4];
-        m12 = m[5];
-        m20 = m[6];
-        m21 = m[7];
-        m22 = m[8];
+        MemUtil.INSTANCE.copy(m, 0, this);
         return this;
     }
 
@@ -622,18 +590,8 @@ public class Matrix3f implements Externalizable {
      *          the third column
      * @return this
      */
-    public Matrix3f set(Vector3f col0,
-                        Vector3f col1, 
-                        Vector3f col2) {
-        this.m00 = col0.x;
-        this.m01 = col0.y;
-        this.m02 = col0.z;
-        this.m10 = col1.x;
-        this.m11 = col1.y;
-        this.m12 = col1.z;
-        this.m20 = col2.x;
-        this.m21 = col2.y;
-        this.m22 = col2.z;
+    public Matrix3f set(Vector3f col0, Vector3f col1, Vector3f col2) {
+        MemUtil.INSTANCE.set(this, col0, col1, col2);
         return this;
     }
 
@@ -1023,15 +981,7 @@ public class Matrix3f implements Externalizable {
      * @return the passed in array
      */
     public float[] get(float[] arr, int offset) {
-        arr[offset+0] = m00;
-        arr[offset+1] = m01;
-        arr[offset+2] = m02;
-        arr[offset+3] = m10;
-        arr[offset+4] = m11;
-        arr[offset+5] = m12;
-        arr[offset+6] = m20;
-        arr[offset+7] = m21;
-        arr[offset+8] = m22;
+        MemUtil.INSTANCE.copy(this, arr, offset);
         return arr;
     }
 

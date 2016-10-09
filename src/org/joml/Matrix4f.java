@@ -150,15 +150,7 @@ public class Matrix4f implements Externalizable {
      *          the {@link Matrix3f}
      */
     public Matrix4f(Matrix3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
+        MemUtil.INSTANCE.copy(mat, this);
         m33 = 1.0f;
         properties = PROPERTY_AFFINE;
     }
@@ -182,19 +174,7 @@ public class Matrix4f implements Externalizable {
      *          the {@link Matrix4x3f} to copy the values from
      */
     public Matrix4f(Matrix4x3f mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
-        m33 = 1.0f;
+        MemUtil.INSTANCE.copy(mat, this);
         properties = (byte) (mat.properties | PROPERTY_AFFINE);
     }
 

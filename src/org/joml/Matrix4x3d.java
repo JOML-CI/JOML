@@ -607,6 +607,7 @@ public class Matrix4x3d implements Externalizable {
         this.m30 = col3.x;
         this.m31 = col3.y;
         this.m32 = col3.z;
+        this.properties = 0;
         return this;
     }
 
@@ -628,7 +629,7 @@ public class Matrix4x3d implements Externalizable {
         m20 = mat.m20;
         m21 = mat.m21;
         m22 = mat.m22;
-        properties &= mat.properties & ~PROPERTY_TRANSLATION;
+        properties &= mat.properties;
         return this;
     }
 
