@@ -2046,14 +2046,11 @@ abstract class MemUtil {
         }
 
         final void copy(Matrix3f src, Matrix4x3f dest) {
-            for (int i = 0; i < 3; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + 12 * i, UNSAFE.getLong(src, Matrix3f_m00 + 12 * i));
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + (i << 3), UNSAFE.getLong(src, Matrix3f_m00 + (i << 3)));
             }
-            UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + 36, 0L);
-            dest.m02 = src.m02;
-            dest.m12 = src.m12;
-            dest.m22 = src.m22;
-            dest.m32 = 0.0f;
+            UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + 32, UNSAFE.getInt(src, Matrix3f_m00 + 32) & 0xFFFFFFFFL);
+            UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + 40, 0L);
         }
 
         final void copy3x3(Matrix4f src, Matrix4f dest) {
