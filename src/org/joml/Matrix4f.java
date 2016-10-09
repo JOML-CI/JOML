@@ -320,22 +320,7 @@ public class Matrix4f implements Externalizable {
      *          the fourth column
      */
     public Matrix4f(Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
-        this.m00 = col0.x;
-        this.m01 = col0.y;
-        this.m02 = col0.z;
-        this.m03 = col0.w;
-        this.m10 = col1.x;
-        this.m11 = col1.y;
-        this.m12 = col1.z;
-        this.m13 = col1.w;
-        this.m20 = col2.x;
-        this.m21 = col2.y;
-        this.m22 = col2.z;
-        this.m23 = col2.w;
-        this.m30 = col3.x;
-        this.m31 = col3.y;
-        this.m32 = col3.z;
-        this.m33 = col3.w;
+        MemUtil.INSTANCE.set(this, col0, col1, col2, col3);
     }
 
     /**
@@ -752,22 +737,7 @@ public class Matrix4f implements Externalizable {
      * @return this
      */
     public Matrix4f set(Matrix4x3f m) {
-        m00 = m.m00();
-        m01 = m.m01();
-        m02 = m.m02();
-        m03 = 0.0f;
-        m10 = m.m10();
-        m11 = m.m11();
-        m12 = m.m12();
-        m13 = 0.0f;
-        m20 = m.m20();
-        m21 = m.m21();
-        m22 = m.m22();
-        m23 = 0.0f;
-        m30 = m.m30();
-        m31 = m.m31();
-        m32 = m.m32();
-        m33 = 1.0f;
+        MemUtil.INSTANCE.copy(m, this);
         properties = (byte) (m.properties | PROPERTY_AFFINE);
         return this;
     }
@@ -2085,26 +2055,9 @@ public class Matrix4f implements Externalizable {
      *          the fourth column
      * @return this
      */
-    public Matrix4f set(Vector4f col0,
-                        Vector4f col1, 
-                        Vector4f col2,
-                        Vector4f col3) {
-        this.m00 = col0.x;
-        this.m01 = col0.y;
-        this.m02 = col0.z;
-        this.m03 = col0.w;
-        this.m10 = col1.x;
-        this.m11 = col1.y;
-        this.m12 = col1.z;
-        this.m13 = col1.w;
-        this.m20 = col2.x;
-        this.m21 = col2.y;
-        this.m22 = col2.z;
-        this.m23 = col2.w;
-        this.m30 = col3.x;
-        this.m31 = col3.y;
-        this.m32 = col3.z;
-        this.m33 = col3.w;
+    public Matrix4f set(Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
+        MemUtil.INSTANCE.set(this, col0, col1, col2, col3);
+        this.properties = 0;
         return this;
     }
 

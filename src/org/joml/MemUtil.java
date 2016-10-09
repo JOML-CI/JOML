@@ -118,6 +118,7 @@ abstract class MemUtil {
     abstract void copy(Matrix4f src, Matrix4f dest);
     abstract void copy(Matrix4x3f src, Matrix4x3f dest);
     abstract void copy(Matrix4f src, Matrix4x3f dest);
+    abstract void copy(Matrix4x3f src, Matrix4f dest);
     abstract void copy(Matrix3f src, Matrix3f dest);
     abstract void copy(Matrix3f src, Matrix4f dest);
     abstract void copy(Matrix4f src, Matrix3f dest);
@@ -141,6 +142,8 @@ abstract class MemUtil {
     abstract void putMatrix4f(Quaternionf q, int position, FloatBuffer dest);
     abstract void putMatrix4x3f(Quaternionf q, int position, ByteBuffer dest);
     abstract void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest);
+
+    abstract void set(Matrix4f matrix4f, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3);
 
     static final class MemUtilNIO extends MemUtil {
         final void put(Matrix4f m, int offset, FloatBuffer dest) {
@@ -1119,6 +1122,25 @@ abstract class MemUtil {
             dest.m32 = src.m32;
         }
 
+        final void copy(Matrix4x3f src, Matrix4f dest) {
+            dest.m00 = src.m00;
+            dest.m01 = src.m01;
+            dest.m02 = src.m02;
+            dest.m03 = 0.0f;
+            dest.m10 = src.m10;
+            dest.m11 = src.m11;
+            dest.m12 = src.m12;
+            dest.m13 = 0.0f;
+            dest.m20 = src.m20;
+            dest.m21 = src.m21;
+            dest.m22 = src.m22;
+            dest.m23 = 0.0f;
+            dest.m30 = src.m30;
+            dest.m31 = src.m31;
+            dest.m32 = src.m32;
+            dest.m33 = 1.0f;
+        }
+
         final void copy(Matrix4x3f src, Matrix4x3f dest) {
             dest.m00 = src.m00;
             dest.m01 = src.m01;
@@ -1447,6 +1469,25 @@ abstract class MemUtil {
             dest.put(position + 10, 0.0f);
             dest.put(position + 11, 0.0f);
         }
+
+        final void set(Matrix4f m, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
+            m.m00 = col0.x;
+            m.m01 = col0.y;
+            m.m02 = col0.z;
+            m.m03 = col0.w;
+            m.m10 = col1.x;
+            m.m11 = col1.y;
+            m.m12 = col1.z;
+            m.m13 = col1.w;
+            m.m20 = col2.x;
+            m.m21 = col2.y;
+            m.m22 = col2.z;
+            m.m23 = col2.w;
+            m.m30 = col3.x;
+            m.m31 = col3.y;
+            m.m32 = col3.z;
+            m.m33 = col3.w;
+        }
     }
 
     static final class MemUtilUnsafe extends MemUtil {
@@ -1455,6 +1496,7 @@ abstract class MemUtil {
         private static final long Matrix3f_m00;
         private static final long Matrix4f_m00;
         private static final long Matrix4x3f_m00;
+        private static final long Vector4f_x;
 
         static {
             UNSAFE = getUnsafeInstance();
@@ -1463,6 +1505,7 @@ abstract class MemUtil {
                 Matrix4f_m00 = checkMatrix4f();
                 Matrix4x3f_m00 = checkMatrix4x3f();
                 Matrix3f_m00 = checkMatrix3f();
+                Vector4f_x = checkVector4f();
                 // Check if we can use object field offset/address put/get methods
                 sun.misc.Unsafe.class.getDeclaredMethod("getLong", new Class[] {Object.class, long.class});
                 sun.misc.Unsafe.class.getDeclaredMethod("putOrderedLong", new Class[] {Object.class, long.class, long.class});
@@ -1516,6 +1559,20 @@ abstract class MemUtil {
                     throw new UnsupportedOperationException();
             }
             return Matrix3f_m00;
+        }
+
+        private static long checkVector4f() throws NoSuchFieldException, SecurityException {
+            Field f = Vector4f.class.getDeclaredField("x");
+            long Vector4f_x = UNSAFE.objectFieldOffset(f);
+            // Validate expected field offsets
+            String[] names = {"y", "z", "w"};
+            for (int i = 1; i < 4; i++) {
+                f = Vector4f.class.getDeclaredField(names[i-1]);
+                long offset = UNSAFE.objectFieldOffset(f);
+                if (offset != Vector4f_x + (i << 2))
+                    throw new UnsupportedOperationException();
+            }
+            return Vector4f_x;
         }
 
         private static final java.lang.reflect.Field getDeclaredField(Class root, String fieldName) throws NoSuchFieldException {
@@ -1996,6 +2053,16 @@ abstract class MemUtil {
             dest.m32 = src.m32;
         }
 
+        final void copy(Matrix4x3f src, Matrix4f dest) {
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix4x3f_m00 + 12 * i));
+            }
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 8,  UNSAFE.getInt(src, Matrix4x3f_m00 + 8) & 0xFFFFFFFFL);
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 24, UNSAFE.getInt(src, Matrix4x3f_m00 + 20) & 0xFFFFFFFFL);
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 40, UNSAFE.getInt(src, Matrix4x3f_m00 + 32) & 0xFFFFFFFFL);
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 56, 0x3F80000000000000L | (UNSAFE.getInt(src, Matrix4x3f_m00 + 44) & 0xFFFFFFFFL));
+        }
+
         final void copy(Matrix4x3f src, Matrix4x3f dest) {
             for (int i = 0; i < 6; i++) {
                 UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + (i << 3), UNSAFE.getLong(src, Matrix4x3f_m00 + (i << 3)));
@@ -2409,6 +2476,17 @@ abstract class MemUtil {
 
         final void getf(Matrix3d m, int offset, ByteBuffer src) {
             getf(m, addressOf(src) + offset);
+        }
+
+        final void set(Matrix4f m, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
+            UNSAFE.putOrderedLong(m, Matrix4f_m00,      UNSAFE.getLong(col0, Vector4f_x));
+            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 8,  UNSAFE.getLong(col0, Vector4f_x + 8));
+            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 16, UNSAFE.getLong(col1, Vector4f_x));
+            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 24, UNSAFE.getLong(col1, Vector4f_x + 8));
+            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 32, UNSAFE.getLong(col2, Vector4f_x));
+            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 40, UNSAFE.getLong(col2, Vector4f_x + 8));
+            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 48, UNSAFE.getLong(col3, Vector4f_x));
+            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 56, UNSAFE.getLong(col3, Vector4f_x + 8));
         }
     }
 }

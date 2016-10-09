@@ -2237,10 +2237,7 @@ public class Matrix4d implements Externalizable {
      *          the fourth column
      * @return this
      */
-    public Matrix4d set(Vector4d col0,
-                        Vector4d col1, 
-                        Vector4d col2,
-                        Vector4d col3) {
+    public Matrix4d set(Vector4d col0, Vector4d col1, Vector4d col2, Vector4d col3) {
         this.m00 = col0.x;
         this.m01 = col0.y;
         this.m02 = col0.z;
@@ -2257,6 +2254,7 @@ public class Matrix4d implements Externalizable {
         this.m31 = col3.y;
         this.m32 = col3.z;
         this.m33 = col3.w;
+        this.properties = 0;
         return this;
     }
 
