@@ -2246,16 +2246,13 @@ abstract class MemUtil {
             float q23 = dz * q.w;
             UNSAFE.putFloat(null, addr, 1.0f - q11 - q22);
             UNSAFE.putFloat(null, addr + 4, q01 + q23);
-            UNSAFE.putFloat(null, addr + 8, q02 - q13);
-            UNSAFE.putFloat(null, addr + 12, 0.0f);
+            UNSAFE.putOrderedLong(null, addr + 8, Float.floatToRawIntBits(q02 - q13) & 0xFFFFFFFFL);
             UNSAFE.putFloat(null, addr + 16, q01 - q23);
             UNSAFE.putFloat(null, addr + 20, 1.0f - q22 - q00);
-            UNSAFE.putFloat(null, addr + 24, q12 + q03);
-            UNSAFE.putFloat(null, addr + 28, 0.0f);
+            UNSAFE.putOrderedLong(null, addr + 24, Float.floatToRawIntBits(q12 + q03) & 0xFFFFFFFFL);
             UNSAFE.putFloat(null, addr + 32, q02 + q13);
             UNSAFE.putFloat(null, addr + 36, q12 - q03);
-            UNSAFE.putFloat(null, addr + 40, 1.0f - q11 - q00);
-            UNSAFE.putFloat(null, addr + 44, 0.0f);
+            UNSAFE.putOrderedLong(null, addr + 40, Float.floatToRawIntBits(1.0f - q11 - q00) & 0xFFFFFFFFL);
             UNSAFE.putOrderedLong(null, addr + 48, 0L);
             UNSAFE.putOrderedLong(null, addr + 56, 0x3F80000000000000L);
         }
