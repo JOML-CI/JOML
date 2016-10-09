@@ -953,7 +953,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Multiply this {@link Vector4d} by the given matrix <code>mat</code>.
+     * Multiply the given matrix <code>mat</code> this {@link Vector4d}.
      * 
      * @param mat
      *          the matrix to multiply by
@@ -964,7 +964,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Multiply this {@link Vector4d} by the given matrix mat and store the result in <code>dest</code>.
+     * Multiply the given matrix mat with this {@link Vector4d} and store the result in <code>dest</code>.
      * 
      * @param mat
      *          the matrix to multiply <code>this</code> by
@@ -981,7 +981,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by the given matrix mat and store the result in
+     * Multiply the given matrix mat with this Vector4d and store the result in
      * <code>this</code>.
      * 
      * @param mat
@@ -993,7 +993,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by the given matrix mat and store the result in
+     * Multiply the given matrix mat with this Vector4d and store the result in
      * <code>dest</code>.
      * 
      * @param mat
@@ -1011,7 +1011,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Multiply this {@link Vector4d} by the given matrix <code>mat</code>.
+     * Multiply the given matrix <code>mat</code> with this {@link Vector4d}.
      * 
      * @param mat
      *          the matrix to multiply by
@@ -1022,7 +1022,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by the given matrix mat and store the result in <code>dest</code>.
+     * Multiply the given matrix mat with this Vector4d and store the result in <code>dest</code>.
      *
      * @param mat
      *          the matrix to multiply <code>this</code> by
@@ -1039,7 +1039,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by the given matrix <code>mat</code>, perform perspective division
+     * Multiply the given matrix <code>mat</code> with this Vector4d, perform perspective division
      * and store the result in <code>dest</code>.
      * 
      * @param mat
@@ -1058,7 +1058,7 @@ public class Vector4d implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4d by the given matrix <code>mat</code>, perform perspective division.
+     * Multiply the given matrix <code>mat</code> with this Vector4d, perform perspective division.
      * 
      * @param mat
      *          the matrix to multiply this vector by

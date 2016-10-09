@@ -763,7 +763,7 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix mat and store the result in
+     * Multiply the given matrix mat with this Vector4f and store the result in
      * <code>this</code>.
      * 
      * @param mat
@@ -775,7 +775,7 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix mat and store the result in
+     * Multiply the given matrix mat with this Vector4f and store the result in
      * <code>dest</code>.
      * 
      * @param mat
@@ -793,7 +793,7 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix mat and store the result in
+     * Multiply the given matrix mat with this Vector4f and store the result in
      * <code>this</code>.
      * 
      * @param mat
@@ -805,7 +805,7 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix mat and store the result in
+     * Multiply the given matrix mat with this Vector4f and store the result in
      * <code>dest</code>.
      * 
      * @param mat
@@ -823,7 +823,7 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix <code>mat</code>, perform perspective division
+     * Multiply the given matrix <code>mat</code> with this Vector4f, perform perspective division
      * and store the result in <code>dest</code>.
      * 
      * @param mat
@@ -842,7 +842,7 @@ public class Vector4f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector4f by the given matrix <code>mat</code>, perform perspective division.
+     * Multiply the given matrix <code>mat</code> with this Vector4f, perform perspective division.
      * 
      * @param mat
      *          the matrix to multiply this vector by

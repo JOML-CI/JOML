@@ -679,7 +679,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the given matrix <code>mat</code>, perform perspective division
+     * Multiply the given matrix <code>mat</code> with this Vector3f, perform perspective division
      * and store the result in <code>dest</code>.
      * <p>
      * This method uses <tt>w=1.0</tt> as the fourth vector component.
@@ -699,7 +699,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the given matrix <code>mat</code>, perform perspective division.
+     * Multiply the given matrix <code>mat</code> with this Vector3f, perform perspective division.
      * <p>
      * This method uses <tt>w=1.0</tt> as the fourth vector component.
      * 
@@ -712,7 +712,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the given matrix and store the result in <code>this</code>.
+     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
      * 
      * @param mat
      *          the matrix
@@ -723,7 +723,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the given matrix and store the result in <code>dest</code>.
+     * Multiply the given matrix with this Vector3f and store the result in <code>dest</code>.
      * 
      * @param mat
      *          the matrix
@@ -739,7 +739,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the transpose of the given matrix and store the result in <code>this</code>.
+     * Multiply the transpose of the given matrix with this Vector3f store the result in <code>this</code>.
      * 
      * @param mat
      *          the matrix
@@ -750,7 +750,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply this Vector3f by the transpose of the given matrix and store the result in <code>dest</code>.
+     * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
      * 
      * @param mat
      *          the matrix
@@ -766,7 +766,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
      * 
@@ -779,7 +779,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
@@ -798,7 +798,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the transpose of the given 4x4 matrix <code>mat</code>.
+     * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
      * 
@@ -811,7 +811,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the transpose of the given 4x4 matrix <code>mat</code> and store the
+     * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
@@ -830,7 +830,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and return the <i>w</i> component
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and return the <i>w</i> component
      * of the resulting 4D vector.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
@@ -844,7 +844,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>, store the
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>, store the
      * result in <code>dest</code> and return the <i>w</i> component of the resulting 4D vector.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
@@ -864,7 +864,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code>.
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
      * 
@@ -877,7 +877,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the given 4x4 matrix <code>mat</code> and store the
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
@@ -896,7 +896,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the transpose of the given 4x4 matrix <code>mat</code>.
+     * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
      * 
@@ -909,7 +909,7 @@ public class Vector3f implements Externalizable {
     }
 
     /**
-     * Multiply <code>this</code> by the transpose of the given 4x4 matrix <code>mat</code> and store the
+     * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
      * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
