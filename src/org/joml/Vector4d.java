@@ -57,12 +57,13 @@ public class Vector4d implements Externalizable {
     /**
      * The w component of the vector.
      */
-    public double w = 1.0;
+    public double w;
 
     /**
      * Create a new {@link Vector4d} of <code>(0, 0, 0, 1)</code>.
      */
     public Vector4d() {
+        this.w = 1.0;
     }
 
     /**
@@ -216,10 +217,7 @@ public class Vector4d implements Externalizable {
      * @param buffer values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4d(int index, ByteBuffer buffer) {
-        x = buffer.getDouble(index);
-        y = buffer.getDouble(index + 8);
-        z = buffer.getDouble(index + 16);
-        w = buffer.getDouble(index + 24);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -249,10 +247,7 @@ public class Vector4d implements Externalizable {
      * @param buffer values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4d(int index, DoubleBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
-        w = buffer.get(index + 3);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -425,10 +420,7 @@ public class Vector4d implements Externalizable {
      * @return this
      */
     public Vector4d set(int index, ByteBuffer buffer) {
-        x = buffer.getDouble(index);
-        y = buffer.getDouble(index + 8);
-        z = buffer.getDouble(index + 16);
-        w = buffer.getDouble(index + 24);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -464,10 +456,7 @@ public class Vector4d implements Externalizable {
      * @return this
      */
     public Vector4d set(int index, DoubleBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
-        w = buffer.get(index + 3);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -503,10 +492,7 @@ public class Vector4d implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putDouble(index,      x);
-        buffer.putDouble(index + 8,  y);
-        buffer.putDouble(index + 16,  z);
-        buffer.putDouble(index + 24,  w);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -542,10 +528,7 @@ public class Vector4d implements Externalizable {
      * @return the passed in buffer
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
-        buffer.put(index,      x);
-        buffer.put(index + 1,  y);
-        buffer.put(index + 2,  z);
-        buffer.put(index + 3,  w);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 

@@ -57,12 +57,13 @@ public class Vector4i implements Externalizable {
     /**
      * The w component of the vector.
      */
-    public int w = 1;
+    public int w;
 
     /**
      * Create a new {@link Vector4i} of <code>(0, 0, 0, 1)</code>.
      */
     public Vector4i() {
+        this.w = 1;
     }
 
     /**
@@ -72,10 +73,7 @@ public class Vector4i implements Externalizable {
      *          the {@link Vector4i} to copy the values from
      */
     public Vector4i(Vector4i v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
-        this.w = v.w;
+        MemUtil.INSTANCE.copy(v, this);
     }
 
     /**
@@ -120,10 +118,7 @@ public class Vector4i implements Externalizable {
      *          scalar value of all four components
      */
     public Vector4i(int s) {
-        this.x = s;
-        this.y = s;
-        this.z = s;
-        this.w = s;
+        MemUtil.INSTANCE.broadcast(s, this);
     }
 
     /**
@@ -178,10 +173,7 @@ public class Vector4i implements Externalizable {
      *          values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4i(int index, ByteBuffer buffer) {
-        x = buffer.getInt(index + 0);
-        y = buffer.getInt(index + 4);
-        z = buffer.getInt(index + 8);
-        w = buffer.getInt(index + 12);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -217,10 +209,7 @@ public class Vector4i implements Externalizable {
      *          values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4i(int index, IntBuffer buffer) {
-        x = buffer.get(index + 0);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
-        w = buffer.get(index + 3);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -231,10 +220,7 @@ public class Vector4i implements Externalizable {
      * @return this
      */
     public Vector4i set(Vector4i v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
-        this.w = v.w;
+        MemUtil.INSTANCE.copy(v, this);
         return this;
     }
 
@@ -285,10 +271,7 @@ public class Vector4i implements Externalizable {
      * @return this
      */
     public Vector4i set(int s) {
-        this.x = s;
-        this.y = s;
-        this.z = s;
-        this.w = s;
+        MemUtil.INSTANCE.broadcast(s, this);
         return this;
     }
 
@@ -346,10 +329,7 @@ public class Vector4i implements Externalizable {
      * @return this
      */
     public Vector4i set(int index, ByteBuffer buffer) {
-        x = buffer.getInt(index);
-        y = buffer.getInt(index + 4);
-        z = buffer.getInt(index + 8);
-        w = buffer.getInt(index + 12);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -386,10 +366,7 @@ public class Vector4i implements Externalizable {
      * @return this
      */
     public Vector4i set(int index, IntBuffer buffer) {
-        x = buffer.get(index + 0);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
-        w = buffer.get(index + 3);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -426,10 +403,7 @@ public class Vector4i implements Externalizable {
      * @return the passed in buffer
      */
     public IntBuffer get(int index, IntBuffer buffer) {
-        buffer.put(index + 0, x);
-        buffer.put(index + 1, y);
-        buffer.put(index + 2, z);
-        buffer.put(index + 3, w);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -466,10 +440,7 @@ public class Vector4i implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putInt(index, x);
-        buffer.putInt(index + 4, y);
-        buffer.putInt(index + 8, z);
-        buffer.putInt(index + 12, w);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -862,10 +833,7 @@ public class Vector4i implements Externalizable {
      * @return this
      */
     public Vector4i zero() {
-        x = 0;
-        y = 0;
-        z = 0;
-        w = 0;
+        MemUtil.INSTANCE.zero(this);
         return this;
     }
 

@@ -57,12 +57,13 @@ public class Vector4f implements Externalizable {
     /**
      * The w component of the vector.
      */
-    public float w = 1.0f;
+    public float w;
 
     /**
      * Create a new {@link Vector4f} of <code>(0, 0, 0, 1)</code>.
      */
     public Vector4f() {
+        this.w = 1.0f;
     }
 
     /**
@@ -72,10 +73,7 @@ public class Vector4f implements Externalizable {
      *          the {@link Vector4f} to copy the values from
      */
     public Vector4f(Vector4f v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
-        this.w = v.w;
+        MemUtil.INSTANCE.copy(v, this);
     }
 
     /**
@@ -119,7 +117,7 @@ public class Vector4f implements Externalizable {
      *          the value of all four components
      */
     public Vector4f(float d) {
-        this(d, d, d, d);
+        MemUtil.INSTANCE.broadcast(d, this);
     }
 
     /**
@@ -171,10 +169,7 @@ public class Vector4f implements Externalizable {
      *          values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4f(int index, ByteBuffer buffer) {
-        x = buffer.getFloat(index);
-        y = buffer.getFloat(index + 4);
-        z = buffer.getFloat(index + 8);
-        w = buffer.getFloat(index + 12);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -207,10 +202,7 @@ public class Vector4f implements Externalizable {
      *          values will be read in <tt>x, y, z, w</tt> order
      */
     public Vector4f(int index, FloatBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
-        w = buffer.get(index + 3);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -221,10 +213,7 @@ public class Vector4f implements Externalizable {
      * @return this
      */
     public Vector4f set(Vector4f v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
-        this.w = v.w;
+        MemUtil.INSTANCE.copy(v, this);
         return this;
     }
 
@@ -292,7 +281,8 @@ public class Vector4f implements Externalizable {
      * @return this
      */
     public Vector4f set(float d) {
-        return set(d, d, d, d);
+        MemUtil.INSTANCE.broadcast(d, this);
+        return this;
     }
 
     /**
@@ -348,10 +338,7 @@ public class Vector4f implements Externalizable {
      * @return this
      */
     public Vector4f set(int index, ByteBuffer buffer) {
-        x = buffer.getFloat(index);
-        y = buffer.getFloat(index + 4);
-        z = buffer.getFloat(index + 8);
-        w = buffer.getFloat(index + 12);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -387,10 +374,7 @@ public class Vector4f implements Externalizable {
      * @return this
      */
     public Vector4f set(int index, FloatBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
-        w = buffer.get(index + 3);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -426,10 +410,7 @@ public class Vector4f implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index,    x);
-        buffer.put(index+1,  y);
-        buffer.put(index+2,  z);
-        buffer.put(index+3,  w);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -465,10 +446,7 @@ public class Vector4f implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putFloat(index,    x);
-        buffer.putFloat(index+4,  y);
-        buffer.putFloat(index+8,  z);
-        buffer.putFloat(index+12, w);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -1202,10 +1180,7 @@ public class Vector4f implements Externalizable {
      * @return this
      */
     public Vector4f zero() {
-        x = 0.0f;
-        y = 0.0f;
-        z = 0.0f;
-        w = 0.0f;
+        MemUtil.INSTANCE.zero(this);
         return this;
     }
 

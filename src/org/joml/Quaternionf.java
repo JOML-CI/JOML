@@ -64,10 +64,7 @@ public class Quaternionf implements Externalizable {
      * where <tt>(x, y, z)</tt> is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
      */
     public Quaternionf() {
-        x = 0.0f;
-        y = 0.0f;
-        z = 0.0f;
-        w = 1.0f;
+        MemUtil.INSTANCE.identity(this);
     }
 
     /**
@@ -114,10 +111,7 @@ public class Quaternionf implements Externalizable {
      *          the {@link Quaternionf} to take the component values from
      */
     public Quaternionf(Quaternionf source) {
-        x = source.x;
-        y = source.y;
-        z = source.z;
-        w = source.w;
+        MemUtil.INSTANCE.copy(source, this);
     }
 
     /**
@@ -528,10 +522,7 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf set(Quaternionf q) {
-        x = q.x;
-        y = q.y;
-        z = q.z;
-        w = q.w;
+        MemUtil.INSTANCE.copy(q, this);
         return this;
     }
 
@@ -1434,10 +1425,7 @@ public class Quaternionf implements Externalizable {
      * @return this
      */
     public Quaternionf identity() {
-        x = 0.0f;
-        y = 0.0f;
-        z = 0.0f;
-        w = 1.0f;
+        MemUtil.INSTANCE.identity(this);
         return this;
     }
 

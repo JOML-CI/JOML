@@ -12082,28 +12082,16 @@ public class Matrix4f implements Externalizable {
     public Vector4f getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
-            dest.x = m00;
-            dest.y = m01;
-            dest.z = m02;
-            dest.w = m03;
+            MemUtil.INSTANCE.putColumn0(this, dest);
             break;
         case 1:
-            dest.x = m10;
-            dest.y = m11;
-            dest.z = m12;
-            dest.w = m13;
+            MemUtil.INSTANCE.putColumn1(this, dest);
             break;
         case 2:
-            dest.x = m20;
-            dest.y = m21;
-            dest.z = m22;
-            dest.w = m23;
+            MemUtil.INSTANCE.putColumn2(this, dest);
             break;
         case 3:
-            dest.x = m30;
-            dest.y = m31;
-            dest.z = m32;
-            dest.w = m33;
+            MemUtil.INSTANCE.putColumn3(this, dest);
             break;
         default:
             throw new IndexOutOfBoundsException();

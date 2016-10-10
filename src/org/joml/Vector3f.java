@@ -142,9 +142,7 @@ public class Vector3f implements Externalizable {
      * @param buffer values will be read in <tt>x, y, z</tt> order
      */
     public Vector3f(int index, ByteBuffer buffer) {
-        x = buffer.getFloat(index);
-        y = buffer.getFloat(index + 4);
-        z = buffer.getFloat(index + 8);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -174,9 +172,7 @@ public class Vector3f implements Externalizable {
      * @param buffer values will be read in <tt>x, y, z</tt> order
      */
     public Vector3f(int index, FloatBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -288,9 +284,7 @@ public class Vector3f implements Externalizable {
      * @return this
      */
     public Vector3f set(int index, ByteBuffer buffer) {
-        x = buffer.getFloat(index);
-        y = buffer.getFloat(index + 4);
-        z = buffer.getFloat(index + 8);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -326,9 +320,7 @@ public class Vector3f implements Externalizable {
      * @return this
      */
     public Vector3f set(int index, FloatBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -366,9 +358,7 @@ public class Vector3f implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index,    x);
-        buffer.put(index+1,  y);
-        buffer.put(index+2,  z);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -406,9 +396,7 @@ public class Vector3f implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putFloat(index,    x);
-        buffer.putFloat(index+4,  y);
-        buffer.putFloat(index+8,  z);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
