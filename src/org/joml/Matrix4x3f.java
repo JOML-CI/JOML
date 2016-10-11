@@ -2865,15 +2865,7 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f set3x3(Matrix3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
+        MemUtil.INSTANCE.copy3x3(mat, this);
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }

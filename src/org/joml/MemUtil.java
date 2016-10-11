@@ -145,6 +145,8 @@ abstract class MemUtil {
     public abstract void copy(Matrix3f src, Matrix4x3f dest);
     public abstract void copy3x3(Matrix4f src, Matrix4f dest);
     public abstract void copy3x3(Matrix4x3f src, Matrix4x3f dest);
+    public abstract void copy3x3(Matrix3f src, Matrix4x3f dest);
+    public abstract void copy3x3(Matrix3f src, Matrix4f dest);
     public abstract void copy4x3(Matrix4f src, Matrix4f dest);
     public abstract void copy4x3(Matrix4x3f src, Matrix4f dest);
     public abstract void copy(Vector4f src, Vector4f dst);
@@ -1233,6 +1235,30 @@ abstract class MemUtil {
         }
 
         public final void copy3x3(Matrix4x3f src, Matrix4x3f dest) {
+            dest.m00 = src.m00;
+            dest.m01 = src.m01;
+            dest.m02 = src.m02;
+            dest.m10 = src.m10;
+            dest.m11 = src.m11;
+            dest.m12 = src.m12;
+            dest.m20 = src.m20;
+            dest.m21 = src.m21;
+            dest.m22 = src.m22;
+        }
+
+        public final void copy3x3(Matrix3f src, Matrix4x3f dest) {
+            dest.m00 = src.m00;
+            dest.m01 = src.m01;
+            dest.m02 = src.m02;
+            dest.m10 = src.m10;
+            dest.m11 = src.m11;
+            dest.m12 = src.m12;
+            dest.m20 = src.m20;
+            dest.m21 = src.m21;
+            dest.m22 = src.m22;
+        }
+
+        public final void copy3x3(Matrix3f src, Matrix4f dest) {
             dest.m00 = src.m00;
             dest.m01 = src.m01;
             dest.m02 = src.m02;
@@ -2506,6 +2532,22 @@ abstract class MemUtil {
             for (int i = 0; i < 4; i++) {
                 UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + (i << 3), UNSAFE.getLong(src, Matrix4x3f_m00 + (i << 3)));
             }
+            dest.m22 = src.m22;
+        }
+
+        public final void copy3x3(Matrix3f src, Matrix4x3f dest) {
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + (i << 3), UNSAFE.getLong(src, Matrix3f_m00 + (i << 3)));
+            }
+            dest.m22 = src.m22;
+        }
+
+        public final void copy3x3(Matrix3f src, Matrix4f dest) {
+            for (int i = 0; i < 3; i++) {
+                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix3f_m00 + 12 * i));
+            }
+            dest.m02 = src.m02;
+            dest.m12 = src.m12;
             dest.m22 = src.m22;
         }
 
