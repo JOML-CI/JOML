@@ -3,6 +3,7 @@ package org.joml.test;
 import org.joml.Quaternionf;
 import org.joml.QuaternionfInterpolator;
 import org.joml.Vector3f;
+import org.joml.Math;
 
 import junit.framework.TestCase;
 

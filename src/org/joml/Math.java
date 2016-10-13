@@ -201,4 +201,12 @@ public class Math {
         return a > b ? a : b;
     }
 
+    public static double toRadians(double angles) {
+        return java.lang.Math.toRadians(angles);
+    }
+
+    public static double toDegrees(double angles) {
+        return java.lang.Math.toDegrees(angles);
+    }
+
 }

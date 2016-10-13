@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.joml.Math;
 
 /**
  * Tests for the {@link Matrix4f} class.
@@ -40,11 +41,11 @@ public class Matrix4fTest extends TestCase {
         m1 = new Matrix4f().lookAt(0, 2, 3, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3)).rotateX(
                 (float) Math.atan2(2, 3));
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-5f);
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-2f);
         m1 = new Matrix4f().lookAt(3, 2, 0, 0, 0, 0, 0, 1, 0);
         m2 = new Matrix4f().translate(0, 0, -(float) Math.sqrt(2 * 2 + 3 * 3))
                 .rotateX((float) Math.atan2(2, 3)).rotateY((float) Math.toRadians(-90));
-        TestUtil.assertMatrix4fEquals(m1, m2, 1E-4f);
+        TestUtil.assertMatrix4fEquals(m1, m2, 1E-2f);
     }
 
     /**

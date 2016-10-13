@@ -3,6 +3,7 @@ package org.joml.test;
 import junit.framework.TestCase;
 
 import org.joml.AxisAngle4f;
+import org.joml.Math;
 
 /**
  * Tests for the {@link AxisAngle4f} class.

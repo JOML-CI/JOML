@@ -3,6 +3,7 @@ package org.joml.test;
 import junit.framework.TestCase;
 
 import org.joml.PolygonsIntersection;
+import org.joml.Math;
 
 /**
  * Tests for the {@link PolygonsIntersection} class.

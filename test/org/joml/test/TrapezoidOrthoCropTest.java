@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.joml.Matrix4f;
 import org.joml.TrapezoidOrthoCrop;
 import org.joml.Vector4f;
+import org.joml.Math;
 
 /**
  * Tests for the {@link TrapezoidOrthoCrop} class.

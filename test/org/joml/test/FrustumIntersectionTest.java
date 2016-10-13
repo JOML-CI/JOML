@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 
 import org.joml.FrustumIntersection;
 import org.joml.Matrix4f;
+import org.joml.Math;
 
 /**
  * Tests for the {@link FrustumIntersection} class.

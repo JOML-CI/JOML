@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.joml.Matrix4x3f;
 import org.joml.Vector3f;
+import org.joml.Math;
 
 /**
  * Tests for the {@link Matrix4x3f} class.
