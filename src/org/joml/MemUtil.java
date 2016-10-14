@@ -2350,8 +2350,8 @@ abstract class MemUtil {
         }
 
         public final void put(Vector3f src, long destAddr) {
-            UNSAFE.putOrderedLong(null, destAddr,   UNSAFE.getLong(src, Vector4f_x));
-            UNSAFE.putFloat(null, destAddr+8, UNSAFE.getFloat(src, Vector4f_x+8));
+            UNSAFE.putOrderedLong(null, destAddr,   UNSAFE.getLong(src, Vector3f_x));
+            UNSAFE.putFloat(null, destAddr+8, UNSAFE.getFloat(src, Vector3f_x+8));
         }
 
         public final void get(Matrix4f m, long srcAddr) {
@@ -2482,8 +2482,8 @@ abstract class MemUtil {
         }
 
         public final void get(Vector3f dst, long srcAddr) {
-            UNSAFE.putOrderedLong(dst, Vector4f_x,   UNSAFE.getLong(null, srcAddr));
-            UNSAFE.putFloat(dst, Vector4f_x+8, UNSAFE.getFloat(null, srcAddr+8));
+            UNSAFE.putOrderedLong(dst, Vector3f_x,   UNSAFE.getLong(null, srcAddr));
+            UNSAFE.putFloat(dst, Vector3f_x+8, UNSAFE.getFloat(null, srcAddr+8));
         }
 
         public final void copy(Matrix4f src, Matrix4f dest) {
