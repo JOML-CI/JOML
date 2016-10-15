@@ -1,5 +1,6 @@
 #!/bin/sh
 echo "Building for x86..."
+mkdir -p build
 gcc -c -msse2 -fPIC -m32 -O3 -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" src/JNI.c -lm -o build/JNI.o
 gcc -c -msse2 -fPIC -m32 -O3 -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" src/org_joml_JNI.c -lm -o build/org_joml_JNI.o
 gcc -c -msse2 -fPIC -m32 -O3 -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" src/org_joml_Matrix4f.c -lm -o build/org_joml_Matrix4f.o
