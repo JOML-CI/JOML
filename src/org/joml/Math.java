@@ -29,7 +29,7 @@ package org.joml;
  * <p>
  * There are two algorithms for approximating sin/cos:
  * <ol>
- * <li>L. Spiro's algorithm from <a href="http://www.gamedev.net/topic/681723-faster-sin-and-cos/#entry5308906">http://www.gamedev.net/</a>
+ * <li>arithmetic approximation using Taylor series by theagentd 
  * <li>theagentd's <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/346213/view.html#msg346213">linear interpolation</a> variant of Riven's algorithm from
  * <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/view.html">http://www.java-gaming.org/</a>
  * </ol>
@@ -61,14 +61,14 @@ public class Math {
     public static final double PI = java.lang.Math.PI;
     private static final double PI2 = PI * 2.0;
     private static final double PIHalf = PI * 0.5;
+    private static final double PI_4 = PI * 0.25;
+    private static final double PI_INV = 1.0 / PI;
     private static final int lookupBits = Integer.parseInt(System.getProperty("joml.sinLookup.bits", "14")); //$NON-NLS-1$ //$NON-NLS-2$
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
     private static final int lookupTableSizeWithMargin = lookupTableSize + 1;
     private static final double pi2OverLookupSize = PI2 / lookupTableSize;
     private static final double lookupSizeOverPi2 = lookupTableSize / PI2;
-    private static final int BIG_ENOUGH_INT = 65536; // whatever makes sense
-    private static final float BIG_ENOUGH_FLOAT = BIG_ENOUGH_INT;
     private static final float sinTable[];
     static {
         if (fastMath && sinlookup) {
@@ -82,49 +82,40 @@ public class Math {
         }
     }
 
-    /**
-     * @author Riven from <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/349546/view.html#msg349546" >java-gaming.org</a>
-     * @param x
-     *            within [-BIG_ENOUGH..+inf)
-     */
-    private static int fastFloor(float x) {
-        return (int) (x + BIG_ENOUGH_FLOAT) - BIG_ENOUGH_INT;
-    }
+    private static final double c1 = Double.longBitsToDouble(-4628199217061079772L);
+    private static final double c2 = Double.longBitsToDouble(4575957461383582011L);
+    private static final double c3 = Double.longBitsToDouble(-4671919876300759001L);
+    private static final double c4 = Double.longBitsToDouble(4523617214285661942L);
+    private static final double c5 = Double.longBitsToDouble(-4730215272828025532L);
+    private static final double c6 = Double.longBitsToDouble(4460272573143870633L);
+    private static final double c7 = Double.longBitsToDouble(-4797767418267846529L);
 
     /**
-     * Reference: <a href="http://www.gamedev.net/topic/681723-faster-sin-and-cos/#entry5308906">http://www.gamedev.net/</a>
+     * @author theagentd
      */
-    private static double sin_L_Spiro(double rad) {
-        int i32I = (int)( rad * (1.0f / PI) );
-        double rad_ = (rad - i32I * PI);
-        double rad2 = rad_ * rad_;
-        return (i32I & 1) != 0
-               ?
-               -rad_ * ((float)( 1.00000000000000000000e+00) +
-                rad2 * ((float)(-1.66666671633720397949e-01) +
-                rad2 * ((float)( 8.33333376795053482056e-03) +
-                rad2 * ((float)(-1.98412497411482036114e-04) +
-                rad2 * ((float)( 2.75565571428160183132e-06) +
-                rad2 * ((float)(-2.50368472620721149724e-08) +
-                rad2 * ((float)( 1.58849267073435385100e-10) +
-                rad2 *  (float)(-6.58925550841432672300e-13))))))))
-               :
-                rad_ * ((float)( 1.00000000000000000000e+00) +
-                rad2 * ((float)(-1.66666671633720397949e-01) +
-                rad2 * ((float)( 8.33333376795053482056e-03) +
-                rad2 * ((float)(-1.98412497411482036114e-04) +
-                rad2 * ((float)( 2.75565571428160183132e-06) +
-                rad2 * ((float)(-2.50368472620721149724e-08) +
-                rad2 * ((float)( 1.58849267073435385100e-10) +
-                rad2 *  (float)(-6.58925550841432672300e-13))))))));
+    private static double sin_theagentd_arith(double x){
+        double xi = floor((x + PI_4) * PI_INV);
+        double x_ = x - xi * Math.PI;
+        double sign = ((int)xi & 1) * -2 + 1;
+        double x2 = x_ * x_;
+        double sin = x_;
+        double tx = x_ * x2;
+        sin += tx * c1; tx *= x2;
+        sin += tx * c2; tx *= x2;
+        sin += tx * c3; tx *= x2;
+        sin += tx * c4; tx *= x2;
+        sin += tx * c5; tx *= x2;
+        sin += tx * c6; tx *= x2;
+        sin += tx * c7;
+        return sign * sin;
     }
 
     /**
      * Reference: <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/349515/view.html#msg349515">http://www.java-gaming.org/</a>
      */
-    private static double sin_theagentd(double rad) {
+    private static double sin_theagentd_lookup(double rad) {
         float index = (float) (rad * lookupSizeOverPi2);
-        int ii = fastFloor(index);
+        int ii = (int)java.lang.Math.floor(index);
         float alpha = index - ii;
         int i = ii & lookupTableSizeMinus1;
         float sin1 = sinTable[i];
@@ -135,8 +126,8 @@ public class Math {
     public static double sin(double rad) {
         if (fastMath) {
             if (sinlookup)
-                return sin_theagentd(rad);
-            return sin_L_Spiro(rad);
+                return sin_theagentd_lookup(rad);
+            return sin_theagentd_arith(rad);
         }
         return java.lang.Math.sin(rad);
     }
@@ -207,6 +198,10 @@ public class Math {
 
     public static double toDegrees(double angles) {
         return java.lang.Math.toDegrees(angles);
+    }
+
+    public static double floor(double v) {
+        return java.lang.Math.floor(v);
     }
 
 }
