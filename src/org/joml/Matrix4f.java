@@ -120,6 +120,7 @@ public class Matrix4f implements Externalizable {
      */
     public static final int CORNER_PXPYPZ = 7;
 
+    float padding;
     float m00, m01, m02, m03;
     float m10, m11, m12, m13;
     float m20, m21, m22, m23;
@@ -130,6 +131,11 @@ public class Matrix4f implements Externalizable {
     private static final byte PROPERTY_AFFINE = 1<<1;
     private static final byte PROPERTY_IDENTITY = 1<<2;
     private static final byte PROPERTY_TRANSLATION = 1<<3;
+
+    private final native void mulNative(Matrix4f right, Matrix4f dest);
+    private final native void mulNativeAVX(Matrix4f right, Matrix4f dest);
+    private final native void invertNative(Matrix4f dest);
+    private final native void invertNativeAVX(Matrix4f dest);
 
     /**
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
@@ -1014,6 +1020,17 @@ public class Matrix4f implements Externalizable {
         return mulGeneric(right, dest);
     }
     private Matrix4f mulGeneric(Matrix4f right, Matrix4f dest) {
+        if (JNI.supportsNative) {
+            if (JNI.hasAvx)
+                mulNativeAVX(right, dest);
+            else
+                mulNative(right, dest);
+        } else
+            mulJava(right, dest);
+        dest.properties = 0;
+        return dest;
+    }
+    private void mulJava(Matrix4f right, Matrix4f dest) {
         float nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03;
         float nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03;
         float nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03;
@@ -1046,8 +1063,6 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = 0;
-        return dest;
     }
 
     /**
@@ -2092,6 +2107,17 @@ public class Matrix4f implements Externalizable {
         return invertGeneric(dest);
     }
     private Matrix4f invertGeneric(Matrix4f dest) {
+        if (JNI.supportsNative) {
+            if (JNI.hasAvx)
+                invertNativeAVX(dest);
+            else
+                invertNative(dest);
+        } else
+            invertJava(dest);
+        dest.properties = 0;
+        return dest;
+    }
+    private void invertJava(Matrix4f dest) {
         float a = m00 * m11 - m01 * m10;
         float b = m00 * m12 - m02 * m10;
         float c = m00 * m13 - m03 * m10;
@@ -2138,8 +2164,6 @@ public class Matrix4f implements Externalizable {
         dest.m31 = nm31;
         dest.m32 = nm32;
         dest.m33 = nm33;
-        dest.properties = 0;
-        return dest;
     }
 
     /**

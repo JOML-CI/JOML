@@ -84,6 +84,12 @@
 	</profiles>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>native/build</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
 		<testSourceDirectory>test</testSourceDirectory>
 		<plugins>
 			<plugin>
