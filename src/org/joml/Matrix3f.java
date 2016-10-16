@@ -914,15 +914,7 @@ public class Matrix3f implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer getTransposed(int index, FloatBuffer buffer) {
-        buffer.put(index,   m00);
-        buffer.put(index+1, m10);
-        buffer.put(index+2, m20);
-        buffer.put(index+3, m01);
-        buffer.put(index+4, m11);
-        buffer.put(index+5, m21);
-        buffer.put(index+6, m02);
-        buffer.put(index+7, m12);
-        buffer.put(index+8, m22);
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
@@ -959,15 +951,7 @@ public class Matrix3f implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
-        buffer.putFloat(index,    m00);
-        buffer.putFloat(index+4,  m10);
-        buffer.putFloat(index+8,  m20);
-        buffer.putFloat(index+12, m01);
-        buffer.putFloat(index+16, m11);
-        buffer.putFloat(index+20, m21);
-        buffer.putFloat(index+24, m02);
-        buffer.putFloat(index+28, m12);
-        buffer.putFloat(index+32, m22);
+        MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
