@@ -122,8 +122,8 @@ public class AxisAngle4f implements Externalizable {
      * @param angle the angle in radians
      * @param v     the rotation axis as a {@link Vector3f}
      */
-    public AxisAngle4f(float angle, Vector3f v) {
-        this(angle, v.x, v.y, v.z);
+    public AxisAngle4f(float angle, Vector3fc v) {
+        this(angle, v.x(), v.y(), v.z());
     }
 
     /**
@@ -172,8 +172,8 @@ public class AxisAngle4f implements Externalizable {
      *            the rotation axis as a {@link Vector3f}
      * @return this
      */
-    public AxisAngle4f set(float angle, Vector3f v) {
-        return set(angle, v.x, v.y, v.z);
+    public AxisAngle4f set(float angle, Vector3fc v) {
+        return set(angle, v.x(), v.y(), v.z());
     }
 
     /**
@@ -443,13 +443,13 @@ public class AxisAngle4f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3f transform(Vector3f v, Vector3f dest) {
+    public Vector3f transform(Vector3fc v, Vector3f dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
-        float dot = x * v.x + y * v.y + z * v.z;
-        dest.set((float) (v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x),
-                 (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
-                 (float) (v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z));
+        float dot = x * v.x() + y * v.y() + z * v.z();
+        dest.set((float) (v.x() * cos + sin * (y * v.z() - z * v.y()) + (1.0 - cos) * dot * x),
+                 (float) (v.y() * cos + sin * (z * v.x() - x * v.z()) + (1.0 - cos) * dot * y),
+                 (float) (v.z() * cos + sin * (x * v.y() - y * v.x()) + (1.0 - cos) * dot * z));
         return dest;
     }
 

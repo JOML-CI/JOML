@@ -81,14 +81,14 @@ public class Vector4f implements Externalizable {
      * given <code>v</code> and the given <code>w</code>.
      * 
      * @param v
-     *          the {@link Vector3f}
+     *          the {@link Vector3fc}
      * @param w
      *          the w component
      */
-    public Vector4f(Vector3f v, float w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4f(Vector3fc v, float w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
     }
 
@@ -240,15 +240,15 @@ public class Vector4f implements Externalizable {
      * <code>v</code> and the last component to <code>w</code>.
      * 
      * @param v
-     *          the {@link Vector3f} to copy
+     *          the {@link Vector3fc} to copy
      * @param w
      *          the w component
      * @return this
      */
-    public Vector4f set(Vector3f v, float w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4f set(Vector3fc v, float w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
         return this;
     }

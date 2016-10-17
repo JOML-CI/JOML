@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015-2016 Kai Burjack
+ * (C) Copyright 2016 Kai Burjack
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -2378,7 +2378,7 @@ abstract class MemUtil {
             UNSAFE.putOrderedLong(null, destAddr+8, UNSAFE.getLong(src, Vector4i_x+8));
         }
 
-        public final void put(Vector3f src, long destAddr) {
+        public final void put(Vector3fc src, long destAddr) {
             UNSAFE.putOrderedLong(null, destAddr,   UNSAFE.getLong(src, Vector3f_x));
             UNSAFE.putFloat(null, destAddr+8, UNSAFE.getFloat(src, Vector3f_x+8));
         }
@@ -2510,7 +2510,7 @@ abstract class MemUtil {
             UNSAFE.putOrderedLong(dst, Vector4i_x+8, UNSAFE.getLong(null, srcAddr+8));
         }
 
-        public final void get(Vector3f dst, long srcAddr) {
+        public final void get(Vector3fc dst, long srcAddr) {
             UNSAFE.putOrderedLong(dst, Vector3f_x,   UNSAFE.getLong(null, srcAddr));
             UNSAFE.putFloat(dst, Vector3f_x+8, UNSAFE.getFloat(null, srcAddr+8));
         }

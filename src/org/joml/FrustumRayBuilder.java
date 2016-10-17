@@ -110,7 +110,7 @@ public class FrustumRayBuilder {
      *          will hold the perspective origin
      * @return the <code>origin</code> vector
      */
-    public Vector3f origin(Vector3f origin) {
+    public Vector3fc origin(Vector3f origin) {
         origin.x = cx;
         origin.y = cy;
         origin.z = cz;
@@ -132,7 +132,7 @@ public class FrustumRayBuilder {
      *          will hold the normalized ray direction
      * @return the <code>dir</code> vector
      */
-    public Vector3f dir(float x, float y, Vector3f dir) {
+    public Vector3fc dir(float x, float y, Vector3f dir) {
         float y1x = nxnyX + (nxpyX - nxnyX) * y;
         float y1y = nxnyY + (nxpyY - nxnyY) * y;
         float y1z = nxnyZ + (nxpyZ - nxnyZ) * y;

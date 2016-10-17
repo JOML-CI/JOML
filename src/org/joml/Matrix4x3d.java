@@ -1559,8 +1559,8 @@ public class Matrix4x3d implements Externalizable {
      *              the offsets in x, y and z to translate
      * @return this
      */
-    public Matrix4x3d translation(Vector3f offset) {
-        return translation(offset.x, offset.y, offset.z);
+    public Matrix4x3d translation(Vector3fc offset) {
+        return translation(offset.x(), offset.y(), offset.z());
     }
 
     /**
@@ -2814,8 +2814,8 @@ public class Matrix4x3d implements Externalizable {
      *          the axis to rotate about
      * @return this
      */
-    public Matrix4x3d rotation(double angle, Vector3f axis) {
-        return rotation(angle, axis.x, axis.y, axis.z);
+    public Matrix4x3d rotation(double angle, Vector3fc axis) {
+        return rotation(angle, axis.x(), axis.y(), axis.z());
     }
 
     /**
@@ -3541,16 +3541,16 @@ public class Matrix4x3d implements Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3f)}.
+     * it, use {@link #translation(Vector3fc)}.
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
      * @return this
      */
-    public Matrix4x3d translate(Vector3f offset) {
-        return translate(offset.x, offset.y, offset.z);
+    public Matrix4x3d translate(Vector3fc offset) {
+        return translate(offset.x(), offset.y(), offset.z());
     }
 
     /**
@@ -3563,9 +3563,9 @@ public class Matrix4x3d implements Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3f)}.
+     * it, use {@link #translation(Vector3fc)}.
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
@@ -3573,8 +3573,8 @@ public class Matrix4x3d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3d translate(Vector3f offset, Matrix4x3d dest) {
-        return translate(offset.x, offset.y, offset.z, dest);
+    public Matrix4x3d translate(Vector3fc offset, Matrix4x3d dest) {
+        return translate(offset.x(), offset.y(), offset.z(), dest);
     }
 
     /**
@@ -3666,16 +3666,16 @@ public class Matrix4x3d implements Externalizable {
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
      * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector3f)}.
+     * it, use {@link #translation(Vector3fc)}.
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
      * @return this
      */
-    public Matrix4x3d translateLocal(Vector3f offset) {
-        return translateLocal(offset.x, offset.y, offset.z);
+    public Matrix4x3d translateLocal(Vector3fc offset) {
+        return translateLocal(offset.x(), offset.y(), offset.z());
     }
 
     /**
@@ -3688,9 +3688,9 @@ public class Matrix4x3d implements Externalizable {
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
      * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector3f)}.
+     * it, use {@link #translation(Vector3fc)}.
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
@@ -3698,8 +3698,8 @@ public class Matrix4x3d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3d translateLocal(Vector3f offset, Matrix4x3d dest) {
-        return translateLocal(offset.x, offset.y, offset.z, dest);
+    public Matrix4x3d translateLocal(Vector3fc offset, Matrix4x3d dest) {
+        return translateLocal(offset.x(), offset.y(), offset.z(), dest);
     }
 
     /**
@@ -4632,7 +4632,7 @@ public class Matrix4x3d implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * @see #rotate(Quaternionf)
      * 
      * @param translation
@@ -4643,10 +4643,10 @@ public class Matrix4x3d implements Externalizable {
      *          the scaling factors
      * @return this
      */
-    public Matrix4x3d translationRotateScale(Vector3f translation, 
+    public Matrix4x3d translationRotateScale(Vector3fc translation, 
                                            Quaternionf quat, 
-                                           Vector3f scale) {
-        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
+                                           Vector3fc scale) {
+        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x, quat.y, quat.z, quat.w, scale.x(), scale.y(), scale.z());
     }
 
     /**
@@ -5610,12 +5610,12 @@ public class Matrix4x3d implements Externalizable {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(double, Vector3f)}.
+     * use {@link #rotation(double, Vector3fc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(double, double, double, double)
-     * @see #rotation(double, Vector3f)
+     * @see #rotation(double, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -5623,8 +5623,8 @@ public class Matrix4x3d implements Externalizable {
      *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
-    public Matrix4x3d rotate(double angle, Vector3f axis) {
-        return rotate(angle, axis.x, axis.y, axis.z);
+    public Matrix4x3d rotate(double angle, Vector3fc axis) {
+        return rotate(angle, axis.x(), axis.y(), axis.z());
     }
 
     /**
@@ -5640,12 +5640,12 @@ public class Matrix4x3d implements Externalizable {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(double, Vector3f)}.
+     * use {@link #rotation(double, Vector3fc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(double, double, double, double)
-     * @see #rotation(double, Vector3f)
+     * @see #rotation(double, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -5655,8 +5655,8 @@ public class Matrix4x3d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3d rotate(double angle, Vector3f axis, Matrix4x3d dest) {
-        return rotate(angle, axis.x, axis.y, axis.z, dest);
+    public Matrix4x3d rotate(double angle, Vector3fc axis, Matrix4x3d dest) {
+        return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
     /**
