@@ -38,7 +38,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Vector4f implements Externalizable {
+public class Vector4f implements Externalizable, Vector4fc {
 
     private static final long serialVersionUID = 1L;   
 
@@ -81,14 +81,14 @@ public class Vector4f implements Externalizable {
      * given <code>v</code> and the given <code>w</code>.
      * 
      * @param v
-     *          the {@link Vector3f}
+     *          the {@link Vector3fc}
      * @param w
      *          the w component
      */
-    public Vector4f(Vector3f v, float w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4f(Vector3fc v, float w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
     }
 
@@ -205,6 +205,34 @@ public class Vector4f implements Externalizable {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#x()
+     */
+    public float x() {
+        return this.x;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#y()
+     */
+    public float y() {
+        return this.y;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#z()
+     */
+    public float z() {
+        return this.z;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#z()
+     */
+    public float w() {
+        return this.z;
+    }
+
     /**
      * Set this {@link Vector4f} to the values of the given <code>v</code>.
      * 
@@ -240,15 +268,15 @@ public class Vector4f implements Externalizable {
      * <code>v</code> and the last component to <code>w</code>.
      * 
      * @param v
-     *          the {@link Vector3f} to copy
+     *          the {@link Vector3fc} to copy
      * @param w
      *          the w component
      * @return this
      */
-    public Vector4f set(Vector3f v, float w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4f set(Vector3fc v, float w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
         return this;
     }
@@ -378,72 +406,30 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Store this vector into the supplied {@link FloatBuffer} at the current
-     * buffer {@link FloatBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * In order to specify the offset into the FloatBuffer at which
-     * the vector is stored, use {@link #get(int, FloatBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return the passed in buffer
-     * @see #get(int, FloatBuffer)
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#get(java.nio.FloatBuffer)
      */
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this vector into the supplied {@link FloatBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * 
-     * @param index
-     *          the absolute position into the FloatBuffer
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#get(int, java.nio.FloatBuffer)
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store this vector into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the vector is stored, use {@link #get(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return the passed in buffer
-     * @see #get(int, ByteBuffer)
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#get(java.nio.ByteBuffer)
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * 
-     * @param index
-     *          the absolute position into the ByteBuffer
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#get(int, java.nio.ByteBuffer)
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
@@ -486,14 +472,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to subtract from <code>this</code>
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#sub(org.joml.Vector4f, org.joml.Vector4f)
      */
     public Vector4f sub(Vector4f v, Vector4f dest) {
         dest.x = x - v.x;
@@ -503,20 +483,8 @@ public class Vector4f implements Externalizable {
         return dest;
     }
 
-    /**
-     * Subtract <tt>(x, y, z, w)</tt> from this and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x component to subtract
-     * @param y
-     *          the y component to subtract
-     * @param z
-     *          the z component to subtract
-     * @param w
-     *          the w component to subtract
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#sub(float, float, float, float, org.joml.Vector4f)
      */
     public Vector4f sub(float x, float y, float z, float w, Vector4f dest) {
         dest.x = this.x - x;
@@ -541,14 +509,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Add the supplied vector to this one and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to add
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#add(org.joml.Vector4f, org.joml.Vector4f)
      */
     public Vector4f add(Vector4f v, Vector4f dest) {
         dest.x = x + v.x;
@@ -579,20 +541,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Increment the components of this vector by the given values and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x component to add
-     * @param y
-     *          the y component to add
-     * @param z
-     *          the z component to add
-     * @param w
-     *          the w component to add
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#add(float, float, float, float, org.joml.Vector4f)
      */
     public Vector4f add(float x, float y, float z, float w, Vector4f dest) {
         dest.x = this.x + x;
@@ -636,17 +586,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector
-     * and store the result in <code>dest</code>.
-     * 
-     * @param a
-     *          the first multiplicand
-     * @param b
-     *          the second multiplicand
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#fma(org.joml.Vector4f, org.joml.Vector4f, org.joml.Vector4f)
      */
     public Vector4f fma(Vector4f a, Vector4f b, Vector4f dest) {
         dest.x = x + a.x * b.x;
@@ -656,17 +597,8 @@ public class Vector4f implements Externalizable {
         return dest;
     }
 
-    /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector
-     * and store the result in <code>dest</code>.
-     * 
-     * @param a
-     *          the first multiplicand
-     * @param b
-     *          the second multiplicand
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#fma(float, org.joml.Vector4f, org.joml.Vector4f)
      */
     public Vector4f fma(float a, Vector4f b, Vector4f dest) {
         dest.x = x + a * b.x;
@@ -691,14 +623,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Multiply this Vector4f component-wise by another Vector4f and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the other vector
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#mul(org.joml.Vector4f, org.joml.Vector4f)
      */
     public Vector4f mul(Vector4f v, Vector4f dest) {
         dest.x = x * v.x;
@@ -723,14 +649,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Divide this Vector4f component-wise by another Vector4f and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to divide by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#div(org.joml.Vector4f, org.joml.Vector4f)
      */
     public Vector4f div(Vector4f v, Vector4f dest) {
         dest.x = x / v.x;
@@ -752,15 +672,8 @@ public class Vector4f implements Externalizable {
         return mul(mat, this);
     }
 
-    /**
-     * Multiply the given matrix mat with this Vector4f and store the result in
-     * <code>dest</code>.
-     * 
-     * @param mat
-     *          the matrix to multiply the vector with
-     * @param dest
-     *          the destination vector to hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#mul(org.joml.Matrix4f, org.joml.Vector4f)
      */
     public Vector4f mul(Matrix4f mat, Vector4f dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
@@ -782,15 +695,8 @@ public class Vector4f implements Externalizable {
         return mul(mat, this);
     }
 
-    /**
-     * Multiply the given matrix mat with this Vector4f and store the result in
-     * <code>dest</code>.
-     * 
-     * @param mat
-     *          the matrix to multiply the vector with
-     * @param dest
-     *          the destination vector to hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#mul(org.joml.Matrix4x3f, org.joml.Vector4f)
      */
     public Vector4f mul(Matrix4x3f mat, Vector4f dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
@@ -800,15 +706,8 @@ public class Vector4f implements Externalizable {
         return dest;
     }
 
-    /**
-     * Multiply the given matrix <code>mat</code> with this Vector4f, perform perspective division
-     * and store the result in <code>dest</code>.
-     * 
-     * @param mat
-     *          the matrix to multiply this vector by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#mulProject(org.joml.Matrix4f, org.joml.Vector4f)
      */
     public Vector4f mulProject(Matrix4f mat, Vector4f dest) {
         float invW = 1.0f / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
@@ -846,15 +745,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Multiply all components of this {@link Vector4f} by the given scalar
-     * value and store the result in <code>dest</code>.
-     * 
-     * @param scalar
-     *          the scalar to multiply by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#mul(float, org.joml.Vector4f)
      */
     public Vector4f mul(float scalar, Vector4f dest) {
         dest.x = x * scalar;
@@ -885,20 +777,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Multiply the components of this Vector4f by the given scalar values and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x component to multiply by
-     * @param y
-     *          the y component to multiply by
-     * @param z
-     *          the z component to multiply by
-     * @param w
-     *          the w component to multiply by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#mul(float, float, float, float, org.joml.Vector4f)
      */
     public Vector4f mul(float x, float y, float z, float w, Vector4f dest) {
         dest.x = this.x * x;
@@ -924,15 +804,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Divide all components of this {@link Vector4f} by the given scalar
-     * value and store the result in <code>dest</code>.
-     * 
-     * @param scalar
-     *          the scalar to divide by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#div(float, org.joml.Vector4f)
      */
     public Vector4f div(float scalar, Vector4f dest) {
         dest.x = x / scalar;
@@ -963,20 +836,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Divide the components of this Vector4f by the given scalar values and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x component to divide by
-     * @param y
-     *          the y component to divide by
-     * @param z
-     *          the z component to divide by
-     * @param w
-     *          the w component to divide by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#div(float, float, float, float, org.joml.Vector4f)
      */
     public Vector4f div(float x, float y, float z, float w, Vector4f dest) {
         dest.x = this.x / x;
@@ -999,34 +860,22 @@ public class Vector4f implements Externalizable {
         return rotate(quat, this);
     }
 
-    /**
-     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
-     * 
-     * @see Quaternionf#transform(Vector4f)
-     * 
-     * @param quat
-     *          the quaternion to rotate this vector
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#rotate(org.joml.Quaternionf, org.joml.Vector4f)
      */
     public Vector4f rotate(Quaternionf quat, Vector4f dest) {
         return quat.transform(this, dest);
     }
 
-    /**
-     * Return the length squared of this vector.
-     * 
-     * @return the length squared
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#lengthSquared()
      */
     public float lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
 
-    /**
-     * Return the length of this vector.
-     * 
-     * @return the length
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#length()
      */
     public float length() {
         return (float) Math.sqrt(lengthSquared());
@@ -1046,12 +895,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Normalizes this vector and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#normalize(org.joml.Vector4f)
      */
     public Vector4f normalize(Vector4f dest) {
         float invLength = 1.0f / length();
@@ -1076,12 +921,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Return the distance between <code>this</code> vector and <code>v</code>.
-     * 
-     * @param v
-     *          the other vector
-     * @return the euclidean distance
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#distance(org.joml.Vector4f)
      */
     public float distance(Vector4f v) {
         float dx = v.x - x;
@@ -1091,18 +932,8 @@ public class Vector4f implements Externalizable {
         return (float) Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
-    /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y, z, w)</tt>.
-     * 
-     * @param x
-     *          the x component of the other vector
-     * @param y
-     *          the y component of the other vector
-     * @param z
-     *          the z component of the other vector
-     * @param w
-     *          the w component of the other vector
-     * @return the euclidean distance
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#distance(float, float, float, float)
      */
     public float distance(float x, float y, float z, float w) {
         float dx = this.x - x;
@@ -1112,43 +943,22 @@ public class Vector4f implements Externalizable {
         return (float) Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
     }
 
-    /**
-     * Compute the dot product (inner product) of this vector and <code>v</code>
-     * .
-     * 
-     * @param v
-     *          the other vector
-     * @return the dot product
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#dot(org.joml.Vector4f)
      */
     public float dot(Vector4f v) {
         return x * v.x + y * v.y + z * v.z + w * v.w;
     }
 
-    /**
-     * Compute the dot product (inner product) of this vector and <tt>(x, y, z, w)</tt>.
-     * 
-     * @param x
-     *          the x component of the other vector
-     * @param y
-     *          the y component of the other vector
-     * @param z
-     *          the z component of the other vector
-     * @param w
-     *          the w component of the other vector
-     * @return the dot product
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#dot(float, float, float, float)
      */
     public float dot(float x, float y, float z, float w) {
         return this.x * x + this.y * y + this.z * z + this.w * w;
     }
 
-    /**
-     * Return the cosine of the angle between this vector and the supplied vector. Use this instead of <code>Math.cos(angle(v))</code>.
-     * 
-     * @see #angle(Vector4f)
-     * 
-     * @param v
-     *          the other vector
-     * @return the cosine of the angle
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#angleCos(org.joml.Vector4f)
      */
     public float angleCos(Vector4f v) {
         double length1Sqared = x * x + y * y + z * z + w * w;
@@ -1157,14 +967,8 @@ public class Vector4f implements Externalizable {
         return (float) (dot / (Math.sqrt(length1Sqared * length2Sqared)));
     }
 
-    /**
-     * Return the angle between this vector and the supplied vector.
-     * 
-     * @see #angleCos(Vector4f)
-     * 
-     * @param v
-     *          the other vector
-     * @return the angle, in radians
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#angle(org.joml.Vector4f)
      */
     public float angle(Vector4f v) {
         float cos = angleCos(v);
@@ -1197,12 +1001,8 @@ public class Vector4f implements Externalizable {
         return this;
     }
 
-    /**
-     * Negate this vector and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#negate(org.joml.Vector4f)
      */
     public Vector4f negate(Vector4f dest) {
         dest.x = -x;
@@ -1310,26 +1110,16 @@ public class Vector4f implements Externalizable {
         return true;
     }
 
-    /**
-     * Compute a smooth-step (i.e. hermite with zero tangents) interpolation
-     * between <code>this</code> vector and the given vector <code>v</code> and
-     * store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the other vector
-     * @param t
-     *          the interpolation factor, within <tt>[0..1]</tt>
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4f#smoothStep(org.joml.Vector4fc, float, org.joml.Vector4f)
      */
-    public Vector4f smoothStep(Vector4f v, float t, Vector4f dest) {
+    public Vector4f smoothStep(Vector4fc v, float t, Vector4f dest) {
         float t2 = t * t;
         float t3 = t2 * t;
-        dest.x = (x + x - v.x - v.x) * t3 + (3.0f * v.x - 3.0f * x) * t2 + x * t + x;
-        dest.y = (y + y - v.y - v.y) * t3 + (3.0f * v.y - 3.0f * y) * t2 + y * t + y;
-        dest.z = (z + z - v.z - v.z) * t3 + (3.0f * v.z - 3.0f * z) * t2 + z * t + z;
-        dest.w = (w + w - v.w - v.w) * t3 + (3.0f * v.w - 3.0f * w) * t2 + w * t + w;
+        dest.x = (x + x - v.x() - v.x()) * t3 + (3.0f * v.x() - 3.0f * x) * t2 + x * t + x;
+        dest.y = (y + y - v.y() - v.y()) * t3 + (3.0f * v.y() - 3.0f * y) * t2 + y * t + y;
+        dest.z = (z + z - v.z() - v.z()) * t3 + (3.0f * v.z() - 3.0f * z) * t2 + z * t + z;
+        dest.w = (w + w - v.w() - v.w()) * t3 + (3.0f * v.w() - 3.0f * w) * t2 + w * t + w;
         return dest;
     }
 
@@ -1378,20 +1168,8 @@ public class Vector4f implements Externalizable {
         return lerp(other, t, this);
     }
 
-    /**
-     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
-     * then the result is <code>other</code>.
-     * 
-     * @param other
-     *          the other vector
-     * @param t
-     *          the interpolation factor between 0.0 and 1.0
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#lerp(org.joml.Vector4f, float, org.joml.Vector4f)
      */
     public Vector4f lerp(Vector4f other, float t, Vector4f dest) {
         dest.x = x + (other.x - x) * t;

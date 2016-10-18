@@ -40,16 +40,8 @@ package org.joml;
  */
 public class Math {
 
-    private static final boolean fastMath = hasOption("joml.fastmath");
-    private static final boolean sinlookup = hasOption("joml.sinLookup");
-    private static boolean hasOption(String option) {
-        String v = System.getProperty(option);
-        if (v == null)
-            return false;
-        if (v.trim().length() == 0)
-            return true;
-        return Boolean.valueOf(v).booleanValue();
-    }
+    private static final boolean fastMath = Options.hasOption("joml.fastmath");
+    private static final boolean sinlookup = Options.hasOption("joml.sinLookup");
 
     /*
      * The following implementation of an approximation of sine and cosine was

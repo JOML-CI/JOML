@@ -1053,8 +1053,8 @@ public class Matrix3f implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix3f scale(Vector3f xyz, Matrix3f dest) {
-        return scale(xyz.x, xyz.y, xyz.z, dest);
+    public Matrix3f scale(Vector3fc xyz, Matrix3f dest) {
+        return scale(xyz.x(), xyz.y(), xyz.z(), dest);
     }
 
     /**
@@ -1070,8 +1070,8 @@ public class Matrix3f implements Externalizable {
      *            the factors of the x, y and z component, respectively
      * @return this
      */
-    public Matrix3f scale(Vector3f xyz) {
-        return scale(xyz.x, xyz.y, xyz.z, this);
+    public Matrix3f scale(Vector3fc xyz) {
+        return scale(xyz.x(), xyz.y(), xyz.z(), this);
     }
 
     /**
@@ -1290,16 +1290,16 @@ public class Matrix3f implements Externalizable {
      * matrix to obtain an additional scaling.
      * <p>
      * In order to post-multiply a scaling transformation directly to a
-     * matrix use {@link #scale(Vector3f) scale()} instead.
+     * matrix use {@link #scale(Vector3fc) scale()} instead.
      * 
-     * @see #scale(Vector3f)
+     * @see #scale(Vector3fc)
      * 
      * @param xyz
      *             the scale in x, y and z respectively
      * @return this
      */
-    public Matrix3f scaling(Vector3f xyz) {
-        return scaling(xyz.x, xyz.y, xyz.z);
+    public Matrix3f scaling(Vector3fc xyz) {
+        return scaling(xyz.x(), xyz.y(), xyz.z());
     }
 
     /**
@@ -1315,9 +1315,9 @@ public class Matrix3f implements Externalizable {
      * matrix to obtain an additional rotation.
      * <p>
      * In order to post-multiply a rotation transformation directly to a
-     * matrix, use {@link #rotate(float, Vector3f) rotate()} instead.
+     * matrix, use {@link #rotate(float, Vector3fc) rotate()} instead.
      * 
-     * @see #rotate(float, Vector3f)
+     * @see #rotate(float, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -1325,8 +1325,8 @@ public class Matrix3f implements Externalizable {
      *          the axis to rotate about (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
-    public Matrix3f rotation(float angle, Vector3f axis) {
-        return rotation(angle, axis.x, axis.y, axis.z);
+    public Matrix3f rotation(float angle, Vector3fc axis) {
+        return rotation(angle, axis.x(), axis.y(), axis.z());
     }
 
     /**
@@ -1741,7 +1741,7 @@ public class Matrix3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3f transform(Vector3f v, Vector3f dest) {
+    public Vector3f transform(Vector3fc v, Vector3f dest) {
         v.mul(this, dest);
         return dest;
     }
@@ -2683,12 +2683,12 @@ public class Matrix3f implements Externalizable {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(float, Vector3f)}.
+     * use {@link #rotation(float, Vector3fc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(float, float, float, float)
-     * @see #rotation(float, Vector3f)
+     * @see #rotation(float, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -2696,8 +2696,8 @@ public class Matrix3f implements Externalizable {
      *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
-    public Matrix3f rotate(float angle, Vector3f axis) {
-        return rotate(angle, axis.x, axis.y, axis.z);
+    public Matrix3f rotate(float angle, Vector3fc axis) {
+        return rotate(angle, axis.x(), axis.y(), axis.z());
     }
 
     /**
@@ -2713,12 +2713,12 @@ public class Matrix3f implements Externalizable {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(float, Vector3f)}.
+     * use {@link #rotation(float, Vector3fc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(float, float, float, float)
-     * @see #rotation(float, Vector3f)
+     * @see #rotation(float, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -2728,8 +2728,8 @@ public class Matrix3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix3f rotate(float angle, Vector3f axis, Matrix3f dest) {
-        return rotate(angle, axis.x, axis.y, axis.z, dest);
+    public Matrix3f rotate(float angle, Vector3fc axis, Matrix3f dest) {
+        return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
     /**
@@ -2741,10 +2741,10 @@ public class Matrix3f implements Externalizable {
      * lookalong rotation transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
+     * use {@link #setLookAlong(Vector3fc, Vector3fc) setLookAlong()}.
      * 
      * @see #lookAlong(float, float, float, float, float, float)
-     * @see #setLookAlong(Vector3f, Vector3f)
+     * @see #setLookAlong(Vector3fc, Vector3fc)
      * 
      * @param dir
      *            the direction in space to look along
@@ -2752,8 +2752,8 @@ public class Matrix3f implements Externalizable {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix3f lookAlong(Vector3f dir, Vector3f up) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    public Matrix3f lookAlong(Vector3fc dir, Vector3fc up) {
+        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
     /**
@@ -2766,10 +2766,10 @@ public class Matrix3f implements Externalizable {
      * lookalong rotation transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
+     * use {@link #setLookAlong(Vector3fc, Vector3fc) setLookAlong()}.
      * 
      * @see #lookAlong(float, float, float, float, float, float)
-     * @see #setLookAlong(Vector3f, Vector3f)
+     * @see #setLookAlong(Vector3fc, Vector3fc)
      * 
      * @param dir
      *            the direction in space to look along
@@ -2779,8 +2779,8 @@ public class Matrix3f implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix3f lookAlong(Vector3f dir, Vector3f up, Matrix3f dest) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    public Matrix3f lookAlong(Vector3fc dir, Vector3fc up, Matrix3f dest) {
+        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
 
     /**
@@ -2905,10 +2905,10 @@ public class Matrix3f implements Externalizable {
      * point along <code>dir</code>.
      * <p>
      * In order to apply the lookalong transformation to any previous existing transformation,
-     * use {@link #lookAlong(Vector3f, Vector3f)}.
+     * use {@link #lookAlong(Vector3fc, Vector3fc)}.
      * 
-     * @see #setLookAlong(Vector3f, Vector3f)
-     * @see #lookAlong(Vector3f, Vector3f)
+     * @see #setLookAlong(Vector3fc, Vector3fc)
+     * @see #lookAlong(Vector3fc, Vector3fc)
      * 
      * @param dir
      *            the direction in space to look along
@@ -2916,8 +2916,8 @@ public class Matrix3f implements Externalizable {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix3f setLookAlong(Vector3f dir, Vector3f up) {
-        return setLookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    public Matrix3f setLookAlong(Vector3fc dir, Vector3fc up) {
+        return setLookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
     /**
@@ -3500,12 +3500,12 @@ public class Matrix3f implements Externalizable {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
-     * use {@link #rotationTowards(Vector3f, Vector3f) rotationTowards()}.
+     * use {@link #rotationTowards(Vector3fc, Vector3fc) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <tt>mul(new Matrix3f().lookAlong(new Vector3f(dir).negate(), up).invert(), dest)</tt>
      * 
      * @see #rotateTowards(float, float, float, float, float, float, Matrix3f)
-     * @see #rotationTowards(Vector3f, Vector3f)
+     * @see #rotationTowards(Vector3fc, Vector3fc)
      * 
      * @param direction
      *              the direction to rotate towards
@@ -3515,8 +3515,8 @@ public class Matrix3f implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Matrix3f rotateTowards(Vector3f direction, Vector3f up, Matrix3f dest) {
-        return rotateTowards(direction.x, direction.y, direction.z, up.x, up.y, up.z, dest);
+    public Matrix3f rotateTowards(Vector3fc direction, Vector3fc up, Matrix3f dest) {
+        return rotateTowards(direction.x(), direction.y(), direction.z(), up.x(), up.y(), up.z(), dest);
     }
 
     /**
@@ -3529,12 +3529,12 @@ public class Matrix3f implements Externalizable {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
-     * use {@link #rotationTowards(Vector3f, Vector3f) rotationTowards()}.
+     * use {@link #rotationTowards(Vector3fc, Vector3fc) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <tt>mul(new Matrix3f().lookAlong(new Vector3f(dir).negate(), up).invert())</tt>
      * 
      * @see #rotateTowards(float, float, float, float, float, float)
-     * @see #rotationTowards(Vector3f, Vector3f)
+     * @see #rotationTowards(Vector3fc, Vector3fc)
      * 
      * @param direction
      *              the direction to orient towards
@@ -3542,8 +3542,8 @@ public class Matrix3f implements Externalizable {
      *              the up vector
      * @return this
      */
-    public Matrix3f rotateTowards(Vector3f direction, Vector3f up) {
-        return rotateTowards(direction.x, direction.y, direction.z, up.x, up.y, up.z, this);
+    public Matrix3f rotateTowards(Vector3fc direction, Vector3fc up) {
+        return rotateTowards(direction.x(), direction.y(), direction.z(), up.x(), up.y(), up.z(), this);
     }
 
     /**
@@ -3560,7 +3560,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>mul(new Matrix3f().lookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert())</tt>
      * 
-     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #rotateTowards(Vector3fc, Vector3fc)
      * @see #rotationTowards(float, float, float, float, float, float)
      * 
      * @param dirX
@@ -3596,7 +3596,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>mul(new Matrix3f().lookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</tt>
      * 
-     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #rotateTowards(Vector3fc, Vector3fc)
      * @see #rotationTowards(float, float, float, float, float, float)
      * 
      * @param dirX
@@ -3671,7 +3671,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>setLookAlong(new Vector3f(dir).negate(), up).invert()</tt>
      * 
-     * @see #rotationTowards(Vector3f, Vector3f)
+     * @see #rotationTowards(Vector3fc, Vector3fc)
      * @see #rotateTowards(float, float, float, float, float, float)
      * 
      * @param dir
@@ -3680,8 +3680,8 @@ public class Matrix3f implements Externalizable {
      *              the up vector
      * @return this
      */
-    public Matrix3f rotationTowards(Vector3f dir, Vector3f up) {
-        return rotationTowards(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    public Matrix3f rotationTowards(Vector3fc dir, Vector3fc up) {
+        return rotationTowards(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
     /**
@@ -3693,7 +3693,7 @@ public class Matrix3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>setLookAlong(-dirX, -dirY, -dirZ, upX, upY, upZ).invert()</tt>
      * 
-     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #rotateTowards(Vector3fc, Vector3fc)
      * @see #rotationTowards(float, float, float, float, float, float)
      * 
      * @param dirX

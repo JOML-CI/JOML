@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2015-2016 Kai Burjack
+ * (C) Copyright 2016 Kai Burjack
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -38,17 +38,8 @@ import java.nio.IntBuffer;
  * @author Kai Burjack
  */
 abstract class MemUtil {
-    private static final boolean nounsafe = hasOption("joml.nounsafe");
+    private static final boolean nounsafe = Options.hasOption("joml.nounsafe");
     public static final MemUtil INSTANCE = createInstance();
-
-    private static boolean hasOption(String option) {
-    	String v = System.getProperty(option);
-    	if (v == null)
-    		return false;
-    	if (v.trim().length() == 0)
-    		return true;
-    	return Boolean.valueOf(v).booleanValue();
-    }
 
     private static final MemUtil createInstance() {
         MemUtil accessor;

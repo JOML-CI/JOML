@@ -649,8 +649,8 @@ public class Quaternionf implements Externalizable {
      *          the axis to rotate about
      * @return this
      */
-    public Quaternionf rotationAxis(float angle, Vector3f axis) {
-        return rotationAxis(angle, axis.x, axis.y, axis.z);
+    public Quaternionf rotationAxis(float angle, Vector3fc axis) {
+        return rotationAxis(angle, axis.x(), axis.y(), axis.z());
     }
 
     /**
@@ -1231,8 +1231,8 @@ public class Quaternionf implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3f transform(Vector3f vec, Vector3f dest) {
-        return transform(vec.x, vec.y, vec.z, dest);
+    public Vector3f transform(Vector3fc vec, Vector3f dest) {
+        return transform(vec.x(), vec.y(), vec.z(), dest);
     }
 
     /**
@@ -1280,8 +1280,8 @@ public class Quaternionf implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector4f transform(Vector4f vec, Vector4f dest) {
-        return transform(vec.x, vec.y, vec.z, dest);
+    public Vector4f transform(Vector4fc vec, Vector4f dest) {
+        return transform(vec.x(), vec.y(), vec.z(), dest);
     }
 
     /**
@@ -2189,8 +2189,8 @@ public class Quaternionf implements Externalizable {
      *              spanned by the given <code>dir</code> and <code>up</code>
      * @return this
      */
-    public Quaternionf lookAlong(Vector3f dir, Vector3f up) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    public Quaternionf lookAlong(Vector3fc dir, Vector3fc up) {
+        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
     /**
@@ -2217,8 +2217,8 @@ public class Quaternionf implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Quaternionf lookAlong(Vector3f dir, Vector3f up, Quaternionf dest) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    public Quaternionf lookAlong(Vector3fc dir, Vector3fc up, Quaternionf dest) {
+        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
 
     /**
@@ -2406,8 +2406,8 @@ public class Quaternionf implements Externalizable {
      *          the destination direction
      * @return this
      */
-    public Quaternionf rotationTo(Vector3f fromDir, Vector3f toDir) {
-        return rotationTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z);
+    public Quaternionf rotationTo(Vector3fc fromDir, Vector3fc toDir) {
+        return rotationTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z());
     }
 
     /**
@@ -2520,8 +2520,8 @@ public class Quaternionf implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Quaternionf rotateTo(Vector3f fromDir, Vector3f toDir, Quaternionf dest) {
-        return rotateTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z, dest);
+    public Quaternionf rotateTo(Vector3fc fromDir, Vector3fc toDir, Quaternionf dest) {
+        return rotateTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z(), dest);
     }
 
     /**
@@ -2542,8 +2542,8 @@ public class Quaternionf implements Externalizable {
      *          the destination direction
      * @return this
      */
-    public Quaternionf rotateTo(Vector3f fromDir, Vector3f toDir) {
-        return rotateTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z, this);
+    public Quaternionf rotateTo(Vector3fc fromDir, Vector3fc toDir) {
+        return rotateTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z(), this);
     }
 
     /**
@@ -3008,8 +3008,8 @@ public class Quaternionf implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Quaternionf rotateAxis(float angle, Vector3f axis, Quaternionf dest) {
-        return rotateAxis(angle, axis.x, axis.y, axis.z, dest);
+    public Quaternionf rotateAxis(float angle, Vector3fc axis, Quaternionf dest) {
+        return rotateAxis(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
     /**
@@ -3028,8 +3028,8 @@ public class Quaternionf implements Externalizable {
      *              the rotation axis
      * @return this
      */
-    public Quaternionf rotateAxis(float angle, Vector3f axis) {
-        return rotateAxis(angle, axis.x, axis.y, axis.z, this);
+    public Quaternionf rotateAxis(float angle, Vector3fc axis) {
+        return rotateAxis(angle, axis.x(), axis.y(), axis.z(), this);
     }
 
     /**

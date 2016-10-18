@@ -1644,9 +1644,9 @@ public class Matrix3d implements Externalizable {
      * matrix to obtain an additional rotation.
      * <p>
      * In order to post-multiply a rotation transformation directly to a
-     * matrix, use {@link #rotate(double, Vector3f) rotate()} instead.
+     * matrix, use {@link #rotate(double, Vector3fc) rotate()} instead.
      * 
-     * @see #rotate(double, Vector3f)
+     * @see #rotate(double, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -1654,8 +1654,8 @@ public class Matrix3d implements Externalizable {
      *          the axis to rotate about (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
-    public Matrix3d rotation(double angle, Vector3f axis) {
-        return rotation(angle, axis.x, axis.y, axis.z);
+    public Matrix3d rotation(double angle, Vector3fc axis) {
+        return rotation(angle, axis.x(), axis.y(), axis.z());
     }
 
     /**
@@ -3403,12 +3403,12 @@ public class Matrix3d implements Externalizable {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(double, Vector3f)}.
+     * use {@link #rotation(double, Vector3fc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(double, double, double, double)
-     * @see #rotation(double, Vector3f)
+     * @see #rotation(double, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -3416,8 +3416,8 @@ public class Matrix3d implements Externalizable {
      *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
-    public Matrix3d rotate(double angle, Vector3f axis) {
-        return rotate(angle, axis.x, axis.y, axis.z);
+    public Matrix3d rotate(double angle, Vector3fc axis) {
+        return rotate(angle, axis.x(), axis.y(), axis.z());
     }
 
     /**
@@ -3435,12 +3435,12 @@ public class Matrix3d implements Externalizable {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(double, Vector3f)}.
+     * use {@link #rotation(double, Vector3fc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(double, double, double, double)
-     * @see #rotation(double, Vector3f)
+     * @see #rotation(double, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -3450,8 +3450,8 @@ public class Matrix3d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix3d rotate(double angle, Vector3f axis, Matrix3d dest) {
-        return rotate(angle, axis.x, axis.y, axis.z, dest);
+    public Matrix3d rotate(double angle, Vector3fc axis, Matrix3d dest) {
+        return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
     /**

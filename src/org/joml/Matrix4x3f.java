@@ -1389,7 +1389,7 @@ public class Matrix4x3f implements Externalizable {
      * matrix to obtain an additional translation.
      * <p>
      * In order to post-multiply a translation transformation directly to a
-     * matrix, use {@link #translate(Vector3f) translate()} instead.
+     * matrix, use {@link #translate(Vector3fc) translate()} instead.
      * 
      * @see #translate(float, float, float)
      * 
@@ -1397,8 +1397,8 @@ public class Matrix4x3f implements Externalizable {
      *              the offsets in x, y and z to translate
      * @return this
      */
-    public Matrix4x3f translation(Vector3f offset) {
-        return translation(offset.x, offset.y, offset.z);
+    public Matrix4x3f translation(Vector3fc offset) {
+        return translation(offset.x(), offset.y(), offset.z());
     }
 
     /**
@@ -1428,18 +1428,18 @@ public class Matrix4x3f implements Externalizable {
     /**
      * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
-     * To build a translation matrix instead, use {@link #translation(Vector3f)}.
-     * To apply a translation, use {@link #translate(Vector3f)}.
+     * To build a translation matrix instead, use {@link #translation(Vector3fc)}.
+     * To apply a translation, use {@link #translate(Vector3fc)}.
      * 
-     * @see #translation(Vector3f)
-     * @see #translate(Vector3f)
+     * @see #translation(Vector3fc)
+     * @see #translate(Vector3fc)
      * 
      * @param xyz
      *          the units to translate in <tt>(x, y, z)</tt>
      * @return this
      */
-    public Matrix4x3f setTranslation(Vector3f xyz) {
-        return setTranslation(xyz.x, xyz.y, xyz.z);
+    public Matrix4x3f setTranslation(Vector3fc xyz) {
+        return setTranslation(xyz.x(), xyz.y(), xyz.z());
     }
 
     /**
@@ -1962,16 +1962,16 @@ public class Matrix4x3f implements Externalizable {
      * matrix to obtain an additional scaling.
      * <p>
      * In order to post-multiply a scaling transformation directly to a
-     * matrix use {@link #scale(Vector3f) scale()} instead.
+     * matrix use {@link #scale(Vector3fc) scale()} instead.
      * 
-     * @see #scale(Vector3f)
+     * @see #scale(Vector3fc)
      * 
      * @param xyz
      *             the scale in x, y and z respectively
      * @return this
      */
-    public Matrix4x3f scaling(Vector3f xyz) {
-        return scaling(xyz.x, xyz.y, xyz.z);
+    public Matrix4x3f scaling(Vector3fc xyz) {
+        return scaling(xyz.x(), xyz.y(), xyz.z());
     }
 
     /**
@@ -1987,9 +1987,9 @@ public class Matrix4x3f implements Externalizable {
      * matrix to obtain an additional rotation.
      * <p>
      * In order to post-multiply a rotation transformation directly to a
-     * matrix, use {@link #rotate(float, Vector3f) rotate()} instead.
+     * matrix, use {@link #rotate(float, Vector3fc) rotate()} instead.
      * 
-     * @see #rotate(float, Vector3f)
+     * @see #rotate(float, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -1997,8 +1997,8 @@ public class Matrix4x3f implements Externalizable {
      *          the axis to rotate about (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
-    public Matrix4x3f rotation(float angle, Vector3f axis) {
-        return rotation(angle, axis.x, axis.y, axis.z);
+    public Matrix4x3f rotation(float angle, Vector3fc axis) {
+        return rotation(angle, axis.x(), axis.y(), axis.z());
     }
 
     /**
@@ -2663,7 +2663,7 @@ public class Matrix4x3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * @see #rotate(Quaternionf)
      * 
      * @param translation
@@ -2674,10 +2674,10 @@ public class Matrix4x3f implements Externalizable {
      *          the scaling factors
      * @return this
      */
-    public Matrix4x3f translationRotateScale(Vector3f translation, 
+    public Matrix4x3f translationRotateScale(Vector3fc translation, 
                                            Quaternionf quat, 
-                                           Vector3f scale) {
-        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
+                                           Vector3fc scale) {
+        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x, quat.y, quat.z, quat.w, scale.x(), scale.y(), scale.z());
     }
 
     /**
@@ -2786,7 +2786,7 @@ public class Matrix4x3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale).mul(m)</tt>
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * @see #rotate(Quaternionf)
      * 
      * @param translation
@@ -2799,8 +2799,8 @@ public class Matrix4x3f implements Externalizable {
      *          the matrix to multiply by
      * @return this
      */
-    public Matrix4x3f translationRotateScaleMul(Vector3f translation, Quaternionf quat, Vector3f scale, Matrix4x3f m) {
-        return translationRotateScaleMul(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z, m);
+    public Matrix4x3f translationRotateScaleMul(Vector3fc translation, Quaternionf quat, Vector3fc scale, Matrix4x3f m) {
+        return translationRotateScaleMul(translation.x(), translation.y(), translation.z(), quat.x, quat.y, quat.z, quat.w, scale.x(), scale.y(), scale.z(), m);
     }
 
     /**
@@ -2894,7 +2894,7 @@ public class Matrix4x3f implements Externalizable {
      *          will contain the result
      * @return dest
      */
-    public Vector4f transform(Vector4f v, Vector4f dest) {
+    public Vector4f transform(Vector4fc v, Vector4f dest) {
         return v.mul(this, dest);
     }
 
@@ -2905,9 +2905,9 @@ public class Matrix4x3f implements Externalizable {
      * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
      * will represent a position/location in 3D-space rather than a direction.
      * <p>
-     * In order to store the result in another vector, use {@link #transformPosition(Vector3f, Vector3f)}.
+     * In order to store the result in another vector, use {@link #transformPosition(Vector3fc, Vector3f)}.
      * 
-     * @see #transformPosition(Vector3f, Vector3f)
+     * @see #transformPosition(Vector3fc, Vector3f)
      * @see #transform(Vector4f)
      * 
      * @param v
@@ -2931,7 +2931,7 @@ public class Matrix4x3f implements Externalizable {
      * In order to store the result in the same vector, use {@link #transformPosition(Vector3f)}.
      * 
      * @see #transformPosition(Vector3f)
-     * @see #transform(Vector4f, Vector4f)
+     * @see #transform(Vector4fc, Vector4f)
      * 
      * @param v
      *          the vector to transform
@@ -2939,10 +2939,10 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3f transformPosition(Vector3f v, Vector3f dest) {
-        dest.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
-                 m01 * v.x + m11 * v.y + m21 * v.z + m31,
-                 m02 * v.x + m12 * v.y + m22 * v.z + m32);
+    public Vector3f transformPosition(Vector3fc v, Vector3f dest) {
+        dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z() + m30,
+                 m01 * v.x() + m11 * v.y() + m21 * v.z() + m31,
+                 m02 * v.x() + m12 * v.y() + m22 * v.z() + m32);
         return dest;
     }
 
@@ -2954,9 +2954,9 @@ public class Matrix4x3f implements Externalizable {
      * will represent a direction in 3D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
-     * In order to store the result in another vector, use {@link #transformDirection(Vector3f, Vector3f)}.
+     * In order to store the result in another vector, use {@link #transformDirection(Vector3fc, Vector3f)}.
      * 
-     * @see #transformDirection(Vector3f, Vector3f)
+     * @see #transformDirection(Vector3fc, Vector3f)
      * 
      * @param v
      *          the vector to transform and to hold the final result
@@ -2987,10 +2987,10 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3f transformDirection(Vector3f v, Vector3f dest) {
-        dest.set(m00 * v.x + m10 * v.y + m20 * v.z,
-                 m01 * v.x + m11 * v.y + m21 * v.z,
-                 m02 * v.x + m12 * v.y + m22 * v.z);
+    public Vector3f transformDirection(Vector3fc v, Vector3f dest) {
+        dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z(),
+                 m01 * v.x() + m11 * v.y() + m21 * v.z(),
+                 m02 * v.x() + m12 * v.y() + m22 * v.z());
         return dest;
     }
 
@@ -3009,8 +3009,8 @@ public class Matrix4x3f implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix4x3f scale(Vector3f xyz, Matrix4x3f dest) {
-        return scale(xyz.x, xyz.y, xyz.z, dest);
+    public Matrix4x3f scale(Vector3fc xyz, Matrix4x3f dest) {
+        return scale(xyz.x(), xyz.y(), xyz.z(), dest);
     }
 
     /**
@@ -3026,8 +3026,8 @@ public class Matrix4x3f implements Externalizable {
      *            the factors of the x, y and z component, respectively
      * @return this
      */
-    public Matrix4x3f scale(Vector3f xyz) {
-        return scale(xyz.x, xyz.y, xyz.z, this);
+    public Matrix4x3f scale(Vector3fc xyz) {
+        return scale(xyz.x(), xyz.y(), xyz.z(), this);
     }
 
     /**
@@ -4071,16 +4071,16 @@ public class Matrix4x3f implements Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3f)}.
+     * it, use {@link #translation(Vector3fc)}.
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
      * @return this
      */
-    public Matrix4x3f translate(Vector3f offset) {
-        return translate(offset.x, offset.y, offset.z);
+    public Matrix4x3f translate(Vector3fc offset) {
+        return translate(offset.x(), offset.y(), offset.z());
     }
 
     /**
@@ -4093,9 +4093,9 @@ public class Matrix4x3f implements Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3f)}.
+     * it, use {@link #translation(Vector3fc)}.
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
@@ -4103,8 +4103,8 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f translate(Vector3f offset, Matrix4x3f dest) {
-        return translate(offset.x, offset.y, offset.z, dest);
+    public Matrix4x3f translate(Vector3fc offset, Matrix4x3f dest) {
+        return translate(offset.x(), offset.y(), offset.z(), dest);
     }
 
     /**
@@ -4196,16 +4196,16 @@ public class Matrix4x3f implements Externalizable {
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
      * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector3f)}.
+     * it, use {@link #translation(Vector3fc)}.
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
      * @return this
      */
-    public Matrix4x3f translateLocal(Vector3f offset) {
-        return translateLocal(offset.x, offset.y, offset.z);
+    public Matrix4x3f translateLocal(Vector3fc offset) {
+        return translateLocal(offset.x(), offset.y(), offset.z());
     }
 
     /**
@@ -4218,9 +4218,9 @@ public class Matrix4x3f implements Externalizable {
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
      * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector3f)}.
+     * it, use {@link #translation(Vector3fc)}.
      * 
-     * @see #translation(Vector3f)
+     * @see #translation(Vector3fc)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
@@ -4228,8 +4228,8 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f translateLocal(Vector3f offset, Matrix4x3f dest) {
-        return translateLocal(offset.x, offset.y, offset.z, dest);
+    public Matrix4x3f translateLocal(Vector3fc offset, Matrix4x3f dest) {
+        return translateLocal(offset.x(), offset.y(), offset.z(), dest);
     }
 
     /**
@@ -5524,15 +5524,15 @@ public class Matrix4x3f implements Externalizable {
      * lookalong rotation transformation will be applied first!
      * <p>
      * This is equivalent to calling
-     * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt}
+     * {@link #lookAt(Vector3fc, Vector3fc, Vector3fc) lookAt}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
+     * use {@link #setLookAlong(Vector3fc, Vector3fc) setLookAlong()}.
      * 
      * @see #lookAlong(float, float, float, float, float, float)
-     * @see #lookAt(Vector3f, Vector3f, Vector3f)
-     * @see #setLookAlong(Vector3f, Vector3f)
+     * @see #lookAt(Vector3fc, Vector3fc, Vector3fc)
+     * @see #setLookAlong(Vector3fc, Vector3fc)
      * 
      * @param dir
      *            the direction in space to look along
@@ -5540,8 +5540,8 @@ public class Matrix4x3f implements Externalizable {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4x3f lookAlong(Vector3f dir, Vector3f up) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    public Matrix4x3f lookAlong(Vector3fc dir, Vector3fc up) {
+        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
     /**
@@ -5554,15 +5554,15 @@ public class Matrix4x3f implements Externalizable {
      * lookalong rotation transformation will be applied first!
      * <p>
      * This is equivalent to calling
-     * {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt}
+     * {@link #lookAt(Vector3fc, Vector3fc, Vector3fc) lookAt}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(Vector3f, Vector3f) setLookAlong()}.
+     * use {@link #setLookAlong(Vector3fc, Vector3fc) setLookAlong()}.
      * 
      * @see #lookAlong(float, float, float, float, float, float)
-     * @see #lookAt(Vector3f, Vector3f, Vector3f)
-     * @see #setLookAlong(Vector3f, Vector3f)
+     * @see #lookAt(Vector3fc, Vector3fc, Vector3fc)
+     * @see #setLookAlong(Vector3fc, Vector3fc)
      * 
      * @param dir
      *            the direction in space to look along
@@ -5572,8 +5572,8 @@ public class Matrix4x3f implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix4x3f lookAlong(Vector3f dir, Vector3f up, Matrix4x3f dest) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    public Matrix4x3f lookAlong(Vector3fc dir, Vector3fc up, Matrix4x3f dest) {
+        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
 
     /**
@@ -5713,14 +5713,14 @@ public class Matrix4x3f implements Externalizable {
      * point along <code>dir</code>.
      * <p>
      * This is equivalent to calling
-     * {@link #setLookAt(Vector3f, Vector3f, Vector3f) setLookAt()} 
+     * {@link #setLookAt(Vector3fc, Vector3fc, Vector3fc) setLookAt()} 
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * <p>
      * In order to apply the lookalong transformation to any previous existing transformation,
-     * use {@link #lookAlong(Vector3f, Vector3f)}.
+     * use {@link #lookAlong(Vector3fc, Vector3fc)}.
      * 
-     * @see #setLookAlong(Vector3f, Vector3f)
-     * @see #lookAlong(Vector3f, Vector3f)
+     * @see #setLookAlong(Vector3fc, Vector3fc)
+     * @see #lookAlong(Vector3fc, Vector3fc)
      * 
      * @param dir
      *            the direction in space to look along
@@ -5728,8 +5728,8 @@ public class Matrix4x3f implements Externalizable {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4x3f setLookAlong(Vector3f dir, Vector3f up) {
-        return setLookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    public Matrix4x3f setLookAlong(Vector3fc dir, Vector3fc up) {
+        return setLookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
     /**
@@ -5807,10 +5807,10 @@ public class Matrix4x3f implements Externalizable {
      * instead.
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
-     * use {@link #lookAt(Vector3f, Vector3f, Vector3f) lookAt()}.
+     * use {@link #lookAt(Vector3fc, Vector3fc, Vector3fc) lookAt()}.
      * 
      * @see #setLookAt(float, float, float, float, float, float, float, float, float)
-     * @see #lookAt(Vector3f, Vector3f, Vector3f)
+     * @see #lookAt(Vector3fc, Vector3fc, Vector3fc)
      * 
      * @param eye
      *            the position of the camera
@@ -5820,8 +5820,8 @@ public class Matrix4x3f implements Externalizable {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4x3f setLookAt(Vector3f eye, Vector3f center, Vector3f up) {
-        return setLookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
+    public Matrix4x3f setLookAt(Vector3fc eye, Vector3fc center, Vector3fc up) {
+        return setLookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z());
     }
 
     /**
@@ -5831,7 +5831,7 @@ public class Matrix4x3f implements Externalizable {
      * In order to apply the lookat transformation to a previous existing transformation,
      * use {@link #lookAt(float, float, float, float, float, float, float, float, float) lookAt}.
      * 
-     * @see #setLookAt(Vector3f, Vector3f, Vector3f)
+     * @see #setLookAt(Vector3fc, Vector3fc, Vector3fc)
      * @see #lookAt(float, float, float, float, float, float, float, float, float)
      * 
      * @param eyeX
@@ -5909,10 +5909,10 @@ public class Matrix4x3f implements Externalizable {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
-     * use {@link #setLookAt(Vector3f, Vector3f, Vector3f)}.
+     * use {@link #setLookAt(Vector3fc, Vector3fc, Vector3fc)}.
      * 
      * @see #lookAt(float, float, float, float, float, float, float, float, float)
-     * @see #setLookAlong(Vector3f, Vector3f)
+     * @see #setLookAlong(Vector3fc, Vector3fc)
      * 
      * @param eye
      *            the position of the camera
@@ -5924,8 +5924,8 @@ public class Matrix4x3f implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix4x3f lookAt(Vector3f eye, Vector3f center, Vector3f up, Matrix4x3f dest) {
-        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, dest);
+    public Matrix4x3f lookAt(Vector3fc eye, Vector3fc center, Vector3fc up, Matrix4x3f dest) {
+        return lookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), dest);
     }
 
     /**
@@ -5938,10 +5938,10 @@ public class Matrix4x3f implements Externalizable {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
-     * use {@link #setLookAt(Vector3f, Vector3f, Vector3f)}.
+     * use {@link #setLookAt(Vector3fc, Vector3fc, Vector3fc)}.
      * 
      * @see #lookAt(float, float, float, float, float, float, float, float, float)
-     * @see #setLookAlong(Vector3f, Vector3f)
+     * @see #setLookAlong(Vector3fc, Vector3fc)
      * 
      * @param eye
      *            the position of the camera
@@ -5951,8 +5951,8 @@ public class Matrix4x3f implements Externalizable {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4x3f lookAt(Vector3f eye, Vector3f center, Vector3f up) {
-        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, this);
+    public Matrix4x3f lookAt(Vector3fc eye, Vector3fc center, Vector3fc up) {
+        return lookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), this);
     }
 
     /**
@@ -5967,7 +5967,7 @@ public class Matrix4x3f implements Externalizable {
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt()}.
      * 
-     * @see #lookAt(Vector3f, Vector3f, Vector3f)
+     * @see #lookAt(Vector3fc, Vector3fc, Vector3fc)
      * @see #setLookAt(float, float, float, float, float, float, float, float, float)
      * 
      * @param eyeX
@@ -6079,7 +6079,7 @@ public class Matrix4x3f implements Externalizable {
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAt(float, float, float, float, float, float, float, float, float) setLookAt()}.
      * 
-     * @see #lookAt(Vector3f, Vector3f, Vector3f)
+     * @see #lookAt(Vector3fc, Vector3fc, Vector3fc)
      * @see #setLookAt(float, float, float, float, float, float, float, float, float)
      * 
      * @param eyeX
@@ -6117,10 +6117,10 @@ public class Matrix4x3f implements Externalizable {
      * instead.
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
-     * use {@link #lookAtLH(Vector3f, Vector3f, Vector3f) lookAt()}.
+     * use {@link #lookAtLH(Vector3fc, Vector3fc, Vector3fc) lookAt()}.
      * 
      * @see #setLookAtLH(float, float, float, float, float, float, float, float, float)
-     * @see #lookAtLH(Vector3f, Vector3f, Vector3f)
+     * @see #lookAtLH(Vector3fc, Vector3fc, Vector3fc)
      * 
      * @param eye
      *            the position of the camera
@@ -6130,8 +6130,8 @@ public class Matrix4x3f implements Externalizable {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4x3f setLookAtLH(Vector3f eye, Vector3f center, Vector3f up) {
-        return setLookAtLH(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
+    public Matrix4x3f setLookAtLH(Vector3fc eye, Vector3fc center, Vector3fc up) {
+        return setLookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z());
     }
 
     /**
@@ -6141,7 +6141,7 @@ public class Matrix4x3f implements Externalizable {
      * In order to apply the lookat transformation to a previous existing transformation,
      * use {@link #lookAtLH(float, float, float, float, float, float, float, float, float) lookAtLH}.
      * 
-     * @see #setLookAtLH(Vector3f, Vector3f, Vector3f)
+     * @see #setLookAtLH(Vector3fc, Vector3fc, Vector3fc)
      * @see #lookAtLH(float, float, float, float, float, float, float, float, float)
      * 
      * @param eyeX
@@ -6219,7 +6219,7 @@ public class Matrix4x3f implements Externalizable {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
-     * use {@link #setLookAtLH(Vector3f, Vector3f, Vector3f)}.
+     * use {@link #setLookAtLH(Vector3fc, Vector3fc, Vector3fc)}.
      * 
      * @see #lookAtLH(float, float, float, float, float, float, float, float, float)
      * 
@@ -6233,8 +6233,8 @@ public class Matrix4x3f implements Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix4x3f lookAtLH(Vector3f eye, Vector3f center, Vector3f up, Matrix4x3f dest) {
-        return lookAtLH(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, dest);
+    public Matrix4x3f lookAtLH(Vector3fc eye, Vector3fc center, Vector3fc up, Matrix4x3f dest) {
+        return lookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), dest);
     }
 
     /**
@@ -6247,7 +6247,7 @@ public class Matrix4x3f implements Externalizable {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
-     * use {@link #setLookAtLH(Vector3f, Vector3f, Vector3f)}.
+     * use {@link #setLookAtLH(Vector3fc, Vector3fc, Vector3fc)}.
      * 
      * @see #lookAtLH(float, float, float, float, float, float, float, float, float)
      * 
@@ -6259,8 +6259,8 @@ public class Matrix4x3f implements Externalizable {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4x3f lookAtLH(Vector3f eye, Vector3f center, Vector3f up) {
-        return lookAtLH(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, this);
+    public Matrix4x3f lookAtLH(Vector3fc eye, Vector3fc center, Vector3fc up) {
+        return lookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), this);
     }
 
     /**
@@ -6275,7 +6275,7 @@ public class Matrix4x3f implements Externalizable {
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAtLH(float, float, float, float, float, float, float, float, float) setLookAtLH()}.
      * 
-     * @see #lookAtLH(Vector3f, Vector3f, Vector3f)
+     * @see #lookAtLH(Vector3fc, Vector3fc, Vector3fc)
      * @see #setLookAtLH(float, float, float, float, float, float, float, float, float)
      * 
      * @param eyeX
@@ -6388,7 +6388,7 @@ public class Matrix4x3f implements Externalizable {
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAtLH(float, float, float, float, float, float, float, float, float) setLookAtLH()}.
      * 
-     * @see #lookAtLH(Vector3f, Vector3f, Vector3f)
+     * @see #lookAtLH(Vector3fc, Vector3fc, Vector3fc)
      * @see #setLookAtLH(float, float, float, float, float, float, float, float, float)
      * 
      * @param eyeX
@@ -6772,12 +6772,12 @@ public class Matrix4x3f implements Externalizable {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(float, Vector3f)}.
+     * use {@link #rotation(float, Vector3fc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(float, float, float, float)
-     * @see #rotation(float, Vector3f)
+     * @see #rotation(float, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -6785,8 +6785,8 @@ public class Matrix4x3f implements Externalizable {
      *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
-    public Matrix4x3f rotate(float angle, Vector3f axis) {
-        return rotate(angle, axis.x, axis.y, axis.z);
+    public Matrix4x3f rotate(float angle, Vector3fc axis) {
+        return rotate(angle, axis.x(), axis.y(), axis.z());
     }
 
     /**
@@ -6804,12 +6804,12 @@ public class Matrix4x3f implements Externalizable {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(float, Vector3f)}.
+     * use {@link #rotation(float, Vector3fc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(float, float, float, float)
-     * @see #rotation(float, Vector3f)
+     * @see #rotation(float, Vector3fc)
      * 
      * @param angle
      *          the angle in radians
@@ -6819,8 +6819,8 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f rotate(float angle, Vector3f axis, Matrix4x3f dest) {
-        return rotate(angle, axis.x, axis.y, axis.z, dest);
+    public Matrix4x3f rotate(float angle, Vector3fc axis, Matrix4x3f dest) {
+        return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
     /**
@@ -6993,8 +6993,8 @@ public class Matrix4x3f implements Externalizable {
      *          a point on the plane
      * @return this
      */
-    public Matrix4x3f reflect(Vector3f normal, Vector3f point) {
-        return reflect(normal.x, normal.y, normal.z, point.x, point.y, point.z);
+    public Matrix4x3f reflect(Vector3fc normal, Vector3fc point) {
+        return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z());
     }
 
     /**
@@ -7016,7 +7016,7 @@ public class Matrix4x3f implements Externalizable {
      *          a point on the plane
      * @return this
      */
-    public Matrix4x3f reflect(Quaternionf orientation, Vector3f point) {
+    public Matrix4x3f reflect(Quaternionf orientation, Vector3fc point) {
         return reflect(orientation, point, this);
     }
 
@@ -7041,14 +7041,14 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f reflect(Quaternionf orientation, Vector3f point, Matrix4x3f dest) {
+    public Matrix4x3f reflect(Quaternionf orientation, Vector3fc point, Matrix4x3f dest) {
         double num1 = orientation.x + orientation.x;
         double num2 = orientation.y + orientation.y;
         double num3 = orientation.z + orientation.z;
         float normalX = (float) (orientation.x * num3 + orientation.w * num2);
         float normalY = (float) (orientation.y * num3 - orientation.w * num1);
         float normalZ = (float) (1.0 - (orientation.x * num1 + orientation.y * num2));
-        return reflect(normalX, normalY, normalZ, point.x, point.y, point.z, dest);
+        return reflect(normalX, normalY, normalZ, point.x(), point.y(), point.z(), dest);
     }
 
     /**
@@ -7068,8 +7068,8 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f reflect(Vector3f normal, Vector3f point, Matrix4x3f dest) {
-        return reflect(normal.x, normal.y, normal.z, point.x, point.y, point.z, dest);
+    public Matrix4x3f reflect(Vector3fc normal, Vector3fc point, Matrix4x3f dest) {
+        return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z(), dest);
     }
 
     /**
@@ -7145,8 +7145,8 @@ public class Matrix4x3f implements Externalizable {
      *          a point on the plane
      * @return this
      */
-    public Matrix4x3f reflection(Vector3f normal, Vector3f point) {
-        return reflection(normal.x, normal.y, normal.z, point.x, point.y, point.z);
+    public Matrix4x3f reflection(Vector3fc normal, Vector3fc point) {
+        return reflection(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z());
     }
 
     /**
@@ -7163,14 +7163,14 @@ public class Matrix4x3f implements Externalizable {
      *          a point on the plane
      * @return this
      */
-    public Matrix4x3f reflection(Quaternionf orientation, Vector3f point) {
+    public Matrix4x3f reflection(Quaternionf orientation, Vector3fc point) {
         double num1 = orientation.x + orientation.x;
         double num2 = orientation.y + orientation.y;
         double num3 = orientation.z + orientation.z;
         float normalX = (float) (orientation.x * num3 + orientation.w * num2);
         float normalY = (float) (orientation.y * num3 - orientation.w * num1);
         float normalZ = (float) (1.0 - (orientation.x * num1 + orientation.y * num2));
-        return reflection(normalX, normalY, normalZ, point.x, point.y, point.z);
+        return reflection(normalX, normalY, normalZ, point.x(), point.y(), point.z());
     }
 
     /**
@@ -7618,8 +7618,8 @@ public class Matrix4x3f implements Externalizable {
      *          the constant in the plane equation
      * @return this
      */
-    public Matrix4x3f shadow(Vector4f light, float a, float b, float c, float d) {
-        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, this);
+    public Matrix4x3f shadow(Vector4fc light, float a, float b, float c, float d) {
+        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, this);
     }
 
     /**
@@ -7650,8 +7650,8 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f shadow(Vector4f light, float a, float b, float c, float d, Matrix4x3f dest) {
-        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+    public Matrix4x3f shadow(Vector4fc light, float a, float b, float c, float d, Matrix4x3f dest) {
+        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
     /**
@@ -7800,13 +7800,13 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f shadow(Vector4f light, Matrix4x3f planeTransform, Matrix4x3f dest) {
+    public Matrix4x3f shadow(Vector4fc light, Matrix4x3f planeTransform, Matrix4x3f dest) {
         // compute plane equation by transforming (y = 0)
         float a = planeTransform.m10;
         float b = planeTransform.m11;
         float c = planeTransform.m12;
         float d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
-        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
     /**
@@ -7828,7 +7828,7 @@ public class Matrix4x3f implements Externalizable {
      *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
      * @return this
      */
-    public Matrix4x3f shadow(Vector4f light, Matrix4x3f planeTransform) {
+    public Matrix4x3f shadow(Vector4fc light, Matrix4x3f planeTransform) {
         return shadow(light, planeTransform, this);
     }
 
@@ -7913,14 +7913,14 @@ public class Matrix4x3f implements Externalizable {
      *          the rotation axis (must be {@link Vector3f#normalize() normalized})
      * @return this
      */
-    public Matrix4x3f billboardCylindrical(Vector3f objPos, Vector3f targetPos, Vector3f up) {
-        float dirX = targetPos.x - objPos.x;
-        float dirY = targetPos.y - objPos.y;
-        float dirZ = targetPos.z - objPos.z;
+    public Matrix4x3f billboardCylindrical(Vector3fc objPos, Vector3fc targetPos, Vector3fc up) {
+        float dirX = targetPos.x() - objPos.x();
+        float dirY = targetPos.y() - objPos.y();
+        float dirZ = targetPos.z() - objPos.z();
         // left = up x dir
-        float leftX = up.y * dirZ - up.z * dirY;
-        float leftY = up.z * dirX - up.x * dirZ;
-        float leftZ = up.x * dirY - up.y * dirX;
+        float leftX = up.y() * dirZ - up.z() * dirY;
+        float leftY = up.z() * dirX - up.x() * dirZ;
+        float leftZ = up.x() * dirY - up.y() * dirX;
         // normalize left
         float invLeftLen = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLen;
@@ -7928,9 +7928,9 @@ public class Matrix4x3f implements Externalizable {
         leftZ *= invLeftLen;
         // recompute dir by constraining rotation around 'up'
         // dir = left x up
-        dirX = leftY * up.z - leftZ * up.y;
-        dirY = leftZ * up.x - leftX * up.z;
-        dirZ = leftX * up.y - leftY * up.x;
+        dirX = leftY * up.z() - leftZ * up.y();
+        dirY = leftZ * up.x() - leftX * up.z();
+        dirZ = leftX * up.y() - leftY * up.x();
         // normalize dir
         float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
@@ -7940,15 +7940,15 @@ public class Matrix4x3f implements Externalizable {
         m00 = leftX;
         m01 = leftY;
         m02 = leftZ;
-        m10 = up.x;
-        m11 = up.y;
-        m12 = up.z;
+        m10 = up.x();
+        m11 = up.y();
+        m12 = up.z();
         m20 = dirX;
         m21 = dirY;
         m22 = dirZ;
-        m30 = objPos.x;
-        m31 = objPos.y;
-        m32 = objPos.z;
+        m30 = objPos.x();
+        m31 = objPos.y();
+        m32 = objPos.z();
         properties = 0;
         return this;
     }
@@ -7961,9 +7961,9 @@ public class Matrix4x3f implements Externalizable {
      * its position <code>objPos</code>.
      * <p>
      * If preserving an <i>up</i> vector is not necessary when rotating the +Z axis, then a shortest arc rotation can be obtained 
-     * using {@link #billboardSpherical(Vector3f, Vector3f)}.
+     * using {@link #billboardSpherical(Vector3fc, Vector3fc)}.
      * 
-     * @see #billboardSpherical(Vector3f, Vector3f)
+     * @see #billboardSpherical(Vector3fc, Vector3fc)
      * 
      * @param objPos
      *          the position of the object to rotate towards <code>targetPos</code>
@@ -7973,19 +7973,19 @@ public class Matrix4x3f implements Externalizable {
      *          the up axis used to orient the object
      * @return this
      */
-    public Matrix4x3f billboardSpherical(Vector3f objPos, Vector3f targetPos, Vector3f up) {
-        float dirX = targetPos.x - objPos.x;
-        float dirY = targetPos.y - objPos.y;
-        float dirZ = targetPos.z - objPos.z;
+    public Matrix4x3f billboardSpherical(Vector3fc objPos, Vector3fc targetPos, Vector3fc up) {
+        float dirX = targetPos.x() - objPos.x();
+        float dirY = targetPos.y() - objPos.y();
+        float dirZ = targetPos.z() - objPos.z();
         // normalize dir
         float invDirLen = 1.0f / (float) Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
         // left = up x dir
-        float leftX = up.y * dirZ - up.z * dirY;
-        float leftY = up.z * dirX - up.x * dirZ;
-        float leftZ = up.x * dirY - up.y * dirX;
+        float leftX = up.y() * dirZ - up.z() * dirY;
+        float leftY = up.z() * dirX - up.x() * dirZ;
+        float leftZ = up.x() * dirY - up.y() * dirX;
         // normalize left
         float invLeftLen = 1.0f / (float) Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLen;
@@ -8005,9 +8005,9 @@ public class Matrix4x3f implements Externalizable {
         m20 = dirX;
         m21 = dirY;
         m22 = dirZ;
-        m30 = objPos.x;
-        m31 = objPos.y;
-        m32 = objPos.z;
+        m30 = objPos.x();
+        m31 = objPos.y();
+        m32 = objPos.z();
         properties = 0;
         return this;
     }
@@ -8020,9 +8020,9 @@ public class Matrix4x3f implements Externalizable {
      * its position <code>objPos</code>.
      * <p>
      * In order to specify an <i>up</i> vector which needs to be maintained when rotating the +Z axis of the object,
-     * use {@link #billboardSpherical(Vector3f, Vector3f, Vector3f)}.
+     * use {@link #billboardSpherical(Vector3fc, Vector3fc, Vector3fc)}.
      * 
-     * @see #billboardSpherical(Vector3f, Vector3f, Vector3f)
+     * @see #billboardSpherical(Vector3fc, Vector3fc, Vector3fc)
      * 
      * @param objPos
      *          the position of the object to rotate towards <code>targetPos</code>
@@ -8030,10 +8030,10 @@ public class Matrix4x3f implements Externalizable {
      *          the position of the target (for example the camera) towards which to rotate the object
      * @return this
      */
-    public Matrix4x3f billboardSpherical(Vector3f objPos, Vector3f targetPos) {
-        float toDirX = targetPos.x - objPos.x;
-        float toDirY = targetPos.y - objPos.y;
-        float toDirZ = targetPos.z - objPos.z;
+    public Matrix4x3f billboardSpherical(Vector3fc objPos, Vector3fc targetPos) {
+        float toDirX = targetPos.x() - objPos.x();
+        float toDirY = targetPos.y() - objPos.y();
+        float toDirZ = targetPos.z() - objPos.z();
         float x = -toDirY;
         float y = toDirX;
         float w = (float) Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ) + toDirZ;
@@ -8055,9 +8055,9 @@ public class Matrix4x3f implements Externalizable {
         m20 = q13;
         m21 = -q03;
         m22 = 1.0f - q11 - q00;
-        m30 = objPos.x;
-        m31 = objPos.y;
-        m32 = objPos.z;
+        m30 = objPos.x();
+        m31 = objPos.y();
+        m32 = objPos.z();
         properties = 0;
         return this;
     }
@@ -8263,8 +8263,8 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f arcball(float radius, Vector3f center, float angleX, float angleY, Matrix4x3f dest) {
-        return arcball(radius, center.x, center.y, center.z, angleX, angleY, dest);
+    public Matrix4x3f arcball(float radius, Vector3fc center, float angleX, float angleY, Matrix4x3f dest) {
+        return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, dest);
     }
 
     /**
@@ -8307,8 +8307,8 @@ public class Matrix4x3f implements Externalizable {
      *          the rotation angle around the Y axis in radians
      * @return this
      */
-    public Matrix4x3f arcball(float radius, Vector3f center, float angleX, float angleY) {
-        return arcball(radius, center.x, center.y, center.z, angleX, angleY, this);
+    public Matrix4x3f arcball(float radius, Vector3fc center, float angleX, float angleY) {
+        return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, this);
     }
 
     /**
@@ -8432,8 +8432,8 @@ public class Matrix4x3f implements Externalizable {
      *              will hold the maximum corner of the resulting axis-aligned box
      * @return this
      */
-    public Matrix4x3f transformAab(Vector3f min, Vector3f max, Vector3f outMin, Vector3f outMax) {
-        return transformAab(min.x, min.y, min.z, max.x, max.y, max.z, outMin, outMax);
+    public Matrix4x3f transformAab(Vector3fc min, Vector3fc max, Vector3f outMin, Vector3f outMax) {
+        return transformAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), outMin, outMax);
     }
 
     /**
@@ -8495,12 +8495,12 @@ public class Matrix4x3f implements Externalizable {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
-     * use {@link #rotationTowards(Vector3f, Vector3f) rotationTowards()}.
+     * use {@link #rotationTowards(Vector3fc, Vector3fc) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <tt>mul(new Matrix4x3f().lookAt(new Vector3f(), new Vector3f(dir).negate(), up).invert(), dest)</tt>
      * 
      * @see #rotateTowards(float, float, float, float, float, float, Matrix4x3f)
-     * @see #rotationTowards(Vector3f, Vector3f)
+     * @see #rotationTowards(Vector3fc, Vector3fc)
      * 
      * @param dir
      *              the direction to rotate towards
@@ -8510,8 +8510,8 @@ public class Matrix4x3f implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Matrix4x3f rotateTowards(Vector3f dir, Vector3f up, Matrix4x3f dest) {
-        return rotateTowards(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    public Matrix4x3f rotateTowards(Vector3fc dir, Vector3fc up, Matrix4x3f dest) {
+        return rotateTowards(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
 
     /**
@@ -8524,12 +8524,12 @@ public class Matrix4x3f implements Externalizable {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
-     * use {@link #rotationTowards(Vector3f, Vector3f) rotationTowards()}.
+     * use {@link #rotationTowards(Vector3fc, Vector3fc) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <tt>mul(new Matrix4x3f().lookAt(new Vector3f(), new Vector3f(dir).negate(), up).invert())</tt>
      * 
      * @see #rotateTowards(float, float, float, float, float, float)
-     * @see #rotationTowards(Vector3f, Vector3f)
+     * @see #rotationTowards(Vector3fc, Vector3fc)
      * 
      * @param dir
      *              the direction to orient towards
@@ -8537,8 +8537,8 @@ public class Matrix4x3f implements Externalizable {
      *              the up vector
      * @return this
      */
-    public Matrix4x3f rotateTowards(Vector3f dir, Vector3f up) {
-        return rotateTowards(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    public Matrix4x3f rotateTowards(Vector3fc dir, Vector3fc up) {
+        return rotateTowards(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
     /**
@@ -8555,7 +8555,7 @@ public class Matrix4x3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>mul(new Matrix4x3f().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert())</tt>
      * 
-     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #rotateTowards(Vector3fc, Vector3fc)
      * @see #rotationTowards(float, float, float, float, float, float)
      * 
      * @param dirX
@@ -8591,7 +8591,7 @@ public class Matrix4x3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>mul(new Matrix4x3f().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert(), dest)</tt>
      * 
-     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #rotateTowards(Vector3fc, Vector3fc)
      * @see #rotationTowards(float, float, float, float, float, float)
      * 
      * @param dirX
@@ -8670,7 +8670,7 @@ public class Matrix4x3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>setLookAt(new Vector3f(), new Vector3f(dir).negate(), up).invert()</tt>
      * 
-     * @see #rotationTowards(Vector3f, Vector3f)
+     * @see #rotationTowards(Vector3fc, Vector3fc)
      * @see #rotateTowards(float, float, float, float, float, float)
      * 
      * @param dir
@@ -8679,8 +8679,8 @@ public class Matrix4x3f implements Externalizable {
      *              the up vector
      * @return this
      */
-    public Matrix4x3f rotationTowards(Vector3f dir, Vector3f up) {
-        return rotationTowards(dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    public Matrix4x3f rotationTowards(Vector3fc dir, Vector3fc up) {
+        return rotationTowards(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
     /**
@@ -8692,7 +8692,7 @@ public class Matrix4x3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>setLookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invert()</tt>
      * 
-     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #rotateTowards(Vector3fc, Vector3fc)
      * @see #rotationTowards(float, float, float, float, float, float)
      * 
      * @param dirX
@@ -8752,8 +8752,8 @@ public class Matrix4x3f implements Externalizable {
      * <p>
      * This method is equivalent to calling: <tt>translation(pos).rotateTowards(dir, up)</tt>
      * 
-     * @see #translation(Vector3f)
-     * @see #rotateTowards(Vector3f, Vector3f)
+     * @see #translation(Vector3fc)
+     * @see #rotateTowards(Vector3fc, Vector3fc)
      *
      * @param pos
      *              the position to translate to
@@ -8763,8 +8763,8 @@ public class Matrix4x3f implements Externalizable {
      *              the up vector
      * @return this
      */
-    public Matrix4x3f translationRotateTowards(Vector3f pos, Vector3f dir, Vector3f up) {
-        return translationRotateTowards(pos.x, pos.y, pos.z, dir.x, dir.y, dir.z, up.x, up.y, up.z);
+    public Matrix4x3f translationRotateTowards(Vector3fc pos, Vector3fc dir, Vector3fc up) {
+        return translationRotateTowards(pos.x(), pos.y(), pos.z(), dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
     }
 
     /**

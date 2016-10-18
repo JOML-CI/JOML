@@ -73,7 +73,7 @@ public class FrustumIntersection {
      */
     public static final int INSIDE = -2;
     /**
-     * Return value of {@link #intersectSphere(Vector3f, float)} or {@link #intersectSphere(float, float, float, float)}
+     * Return value of {@link #intersectSphere(Vector3fc, float)} or {@link #intersectSphere(float, float, float, float)}
      * indicating that the sphere is completely outside of the frustum.
      */
     public static final int OUTSIDE = -3;
@@ -197,8 +197,8 @@ public class FrustumIntersection {
      *          the point to test
      * @return <code>true</code> if the given point is inside the frustum; <code>false</code> otherwise
      */
-    public boolean testPoint(Vector3f point) {
-        return testPoint(point.x, point.y, point.z);
+    public boolean testPoint(Vector3fc point) {
+        return testPoint(point.x(), point.y(), point.z());
     }
 
     /**
@@ -235,8 +235,8 @@ public class FrustumIntersection {
      * @return <code>true</code> if the given sphere is partly or completely inside the frustum;
      *         <code>false</code> otherwise
      */
-    public boolean testSphere(Vector3f center, float radius) {
-        return testSphere(center.x, center.y, center.z, radius);
+    public boolean testSphere(Vector3fc center, float radius) {
+        return testSphere(center.x(), center.y(), center.z(), radius);
     }
 
     /**
@@ -280,8 +280,8 @@ public class FrustumIntersection {
      * @return {@link #INSIDE} if the given sphere is completely inside the frustum, or {@link #INTERSECT} if the sphere intersects
      *         the frustum, or {@link #OUTSIDE} if the sphere is outside of the frustum
      */
-    public int intersectSphere(Vector3f center, float radius) {
-        return intersectSphere(center.x, center.y, center.z, radius);
+    public int intersectSphere(Vector3fc center, float radius) {
+        return intersectSphere(center.x(), center.y(), center.z(), radius);
     }
 
     /**
@@ -347,8 +347,8 @@ public class FrustumIntersection {
      *          the maximum corner coordinates of the axis-aligned box
      * @return <code>true</code> if the axis-aligned box is completely or partly inside of the frustum; <code>false</code> otherwise
      */
-    public boolean testAab(Vector3f min, Vector3f max) {
-        return testAab(min.x, min.y, min.z, max.x, max.y, max.z);
+    public boolean testAab(Vector3fc min, Vector3fc max) {
+        return testAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
     }
 
     /**
@@ -405,8 +405,8 @@ public class FrustumIntersection {
      *         or {@link #INTERSECT} if the box intersects the frustum, or {@link #INSIDE} if the box is fully inside of the frustum.
      *         The plane index is one of {@link #PLANE_NX}, {@link #PLANE_PX}, {@link #PLANE_NY}, {@link #PLANE_PY}, {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int intersectAab(Vector3f min, Vector3f max) {
-        return intersectAab(min.x, min.y, min.z, max.x, max.y, max.z);
+    public int intersectAab(Vector3fc min, Vector3fc max) {
+        return intersectAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
     }
 
     /**
@@ -476,7 +476,7 @@ public class FrustumIntersection {
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
-     * This method differs from {@link #intersectAab(Vector3f, Vector3f)} in that
+     * This method differs from {@link #intersectAab(Vector3fc, Vector3fc)} in that
      * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
@@ -499,8 +499,8 @@ public class FrustumIntersection {
      *         or {@link #INTERSECT} if the box intersects the frustum, or {@link #INSIDE} if the box is fully inside of the frustum.
      *         The plane index is one of {@link #PLANE_NX}, {@link #PLANE_PX}, {@link #PLANE_NY}, {@link #PLANE_PY}, {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int intersectAab(Vector3f min, Vector3f max, int mask) {
-        return intersectAab(min.x, min.y, min.z, max.x, max.y, max.z, mask);
+    public int intersectAab(Vector3fc min, Vector3fc max, int mask) {
+        return intersectAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), mask);
     }
 
     /**
@@ -581,7 +581,7 @@ public class FrustumIntersection {
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
-     * This method differs from {@link #intersectAab(Vector3f, Vector3f)} in that
+     * This method differs from {@link #intersectAab(Vector3fc, Vector3fc)} in that
      * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
@@ -612,8 +612,8 @@ public class FrustumIntersection {
      *         or {@link #INTERSECT} if the box intersects the frustum, or {@link #INSIDE} if the box is fully inside of the frustum.
      *         The plane index is one of {@link #PLANE_NX}, {@link #PLANE_PX}, {@link #PLANE_NY}, {@link #PLANE_PY}, {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int intersectAab(Vector3f min, Vector3f max, int mask, int startPlane) {
-        return intersectAab(min.x, min.y, min.z, max.x, max.y, max.z, mask, startPlane);
+    public int intersectAab(Vector3fc min, Vector3fc max, int mask, int startPlane) {
+        return intersectAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), mask, startPlane);
     }
 
     /**
