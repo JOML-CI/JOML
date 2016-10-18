@@ -4670,7 +4670,7 @@ public class Matrix4f implements Externalizable {
      *          will contain the result
      * @return dest
      */
-    public Vector4f transform(Vector4f v, Vector4f dest) {
+    public Vector4f transform(Vector4fc v, Vector4f dest) {
         return v.mul(this, dest);
     }
 
@@ -4721,7 +4721,7 @@ public class Matrix4f implements Externalizable {
      *          will contain the result
      * @return dest
      */
-    public Vector4f transformProject(Vector4f v, Vector4f dest) {
+    public Vector4f transformProject(Vector4fc v, Vector4f dest) {
         return v.mulProject(this, dest);
     }
 
@@ -4840,13 +4840,13 @@ public class Matrix4f implements Externalizable {
      * will represent a position/location in 3D-space rather than a direction. This method is therefore
      * not suited for perspective projection transformations as it will not save the
      * <tt>w</tt> component of the transformed vector.
-     * For perspective projection use {@link #transform(Vector4f, Vector4f)} or
+     * For perspective projection use {@link #transform(Vector4fc, Vector4f)} or
      * {@link #transformProject(Vector3fc, Vector3f)} when perspective divide should be applied, too.
      * <p>
      * In order to store the result in the same vector, use {@link #transformPosition(Vector3f)}.
      * 
      * @see #transformPosition(Vector3f)
-     * @see #transform(Vector4f, Vector4f)
+     * @see #transform(Vector4fc, Vector4f)
      * @see #transformProject(Vector3fc, Vector3f)
      * 
      * @param v
@@ -4972,7 +4972,7 @@ public class Matrix4f implements Externalizable {
      *          the vector to transform and to hold the final result
      * @return v
      */
-    public Vector4f transformAffine(Vector4f v) {
+    public Vector4fc transformAffine(Vector4f v) {
         v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30 * v.w,
               m01 * v.x + m11 * v.y + m21 * v.z + m31 * v.w,
               m02 * v.x + m12 * v.y + m22 * v.z + m32 * v.w,
@@ -4994,7 +4994,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector4f transformAffine(Vector4f v, Vector4f dest) {
+    public Vector4fc transformAffine(Vector4f v, Vector4f dest) {
         return transformAffine(v.x, v.y, v.z, v.w, dest);
     }
 
@@ -5014,7 +5014,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector4f transformAffine(float x, float y, float z, float w, Vector4f dest) {
+    public Vector4fc transformAffine(float x, float y, float z, float w, Vector4f dest) {
         dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
                  m01 * x + m11 * y + m21 * z + m31 * w,
                  m02 * x + m12 * y + m22 * z + m32 * w,
@@ -11360,7 +11360,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unproject(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
+    public Vector4fc unproject(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
         float a = m00 * m11 - m01 * m10;
         float b = m00 * m12 - m02 * m10;
         float c = m00 * m13 - m03 * m10;
@@ -11495,7 +11495,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unproject(Vector3fc winCoords, int[] viewport, Vector4f dest) {
+    public Vector4fc unproject(Vector3fc winCoords, int[] viewport, Vector4f dest) {
         return unproject(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
@@ -11652,7 +11652,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unprojectInv(Vector3fc winCoords, int[] viewport, Vector4f dest) {
+    public Vector4fc unprojectInv(Vector3fc winCoords, int[] viewport, Vector4f dest) {
         return unprojectInv(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
     }
 
@@ -11679,7 +11679,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the unprojected position
      * @return dest
      */
-    public Vector4f unprojectInv(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
+    public Vector4fc unprojectInv(float winX, float winY, float winZ, int[] viewport, Vector4f dest) {
         float ndcX = (winX-viewport[0])/viewport[2]*2.0f-1.0f;
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
         float ndcZ = winZ+winZ-1.0f;
@@ -11835,7 +11835,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the projected window coordinates
      * @return winCoordsDest
      */
-    public Vector4f project(float x, float y, float z, int[] viewport, Vector4f winCoordsDest) {
+    public Vector4fc project(float x, float y, float z, int[] viewport, Vector4f winCoordsDest) {
         winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
         winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
         winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
@@ -11901,7 +11901,7 @@ public class Matrix4f implements Externalizable {
      *          will hold the projected window coordinates
      * @return winCoordsDest
      */
-    public Vector4f project(Vector3fc position, int[] viewport, Vector4f winCoordsDest) {
+    public Vector4fc project(Vector3fc position, int[] viewport, Vector4f winCoordsDest) {
         return project(position.x(), position.y(), position.z(), viewport, winCoordsDest);
     }
 
@@ -12299,7 +12299,7 @@ public class Matrix4f implements Externalizable {
      * @return the passed in destination
      * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..3]</tt>
      */
-    public Vector4f getRow(int row, Vector4f dest) throws IndexOutOfBoundsException {
+    public Vector4fc getRow(int row, Vector4f dest) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
             dest.x = m00;
@@ -12341,7 +12341,7 @@ public class Matrix4f implements Externalizable {
      * @return the passed in destination
      * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..3]</tt>
      */
-    public Vector4f getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException {
+    public Vector4fc getColumn(int column, Vector4f dest) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
             MemUtil.INSTANCE.putColumn0(this, dest);
@@ -12564,7 +12564,7 @@ public class Matrix4f implements Externalizable {
      *          The plane equation will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector
      * @return planeEquation
      */
-    public Vector4f frustumPlane(int plane, Vector4f planeEquation) {
+    public Vector4fc frustumPlane(int plane, Vector4f planeEquation) {
         switch (plane) {
         case PLANE_NX:
             planeEquation.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();

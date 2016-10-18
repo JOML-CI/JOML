@@ -474,13 +474,13 @@ public class AxisAngle4f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector4f transform(Vector4f v, Vector4f dest) {
+    public Vector4f transform(Vector4fc v, Vector4f dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
-        float dot = x * v.x + y * v.y + z * v.z;
-        dest.set((float) (v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x),
-                 (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
-                 (float) (v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z),
+        float dot = x * v.x() + y * v.y() + z * v.z();
+        dest.set((float) (v.x() * cos + sin * (y * v.z() - z * v.y()) + (1.0 - cos) * dot * x),
+                 (float) (v.y() * cos + sin * (z * v.x() - x * v.z()) + (1.0 - cos) * dot * y),
+                 (float) (v.z() * cos + sin * (x * v.y() - y * v.x()) + (1.0 - cos) * dot * z),
                  dest.w);
         return dest;
     }

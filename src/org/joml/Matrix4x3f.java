@@ -2894,7 +2894,7 @@ public class Matrix4x3f implements Externalizable {
      *          will contain the result
      * @return dest
      */
-    public Vector4f transform(Vector4f v, Vector4f dest) {
+    public Vector4f transform(Vector4fc v, Vector4f dest) {
         return v.mul(this, dest);
     }
 
@@ -2931,7 +2931,7 @@ public class Matrix4x3f implements Externalizable {
      * In order to store the result in the same vector, use {@link #transformPosition(Vector3f)}.
      * 
      * @see #transformPosition(Vector3f)
-     * @see #transform(Vector4f, Vector4f)
+     * @see #transform(Vector4fc, Vector4f)
      * 
      * @param v
      *          the vector to transform
@@ -7618,8 +7618,8 @@ public class Matrix4x3f implements Externalizable {
      *          the constant in the plane equation
      * @return this
      */
-    public Matrix4x3f shadow(Vector4f light, float a, float b, float c, float d) {
-        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, this);
+    public Matrix4x3f shadow(Vector4fc light, float a, float b, float c, float d) {
+        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, this);
     }
 
     /**
@@ -7650,8 +7650,8 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f shadow(Vector4f light, float a, float b, float c, float d, Matrix4x3f dest) {
-        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+    public Matrix4x3f shadow(Vector4fc light, float a, float b, float c, float d, Matrix4x3f dest) {
+        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
     /**
@@ -7800,13 +7800,13 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f shadow(Vector4f light, Matrix4x3f planeTransform, Matrix4x3f dest) {
+    public Matrix4x3f shadow(Vector4fc light, Matrix4x3f planeTransform, Matrix4x3f dest) {
         // compute plane equation by transforming (y = 0)
         float a = planeTransform.m10;
         float b = planeTransform.m11;
         float c = planeTransform.m12;
         float d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
-        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
     /**
@@ -7828,7 +7828,7 @@ public class Matrix4x3f implements Externalizable {
      *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
      * @return this
      */
-    public Matrix4x3f shadow(Vector4f light, Matrix4x3f planeTransform) {
+    public Matrix4x3f shadow(Vector4fc light, Matrix4x3f planeTransform) {
         return shadow(light, planeTransform, this);
     }
 
