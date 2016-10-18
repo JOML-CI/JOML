@@ -54,9 +54,7 @@ public class Matrix3f implements Externalizable {
      * Create a new {@link Matrix3f} and set it to {@link #identity() identity}.
      */
     public Matrix3f() {
-        m00 = 1.0f;
-        m11 = 1.0f;
-        m22 = 1.0f;
+        m00 = m11 = m22 = 1.0f;
     }
 
     /**
