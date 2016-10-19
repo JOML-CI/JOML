@@ -2,7 +2,6 @@ group = 'org.joml'
 version = '1.9.0-SNAPSHOT'
 
 apply plugin: "java"
-apply plugin: 'com.github.johnrengelman.shadow'
 
 archivesBaseName = 'joml'
 
@@ -13,24 +12,11 @@ sourceSets {
   test.java.srcDir 'test'
 }
 
-buildscript {
-  repositories {
-    jcenter()
-  }
-  dependencies {
-    classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
-  }
-}
 repositories {
   mavenCentral()
 }
 dependencies {
   testCompile group: 'junit', name: 'junit', version: '3.8.2'
-  compile group: 'org.ow2.asm', name: 'asm', version: '5.1'
-}
-
-shadowJar {
-   relocate 'org.objectweb', 'org.joml.objectweb'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -41,5 +27,5 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
   classifier = 'javadoc'
   from javadoc.destinationDir
 }
-task all(dependsOn: [shadowJar, sourcesJar, javadocJar])
+task all(dependsOn: [jar, sourcesJar, javadocJar])
 defaultTasks 'all'

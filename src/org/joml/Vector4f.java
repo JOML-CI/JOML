@@ -40,6 +40,163 @@ import java.text.NumberFormat;
  */
 public class Vector4f implements Externalizable, Vector4fc {
 
+    private class Proxy implements Vector4fc {
+        private final Vector4fc delegate;
+
+        Proxy(Vector4fc delegate) {
+            super();
+            this.delegate = delegate;
+        }
+
+        public float x() {
+            return delegate.x();
+        }
+
+        public float y() {
+            return delegate.y();
+        }
+
+        public float z() {
+            return delegate.z();
+        }
+
+        public float w() {
+            return delegate.w();
+        }
+
+        public FloatBuffer get(FloatBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public FloatBuffer get(int index, FloatBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public ByteBuffer get(ByteBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public ByteBuffer get(int index, ByteBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public Vector4f sub(Vector4fc v, Vector4f dest) {
+            return delegate.sub(v, dest);
+        }
+
+        public Vector4f sub(float x, float y, float z, float w, Vector4f dest) {
+            return delegate.sub(x, y, z, w, dest);
+        }
+
+        public Vector4f add(Vector4fc v, Vector4f dest) {
+            return delegate.add(v, dest);
+        }
+
+        public Vector4f add(float x, float y, float z, float w, Vector4f dest) {
+            return delegate.add(x, y, z, w, dest);
+        }
+
+        public Vector4f fma(Vector4fc a, Vector4fc b, Vector4f dest) {
+            return delegate.fma(a, b, dest);
+        }
+
+        public Vector4f fma(float a, Vector4fc b, Vector4f dest) {
+            return delegate.fma(a, b, dest);
+        }
+
+        public Vector4f mul(Vector4fc v, Vector4f dest) {
+            return delegate.mul(v, dest);
+        }
+
+        public Vector4f div(Vector4fc v, Vector4f dest) {
+            return delegate.div(v, dest);
+        }
+
+        public Vector4f mul(Matrix4f mat, Vector4f dest) {
+            return delegate.mul(mat, dest);
+        }
+
+        public Vector4f mul(Matrix4x3f mat, Vector4f dest) {
+            return delegate.mul(mat, dest);
+        }
+
+        public Vector4f mulProject(Matrix4f mat, Vector4f dest) {
+            return delegate.mulProject(mat, dest);
+        }
+
+        public Vector4f mul(float scalar, Vector4f dest) {
+            return delegate.mul(scalar, dest);
+        }
+
+        public Vector4f mul(float x, float y, float z, float w, Vector4f dest) {
+            return delegate.mul(x, y, z, w, dest);
+        }
+
+        public Vector4f div(float scalar, Vector4f dest) {
+            return delegate.div(scalar, dest);
+        }
+
+        public Vector4f div(float x, float y, float z, float w, Vector4f dest) {
+            return delegate.div(x, y, z, w, dest);
+        }
+
+        public Vector4f rotate(Quaternionfc quat, Vector4f dest) {
+            return delegate.rotate(quat, dest);
+        }
+
+        public float lengthSquared() {
+            return delegate.lengthSquared();
+        }
+
+        public float length() {
+            return delegate.length();
+        }
+
+        public Vector4f normalize(Vector4f dest) {
+            return delegate.normalize(dest);
+        }
+
+        public float distance(Vector4fc v) {
+            return delegate.distance(v);
+        }
+
+        public float distance(float x, float y, float z, float w) {
+            return delegate.distance(x, y, z, w);
+        }
+
+        public float dot(Vector4fc v) {
+            return delegate.dot(v);
+        }
+
+        public float dot(float x, float y, float z, float w) {
+            return delegate.dot(x, y, z, w);
+        }
+
+        public float angleCos(Vector4fc v) {
+            return delegate.angleCos(v);
+        }
+
+        public float angle(Vector4fc v) {
+            return delegate.angle(v);
+        }
+
+        public Vector4f negate(Vector4f dest) {
+            return delegate.negate(dest);
+        }
+
+        public Vector4f lerp(Vector4fc other, float t, Vector4f dest) {
+            return delegate.lerp(other, t, dest);
+        }
+
+        public Vector4f smoothStep(Vector4fc v, float t, Vector4f dest) {
+            return delegate.smoothStep(v, t, dest);
+        }
+
+        public Vector4f hermite(Vector4fc t0, Vector4fc v1, Vector4fc t1, float t, Vector4f dest) {
+            return delegate.hermite(t0, v1, t1, t, dest);
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -1170,16 +1327,12 @@ public class Vector4f implements Externalizable, Vector4fc {
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
      * the returned object to Vector4f will not be possible.
      * <p>
-     * This method allocates a new instance of a class implementing Vector4f on every call.
-     * <p>
-     * This method will <i>not</i> return a proxy but <code>this</code> instead when the JVM is started with <code>-Djoml.noproxy</code>.
+     * This method allocates a new instance of a class implementing Vector4fc on every call.
      * 
      * @return the immutable instance
      */
     public Vector4fc toImmutable() {
-        if (Proxy.DISABLE_PROXIES)
-            return this;
-        return Proxy.createVector4fc(this);
+        return new Proxy(this);
     }
 
 }

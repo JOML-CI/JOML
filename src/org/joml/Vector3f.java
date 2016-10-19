@@ -40,6 +40,240 @@ import java.text.NumberFormat;
  */
 public class Vector3f implements Externalizable, Vector3fc {
 
+    private class Proxy implements Vector3fc {
+        private final Vector3fc delegate;
+
+        Proxy(Vector3fc delegate) {
+            super();
+            this.delegate = delegate;
+        }
+
+        public float x() {
+            return delegate.x();
+        }
+
+        public float y() {
+            return delegate.y();
+        }
+
+        public float z() {
+            return delegate.z();
+        }
+
+        public FloatBuffer get(FloatBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public FloatBuffer get(int index, FloatBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public ByteBuffer get(ByteBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public ByteBuffer get(int index, ByteBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public Vector3f sub(Vector3fc v, Vector3f dest) {
+            return delegate.sub(v, dest);
+        }
+
+        public Vector3f sub(float x, float y, float z, Vector3f dest) {
+            return delegate.sub(x, y, z, dest);
+        }
+
+        public Vector3f add(Vector3fc v, Vector3f dest) {
+            return delegate.add(v, dest);
+        }
+
+        public Vector3f add(float x, float y, float z, Vector3f dest) {
+            return delegate.add(x, y, z, dest);
+        }
+
+        public Vector3f fma(Vector3fc a, Vector3fc b, Vector3f dest) {
+            return delegate.fma(a, b, dest);
+        }
+
+        public Vector3f fma(float a, Vector3fc b, Vector3f dest) {
+            return delegate.fma(a, b, dest);
+        }
+
+        public Vector3f mul(Vector3fc v, Vector3f dest) {
+            return delegate.mul(v, dest);
+        }
+
+        public Vector3f div(Vector3fc v, Vector3f dest) {
+            return delegate.div(v, dest);
+        }
+
+        public Vector3f mulProject(Matrix4f mat, Vector3f dest) {
+            return delegate.mulProject(mat, dest);
+        }
+
+        public Vector3f mul(Matrix3f mat, Vector3f dest) {
+            return delegate.mul(mat, dest);
+        }
+
+        public Vector3f mulTranspose(Matrix3f mat, Vector3f dest) {
+            return delegate.mulTranspose(mat, dest);
+        }
+
+        public Vector3f mulPosition(Matrix4f mat, Vector3f dest) {
+            return delegate.mulPosition(mat, dest);
+        }
+
+        public Vector3f mulTransposePosition(Matrix4f mat, Vector3f dest) {
+            return delegate.mulTransposePosition(mat, dest);
+        }
+
+        public float mulPositionW(Matrix4f mat, Vector3f dest) {
+            return delegate.mulPositionW(mat, dest);
+        }
+
+        public Vector3f mulDirection(Matrix4f mat, Vector3f dest) {
+            return delegate.mulDirection(mat, dest);
+        }
+
+        public Vector3f mulTransposeDirection(Matrix4f mat, Vector3f dest) {
+            return delegate.mulTransposeDirection(mat, dest);
+        }
+
+        public Vector3f mul(float scalar, Vector3f dest) {
+            return delegate.mul(scalar, dest);
+        }
+
+        public Vector3f mul(float x, float y, float z, Vector3f dest) {
+            return delegate.mul(x, y, z, dest);
+        }
+
+        public Vector3f div(float scalar, Vector3f dest) {
+            return delegate.div(scalar, dest);
+        }
+
+        public Vector3f div(float x, float y, float z, Vector3f dest) {
+            return delegate.div(x, y, z, dest);
+        }
+
+        public Vector3f rotate(Quaternionfc quat, Vector3f dest) {
+            return delegate.rotate(quat, dest);
+        }
+
+        public Quaternionf rotationTo(Vector3fc toDir, Quaternionf dest) {
+            return delegate.rotationTo(toDir, dest);
+        }
+
+        public Quaternionf rotationTo(float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
+            return delegate.rotationTo(toDirX, toDirY, toDirZ, dest);
+        }
+
+        public float lengthSquared() {
+            return delegate.lengthSquared();
+        }
+
+        public float length() {
+            return delegate.length();
+        }
+
+        public Vector3f normalize(Vector3f dest) {
+            return delegate.normalize(dest);
+        }
+
+        public Vector3f cross(Vector3fc v, Vector3f dest) {
+            return delegate.cross(v, dest);
+        }
+
+        public Vector3f cross(float x, float y, float z, Vector3f dest) {
+            return delegate.cross(x, y, z, dest);
+        }
+
+        public float distance(Vector3fc v) {
+            return delegate.distance(v);
+        }
+
+        public float distance(float x, float y, float z) {
+            return delegate.distance(x, y, z);
+        }
+
+        public float distanceSquared(Vector3fc v) {
+            return delegate.distanceSquared(v);
+        }
+
+        public float distanceSquared(float x, float y, float z) {
+            return delegate.distanceSquared(x, y, z);
+        }
+
+        public float dot(Vector3fc v) {
+            return delegate.dot(v);
+        }
+
+        public float dot(float x, float y, float z) {
+            return delegate.dot(x, y, z);
+        }
+
+        public float angleCos(Vector3fc v) {
+            return delegate.angleCos(v);
+        }
+
+        public float angle(Vector3fc v) {
+            return delegate.angle(v);
+        }
+
+        public Vector3f negate(Vector3f dest) {
+            return delegate.negate(dest);
+        }
+
+        public Vector3f reflect(Vector3fc normal, Vector3f dest) {
+            return delegate.reflect(normal, dest);
+        }
+
+        public Vector3f reflect(float x, float y, float z, Vector3f dest) {
+            return delegate.reflect(x, y, z, dest);
+        }
+
+        public Vector3f half(Vector3fc other, Vector3f dest) {
+            return delegate.half(other, dest);
+        }
+
+        public Vector3f half(float x, float y, float z, Vector3f dest) {
+            return delegate.half(x, y, z, dest);
+        }
+
+        public Vector3f smoothStep(Vector3fc v, float t, Vector3f dest) {
+            return delegate.smoothStep(v, t, dest);
+        }
+
+        public Vector3f hermite(Vector3fc t0, Vector3fc v1, Vector3fc t1, float t, Vector3f dest) {
+            return delegate.hermite(t0, v1, t1, t, dest);
+        }
+
+        public Vector3f lerp(Vector3fc other, float t, Vector3f dest) {
+            return delegate.lerp(other, t, dest);
+        }
+
+        public float get(int component) throws IllegalArgumentException {
+            return delegate.get(component);
+        }
+
+        public int maxComponent() {
+            return delegate.maxComponent();
+        }
+
+        public int minComponent() {
+            return delegate.minComponent();
+        }
+
+        public Vector3f orthogonalize(Vector3fc v, Vector3f dest) {
+            return delegate.orthogonalize(v, dest);
+        }
+
+        public Vector3f orthogonalizeUnit(Vector3fc v, Vector3f dest) {
+            return delegate.orthogonalizeUnit(v, dest);
+        }
+
+    }
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -1479,16 +1713,12 @@ public class Vector3f implements Externalizable, Vector3fc {
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
      * the returned object to Vector3f will not be possible.
      * <p>
-     * This method allocates a new instance of a class implementing Vector3f on every call.
-     * <p>
-     * This method will <i>not</i> return a proxy but <code>this</code> instead when the JVM is started with <code>-Djoml.noproxy</code>.
+     * This method allocates a new instance of a class implementing Vector3fc on every call.
      * 
      * @return the immutable instance
      */
     public Vector3fc toImmutable() {
-        if (Proxy.DISABLE_PROXIES)
-            return this;
-        return Proxy.createVector3fc(this);
+        return new Proxy(this);
     }
 
 }
