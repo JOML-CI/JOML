@@ -1174,10 +1174,14 @@ public class Vector4f implements Externalizable, Vector4fc {
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
      * the returned object to Vector4f will not be possible.
+     * <p>
+     * This method will <i>not</i> return a proxy but <code>this</code> instead when the JVM is started with <code>-Djoml.noproxy</code>.
      * 
      * @return the immutable instance
      */
     public Vector4fc toImmutable() {
+        if (Proxy.DISABLE_PROXIES)
+            return this;
         if (proxy != null)
             return proxy;
         synchronized (this) {

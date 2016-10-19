@@ -41,6 +41,8 @@ import org.objectweb.asm.Type;
  */
 class Proxy implements Opcodes {
 
+    static final boolean DISABLE_PROXIES = Options.hasOption("joml.noproxy");
+
     private static Class vector4f_proxy;
     private static Constructor vector4f_proxy_ctor;
 

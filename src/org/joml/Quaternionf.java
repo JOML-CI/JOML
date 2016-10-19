@@ -2707,10 +2707,14 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
      * the returned object to Quaternionf will not be possible.
+     * <p>
+     * This method will <i>not</i> return a proxy but <code>this</code> instead when the JVM is started with <code>-Djoml.noproxy</code>.
      * 
      * @return the immutable instance
      */
     public Quaternionfc toImmutable() {
+        if (Proxy.DISABLE_PROXIES)
+            return this;
         if (proxy != null)
             return proxy;
         synchronized (this) {
