@@ -21,6 +21,15 @@ public class ImmutableMatrix4fTest extends TestCase {
         assertEquals(2.0f, fb.get(0), 0);
     }
 
+    public void testSameProxy() {
+        Matrix4f m = new Matrix4f();
+        Matrix4f imm1 = m.toImmutable();
+        Matrix4f imm2 = m.toImmutable();
+        assertSame(imm1, imm2);
+        assertNotSame(imm1, m);
+        assertNotSame(imm2, m);
+    }
+
     public void testM00() {
         Matrix4f m = new Matrix4f().assumeNothing();
         m.m00(2.0f);

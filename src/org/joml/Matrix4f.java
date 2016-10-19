@@ -132,6 +132,11 @@ public class Matrix4f implements Externalizable {
     private static final byte PROPERTY_TRANSLATION = 1<<3;
 
     /**
+     * Used to cache the result of {@link #toImmutable()}.
+     */
+    private Matrix4f proxy;
+
+    /**
      * Create a new {@link Matrix4f} and set it to {@link #identity() identity}.
      */
     public Matrix4f() {
@@ -14654,14 +14659,23 @@ public class Matrix4f implements Externalizable {
     }
 
     /**
-     * Create a new immutable view of <code>this</code> {@link Matrix4f}. 
+     * Create an immutable view of <code>this</code> {@link Matrix4f}.
+     * <p>
+     * The observable state of the returned object is the same as that of <code>this</code>.
      * 
      * @return the immutable instance
      */
     public Matrix4f toImmutable() {
         if (Immutable.noimmutable)
             return this;
-        return Immutable.toImmutable(this);
+        if (proxy != null)
+            return proxy;
+        synchronized (this) {
+            if (proxy != null)
+                return proxy;
+            proxy = Immutable.toImmutable(this);
+        }
+        return proxy;
     }
 
 }

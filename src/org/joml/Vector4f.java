@@ -40,7 +40,7 @@ import java.text.NumberFormat;
  */
 public class Vector4f implements Externalizable, Vector4fc {
 
-    private static final long serialVersionUID = 1L;   
+    private static final long serialVersionUID = 1L;
 
     /**
      * The x component of the vector.
@@ -58,6 +58,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      * The w component of the vector.
      */
     public float w;
+
+    /**
+     * Used to cache the result of {@link #toImmutable()}.
+     */
+    private Vector4fc proxy;
 
     /**
      * Create a new {@link Vector4f} of <code>(0, 0, 0, 1)</code>.
@@ -1057,11 +1062,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the other vector
      * @return this
      */
-    public Vector4f min(Vector4f v) {
-        this.x = x < v.x ? x : v.x;
-        this.y = y < v.y ? y : v.y;
-        this.z = z < v.z ? z : v.z;
-        this.w = w < v.w ? w : v.w;
+    public Vector4f min(Vector4fc v) {
+        this.x = x < v.x() ? x : v.x();
+        this.y = y < v.y() ? y : v.y();
+        this.z = z < v.z() ? z : v.z();
+        this.w = w < v.w() ? w : v.w();
         return this;
     }
 
@@ -1073,11 +1078,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the other vector
      * @return this
      */
-    public Vector4f max(Vector4f v) {
-        this.x = x > v.x ? x : v.x;
-        this.y = y > v.y ? y : v.y;
-        this.z = z > v.z ? z : v.z;
-        this.w = w > v.w ? w : v.w;
+    public Vector4f max(Vector4fc v) {
+        this.x = x > v.x() ? x : v.x();
+        this.y = y > v.y() ? y : v.y();
+        this.z = z > v.z() ? z : v.z();
+        this.w = w > v.w() ? w : v.w();
         return this;
     }
 
@@ -1111,7 +1116,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector4f#smoothStep(org.joml.Vector4fc, float, org.joml.Vector4f)
+     * @see org.joml.Vector4fc#smoothStep(org.joml.Vector4fc, float, org.joml.Vector4f)
      */
     public Vector4f smoothStep(Vector4fc v, float t, Vector4f dest) {
         float t2 = t * t;
@@ -1123,31 +1128,16 @@ public class Vector4f implements Externalizable, Vector4fc {
         return dest;
     }
 
-    /**
-     * Compute a hermite interpolation between <code>this</code> vector and its
-     * associated tangent <code>t0</code> and the given vector <code>v</code>
-     * with its tangent <code>t1</code> and store the result in
-     * <code>dest</code>.
-     * 
-     * @param t0
-     *          the tangent of <code>this</code> vector
-     * @param v1
-     *          the other vector
-     * @param t1
-     *          the tangent of the other vector
-     * @param t
-     *          the interpolation factor, within <tt>[0..1]</tt>
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#hermite(org.joml.Vector4fc, org.joml.Vector4fc, org.joml.Vector4fc, float, org.joml.Vector4f)
      */
-    public Vector4f hermite(Vector4f t0, Vector4f v1, Vector4f t1, float t, Vector4f dest) {
+    public Vector4f hermite(Vector4fc t0, Vector4fc v1, Vector4fc t1, float t, Vector4f dest) {
         float t2 = t * t;
         float t3 = t2 * t;
-        dest.x = (x + x - v1.x - v1.x + t1.x + t0.x) * t3 + (3.0f * v1.x - 3.0f * x - t0.x - t0.x - t1.x) * t2 + x * t + x;
-        dest.y = (y + y - v1.y - v1.y + t1.y + t0.y) * t3 + (3.0f * v1.y - 3.0f * y - t0.y - t0.y - t1.y) * t2 + y * t + y;
-        dest.z = (z + z - v1.z - v1.z + t1.z + t0.z) * t3 + (3.0f * v1.z - 3.0f * z - t0.z - t0.z - t1.z) * t2 + z * t + z;
-        dest.w = (w + w - v1.w - v1.w + t1.w + t0.w) * t3 + (3.0f * v1.w - 3.0f * w - t0.w - t0.w - t1.w) * t2 + w * t + w;
+        dest.x = (x + x - v1.x() - v1.x() + t1.x() + t0.x()) * t3 + (3.0f * v1.x() - 3.0f * x - t0.x() - t0.x() - t1.x()) * t2 + x * t + x;
+        dest.y = (y + y - v1.y() - v1.y() + t1.y() + t0.y()) * t3 + (3.0f * v1.y() - 3.0f * y - t0.y() - t0.y() - t1.y()) * t2 + y * t + y;
+        dest.z = (z + z - v1.z() - v1.z() + t1.z() + t0.z()) * t3 + (3.0f * v1.z() - 3.0f * z - t0.z() - t0.z() - t1.z()) * t2 + z * t + z;
+        dest.w = (w + w - v1.w() - v1.w() + t1.w() + t0.w()) * t3 + (3.0f * v1.w() - 3.0f * w - t0.w() - t0.w() - t1.w()) * t2 + w * t + w;
         return dest;
     }
 
@@ -1177,6 +1167,25 @@ public class Vector4f implements Externalizable, Vector4fc {
         dest.z = z + (other.z() - z) * t;
         dest.w = w + (other.w() - w) * t;
         return dest;
+    }
+
+    /**
+     * Create an immutable view of this {@link Vector4f}.
+     * <p>
+     * The observable state of the returned object is the same as that of <code>this</code>, but casting
+     * the returned object to Vector4f will not be possible.
+     * 
+     * @return the immutable instance
+     */
+    public Vector4fc toImmutable() {
+        if (proxy != null)
+            return proxy;
+        synchronized (this) {
+            if (proxy != null)
+                return proxy;
+            proxy = Proxy.createVector4fc(this);
+        }
+        return proxy;
     }
 
 }

@@ -40,7 +40,7 @@ import java.text.NumberFormat;
  */
 public class Vector4d implements Externalizable {
 
-    private static final long serialVersionUID = 1L;   
+    private static final long serialVersionUID = 1L;
 
     /**
      * The x component of the vector.

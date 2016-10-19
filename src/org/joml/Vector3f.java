@@ -40,7 +40,7 @@ import java.text.NumberFormat;
  */
 public class Vector3f implements Externalizable, Vector3fc {
 
-    private static final long serialVersionUID = 1L;    
+    private static final long serialVersionUID = 1L;
 
     /**
      * The x component of the vector.
@@ -54,6 +54,11 @@ public class Vector3f implements Externalizable, Vector3fc {
      * The z component of the vector.
      */
     public float z;
+
+    /**
+     * Used to cache the result of {@link #toImmutable()}.
+     */
+    private Vector3fc proxy;
 
     /**
      * Create a new {@link Vector3f} of <tt>(0, 0, 0)</tt>.
@@ -93,10 +98,10 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @param v
      *          the {@link Vector3f} to copy the values from
      */
-    public Vector3f(Vector3f v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector3f(Vector3fc v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
     }
 
     /**
@@ -202,10 +207,10 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          contains the values of x, y and z to set
      * @return this
      */
-    public Vector3f set(Vector3f v) {
-        x = v.x;
-        y = v.y;
-        z = v.z;
+    public Vector3f set(Vector3fc v) {
+        x = v.x();
+        y = v.y();
+        z = v.z();
         return this;
     }
 
@@ -381,10 +386,10 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the vector to subtract
      * @return this
      */
-    public Vector3f sub(Vector3f v) {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
+    public Vector3f sub(Vector3fc v) {
+        x -= v.x();
+        y -= v.y();
+        z -= v.z();
         return this;
     }
 
@@ -1471,6 +1476,25 @@ public class Vector3f implements Externalizable, Vector3fc {
      */
     public Vector3f orthogonalizeUnit(Vector3fc v) {
         return orthogonalizeUnit(v, this);
+    }
+
+    /**
+     * Create an immutable view of this {@link Vector3f}.
+     * <p>
+     * The observable state of the returned object is the same as that of <code>this</code>, but casting
+     * the returned object to Vector3f will not be possible.
+     * 
+     * @return the immutable instance
+     */
+    public Vector3fc toImmutable() {
+        if (proxy != null)
+            return proxy;
+        synchronized (this) {
+            if (proxy != null)
+                return proxy;
+            proxy = Proxy.createVector3fc(this);
+        }
+        return proxy;
     }
 
 }

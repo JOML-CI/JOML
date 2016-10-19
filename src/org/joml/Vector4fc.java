@@ -1,8 +1,35 @@
+/*
+ * (C) Copyright 2016 JOML
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+
+ */
 package org.joml;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+/**
+ * Interface to an immutable 4-dimensional vector of single-precision floats.
+ * 
+ * @author Kai Burjack
+ */
 public interface Vector4fc {
 
     /**
@@ -434,5 +461,25 @@ public interface Vector4fc {
      * @return dest
      */
     Vector4f smoothStep(Vector4fc v, float t, Vector4f dest);
+    
+    /**
+     * Compute a hermite interpolation between <code>this</code> vector and its
+     * associated tangent <code>t0</code> and the given vector <code>v</code>
+     * with its tangent <code>t1</code> and store the result in
+     * <code>dest</code>.
+     * 
+     * @param t0
+     *          the tangent of <code>this</code> vector
+     * @param v1
+     *          the other vector
+     * @param t1
+     *          the tangent of the other vector
+     * @param t
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f hermite(Vector4fc t0, Vector4fc v1, Vector4fc t1, float t, Vector4f dest);
 
 }
