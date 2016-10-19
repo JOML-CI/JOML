@@ -96,7 +96,7 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f sub(Vector4f v, Vector4f dest);
+    Vector4f sub(Vector4fc v, Vector4f dest);
 
     /**
      * Subtract <tt>(x, y, z, w)</tt> from this and store the result in <code>dest</code>.
@@ -124,7 +124,7 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f add(Vector4f v, Vector4f dest);
+    Vector4f add(Vector4fc v, Vector4f dest);
 
     /**
      * Increment the components of this vector by the given values and store the result in <code>dest</code>.
@@ -155,7 +155,7 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f fma(Vector4f a, Vector4f b, Vector4f dest);
+    Vector4f fma(Vector4fc a, Vector4fc b, Vector4f dest);
 
     /**
      * Add the component-wise multiplication of <code>a * b</code> to this vector
@@ -169,7 +169,7 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f fma(float a, Vector4f b, Vector4f dest);
+    Vector4f fma(float a, Vector4fc b, Vector4f dest);
 
     /**
      * Multiply this Vector4f component-wise by another Vector4f and store the result in <code>dest</code>.
@@ -180,7 +180,7 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f mul(Vector4f v, Vector4f dest);
+    Vector4f mul(Vector4fc v, Vector4f dest);
 
     /**
      * Divide this Vector4f component-wise by another Vector4f and store the result in <code>dest</code>.
@@ -191,7 +191,7 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f div(Vector4f v, Vector4f dest);
+    Vector4f div(Vector4fc v, Vector4f dest);
 
     /**
      * Multiply the given matrix mat with this Vector4f and store the result in
@@ -330,7 +330,7 @@ public interface Vector4fc {
      *          the other vector
      * @return the euclidean distance
      */
-    float distance(Vector4f v);
+    float distance(Vector4fc v);
 
     /**
      * Return the distance between <code>this</code> vector and <tt>(x, y, z, w)</tt>.
@@ -355,7 +355,7 @@ public interface Vector4fc {
      *          the other vector
      * @return the dot product
      */
-    float dot(Vector4f v);
+    float dot(Vector4fc v);
 
     /**
      * Compute the dot product (inner product) of this vector and <tt>(x, y, z, w)</tt>.
@@ -375,24 +375,24 @@ public interface Vector4fc {
     /**
      * Return the cosine of the angle between this vector and the supplied vector. Use this instead of <code>Math.cos(angle(v))</code>.
      * 
-     * @see #angle(Vector4f)
+     * @see #angle(Vector4fc)
      * 
      * @param v
      *          the other vector
      * @return the cosine of the angle
      */
-    float angleCos(Vector4f v);
+    float angleCos(Vector4fc v);
 
     /**
      * Return the angle between this vector and the supplied vector.
      * 
-     * @see #angleCos(Vector4f)
+     * @see #angleCos(Vector4fc)
      * 
      * @param v
      *          the other vector
      * @return the angle, in radians
      */
-    float angle(Vector4f v);
+    float angle(Vector4fc v);
 
     /**
      * Negate this vector and store the result in <code>dest</code>.
@@ -418,7 +418,7 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f lerp(Vector4f other, float t, Vector4f dest);
+    Vector4f lerp(Vector4fc other, float t, Vector4f dest);
 
     /**
      * Compute a smooth-step (i.e. hermite with zero tangents) interpolation
