@@ -87,7 +87,7 @@ public class Math {
      */
     private static double sin_theagentd_arith(double x){
         double xi = floor((x + PI_4) * PI_INV);
-        double x_ = x - xi * Math.PI;
+        double x_ = x - xi * PI;
         double sign = ((int)xi & 1) * -2 + 1;
         double x2 = x_ * x_;
         double sin = x_;
@@ -100,6 +100,39 @@ public class Math {
         sin += tx * c6; tx *= x2;
         sin += tx * c7;
         return sign * sin;
+    }
+
+    /**
+     * @author Roquen
+     */
+    private static double sin_roquen_arith(double x) {
+        double xi = Math.floor((x + PI_4) * PI_INV);
+        double x_ = x - xi * PI;
+        double sign = ((int)xi & 1) * -2 + 1;
+        double x2 = x_ * x_;
+
+        // code from sin_theagentd_arith:
+        // double sin = x_;
+        // double tx = x_ * x2;
+        // sin += tx * c1; tx *= x2;
+        // sin += tx * c2; tx *= x2;
+        // sin += tx * c3; tx *= x2;
+        // sin += tx * c4; tx *= x2;
+        // sin += tx * c5; tx *= x2;
+        // sin += tx * c6; tx *= x2;
+        // sin += tx * c7;
+        // return sign * sin;
+
+        double sin;
+        x_  = sign*x_;
+        sin =          c7;
+        sin = sin*x2 + c6;
+        sin = sin*x2 + c5;
+        sin = sin*x2 + c4;
+        sin = sin*x2 + c3;
+        sin = sin*x2 + c2;
+        sin = sin*x2 + c1;
+        return x_ + x_*x2*sin;
     }
 
     /**
@@ -119,7 +152,7 @@ public class Math {
         if (fastMath) {
             if (sinlookup)
                 return sin_theagentd_lookup(rad);
-            return sin_theagentd_arith(rad);
+            return sin_roquen_arith(rad);
         }
         return java.lang.Math.sin(rad);
     }
