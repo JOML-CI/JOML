@@ -127,7 +127,7 @@ class Proxy implements Opcodes {
         final String proxyInternalName = targetInternalName + "$Proxy";
         try {
             ClassReader cr = new ClassReader(targetInternalName);
-            ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+            ClassWriter cw = new ClassWriter(0);
             cr.accept(new ClassVisitor(ASM5, cw) {
                 public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
                     cv.visit(version, ACC_SYNTHETIC, proxyInternalName, signature, "java/lang/Object", new String[] { targetInternalName });
@@ -140,7 +140,7 @@ class Proxy implements Opcodes {
                     mv.visitVarInsn(ALOAD, 1);
                     mv.visitFieldInsn(PUTFIELD, proxyInternalName, "$delegate", targetDesc);
                     mv.visitInsn(RETURN);
-                    mv.visitMaxs(-1, -1);
+                    mv.visitMaxs(2, 2);
                     mv.visitEnd();
                 }
 
@@ -163,7 +163,7 @@ class Proxy implements Opcodes {
                     }
                     mv.visitMethodInsn(INVOKEINTERFACE, targetInternalName, name, desc, true);
                     mv.visitInsn(ret.getOpcode(IRETURN));
-                    mv.visitMaxs(-1, -1);
+                    mv.visitMaxs(argIndex + 1, argIndex);
                     mv.visitEnd();
                     return null;
                 }
