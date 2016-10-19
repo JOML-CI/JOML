@@ -475,8 +475,8 @@ public class Quaterniond implements Externalizable {
      *          the rotation axis
      * @return this
      */
-    public Quaterniond setAngleAxis(double angle, Vector3d axis) {
-        return setAngleAxis(angle, axis.x, axis.y, axis.z);
+    public Quaterniond setAngleAxis(double angle, Vector3dc axis) {
+        return setAngleAxis(angle, axis.x(), axis.y(), axis.z());
     }
 
     private void setFromUnnormalized(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22) {
@@ -704,14 +704,14 @@ public class Quaterniond implements Externalizable {
      *          the angle in radians
      * @return this
      */
-    public Quaterniond fromAxisAngleRad(Vector3d axis, double angle) {
+    public Quaterniond fromAxisAngleRad(Vector3dc axis, double angle) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
 
-        x = axis.x / vLength * sinAngle;
-        y = axis.y / vLength * sinAngle;
-        z = axis.z / vLength * sinAngle;
+        x = axis.x() / vLength * sinAngle;
+        y = axis.y() / vLength * sinAngle;
+        z = axis.z() / vLength * sinAngle;
         w = Math.cos(hangle);
         
         return this;
@@ -754,14 +754,14 @@ public class Quaterniond implements Externalizable {
      *          the angle in radians
      * @return this
      */
-    public Quaterniond fromAxisAngleDeg(Vector3d axis, double angle) {
+    public Quaterniond fromAxisAngleDeg(Vector3dc axis, double angle) {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
 
-        x = axis.x / vLength * sinAngle;
-        y = axis.y / vLength * sinAngle;
-        z = axis.z / vLength * sinAngle;
+        x = axis.x() / vLength * sinAngle;
+        y = axis.y() / vLength * sinAngle;
+        z = axis.z() / vLength * sinAngle;
         w = Math.cos(hangle);
         
         return this;
@@ -999,8 +999,8 @@ public class Quaterniond implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3d transform(Vector3d vec, Vector3d dest) {
-        return transform(vec.x, vec.y, vec.z, dest);
+    public Vector3d transform(Vector3dc vec, Vector3d dest) {
+        return transform(vec.x(), vec.y(), vec.z(), dest);
     }
 
     /**
@@ -1742,8 +1742,8 @@ public class Quaterniond implements Externalizable {
      *              spanned by the given <code>dir</code> and <code>up</code>
      * @return this
      */
-    public Quaterniond lookAlong(Vector3d dir, Vector3d up) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
+    public Quaterniond lookAlong(Vector3dc dir, Vector3dc up) {
+        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
     /**
@@ -1770,8 +1770,8 @@ public class Quaterniond implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Quaterniond lookAlong(Vector3d dir, Vector3d up, Quaterniond dest) {
-        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
+    public Quaterniond lookAlong(Vector3dc dir, Vector3dc up, Quaterniond dest) {
+        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
     }
 
     /**
@@ -2083,8 +2083,8 @@ public class Quaterniond implements Externalizable {
      *          the destination direction
      * @return this
      */
-    public Quaterniond rotationTo(Vector3d fromDir, Vector3d toDir) {
-        return rotationTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z);
+    public Quaterniond rotationTo(Vector3dc fromDir, Vector3dc toDir) {
+        return rotationTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z());
     }
 
     /**
@@ -2320,8 +2320,8 @@ public class Quaterniond implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Quaterniond rotateTo(Vector3d fromDir, Vector3d toDir, Quaterniond dest) {
-        return rotateTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z, dest);
+    public Quaterniond rotateTo(Vector3dc fromDir, Vector3dc toDir, Quaterniond dest) {
+        return rotateTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z(), dest);
     }
 
     /**
@@ -2342,8 +2342,8 @@ public class Quaterniond implements Externalizable {
      *          the destination direction
      * @return this
      */
-    public Quaterniond rotateTo(Vector3d fromDir, Vector3d toDir) {
-        return rotateTo(fromDir.x, fromDir.y, fromDir.z, toDir.x, toDir.y, toDir.z, this);
+    public Quaterniond rotateTo(Vector3dc fromDir, Vector3dc toDir) {
+        return rotateTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z(), this);
     }
 
     /**
@@ -2363,8 +2363,8 @@ public class Quaterniond implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Quaterniond rotate(Vector3d anglesXYZ, Quaterniond dest) {
-        return rotate(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z, dest);
+    public Quaterniond rotate(Vector3dc anglesXYZ, Quaterniond dest) {
+        return rotate(anglesXYZ.x(), anglesXYZ.y(), anglesXYZ.z(), dest);
     }
 
     /**
@@ -2382,8 +2382,8 @@ public class Quaterniond implements Externalizable {
      *              the angles in radians to rotate about the x, y and z axes, respectively
      * @return this
      */
-    public Quaterniond rotate(Vector3d anglesXYZ) {
-        return rotate(anglesXYZ.x, anglesXYZ.y, anglesXYZ.z, this);
+    public Quaterniond rotate(Vector3dc anglesXYZ) {
+        return rotate(anglesXYZ.x(), anglesXYZ.y(), anglesXYZ.z(), this);
     }
 
     /**
@@ -3062,8 +3062,8 @@ public class Quaterniond implements Externalizable {
      *              will hold the result
      * @return dest
      */
-    public Quaterniond rotateAxis(double angle, Vector3d axis, Quaterniond dest) {
-        return rotateAxis(angle, axis.x, axis.y, axis.z, dest);
+    public Quaterniond rotateAxis(double angle, Vector3dc axis, Quaterniond dest) {
+        return rotateAxis(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
     /**
@@ -3082,8 +3082,8 @@ public class Quaterniond implements Externalizable {
      *              the rotation axis
      * @return this
      */
-    public Quaterniond rotateAxis(double angle, Vector3d axis) {
-        return rotateAxis(angle, axis.x, axis.y, axis.z, this);
+    public Quaterniond rotateAxis(double angle, Vector3dc axis) {
+        return rotateAxis(angle, axis.x(), axis.y(), axis.z(), this);
     }
 
     /**

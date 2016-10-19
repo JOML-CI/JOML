@@ -49,6 +49,9 @@ class Proxy implements Opcodes {
     private static Class vector3f_proxy;
     private static Constructor vector3f_proxy_ctor;
 
+    private static Class vector3d_proxy;
+    private static Constructor vector3d_proxy_ctor;
+
     private static Class quaternionfc_proxy;
     private static Constructor quaternionfc_proxy_ctor;
 
@@ -79,6 +82,22 @@ class Proxy implements Opcodes {
                 vector3f_proxy_ctor = vector3f_proxy.getConstructor(new Class[] { Vector3fc.class });
             }
             return (Vector3fc) vector3f_proxy_ctor.newInstance(new Object[] { delegate });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static Vector3dc createVector3dc(Vector3dc delegate) {
+        try {
+            if (vector3d_proxy != null)
+                return (Vector3dc) vector3d_proxy_ctor.newInstance(new Object[] { delegate });
+            synchronized (Proxy.class) {
+                if (vector3d_proxy != null)
+                    return (Vector3dc) vector3d_proxy_ctor.newInstance(new Object[] { delegate });
+                vector3d_proxy = proxy(Vector3dc.class);
+                vector3d_proxy_ctor = vector3d_proxy.getConstructor(new Class[] { Vector3dc.class });
+            }
+            return (Vector3dc) vector3d_proxy_ctor.newInstance(new Object[] { delegate });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

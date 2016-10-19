@@ -152,10 +152,10 @@ public class AxisAngle4d implements Externalizable {
      * Create a new {@link AxisAngle4d} with the given values.
      *
      * @param angle the angle in radians
-     * @param v     the rotation axis as a {@link Vector3d}
+     * @param v     the rotation axis as a {@link Vector3dc}
      */
-    public AxisAngle4d(double angle, Vector3d v) {
-        this(angle, v.x, v.y, v.z);
+    public AxisAngle4d(double angle, Vector3dc v) {
+        this(angle, v.x(), v.y(), v.z());
     }
 
     /**
@@ -225,11 +225,11 @@ public class AxisAngle4d implements Externalizable {
      * @param angle
      *            the angle in radians
      * @param v    
-     *            the rotation axis as a {@link Vector3d}
+     *            the rotation axis as a {@link Vector3dc}
      * @return this
      */
-    public AxisAngle4d set(double angle, Vector3d v) {
-        return set(angle, v.x, v.y, v.z);
+    public AxisAngle4d set(double angle, Vector3dc v) {
+        return set(angle, v.x(), v.y(), v.z());
     }
 
     /**
@@ -512,13 +512,13 @@ public class AxisAngle4d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3d transform(Vector3d v, Vector3d dest) {
+    public Vector3d transform(Vector3dc v, Vector3d dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
-        double dot = x * v.x + y * v.y + z * v.z;
-        dest.set(v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x,
-                 v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y,
-                 v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z);
+        double dot = x * v.x() + y * v.y() + z * v.z();
+        dest.set(v.x() * cos + sin * (y * v.z() - z * v.y()) + (1.0 - cos) * dot * x,
+                 v.y() * cos + sin * (z * v.x() - x * v.z()) + (1.0 - cos) * dot * y,
+                 v.z() * cos + sin * (x * v.y() - y * v.x()) + (1.0 - cos) * dot * z);
         return dest;
     }
 
