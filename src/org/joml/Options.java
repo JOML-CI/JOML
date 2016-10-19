@@ -29,6 +29,8 @@ package org.joml;
  */
 class Options {
 
+    static final boolean NO_PROXY = hasOption("joml.noproxy");
+
     static boolean hasOption(String option) {
         String v = System.getProperty(option);
         if (v == null)

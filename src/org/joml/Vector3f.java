@@ -1718,6 +1718,8 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return the immutable instance
      */
     public Vector3fc toImmutable() {
+        if (Options.NO_PROXY)
+            return this;
         return new Proxy(this);
     }
 
