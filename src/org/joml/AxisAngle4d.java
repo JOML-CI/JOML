@@ -92,7 +92,7 @@ public class AxisAngle4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link AxisAngle4d} from the given {@link Quaternionf}.
+     * Create a new {@link AxisAngle4d} from the given {@link Quaternionfc}.
      * <p>
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
@@ -101,12 +101,12 @@ public class AxisAngle4d implements Externalizable {
      * @param q
      *            the quaternion from which to create the new AngleAxis4f
      */
-    public AxisAngle4d(Quaternionf q) {
-        double acos = Math.acos(q.w);
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
-        x = q.x * invSqrt;
-        y = q.y * invSqrt;
-        z = q.z * invSqrt;
+    public AxisAngle4d(Quaternionfc q) {
+        double acos = Math.acos(q.w());
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
+        x = q.x() * invSqrt;
+        y = q.y() * invSqrt;
+        z = q.z() * invSqrt;
         angle = acos + acos;
     }
 
@@ -247,18 +247,18 @@ public class AxisAngle4d implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the given
-     * {@link Quaternionf}.
+     * {@link Quaternionfc}.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Quaternionf q) {
-        double acos = Math.acos(q.w);
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
-        this.x = q.x * invSqrt;
-        this.y = q.y * invSqrt;
-        this.z = q.z * invSqrt;
+    public AxisAngle4d set(Quaternionfc q) {
+        double acos = Math.acos(q.w());
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
+        this.x = q.x() * invSqrt;
+        this.y = q.y() * invSqrt;
+        this.z = q.z() * invSqrt;
         this.angle = acos + acos;
         return this;
     }
@@ -380,7 +380,7 @@ public class AxisAngle4d implements Externalizable {
      *          the quaternion to set
      * @return q
      */
-    public Quaternionf get(Quaternionf q) {
+    public Quaternionfc get(Quaternionf q) {
         return q.set(this);
     }
 

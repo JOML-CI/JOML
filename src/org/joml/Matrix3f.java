@@ -417,19 +417,19 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionfc}.
      * <p>
      * This method is equivalent to calling: <tt>rotation(q)</tt>
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/">http://www.euclideanspace.com/</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param q
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @return this
      */
-    public Matrix3f set(Quaternionf q) {
+    public Matrix3f set(Quaternionfc q) {
         return rotation(q);
     }
 
@@ -754,7 +754,7 @@ public class Matrix3f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
+    public Quaternionfc getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
@@ -770,7 +770,7 @@ public class Matrix3f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionf getNormalizedRotation(Quaternionf dest) {
+    public Quaternionfc getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 
@@ -1674,7 +1674,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
+     * Set this matrix to the rotation transformation of the given {@link Quaternionfc}.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -1684,29 +1684,29 @@ public class Matrix3f implements Externalizable {
      * matrix to obtain an additional rotation.
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(Quaternionf) rotate()} instead.
+     * use {@link #rotate(Quaternionfc) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotate(Quaternionf)
+     * @see #rotate(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @return this
      */
-    public Matrix3f rotation(Quaternionf quat) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
+    public Matrix3f rotation(Quaternionfc quat) {
+        float dqx = quat.x() + quat.x();
+        float dqy = quat.y() + quat.y();
+        float dqz = quat.z() + quat.z();
+        float q00 = dqx * quat.x();
+        float q11 = dqy * quat.y();
+        float q22 = dqz * quat.z();
+        float q01 = dqx * quat.y();
+        float q02 = dqx * quat.z();
+        float q03 = dqx * quat.w();
+        float q12 = dqy * quat.z();
+        float q13 = dqy * quat.w();
+        float q23 = dqz * quat.w();
 
         m00 = 1.0f - q11 - q22;
         m01 = q01 + q23;
@@ -2421,7 +2421,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -2433,22 +2433,22 @@ public class Matrix3f implements Externalizable {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionf)}.
+     * use {@link #rotation(Quaternionfc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @return this
      */
-    public Matrix3f rotate(Quaternionf quat) {
+    public Matrix3f rotate(Quaternionfc quat) {
         return rotate(quat, this);
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix and store
+     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2461,31 +2461,31 @@ public class Matrix3f implements Externalizable {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionf)}.
+     * use {@link #rotation(Quaternionfc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix3f rotate(Quaternionf quat, Matrix3f dest) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
+    public Matrix3f rotate(Quaternionfc quat, Matrix3f dest) {
+        float dqx = quat.x() + quat.x();
+        float dqy = quat.y() + quat.y();
+        float dqz = quat.z() + quat.z();
+        float q00 = dqx * quat.x();
+        float q11 = dqy * quat.y();
+        float q22 = dqz * quat.z();
+        float q01 = dqx * quat.y();
+        float q02 = dqx * quat.z();
+        float q03 = dqx * quat.w();
+        float q12 = dqy * quat.z();
+        float q13 = dqy * quat.w();
+        float q23 = dqz * quat.w();
 
         float rm00 = 1.0f - q11 - q22;
         float rm01 = q01 + q23;
@@ -2517,7 +2517,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix and store
+     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2530,31 +2530,31 @@ public class Matrix3f implements Externalizable {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaternionf)}.
+     * use {@link #rotation(Quaternionfc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix3f rotateLocal(Quaternionf quat, Matrix3f dest) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
+    public Matrix3f rotateLocal(Quaternionfc quat, Matrix3f dest) {
+        float dqx = quat.x() + quat.x();
+        float dqy = quat.y() + quat.y();
+        float dqz = quat.z() + quat.z();
+        float q00 = dqx * quat.x();
+        float q11 = dqy * quat.y();
+        float q22 = dqz * quat.z();
+        float q01 = dqx * quat.y();
+        float q02 = dqx * quat.z();
+        float q03 = dqx * quat.w();
+        float q12 = dqy * quat.z();
+        float q13 = dqy * quat.w();
+        float q23 = dqz * quat.w();
         float lm00 = 1.0f - q11 - q22;
         float lm01 = q01 + q23;
         float lm02 = q02 - q13;
@@ -2586,7 +2586,7 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix.
+     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -2598,17 +2598,17 @@ public class Matrix3f implements Externalizable {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaternionf)}.
+     * use {@link #rotation(Quaternionfc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @return this
      */
-    public Matrix3f rotateLocal(Quaternionf quat) {
+    public Matrix3f rotateLocal(Quaternionfc quat) {
         return rotateLocal(quat, this);
     }
 

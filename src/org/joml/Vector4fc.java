@@ -325,7 +325,7 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f rotate(Quaternionf quat, Vector4f dest);
+    Vector4f rotate(Quaternionfc quat, Vector4f dest);
 
     /**
      * Return the length squared of this vector.

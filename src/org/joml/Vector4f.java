@@ -861,14 +861,14 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the quaternion to rotate this vector
      * @return this
      */
-    public Vector4f rotate(Quaternionf quat) {
+    public Vector4f rotate(Quaternionfc quat) {
         return rotate(quat, this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#rotate(org.joml.Quaternionf, org.joml.Vector4f)
      */
-    public Vector4f rotate(Quaternionf quat, Vector4f dest) {
+    public Vector4f rotate(Quaternionfc quat, Vector4f dest) {
         return quat.transform(this, dest);
     }
 

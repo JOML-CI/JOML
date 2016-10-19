@@ -79,7 +79,7 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
-     * Create a new {@link AxisAngle4f} from the given {@link Quaternionf}.
+     * Create a new {@link AxisAngle4f} from the given {@link Quaternionfc}.
      * <p>
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
@@ -88,12 +88,12 @@ public class AxisAngle4f implements Externalizable {
      * @param q
      *            the quaternion from which to create the new AngleAxis4f
      */
-    public AxisAngle4f(Quaternionf q) {
-        float acos = (float) Math.acos(q.w);
-        float invSqrt = (float) (1.0 / Math.sqrt(1.0 - q.w * q.w));
-        this.x = q.x * invSqrt;
-        this.y = q.y * invSqrt;
-        this.z = q.z * invSqrt;
+    public AxisAngle4f(Quaternionfc q) {
+        float acos = (float) Math.acos(q.w());
+        float invSqrt = (float) (1.0 / Math.sqrt(1.0 - q.w() * q.w()));
+        this.x = q.x() * invSqrt;
+        this.y = q.y() * invSqrt;
+        this.z = q.z() * invSqrt;
         this.angle = acos + acos;
     }
 
@@ -178,18 +178,18 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the given
-     * {@link Quaternionf}.
+     * {@link Quaternionfc}.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4f from
      * @return this
      */
-    public AxisAngle4f set(Quaternionf q) {
-        double acos = Math.acos(q.w);
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
-        this.x = (float) (q.x * invSqrt);
-        this.y = (float) (q.y * invSqrt);
-        this.z = (float) (q.z * invSqrt);
+    public AxisAngle4f set(Quaternionfc q) {
+        double acos = Math.acos(q.w());
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
+        this.x = (float) (q.x() * invSqrt);
+        this.y = (float) (q.y() * invSqrt);
+        this.z = (float) (q.z() * invSqrt);
         this.angle = (float) (acos + acos);
         return this;
     }
@@ -311,7 +311,7 @@ public class AxisAngle4f implements Externalizable {
      *          the quaternion to set
      * @return q
      */
-    public Quaternionf get(Quaternionf q) {
+    public Quaternionfc get(Quaternionf q) {
         return q.set(this);
     }
 

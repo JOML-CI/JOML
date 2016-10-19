@@ -378,7 +378,7 @@ public interface Vector3fc {
     /**
      * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
      * 
-     * @see Quaternionf#transform(Vector3f)
+     * @see Quaternionfc#transform(Vector3f)
      * 
      * @param quat
      *          the quaternion to rotate this vector
@@ -386,7 +386,7 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
-    Vector3f rotate(Quaternionf quat, Vector3f dest);
+    Vector3f rotate(Quaternionfc quat, Vector3f dest);
 
     /**
      * Compute the quaternion representing a rotation of <code>this</code> vector to point along <code>toDir</code>

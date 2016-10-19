@@ -308,25 +308,25 @@ public class QuaternionfInterpolator {
      *            will hold the result
      * @return dest
      */
-    public Quaternionf computeWeightedAverage(Quaternionf[] qs, float[] weights, int maxSvdIterations, Quaternionf dest) {
+    public Quaternionf computeWeightedAverage(Quaternionfc[] qs, float[] weights, int maxSvdIterations, Quaternionf dest) {
         float m00 = 0.0f, m01 = 0.0f, m02 = 0.0f;
         float m10 = 0.0f, m11 = 0.0f, m12 = 0.0f;
         float m20 = 0.0f, m21 = 0.0f, m22 = 0.0f;
         // Sum the rotation matrices of qs
         for (int i = 0; i < qs.length; i++) {
-            Quaternionf q = qs[i];
-            float dx = q.x + q.x;
-            float dy = q.y + q.y;
-            float dz = q.z + q.z;
-            float q00 = dx * q.x;
-            float q11 = dy * q.y;
-            float q22 = dz * q.z;
-            float q01 = dx * q.y;
-            float q02 = dx * q.z;
-            float q03 = dx * q.w;
-            float q12 = dy * q.z;
-            float q13 = dy * q.w;
-            float q23 = dz * q.w;
+            Quaternionfc q = qs[i];
+            float dx = q.x() + q.x();
+            float dy = q.y() + q.y();
+            float dz = q.z() + q.z();
+            float q00 = dx * q.x();
+            float q11 = dy * q.y();
+            float q22 = dz * q.z();
+            float q01 = dx * q.y();
+            float q02 = dx * q.z();
+            float q03 = dx * q.w();
+            float q12 = dy * q.z();
+            float q13 = dy * q.w();
+            float q23 = dz * q.w();
             m00 += weights[i] * (1.0f - q11 - q22);
             m01 += weights[i] * (q01 + q23);
             m02 += weights[i] * (q02 - q13);

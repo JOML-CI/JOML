@@ -593,17 +593,17 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionfc}.
      * <p>
      * This method is equivalent to calling: <tt>rotation(q)</tt>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param q
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @return this
      */
-    public Matrix4x3f set(Quaternionf q) {
+    public Matrix4x3f set(Quaternionfc q) {
         return rotation(q);
     }
 
@@ -1553,7 +1553,7 @@ public class Matrix4x3f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
+    public Quaternionfc getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
@@ -1569,7 +1569,7 @@ public class Matrix4x3f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionf getNormalizedRotation(Quaternionf dest) {
+    public Quaternionfc getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 
@@ -2527,7 +2527,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
+     * Set this matrix to the rotation transformation of the given {@link Quaternionfc}.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -2537,29 +2537,29 @@ public class Matrix4x3f implements Externalizable {
      * matrix to obtain an additional rotation.
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(Quaternionf) rotate()} instead.
+     * use {@link #rotate(Quaternionfc) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotate(Quaternionf)
+     * @see #rotate(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @return this
      */
-    public Matrix4x3f rotation(Quaternionf quat) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
+    public Matrix4x3f rotation(Quaternionfc quat) {
+        float dqx = quat.x() + quat.x();
+        float dqy = quat.y() + quat.y();
+        float dqz = quat.z() + quat.z();
+        float q00 = dqx * quat.x();
+        float q11 = dqy * quat.y();
+        float q22 = dqz * quat.z();
+        float q01 = dqx * quat.y();
+        float q02 = dqx * quat.z();
+        float q03 = dqx * quat.w();
+        float q12 = dqy * quat.z();
+        float q13 = dqy * quat.w();
+        float q23 = dqz * quat.w();
 
         m00 = 1.0f - q11 - q22;
         m01 = q01 + q23;
@@ -2593,7 +2593,7 @@ public class Matrix4x3f implements Externalizable {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz)</tt>
      * 
      * @see #translation(float, float, float)
-     * @see #rotate(Quaternionf)
+     * @see #rotate(Quaternionfc)
      * @see #scale(float, float, float)
      * 
      * @param tx
@@ -2664,7 +2664,7 @@ public class Matrix4x3f implements Externalizable {
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
      * 
      * @see #translation(Vector3fc)
-     * @see #rotate(Quaternionf)
+     * @see #rotate(Quaternionfc)
      * 
      * @param translation
      *          the translation
@@ -2675,9 +2675,9 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f translationRotateScale(Vector3fc translation, 
-                                           Quaternionf quat, 
+                                           Quaternionfc quat, 
                                            Vector3fc scale) {
-        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x, quat.y, quat.z, quat.w, scale.x(), scale.y(), scale.z());
+        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
     }
 
     /**
@@ -2695,7 +2695,7 @@ public class Matrix4x3f implements Externalizable {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz).mul(m)</tt>
      * 
      * @see #translation(float, float, float)
-     * @see #rotate(Quaternionf)
+     * @see #rotate(Quaternionfc)
      * @see #scale(float, float, float)
      * @see #mul(Matrix4x3f)
      * 
@@ -2787,7 +2787,7 @@ public class Matrix4x3f implements Externalizable {
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale).mul(m)</tt>
      * 
      * @see #translation(Vector3fc)
-     * @see #rotate(Quaternionf)
+     * @see #rotate(Quaternionfc)
      * 
      * @param translation
      *          the translation
@@ -2799,8 +2799,8 @@ public class Matrix4x3f implements Externalizable {
      *          the matrix to multiply by
      * @return this
      */
-    public Matrix4x3f translationRotateScaleMul(Vector3fc translation, Quaternionf quat, Vector3fc scale, Matrix4x3f m) {
-        return translationRotateScaleMul(translation.x(), translation.y(), translation.z(), quat.x, quat.y, quat.z, quat.w, scale.x(), scale.y(), scale.z(), m);
+    public Matrix4x3f translationRotateScaleMul(Vector3fc translation, Quaternionfc quat, Vector3fc scale, Matrix4x3f m) {
+        return translationRotateScaleMul(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z(), m);
     }
 
     /**
@@ -2816,7 +2816,7 @@ public class Matrix4x3f implements Externalizable {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
      * 
      * @see #translation(float, float, float)
-     * @see #rotate(Quaternionf)
+     * @see #rotate(Quaternionfc)
      * 
      * @param tx
      *          the number of units by which to translate the x-component
@@ -2828,19 +2828,19 @@ public class Matrix4x3f implements Externalizable {
      *          the quaternion representing a rotation
      * @return this
      */
-    public Matrix4x3f translationRotate(float tx, float ty, float tz, Quaternionf quat) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
+    public Matrix4x3f translationRotate(float tx, float ty, float tz, Quaternionfc quat) {
+        float dqx = quat.x() + quat.x();
+        float dqy = quat.y() + quat.y();
+        float dqz = quat.z() + quat.z();
+        float q00 = dqx * quat.x();
+        float q11 = dqy * quat.y();
+        float q22 = dqz * quat.z();
+        float q01 = dqx * quat.y();
+        float q02 = dqx * quat.z();
+        float q03 = dqx * quat.w();
+        float q12 = dqy * quat.z();
+        float q13 = dqy * quat.w();
+        float q23 = dqz * quat.w();
         m00 = 1.0f - (q11 + q22);
         m01 = q01 + q23;
         m02 = q02 - q13;
@@ -6418,7 +6418,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix and store
+     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -6431,38 +6431,38 @@ public class Matrix4x3f implements Externalizable {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionf)}.
+     * use {@link #rotation(Quaternionfc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f rotate(Quaternionf quat, Matrix4x3f dest) {
+    public Matrix4x3f rotate(Quaternionfc quat, Matrix4x3f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(quat);
         else if ((properties & PROPERTY_TRANSLATION) != 0)
             return rotateTranslation(quat, dest);
         return rotateGeneric(quat, dest);
     }
-    private Matrix4x3f rotateGeneric(Quaternionf quat, Matrix4x3f dest) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
+    private Matrix4x3f rotateGeneric(Quaternionfc quat, Matrix4x3f dest) {
+        float dqx = quat.x() + quat.x();
+        float dqy = quat.y() + quat.y();
+        float dqz = quat.z() + quat.z();
+        float q00 = dqx * quat.x();
+        float q11 = dqy * quat.y();
+        float q22 = dqz * quat.z();
+        float q01 = dqx * quat.y();
+        float q02 = dqx * quat.z();
+        float q03 = dqx * quat.w();
+        float q12 = dqy * quat.z();
+        float q13 = dqy * quat.w();
+        float q23 = dqz * quat.w();
         float rm00 = 1.0f - q11 - q22;
         float rm01 = q01 + q23;
         float rm02 = q02 - q13;
@@ -6495,7 +6495,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -6507,22 +6507,22 @@ public class Matrix4x3f implements Externalizable {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionf)}.
+     * use {@link #rotation(Quaternionfc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @return this
      */
-    public Matrix4x3f rotate(Quaternionf quat) {
+    public Matrix4x3f rotate(Quaternionfc quat) {
         return rotate(quat, this);
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -6537,31 +6537,31 @@ public class Matrix4x3f implements Externalizable {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionf)}.
+     * use {@link #rotation(Quaternionfc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f rotateTranslation(Quaternionf quat, Matrix4x3f dest) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
+    public Matrix4x3f rotateTranslation(Quaternionfc quat, Matrix4x3f dest) {
+        float dqx = quat.x() + quat.x();
+        float dqy = quat.y() + quat.y();
+        float dqz = quat.z() + quat.z();
+        float q00 = dqx * quat.x();
+        float q11 = dqy * quat.y();
+        float q22 = dqz * quat.z();
+        float q01 = dqx * quat.y();
+        float q02 = dqx * quat.z();
+        float q03 = dqx * quat.w();
+        float q12 = dqy * quat.z();
+        float q13 = dqy * quat.w();
+        float q23 = dqz * quat.w();
 
         float rm00 = 1.0f - q11 - q22;
         float rm01 = q01 + q23;
@@ -6597,7 +6597,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix and store
+     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -6610,31 +6610,31 @@ public class Matrix4x3f implements Externalizable {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaternionf)}.
+     * use {@link #rotation(Quaternionfc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f rotateLocal(Quaternionf quat, Matrix4x3f dest) {
-        float dqx = quat.x + quat.x;
-        float dqy = quat.y + quat.y;
-        float dqz = quat.z + quat.z;
-        float q00 = dqx * quat.x;
-        float q11 = dqy * quat.y;
-        float q22 = dqz * quat.z;
-        float q01 = dqx * quat.y;
-        float q02 = dqx * quat.z;
-        float q03 = dqx * quat.w;
-        float q12 = dqy * quat.z;
-        float q13 = dqy * quat.w;
-        float q23 = dqz * quat.w;
+    public Matrix4x3f rotateLocal(Quaternionfc quat, Matrix4x3f dest) {
+        float dqx = quat.x() + quat.x();
+        float dqy = quat.y() + quat.y();
+        float dqz = quat.z() + quat.z();
+        float q00 = dqx * quat.x();
+        float q11 = dqy * quat.y();
+        float q22 = dqz * quat.z();
+        float q01 = dqx * quat.y();
+        float q02 = dqx * quat.z();
+        float q03 = dqx * quat.w();
+        float q12 = dqy * quat.z();
+        float q13 = dqy * quat.w();
+        float q23 = dqz * quat.w();
         float lm00 = 1.0f - q11 - q22;
         float lm01 = q01 + q23;
         float lm02 = q02 - q13;
@@ -6673,7 +6673,7 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix.
+     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -6685,17 +6685,17 @@ public class Matrix4x3f implements Externalizable {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaternionf)}.
+     * use {@link #rotation(Quaternionfc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionf)
+     * @see #rotation(Quaternionfc)
      * 
      * @param quat
-     *          the {@link Quaternionf}
+     *          the {@link Quaternionfc}
      * @return this
      */
-    public Matrix4x3f rotateLocal(Quaternionf quat) {
+    public Matrix4x3f rotateLocal(Quaternionfc quat) {
         return rotateLocal(quat, this);
     }
 
@@ -7002,7 +7002,7 @@ public class Matrix4x3f implements Externalizable {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionf} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionfc} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
@@ -7016,7 +7016,7 @@ public class Matrix4x3f implements Externalizable {
      *          a point on the plane
      * @return this
      */
-    public Matrix4x3f reflect(Quaternionf orientation, Vector3fc point) {
+    public Matrix4x3f reflect(Quaternionfc orientation, Vector3fc point) {
         return reflect(orientation, point, this);
     }
 
@@ -7025,7 +7025,7 @@ public class Matrix4x3f implements Externalizable {
      * specified via the plane orientation and a point on the plane, and store the result in <code>dest</code>.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionf} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionfc} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
@@ -7041,13 +7041,13 @@ public class Matrix4x3f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3f reflect(Quaternionf orientation, Vector3fc point, Matrix4x3f dest) {
-        double num1 = orientation.x + orientation.x;
-        double num2 = orientation.y + orientation.y;
-        double num3 = orientation.z + orientation.z;
-        float normalX = (float) (orientation.x * num3 + orientation.w * num2);
-        float normalY = (float) (orientation.y * num3 - orientation.w * num1);
-        float normalZ = (float) (1.0 - (orientation.x * num1 + orientation.y * num2));
+    public Matrix4x3f reflect(Quaternionfc orientation, Vector3fc point, Matrix4x3f dest) {
+        double num1 = orientation.x() + orientation.x();
+        double num2 = orientation.y() + orientation.y();
+        double num3 = orientation.z() + orientation.z();
+        float normalX = (float) (orientation.x() * num3 + orientation.w() * num2);
+        float normalY = (float) (orientation.y() * num3 - orientation.w() * num1);
+        float normalZ = (float) (1.0 - (orientation.x() * num1 + orientation.y() * num2));
         return reflect(normalX, normalY, normalZ, point.x(), point.y(), point.z(), dest);
     }
 
@@ -7154,7 +7154,7 @@ public class Matrix4x3f implements Externalizable {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionf} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaternionfc} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * 
      * @param orientation
@@ -7163,13 +7163,13 @@ public class Matrix4x3f implements Externalizable {
      *          a point on the plane
      * @return this
      */
-    public Matrix4x3f reflection(Quaternionf orientation, Vector3fc point) {
-        double num1 = orientation.x + orientation.x;
-        double num2 = orientation.y + orientation.y;
-        double num3 = orientation.z + orientation.z;
-        float normalX = (float) (orientation.x * num3 + orientation.w * num2);
-        float normalY = (float) (orientation.y * num3 - orientation.w * num1);
-        float normalZ = (float) (1.0 - (orientation.x * num1 + orientation.y * num2));
+    public Matrix4x3f reflection(Quaternionfc orientation, Vector3fc point) {
+        double num1 = orientation.x() + orientation.x();
+        double num2 = orientation.y() + orientation.y();
+        double num3 = orientation.z() + orientation.z();
+        float normalX = (float) (orientation.x() * num3 + orientation.w() * num2);
+        float normalY = (float) (orientation.y() * num3 - orientation.w() * num1);
+        float normalZ = (float) (1.0 - (orientation.x() * num1 + orientation.y() * num2));
         return reflection(normalX, normalY, normalZ, point.x(), point.y(), point.z());
     }
 

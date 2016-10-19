@@ -119,16 +119,16 @@ public class Quaterniond implements Externalizable {
     }
 
     /**
-     * Create a new {@link Quaterniond} and initialize its components to the same values as the given {@link Quaternionf}.
+     * Create a new {@link Quaterniond} and initialize its components to the same values as the given {@link Quaternionfc}.
      * 
      * @param source
-     *          the {@link Quaternionf} to take the component values from
+     *          the {@link Quaternionfc} to take the component values from
      */
-    public Quaterniond(Quaternionf source) {
-        x = source.x;
-        y = source.y;
-        z = source.z;
-        w = source.w;
+    public Quaterniond(Quaternionfc source) {
+        x = source.x();
+        y = source.y();
+        z = source.z();
+        w = source.w();
     }
 
     /**
@@ -405,14 +405,14 @@ public class Quaterniond implements Externalizable {
      * Set this quaternion to be a copy of q.
      * 
      * @param q
-     *          the {@link Quaternionf} to copy
+     *          the {@link Quaternionfc} to copy
      * @return this
      */
-    public Quaterniond set(Quaternionf q) {
-        x = q.x;
-        y = q.y;
-        z = q.z;
-        w = q.w;
+    public Quaterniond set(Quaternionfc q) {
+        x = q.x();
+        y = q.y();
+        z = q.z();
+        w = q.w();
         return this;
     }
 

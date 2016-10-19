@@ -6,8 +6,8 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 archivesBaseName = 'joml'
 
-sourceCompatibility = 1.5
-targetCompatibility = 1.5
+sourceCompatibility = 1.4
+targetCompatibility = 1.4
 sourceSets {
   main.java.srcDir 'src'
   test.java.srcDir 'test'

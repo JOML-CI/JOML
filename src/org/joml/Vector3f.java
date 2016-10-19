@@ -875,21 +875,21 @@ public class Vector3f implements Externalizable, Vector3fc {
     /**
      * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>this</code>.
      * 
-     * @see Quaternionf#transform(Vector3f)
+     * @see Quaternionfc#transform(Vector3f)
      * 
      * @param quat
      *          the quaternion to rotate this vector
      * @return this
      */
-    public Vector3f rotate(Quaternionf quat) {
+    public Vector3f rotate(Quaternionfc quat) {
         quat.transform(this, this);
         return this;
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3fc#rotate(org.joml.Quaternionf, org.joml.Vector3f)
+     * @see org.joml.Vector3fc#rotate(org.joml.Quaternionfc, org.joml.Vector3f)
      */
-    public Vector3f rotate(Quaternionf quat, Vector3f dest) {
+    public Vector3f rotate(Quaternionfc quat, Vector3f dest) {
         quat.transform(this, dest);
         return dest;
     }

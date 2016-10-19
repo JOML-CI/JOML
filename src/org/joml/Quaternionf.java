@@ -38,7 +38,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Quaternionf implements Externalizable {
+public class Quaternionf implements Externalizable, Quaternionfc {
 
     private static final long serialVersionUID = 1L;
 
@@ -58,6 +58,11 @@ public class Quaternionf implements Externalizable {
      * The real/scalar part of the quaternion.
      */
     public float w;
+
+    /**
+     * Used to cache the result of {@link #toImmutable()}.
+     */
+    private Quaternionfc proxy;
 
     /**
      * Create a new {@link Quaternionf} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>, 
@@ -130,6 +135,34 @@ public class Quaternionf implements Externalizable {
     }
 
     /**
+     * @return the first component of the vector part
+     */
+    public float x() {
+        return this.x;
+    }
+
+    /**
+     * @return the second component of the vector part
+     */
+    public float y() {
+        return this.y;
+    }
+
+    /**
+     * @return the third component of the vector part
+     */
+    public float z() {
+        return this.z;
+    }
+
+    /**
+     * @return the real/scalar part of the quaternion
+     */
+    public float w() {
+        return this.w;
+    }
+
+    /**
      * Normalize this quaternion.
      * 
      * @return this
@@ -143,12 +176,8 @@ public class Quaternionf implements Externalizable {
         return this;
     }
 
-    /**
-     * Normalize this quaternion and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#normalize(org.joml.Quaternionf)
      */
     public Quaternionf normalize(Quaternionf dest) {
         float invNorm = (float) (1.0 / Math.sqrt(x * x + y * y + z * z + w * w));
@@ -176,20 +205,8 @@ public class Quaternionf implements Externalizable {
         return add(x, y, z, w, this);
     }
 
-    /**
-     * Add the quaternion <tt>(x, y, z, w)</tt> to this quaternion and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x component of the vector part
-     * @param y
-     *          the y component of the vector part
-     * @param z
-     *          the z component of the vector part
-     * @param w
-     *          the real/scalar component
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#add(float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf add(float x, float y, float z, float w, Quaternionf dest) {
         dest.x = this.x + x;
@@ -214,14 +231,8 @@ public class Quaternionf implements Externalizable {
         return this;
     }
 
-    /**
-     * Add <code>q2</code> to this quaternion and store the result in <code>dest</code>.
-     * 
-     * @param q2
-     *          the quaternion to add to this
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#add(org.joml.Quaternionf, org.joml.Quaternionf)
      */
     public Quaternionf add(Quaternionf q2, Quaternionf dest) {
         dest.x = x + q2.x;
@@ -242,101 +253,58 @@ public class Quaternionf implements Externalizable {
         return this.x * otherQuat.x + this.y * otherQuat.y + this.z * otherQuat.z + this.w * otherQuat.w;
     }
 
-    /**
-     * Return the angle in radians represented by this quaternion rotation.
-     * 
-     * @return the angle in radians
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#angle()
      */
     public float angle() {
         float angle = (float) (2.0 * Math.acos(w));
         return (float) (angle <= Math.PI ? angle : Math.PI + Math.PI - angle);
     }
 
-    /**
-     * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
-     * @see Matrix3f#set(Quaternionf)
-     * 
-     * @param dest
-     *          the matrix to write the rotation into
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#get(org.joml.Matrix3f)
      */
     public Matrix3f get(Matrix3f dest) {
         return dest.set(this);
     }
 
-    /**
-     * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
-     * @see Matrix3d#set(Quaternionf)
-     * 
-     * @param dest
-     *          the matrix to write the rotation into
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#get(org.joml.Matrix3d)
      */
     public Matrix3d get(Matrix3d dest) {
         return dest.set(this);
     }
 
-    /**
-     * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
-     * @see Matrix4f#set(Quaternionf)
-     * 
-     * @param dest
-     *          the matrix to write the rotation into
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#get(org.joml.Matrix4f)
      */
     public Matrix4f get(Matrix4f dest) {
         return dest.set(this);
     }
 
-    /**
-     * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
-     * @see Matrix4d#set(Quaternionf)
-     * 
-     * @param dest
-     *          the matrix to write the rotation into
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#get(org.joml.Matrix4d)
      */
     public Matrix4d get(Matrix4d dest) {
         return dest.set(this);
     }
 
-    /**
-     * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
-     * @see Matrix4x3f#set(Quaternionf)
-     * 
-     * @param dest
-     *          the matrix to write the rotation into
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#get(org.joml.Matrix4x3f)
      */
     public Matrix4x3f get(Matrix4x3f dest) {
         return dest.set(this);
     }
 
-    /**
-     * Set the given destination matrix to the rotation represented by <code>this</code>.
-     * 
-     * @see Matrix4x3d#set(Quaternionf)
-     * 
-     * @param dest
-     *          the matrix to write the rotation into
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#get(org.joml.Matrix4x3d)
      */
     public Matrix4x3d get(Matrix4x3d dest) {
         return dest.set(this);
     }
 
-    /**
-     * Set the given {@link AxisAngle4f} to represent the rotation of
-     * <code>this</code> quaternion.
-     * 
-     * @param dest
-     *            the {@link AxisAngle4f} to set
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#get(org.joml.AxisAngle4f)
      */
     public AxisAngle4f get(AxisAngle4f dest) {
         float x = this.x;
@@ -365,14 +333,8 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
-    /**
-     * Set the given {@link Quaterniond} to the values of <code>this</code>.
-     * 
-     * @see Quaterniond#set(Quaterniond)
-     * 
-     * @param dest
-     *          the {@link Quaterniond} to set
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#get(org.joml.Quaterniond)
      */
     public Quaterniond get(Quaterniond dest) {
         return dest.set(this);
@@ -381,7 +343,7 @@ public class Quaternionf implements Externalizable {
     /**
      * Set the given {@link Quaternionf} to the values of <code>this</code>.
      * 
-     * @see #set(Quaternionf)
+     * @see #set(Quaternionfc)
      * 
      * @param dest
      *          the {@link Quaternionf} to set
@@ -391,84 +353,48 @@ public class Quaternionf implements Externalizable {
         return dest.set(this);
     }
 
-    /**
-     * Store the 3x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link ByteBuffer}.
-     * <p>
-     * This is equivalent to calling: <code>this.get(new Matrix3f()).get(dest)</code>
-     * 
-     * @param dest
-     *            the destination buffer
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#getAsMatrix3f(java.nio.ByteBuffer)
      */
     public ByteBuffer getAsMatrix3f(ByteBuffer dest) {
         MemUtil.INSTANCE.putMatrix3f(this, dest.position(), dest);
         return dest;
     }
 
-    /**
-     * Store the 3x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link FloatBuffer}.
-     * <p>
-     * This is equivalent to calling: <code>this.get(new Matrix3f()).get(dest)</code>
-     * 
-     * @param dest
-     *            the destination buffer
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#getAsMatrix3f(java.nio.FloatBuffer)
      */
     public FloatBuffer getAsMatrix3f(FloatBuffer dest) {
         MemUtil.INSTANCE.putMatrix3f(this, dest.position(), dest);
         return dest;
     }
 
-    /**
-     * Store the 4x4 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link ByteBuffer}.
-     * <p>
-     * This is equivalent to calling: <code>this.get(new Matrix4f()).get(dest)</code>
-     * 
-     * @param dest
-     *            the destination buffer
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#getAsMatrix4f(java.nio.ByteBuffer)
      */
     public ByteBuffer getAsMatrix4f(ByteBuffer dest) {
         MemUtil.INSTANCE.putMatrix4f(this, dest.position(), dest);
         return dest;
     }
 
-    /**
-     * Store the 4x4 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link FloatBuffer}.
-     * <p>
-     * This is equivalent to calling: <code>this.get(new Matrix4f()).get(dest)</code>
-     * 
-     * @param dest
-     *            the destination buffer
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#getAsMatrix4f(java.nio.FloatBuffer)
      */
     public FloatBuffer getAsMatrix4f(FloatBuffer dest) {
         MemUtil.INSTANCE.putMatrix4f(this, dest.position(), dest);
         return dest;
     }
 
-    /**
-     * Store the 4x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link ByteBuffer}.
-     * <p>
-     * This is equivalent to calling: <code>this.get(new Matrix4x3f()).get(dest)</code>
-     * 
-     * @param dest
-     *            the destination buffer
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#getAsMatrix4x3f(java.nio.ByteBuffer)
      */
     public ByteBuffer getAsMatrix4x3f(ByteBuffer dest) {
         MemUtil.INSTANCE.putMatrix4x3f(this, dest.position(), dest);
         return dest;
     }
 
-    /**
-     * Store the 4x3 float matrix representation of <code>this</code> quaternion in column-major order into the given {@link FloatBuffer}.
-     * <p>
-     * This is equivalent to calling: <code>this.get(new Matrix4x3f()).get(dest)</code>
-     * 
-     * @param dest
-     *            the destination buffer
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#getAsMatrix4x3f(java.nio.FloatBuffer)
      */
     public FloatBuffer getAsMatrix4x3f(FloatBuffer dest) {
         MemUtil.INSTANCE.putMatrix4x3f(this, dest.position(), dest);
@@ -521,8 +447,15 @@ public class Quaternionf implements Externalizable {
      *          the {@link Quaternionf} to copy
      * @return this
      */
-    public Quaternionf set(Quaternionf q) {
-        MemUtil.INSTANCE.copy(q, this);
+    public Quaternionf set(Quaternionfc q) {
+        if (q instanceof Quaternionf)
+            MemUtil.INSTANCE.copy((Quaternionf) q, this);
+        else {
+            this.x = q.x();
+            this.y = q.y();
+            this.z = q.z();
+            this.w = q.w();
+        }
         return this;
     }
 
@@ -1018,22 +951,8 @@ public class Quaternionf implements Externalizable {
         return mul(q, this);
     }
 
-    /**
-     * Multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
-     * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
-     * quaternion, then the resulting quaternion <tt>R</tt> is:
-     * <p>
-     * <tt>R = T * Q</tt>
-     * <p>
-     * So, this method uses post-multiplication like the matrix classes, resulting in a
-     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
-     * 
-     * @param q
-     *            the quaternion to multiply <code>this</code> by
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#mul(org.joml.Quaternionf, org.joml.Quaternionf)
      */
     public Quaternionf mul(Quaternionf q, Quaternionf dest) {
         dest.set(w * q.x + x * q.w + y * q.z - z * q.y,
@@ -1072,28 +991,8 @@ public class Quaternionf implements Externalizable {
         return this;
     }
 
-    /**
-     * Multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in <code>dest</code>.
-     * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given
-     * quaternion, then the resulting quaternion <tt>R</tt> is:
-     * <p>
-     * <tt>R = T * Q</tt>
-     * <p>
-     * So, this method uses post-multiplication like the matrix classes, resulting in a
-     * vector to be transformed by <tt>Q</tt> first, and then by <tt>T</tt>.
-     * 
-     * @param qx
-     *          the x component of the quaternion to multiply <code>this</code> by
-     * @param qy
-     *          the y component of the quaternion to multiply <code>this</code> by
-     * @param qz
-     *          the z component of the quaternion to multiply <code>this</code> by
-     * @param qw
-     *          the w component of the quaternion to multiply <code>this</code> by
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#mul(float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf mul(float qx, float qy, float qz, float qw, Quaternionf dest) {
         dest.set(w * qx + x * qw + y * qz - z * qy,
@@ -1120,20 +1019,8 @@ public class Quaternionf implements Externalizable {
         return premul(q, this);
     }
 
-    /**
-     * Pre-multiply this quaternion by <code>q</code> and store the result in <code>dest</code>.
-     * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
-     * <p>
-     * <tt>R = Q * T</tt>
-     * <p>
-     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
-     * 
-     * @param q
-     *            the quaternion to pre-multiply <code>this</code> by
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#premul(org.joml.Quaternionf, org.joml.Quaternionf)
      */
     public Quaternionf premul(Quaternionf q, Quaternionf dest) {
         dest.set(q.w * x + q.x * w + q.y * z - q.z * y,
@@ -1166,26 +1053,8 @@ public class Quaternionf implements Externalizable {
         return premul(qx, qy, qz, qw, this);
     }
 
-    /**
-     * Pre-multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in <code>dest</code>.
-     * <p>
-     * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given quaternion, then the resulting quaternion <tt>R</tt> is:
-     * <p>
-     * <tt>R = Q * T</tt>
-     * <p>
-     * So, this method uses pre-multiplication, resulting in a vector to be transformed by <tt>T</tt> first, and then by <tt>Q</tt>.
-     * 
-     * @param qx
-     *          the x component of the quaternion to multiply <code>this</code> by
-     * @param qy
-     *          the y component of the quaternion to multiply <code>this</code> by
-     * @param qz
-     *          the z component of the quaternion to multiply <code>this</code> by
-     * @param qw
-     *          the w component of the quaternion to multiply <code>this</code> by
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#premul(float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf premul(float qx, float qy, float qz, float qw, Quaternionf dest) {
         dest.set(qw * x + qx * w + qy * z - qz * y,
@@ -1195,59 +1064,29 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
-    /**
-     * Transform the given vector by this quaternion.
-     * This will apply the rotation described by this quaternion to the given vector.
-     * 
-     * @param vec
-     *          the vector to transform
-     * @return vec
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#transform(org.joml.Vector3f)
      */
     public Vector3f transform(Vector3f vec){
         return transform(vec.x, vec.y, vec.z, vec);
     }
 
-    /**
-     * Transform the given vector by this quaternion.
-     * This will apply the rotation described by this quaternion to the given vector.
-     * <p>
-     * Only the first three components of the given 4D vector are being used and modified.
-     * 
-     * @param vec
-     *          the vector to transform
-     * @return vec
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#transform(org.joml.Vector4f)
      */
     public Vector4f transform(Vector4f vec){
         return transform(vec, vec);
     }
 
-    /**
-     * Transform the given vector by this quaternion and store the result in <code>dest</code>.
-     * This will apply the rotation described by this quaternion to the given vector.
-     * 
-     * @param vec
-     *          the vector to transform
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#transform(org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3f transform(Vector3fc vec, Vector3f dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
     }
 
-    /**
-     * Transform the given vector <tt>(x, y, z)</tt> by this quaternion and store the result in <code>dest</code>.
-     * This will apply the rotation described by this quaternion to the given vector.
-     * 
-     * @param x
-     *          the x coordinate of the vector to transform
-     * @param y
-     *          the y coordinate of the vector to transform
-     * @param z
-     *          the z coordinate of the vector to transform
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#transform(float, float, float, org.joml.Vector3f)
      */
     public Vector3f transform(float x, float y, float z, Vector3f dest) {
         float num = this.x + this.x;
@@ -1268,35 +1107,15 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
-    /**
-     * Transform the given vector by this quaternion and store the result in <code>dest</code>.
-     * This will apply the rotation described by this quaternion to the given vector.
-     * <p>
-     * Only the first three components of the given 4D vector are being used and set on the destination.
-     * 
-     * @param vec
-     *          the vector to transform
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#transform(org.joml.Vector4fc, org.joml.Vector4f)
      */
     public Vector4f transform(Vector4fc vec, Vector4f dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
     }
 
-    /**
-     * Transform the given vector <tt>(x, y, z)</tt> by this quaternion and store the result in <code>dest</code>.
-     * This will apply the rotation described by this quaternion to the given vector.
-     * 
-     * @param x
-     *          the x coordinate of the vector to transform
-     * @param y
-     *          the y coordinate of the vector to transform
-     * @param z
-     *          the z coordinate of the vector to transform
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#transform(float, float, float, org.joml.Vector4f)
      */
     public Vector4f transform(float x, float y, float z, Vector4f dest) {
         float num = this.x + this.x;
@@ -1318,16 +1137,8 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
-    /**
-     * Invert this quaternion and store the {@link #normalize() normalized} result in <code>dest</code>.
-     * <p>
-     * If this quaternion is already normalized, then {@link #conjugate(Quaternionf)} should be used instead.
-     * 
-     * @see #conjugate(Quaternionf)
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#invert(org.joml.Quaternionf)
      */
     public Quaternionf invert(Quaternionf dest) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
@@ -1351,18 +1162,8 @@ public class Quaternionf implements Externalizable {
         return invert(this);
     }
 
-    /**
-     * Divide <code>this</code> quaternion by <code>b</code> and store the result in <code>dest</code>.
-     * <p>
-     * The division expressed using the inverse is performed in the following way:
-     * <p>
-     * <tt>dest = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
-     * 
-     * @param b
-     *          the {@link Quaternionf} to divide this by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#div(org.joml.Quaternionf, org.joml.Quaternionf)
      */
     public Quaternionf div(Quaternionf b, Quaternionf dest) {
         float invNorm = 1.0f / (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
@@ -1404,12 +1205,8 @@ public class Quaternionf implements Externalizable {
         return this;
     }
 
-    /**
-     * Conjugate this quaternion and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#conjugate(org.joml.Quaternionf)
      */
     public Quaternionf conjugate(Quaternionf dest) {
         dest.x = -x;
@@ -1452,26 +1249,8 @@ public class Quaternionf implements Externalizable {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles using rotation sequence <tt>XYZ</tt> and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @param angleX
-     *              the angle in radians to rotate about the x axis
-     * @param angleY
-     *              the angle in radians to rotate about the y axis
-     * @param angleZ
-     *              the angle in radians to rotate about the z axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateXYZ(float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf rotateXYZ(float angleX, float angleY, float angleZ, Quaternionf dest) {
         float sx = (float) Math.sin(angleX * 0.5);
@@ -1520,26 +1299,8 @@ public class Quaternionf implements Externalizable {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles, using the rotation sequence <tt>ZYX</tt> and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @param angleZ
-     *              the angle in radians to rotate about the z axis
-     * @param angleY
-     *              the angle in radians to rotate about the y axis
-     * @param angleX
-     *              the angle in radians to rotate about the x axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateZYX(float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf rotateZYX(float angleZ, float angleY, float angleX, Quaternionf dest) {
         float sx = (float) Math.sin(angleX * 0.5);
@@ -1588,26 +1349,8 @@ public class Quaternionf implements Externalizable {
         return rotateYXZ(angleZ, angleY, angleX, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the cartesian base unit axes,
-     * called the euler angles, using the rotation sequence <tt>YXZ</tt> and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to calling: <tt>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</tt>
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @param angleY
-     *              the angle in radians to rotate about the y axis
-     * @param angleX
-     *              the angle in radians to rotate about the x axis
-     * @param angleZ
-     *              the angle in radians to rotate about the z axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateYXZ(float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf rotateYXZ(float angleY, float angleX, float angleZ, Quaternionf dest) {
         float sx = (float) Math.sin(angleX * 0.5);
@@ -1633,13 +1376,8 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
-    /**
-     * Get the euler angles in radians in rotation sequence <tt>XYZ</tt> of this quaternion and store them in the 
-     * provided parameter <code>eulerAngles</code>.
-     * 
-     * @param eulerAngles
-     *          will hold the euler angles in radians
-     * @return the passed in vector
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#getEulerAnglesXYZ(org.joml.Vector3f)
      */
     public Vector3f getEulerAnglesXYZ(Vector3f eulerAngles) {
         eulerAngles.x = (float) Math.atan2(2.0 * (x*w - y*z), 1.0 - 2.0 * (x*x + y*y));
@@ -1648,10 +1386,8 @@ public class Quaternionf implements Externalizable {
         return eulerAngles;
     }
 
-    /**
-     * Return the square of the length of this quaternion.
-     * 
-     * @return the length
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#lengthSquared()
      */
     public float lengthSquared() {
         return x * x + y * y + z * z + w * w;
@@ -1779,23 +1515,8 @@ public class Quaternionf implements Externalizable {
         return slerp(target, alpha, this);
     }
 
-    /**
-     * Interpolate between <code>this</code> quaternion and the specified
-     * <code>target</code> using spherical linear interpolation using the specified interpolation factor <code>alpha</code>,
-     * and store the result in <code>dest</code>.
-     * <p>
-     * This method resorts to non-spherical linear interpolation when the absolute dot product of <code>this</code> and <code>target</code> is
-     * below <tt>1E-6f</tt>.
-     * <p>
-     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
-     * 
-     * @param target
-     *          the target of the interpolation, which should be reached with <tt>alpha = 1.0</tt>
-     * @param alpha
-     *          the interpolation factor, within <tt>[0..1]</tt>
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#slerp(org.joml.Quaternionf, float, org.joml.Quaternionf)
      */
     public Quaternionf slerp(Quaternionf target, float alpha, Quaternionf dest) {
         float cosom = x * target.x + y * target.y + z * target.z + w * target.w;
@@ -1837,7 +1558,7 @@ public class Quaternionf implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public static Quaternionf slerp(Quaternionf[] qs, float[] weights, Quaternionf dest) {
+    public static Quaternionfc slerp(Quaternionf[] qs, float[] weights, Quaternionf dest) {
         dest.set(qs[0]);
         float w = weights[0];
         for (int i = 1; i < qs.length; i++) {
@@ -1868,21 +1589,8 @@ public class Quaternionf implements Externalizable {
         return scale(factor, this);
     }
 
-    /**
-     * Scale the rotation represented by this quaternion by the given <code>factor</code> using spherical linear interpolation, and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
-     * and thus equivalent to calling: <tt>new Quaternionf().slerp(this, factor, dest)</tt>
-     * <p>
-     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
-     * 
-     * @see #slerp(Quaternionf, float, Quaternionf)
-     * 
-     * @param factor
-     *          the scaling/interpolation factor, within <tt>[0..1]</tt>
-     * @param dest
-     *          will hold the result
-     * @return this
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#scale(float, org.joml.Quaternionf)
      */
     public Quaternionf scale(float factor, Quaternionf dest) {
         float absCosom = Math.abs(w);
@@ -1932,31 +1640,8 @@ public class Quaternionf implements Externalizable {
         return integrate(dt, vx, vy, vz, this);
     }
 
-    /**
-     * Integrate the rotation given by the angular velocity <code>(vx, vy, vz)</code> around the x, y and z axis, respectively,
-     * with respect to the given elapsed time delta <code>dt</code> and add the differentiate rotation to the rotation represented by this quaternion
-     * and store the result into <code>dest</code>.
-     * <p>
-     * This method pre-multiplies the rotation given by <code>dt</code> and <code>(vx, vy, vz)</code> by <code>this</code>, so
-     * the angular velocities are always relative to the local coordinate system of the rotation represented by <code>this</code> quaternion.
-     * <p>
-     * This method is equivalent to calling: <code>rotateLocal(dt * vx, dt * vy, dt * vz, dest)</code>
-     * <p>
-     * Reference: <a href="http://physicsforgames.blogspot.de/2010/02/quaternions.html">http://physicsforgames.blogspot.de/</a>
-     * 
-     * @see #rotateLocal(float, float, float, Quaternionf)
-     * 
-     * @param dt
-     *          the delta time
-     * @param vx
-     *          the angular velocity around the x axis
-     * @param vy
-     *          the angular velocity around the y axis
-     * @param vz
-     *          the angular velocity around the z axis
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#integrate(float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf integrate(float dt, float vx, float vy, float vz, Quaternionf dest) {
         return rotateLocal(dt * vx, dt * vy, dt * vz, dest);
@@ -1976,19 +1661,8 @@ public class Quaternionf implements Externalizable {
         return nlerp(q, factor, this);
     }
 
-    /**
-     * Compute a linear (non-spherical) interpolation of <code>this</code> and the given quaternion <code>q</code>
-     * and store the result in <code>dest</code>.
-     * <p>
-     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
-     * 
-     * @param q
-     *          the other quaternion
-     * @param factor
-     *          the interpolation factor. It is between 0.0 and 1.0
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#nlerp(org.joml.Quaternionf, float, org.joml.Quaternionf)
      */
     public Quaternionf nlerp(Quaternionf q, float factor, Quaternionf dest) {
         float cosom = x * q.x + y * q.y + z * q.z + w * q.w;
@@ -2023,7 +1697,7 @@ public class Quaternionf implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public static Quaternionf nlerp(Quaternionf[] qs, float[] weights, Quaternionf dest) {
+    public static Quaternionfc nlerp(Quaternionf[] qs, float[] weights, Quaternionf dest) {
         dest.set(qs[0]);
         float w = weights[0];
         for (int i = 1; i < qs.length; i++) {
@@ -2036,27 +1710,8 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
-    /**
-     * Compute linear (non-spherical) interpolations of <code>this</code> and the given quaternion <code>q</code>
-     * iteratively and store the result in <code>dest</code>.
-     * <p>
-     * This method performs a series of small-step nlerp interpolations to avoid doing a costly spherical linear interpolation, like
-     * {@link #slerp(Quaternionf, float, Quaternionf) slerp},
-     * by subdividing the rotation arc between <code>this</code> and <code>q</code> via non-spherical linear interpolations as long as
-     * the absolute dot product of <code>this</code> and <code>q</code> is greater than the given <code>dotThreshold</code> parameter.
-     * <p>
-     * Thanks to <tt>@theagentd</tt> at <a href="http://www.java-gaming.org/">http://www.java-gaming.org/</a> for providing the code.
-     * 
-     * @param q
-     *          the other quaternion
-     * @param alpha
-     *          the interpolation factor, between 0.0 and 1.0
-     * @param dotThreshold
-     *          the threshold for the dot product of <code>this</code> and <code>q</code> above which this method performs another iteration
-     *          of a small-step linear interpolation
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#nlerpIterative(org.joml.Quaternionf, float, float, org.joml.Quaternionf)
      */
     public Quaternionf nlerpIterative(Quaternionf q, float alpha, float dotThreshold, Quaternionf dest) {
         float q1x = x, q1y = y, q1z = z, q1w = w;
@@ -2154,7 +1809,7 @@ public class Quaternionf implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public static Quaternionf nlerpIterative(Quaternionf[] qs, float[] weights, float dotThreshold, Quaternionf dest) {
+    public static Quaternionfc nlerpIterative(Quaternionf[] qs, float[] weights, float dotThreshold, Quaternionf dest) {
         dest.set(qs[0]);
         float w = weights[0];
         for (int i = 1; i < qs.length; i++) {
@@ -2193,29 +1848,8 @@ public class Quaternionf implements Externalizable {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
     }
 
-    /**
-     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
-     * <p>
-     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
-     * parallel to the plane spanned by the <code>up</code> and <code>dir</code> vectors. 
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * <p>
-     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
-     * 
-     * @see #lookAlong(float, float, float, float, float, float, Quaternionf)
-     * 
-     * @param dir
-     *              the direction to map to the positive Z axis
-     * @param up
-     *              the vector which will be mapped to a vector parallel to the plane 
-     *              spanned by the given <code>dir</code> and <code>up</code>
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#lookAlong(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Quaternionf)
      */
     public Quaternionf lookAlong(Vector3fc dir, Vector3fc up, Quaternionf dest) {
         return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
@@ -2254,34 +1888,8 @@ public class Quaternionf implements Externalizable {
         return lookAlong(dirX, dirY, dirZ, upX, upY, upZ, this);
     }
 
-    /**
-     * Apply a rotation to this quaternion that maps the given direction to the positive Z axis, and store the result in <code>dest</code>.
-     * <p>
-     * Because there are multiple possibilities for such a rotation, this method will choose the one that ensures the given up direction to remain
-     * parallel to the plane spanned by the <tt>up</tt> and <tt>dir</tt> vectors. 
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * <p>
-     * Reference: <a href="http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html">http://answers.unity3d.com</a>
-     * 
-     * @param dirX
-     *              the x-coordinate of the direction to look along
-     * @param dirY
-     *              the y-coordinate of the direction to look along
-     * @param dirZ
-     *              the z-coordinate of the direction to look along
-     * @param upX
-     *              the x-coordinate of the up vector
-     * @param upY
-     *              the y-coordinate of the up vector
-     * @param upZ
-     *              the z-coordinate of the up vector
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#lookAlong(float, float, float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf lookAlong(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Quaternionf dest) {
         // Normalize direction
@@ -2410,34 +2018,8 @@ public class Quaternionf implements Externalizable {
         return rotationTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z());
     }
 
-    /**
-     * Apply a rotation to <code>this</code> that rotates the <tt>fromDir</tt> vector to point along <tt>toDir</tt> and
-     * store the result in <code>dest</code>.
-     * <p>
-     * Since there can be multiple possible rotations, this method chooses the one with the shortest arc.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * <p>
-     * Reference: <a href="http://stackoverflow.com/questions/1171849/finding-quaternion-representing-the-rotation-from-one-vector-to-another#answer-1171995">stackoverflow.com</a>
-     * 
-     * @param fromDirX
-     *              the x-coordinate of the direction to rotate into the destination direction
-     * @param fromDirY
-     *              the y-coordinate of the direction to rotate into the destination direction
-     * @param fromDirZ
-     *              the z-coordinate of the direction to rotate into the destination direction
-     * @param toDirX
-     *              the x-coordinate of the direction to rotate to
-     * @param toDirY
-     *              the y-coordinate of the direction to rotate to
-     * @param toDirZ
-     *              the z-coordinate of the direction to rotate to
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateTo(float, float, float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf rotateTo(float fromDirX, float fromDirY, float fromDirZ, float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
         float x = fromDirY * toDirZ - fromDirZ * toDirY;
@@ -2499,26 +2081,8 @@ public class Quaternionf implements Externalizable {
         return rotateTo(fromDirX, fromDirY, fromDirZ, toDirX, toDirY, toDirZ, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> that rotates the <code>fromDir</code> vector to point along <code>toDir</code> and
-     * store the result in <code>dest</code>.
-     * <p>
-     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @see #rotateTo(float, float, float, float, float, float, Quaternionf)
-     * 
-     * @param fromDir
-     *          the starting direction
-     * @param toDir
-     *          the destination direction
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateTo(org.joml.Vector3fc, org.joml.Vector3fc, org.joml.Quaternionf)
      */
     public Quaternionf rotateTo(Vector3fc fromDir, Vector3fc toDir, Quaternionf dest) {
         return rotateTo(fromDir.x(), fromDir.y(), fromDir.z(), toDir.x(), toDir.y(), toDir.z(), dest);
@@ -2708,22 +2272,8 @@ public class Quaternionf implements Externalizable {
         return rotateX(angle, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the x axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @see #rotate(float, float, float, Quaternionf)
-     * 
-     * @param angle
-     *              the angle in radians to rotate about the x axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateX(float, org.joml.Quaternionf)
      */
     public Quaternionf rotateX(float angle, Quaternionf dest) {
         float cos = (float) Math.cos(angle * 0.5);
@@ -2753,22 +2303,8 @@ public class Quaternionf implements Externalizable {
         return rotateY(angle, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the y axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @see #rotate(float, float, float, Quaternionf)
-     * 
-     * @param angle
-     *              the angle in radians to rotate about the y axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateY(float, org.joml.Quaternionf)
      */
     public Quaternionf rotateY(float angle, Quaternionf dest) {
         float cos = (float) Math.cos(angle * 0.5);
@@ -2798,22 +2334,8 @@ public class Quaternionf implements Externalizable {
         return rotateZ(angle, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the z axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @see #rotate(float, float, float, Quaternionf)
-     * 
-     * @param angle
-     *              the angle in radians to rotate about the z axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateZ(float, org.joml.Quaternionf)
      */
     public Quaternionf rotateZ(float angle, Quaternionf dest) {
         float cos = (float) Math.cos(angle * 0.5);
@@ -2841,20 +2363,8 @@ public class Quaternionf implements Externalizable {
         return rotateLocalX(angle, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local x axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
-     * rotation represented by <code>this</code> will be applied first!
-     * 
-     * @param angle
-     *              the angle in radians to rotate about the local x axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateLocalX(float, org.joml.Quaternionf)
      */
     public Quaternionf rotateLocalX(float angle, Quaternionf dest) {
         float hangle = angle * 0.5f;
@@ -2883,20 +2393,8 @@ public class Quaternionf implements Externalizable {
         return rotateLocalY(angle, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local y axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
-     * rotation represented by <code>this</code> will be applied first!
-     * 
-     * @param angle
-     *              the angle in radians to rotate about the local y axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateLocalY(float, org.joml.Quaternionf)
      */
     public Quaternionf rotateLocalY(float angle, Quaternionf dest) {
         float hangle = angle * 0.5f;
@@ -2925,20 +2423,8 @@ public class Quaternionf implements Externalizable {
         return rotateLocalZ(angle, this);
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the local z axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>R * Q</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>R * Q * v</code>, the
-     * rotation represented by <code>this</code> will be applied first!
-     * 
-     * @param angle
-     *              the angle in radians to rotate about the local z axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateLocalZ(float, org.joml.Quaternionf)
      */
     public Quaternionf rotateLocalZ(float angle, Quaternionf dest) {
         float hangle = angle * 0.5f;
@@ -2951,26 +2437,8 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @param angle
-     *              the angle in radians to rotate about the specified axis
-     * @param axisX
-     *              the x coordinate of the rotation axis
-     * @param axisY
-     *              the y coordinate of the rotation axis
-     * @param axisZ
-     *              the z coordinate of the rotation axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateAxis(float, float, float, float, org.joml.Quaternionf)
      */
     public Quaternionf rotateAxis(float angle, float axisX, float axisY, float axisZ, Quaternionf dest) {
         double hangle = angle / 2.0;
@@ -2989,24 +2457,8 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
-    /**
-     * Apply a rotation to <code>this</code> quaternion rotating the given radians about the specified axis
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>Q</code> is <code>this</code> quaternion and <code>R</code> the quaternion representing the 
-     * specified rotation, then the new quaternion will be <code>Q * R</code>. So when transforming a
-     * vector <code>v</code> with the new quaternion by using <code>Q * R * v</code>, the
-     * rotation added by this method will be applied first!
-     * 
-     * @see #rotateAxis(float, float, float, float, Quaternionf)
-     * 
-     * @param angle
-     *              the angle in radians to rotate about the specified axis
-     * @param axis
-     *              the rotation axis
-     * @param dest
-     *              will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#rotateAxis(float, org.joml.Vector3fc, org.joml.Quaternionf)
      */
     public Quaternionf rotateAxis(float angle, Vector3fc axis, Quaternionf dest) {
         return rotateAxis(angle, axis.x(), axis.y(), axis.z(), dest);
@@ -3143,23 +2595,8 @@ public class Quaternionf implements Externalizable {
         return difference(other, this);
     }
 
-    /**
-     * Compute the difference between <code>this</code> and the <code>other</code> quaternion
-     * and store the result in <code>dest</code>.
-     * <p>
-     * The difference is the rotation that has to be applied to get from
-     * <code>this</code> rotation to <code>other</code>. If <tt>T</tt> is <code>this</code>, <tt>Q</tt>
-     * is <code>other</code> and <tt>D</tt> is the computed difference, then the following equation holds:
-     * <p>
-     * <tt>T * D = Q</tt>
-     * <p>
-     * It is defined as: <tt>D = T^-1 * Q</tt>, where <tt>T^-1</tt> denotes the {@link #invert() inverse} of <tt>T</tt>.
-     * 
-     * @param other
-     *          the other quaternion
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#difference(org.joml.Quaternionf, org.joml.Quaternionf)
      */
     public Quaternionf difference(Quaternionf other, Quaternionf dest) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
@@ -3174,18 +2611,8 @@ public class Quaternionf implements Externalizable {
         return dest;
     }
 
-    /**
-     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Quaternionf inv = new Quaternionf(this).invert();
-     * inv.transform(dir.set(1, 0, 0));
-     * </pre>
-     * 
-     * @param dir
-     *          will hold the direction of <tt>+X</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#positiveX(org.joml.Vector3f)
      */
     public Vector3f positiveX(Vector3f dir) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
@@ -3201,19 +2628,8 @@ public class Quaternionf implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+X</tt> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
-     * The quaternion <i>must</i> be {@link #normalize() normalized} for this method to work.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Quaternionf inv = new Quaternionf(this).conjugate();
-     * inv.transform(dir.set(1, 0, 0));
-     * </pre>
-     * 
-     * @param dir
-     *          will hold the direction of <tt>+X</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#normalizedPositiveX(org.joml.Vector3f)
      */
     public Vector3f normalizedPositiveX(Vector3f dir) {
         float dy = y + y;
@@ -3224,18 +2640,8 @@ public class Quaternionf implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Quaternionf inv = new Quaternionf(this).invert();
-     * inv.transform(dir.set(0, 1, 0));
-     * </pre>
-     * 
-     * @param dir
-     *            will hold the direction of <tt>+Y</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#positiveY(org.joml.Vector3f)
      */
     public Vector3f positiveY(Vector3f dir) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
@@ -3252,19 +2658,8 @@ public class Quaternionf implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+Y</tt> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
-     * The quaternion <i>must</i> be {@link #normalize() normalized} for this method to work.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Quaternionf inv = new Quaternionf(this).conjugate();
-     * inv.transform(dir.set(0, 1, 0));
-     * </pre>
-     * 
-     * @param dir
-     *            will hold the direction of <tt>+Y</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#normalizedPositiveY(org.joml.Vector3f)
      */
     public Vector3f normalizedPositiveY(Vector3f dir) {
         float dx = x + x;
@@ -3276,18 +2671,8 @@ public class Quaternionf implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code> quaternion is applied.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Quaternionf inv = new Quaternionf(this).invert();
-     * inv.transform(dir.set(0, 0, 1));
-     * </pre>
-     * 
-     * @param dir
-     *            will hold the direction of <tt>+Z</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#positiveZ(org.joml.Vector3f)
      */
     public Vector3f positiveZ(Vector3f dir) {
         float invNorm = 1.0f / (x * x + y * y + z * z + w * w);
@@ -3304,19 +2689,8 @@ public class Quaternionf implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+Z</tt> before the rotation transformation represented by <code>this</code> <i>normalized</i> quaternion is applied.
-     * The quaternion <i>must</i> be {@link #normalize() normalized} for this method to work.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Quaternionf inv = new Quaternionf(this).conjugate();
-     * inv.transform(dir.set(0, 0, 1));
-     * </pre>
-     * 
-     * @param dir
-     *            will hold the direction of <tt>+Z</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#normalizedPositiveZ(org.joml.Vector3f)
      */
     public Vector3f normalizedPositiveZ(Vector3f dir) {
         float dx = x + x;
@@ -3326,6 +2700,25 @@ public class Quaternionf implements Externalizable {
         dir.y =  y * dz + w * dx;
         dir.z = -x * dx - y * dy + 1.0f;
         return dir;
+    }
+
+    /**
+     * Create an immutable view of this {@link Quaternionf}.
+     * <p>
+     * The observable state of the returned object is the same as that of <code>this</code>, but casting
+     * the returned object to Quaternionf will not be possible.
+     * 
+     * @return the immutable instance
+     */
+    public Quaternionfc toImmutable() {
+        if (proxy != null)
+            return proxy;
+        synchronized (this) {
+            if (proxy != null)
+                return proxy;
+            proxy = Proxy.createQuaternionfc(this);
+        }
+        return proxy;
     }
 
 }
