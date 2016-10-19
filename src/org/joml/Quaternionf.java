@@ -60,11 +60,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public float w;
 
     /**
-     * Used to cache the result of {@link #toImmutable()}.
-     */
-    private Quaternionfc proxy;
-
-    /**
      * Create a new {@link Quaternionf} and initialize it with <tt>(x=0, y=0, z=0, w=1)</tt>, 
      * where <tt>(x, y, z)</tt> is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
      */
@@ -2703,10 +2698,12 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /**
-     * Create an immutable view of this {@link Quaternionf}.
+     * Create a new immutable view of this {@link Quaternionf}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
      * the returned object to Quaternionf will not be possible.
+     * <p>
+     * This method allocates a new instance of a class implementing Quaternionf on every call.
      * <p>
      * This method will <i>not</i> return a proxy but <code>this</code> instead when the JVM is started with <code>-Djoml.noproxy</code>.
      * 
@@ -2715,14 +2712,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     public Quaternionfc toImmutable() {
         if (Proxy.DISABLE_PROXIES)
             return this;
-        if (proxy != null)
-            return proxy;
-        synchronized (this) {
-            if (proxy != null)
-                return proxy;
-            proxy = Proxy.createQuaternionfc(this);
-        }
-        return proxy;
+        return Proxy.createQuaternionfc(this);
     }
 
 }

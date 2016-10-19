@@ -13,7 +13,6 @@ public class QuaternionfcTest extends TestCase {
         Quaternionf q = new Quaternionf(2f, -9.37f, 5.892f, -12.5f);
         Quaternionfc proxy = q.toImmutable();
         Quaternionfc proxy2 = q.toImmutable();
-        assertSame(proxy, proxy2);
         assertNotSame(q, proxy);
         assertNotSame(q, proxy2);
         assertEquals(q.x, proxy.x(), 0);

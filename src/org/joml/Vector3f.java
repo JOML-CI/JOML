@@ -56,11 +56,6 @@ public class Vector3f implements Externalizable, Vector3fc {
     public float z;
 
     /**
-     * Used to cache the result of {@link #toImmutable()}.
-     */
-    private Vector3fc proxy;
-
-    /**
      * Create a new {@link Vector3f} of <tt>(0, 0, 0)</tt>.
      */
     public Vector3f() {
@@ -1479,10 +1474,12 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /**
-     * Create an immutable view of this {@link Vector3f}.
+     * Create a new immutable view of this {@link Vector3f}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
      * the returned object to Vector3f will not be possible.
+     * <p>
+     * This method allocates a new instance of a class implementing Vector3f on every call.
      * <p>
      * This method will <i>not</i> return a proxy but <code>this</code> instead when the JVM is started with <code>-Djoml.noproxy</code>.
      * 
@@ -1491,14 +1488,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     public Vector3fc toImmutable() {
         if (Proxy.DISABLE_PROXIES)
             return this;
-        if (proxy != null)
-            return proxy;
-        synchronized (this) {
-            if (proxy != null)
-                return proxy;
-            proxy = Proxy.createVector3fc(this);
-        }
-        return proxy;
+        return Proxy.createVector3fc(this);
     }
 
 }
