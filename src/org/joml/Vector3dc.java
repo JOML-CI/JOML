@@ -295,7 +295,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulProject(Matrix4d mat, Vector3d dest);
+    Vector3d mulProject(Matrix4dc mat, Vector3d dest);
 
     /**
      * Multiply the given matrix <code>mat</code> with this Vector3d, perform perspective division
@@ -369,7 +369,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulPosition(Matrix4d mat, Vector3d dest);
+    Vector3d mulPosition(Matrix4dc mat, Vector3d dest);
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -397,7 +397,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulTransposePosition(Matrix4d mat, Vector3d dest);
+    Vector3d mulTransposePosition(Matrix4dc mat, Vector3d dest);
 
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -439,7 +439,7 @@ public interface Vector3dc {
      *          will hold the <tt>(x, y, z)</tt> components of the resulting vector
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
-    double mulPositionW(Matrix4d mat, Vector3d dest);
+    double mulPositionW(Matrix4dc mat, Vector3d dest);
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -453,7 +453,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulDirection(Matrix4d mat, Vector3d dest);
+    Vector3d mulDirection(Matrix4dc mat, Vector3d dest);
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -481,7 +481,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulTransposeDirection(Matrix4d mat, Vector3d dest);
+    Vector3d mulTransposeDirection(Matrix4dc mat, Vector3d dest);
 
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the

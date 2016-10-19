@@ -513,13 +513,13 @@ public class Matrix4x3d implements Externalizable {
     /**
      * Store the values of the upper 4x3 submatrix of <code>m</code> into <code>this</code> matrix.
      * 
-     * @see Matrix4d#get4x3(Matrix4x3d)
+     * @see Matrix4dc#get4x3(Matrix4x3d)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4x3d set(Matrix4d m) {
+    public Matrix4x3d set(Matrix4dc m) {
         m00 = m.m00();
         m01 = m.m01();
         m02 = m.m02();
@@ -532,7 +532,7 @@ public class Matrix4x3d implements Externalizable {
         m30 = m.m30();
         m31 = m.m31();
         m32 = m.m32();
-        properties = (byte) (m.properties & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        properties = (byte) (m.properties() & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return this;
     }
 
@@ -547,7 +547,7 @@ public class Matrix4x3d implements Externalizable {
      *            the destination matrix
      * @return dest
      */
-    public Matrix4d get(Matrix4d dest) {
+    public Matrix4dc get(Matrix4d dest) {
         return dest.set4x3(this);
     }
 
@@ -5763,7 +5763,7 @@ public class Matrix4x3d implements Externalizable {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link #set3x3(Matrix4x3d)} to set a given Matrix4d to only the left 3x3 submatrix
+     * In that case, use {@link #set3x3(Matrix4x3d)} to set a given Matrix4x3d to only the left 3x3 submatrix
      * of a given matrix.
      * 
      * @see #set3x3(Matrix4x3d)

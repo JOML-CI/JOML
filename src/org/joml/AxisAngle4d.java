@@ -355,13 +355,13 @@ public class AxisAngle4d implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotational component 
-     * of the given {@link Matrix4d}.
+     * of the given {@link Matrix4dc}.
      * 
      * @param m
-     *            the Matrix4d to set this AngleAxis4d from
+     *            the Matrix4dc to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Matrix4d m) {
+    public AxisAngle4d set(Matrix4dc m) {
         double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
         x = m.m12() - m.m21();
         y = m.m20() - m.m02();
@@ -432,7 +432,7 @@ public class AxisAngle4d implements Externalizable {
      *          the matrix to set
      * @return m
      */
-    public Matrix4d get(Matrix4d m) {
+    public Matrix4dc get(Matrix4d m) {
         return m.set(this);
     }
 

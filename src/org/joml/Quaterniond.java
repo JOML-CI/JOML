@@ -317,7 +317,7 @@ public class Quaterniond implements Externalizable {
      *          the matrix to write the rotation into
      * @return the passed in destination
      */
-    public Matrix4d get(Matrix4d dest) {
+    public Matrix4dc get(Matrix4d dest) {
         return dest.set(this);
     }
 
@@ -621,7 +621,7 @@ public class Quaterniond implements Externalizable {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaterniond setFromUnnormalized(Matrix4d mat) {
+    public Quaterniond setFromUnnormalized(Matrix4dc mat) {
         setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
@@ -635,7 +635,7 @@ public class Quaterniond implements Externalizable {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaterniond setFromNormalized(Matrix4d mat) {
+    public Quaterniond setFromNormalized(Matrix4dc mat) {
         setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }

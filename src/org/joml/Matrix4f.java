@@ -181,13 +181,13 @@ public class Matrix4f implements Externalizable {
     /**
      * Create a new {@link Matrix4f} and make it a copy of the given matrix.
      * <p>
-     * Note that due to the given {@link Matrix4d} storing values in double-precision and the constructed {@link Matrix4f} storing them
+     * Note that due to the given {@link Matrix4dc} storing values in double-precision and the constructed {@link Matrix4f} storing them
      * in single-precision, there is the possibility of losing precision.
      * 
      * @param mat
-     *          the {@link Matrix4d} to copy the values from
+     *          the {@link Matrix4dc} to copy the values from
      */
-    public Matrix4f(Matrix4d mat) {
+    public Matrix4f(Matrix4dc mat) {
         m00 = (float) mat.m00();
         m01 = (float) mat.m01();
         m02 = (float) mat.m02();
@@ -204,7 +204,7 @@ public class Matrix4f implements Externalizable {
         m31 = (float) mat.m31();
         m32 = (float) mat.m32();
         m33 = (float) mat.m33();
-        properties = mat.properties;
+        properties = mat.properties();
     }
 
     /**
@@ -898,14 +898,14 @@ public class Matrix4f implements Externalizable {
      * Note that due to the given matrix <code>m</code> storing values in double-precision and <code>this</code> matrix storing
      * them in single-precision, there is the possibility to lose precision.
      * 
-     * @see #Matrix4f(Matrix4d)
+     * @see #Matrix4f(Matrix4dc)
      * @see #get(Matrix4d)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4f set(Matrix4d m) {
+    public Matrix4f set(Matrix4dc m) {
         this._m00((float) m.m00());
         this._m01((float) m.m01());
         this._m02((float) m.m02());
@@ -922,7 +922,7 @@ public class Matrix4f implements Externalizable {
         this._m31((float) m.m31());
         this._m32((float) m.m32());
         this._m33((float) m.m33());
-        this._properties(m.properties);
+        this._properties(m.properties());
         return this;
     }
 
@@ -2977,16 +2977,16 @@ public class Matrix4f implements Externalizable {
      * Get the current values of <code>this</code> matrix and store them into
      * <code>dest</code>.
      * <p>
-     * This is the reverse method of {@link #set(Matrix4d)} and allows to obtain
+     * This is the reverse method of {@link #set(Matrix4dc)} and allows to obtain
      * intermediate calculation results when chaining multiple transformations.
      * 
-     * @see #set(Matrix4d)
+     * @see #set(Matrix4dc)
      * 
      * @param dest
      *            the destination matrix
      * @return the passed in destination
      */
-    public Matrix4d get(Matrix4d dest) {
+    public Matrix4dc get(Matrix4d dest) {
         return dest.set(this);
     }
 
