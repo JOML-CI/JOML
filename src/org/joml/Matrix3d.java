@@ -97,12 +97,12 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix3d} and make it a copy of the upper left 3x3 of the given {@link Matrix4f}.
+     * Create a new {@link Matrix3d} and make it a copy of the upper left 3x3 of the given {@link Matrix4fc}.
      *
      * @param mat
-     *          the {@link Matrix4f} to copy the values from
+     *          the {@link Matrix4fc} to copy the values from
      */
-    public Matrix3d(Matrix4f mat) {
+    public Matrix3d(Matrix4fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
@@ -419,13 +419,13 @@ public class Matrix3d implements Externalizable {
     }
 
     /**
-     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4f}.
+     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4fc}.
      *
      * @param mat
-     *          the {@link Matrix4f} to copy the values from
+     *          the {@link Matrix4fc} to copy the values from
      * @return this
      */
-    public Matrix3d set(Matrix4f mat) {
+    public Matrix3d set(Matrix4fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();

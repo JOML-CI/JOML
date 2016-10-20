@@ -31,7 +31,6 @@ import java.nio.DoubleBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-
 /**
  * Contains the definition of a Vector comprising 4 doubles and associated transformations.
  * 
@@ -1000,7 +999,7 @@ public class Vector4d implements Externalizable {
      *          the matrix to multiply by
      * @return this
      */
-    public Vector4d mul(Matrix4f mat) {
+    public Vector4d mul(Matrix4fc mat) {
         return mul(mat, this);
     }
 
@@ -1013,7 +1012,7 @@ public class Vector4d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector4d mul(Matrix4f mat, Vector4d dest) {
+    public Vector4d mul(Matrix4fc mat, Vector4d dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
                  mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
                  mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w, 

@@ -112,7 +112,7 @@ public class Vector4f implements Externalizable, Vector4fc {
             return delegate.div(v, dest);
         }
 
-        public Vector4f mul(Matrix4f mat, Vector4f dest) {
+        public Vector4f mul(Matrix4fc mat, Vector4f dest) {
             return delegate.mul(mat, dest);
         }
 
@@ -120,7 +120,7 @@ public class Vector4f implements Externalizable, Vector4fc {
             return delegate.mul(mat, dest);
         }
 
-        public Vector4f mulProject(Matrix4f mat, Vector4f dest) {
+        public Vector4f mulProject(Matrix4fc mat, Vector4f dest) {
             return delegate.mulProject(mat, dest);
         }
 
@@ -839,14 +839,14 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the matrix to multiply the vector with
      * @return this
      */
-    public Vector4f mul(Matrix4f mat) {
+    public Vector4f mul(Matrix4fc mat) {
         return mul(mat, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mul(org.joml.Matrix4f, org.joml.Vector4f)
+     * @see org.joml.Vector4fc#mul(org.joml.Matrix4fc, org.joml.Vector4f)
      */
-    public Vector4f mul(Matrix4f mat, Vector4f dest) {
+    public Vector4f mul(Matrix4fc mat, Vector4f dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w,
                  mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w,
                  mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32() * w,
@@ -878,9 +878,9 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector4fc#mulProject(org.joml.Matrix4f, org.joml.Vector4f)
+     * @see org.joml.Vector4fc#mulProject(org.joml.Matrix4fc, org.joml.Vector4f)
      */
-    public Vector4f mulProject(Matrix4f mat, Vector4f dest) {
+    public Vector4f mulProject(Matrix4fc mat, Vector4f dest) {
         float invW = 1.0f / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33() * w);
         dest.set((mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30() * w) * invW,
                  (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31() * w) * invW,
@@ -896,7 +896,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector4f mulProject(Matrix4f mat) {
+    public Vector4f mulProject(Matrix4fc mat) {
         return mulProject(mat, this);
     }
 

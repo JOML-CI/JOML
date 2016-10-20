@@ -547,7 +547,7 @@ public class Matrix4x3d implements Externalizable {
      *            the destination matrix
      * @return dest
      */
-    public Matrix4dc get(Matrix4d dest) {
+    public Matrix4d get(Matrix4d dest) {
         return dest.set4x3(this);
     }
 

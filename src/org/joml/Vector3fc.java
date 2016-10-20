@@ -227,7 +227,7 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
-    Vector3f mulProject(Matrix4f mat, Vector3f dest);
+    Vector3f mulProject(Matrix4fc mat, Vector3f dest);
 
     /**
      * Multiply the given matrix with this Vector3f and store the result in <code>dest</code>.
@@ -263,7 +263,7 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
-    Vector3f mulPosition(Matrix4f mat, Vector3f dest);
+    Vector3f mulPosition(Matrix4fc mat, Vector3f dest);
 
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -277,7 +277,7 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
-    Vector3f mulTransposePosition(Matrix4f mat, Vector3f dest);
+    Vector3f mulTransposePosition(Matrix4fc mat, Vector3f dest);
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>, store the
@@ -291,7 +291,7 @@ public interface Vector3fc {
      *          will hold the <tt>(x, y, z)</tt> components of the resulting vector
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
-    float mulPositionW(Matrix4f mat, Vector3f dest);
+    float mulPositionW(Matrix4fc mat, Vector3f dest);
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -305,7 +305,7 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
-    Vector3f mulDirection(Matrix4f mat, Vector3f dest);
+    Vector3f mulDirection(Matrix4fc mat, Vector3f dest);
 
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -319,7 +319,7 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
-    Vector3f mulTransposeDirection(Matrix4f mat, Vector3f dest);
+    Vector3f mulTransposeDirection(Matrix4fc mat, Vector3f dest);
 
     /**
      * Multiply all components of this {@link Vector3f} by the given scalar

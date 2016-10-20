@@ -128,7 +128,7 @@ public class TrapezoidOrthoCrop {
      *          will hold the computed transformation matrix
      * @return dest
      */
-    public Matrix4f compute(Matrix4f camViewProj, Matrix4f lightView, Matrix4f dest) {
+    public Matrix4f compute(Matrix4fc camViewProj, Matrix4fc lightView, Matrix4f dest) {
         camViewProj.invert(invCamViewProj);
         projectFrustumCorners(lightView);
         computeConvexHull();
@@ -244,7 +244,7 @@ public class TrapezoidOrthoCrop {
      * Unproject NDC frustum corners to world-space and then project it back with an orthographic projection
      * using the given <code>view</code> matrix.
      */
-    private void projectFrustumCorners(Matrix4f view) {
+    private void projectFrustumCorners(Matrix4fc view) {
         for (int t = 0; t < 8; t++) {
             float x = ((t & 1) << 1) - 1.0f;
             float y = (((t >>> 1) & 1) << 1) - 1.0f;

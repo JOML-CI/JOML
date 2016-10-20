@@ -309,7 +309,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulProject(Matrix4f mat, Vector3d dest);
+    Vector3d mulProject(Matrix4fc mat, Vector3d dest);
 
     /**
      * Multiply the given matrix <code>mat</code> with <code>this</code> and store the
@@ -383,7 +383,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulPosition(Matrix4f mat, Vector3d dest);
+    Vector3d mulPosition(Matrix4fc mat, Vector3d dest);
 
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -411,7 +411,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulTransposePosition(Matrix4f mat, Vector3d dest);
+    Vector3d mulTransposePosition(Matrix4fc mat, Vector3d dest);
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>, store the
@@ -425,7 +425,7 @@ public interface Vector3dc {
      *          will hold the <tt>(x, y, z)</tt> components of the resulting vector
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
-    double mulPositionW(Matrix4f mat, Vector3d dest);
+    double mulPositionW(Matrix4fc mat, Vector3d dest);
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>, store the
@@ -467,7 +467,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulDirection(Matrix4f mat, Vector3d dest);
+    Vector3d mulDirection(Matrix4fc mat, Vector3d dest);
 
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -495,7 +495,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulTransposeDirection(Matrix4f mat, Vector3d dest);
+    Vector3d mulTransposeDirection(Matrix4fc mat, Vector3d dest);
 
     /**
      * Multiply this Vector3d by the given scalar value and store the result in <code>dest</code>.

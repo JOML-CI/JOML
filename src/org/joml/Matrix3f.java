@@ -70,13 +70,17 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix3f} and make it a copy of the upper left 3x3 of the given {@link Matrix4f}.
+     * Create a new {@link Matrix3f} and make it a copy of the upper left 3x3 of the given {@link Matrix4fc}.
      * 
      * @param mat
-     *          the {@link Matrix4f} to copy the values from
+     *          the {@link Matrix4fc} to copy the values from
      */
-    public Matrix3f(Matrix4f mat) {
-        MemUtil.INSTANCE.copy(mat, this);
+    public Matrix3f(Matrix4fc mat) {
+        if (mat instanceof Matrix4f) {
+            MemUtil.INSTANCE.copy((Matrix4f) mat, this);
+        } else {
+            setMatrix4fc(mat);
+        }
     }
 
     /**
@@ -331,15 +335,30 @@ public class Matrix3f implements Externalizable {
     }
 
     /**
-     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4f}.
+     * Set the elements of this matrix to the upper left 3x3 of the given {@link Matrix4fc}.
      *
      * @param mat
-     *          the {@link Matrix4f} to copy the values from
+     *          the {@link Matrix4fc} to copy the values from
      * @return this
      */
-    public Matrix3f set(Matrix4f mat) {
-        MemUtil.INSTANCE.copy(mat, this);
+    public Matrix3f set(Matrix4fc mat) {
+        if (mat instanceof Matrix4f) {
+            MemUtil.INSTANCE.copy((Matrix4f) mat, this);
+        } else {
+            setMatrix4fc(mat);
+        }
         return this;
+    }
+    private void setMatrix4fc(Matrix4fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
     }
 
     /**

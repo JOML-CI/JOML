@@ -465,16 +465,34 @@ public class Matrix4x3f implements Externalizable {
     /**
      * Store the values of the upper 4x3 submatrix of <code>m</code> into <code>this</code> matrix.
      * 
-     * @see Matrix4f#get4x3(Matrix4x3f)
+     * @see Matrix4fc#get4x3(Matrix4x3f)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4x3f set(Matrix4f m) {
-        MemUtil.INSTANCE.copy(m, this);
-        properties = (byte) (m.properties & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+    public Matrix4x3f set(Matrix4fc m) {
+        if (m instanceof Matrix4f) {
+            MemUtil.INSTANCE.copy((Matrix4f) m, this);
+        } else {
+            setMatrix4fc(m);
+        }
+        properties = (byte) (m.properties() & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return this;
+    }
+    private void setMatrix4fc(Matrix4fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
+        m30 = mat.m30();
+        m31 = mat.m31();
+        m32 = mat.m32();
     }
 
     /**

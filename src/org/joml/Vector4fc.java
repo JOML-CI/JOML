@@ -230,7 +230,7 @@ public interface Vector4fc {
      *          the destination vector to hold the result
      * @return dest
      */
-    Vector4f mul(Matrix4f mat, Vector4f dest);
+    Vector4f mul(Matrix4fc mat, Vector4f dest);
 
     /**
      * Multiply the given matrix mat with this Vector4f and store the result in
@@ -254,7 +254,7 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f mulProject(Matrix4f mat, Vector4f dest);
+    Vector4f mulProject(Matrix4fc mat, Vector4f dest);
 
     /**
      * Multiply all components of this {@link Vector4f} by the given scalar
