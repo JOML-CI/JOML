@@ -40,7 +40,7 @@ import java.text.NumberFormat;
  */
 public class Vector4f implements Externalizable, Vector4fc {
 
-    private class Proxy implements Vector4fc {
+    private final class Proxy implements Vector4fc {
         private final Vector4fc delegate;
 
         Proxy(Vector4fc delegate) {
@@ -426,11 +426,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the vector whose values will be copied into this
      * @return this
      */
-    public Vector4f set(Vector4d v) {
-        this.x = (float) v.x;
-        this.y = (float) v.y;
-        this.z = (float) v.z;
-        this.w = (float) v.w;
+    public Vector4f set(Vector4dc v) {
+        this.x = (float) v.x();
+        this.y = (float) v.y();
+        this.z = (float) v.z();
+        this.w = (float) v.w();
         return this;
     }
 

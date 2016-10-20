@@ -40,7 +40,7 @@ import java.text.NumberFormat;
  */
 public class Vector3f implements Externalizable, Vector3fc {
 
-    private class Proxy implements Vector3fc {
+    private final class Proxy implements Vector3fc {
         private final Vector3fc delegate;
 
         Proxy(Vector3fc delegate) {

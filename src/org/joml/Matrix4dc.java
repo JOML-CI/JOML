@@ -1123,7 +1123,7 @@ public interface Matrix4dc {
      *          will contain the result
      * @return dest
      */
-    Vector4d transform(Vector4d v, Vector4d dest);
+    Vector4d transform(Vector4dc v, Vector4d dest);
 
     /**
      * Transform/multiply the vector <tt>(x, y, z, w)</tt> by this matrix and store the result in <code>dest</code>.
@@ -1164,7 +1164,7 @@ public interface Matrix4dc {
      *          will contain the result
      * @return dest
      */
-    Vector4d transformProject(Vector4d v, Vector4d dest);
+    Vector4d transformProject(Vector4dc v, Vector4d dest);
 
     /**
      * Transform/multiply the vector <tt>(x, y, z, w)</tt> by this matrix, perform perspective divide and store the result in <code>dest</code>.
@@ -1259,13 +1259,13 @@ public interface Matrix4dc {
      * will represent a position/location in 3D-space rather than a direction. This method is therefore
      * not suited for perspective projection transformations as it will not save the
      * <tt>w</tt> component of the transformed vector.
-     * For perspective projection use {@link #transform(Vector4d, Vector4d)} or
+     * For perspective projection use {@link #transform(Vector4dc, Vector4d)} or
      * {@link #transformProject(Vector3dc, Vector3d)} when perspective divide should be applied, too.
      * <p>
      * In order to store the result in the same vector, use {@link #transformPosition(Vector3d)}.
      * 
      * @see #transformPosition(Vector3d)
-     * @see #transform(Vector4d, Vector4d)
+     * @see #transform(Vector4dc, Vector4d)
      * @see #transformProject(Vector3dc, Vector3d)
      * 
      * @param v
@@ -1360,9 +1360,9 @@ public interface Matrix4dc {
      * Transform/multiply the given 4D-vector by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation
      * (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>).
      * <p>
-     * In order to store the result in another vector, use {@link #transformAffine(Vector4d, Vector4d)}.
+     * In order to store the result in another vector, use {@link #transformAffine(Vector4dc, Vector4d)}.
      * 
-     * @see #transformAffine(Vector4d, Vector4d)
+     * @see #transformAffine(Vector4dc, Vector4d)
      * 
      * @param v
      *          the vector to transform and to hold the final result
@@ -1384,7 +1384,7 @@ public interface Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    Vector4d transformAffine(Vector4d v, Vector4d dest);
+    Vector4d transformAffine(Vector4dc v, Vector4d dest);
 
     /**
      * Transform/multiply the 4D-vector <tt>(x, y, z, w)</tt> by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation
@@ -4113,7 +4113,7 @@ public interface Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    Matrix4d shadow(Vector4d light, double a, double b, double c, double d, Matrix4d dest);
+    Matrix4d shadow(Vector4dc light, double a, double b, double c, double d, Matrix4d dest);
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
@@ -4173,7 +4173,7 @@ public interface Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    Matrix4d shadow(Vector4d light, Matrix4dc planeTransform, Matrix4d dest);
+    Matrix4d shadow(Vector4dc light, Matrix4dc planeTransform, Matrix4d dest);
 
     /**
      * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation

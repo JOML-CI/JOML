@@ -361,7 +361,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.transform(v);
         }
 
-        public Vector4d transform(Vector4d v, Vector4d dest) {
+        public Vector4d transform(Vector4dc v, Vector4d dest) {
             return delegate.transform(v, dest);
         }
 
@@ -373,7 +373,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.transformProject(v);
         }
 
-        public Vector4d transformProject(Vector4d v, Vector4d dest) {
+        public Vector4d transformProject(Vector4dc v, Vector4d dest) {
             return delegate.transformProject(v, dest);
         }
 
@@ -421,7 +421,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.transformAffine(v);
         }
 
-        public Vector4d transformAffine(Vector4d v, Vector4d dest) {
+        public Vector4d transformAffine(Vector4dc v, Vector4d dest) {
             return delegate.transformAffine(v, dest);
         }
 
@@ -861,7 +861,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.origin(origin);
         }
 
-        public Matrix4d shadow(Vector4d light, double a, double b, double c, double d, Matrix4d dest) {
+        public Matrix4d shadow(Vector4dc light, double a, double b, double c, double d, Matrix4d dest) {
             return delegate.shadow(light, a, b, c, d, dest);
         }
 
@@ -869,7 +869,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.shadow(lightX, lightY, lightZ, lightW, a, b, c, d, dest);
         }
 
-        public Matrix4d shadow(Vector4d light, Matrix4dc planeTransform, Matrix4d dest) {
+        public Matrix4d shadow(Vector4dc light, Matrix4dc planeTransform, Matrix4d dest) {
             return delegate.shadow(light, planeTransform, dest);
         }
 
@@ -4320,7 +4320,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transform(org.joml.Vector4d, org.joml.Vector4d)
      */
-    public Vector4d transform(Vector4d v, Vector4d dest) {
+    public Vector4d transform(Vector4dc v, Vector4d dest) {
         return v.mul(this, dest);
     }
 
@@ -4345,7 +4345,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformProject(org.joml.Vector4d, org.joml.Vector4d)
      */
-    public Vector4d transformProject(Vector4d v, Vector4d dest) {
+    public Vector4d transformProject(Vector4dc v, Vector4d dest) {
         return v.mulProject(this, dest);
     }
 
@@ -4455,10 +4455,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformAffine(org.joml.Vector4d, org.joml.Vector4d)
+     * @see org.joml.Matrix4dc#transformAffine(org.joml.Vector4dc, org.joml.Vector4d)
      */
-    public Vector4d transformAffine(Vector4d v, Vector4d dest) {
-        return transformAffine(v.x, v.y, v.z, v.w, dest);
+    public Vector4d transformAffine(Vector4dc v, Vector4d dest) {
+        return transformAffine(v.x(), v.y(), v.z(), v.w(), dest);
     }
 
     /* (non-Javadoc)
@@ -12993,15 +12993,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the constant in the plane equation
      * @return this
      */
-    public Matrix4d shadow(Vector4d light, double a, double b, double c, double d) {
-        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, this);
+    public Matrix4d shadow(Vector4dc light, double a, double b, double c, double d) {
+        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#shadow(org.joml.Vector4d, double, double, double, double, org.joml.Matrix4d)
+     * @see org.joml.Matrix4dc#shadow(org.joml.Vector4dc, double, double, double, double, org.joml.Matrix4d)
      */
-    public Matrix4d shadow(Vector4d light, double a, double b, double c, double d, Matrix4d dest) {
-        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+    public Matrix4d shadow(Vector4dc light, double a, double b, double c, double d, Matrix4d dest) {
+        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
     /**
@@ -13105,15 +13105,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#shadow(org.joml.Vector4d, org.joml.Matrix4dc, org.joml.Matrix4d)
+     * @see org.joml.Matrix4dc#shadow(org.joml.Vector4dc, org.joml.Matrix4dc, org.joml.Matrix4d)
      */
-    public Matrix4d shadow(Vector4d light, Matrix4dc planeTransform, Matrix4d dest) {
+    public Matrix4d shadow(Vector4dc light, Matrix4dc planeTransform, Matrix4d dest) {
         // compute plane equation by transforming (y = 0)
         double a = planeTransform.m10();
         double b = planeTransform.m11();
         double c = planeTransform.m12();
         double d = -a * planeTransform.m30() - b * planeTransform.m31() - c * planeTransform.m32();
-        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
+        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
     }
 
     /**

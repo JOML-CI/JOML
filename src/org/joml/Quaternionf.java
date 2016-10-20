@@ -40,7 +40,7 @@ import java.text.NumberFormat;
  */
 public class Quaternionf implements Externalizable, Quaternionfc {
     
-    private class Proxy implements Quaternionfc {
+    private final class Proxy implements Quaternionfc {
         private final Quaternionfc delegate;
 
         Proxy(Quaternionfc delegate) {
