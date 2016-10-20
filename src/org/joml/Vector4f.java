@@ -227,7 +227,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * Create a new {@link Vector4f} with the same values as <code>v</code>.
      * 
      * @param v
-     *          the {@link Vector4f} to copy the values from
+     *          the {@link Vector4fc} to copy the values from
      */
     public Vector4f(Vector4fc v) {
         if (v instanceof Vector4f) {
@@ -644,7 +644,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector4fc#sub(org.joml.Vector4f, org.joml.Vector4f)
+     * @see org.joml.Vector4fc#sub(org.joml.Vector4fc, org.joml.Vector4f)
      */
     public Vector4f sub(Vector4fc v, Vector4f dest) {
         dest.x = x - v.x();

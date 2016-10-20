@@ -374,10 +374,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @param v
      *          provides the initial values for the new vector
      */
-    public Vector3d(Vector3f v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector3d(Vector3fc v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
     }
 
     /**
@@ -401,10 +401,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @param v
      *          provides the initial values for the new vector
      */
-    public Vector3d(Vector3d v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector3d(Vector3dc v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
     }
 
     /**
@@ -514,10 +514,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to set this vector's components from
      * @return this
      */
-    public Vector3d set(Vector3d v) {
-        x = v.x;
-        y = v.y;
-        z = v.z;
+    public Vector3d set(Vector3dc v) {
+        x = v.x();
+        y = v.y();
+        z = v.z();
         return this;
     }
 
@@ -545,10 +545,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to set this vector's components from
      * @return this
      */
-    public Vector3d set(Vector3f v) {
-        x = v.x;
-        y = v.y;
-        z = v.z;
+    public Vector3d set(Vector3fc v) {
+        x = v.x();
+        y = v.y();
+        z = v.z();
         return this;
     }
 
@@ -715,10 +715,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to subtract from this
      * @return this
      */
-    public Vector3d sub(Vector3d v) {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
+    public Vector3d sub(Vector3dc v) {
+        x -= v.x();
+        y -= v.y();
+        z -= v.z();
         return this;
     }
 
@@ -739,10 +739,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to subtract from this
      * @return this
      */
-    public Vector3d sub(Vector3f v) {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
+    public Vector3d sub(Vector3fc v) {
+        x -= v.x();
+        y -= v.y();
+        z -= v.z();
         return this;
     }
 
@@ -815,15 +815,15 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to add
      * @return this
      */
-    public Vector3d add(Vector3f v) {
-        x += v.x;
-        y += v.y;
-        z += v.z;
+    public Vector3d add(Vector3fc v) {
+        x += v.x();
+        y += v.y();
+        z += v.z();
         return this;
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3dc#add(org.joml.Vector3f, org.joml.Vector3d)
+     * @see org.joml.Vector3dc#add(org.joml.Vector3fc, org.joml.Vector3d)
      */
     public Vector3d add(Vector3fc v, Vector3d dest) {
         dest.x = x + v.x();
@@ -869,10 +869,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the second multiplicand
      * @return this
      */
-    public Vector3d fma(Vector3d a, Vector3d b) {
-        x += a.x * b.x;
-        y += a.y * b.y;
-        z += a.z * b.z;
+    public Vector3d fma(Vector3dc a, Vector3dc b) {
+        x += a.x() * b.x();
+        y += a.y() * b.y();
+        z += a.z() * b.z();
         return this;
     }
 
@@ -885,10 +885,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the second multiplicand
      * @return this
      */
-    public Vector3d fma(double a, Vector3d b) {
-        x += a * b.x;
-        y += a * b.y;
-        z += a * b.z;
+    public Vector3d fma(double a, Vector3dc b) {
+        x += a * b.x();
+        y += a * b.y();
+        z += a * b.z();
         return this;
     }
 
@@ -901,10 +901,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the second multiplicand
      * @return this
      */
-    public Vector3d fma(Vector3f a, Vector3f b) {
-        x += a.x * b.x;
-        y += a.y * b.y;
-        z += a.z * b.z;
+    public Vector3d fma(Vector3fc a, Vector3fc b) {
+        x += a.x() * b.x();
+        y += a.y() * b.y();
+        z += a.z() * b.z();
         return this;
     }
 
@@ -917,10 +917,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the second multiplicand
      * @return this
      */
-    public Vector3d fma(double a, Vector3f b) {
-        x += a * b.x;
-        y += a * b.y;
-        z += a * b.z;
+    public Vector3d fma(double a, Vector3fc b) {
+        x += a * b.x();
+        y += a * b.y();
+        z += a * b.z();
         return this;
     }
 
@@ -965,30 +965,30 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Multiply this Vector3d component-wise by another Vector3d.
+     * Multiply this Vector3d component-wise by another Vector3dc.
      * 
      * @param v
      *          the vector to multiply by
      * @return this
      */
-    public Vector3d mul(Vector3d v) {
-        x *= v.x;
-        y *= v.y;
-        z *= v.z;
+    public Vector3d mul(Vector3dc v) {
+        x *= v.x();
+        y *= v.y();
+        z *= v.z();
         return this;
     }
 
     /**
-     * Multiply this Vector3d component-wise by another Vector3f.
+     * Multiply this Vector3d component-wise by another Vector3fc.
      * 
      * @param v
      *          the vector to multiply by
      * @return this
      */
-    public Vector3d mul(Vector3f v) {
-        x *= v.x;
-        y *= v.y;
-        z *= v.z;
+    public Vector3d mul(Vector3fc v) {
+        x *= v.x();
+        y *= v.y();
+        z *= v.z();
         return this;
     }
 
@@ -1013,35 +1013,35 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Divide this Vector3d component-wise by another Vector3d.
+     * Divide this Vector3d component-wise by another Vector3dc.
      * 
      * @param v
      *          the vector to divide by
      * @return this
      */
     public Vector3d div(Vector3d v) {
-        x /= v.x;
-        y /= v.y;
-        z /= v.z;
+        x /= v.x();
+        y /= v.y();
+        z /= v.z();
         return this;
     }
 
     /**
-     * Divide this Vector3d component-wise by another Vector3f.
+     * Divide this Vector3d component-wise by another Vector3fc.
      * 
      * @param v
      *          the vector to divide by
      * @return this
      */
-    public Vector3d div(Vector3f v) {
-        x /= v.x;
-        y /= v.y;
-        z /= v.z;
+    public Vector3d div(Vector3fc v) {
+        x /= v.x();
+        y /= v.y();
+        z /= v.z();
         return this;
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(org.joml.Vector3f, org.joml.Vector3d)
+     * @see org.joml.Vector3dc#div(org.joml.Vector3fc, org.joml.Vector3d)
      */
     public Vector3d div(Vector3fc v, Vector3d dest) {
         dest.x = x / v.x();
@@ -1051,7 +1051,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(org.joml.Vector3d, org.joml.Vector3d)
+     * @see org.joml.Vector3dc#div(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d div(Vector3dc v, Vector3d dest) {
         dest.x = x / v.x();
@@ -1514,7 +1514,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          will hold the result
      * @return dest
      */
-    public Quaterniond rotationTo(Vector3d toDir, Quaterniond dest) {
+    public Quaterniond rotationTo(Vector3dc toDir, Quaterniond dest) {
         return dest.rotationTo(this, toDir);
     }
 
@@ -1637,10 +1637,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the other vector
      * @return this
      */
-    public Vector3d cross(Vector3d v) {
-        set(y * v.z - z * v.y,
-            z * v.x - x * v.z,
-            x * v.y - y * v.x);
+    public Vector3d cross(Vector3dc v) {
+        set(y * v.z() - z * v.y(),
+            z * v.x() - x * v.z(),
+            x * v.y() - y * v.x());
         return this;
     }
 
@@ -1681,7 +1681,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distance(org.joml.Vector3d)
+     * @see org.joml.Vector3dc#distance(org.joml.Vector3dc)
      */
     public double distance(Vector3dc v) {
         double dx = v.x() - x;
@@ -1701,7 +1701,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distanceSquared(org.joml.Vector3d)
+     * @see org.joml.Vector3dc#distanceSquared(org.joml.Vector3dc)
      */
     public double distanceSquared(Vector3dc v) {
         double dx = v.x() - x;

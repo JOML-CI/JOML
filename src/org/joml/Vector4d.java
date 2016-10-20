@@ -217,13 +217,13 @@ public class Vector4d implements Externalizable, Vector4dc {
      * Create a new {@link Vector4d} with the same values as <code>v</code>.
      * 
      * @param v
-     *          the {@link Vector4d} to copy the values from
+     *          the {@link Vector4dc} to copy the values from
      */
-    public Vector4d(Vector4d v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
-        this.w = v.w;
+    public Vector4d(Vector4dc v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = v.w();
     }
 
     /**
@@ -231,14 +231,14 @@ public class Vector4d implements Externalizable, Vector4dc {
      * given <code>v</code> and the given <code>w</code>.
      * 
      * @param v
-     *          the {@link Vector3d}
+     *          the {@link Vector3dc}
      * @param w
      *          the w component
      */
-    public Vector4d(Vector3d v, double w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4d(Vector3dc v, double w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
     }
 
@@ -288,14 +288,14 @@ public class Vector4d implements Externalizable, Vector4dc {
      * given <code>v</code> and the w component from the given <code>w</code>.
      * 
      * @param v
-     *          the {@link Vector3f}
+     *          the {@link Vector3fc}
      * @param w
      *          the w component
      */
-    public Vector4d(Vector3f v, double w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4d(Vector3fc v, double w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
     }
 
@@ -460,15 +460,15 @@ public class Vector4d implements Externalizable, Vector4dc {
      * <code>v</code> and the w component to <code>w</code>.
      * 
      * @param v
-     *          the {@link Vector3d} to copy
+     *          the {@link Vector3dc} to copy
      * @param w
      *          the w component
      * @return this
      */
-    public Vector4d set(Vector3d v, double w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4d set(Vector3dc v, double w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
         return this;
     }
@@ -478,15 +478,15 @@ public class Vector4d implements Externalizable, Vector4dc {
      * <code>v</code> and the w component to <code>w</code>.
      * 
      * @param v
-     *          the {@link Vector3f} to copy
+     *          the {@link Vector3fc} to copy
      * @param w
      *          the w component
      * @return this
      */
-    public Vector4d set(Vector3f v, double w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4d set(Vector3fc v, double w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
         return this;
     }
@@ -815,11 +815,11 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the second multiplicand
      * @return this
      */
-    public Vector4d fma(double a, Vector4d b) {
-        x += a * b.x;
-        y += a * b.y;
-        z += a * b.z;
-        w += a * b.w;
+    public Vector4d fma(double a, Vector4dc b) {
+        x += a * b.x();
+        y += a * b.y();
+        z += a * b.z();
+        w += a * b.w();
         return this;
     }
 
@@ -913,7 +913,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
-     * Multiply the given matrix <code>mat</code> this {@link Vector4d}.
+     * Multiply the given matrix <code>mat</code> with this {@link Vector4d}.
      * 
      * @param mat
      *          the matrix to multiply by

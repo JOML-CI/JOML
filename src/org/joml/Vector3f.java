@@ -325,7 +325,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * Create a new {@link Vector3f} with the same values as <code>v</code>.
      * 
      * @param v
-     *          the {@link Vector3f} to copy the values from
+     *          the {@link Vector3fc} to copy the values from
      */
     public Vector3f(Vector3fc v) {
         this.x = v.x();
@@ -453,10 +453,10 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          contains the values of x, y and z to set
      * @return this
      */
-    public Vector3f set(Vector3d v) {
-        x = (float) v.x;
-        y = (float) v.y;
-        z = (float) v.z;
+    public Vector3f set(Vector3dc v) {
+        x = (float) v.x();
+        y = (float) v.y();
+        z = (float) v.z();
         return this;
     }
 
@@ -765,7 +765,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /**
-     * Multiply this Vector3f component-wise by another Vector3f.
+     * Multiply this Vector3f component-wise by another Vector3fc.
      * 
      * @param v
      *          the vector to multiply by
@@ -789,7 +789,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /**
-     * Divide this Vector3f component-wise by another Vector3f.
+     * Divide this Vector3f component-wise by another Vector3fc.
      * 
      * @param v
      *          the vector to divide by
@@ -1206,7 +1206,7 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3fc#cross(org.joml.Vector3f, org.joml.Vector3f)
+     * @see org.joml.Vector3fc#cross(org.joml.Vector3fc, org.joml.Vector3f)
      */
     public Vector3f cross(Vector3fc v, Vector3f dest) {
         return dest.set(y * v.z() - z * v.y(),
