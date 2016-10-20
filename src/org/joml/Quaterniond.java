@@ -746,16 +746,16 @@ public class Quaterniond implements Externalizable {
 
     /**
      * Set this quaternion to be a representation of the supplied axis and
-     * angle (in radians).
+     * angle (in degrees).
      * 
      * @param axis
      *          the rotation axis
      * @param angle
-     *          the angle in radians
+     *          the angle in degrees
      * @return this
      */
     public Quaterniond fromAxisAngleDeg(Vector3dc axis, double angle) {
-        double hangle = angle / 2.0;
+        double hangle = Math.toRadians(angle / 2.0);
         double sinAngle = Math.sin(hangle);
         double vLength = axis.length();
 

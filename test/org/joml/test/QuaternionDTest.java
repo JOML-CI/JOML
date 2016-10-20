@@ -80,4 +80,14 @@ public class QuaternionDTest extends TestCase {
         assertSame(destination, result);
     }
 
+    public static void testFromAxisAngle() {
+        Vector3d axis = new Vector3d(1.0, 0.0, 0.0);
+        double angleDeg = 45.0;
+        double angleRad = java.lang.Math.toRadians(angleDeg);
+        Quaterniond fromRad1 = new Quaterniond().fromAxisAngleRad(axis, angleRad);
+        Quaterniond fromRad2 = new Quaterniond().fromAxisAngleRad(axis.x(), axis.y(), axis.z(), angleRad);
+        Quaterniond fromDeg = new Quaterniond().fromAxisAngleDeg(axis, angleDeg);
+        assertEquals(fromRad1, fromRad2);
+        assertEquals(fromRad2, fromDeg);
+    }
 }
