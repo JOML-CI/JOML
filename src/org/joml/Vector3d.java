@@ -44,7 +44,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         private final Vector3dc delegate;
 
         Proxy(Vector3dc delegate) {
-            super();
             this.delegate = delegate;
         }
 

@@ -44,7 +44,6 @@ public class Vector4f implements Externalizable, Vector4fc {
         private final Vector4fc delegate;
 
         Proxy(Vector4fc delegate) {
-            super();
             this.delegate = delegate;
         }
 

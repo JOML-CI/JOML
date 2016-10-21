@@ -44,7 +44,6 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         private final Quaternionfc delegate;
 
         Proxy(Quaternionfc delegate) {
-            super();
             this.delegate = delegate;
         }
 
