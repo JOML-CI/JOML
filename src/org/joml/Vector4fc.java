@@ -242,7 +242,7 @@ public interface Vector4fc {
      *          the destination vector to hold the result
      * @return dest
      */
-    Vector4f mul(Matrix4x3f mat, Vector4f dest);
+    Vector4f mul(Matrix4x3fc mat, Vector4f dest);
 
     /**
      * Multiply the given matrix <code>mat</code> with this Vector4f, perform perspective division

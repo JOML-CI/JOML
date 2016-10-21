@@ -150,7 +150,7 @@ public class TestUtil {
      * @param m2
      * @param delta
      */
-    public static void assertMatrix4x3fEquals(Matrix4x3f m1, Matrix4x3f m2, float delta) {
+    public static void assertMatrix4x3fEquals(Matrix4x3fc m1, Matrix4x3fc m2, float delta) {
         Assert.assertEquals(m1.m00(), m2.m00(), delta);
         Assert.assertEquals(m1.m01(), m2.m01(), delta);
         Assert.assertEquals(m1.m02(), m2.m02(), delta);

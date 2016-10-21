@@ -493,7 +493,7 @@ public class Matrix4x3d implements Externalizable {
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4x3d set(Matrix4x3f m) {
+    public Matrix4x3d set(Matrix4x3fc m) {
         m00 = m.m00();
         m01 = m.m01();
         m02 = m.m02();
@@ -506,7 +506,7 @@ public class Matrix4x3d implements Externalizable {
         m30 = m.m30();
         m31 = m.m31();
         m32 = m.m32();
-        properties = m.properties;
+        properties = m.properties();
         return this;
     }
 

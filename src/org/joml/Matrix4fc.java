@@ -268,7 +268,7 @@ public interface Matrix4fc {
      *          the destination matrix, which will hold the result
      * @return dest
      */
-    Matrix4f mul(Matrix4x3f right, Matrix4f dest);
+    Matrix4f mul(Matrix4x3fc right, Matrix4f dest);
 
     /**
      * Multiply <code>this</code> symmetric perspective projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix and store the result in <code>dest</code>.
@@ -300,7 +300,7 @@ public interface Matrix4fc {
      *          the destination matrix, which will hold the result
      * @return dest
      */
-    Matrix4f mulPerspectiveAffine(Matrix4x3f view, Matrix4f dest);
+    Matrix4f mulPerspectiveAffine(Matrix4x3fc view, Matrix4f dest);
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
@@ -335,7 +335,7 @@ public interface Matrix4fc {
      *          the destination matrix, which will hold the result
      * @return dest
      */
-    Matrix4f mulAffineR(Matrix4x3f right, Matrix4f dest);
+    Matrix4f mulAffineR(Matrix4x3fc right, Matrix4f dest);
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
@@ -620,7 +620,7 @@ public interface Matrix4fc {
      *          will hold the inverse of <tt>this * view</tt>
      * @return dest
      */
-    Matrix4f invertPerspectiveView(Matrix4x3f view, Matrix4f dest);
+    Matrix4f invertPerspectiveView(Matrix4x3fc view, Matrix4f dest);
 
     /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)

@@ -124,7 +124,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.mul(right, dest);
         }
 
-        public Matrix4f mul(Matrix4x3f right, Matrix4f dest) {
+        public Matrix4f mul(Matrix4x3fc right, Matrix4f dest) {
             return delegate.mul(right, dest);
         }
 
@@ -132,7 +132,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.mulPerspectiveAffine(view, dest);
         }
 
-        public Matrix4f mulPerspectiveAffine(Matrix4x3f view, Matrix4f dest) {
+        public Matrix4f mulPerspectiveAffine(Matrix4x3fc view, Matrix4f dest) {
             return delegate.mulPerspectiveAffine(view, dest);
         }
 
@@ -140,7 +140,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.mulAffineR(right, dest);
         }
 
-        public Matrix4f mulAffineR(Matrix4x3f right, Matrix4f dest) {
+        public Matrix4f mulAffineR(Matrix4x3fc right, Matrix4f dest) {
             return delegate.mulAffineR(right, dest);
         }
 
@@ -216,7 +216,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.invertPerspectiveView(view, dest);
         }
 
-        public Matrix4f invertPerspectiveView(Matrix4x3f view, Matrix4f dest) {
+        public Matrix4f invertPerspectiveView(Matrix4x3fc view, Matrix4f dest) {
             return delegate.invertPerspectiveView(view, dest);
         }
 
@@ -950,11 +950,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * and all other elements to identity.
      * 
      * @param mat
-     *          the {@link Matrix4x3f} to copy the values from
+     *          the {@link Matrix4x3fc} to copy the values from
      */
-    public Matrix4f(Matrix4x3f mat) {
-        MemUtil.INSTANCE.copy(mat, this);
-        properties = (byte) (mat.properties | PROPERTY_AFFINE);
+    public Matrix4f(Matrix4x3fc mat) {
+        if (mat instanceof Matrix4x3f) {
+            MemUtil.INSTANCE.copy((Matrix4x3f) mat, this);
+        } else {
+            set4x3Matrix4x3fc(mat);
+            this.m33 = 1.0f;
+        }
+        properties = (byte) (mat.properties() | PROPERTY_AFFINE);
     }
 
     /**
@@ -1651,16 +1656,38 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix
      * and set the other matrix elements to identity.
      * 
-     * @see #Matrix4f(Matrix4x3f)
+     * @see #Matrix4f(Matrix4x3fc)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4f set(Matrix4x3f m) {
-        MemUtil.INSTANCE.copy(m, this);
-        this._properties((byte) (m.properties | PROPERTY_AFFINE));
+    public Matrix4f set(Matrix4x3fc m) {
+        if (m instanceof Matrix4x3f) {
+            MemUtil.INSTANCE.copy((Matrix4x3f) m, this);
+        } else {
+            setMatrix4x3fc(m);
+        }
+        this._properties((byte) (m.properties() | PROPERTY_AFFINE));
         return this;
+    }
+    private void setMatrix4x3fc(Matrix4x3fc mat) {
+        _m00(mat.m00());
+        _m01(mat.m01());
+        _m02(mat.m02());
+        _m03(0.0f);
+        _m10(mat.m10());
+        _m11(mat.m11());
+        _m12(mat.m12());
+        _m13(0.0f);
+        _m20(mat.m20());
+        _m21(mat.m21());
+        _m22(mat.m22());
+        _m23(0.0f);
+        _m30(mat.m30());
+        _m31(mat.m31());
+        _m32(mat.m32());
+        _m33(1.0f);
     }
 
     /**
@@ -1902,19 +1929,37 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 
 
     /**
-     * Set the upper 4x3 submatrix of this {@link Matrix4f} to the given {@link Matrix4x3f} 
+     * Set the upper 4x3 submatrix of this {@link Matrix4f} to the given {@link Matrix4x3fc} 
      * and don't change the other elements.
      * 
      * @see Matrix4x3f#get(Matrix4f)
      * 
      * @param mat
-     *          the {@link Matrix4x3f}
+     *          the {@link Matrix4x3fc}
      * @return this
      */
-    public Matrix4f set4x3(Matrix4x3f mat) {
-        MemUtil.INSTANCE.copy4x3(mat, this);
-        properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
+    public Matrix4f set4x3(Matrix4x3fc mat) {
+        if (mat instanceof Matrix4x3f) {
+            MemUtil.INSTANCE.copy4x3((Matrix4x3f) mat, this);
+        } else {
+            set4x3Matrix4x3fc(mat);
+        }
+        properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
         return this;
+    }
+    private void set4x3Matrix4x3fc(Matrix4x3fc mat) {
+        _m00(mat.m00());
+        _m01(mat.m01());
+        _m02(mat.m02());
+        _m10(mat.m10());
+        _m11(mat.m11());
+        _m12(mat.m12());
+        _m20(mat.m20());
+        _m21(mat.m21());
+        _m22(mat.m22());
+        _m30(mat.m30());
+        _m31(mat.m31());
+        _m32(mat.m32());
     }
 
     /**
@@ -2003,14 +2048,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mul(org.joml.Matrix4x3f, org.joml.Matrix4f)
+     * @see org.joml.Matrix4fc#mul(org.joml.Matrix4x3fc, org.joml.Matrix4f)
      */
-    public Matrix4f mul(Matrix4x3f right, Matrix4f dest) {
+    public Matrix4f mul(Matrix4x3fc right, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
-        else if ((right.properties & PROPERTY_IDENTITY) != 0)
+        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
-        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties() & PROPERTY_AFFINE) != 0)
             return mulPerspectiveAffine(right, dest);
         return mulAffineR(right, dest);
     }
@@ -2083,14 +2128,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the matrix to multiply <code>this</code> symmetric perspective projection matrix by
      * @return dest
      */
-    public Matrix4f mulPerspectiveAffine(Matrix4x3f view) {
+    public Matrix4f mulPerspectiveAffine(Matrix4x3fc view) {
        return mulPerspectiveAffine(view, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulPerspectiveAffine(org.joml.Matrix4x3f, org.joml.Matrix4f)
+     * @see org.joml.Matrix4fc#mulPerspectiveAffine(org.joml.Matrix4x3fc, org.joml.Matrix4f)
      */
-    public Matrix4f mulPerspectiveAffine(Matrix4x3f view, Matrix4f dest) {
+    public Matrix4f mulPerspectiveAffine(Matrix4x3fc view, Matrix4f dest) {
         float nm00 = m00 * view.m00();
         float nm01 = m11 * view.m01();
         float nm02 = m22 * view.m02();
@@ -2198,14 +2243,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the right operand of the matrix multiplication
      * @return this
      */
-    public Matrix4f mulAffineR(Matrix4x3f right) {
+    public Matrix4f mulAffineR(Matrix4x3fc right) {
        return mulAffineR(right, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulAffineR(org.joml.Matrix4x3f, org.joml.Matrix4f)
+     * @see org.joml.Matrix4fc#mulAffineR(org.joml.Matrix4x3fc, org.joml.Matrix4f)
      */
-    public Matrix4f mulAffineR(Matrix4x3f right, Matrix4f dest) {
+    public Matrix4f mulAffineR(Matrix4x3fc right, Matrix4f dest) {
         float nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
         float nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
         float nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
@@ -3100,7 +3145,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          will hold the inverse of <tt>this * view</tt>
      * @return dest
      */
-    public Matrix4f invertPerspectiveView(Matrix4x3f view, Matrix4f dest) {
+    public Matrix4f invertPerspectiveView(Matrix4x3fc view, Matrix4f dest) {
         float a =  1.0f / (m00 * m11);
         float l = -1.0f / (m23 * m32);
         float pm00 =  m11 * a;
