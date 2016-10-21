@@ -1205,6 +1205,77 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /**
+     * Set this quaternion to be a representation of the supplied axis and
+     * angle (in radians).
+     * 
+     * @param axis
+     *          the rotation axis
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Quaternionf fromAxisAngleRad(Vector3fc axis, float angle) {
+        return fromAxisAngleRad(axis.x(), axis.y(), axis.z(), angle);
+    }
+
+    /**
+     * Set this quaternion to be a representation of the supplied axis and
+     * angle (in radians).
+     * 
+     * @param axisX
+     *          the x component of the rotation axis
+     * @param axisY
+     *          the y component of the rotation axis
+     * @param axisZ
+     *          the z component of the rotation axis         
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Quaternionf fromAxisAngleRad(float axisX, float axisY, float axisZ, float angle) {
+        float hangle = angle / 2.0f;
+        float sinAngle = (float) Math.sin(hangle);
+        float vLength = (float) Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        x = axisX / vLength * sinAngle;
+        y = axisY / vLength * sinAngle;
+        z = axisZ / vLength * sinAngle;
+        w = (float) Math.cos(hangle);
+        return this;
+    }
+
+    /**
+     * Set this quaternion to be a representation of the supplied axis and
+     * angle (in degrees).
+     * 
+     * @param axis
+     *          the rotation axis
+     * @param angle
+     *          the angle in degrees
+     * @return this
+     */
+    public Quaternionf fromAxisAngleDeg(Vector3fc axis, float angle) {
+        return fromAxisAngleRad(axis.x(), axis.y(), axis.z(), (float) Math.toRadians(angle));
+    }
+
+    /**
+     * Set this quaternion to be a representation of the supplied axis and
+     * angle (in degrees).
+     * 
+     * @param axisX
+     *          the x component of the rotation axis
+     * @param axisY
+     *          the y component of the rotation axis
+     * @param axisZ
+     *          the z component of the rotation axis         
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Quaternionf fromAxisAngleDeg(float axisX, float axisY, float axisZ, float angle) {
+        return fromAxisAngleRad(axisX, axisY, axisZ, (float) Math.toRadians(angle));
+    }
+
+    /**
      * Multiply this quaternion by <code>q</code>.
      * <p>
      * If <tt>T</tt> is <code>this</code> and <tt>Q</tt> is the given

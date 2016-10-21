@@ -925,16 +925,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @return this
      */
     public Quaterniond fromAxisAngleRad(Vector3dc axis, double angle) {
-        double hangle = angle / 2.0;
-        double sinAngle = Math.sin(hangle);
-        double vLength = axis.length();
-
-        x = axis.x() / vLength * sinAngle;
-        y = axis.y() / vLength * sinAngle;
-        z = axis.z() / vLength * sinAngle;
-        w = Math.cos(hangle);
-        
-        return this;
+        return fromAxisAngleRad(axis.x(), axis.y(), axis.z(), angle);
     }
 
     /**
@@ -955,12 +946,10 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         double hangle = angle / 2.0;
         double sinAngle = Math.sin(hangle);
         double vLength = Math.sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
-
         x = axisX / vLength * sinAngle;
         y = axisY / vLength * sinAngle;
         z = axisZ / vLength * sinAngle;
         w = Math.cos(hangle);
-        
         return this;
     }
 
@@ -975,16 +964,25 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @return this
      */
     public Quaterniond fromAxisAngleDeg(Vector3dc axis, double angle) {
-        double hangle = Math.toRadians(angle / 2.0);
-        double sinAngle = Math.sin(hangle);
-        double vLength = axis.length();
+        return fromAxisAngleRad(axis.x(), axis.y(), axis.z(), Math.toRadians(angle));
+    }
 
-        x = axis.x() / vLength * sinAngle;
-        y = axis.y() / vLength * sinAngle;
-        z = axis.z() / vLength * sinAngle;
-        w = Math.cos(hangle);
-        
-        return this;
+    /**
+     * Set this quaternion to be a representation of the supplied axis and
+     * angle (in degrees).
+     * 
+     * @param axisX
+     *          the x component of the rotation axis
+     * @param axisY
+     *          the y component of the rotation axis
+     * @param axisZ
+     *          the z component of the rotation axis         
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Quaterniond fromAxisAngleDeg(double axisX, double axisY, double axisZ, double angle) {
+        return fromAxisAngleRad(axisX, axisY, axisZ, Math.toRadians(angle));
     }
 
     /**
