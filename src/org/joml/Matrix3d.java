@@ -43,7 +43,303 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Matrix3d implements Externalizable {
+public class Matrix3d implements Externalizable, Matrix3dc {
+
+    private final class Proxy implements Matrix3dc {
+        private final Matrix3dc delegate;
+
+        Proxy(Matrix3dc delegate) {
+            this.delegate = delegate;
+        }
+
+        public double m00() {
+            return delegate.m00();
+        }
+
+        public double m01() {
+            return delegate.m01();
+        }
+
+        public double m02() {
+            return delegate.m02();
+        }
+
+        public double m10() {
+            return delegate.m10();
+        }
+
+        public double m11() {
+            return delegate.m11();
+        }
+
+        public double m12() {
+            return delegate.m12();
+        }
+
+        public double m20() {
+            return delegate.m20();
+        }
+
+        public double m21() {
+            return delegate.m21();
+        }
+
+        public double m22() {
+            return delegate.m22();
+        }
+
+        public Matrix3d mul(Matrix3dc right, Matrix3d dest) {
+            return delegate.mul(right, dest);
+        }
+
+        public Matrix3d mul(Matrix3fc right, Matrix3d dest) {
+            return delegate.mul(right, dest);
+        }
+
+        public double determinant() {
+            return delegate.determinant();
+        }
+
+        public Matrix3d invert(Matrix3d dest) {
+            return delegate.invert(dest);
+        }
+
+        public Matrix3d transpose(Matrix3d dest) {
+            return delegate.transpose(dest);
+        }
+
+        public Matrix3d get(Matrix3d dest) {
+            return delegate.get(dest);
+        }
+
+        public AxisAngle4f getRotation(AxisAngle4f dest) {
+            return delegate.getRotation(dest);
+        }
+
+        public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
+            return delegate.getUnnormalizedRotation(dest);
+        }
+
+        public Quaternionf getNormalizedRotation(Quaternionf dest) {
+            return delegate.getNormalizedRotation(dest);
+        }
+
+        public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
+            return delegate.getUnnormalizedRotation(dest);
+        }
+
+        public Quaterniond getNormalizedRotation(Quaterniond dest) {
+            return delegate.getNormalizedRotation(dest);
+        }
+
+        public DoubleBuffer get(DoubleBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public DoubleBuffer get(int index, DoubleBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public FloatBuffer get(FloatBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public FloatBuffer get(int index, FloatBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public ByteBuffer get(ByteBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public ByteBuffer get(int index, ByteBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public ByteBuffer getFloats(ByteBuffer buffer) {
+            return delegate.getFloats(buffer);
+        }
+
+        public ByteBuffer getFloats(int index, ByteBuffer buffer) {
+            return delegate.getFloats(index, buffer);
+        }
+
+        public double[] get(double[] arr, int offset) {
+            return delegate.get(arr, offset);
+        }
+
+        public double[] get(double[] arr) {
+            return delegate.get(arr);
+        }
+
+        public float[] get(float[] arr, int offset) {
+            return delegate.get(arr, offset);
+        }
+
+        public float[] get(float[] arr) {
+            return delegate.get(arr);
+        }
+
+        public Matrix3d scale(Vector3dc xyz, Matrix3d dest) {
+            return delegate.scale(xyz, dest);
+        }
+
+        public Matrix3d scale(double x, double y, double z, Matrix3d dest) {
+            return delegate.scale(x, y, z, dest);
+        }
+
+        public Matrix3d scale(double xyz, Matrix3d dest) {
+            return delegate.scale(xyz, dest);
+        }
+
+        public Matrix3d scaleLocal(double x, double y, double z, Matrix3d dest) {
+            return delegate.scaleLocal(x, y, z, dest);
+        }
+
+        public Vector3d transform(Vector3d v) {
+            return delegate.transform(v);
+        }
+
+        public Vector3d transform(Vector3dc v, Vector3d dest) {
+            return delegate.transform(v, dest);
+        }
+
+        public Vector3d transform(double x, double y, double z, Vector3d dest) {
+            return delegate.transform(x, y, z, dest);
+        }
+
+        public Matrix3d rotateX(double ang, Matrix3d dest) {
+            return delegate.rotateX(ang, dest);
+        }
+
+        public Matrix3d rotateY(double ang, Matrix3d dest) {
+            return delegate.rotateY(ang, dest);
+        }
+
+        public Matrix3d rotateZ(double ang, Matrix3d dest) {
+            return delegate.rotateZ(ang, dest);
+        }
+
+        public Matrix3d rotateXYZ(double angleX, double angleY, double angleZ, Matrix3d dest) {
+            return delegate.rotateXYZ(angleX, angleY, angleZ, dest);
+        }
+
+        public Matrix3d rotateZYX(double angleZ, double angleY, double angleX, Matrix3d dest) {
+            return delegate.rotateZYX(angleZ, angleY, angleX, dest);
+        }
+
+        public Matrix3d rotate(double ang, double x, double y, double z, Matrix3d dest) {
+            return delegate.rotate(ang, x, y, z, dest);
+        }
+
+        public Matrix3d rotateLocal(double ang, double x, double y, double z, Matrix3d dest) {
+            return delegate.rotateLocal(ang, x, y, z, dest);
+        }
+
+        public Matrix3d rotateLocal(Quaterniondc quat, Matrix3d dest) {
+            return delegate.rotateLocal(quat, dest);
+        }
+
+        public Matrix3d rotateLocal(Quaternionfc quat, Matrix3d dest) {
+            return delegate.rotateLocal(quat, dest);
+        }
+
+        public Matrix3d rotate(Quaterniondc quat, Matrix3d dest) {
+            return delegate.rotate(quat, dest);
+        }
+
+        public Matrix3d rotate(Quaternionfc quat, Matrix3d dest) {
+            return delegate.rotate(quat, dest);
+        }
+
+        public Matrix3d rotate(AxisAngle4f axisAngle, Matrix3d dest) {
+            return delegate.rotate(axisAngle, dest);
+        }
+
+        public Matrix3d rotate(AxisAngle4d axisAngle, Matrix3d dest) {
+            return delegate.rotate(axisAngle, dest);
+        }
+
+        public Matrix3d rotate(double angle, Vector3dc axis, Matrix3d dest) {
+            return delegate.rotate(angle, axis, dest);
+        }
+
+        public Matrix3d rotate(double angle, Vector3fc axis, Matrix3d dest) {
+            return delegate.rotate(angle, axis, dest);
+        }
+
+        public Vector3d getRow(int row, Vector3d dest) throws IndexOutOfBoundsException {
+            return delegate.getRow(row, dest);
+        }
+
+        public Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException {
+            return delegate.getColumn(column, dest);
+        }
+
+        public Matrix3d normal(Matrix3d dest) {
+            return delegate.normal(dest);
+        }
+
+        public Matrix3d lookAlong(Vector3dc dir, Vector3dc up, Matrix3d dest) {
+            return delegate.lookAlong(dir, up, dest);
+        }
+
+        public Matrix3d lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix3d dest) {
+            return delegate.lookAlong(dirX, dirY, dirZ, upX, upY, upZ, dest);
+        }
+
+        public Vector3d getScale(Vector3d dest) {
+            return delegate.getScale(dest);
+        }
+
+        public Vector3d positiveZ(Vector3d dir) {
+            return delegate.positiveZ(dir);
+        }
+
+        public Vector3d normalizedPositiveZ(Vector3d dir) {
+            return delegate.normalizedPositiveZ(dir);
+        }
+
+        public Vector3d positiveX(Vector3d dir) {
+            return delegate.positiveX(dir);
+        }
+
+        public Vector3d normalizedPositiveX(Vector3d dir) {
+            return delegate.normalizedPositiveX(dir);
+        }
+
+        public Vector3d positiveY(Vector3d dir) {
+            return delegate.positiveY(dir);
+        }
+
+        public Vector3d normalizedPositiveY(Vector3d dir) {
+            return delegate.normalizedPositiveY(dir);
+        }
+
+        public Matrix3d add(Matrix3dc other, Matrix3d dest) {
+            return delegate.add(other, dest);
+        }
+
+        public Matrix3d sub(Matrix3dc subtrahend, Matrix3d dest) {
+            return delegate.sub(subtrahend, dest);
+        }
+
+        public Matrix3d mulComponentWise(Matrix3dc other, Matrix3d dest) {
+            return delegate.mulComponentWise(other, dest);
+        }
+
+        public Matrix3d lerp(Matrix3dc other, double t, Matrix3d dest) {
+            return delegate.lerp(other, t, dest);
+        }
+
+        public Matrix3d rotateTowards(Vector3dc direction, Vector3dc up, Matrix3d dest) {
+            return delegate.rotateTowards(direction, up, dest);
+        }
+
+        public Matrix3d rotateTowards(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix3d dest) {
+            return delegate.rotateTowards(dirX, dirY, dirZ, upX, upY, upZ, dest);
+        }
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -66,16 +362,16 @@ public class Matrix3d implements Externalizable {
      * @param mat
      *          the matrix to initialize this matrix with
      */
-    public Matrix3d(Matrix3d mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
+    public Matrix3d(Matrix3dc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
     }
 
     /**
@@ -205,74 +501,56 @@ public class Matrix3d implements Externalizable {
         this.m22 = col2.z();
     }
 
-    /**
-     * Return the value of the matrix element at column 0 and row 0.
-     * 
-     * @return the value of the matrix element
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#m00()
      */
     public double m00() {
         return m00;
     }
-    /**
-     * Return the value of the matrix element at column 0 and row 1.
-     * 
-     * @return the value of the matrix element
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#m01()
      */
     public double m01() {
         return m01;
     }
-    /**
-     * Return the value of the matrix element at column 0 and row 2.
-     * 
-     * @return the value of the matrix element
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#m02()
      */
     public double m02() {
         return m02;
     }
-    /**
-     * Return the value of the matrix element at column 1 and row 0.
-     * 
-     * @return the value of the matrix element
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#m10()
      */
     public double m10() {
         return m10;
     }
-    /**
-     * Return the value of the matrix element at column 1 and row 1.
-     * 
-     * @return the value of the matrix element
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#m11()
      */
     public double m11() {
         return m11;
     }
-    /**
-     * Return the value of the matrix element at column 1 and row 2.
-     * 
-     * @return the value of the matrix element
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#m12()
      */
     public double m12() {
         return m12;
     }
-    /**
-     * Return the value of the matrix element at column 2 and row 0.
-     * 
-     * @return the value of the matrix element
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#m20()
      */
     public double m20() {
         return m20;
     }
-    /**
-     * Return the value of the matrix element at column 2 and row 1.
-     * 
-     * @return the value of the matrix element
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#m21()
      */
     public double m21() {
         return m21;
     }
-    /**
-     * Return the value of the matrix element at column 2 and row 2.
-     * 
-     * @return the value of the matrix element
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#m22()
      */
     public double m22() {
         return m22;
@@ -385,16 +663,16 @@ public class Matrix3d implements Externalizable {
      *          the matrix whose values will be copied
      * @return this
      */
-    public Matrix3d set(Matrix3d m) {
-        m00 = m.m00;
-        m01 = m.m01;
-        m02 = m.m02;
-        m10 = m.m10;
-        m11 = m.m11;
-        m12 = m.m12;
-        m20 = m.m20;
-        m21 = m.m21;
-        m22 = m.m22;
+    public Matrix3d set(Matrix3dc m) {
+        m00 = m.m00();
+        m01 = m.m01();
+        m02 = m.m02();
+        m10 = m.m10();
+        m11 = m.m11();
+        m12 = m.m12();
+        m20 = m.m20();
+        m21 = m.m21();
+        m22 = m.m22();
         return this;
     }
 
@@ -579,35 +857,23 @@ public class Matrix3d implements Externalizable {
      *          the right operand
      * @return this
      */
-    public Matrix3d mul(Matrix3d right) {
+    public Matrix3d mul(Matrix3dc right) {
         return mul(right, this);
     }
 
-    /**
-     * Multiply this matrix by the supplied matrix and store the result in <code>dest</code>.
-     * This matrix will be the left one.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     * 
-     * @param right
-     *          the right operand
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#mul(org.joml.Matrix3dc, org.joml.Matrix3d)
      */
-    public Matrix3d mul(Matrix3d right, Matrix3d dest) {
-        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
-        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
-        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
-        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
-        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
-        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
-        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
-        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
-        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+    public Matrix3d mul(Matrix3dc right, Matrix3d dest) {
+        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -637,20 +903,8 @@ public class Matrix3d implements Externalizable {
         return mul(right, this);
     }
 
-    /**
-     * Multiply this matrix by the supplied matrix and store the result in <code>dest</code>.
-     * This matrix will be the left one.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     * 
-     * @param right
-     *          the right operand
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#mul(org.joml.Matrix3fc, org.joml.Matrix3d)
      */
     public Matrix3d mul(Matrix3fc right, Matrix3d dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
@@ -768,10 +1022,8 @@ public class Matrix3d implements Externalizable {
         return this;
     }
 
-    /**
-     * Return the determinant of this matrix.
-     * 
-     * @return the determinant
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#determinant()
      */
     public double determinant() {
         return (m00 * m11 - m01 * m10) * m22
@@ -788,12 +1040,8 @@ public class Matrix3d implements Externalizable {
         return invert(this);
     }
 
-    /**
-     * Invert <code>this</code> matrix and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#invert(org.joml.Matrix3d)
      */
     public Matrix3d invert(Matrix3d dest) {
         double s = determinant();
@@ -829,12 +1077,8 @@ public class Matrix3d implements Externalizable {
         return transpose(this);
     }
 
-    /**
-     * Transpose <code>this</code> matrix and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *             will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#transpose(org.joml.Matrix3d)
      */
     public Matrix3d transpose(Matrix3d dest) {
         dest.set(m00, m10, m20,
@@ -872,10 +1116,10 @@ public class Matrix3d implements Externalizable {
      * Get the current values of <code>this</code> matrix and store them into
      * <code>dest</code>.
      * <p>
-     * This is the reverse method of {@link #set(Matrix3d)} and allows to obtain
+     * This is the reverse method of {@link #set(Matrix3dc)} and allows to obtain
      * intermediate calculation results when chaining multiple transformations.
      * 
-     * @see #set(Matrix3d)
+     * @see #set(Matrix3dc)
      * 
      * @param dest
      *          the destination matrix
@@ -885,254 +1129,103 @@ public class Matrix3d implements Externalizable {
         return dest.set(this);
     }
 
-    /**
-     * Get the current values of <code>this</code> matrix and store the represented rotation
-     * into the given {@link AxisAngle4f}.
-     * 
-     * @see AxisAngle4f#set(Matrix3d)
-     * 
-     * @param dest
-     *          the destination {@link AxisAngle4f}
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getRotation(org.joml.AxisAngle4f)
      */
     public AxisAngle4f getRotation(AxisAngle4f dest) {
         return dest.set(this);
     }
 
-    /**
-     * Get the current values of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaternionf}.
-     * <p>
-     * This method assumes that the three column vectors of this matrix are not normalized and
-     * thus allows to ignore any additional scaling factor that is applied to the matrix.
-     * 
-     * @see Quaternionf#setFromUnnormalized(Matrix3d)
-     * 
-     * @param dest
-     *          the destination {@link Quaternionf}
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getUnnormalizedRotation(org.joml.Quaternionf)
      */
     public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /**
-     * Get the current values of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaternionf}.
-     * <p>
-     * This method assumes that the three column vectors of this matrix are normalized.
-     * 
-     * @see Quaternionf#setFromNormalized(Matrix3d)
-     * 
-     * @param dest
-     *          the destination {@link Quaternionf}
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getNormalizedRotation(org.joml.Quaternionf)
      */
     public Quaternionf getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 
-    /**
-     * Get the current values of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaterniond}.
-     * <p>
-     * This method assumes that the three column vectors of this matrix are not normalized and
-     * thus allows to ignore any additional scaling factor that is applied to the matrix.
-     * 
-     * @see Quaterniond#setFromUnnormalized(Matrix3d)
-     * 
-     * @param dest
-     *          the destination {@link Quaterniond}
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getUnnormalizedRotation(org.joml.Quaterniond)
      */
     public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /**
-     * Get the current values of <code>this</code> matrix and store the represented rotation
-     * into the given {@link Quaterniond}.
-     * <p>
-     * This method assumes that the three column vectors of this matrix are normalized.
-     * 
-     * @see Quaterniond#setFromNormalized(Matrix3d)
-     * 
-     * @param dest
-     *          the destination {@link Quaterniond}
-     * @return the passed in destination
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getNormalizedRotation(org.joml.Quaterniond)
      */
     public Quaterniond getNormalizedRotation(Quaterniond dest) {
         return dest.setFromNormalized(this);
     }
 
-    /**
-     * Store this matrix into the supplied {@link DoubleBuffer} at the current
-     * buffer {@link DoubleBuffer#position() position} using column-major order.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * <p>
-     * In order to specify the offset into the DoubleBuffer} at which
-     * the matrix is stored, use {@link #get(int, DoubleBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #get(int, DoubleBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(java.nio.DoubleBuffer)
      */
     public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this matrix into the supplied {@link DoubleBuffer} starting at the specified
-     * absolute buffer position/index using column-major order.
-     * <p>
-     * This method will not increment the position of the given {@link DoubleBuffer}.
-     * 
-     * @param index
-     *            the absolute position into the {@link DoubleBuffer}
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(int, java.nio.DoubleBuffer)
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
-     * buffer {@link FloatBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * In order to specify the offset into the FloatBuffer at which
-     * the matrix is stored, use {@link #get(int, FloatBuffer)}, taking
-     * the absolute position as parameter.
-     * <p>
-     * Please note that due to this matrix storing double values those values will potentially
-     * lose precision when they are converted to float values before being put into the given FloatBuffer.
-     * 
-     * @see #get(int, FloatBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(java.nio.FloatBuffer)
      */
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * Please note that due to this matrix storing double values those values will potentially
-     * lose precision when they are converted to float values before being put into the given FloatBuffer.
-     * 
-     * @param index
-     *            the absolute position into the FloatBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(int, java.nio.FloatBuffer)
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #get(int, ByteBuffer)
-     * 
-     * @param buffer
-     *            will receive the values of this matrix in column-major order at its current position
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(java.nio.ByteBuffer)
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * 
-     * @param index
-     *            the absolute position into the ByteBuffer
-     * @param buffer
-     *            will receive the values of this matrix in column-major order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(int, java.nio.ByteBuffer)
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store the elements of this matrix as float values in column-major order into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * Please note that due to this matrix storing double values those values will potentially
-     * lose precision when they are converted to float values before being put into the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the matrix is stored, use {@link #getFloats(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     * 
-     * @see #getFloats(int, ByteBuffer)
-     * 
-     * @param buffer
-     *            will receive the elements of this matrix as float values in column-major order at its current position
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getFloats(java.nio.ByteBuffer)
      */
     public ByteBuffer getFloats(ByteBuffer buffer) {
         return getFloats(buffer.position(), buffer);
     }
 
-    /**
-     * Store the elements of this matrix as float values in column-major order into the supplied {@link ByteBuffer}
-     * starting at the specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * Please note that due to this matrix storing double values those values will potentially
-     * lose precision when they are converted to float values before being put into the given ByteBuffer.
-     * 
-     * @param index
-     *            the absolute position into the ByteBuffer
-     * @param buffer
-     *            will receive the elements of this matrix as float values in column-major order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getFloats(int, java.nio.ByteBuffer)
      */
     public ByteBuffer getFloats(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store this matrix into the supplied double array in column-major order at the given offset.
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @param offset
-     *          the offset into the array
-     * @return the passed in array
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(double[], int)
      */
     public double[] get(double[] arr, int offset) {
         arr[offset+0] = m00;
@@ -1147,32 +1240,15 @@ public class Matrix3d implements Externalizable {
         return arr;
     }
 
-    /**
-     * Store this matrix into the supplied double array in column-major order.
-     * <p>
-     * In order to specify an explicit offset into the array, use the method {@link #get(double[], int)}.
-     * 
-     * @see #get(double[], int)
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @return the passed in array
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(double[])
      */
     public double[] get(double[] arr) {
         return get(arr, 0);
     }
 
-    /**
-     * Store the elements of this matrix as float values in column-major order into the supplied float array at the given offset.
-     * <p>
-     * Please note that due to this matrix storing double values those values will potentially
-     * lose precision when they are converted to float values before being put into the given float array.
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @param offset
-     *          the offset into the array
-     * @return the passed in array
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(float[], int)
      */
     public float[] get(float[] arr, int offset) {
         arr[offset+0] = (float)m00;
@@ -1187,19 +1263,8 @@ public class Matrix3d implements Externalizable {
         return arr;
     }
 
-    /**
-     * Store the elements of this matrix as float values in column-major order into the supplied float array.
-     * <p>
-     * Please note that due to this matrix storing double values those values will potentially
-     * lose precision when they are converted to float values before being put into the given float array.
-     * <p>
-     * In order to specify an explicit offset into the array, use the method {@link #get(float[], int)}.
-     * 
-     * @see #get(float[], int)
-     * 
-     * @param arr
-     *          the array to write the matrix values into
-     * @return the passed in array
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#get(float[])
      */
     public float[] get(float[] arr) {
         return get(arr, 0);
@@ -1415,20 +1480,8 @@ public class Matrix3d implements Externalizable {
         return this;
     }
 
-    /**
-     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given <tt>xyz.x</tt>,
-     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
-     * 
-     * @param xyz
-     *            the factors of the x, y and z component, respectively
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#scale(org.joml.Vector3dc, org.joml.Matrix3d)
      */
     public Matrix3d scale(Vector3dc xyz, Matrix3d dest) {
         return scale(xyz.x(), xyz.y(), xyz.z(), dest);
@@ -1451,24 +1504,8 @@ public class Matrix3d implements Externalizable {
         return scale(xyz.x(), xyz.y(), xyz.z(), this);
     }
 
-    /**
-     * Apply scaling to this matrix by scaling the base axes by the given x,
-     * y and z factors and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
-     * 
-     * @param x
-     *            the factor of the x component
-     * @param y
-     *            the factor of the y component
-     * @param z
-     *            the factor of the z component
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#scale(double, double, double, org.joml.Matrix3d)
      */
     public Matrix3d scale(double x, double y, double z, Matrix3d dest) {
         // scale matrix elements:
@@ -1507,22 +1544,8 @@ public class Matrix3d implements Externalizable {
         return scale(x, y, z, this);
     }
 
-    /**
-     * Apply scaling to this matrix by uniformly scaling all base axes by the given <code>xyz</code> factor
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>M * S</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
-     * , the scaling will be applied first!
-     * 
-     * @see #scale(double, double, double, Matrix3d)
-     * 
-     * @param xyz
-     *            the factor for all components
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#scale(double, org.joml.Matrix3d)
      */
     public Matrix3d scale(double xyz, Matrix3d dest) {
         return scale(xyz, xyz, xyz, dest);
@@ -1546,24 +1569,8 @@ public class Matrix3d implements Externalizable {
         return scale(xyz, xyz, xyz);
     }
 
-    /**
-     * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given x,
-     * y and z factors and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
-     * then the new matrix will be <code>S * M</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
-     * , the scaling will be applied last!
-     * 
-     * @param x
-     *            the factor of the x component
-     * @param y
-     *            the factor of the y component
-     * @param z
-     *            the factor of the z component
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#scaleLocal(double, double, double, org.joml.Matrix3d)
      */
     public Matrix3d scaleLocal(double x, double y, double z, Matrix3d dest) {
         double nm00 = x * m00;
@@ -2123,43 +2130,23 @@ public class Matrix3d implements Externalizable {
         return this;
     }
 
-    /**
-     * Transform the given vector by this matrix.
-     * 
-     * @param v
-     *          the vector to transform
-     * @return v
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#transform(org.joml.Vector3d)
      */
     public Vector3d transform(Vector3d v) {
         return v.mul(this);
     }
 
-    /**
-     * Transform the given vector by this matrix and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to transform
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#transform(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d transform(Vector3dc v, Vector3d dest) {
         v.mul(this, dest);
         return dest;
     }
 
-    /**
-     * Transform the vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x coordinate of the vector to transform
-     * @param y
-     *          the y coordinate of the vector to transform
-     * @param z
-     *          the z coordinate of the vector to transform
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#transform(double, double, double, org.joml.Vector3d)
      */
     public Vector3d transform(double x, double y, double z, Vector3d dest) {
         dest.set(m00 * x + m10 * y + m20 * z,
@@ -2193,26 +2180,8 @@ public class Matrix3d implements Externalizable {
         m22 = in.readDouble();
     }
 
-    /**
-     * Apply rotation about the X axis to this matrix by rotating the given amount of radians
-     * and store the result in <code>dest</code>.
-     * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
-     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
-     * When used with a left-handed coordinate system, the rotation is clockwise.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#rotateX(double, org.joml.Matrix3d)
      */
     public Matrix3d rotateX(double ang, Matrix3d dest) {
         double sin, cos;
@@ -2275,26 +2244,8 @@ public class Matrix3d implements Externalizable {
         return rotateX(ang, this);
     }
 
-    /**
-     * Apply rotation about the Y axis to this matrix by rotating the given amount of radians
-     * and store the result in <code>dest</code>.
-     * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
-     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
-     * When used with a left-handed coordinate system, the rotation is clockwise.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#rotateY(double, org.joml.Matrix3d)
      */
     public Matrix3d rotateY(double ang, Matrix3d dest) {
         double sin, cos;
@@ -2357,26 +2308,8 @@ public class Matrix3d implements Externalizable {
         return rotateY(ang, this);
     }
 
-    /**
-     * Apply rotation about the Z axis to this matrix by rotating the given amount of radians
-     * and store the result in <code>dest</code>.
-     * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
-     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
-     * When used with a left-handed coordinate system, the rotation is clockwise.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#rotateZ(double, org.joml.Matrix3d)
      */
     public Matrix3d rotateZ(double ang, Matrix3d dest) {
         double sin, cos;
@@ -2466,30 +2399,8 @@ public class Matrix3d implements Externalizable {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    /**
-     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
-     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
-     * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
-     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
-     * When used with a left-handed coordinate system, the rotation is clockwise.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
-     * 
-     * @param angleX
-     *            the angle to rotate about X
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#rotateXYZ(double, double, double, org.joml.Matrix3d)
      */
     public Matrix3d rotateXYZ(double angleX, double angleY, double angleZ, Matrix3d dest) {
         double cosX = Math.cos(angleX);
@@ -2553,30 +2464,8 @@ public class Matrix3d implements Externalizable {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    /**
-     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
-     * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
-     * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
-     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
-     * When used with a left-handed coordinate system, the rotation is clockwise.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * rotation will be applied first!
-     * <p>
-     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
-     * 
-     * @param angleZ
-     *            the angle to rotate about Z
-     * @param angleY
-     *            the angle to rotate about Y
-     * @param angleX
-     *            the angle to rotate about X
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#rotateZYX(double, double, double, org.joml.Matrix3d)
      */
     public Matrix3d rotateZYX(double angleZ, double angleY, double angleX, Matrix3d dest) {
         double cosZ = Math.cos(angleZ);
@@ -2644,34 +2533,8 @@ public class Matrix3d implements Externalizable {
         return rotate(ang, x, y, z, this);
     }
 
-    /**
-     * Apply rotation to this matrix by rotating the given amount of radians
-     * about the given axis specified as x, y and z components, and store the result in <code>dest</code>.
-     * <p>
-     * The axis described by the three components needs to be a unit vector.
-     * <p>
-     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
-     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
-     * When used with a left-handed coordinate system, the rotation is clockwise.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
-     * , the rotation will be applied first!
-     * <p>
-     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
-     * 
-     * @param ang
-     *            the angle in radians
-     * @param x
-     *            the x component of the axis
-     * @param y
-     *            the y component of the axis
-     * @param z
-     *            the z component of the axis
-     * @param dest
-     *            will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#rotate(double, double, double, double, org.joml.Matrix3d)
      */
     public Matrix3d rotate(double ang, double x, double y, double z, Matrix3d dest) {
         double s = Math.sin(ang);
@@ -3454,15 +3317,8 @@ public class Matrix3d implements Externalizable {
         return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
     }
 
-    /**
-     * Get the row at the given <code>row</code> index, starting with <code>0</code>.
-     * 
-     * @param row
-     *          the row index in <tt>[0..2]</tt>
-     * @param dest
-     *          will hold the row components
-     * @return the passed in destination
-     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getRow(int, org.joml.Vector3d)
      */
     public Vector3d getRow(int row, Vector3d dest) throws IndexOutOfBoundsException {
         switch (row) {
@@ -3488,15 +3344,8 @@ public class Matrix3d implements Externalizable {
         return dest;
     }
 
-    /**
-     * Get the column at the given <code>column</code> index, starting with <code>0</code>.
-     * 
-     * @param column
-     *          the column index in <tt>[0..2]</tt>
-     * @param dest
-     *          will hold the column components
-     * @return the passed in destination
-     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..2]</tt>
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getColumn(int, org.joml.Vector3d)
      */
     public Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException {
         switch (column) {
@@ -3526,9 +3375,9 @@ public class Matrix3d implements Externalizable {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In this case, use {@link #set(Matrix3d)} to set a given Matrix3f to this matrix.
+     * In this case, use {@link #set(Matrix3dc)} to set a given Matrix3f to this matrix.
      * 
-     * @see #set(Matrix3d)
+     * @see #set(Matrix3dc)
      * 
      * @return this
      */
@@ -3541,9 +3390,9 @@ public class Matrix3d implements Externalizable {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In this case, use {@link #set(Matrix3d)} to set a given Matrix3d to this matrix.
+     * In this case, use {@link #set(Matrix3dc)} to set a given Matrix3d to this matrix.
      * 
-     * @see #set(Matrix3d)
+     * @see #set(Matrix3dc)
      * 
      * @param dest
      *             will hold the result
@@ -3827,12 +3676,8 @@ public class Matrix3d implements Externalizable {
         return this;
     }
 
-    /**
-     * Get the scaling factors of <code>this</code> matrix for the three base axes.
-     * 
-     * @param dest
-     *          will hold the scaling factors for <tt>x</tt>, <tt>y</tt> and <tt>z</tt>
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#getScale(org.joml.Vector3d)
      */
     public Vector3d getScale(Vector3d dest) {
         dest.x = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
@@ -3841,21 +3686,8 @@ public class Matrix3d implements Externalizable {
         return dest;
     }
 
-    /**
-     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> matrix is applied.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Matrix3d inv = new Matrix3d(this).invert();
-     * inv.transform(dir.set(0, 0, 1)).normalize();
-     * </pre>
-     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveZ(Vector3d)} instead.
-     * <p>
-     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
-     * 
-     * @param dir
-     *          will hold the direction of <tt>+Z</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#positiveZ(org.joml.Vector3d)
      */
     public Vector3d positiveZ(Vector3d dir) {
         dir.x = m10 * m21 - m11 * m20;
@@ -3865,21 +3697,8 @@ public class Matrix3d implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
-     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Matrix3d inv = new Matrix3d(this).transpose();
-     * inv.transform(dir.set(0, 0, 1));
-     * </pre>
-     * <p>
-     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
-     * 
-     * @param dir
-     *          will hold the direction of <tt>+Z</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#normalizedPositiveZ(org.joml.Vector3d)
      */
     public Vector3d normalizedPositiveZ(Vector3d dir) {
         dir.x = m02;
@@ -3888,21 +3707,8 @@ public class Matrix3d implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Matrix3d inv = new Matrix3d(this).invert();
-     * inv.transform(dir.set(1, 0, 0)).normalize();
-     * </pre>
-     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveX(Vector3d)} instead.
-     * <p>
-     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
-     * 
-     * @param dir
-     *          will hold the direction of <tt>+X</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#positiveX(org.joml.Vector3d)
      */
     public Vector3d positiveX(Vector3d dir) {
         dir.x = m11 * m22 - m12 * m21;
@@ -3912,21 +3718,8 @@ public class Matrix3d implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
-     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Matrix3d inv = new Matrix3d(this).transpose();
-     * inv.transform(dir.set(1, 0, 0));
-     * </pre>
-     * <p>
-     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
-     * 
-     * @param dir
-     *          will hold the direction of <tt>+X</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#normalizedPositiveX(org.joml.Vector3d)
      */
     public Vector3d normalizedPositiveX(Vector3d dir) {
         dir.x = m00;
@@ -3935,21 +3728,8 @@ public class Matrix3d implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Matrix3d inv = new Matrix3d(this).invert();
-     * inv.transform(dir.set(0, 1, 0)).normalize();
-     * </pre>
-     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveY(Vector3d)} instead.
-     * <p>
-     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
-     * 
-     * @param dir
-     *          will hold the direction of <tt>+Y</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#positiveY(org.joml.Vector3d)
      */
     public Vector3d positiveY(Vector3d dir) {
         dir.x = m12 * m20 - m10 * m22;
@@ -3959,21 +3739,8 @@ public class Matrix3d implements Externalizable {
         return dir;
     }
 
-    /**
-     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
-     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
-     * <p>
-     * This method is equivalent to the following code:
-     * <pre>
-     * Matrix3d inv = new Matrix3d(this).transpose();
-     * inv.transform(dir.set(0, 1, 0));
-     * </pre>
-     * <p>
-     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
-     * 
-     * @param dir
-     *          will hold the direction of <tt>+Y</tt>
-     * @return dir
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#normalizedPositiveY(org.joml.Vector3d)
      */
     public Vector3d normalizedPositiveY(Vector3d dir) {
         dir.x = m01;
@@ -4064,29 +3831,23 @@ public class Matrix3d implements Externalizable {
      *          the other addend 
      * @return this
      */
-    public Matrix3d add(Matrix3d other) {
+    public Matrix3d add(Matrix3dc other) {
         return add(other, this);
     }
 
-    /**
-     * Component-wise add <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
-     * 
-     * @param other
-     *          the other addend 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#add(org.joml.Matrix3dc, org.joml.Matrix3d)
      */
-    public Matrix3d add(Matrix3d other, Matrix3d dest) {
-        dest.m00 = m00 + other.m00;
-        dest.m01 = m01 + other.m01;
-        dest.m02 = m02 + other.m02;
-        dest.m10 = m10 + other.m10;
-        dest.m11 = m11 + other.m11;
-        dest.m12 = m12 + other.m12;
-        dest.m20 = m20 + other.m20;
-        dest.m21 = m21 + other.m21;
-        dest.m22 = m22 + other.m22;
+    public Matrix3d add(Matrix3dc other, Matrix3d dest) {
+        dest.m00 = m00 + other.m00();
+        dest.m01 = m01 + other.m01();
+        dest.m02 = m02 + other.m02();
+        dest.m10 = m10 + other.m10();
+        dest.m11 = m11 + other.m11();
+        dest.m12 = m12 + other.m12();
+        dest.m20 = m20 + other.m20();
+        dest.m21 = m21 + other.m21();
+        dest.m22 = m22 + other.m22();
         return dest;
     }
 
@@ -4097,29 +3858,23 @@ public class Matrix3d implements Externalizable {
      *          the subtrahend
      * @return this
      */
-    public Matrix3d sub(Matrix3d subtrahend) {
+    public Matrix3d sub(Matrix3dc subtrahend) {
         return sub(subtrahend, this);
     }
 
-    /**
-     * Component-wise subtract <code>subtrahend</code> from <code>this</code> and store the result in <code>dest</code>.
-     * 
-     * @param subtrahend
-     *          the subtrahend 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#sub(org.joml.Matrix3dc, org.joml.Matrix3d)
      */
-    public Matrix3d sub(Matrix3d subtrahend, Matrix3d dest) {
-        dest.m00 = m00 - subtrahend.m00;
-        dest.m01 = m01 - subtrahend.m01;
-        dest.m02 = m02 - subtrahend.m02;
-        dest.m10 = m10 - subtrahend.m10;
-        dest.m11 = m11 - subtrahend.m11;
-        dest.m12 = m12 - subtrahend.m12;
-        dest.m20 = m20 - subtrahend.m20;
-        dest.m21 = m21 - subtrahend.m21;
-        dest.m22 = m22 - subtrahend.m22;
+    public Matrix3d sub(Matrix3dc subtrahend, Matrix3d dest) {
+        dest.m00 = m00 - subtrahend.m00();
+        dest.m01 = m01 - subtrahend.m01();
+        dest.m02 = m02 - subtrahend.m02();
+        dest.m10 = m10 - subtrahend.m10();
+        dest.m11 = m11 - subtrahend.m11();
+        dest.m12 = m12 - subtrahend.m12();
+        dest.m20 = m20 - subtrahend.m20();
+        dest.m21 = m21 - subtrahend.m21();
+        dest.m22 = m22 - subtrahend.m22();
         return dest;
     }
 
@@ -4130,29 +3885,23 @@ public class Matrix3d implements Externalizable {
      *          the other matrix
      * @return this
      */
-    public Matrix3d mulComponentWise(Matrix3d other) {
+    public Matrix3d mulComponentWise(Matrix3dc other) {
         return mulComponentWise(other, this);
     }
 
-    /**
-     * Component-wise multiply <code>this</code> by <code>other</code> and store the result in <code>dest</code>.
-     * 
-     * @param other
-     *          the other matrix
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#mulComponentWise(org.joml.Matrix3dc, org.joml.Matrix3d)
      */
-    public Matrix3d mulComponentWise(Matrix3d other, Matrix3d dest) {
-        dest.m00 = m00 * other.m00;
-        dest.m01 = m01 * other.m01;
-        dest.m02 = m02 * other.m02;
-        dest.m10 = m10 * other.m10;
-        dest.m11 = m11 * other.m11;
-        dest.m12 = m12 * other.m12;
-        dest.m20 = m20 * other.m20;
-        dest.m21 = m21 * other.m21;
-        dest.m22 = m22 * other.m22;
+    public Matrix3d mulComponentWise(Matrix3dc other, Matrix3d dest) {
+        dest.m00 = m00 * other.m00();
+        dest.m01 = m01 * other.m01();
+        dest.m02 = m02 * other.m02();
+        dest.m10 = m10 * other.m10();
+        dest.m11 = m11 * other.m11();
+        dest.m12 = m12 * other.m12();
+        dest.m20 = m20 * other.m20();
+        dest.m21 = m21 * other.m21();
+        dest.m22 = m22 * other.m22();
         return dest;
     }
 
@@ -4198,35 +3947,23 @@ public class Matrix3d implements Externalizable {
      *          the interpolation factor between 0.0 and 1.0
      * @return this
      */
-    public Matrix3d lerp(Matrix3d other, double t) {
+    public Matrix3d lerp(Matrix3dc other, double t) {
         return lerp(other, t, this);
     }
 
-    /**
-     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
-     * then the result is <code>other</code>.
-     *
-     * @param other
-     *          the other matrix
-     * @param t
-     *          the interpolation factor between 0.0 and 1.0
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#lerp(org.joml.Matrix3dc, double, org.joml.Matrix3d)
      */
-    public Matrix3d lerp(Matrix3d other, double t, Matrix3d dest) {
-        dest.m00 = m00 + (other.m00 - m00) * t;
-        dest.m01 = m01 + (other.m01 - m01) * t;
-        dest.m02 = m02 + (other.m02 - m02) * t;
-        dest.m10 = m10 + (other.m10 - m10) * t;
-        dest.m11 = m11 + (other.m11 - m11) * t;
-        dest.m12 = m12 + (other.m12 - m12) * t;
-        dest.m20 = m20 + (other.m20 - m20) * t;
-        dest.m21 = m21 + (other.m21 - m21) * t;
-        dest.m22 = m22 + (other.m22 - m22) * t;
+    public Matrix3d lerp(Matrix3dc other, double t, Matrix3d dest) {
+        dest.m00 = m00 + (other.m00() - m00) * t;
+        dest.m01 = m01 + (other.m01() - m01) * t;
+        dest.m02 = m02 + (other.m02() - m02) * t;
+        dest.m10 = m10 + (other.m10() - m10) * t;
+        dest.m11 = m11 + (other.m11() - m11) * t;
+        dest.m12 = m12 + (other.m12() - m12) * t;
+        dest.m20 = m20 + (other.m20() - m20) * t;
+        dest.m21 = m21 + (other.m21() - m21) * t;
+        dest.m22 = m22 + (other.m22() - m22) * t;
         return dest;
     }
 
@@ -4481,6 +4218,22 @@ public class Matrix3d implements Externalizable {
         this.m21 = ndirY;
         this.m22 = ndirZ;
         return this;
+    }
+
+    /**
+     * Create a new immutable view of this {@link Matrix3d}.
+     * <p>
+     * The observable state of the returned object is the same as that of <code>this</code>, but casting
+     * the returned object to Matrix3d will not be possible.
+     * <p>
+     * This method allocates a new instance of a class implementing Matrix3dc on every call.
+     * 
+     * @return the immutable instance
+     */
+    public Matrix3dc toImmutable() {
+        if (Options.NO_PROXY)
+            return this;
+        return new Proxy(this);
     }
 
 }

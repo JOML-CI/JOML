@@ -1023,22 +1023,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Create a new {@link Matrix4d} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3d}
+     * Create a new {@link Matrix4d} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3dc}
      * and the rest to identity.
      * 
      * @param mat
-     *          the {@link Matrix3d}
+     *          the {@link Matrix3dc}
      */
-    public Matrix4d(Matrix3d mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
+    public Matrix4d(Matrix3dc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
         m33 = 1.0;
         properties = PROPERTY_AFFINE;
     }
@@ -1624,27 +1624,27 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3d} 
+     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3dc} 
      * and the rest to identity.
      * 
-     * @see #Matrix4d(Matrix3d)
+     * @see #Matrix4d(Matrix3dc)
      * 
      * @param mat
-     *          the {@link Matrix3d}
+     *          the {@link Matrix3dc}
      * @return this
      */
-    public Matrix4d set(Matrix3d mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
+    public Matrix4d set(Matrix3dc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
         m03 = 0.0;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
         m13 = 0.0;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
         m23 = 0.0;
         m30 = 0.0;
         m31 = 0.0;
@@ -4473,22 +4473,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3d} and don't change the other elements.
+     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3dc} and don't change the other elements.
      * 
      * @param mat
      *          the 3x3 matrix
      * @return this
      */
-    public Matrix4d set3x3(Matrix3d mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
+    public Matrix4d set3x3(Matrix3dc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
         properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }

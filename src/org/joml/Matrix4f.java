@@ -4868,7 +4868,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3f} and don't change the other elements.
+     * Set the upper left 3x3 submatrix of this {@link Matrix4f} to the given {@link Matrix3fc} and don't change the other elements.
      * 
      * @param mat
      *          the 3x3 matrix

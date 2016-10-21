@@ -140,7 +140,7 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.mulProject(mat, dest);
         }
 
-        public Vector3d mul(Matrix3d mat, Vector3d dest) {
+        public Vector3d mul(Matrix3dc mat, Vector3d dest) {
             return delegate.mul(mat, dest);
         }
 
@@ -148,7 +148,7 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.mul(mat, dest);
         }
 
-        public Vector3d mulTranspose(Matrix3d mat, Vector3d dest) {
+        public Vector3d mulTranspose(Matrix3dc mat, Vector3d dest) {
             return delegate.mulTranspose(mat, dest);
         }
 
@@ -1126,17 +1126,17 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mul(Matrix3d mat) {
+    public Vector3d mul(Matrix3dc mat) {
         return mul(mat, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Matrix3d, org.joml.Vector3d)
+     * @see org.joml.Vector3dc#mul(org.joml.Matrix3dc, org.joml.Vector3d)
      */
-    public Vector3d mul(Matrix3d mat, Vector3d dest) {
-        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
-                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
-                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
+    public Vector3d mul(Matrix3dc mat, Vector3d dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
         return dest;
     }
 
@@ -1157,14 +1157,14 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix
      * @return this
      */
-    public Vector3d mulTranspose(Matrix3d mat) {
+    public Vector3d mulTranspose(Matrix3dc mat) {
         return mul(mat, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTranspose(org.joml.Matrix3d, org.joml.Vector3d)
+     * @see org.joml.Vector3dc#mulTranspose(org.joml.Matrix3dc, org.joml.Vector3d)
      */
-    public Vector3d mulTranspose(Matrix3d mat, Vector3d dest) {
+    public Vector3d mulTranspose(Matrix3dc mat, Vector3d dest) {
         dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z,
                  mat.m10() * x + mat.m11() * y + mat.m12() * z,
                  mat.m20() * x + mat.m21() * y + mat.m22() * z);
