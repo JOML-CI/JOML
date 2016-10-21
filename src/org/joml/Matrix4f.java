@@ -1083,8 +1083,15 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @param col3
      *          the fourth column
      */
-    public Matrix4f(Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
-        MemUtil.INSTANCE.set(this, col0, col1, col2, col3);
+    public Matrix4f(Vector4fc col0, Vector4fc col1, Vector4fc col2, Vector4fc col3) {
+        if (col0 instanceof Vector4f &&
+            col1 instanceof Vector4f &&
+            col2 instanceof Vector4f &&
+            col3 instanceof Vector4f) {
+            MemUtil.INSTANCE.set(this, (Vector4f) col0, (Vector4f) col1, (Vector4f) col2, (Vector4f) col3);
+        } else {
+            setVector4fc(col0, col1, col2, col3);
+        }
     }
 
     void _properties(int properties) {
@@ -2855,10 +2862,35 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the fourth column
      * @return this
      */
-    public Matrix4f set(Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
-        MemUtil.INSTANCE.set(this, col0, col1, col2, col3);
+    public Matrix4f set(Vector4fc col0, Vector4fc col1, Vector4fc col2, Vector4fc col3) {
+        if (col0 instanceof Vector4f &&
+            col1 instanceof Vector4f &&
+            col2 instanceof Vector4f &&
+            col3 instanceof Vector4f) {
+            MemUtil.INSTANCE.set(this, (Vector4f) col0, (Vector4f) col1, (Vector4f) col2, (Vector4f) col3);
+        } else {
+            setVector4fc(col0, col1, col2, col3);
+        }
         this.properties = 0;
         return this;
+    }
+    private void setVector4fc(Vector4fc col0, Vector4fc col1, Vector4fc col2, Vector4fc col3) {
+        this.m00 = col0.x();
+        this.m01 = col0.y();
+        this.m02 = col0.z();
+        this.m03 = col0.w();
+        this.m10 = col1.x();
+        this.m11 = col1.y();
+        this.m12 = col1.z();
+        this.m13 = col1.w();
+        this.m20 = col2.x();
+        this.m21 = col2.y();
+        this.m22 = col2.z();
+        this.m23 = col2.w();
+        this.m30 = col3.x();
+        this.m31 = col3.y();
+        this.m32 = col3.z();
+        this.m33 = col3.w();
     }
 
     /* (non-Javadoc)

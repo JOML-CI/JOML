@@ -421,8 +421,14 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @param col2
      *          the third column
      */
-    public Matrix3f(Vector3f col0, Vector3f col1, Vector3f col2) {
-        MemUtil.INSTANCE.set(this, col0, col1, col2);
+    public Matrix3f(Vector3fc col0, Vector3fc col1, Vector3fc col2) {
+        if (col0 instanceof Vector3f &&
+            col1 instanceof Vector3f &&
+            col2 instanceof Vector3f) {
+            MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2);
+        } else {
+            setVector3fc(col0, col1, col2);
+        }
     }
 
     /* (non-Javadoc)
@@ -871,9 +877,26 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      *          the third column
      * @return this
      */
-    public Matrix3f set(Vector3f col0, Vector3f col1, Vector3f col2) {
-        MemUtil.INSTANCE.set(this, col0, col1, col2);
+    public Matrix3f set(Vector3fc col0, Vector3fc col1, Vector3fc col2) {
+        if (col0 instanceof Vector3f &&
+            col1 instanceof Vector3f &&
+            col2 instanceof Vector3f) {
+            MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2);
+        } else {
+            setVector3fc(col0, col1, col2);
+        }
         return this;
+    }
+    private void setVector3fc(Vector3fc col0, Vector3fc col1, Vector3fc col2) {
+        this.m00 = col0.x();
+        this.m01 = col0.y();
+        this.m02 = col0.z();
+        this.m10 = col1.x();
+        this.m11 = col1.y();
+        this.m12 = col1.z();
+        this.m20 = col2.x();
+        this.m21 = col2.y();
+        this.m22 = col2.z();
     }
 
     /* (non-Javadoc)
