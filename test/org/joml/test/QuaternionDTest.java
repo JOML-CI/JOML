@@ -74,9 +74,9 @@ public class QuaternionDTest extends TestCase {
     }
 
     public static void testRotateToReturnsDestination() {
-        Quaterniond rotation = new Quaterniond();
+        Quaterniondc rotation = new Quaterniond();
         Quaterniond destination = new Quaterniond();
-        Quaterniond result = rotation.rotateTo(0, 1, 0, 0, 1, 0, destination);
+        Quaterniondc result = rotation.rotateTo(0, 1, 0, 0, 1, 0, destination);
         assertSame(destination, result);
     }
 
@@ -84,9 +84,9 @@ public class QuaternionDTest extends TestCase {
         Vector3d axis = new Vector3d(1.0, 0.0, 0.0);
         double angleDeg = 45.0;
         double angleRad = java.lang.Math.toRadians(angleDeg);
-        Quaterniond fromRad1 = new Quaterniond().fromAxisAngleRad(axis, angleRad);
-        Quaterniond fromRad2 = new Quaterniond().fromAxisAngleRad(axis.x(), axis.y(), axis.z(), angleRad);
-        Quaterniond fromDeg = new Quaterniond().fromAxisAngleDeg(axis, angleDeg);
+        Quaterniondc fromRad1 = new Quaterniond().fromAxisAngleRad(axis, angleRad);
+        Quaterniondc fromRad2 = new Quaterniond().fromAxisAngleRad(axis.x(), axis.y(), axis.z(), angleRad);
+        Quaterniondc fromDeg = new Quaterniond().fromAxisAngleDeg(axis, angleDeg);
         assertEquals(fromRad1, fromRad2);
         assertEquals(fromRad2, fromDeg);
     }

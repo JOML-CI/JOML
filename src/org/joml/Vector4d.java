@@ -126,7 +126,7 @@ public class Vector4d implements Externalizable, Vector4dc {
             return delegate.div(scalar, dest);
         }
 
-        public Vector4d rotate(Quaterniond quat, Vector4d dest) {
+        public Vector4d rotate(Quaterniondc quat, Vector4d dest) {
             return delegate.rotate(quat, dest);
         }
 
@@ -1063,14 +1063,14 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the quaternion to transform this vector
      * @return this
      */
-    public Vector4d rotate(Quaterniond quat) {
+    public Vector4d rotate(Quaterniondc quat) {
         return rotate(quat, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector4dc#rotate(org.joml.Quaterniond, org.joml.Vector4d)
+     * @see org.joml.Vector4dc#rotate(org.joml.Quaterniondc, org.joml.Vector4d)
      */
-    public Vector4d rotate(Quaterniond quat, Vector4d dest) {
+    public Vector4d rotate(Quaterniondc quat, Vector4d dest) {
         quat.transform(this, dest);
         return dest;
     }

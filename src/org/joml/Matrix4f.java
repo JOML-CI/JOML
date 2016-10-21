@@ -280,11 +280,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.getRotation(dest);
         }
 
-        public Quaternionfc getUnnormalizedRotation(Quaternionf dest) {
+        public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
             return delegate.getUnnormalizedRotation(dest);
         }
 
-        public Quaternionfc getNormalizedRotation(Quaternionf dest) {
+        public Quaternionf getNormalizedRotation(Quaternionf dest) {
             return delegate.getNormalizedRotation(dest);
         }
 
@@ -1819,27 +1819,27 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniond}.
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniondc}.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/">http://www.euclideanspace.com/</a>
      * 
      * @param q
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @return this
      */
-    public Matrix4f set(Quaterniond q) {
-        double dx = q.x + q.x;
-        double dy = q.y + q.y;
-        double dz = q.z + q.z;
-        double q00 = dx * q.x;
-        double q11 = dy * q.y;
-        double q22 = dz * q.z;
-        double q01 = dx * q.y;
-        double q02 = dx * q.z;
-        double q03 = dx * q.w;
-        double q12 = dy * q.z;
-        double q13 = dy * q.w;
-        double q23 = dz * q.w;
+    public Matrix4f set(Quaterniondc q) {
+        double dx = q.x() + q.x();
+        double dy = q.y() + q.y();
+        double dz = q.z() + q.z();
+        double q00 = dx * q.x();
+        double q11 = dy * q.y();
+        double q22 = dz * q.z();
+        double q01 = dx * q.y();
+        double q02 = dx * q.z();
+        double q03 = dx * q.w();
+        double q12 = dy * q.z();
+        double q13 = dy * q.w();
+        double q23 = dz * q.w();
         this._m00((float) (1.0 - q11 - q22));
         this._m01((float) (q01 + q23));
         this._m02((float) (q02 - q13));
@@ -3542,14 +3542,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4fc#getUnnormalizedRotation(org.joml.Quaternionf)
      */
-    public Quaternionfc getUnnormalizedRotation(Quaternionf dest) {
+    public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4fc#getNormalizedRotation(org.joml.Quaternionf)
      */
-    public Quaternionfc getNormalizedRotation(Quaternionf dest) {
+    public Quaternionf getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 

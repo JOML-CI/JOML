@@ -534,7 +534,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d rotate(Quaterniond quat, Vector3d dest);
+    Vector3d rotate(Quaterniondc quat, Vector3d dest);
 
     /**
      * Divide this Vector3d by the given scalar value and store the result in <code>dest</code>.

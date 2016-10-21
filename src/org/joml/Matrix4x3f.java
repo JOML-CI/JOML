@@ -1571,7 +1571,7 @@ public class Matrix4x3f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionfc getUnnormalizedRotation(Quaternionf dest) {
+    public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
@@ -1587,7 +1587,7 @@ public class Matrix4x3f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionfc getNormalizedRotation(Quaternionf dest) {
+    public Quaternionf getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 

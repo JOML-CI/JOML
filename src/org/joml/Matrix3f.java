@@ -461,19 +461,19 @@ public class Matrix3f implements Externalizable {
      *          the quaternion
      * @return this
      */
-    public Matrix3f set(Quaterniond q) {
-        double dx = q.x + q.x;
-        double dy = q.y + q.y;
-        double dz = q.z + q.z;
-        double q00 = dx * q.x;
-        double q11 = dy * q.y;
-        double q22 = dz * q.z;
-        double q01 = dx * q.y;
-        double q02 = dx * q.z;
-        double q03 = dx * q.w;
-        double q12 = dy * q.z;
-        double q13 = dy * q.w;
-        double q23 = dz * q.w;
+    public Matrix3f set(Quaterniondc q) {
+        double dx = q.x() + q.x();
+        double dy = q.y() + q.y();
+        double dz = q.z() + q.z();
+        double q00 = dx * q.x();
+        double q11 = dy * q.y();
+        double q22 = dz * q.z();
+        double q01 = dx * q.y();
+        double q02 = dx * q.z();
+        double q03 = dx * q.w();
+        double q12 = dy * q.z();
+        double q13 = dy * q.w();
+        double q23 = dz * q.w();
         m00 = (float) (1.0f - q11 - q22);
         m01 = (float) (q01 + q23);
         m02 = (float) (q02 - q13);
@@ -773,7 +773,7 @@ public class Matrix3f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionfc getUnnormalizedRotation(Quaternionf dest) {
+    public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
@@ -789,7 +789,7 @@ public class Matrix3f implements Externalizable {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    public Quaternionfc getNormalizedRotation(Quaternionf dest) {
+    public Quaternionf getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 

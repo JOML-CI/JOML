@@ -204,7 +204,7 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.mul(x, y, z, dest);
         }
 
-        public Vector3d rotate(Quaterniond quat, Vector3d dest) {
+        public Vector3d rotate(Quaterniondc quat, Vector3d dest) {
             return delegate.rotate(quat, dest);
         }
 
@@ -1487,15 +1487,15 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the quaternion to rotate this vector
      * @return this
      */
-    public Vector3d rotate(Quaterniond quat) {
+    public Vector3d rotate(Quaterniondc quat) {
         quat.transform(this, this);
         return this;
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3dc#rotate(org.joml.Quaterniond, org.joml.Vector3d)
+     * @see org.joml.Vector3dc#rotate(org.joml.Quaterniondc, org.joml.Vector3d)
      */
-    public Vector3d rotate(Quaterniond quat, Vector3d dest) {
+    public Vector3d rotate(Quaterniondc quat, Vector3d dest) {
         quat.transform(this, dest);
         return dest;
     }

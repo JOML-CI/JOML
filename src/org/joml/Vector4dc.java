@@ -277,7 +277,7 @@ public interface Vector4dc {
      *          will hold the result
      * @return dest
      */
-    Vector4d rotate(Quaterniond quat, Vector4d dest);
+    Vector4d rotate(Quaterniondc quat, Vector4d dest);
 
     /**
      * Return the length squared of this vector.

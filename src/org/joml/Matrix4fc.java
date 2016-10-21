@@ -806,7 +806,7 @@ public interface Matrix4fc {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    Quaternionfc getUnnormalizedRotation(Quaternionf dest);
+    Quaternionf getUnnormalizedRotation(Quaternionf dest);
 
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation
@@ -820,7 +820,7 @@ public interface Matrix4fc {
      *          the destination {@link Quaternionf}
      * @return the passed in destination
      */
-    Quaternionfc getNormalizedRotation(Quaternionf dest);
+    Quaternionf getNormalizedRotation(Quaternionf dest);
 
     /**
      * Get the current values of <code>this</code> matrix and store the represented rotation

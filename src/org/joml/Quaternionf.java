@@ -212,7 +212,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             return delegate.lengthSquared();
         }
 
-        public Quaternionf slerp(Quaternionf target, float alpha, Quaternionf dest) {
+        public Quaternionf slerp(Quaternionfc target, float alpha, Quaternionf dest) {
             return delegate.slerp(target, alpha, dest);
         }
 
@@ -224,11 +224,11 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             return delegate.integrate(dt, vx, vy, vz, dest);
         }
 
-        public Quaternionf nlerp(Quaternionf q, float factor, Quaternionf dest) {
+        public Quaternionf nlerp(Quaternionfc q, float factor, Quaternionf dest) {
             return delegate.nlerp(q, factor, dest);
         }
 
-        public Quaternionf nlerpIterative(Quaternionf q, float alpha, float dotThreshold, Quaternionf dest) {
+        public Quaternionf nlerpIterative(Quaternionfc q, float alpha, float dotThreshold, Quaternionf dest) {
             return delegate.nlerpIterative(q, alpha, dotThreshold, dest);
         }
 
@@ -1783,15 +1783,15 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          the interpolation factor, within <tt>[0..1]</tt>
      * @return this
      */
-    public Quaternionf slerp(Quaternionf target, float alpha) {
+    public Quaternionf slerp(Quaternionfc target, float alpha) {
         return slerp(target, alpha, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#slerp(org.joml.Quaternionf, float, org.joml.Quaternionf)
+     * @see org.joml.Quaternionfc#slerp(org.joml.Quaternionfc, float, org.joml.Quaternionf)
      */
-    public Quaternionf slerp(Quaternionf target, float alpha, Quaternionf dest) {
-        float cosom = x * target.x + y * target.y + z * target.z + w * target.w;
+    public Quaternionf slerp(Quaternionfc target, float alpha, Quaternionf dest) {
+        float cosom = x * target.x() + y * target.y() + z * target.z() + w * target.w();
         float absCosom = Math.abs(cosom);
         float scale0, scale1;
         if (1.0f - absCosom > 1E-6f) {
@@ -1805,10 +1805,10 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             scale1 = alpha;
         }
         scale1 = cosom >= 0.0f ? scale1 : -scale1;
-        dest.x = scale0 * x + scale1 * target.x;
-        dest.y = scale0 * y + scale1 * target.y;
-        dest.z = scale0 * z + scale1 * target.z;
-        dest.w = scale0 * w + scale1 * target.w;
+        dest.x = scale0 * x + scale1 * target.x();
+        dest.y = scale0 * y + scale1 * target.y();
+        dest.z = scale0 * z + scale1 * target.z();
+        dest.w = scale0 * w + scale1 * target.w();
         return dest;
     }
 
@@ -1816,7 +1816,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * Interpolate between all of the quaternions given in <code>qs</code> via spherical linear interpolation using the specified interpolation factors <code>weights</code>,
      * and store the result in <code>dest</code>.
      * <p>
-     * This method will interpolate between each two successive quaternions via {@link #slerp(Quaternionf, float)} using their relative interpolation weights.
+     * This method will interpolate between each two successive quaternions via {@link #slerp(Quaternionfc, float)} using their relative interpolation weights.
      * <p>
      * This method resorts to non-spherical linear interpolation when the absolute dot product of any two interpolated quaternions is below <tt>1E-6f</tt>.
      * <p>
@@ -1851,7 +1851,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * <p>
      * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
      * 
-     * @see #slerp(Quaternionf, float)
+     * @see #slerp(Quaternionfc, float)
      * 
      * @param factor
      *          the scaling/interpolation factor, within <tt>[0..1]</tt>
@@ -1929,21 +1929,21 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          the interpolation factor. It is between 0.0 and 1.0
      * @return this
      */
-    public Quaternionf nlerp(Quaternionf q, float factor) {
+    public Quaternionf nlerp(Quaternionfc q, float factor) {
         return nlerp(q, factor, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#nlerp(org.joml.Quaternionf, float, org.joml.Quaternionf)
+     * @see org.joml.Quaternionfc#nlerp(org.joml.Quaternionfc, float, org.joml.Quaternionf)
      */
-    public Quaternionf nlerp(Quaternionf q, float factor, Quaternionf dest) {
-        float cosom = x * q.x + y * q.y + z * q.z + w * q.w;
+    public Quaternionf nlerp(Quaternionfc q, float factor, Quaternionf dest) {
+        float cosom = x * q.x() + y * q.y() + z * q.z() + w * q.w();
         float scale0 = 1.0f - factor;
         float scale1 = (cosom >= 0.0f) ? factor : -factor;
-        dest.x = scale0 * x + scale1 * q.x;
-        dest.y = scale0 * y + scale1 * q.y;
-        dest.z = scale0 * z + scale1 * q.z;
-        dest.w = scale0 * w + scale1 * q.w;
+        dest.x = scale0 * x + scale1 * q.x();
+        dest.y = scale0 * y + scale1 * q.y();
+        dest.z = scale0 * z + scale1 * q.z();
+        dest.w = scale0 * w + scale1 * q.w();
         float s = (float) (1.0 / Math.sqrt(dest.x * dest.x + dest.y * dest.y + dest.z * dest.z + dest.w * dest.w));
         dest.x *= s;
         dest.y *= s;
@@ -1956,7 +1956,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * Interpolate between all of the quaternions given in <code>qs</code> via non-spherical linear interpolation using the
      * specified interpolation factors <code>weights</code>, and store the result in <code>dest</code>.
      * <p>
-     * This method will interpolate between each two successive quaternions via {@link #nlerp(Quaternionf, float)}
+     * This method will interpolate between each two successive quaternions via {@link #nlerp(Quaternionfc, float)}
      * using their relative interpolation weights.
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/62354/method-for-interpolation-between-3-quaternions#answer-62356">http://gamedev.stackexchange.com/</a>
@@ -1969,7 +1969,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          will hold the result
      * @return dest
      */
-    public static Quaternionfc nlerp(Quaternionf[] qs, float[] weights, Quaternionf dest) {
+    public static Quaternionfc nlerp(Quaternionfc[] qs, float[] weights, Quaternionf dest) {
         dest.set(qs[0]);
         float w = weights[0];
         for (int i = 1; i < qs.length; i++) {
@@ -1983,11 +1983,11 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#nlerpIterative(org.joml.Quaternionf, float, float, org.joml.Quaternionf)
+     * @see org.joml.Quaternionfc#nlerpIterative(org.joml.Quaternionfc, float, float, org.joml.Quaternionf)
      */
-    public Quaternionf nlerpIterative(Quaternionf q, float alpha, float dotThreshold, Quaternionf dest) {
+    public Quaternionf nlerpIterative(Quaternionfc q, float alpha, float dotThreshold, Quaternionf dest) {
         float q1x = x, q1y = y, q1z = z, q1w = w;
-        float q2x = q.x, q2y = q.y, q2z = q.z, q2w = q.w;
+        float q2x = q.x(), q2y = q.y(), q2z = q.z(), q2w = q.w();
         float dot = q1x * q2x + q1y * q2y + q1z * q2z + q1w * q2w;
         float absDot = Math.abs(dot);
         if (1.0f - 1E-6f < absDot) {
@@ -2042,7 +2042,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * iteratively and store the result in <code>this</code>.
      * <p>
      * This method performs a series of small-step nlerp interpolations to avoid doing a costly spherical linear interpolation, like
-     * {@link #slerp(Quaternionf, float, Quaternionf) slerp},
+     * {@link #slerp(Quaternionfc, float, Quaternionf) slerp},
      * by subdividing the rotation arc between <code>this</code> and <code>q</code> via non-spherical linear interpolations as long as
      * the absolute dot product of <code>this</code> and <code>q</code> is greater than the given <code>dotThreshold</code> parameter.
      * <p>
@@ -2057,7 +2057,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          of a small-step linear interpolation
      * @return this
      */
-    public Quaternionf nlerpIterative(Quaternionf q, float alpha, float dotThreshold) {
+    public Quaternionf nlerpIterative(Quaternionfc q, float alpha, float dotThreshold) {
         return nlerpIterative(q, alpha, dotThreshold, this);
     }
 
@@ -2065,7 +2065,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * Interpolate between all of the quaternions given in <code>qs</code> via iterative non-spherical linear interpolation using the
      * specified interpolation factors <code>weights</code>, and store the result in <code>dest</code>.
      * <p>
-     * This method will interpolate between each two successive quaternions via {@link #nlerpIterative(Quaternionf, float, float)}
+     * This method will interpolate between each two successive quaternions via {@link #nlerpIterative(Quaternionfc, float, float)}
      * using their relative interpolation weights.
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/62354/method-for-interpolation-between-3-quaternions#answer-62356">http://gamedev.stackexchange.com/</a>
@@ -2075,7 +2075,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @param weights
      *          the weights of each individual quaternion in <code>qs</code>
      * @param dotThreshold
-     *          the threshold for the dot product of each two interpolated quaternions above which {@link #nlerpIterative(Quaternionf, float, float)} performs another iteration
+     *          the threshold for the dot product of each two interpolated quaternions above which {@link #nlerpIterative(Quaternionfc, float, float)} performs another iteration
      *          of a small-step linear interpolation
      * @param dest
      *          will hold the result
