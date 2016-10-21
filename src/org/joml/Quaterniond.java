@@ -869,8 +869,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaterniond setFromUnnormalized(Matrix3f mat) {
-        setFromUnnormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+    public Quaterniond setFromUnnormalized(Matrix3fc mat) {
+        setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 
@@ -883,8 +883,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaterniond setFromNormalized(Matrix3f mat) {
-        setFromNormalized(mat.m00, mat.m01, mat.m02, mat.m10, mat.m11, mat.m12, mat.m20, mat.m21, mat.m22);
+    public Quaterniond setFromNormalized(Matrix3fc mat) {
+        setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
 

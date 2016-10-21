@@ -112,11 +112,11 @@ public class Vector3f implements Externalizable, Vector3fc {
             return delegate.mulProject(mat, dest);
         }
 
-        public Vector3f mul(Matrix3f mat, Vector3f dest) {
+        public Vector3f mul(Matrix3fc mat, Vector3f dest) {
             return delegate.mul(mat, dest);
         }
 
-        public Vector3f mulTranspose(Matrix3f mat, Vector3f dest) {
+        public Vector3f mulTranspose(Matrix3fc mat, Vector3f dest) {
             return delegate.mulTranspose(mat, dest);
         }
 
@@ -843,14 +843,14 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the matrix
      * @return this
      */
-    public Vector3f mul(Matrix3f mat) {
+    public Vector3f mul(Matrix3fc mat) {
         return mul(mat, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mul(org.joml.Matrix3f, org.joml.Vector3f)
+     * @see org.joml.Vector3fc#mul(org.joml.Matrix3fc, org.joml.Vector3f)
      */
-    public Vector3f mul(Matrix3f mat, Vector3f dest) {
+    public Vector3f mul(Matrix3fc mat, Vector3f dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
                  mat.m01() * x + mat.m11() * y + mat.m21() * z,
                  mat.m02() * x + mat.m12() * y + mat.m22() * z);
@@ -864,14 +864,14 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the matrix
      * @return this
      */
-    public Vector3f mulTranspose(Matrix3f mat) {
+    public Vector3f mulTranspose(Matrix3fc mat) {
         return mul(mat, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3fc#mulTranspose(org.joml.Matrix3f, org.joml.Vector3f)
+     * @see org.joml.Vector3fc#mulTranspose(org.joml.Matrix3fc, org.joml.Vector3f)
      */
-    public Vector3f mulTranspose(Matrix3f mat, Vector3f dest) {
+    public Vector3f mulTranspose(Matrix3fc mat, Vector3f dest) {
         dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z,
                  mat.m10() * x + mat.m11() * y + mat.m12() * z,
                  mat.m20() * x + mat.m21() * y + mat.m22() * z);

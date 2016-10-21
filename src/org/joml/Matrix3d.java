@@ -84,16 +84,16 @@ public class Matrix3d implements Externalizable {
      * @param mat
      *          the matrix to initialize this matrix with
      */
-    public Matrix3d(Matrix3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
+    public Matrix3d(Matrix3fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
     }
 
     /**
@@ -405,16 +405,16 @@ public class Matrix3d implements Externalizable {
      *          the matrix whose values will be copied
      * @return this
      */
-    public Matrix3d set(Matrix3f m) {
-        m00 = m.m00;
-        m01 = m.m01;
-        m02 = m.m02;
-        m10 = m.m10;
-        m11 = m.m11;
-        m12 = m.m12;
-        m20 = m.m20;
-        m21 = m.m21;
-        m22 = m.m22;
+    public Matrix3d set(Matrix3fc m) {
+        m00 = m.m00();
+        m01 = m.m01();
+        m02 = m.m02();
+        m10 = m.m10();
+        m11 = m.m11();
+        m12 = m.m12();
+        m20 = m.m20();
+        m21 = m.m21();
+        m22 = m.m22();
         return this;
     }
 
@@ -633,7 +633,7 @@ public class Matrix3d implements Externalizable {
      *          the right operand
      * @return this
      */
-    public Matrix3d mul(Matrix3f right) {
+    public Matrix3d mul(Matrix3fc right) {
         return mul(right, this);
     }
 
@@ -652,16 +652,16 @@ public class Matrix3d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix3d mul(Matrix3f right, Matrix3d dest) {
-        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
-        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
-        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
-        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
-        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
-        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
-        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
-        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
-        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+    public Matrix3d mul(Matrix3fc right, Matrix3d dest) {
+        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;

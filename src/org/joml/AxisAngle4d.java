@@ -283,17 +283,17 @@ public class AxisAngle4d implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotation 
-     * of the given {@link Matrix3f}.
+     * of the given {@link Matrix3fc}.
      * 
      * @param m
-     *            the Matrix3f to set this AngleAxis4d from
+     *            the Matrix3fc to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Matrix3f m) {
-        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
-        x = m.m12 - m.m21;
-        y = m.m20 - m.m02;
-        z = m.m01 - m.m10;
+    public AxisAngle4d set(Matrix3fc m) {
+        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
+        x = m.m12() - m.m21();
+        y = m.m20() - m.m02();
+        z = m.m01() - m.m10();
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = Math.atan2(sin, cos);
         return this;

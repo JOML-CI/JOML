@@ -238,7 +238,7 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
-    Vector3f mul(Matrix3f mat, Vector3f dest);
+    Vector3f mul(Matrix3fc mat, Vector3f dest);
 
     /**
      * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
@@ -249,7 +249,7 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
-    Vector3f mulTranspose(Matrix3f mat, Vector3f dest);
+    Vector3f mulTranspose(Matrix3fc mat, Vector3f dest);
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the

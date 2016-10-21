@@ -333,7 +333,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mul(Matrix3f mat, Vector3d dest);
+    Vector3d mul(Matrix3fc mat, Vector3d dest);
 
     /**
      * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
@@ -355,7 +355,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulTranspose(Matrix3f mat, Vector3d dest);
+    Vector3d mulTranspose(Matrix3fc mat, Vector3d dest);
 
     /**
      * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the

@@ -66,14 +66,18 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Create a new {@link Matrix4x3f} by setting its left 3x3 submatrix to the values of the given {@link Matrix3f}
+     * Create a new {@link Matrix4x3f} by setting its left 3x3 submatrix to the values of the given {@link Matrix3fc}
      * and the rest to identity.
      * 
      * @param mat
-     *          the {@link Matrix3f}
+     *          the {@link Matrix3fc}
      */
-    public Matrix4x3f(Matrix3f mat) {
-        MemUtil.INSTANCE.copy(mat, this);
+    public Matrix4x3f(Matrix3fc mat) {
+        if (mat instanceof Matrix3f) {
+            MemUtil.INSTANCE.copy((Matrix3f) mat, this);
+        } else {
+            set3x3Matrix3fc(mat);
+        }
     }
 
     /**
@@ -511,19 +515,37 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set the left 3x3 submatrix of this {@link Matrix4x3f} to the given {@link Matrix3f} 
+     * Set the left 3x3 submatrix of this {@link Matrix4x3f} to the given {@link Matrix3fc} 
      * and the rest to identity.
      * 
-     * @see #Matrix4x3f(Matrix3f)
+     * @see #Matrix4x3f(Matrix3fc)
      * 
      * @param mat
-     *          the {@link Matrix3f}
+     *          the {@link Matrix3fc}
      * @return this
      */
-    public Matrix4x3f set(Matrix3f mat) {
-        MemUtil.INSTANCE.copy(mat, this);
+    public Matrix4x3f set(Matrix3fc mat) {
+        if (mat instanceof Matrix3f) {
+            MemUtil.INSTANCE.copy((Matrix3f) mat, this);
+        } else {
+            setMatrix3fc(mat);
+        }
         properties = 0;
         return this;
+    }
+    private void setMatrix3fc(Matrix3fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
     }
 
     /**
@@ -2876,16 +2898,31 @@ public class Matrix4x3f implements Externalizable {
     }
 
     /**
-     * Set the left 3x3 submatrix of this {@link Matrix4x3f} to the given {@link Matrix3f} and don't change the other elements.
+     * Set the left 3x3 submatrix of this {@link Matrix4x3f} to the given {@link Matrix3fc} and don't change the other elements.
      * 
      * @param mat
      *          the 3x3 matrix
      * @return this
      */
-    public Matrix4x3f set3x3(Matrix3f mat) {
-        MemUtil.INSTANCE.copy3x3(mat, this);
+    public Matrix4x3f set3x3(Matrix3fc mat) {
+        if (mat instanceof Matrix3f) {
+            MemUtil.INSTANCE.copy3x3((Matrix3f) mat, this);
+        } else {
+            set3x3Matrix3fc(mat);
+        }
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
+    }
+    private void set3x3Matrix3fc(Matrix3fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
     }
 
     /**
