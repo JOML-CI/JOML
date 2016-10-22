@@ -29,7 +29,7 @@ package org.joml;
  * <p>
  * There are two algorithms for approximating sin/cos:
  * <ol>
- * <li>arithmetic approximation using Taylor series by theagentd 
+ * <li>arithmetic <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">polynomial approximation</a> contributed by roquendm 
  * <li>theagentd's <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/346213/view.html#msg346213">linear interpolation</a> variant of Riven's algorithm from
  * <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/view.html">http://www.java-gaming.org/</a>
  * </ol>
@@ -103,7 +103,7 @@ public class Math {
     }
 
     /**
-     * @author Roquen
+     * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361718/view.html#msg361718">http://www.java-gaming.org/</a>
      */
     private static double sin_roquen_arith(double x) {
         double xi = Math.floor((x + PI_4) * PI_INV);
@@ -135,6 +135,58 @@ public class Math {
         return x_ + x_*x2*sin;
     }
 
+    private static final double s5 = Double.longBitsToDouble(4523227044276562163L);
+    private static final double s4 = Double.longBitsToDouble(-4671934770969572232L);
+    private static final double s3 = Double.longBitsToDouble(4575957211482072852L);
+    private static final double s2 = Double.longBitsToDouble(-4628199223918090387L);
+    private static final double s1 = Double.longBitsToDouble(4607182418589157889L);
+
+    /**
+     * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
+     */
+    private static double sin_roquen_9(double v) {
+      double i  = java.lang.Math.rint(v*PI_INV);
+      double x  = v - i * Math.PI;
+      double qs = 1-2*((int)i & 1);
+      double x2 = x*x;
+      double r;
+      x = qs*x;
+      r =        s5;
+      r = r*x2 + s4;
+      r = r*x2 + s3;
+      r = r*x2 + s2;
+      r = r*x2 + s1;
+      return x*r;
+    }
+
+    private static final double k1 = Double.longBitsToDouble(-4628199217061079959L);
+    private static final double k2 = Double.longBitsToDouble(4575957461383549981L);
+    private static final double k3 = Double.longBitsToDouble(-4671919876307284301L);
+    private static final double k4 = Double.longBitsToDouble(4523617213632129738L);
+    private static final double k5 = Double.longBitsToDouble(-4730215344060517252L);
+    private static final double k6 = Double.longBitsToDouble(4460268259291226124L);
+    private static final double k7 = Double.longBitsToDouble(-4798040743777455072L);
+
+    /**
+     * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
+     */
+    private static double sin_roquen_newk(double v) {
+      double i  = java.lang.Math.rint(v*PI_INV);
+      double x  = v - i * Math.PI;
+      double qs = 1-2*((int)i & 1);
+      double x2 = x*x;
+      double r;
+      x = qs*x;
+      r =        k7;
+      r = r*x2 + k6;
+      r = r*x2 + k5;
+      r = r*x2 + k4;
+      r = r*x2 + k3;
+      r = r*x2 + k2;
+      r = r*x2 + k1;
+      return x + x*x2*r;
+    }
+
     /**
      * Reference: <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/349515/view.html#msg349515">http://www.java-gaming.org/</a>
      */
@@ -152,7 +204,7 @@ public class Math {
         if (fastMath) {
             if (sinlookup)
                 return sin_theagentd_lookup(rad);
-            return sin_roquen_arith(rad);
+            return sin_roquen_newk(rad);
         }
         return java.lang.Math.sin(rad);
     }
