@@ -71,7 +71,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             return delegate.add(x, y, z, w, dest);
         }
 
-        public Quaternionf add(Quaternionf q2, Quaternionf dest) {
+        public Quaternionf add(Quaternionfc q2, Quaternionf dest) {
             return delegate.add(q2, dest);
         }
 
@@ -139,7 +139,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             return delegate.getAsMatrix4x3f(dest);
         }
 
-        public Quaternionf mul(Quaternionf q, Quaternionf dest) {
+        public Quaternionf mul(Quaternionfc q, Quaternionf dest) {
             return delegate.mul(q, dest);
         }
 
@@ -147,7 +147,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             return delegate.mul(qx, qy, qz, qw, dest);
         }
 
-        public Quaternionf premul(Quaternionf q, Quaternionf dest) {
+        public Quaternionf premul(Quaternionfc q, Quaternionf dest) {
             return delegate.premul(q, dest);
         }
 
@@ -183,7 +183,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             return delegate.invert(dest);
         }
 
-        public Quaternionf div(Quaternionf b, Quaternionf dest) {
+        public Quaternionf div(Quaternionfc b, Quaternionf dest) {
             return delegate.div(b, dest);
         }
 
@@ -494,22 +494,22 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          the quaternion to add to this
      * @return this
      */
-    public Quaternionf add(Quaternionf q2) {
-        x += q2.x;
-        y += q2.y;
-        z += q2.z;
-        w += q2.w;
+    public Quaternionf add(Quaternionfc q2) {
+        x += q2.x();
+        y += q2.y();
+        z += q2.z();
+        w += q2.w();
         return this;
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#add(org.joml.Quaternionf, org.joml.Quaternionf)
+     * @see org.joml.Quaternionfc#add(org.joml.Quaternionfc, org.joml.Quaternionf)
      */
-    public Quaternionf add(Quaternionf q2, Quaternionf dest) {
-        dest.x = x + q2.x;
-        dest.y = y + q2.y;
-        dest.z = z + q2.z;
-        dest.w = w + q2.w;
+    public Quaternionf add(Quaternionfc q2, Quaternionf dest) {
+        dest.x = x + q2.x();
+        dest.y = y + q2.y();
+        dest.z = z + q2.z();
+        dest.w = w + q2.w();
         return dest;
     }
 
@@ -1289,18 +1289,18 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          the quaternion to multiply <code>this</code> by
      * @return this
      */
-    public Quaternionf mul(Quaternionf q) {
+    public Quaternionf mul(Quaternionfc q) {
         return mul(q, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#mul(org.joml.Quaternionf, org.joml.Quaternionf)
+     * @see org.joml.Quaternionfc#mul(org.joml.Quaternionfc, org.joml.Quaternionf)
      */
-    public Quaternionf mul(Quaternionf q, Quaternionf dest) {
-        dest.set(w * q.x + x * q.w + y * q.z - z * q.y,
-                 w * q.y - x * q.z + y * q.w + z * q.x,
-                 w * q.z + x * q.y - y * q.x + z * q.w,
-                 w * q.w - x * q.x - y * q.y - z * q.z);
+    public Quaternionf mul(Quaternionfc q, Quaternionf dest) {
+        dest.set(w * q.x() + x * q.w() + y * q.z() - z * q.y(),
+                 w * q.y() - x * q.z() + y * q.w() + z * q.x(),
+                 w * q.z() + x * q.y() - y * q.x() + z * q.w(),
+                 w * q.w() - x * q.x() - y * q.y() - z * q.z());
         return dest;
     }
 
@@ -1357,18 +1357,18 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *            the quaternion to pre-multiply <code>this</code> by
      * @return this
      */
-    public Quaternionf premul(Quaternionf q) {
+    public Quaternionf premul(Quaternionfc q) {
         return premul(q, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#premul(org.joml.Quaternionf, org.joml.Quaternionf)
+     * @see org.joml.Quaternionfc#premul(org.joml.Quaternionfc, org.joml.Quaternionf)
      */
-    public Quaternionf premul(Quaternionf q, Quaternionf dest) {
-        dest.set(q.w * x + q.x * w + q.y * z - q.z * y,
-                 q.w * y - q.x * z + q.y * w + q.z * x,
-                 q.w * z + q.x * y - q.y * x + q.z * w,
-                 q.w * w - q.x * x - q.y * y - q.z * z);
+    public Quaternionf premul(Quaternionfc q, Quaternionf dest) {
+        dest.set(q.w() * x + q.x() * w + q.y() * z - q.z() * y,
+                 q.w() * y - q.x() * z + q.y() * w + q.z() * x,
+                 q.w() * z + q.x() * y - q.y() * x + q.z() * w,
+                 q.w() * w - q.x() * x - q.y() * y - q.z() * z);
         return dest;
     }
 
@@ -1505,14 +1505,14 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#div(org.joml.Quaternionf, org.joml.Quaternionf)
+     * @see org.joml.Quaternionfc#div(org.joml.Quaternionfc, org.joml.Quaternionf)
      */
-    public Quaternionf div(Quaternionf b, Quaternionf dest) {
-        float invNorm = 1.0f / (b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w);
-        float x = -b.x * invNorm;
-        float y = -b.y * invNorm;
-        float z = -b.z * invNorm;
-        float w = b.w * invNorm;
+    public Quaternionf div(Quaternionfc b, Quaternionf dest) {
+        float invNorm = 1.0f / (b.x() * b.x() + b.y() * b.y() + b.z() * b.z() + b.w() * b.w());
+        float x = -b.x() * invNorm;
+        float y = -b.y() * invNorm;
+        float z = -b.z() * invNorm;
+        float w = b.w() * invNorm;
         dest.set(this.w * x + this.x * w + this.y * z - this.z * y,
                  this.w * y - this.x * z + this.y * w + this.z * x,
                  this.w * z + this.x * y - this.y * x + this.z * w,
@@ -1531,7 +1531,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          the {@link Quaternionf} to divide this by
      * @return this
      */
-    public Quaternionf div(Quaternionf b) {
+    public Quaternionf div(Quaternionfc b) {
         return div(b, this);
     }
 

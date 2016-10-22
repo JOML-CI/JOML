@@ -87,7 +87,7 @@ public interface Quaternionfc {
      *          will hold the result
      * @return dest
      */
-    Quaternionf add(Quaternionf q2, Quaternionf dest);
+    Quaternionf add(Quaternionfc q2, Quaternionf dest);
 
     /**
      * Return the angle in radians represented by this quaternion rotation.
@@ -275,7 +275,7 @@ public interface Quaternionfc {
      *            will hold the result
      * @return dest
      */
-    Quaternionf mul(Quaternionf q, Quaternionf dest);
+    Quaternionf mul(Quaternionfc q, Quaternionf dest);
 
     /**
      * Multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in <code>dest</code>.
@@ -317,7 +317,7 @@ public interface Quaternionfc {
      *            will hold the result
      * @return dest
      */
-    Quaternionf premul(Quaternionf q, Quaternionf dest);
+    Quaternionf premul(Quaternionfc q, Quaternionf dest);
 
     /**
      * Pre-multiply this quaternion by the quaternion represented via <tt>(qx, qy, qz, qw)</tt> and store the result in <code>dest</code>.
@@ -443,12 +443,12 @@ public interface Quaternionfc {
      * <tt>dest = this * b^-1</tt>, where <tt>b^-1</tt> is the inverse of <code>b</code>.
      * 
      * @param b
-     *          the {@link Quaternionf} to divide this by
+     *          the {@link Quaternionfc} to divide this by
      * @param dest
      *          will hold the result
      * @return dest
      */
-    Quaternionf div(Quaternionf b, Quaternionf dest);
+    Quaternionf div(Quaternionfc b, Quaternionf dest);
 
     /**
      * Conjugate this quaternion and store the result in <code>dest</code>.
