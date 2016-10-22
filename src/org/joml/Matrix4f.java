@@ -922,7 +922,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f(Matrix3fc mat) {
         if (mat instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy((Matrix3f) mat, this);
+            MemUtil.INSTANCE.copy3x3((Matrix3f) mat, this);
         } else {
             set3x3Matrix3fc(mat);
         }
@@ -954,11 +954,11 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f(Matrix4x3fc mat) {
         if (mat instanceof Matrix4x3f) {
-            MemUtil.INSTANCE.copy((Matrix4x3f) mat, this);
+            MemUtil.INSTANCE.copy4x3((Matrix4x3f) mat, this);
         } else {
             set4x3Matrix4x3fc(mat);
-            this.m33 = 1.0f;
         }
+        this.m33 = 1.0f;
         properties = (byte) (mat.properties() | PROPERTY_AFFINE);
     }
 
