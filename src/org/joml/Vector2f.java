@@ -119,8 +119,7 @@ public class Vector2f implements Externalizable {
      * @param buffer values will be read in <tt>x, y</tt> order
      */
     public Vector2f(int index, ByteBuffer buffer) {
-        x = buffer.getFloat(index);
-        y = buffer.getFloat(index + 4);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -153,8 +152,7 @@ public class Vector2f implements Externalizable {
      *        values will be read in <tt>x, y</tt> order
      */
     public Vector2f(int index, FloatBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -244,8 +242,7 @@ public class Vector2f implements Externalizable {
      * @return this
      */
     public Vector2f set(int index, ByteBuffer buffer) {
-        x = buffer.getFloat(index);
-        y = buffer.getFloat(index + 4);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -281,11 +278,10 @@ public class Vector2f implements Externalizable {
      * @return this
      */
     public Vector2f set(int index, FloatBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
-    
+
     /**
      * Store this vector into the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
@@ -318,8 +314,7 @@ public class Vector2f implements Externalizable {
      * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putFloat(index,      x);
-        buffer.putFloat(index + 4,  y);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -355,8 +350,7 @@ public class Vector2f implements Externalizable {
      * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
-        buffer.put(index,      x);
-        buffer.put(index + 1,  y);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 

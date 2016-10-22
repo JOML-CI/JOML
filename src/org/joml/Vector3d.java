@@ -448,9 +448,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @param buffer values will be read in <tt>x, y, z</tt> order
      */
     public Vector3d(int index, ByteBuffer buffer) {
-        x = buffer.getDouble(index);
-        y = buffer.getDouble(index + 8);
-        z = buffer.getDouble(index + 16);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -480,9 +478,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @param buffer values will be read in <tt>x, y, z</tt> order
      */
     public Vector3d(int index, DoubleBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /* (non-Javadoc)
@@ -629,9 +625,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d set(int index, ByteBuffer buffer) {
-        x = buffer.getDouble(index);
-        y = buffer.getDouble(index + 8);
-        z = buffer.getDouble(index + 16);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -667,9 +661,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d set(int index, DoubleBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -684,9 +676,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#get(int, java.nio.ByteBuffer)
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putDouble(index,      x);
-        buffer.putDouble(index + 8,  y);
-        buffer.putDouble(index + 16,  z);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -701,9 +691,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#get(int, java.nio.DoubleBuffer)
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
-        buffer.put(index,      x);
-        buffer.put(index + 1,  y);
-        buffer.put(index + 2,  z);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
