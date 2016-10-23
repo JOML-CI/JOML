@@ -322,9 +322,9 @@ public class Vector2f implements Externalizable, Vector2fc {
      *        the vector to copy from
      * @return this
      */
-    public Vector2f set(Vector2d v) {
-        x = (float) v.x;
-        y = (float) v.y;
+    public Vector2f set(Vector2dc v) {
+        x = (float) v.x();
+        y = (float) v.y();
         return this;
     }
 

@@ -218,9 +218,9 @@ public class Vector2i implements Externalizable {
      *          the vector to copy from
      * @return this
      */
-    public Vector2i set(Vector2d v) {
-        x = (int) v.x;
-        y = (int) v.y;
+    public Vector2i set(Vector2dc v) {
+        x = (int) v.x();
+        y = (int) v.y();
         return this;
     }
 

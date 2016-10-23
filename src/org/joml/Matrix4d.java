@@ -637,7 +637,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.unprojectRay(winX, winY, viewport, originDest, dirDest);
         }
 
-        public Matrix4d unprojectRay(Vector2d winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
+        public Matrix4d unprojectRay(Vector2dc winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
             return delegate.unprojectRay(winCoords, viewport, originDest, dirDest);
         }
 
@@ -657,7 +657,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.unprojectInv(winX, winY, winZ, viewport, dest);
         }
 
-        public Matrix4d unprojectInvRay(Vector2d winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
+        public Matrix4d unprojectInvRay(Vector2dc winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
             return delegate.unprojectInvRay(winCoords, viewport, originDest, dirDest);
         }
 
@@ -8699,10 +8699,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectRay(org.joml.Vector2d, int[], org.joml.Vector3d, org.joml.Vector3d)
+     * @see org.joml.Matrix4dc#unprojectRay(org.joml.Vector2dc, int[], org.joml.Vector3d, org.joml.Vector3d)
      */
-    public Matrix4d unprojectRay(Vector2d winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
-        return unprojectRay(winCoords.x, winCoords.y, viewport, originDest, dirDest);
+    public Matrix4d unprojectRay(Vector2dc winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
+        return unprojectRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
     }
 
     /* (non-Javadoc)
@@ -8750,10 +8750,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectInvRay(org.joml.Vector2d, int[], org.joml.Vector3d, org.joml.Vector3d)
+     * @see org.joml.Matrix4dc#unprojectInvRay(org.joml.Vector2dc, int[], org.joml.Vector3d, org.joml.Vector3d)
      */
-    public Matrix4d unprojectInvRay(Vector2d winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
-        return unprojectInvRay(winCoords.x, winCoords.y, viewport, originDest, dirDest);
+    public Matrix4d unprojectInvRay(Vector2dc winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
+        return unprojectInvRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
     }
 
     /* (non-Javadoc)

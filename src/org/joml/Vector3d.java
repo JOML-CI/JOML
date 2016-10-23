@@ -415,9 +415,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @param z
      *          the z component
      */
-    public Vector3d(Vector2d v, double z) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector3d(Vector2dc v, double z) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
     }
 
@@ -526,9 +526,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component
      * @return this
      */
-    public Vector3d set(Vector2d v, double z) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector3d set(Vector2dc v, double z) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
         return this;
     }

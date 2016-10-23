@@ -37,7 +37,119 @@ import java.text.NumberFormat;
  * @author RGreenlees
  * @author Kai Burjack
  */
-public class Vector2d implements Externalizable {
+public class Vector2d implements Externalizable, Vector2dc {
+
+    private final class Proxy implements Vector2dc {
+        private final Vector2dc delegate;
+
+        Proxy(Vector2dc delegate) {
+            this.delegate = delegate;
+        }
+
+        public double x() {
+            return delegate.x();
+        }
+
+        public double y() {
+            return delegate.y();
+        }
+
+        public ByteBuffer get(ByteBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public ByteBuffer get(int index, ByteBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public DoubleBuffer get(DoubleBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public DoubleBuffer get(int index, DoubleBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public Vector2d sub(double x, double y, Vector2d dest) {
+            return delegate.sub(x, y, dest);
+        }
+
+        public Vector2d sub(Vector2dc v, Vector2d dest) {
+            return delegate.sub(v, dest);
+        }
+
+        public Vector2d sub(Vector2fc v, Vector2d dest) {
+            return delegate.sub(v, dest);
+        }
+
+        public Vector2d mul(double scalar, Vector2d dest) {
+            return delegate.mul(scalar, dest);
+        }
+
+        public Vector2d mul(double x, double y, Vector2d dest) {
+            return delegate.mul(x, y, dest);
+        }
+
+        public Vector2d mul(Vector2dc v, Vector2d dest) {
+            return delegate.mul(v, dest);
+        }
+
+        public double dot(Vector2dc v) {
+            return delegate.dot(v);
+        }
+
+        public double angle(Vector2dc v) {
+            return delegate.angle(v);
+        }
+
+        public double length() {
+            return delegate.length();
+        }
+
+        public double distance(Vector2dc v) {
+            return delegate.distance(v);
+        }
+
+        public double distance(Vector2fc v) {
+            return delegate.distance(v);
+        }
+
+        public double distance(double x, double y) {
+            return delegate.distance(x, y);
+        }
+
+        public Vector2d normalize(Vector2d dest) {
+            return delegate.normalize(dest);
+        }
+
+        public Vector2d add(double x, double y, Vector2d dest) {
+            return delegate.add(x, y, dest);
+        }
+
+        public Vector2d add(Vector2dc v, Vector2d dest) {
+            return delegate.add(v, dest);
+        }
+
+        public Vector2d add(Vector2fc v, Vector2d dest) {
+            return delegate.add(v, dest);
+        }
+
+        public Vector2d negate(Vector2d dest) {
+            return delegate.negate(dest);
+        }
+
+        public Vector2d lerp(Vector2dc other, double t, Vector2d dest) {
+            return delegate.lerp(other, t, dest);
+        }
+
+        public Vector2d fma(Vector2dc a, Vector2dc b, Vector2d dest) {
+            return delegate.fma(a, b, dest);
+        }
+
+        public Vector2d fma(double a, Vector2dc b, Vector2d dest) {
+            return delegate.fma(a, b, dest);
+        }
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -83,11 +195,11 @@ public class Vector2d implements Externalizable {
      * Create a new {@link Vector2d} and initialize its components to the one of the given vector.
      * 
      * @param v
-     *          the {@link Vector2d} to copy the values from
+     *          the {@link Vector2dc} to copy the values from
      */
-    public Vector2d(Vector2d v) {
-        x = v.x;
-        y = v.y;
+    public Vector2d(Vector2dc v) {
+        x = v.x();
+        y = v.y();
     }
 
     /**
@@ -167,6 +279,20 @@ public class Vector2d implements Externalizable {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#x()
+     */
+    public double x() {
+        return this.x;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#y()
+     */
+    public double y() {
+        return this.y;
+    }
+
     /**
      * Set the x and y components to the supplied value.
      *
@@ -200,9 +326,9 @@ public class Vector2d implements Externalizable {
      *          the vector to copy from
      * @return this
      */
-    public Vector2d set(Vector2d v) {
-        x = v.x;
-        y = v.y;
+    public Vector2d set(Vector2dc v) {
+        x = v.x();
+        y = v.y();
         return this;
     }
 
@@ -291,72 +417,30 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    /**
-     * Store this vector into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the vector is stored, use {@link #get(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
-     * @return the passed in buffer
-     * @see #get(int, ByteBuffer)
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#get(java.nio.ByteBuffer)
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     *
-     * @param index 
-     *          the absolute position into the ByteBuffer
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#get(int, java.nio.ByteBuffer)
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store this vector into the supplied {@link DoubleBuffer} at the current
-     * buffer {@link DoubleBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     * <p>
-     * In order to specify the offset into the DoubleBuffer at which
-     * the vector is stored, use {@link #get(int, DoubleBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
-     * @return the passed in buffer
-     * @see #get(int, DoubleBuffer)
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#get(java.nio.DoubleBuffer)
      */
     public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this vector into the supplied {@link DoubleBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given DoubleBuffer.
-     *
-     * @param index
-     *          the absolute position into the DoubleBuffer
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y</tt> order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#get(int, java.nio.DoubleBuffer)
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
@@ -379,9 +463,9 @@ public class Vector2d implements Externalizable {
      *          the vector to subtract
      * @return this
      */
-    public Vector2d sub(Vector2d v) {
-        x -= v.x;
-        y -= v.y;
+    public Vector2d sub(Vector2dc v) {
+        x -= v.x();
+        y -= v.y();
         return this;
     }
 
@@ -400,16 +484,8 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    /**
-     * Subtract <tt>(x, y)</tt> from this vector and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x component to subtract
-     * @param y
-     *          the y component to subtract
-     * @param dest
-     *          will hold the result         
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#sub(double, double, org.joml.Vector2d)
      */
     public Vector2d sub(double x, double y, Vector2d dest) {
         dest.x = this.x - x;
@@ -430,29 +506,17 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    /**
-     * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to subtract
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#sub(org.joml.Vector2dc, org.joml.Vector2d)
      */
-    public Vector2d sub(Vector2d v, Vector2d dest) {
-        dest.x = x - v.x;
-        dest.y = y - v.y;
+    public Vector2d sub(Vector2dc v, Vector2d dest) {
+        dest.x = x - v.x();
+        dest.y = y - v.y();
         return dest;
     }
 
-    /**
-     * Subtract <code>v</code> from <code>this</code> vector and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to subtract
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#sub(org.joml.Vector2fc, org.joml.Vector2d)
      */
     public Vector2d sub(Vector2fc v, Vector2d dest) {
         dest.x = x + v.x();
@@ -473,14 +537,8 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    /**
-     * Multiply the components of this vector by the given scalar and store the result in <code>dest</code>.
-     * 
-     * @param scalar
-     *        the value to multiply this vector's components by
-     * @param dest
-     *        will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#mul(double, org.joml.Vector2d)
      */
     public Vector2d mul(double scalar, Vector2d dest) {
         dest.x = x * scalar;
@@ -503,16 +561,8 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    /**
-     * Multiply the components of this Vector2d by the given scalar values and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x component to multiply this vector by
-     * @param y
-     *          the y component to multiply this vector by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#mul(double, double, org.joml.Vector2d)
      */
     public Vector2d mul(double x, double y, Vector2d dest) {
         dest.x = this.x * x;
@@ -527,90 +577,60 @@ public class Vector2d implements Externalizable {
      *          the vector to multiply by
      * @return this
      */
-    public Vector2d mul(Vector2d v) {
-        x *= v.x;
-        y *= v.y;
+    public Vector2d mul(Vector2dc v) {
+        x *= v.x();
+        y *= v.y();
         return this;
     }
 
-    /**
-     * Multiply this Vector2d component-wise by another Vector2d and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to multiply by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#mul(org.joml.Vector2dc, org.joml.Vector2d)
      */
-    public Vector2d mul(Vector2d v, Vector2d dest) {
-        dest.x = x * v.x;
-        dest.y = y * v.y;
+    public Vector2d mul(Vector2dc v, Vector2d dest) {
+        dest.x = x * v.x();
+        dest.y = y * v.y();
         return dest;
     }
 
-    /**
-     * Return the dot product of this vector and <code>v</code>.
-     * 
-     * @param v
-     *          the other vector
-     * @return the dot product
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#dot(org.joml.Vector2dc)
      */
-    public double dot(Vector2d v) {
-        return x * v.x + y * v.y;
+    public double dot(Vector2dc v) {
+        return x * v.x() + y * v.y();
     }
 
-    /**
-     * Return the angle between this vector and the supplied vector.
-     * 
-     * @param v
-     *          the other vector
-     * @return the angle, in radians
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#angle(org.joml.Vector2dc)
      */
-    public double angle(Vector2d v) {
-        double dot = x*v.x + y*v.y;
-        double det = x*v.y - y*v.x;
+    public double angle(Vector2dc v) {
+        double dot = x*v.x() + y*v.y();
+        double det = x*v.y() - y*v.x();
         return Math.atan2(det, dot);
     }
 
-    /**
-     * Return the length of this vector.
-     * 
-     * @return the length
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#length()
      */
     public double length() {
         return Math.sqrt(x * x + y * y);
     }
 
-    /**
-     * Return the distance between <code>this</code> and <code>v</code>.
-     * 
-     * @param v
-     *          the other vector
-     * @return the euclidean distance
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#distance(org.joml.Vector2dc)
      */
-    public double distance(Vector2d v) {
-        return distance(v.x, v.y);
+    public double distance(Vector2dc v) {
+        return distance(v.x(), v.y());
     }
 
-    /**
-     * Return the distance between <code>this</code> and <code>v</code>.
-     * 
-     * @param v
-     *          the other vector
-     * @return the euclidean distance
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#distance(org.joml.Vector2fc)
      */
-    public double distance(Vector2f v) {
-        return distance(v.x, v.y);
+    public double distance(Vector2fc v) {
+        return distance(v.x(), v.y());
     }
 
-    /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y)</tt>.
-     * 
-     * @param x
-     *          the x component of the other vector
-     * @param y
-     *          the y component of the other vector
-     * @return the euclidean distance
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#distance(double, double)
      */
     public double distance(double x, double y) {
         double dx = this.x - x;
@@ -630,12 +650,8 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    /**
-     * Normalize this vector and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#normalize(org.joml.Vector2d)
      */
     public Vector2d normalize(Vector2d dest) {
         double invLength = 1.0 / Math.sqrt(x * x + y * y);
@@ -651,9 +667,9 @@ public class Vector2d implements Externalizable {
      *          the vector to add
      * @return this
      */
-    public Vector2d add(Vector2d v) {
-        x += v.x;
-        y += v.y;
+    public Vector2d add(Vector2dc v) {
+        x += v.x();
+        y += v.y();
         return this;
     }
 
@@ -672,16 +688,8 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    /**
-     * Add <code>(x, y)</code> to this vector and store the result in <code>dest</code>.
-     * 
-     * @param x
-     *          the x component to add
-     * @param y
-     *          the y component to add
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#add(double, double, org.joml.Vector2d)
      */
     public Vector2d add(double x, double y, Vector2d dest) {
         dest.x = this.x + x;
@@ -702,29 +710,17 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    /**
-     * Add <code>v</code> to this vector and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to add
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#add(org.joml.Vector2dc, org.joml.Vector2d)
      */
-    public Vector2d add(Vector2d v, Vector2d dest) {
-        dest.x = x + v.x;
-        dest.y = y + v.y;
+    public Vector2d add(Vector2dc v, Vector2d dest) {
+        dest.x = x + v.x();
+        dest.y = y + v.y();
         return dest;
     }
 
-    /**
-     * Add <code>v</code> to this vector and store the result in <code>dest</code>.
-     * 
-     * @param v
-     *          the vector to add
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#add(org.joml.Vector2fc, org.joml.Vector2d)
      */
     public Vector2d add(Vector2fc v, Vector2d dest) {
         dest.x = x + v.x();
@@ -765,12 +761,8 @@ public class Vector2d implements Externalizable {
         return this;
     }
 
-    /**
-     * Negate this vector and store the result in <code>dest</code>.
-     * 
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#negate(org.joml.Vector2d)
      */
     public Vector2d negate(Vector2d dest) {
         dest.x = -x;
@@ -791,28 +783,16 @@ public class Vector2d implements Externalizable {
      *          the interpolation factor between 0.0 and 1.0
      * @return this
      */
-    public Vector2d lerp(Vector2d other, double t) {
+    public Vector2d lerp(Vector2dc other, double t) {
         return lerp(other, t, this);
     }
 
-    /**
-     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
-     * and store the result in <code>dest</code>.
-     * <p>
-     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
-     * then the result is <code>other</code>.
-     * 
-     * @param other
-     *          the other vector
-     * @param t
-     *          the interpolation factor between 0.0 and 1.0
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#lerp(org.joml.Vector2dc, double, org.joml.Vector2d)
      */
-    public Vector2d lerp(Vector2d other, double t, Vector2d dest) {
-        dest.x = x + (other.x - x) * t;
-        dest.y = y + (other.y - y) * t;
+    public Vector2d lerp(Vector2dc other, double t, Vector2d dest) {
+        dest.x = x + (other.x() - x) * t;
+        dest.y = y + (other.y() - y) * t;
         return dest;
     }
 
@@ -874,9 +854,9 @@ public class Vector2d implements Externalizable {
      *          the second multiplicand
      * @return this
      */
-    public Vector2d fma(Vector2d a, Vector2d b) {
-        x += a.x * b.x;
-        y += a.y * b.y;
+    public Vector2d fma(Vector2dc a, Vector2dc b) {
+        x += a.x() * b.x();
+        y += a.y() * b.y();
         return this;
     }
 
@@ -889,46 +869,44 @@ public class Vector2d implements Externalizable {
      *          the second multiplicand
      * @return this
      */
-    public Vector2d fma(double a, Vector2d b) {
-        x += a * b.x;
-        y += a * b.y;
+    public Vector2d fma(double a, Vector2dc b) {
+        x += a * b.x();
+        y += a * b.y();
         return this;
     }
 
-    /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector
-     * and store the result in <code>dest</code>.
-     * 
-     * @param a
-     *          the first multiplicand
-     * @param b
-     *          the second multiplicand
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#fma(org.joml.Vector2dc, org.joml.Vector2dc, org.joml.Vector2d)
      */
-    public Vector2d fma(Vector2d a, Vector2d b, Vector2d dest) {
-        dest.x = x + a.x * b.x;
-        dest.y = y + a.y * b.y;
+    public Vector2d fma(Vector2dc a, Vector2dc b, Vector2d dest) {
+        dest.x = x + a.x() * b.x();
+        dest.y = y + a.y() * b.y();
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#fma(double, org.joml.Vector2dc, org.joml.Vector2d)
+     */
+    public Vector2d fma(double a, Vector2dc b, Vector2d dest) {
+        dest.x = x + a * b.x();
+        dest.y = y + a * b.y();
         return dest;
     }
 
     /**
-     * Add the component-wise multiplication of <code>a * b</code> to this vector
-     * and store the result in <code>dest</code>.
+     * Create a new immutable view of this {@link Vector2d}.
+     * <p>
+     * The observable state of the returned object is the same as that of <code>this</code>, but casting
+     * the returned object to Vector2d will not be possible.
+     * <p>
+     * This method allocates a new instance of a class implementing Vector2dc on every call.
      * 
-     * @param a
-     *          the first multiplicand
-     * @param b
-     *          the second multiplicand
-     * @param dest
-     *          will hold the result
-     * @return dest
+     * @return the immutable instance
      */
-    public Vector2d fma(double a, Vector2d b, Vector2d dest) {
-        dest.x = x + a * b.x;
-        dest.y = y + a * b.y;
-        return dest;
+    public Vector2dc toImmutable() {
+        if (Options.NO_PROXY)
+            return this;
+        return new Proxy(this);
     }
 
 }
