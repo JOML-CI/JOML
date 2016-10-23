@@ -304,15 +304,15 @@ public class Vector4d implements Externalizable, Vector4dc {
      * given <code>v</code> and the z and w components from the given <code>z</code> and <code>w</code>.
      *
      * @param v
-     *          the {@link Vector2f}
+     *          the {@link Vector2fc}
      * @param z
      *          the z component
      * @param w
      *          the w component
      */
-    public Vector4d(Vector2f v, double z, double w) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector4d(Vector2fc v, double z, double w) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
         this.w = w;
     }
@@ -527,16 +527,16 @@ public class Vector4d implements Externalizable, Vector4dc {
      * and the z and w components to the given <code>z</code> and <code>w</code>.
      *
      * @param v
-     *          the {@link Vector2f}
+     *          the {@link Vector2fc}
      * @param z
      *          the z components
      * @param w
      *          the w components
      * @return this
      */
-    public Vector4d set(Vector2f v, double z, double w) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector4d set(Vector2fc v, double z, double w) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
         this.w = w;
         return this;

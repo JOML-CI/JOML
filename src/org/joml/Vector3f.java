@@ -337,13 +337,13 @@ public class Vector3f implements Externalizable, Vector3fc {
      * given <code>v</code> and the given <code>z</code>
      * 
      * @param v
-     *          the {@link Vector2f} to copy the values from
+     *          the {@link Vector2fc} to copy the values from
      * @param z
      *          the z component
      */
-    public Vector3f(Vector2f v, float z) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector3f(Vector2fc v, float z) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
     }
 
@@ -464,14 +464,14 @@ public class Vector3f implements Externalizable, Vector3fc {
      * and the z component from the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2f} to copy the values from
+     *          the {@link Vector2fc} to copy the values from
      * @param z
      *          the z component
      * @return this
      */
-    public Vector3f set(Vector2f v, float z) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector3f set(Vector2fc v, float z) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
         return this;
     }

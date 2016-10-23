@@ -94,11 +94,11 @@ public class Vector2d implements Externalizable {
      * Create a new {@link Vector2d} and initialize its components to the one of the given vector.
      * 
      * @param v
-     *          the {@link Vector2f} to copy the values from
+     *          the {@link Vector2fc} to copy the values from
      */
-    public Vector2d(Vector2f v) {
-        x = v.x;
-        y = v.y;
+    public Vector2d(Vector2fc v) {
+        x = v.x();
+        y = v.y();
     }
 
     /**
@@ -213,9 +213,9 @@ public class Vector2d implements Externalizable {
      *          the vector to copy from
      * @return this
      */
-    public Vector2d set(Vector2f v) {
-        x = v.x;
-        y = v.y;
+    public Vector2d set(Vector2fc v) {
+        x = v.x();
+        y = v.y();
         return this;
     }
 
@@ -424,9 +424,9 @@ public class Vector2d implements Externalizable {
      *          the vector to subtract
      * @return this
      */
-    public Vector2d sub(Vector2f v) {
-        x -= v.x;
-        y -= v.y;
+    public Vector2d sub(Vector2fc v) {
+        x -= v.x();
+        y -= v.y();
         return this;
     }
 
@@ -454,9 +454,9 @@ public class Vector2d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector2d sub(Vector2f v, Vector2d dest) {
-        dest.x = x + v.x;
-        dest.y = y + v.y;
+    public Vector2d sub(Vector2fc v, Vector2d dest) {
+        dest.x = x + v.x();
+        dest.y = y + v.y();
         return dest;
     }
 
@@ -696,9 +696,9 @@ public class Vector2d implements Externalizable {
      *          the vector to add
      * @return this
      */
-    public Vector2d add(Vector2f v) {
-        x += v.x;
-        y += v.y;
+    public Vector2d add(Vector2fc v) {
+        x += v.x();
+        y += v.y();
         return this;
     }
 
@@ -726,9 +726,9 @@ public class Vector2d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector2d add(Vector2f v, Vector2d dest) {
-        dest.x = x + v.x;
-        dest.y = y + v.y;
+    public Vector2d add(Vector2fc v, Vector2d dest) {
+        dest.x = x + v.x();
+        dest.y = y + v.y();
         return dest;
     }
 

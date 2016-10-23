@@ -162,11 +162,11 @@ public class GeometryUtils {
      * @param dest
      *            the tangent will be stored here
      */
-    public static void tangent(Vector3fc v1, Vector2f uv1, Vector3fc v2, Vector2f uv2, Vector3fc v3, Vector2f uv3, Vector3f dest) {
-        float DeltaV1 = uv2.y - uv1.y;
-        float DeltaV2 = uv3.y - uv1.y;
+    public static void tangent(Vector3fc v1, Vector2fc uv1, Vector3fc v2, Vector2fc uv2, Vector3fc v3, Vector2fc uv3, Vector3f dest) {
+        float DeltaV1 = uv2.y() - uv1.y();
+        float DeltaV2 = uv3.y() - uv1.y();
 
-        float f = 1.0f / ((uv2.x - uv1.x) * DeltaV2 - (uv3.x - uv1.x) * DeltaV1);
+        float f = 1.0f / ((uv2.x() - uv1.x()) * DeltaV2 - (uv3.x() - uv1.x()) * DeltaV1);
 
         dest.x = f * (DeltaV2 * (v2.x() - v1.x()) - DeltaV1 * (v3.x() - v1.x()));
         dest.y = f * (DeltaV2 * (v2.y() - v1.y()) - DeltaV1 * (v3.y() - v1.y()));
@@ -192,11 +192,11 @@ public class GeometryUtils {
      * @param dest
      *            the binormal will be stored here
      */
-    public static void bitangent(Vector3fc v1, Vector2f uv1, Vector3fc v2, Vector2f uv2, Vector3fc v3, Vector2f uv3, Vector3f dest) {
-        float DeltaU1 = uv2.x - uv1.x;
-        float DeltaU2 = uv3.x - uv1.x;
+    public static void bitangent(Vector3fc v1, Vector2fc uv1, Vector3fc v2, Vector2fc uv2, Vector3fc v3, Vector2fc uv3, Vector3f dest) {
+        float DeltaU1 = uv2.x() - uv1.x();
+        float DeltaU2 = uv3.x() - uv1.x();
 
-        float f = 1.0f / (DeltaU1 * (uv3.y - uv1.y) - DeltaU2 * (uv2.y - uv1.y));
+        float f = 1.0f / (DeltaU1 * (uv3.y() - uv1.y()) - DeltaU2 * (uv2.y() - uv1.y()));
 
         dest.x = f * (-DeltaU2 * (v2.x() - v1.x()) - DeltaU1 * (v3.x() - v1.x()));
         dest.y = f * (-DeltaU2 * (v2.y() - v1.y()) - DeltaU1 * (v3.y() - v1.y()));
@@ -224,11 +224,11 @@ public class GeometryUtils {
      * @param destBitangent
      *            the bitangent will be stored here
      */
-    public static void tangentBitangent(Vector3fc v1, Vector2f uv1, Vector3fc v2, Vector2f uv2, Vector3fc v3, Vector2f uv3, Vector3f destTangent, Vector3f destBitangent) {
-        float DeltaV1 = uv2.y - uv1.y;
-        float DeltaV2 = uv3.y - uv1.y;
-        float DeltaU1 = uv2.x - uv1.x;
-        float DeltaU2 = uv3.x - uv1.x;
+    public static void tangentBitangent(Vector3fc v1, Vector2fc uv1, Vector3fc v2, Vector2fc uv2, Vector3fc v3, Vector2fc uv3, Vector3f destTangent, Vector3f destBitangent) {
+        float DeltaV1 = uv2.y() - uv1.y();
+        float DeltaV2 = uv3.y() - uv1.y();
+        float DeltaU1 = uv2.x() - uv1.x();
+        float DeltaU2 = uv3.x() - uv1.x();
 
         float f = 1.0f / (DeltaU1 * DeltaV2 - DeltaU2 * DeltaV1);
 

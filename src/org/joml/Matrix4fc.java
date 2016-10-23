@@ -3160,7 +3160,7 @@ public interface Matrix4fc {
      *          will hold the (unnormalized) ray direction
      * @return this
      */
-    Matrix4f unprojectRay(Vector2f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest);
+    Matrix4f unprojectRay(Vector2fc winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest);
 
     /**
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
@@ -3215,11 +3215,11 @@ public interface Matrix4fc {
      * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport
      * and compute the origin and the direction of the resulting ray which starts at NDC <tt>z = -1.0</tt> and goes through NDC <tt>z = +1.0</tt>.
      * <p>
-     * This method differs from {@link #unprojectRay(Vector2f, int[], Vector3f, Vector3f) unprojectRay()} 
+     * This method differs from {@link #unprojectRay(Vector2fc, int[], Vector3f, Vector3f) unprojectRay()} 
      * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
      * It exists to avoid recomputing the matrix inverse with every invocation.
      * 
-     * @see #unprojectRay(Vector2f, int[], Vector3f, Vector3f)
+     * @see #unprojectRay(Vector2fc, int[], Vector3f, Vector3f)
      * 
      * @param winCoords
      *          the window coordinates to unproject
@@ -3231,7 +3231,7 @@ public interface Matrix4fc {
      *          will hold the (unnormalized) ray direction
      * @return this
      */
-    Matrix4f unprojectInvRay(Vector2f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest);
+    Matrix4f unprojectInvRay(Vector2fc winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest);
 
     /**
      * Unproject the given 2D window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport

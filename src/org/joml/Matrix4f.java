@@ -680,7 +680,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.unprojectRay(winX, winY, viewport, originDest, dirDest);
         }
 
-        public Matrix4f unprojectRay(Vector2f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        public Matrix4f unprojectRay(Vector2fc winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
             return delegate.unprojectRay(winCoords, viewport, originDest, dirDest);
         }
 
@@ -692,7 +692,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.unprojectInv(winX, winY, winZ, viewport, dest);
         }
 
-        public Matrix4f unprojectInvRay(Vector2f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        public Matrix4f unprojectInvRay(Vector2fc winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
             return delegate.unprojectInvRay(winCoords, viewport, originDest, dirDest);
         }
 
@@ -11205,10 +11205,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectRay(org.joml.Vector2f, int[], org.joml.Vector3f, org.joml.Vector3f)
+     * @see org.joml.Matrix4fc#unprojectRay(org.joml.Vector2fc, int[], org.joml.Vector3f, org.joml.Vector3f)
      */
-    public Matrix4f unprojectRay(Vector2f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
-        return unprojectRay(winCoords.x, winCoords.y, viewport, originDest, dirDest);
+    public Matrix4f unprojectRay(Vector2fc winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        return unprojectRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
     }
 
     /* (non-Javadoc)
@@ -11234,10 +11234,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#unprojectInvRay(org.joml.Vector2f, int[], org.joml.Vector3f, org.joml.Vector3f)
+     * @see org.joml.Matrix4fc#unprojectInvRay(org.joml.Vector2fc, int[], org.joml.Vector3f, org.joml.Vector3f)
      */
-    public Matrix4f unprojectInvRay(Vector2f winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
-        return unprojectInvRay(winCoords.x, winCoords.y, viewport, originDest, dirDest);
+    public Matrix4f unprojectInvRay(Vector2fc winCoords, int[] viewport, Vector3f originDest, Vector3f dirDest) {
+        return unprojectInvRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
     }
 
     /* (non-Javadoc)

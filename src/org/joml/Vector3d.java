@@ -384,13 +384,13 @@ public class Vector3d implements Externalizable, Vector3dc {
      * given <code>v</code> and the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2f} to copy the values from
+     *          the {@link Vector2fc} to copy the values from
      * @param z
      *          the z component
      */
-    public Vector3d(Vector2f v, double z) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector3d(Vector2fc v, double z) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
     }
 
@@ -552,14 +552,14 @@ public class Vector3d implements Externalizable, Vector3dc {
      * and the z component from the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2f} to copy the values from
+     *          the {@link Vector2fc} to copy the values from
      * @param z
      *          the z component
      * @return this
      */
-    public Vector3d set(Vector2f v, double z) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector3d set(Vector2fc v, double z) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
         return this;
     }

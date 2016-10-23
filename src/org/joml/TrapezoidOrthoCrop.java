@@ -49,11 +49,11 @@ public class TrapezoidOrthoCrop {
     private static final class Vector2fComparator implements Comparator {
         Vector2fComparator() {}
         public int compare(Object a, Object b) {
-            Vector2f p1 = (Vector2f) a;
-            Vector2f p2 = (Vector2f) b;
-            if (p1.x == p2.x)
-                return p1.y > p2.y ? 1 : p1.y < p2.y ? -1 : 0;
-            return p1.x > p2.x ? 1 : p1.x < p2.x ? -1 : 0;
+            Vector2fc p1 = (Vector2fc) a;
+            Vector2fc p2 = (Vector2fc) b;
+            if (p1.x() == p2.x())
+                return p1.y() > p2.y() ? 1 : p1.y() < p2.y() ? -1 : 0;
+            return p1.x() > p2.x() ? 1 : p1.x() < p2.x() ? -1 : 0;
         }
     }
 
@@ -84,7 +84,7 @@ public class TrapezoidOrthoCrop {
     /**
      * The convex hull of {@link #projectedFrustumCorners}.
      */
-    private final Vector2f[] convexHull = new Vector2f[16];
+    private final Vector2fc[] convexHull = new Vector2fc[16];
     /**
      * The number of points actually used in {@link #convexHull}.
      */
@@ -139,13 +139,13 @@ public class TrapezoidOrthoCrop {
     /**
      * Reference: <a href="http://www.mathwords.com/a/area_convex_polygon.htm">http://www.mathwords.com/</a>.
      */
-    private static float convexPolygonArea(Vector2f[] vs, int count) {
+    private static float convexPolygonArea(Vector2fc[] vs, int count) {
         float sum0 = 0.0f, sum1 = 0.0f;
         for (int i0 = 0; i0 < count; i0++) {
             int i1 = (i0 + 1) % count;
-            Vector2f v0 = vs[i0], v1 = vs[i1];
-            sum0 += v0.x * v1.y;
-            sum1 += v0.y * v1.x;
+            Vector2fc v0 = vs[i0], v1 = vs[i1];
+            sum0 += v0.x() * v1.y();
+            sum1 += v0.y() * v1.x();
         }
         return 0.5f * (sum0 - sum1);
     }
@@ -167,8 +167,8 @@ public class TrapezoidOrthoCrop {
         float tTop = 0.0f, tBase = 0.0f;
         // Compute the distances from N to the top and base lines of the trapezoid
         for (int i = 0; i < convexHullSize; i++) {
-            float x = convexHull[i].x - Nx;
-            float y = convexHull[i].y - Ny;
+            float x = convexHull[i].x() - Nx;
+            float y = convexHull[i].y() - Ny;
             float ti = (x * aX) + (y * aY);
             tTop = tTop < ti ? tTop : ti;
             tBase = tBase > ti ? tBase : ti;
@@ -188,8 +188,8 @@ public class TrapezoidOrthoCrop {
             float uLx = 0.0f, uLy = 0.0f;
             float uRx = 0.0f, uRy = 0.0f;
             for (int i = 0; i < convexHullSize; i++) {
-                float uX = convexHull[i].x - qX;
-                float uY = convexHull[i].y - qY;
+                float uX = convexHull[i].x() - qX;
+                float uY = convexHull[i].y() - qY;
                 invLen = 1.0f / (float) Math.sqrt(uX * uX + uY * uY);
                 uX *= invLen; uY *= invLen;
                 float aPerpX = -aY, aPerpY =  aX;
@@ -222,8 +222,8 @@ public class TrapezoidOrthoCrop {
             work.trapezoidCrop(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y);
             // Project the convex hull into TSM space
             for (int c = 0; c < convexHullSize; c++) {
-                float x = convexHull[c].x;
-                float y = convexHull[c].y;
+                float x = convexHull[c].x();
+                float y = convexHull[c].y();
                 float invW = 1.0f / (work.m03() * x + work.m13() * y + work.m33());
                 float tx = (work.m00() * x + work.m10() * y + work.m30()) * invW;
                 float ty = (work.m01() * x + work.m11() * y + work.m31()) * invW;
@@ -281,12 +281,12 @@ public class TrapezoidOrthoCrop {
         int k = 0;
         int start = 0;
         for (int i = 0; i < 8; i++) {
-            Vector2f p = projectedFrustumCorners[i];
+            Vector2fc p = projectedFrustumCorners[i];
             while (k - start >= 2) {
-                float x1 = p.x - convexHull[k-1].x;
-                float y1 = p.y - convexHull[k-1].y;
-                float x2 = p.x - convexHull[k-2].x;
-                float y2 = p.y - convexHull[k-2].y;
+                float x1 = p.x() - convexHull[k-1].x();
+                float y1 = p.y() - convexHull[k-1].y();
+                float x2 = p.x() - convexHull[k-2].x();
+                float y2 = p.y() - convexHull[k-2].y();
                 float c = x1 * y2 - y1 * x2;
                 if (c < 0)
                     break;
@@ -297,12 +297,12 @@ public class TrapezoidOrthoCrop {
         k--;
         start = k;
         for (int i = 7; i >= 0; i--) {
-            Vector2f p = projectedFrustumCorners[i];
+            Vector2fc p = projectedFrustumCorners[i];
             while (k - start >= 2) {
-                float x1 = p.x - convexHull[k-1].x;
-                float y1 = p.y - convexHull[k-1].y;
-                float x2 = p.x - convexHull[k-2].x;
-                float y2 = p.y - convexHull[k-2].y;
+                float x1 = p.x() - convexHull[k-1].x();
+                float y1 = p.y() - convexHull[k-1].y();
+                float x2 = p.x() - convexHull[k-2].x();
+                float y2 = p.y() - convexHull[k-2].y();
                 float c = x1 * y2 - y1 * x2;
                 if (c < 0)
                     break;
