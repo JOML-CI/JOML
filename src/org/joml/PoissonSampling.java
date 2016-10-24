@@ -34,7 +34,7 @@ import java.util.Random;
  * 
  * @author Kai Burjack
  */
-public class Poisson {
+public class PoissonSampling {
 
 	private final Vector2f[] grid;
 	private final float diskRadius;
@@ -43,8 +43,8 @@ public class Poisson {
 	private final float minDistSquared;
 	private final float cellSize;
 	private final int numCells;
-	private Random rnd;
-	private ArrayList processList;
+	private final Random rnd;
+	private final ArrayList processList;
 
 	/**
 	 * Callback used for notifying about a new generated Poisson sample.
@@ -64,7 +64,7 @@ public class Poisson {
 	}
 
 	/**
-	 * Create a new instance of {@link Poisson} which computes poisson-distributed samples on a disk with the given radius <code>diskRadius</code> and 
+	 * Create a new instance of {@link PoissonSampling} which computes poisson-distributed samples on a disk with the given radius <code>diskRadius</code> and 
 	 * notifies the given <code>callback</code> for each found sample point.
 	 * <p>
 	 * The samples are distributed evenly on the disk with a minimum distance to one another of at least <code>minDist</code>.
@@ -78,7 +78,7 @@ public class Poisson {
 	 * @param callback
 	 *            will be notified about each sample point
 	 */
-	public Poisson(float diskRadius, float minDist, int k, PoissonCallback callback) {
+	public PoissonSampling(float diskRadius, float minDist, int k, PoissonCallback callback) {
 		this.diskRadius = diskRadius;
 		this.diskRadiusSquared = diskRadius * diskRadius;
 		this.minDist = minDist;
