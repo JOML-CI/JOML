@@ -36,10 +36,11 @@ import java.util.Random;
  */
 public class Poisson {
 
-	private final Vector2f[] quadtree;
+	private final Vector2f[] grid;
 	private final float diskRadius;
 	private final float diskRadiusSquared;
 	private final float minDist;
+	private final float minDistSquared;
 	private final float cellSize;
 	private final int numCells;
 	private Random rnd;
@@ -81,10 +82,11 @@ public class Poisson {
 		this.diskRadius = diskRadius;
 		this.diskRadiusSquared = diskRadius * diskRadius;
 		this.minDist = minDist;
+		this.minDistSquared = minDist * minDist;
 		this.rnd = new Random();
 		this.cellSize = minDist / (float) Math.sqrt(2.0);
 		this.numCells = (int) ((diskRadius * 2) / cellSize) + 1;
-		this.quadtree = new Vector2f[numCells * numCells];
+		this.grid = new Vector2f[numCells * numCells];
 		this.processList = new ArrayList();
 		compute(k, callback);
 	}
@@ -101,7 +103,7 @@ public class Poisson {
 			Vector2f sample = (Vector2f) processList.get(i);
 			boolean found = false;
 			search: for (int s = 0; s < k; s++) {
-				randomVectorInRadii(minDist, 2 * minDist, tmp);
+			    randomVectorInRto2R(minDist, tmp);
 				tmp.add(sample);
 				if (tmp.lengthSquared() > diskRadiusSquared)
 					continue search;
@@ -127,9 +129,9 @@ public class Poisson {
 		} while (out.lengthSquared() > diskRadiusSquared);
 	}
 
-	private void randomVectorInRadii(float r1, float r2, Vector2f out) {
+	private void randomVectorInRto2R(float r, Vector2f out) {
 		float angle = rnd.nextFloat() * (float) Math.PI2;
-		float radius = r1 * (rnd.nextFloat() + 1);
+		float radius = r * (rnd.nextFloat() + 1.0f);
 		out.x = (float) (radius * Math.sin_roquen_9(angle + Math.PIHalf));
 		out.y = (float) (radius * Math.sin_roquen_9(angle));
 	}
@@ -137,7 +139,7 @@ public class Poisson {
 	private boolean searchNeighbors(Vector2f p) {
 		int row = (int) ((p.y + diskRadius) / cellSize);
 		int col = (int) ((p.x + diskRadius) / cellSize);
-		if (quadtree[row * numCells + col] != null)
+		if (grid[row * numCells + col] != null)
 			return true;
 		for (int y = -1; y <= +1; y++) {
 			if (y + row < 0 || y + row > numCells - 1)
@@ -145,8 +147,8 @@ public class Poisson {
 			for (int x = -1; x <= +1; x++) {
 				if (x + col < 0 || x + col > numCells - 1)
 					continue;
-				Vector2f v = quadtree[(row + y) * numCells + (col + x)];
-				if (v != null && v.distanceSquared(p) < minDist) {
+				Vector2f v = grid[(row + y) * numCells + (col + x)];
+				if (v != null && v.distanceSquared(p) < minDistSquared) {
 					return true;
 				}
 			}
@@ -157,7 +159,7 @@ public class Poisson {
 	private void insert(Vector2f p) {
 		int row = (int) ((p.y + diskRadius) / cellSize);
 		int col = (int) ((p.x + diskRadius) / cellSize);
-		quadtree[row * numCells + col] = p;
+		grid[row * numCells + col] = p;
 	}
 
 }
