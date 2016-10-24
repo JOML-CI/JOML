@@ -170,6 +170,15 @@ public interface Vector2fc {
     float distance(Vector2fc v);
 
     /**
+     * Return the distance squared between this and <code>v</code>.
+     * 
+     * @param v
+     *        the other vector
+     * @return the distance squared
+     */
+    float distanceSquared(Vector2fc v);
+
+    /**
      * Return the distance between <code>this</code> vector and <tt>(x, y)</tt>.
      * 
      * @param x
@@ -179,6 +188,17 @@ public interface Vector2fc {
      * @return the euclidean distance
      */
     float distance(float x, float y);
+
+    /**
+     * Return the distance squared between <code>this</code> vector and <tt>(x, y)</tt>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @return the euclidean distance squared
+     */
+    float distanceSquared(float x, float y);
 
     /**
      * Normalize this vector and store the result in <code>dest</code>.

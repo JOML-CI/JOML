@@ -98,8 +98,16 @@ public class Vector2f implements Externalizable, Vector2fc {
             return delegate.distance(v);
         }
 
+        public float distanceSquared(Vector2fc v) {
+            return delegate.distanceSquared(v);
+        }
+
         public float distance(float x, float y) {
             return delegate.distance(x, y);
+        }
+
+        public float distanceSquared(float x, float y) {
+            return delegate.distanceSquared(x, y);
         }
 
         public Vector2f normalize(Vector2f dest) {
@@ -523,12 +531,28 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Vector2fc#distanceSquared(org.joml.Vector2fc)
+     */
+    public float distanceSquared(Vector2fc v) {
+        return distanceSquared(v.x(), v.y());
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Vector2fc#distance(float, float)
      */
     public float distance(float x, float y) {
         float dx = this.x - x;
         float dy = this.y - y;
         return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#distanceSquared(float, float)
+     */
+    public float distanceSquared(float x, float y) {
+        float dx = this.x - x;
+        float dy = this.y - y;
+        return dx * dx + dy * dy;
     }
 
     /**
