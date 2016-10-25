@@ -2666,31 +2666,27 @@ public class Intersectiond {
     }
 
     /**
-     * Test whether the one circle with center <tt>(aX, aY)</tt> and square radius <code>radiusSquaredA</code> intersects the other
-     * circle with center <tt>(bX, bY)</tt> and square radius <code>radiusSquaredB</code>.
+     * Test whether the one circle with center <tt>(aX, aY)</tt> and radius <code>rA</code> intersects the other circle with center <tt>(bX, bY)</tt> and radius <code>rB</code>.
      * <p>
-     * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
+     * Reference: <a href="http://math.stackexchange.com/questions/275514/two-circles-overlap">http://math.stackexchange.com/</a>
      * 
      * @param aX
      *              the x coordinate of the first circle's center
      * @param aY
      *              the y coordinate of the first circle's center
-     * @param radiusSquaredA
+     * @param rA
      *              the square of the first circle's radius
      * @param bX
      *              the x coordinate of the second circle's center
      * @param bY
      *              the y coordinate of the second circle's center
-     * @param radiusSquaredB
+     * @param rB
      *              the square of the second circle's radius
      * @return <code>true</code> iff both circles intersect; <code>false</code> otherwise
      */
-    public static boolean testCircleCircle(double aX, double aY, double radiusSquaredA, double bX, double bY, double radiusSquaredB) {
-        double dX = bX - aX, dY = bY - aY;
-        double distSquared = dX * dX + dY * dY;
-        double h = 0.5 + (radiusSquaredA - radiusSquaredB) / distSquared;
-        double r_i = radiusSquaredA - h * h * distSquared;
-        return r_i >= 0.0;
+    public static boolean testCircleCircle(double aX, double aY, double rA, double bX, double bY, double rB) {
+        double d = (aX - bX) * (aX - bX) + (aY - bY) * (aY - bY);
+        return d <= (rA + rB) * (rA + rB);
     }
 
     /**
