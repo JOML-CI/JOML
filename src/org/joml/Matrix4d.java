@@ -14058,7 +14058,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
     /**
      * Apply a model transformation to this matrix for a right-handed coordinate system, 
-     * that aligns the <code>-z</code> axis with <code>direction</code>
+     * that aligns the local <code>+Z</code> axis with <code>direction</code>
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
@@ -14088,7 +14088,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
     /**
      * Apply a model transformation to this matrix for a right-handed coordinate system, 
-     * that aligns the <code>-z</code> axis with <code>direction</code>.
+     * that aligns the local <code>+Z</code> axis with <code>direction</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -14115,7 +14115,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
     /**
      * Apply a model transformation to this matrix for a right-handed coordinate system, 
-     * that aligns the <code>-z</code> axis with <code>(dirX, dirY, dirZ)</code>.
+     * that aligns the local <code>+Z</code> axis with <code>(dirX, dirY, dirZ)</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
      * then the new matrix will be <code>M * L</code>. So when transforming a
@@ -14150,7 +14150,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
     /**
      * Apply a model transformation to this matrix for a right-handed coordinate system, 
-     * that aligns the <code>-z</code> axis with <code>dir</code>
+     * that aligns the local <code>+Z</code> axis with <code>dir</code>
      * and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>L</code> the lookat matrix,
