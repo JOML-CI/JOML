@@ -343,6 +343,10 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         public Matrix3d rotateTowards(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix3d dest) {
             return delegate.rotateTowards(dirX, dirY, dirZ, upX, upY, upZ, dest);
         }
+
+        public Vector3d getEulerAnglesZYX(Vector3d dest) {
+            return delegate.getEulerAnglesZYX(dest);
+        }
     }
 
     private static final long serialVersionUID = 1L;

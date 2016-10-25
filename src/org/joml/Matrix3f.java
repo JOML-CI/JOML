@@ -318,6 +318,10 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         public Matrix3f rotateTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix3f dest) {
             return delegate.rotateTowards(dirX, dirY, dirZ, upX, upY, upZ, dest);
         }
+
+        public Vector3f getEulerAnglesZYX(Vector3f dest) {
+            return delegate.getEulerAnglesZYX(dest);
+        }
     }
 
     private static final long serialVersionUID = 1L;

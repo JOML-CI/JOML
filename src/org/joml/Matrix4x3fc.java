@@ -2370,4 +2370,28 @@ public interface Matrix4x3fc {
      */
     Matrix4x3f rotateTowards(float dirX, float dirY, float dirZ, float upX, float upY, float upZ, Matrix4x3f dest);
 
+    /**
+     * Extract the Euler angles from the rotation represented by the upper left 3x3 submatrix of <code>this</code>
+     * and store the extracted Euler angles in <code>dest</code>.
+     * <p>
+     * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
+     * <p>
+     * Note that the returned Euler angles must be applied in the order <tt>Z * Y * X</tt> to obtain the identical matrix.
+     * This means that calling {@link Matrix4x3fc#rotateZYX(float, float, float, Matrix4x3f)} using the obtained Euler angles will yield
+     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
+     * <tt>m2</tt> should be identical to <tt>m</tt> (disregarding possible floating-point inaccuracies).
+     * <pre>
+     * Matrix4x3f m = ...; // &lt;- matrix only representing rotation
+     * Matrix4x3f n = new Matrix4x3f();
+     * n.rotateZYX(m.getEulerAnglesZYX(new Vector3f()));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://nghiaho.com/?page_id=846">http://nghiaho.com/</a>
+     * 
+     * @param dest
+     *          will hold the extracted Euler angles
+     * @return dest
+     */
+    Vector3f getEulerAnglesZYX(Vector3f dest);
+
 }

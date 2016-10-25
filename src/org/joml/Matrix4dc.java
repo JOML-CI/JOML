@@ -4455,4 +4455,28 @@ public interface Matrix4dc {
      */
     Matrix4d rotateTowards(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix4d dest);
 
+    /**
+     * Extract the Euler angles from the rotation represented by the upper left 3x3 submatrix of <code>this</code>
+     * and store the extracted Euler angles in <code>dest</code>.
+     * <p>
+     * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
+     * <p>
+     * Note that the returned Euler angles must be applied in the order <tt>Z * Y * X</tt> to obtain the identical matrix.
+     * This means that calling {@link Matrix4dc#rotateZYX(double, double, double, Matrix4d)} using the obtained Euler angles will yield
+     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
+     * <tt>m2</tt> should be identical to <tt>m</tt> (disregarding possible floating-point inaccuracies).
+     * <pre>
+     * Matrix4d m = ...; // &lt;- matrix only representing rotation
+     * Matrix4d n = new Matrix4d();
+     * n.rotateZYX(m.getEulerAnglesZYX(new Vector3d()));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://nghiaho.com/?page_id=846">http://nghiaho.com/</a>
+     * 
+     * @param dest
+     *          will hold the extracted Euler angles
+     * @return dest
+     */
+    Vector3d getEulerAnglesZYX(Vector3d dest);
+
 }
