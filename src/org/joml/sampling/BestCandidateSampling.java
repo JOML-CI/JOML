@@ -34,6 +34,11 @@ import org.joml.Vector2f;
  */
 public class BestCandidateSampling {
 
+    /**
+     * Simple quatree that can handle points and 1-nearest neighbor search.
+     * 
+     * @author Kai Burjack
+     */
     private static class QuadTree {
 
         private static final int MAX_OBJECTS_PER_NODE = 10;
