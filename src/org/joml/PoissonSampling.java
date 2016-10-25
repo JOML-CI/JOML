@@ -51,7 +51,7 @@ public class PoissonSampling {
 	 * 
 	 * @author Kai Burjack
 	 */
-	public static interface PoissonCallback {
+	public static interface Callback {
 		/**
 		 * Will be called whenever a new sample with the given coordinates <tt>(x, y)</tt> is generated.
 		 * 
@@ -78,7 +78,7 @@ public class PoissonSampling {
 	 * @param callback
 	 *            will be notified about each sample point
 	 */
-	public PoissonSampling(float diskRadius, float minDist, int k, PoissonCallback callback) {
+	public PoissonSampling(float diskRadius, float minDist, int k, Callback callback) {
 		this.diskRadius = diskRadius;
 		this.diskRadiusSquared = diskRadius * diskRadius;
 		this.minDist = minDist;
@@ -91,7 +91,7 @@ public class PoissonSampling {
 		compute(k, callback);
 	}
 
-	private void compute(int k, PoissonCallback callback) {
+	private void compute(int k, Callback callback) {
 		Vector2f tmp = new Vector2f();
 		randomVectorInDisk(tmp);
 		Vector2f initial = new Vector2f(tmp);
