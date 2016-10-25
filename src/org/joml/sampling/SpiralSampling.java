@@ -20,7 +20,7 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.sampling;
 
 /**
  * Creates samples on a spiral around a center point.

@@ -20,10 +20,12 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.sampling;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import org.joml.Vector2f;
 
 /**
  * Generates Poisson samples on a disk.

@@ -20,7 +20,7 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.sampling;
 
 /**
  * Callback used for notifying about a new generated 2D sample.

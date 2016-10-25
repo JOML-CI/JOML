@@ -20,7 +20,9 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.sampling;
+
+import org.joml.Math;
 
 /**
  * Creates samples on a unit sphere.

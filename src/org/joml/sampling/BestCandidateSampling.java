@@ -20,9 +20,12 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.sampling;
 
 import java.util.ArrayList;
+
+import org.joml.Intersectionf;
+import org.joml.Vector2f;
 
 /**
  * Creates samples on a unit disk using the "Best Candidate" algorithm.
@@ -104,11 +107,10 @@ public class BestCandidateSampling {
                 if (y < minY + hs)
                     return NXNY;
                 return NXPY;
-            } else {
-                if (y < minY + hs)
-                    return PXNY;
-                return PXPY;
             }
+            if (y < minY + hs)
+                return PXNY;
+            return PXPY;
         }
 
         float nearest(float x, float y, float n) {
@@ -122,16 +124,15 @@ public class BestCandidateSampling {
                     nr = Math.min(n1, nr);
                 }
                 return nr;
-            } else {
-                for (int i = 0; objects != null && i < objects.size(); i++) {
-                    Vector2f o = (Vector2f) objects.get(i);
-                    float d = o.distance(x, y);
-                    if (d < nr) {
-                        nr = d;
-                    }
-                }
-                return nr;
             }
+            for (int i = 0; objects != null && i < objects.size(); i++) {
+                Vector2f o = (Vector2f) objects.get(i);
+                float d = o.distance(x, y);
+                if (d < nr) {
+                    nr = d;
+                }
+            }
+            return nr;
         }
 
         public float nearest(float x, float y) {

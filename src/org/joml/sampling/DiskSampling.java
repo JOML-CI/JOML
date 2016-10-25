@@ -20,9 +20,7 @@
  THE SOFTWARE.
 
  */
-package org.joml;
-
-import java.util.ArrayList;
+package org.joml.sampling;
 
 /**
  * Creates samples on a unit disk.
@@ -84,35 +82,6 @@ public class DiskSampling {
             float x = sqrtR * (float) Math.sin_roquen_9(a + 0.5 * Math.PI);
             float y = sqrtR * (float) Math.sin_roquen_9(a);
             callback.onNewSample(x, y);
-        }
-    }
-
-    public void generateBestCandidate(int numSamples, int candidates, Sampling2dCallback callback) {
-        ArrayList samples = new ArrayList();
-        for (int i = 0; i < numSamples; i++) {
-            float bestX = 0, bestY = 0, bestDist = 0.0f;
-            for (int c = 0; c < candidates; c++) {
-                float r = rnd.nextFloat();
-                float a = rnd.nextFloat() * 2.0f * (float) Math.PI;
-                float sqrtR = (float) Math.sqrt(r);
-                float x = sqrtR * (float) Math.sin_roquen_9(a + 0.5 * Math.PI);
-                float y = sqrtR * (float) Math.sin_roquen_9(a);
-                float minDist = Float.MAX_VALUE;
-                for (int s = 0; s < samples.size(); s++) {
-                    Vector2f sample = (Vector2f) samples.get(s);
-                    float dist = sample.distanceSquared(x, y);
-                    if (dist < minDist) {
-                        minDist = dist;
-                    }
-                }
-                if (minDist > bestDist) {
-                    bestDist = minDist;
-                    bestX = x;
-                    bestY = y;
-                }
-            }
-            callback.onNewSample(bestX, bestY);
-            samples.add(new Vector2f(bestX, bestY));
         }
     }
 

@@ -20,23 +20,35 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.sampling;
 
 /**
- * Callback used for notifying about a new generated 3D sample.
+ * Internal random number generator.
  * 
  * @author Kai Burjack
  */
-public interface Sampling3dCallback {
+class Random {
+
     /**
-     * Will be called whenever a new sample with the given coordinates <tt>(x, y, z)</tt> is generated.
-     * 
-     * @param x
-     *            the x coordinate of the new sample point
-     * @param y
-     *            the y coordinate of the new sample point
-     * @param z
-     *            the z coordinate of the new sample point
+     * Currently, we just use Java's {@link java.util.Random} class.
      */
-    void onNewSample(float x, float y, float z);
+    private final java.util.Random rnd;
+
+    /**
+     * Create a new instance of {@link Random} and initialize it with the given <code>seed</code>.
+     * 
+     * @param seed
+     *            the seed number
+     */
+    Random(long seed) {
+        this.rnd = new java.util.Random(seed);
+    }
+
+    /**
+     * @return a random float within [0..1)
+     */
+    float nextFloat() {
+        return rnd.nextFloat();
+    }
+
 }
