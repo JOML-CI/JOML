@@ -51,10 +51,10 @@ public class Math {
      * from the same site.
      */
     public static final double PI = java.lang.Math.PI;
-    private static final double PI2 = PI * 2.0;
-    private static final double PIHalf = PI * 0.5;
-    private static final double PI_4 = PI * 0.25;
-    private static final double PI_INV = 1.0 / PI;
+    static final double PI2 = PI * 2.0;
+    static final double PIHalf = PI * 0.5;
+    static final double PI_4 = PI * 0.25;
+    static final double PI_INV = 1.0 / PI;
     private static final int lookupBits = Integer.parseInt(System.getProperty("joml.sinLookup.bits", "14")); //$NON-NLS-1$ //$NON-NLS-2$
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
@@ -85,7 +85,7 @@ public class Math {
     /**
      * @author theagentd
      */
-    private static double sin_theagentd_arith(double x){
+    static double sin_theagentd_arith(double x){
         double xi = floor((x + PI_4) * PI_INV);
         double x_ = x - xi * PI;
         double sign = ((int)xi & 1) * -2 + 1;
@@ -105,7 +105,7 @@ public class Math {
     /**
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361718/view.html#msg361718">http://www.java-gaming.org/</a>
      */
-    private static double sin_roquen_arith(double x) {
+    static double sin_roquen_arith(double x) {
         double xi = Math.floor((x + PI_4) * PI_INV);
         double x_ = x - xi * PI;
         double sign = ((int)xi & 1) * -2 + 1;
@@ -144,7 +144,7 @@ public class Math {
     /**
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
      */
-    private static double sin_roquen_9(double v) {
+    static double sin_roquen_9(double v) {
       double i  = java.lang.Math.rint(v*PI_INV);
       double x  = v - i * Math.PI;
       double qs = 1-2*((int)i & 1);
@@ -170,7 +170,7 @@ public class Math {
     /**
      * Reference: <a href="http://www.java-gaming.org/topics/joml-1-8-0-release/37491/msg/361815/view.html#msg361815">http://www.java-gaming.org/</a>
      */
-    private static double sin_roquen_newk(double v) {
+    static double sin_roquen_newk(double v) {
       double i  = java.lang.Math.rint(v*PI_INV);
       double x  = v - i * Math.PI;
       double qs = 1-2*((int)i & 1);
@@ -190,7 +190,7 @@ public class Math {
     /**
      * Reference: <a href="http://www.java-gaming.org/topics/extremely-fast-sine-cosine/36469/msg/349515/view.html#msg349515">http://www.java-gaming.org/</a>
      */
-    private static double sin_theagentd_lookup(double rad) {
+    static double sin_theagentd_lookup(double rad) {
         float index = (float) (rad * lookupSizeOverPi2);
         int ii = (int)java.lang.Math.floor(index);
         float alpha = index - ii;
@@ -279,6 +279,10 @@ public class Math {
 
     public static double floor(double v) {
         return java.lang.Math.floor(v);
+    }
+
+    public static double exp(double a) {
+    	return java.lang.Math.exp(a);
     }
 
 }

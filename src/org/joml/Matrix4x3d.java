@@ -4111,6 +4111,29 @@ public class Matrix4x3d implements Externalizable {
     }
 
     /**
+     * Apply rotation of <code>angles.x</code> radians about the X axis, followed by a rotation of <code>angles.y</code> radians about the Y axis and
+     * followed by a rotation of <code>angles.z</code> radians about the Z axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angles.x).rotateY(angles.y).rotateZ(angles.z)</tt>
+     * 
+     * @param angles
+     *            the Euler angles
+     * @return this
+     */
+    public Matrix4x3d rotateXYZ(Vector3d angles) {
+        return rotateXYZ(angles.x, angles.y, angles.z);
+    }
+
+    /**
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
@@ -4206,6 +4229,29 @@ public class Matrix4x3d implements Externalizable {
     }
 
     /**
+     * Apply rotation of <code>angles.z</code> radians about the Z axis, followed by a rotation of <code>angles.y</code> radians about the Y axis and
+     * followed by a rotation of <code>angles.x</code> radians about the X axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angles.z).rotateY(angles.y).rotateX(angles.x)</tt>
+     * 
+     * @param angles
+     *            the Euler angles
+     * @return this
+     */
+    public Matrix4x3d rotateZYX(Vector3d angles) {
+        return rotateZYX(angles.z, angles.y, angles.x);
+    }
+
+    /**
      * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleX</code> radians about the X axis.
      * <p>
@@ -4298,6 +4344,29 @@ public class Matrix4x3d implements Externalizable {
         dest.m32 = m32;
         dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
+    }
+
+    /**
+     * Apply rotation of <code>angles.y</code> radians about the Y axis, followed by a rotation of <code>angles.x</code> radians about the X axis and
+     * followed by a rotation of <code>angles.z</code> radians about the Z axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angles.y).rotateX(angles.x).rotateZ(angles.z)</tt>
+     * 
+     * @param angles
+     *            the Euler angles
+     * @return this
+     */
+    public Matrix4x3d rotateYXZ(Vector3d angles) {
+        return rotateYXZ(angles.y, angles.x, angles.z);
     }
 
     /**
@@ -9821,6 +9890,35 @@ public class Matrix4x3d implements Externalizable {
         this.m32 = posZ;
         properties = 0;
         return this;
+    }
+
+    /**
+     * Extract the Euler angles from the rotation represented by the upper left 3x3 submatrix of <code>this</code>
+     * and store the extracted Euler angles in <code>dest</code>.
+     * <p>
+     * This method assumes that the upper left of <code>this</code> only represents a rotation without scaling.
+     * <p>
+     * Note that the returned Euler angles must be applied in the order <tt>Z * Y * X</tt> to obtain the identical matrix.
+     * This means that calling {@link Matrix4x3d#rotateZYX(double, double, double)} using the obtained Euler angles will yield
+     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
+     * <tt>m2</tt> should be identical to <tt>m</tt> (disregarding possible floating-point inaccuracies).
+     * <pre>
+     * Matrix4x3d m = ...; // &lt;- matrix only representing rotation
+     * Matrix4x3d n = new Matrix4x3d();
+     * n.rotateZYX(m.getEulerAnglesZYX(new Vector3d()));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://nghiaho.com/?page_id=846">http://nghiaho.com/</a>
+     * 
+     * @param dest
+     *          will hold the extracted Euler angles
+     * @return dest
+     */
+    public Vector3d getEulerAnglesZYX(Vector3d dest) {
+        dest.x = Math.atan2(m12, m22);
+        dest.y = Math.atan2(-m02, Math.sqrt(m12 * m12 + m22 * m22));
+        dest.z = Math.atan2(m01, m00);
+        return dest;
     }
 
 }

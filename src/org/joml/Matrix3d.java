@@ -228,6 +228,10 @@ public class Matrix3d implements Externalizable, Matrix3dc {
             return delegate.rotateZYX(angleZ, angleY, angleX, dest);
         }
 
+        public Matrix3d rotateYXZ(double angleY, double angleX, double angleZ, Matrix3d dest) {
+            return delegate.rotateYXZ(angleY, angleX, angleZ, dest);
+        }
+
         public Matrix3d rotate(double ang, double x, double y, double z, Matrix3d dest) {
             return delegate.rotate(ang, x, y, z, dest);
         }
@@ -2503,6 +2507,94 @@ public class Matrix3d implements Externalizable, Matrix3dc {
     }
 
     /**
+     * Apply rotation of <code>angles.y</code> radians about the Y axis, followed by a rotation of <code>angles.x</code> radians about the X axis and
+     * followed by a rotation of <code>angles.z</code> radians about the Z axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angles.y).rotateX(angles.x).rotateZ(angles.z)</tt>
+     * 
+     * @param angles
+     *            the Euler angles
+     * @return this
+     */
+    public Matrix3d rotateYXZ(Vector3d angles) {
+        return rotateYXZ(angles.y, angles.x, angles.z);
+    }
+
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @return this
+     */
+    public Matrix3d rotateYXZ(double angleY, double angleX, double angleZ) {
+        return rotateYXZ(angleY, angleX, angleZ, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#rotateYXZ(double, double, double, org.joml.Matrix3d)
+     */
+    public Matrix3d rotateYXZ(double angleY, double angleX, double angleZ, Matrix3d dest) {
+        double cosY = Math.cos(angleY);
+        double sinY = Math.sin(angleY);
+        double cosX = Math.cos(angleX);
+        double sinX = Math.sin(angleX);
+        double cosZ = Math.cos(angleZ);
+        double sinZ = Math.sin(angleZ);
+        double m_sinY = -sinY;
+        double m_sinX = -sinX;
+        double m_sinZ = -sinZ;
+
+        // rotateY
+        double nm20 = m00 * sinY + m20 * cosY;
+        double nm21 = m01 * sinY + m21 * cosY;
+        double nm22 = m02 * sinY + m22 * cosY;
+        double nm00 = m00 * cosY + m20 * m_sinY;
+        double nm01 = m01 * cosY + m21 * m_sinY;
+        double nm02 = m02 * cosY + m22 * m_sinY;
+        // rotateX
+        double nm10 = m10 * cosX + nm20 * sinX;
+        double nm11 = m11 * cosX + nm21 * sinX;
+        double nm12 = m12 * cosX + nm22 * sinX;
+        dest.m20 = m10 * m_sinX + nm20 * cosX;
+        dest.m21 = m11 * m_sinX + nm21 * cosX;
+        dest.m22 = m12 * m_sinX + nm22 * cosX;
+        // rotateZ
+        dest.m00 = nm00 * cosZ + nm10 * sinZ;
+        dest.m01 = nm01 * cosZ + nm11 * sinZ;
+        dest.m02 = nm02 * cosZ + nm12 * sinZ;
+        dest.m10 = nm00 * m_sinZ + nm10 * cosZ;
+        dest.m11 = nm01 * m_sinZ + nm11 * cosZ;
+        dest.m12 = nm02 * m_sinZ + nm12 * cosZ;
+        return dest;
+    }
+
+    /**
      * Apply rotation to this matrix by rotating the given amount of radians
      * about the given axis specified as x, y and z components.
      * <p>
@@ -4218,6 +4310,34 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         this.m21 = ndirY;
         this.m22 = ndirZ;
         return this;
+    }
+
+    /**
+     * Extract the Euler angles from the rotation represented by <code>this</code> matrix and store the extracted Euler angles in <code>dest</code>.
+     * <p>
+     * This method assumes that <code>this</code> matrix only represents a rotation without scaling.
+     * <p>
+     * Note that the returned Euler angles must be applied in the order <tt>Z * Y * X</tt> to obtain the identical matrix.
+     * This means that calling {@link Matrix3d#rotateZYX(double, double, double)} using the obtained Euler angles will yield
+     * the same rotation as the original matrix from which the Euler angles were obtained, so in the below code the matrix
+     * <tt>m2</tt> should be identical to <tt>m</tt> (disregarding possible floating-point inaccuracies).
+     * <pre>
+     * Matrix3d m = ...; // &lt;- matrix only representing rotation
+     * Matrix3d n = new Matrix3d();
+     * n.rotateZYX(m.getEulerAnglesZYX(new Vector3d()));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://nghiaho.com/?page_id=846">http://nghiaho.com/</a>
+     * 
+     * @param dest
+     *          will hold the extracted Euler angles
+     * @return dest
+     */
+    public Vector3d getEulerAnglesZYX(Vector3d dest) {
+        dest.x = (float) Math.atan2(m12, m22);
+        dest.y = (float) Math.atan2(-m02, Math.sqrt(m12 * m12 + m22 * m22));
+        dest.z = (float) Math.atan2(m01, m00);
+        return dest;
     }
 
     /**
