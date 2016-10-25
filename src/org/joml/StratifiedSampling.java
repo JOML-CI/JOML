@@ -29,23 +29,6 @@ package org.joml;
  */
 public class StratifiedSampling {
 
-    /**
-     * Callback used for notifying about a new generated sample.
-     * 
-     * @author Kai Burjack
-     */
-    public static interface Callback {
-        /**
-         * Will be called whenever a new sample with the given coordinates <tt>(x, y)</tt> is generated.
-         * 
-         * @param x
-         *            the x coordinate of the new sample point
-         * @param y
-         *            the y coordinate of the new sample point
-         */
-        void onNewSample(float x, float y);
-    }
-
     private final Random rnd;
 
     /**
@@ -69,7 +52,7 @@ public class StratifiedSampling {
      * @param callback
      *            will be called for each generated sample position
      */
-    public void generateRandom(int n, Callback callback) {
+    public void generateRandom(int n, Sampling2dCallback callback) {
         for (int y = 0; y < n; y++) {
             for (int x = 0; x < n; x++) {
                 float sampleX = (rnd.nextFloat() / n + (float) x / n) * 2.0f - 1.0f;
@@ -92,7 +75,7 @@ public class StratifiedSampling {
      * @param callback
      *            will be called for each generated sample position
      */
-    public void generateCentered(int n, float centering, Callback callback) {
+    public void generateCentered(int n, float centering, Sampling2dCallback callback) {
         float start = centering * 0.5f;
         float end = 1.0f - centering;
         for (int y = 0; y < n; y++) {

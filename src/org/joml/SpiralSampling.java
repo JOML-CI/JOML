@@ -43,23 +43,6 @@ public class SpiralSampling {
     }
 
     /**
-     * Callback used for notifying about a new generated sample.
-     * 
-     * @author Kai Burjack
-     */
-    public static interface Callback {
-        /**
-         * Will be called whenever a new sample with the given coordinates <tt>(x, y)</tt> is generated.
-         * 
-         * @param x
-         *            the x coordinate of the new sample point
-         * @param y
-         *            the y coordinate of the new sample point
-         */
-        void onNewSample(float x, float y);
-    }
-
-    /**
      * Create <code>numSamples</code> number of samples on a spiral with maximum radius <code>radius</code> around the
      * center using <code>numRotations</code> number of rotations along the spiral, and call the given
      * <code>callback</code> for each sample generated.
@@ -76,7 +59,7 @@ public class SpiralSampling {
      * @param callback
      *            will be called for each sample generated
      */
-    public void createEquiAngle(float radius, int numRotations, int numSamples, Callback callback) {
+    public void createEquiAngle(float radius, int numRotations, int numSamples, Sampling2dCallback callback) {
         for (int sample = 0; sample < numSamples; sample++) {
             float angle = 2.0f * (float) Math.PI * (sample * numRotations) / numSamples;
             float r = radius * sample / (numSamples - 1);
@@ -107,7 +90,7 @@ public class SpiralSampling {
      * @param callback
      *            will be called for each sample generated
      */
-    public void createEquiAngle(float radius, int numRotations, int numSamples, float jitter, Callback callback) {
+    public void createEquiAngle(float radius, int numRotations, int numSamples, float jitter, Sampling2dCallback callback) {
         float spacing = radius / numRotations;
         for (int sample = 0; sample < numSamples; sample++) {
             float angle = 2.0f * (float) Math.PI * (sample * numRotations) / numSamples;
