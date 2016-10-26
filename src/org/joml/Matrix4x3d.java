@@ -236,6 +236,22 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return delegate.get(arr);
         }
 
+        public DoubleBuffer get4x4(DoubleBuffer buffer) {
+            return delegate.get4x4(buffer);
+        }
+
+        public DoubleBuffer get4x4(int index, DoubleBuffer buffer) {
+            return delegate.get4x4(index, buffer);
+        }
+
+        public ByteBuffer get4x4(ByteBuffer buffer) {
+            return delegate.get4x4(buffer);
+        }
+
+        public ByteBuffer get4x4(int index, ByteBuffer buffer) {
+            return delegate.get4x4(index, buffer);
+        }
+
         public DoubleBuffer getTransposed(DoubleBuffer buffer) {
             return delegate.getTransposed(buffer);
         }
@@ -609,8 +625,6 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     double m30, m31, m32;
 
     byte properties;
-    private static final byte PROPERTY_IDENTITY = 1<<2;
-    private static final byte PROPERTY_TRANSLATION = 1<<3;
 
     /**
      * Create a new {@link Matrix4x3d} and set it to {@link #identity() identity}.
@@ -2250,6 +2264,36 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      */
     public float[] get(float[] arr) {
         return get(arr, 0);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#get4x4(java.nio.DoubleBuffer)
+     */
+    public DoubleBuffer get4x4(DoubleBuffer buffer) {
+        return get4x4(buffer.position(), buffer);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#get4x4(int, java.nio.DoubleBuffer)
+     */
+    public DoubleBuffer get4x4(int index, DoubleBuffer buffer) {
+        MemUtil.INSTANCE.put4x4(this, index, buffer);
+        return buffer;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#get4x4(java.nio.ByteBuffer)
+     */
+    public ByteBuffer get4x4(ByteBuffer buffer) {
+        return get4x4(buffer.position(), buffer);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#get4x4(int, java.nio.ByteBuffer)
+     */
+    public ByteBuffer get4x4(int index, ByteBuffer buffer) {
+        MemUtil.INSTANCE.put4x4(this, index, buffer);
+        return buffer;
     }
 
     /* (non-Javadoc)

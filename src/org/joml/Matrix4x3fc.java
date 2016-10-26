@@ -548,7 +548,7 @@ public interface Matrix4x3fc {
      * the matrix is stored, use {@link #get4x4(int, ByteBuffer)}, taking
      * the absolute position as parameter.
      * 
-     * @see #get(int, ByteBuffer)
+     * @see #get4x4(int, ByteBuffer)
      * 
      * @param buffer
      *            will receive the values of this matrix in column-major order at its current position

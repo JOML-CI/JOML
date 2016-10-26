@@ -563,6 +563,70 @@ public interface Matrix4x3dc {
     float[] get(float[] arr);
 
     /**
+     * Store a 4x4 matrix in column-major order into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}, where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * In order to specify the offset into the DoubleBuffer at which
+     * the matrix is stored, use {@link #get4x4(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get4x4(int, DoubleBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    DoubleBuffer get4x4(DoubleBuffer buffer);
+
+    /**
+     * Store a 4x4 matrix in column-major order into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index, where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * 
+     * @param index
+     *            the absolute position into the DoubleBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    DoubleBuffer get4x4(int index, DoubleBuffer buffer);
+
+    /**
+     * Store a 4x4 matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}, where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get4x4(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get4x4(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
+     */
+    ByteBuffer get4x4(ByteBuffer buffer);
+
+    /**
+     * Store a 4x4 matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index, where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    ByteBuffer get4x4(int index, ByteBuffer buffer);
+
+    /**
      * Store this matrix in row-major order into the supplied {@link DoubleBuffer} at the current
      * buffer {@link DoubleBuffer#position() position}.
      * <p>
