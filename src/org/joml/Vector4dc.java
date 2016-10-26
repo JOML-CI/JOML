@@ -219,7 +219,7 @@ public interface Vector4dc {
      *          the destination vector to hold the result
      * @return dest
      */
-    Vector4d mul(Matrix4x3d mat, Vector4d dest);
+    Vector4d mul(Matrix4x3dc mat, Vector4d dest);
 
     /**
      * Multiply the given matrix mat with this Vector4d and store the result in <code>dest</code>.

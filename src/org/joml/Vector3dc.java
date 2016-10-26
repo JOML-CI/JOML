@@ -397,7 +397,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulPosition(Matrix4x3d mat, Vector3d dest);
+    Vector3d mulPosition(Matrix4x3dc mat, Vector3d dest);
 
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
@@ -495,7 +495,7 @@ public interface Vector3dc {
      *          will hold the result
      * @return dest
      */
-    Vector3d mulDirection(Matrix4x3d mat, Vector3d dest);
+    Vector3d mulDirection(Matrix4x3dc mat, Vector3d dest);
 
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the

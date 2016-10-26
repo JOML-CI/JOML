@@ -1074,7 +1074,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaternionf setFromUnnormalized(Matrix4x3d mat) {
+    public Quaternionf setFromUnnormalized(Matrix4x3dc mat) {
         setFromUnnormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
@@ -1116,7 +1116,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      *          the matrix whose rotational component is used to set this quaternion
      * @return this
      */
-    public Quaternionf setFromNormalized(Matrix4x3d mat) {
+    public Quaternionf setFromNormalized(Matrix4x3dc mat) {
         setFromNormalized(mat.m00(), mat.m01(), mat.m02(), mat.m10(), mat.m11(), mat.m12(), mat.m20(), mat.m21(), mat.m22());
         return this;
     }
