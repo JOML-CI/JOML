@@ -386,6 +386,20 @@ public interface Vector3dc {
     Vector3d mulPosition(Matrix4fc mat, Vector3d dest);
 
     /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d mulPosition(Matrix4x3dc mat, Vector3d dest);
+
+    /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
      * result in <code>dest</code>.
      * <p>
@@ -468,6 +482,20 @@ public interface Vector3dc {
      * @return dest
      */
     Vector3d mulDirection(Matrix4fc mat, Vector3d dest);
+
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d mulDirection(Matrix4x3dc mat, Vector3d dest);
 
     /**
      * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the

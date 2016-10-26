@@ -41,7 +41,8 @@ public class BestCandidateSampling {
      */
     private static class QuadTree {
 
-        private static final int MAX_OBJECTS_PER_NODE = 10;
+        private static final int MAX_OBJECTS_PER_NODE = 32;
+        private static final float SQRT2 = (float) Math.sqrt(2);
 
         // Constants for the quadrants of the quadtree
         private static final int PXNY = 0;
@@ -102,7 +103,7 @@ public class BestCandidateSampling {
                 insertIntoChild(object);
             } else {
                 if (objects == null)
-                    objects = new ArrayList();
+                    objects = new ArrayList(32);
                 objects.add(object);
             }
         }
@@ -120,7 +121,7 @@ public class BestCandidateSampling {
 
         float nearest(float x, float y, float n) {
             float nr = n;
-            if (!Float.isInfinite(nr) && !Intersectionf.testCircleCircle(minX + hs, minY + hs, hs * (float) Math.sqrt(2), x, y, nr)) {
+            if (!Float.isInfinite(nr) && !Intersectionf.testCircleCircle(minX + hs, minY + hs, hs * SQRT2, x, y, nr)) {
                 return nr;
             }
             if (children != null) {
@@ -130,14 +131,15 @@ public class BestCandidateSampling {
                 }
                 return nr;
             }
+            float nr2 = nr * nr;
             for (int i = 0; objects != null && i < objects.size(); i++) {
                 Vector2f o = (Vector2f) objects.get(i);
-                float d = o.distance(x, y);
-                if (d < nr) {
-                    nr = d;
+                float d = o.distanceSquared(x, y);
+                if (d < nr2) {
+                    nr2 = d;
                 }
             }
-            return nr;
+            return (float) Math.sqrt(nr2);
         }
 
         public float nearest(float x, float y) {

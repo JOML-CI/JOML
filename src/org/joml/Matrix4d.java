@@ -125,7 +125,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.mul(right, dest);
         }
 
-        public Matrix4d mul(Matrix4x3d right, Matrix4d dest) {
+        public Matrix4d mul(Matrix4x3dc right, Matrix4d dest) {
             return delegate.mul(right, dest);
         }
 
@@ -141,7 +141,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.mulAffineR(right, dest);
         }
 
-        public Matrix4d mulAffineR(Matrix4x3d right, Matrix4d dest) {
+        public Matrix4d mulAffineR(Matrix4x3dc right, Matrix4d dest) {
             return delegate.mulAffineR(right, dest);
         }
 
@@ -1007,9 +1007,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * and all other elements to identity.
      * 
      * @param mat
-     *          the {@link Matrix4x3d} to copy the values from
+     *          the {@link Matrix4x3dc} to copy the values from
      */
-    public Matrix4d(Matrix4x3d mat) {
+    public Matrix4d(Matrix4x3dc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
@@ -1023,7 +1023,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = mat.m31();
         m32 = mat.m32();
         m33 = 1.0;
-        properties = (byte) (mat.properties | PROPERTY_AFFINE);
+        properties = (byte) (mat.properties() | PROPERTY_AFFINE);
     }
 
     /**
@@ -1600,13 +1600,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix
      * and set the other matrix elements to identity.
      * 
-     * @see #Matrix4d(Matrix4x3d)
+     * @see #Matrix4d(Matrix4x3dc)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4d set(Matrix4x3d m) {
+    public Matrix4d set(Matrix4x3dc m) {
         m00 = m.m00();
         m01 = m.m01();
         m02 = m.m02();
@@ -1623,7 +1623,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = m.m31();
         m32 = m.m32();
         m33 = 1.0;
-        properties = (byte) (m.properties | PROPERTY_AFFINE);
+        properties = (byte) (m.properties() | PROPERTY_AFFINE);
         return this;
     }
 
@@ -1681,16 +1681,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Set the upper 4x3 submatrix of this {@link Matrix4d} to the given {@link Matrix4x3d} 
+     * Set the upper 4x3 submatrix of this {@link Matrix4d} to the given {@link Matrix4x3dc} 
      * and don't change the other elements.
      * 
-     * @see Matrix4x3d#get(Matrix4d)
+     * @see Matrix4x3dc#get(Matrix4d)
      * 
      * @param mat
-     *          the {@link Matrix4x3d}
+     *          the {@link Matrix4x3dc}
      * @return this
      */
-    public Matrix4d set4x3(Matrix4x3d mat) {
+    public Matrix4d set4x3(Matrix4x3dc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
@@ -1703,7 +1703,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m30 = mat.m30();
         m31 = mat.m31();
         m32 = mat.m32();
-        properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
+        properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
 
@@ -1928,12 +1928,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4x3d, org.joml.Matrix4d)
+     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4x3dc, org.joml.Matrix4d)
      */
-    public Matrix4d mul(Matrix4x3d right, Matrix4d dest) {
+    public Matrix4d mul(Matrix4x3dc right, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
-        else if ((right.properties & PROPERTY_IDENTITY) != 0)
+        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
         return mulAffineR(right, dest);
     }
@@ -2126,14 +2126,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the right operand of the matrix multiplication
      * @return this
      */
-    public Matrix4d mulAffineR(Matrix4x3d right) {
+    public Matrix4d mulAffineR(Matrix4x3dc right) {
        return mulAffineR(right, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4x3d, org.joml.Matrix4d)
+     * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4x3dc, org.joml.Matrix4d)
      */
-    public Matrix4d mulAffineR(Matrix4x3d right, Matrix4d dest) {
+    public Matrix4d mulAffineR(Matrix4x3dc right, Matrix4d dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
         double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
         double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();

@@ -268,7 +268,7 @@ public interface Matrix4dc {
      *          the destination matrix, which will hold the result
      * @return dest
      */
-    Matrix4d mul(Matrix4x3d right, Matrix4d dest);
+    Matrix4d mul(Matrix4x3dc right, Matrix4d dest);
 
     /**
      * Multiply this matrix by the supplied parameter matrix and store the result in <code>dest</code>.
@@ -335,7 +335,7 @@ public interface Matrix4dc {
      *          the destination matrix, which will hold the result
      * @return dest
      */
-    Matrix4d mulAffineR(Matrix4x3d right, Matrix4d dest);
+    Matrix4d mulAffineR(Matrix4x3dc right, Matrix4d dest);
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
