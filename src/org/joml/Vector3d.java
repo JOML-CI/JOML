@@ -163,6 +163,10 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.mulPosition(mat, dest);
         }
 
+        public Vector3d mulPosition(Matrix4x3d mat, Vector3d dest) {
+            return delegate.mulPosition(mat, dest);
+        }
+
         public Vector3d mulTransposePosition(Matrix4dc mat, Vector3d dest) {
             return delegate.mulTransposePosition(mat, dest);
         }
@@ -184,6 +188,10 @@ public class Vector3d implements Externalizable, Vector3dc {
         }
 
         public Vector3d mulDirection(Matrix4fc mat, Vector3d dest) {
+            return delegate.mulDirection(mat, dest);
+        }
+
+        public Vector3d mulDirection(Matrix4x3d mat, Vector3d dest) {
             return delegate.mulDirection(mat, dest);
         }
 
@@ -1205,6 +1213,19 @@ public class Vector3d implements Externalizable, Vector3dc {
         return mulPosition(mat, this);
     }
 
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulPosition(Matrix4x3d mat) {
+        return mulPosition(mat, this);
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4dc, org.joml.Vector3d)
      */
@@ -1219,6 +1240,16 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4fc, org.joml.Vector3d)
      */
     public Vector3d mulPosition(Matrix4fc mat, Vector3d dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4x3d, org.joml.Vector3d)
+     */
+    public Vector3d mulPosition(Matrix4x3d mat, Vector3d dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
                  mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
                  mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
@@ -1347,6 +1378,19 @@ public class Vector3d implements Externalizable, Vector3dc {
         return mulDirection(mat, this);
     }
 
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3d mulDirection(Matrix4x3d mat) {
+        return mulDirection(mat, this);
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4dc, org.joml.Vector3d)
      */
@@ -1361,6 +1405,16 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4fc, org.joml.Vector3d)
      */
     public Vector3d mulDirection(Matrix4fc mat, Vector3d dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4x3d, org.joml.Vector3d)
+     */
+    public Vector3d mulDirection(Matrix4x3d mat, Vector3d dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
                  mat.m01() * x + mat.m11() * y + mat.m21() * z,
                  mat.m02() * x + mat.m12() * y + mat.m22() * z);

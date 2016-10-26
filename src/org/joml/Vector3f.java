@@ -123,6 +123,10 @@ public class Vector3f implements Externalizable, Vector3fc {
             return delegate.mulPosition(mat, dest);
         }
 
+        public Vector3f mulPosition(Matrix4x3fc mat, Vector3f dest) {
+            return delegate.mulPosition(mat, dest);
+        }
+
         public Vector3f mulTransposePosition(Matrix4fc mat, Vector3f dest) {
             return delegate.mulTransposePosition(mat, dest);
         }
@@ -132,6 +136,10 @@ public class Vector3f implements Externalizable, Vector3fc {
         }
 
         public Vector3f mulDirection(Matrix4fc mat, Vector3f dest) {
+            return delegate.mulDirection(mat, dest);
+        }
+
+        public Vector3f mulDirection(Matrix4x3fc mat, Vector3f dest) {
             return delegate.mulDirection(mat, dest);
         }
 
@@ -890,10 +898,33 @@ public class Vector3f implements Externalizable, Vector3fc {
         return mulPosition(mat, this);
     }
 
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3f mulPosition(Matrix4x3fc mat) {
+        return mulPosition(mat, this);
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3fc#mulPosition(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public Vector3f mulPosition(Matrix4fc mat, Vector3f dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#mulPosition(org.joml.Matrix4x3fc, org.joml.Vector3f)
+     */
+    public Vector3f mulPosition(Matrix4x3fc mat, Vector3f dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
                  mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
                  mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
@@ -961,10 +992,33 @@ public class Vector3f implements Externalizable, Vector3fc {
         return mulDirection(mat, this);
     }
 
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector3f mulDirection(Matrix4x3fc mat) {
+        return mulDirection(mat, this);
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3fc#mulDirection(org.joml.Matrix4fc, org.joml.Vector3f)
      */
     public Vector3f mulDirection(Matrix4fc mat, Vector3f dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
+                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#mulDirection(org.joml.Matrix4x3fc, org.joml.Vector3f)
+     */
+    public Vector3f mulDirection(Matrix4x3fc mat, Vector3f dest) {
         dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
                  mat.m01() * x + mat.m11() * y + mat.m21() * z,
                  mat.m02() * x + mat.m12() * y + mat.m22() * z);
