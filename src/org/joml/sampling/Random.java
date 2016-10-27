@@ -30,9 +30,60 @@ package org.joml.sampling;
 class Random {
 
     /**
-     * Currently, we just use Java's {@link java.util.Random} class.
+     * Reference <a href="http://xoroshiro.di.unimi.it/xoroshiro128plus.c">http://xoroshiro.di.unimi.it/</a>
      */
-    private final java.util.Random rnd;
+    private static final class Xorshiro128 {
+        /**
+         * = 0x1p-24f
+         */
+        private static final float INT_TO_FLOAT = Float.intBitsToFloat(864026624);
+
+        /**
+         * Xorshiro128 state
+         */
+        private long _s0;
+        private long _s1;
+
+        /**
+         * SplitMix64 State
+         */
+        private long state;
+
+        Xorshiro128(long seed) {
+            this.state = seed;
+            this._s0 = nextSplitMix64();
+            this._s0 = nextSplitMix64();
+        }
+
+        private long nextSplitMix64() {
+            long z = state += 0x9e3779b97f4a7c15L;
+            z = (z ^ (z >>> 30)) * 0xbf58476d1ce4e5b9L;
+            z = (z ^ (z >>> 27)) * 0x94d049bb133111ebL;
+            return z ^ (z >>> 31);
+        }
+
+        /**
+         * Reference: <a href=
+         * "https://github.com/roquendm/JGO-Grabbag/blob/master/src/roquen/math/rng/PRNG.java">https://github.com/roquendm/</a>
+         * 
+         * @author roquendm
+         */
+        final float nextFloat() {
+            return (nextInt() >>> 8) * INT_TO_FLOAT;
+        }
+
+        private int nextInt() {
+            long s0 = _s0;
+            long s1 = _s1;
+            long result = s0 + s1;
+            s1 ^= s0;
+            _s0 = Long.rotateLeft(s0, 55) ^ s1 ^ (s1 << 14); // a, b
+            _s1 = Long.rotateLeft(s1, 36); // c
+            return (int) (result & 0xFFFFFFFF);
+        }
+    }
+
+    private final Xorshiro128 rnd;
 
     /**
      * Create a new instance of {@link Random} and initialize it with the given <code>seed</code>.
@@ -41,7 +92,7 @@ class Random {
      *            the seed number
      */
     Random(long seed) {
-        this.rnd = new java.util.Random(seed);
+        this.rnd = new Xorshiro128(seed);
     }
 
     /**
