@@ -29,9 +29,9 @@ import org.joml.Vector2f;
 /**
  * Generates Poisson samples on a disk.
  * <p>
- * The algorithm implemented here is based on <a href=
- * "http://www.cs.ubc.ca/~rbridson/docs/bridson-siggraph07-poissondisk.pdf">Fast
- * Poisson Disk Sampling in Arbitrary Dimensions</a>.
+ * The algorithm implemented here is based on
+ * <a href= "http://www.cs.ubc.ca/~rbridson/docs/bridson-siggraph07-poissondisk.pdf">Fast Poisson Disk Sampling in
+ * Arbitrary Dimensions</a>.
  * 
  * @author Kai Burjack
  */
@@ -48,10 +48,11 @@ public class PoissonSampling {
     private final ArrayList processList;
 
     /**
-     * Create a new instance of {@link PoissonSampling} which computes poisson-distributed samples on a disk with the given radius <code>diskRadius</code> and 
-     * notifies the given <code>callback</code> for each found sample point.
+     * Create a new instance of {@link PoissonSampling} which computes poisson-distributed samples on a disk with the
+     * given radius <code>diskRadius</code> and notifies the given <code>callback</code> for each found sample point.
      * <p>
-     * The samples are distributed evenly on the disk with a minimum distance to one another of at least <code>minDist</code>.
+     * The samples are distributed evenly on the disk with a minimum distance to one another of at least
+     * <code>minDist</code>.
      * 
      * @param seed
      *            the seed to initialize the random number generator with
@@ -60,7 +61,8 @@ public class PoissonSampling {
      * @param minDist
      *            the minimum distance between any two generated samples
      * @param k
-     *            determines how many samples are tested before rejection. Higher values produce better results. Typical values are 20 to 30
+     *            determines how many samples are tested before rejection. Higher values produce better results. Typical
+     *            values are 20 to 30
      * @param callback
      *            will be notified about each sample point
      */
@@ -108,11 +110,15 @@ public class PoissonSampling {
         }
     }
 
+    /**
+     * Reference: <a href="http://mathworld.wolfram.com/DiskPointPicking.html">http://mathworld.wolfram.com/</a>
+     */
     private void randomVectorInDisk(Vector2f out) {
-        do {
-            out.x = (rnd.nextFloat() - 0.5f) * 2.0f * diskRadius;
-            out.y = (rnd.nextFloat() - 0.5f) * 2.0f * diskRadius;
-        } while (out.lengthSquared() > diskRadiusSquared);
+        float r = rnd.nextFloat();
+        float a = rnd.nextFloat() * 2.0f * (float) Math.PI;
+        float sqrtR = (float) Math.sqrt(r);
+        out.x = sqrtR * (float) Math.sin_roquen_9(a + 0.5 * Math.PI);
+        out.y = sqrtR * (float) Math.sin_roquen_9(a);
     }
 
     private void randomVectorInRto2R(float r, Vector2f out) {
