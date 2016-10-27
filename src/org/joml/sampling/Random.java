@@ -81,6 +81,22 @@ class Random {
             _s1 = Long.rotateLeft(s1, 36); // c
             return (int) (result & 0xFFFFFFFF);
         }
+
+        /**
+         * Reference: <a href=
+         * "https://github.com/roquendm/JGO-Grabbag/blob/master/src/roquen/math/rng/PRNG.java">https://github.com/roquendm/</a>
+         * 
+         * @author roquendm
+         */
+        final int nextInt(int n) {
+            // See notes in nextInt. This is
+            // (on average) a better choice for
+            // 64-bit VMs.
+            long r = nextInt() >>> 1;
+            // sign doesn't matter here
+            r = (r * n) >> 31;
+            return (int) r;
+        }
     }
 
     private final Xorshiro128 rnd;
@@ -100,6 +116,13 @@ class Random {
      */
     float nextFloat() {
         return rnd.nextFloat();
+    }
+
+    /**
+     * @return a random integer in the range [0..n)
+     */
+    int nextInt(int n) {
+        return rnd.nextInt(n);
     }
 
 }

@@ -23,7 +23,6 @@
 package org.joml.sampling;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import org.joml.Vector2f;
 
@@ -38,113 +37,115 @@ import org.joml.Vector2f;
  */
 public class PoissonSampling {
 
-	private final Vector2f[] grid;
-	private final float diskRadius;
-	private final float diskRadiusSquared;
-	private final float minDist;
-	private final float minDistSquared;
-	private final float cellSize;
-	private final int numCells;
-	private final Random rnd;
-	private final ArrayList processList;
+    private final Vector2f[] grid;
+    private final float diskRadius;
+    private final float diskRadiusSquared;
+    private final float minDist;
+    private final float minDistSquared;
+    private final float cellSize;
+    private final int numCells;
+    private final Random rnd;
+    private final ArrayList processList;
 
-	/**
-	 * Create a new instance of {@link PoissonSampling} which computes poisson-distributed samples on a disk with the given radius <code>diskRadius</code> and 
-	 * notifies the given <code>callback</code> for each found sample point.
-	 * <p>
-	 * The samples are distributed evenly on the disk with a minimum distance to one another of at least <code>minDist</code>.
-	 * 
-	 * @param diskRadius
-	 *            the disk radius
-	 * @param minDist
-	 *            the minimum distance between any two generated samples
-	 * @param k
-	 *            determines how many samples are tested before rejection. Higher values produce better results. Typical values are 20 to 30
-	 * @param callback
-	 *            will be notified about each sample point
-	 */
-	public PoissonSampling(float diskRadius, float minDist, int k, Callback2d callback) {
-		this.diskRadius = diskRadius;
-		this.diskRadiusSquared = diskRadius * diskRadius;
-		this.minDist = minDist;
-		this.minDistSquared = minDist * minDist;
-		this.rnd = new Random();
-		this.cellSize = minDist / (float) Math.sqrt(2.0);
-		this.numCells = (int) ((diskRadius * 2) / cellSize) + 1;
-		this.grid = new Vector2f[numCells * numCells];
-		this.processList = new ArrayList();
-		compute(k, callback);
-	}
+    /**
+     * Create a new instance of {@link PoissonSampling} which computes poisson-distributed samples on a disk with the given radius <code>diskRadius</code> and 
+     * notifies the given <code>callback</code> for each found sample point.
+     * <p>
+     * The samples are distributed evenly on the disk with a minimum distance to one another of at least <code>minDist</code>.
+     * 
+     * @param seed
+     *            the seed to initialize the random number generator with
+     * @param diskRadius
+     *            the disk radius
+     * @param minDist
+     *            the minimum distance between any two generated samples
+     * @param k
+     *            determines how many samples are tested before rejection. Higher values produce better results. Typical values are 20 to 30
+     * @param callback
+     *            will be notified about each sample point
+     */
+    public PoissonSampling(long seed, float diskRadius, float minDist, int k, Callback2d callback) {
+        this.diskRadius = diskRadius;
+        this.diskRadiusSquared = diskRadius * diskRadius;
+        this.minDist = minDist;
+        this.minDistSquared = minDist * minDist;
+        this.rnd = new Random(seed);
+        this.cellSize = minDist / (float) Math.sqrt(2.0);
+        this.numCells = (int) ((diskRadius * 2) / cellSize) + 1;
+        this.grid = new Vector2f[numCells * numCells];
+        this.processList = new ArrayList();
+        compute(k, callback);
+    }
 
-	private void compute(int k, Callback2d callback) {
-		Vector2f tmp = new Vector2f();
-		randomVectorInDisk(tmp);
-		Vector2f initial = new Vector2f(tmp);
-		processList.add(initial);
-		callback.onNewSample(initial.x, initial.y);
-		insert(initial);
-		while (!processList.isEmpty()) {
-			int i = rnd.nextInt(processList.size());
-			Vector2f sample = (Vector2f) processList.get(i);
-			boolean found = false;
-			search: for (int s = 0; s < k; s++) {
-			    randomVectorInRto2R(minDist, tmp);
-				tmp.add(sample);
-				if (tmp.lengthSquared() > diskRadiusSquared)
-					continue search;
-				if (!searchNeighbors(tmp)) {
-					found = true;
-					Vector2f f = new Vector2f(tmp);
-					callback.onNewSample(f.x, f.y);
-					processList.add(f);
-					insert(f);
-					break;
-				}
-			}
-			if (!found) {
-				processList.remove(i);
-			}
-		}
-	}
+    private void compute(int k, Callback2d callback) {
+        Vector2f tmp = new Vector2f();
+        randomVectorInDisk(tmp);
+        Vector2f initial = new Vector2f(tmp);
+        processList.add(initial);
+        callback.onNewSample(initial.x, initial.y);
+        insert(initial);
+        while (!processList.isEmpty()) {
+            int i = rnd.nextInt(processList.size());
+            Vector2f sample = (Vector2f) processList.get(i);
+            boolean found = false;
+            search: for (int s = 0; s < k; s++) {
+                randomVectorInRto2R(minDist, tmp);
+                tmp.add(sample);
+                if (tmp.lengthSquared() > diskRadiusSquared)
+                    continue search;
+                if (!searchNeighbors(tmp)) {
+                    found = true;
+                    Vector2f f = new Vector2f(tmp);
+                    callback.onNewSample(f.x, f.y);
+                    processList.add(f);
+                    insert(f);
+                    break;
+                }
+            }
+            if (!found) {
+                processList.remove(i);
+            }
+        }
+    }
 
-	private void randomVectorInDisk(Vector2f out) {
-		do {
-			out.x = (rnd.nextFloat() - 0.5f) * 2.0f * diskRadius;
-			out.y = (rnd.nextFloat() - 0.5f) * 2.0f * diskRadius;
-		} while (out.lengthSquared() > diskRadiusSquared);
-	}
+    private void randomVectorInDisk(Vector2f out) {
+        do {
+            out.x = (rnd.nextFloat() - 0.5f) * 2.0f * diskRadius;
+            out.y = (rnd.nextFloat() - 0.5f) * 2.0f * diskRadius;
+        } while (out.lengthSquared() > diskRadiusSquared);
+    }
 
-	private void randomVectorInRto2R(float r, Vector2f out) {
-		float angle = rnd.nextFloat() * (float) Math.PI2;
-		float radius = r * (rnd.nextFloat() + 1.0f);
-		out.x = (float) (radius * Math.sin_roquen_9(angle + Math.PIHalf));
-		out.y = (float) (radius * Math.sin_roquen_9(angle));
-	}
+    private void randomVectorInRto2R(float r, Vector2f out) {
+        float angle = rnd.nextFloat() * (float) Math.PI2;
+        float radius = r * (rnd.nextFloat() + 1.0f);
+        out.x = (float) (radius * Math.sin_roquen_9(angle + Math.PIHalf));
+        out.y = (float) (radius * Math.sin_roquen_9(angle));
+    }
 
-	private boolean searchNeighbors(Vector2f p) {
-		int row = (int) ((p.y + diskRadius) / cellSize);
-		int col = (int) ((p.x + diskRadius) / cellSize);
-		if (grid[row * numCells + col] != null)
-			return true;
-		for (int y = -1; y <= +1; y++) {
-			if (y + row < 0 || y + row > numCells - 1)
-				continue;
-			for (int x = -1; x <= +1; x++) {
-				if (x + col < 0 || x + col > numCells - 1)
-					continue;
-				Vector2f v = grid[(row + y) * numCells + (col + x)];
-				if (v != null && v.distanceSquared(p) < minDistSquared) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+    private boolean searchNeighbors(Vector2f p) {
+        int row = (int) ((p.y + diskRadius) / cellSize);
+        int col = (int) ((p.x + diskRadius) / cellSize);
+        if (grid[row * numCells + col] != null)
+            return true;
+        for (int y = -1; y <= +1; y++) {
+            if (y + row < 0 || y + row > numCells - 1)
+                continue;
+            for (int x = -1; x <= +1; x++) {
+                if (x + col < 0 || x + col > numCells - 1)
+                    continue;
+                Vector2f v = grid[(row + y) * numCells + (col + x)];
+                if (v != null && v.distanceSquared(p) < minDistSquared) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-	private void insert(Vector2f p) {
-		int row = (int) ((p.y + diskRadius) / cellSize);
-		int col = (int) ((p.x + diskRadius) / cellSize);
-		grid[row * numCells + col] = p;
-	}
+    private void insert(Vector2f p) {
+        int row = (int) ((p.y + diskRadius) / cellSize);
+        int col = (int) ((p.x + diskRadius) / cellSize);
+        grid[row * numCells + col] = p;
+    }
 
 }
