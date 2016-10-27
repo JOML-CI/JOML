@@ -134,6 +134,22 @@ public interface Matrix4x3dc {
     Matrix4x3d mul(Matrix4x3dc right, Matrix4x3d dest);
 
     /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param right
+     *          the right operand of the multiplication
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix4x3d mul(Matrix4x3fc right, Matrix4x3d dest);
+
+    /**
      * Multiply this matrix, which is assumed to only contain a translation, by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
      * <p>
      * This method assumes that <code>this</code> matrix only contains a translation.
@@ -152,6 +168,26 @@ public interface Matrix4x3dc {
      * @return dest
      */
     Matrix4x3d mulTranslation(Matrix4x3dc right, Matrix4x3d dest);
+
+    /**
+     * Multiply this matrix, which is assumed to only contain a translation, by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that <code>this</code> matrix only contains a translation.
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    Matrix4x3d mulTranslation(Matrix4x3fc right, Matrix4x3d dest);
 
     /**
      * Multiply <code>this</code> orthographic projection matrix by the supplied <code>view</code> matrix
@@ -190,6 +226,25 @@ public interface Matrix4x3dc {
     Matrix4x3d fma(Matrix4x3dc other, double otherFactor, Matrix4x3d dest);
 
     /**
+     * Component-wise add <code>this</code> and <code>other</code>
+     * by first multiplying each component of <code>other</code> by <code>otherFactor</code>,
+     * adding that to <code>this</code> and storing the final result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * <p>
+     * The matrices <code>this</code> and <code>other</code> will not be changed.
+     * 
+     * @param other
+     *          the other matrix 
+     * @param otherFactor
+     *          the factor to multiply each of the other matrix's components
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix4x3d fma(Matrix4x3fc other, double otherFactor, Matrix4x3d dest);
+
+    /**
      * Component-wise add <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
      * 
      * @param other
@@ -201,6 +256,17 @@ public interface Matrix4x3dc {
     Matrix4x3d add(Matrix4x3dc other, Matrix4x3d dest);
 
     /**
+     * Component-wise add <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix4x3d add(Matrix4x3fc other, Matrix4x3d dest);
+
+    /**
      * Component-wise subtract <code>subtrahend</code> from <code>this</code> and store the result in <code>dest</code>.
      * 
      * @param subtrahend
@@ -210,6 +276,17 @@ public interface Matrix4x3dc {
      * @return dest
      */
     Matrix4x3d sub(Matrix4x3dc subtrahend, Matrix4x3d dest);
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code> and store the result in <code>dest</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix4x3d sub(Matrix4x3fc subtrahend, Matrix4x3d dest);
 
     /**
      * Component-wise multiply <code>this</code> by <code>other</code> and store the result in <code>dest</code>.

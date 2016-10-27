@@ -257,6 +257,8 @@ public interface Matrix4dc {
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
      * <p>
+     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
@@ -269,6 +271,24 @@ public interface Matrix4dc {
      * @return dest
      */
     Matrix4d mul(Matrix4x3dc right, Matrix4d dest);
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    Matrix4d mul(Matrix4x3fc right, Matrix4d dest);
 
     /**
      * Multiply this matrix by the supplied parameter matrix and store the result in <code>dest</code>.
@@ -462,6 +482,20 @@ public interface Matrix4dc {
      * @return dest
      */
     Matrix4d add4x3(Matrix4dc other, Matrix4d dest);
+
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix4d add4x3(Matrix4fc other, Matrix4d dest);
 
     /**
      * Component-wise subtract the upper 4x3 submatrices of <code>subtrahend</code> from <code>this</code>

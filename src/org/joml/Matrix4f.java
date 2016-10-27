@@ -2245,6 +2245,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * <p>
+     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the

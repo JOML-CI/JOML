@@ -112,7 +112,15 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return delegate.mul(right, dest);
         }
 
+        public Matrix4x3d mul(Matrix4x3fc right, Matrix4x3d dest) {
+            return delegate.mul(right, dest);
+        }
+
         public Matrix4x3d mulTranslation(Matrix4x3dc right, Matrix4x3d dest) {
+            return delegate.mulTranslation(right, dest);
+        }
+
+        public Matrix4x3d mulTranslation(Matrix4x3fc right, Matrix4x3d dest) {
             return delegate.mulTranslation(right, dest);
         }
 
@@ -124,11 +132,23 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return delegate.fma(other, otherFactor, dest);
         }
 
+        public Matrix4x3d fma(Matrix4x3fc other, double otherFactor, Matrix4x3d dest) {
+            return delegate.fma(other, otherFactor, dest);
+        }
+
         public Matrix4x3d add(Matrix4x3dc other, Matrix4x3d dest) {
             return delegate.add(other, dest);
         }
 
+        public Matrix4x3d add(Matrix4x3fc other, Matrix4x3d dest) {
+            return delegate.add(other, dest);
+        }
+
         public Matrix4x3d sub(Matrix4x3dc subtrahend, Matrix4x3d dest) {
+            return delegate.sub(subtrahend, dest);
+        }
+
+        public Matrix4x3d sub(Matrix4x3fc subtrahend, Matrix4x3d dest) {
             return delegate.sub(subtrahend, dest);
         }
 
@@ -643,6 +663,28 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      *          the {@link Matrix4x3dc} to copy the values from
      */
     public Matrix4x3d(Matrix4x3dc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
+        m30 = mat.m30();
+        m31 = mat.m31();
+        m32 = mat.m32();
+        properties = mat.properties();
+    }
+
+    /**
+     * Create a new {@link Matrix4x3d} and make it a copy of the given matrix.
+     * 
+     * @param mat
+     *          the {@link Matrix4x3fc} to copy the values from
+     */
+    public Matrix4x3d(Matrix4x3fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
@@ -1345,10 +1387,99 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return dest;
     }
 
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param right
+     *          the right operand of the multiplication
+     * @return this
+     */
+    public Matrix4x3d mul(Matrix4x3fc right) {
+        return mul(right, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#mul(org.joml.Matrix4x3fc, org.joml.Matrix4x3d)
+     */
+    public Matrix4x3d mul(Matrix4x3fc right, Matrix4x3d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(right);
+        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        else if ((properties & PROPERTY_TRANSLATION) != 0)
+            return mulTranslation(right, dest);
+        return mulGeneric(right, dest);
+    }
+    private Matrix4x3d mulGeneric(Matrix4x3fc right, Matrix4x3d dest) {
+        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
+        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
+        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.properties = 0;
+        return dest;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Matrix4x3dc#mulTranslation(org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
      */
     public Matrix4x3d mulTranslation(Matrix4x3dc right, Matrix4x3d dest) {
+        double nm00 = right.m00();
+        double nm01 = right.m01();
+        double nm02 = right.m02();
+        double nm10 = right.m10();
+        double nm11 = right.m11();
+        double nm12 = right.m12();
+        double nm20 = right.m20();
+        double nm21 = right.m21();
+        double nm22 = right.m22();
+        double nm30 = right.m30() + m30;
+        double nm31 = right.m31() + m31;
+        double nm32 = right.m32() + m32;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.properties = 0;
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#mulTranslation(org.joml.Matrix4x3fc, org.joml.Matrix4x3d)
+     */
+    public Matrix4x3d mulTranslation(Matrix4x3fc right, Matrix4x3d dest) {
         double nm00 = right.m00();
         double nm01 = right.m01();
         double nm02 = right.m02();
@@ -1463,6 +1594,43 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
+     * Component-wise add <code>this</code> and <code>other</code>
+     * by first multiplying each component of <code>other</code> by <code>otherFactor</code> and
+     * adding that result to <code>this</code>.
+     * <p>
+     * The matrix <code>other</code> will not be changed.
+     * 
+     * @param other
+     *          the other matrix 
+     * @param otherFactor
+     *          the factor to multiply each of the other matrix's components
+     * @return this
+     */
+    public Matrix4x3d fma(Matrix4x3fc other, double otherFactor) {
+        return fma(other, otherFactor, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#fma(org.joml.Matrix4x3fc, double, org.joml.Matrix4x3d)
+     */
+    public Matrix4x3d fma(Matrix4x3fc other, double otherFactor, Matrix4x3d dest) {
+        dest.m00 = m00 + other.m00() * otherFactor;
+        dest.m01 = m01 + other.m01() * otherFactor;
+        dest.m02 = m02 + other.m02() * otherFactor;
+        dest.m10 = m10 + other.m10() * otherFactor;
+        dest.m11 = m11 + other.m11() * otherFactor;
+        dest.m12 = m12 + other.m12() * otherFactor;
+        dest.m20 = m20 + other.m20() * otherFactor;
+        dest.m21 = m21 + other.m21() * otherFactor;
+        dest.m22 = m22 + other.m22() * otherFactor;
+        dest.m30 = m30 + other.m30() * otherFactor;
+        dest.m31 = m31 + other.m31() * otherFactor;
+        dest.m32 = m32 + other.m32() * otherFactor;
+        dest.properties = 0;
+        return dest;
+    }
+
+    /**
      * Component-wise add <code>this</code> and <code>other</code>.
      * 
      * @param other
@@ -1494,6 +1662,37 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
+     * Component-wise add <code>this</code> and <code>other</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @return this
+     */
+    public Matrix4x3d add(Matrix4x3fc other) {
+        return add(other, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#add(org.joml.Matrix4x3fc, org.joml.Matrix4x3d)
+     */
+    public Matrix4x3d add(Matrix4x3fc other, Matrix4x3d dest) {
+        dest.m00 = m00 + other.m00();
+        dest.m01 = m01 + other.m01();
+        dest.m02 = m02 + other.m02();
+        dest.m10 = m10 + other.m10();
+        dest.m11 = m11 + other.m11();
+        dest.m12 = m12 + other.m12();
+        dest.m20 = m20 + other.m20();
+        dest.m21 = m21 + other.m21();
+        dest.m22 = m22 + other.m22();
+        dest.m30 = m30 + other.m30();
+        dest.m31 = m31 + other.m31();
+        dest.m32 = m32 + other.m32();
+        dest.properties = 0;
+        return dest;
+    }
+
+    /**
      * Component-wise subtract <code>subtrahend</code> from <code>this</code>.
      * 
      * @param subtrahend
@@ -1508,6 +1707,37 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @see org.joml.Matrix4x3dc#sub(org.joml.Matrix4x3dc, org.joml.Matrix4x3d)
      */
     public Matrix4x3d sub(Matrix4x3dc subtrahend, Matrix4x3d dest) {
+        dest.m00 = m00 - subtrahend.m00();
+        dest.m01 = m01 - subtrahend.m01();
+        dest.m02 = m02 - subtrahend.m02();
+        dest.m10 = m10 - subtrahend.m10();
+        dest.m11 = m11 - subtrahend.m11();
+        dest.m12 = m12 - subtrahend.m12();
+        dest.m20 = m20 - subtrahend.m20();
+        dest.m21 = m21 - subtrahend.m21();
+        dest.m22 = m22 - subtrahend.m22();
+        dest.m30 = m30 - subtrahend.m30();
+        dest.m31 = m31 - subtrahend.m31();
+        dest.m32 = m32 - subtrahend.m32();
+        dest.properties = 0;
+        return dest;
+    }
+
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @return this
+     */
+    public Matrix4x3d sub(Matrix4x3fc subtrahend) {
+        return sub(subtrahend, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#sub(org.joml.Matrix4x3fc, org.joml.Matrix4x3d)
+     */
+    public Matrix4x3d sub(Matrix4x3fc subtrahend, Matrix4x3d dest) {
         dest.m00 = m00 - subtrahend.m00();
         dest.m01 = m01 - subtrahend.m01();
         dest.m02 = m02 - subtrahend.m02();

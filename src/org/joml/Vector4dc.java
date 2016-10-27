@@ -222,6 +222,18 @@ public interface Vector4dc {
     Vector4d mul(Matrix4x3dc mat, Vector4d dest);
 
     /**
+     * Multiply the given matrix mat with this Vector4d and store the result in
+     * <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply the vector with
+     * @param dest
+     *          the destination vector to hold the result
+     * @return dest
+     */
+    Vector4d mul(Matrix4x3fc mat, Vector4d dest);
+
+    /**
      * Multiply the given matrix mat with this Vector4d and store the result in <code>dest</code>.
      *
      * @param mat

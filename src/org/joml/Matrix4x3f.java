@@ -107,6 +107,10 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             return delegate.get(dest);
         }
 
+        public Matrix4d get(Matrix4d dest) {
+            return delegate.get(dest);
+        }
+
         public Matrix4x3f mul(Matrix4x3fc right, Matrix4x3f dest) {
             return delegate.mul(right, dest);
         }
@@ -168,6 +172,10 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         }
 
         public Matrix4x3f get(Matrix4x3f dest) {
+            return delegate.get(dest);
+        }
+
+        public Matrix4x3d get(Matrix4x3d dest) {
             return delegate.get(dest);
         }
 
@@ -1025,6 +1033,13 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @see org.joml.Matrix4x3fc#get(org.joml.Matrix4f)
      */
     public Matrix4f get(Matrix4f dest) {
+        return dest.set4x3(this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3fc#get(org.joml.Matrix4d)
+     */
+    public Matrix4d get(Matrix4d dest) {
         return dest.set4x3(this);
     }
 
@@ -1991,6 +2006,23 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return the passed in destination
      */
     public Matrix4x3f get(Matrix4x3f dest) {
+        return dest.set(this);
+    }
+
+    /**
+     * Get the current values of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * <p>
+     * This is the reverse method of {@link Matrix4x3d#set(Matrix4x3fc)} and allows to obtain
+     * intermediate calculation results when chaining multiple transformations.
+     * 
+     * @see Matrix4x3d#set(Matrix4x3fc)
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    public Matrix4x3d get(Matrix4x3d dest) {
         return dest.set(this);
     }
 

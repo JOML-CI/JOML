@@ -144,6 +144,19 @@ public interface Matrix4x3fc {
     Matrix4f get(Matrix4f dest);
 
     /**
+     * Get the current values of <code>this</code> matrix and store them into the upper 4x3 submatrix of <code>dest</code>.
+     * <p>
+     * The other elements of <code>dest</code> will not be modified.
+     * 
+     * @see Matrix4d#set4x3(Matrix4x3fc)
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return dest
+     */
+    Matrix4d get(Matrix4d dest);
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
@@ -335,6 +348,16 @@ public interface Matrix4x3fc {
      * @return the passed in destination
      */
     Matrix4x3f get(Matrix4x3f dest);
+
+    /**
+     * Get the current values of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
+     */
+    Matrix4x3d get(Matrix4x3d dest);
 
     /**
      * Get the rotational component of <code>this</code> matrix and store the represented rotation

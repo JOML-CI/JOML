@@ -129,6 +129,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.mul(right, dest);
         }
 
+        public Matrix4d mul(Matrix4x3fc right, Matrix4d dest) {
+            return delegate.mul(right, dest);
+        }
+
         public Matrix4d mul(Matrix4f right, Matrix4d dest) {
             return delegate.mul(right, dest);
         }
@@ -174,6 +178,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         }
 
         public Matrix4d add4x3(Matrix4dc other, Matrix4d dest) {
+            return delegate.add4x3(other, dest);
+        }
+
+        public Matrix4d add4x3(Matrix4fc other, Matrix4d dest) {
             return delegate.add4x3(other, dest);
         }
 
@@ -1027,6 +1035,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
+     * Create a new {@link Matrix4d} and set its upper 4x3 submatrix to the given matrix <code>mat</code>
+     * and all other elements to identity.
+     * 
+     * @param mat
+     *          the {@link Matrix4x3fc} to copy the values from
+     */
+    public Matrix4d(Matrix4x3fc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
+        m30 = mat.m30();
+        m31 = mat.m31();
+        m32 = mat.m32();
+        m33 = 1.0;
+        properties = (byte) (mat.properties() | PROPERTY_AFFINE);
+    }
+
+    /**
      * Create a new {@link Matrix4d} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3dc}
      * and the rest to identity.
      * 
@@ -1628,6 +1660,37 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
+     * Store the values of the given matrix <code>m</code> into <code>this</code> matrix
+     * and set the other matrix elements to identity.
+     * 
+     * @see #Matrix4d(Matrix4x3fc)
+     * 
+     * @param m
+     *          the matrix to copy the values from
+     * @return this
+     */
+    public Matrix4d set(Matrix4x3fc m) {
+        m00 = m.m00();
+        m01 = m.m01();
+        m02 = m.m02();
+        m03 = 0.0;
+        m10 = m.m10();
+        m11 = m.m11();
+        m12 = m.m12();
+        m13 = 0.0;
+        m20 = m.m20();
+        m21 = m.m21();
+        m22 = m.m22();
+        m23 = 0.0;
+        m30 = m.m30();
+        m31 = m.m31();
+        m32 = m.m32();
+        m33 = 1.0;
+        properties = (byte) (m.properties() | PROPERTY_AFFINE);
+        return this;
+    }
+
+    /**
      * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3dc} 
      * and the rest to identity.
      * 
@@ -1691,6 +1754,33 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d set4x3(Matrix4x3dc mat) {
+        m00 = mat.m00();
+        m01 = mat.m01();
+        m02 = mat.m02();
+        m10 = mat.m10();
+        m11 = mat.m11();
+        m12 = mat.m12();
+        m20 = mat.m20();
+        m21 = mat.m21();
+        m22 = mat.m22();
+        m30 = mat.m30();
+        m31 = mat.m31();
+        m32 = mat.m32();
+        properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
+        return this;
+    }
+
+    /**
+     * Set the upper 4x3 submatrix of this {@link Matrix4d} to the given {@link Matrix4x3fc} 
+     * and don't change the other elements.
+     * 
+     * @see Matrix4x3fc#get(Matrix4d)
+     * 
+     * @param mat
+     *          the {@link Matrix4x3fc}
+     * @return this
+     */
+    public Matrix4d set4x3(Matrix4x3fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
@@ -1938,6 +2028,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return mulAffineR(right, dest);
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4x3fc, org.joml.Matrix4d)
+     */
+    public Matrix4d mul(Matrix4x3fc right, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(right);
+        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        return mulAffineR(right, dest);
+    }
+
     /**
      * Multiply this matrix by the supplied parameter matrix.
      * <p>
@@ -2117,6 +2218,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
      * <p>
+     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
+     * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
      * then the new matrix will be <code>M * R</code>. So when transforming a
      * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
@@ -2134,6 +2237,64 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4x3dc, org.joml.Matrix4d)
      */
     public Matrix4d mulAffineR(Matrix4x3dc right, Matrix4d dest) {
+        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
+        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
+        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
+        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
+        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
+        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
+        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
+        return dest;
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4d mulAffineR(Matrix4x3fc right) {
+       return mulAffineR(right, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4x3fc, org.joml.Matrix4d)
+     */
+    public Matrix4d mulAffineR(Matrix4x3fc right, Matrix4d dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
         double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
         double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
@@ -2489,6 +2650,41 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#add4x3(org.joml.Matrix4dc, org.joml.Matrix4d)
      */
     public Matrix4d add4x3(Matrix4dc other, Matrix4d dest) {
+        dest.m00 = m00 + other.m00();
+        dest.m01 = m01 + other.m01();
+        dest.m02 = m02 + other.m02();
+        dest.m03 = m03;
+        dest.m10 = m10 + other.m10();
+        dest.m11 = m11 + other.m11();
+        dest.m12 = m12 + other.m12();
+        dest.m13 = m13;
+        dest.m20 = m20 + other.m20();
+        dest.m21 = m21 + other.m21();
+        dest.m22 = m22 + other.m22();
+        dest.m23 = m23;
+        dest.m30 = m30 + other.m30();
+        dest.m31 = m31 + other.m31();
+        dest.m32 = m32 + other.m32();
+        dest.m33 = m33;
+        dest.properties = 0;
+        return dest;
+    }
+
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @return this
+     */
+    public Matrix4d add4x3(Matrix4fc other) {
+        return add4x3(other, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#add4x3(org.joml.Matrix4fc, org.joml.Matrix4d)
+     */
+    public Matrix4d add4x3(Matrix4fc other, Matrix4d dest) {
         dest.m00 = m00 + other.m00();
         dest.m01 = m01 + other.m01();
         dest.m02 = m02 + other.m02();
