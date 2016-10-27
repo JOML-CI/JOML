@@ -60,6 +60,14 @@ class Math {
         return x * r;
     }
 
+    static double acos(double a) {
+        //return java.lang.Math.acos(a);
+        /*
+         * http://stackoverflow.com/questions/3380628/fast-arc-cos-algorithm#answer-3380723
+         */
+        return (-0.69813170079773212 * a * a - 0.87266462599716477) * a + 1.5707963267948966;
+    }
+
     /* Other math functions not yet approximated */
 
     static double sqrt(double r) {
@@ -76,6 +84,14 @@ class Math {
 
     static int max(int a, int b) {
         return a > b ? a : b;
+    }
+
+    static float max(float a, float b) {
+        return a > b ? a : b;
+    }
+
+    static float abs(float r) {
+        return java.lang.Math.abs(r);
     }
 
 }
