@@ -92,14 +92,11 @@ public class BestCandidateSampling {
                 return;
             }
             if (objects != null && objects.size() == MAX_OBJECTS_PER_NODE) {
-                if (children == null) {
-                    split();
-                    for (int i = 0; i < objects.size(); i++) {
-                        insertIntoChild((Vector2f) objects.get(i));
-                        objects.remove(i);
-                        i--;
-                    }
+                split();
+                for (int i = 0; i < objects.size(); i++) {
+                    insertIntoChild((Vector2f) objects.get(i));
                 }
+                objects = null;
                 insertIntoChild(object);
             } else {
                 if (objects == null)
@@ -121,7 +118,7 @@ public class BestCandidateSampling {
 
         float nearest(float x, float y, float n) {
             float nr = n;
-            if (!Float.isInfinite(nr) && !Intersectionf.testCircleCircle(minX + hs, minY + hs, hs * SQRT2, x, y, nr)) {
+            if (!Intersectionf.testCircleCircle(minX + hs, minY + hs, hs * SQRT2, x, y, nr)) {
                 return nr;
             }
             if (children != null) {
