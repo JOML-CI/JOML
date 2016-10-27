@@ -24,7 +24,6 @@ package org.joml.sampling;
 
 import java.util.ArrayList;
 
-import org.joml.Intersectionf;
 import org.joml.Vector2f;
 
 /**
@@ -42,7 +41,6 @@ public class BestCandidateSampling {
     private static class QuadTree {
 
         private static final int MAX_OBJECTS_PER_NODE = 32;
-        private static final float SQRT2 = (float) Math.sqrt(2);
 
         // Constants for the quadrants of the quadtree
         private static final int PXNY = 0;
@@ -118,7 +116,7 @@ public class BestCandidateSampling {
 
         float nearest(float x, float y, float n) {
             float nr = n;
-            if (!Intersectionf.testCircleCircle(minX + hs, minY + hs, hs * SQRT2, x, y, nr)) {
+            if (x < minX - n || x > minX + hs*2 + n || y < minY - n || y > minY + hs*2 + n) {
                 return nr;
             }
             if (children != null) {
