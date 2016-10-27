@@ -127,13 +127,13 @@ public class PoissonSampling {
         int col = (int) ((p.x + diskRadius) / cellSize);
         if (grid[row * numCells + col] != null)
             return true;
-        for (int y = -1; y <= +1; y++) {
-            if (y + row < 0 || y + row > numCells - 1)
-                continue;
-            for (int x = -1; x <= +1; x++) {
-                if (x + col < 0 || x + col > numCells - 1)
-                    continue;
-                Vector2f v = grid[(row + y) * numCells + (col + x)];
+        int minX = Math.max(0, col - 1);
+        int minY = Math.max(0, row - 1);
+        int maxX = Math.min(col + 1, numCells - 1);
+        int maxY = Math.min(row + 1, numCells - 1);
+        for (int y = minY; y <= maxY; y++) {
+            for (int x = minX; x <= maxX; x++) {
+                Vector2f v = grid[y * numCells + x];
                 if (v != null && v.distanceSquared(p) < minDistSquared) {
                     return true;
                 }
