@@ -43,7 +43,7 @@ public class DiskSampling {
     }
 
     /**
-     * Create <code>numSamples</code> number of samples which are distributed towards the center of a unit sphere, and
+     * Create <code>numSamples</code> number of samples which are distributed towards the center of a unit disk, and
      * call the given <code>callback</code> for each sample generated.
      * <p>
      * Reference: <a href="http://mathworld.wolfram.com/DiskPointPicking.html">http://mathworld.wolfram.com/</a>
@@ -64,7 +64,7 @@ public class DiskSampling {
     }
 
     /**
-     * Create <code>numSamples</code> number of samples which are uniformly distributed on a unit sphere, and call the
+     * Create <code>numSamples</code> number of samples which are uniformly distributed on a unit disk, and call the
      * given <code>callback</code> for each sample generated.
      * <p>
      * Reference: <a href="http://mathworld.wolfram.com/DiskPointPicking.html">http://mathworld.wolfram.com/</a>
