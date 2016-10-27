@@ -59,7 +59,7 @@ public class SpiralSampling {
      * @param callback
      *            will be called for each sample generated
      */
-    public void createEquiAngle(float radius, int numRotations, int numSamples, Sampling2dCallback callback) {
+    public void createEquiAngle(float radius, int numRotations, int numSamples, Callback2d callback) {
         for (int sample = 0; sample < numSamples; sample++) {
             float angle = 2.0f * (float) Math.PI * (sample * numRotations) / numSamples;
             float r = radius * sample / (numSamples - 1);
@@ -90,7 +90,7 @@ public class SpiralSampling {
      * @param callback
      *            will be called for each sample generated
      */
-    public void createEquiAngle(float radius, int numRotations, int numSamples, float jitter, Sampling2dCallback callback) {
+    public void createEquiAngle(float radius, int numRotations, int numSamples, float jitter, Callback2d callback) {
         float spacing = radius / numRotations;
         for (int sample = 0; sample < numSamples; sample++) {
             float angle = 2.0f * (float) Math.PI * (sample * numRotations) / numSamples;

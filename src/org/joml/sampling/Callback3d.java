@@ -23,18 +23,20 @@
 package org.joml.sampling;
 
 /**
- * Callback used for notifying about a new generated 2D sample.
+ * Callback used for notifying about a new generated 3D sample.
  * 
  * @author Kai Burjack
  */
-public interface Sampling2dCallback {
+public interface Callback3d {
     /**
-     * Will be called whenever a new sample with the given coordinates <tt>(x, y)</tt> is generated.
+     * Will be called whenever a new sample with the given coordinates <tt>(x, y, z)</tt> is generated.
      * 
      * @param x
      *            the x coordinate of the new sample point
      * @param y
      *            the y coordinate of the new sample point
+     * @param z
+     *            the z coordinate of the new sample point
      */
-    void onNewSample(float x, float y);
+    void onNewSample(float x, float y, float z);
 }

@@ -53,7 +53,7 @@ public class DiskSampling {
      * @param callback
      *            will be called for each sample generated
      */
-    public void generateCentered(int numSamples, Sampling2dCallback callback) {
+    public void generateCentered(int numSamples, Callback2d callback) {
         for (int i = 0; i < numSamples; i++) {
             float r = rnd.nextFloat();
             float a = rnd.nextFloat() * 2.0f * (float) Math.PI;
@@ -74,7 +74,7 @@ public class DiskSampling {
      * @param callback
      *            will be called for each sample generated
      */
-    public void generateUniform(int numSamples, Sampling2dCallback callback) {
+    public void generateUniform(int numSamples, Callback2d callback) {
         for (int i = 0; i < numSamples; i++) {
             float r = rnd.nextFloat();
             float a = rnd.nextFloat() * 2.0f * (float) Math.PI;

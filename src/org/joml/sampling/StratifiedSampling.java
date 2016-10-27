@@ -52,7 +52,7 @@ public class StratifiedSampling {
      * @param callback
      *            will be called for each generated sample position
      */
-    public void generateRandom(int n, Sampling2dCallback callback) {
+    public void generateRandom(int n, Callback2d callback) {
         for (int y = 0; y < n; y++) {
             for (int x = 0; x < n; x++) {
                 float sampleX = (rnd.nextFloat() / n + (float) x / n) * 2.0f - 1.0f;
@@ -75,7 +75,7 @@ public class StratifiedSampling {
      * @param callback
      *            will be called for each generated sample position
      */
-    public void generateCentered(int n, float centering, Sampling2dCallback callback) {
+    public void generateCentered(int n, float centering, Callback2d callback) {
         float start = centering * 0.5f;
         float end = 1.0f - centering;
         for (int y = 0; y < n; y++) {

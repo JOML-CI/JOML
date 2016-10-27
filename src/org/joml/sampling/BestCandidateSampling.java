@@ -161,13 +161,13 @@ public class BestCandidateSampling {
      * @param callback
      *            will be called for each sample generated
      */
-    public BestCandidateSampling(long seed, int numSamples, int numCandidates, Sampling2dCallback callback) {
+    public BestCandidateSampling(long seed, int numSamples, int numCandidates, Callback2d callback) {
         this.rnd = new Random(seed);
         this.qtree = new QuadTree(-1, -1, 2);
         generate(numSamples, numCandidates, callback);
     }
 
-    private void generate(int numSamples, int numCandidates, Sampling2dCallback callback) {
+    private void generate(int numSamples, int numCandidates, Callback2d callback) {
         for (int i = 0; i < numSamples; i++) {
             float bestX = 0, bestY = 0, bestDist = 0.0f;
             for (int c = 0; c < numCandidates; c++) {

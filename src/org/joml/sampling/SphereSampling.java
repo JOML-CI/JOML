@@ -55,7 +55,7 @@ public class SphereSampling {
      * @param callback
      *            will be called for each sample generated
      */
-    public void generateUniform(int numSamples, Sampling3dCallback callback) {
+    public void generateUniform(int numSamples, Callback3d callback) {
         for (int i = 0; i < numSamples;) {
             float x1 = rnd.nextFloat() * 2.0f - 1.0f;
             float x2 = rnd.nextFloat() * 2.0f - 1.0f;

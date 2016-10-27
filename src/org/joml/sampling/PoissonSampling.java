@@ -63,7 +63,7 @@ public class PoissonSampling {
 	 * @param callback
 	 *            will be notified about each sample point
 	 */
-	public PoissonSampling(float diskRadius, float minDist, int k, Sampling2dCallback callback) {
+	public PoissonSampling(float diskRadius, float minDist, int k, Callback2d callback) {
 		this.diskRadius = diskRadius;
 		this.diskRadiusSquared = diskRadius * diskRadius;
 		this.minDist = minDist;
@@ -76,7 +76,7 @@ public class PoissonSampling {
 		compute(k, callback);
 	}
 
-	private void compute(int k, Sampling2dCallback callback) {
+	private void compute(int k, Callback2d callback) {
 		Vector2f tmp = new Vector2f();
 		randomVectorInDisk(tmp);
 		Vector2f initial = new Vector2f(tmp);
