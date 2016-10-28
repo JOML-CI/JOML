@@ -225,7 +225,7 @@ public class BestCandidateSampling {
              * Reference: <a href="https://en.wikipedia.org/wiki/Great-circle_distance#Vector_version">https://en.wikipedia.org/</a>
              */
             private float greatCircleDist(float x1, float y1, float z1, float x2, float y2, float z2) {
-                return Math.abs((float) Math.acos(x1 * x2 + y1 * y2 + z1 * z2));
+                return (float) Math.acos(x1 * x2 + y1 * y2 + z1 * z2);
             }
 
             float nearest(float x, float y, float z, float n) {
