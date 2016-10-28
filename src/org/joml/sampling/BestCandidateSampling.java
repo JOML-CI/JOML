@@ -46,7 +46,12 @@ public class BestCandidateSampling {
      * @author Kai Burjack
      */
     public static class Sphere {
-        private static final class OctahedronTree {
+        /**
+         * Implementation of a Hierarchical Triangular Mesh structure to index the sample points on the unit sphere for accelerating 1-nearest neighbor searches.
+         * 
+         * @author Kai Burjack
+         */
+        private static final class Node {
             private static final int MAX_OBJECTS_PER_NODE = 32;
 
             private float v0x, v0y, v0z;
@@ -56,24 +61,26 @@ public class BestCandidateSampling {
             private float arc;
 
             private ArrayList objects;
-            private OctahedronTree[] children;
+            private Node[] children;
 
-            OctahedronTree() {
-                this.children = new OctahedronTree[8];
+            Node() {
+                this.children = new Node[8];
                 float s = 1f;
                 this.arc = (float) Math.PI;
-                this.children[0] = new OctahedronTree(-s, 0, 0, 0, 0, s, 0, s, 0);
-                this.children[1] = new OctahedronTree(0, 0, s, s, 0, 0, 0, s, 0);
-                this.children[2] = new OctahedronTree(s, 0, 0, 0, 0, -s, 0, s, 0);
-                this.children[3] = new OctahedronTree(0, 0, -s, -s, 0, 0, 0, s, 0);
-                this.children[4] = new OctahedronTree(-s, 0, 0, 0, -s, 0, 0, 0, s);
-                this.children[5] = new OctahedronTree(0, 0, s, 0, -s, 0, s, 0, 0);
-                this.children[6] = new OctahedronTree(s, 0, 0, 0, -s, 0, 0, 0, -s);
-                this.children[7] = new OctahedronTree(0, 0, -s, 0, -s, 0, -s, 0, 0);
+                /*
+                 * See: https://www.microsoft.com/en-us/research/wp-content/uploads/2005/09/tr-2005-123.pdf
+                 */
+                this.children[0] = new Node(-s, 0, 0, 0, 0, s, 0, s, 0);
+                this.children[1] = new Node(0, 0, s, s, 0, 0, 0, s, 0);
+                this.children[2] = new Node(s, 0, 0, 0, 0, -s, 0, s, 0);
+                this.children[3] = new Node(0, 0, -s, -s, 0, 0, 0, s, 0);
+                this.children[4] = new Node(-s, 0, 0, 0, -s, 0, 0, 0, s);
+                this.children[5] = new Node(0, 0, s, 0, -s, 0, s, 0, 0);
+                this.children[6] = new Node(s, 0, 0, 0, -s, 0, 0, 0, -s);
+                this.children[7] = new Node(0, 0, -s, 0, -s, 0, -s, 0, 0);
             }
 
-            private OctahedronTree(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2) {
-                super();
+            private Node(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2) {
                 this.v0x = x0;
                 this.v0y = y0;
                 this.v0z = z0;
@@ -90,10 +97,13 @@ public class BestCandidateSampling {
                 cx *= invCLen;
                 cy *= invCLen;
                 cz *= invCLen;
-                float arc1 = greatCircleDist(v0x, v0y, v0z, v1x, v1y, v1z);
-                float arc2 = greatCircleDist(v0x, v0y, v0z, v2x, v2y, v2z);
-                float arc3 = greatCircleDist(v1x, v1y, v1z, v2x, v2y, v2z);
-                float dist = Math.max(Math.max(arc1, arc2), arc3) * 2.0f;
+                // Compute maximum radius around triangle centroid
+                float arc1 = greatCircleDist(cx, cy, cz, v0x, v0y, v0z);
+                float arc2 = greatCircleDist(cx, cy, cz, v1x, v1y, v1z);
+                float arc3 = greatCircleDist(cx, cy, cz, v2x, v2y, v2z);
+                float dist = Math.max(Math.max(arc1, arc2), arc3);
+                // Convert radius into diameter
+                dist *= 2.0f;
                 this.arc = dist;
             }
 
@@ -101,35 +111,37 @@ public class BestCandidateSampling {
                 float w0x = v1x + v2x;
                 float w0y = v1y + v2y;
                 float w0z = v1z + v2z;
-                float len = 1.0f / (float) Math.sqrt(w0x * w0x + w0y * w0y + w0z * w0z);
-                w0x *= len;
-                w0y *= len;
-                w0z *= len;
+                float len0 = 1.0f / (float) Math.sqrt(w0x * w0x + w0y * w0y + w0z * w0z);
+                w0x *= len0;
+                w0y *= len0;
+                w0z *= len0;
                 float w1x = v0x + v2x;
                 float w1y = v0y + v2y;
                 float w1z = v0z + v2z;
-                w1x *= len;
-                w1y *= len;
-                w1z *= len;
+                float len1 = 1.0f / (float) Math.sqrt(w1x * w1x + w1y * w1y + w1z * w1z);
+                w1x *= len1;
+                w1y *= len1;
+                w1z *= len1;
                 float w2x = v0x + v1x;
                 float w2y = v0y + v1y;
                 float w2z = v0z + v1z;
-                w2x *= len;
-                w2y *= len;
-                w2z *= len;
-                children = new OctahedronTree[4];
+                float len2 = 1.0f / (float) Math.sqrt(w2x * w2x + w2y * w2y + w2z * w2z);
+                w2x *= len2;
+                w2y *= len2;
+                w2z *= len2;
+                children = new Node[4];
                 /*
                  * See: https://www.microsoft.com/en-us/research/wp-content/uploads/2005/09/tr-2005-123.pdf
                  */
-                children[0] = new OctahedronTree(v0x, v0y, v0z, w2x, w2y, w2z, w1x, w1y, w1z);
-                children[1] = new OctahedronTree(v1x, v1y, v1z, w0x, w0y, w0z, w2x, w2y, w2z);
-                children[2] = new OctahedronTree(v2x, v2y, v2z, w1x, w1y, w1z, w0x, w0y, w0z);
-                children[3] = new OctahedronTree(w0x, w0y, w0z, w1x, w1y, w1z, w2x, w2y, w2z);
+                children[0] = new Node(v0x, v0y, v0z, w2x, w2y, w2z, w1x, w1y, w1z);
+                children[1] = new Node(v1x, v1y, v1z, w0x, w0y, w0z, w2x, w2y, w2z);
+                children[2] = new Node(v2x, v2y, v2z, w1x, w1y, w1z, w0x, w0y, w0z);
+                children[3] = new Node(w0x, w0y, w0z, w1x, w1y, w1z, w2x, w2y, w2z);
             }
 
             private void insertIntoChild(Vector3f o) {
                 for (int i = 0; i < children.length; i++) {
-                    OctahedronTree c = children[i];
+                    Node c = children[i];
                     /*
                      * Idea: Test whether ray from origin towards point cuts triangle
                      * 
@@ -163,6 +175,9 @@ public class BestCandidateSampling {
 
             /**
              * This is essentially a ray cast from the origin of the sphere to the point to test and then checking whether that ray goes through the triangle.
+             * <p>
+             * Reference: <a href="http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf">Fast,
+             * Minimum Storage Ray/Triangle Intersection</a>
              */
             private static boolean isPointOnSphericalTriangle(float x, float y, float z, float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y,
                     float v2Z, float epsilon) {
@@ -197,7 +212,7 @@ public class BestCandidateSampling {
 
             private int child(float x, float y, float z) {
                 for (int i = 0; i < children.length; i++) {
-                    OctahedronTree c = children[i];
+                    Node c = children[i];
                     if (isPointOnSphericalTriangle(x, y, z, c.v0x, c.v0y, c.v0z, c.v1x, c.v1y, c.v1z, c.v2x, c.v2y, c.v2z, 1E-5f)) {
                         return i;
                     }
@@ -206,12 +221,19 @@ public class BestCandidateSampling {
                 return 0;
             }
 
+            /**
+             * Reference: <a href="https://en.wikipedia.org/wiki/Great-circle_distance#Vector_version">https://en.wikipedia.org/</a>
+             */
             private float greatCircleDist(float x1, float y1, float z1, float x2, float y2, float z2) {
                 return Math.abs((float) Math.acos(x1 * x2 + y1 * y2 + z1 * z2));
             }
 
             float nearest(float x, float y, float z, float n) {
                 float gcd = greatCircleDist(x, y, z, cx, cy, cz);
+                /*
+                 * If great-circle-distance between query point and centroid is larger than the current smallest distance 'n' plus the great circle diameter 'arc', we abort here,
+                 * because then it is not possible for any point in the triangle patch to be closer to the query point than 'n'.
+                 */
                 if (gcd - arc > n)
                     return n;
                 float nr = n;
@@ -235,7 +257,7 @@ public class BestCandidateSampling {
 
         private final Random rnd;
 
-        private final OctahedronTree otree;
+        private final Node otree;
 
         /**
          * Create a new instance of {@link BestCandidateSampling}, initialize the random number generator with the given <code>seed</code> and generate <code>numSamples</code>
@@ -253,7 +275,7 @@ public class BestCandidateSampling {
          */
         public Sphere(long seed, int numSamples, int numCandidates, Callback3d callback) {
             this.rnd = new Random(seed);
-            this.otree = new OctahedronTree();
+            this.otree = new Node();
             compute(numSamples, numCandidates, callback);
         }
 
