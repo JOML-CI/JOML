@@ -66,7 +66,7 @@ public class BestCandidateSampling {
             Node() {
                 this.children = new Node[8];
                 float s = 1f;
-                this.arc = (float) Math.PI;
+                this.arc = 2.0f * (float) Math.PI;
                 /*
                  * See: https://www.microsoft.com/en-us/research/wp-content/uploads/2005/09/tr-2005-123.pdf
                  */
@@ -102,8 +102,12 @@ public class BestCandidateSampling {
                 float arc2 = greatCircleDist(cx, cy, cz, v1x, v1y, v1z);
                 float arc3 = greatCircleDist(cx, cy, cz, v2x, v2y, v2z);
                 float dist = Math.max(Math.max(arc1, arc2), arc3);
-                // Convert radius into diameter
-                dist *= 2.0f;
+                /*
+                 * Convert radius into diameter, but also take into account the linear
+                 * arccos approximation we use.
+                 * This value was obtained empirically!
+                 */
+                dist *= 1.7f;
                 this.arc = dist;
             }
 
@@ -225,7 +229,16 @@ public class BestCandidateSampling {
              * Reference: <a href="https://en.wikipedia.org/wiki/Great-circle_distance#Vector_version">https://en.wikipedia.org/</a>
              */
             private float greatCircleDist(float x1, float y1, float z1, float x2, float y2, float z2) {
-                return (float) Math.acos(x1 * x2 + y1 * y2 + z1 * z2);
+                float dot = x1 * x2 + y1 * y2 + z1 * z2;
+                /*
+                 * Just use a linear function, because we (mostly) do less-than comparisons on the result.
+                 * We just need a linear function which:
+                 * f(-1) = PI
+                 * f(0)  = PI/2
+                 * f(1)  = 0
+                 */
+                return (float) (-Math.PIHalf * dot + Math.PIHalf);
+                //return (float) Math.acos(dot);
             }
 
             float nearest(float x, float y, float z, float n) {
@@ -233,6 +246,11 @@ public class BestCandidateSampling {
                 /*
                  * If great-circle-distance between query point and centroid is larger than the current smallest distance 'n' plus the great circle diameter 'arc', we abort here,
                  * because then it is not possible for any point in the triangle patch to be closer to the query point than 'n'.
+                 */
+                /*
+                 * Yes, we are subtracting two great-circle distances from one another here, which we did not even compute correctly
+                 * using our overly linear arccos approximation. But the 1.7 factor above will take care that we still stay conservative
+                 * enough here and not rejecting triangle patches which would contain samples nearer than 'n'.
                  */
                 if (gcd - arc > n)
                     return n;
