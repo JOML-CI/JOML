@@ -165,7 +165,7 @@ public class BestCandidateSampling {
                 }
                 if (objects != null && objects.size() == MAX_OBJECTS_PER_NODE) {
                     split();
-                    for (int i = 0; i < objects.size(); i++) {
+                    for (int i = 0; i < MAX_OBJECTS_PER_NODE; i++) {
                         insertIntoChild((Vector3f) objects.get(i));
                     }
                     objects = null;
@@ -278,7 +278,7 @@ public class BestCandidateSampling {
         private final Node otree;
 
         /**
-         * Create a new instance of {@link BestCandidateSampling}, initialize the random number generator with the given <code>seed</code> and generate <code>numSamples</code>
+         * Create a new instance of {@link Sphere}, initialize the random number generator with the given <code>seed</code> and generate <code>numSamples</code>
          * number of 'best candidate' sample positions on the unit sphere with each sample tried <code>numCandidates</code> number of times, and call the given
          * <code>callback</code> for each sample generate.
          * 
@@ -298,36 +298,138 @@ public class BestCandidateSampling {
         }
 
         private void compute(int numSamples, int numCandidates, Callback3d callback) {
-            Vector3f tmp = new Vector3f();
             for (int i = 0; i < numSamples; i++) {
                 float bestX = 0, bestY = 0, bestZ = 0, bestDist = 0.0f;
                 for (int c = 0; c < numCandidates; c++) {
-                    randomVectorOnSphere(tmp);
-                    float minDist = otree.nearest(tmp.x, tmp.y, tmp.z, Float.POSITIVE_INFINITY);
+                    /*
+                     * Random point on sphere
+                     * 
+                     * Reference: <a href="http://mathworld.wolfram.com/SpherePointPicking.html">http://mathworld.wolfram.com/</a>
+                     */
+                    float x1, x2;
+                    do {
+                        x1 = rnd.nextFloat() * 2.0f - 1.0f;
+                        x2 = rnd.nextFloat() * 2.0f - 1.0f;
+                    } while (x1 * x1 + x2 * x2 > 1.0f);
+                    float sqrt = (float) Math.sqrt(1.0 - x1 * x1 - x2 * x2);
+                    float x = 2 * x1 * sqrt;
+                    float y = 2 * x2 * sqrt;
+                    float z = 1.0f - 2.0f * (x1 * x1 + x2 * x2);
+                    float minDist = otree.nearest(x, y, z, Float.POSITIVE_INFINITY);
                     if (minDist > bestDist) {
                         bestDist = minDist;
-                        bestX = tmp.x;
-                        bestY = tmp.y;
-                        bestZ = tmp.z;
+                        bestX = x;
+                        bestY = y;
+                        bestZ = z;
                     }
-                    if (minDist == Float.POSITIVE_INFINITY)
-                        break;
                 }
                 callback.onNewSample(bestX, bestY, bestZ);
                 otree.insert(new Vector3f(bestX, bestY, bestZ));
             }
         }
+    }
 
-        private void randomVectorOnSphere(Vector3f out) {
-            float x1, x2;
-            do {
-                x1 = rnd.nextFloat() * 2.0f - 1.0f;
-                x2 = rnd.nextFloat() * 2.0f - 1.0f;
-            } while (x1 * x1 + x2 * x2 > 1.0f);
-            float sqrt = (float) Math.sqrt(1.0 - x1 * x1 - x2 * x2);
-            out.x = 2 * x1 * sqrt;
-            out.y = 2 * x2 * sqrt;
-            out.z = 1.0f - 2.0f * (x1 * x1 + x2 * x2);
+    /**
+     * Simple quatree that can handle points and 1-nearest neighbor search.
+     * 
+     * @author Kai Burjack
+     */
+    private static class QuadTree {
+        private static final int MAX_OBJECTS_PER_NODE = 32;
+
+        // Constants for the quadrants of the quadtree
+        private static final int PXNY = 0;
+        private static final int NXNY = 1;
+        private static final int NXPY = 2;
+        private static final int PXPY = 3;
+
+        private float minX, minY, hs;
+        private ArrayList objects;
+        private QuadTree[] children;
+
+        QuadTree(float minX, float minY, float size) {
+            this.minX = minX;
+            this.minY = minY;
+            this.hs = size * 0.5f;
+        }
+
+        private void split() {
+            children = new QuadTree[4];
+            children[NXNY] = new QuadTree(minX, minY, hs);
+            children[PXNY] = new QuadTree(minX + hs, minY, hs);
+            children[NXPY] = new QuadTree(minX, minY + hs, hs);
+            children[PXPY] = new QuadTree(minX + hs, minY + hs, hs);
+        }
+
+        private void insertIntoChild(Vector2f o) {
+            float xm = minX + hs;
+            float ym = minY + hs;
+            if (o.x >= xm) {
+                if (o.y >= ym) {
+                    children[PXPY].insert(o);
+                } else {
+                    children[PXNY].insert(o);
+                }
+            } else {
+                if (o.y >= ym) {
+                    children[NXPY].insert(o);
+                } else {
+                    children[NXNY].insert(o);
+                }
+            }
+        }
+
+        void insert(Vector2f object) {
+            if (children != null) {
+                insertIntoChild(object);
+                return;
+            }
+            if (objects != null && objects.size() == MAX_OBJECTS_PER_NODE) {
+                split();
+                for (int i = 0; i < objects.size(); i++) {
+                    insertIntoChild((Vector2f) objects.get(i));
+                }
+                objects = null;
+                insertIntoChild(object);
+            } else {
+                if (objects == null)
+                    objects = new ArrayList(32);
+                objects.add(object);
+            }
+        }
+
+        private int quadrant(float x, float y) {
+            if (x < minX + hs) {
+                if (y < minY + hs)
+                    return NXNY;
+                return NXPY;
+            }
+            if (y < minY + hs)
+                return PXNY;
+            return PXPY;
+        }
+
+        float nearest(float x, float y, float n) {
+            float nr = n;
+            if (x < minX - n || x > minX + hs * 2 + n || y < minY - n || y > minY + hs * 2 + n) {
+                return nr;
+            }
+            if (children != null) {
+                for (int i = quadrant(x, y), c = 0; c < 4; i = (i + 1) % 4, c++) {
+                    float n1 = children[i].nearest(x, y, nr);
+                    nr = Math.min(n1, nr);
+                }
+                return nr;
+            }
+            float nr2 = nr * nr;
+            for (int i = 0; objects != null && i < objects.size(); i++) {
+                Vector2f o = (Vector2f) objects.get(i);
+                float d = o.distanceSquared(x, y);
+                if (d < nr2) {
+                    nr2 = d;
+                }
+            }
+            return (float) Math.sqrt(nr2);
         }
     }
 
@@ -337,121 +439,12 @@ public class BestCandidateSampling {
      * @author Kai Burjack
      */
     public static class Disk {
-        /**
-         * Simple quatree that can handle points and 1-nearest neighbor search.
-         * 
-         * @author Kai Burjack
-         */
-        private static class QuadTree {
-
-            private static final int MAX_OBJECTS_PER_NODE = 32;
-
-            // Constants for the quadrants of the quadtree
-            private static final int PXNY = 0;
-            private static final int NXNY = 1;
-            private static final int NXPY = 2;
-            private static final int PXPY = 3;
-
-            private float minX, minY, hs;
-            private ArrayList objects;
-            private QuadTree[] children;
-
-            QuadTree(float minX, float minY, float size) {
-                this.minX = minX;
-                this.minY = minY;
-                this.hs = size * 0.5f;
-            }
-
-            private void split() {
-                children = new QuadTree[4];
-                children[NXNY] = new QuadTree(minX, minY, hs);
-                children[PXNY] = new QuadTree(minX + hs, minY, hs);
-                children[NXPY] = new QuadTree(minX, minY + hs, hs);
-                children[PXPY] = new QuadTree(minX + hs, minY + hs, hs);
-            }
-
-            private void insertIntoChild(Vector2f o) {
-                float xm = minX + hs;
-                float ym = minY + hs;
-                if (o.x >= xm) {
-                    if (o.y >= ym) {
-                        children[PXPY].insert(o);
-                    } else {
-                        children[PXNY].insert(o);
-                    }
-                } else {
-                    if (o.y >= ym) {
-                        children[NXPY].insert(o);
-                    } else {
-                        children[NXNY].insert(o);
-                    }
-                }
-            }
-
-            void insert(Vector2f object) {
-                if (children != null) {
-                    insertIntoChild(object);
-                    return;
-                }
-                if (objects != null && objects.size() == MAX_OBJECTS_PER_NODE) {
-                    split();
-                    for (int i = 0; i < objects.size(); i++) {
-                        insertIntoChild((Vector2f) objects.get(i));
-                    }
-                    objects = null;
-                    insertIntoChild(object);
-                } else {
-                    if (objects == null)
-                        objects = new ArrayList(32);
-                    objects.add(object);
-                }
-            }
-
-            private int quadrant(float x, float y) {
-                if (x < minX + hs) {
-                    if (y < minY + hs)
-                        return NXNY;
-                    return NXPY;
-                }
-                if (y < minY + hs)
-                    return PXNY;
-                return PXPY;
-            }
-
-            float nearest(float x, float y, float n) {
-                float nr = n;
-                if (x < minX - n || x > minX + hs * 2 + n || y < minY - n || y > minY + hs * 2 + n) {
-                    return nr;
-                }
-                if (children != null) {
-                    for (int i = quadrant(x, y), c = 0; c < 4; i = (i + 1) % 4, c++) {
-                        float n1 = children[i].nearest(x, y, nr);
-                        nr = Math.min(n1, nr);
-                    }
-                    return nr;
-                }
-                float nr2 = nr * nr;
-                for (int i = 0; objects != null && i < objects.size(); i++) {
-                    Vector2f o = (Vector2f) objects.get(i);
-                    float d = o.distanceSquared(x, y);
-                    if (d < nr2) {
-                        nr2 = d;
-                    }
-                }
-                return (float) Math.sqrt(nr2);
-            }
-
-            public float nearest(float x, float y) {
-                return nearest(x, y, Float.POSITIVE_INFINITY);
-            }
-        }
-
         private final Random rnd;
 
         private final QuadTree qtree;
 
         /**
-         * Create a new instance of {@link BestCandidateSampling}, initialize the random number generator with the given <code>seed</code> and generate <code>numSamples</code>
+         * Create a new instance of {@link Disk}, initialize the random number generator with the given <code>seed</code> and generate <code>numSamples</code>
          * number of 'best candidate' sample positions on the unit disk with each sample tried <code>numCandidates</code> number of times, and call the given <code>callback</code>
          * for each sample generate.
          * 
@@ -471,31 +464,73 @@ public class BestCandidateSampling {
         }
 
         private void generate(int numSamples, int numCandidates, Callback2d callback) {
-            Vector2f tmp = new Vector2f();
             for (int i = 0; i < numSamples; i++) {
                 float bestX = 0, bestY = 0, bestDist = 0.0f;
                 for (int c = 0; c < numCandidates; c++) {
-                    randomVectorOnDisk(tmp);
-                    float minDist = qtree.nearest(tmp.x, tmp.y);
+                    float x, y;
+                    do {
+                        x = rnd.nextFloat() * 2.0f - 1.0f;
+                        y = rnd.nextFloat() * 2.0f - 1.0f;
+                    } while (x * x + y * y > 1.0f);
+                    float minDist = qtree.nearest(x, y, Float.POSITIVE_INFINITY);
                     if (minDist > bestDist) {
                         bestDist = minDist;
-                        bestX = tmp.x;
-                        bestY = tmp.y;
+                        bestX = x;
+                        bestY = y;
                     }
                 }
                 callback.onNewSample(bestX, bestY);
                 qtree.insert(new Vector2f(bestX, bestY));
             }
         }
+    }
 
-        private void randomVectorOnDisk(Vector2f out) {
-            float x, y;
-            do {
-                x = rnd.nextFloat() * 2.0f - 1.0f;
-                y = rnd.nextFloat() * 2.0f - 1.0f;
-            } while (x * x + y * y > 1.0f);
-            out.x = x;
-            out.y = y;
+    /**
+     * Generates Best Candidate samples on a unit quad.
+     * 
+     * @author Kai Burjack
+     */
+    public static class Quad {
+        private final Random rnd;
+
+        private final QuadTree qtree;
+
+        /**
+         * Create a new instance of {@link Quad}, initialize the random number generator with the given <code>seed</code> and generate <code>numSamples</code>
+         * number of 'best candidate' sample positions on the unit quad with each sample tried <code>numCandidates</code> number of times, and call the given <code>callback</code>
+         * for each sample generate.
+         * 
+         * @param seed
+         *            the seed to initialize the random number generator with
+         * @param numSamples
+         *            the number of samples to generate
+         * @param numCandidates
+         *            the number of candidates to test for each sample
+         * @param callback
+         *            will be called for each sample generated
+         */
+        public Quad(long seed, int numSamples, int numCandidates, Callback2d callback) {
+            this.rnd = new Random(seed);
+            this.qtree = new QuadTree(-1, -1, 2);
+            generate(numSamples, numCandidates, callback);
+        }
+
+        private void generate(int numSamples, int numCandidates, Callback2d callback) {
+            for (int i = 0; i < numSamples; i++) {
+                float bestX = 0, bestY = 0, bestDist = 0.0f;
+                for (int c = 0; c < numCandidates; c++) {
+                    float x = rnd.nextFloat() * 2.0f - 1.0f;
+                    float y = rnd.nextFloat() * 2.0f - 1.0f;
+                    float minDist = qtree.nearest(x, y, Float.POSITIVE_INFINITY);
+                    if (minDist > bestDist) {
+                        bestDist = minDist;
+                        bestX = x;
+                        bestY = y;
+                    }
+                }
+                callback.onNewSample(bestX, bestY);
+                qtree.insert(new Vector2f(bestX, bestY));
+            }
         }
     }
 
