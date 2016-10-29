@@ -256,9 +256,16 @@ public class BestCandidateSampling {
                     return n;
                 float nr = n;
                 if (children != null) {
-                    for (int i = child(x, y, z), c = 0; c < children.length; i = (i + 1) % children.length, c++) {
-                        float n1 = children[i].nearest(x, y, z, nr);
-                        nr = Math.min(n1, nr);
+                    if (children.length == 8) {
+                        for (int i = child(x, y, z), c = 0; c < 8; i = (i + 1) & 7, c++) {
+                            float n1 = children[i].nearest(x, y, z, nr);
+                            nr = Math.min(n1, nr);
+                        }    
+                    } else {
+                        for (int i = child(x, y, z), c = 0; c < 4; i = (i + 1) & 3, c++) {
+                            float n1 = children[i].nearest(x, y, z, nr);
+                            nr = Math.min(n1, nr);
+                        }
                     }
                     return nr;
                 }
@@ -415,7 +422,7 @@ public class BestCandidateSampling {
                 return nr;
             }
             if (children != null) {
-                for (int i = quadrant(x, y), c = 0; c < 4; i = (i + 1) % 4, c++) {
+                for (int i = quadrant(x, y), c = 0; c < 4; i = (i + 1) & 3, c++) {
                     float n1 = children[i].nearest(x, y, nr);
                     nr = Math.min(n1, nr);
                 }
