@@ -197,13 +197,13 @@ public class Vector3i implements Externalizable, Vector3ic {
      * given <code>v</code> and the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2i} to copy the values from
+     *          the {@link Vector2ic} to copy the values from
      * @param z
      *          the z component
      */
-    public Vector3i(Vector2i v, int z) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector3i(Vector2ic v, int z) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
     }
 
@@ -340,14 +340,14 @@ public class Vector3i implements Externalizable, Vector3ic {
      * component from the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2i} to copy the values from
+     *          the {@link Vector2ic} to copy the values from
      * @param z
      *          the z component
      * @return this
      */
-    public Vector3i set(Vector2i v, int z) {
-        this.x = v.x;
-        this.y = v.y;
+    public Vector3i set(Vector2ic v, int z) {
+        this.x = v.x();
+        this.y = v.y();
         this.z = z;
         return this;
     }
