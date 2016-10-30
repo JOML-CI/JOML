@@ -133,7 +133,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.mul(right, dest);
         }
 
-        public Matrix4d mul(Matrix4f right, Matrix4d dest) {
+        public Matrix4d mul(Matrix4fc right, Matrix4d dest) {
             return delegate.mul(right, dest);
         }
 
@@ -988,9 +988,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * Create a new {@link Matrix4d} and make it a copy of the given matrix.
      * 
      * @param mat
-     *          the {@link Matrix4f} to copy the values from
+     *          the {@link Matrix4fc} to copy the values from
      */
-    public Matrix4d(Matrix4f mat) {
+    public Matrix4d(Matrix4fc mat) {
         m00 = mat.m00();
         m01 = mat.m01();
         m02 = mat.m02();
@@ -1007,7 +1007,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = mat.m31();
         m32 = mat.m32();
         m33 = mat.m33();
-        properties = mat.properties;
+        properties = mat.properties();
     }
 
     /**
@@ -1601,13 +1601,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /**
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
      * 
-     * @see #Matrix4d(Matrix4f)
+     * @see #Matrix4d(Matrix4fc)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4d set(Matrix4f m) {
+    public Matrix4d set(Matrix4fc m) {
         m00 = m.m00();
         m01 = m.m01();
         m02 = m.m02();
@@ -1624,7 +1624,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m31 = m.m31();
         m32 = m.m32();
         m33 = m.m33();
-        properties = m.properties;
+        properties = m.properties();
         return this;
     }
 
@@ -2056,12 +2056,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4f, org.joml.Matrix4d)
+     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4fc, org.joml.Matrix4d)
      */
-    public Matrix4d mul(Matrix4f right, Matrix4d dest) {
+    public Matrix4d mul(Matrix4fc right, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
-        else if ((right.properties & PROPERTY_IDENTITY) != 0)
+        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
 
         double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02() + m30 * right.m03();

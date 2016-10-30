@@ -304,7 +304,7 @@ public interface Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    Matrix4d mul(Matrix4f right, Matrix4d dest);
+    Matrix4d mul(Matrix4fc right, Matrix4d dest);
 
     /**
      * Multiply <code>this</code> symmetric perspective projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix and store the result in <code>dest</code>.

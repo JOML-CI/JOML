@@ -5943,7 +5943,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link #set3x3(Matrix4x3dc)} to set a given Matrix4f to only the left 3x3 submatrix
+     * In that case, use {@link #set3x3(Matrix4x3dc)} to set a given Matrix4x3d to only the left 3x3 submatrix
      * of this matrix.
      * 
      * @see #set3x3(Matrix4x3dc)

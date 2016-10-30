@@ -23,7 +23,7 @@
 package org.joml.sampling;
 
 /**
- * Creates samples on a N x N strata.
+ * Creates samples on a unit quad using an NxN strata grid.
  * 
  * @author Kai Burjack
  */
