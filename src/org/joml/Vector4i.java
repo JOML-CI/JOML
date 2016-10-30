@@ -38,7 +38,111 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author Hans Uhlig
  */
-public class Vector4i implements Externalizable {
+public class Vector4i implements Externalizable, Vector4ic {
+
+    private final class Proxy implements Vector4ic {
+        private final Vector4ic delegate;
+
+        Proxy(Vector4ic delegate) {
+            this.delegate = delegate;
+        }
+
+        public int x() {
+            return delegate.x();
+        }
+
+        public int y() {
+            return delegate.y();
+        }
+
+        public int z() {
+            return delegate.z();
+        }
+
+        public int w() {
+            return delegate.w();
+        }
+
+        public IntBuffer get(IntBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public IntBuffer get(int index, IntBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public ByteBuffer get(ByteBuffer buffer) {
+            return delegate.get(buffer);
+        }
+
+        public ByteBuffer get(int index, ByteBuffer buffer) {
+            return delegate.get(index, buffer);
+        }
+
+        public Vector4i sub(Vector4ic v, Vector4i dest) {
+            return delegate.sub(v, dest);
+        }
+
+        public Vector4i sub(int x, int y, int z, int w, Vector4i dest) {
+            return delegate.sub(x, y, z, w, dest);
+        }
+
+        public Vector4i add(Vector4ic v, Vector4i dest) {
+            return delegate.add(v, dest);
+        }
+
+        public Vector4i add(int x, int y, int z, int w, Vector4i dest) {
+            return delegate.add(x, y, z, w, dest);
+        }
+
+        public Vector4i mul(Vector4ic v, Vector4i dest) {
+            return delegate.mul(v, dest);
+        }
+
+        public Vector4i div(Vector4ic v, Vector4i dest) {
+            return delegate.div(v, dest);
+        }
+
+        public Vector4i mul(float scalar, Vector4i dest) {
+            return delegate.mul(scalar, dest);
+        }
+
+        public Vector4i div(float scalar, Vector4i dest) {
+            return delegate.div(scalar, dest);
+        }
+
+        public long lengthSquared() {
+            return delegate.lengthSquared();
+        }
+
+        public double length() {
+            return delegate.length();
+        }
+
+        public double distance(Vector4ic v) {
+            return delegate.distance(v);
+        }
+
+        public double distance(int x, int y, int z, int w) {
+            return delegate.distance(x, y, z, w);
+        }
+
+        public int distanceSquared(Vector4ic v) {
+            return delegate.distanceSquared(v);
+        }
+
+        public int distanceSquared(int x, int y, int z, int w) {
+            return delegate.distanceSquared(x, y, z, w);
+        }
+
+        public int dot(Vector4ic v) {
+            return delegate.dot(v);
+        }
+
+        public Vector4i negate(Vector4i dest) {
+            return delegate.negate(dest);
+        }
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -70,10 +174,17 @@ public class Vector4i implements Externalizable {
      * Create a new {@link Vector4i} with the same values as <code>v</code>.
      *
      * @param v
-     *          the {@link Vector4i} to copy the values from
+     *          the {@link Vector4ic} to copy the values from
      */
-    public Vector4i(Vector4i v) {
-        MemUtil.INSTANCE.copy(v, this);
+    public Vector4i(Vector4ic v) {
+        if (v instanceof Vector4i) {
+            MemUtil.INSTANCE.copy((Vector4i) v, this);            
+        } else {
+            this.x = v.x();
+            this.y = v.y();
+            this.z = v.z();
+            this.w = v.w();
+        }
     }
 
     /**
@@ -212,6 +323,34 @@ public class Vector4i implements Externalizable {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#x()
+     */
+    public int x() {
+        return this.x;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#y()
+     */
+    public int y() {
+        return this.y;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#z()
+     */
+    public int z() {
+        return this.z;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#w()
+     */
+    public int w() {
+        return this.w;
+    }
+
     /**
      * Set this {@link Vector4i} to the values of the given <code>v</code>.
      *
@@ -219,8 +358,15 @@ public class Vector4i implements Externalizable {
      *          the vector whose values will be copied into this
      * @return this
      */
-    public Vector4i set(Vector4i v) {
-        MemUtil.INSTANCE.copy(v, this);
+    public Vector4i set(Vector4ic v) {
+        if (v instanceof Vector4i) {
+            MemUtil.INSTANCE.copy((Vector4i) v, this);            
+        } else {
+            this.x = v.x();
+            this.y = v.y();
+            this.z = v.z();
+            this.w = v.w();
+        }
         return this;
     }
 
@@ -370,74 +516,30 @@ public class Vector4i implements Externalizable {
         return this;
     }
 
-    /**
-     * Store this vector into the supplied {@link IntBuffer} at the current
-     * buffer {@link IntBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given IntBuffer.
-     * <p>
-     * In order to specify the offset into the IntBuffer at which the vector is
-     * stored, use {@link #get(int, IntBuffer)}, taking the absolute position as
-     * parameter.
-     *
-     * @see #get(int, IntBuffer)
-     *
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#get(java.nio.IntBuffer)
      */
     public IntBuffer get(IntBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this vector into the supplied {@link IntBuffer} starting at the
-     * specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given IntBuffer.
-     *
-     * @param index
-     *          the absolute position into the IntBuffer
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#get(int, java.nio.IntBuffer)
      */
     public IntBuffer get(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /**
-     * Store this vector into the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which the vector is
-     * stored, use {@link #get(int, ByteBuffer)}, taking the absolute position
-     * as parameter.
-     *
-     * @see #get(int, ByteBuffer)
-     *
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#get(java.nio.ByteBuffer)
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /**
-     * Store this vector into the supplied {@link ByteBuffer} starting at the
-     * specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     *
-     * @param index
-     *          the absolute position into the ByteBuffer
-     * @param buffer
-     *          will receive the values of this vector in <tt>x, y, z, w</tt> order
-     * @return the passed in buffer
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#get(int, java.nio.ByteBuffer)
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
@@ -451,11 +553,11 @@ public class Vector4i implements Externalizable {
      *          the vector to subtract
      * @return this
      */
-    public Vector4i sub(Vector4i v) {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
-        w -= v.w;
+    public Vector4i sub(Vector4ic v) {
+        x -= v.x();
+        y -= v.y();
+        z -= v.z();
+        w -= v.w();
         return this;
     }
 
@@ -480,39 +582,19 @@ public class Vector4i implements Externalizable {
         return this;
     }
 
-    /**
-     * Subtract the supplied vector from this one and store the result in
-     * <code>dest</code>.
-     *
-     * @param v
-     *          the vector to subtract from <code>this</code>
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#sub(org.joml.Vector4ic, org.joml.Vector4i)
      */
-    public Vector4i sub(Vector4i v, Vector4i dest) {
-        dest.x = x - v.x;
-        dest.y = y - v.y;
-        dest.z = z - v.z;
-        dest.w = w - v.w;
+    public Vector4i sub(Vector4ic v, Vector4i dest) {
+        dest.x = x - v.x();
+        dest.y = y - v.y();
+        dest.z = z - v.z();
+        dest.w = w - v.w();
         return dest;
     }
 
-    /**
-     * Subtract <tt>(x, y, z, w)</tt> from this and store the result in
-     * <code>dest</code>.
-     *
-     * @param x
-     *          the x component to subtract
-     * @param y
-     *          the y component to subtract
-     * @param z
-     *          the z component to subtract
-     * @param w
-     *          the w component to subtract
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#sub(int, int, int, int, org.joml.Vector4i)
      */
     public Vector4i sub(int x, int y, int z, int w, Vector4i dest) {
         dest.x = this.x - x;
@@ -529,29 +611,22 @@ public class Vector4i implements Externalizable {
      *          the vector to add
      * @return this
      */
-    public Vector4i add(Vector4i v) {
-        x += v.x;
-        y += v.y;
-        z += v.z;
-        w += v.w;
+    public Vector4i add(Vector4ic v) {
+        x += v.x();
+        y += v.y();
+        z += v.z();
+        w += v.w();
         return this;
     }
 
-    /**
-     * Add the supplied vector to this one and store the result in
-     * <code>dest</code>.
-     *
-     * @param v
-     *          the vector to add
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#add(org.joml.Vector4ic, org.joml.Vector4i)
      */
-    public Vector4i add(Vector4i v, Vector4i dest) {
-        dest.x = x + v.x;
-        dest.y = y + v.y;
-        dest.z = z + v.z;
-        dest.w = w + v.w;
+    public Vector4i add(Vector4ic v, Vector4i dest) {
+        dest.x = x + v.x();
+        dest.y = y + v.y();
+        dest.z = z + v.z();
+        dest.w = w + v.w();
         return dest;
     }
 
@@ -576,21 +651,8 @@ public class Vector4i implements Externalizable {
         return this;
     }
 
-    /**
-     * Increment the components of this vector by the given values and store the
-     * result in <code>dest</code>.
-     *
-     * @param x
-     *          the x component to add
-     * @param y
-     *          the y component to add
-     * @param z
-     *          the z component to add
-     * @param w
-     *          the w component to add
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#add(int, int, int, int, org.joml.Vector4i)
      */
     public Vector4i add(int x, int y, int z, int w, Vector4i dest) {
         dest.x = this.x + x;
@@ -607,29 +669,22 @@ public class Vector4i implements Externalizable {
      *          the other vector
      * @return this
      */
-    public Vector4i mul(Vector4i v) {
-        x *= v.x;
-        y *= v.y;
-        z *= v.z;
-        w *= v.w;
+    public Vector4i mul(Vector4ic v) {
+        x *= v.x();
+        y *= v.y();
+        z *= v.z();
+        w *= v.w();
         return this;
     }
 
-    /**
-     * Multiply this Vector4i component-wise by another Vector4i and store the
-     * result in <code>dest</code>.
-     *
-     * @param v
-     *          the other vector
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#mul(org.joml.Vector4ic, org.joml.Vector4i)
      */
-    public Vector4i mul(Vector4i v, Vector4i dest) {
-        dest.x = x * v.x;
-        dest.y = y * v.y;
-        dest.z = z * v.z;
-        dest.w = w * v.w;
+    public Vector4i mul(Vector4ic v, Vector4i dest) {
+        dest.x = x * v.x();
+        dest.y = y * v.y();
+        dest.z = z * v.z();
+        dest.w = w * v.w();
         return dest;
     }
 
@@ -640,29 +695,22 @@ public class Vector4i implements Externalizable {
      *          the vector to divide by
      * @return this
      */
-    public Vector4i div(Vector4i v) {
-        x /= v.x;
-        y /= v.y;
-        z /= v.z;
-        w /= v.w;
+    public Vector4i div(Vector4ic v) {
+        x /= v.x();
+        y /= v.y();
+        z /= v.z();
+        w /= v.w();
         return this;
     }
 
-    /**
-     * Divide this Vector4i component-wise by another Vector4i and store the
-     * result in <code>dest</code>.
-     *
-     * @param v
-     *          the vector to divide by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#div(org.joml.Vector4ic, org.joml.Vector4i)
      */
-    public Vector4i div(Vector4i v, Vector4i dest) {
-        dest.x = x / v.x;
-        dest.y = y / v.y;
-        dest.z = z / v.z;
-        dest.w = w / v.w;
+    public Vector4i div(Vector4ic v, Vector4i dest) {
+        dest.x = x / v.x();
+        dest.y = y / v.y();
+        dest.z = z / v.z();
+        dest.w = w / v.w();
         return dest;
     }
 
@@ -682,15 +730,8 @@ public class Vector4i implements Externalizable {
         return this;
     }
 
-    /**
-     * Multiply all components of this {@link Vector4i} by the given scalar
-     * value and store the result in <code>dest</code>.
-     *
-     * @param scalar
-     *          the scalar to multiply by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#mul(float, org.joml.Vector4i)
      */
     public Vector4i mul(float scalar, Vector4i dest) {
         dest.x = (int) (x * scalar);
@@ -715,15 +756,8 @@ public class Vector4i implements Externalizable {
         return this;
     }
 
-    /**
-     * Divide all components of this {@link Vector4i} by the given scalar value
-     * and store the result in <code>dest</code>.
-     *
-     * @param scalar
-     *          the scalar to divide by
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#div(float, org.joml.Vector4i)
      */
     public Vector4i div(float scalar, Vector4i dest) {
         dest.x = (int) (x / scalar);
@@ -733,80 +767,47 @@ public class Vector4i implements Externalizable {
         return dest;
     }
 
-    /**
-     * Return the length squared of this vector.
-     *
-     * @return the length squared
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#lengthSquared()
      */
     public long lengthSquared() {
         return x * x + y * y + z * z + w * w;
     }
 
-    /**
-     * Return the length of this vector.
-     *
-     * @return the length
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#length()
      */
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
-    /**
-     * Return the distance between this Vector and <code>v</code>.
-     *
-     * @param v
-     *          the other vector
-     * @return the distance
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#distance(org.joml.Vector4i)
      */
-    public double distance(Vector4i v) {
+    public double distance(Vector4ic v) {
         return Math.sqrt(distanceSquared(v));
     }
 
-    /**
-     * Return the distance between <code>this</code> vector and <tt>(x, y, z, w)</tt>.
-     *
-     * @param x
-     *          the x component of the other vector
-     * @param y
-     *          the y component of the other vector
-     * @param z
-     *          the z component of the other vector
-     * @param w
-     *          the w component of the other vector
-     * @return the euclidean distance
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#distance(int, int, int, int)
      */
     public double distance(int x, int y, int z, int w) {
         return Math.sqrt(distanceSquared(x, y, z, w));
     }
 
-    /**
-     * Return the square of the distance between this vector and <code>v</code>.
-     *
-     * @param v
-     *          the other vector
-     * @return the squared of the distance
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#distanceSquared(org.joml.Vector4ic)
      */
-    public int distanceSquared(Vector4i v) {
-        int dx = this.x - v.x;
-        int dy = this.y - v.y;
-        int dz = this.z - v.z;
-        int dw = this.w - v.w;
+    public int distanceSquared(Vector4ic v) {
+        int dx = this.x - v.x();
+        int dy = this.y - v.y();
+        int dz = this.z - v.z();
+        int dw = this.w - v.w();
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
-    /**
-     * Return the square of the distance between <code>this</code> vector and
-     * <tt>(x, y, z, w)</tt>.
-     *
-     * @param x
-     *          the x component of the other vector
-     * @param y
-     *          the y component of the other vector
-     * @param z
-     *          the z component of the other vector
-     * @param w
-     *          the w component of the other vector
-     * @return the square of the distance
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#distanceSquared(int, int, int, int)
      */
     public int distanceSquared(int x, int y, int z, int w) {
         int dx = this.x - x;
@@ -816,15 +817,11 @@ public class Vector4i implements Externalizable {
         return dx * dx + dy * dy + dz * dz + dw * dw;
     }
 
-    /**
-     * Compute the dot product (inner product) of this vector and <code>v</code>.
-     *
-     * @param v
-     *          the other vector
-     * @return the dot product
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#dot(org.joml.Vector4ic)
      */
-    public int dot(Vector4i v) {
-        return x * v.x + y * v.y + z * v.z + w * v.w;
+    public int dot(Vector4ic v) {
+        return x * v.x() + y * v.y() + z * v.z() + w * v.w();
     }
 
     /**
@@ -850,12 +847,8 @@ public class Vector4i implements Externalizable {
         return this;
     }
 
-    /**
-     * Negate this vector and store the result in <code>dest</code>.
-     *
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /* (non-Javadoc)
+     * @see org.joml.Vector4ic#negate(org.joml.Vector4i)
      */
     public Vector4i negate(Vector4i dest) {
         dest.x = -x;
@@ -908,11 +901,11 @@ public class Vector4i implements Externalizable {
      *          the other vector
      * @return this
      */
-    public Vector4i min(Vector4i v) {
-        this.x = Math.min(x, v.x);
-        this.y = Math.min(y, v.y);
-        this.z = Math.min(z, v.z);
-        this.w = Math.min(w, v.w);
+    public Vector4i min(Vector4ic v) {
+        this.x = Math.min(x, v.x());
+        this.y = Math.min(y, v.y());
+        this.z = Math.min(z, v.z());
+        this.w = Math.min(w, v.w());
         return this;
     }
 
@@ -924,11 +917,11 @@ public class Vector4i implements Externalizable {
      *          the other vector
      * @return this
      */
-    public Vector4i max(Vector4i v) {
-        this.x = Math.max(x, v.x);
-        this.y = Math.max(y, v.y);
-        this.z = Math.max(z, v.z);
-        this.w = Math.min(w, v.w);
+    public Vector4i max(Vector4ic v) {
+        this.x = Math.max(x, v.x());
+        this.y = Math.max(y, v.y());
+        this.z = Math.max(z, v.z());
+        this.w = Math.min(w, v.w());
         return this;
     }
 
@@ -966,6 +959,22 @@ public class Vector4i implements Externalizable {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Create a new immutable view of this {@link Vector4i}.
+     * <p>
+     * The observable state of the returned object is the same as that of <code>this</code>, but casting
+     * the returned object to Vector4i will not be possible.
+     * <p>
+     * This method allocates a new instance of a class implementing Vector4ic on every call.
+     * 
+     * @return the immutable instance
+     */
+    public Vector4ic toImmutable() {
+        if (Options.NO_PROXY)
+            return this;
+        return new Proxy(this);
     }
 
 }
