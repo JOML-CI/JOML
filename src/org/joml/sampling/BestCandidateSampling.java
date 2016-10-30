@@ -256,16 +256,10 @@ public class BestCandidateSampling {
                     return n;
                 float nr = n;
                 if (children != null) {
-                    if (children.length == 8) {
-                        for (int i = child(x, y, z), c = 0; c < 8; i = (i + 1) & 7, c++) {
-                            float n1 = children[i].nearest(x, y, z, nr);
-                            nr = Math.min(n1, nr);
-                        }    
-                    } else {
-                        for (int i = child(x, y, z), c = 0; c < 4; i = (i + 1) & 3, c++) {
-                            float n1 = children[i].nearest(x, y, z, nr);
-                            nr = Math.min(n1, nr);
-                        }
+                    int num = children.length, mod = num-1;
+                    for (int i = child(x, y, z), c = 0; c < num; i = (i + 1) & mod, c++) {
+                        float n1 = children[i].nearest(x, y, z, nr);
+                        nr = Math.min(n1, nr);
                     }
                     return nr;
                 }
