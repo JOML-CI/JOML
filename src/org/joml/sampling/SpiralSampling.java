@@ -28,12 +28,10 @@ package org.joml.sampling;
  * @author Kai Burjack
  */
 public class SpiralSampling {
-
     private final Random rnd;
 
     /**
-     * Create a new instance of {@link SpiralSampling} and initialize the random number generator with the given
-     * <code>seed</code>.
+     * Create a new instance of {@link SpiralSampling} and initialize the random number generator with the given <code>seed</code>.
      * 
      * @param seed
      *            the seed to initialize the random number generator with
@@ -43,12 +41,10 @@ public class SpiralSampling {
     }
 
     /**
-     * Create <code>numSamples</code> number of samples on a spiral with maximum radius <code>radius</code> around the
-     * center using <code>numRotations</code> number of rotations along the spiral, and call the given
-     * <code>callback</code> for each sample generated.
+     * Create <code>numSamples</code> number of samples on a spiral with maximum radius <code>radius</code> around the center using <code>numRotations</code> number of rotations
+     * along the spiral, and call the given <code>callback</code> for each sample generated.
      * <p>
-     * The generated sample points are distributed with equal angle differences around the spiral, so they concentrate
-     * towards the center.
+     * The generated sample points are distributed with equal angle differences around the spiral, so they concentrate towards the center.
      * 
      * @param radius
      *            the maximum radius of the spiral
@@ -70,12 +66,10 @@ public class SpiralSampling {
     }
 
     /**
-     * Create <code>numSamples</code> number of samples on a spiral with maximum radius <code>radius</code> around the
-     * center using <code>numRotations</code> number of rotations along the spiral, and call the given
-     * <code>callback</code> for each sample generated.
+     * Create <code>numSamples</code> number of samples on a spiral with maximum radius <code>radius</code> around the center using <code>numRotations</code> number of rotations
+     * along the spiral, and call the given <code>callback</code> for each sample generated.
      * <p>
-     * The generated sample points are distributed with equal angle differences around the spiral, so they concentrate
-     * towards the center.
+     * The generated sample points are distributed with equal angle differences around the spiral, so they concentrate towards the center.
      * <p>
      * Additionally, the radius of each sample point is jittered by the given <code>jitter</code> factor.
      * 

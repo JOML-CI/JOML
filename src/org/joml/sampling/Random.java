@@ -63,8 +63,7 @@ class Random {
         }
 
         /**
-         * Reference: <a href=
-         * "https://github.com/roquendm/JGO-Grabbag/blob/master/src/roquen/math/rng/PRNG.java">https://github.com/roquendm/</a>
+         * Reference: <a href="https://github.com/roquendm/JGO-Grabbag/blob/master/src/roquen/math/rng/PRNG.java">https://github.com/roquendm/</a>
          * 
          * @author roquendm
          */
@@ -83,8 +82,7 @@ class Random {
         }
 
         /**
-         * Reference: <a href=
-         * "https://github.com/roquendm/JGO-Grabbag/blob/master/src/roquen/math/rng/PRNG.java">https://github.com/roquendm/</a>
+         * Reference: <a href="https://github.com/roquendm/JGO-Grabbag/blob/master/src/roquen/math/rng/PRNG.java">https://github.com/roquendm/</a>
          * 
          * @author roquendm
          */
