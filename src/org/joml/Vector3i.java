@@ -240,9 +240,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          values will be read in <tt>x, y, z</tt> order
      */
     public Vector3i(int index, ByteBuffer buffer) {
-        x = buffer.getInt(index);
-        y = buffer.getInt(index + 4);
-        z = buffer.getInt(index + 8);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /**
@@ -278,9 +276,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          values will be read in <tt>x, y, z</tt> order
      */
     public Vector3i(int index, IntBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
+        MemUtil.INSTANCE.get(this, index, buffer);
     }
 
     /* (non-Javadoc)
@@ -414,9 +410,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return this
      */
     public Vector3i set(int index, ByteBuffer buffer) {
-        x = buffer.getInt(index);
-        y = buffer.getInt(index + 4);
-        z = buffer.getInt(index + 8);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -453,9 +447,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @return this
      */
     public Vector3i set(int index, IntBuffer buffer) {
-        x = buffer.get(index);
-        y = buffer.get(index + 1);
-        z = buffer.get(index + 2);
+        MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
 
@@ -470,9 +462,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @see org.joml.Vector3ic#get(int, java.nio.IntBuffer)
      */
     public IntBuffer get(int index, IntBuffer buffer) {
-        buffer.put(index, x);
-        buffer.put(index + 1, y);
-        buffer.put(index + 2, z);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
@@ -487,9 +477,7 @@ public class Vector3i implements Externalizable, Vector3ic {
      * @see org.joml.Vector3ic#get(int, java.nio.ByteBuffer)
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
-        buffer.putInt(index, x);
-        buffer.putInt(index + 4, y);
-        buffer.putInt(index + 8, z);
+        MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
