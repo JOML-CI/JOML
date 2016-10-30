@@ -192,14 +192,14 @@ public class Vector4i implements Externalizable, Vector4ic {
      * given <code>v</code> and the given <code>w</code>.
      *
      * @param v
-     *          the {@link Vector3i}
+     *          the {@link Vector3ic}
      * @param w
      *          the w component
      */
-    public Vector4i(Vector3i v, int w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4i(Vector3ic v, int w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
     }
 
@@ -375,15 +375,15 @@ public class Vector4i implements Externalizable, Vector4ic {
      * <code>v</code> and the last component to <code>w</code>.
      *
      * @param v
-     *          the {@link Vector3i} to copy
+     *          the {@link Vector3ic} to copy
      * @param w
      *          the w component
      * @return this
      */
-    public Vector4i set(Vector3i v, int w) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+    public Vector4i set(Vector3ic v, int w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
         this.w = w;
         return this;
     }
