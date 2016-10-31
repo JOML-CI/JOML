@@ -6721,18 +6721,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return translateGeneric(x, y, z, dest);
     }
     private Matrix4f translateGeneric(float x, float y, float z, Matrix4f dest) {
-        dest._m00(m00);
-        dest._m01(m01);
-        dest._m02(m02);
-        dest._m03(m03);
-        dest._m10(m10);
-        dest._m11(m11);
-        dest._m12(m12);
-        dest._m13(m13);
-        dest._m20(m20);
-        dest._m21(m21);
-        dest._m22(m22);
-        dest._m23(m23);
+        MemUtil.INSTANCE.copy(this, dest);
         dest._m30(m00 * x + m10 * y + m20 * z + m30);
         dest._m31(m01 * x + m11 * y + m21 * z + m31);
         dest._m32(m02 * x + m12 * y + m22 * z + m32);

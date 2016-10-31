@@ -1336,14 +1336,9 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f scaling(float factor) {
+        MemUtil.INSTANCE.zero(this);
         m00 = factor;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m10 = 0.0f;
         m11 = factor;
-        m12 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
         m22 = factor;
         return this;
     }
@@ -1360,14 +1355,9 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f scaling(float x, float y, float z) {
+        MemUtil.INSTANCE.zero(this);
         m00 = x;
-        m01 = 0.0f;
-        m02 = 0.0f;
-        m10 = 0.0f;
         m11 = y;
-        m12 = 0.0f;
-        m20 = 0.0f;
-        m21 = 0.0f;
         m22 = z;
         return this;
     }
