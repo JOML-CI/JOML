@@ -8616,8 +8616,49 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         default:
             throw new IndexOutOfBoundsException();
         }
-        
         return dest;
+    }
+
+    /**
+     * Set the row at the given <code>row</code> index, starting with <code>0</code>.
+     * 
+     * @param row
+     *          the row index in <tt>[0..3]</tt>
+     * @param src
+     *          the row components to set
+     * @return this
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..3]</tt>
+     */
+    public Matrix4d setRow(int row, Vector4dc src) throws IndexOutOfBoundsException {
+        switch (row) {
+        case 0:
+            this.m00 = src.x();
+            this.m10 = src.y();
+            this.m20 = src.z();
+            this.m30 = src.w();
+            break;
+        case 1:
+            this.m01 = src.x();
+            this.m11 = src.y();
+            this.m21 = src.z();
+            this.m31 = src.w();
+            break;
+        case 2:
+            this.m02 = src.x();
+            this.m12 = src.y();
+            this.m22 = src.z();
+            this.m32 = src.w();
+            break;
+        case 3:
+            this.m03 = src.x();
+            this.m13 = src.y();
+            this.m23 = src.z();
+            this.m33 = src.w();
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return this;
     }
 
     /* (non-Javadoc)
@@ -8652,8 +8693,49 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         default:
             throw new IndexOutOfBoundsException();
         }
-        
         return dest;
+    }
+
+    /**
+     * Set the column at the given <code>column</code> index, starting with <code>0</code>.
+     * 
+     * @param column
+     *          the column index in <tt>[0..3]</tt>
+     * @param src
+     *          the column components to set
+     * @return this
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..3]</tt>
+     */
+    public Matrix4d setColumn(int column, Vector4dc src) throws IndexOutOfBoundsException {
+        switch (column) {
+        case 0:
+            this.m00 = src.x();
+            this.m01 = src.y();
+            this.m02 = src.z();
+            this.m03 = src.w();
+            break;
+        case 1:
+            this.m10 = src.x();
+            this.m11 = src.y();
+            this.m12 = src.z();
+            this.m13 = src.w();
+            break;
+        case 2:
+            this.m20 = src.x();
+            this.m21 = src.y();
+            this.m22 = src.z();
+            this.m23 = src.w();
+            break;
+        case 3:
+            this.m30 = src.x();
+            this.m31 = src.y();
+            this.m32 = src.z();
+            this.m33 = src.w();
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return this;
     }
 
     /**

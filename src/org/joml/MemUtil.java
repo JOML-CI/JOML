@@ -201,6 +201,11 @@ abstract class MemUtil {
     public abstract void putColumn2(Matrix4f src, Vector4f dest);
     public abstract void putColumn3(Matrix4f src, Vector4f dest);
 
+    public abstract void getColumn0(Matrix4f dest, Vector4f src);
+    public abstract void getColumn1(Matrix4f dest, Vector4f src);
+    public abstract void getColumn2(Matrix4f dest, Vector4f src);
+    public abstract void getColumn3(Matrix4f dest, Vector4f src);
+
     public abstract void broadcast(float c, Vector4f dest);
     public abstract void broadcast(int c, Vector4i dest);
 
@@ -2053,6 +2058,34 @@ abstract class MemUtil {
             dest.y = src.m31;
             dest.z = src.m32;
             dest.w = src.m33;
+        }
+
+        public final void getColumn0(Matrix4f dest, Vector4f src) {
+            dest.m00 = src.x;
+            dest.m01 = src.y;
+            dest.m02 = src.z;
+            dest.m03 = src.w;
+        }
+
+        public final void getColumn1(Matrix4f dest, Vector4f src) {
+            dest.m10 = src.x;
+            dest.m11 = src.y;
+            dest.m12 = src.z;
+            dest.m13 = src.w;
+        }
+
+        public final void getColumn2(Matrix4f dest, Vector4f src) {
+            dest.m20 = src.x;
+            dest.m21 = src.y;
+            dest.m22 = src.z;
+            dest.m23 = src.w;
+        }
+
+        public final void getColumn3(Matrix4f dest, Vector4f src) {
+            dest.m30 = src.x;
+            dest.m31 = src.y;
+            dest.m32 = src.z;
+            dest.m33 = src.w;
         }
 
         public final void broadcast(float c, Vector4f dest) {
@@ -3918,6 +3951,26 @@ abstract class MemUtil {
         public final void putColumn3(Matrix4f src, Vector4f dest) {
             UNSAFE.putOrderedLong(dest, Vector4f_x,   UNSAFE.getLong(src, Matrix4f_m00+48));
             UNSAFE.putOrderedLong(dest, Vector4f_x+8, UNSAFE.getLong(src, Matrix4f_m00+56)); 
+        }
+
+        public final void getColumn0(Matrix4f dest, Vector4f src) {
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00,   UNSAFE.getLong(src, Vector4f_x));
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00+8, UNSAFE.getLong(src, Vector4f_x+8));
+        }
+
+        public final void getColumn1(Matrix4f dest, Vector4f src) {
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00+16, UNSAFE.getLong(src, Vector4f_x));
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00+24, UNSAFE.getLong(src, Vector4f_x+8));
+        }
+
+        public final void getColumn2(Matrix4f dest, Vector4f src) {
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00+32, UNSAFE.getLong(src, Vector4f_x));
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00+40, UNSAFE.getLong(src, Vector4f_x+8));
+        }
+
+        public final void getColumn3(Matrix4f dest, Vector4f src) {
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00+48, UNSAFE.getLong(src, Vector4f_x));
+            UNSAFE.putOrderedLong(dest, Matrix4f_m00+56, UNSAFE.getLong(src, Vector4f_x+8));
         }
 
         public final void broadcast(float c, Vector4f dest) {

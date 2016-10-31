@@ -3075,6 +3075,39 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         return dest;
     }
 
+    /**
+     * Set the row at the given <code>row</code> index, starting with <code>0</code>.
+     * 
+     * @param row
+     *          the row index in <tt>[0..2]</tt>
+     * @param src
+     *          the row components to set
+     * @return this
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
+     */
+    public Matrix3f setRow(int row, Vector3fc src) throws IndexOutOfBoundsException {
+        switch (row) {
+        case 0:
+            this.m00 = src.x();
+            this.m01 = src.y();
+            this.m02 = src.z();
+            break;
+        case 1:
+            this.m10 = src.x();
+            this.m11 = src.y();
+            this.m12 = src.z();
+            break;
+        case 2:
+            this.m20 = src.x();
+            this.m21 = src.y();
+            this.m22 = src.z();
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Matrix3fc#getColumn(int, org.joml.Vector3f)
      */
@@ -3099,6 +3132,39 @@ public class Matrix3f implements Externalizable, Matrix3fc {
             throw new IndexOutOfBoundsException();
         }
         return dest;
+    }
+
+    /**
+     * Set the column at the given <code>column</code> index, starting with <code>0</code>.
+     * 
+     * @param column
+     *          the column index in <tt>[0..2]</tt>
+     * @param src
+     *          the column components to set
+     * @return this
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..2]</tt>
+     */
+    public Matrix3f setColumn(int column, Vector3fc src) throws IndexOutOfBoundsException {
+        switch (column) {
+        case 0:
+            this.m00 = src.x();
+            this.m01 = src.y();
+            this.m02 = src.z();
+            break;
+        case 1:
+            this.m10 = src.x();
+            this.m11 = src.y();
+            this.m12 = src.z();
+            break;
+        case 2:
+            this.m20 = src.x();
+            this.m21 = src.y();
+            this.m22 = src.z();
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return this;
     }
 
     /**

@@ -11710,6 +11710,48 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest;
     }
 
+    /**
+     * Set the row at the given <code>row</code> index, starting with <code>0</code>.
+     * 
+     * @param row
+     *          the row index in <tt>[0..3]</tt>
+     * @param src
+     *          the row components to set
+     * @return this
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..3]</tt>
+     */
+    public Matrix4f setRow(int row, Vector4fc src) throws IndexOutOfBoundsException {
+        switch (row) {
+        case 0:
+            this._m00(src.x());
+            this._m10(src.y());
+            this._m20(src.z());
+            this._m30(src.w());
+            break;
+        case 1:
+            this._m01(src.x());
+            this._m11(src.y());
+            this._m21(src.z());
+            this._m31(src.w());
+            break;
+        case 2:
+            this._m02(src.x());
+            this._m12(src.y());
+            this._m22(src.z());
+            this._m32(src.w());
+            break;
+        case 3:
+            this._m03(src.x());
+            this._m13(src.y());
+            this._m23(src.z());
+            this._m33(src.w());
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Matrix4fc#getColumn(int, org.joml.Vector4f)
      */
@@ -11731,6 +11773,64 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             throw new IndexOutOfBoundsException();
         }
         return dest;
+    }
+
+    /**
+     * Set the column at the given <code>column</code> index, starting with <code>0</code>.
+     * 
+     * @param column
+     *          the column index in <tt>[0..3]</tt>
+     * @param src
+     *          the column components to set
+     * @return this
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..3]</tt>
+     */
+    public Matrix4f setColumn(int column, Vector4fc src) throws IndexOutOfBoundsException {
+        switch (column) {
+        case 0:
+            if (src instanceof Vector4f) {
+                MemUtil.INSTANCE.getColumn0(this, (Vector4f) src);
+            } else {
+                this._m00(src.x());
+                this._m01(src.y());
+                this._m02(src.z());
+                this._m03(src.w());
+            }
+            break;
+        case 1:
+            if (src instanceof Vector4f) {
+                MemUtil.INSTANCE.getColumn1(this, (Vector4f) src);
+            } else {
+                this._m10(src.x());
+                this._m11(src.y());
+                this._m12(src.z());
+                this._m13(src.w());
+            }
+            break;
+        case 2:
+            if (src instanceof Vector4f) {
+                MemUtil.INSTANCE.getColumn2(this, (Vector4f) src);
+            } else {
+                this._m20(src.x());
+                this._m21(src.y());
+                this._m22(src.z());
+                this._m23(src.w());
+            }
+            break;
+        case 3:
+            if (src instanceof Vector4f) {
+                MemUtil.INSTANCE.getColumn3(this, (Vector4f) src);
+            } else {
+                this._m30(src.x());
+                this._m31(src.y());
+                this._m32(src.z());
+                this._m33(src.w());
+            }
+            break;
+        default:
+            throw new IndexOutOfBoundsException();
+        }
+        return this;
     }
 
     /**
