@@ -38,13 +38,12 @@ import java.nio.IntBuffer;
  * @author Kai Burjack
  */
 abstract class MemUtil {
-    private static final boolean nounsafe = Options.hasOption("joml.nounsafe");
     public static final MemUtil INSTANCE = createInstance();
 
     private static final MemUtil createInstance() {
         MemUtil accessor;
         try {
-            if (nounsafe)
+            if (Options.NO_UNSAFE)
                 accessor = new MemUtilNIO();
             else
                 accessor = new MemUtilUnsafe();
@@ -3160,409 +3159,713 @@ abstract class MemUtil {
             UNSAFE.putFloat(null, addr + 44, 0.0f);
         }
 
+        private static void throwNoDirectBufferException() {
+            throw new IllegalArgumentException("Must use a direct buffer");
+        }
+
         public final void putMatrix3f(Quaternionf q, int position, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             long addr = addressOf(dest) + position;
             putMatrix3f(q, addr);
         }
 
         public final void putMatrix3f(Quaternionf q, int position, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             long addr = addressOf(dest) + (position << 2);
             putMatrix3f(q, addr);
         }
 
         public final void putMatrix4f(Quaternionf q, int position, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             long addr = addressOf(dest) + position;
             putMatrix4f(q, addr);
         }
 
         public final void putMatrix4f(Quaternionf q, int position, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             long addr = addressOf(dest) + (position << 2);
             putMatrix4f(q, addr);
         }
 
         public final void putMatrix4x3f(Quaternionf q, int position, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             long addr = addressOf(dest) + position;
             putMatrix4x3f(q, addr);
         }
 
         public final void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             long addr = addressOf(dest) + (position << 2);
             putMatrix4x3f(q, addr);
         }
 
         public final void put(Matrix4f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + (offset << 2));
         }
 
         public final void put(Matrix4f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + offset);
         }
 
         public final void put(Matrix4x3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + (offset << 2));
         }
 
         public final void put(Matrix4x3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + offset);
         }
 
         public final void put4x4(Matrix4x3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put4x4(m, addressOf(dest) + (offset << 2));
         }
 
         public final void put4x4(Matrix4x3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put4x4(m, addressOf(dest) + offset);
         }
 
         public final void put4x4(Matrix4x3d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put4x4(m, addressOf(dest) + (offset << 3));
         }
 
         public final void put4x4(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put4x4(m, addressOf(dest) + offset);
         }
 
         public final void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public final void putTransposed(Matrix4f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public final void put4x3Transposed(Matrix4f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put4x3Transposed(m, addressOf(dest) + (offset << 2));
         }
 
         public final void put4x3Transposed(Matrix4f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put4x3Transposed(m, addressOf(dest) + offset);
         }
 
         public final void putTransposed(Matrix4x3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public final void putTransposed(Matrix4x3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public final void putTransposed(Matrix3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public final void putTransposed(Matrix3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public final void put(Matrix4d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + (offset << 3));
         }
 
         public final void put(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + offset);
         }
 
         public final void put(Matrix4x3d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + (offset << 3));
         }
 
         public final void put(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + offset);
         }
 
         public final void putf(Matrix4d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putf(m, addressOf(dest) + (offset << 2));
         }
 
         public final void putf(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putf(m, addressOf(dest) + offset);
         }
 
         public final void putf(Matrix4x3d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putf(m, addressOf(dest) + (offset << 2));
         }
 
         public final void putf(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putf(m, addressOf(dest) + offset);
         }
 
         public final void putTransposed(Matrix4d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + (offset << 3));
         }
 
         public final void putTransposed(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public final void put4x3Transposed(Matrix4d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put4x3Transposed(m, addressOf(dest) + (offset << 3));
         }
 
         public final void put4x3Transposed(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put4x3Transposed(m, addressOf(dest) + offset);
         }
 
         public final void putTransposed(Matrix4x3d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + (offset << 3));
         }
 
         public final void putTransposed(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putTransposed(m, addressOf(dest) + offset);
         }
 
         public final void putfTransposed(Matrix4d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putfTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public final void putfTransposed(Matrix4d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putfTransposed(m, addressOf(dest) + offset);
         }
 
         public final void putfTransposed(Matrix4x3d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putfTransposed(m, addressOf(dest) + (offset << 2));
         }
 
         public final void putfTransposed(Matrix4x3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putfTransposed(m, addressOf(dest) + offset);
         }
 
         public final void put(Matrix3f m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + (offset << 2));
         }
 
         public final void put(Matrix3f m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + offset);
         }
 
         public final void put(Matrix3d m, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + (offset << 3));
         }
 
         public final void put(Matrix3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(m, addressOf(dest) + offset);
         }
 
         public final void putf(Matrix3d m, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putf(m, addressOf(dest) + (offset << 2));
         }
 
         public final void putf(Matrix3d m, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             putf(m, addressOf(dest) + offset);
         }
 
         public final void put(Vector4d src, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + (offset << 3));
         }
 
         public final void put(Vector4d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + offset);
         }
 
         public final void put(Vector4f src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public final void put(Vector4f src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + offset);
         }
 
         public final void put(Vector4i src, int offset, IntBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public final void put(Vector4i src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + offset);
         }
 
         public final void put(Vector3f src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public final void put(Vector3f src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + offset);
         }
 
         public final void put(Vector3d src, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + (offset << 3));
         }
 
         public final void put(Vector3d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + offset);
         }
 
         public final void put(Vector3i src, int offset, IntBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public final void put(Vector3i src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + offset);
         }
 
         public final void put(Vector2f src, int offset, FloatBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public final void put(Vector2f src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + offset);
         }
 
         public final void put(Vector2d src, int offset, DoubleBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + (offset << 3));
         }
 
         public final void put(Vector2d src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + offset);
         }
 
         public final void put(Vector2i src, int offset, IntBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + (offset << 2));
         }
 
         public final void put(Vector2i src, int offset, ByteBuffer dest) {
+            if (Options.DEBUG && !dest.isDirect()) {
+                throwNoDirectBufferException();
+            }
             put(src, addressOf(dest) + offset);
         }
 
         public final void get(Matrix4f m, int offset, FloatBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + (offset << 2));
         }
 
         public final void get(Matrix4f m, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + offset);
         }
 
         public final void get(Matrix4x3f m, int offset, FloatBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + (offset << 2));
         }
 
         public final void get(Matrix4x3f m, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + offset);
         }
 
         public final void get(Matrix4d m, int offset, DoubleBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + (offset << 3));
         }
 
         public final void get(Matrix4d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + offset);
         }
 
         public final void get(Matrix4x3d m, int offset, DoubleBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + (offset << 3));
         }
 
         public final void get(Matrix4x3d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + offset);
         }
 
         public final void getf(Matrix4d m, int offset, FloatBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             getf(m, addressOf(src) + (offset << 2));
         }
 
         public final void getf(Matrix4d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             getf(m, addressOf(src) + offset);
         }
 
         public final void getf(Matrix4x3d m, int offset, FloatBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             getf(m, addressOf(src) + (offset << 2));
         }
 
         public final void getf(Matrix4x3d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             getf(m, addressOf(src) + offset);
         }
 
         public final void get(Matrix3f m, int offset, FloatBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + (offset << 2));
         }
 
         public final void get(Matrix3f m, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + offset);
         }
 
         public final void get(Matrix3d m, int offset, DoubleBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + (offset << 3));
         }
 
         public final void get(Matrix3d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(m, addressOf(src) + offset);
         }
 
         public final void getf(Matrix3d m, int offset, FloatBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             getf(m, addressOf(src) + (offset << 2));
         }
 
         public final void getf(Matrix3d m, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             getf(m, addressOf(src) + offset);
         }
 
         public final void get(Vector4d dst, int offset, DoubleBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + (offset << 3));
         }
 
         public final void get(Vector4d dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + offset);
         }
 
         public final void get(Vector4f dst, int offset, FloatBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public final void get(Vector4f dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + offset);
         }
 
         public final void get(Vector4i dst, int offset, IntBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public final void get(Vector4i dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + offset);
         }
 
         public final void get(Vector3f dst, int offset, FloatBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public final void get(Vector3f dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + offset);
         }
 
         public final void get(Vector3d dst, int offset, DoubleBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + (offset << 3));
         }
 
         public final void get(Vector3d dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + offset);
         }
 
         public final void get(Vector3i dst, int offset, IntBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public final void get(Vector3i dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + offset);
         }
 
         public final void get(Vector2f dst, int offset, FloatBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public final void get(Vector2f dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + offset);
         }
 
         public final void get(Vector2d dst, int offset, DoubleBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + (offset << 3));
         }
 
         public final void get(Vector2d dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + offset);
         }
 
         public final void get(Vector2i dst, int offset, IntBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + (offset << 2));
         }
 
         public final void get(Vector2i dst, int offset, ByteBuffer src) {
+            if (Options.DEBUG && !src.isDirect()) {
+                throwNoDirectBufferException();
+            }
             get(dst, addressOf(src) + offset);
         }
 

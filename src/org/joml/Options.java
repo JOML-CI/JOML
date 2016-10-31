@@ -29,7 +29,35 @@ package org.joml;
  */
 class Options {
 
+    /**
+     * Whether no proxy should be created (but instead just <code>this</code> returned) on calls to toImmutable().
+     */
     static final boolean NO_PROXY = hasOption("joml.noproxy");
+
+    /**
+     * Whether certain debugging checks should be made, such as that only direct NIO Buffers are used when Unsafe is active.
+     */
+    static final boolean DEBUG = hasOption("joml.debug");
+
+    /**
+     * Whether <i>not</i> to use sun.misc.Unsafe when copying memory with MemUtil.
+     */
+    static final boolean NO_UNSAFE = Options.hasOption("joml.nounsafe");
+
+    /**
+     * Whether fast approximations of some java.lang.Math operations should be used.
+     */
+    static final boolean FASTMATH = Options.hasOption("joml.fastmath");
+
+    /**
+     * When {@link #FASTMATH} is <code>true</code>, whether to use a lookup table for sin/cos.
+     */
+    static final boolean SIN_LOOKUP = Options.hasOption("joml.sinLookup");
+
+    /**
+     * When {@link #SIN_LOOKUP} is <code>true</code>, this determines the table size.
+     */
+    static final int SIN_LOOKUP_BITS = Integer.parseInt(System.getProperty("joml.sinLookup.bits", "14"));
 
     static boolean hasOption(String option) {
         String v = System.getProperty(option);

@@ -20,9 +20,11 @@
  THE SOFTWARE.
 
  */
-package org.joml;
+package org.joml.sampling;
 
 import java.nio.FloatBuffer;
+
+import org.joml.Math;
 
 /**
  * Generates various convolution kernels.

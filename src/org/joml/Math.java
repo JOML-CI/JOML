@@ -40,9 +40,6 @@ package org.joml;
  */
 public class Math {
 
-    private static final boolean fastMath = Options.hasOption("joml.fastmath");
-    private static final boolean sinlookup = Options.hasOption("joml.sinLookup");
-
     /*
      * The following implementation of an approximation of sine and cosine was
      * thankfully donated by Riven from http://java-gaming.org/.
@@ -55,7 +52,7 @@ public class Math {
     static final double PIHalf = PI * 0.5;
     static final double PI_4 = PI * 0.25;
     static final double PI_INV = 1.0 / PI;
-    private static final int lookupBits = Integer.parseInt(System.getProperty("joml.sinLookup.bits", "14")); //$NON-NLS-1$ //$NON-NLS-2$
+    private static final int lookupBits = Options.SIN_LOOKUP_BITS;
     private static final int lookupTableSize = 1 << lookupBits;
     private static final int lookupTableSizeMinus1 = lookupTableSize - 1;
     private static final int lookupTableSizeWithMargin = lookupTableSize + 1;
@@ -63,7 +60,7 @@ public class Math {
     private static final double lookupSizeOverPi2 = lookupTableSize / PI2;
     private static final float sinTable[];
     static {
-        if (fastMath && sinlookup) {
+        if (Options.FASTMATH && Options.SIN_LOOKUP) {
             sinTable = new float[lookupTableSizeWithMargin];
             for (int i = 0; i < lookupTableSizeWithMargin; i++) {
                 double d = i * pi2OverLookupSize;
@@ -201,8 +198,8 @@ public class Math {
     }
 
     public static double sin(double rad) {
-        if (fastMath) {
-            if (sinlookup)
+        if (Options.FASTMATH) {
+            if (Options.SIN_LOOKUP)
                 return sin_theagentd_lookup(rad);
             return sin_roquen_newk(rad);
         }
@@ -210,7 +207,7 @@ public class Math {
     }
 
     public static double cos(double rad) {
-        if (fastMath)
+        if (Options.FASTMATH)
             return sin(rad + PIHalf);
         return java.lang.Math.cos(rad);
     }
