@@ -2610,6 +2610,8 @@ public class Intersectionf {
      * circle with center <tt>(bX, bY)</tt> and square radius <code>radiusSquaredB</code>, and store the center of the line segment of
      * intersection in the <tt>(x, y)</tt> components of the supplied vector and the half-length of that line segment in the z component.
      * <p>
+     * This method returns <code>false</code> when one circle contains the other circle.
+     * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
      * 
      * @param aX
@@ -2647,6 +2649,8 @@ public class Intersectionf {
      * circle with center <code>centerB</code> and square radius <code>radiusSquaredB</code>, and store the center of the line segment of
      * intersection in the <tt>(x, y)</tt> components of the supplied vector and the half-length of that line segment in the z component.
      * <p>
+     * This method returns <code>false</code> when one circle contains the other circle.
+     * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
      * 
      * @param centerA
@@ -2667,6 +2671,8 @@ public class Intersectionf {
 
     /**
      * Test whether the one circle with center <tt>(aX, aY)</tt> and radius <code>rA</code> intersects the other circle with center <tt>(bX, bY)</tt> and radius <code>rB</code>.
+     * <p>
+     * This method returns <code>true</code> when one circle contains the other circle.
      * <p>
      * Reference: <a href="http://math.stackexchange.com/questions/275514/two-circles-overlap">http://math.stackexchange.com/</a>
      * 
@@ -2692,6 +2698,8 @@ public class Intersectionf {
     /**
      * Test whether the one circle with center <code>centerA</code> and square radius <code>radiusSquaredA</code> intersects the other
      * circle with center <code>centerB</code> and square radius <code>radiusSquaredB</code>.
+     * <p>
+     * This method returns <code>true</code> when one circle contains the other circle.
      * <p>
      * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
      * 
