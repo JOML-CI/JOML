@@ -2246,7 +2246,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return the immutable instance
      */
     public Vector3dc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

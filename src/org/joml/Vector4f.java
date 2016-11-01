@@ -1345,7 +1345,7 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return the immutable instance
      */
     public Vector4fc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

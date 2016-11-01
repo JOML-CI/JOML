@@ -1397,7 +1397,7 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return the immutable instance
      */
     public Vector4dc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

@@ -3790,7 +3790,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return the immutable instance
      */
     public Matrix3fc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

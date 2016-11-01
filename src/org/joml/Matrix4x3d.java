@@ -9715,7 +9715,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return the immutable instance
      */
     public Matrix4x3dc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

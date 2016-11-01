@@ -30,12 +30,8 @@ package org.joml;
 class Options {
 
     /**
-     * Whether no proxy should be created (but instead just <code>this</code> returned) on calls to toImmutable().
-     */
-    static final boolean NO_PROXY = hasOption("joml.noproxy");
-
-    /**
-     * Whether certain debugging checks should be made, such as that only direct NIO Buffers are used when Unsafe is active.
+     * Whether certain debugging checks should be made, such as that only direct NIO Buffers are used when Unsafe is active,
+     * and a proxy should be created on calls to toImmutable().
      */
     static final boolean DEBUG = hasOption("joml.debug");
 

@@ -13738,7 +13738,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return the immutable instance
      */
     public Matrix4fc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }
