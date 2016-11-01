@@ -4420,7 +4420,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      * @return the immutable instance
      */
     public Matrix3dc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

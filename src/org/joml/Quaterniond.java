@@ -2920,7 +2920,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @return the immutable instance
      */
     public Quaterniondc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

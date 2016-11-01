@@ -972,7 +972,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return the immutable instance
      */
     public Vector4ic toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

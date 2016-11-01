@@ -904,7 +904,7 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return the immutable instance
      */
     public Vector2dc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

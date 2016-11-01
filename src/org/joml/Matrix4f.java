@@ -899,11 +899,16 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 
     private static final long serialVersionUID = 1L;
 
+    private final native void mulNative(Matrix4f right, Matrix4f dest);
+    private final native void mulNativeAVX(Matrix4f right, Matrix4f dest);
+    private final native void invertNative(Matrix4f dest);
+    private final native void invertNativeAVX(Matrix4f dest);
+
+    float padding;
     float m00, m01, m02, m03;
     float m10, m11, m12, m13;
     float m20, m21, m22, m23;
     float m30, m31, m32, m33;
-
     byte properties;
 
     /**
@@ -2022,6 +2027,20 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return mulGeneric(right, dest);
     }
     private Matrix4f mulGeneric(Matrix4fc right, Matrix4f dest) {
+        if (right instanceof Matrix4f) {
+            if (JNI.supportsNative) {
+                if (JNI.hasAvx)
+                    mulNativeAVX((Matrix4f) right, dest);
+                else
+                    mulNative((Matrix4f) right, dest);
+            } else
+                mulGenericJava(right, dest);
+        } else
+            mulGenericJava(right, dest);
+        dest.properties = 0;
+        return dest;
+    }
+    private Matrix4f mulGenericJava(Matrix4fc right, Matrix4f dest) {
         float nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02() + m30 * right.m03();
         float nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02() + m31 * right.m03();
         float nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02() + m32 * right.m03();
@@ -2944,6 +2963,17 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return invertGeneric(dest);
     }
     private Matrix4f invertGeneric(Matrix4f dest) {
+        if (JNI.supportsNative) {
+            if (JNI.hasAvx)
+                invertNativeAVX(dest);
+            else
+                invertNative(dest);
+        } else
+            invertGenericJava(dest);
+        dest.properties = 0;
+        return dest;
+    }
+    private Matrix4f invertGenericJava(Matrix4f dest) {
         float a = m00 * m11 - m01 * m10;
         float b = m00 * m12 - m02 * m10;
         float c = m00 * m13 - m03 * m10;
@@ -13738,7 +13768,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return the immutable instance
      */
     public Matrix4fc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

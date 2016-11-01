@@ -737,7 +737,7 @@ public class Vector2i implements Externalizable, Vector2ic {
      * @return the immutable instance
      */
     public Vector2ic toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

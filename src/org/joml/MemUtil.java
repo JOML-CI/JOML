@@ -2107,7 +2107,7 @@ abstract class MemUtil {
         private static final sun.misc.Unsafe UNSAFE;
         private static final long ADDRESS;
         private static final long Matrix3f_m00;
-        private static final long Matrix4f_m00;
+        static final long Matrix4f_m00;
         private static final long Matrix4x3f_m00;
         private static final long Vector4f_x;
         private static final long Vector4d_x;

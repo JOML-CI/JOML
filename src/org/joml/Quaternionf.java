@@ -3055,7 +3055,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @return the immutable instance
      */
     public Quaternionfc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }

@@ -14737,7 +14737,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return the immutable instance
      */
     public Matrix4dc toImmutable() {
-        if (Options.NO_PROXY)
+        if (!Options.DEBUG)
             return this;
         return new Proxy(this);
     }
