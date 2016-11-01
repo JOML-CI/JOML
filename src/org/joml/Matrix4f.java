@@ -2028,11 +2028,12 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
     private Matrix4f mulGeneric(Matrix4fc right, Matrix4f dest) {
         if (right instanceof Matrix4f) {
+            final Matrix4f rightm = (Matrix4f) right;
             if (JNI.supportsNative) {
                 if (JNI.hasAvx)
-                    mulNativeAVX((Matrix4f) right, dest);
+                    mulNativeAVX(rightm, dest);
                 else
-                    mulNative((Matrix4f) right, dest);
+                    mulNative(rightm, dest);
             } else
                 mulGenericJava(right, dest);
         } else
