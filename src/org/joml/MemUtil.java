@@ -215,41 +215,41 @@ abstract class MemUtil {
         }
 
         public final void put(Matrix4f m, int offset, FloatBuffer dest) {
-            dest.put(offset,    m.m00);
-            dest.put(offset+1,  m.m01);
-            dest.put(offset+2,  m.m02);
-            dest.put(offset+3,  m.m03);
-            dest.put(offset+4,  m.m10);
-            dest.put(offset+5,  m.m11);
-            dest.put(offset+6,  m.m12);
-            dest.put(offset+7,  m.m13);
-            dest.put(offset+8,  m.m20);
-            dest.put(offset+9,  m.m21);
-            dest.put(offset+10, m.m22);
-            dest.put(offset+11, m.m23);
-            dest.put(offset+12, m.m30);
-            dest.put(offset+13, m.m31);
-            dest.put(offset+14, m.m32);
-            dest.put(offset+15, m.m33);
+            dest.put(offset,    m.m00());
+            dest.put(offset+1,  m.m01());
+            dest.put(offset+2,  m.m02());
+            dest.put(offset+3,  m.m03());
+            dest.put(offset+4,  m.m10());
+            dest.put(offset+5,  m.m11());
+            dest.put(offset+6,  m.m12());
+            dest.put(offset+7,  m.m13());
+            dest.put(offset+8,  m.m20());
+            dest.put(offset+9,  m.m21());
+            dest.put(offset+10, m.m22());
+            dest.put(offset+11, m.m23());
+            dest.put(offset+12, m.m30());
+            dest.put(offset+13, m.m31());
+            dest.put(offset+14, m.m32());
+            dest.put(offset+15, m.m33());
         }
 
         public final void put(Matrix4f m, int offset, ByteBuffer dest) {
-            dest.putFloat(offset,    m.m00);
-            dest.putFloat(offset+4,  m.m01);
-            dest.putFloat(offset+8,  m.m02);
-            dest.putFloat(offset+12, m.m03);
-            dest.putFloat(offset+16, m.m10);
-            dest.putFloat(offset+20, m.m11);
-            dest.putFloat(offset+24, m.m12);
-            dest.putFloat(offset+28, m.m13);
-            dest.putFloat(offset+32, m.m20);
-            dest.putFloat(offset+36, m.m21);
-            dest.putFloat(offset+40, m.m22);
-            dest.putFloat(offset+44, m.m23);
-            dest.putFloat(offset+48, m.m30);
-            dest.putFloat(offset+52, m.m31);
-            dest.putFloat(offset+56, m.m32);
-            dest.putFloat(offset+60, m.m33);
+            dest.putFloat(offset,    m.m00());
+            dest.putFloat(offset+4,  m.m01());
+            dest.putFloat(offset+8,  m.m02());
+            dest.putFloat(offset+12, m.m03());
+            dest.putFloat(offset+16, m.m10());
+            dest.putFloat(offset+20, m.m11());
+            dest.putFloat(offset+24, m.m12());
+            dest.putFloat(offset+28, m.m13());
+            dest.putFloat(offset+32, m.m20());
+            dest.putFloat(offset+36, m.m21());
+            dest.putFloat(offset+40, m.m22());
+            dest.putFloat(offset+44, m.m23());
+            dest.putFloat(offset+48, m.m30());
+            dest.putFloat(offset+52, m.m31());
+            dest.putFloat(offset+56, m.m32());
+            dest.putFloat(offset+60, m.m33());
         }
 
         public final void put(Matrix4x3f m, int offset, FloatBuffer dest) {
@@ -359,71 +359,71 @@ abstract class MemUtil {
         }
 
         public final void putTransposed(Matrix4f m, int offset, FloatBuffer dest) {
-            dest.put(offset,    m.m00);
-            dest.put(offset+1,  m.m10);
-            dest.put(offset+2,  m.m20);
-            dest.put(offset+3,  m.m30);
-            dest.put(offset+4,  m.m01);
-            dest.put(offset+5,  m.m11);
-            dest.put(offset+6,  m.m21);
-            dest.put(offset+7,  m.m31);
-            dest.put(offset+8,  m.m02);
-            dest.put(offset+9,  m.m12);
-            dest.put(offset+10, m.m22);
-            dest.put(offset+11, m.m32);
-            dest.put(offset+12, m.m03);
-            dest.put(offset+13, m.m13);
-            dest.put(offset+14, m.m23);
-            dest.put(offset+15, m.m33);
+            dest.put(offset,    m.m00());
+            dest.put(offset+1,  m.m10());
+            dest.put(offset+2,  m.m20());
+            dest.put(offset+3,  m.m30());
+            dest.put(offset+4,  m.m01());
+            dest.put(offset+5,  m.m11());
+            dest.put(offset+6,  m.m21());
+            dest.put(offset+7,  m.m31());
+            dest.put(offset+8,  m.m02());
+            dest.put(offset+9,  m.m12());
+            dest.put(offset+10, m.m22());
+            dest.put(offset+11, m.m32());
+            dest.put(offset+12, m.m03());
+            dest.put(offset+13, m.m13());
+            dest.put(offset+14, m.m23());
+            dest.put(offset+15, m.m33());
         }
 
         public final void putTransposed(Matrix4f m, int offset, ByteBuffer dest) {
-            dest.putFloat(offset,    m.m00);
-            dest.putFloat(offset+4,  m.m10);
-            dest.putFloat(offset+8,  m.m20);
-            dest.putFloat(offset+12, m.m30);
-            dest.putFloat(offset+16, m.m01);
-            dest.putFloat(offset+20, m.m11);
-            dest.putFloat(offset+24, m.m21);
-            dest.putFloat(offset+28, m.m31);
-            dest.putFloat(offset+32, m.m02);
-            dest.putFloat(offset+36, m.m12);
-            dest.putFloat(offset+40, m.m22);
-            dest.putFloat(offset+44, m.m32);
-            dest.putFloat(offset+48, m.m03);
-            dest.putFloat(offset+52, m.m13);
-            dest.putFloat(offset+56, m.m23);
-            dest.putFloat(offset+60, m.m33);
+            dest.putFloat(offset,    m.m00());
+            dest.putFloat(offset+4,  m.m10());
+            dest.putFloat(offset+8,  m.m20());
+            dest.putFloat(offset+12, m.m30());
+            dest.putFloat(offset+16, m.m01());
+            dest.putFloat(offset+20, m.m11());
+            dest.putFloat(offset+24, m.m21());
+            dest.putFloat(offset+28, m.m31());
+            dest.putFloat(offset+32, m.m02());
+            dest.putFloat(offset+36, m.m12());
+            dest.putFloat(offset+40, m.m22());
+            dest.putFloat(offset+44, m.m32());
+            dest.putFloat(offset+48, m.m03());
+            dest.putFloat(offset+52, m.m13());
+            dest.putFloat(offset+56, m.m23());
+            dest.putFloat(offset+60, m.m33());
         }
 
         public final void put4x3Transposed(Matrix4f m, int offset, FloatBuffer dest) {
-            dest.put(offset,    m.m00);
-            dest.put(offset+1,  m.m10);
-            dest.put(offset+2,  m.m20);
-            dest.put(offset+3,  m.m30);
-            dest.put(offset+4,  m.m01);
-            dest.put(offset+5,  m.m11);
-            dest.put(offset+6,  m.m21);
-            dest.put(offset+7,  m.m31);
-            dest.put(offset+8,  m.m02);
-            dest.put(offset+9,  m.m12);
-            dest.put(offset+10, m.m22);
-            dest.put(offset+11, m.m32);
+            dest.put(offset,    m.m00());
+            dest.put(offset+1,  m.m10());
+            dest.put(offset+2,  m.m20());
+            dest.put(offset+3,  m.m30());
+            dest.put(offset+4,  m.m01());
+            dest.put(offset+5,  m.m11());
+            dest.put(offset+6,  m.m21());
+            dest.put(offset+7,  m.m31());
+            dest.put(offset+8,  m.m02());
+            dest.put(offset+9,  m.m12());
+            dest.put(offset+10, m.m22());
+            dest.put(offset+11, m.m32());
         }
 
         public final void put4x3Transposed(Matrix4f m, int offset, ByteBuffer dest) {
-            dest.putFloat(offset,    m.m00);
-            dest.putFloat(offset+4,  m.m10);
-            dest.putFloat(offset+8,  m.m20);
-            dest.putFloat(offset+12, m.m30);
-            dest.putFloat(offset+16, m.m01);
-            dest.putFloat(offset+20, m.m11);
-            dest.putFloat(offset+24, m.m21);
-            dest.putFloat(offset+28, m.m31);
-            dest.putFloat(offset+32, m.m02);
-            dest.putFloat(offset+36, m.m12);
-            dest.putFloat(offset+40, m.m22);
-            dest.putFloat(offset+44, m.m32);
+            dest.putFloat(offset,    m.m00());
+            dest.putFloat(offset+4,  m.m10());
+            dest.putFloat(offset+8,  m.m20());
+            dest.putFloat(offset+12, m.m30());
+            dest.putFloat(offset+16, m.m01());
+            dest.putFloat(offset+20, m.m11());
+            dest.putFloat(offset+24, m.m21());
+            dest.putFloat(offset+28, m.m31());
+            dest.putFloat(offset+32, m.m02());
+            dest.putFloat(offset+36, m.m12());
+            dest.putFloat(offset+40, m.m22());
+            dest.putFloat(offset+44, m.m32());
         }
 
         public final void putTransposed(Matrix4x3f m, int offset, FloatBuffer dest) {
@@ -963,41 +963,41 @@ abstract class MemUtil {
         }
 
         public final void get(Matrix4f m, int offset, FloatBuffer src) {
-            m.m00 = src.get(offset);
-            m.m01 = src.get(offset+1);
-            m.m02 = src.get(offset+2);
-            m.m03 = src.get(offset+3);
-            m.m10 = src.get(offset+4);
-            m.m11 = src.get(offset+5);
-            m.m12 = src.get(offset+6);
-            m.m13 = src.get(offset+7);
-            m.m20 = src.get(offset+8);
-            m.m21 = src.get(offset+9);
-            m.m22 = src.get(offset+10);
-            m.m23 = src.get(offset+11);
-            m.m30 = src.get(offset+12);
-            m.m31 = src.get(offset+13);
-            m.m32 = src.get(offset+14);
-            m.m33 = src.get(offset+15);
+            m._m00(src.get(offset));
+            m._m01(src.get(offset+1));
+            m._m02(src.get(offset+2));
+            m._m03(src.get(offset+3));
+            m._m10(src.get(offset+4));
+            m._m11(src.get(offset+5));
+            m._m12(src.get(offset+6));
+            m._m13(src.get(offset+7));
+            m._m20(src.get(offset+8));
+            m._m21(src.get(offset+9));
+            m._m22(src.get(offset+10));
+            m._m23(src.get(offset+11));
+            m._m30(src.get(offset+12));
+            m._m31(src.get(offset+13));
+            m._m32(src.get(offset+14));
+            m._m33(src.get(offset+15));
         }
 
         public final void get(Matrix4f m, int offset, ByteBuffer src) {
-            m.m00 = src.getFloat(offset);
-            m.m01 = src.getFloat(offset+4);
-            m.m02 = src.getFloat(offset+8);
-            m.m03 = src.getFloat(offset+12);
-            m.m10 = src.getFloat(offset+16);
-            m.m11 = src.getFloat(offset+20);
-            m.m12 = src.getFloat(offset+24);
-            m.m13 = src.getFloat(offset+28);
-            m.m20 = src.getFloat(offset+32);
-            m.m21 = src.getFloat(offset+36);
-            m.m22 = src.getFloat(offset+40);
-            m.m23 = src.getFloat(offset+44);
-            m.m30 = src.getFloat(offset+48);
-            m.m31 = src.getFloat(offset+52);
-            m.m32 = src.getFloat(offset+56);
-            m.m33 = src.getFloat(offset+60);
+            m._m00(src.getFloat(offset));
+            m._m01(src.getFloat(offset+4));
+            m._m02(src.getFloat(offset+8));
+            m._m03(src.getFloat(offset+12));
+            m._m10(src.getFloat(offset+16));
+            m._m11(src.getFloat(offset+20));
+            m._m12(src.getFloat(offset+24));
+            m._m13(src.getFloat(offset+28));
+            m._m20(src.getFloat(offset+32));
+            m._m21(src.getFloat(offset+36));
+            m._m22(src.getFloat(offset+40));
+            m._m23(src.getFloat(offset+44));
+            m._m30(src.getFloat(offset+48));
+            m._m31(src.getFloat(offset+52));
+            m._m32(src.getFloat(offset+56));
+            m._m33(src.getFloat(offset+60));
         }
 
         public final void get(Matrix4x3f m, int offset, FloatBuffer src) {
@@ -1347,53 +1347,53 @@ abstract class MemUtil {
         }
 
         public final void copy(Matrix4f src, Matrix4f dest) {
-            dest.m00 = src.m00;
-            dest.m01 = src.m01;
-            dest.m02 = src.m02;
-            dest.m03 = src.m03;
-            dest.m10 = src.m10;
-            dest.m11 = src.m11;
-            dest.m12 = src.m12;
-            dest.m13 = src.m13;
-            dest.m20 = src.m20;
-            dest.m21 = src.m21;
-            dest.m22 = src.m22;
-            dest.m23 = src.m23;
-            dest.m30 = src.m30;
-            dest.m31 = src.m31;
-            dest.m32 = src.m32;
-            dest.m33 = src.m33;
+            dest._m00(src.m00());
+            dest._m01(src.m01());
+            dest._m02(src.m02());
+            dest._m03(src.m03());
+            dest._m10(src.m10());
+            dest._m11(src.m11());
+            dest._m12(src.m12());
+            dest._m13(src.m13());
+            dest._m20(src.m20());
+            dest._m21(src.m21());
+            dest._m22(src.m22());
+            dest._m23(src.m23());
+            dest._m30(src.m30());
+            dest._m31(src.m31());
+            dest._m32(src.m32());
+            dest._m33(src.m33());
         }
 
         public final void copy(Matrix3f src, Matrix4f dest) {
-            dest.m00 = src.m00;
-            dest.m01 = src.m01;
-            dest.m02 = src.m02;
-            dest.m03 = 0.0f;
-            dest.m10 = src.m10;
-            dest.m11 = src.m11;
-            dest.m12 = src.m12;
-            dest.m13 = 0.0f;
-            dest.m20 = src.m20;
-            dest.m21 = src.m21;
-            dest.m22 = src.m22;
-            dest.m23 = 0.0f;
-            dest.m30 = 0.0f;
-            dest.m31 = 0.0f;
-            dest.m32 = 0.0f;
-            dest.m33 = 1.0f;
+            dest._m00(src.m00);
+            dest._m01(src.m01);
+            dest._m02(src.m02);
+            dest._m03(0.0f);
+            dest._m10(src.m10);
+            dest._m11(src.m11);
+            dest._m12(src.m12);
+            dest._m13(0.0f);
+            dest._m20(src.m20);
+            dest._m21(src.m21);
+            dest._m22(src.m22);
+            dest._m23(0.0f);
+            dest._m30(0.0f);
+            dest._m31(0.0f);
+            dest._m32(0.0f);
+            dest._m33(1.0f);
         }
 
         public final void copy(Matrix4f src, Matrix3f dest) {
-            dest.m00 = src.m00;
-            dest.m01 = src.m01;
-            dest.m02 = src.m02;
-            dest.m10 = src.m10;
-            dest.m11 = src.m11;
-            dest.m12 = src.m12;
-            dest.m20 = src.m20;
-            dest.m21 = src.m21;
-            dest.m22 = src.m22;
+            dest.m00 = src.m00();
+            dest.m01 = src.m01();
+            dest.m02 = src.m02();
+            dest.m10 = src.m10();
+            dest.m11 = src.m11();
+            dest.m12 = src.m12();
+            dest.m20 = src.m20();
+            dest.m21 = src.m21();
+            dest.m22 = src.m22();
         }
 
         public final void copy(Matrix3f src, Matrix4x3f dest) {
@@ -1412,15 +1412,15 @@ abstract class MemUtil {
         }
 
         public final void copy3x3(Matrix4f src, Matrix4f dest) {
-            dest.m00 = src.m00;
-            dest.m01 = src.m01;
-            dest.m02 = src.m02;
-            dest.m10 = src.m10;
-            dest.m11 = src.m11;
-            dest.m12 = src.m12;
-            dest.m20 = src.m20;
-            dest.m21 = src.m21;
-            dest.m22 = src.m22;
+            dest._m00(src.m00());
+            dest._m01(src.m01());
+            dest._m02(src.m02());
+            dest._m10(src.m10());
+            dest._m11(src.m11());
+            dest._m12(src.m12());
+            dest._m20(src.m20());
+            dest._m21(src.m21());
+            dest._m22(src.m22());
         }
 
         public final void copy3x3(Matrix4x3f src, Matrix4x3f dest) {
@@ -1448,30 +1448,30 @@ abstract class MemUtil {
         }
 
         public final void copy3x3(Matrix3f src, Matrix4f dest) {
-            dest.m00 = src.m00;
-            dest.m01 = src.m01;
-            dest.m02 = src.m02;
-            dest.m10 = src.m10;
-            dest.m11 = src.m11;
-            dest.m12 = src.m12;
-            dest.m20 = src.m20;
-            dest.m21 = src.m21;
-            dest.m22 = src.m22;
+            dest._m00(src.m00);
+            dest._m01(src.m01);
+            dest._m02(src.m02);
+            dest._m10(src.m10);
+            dest._m11(src.m11);
+            dest._m12(src.m12);
+            dest._m20(src.m20);
+            dest._m21(src.m21);
+            dest._m22(src.m22);
         }
 
         public final void copy4x3(Matrix4x3f src, Matrix4f dest) {
-            dest.m00 = src.m00;
-            dest.m01 = src.m01;
-            dest.m02 = src.m02;
-            dest.m10 = src.m10;
-            dest.m11 = src.m11;
-            dest.m12 = src.m12;
-            dest.m20 = src.m20;
-            dest.m21 = src.m21;
-            dest.m22 = src.m22;
-            dest.m30 = src.m30;
-            dest.m31 = src.m31;
-            dest.m32 = src.m32;
+            dest._m00(src.m00);
+            dest._m01(src.m01);
+            dest._m02(src.m02);
+            dest._m10(src.m10);
+            dest._m11(src.m11);
+            dest._m12(src.m12);
+            dest._m20(src.m20);
+            dest._m21(src.m21);
+            dest._m22(src.m22);
+            dest._m30(src.m30);
+            dest._m31(src.m31);
+            dest._m32(src.m32);
         }
 
         public final void copy(Vector4f src, Vector4f dst) {
@@ -1496,52 +1496,52 @@ abstract class MemUtil {
         }
 
         public final void copy4x3(Matrix4f src, Matrix4f dest) {
-            dest.m00 = src.m00;
-            dest.m01 = src.m01;
-            dest.m02 = src.m02;
-            dest.m10 = src.m10;
-            dest.m11 = src.m11;
-            dest.m12 = src.m12;
-            dest.m20 = src.m20;
-            dest.m21 = src.m21;
-            dest.m22 = src.m22;
-            dest.m30 = src.m30;
-            dest.m31 = src.m31;
-            dest.m32 = src.m32;
+            dest._m00(src.m00());
+            dest._m01(src.m01());
+            dest._m02(src.m02());
+            dest._m10(src.m10());
+            dest._m11(src.m11());
+            dest._m12(src.m12());
+            dest._m20(src.m20());
+            dest._m21(src.m21());
+            dest._m22(src.m22());
+            dest._m30(src.m30());
+            dest._m31(src.m31());
+            dest._m32(src.m32());
         }
 
         public final void copy(Matrix4f src, Matrix4x3f dest) {
-            dest.m00 = src.m00;
-            dest.m01 = src.m01;
-            dest.m02 = src.m02;
-            dest.m10 = src.m10;
-            dest.m11 = src.m11;
-            dest.m12 = src.m12;
-            dest.m20 = src.m20;
-            dest.m21 = src.m21;
-            dest.m22 = src.m22;
-            dest.m30 = src.m30;
-            dest.m31 = src.m31;
-            dest.m32 = src.m32;
+            dest.m00 = src.m00();
+            dest.m01 = src.m01();
+            dest.m02 = src.m02();
+            dest.m10 = src.m10();
+            dest.m11 = src.m11();
+            dest.m12 = src.m12();
+            dest.m20 = src.m20();
+            dest.m21 = src.m21();
+            dest.m22 = src.m22();
+            dest.m30 = src.m30();
+            dest.m31 = src.m31();
+            dest.m32 = src.m32();
         }
 
         public final void copy(Matrix4x3f src, Matrix4f dest) {
-            dest.m00 = src.m00;
-            dest.m01 = src.m01;
-            dest.m02 = src.m02;
-            dest.m03 = 0.0f;
-            dest.m10 = src.m10;
-            dest.m11 = src.m11;
-            dest.m12 = src.m12;
-            dest.m13 = 0.0f;
-            dest.m20 = src.m20;
-            dest.m21 = src.m21;
-            dest.m22 = src.m22;
-            dest.m23 = 0.0f;
-            dest.m30 = src.m30;
-            dest.m31 = src.m31;
-            dest.m32 = src.m32;
-            dest.m33 = 1.0f;
+            dest._m00(src.m00);
+            dest._m01(src.m01);
+            dest._m02(src.m02);
+            dest._m03(0.0f);
+            dest._m10(src.m10);
+            dest._m11(src.m11);
+            dest._m12(src.m12);
+            dest._m13(0.0f);
+            dest._m20(src.m20);
+            dest._m21(src.m21);
+            dest._m22(src.m22);
+            dest._m23(0.0f);
+            dest._m30(src.m30);
+            dest._m31(src.m31);
+            dest._m32(src.m32);
+            dest._m33(1.0f);
         }
 
         public final void copy(Matrix4x3f src, Matrix4x3f dest) {
@@ -1572,22 +1572,22 @@ abstract class MemUtil {
         }
 
         public final void copy(float[] arr, int off, Matrix4f dest) {
-            dest.m00 = arr[off+0];
-            dest.m01 = arr[off+1];
-            dest.m02 = arr[off+2];
-            dest.m03 = arr[off+3];
-            dest.m10 = arr[off+4];
-            dest.m11 = arr[off+5];
-            dest.m12 = arr[off+6];
-            dest.m13 = arr[off+7];
-            dest.m20 = arr[off+8];
-            dest.m21 = arr[off+9];
-            dest.m22 = arr[off+10];
-            dest.m23 = arr[off+11];
-            dest.m30 = arr[off+12];
-            dest.m31 = arr[off+13];
-            dest.m32 = arr[off+14];
-            dest.m33 = arr[off+15];
+            dest._m00(arr[off+0]);
+            dest._m01(arr[off+1]);
+            dest._m02(arr[off+2]);
+            dest._m03(arr[off+3]);
+            dest._m10(arr[off+4]);
+            dest._m11(arr[off+5]);
+            dest._m12(arr[off+6]);
+            dest._m13(arr[off+7]);
+            dest._m20(arr[off+8]);
+            dest._m21(arr[off+9]);
+            dest._m22(arr[off+10]);
+            dest._m23(arr[off+11]);
+            dest._m30(arr[off+12]);
+            dest._m31(arr[off+13]);
+            dest._m32(arr[off+14]);
+            dest._m33(arr[off+15]);
         }
 
         public final void copy(float[] arr, int off, Matrix3f dest) {
@@ -1618,22 +1618,22 @@ abstract class MemUtil {
         }
 
         public final void copy(Matrix4f src, float[] dest, int off) {
-            dest[off+0]  = src.m00;
-            dest[off+1]  = src.m01;
-            dest[off+2]  = src.m02;
-            dest[off+3]  = src.m03;
-            dest[off+4]  = src.m10;
-            dest[off+5]  = src.m11;
-            dest[off+6]  = src.m12;
-            dest[off+7]  = src.m13;
-            dest[off+8]  = src.m20;
-            dest[off+9]  = src.m21;
-            dest[off+10] = src.m22;
-            dest[off+11] = src.m23;
-            dest[off+12] = src.m30;
-            dest[off+13] = src.m31;
-            dest[off+14] = src.m32;
-            dest[off+15] = src.m33;
+            dest[off+0]  = src.m00();
+            dest[off+1]  = src.m01();
+            dest[off+2]  = src.m02();
+            dest[off+3]  = src.m03();
+            dest[off+4]  = src.m10();
+            dest[off+5]  = src.m11();
+            dest[off+6]  = src.m12();
+            dest[off+7]  = src.m13();
+            dest[off+8]  = src.m20();
+            dest[off+9]  = src.m21();
+            dest[off+10] = src.m22();
+            dest[off+11] = src.m23();
+            dest[off+12] = src.m30();
+            dest[off+13] = src.m31();
+            dest[off+14] = src.m32();
+            dest[off+15] = src.m33();
         }
 
         public final void copy(Matrix3f src, float[] dest, int off) {
@@ -1664,22 +1664,22 @@ abstract class MemUtil {
         }
 
         public final void identity(Matrix4f dest) {
-            dest.m00 = 1.0f;
-            dest.m01 = 0.0f;
-            dest.m02 = 0.0f;
-            dest.m03 = 0.0f;
-            dest.m10 = 0.0f;
-            dest.m11 = 1.0f;
-            dest.m12 = 0.0f;
-            dest.m13 = 0.0f;
-            dest.m20 = 0.0f;
-            dest.m21 = 0.0f;
-            dest.m22 = 1.0f;
-            dest.m23 = 0.0f;
-            dest.m30 = 0.0f;
-            dest.m31 = 0.0f;
-            dest.m32 = 0.0f;
-            dest.m33 = 1.0f;
+            dest._m00(1.0f);
+            dest._m01(0.0f);
+            dest._m02(0.0f);
+            dest._m03(0.0f);
+            dest._m10(0.0f);
+            dest._m11(1.0f);
+            dest._m12(0.0f);
+            dest._m13(0.0f);
+            dest._m20(0.0f);
+            dest._m21(0.0f);
+            dest._m22(1.0f);
+            dest._m23(0.0f);
+            dest._m30(0.0f);
+            dest._m31(0.0f);
+            dest._m32(0.0f);
+            dest._m33(1.0f);
         }
 
         public final void identity(Matrix4x3f dest) {
@@ -1718,22 +1718,22 @@ abstract class MemUtil {
 
         public final void swap(Matrix4f m1, Matrix4f m2) {
             float tmp;
-            tmp = m1.m00; m1.m00 = m2.m00; m2.m00 = tmp;
-            tmp = m1.m01; m1.m01 = m2.m01; m2.m01 = tmp;
-            tmp = m1.m02; m1.m02 = m2.m02; m2.m02 = tmp;
-            tmp = m1.m03; m1.m03 = m2.m03; m2.m03 = tmp;
-            tmp = m1.m10; m1.m10 = m2.m10; m2.m10 = tmp;
-            tmp = m1.m11; m1.m11 = m2.m11; m2.m11 = tmp;
-            tmp = m1.m12; m1.m12 = m2.m12; m2.m12 = tmp;
-            tmp = m1.m13; m1.m13 = m2.m13; m2.m13 = tmp;
-            tmp = m1.m20; m1.m20 = m2.m20; m2.m20 = tmp;
-            tmp = m1.m21; m1.m21 = m2.m21; m2.m21 = tmp;
-            tmp = m1.m22; m1.m22 = m2.m22; m2.m22 = tmp;
-            tmp = m1.m23; m1.m23 = m2.m23; m2.m23 = tmp;
-            tmp = m1.m30; m1.m30 = m2.m30; m2.m30 = tmp;
-            tmp = m1.m31; m1.m31 = m2.m31; m2.m31 = tmp;
-            tmp = m1.m32; m1.m32 = m2.m32; m2.m32 = tmp;
-            tmp = m1.m33; m1.m33 = m2.m33; m2.m33 = tmp;
+            tmp = m1.m00(); m1._m00(m2.m00()); m2._m00(tmp);
+            tmp = m1.m01(); m1._m01(m2.m01()); m2._m01(tmp);
+            tmp = m1.m02(); m1._m02(m2.m02()); m2._m02(tmp);
+            tmp = m1.m03(); m1._m03(m2.m03()); m2._m03(tmp);
+            tmp = m1.m10(); m1._m10(m2.m10()); m2._m10(tmp);
+            tmp = m1.m11(); m1._m11(m2.m11()); m2._m11(tmp);
+            tmp = m1.m12(); m1._m12(m2.m12()); m2._m12(tmp);
+            tmp = m1.m13(); m1._m13(m2.m13()); m2._m13(tmp);
+            tmp = m1.m20(); m1._m20(m2.m20()); m2._m20(tmp);
+            tmp = m1.m21(); m1._m21(m2.m21()); m2._m21(tmp);
+            tmp = m1.m22(); m1._m22(m2.m22()); m2._m22(tmp);
+            tmp = m1.m23(); m1._m23(m2.m23()); m2._m23(tmp);
+            tmp = m1.m30(); m1._m30(m2.m30()); m2._m30(tmp);
+            tmp = m1.m31(); m1._m31(m2.m31()); m2._m31(tmp);
+            tmp = m1.m32(); m1._m32(m2.m32()); m2._m32(tmp);
+            tmp = m1.m33(); m1._m33(m2.m33()); m2._m33(tmp);
         }
 
         public final void swap(Matrix4x3f m1, Matrix4x3f m2) {
@@ -1766,22 +1766,22 @@ abstract class MemUtil {
         }
 
         public final void zero(Matrix4f dest) {
-            dest.m00 = 0.0f;
-            dest.m01 = 0.0f;
-            dest.m02 = 0.0f;
-            dest.m03 = 0.0f;
-            dest.m10 = 0.0f;
-            dest.m11 = 0.0f;
-            dest.m12 = 0.0f;
-            dest.m13 = 0.0f;
-            dest.m20 = 0.0f;
-            dest.m21 = 0.0f;
-            dest.m22 = 0.0f;
-            dest.m23 = 0.0f;
-            dest.m30 = 0.0f;
-            dest.m31 = 0.0f;
-            dest.m32 = 0.0f;
-            dest.m33 = 0.0f;
+            dest._m00(0.0f);
+            dest._m01(0.0f);
+            dest._m02(0.0f);
+            dest._m03(0.0f);
+            dest._m10(0.0f);
+            dest._m11(0.0f);
+            dest._m12(0.0f);
+            dest._m13(0.0f);
+            dest._m20(0.0f);
+            dest._m21(0.0f);
+            dest._m22(0.0f);
+            dest._m23(0.0f);
+            dest._m30(0.0f);
+            dest._m31(0.0f);
+            dest._m32(0.0f);
+            dest._m33(0.0f);
         }
 
         public final void zero(Matrix4x3f dest) {
@@ -1987,22 +1987,22 @@ abstract class MemUtil {
         }
 
         public final void set(Matrix4f m, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
-            m.m00 = col0.x;
-            m.m01 = col0.y;
-            m.m02 = col0.z;
-            m.m03 = col0.w;
-            m.m10 = col1.x;
-            m.m11 = col1.y;
-            m.m12 = col1.z;
-            m.m13 = col1.w;
-            m.m20 = col2.x;
-            m.m21 = col2.y;
-            m.m22 = col2.z;
-            m.m23 = col2.w;
-            m.m30 = col3.x;
-            m.m31 = col3.y;
-            m.m32 = col3.z;
-            m.m33 = col3.w;
+            m._m00(col0.x);
+            m._m01(col0.y);
+            m._m02(col0.z);
+            m._m03(col0.w);
+            m._m10(col1.x);
+            m._m11(col1.y);
+            m._m12(col1.z);
+            m._m13(col1.w);
+            m._m20(col2.x);
+            m._m21(col2.y);
+            m._m22(col2.z);
+            m._m23(col2.w);
+            m._m30(col3.x);
+            m._m31(col3.y);
+            m._m32(col3.z);
+            m._m33(col3.w);
         }
 
         public final void set(Matrix4x3f m, Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3) {
@@ -2033,59 +2033,59 @@ abstract class MemUtil {
         }
 
         public final void putColumn0(Matrix4f src, Vector4f dest) {
-            dest.x = src.m00;
-            dest.y = src.m01;
-            dest.z = src.m02;
-            dest.w = src.m03;
+            dest.x = src.m00();
+            dest.y = src.m01();
+            dest.z = src.m02();
+            dest.w = src.m03();
         }
 
         public final void putColumn1(Matrix4f src, Vector4f dest) {
-            dest.x = src.m10;
-            dest.y = src.m11;
-            dest.z = src.m12;
-            dest.w = src.m13;
+            dest.x = src.m10();
+            dest.y = src.m11();
+            dest.z = src.m12();
+            dest.w = src.m13();
         }
 
         public final void putColumn2(Matrix4f src, Vector4f dest) {
-            dest.x = src.m20;
-            dest.y = src.m21;
-            dest.z = src.m22;
-            dest.w = src.m23;
+            dest.x = src.m20();
+            dest.y = src.m21();
+            dest.z = src.m22();
+            dest.w = src.m23();
         }
 
         public final void putColumn3(Matrix4f src, Vector4f dest) {
-            dest.x = src.m30;
-            dest.y = src.m31;
-            dest.z = src.m32;
-            dest.w = src.m33;
+            dest.x = src.m30();
+            dest.y = src.m31();
+            dest.z = src.m32();
+            dest.w = src.m33();
         }
 
         public final void getColumn0(Matrix4f dest, Vector4f src) {
-            dest.m00 = src.x;
-            dest.m01 = src.y;
-            dest.m02 = src.z;
-            dest.m03 = src.w;
+            dest._m00(src.x);
+            dest._m01(src.y);
+            dest._m02(src.z);
+            dest._m03(src.w);
         }
 
         public final void getColumn1(Matrix4f dest, Vector4f src) {
-            dest.m10 = src.x;
-            dest.m11 = src.y;
-            dest.m12 = src.z;
-            dest.m13 = src.w;
+            dest._m10(src.x);
+            dest._m11(src.y);
+            dest._m12(src.z);
+            dest._m13(src.w);
         }
 
         public final void getColumn2(Matrix4f dest, Vector4f src) {
-            dest.m20 = src.x;
-            dest.m21 = src.y;
-            dest.m22 = src.z;
-            dest.m23 = src.w;
+            dest._m20(src.x);
+            dest._m21(src.y);
+            dest._m22(src.z);
+            dest._m23(src.w);
         }
 
         public final void getColumn3(Matrix4f dest, Vector4f src) {
-            dest.m30 = src.x;
-            dest.m31 = src.y;
-            dest.m32 = src.z;
-            dest.m33 = src.w;
+            dest._m30(src.x);
+            dest._m31(src.y);
+            dest._m32(src.z);
+            dest._m33(src.w);
         }
 
         public final void broadcast(float c, Vector4f dest) {
@@ -2104,10 +2104,9 @@ abstract class MemUtil {
     }
 
     public static final class MemUtilUnsafe extends MemUtil {
-        private static final sun.misc.Unsafe UNSAFE;
+        static final sun.misc.Unsafe UNSAFE;
         private static final long ADDRESS;
         private static final long Matrix3f_m00;
-        static final long Matrix4f_m00;
         private static final long Matrix4x3f_m00;
         private static final long Vector4f_x;
         private static final long Vector4d_x;
@@ -2125,7 +2124,6 @@ abstract class MemUtil {
             UNSAFE = getUnsafeInstance();
             try {
                 ADDRESS = UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
-                Matrix4f_m00 = checkMatrix4f();
                 Matrix4x3f_m00 = checkMatrix4x3f();
                 Matrix3f_m00 = checkMatrix3f();
                 Vector4f_x = checkVector4f();
@@ -2153,19 +2151,8 @@ abstract class MemUtil {
             return this;
         }
 
-        private static long checkMatrix4f() throws NoSuchFieldException, SecurityException {
-            Field f = Matrix4f.class.getDeclaredField("m00");
-            long Matrix4f_m00 = UNSAFE.objectFieldOffset(f);
-            // Validate expected field offsets
-            for (int i = 1; i < 16; i++) {
-                int c = i >>> 2;
-                int r = i & 3;
-                f = Matrix4f.class.getDeclaredField("m" + c + r);
-                long offset = UNSAFE.objectFieldOffset(f);
-                if (offset != Matrix4f_m00 + (i << 2))
-                    throw new UnsupportedOperationException();
-            }
-            return Matrix4f_m00;
+        public sun.misc.Unsafe theUnsafe() {
+            return UNSAFE;
         }
 
         private static long checkMatrix4x3f() throws NoSuchFieldException, SecurityException {
@@ -2371,7 +2358,7 @@ abstract class MemUtil {
 
         public final void put(Matrix4f m, long destAddr) {
             for (int i = 0; i < 8; i++) {
-                UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
+                UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(null, m.address + (i << 3)));
             }
         }
 
@@ -2410,37 +2397,37 @@ abstract class MemUtil {
         }
 
         public final void putTransposed(Matrix4f m, long destAddr) {
-            UNSAFE.putFloat(null, destAddr,      m.m00);
-            UNSAFE.putFloat(null, destAddr + 4,  m.m10);
-            UNSAFE.putFloat(null, destAddr + 8,  m.m20);
-            UNSAFE.putFloat(null, destAddr + 12, m.m30);
-            UNSAFE.putFloat(null, destAddr + 16, m.m01);
-            UNSAFE.putFloat(null, destAddr + 20, m.m11);
-            UNSAFE.putFloat(null, destAddr + 24, m.m21);
-            UNSAFE.putFloat(null, destAddr + 28, m.m31);
-            UNSAFE.putFloat(null, destAddr + 32, m.m02);
-            UNSAFE.putFloat(null, destAddr + 36, m.m12);
-            UNSAFE.putFloat(null, destAddr + 40, m.m22);
-            UNSAFE.putFloat(null, destAddr + 44, m.m32);
-            UNSAFE.putFloat(null, destAddr + 48, m.m03);
-            UNSAFE.putFloat(null, destAddr + 52, m.m13);
-            UNSAFE.putFloat(null, destAddr + 56, m.m23);
-            UNSAFE.putFloat(null, destAddr + 60, m.m33);
+            UNSAFE.putFloat(null, destAddr,      m.m00());
+            UNSAFE.putFloat(null, destAddr + 4,  m.m10());
+            UNSAFE.putFloat(null, destAddr + 8,  m.m20());
+            UNSAFE.putFloat(null, destAddr + 12, m.m30());
+            UNSAFE.putFloat(null, destAddr + 16, m.m01());
+            UNSAFE.putFloat(null, destAddr + 20, m.m11());
+            UNSAFE.putFloat(null, destAddr + 24, m.m21());
+            UNSAFE.putFloat(null, destAddr + 28, m.m31());
+            UNSAFE.putFloat(null, destAddr + 32, m.m02());
+            UNSAFE.putFloat(null, destAddr + 36, m.m12());
+            UNSAFE.putFloat(null, destAddr + 40, m.m22());
+            UNSAFE.putFloat(null, destAddr + 44, m.m32());
+            UNSAFE.putFloat(null, destAddr + 48, m.m03());
+            UNSAFE.putFloat(null, destAddr + 52, m.m13());
+            UNSAFE.putFloat(null, destAddr + 56, m.m23());
+            UNSAFE.putFloat(null, destAddr + 60, m.m33());
         }
 
         public final void put4x3Transposed(Matrix4f m, long destAddr) {
-            UNSAFE.putFloat(null, destAddr,      m.m00);
-            UNSAFE.putFloat(null, destAddr + 4,  m.m10);
-            UNSAFE.putFloat(null, destAddr + 8,  m.m20);
-            UNSAFE.putFloat(null, destAddr + 12, m.m30);
-            UNSAFE.putFloat(null, destAddr + 16, m.m01);
-            UNSAFE.putFloat(null, destAddr + 20, m.m11);
-            UNSAFE.putFloat(null, destAddr + 24, m.m21);
-            UNSAFE.putFloat(null, destAddr + 28, m.m31);
-            UNSAFE.putFloat(null, destAddr + 32, m.m02);
-            UNSAFE.putFloat(null, destAddr + 36, m.m12);
-            UNSAFE.putFloat(null, destAddr + 40, m.m22);
-            UNSAFE.putFloat(null, destAddr + 44, m.m32);
+            UNSAFE.putFloat(null, destAddr,      m.m00());
+            UNSAFE.putFloat(null, destAddr + 4,  m.m10());
+            UNSAFE.putFloat(null, destAddr + 8,  m.m20());
+            UNSAFE.putFloat(null, destAddr + 12, m.m30());
+            UNSAFE.putFloat(null, destAddr + 16, m.m01());
+            UNSAFE.putFloat(null, destAddr + 20, m.m11());
+            UNSAFE.putFloat(null, destAddr + 24, m.m21());
+            UNSAFE.putFloat(null, destAddr + 28, m.m31());
+            UNSAFE.putFloat(null, destAddr + 32, m.m02());
+            UNSAFE.putFloat(null, destAddr + 36, m.m12());
+            UNSAFE.putFloat(null, destAddr + 40, m.m22());
+            UNSAFE.putFloat(null, destAddr + 44, m.m32());
         }
 
         public final void putTransposed(Matrix4x3f m, long destAddr) {
@@ -2699,7 +2686,7 @@ abstract class MemUtil {
 
         public final void get(Matrix4f m, long srcAddr) {
             for (int i = 0; i < 8; i++) {
-                UNSAFE.putOrderedLong(m, Matrix4f_m00 + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
+                UNSAFE.putOrderedLong(null, m.address + (i << 3), UNSAFE.getLong(srcAddr + (i << 3)));
             }
         }
 
@@ -2855,27 +2842,27 @@ abstract class MemUtil {
 
         public final void copy(Matrix4f src, Matrix4f dest) {
             for (int i = 0; i < 8; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 3), UNSAFE.getLong(src, Matrix4f_m00 + (i << 3)));
+                UNSAFE.putOrderedLong(null, dest.address + (i << 3), UNSAFE.getLong(null, src.address + (i << 3)));
             }
         }
 
         public final void copy(Matrix3f src, Matrix4f dest) {
             for (int i = 0; i < 3; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix3f_m00 + 12 * i));
+                UNSAFE.putOrderedLong(null, dest.address + (i << 4), UNSAFE.getLong(src, Matrix3f_m00 + 12 * i));
                 long lng = UNSAFE.getInt(src, Matrix3f_m00 + 8 + 12 * i) & 0xFFFFFFFFL;
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 8 + (i << 4), lng);
+                UNSAFE.putOrderedLong(null, dest.address + 8 + (i << 4), lng);
             }
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 48, 0L);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 56, 0x3F80000000000000L);
+            UNSAFE.putOrderedLong(null, dest.address + 48, 0L);
+            UNSAFE.putOrderedLong(null, dest.address + 56, 0x3F80000000000000L);
         }
 
         public final void copy(Matrix4f src, Matrix3f dest) {
             for (int i = 0; i < 3; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix3f_m00 + 12 * i, UNSAFE.getLong(src, Matrix4f_m00 + (i << 4)));
+                UNSAFE.putOrderedLong(dest, Matrix3f_m00 + 12 * i, UNSAFE.getLong(null, src.address + (i << 4)));
             }
-            dest.m02 = src.m02;
-            dest.m12 = src.m12;
-            dest.m22 = src.m22;
+            dest.m02 = src.m02();
+            dest.m12 = src.m12();
+            dest.m22 = src.m22();
         }
 
         public final void copy(Matrix3f src, Matrix4x3f dest) {
@@ -2888,11 +2875,11 @@ abstract class MemUtil {
 
         public final void copy3x3(Matrix4f src, Matrix4f dest) {
             for (int i = 0; i < 3; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix4f_m00 + (i << 4)));
+                UNSAFE.putOrderedLong(null, dest.address + (i << 4), UNSAFE.getLong(null, src.address + (i << 4)));
             }
-            dest.m02 = src.m02;
-            dest.m12 = src.m12;
-            dest.m22 = src.m22;
+            dest._m02(src.m02());
+            dest._m12(src.m12());
+            dest._m22(src.m22());
         }
 
         public final void copy3x3(Matrix4x3f src, Matrix4x3f dest) {
@@ -2911,51 +2898,51 @@ abstract class MemUtil {
 
         public final void copy3x3(Matrix3f src, Matrix4f dest) {
             for (int i = 0; i < 3; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix3f_m00 + 12 * i));
+                UNSAFE.putOrderedLong(null, dest.address + (i << 4), UNSAFE.getLong(src, Matrix3f_m00 + 12 * i));
             }
-            dest.m02 = src.m02;
-            dest.m12 = src.m12;
-            dest.m22 = src.m22;
+            dest._m02(src.m02);
+            dest._m12(src.m12);
+            dest._m22(src.m22);
         }
 
         public final void copy4x3(Matrix4x3f src, Matrix4f dest) {
             for (int i = 0; i < 4; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix4x3f_m00 + 12 * i));
+                UNSAFE.putOrderedLong(null, dest.address + (i << 4), UNSAFE.getLong(src, Matrix4x3f_m00 + 12 * i));
             }
-            dest.m02 = src.m02;
-            dest.m12 = src.m12;
-            dest.m22 = src.m22;
-            dest.m32 = src.m32;
+            dest._m02(src.m02);
+            dest._m12(src.m12);
+            dest._m22(src.m22);
+            dest._m32(src.m32);
         }
 
         public final void copy4x3(Matrix4f src, Matrix4f dest) {
             for (int i = 0; i < 4; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix4f_m00 + (i << 4)));
+                UNSAFE.putOrderedLong(null, dest.address + (i << 4), UNSAFE.getLong(null, src.address + (i << 4)));
             }
-            dest.m02 = src.m02;
-            dest.m12 = src.m12;
-            dest.m22 = src.m22;
-            dest.m32 = src.m32;
+            dest._m02(src.m02());
+            dest._m12(src.m12());
+            dest._m22(src.m22());
+            dest._m32(src.m32());
         }
 
         public final void copy(Matrix4f src, Matrix4x3f dest) {
             for (int i = 0; i < 4; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + 12 * i, UNSAFE.getLong(src, Matrix4f_m00 + (i << 4)));
+                UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + 12 * i, UNSAFE.getLong(null, src.address + (i << 4)));
             }
-            dest.m02 = src.m02;
-            dest.m12 = src.m12;
-            dest.m22 = src.m22;
-            dest.m32 = src.m32;
+            dest.m02 = src.m02();
+            dest.m12 = src.m12();
+            dest.m22 = src.m22();
+            dest.m32 = src.m32();
         }
 
         public final void copy(Matrix4x3f src, Matrix4f dest) {
             for (int i = 0; i < 4; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 4), UNSAFE.getLong(src, Matrix4x3f_m00 + 12 * i));
+                UNSAFE.putOrderedLong(null, dest.address + (i << 4), UNSAFE.getLong(src, Matrix4x3f_m00 + 12 * i));
             }
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 8,  UNSAFE.getInt(src, Matrix4x3f_m00 + 8) & 0xFFFFFFFFL);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 24, UNSAFE.getInt(src, Matrix4x3f_m00 + 20) & 0xFFFFFFFFL);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 40, UNSAFE.getInt(src, Matrix4x3f_m00 + 32) & 0xFFFFFFFFL);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00 + 56, 0x3F80000000000000L | (UNSAFE.getInt(src, Matrix4x3f_m00 + 44) & 0xFFFFFFFFL));
+            UNSAFE.putOrderedLong(null, dest.address + 8,  UNSAFE.getInt(src, Matrix4x3f_m00 + 8) & 0xFFFFFFFFL);
+            UNSAFE.putOrderedLong(null, dest.address + 24, UNSAFE.getInt(src, Matrix4x3f_m00 + 20) & 0xFFFFFFFFL);
+            UNSAFE.putOrderedLong(null, dest.address + 40, UNSAFE.getInt(src, Matrix4x3f_m00 + 32) & 0xFFFFFFFFL);
+            UNSAFE.putOrderedLong(null, dest.address + 56, 0x3F80000000000000L | (UNSAFE.getInt(src, Matrix4x3f_m00 + 44) & 0xFFFFFFFFL));
         }
 
         public final void copy(Matrix4x3f src, Matrix4x3f dest) {
@@ -2988,7 +2975,7 @@ abstract class MemUtil {
 
         public final void copy(float[] arr, int off, Matrix4f dest) {
             for (int i = 0; i < 8; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 3), UNSAFE.getLong(arr, floatArrayOffset + (off << 2) + (i << 3)));
+                UNSAFE.putOrderedLong(null, dest.address + (i << 3), UNSAFE.getLong(arr, floatArrayOffset + (off << 2) + (i << 3)));
             }
         }
 
@@ -3007,7 +2994,7 @@ abstract class MemUtil {
 
         public final void copy(Matrix4f src, float[] dest, int off) {
             for (int i = 0; i < 8; i++) {
-                UNSAFE.putOrderedLong(dest, floatArrayOffset + (off << 2) + (i << 3), UNSAFE.getLong(src, Matrix4f_m00 + (i << 3)));
+                UNSAFE.putOrderedLong(dest, floatArrayOffset + (off << 2) + (i << 3), UNSAFE.getLong(null, src.address + (i << 3)));
             }
         }
 
@@ -3025,14 +3012,14 @@ abstract class MemUtil {
         }
 
         public final void identity(Matrix4f dest) {
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00,    0x3F800000L);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+8,  0L);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+16, 0x3F80000000000000L);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+24, 0L);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+32, 0L);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+40, 0x3F800000L);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+48, 0L);
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+56, 0x3F80000000000000L);
+            UNSAFE.putOrderedLong(null, dest.address,    0x3F800000L);
+            UNSAFE.putOrderedLong(null, dest.address+8,  0L);
+            UNSAFE.putOrderedLong(null, dest.address+16, 0x3F80000000000000L);
+            UNSAFE.putOrderedLong(null, dest.address+24, 0L);
+            UNSAFE.putOrderedLong(null, dest.address+32, 0L);
+            UNSAFE.putOrderedLong(null, dest.address+40, 0x3F800000L);
+            UNSAFE.putOrderedLong(null, dest.address+48, 0L);
+            UNSAFE.putOrderedLong(null, dest.address+56, 0x3F80000000000000L);
         }
 
         public final void identity(Matrix4x3f dest) {
@@ -3060,9 +3047,9 @@ abstract class MemUtil {
         public final void swap(Matrix4f m1, Matrix4f m2) {
             for (int i = 0; i < 8; i++) {
                 long tmp;
-                tmp = UNSAFE.getLong(m1, Matrix4f_m00 + (i << 3));
-                UNSAFE.putOrderedLong(m1, Matrix4f_m00 + (i << 3), UNSAFE.getLong(m2, Matrix4f_m00 + (i << 3)));
-                UNSAFE.putOrderedLong(m2, Matrix4f_m00 + (i << 3), tmp);
+                tmp = UNSAFE.getLong(null, m1.address + (i << 3));
+                UNSAFE.putOrderedLong(null, m1.address + (i << 3), UNSAFE.getLong(null, m2.address + (i << 3)));
+                UNSAFE.putOrderedLong(null, m2.address + (i << 3), tmp);
             }
         }
 
@@ -3089,7 +3076,7 @@ abstract class MemUtil {
 
         public final void zero(Matrix4f dest) {
             for (int i = 0; i < 8; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 3), 0L);
+                UNSAFE.putOrderedLong(null, dest.address + (i << 3), 0L);
             }
         }
 
@@ -3903,14 +3890,14 @@ abstract class MemUtil {
         }
 
         public final void set(Matrix4f m, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
-            UNSAFE.putOrderedLong(m, Matrix4f_m00,      UNSAFE.getLong(col0, Vector4f_x));
-            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 8,  UNSAFE.getLong(col0, Vector4f_x + 8));
-            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 16, UNSAFE.getLong(col1, Vector4f_x));
-            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 24, UNSAFE.getLong(col1, Vector4f_x + 8));
-            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 32, UNSAFE.getLong(col2, Vector4f_x));
-            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 40, UNSAFE.getLong(col2, Vector4f_x + 8));
-            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 48, UNSAFE.getLong(col3, Vector4f_x));
-            UNSAFE.putOrderedLong(m, Matrix4f_m00 + 56, UNSAFE.getLong(col3, Vector4f_x + 8));
+            UNSAFE.putOrderedLong(null, m.address,      UNSAFE.getLong(col0, Vector4f_x));
+            UNSAFE.putOrderedLong(null, m.address + 8,  UNSAFE.getLong(col0, Vector4f_x + 8));
+            UNSAFE.putOrderedLong(null, m.address + 16, UNSAFE.getLong(col1, Vector4f_x));
+            UNSAFE.putOrderedLong(null, m.address + 24, UNSAFE.getLong(col1, Vector4f_x + 8));
+            UNSAFE.putOrderedLong(null, m.address + 32, UNSAFE.getLong(col2, Vector4f_x));
+            UNSAFE.putOrderedLong(null, m.address + 40, UNSAFE.getLong(col2, Vector4f_x + 8));
+            UNSAFE.putOrderedLong(null, m.address + 48, UNSAFE.getLong(col3, Vector4f_x));
+            UNSAFE.putOrderedLong(null, m.address + 56, UNSAFE.getLong(col3, Vector4f_x + 8));
         }
 
         public final void set(Matrix4x3f m, Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3) {
@@ -3934,43 +3921,43 @@ abstract class MemUtil {
         }
 
         public final void putColumn0(Matrix4f src, Vector4f dest) {
-            UNSAFE.putOrderedLong(dest, Vector4f_x,   UNSAFE.getLong(src, Matrix4f_m00));
-            UNSAFE.putOrderedLong(dest, Vector4f_x+8, UNSAFE.getLong(src, Matrix4f_m00+8));
+            UNSAFE.putOrderedLong(dest, Vector4f_x,   UNSAFE.getLong(null, src.address));
+            UNSAFE.putOrderedLong(dest, Vector4f_x+8, UNSAFE.getLong(null, src.address+8));
         }
 
         public final void putColumn1(Matrix4f src, Vector4f dest) {
-            UNSAFE.putOrderedLong(dest, Vector4f_x,   UNSAFE.getLong(src, Matrix4f_m00+16));
-            UNSAFE.putOrderedLong(dest, Vector4f_x+8, UNSAFE.getLong(src, Matrix4f_m00+24)); 
+            UNSAFE.putOrderedLong(dest, Vector4f_x,   UNSAFE.getLong(null, src.address+16));
+            UNSAFE.putOrderedLong(dest, Vector4f_x+8, UNSAFE.getLong(null, src.address+24)); 
         }
 
         public final void putColumn2(Matrix4f src, Vector4f dest) {
-            UNSAFE.putOrderedLong(dest, Vector4f_x,   UNSAFE.getLong(src, Matrix4f_m00+32));
-            UNSAFE.putOrderedLong(dest, Vector4f_x+8, UNSAFE.getLong(src, Matrix4f_m00+40)); 
+            UNSAFE.putOrderedLong(dest, Vector4f_x,   UNSAFE.getLong(null, src.address+32));
+            UNSAFE.putOrderedLong(dest, Vector4f_x+8, UNSAFE.getLong(null, src.address+40)); 
         }
 
         public final void putColumn3(Matrix4f src, Vector4f dest) {
-            UNSAFE.putOrderedLong(dest, Vector4f_x,   UNSAFE.getLong(src, Matrix4f_m00+48));
-            UNSAFE.putOrderedLong(dest, Vector4f_x+8, UNSAFE.getLong(src, Matrix4f_m00+56)); 
+            UNSAFE.putOrderedLong(dest, Vector4f_x,   UNSAFE.getLong(null, src.address+48));
+            UNSAFE.putOrderedLong(dest, Vector4f_x+8, UNSAFE.getLong(null, src.address+56)); 
         }
 
         public final void getColumn0(Matrix4f dest, Vector4f src) {
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00,   UNSAFE.getLong(src, Vector4f_x));
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+8, UNSAFE.getLong(src, Vector4f_x+8));
+            UNSAFE.putOrderedLong(null, dest.address,   UNSAFE.getLong(src, Vector4f_x));
+            UNSAFE.putOrderedLong(null, dest.address+8, UNSAFE.getLong(src, Vector4f_x+8));
         }
 
         public final void getColumn1(Matrix4f dest, Vector4f src) {
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+16, UNSAFE.getLong(src, Vector4f_x));
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+24, UNSAFE.getLong(src, Vector4f_x+8));
+            UNSAFE.putOrderedLong(null, dest.address+16, UNSAFE.getLong(src, Vector4f_x));
+            UNSAFE.putOrderedLong(null, dest.address+24, UNSAFE.getLong(src, Vector4f_x+8));
         }
 
         public final void getColumn2(Matrix4f dest, Vector4f src) {
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+32, UNSAFE.getLong(src, Vector4f_x));
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+40, UNSAFE.getLong(src, Vector4f_x+8));
+            UNSAFE.putOrderedLong(null, dest.address+32, UNSAFE.getLong(src, Vector4f_x));
+            UNSAFE.putOrderedLong(null, dest.address+40, UNSAFE.getLong(src, Vector4f_x+8));
         }
 
         public final void getColumn3(Matrix4f dest, Vector4f src) {
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+48, UNSAFE.getLong(src, Vector4f_x));
-            UNSAFE.putOrderedLong(dest, Matrix4f_m00+56, UNSAFE.getLong(src, Vector4f_x+8));
+            UNSAFE.putOrderedLong(null, dest.address+48, UNSAFE.getLong(src, Vector4f_x));
+            UNSAFE.putOrderedLong(null, dest.address+56, UNSAFE.getLong(src, Vector4f_x+8));
         }
 
         public final void broadcast(float c, Vector4f dest) {

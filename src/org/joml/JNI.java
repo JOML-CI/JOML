@@ -1,7 +1,5 @@
 package org.joml;
 
-import org.joml.MemUtil.MemUtilUnsafe;
-
 abstract class JNI {
 
     private static final int SSE = 1;
@@ -11,13 +9,6 @@ abstract class JNI {
     static final boolean hasSse = (supported & SSE) == SSE;
     static final boolean hasAvx = (supported & AVX) == AVX;
     static final boolean supportsNative = supported != 0;
-
-    static {
-        if (supportsNative && MemUtil.INSTANCE.UNSAFE() != null) {
-            /* Set field offsets in native code */
-            setMatrix4fm00((int) MemUtilUnsafe.Matrix4f_m00);
-        }
-    }
 
     private static int supported() {
         if (!Options.WITH_JNI)

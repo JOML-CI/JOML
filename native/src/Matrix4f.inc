@@ -77,10 +77,10 @@ static void __inline invert(const float* src, float* dst) {
 }
 
 static void __inline mul(const float* a, const float* b, float* r) {
-	__m128 col1 = _mm_loadu_ps(&a[0]);
-	__m128 col2 = _mm_loadu_ps(&a[4]);
-	__m128 col3 = _mm_loadu_ps(&a[8]);
-	__m128 col4 = _mm_loadu_ps(&a[12]);
+	__m128 col1 = _mm_load_ps(&a[0]);
+	__m128 col2 = _mm_load_ps(&a[4]);
+	__m128 col3 = _mm_load_ps(&a[8]);
+	__m128 col4 = _mm_load_ps(&a[12]);
 	for (int i = 0; i < 4; i++) {
 		__m128 brod1 = _mm_set1_ps(b[i * 4 + 0]);
 		__m128 brod2 = _mm_set1_ps(b[i * 4 + 1]);
@@ -93,16 +93,16 @@ static void __inline mul(const float* a, const float* b, float* r) {
 			_mm_add_ps(
 				_mm_mul_ps(brod3, col3),
 				_mm_mul_ps(brod4, col4)));
-		_mm_storeu_ps(&r[i * 4], col);
+		_mm_store_ps(&r[i * 4], col);
 	}
 }
 
 
 static void __inline mulAffine(const float* a, const float* b, float* r) {
-	__m128 col1 = _mm_loadu_ps(&a[0]);
-	__m128 col2 = _mm_loadu_ps(&a[4]);
-	__m128 col3 = _mm_loadu_ps(&a[8]);
-	__m128 col4 = _mm_loadu_ps(&a[12]);
+	__m128 col1 = _mm_load_ps(&a[0]);
+	__m128 col2 = _mm_load_ps(&a[4]);
+	__m128 col3 = _mm_load_ps(&a[8]);
+	__m128 col4 = _mm_load_ps(&a[12]);
 	{
 		__m128 brod1 = _mm_set1_ps(b[0 * 4 + 0]);
 		__m128 brod2 = _mm_set1_ps(b[0 * 4 + 1]);
@@ -112,7 +112,7 @@ static void __inline mulAffine(const float* a, const float* b, float* r) {
 				_mm_mul_ps(brod1, col1),
 				_mm_mul_ps(brod2, col2)),
 			_mm_mul_ps(brod3, col3));
-		_mm_storeu_ps(&r[0 * 4], col);
+		_mm_store_ps(&r[0 * 4], col);
 	}
 	{
 		__m128 brod1 = _mm_set1_ps(b[1 * 4 + 0]);
@@ -123,7 +123,7 @@ static void __inline mulAffine(const float* a, const float* b, float* r) {
 				_mm_mul_ps(brod1, col1),
 				_mm_mul_ps(brod2, col2)),
 			_mm_mul_ps(brod3, col3));
-		_mm_storeu_ps(&r[1 * 4], col);
+		_mm_store_ps(&r[1 * 4], col);
 	}
 	{
 		__m128 brod1 = _mm_set1_ps(b[2 * 4 + 0]);
@@ -134,7 +134,7 @@ static void __inline mulAffine(const float* a, const float* b, float* r) {
 				_mm_mul_ps(brod1, col1),
 				_mm_mul_ps(brod2, col2)),
 			_mm_mul_ps(brod3, col3));
-		_mm_storeu_ps(&r[2 * 4], col);
+		_mm_store_ps(&r[2 * 4], col);
 	}
 	{
 		__m128 brod1 = _mm_set1_ps(b[3 * 4 + 0]);
@@ -145,6 +145,6 @@ static void __inline mulAffine(const float* a, const float* b, float* r) {
 				_mm_mul_ps(brod1, col1),
 				_mm_mul_ps(brod2, col2)),
 			_mm_add_ps(_mm_mul_ps(brod3, col3), col4));
-		_mm_storeu_ps(&r[3 * 4], col);
+		_mm_store_ps(&r[3 * 4], col);
 	}
 }
