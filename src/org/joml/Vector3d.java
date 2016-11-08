@@ -681,6 +681,33 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
+    /**
+     * Set the value of the specified component of this vector.
+     *
+     * @param component
+     *          the component whose value to set, within <tt>[0..2]</tt>
+     * @param value
+     *          the value to set
+     * @return this
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
+     */
+    public Vector3d setComponent(int component, double value) throws IllegalArgumentException {
+        switch (component) {
+            case 0:
+                x = value;
+                break;
+            case 1:
+                y = value;
+                break;
+            case 2:
+                z = value;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#get(java.nio.ByteBuffer)
      */
@@ -2111,33 +2138,6 @@ public class Vector3d implements Externalizable, Vector3dc {
         default:
             throw new IllegalArgumentException();
         }
-    }
-
-    /**
-     * Set the value of the specified component of this vector.
-     * 
-     * @param component
-     *          the component whose value to set, within <tt>[0..2]</tt>
-     * @param value
-     *          the value to set
-     * @return this
-     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
-     */
-    public Vector3d set(int component, double value) throws IllegalArgumentException {
-        switch (component) {
-        case 0:
-            x = value;
-            break;
-        case 1:
-            y = value;
-            break;
-        case 2:
-            z = value;
-            break;
-        default:
-            throw new IllegalArgumentException();
-        }
-        return this;
     }
 
     /* (non-Javadoc)
