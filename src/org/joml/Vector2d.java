@@ -417,6 +417,30 @@ public class Vector2d implements Externalizable, Vector2dc {
         return this;
     }
 
+    /**
+     * Set the value of the specified component of this vector.
+     *
+     * @param component
+     *          the component whose value to set, within <tt>[0..1]</tt>
+     * @param value
+     *          the value to set
+     * @return this
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
+     */
+    public Vector2d setComponent(int component, double value) throws IllegalArgumentException {
+        switch (component) {
+            case 0:
+                x = value;
+                break;
+            case 1:
+                y = value;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#get(java.nio.ByteBuffer)
      */

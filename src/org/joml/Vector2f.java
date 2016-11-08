@@ -408,6 +408,30 @@ public class Vector2f implements Externalizable, Vector2fc {
         return this;
     }
 
+    /**
+     * Set the value of the specified component of this vector.
+     *
+     * @param component
+     *          the component whose value to set, within <tt>[0..1]</tt>
+     * @param value
+     *          the value to set
+     * @return this
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..1]</tt>
+     */
+    public Vector2f setComponent(int component, float value) throws IllegalArgumentException {
+        switch (component) {
+            case 0:
+                x = value;
+                break;
+            case 1:
+                y = value;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Vector2fc#get(java.nio.ByteBuffer)
      */
