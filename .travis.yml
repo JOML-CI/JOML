@@ -1,4 +1,12 @@
-language: java
-script: mvn clean install -Dmaven.javadoc.skip=false
+language: android
 jdk:
   - oraclejdk8
+android:
+  components:
+    - build-tools-22.0.1
+    - android-10
+before_script:
+    - wget http://services.gradle.org/distributions/gradle-3.1-bin.zip
+    - unzip gradle-3.1-bin.zip
+    - export GRADLE_HOME=$PWD/gradle-3.1
+    - export PATH=$GRADLE_HOME/bin:$PATH

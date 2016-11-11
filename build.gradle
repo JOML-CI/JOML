@@ -1,31 +1,39 @@
-group = 'org.joml'
-version = '1.9.1-SNAPSHOT'
-
-apply plugin: "java"
-
-archivesBaseName = 'joml'
-
-sourceCompatibility = 1.4
-targetCompatibility = 1.4
-sourceSets {
-  main.java.srcDir 'src'
-  test.java.srcDir 'test'
-}
+apply plugin: 'com.android.library'
 
 repositories {
-  mavenCentral()
+  jcenter()
 }
-dependencies {
-  testCompile group: 'junit', name: 'junit', version: '3.8.2'
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+     classpath 'com.android.tools.build:gradle:2.2.0'
+  }
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-  classifier = 'sources'
-  from sourceSets.main.allSource
+dependencies {
+  testCompile 'junit:junit:3.8.2'
 }
-task javadocJar(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
-  from javadoc.destinationDir
+
+android {
+  compileSdkVersion 10
+  buildToolsVersion '22.0.1'
+
+  defaultConfig {
+    minSdkVersion 8
+    targetSdkVersion 10
+    versionCode 190
+    versionName "1.9.0"
+  }
+
+  sourceSets {
+    main {
+      manifest.srcFile 'AndroidManifest.xml'
+      java.srcDirs = ['src']
+    }
+    test {
+      java.srcDirs = ['test']
+    }
+  }
 }
-task all(dependsOn: [jar, sourcesJar, javadocJar])
-defaultTasks 'all'
