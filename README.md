@@ -106,107 +106,29 @@ viewProj.perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
 ```
 The *invViewProj* matrix now contains the inverse of the *viewProj* matrix, but the latter is still intact.
 
-Using with [LWJGL](https://github.com/LWJGL/lwjgl3)
----------------------------------------------------
-JOML can be used together with LWJGL to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by LWJGL when calling into OpenGL:
+Using with Android
+------------------
+JOML can be used in an Android project to build a transformation matrix and set it as a uniform mat4 in a shader. For this, the Matrix4f class provides a method to transfer a matrix into a float[] array, which can then be used when calling into OpenGL:
 ```Java
-FloatBuffer fb = BufferUtils.createFloatBuffer(16);
+float[] array = new float[16];
 new Matrix4f().perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
               .lookAt(0.0f, 0.0f, 10.0f,
                       0.0f, 0.0f, 0.0f,
-                      0.0f, 1.0f, 0.0f).get(fb);
-glUniformMatrix4fv(mat4Location, false, fb);
+                      0.0f, 1.0f, 0.0f).get(array);
+glUniformMatrix4fv(mat4Location, 1, false, array, 0);
 ```
-The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the LWJGL 3 method [*glUniformMatrix4fv*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL20.html#glUniformMatrix4fv-int-boolean-java.nio.FloatBuffer-).
+The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the Android method [*glUniformMatrix4fv*](https://developer.android.com/reference/android/opengl/GLES20.html#glUniformMatrix4fv(int, int, boolean, float[], int)).
 
 Instead of using the uniform methods, one or multiple matrices can also be uploaded to an OpenGL buffer object and then sourced from that buffer object from within a shader when used as an uniform buffer object or a shader storage buffer object.
 The following uploads a matrix to an OpenGL buffer object which can then be used as an uniform buffer object in a shader:
 ```Java
 Matrix4f m = ...; // <- the matrix to upload
 int ubo = ...; // <- name of a created and already initialized UBO
-FloatBuffer fb = BufferUtils.createFloatBuffer(16);
+ByteBuffer bb = ByteBuffer.allocateDirect(16 << 2).order(ByteOrder.nativeOrder());
 glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-glBufferSubData(GL_UNIFORM_BUFFER, 0, m.get(fb));
+glBufferSubData(GL_UNIFORM_BUFFER, 0, m.get(bb));
 ```
-
-If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call [*glLoadMatrixf()*](http://javadoc.lwjgl.org/org/lwjgl/opengl/GL11.html#glLoadMatrixf-java.nio.FloatBuffer-) provided by LWJGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
-```Java
-FloatBuffer fb = BufferUtils.createFloatBuffer(16);
-Matrix4f m = new Matrix4f();
-m.setPerspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f);
-glMatrixMode(GL_PROJECTION);
-glLoadMatrixf(m.get(fb));
-m.setLookAt(0.0f, 0.0f, 10.0f,
-            0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f);
-glMatrixMode(GL_MODELVIEW);
-glLoadMatrixf(m.get(fb));
-```
-
-Using with Vulkan and LWJGL 3
-----------------------------
-You can use [VK10.vkMapMemory()](http://javadoc.lwjgl.org/org/lwjgl/vulkan/VK10.html#vkMapMemory-org.lwjgl.vulkan.VkDevice-long-long-long-int-org.lwjgl.PointerBuffer-) provided by LWJGL to map a Vulkan memory object, which may be the backing store of a Uniform Buffer, into Java and use the returned Java NIO ByteBuffer to upload the matrix like you would with OpenGL by calling [get()](http://joml-ci.github.io/JOML/apidocs/org/joml/Matrix4f.html#get-java.nio.ByteBuffer-) on the matrix:
-```Java
-Matrix4f m = ...;
-VkDevice device = ...; // <- the vulkan device
-long memory = ...; // <- handle to the vulkan device memory
-PointerBuffer pb = MemoryUtil.memAllocPointer(1);
-if (vkMapMemory(device, memory, 0, 16 << 2, 0, pb) == VK_SUCCESS) {
-  m.get(MemoryUtil.memByteBuffer(pb.get(0), 16 << 2));
-  vkUnmapMemory(device, memory);
-}
-MemoryUtil.memFree(pb);
-```
-
-Since Vulkan uses a clip space z range between *0 <= z <= w* you need to tell JOML about it when creating a projection matrix. For this, the projection methods on the Matrix4f class have an additional overload taking a boolean parameter to indicate whether Z should be within [0..1] like in Vulkan or [-1..+1] like in OpenGL. The existing method overload without that parameter will default to OpenGL behaviour.
-
-Alternatively, you can use Vulkan's Push Constants to quickly upload a matrix in a shader push-constant when recording a command buffer. The following code updates a Matrix4f used as a push-constant in the vertex shader:
-```Java
-Matrix4f m = ...;
-VkCommandBuffer cmdBuf = ...; // <- the VkCommandBuffer
-long layout = ...; // <- handle to a Vulkan VkPipelineLayout
-ByteBuffer bb = MemoryUtil.memAlloc(16 << 2);
-vkCmdPushConstants(cmdBuf, layout, VK_SHADER_STAGE_VERTEX_BIT, 0, m.get(bb));
-MemoryUtil.memFree(bb);
-```
-
-Also, care must be taken regarding the difference between Vulkan's viewport transformation on the one side and Direct3D's and OpenGL's different viewport transformation on the other side. Since Vulkan does not perform any inversion of the Y-axis from NDC to window coordinates, NDC space and clip space will have its +Y axis pointing downwards (with regard to the screen).
-In order to account for this, you need to use a premultiplied scaling transformation that inverts the Y-axis.
-
-In essence, to create a projection transformation which will work with Vulkan, use the following code:
-```Java
-Matrix4f m = new Matrix4f();
-m.scale(1.0f, -1.0f, 1.0f) // <- inversion of Y axis
- .perspective((float) Math.toRadians(45.0f),
-               1.0f, 0.01f, 100.0f, true); // <- true indicates Z in [0..1]
-```
-
-Using with [JOGL](http://jogamp.org/jogl/www/)
----------------------------------------------------
-JOML can be used together with JOGL to build a transformation matrix and set it as a uniform mat4 in a shader (for example as a replacement of com.jogamp.opengl.util.glsl.fixedfunc.FixedFuncUtil and com.jogamp.opengl.util.PMVMatrix to emulate the fixed pipeline). For this, the Matrix4f class provides a method to transfer a matrix into a Java NIO FloatBuffer, which can then be used by JOGL when calling into OpenGL:
-```Java
-FloatBuffer fb = Buffers.newDirectFloatBuffer(16);
-new Matrix4f().perspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f)
-              .lookAt(0.0f, 0.0f, 10.0f,
-                      0.0f, 0.0f, 0.0f,
-                      0.0f, 1.0f, 0.0f).get(fb);
-gl.glUniformMatrix4fv(mat4Location, 1, false, fb);
-```
-The above example first creates a transformation matrix and then uploads that matrix to a uniform variable of the active shader program using the JOGL 2 method [*glUniformMatrix4fv*](http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/GL2ES2.html#glUniformMatrix4fv(int,%20int,%20boolean,%20java.nio.FloatBuffer)).
-
-If you prefer not to use shaders but the fixed-function pipeline and want to use JOML to build the transformation matrices, you can do so. Instead of uploading the matrix as a shader uniform you can then use the OpenGL API call [*glLoadMatrixf()*](http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/fixedfunc/GLMatrixFunc.html#glLoadMatrixf(java.nio.FloatBuffer)) provided by JOGL to set a JOML matrix as the current matrix in OpenGL's matrix stack:
-```Java
-FloatBuffer fb = Buffers.newDirectFloatBuffer(16);
-Matrix4f m = new Matrix4f();
-m.setPerspective((float) Math.toRadians(45.0f), 1.0f, 0.01f, 100.0f);
-gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
-gl.glLoadMatrixf(m.get(fb));
-m.setLookAt(0.0f, 0.0f, 10.0f,
-            0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f);
-gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
-gl.glLoadMatrixf(m.get(fb));
-```
+As the example above shows, JOML objects can also be written into Java NIO Buffers.
 
 Staying allocation-free
 -----------------------
@@ -214,14 +136,14 @@ JOML is designed to be completely allocation-free for all methods. That means JO
 
 *JOML also does not allocate any unexpected internal helper/temporary/working objects itself, neither in instance nor static fields, thus giving you full control over object allocations.*
 
-Since you have to create a matrix or a vector at some point in order to make any computations with JOML on them, you are advised to do so once at the initialization of your program. Those objects will then be the *working memory/objects* for JOML. These working objects can then be reused in the hot path of your application without incurring any additional allocations. The following example shows a typical usecase with LWJGL:
+Since you have to create a matrix or a vector at some point in order to make any computations with JOML on them, you are advised to do so once at the initialization of your program. Those objects will then be the *working memory/objects* for JOML. These working objects can then be reused in the hot path of your application without incurring any additional allocations. The following example shows a typical usecase:
 
 ```Java
 FloatBuffer fb;
 Matrix4f m;
 
 void init() {
-  fb = BufferUtils.createFloatBuffer(16);
+  fb = ByteBuffer.allocateDirect(16 << 2).order(ByteOrder.nativeOrder());
   m = new Matrix4f();
   ...
 }
@@ -237,7 +159,7 @@ void frame() {
   // possibly apply more model transformations
   m.rotateY(angle);
   // get matrix into FloatBuffer and upload to OpenGL
-  glUniformMatrix4fv(mat4Location, false, m.get(fb));
+  glUniformMatrix4fv(mat4Location, 1, false, m.get(fb));
   ...
 }
 ```
