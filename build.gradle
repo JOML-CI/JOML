@@ -1,4 +1,10 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = 'org.joml'
+archivesBaseName = 'joml-android'
+version = '1.9.1-SNAPSHOT'
 
 repositories {
   jcenter()
@@ -8,7 +14,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-     classpath 'com.android.tools.build:gradle:2.2.0'
+     classpath 'com.android.tools.build:gradle:2.2.2'
   }
 }
 
@@ -19,14 +25,12 @@ dependencies {
 android {
   compileSdkVersion 10
   buildToolsVersion '22.0.1'
-
   defaultConfig {
     minSdkVersion 8
     targetSdkVersion 10
-    versionCode 190
-    versionName "1.9.0"
+    versionCode 191
+    versionName "1.9.1"
   }
-
   sourceSets {
     main {
       manifest.srcFile 'AndroidManifest.xml'
@@ -36,4 +40,62 @@ android {
       java.srcDirs = ['test']
     }
   }
+}
+
+uploadArchives {
+  repositories.mavenDeployer {
+    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+      authentication(userName: ossrhUsername, password: ossrhPassword)
+    }
+    snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+      authentication(userName: ossrhUsername, password: ossrhPassword)
+    }
+    pom.project {
+      name "JOML"
+      packaging 'aar'
+      description 'Java OpenGL Math Library'
+      url 'http://joml.org'
+      licenses {
+        license {
+          name 'MIT License'
+          url 'http://www.opensource.org/licenses/mit-license.php'
+        }
+      }
+      developers {
+        developer {
+          id 'kburjack'
+          name 'Kai Burjack'
+          email 'kai@joml.org'
+        }
+      }
+      scm {
+        connection 'https://github.com/JOML-CI/JOML.git'
+        developerConnection 'https://github.com/JOML-CI/JOML.git'
+        url 'http://joml.org'
+      }
+    }
+  }
+}
+
+task javadoc(type: Javadoc) {
+  excludes = ['**/package.html']
+  title = "JOML ${version} API"
+  source = android.sourceSets.main.java.srcDirs
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
 }
