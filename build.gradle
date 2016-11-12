@@ -6,6 +6,9 @@ group = 'org.joml'
 archivesBaseName = 'joml-android'
 version = '1.9.1-SNAPSHOT'
 
+ext.ossrhUsername = project.hasProperty('ossrhUsername') ? project.getProperty('ossrhUsername') : ''
+ext.ossrhPassword = project.hasProperty('ossrhPassword') ? project.getProperty('ossrhPassword') : ''
+
 repositories {
   jcenter()
 }
@@ -93,9 +96,10 @@ task sourcesJar(type: Jar) {
 }
 
 artifacts {
-    archives javadocJar, sourcesJar
+  archives javadocJar, sourcesJar
 }
 
 signing {
-    sign configurations.archives
+  required { project.hasProperty('deploy') }
+  sign configurations.archives
 }
