@@ -165,24 +165,6 @@ void frame() {
 ```
 In the example above, a single Matrix4f is allocated during some initialization time when the *init()* method is called. Then each *frame()* we reinitialize the same matrix with the *identity()* and recompute the camera transformation based on some other parameters.
 
-Immutable Views
----------------
-
-In more complex applications with multiple API providers and consumers/clients, it is sometimes desirable to communicate the intent that a certain object returned by an API call or consumed by a call should not get modified by the caller or the callee, respectively. This can be helpful to encourage efficient memory usage by sharing objects and to discourage/disallow unintended object mutations.
-
-For this, JOML provides immutable views on each class, realized via a Java interface implemented by each class. This interface only contains methods that will not mutate the object on which it is called.
-
-```Java
-private Vector4f sharedVector;
-public Vector4fc getVector() {
-  return sharedVector;
-}
-public void consume(Vector4fc v) {
-  // ...
-}
-```
-Using immutable views, it is possible to declare who is responsible of mutating an object and who is not allowed to.
-
 Multithreading
 --------------
 Due to JOML not using any internal temporary objects during any computations, you can use JOML in a multithreaded application. You only need to make sure not to call a method modifying the same matrix or vector from two different threads. Other than that, there is no internal or external synchronization necessary.
