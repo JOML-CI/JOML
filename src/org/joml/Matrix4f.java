@@ -118,22 +118,10 @@ public class Matrix4f implements Externalizable {
      */
     public static final int CORNER_PXPYPZ = 7;
 
-    /**
-     * Bit returned by {@link #properties()} to indicate that the matrix represents a perspective transformation.
-     */
-    public static final byte PROPERTY_PERSPECTIVE = 1<<0;
-    /**
-     * Bit returned by {@link #properties()} to indicate that the matrix represents an affine transformation.
-     */
-    public static final byte PROPERTY_AFFINE = 1<<1;
-    /**
-     * Bit returned by {@link #properties()} to indicate that the matrix represents the identity transformation.
-     */
-    public static final byte PROPERTY_IDENTITY = 1<<2;
-    /**
-     * Bit returned by {@link #properties()} to indicate that the matrix represents a pure translation transformation.
-     */
-    public static final byte PROPERTY_TRANSLATION = 1<<3;
+    private static final byte PROPERTY_PERSPECTIVE = 1<<0;
+    private static final byte PROPERTY_AFFINE = 1<<1;
+    private static final byte PROPERTY_IDENTITY = 1<<2;
+    private static final byte PROPERTY_TRANSLATION = 1<<3;
 
     float m00, m01, m02, m03;
     float m10, m11, m12, m13;
@@ -174,7 +162,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f(Matrix4f mat) {
         MemUtil.INSTANCE.copy((Matrix4f) mat, this);
-        properties = mat.properties();
+        properties = mat.properties;
     }
 
     /**
@@ -187,7 +175,7 @@ public class Matrix4f implements Externalizable {
     public Matrix4f(Matrix4x3f mat) {
         MemUtil.INSTANCE.copy4x3((Matrix4x3f) mat, this);
         this.m33 = 1.0f;
-        properties = (byte) (mat.properties() | PROPERTY_AFFINE);
+        properties = (byte) (mat.properties | PROPERTY_AFFINE);
     }
 
     /**
@@ -216,7 +204,7 @@ public class Matrix4f implements Externalizable {
         m31 = (float) mat.m31;
         m32 = (float) mat.m32;
         m33 = (float) mat.m33;
-        properties = mat.properties();
+        properties = mat.properties;
     }
 
     /**
@@ -343,13 +331,6 @@ public class Matrix4f implements Externalizable {
     public Matrix4f assumePerspective() {
         this.properties = PROPERTY_PERSPECTIVE;
         return this;
-    }
-
-    /**
-     * @return the properties of the matrix
-     */
-    public byte properties() {
-        return properties;
     }
 
     /**
@@ -721,7 +702,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f set(Matrix4f m) {
         MemUtil.INSTANCE.copy((Matrix4f) m, this);
-        this.properties = m.properties();
+        this.properties = m.properties;
         return this;
     }
 
@@ -737,7 +718,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f set(Matrix4x3f m) {
         MemUtil.INSTANCE.copy((Matrix4x3f) m, this);
-        this.properties = (byte) (m.properties() | PROPERTY_AFFINE);
+        this.properties = (byte) (m.properties | PROPERTY_AFFINE);
         return this;
     }
 
@@ -771,7 +752,7 @@ public class Matrix4f implements Externalizable {
         this.m31 = (float) m.m31;
         this.m32 = (float) m.m32;
         this.m33 = (float) m.m33;
-        this.properties = m.properties();
+        this.properties = m.properties;
         return this;
     }
 
@@ -969,7 +950,7 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f set4x3(Matrix4x3f mat) {
         MemUtil.INSTANCE.copy4x3((Matrix4x3f) mat, this);
-        properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
+        properties &= mat.properties & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
 
@@ -1020,15 +1001,15 @@ public class Matrix4f implements Externalizable {
     public Matrix4f mul(Matrix4f right, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
-        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
+        else if ((right.properties & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
-        else if ((properties & PROPERTY_TRANSLATION) != 0 && (right.properties() & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_TRANSLATION) != 0 && (right.properties & PROPERTY_AFFINE) != 0)
             return mulTranslationAffine(right, dest);
-        else if ((properties & PROPERTY_AFFINE) != 0 && (right.properties() & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_AFFINE) != 0 && (right.properties & PROPERTY_AFFINE) != 0)
             return mulAffine(right, dest);
-        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties() & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties & PROPERTY_AFFINE) != 0)
             return mulPerspectiveAffine(right, dest);
-        else if ((right.properties() & PROPERTY_AFFINE) != 0)
+        else if ((right.properties & PROPERTY_AFFINE) != 0)
             return mulAffineR(right, dest);
         return mulGeneric(right, dest);
     }
@@ -1088,9 +1069,9 @@ public class Matrix4f implements Externalizable {
     public Matrix4f mul(Matrix4x3f right, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
-        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
+        else if ((right.properties & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
-        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties() & PROPERTY_AFFINE) != 0)
+        else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties & PROPERTY_AFFINE) != 0)
             return mulPerspectiveAffine(right, dest);
         return mulAffineR(right, dest);
     }
@@ -13569,7 +13550,7 @@ public class Matrix4f implements Externalizable {
     public Matrix4f swap(Matrix4f other) {
         MemUtil.INSTANCE.swap(this, other);
         byte props = properties;
-        this.properties = other.properties();
+        this.properties = other.properties;
         other.properties = props;
         return this;
     }

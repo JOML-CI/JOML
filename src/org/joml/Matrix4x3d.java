@@ -47,14 +47,8 @@ public class Matrix4x3d implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Bit returned by {@link #properties()} to indicate that the matrix represents the identity transformation.
-     */
-    public static final byte PROPERTY_IDENTITY = 1<<2;
-    /**
-     * Bit returned by {@link #properties()} to indicate that the matrix represents a pure translation transformation.
-     */
-    public static final byte PROPERTY_TRANSLATION = 1<<3;
+    private static final byte PROPERTY_IDENTITY = 1<<2;
+    private static final byte PROPERTY_TRANSLATION = 1<<3;
 
     double m00, m01, m02;
     double m10, m11, m12;
@@ -92,7 +86,7 @@ public class Matrix4x3d implements Externalizable {
         m30 = mat.m30;
         m31 = mat.m31;
         m32 = mat.m32;
-        properties = mat.properties();
+        properties = mat.properties;
     }
 
     /**
@@ -114,7 +108,7 @@ public class Matrix4x3d implements Externalizable {
         m30 = mat.m30;
         m31 = mat.m31;
         m32 = mat.m32;
-        properties = mat.properties();
+        properties = mat.properties;
     }
 
     /**
@@ -207,13 +201,6 @@ public class Matrix4x3d implements Externalizable {
     public Matrix4x3d assumeNothing() {
         properties = 0;
         return this;
-    }
-
-    /**
-     * @return the properties of the matrix
-     */
-    public byte properties() {
-        return properties;
     }
 
     /**
@@ -518,7 +505,7 @@ public class Matrix4x3d implements Externalizable {
         m30 = m.m30;
         m31 = m.m31;
         m32 = m.m32;
-        properties = m.properties();
+        properties = m.properties;
         return this;
     }
 
@@ -542,7 +529,7 @@ public class Matrix4x3d implements Externalizable {
         m30 = m.m30;
         m31 = m.m31;
         m32 = m.m32;
-        properties = m.properties();
+        properties = m.properties;
         return this;
     }
 
@@ -568,7 +555,7 @@ public class Matrix4x3d implements Externalizable {
         m30 = m.m30;
         m31 = m.m31;
         m32 = m.m32;
-        properties = (byte) (m.properties() & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        properties = (byte) (m.properties & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return this;
     }
 
@@ -665,7 +652,7 @@ public class Matrix4x3d implements Externalizable {
         m20 = mat.m20;
         m21 = mat.m21;
         m22 = mat.m22;
-        properties &= mat.properties();
+        properties &= mat.properties;
         return this;
     }
 
@@ -812,7 +799,7 @@ public class Matrix4x3d implements Externalizable {
     public Matrix4x3d mul(Matrix4x3d right, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
-        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
+        else if ((right.properties & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
         else if ((properties & PROPERTY_TRANSLATION) != 0)
             return mulTranslation(right, dest);
@@ -880,7 +867,7 @@ public class Matrix4x3d implements Externalizable {
     public Matrix4x3d mul(Matrix4x3f right, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
-        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
+        else if ((right.properties & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
         else if ((properties & PROPERTY_TRANSLATION) != 0)
             return mulTranslation(right, dest);

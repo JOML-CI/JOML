@@ -46,14 +46,8 @@ public class Matrix4x3f implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Bit returned by {@link #properties()} to indicate that the matrix represents the identity transformation.
-     */
-    public static final byte PROPERTY_IDENTITY = 1<<2;
-    /**
-     * Bit returned by {@link #properties()} to indicate that the matrix represents a pure translation transformation.
-     */
-    public static final byte PROPERTY_TRANSLATION = 1<<3;
+    private static final byte PROPERTY_IDENTITY = 1<<2;
+    private static final byte PROPERTY_TRANSLATION = 1<<3;
 
     float m00, m01, m02;
     float m10, m11, m12;
@@ -99,7 +93,7 @@ public class Matrix4x3f implements Externalizable {
         } else {
             setMatrix4x3f(mat);
         }
-        properties = mat.properties();
+        properties = mat.properties;
     }
 
     /**
@@ -195,13 +189,6 @@ public class Matrix4x3f implements Externalizable {
     public Matrix4x3f assumeNothing() {
         properties = 0;
         return this;
-    }
-
-    /**
-     * @return the properties of the matrix
-     */
-    public byte properties() {
-        return properties;
     }
 
     /**
@@ -491,7 +478,7 @@ public class Matrix4x3f implements Externalizable {
         } else {
             setMatrix4x3f(m);
         }
-        properties = m.properties();
+        properties = m.properties;
         return this;
     }
     private void setMatrix4x3f(Matrix4x3f mat) {
@@ -524,7 +511,7 @@ public class Matrix4x3f implements Externalizable {
         } else {
             setMatrix4f(m);
         }
-        properties = (byte) (m.properties() & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        properties = (byte) (m.properties & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return this;
     }
     private void setMatrix4f(Matrix4f mat) {
@@ -797,7 +784,7 @@ public class Matrix4x3f implements Externalizable {
         } else {
             set3x3Matrix4x3f(mat);
         }
-        properties &= mat.properties();
+        properties &= mat.properties;
         return this;
     }
     private void set3x3Matrix4x3f(Matrix4x3f mat) {
@@ -845,7 +832,7 @@ public class Matrix4x3f implements Externalizable {
     public Matrix4x3f mul(Matrix4x3f right, Matrix4x3f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
-        else if ((right.properties() & PROPERTY_IDENTITY) != 0)
+        else if ((right.properties & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
         else if ((properties & PROPERTY_TRANSLATION) != 0)
             return mulTranslation(right, dest);

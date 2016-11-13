@@ -23,22 +23,11 @@
 package org.joml;
 
 /**
- * Utility class for reading system properties.
+ * Utility class for configuration options.
  * 
  * @author Kai Burjack
  */
 class Options {
-
-    /**
-     * Whether certain debugging checks should be made, such as that only direct NIO Buffers are used when Unsafe is active,
-     * and a proxy should be created on calls to toImmutable().
-     */
-    static final boolean DEBUG = hasOption("joml.debug");
-
-    /**
-     * Whether <i>not</i> to use sun.misc.Unsafe when copying memory with MemUtil.
-     */
-    static final boolean NO_UNSAFE = Options.hasOption("joml.nounsafe");
 
     /**
      * Whether fast approximations of some java.lang.Math operations should be used.
