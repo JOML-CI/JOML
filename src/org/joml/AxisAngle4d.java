@@ -92,7 +92,7 @@ public class AxisAngle4d implements Externalizable {
     }
 
     /**
-     * Create a new {@link AxisAngle4d} from the given {@link Quaternionfc}.
+     * Create a new {@link AxisAngle4d} from the given {@link Quaternionf}.
      * <p>
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
@@ -101,17 +101,17 @@ public class AxisAngle4d implements Externalizable {
      * @param q
      *            the quaternion from which to create the new AngleAxis4f
      */
-    public AxisAngle4d(Quaternionfc q) {
-        double acos = Math.acos(q.w());
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
-        x = q.x() * invSqrt;
-        y = q.y() * invSqrt;
-        z = q.z() * invSqrt;
+    public AxisAngle4d(Quaternionf q) {
+        double acos = Math.acos(q.w);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        x = q.x * invSqrt;
+        y = q.y * invSqrt;
+        z = q.z * invSqrt;
         angle = acos + acos;
     }
 
     /**
-     * Create a new {@link AxisAngle4d} from the given {@link Quaterniondc}.
+     * Create a new {@link AxisAngle4d} from the given {@link Quaterniond}.
      * <p>
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
@@ -120,12 +120,12 @@ public class AxisAngle4d implements Externalizable {
      * @param q
      *            the quaternion from which to create the new AngleAxis4d
      */
-    public AxisAngle4d(Quaterniondc q) {
-        double acos = Math.acos(q.w());
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
-        x = q.x() * invSqrt;
-        y = q.y() * invSqrt;
-        z = q.z() * invSqrt;
+    public AxisAngle4d(Quaterniond q) {
+        double acos = Math.acos(q.w);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        x = q.x * invSqrt;
+        y = q.y * invSqrt;
+        z = q.z * invSqrt;
         angle = acos + acos;
     }
 
@@ -152,10 +152,10 @@ public class AxisAngle4d implements Externalizable {
      * Create a new {@link AxisAngle4d} with the given values.
      *
      * @param angle the angle in radians
-     * @param v     the rotation axis as a {@link Vector3dc}
+     * @param v     the rotation axis as a {@link Vector3d}
      */
-    public AxisAngle4d(double angle, Vector3dc v) {
-        this(angle, v.x(), v.y(), v.z());
+    public AxisAngle4d(double angle, Vector3d v) {
+        this(angle, v.x, v.y, v.z);
     }
 
     /**
@@ -225,11 +225,11 @@ public class AxisAngle4d implements Externalizable {
      * @param angle
      *            the angle in radians
      * @param v    
-     *            the rotation axis as a {@link Vector3dc}
+     *            the rotation axis as a {@link Vector3d}
      * @return this
      */
-    public AxisAngle4d set(double angle, Vector3dc v) {
-        return set(angle, v.x(), v.y(), v.z());
+    public AxisAngle4d set(double angle, Vector3d v) {
+        return set(angle, v.x, v.y, v.z);
     }
 
     /**
@@ -247,53 +247,53 @@ public class AxisAngle4d implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the given
-     * {@link Quaternionfc}.
+     * {@link Quaternionf}.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Quaternionfc q) {
-        double acos = Math.acos(q.w());
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
-        this.x = q.x() * invSqrt;
-        this.y = q.y() * invSqrt;
-        this.z = q.z() * invSqrt;
+    public AxisAngle4d set(Quaternionf q) {
+        double acos = Math.acos(q.w);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        this.x = q.x * invSqrt;
+        this.y = q.y * invSqrt;
+        this.z = q.z * invSqrt;
         this.angle = acos + acos;
         return this;
     }
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the given
-     * {@link Quaterniondc}.
+     * {@link Quaterniond}.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Quaterniondc q) {
-        double acos = Math.acos(q.w());
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
-        this.x = q.x() * invSqrt;
-        this.y = q.y() * invSqrt;
-        this.z = q.z() * invSqrt;
+    public AxisAngle4d set(Quaterniond q) {
+        double acos = Math.acos(q.w);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        this.x = q.x * invSqrt;
+        this.y = q.y * invSqrt;
+        this.z = q.z * invSqrt;
         this.angle = acos + acos;
         return this;
     }
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotation 
-     * of the given {@link Matrix3fc}.
+     * of the given {@link Matrix3f}.
      * 
      * @param m
-     *            the Matrix3fc to set this AngleAxis4d from
+     *            the Matrix3f to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Matrix3fc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
+    public AxisAngle4d set(Matrix3f m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = Math.atan2(sin, cos);
         return this;
@@ -301,17 +301,17 @@ public class AxisAngle4d implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotation 
-     * of the given {@link Matrix3dc}.
+     * of the given {@link Matrix3d}.
      * 
      * @param m
-     *            the Matrix3dc to set this AngleAxis4d from
+     *            the Matrix3d to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Matrix3dc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
+    public AxisAngle4d set(Matrix3d m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = Math.atan2(sin, cos);
         return this;
@@ -319,17 +319,17 @@ public class AxisAngle4d implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotational component 
-     * of the given {@link Matrix4fc}.
+     * of the given {@link Matrix4f}.
      * 
      * @param m
-     *            the Matrix4fc to set this AngleAxis4d from
+     *            the Matrix4f to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Matrix4fc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
+    public AxisAngle4d set(Matrix4f m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = Math.atan2(sin, cos);
         return this;
@@ -337,17 +337,17 @@ public class AxisAngle4d implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotational component 
-     * of the given {@link Matrix4x3fc}.
+     * of the given {@link Matrix4x3f}.
      * 
      * @param m
-     *            the Matrix4x3fc to set this AngleAxis4d from
+     *            the Matrix4x3f to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Matrix4x3fc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
+    public AxisAngle4d set(Matrix4x3f m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = Math.atan2(sin, cos);
         return this;
@@ -355,17 +355,17 @@ public class AxisAngle4d implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotational component 
-     * of the given {@link Matrix4dc}.
+     * of the given {@link Matrix4d}.
      * 
      * @param m
-     *            the Matrix4dc to set this AngleAxis4d from
+     *            the Matrix4d to set this AngleAxis4d from
      * @return this
      */
-    public AxisAngle4d set(Matrix4dc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
+    public AxisAngle4d set(Matrix4d m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = Math.atan2(sin, cos);
         return this;
@@ -512,13 +512,13 @@ public class AxisAngle4d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3d transform(Vector3dc v, Vector3d dest) {
+    public Vector3d transform(Vector3d v, Vector3d dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
-        double dot = x * v.x() + y * v.y() + z * v.z();
-        dest.set(v.x() * cos + sin * (y * v.z() - z * v.y()) + (1.0 - cos) * dot * x,
-                 v.y() * cos + sin * (z * v.x() - x * v.z()) + (1.0 - cos) * dot * y,
-                 v.z() * cos + sin * (x * v.y() - y * v.x()) + (1.0 - cos) * dot * z);
+        double dot = x * v.x + y * v.y + z * v.z;
+        dest.set(v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x,
+                 v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y,
+                 v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z);
         return dest;
     }
 

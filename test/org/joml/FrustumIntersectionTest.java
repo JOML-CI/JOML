@@ -1,4 +1,4 @@
-package org.joml.test;
+package org.joml;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;

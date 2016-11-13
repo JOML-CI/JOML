@@ -38,303 +38,7 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Vector3d implements Externalizable, Vector3dc {
-
-    private final class Proxy implements Vector3dc {
-        private final Vector3dc delegate;
-
-        Proxy(Vector3dc delegate) {
-            this.delegate = delegate;
-        }
-
-        public double x() {
-            return delegate.x();
-        }
-
-        public double y() {
-            return delegate.y();
-        }
-
-        public double z() {
-            return delegate.z();
-        }
-
-        public ByteBuffer get(ByteBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public ByteBuffer get(int index, ByteBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public DoubleBuffer get(DoubleBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public DoubleBuffer get(int index, DoubleBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public Vector3d sub(Vector3dc v, Vector3d dest) {
-            return delegate.sub(v, dest);
-        }
-
-        public Vector3d sub(Vector3fc v, Vector3d dest) {
-            return delegate.sub(v, dest);
-        }
-
-        public Vector3d sub(double x, double y, double z, Vector3d dest) {
-            return delegate.sub(x, y, z, dest);
-        }
-
-        public Vector3d add(Vector3dc v, Vector3d dest) {
-            return delegate.add(v, dest);
-        }
-
-        public Vector3d add(Vector3fc v, Vector3d dest) {
-            return delegate.add(v, dest);
-        }
-
-        public Vector3d add(double x, double y, double z, Vector3d dest) {
-            return delegate.add(x, y, z, dest);
-        }
-
-        public Vector3d fma(Vector3dc a, Vector3dc b, Vector3d dest) {
-            return delegate.fma(a, b, dest);
-        }
-
-        public Vector3d fma(double a, Vector3dc b, Vector3d dest) {
-            return delegate.fma(a, b, dest);
-        }
-
-        public Vector3d fma(Vector3dc a, Vector3fc b, Vector3d dest) {
-            return delegate.fma(a, b, dest);
-        }
-
-        public Vector3d fma(double a, Vector3fc b, Vector3d dest) {
-            return delegate.fma(a, b, dest);
-        }
-
-        public Vector3d mul(Vector3fc v, Vector3d dest) {
-            return delegate.mul(v, dest);
-        }
-
-        public Vector3d mul(Vector3dc v, Vector3d dest) {
-            return delegate.mul(v, dest);
-        }
-
-        public Vector3d div(Vector3fc v, Vector3d dest) {
-            return delegate.div(v, dest);
-        }
-
-        public Vector3d div(Vector3dc v, Vector3d dest) {
-            return delegate.div(v, dest);
-        }
-
-        public Vector3d mulProject(Matrix4dc mat, Vector3d dest) {
-            return delegate.mulProject(mat, dest);
-        }
-
-        public Vector3d mulProject(Matrix4fc mat, Vector3d dest) {
-            return delegate.mulProject(mat, dest);
-        }
-
-        public Vector3d mul(Matrix3dc mat, Vector3d dest) {
-            return delegate.mul(mat, dest);
-        }
-
-        public Vector3d mul(Matrix3fc mat, Vector3d dest) {
-            return delegate.mul(mat, dest);
-        }
-
-        public Vector3d mulTranspose(Matrix3dc mat, Vector3d dest) {
-            return delegate.mulTranspose(mat, dest);
-        }
-
-        public Vector3d mulTranspose(Matrix3fc mat, Vector3d dest) {
-            return delegate.mulTranspose(mat, dest);
-        }
-
-        public Vector3d mulPosition(Matrix4dc mat, Vector3d dest) {
-            return delegate.mulPosition(mat, dest);
-        }
-
-        public Vector3d mulPosition(Matrix4fc mat, Vector3d dest) {
-            return delegate.mulPosition(mat, dest);
-        }
-
-        public Vector3d mulPosition(Matrix4x3dc mat, Vector3d dest) {
-            return delegate.mulPosition(mat, dest);
-        }
-
-        public Vector3d mulPosition(Matrix4x3fc mat, Vector3d dest) {
-            return delegate.mulPosition(mat, dest);
-        }
-
-        public Vector3d mulTransposePosition(Matrix4dc mat, Vector3d dest) {
-            return delegate.mulTransposePosition(mat, dest);
-        }
-
-        public Vector3d mulTransposePosition(Matrix4fc mat, Vector3d dest) {
-            return delegate.mulTransposePosition(mat, dest);
-        }
-
-        public double mulPositionW(Matrix4fc mat, Vector3d dest) {
-            return delegate.mulPositionW(mat, dest);
-        }
-
-        public double mulPositionW(Matrix4dc mat, Vector3d dest) {
-            return delegate.mulPositionW(mat, dest);
-        }
-
-        public Vector3d mulDirection(Matrix4dc mat, Vector3d dest) {
-            return delegate.mulDirection(mat, dest);
-        }
-
-        public Vector3d mulDirection(Matrix4fc mat, Vector3d dest) {
-            return delegate.mulDirection(mat, dest);
-        }
-
-        public Vector3d mulDirection(Matrix4x3dc mat, Vector3d dest) {
-            return delegate.mulDirection(mat, dest);
-        }
-
-        public Vector3d mulDirection(Matrix4x3fc mat, Vector3d dest) {
-            return delegate.mulDirection(mat, dest);
-        }
-
-        public Vector3d mulTransposeDirection(Matrix4dc mat, Vector3d dest) {
-            return delegate.mulTransposeDirection(mat, dest);
-        }
-
-        public Vector3d mulTransposeDirection(Matrix4fc mat, Vector3d dest) {
-            return delegate.mulTransposeDirection(mat, dest);
-        }
-
-        public Vector3d mul(double scalar, Vector3d dest) {
-            return delegate.mul(scalar, dest);
-        }
-
-        public Vector3d mul(double x, double y, double z, Vector3d dest) {
-            return delegate.mul(x, y, z, dest);
-        }
-
-        public Vector3d rotate(Quaterniondc quat, Vector3d dest) {
-            return delegate.rotate(quat, dest);
-        }
-
-        public Vector3d div(double scalar, Vector3d dest) {
-            return delegate.div(scalar, dest);
-        }
-
-        public Vector3d div(double x, double y, double z, Vector3d dest) {
-            return delegate.div(x, y, z, dest);
-        }
-
-        public double lengthSquared() {
-            return delegate.lengthSquared();
-        }
-
-        public double length() {
-            return delegate.length();
-        }
-
-        public Vector3d normalize(Vector3d dest) {
-            return delegate.normalize(dest);
-        }
-
-        public Vector3d cross(Vector3dc v, Vector3d dest) {
-            return delegate.cross(v, dest);
-        }
-
-        public Vector3d cross(double x, double y, double z, Vector3d dest) {
-            return delegate.cross(x, y, z, dest);
-        }
-
-        public double distance(Vector3dc v) {
-            return delegate.distance(v);
-        }
-
-        public double distance(double x, double y, double z) {
-            return delegate.distance(x, y, z);
-        }
-
-        public double distanceSquared(Vector3dc v) {
-            return delegate.distanceSquared(v);
-        }
-
-        public double distanceSquared(double x, double y, double z) {
-            return delegate.distanceSquared(x, y, z);
-        }
-
-        public double dot(Vector3dc v) {
-            return delegate.dot(v);
-        }
-
-        public double dot(double x, double y, double z) {
-            return delegate.dot(x, y, z);
-        }
-
-        public double angleCos(Vector3dc v) {
-            return delegate.angleCos(v);
-        }
-
-        public double angle(Vector3dc v) {
-            return delegate.angle(v);
-        }
-
-        public Vector3d negate(Vector3d dest) {
-            return delegate.negate(dest);
-        }
-
-        public Vector3d reflect(Vector3dc normal, Vector3d dest) {
-            return delegate.reflect(normal, dest);
-        }
-
-        public Vector3d reflect(double x, double y, double z, Vector3d dest) {
-            return delegate.reflect(x, y, z, dest);
-        }
-
-        public Vector3d half(Vector3dc other, Vector3d dest) {
-            return delegate.half(other, dest);
-        }
-
-        public Vector3d half(double x, double y, double z, Vector3d dest) {
-            return delegate.half(x, y, z, dest);
-        }
-
-        public Vector3d smoothStep(Vector3dc v, double t, Vector3d dest) {
-            return delegate.smoothStep(v, t, dest);
-        }
-
-        public Vector3d hermite(Vector3dc t0, Vector3dc v1, Vector3dc t1, double t, Vector3d dest) {
-            return delegate.hermite(t0, v1, t1, t, dest);
-        }
-
-        public Vector3d lerp(Vector3dc other, double t, Vector3d dest) {
-            return delegate.lerp(other, t, dest);
-        }
-
-        public double get(int component) throws IllegalArgumentException {
-            return delegate.get(component);
-        }
-
-        public int maxComponent() {
-            return delegate.maxComponent();
-        }
-
-        public int minComponent() {
-            return delegate.minComponent();
-        }
-
-        public Vector3d orthogonalize(Vector3dc v, Vector3d dest) {
-            return delegate.orthogonalize(v, dest);
-        }
-
-        public Vector3d orthogonalizeUnit(Vector3dc v, Vector3d dest) {
-            return delegate.orthogonalizeUnit(v, dest);
-        }
-    }
+public class Vector3d implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -389,10 +93,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @param v
      *          provides the initial values for the new vector
      */
-    public Vector3d(Vector3fc v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
+    public Vector3d(Vector3f v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
     }
 
     /**
@@ -400,13 +104,13 @@ public class Vector3d implements Externalizable, Vector3dc {
      * given <code>v</code> and the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2fc} to copy the values from
+     *          the {@link Vector2f} to copy the values from
      * @param z
      *          the z component
      */
-    public Vector3d(Vector2fc v, double z) {
-        this.x = v.x();
-        this.y = v.y();
+    public Vector3d(Vector2f v, double z) {
+        this.x = v.x;
+        this.y = v.y;
         this.z = z;
     }
 
@@ -416,10 +120,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @param v
      *          provides the initial values for the new vector
      */
-    public Vector3d(Vector3dc v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
+    public Vector3d(Vector3d v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
     }
 
     /**
@@ -431,9 +135,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @param z
      *          the z component
      */
-    public Vector3d(Vector2dc v, double z) {
-        this.x = v.x();
-        this.y = v.y();
+    public Vector3d(Vector2d v, double z) {
+        this.x = v.x;
+        this.y = v.y;
         this.z = z;
     }
 
@@ -497,22 +201,22 @@ public class Vector3d implements Externalizable, Vector3dc {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#x()
+    /**
+     * @return the value of the x component
      */
     public double x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#y()
+    /**
+     * @return the value of the y component
      */
     public double y() {
         return this.y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#z()
+    /**
+     * @return the value of the z component
      */
     public double z() {
         return this.z;
@@ -525,10 +229,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to set this vector's components from
      * @return this
      */
-    public Vector3d set(Vector3dc v) {
-        x = v.x();
-        y = v.y();
-        z = v.z();
+    public Vector3d set(Vector3d v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
         return this;
     }
 
@@ -542,9 +246,9 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component
      * @return this
      */
-    public Vector3d set(Vector2dc v, double z) {
-        this.x = v.x();
-        this.y = v.y();
+    public Vector3d set(Vector2d v, double z) {
+        this.x = v.x;
+        this.y = v.y;
         this.z = z;
         return this;
     }
@@ -556,10 +260,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to set this vector's components from
      * @return this
      */
-    public Vector3d set(Vector3fc v) {
-        x = v.x();
-        y = v.y();
-        z = v.z();
+    public Vector3d set(Vector3f v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
         return this;
     }
 
@@ -568,14 +272,14 @@ public class Vector3d implements Externalizable, Vector3dc {
      * and the z component from the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2fc} to copy the values from
+     *          the {@link Vector2f} to copy the values from
      * @param z
      *          the z component
      * @return this
      */
-    public Vector3d set(Vector2fc v, double z) {
-        this.x = v.x();
-        this.y = v.y();
+    public Vector3d set(Vector2f v, double z) {
+        this.x = v.x;
+        this.y = v.y;
         this.z = z;
         return this;
     }
@@ -708,30 +412,72 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(java.nio.ByteBuffer)
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the vector is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     * @return the passed in buffer
+     * @see #get(int, ByteBuffer)
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(int, java.nio.ByteBuffer)
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(java.nio.DoubleBuffer)
+    /**
+     * Store this vector into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * In order to specify the offset into the DoubleBuffer at which
+     * the vector is stored, use {@link #get(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     * @return the passed in buffer
+     * @see #get(int, DoubleBuffer)
      */
     public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(int, java.nio.DoubleBuffer)
+    /**
+     * Store this vector into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     *
+     * @param index
+     *          the absolute position into the DoubleBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     * @return the passed in buffer
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
@@ -745,20 +491,26 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to subtract from this
      * @return this
      */
-    public Vector3d sub(Vector3dc v) {
-        x -= v.x();
-        y -= v.y();
-        z -= v.z();
+    public Vector3d sub(Vector3d v) {
+        x -= v.x;
+        y -= v.y;
+        z -= v.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#sub(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract from <code>this</code>
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d sub(Vector3dc v, Vector3d dest) {
-        dest.x = x - v.x();
-        dest.y = y - v.y();
-        dest.z = z - v.z();
+    public Vector3d sub(Vector3d v, Vector3d dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        dest.z = z - v.z;
         return dest;
     }
 
@@ -769,20 +521,26 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to subtract from this
      * @return this
      */
-    public Vector3d sub(Vector3fc v) {
-        x -= v.x();
-        y -= v.y();
-        z -= v.z();
+    public Vector3d sub(Vector3f v) {
+        x -= v.x;
+        y -= v.y;
+        z -= v.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#sub(org.joml.Vector3fc, org.joml.Vector3d)
+    /**
+     * Subtract the supplied vector from this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to subtract from <code>this</code>
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d sub(Vector3fc v, Vector3d dest) {
-        dest.x = x - v.x();
-        dest.y = y - v.y();
-        dest.z = z - v.z();
+    public Vector3d sub(Vector3f v, Vector3d dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        dest.z = z - v.z;
         return dest;
     }
 
@@ -804,8 +562,18 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#sub(double, double, double, org.joml.Vector3d)
+    /**
+     * Subtract <tt>(x, y, z)</tt> from this vector and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to subtract
+     * @param y
+     *          the y component to subtract
+     * @param z
+     *          the z component to subtract
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d sub(double x, double y, double z, Vector3d dest) {
         dest.x = this.x - x;
@@ -821,20 +589,26 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to add
      * @return this
      */
-    public Vector3d add(Vector3dc v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
+    public Vector3d add(Vector3d v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#add(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Add the supplied vector to this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d add(Vector3dc v, Vector3d dest) {
-        dest.x = x + v.x();
-        dest.y = y + v.y();
-        dest.z = z + v.z();
+    public Vector3d add(Vector3d v, Vector3d dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        dest.z = z + v.z;
         return dest;
     }
 
@@ -845,20 +619,26 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to add
      * @return this
      */
-    public Vector3d add(Vector3fc v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
+    public Vector3d add(Vector3f v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#add(org.joml.Vector3fc, org.joml.Vector3d)
+    /**
+     * Add the supplied vector to this one and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d add(Vector3fc v, Vector3d dest) {
-        dest.x = x + v.x();
-        dest.y = y + v.y();
-        dest.z = z + v.z();
+    public Vector3d add(Vector3f v, Vector3d dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        dest.z = z + v.z;
         return dest;
     }
 
@@ -880,8 +660,18 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#add(double, double, double, org.joml.Vector3d)
+    /**
+     * Increment the components of this vector by the given values and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to add
+     * @param y
+     *          the y component to add
+     * @param z
+     *          the z component to add
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d add(double x, double y, double z, Vector3d dest) {
         dest.x = this.x + x;
@@ -899,10 +689,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the second multiplicand
      * @return this
      */
-    public Vector3d fma(Vector3dc a, Vector3dc b) {
-        x += a.x() * b.x();
-        y += a.y() * b.y();
-        z += a.z() * b.z();
+    public Vector3d fma(Vector3d a, Vector3d b) {
+        x += a.x * b.x;
+        y += a.y * b.y;
+        z += a.z * b.z;
         return this;
     }
 
@@ -915,10 +705,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the second multiplicand
      * @return this
      */
-    public Vector3d fma(double a, Vector3dc b) {
-        x += a * b.x();
-        y += a * b.y();
-        z += a * b.z();
+    public Vector3d fma(double a, Vector3d b) {
+        x += a * b.x;
+        y += a * b.y;
+        z += a * b.z;
         return this;
     }
 
@@ -931,10 +721,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the second multiplicand
      * @return this
      */
-    public Vector3d fma(Vector3fc a, Vector3fc b) {
-        x += a.x() * b.x();
-        y += a.y() * b.y();
-        z += a.z() * b.z();
+    public Vector3d fma(Vector3f a, Vector3f b) {
+        x += a.x * b.x;
+        y += a.y * b.y;
+        z += a.z * b.z;
         return this;
     }
 
@@ -947,157 +737,226 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the second multiplicand
      * @return this
      */
-    public Vector3d fma(double a, Vector3fc b) {
-        x += a * b.x();
-        y += a * b.y();
-        z += a * b.z();
+    public Vector3d fma(double a, Vector3f b) {
+        x += a * b.x;
+        y += a * b.y;
+        z += a * b.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#fma(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d fma(Vector3dc a, Vector3dc b, Vector3d dest) {
-        dest.x = x + a.x() * b.x();
-        dest.y = y + a.y() * b.y();
-        dest.z = z + a.z() * b.z();
-        return dest;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#fma(double, org.joml.Vector3dc, org.joml.Vector3d)
-     */
-    public Vector3d fma(double a, Vector3dc b, Vector3d dest) {
-        dest.x = x + a * b.x();
-        dest.y = y + a * b.y();
-        dest.z = z + a * b.z();
-        return dest;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#fma(org.joml.Vector3dc, org.joml.Vector3fc, org.joml.Vector3d)
-     */
-    public Vector3d fma(Vector3dc a, Vector3fc b, Vector3d dest) {
-        dest.x = x + a.x() * b.x();
-        dest.y = y + a.y() * b.y();
-        dest.z = z + a.z() * b.z();
-        return dest;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#fma(double, org.joml.Vector3fc, org.joml.Vector3d)
-     */
-    public Vector3d fma(double a, Vector3fc b, Vector3d dest) {
-        dest.x = x + a * b.x();
-        dest.y = y + a * b.y();
-        dest.z = z + a * b.z();
+    public Vector3d fma(Vector3d a, Vector3d b, Vector3d dest) {
+        dest.x = x + a.x * b.x;
+        dest.y = y + a.y * b.y;
+        dest.z = z + a.z * b.z;
         return dest;
     }
 
     /**
-     * Multiply this Vector3d component-wise by another Vector3dc.
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d fma(double a, Vector3d b, Vector3d dest) {
+        dest.x = x + a * b.x;
+        dest.y = y + a * b.y;
+        dest.z = z + a * b.z;
+        return dest;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d fma(Vector3d a, Vector3f b, Vector3d dest) {
+        dest.x = x + a.x * b.x;
+        dest.y = y + a.y * b.y;
+        dest.z = z + a.z * b.z;
+        return dest;
+    }
+
+    /**
+     * Add the component-wise multiplication of <code>a * b</code> to this vector
+     * and store the result in <code>dest</code>.
+     * 
+     * @param a
+     *          the first multiplicand
+     * @param b
+     *          the second multiplicand
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d fma(double a, Vector3f b, Vector3d dest) {
+        dest.x = x + a * b.x;
+        dest.y = y + a * b.y;
+        dest.z = z + a * b.z;
+        return dest;
+    }
+
+    /**
+     * Multiply this Vector3d component-wise by another Vector3d.
      * 
      * @param v
      *          the vector to multiply by
      * @return this
      */
-    public Vector3d mul(Vector3dc v) {
-        x *= v.x();
-        y *= v.y();
-        z *= v.z();
+    public Vector3d mul(Vector3d v) {
+        x *= v.x;
+        y *= v.y;
+        z *= v.z;
         return this;
     }
 
     /**
-     * Multiply this Vector3d component-wise by another Vector3fc.
+     * Multiply this Vector3d component-wise by another Vector3f.
      * 
      * @param v
      *          the vector to multiply by
      * @return this
      */
-    public Vector3d mul(Vector3fc v) {
-        x *= v.x();
-        y *= v.y();
-        z *= v.z();
+    public Vector3d mul(Vector3f v) {
+        x *= v.x;
+        y *= v.y;
+        z *= v.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Vector3fc, org.joml.Vector3d)
+    /**
+     * Multiply this Vector3d component-wise by another Vector3f and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to multiply by
+     * @param dest
+     *             will hold the result
+     * @return dest
      */
-    public Vector3d mul(Vector3fc v, Vector3d dest) {
-        dest.x = x * v.x();
-        dest.y = y * v.y();
-        dest.z = z * v.z();
-        return dest;
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Vector3dc, org.joml.Vector3d)
-     */
-    public Vector3d mul(Vector3dc v, Vector3d dest) {
-        dest.x = x * v.x();
-        dest.y = y * v.y();
-        dest.z = z * v.z();
+    public Vector3d mul(Vector3f v, Vector3d dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        dest.z = z * v.z;
         return dest;
     }
 
     /**
-     * Divide this Vector3d component-wise by another Vector3dc.
+     * Multiply this by <code>v</code> component-wise and store the result into <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to multiply by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3d mul(Vector3d v, Vector3d dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        dest.z = z * v.z;
+        return dest;
+    }
+
+    /**
+     * Divide this Vector3d component-wise by another Vector3d.
      * 
      * @param v
      *          the vector to divide by
      * @return this
      */
     public Vector3d div(Vector3d v) {
-        x /= v.x();
-        y /= v.y();
-        z /= v.z();
+        x /= v.x;
+        y /= v.y;
+        z /= v.z;
         return this;
     }
 
     /**
-     * Divide this Vector3d component-wise by another Vector3fc.
+     * Divide this Vector3d component-wise by another Vector3f.
      * 
      * @param v
      *          the vector to divide by
      * @return this
      */
-    public Vector3d div(Vector3fc v) {
-        x /= v.x();
-        y /= v.y();
-        z /= v.z();
+    public Vector3d div(Vector3f v) {
+        x /= v.x;
+        y /= v.y;
+        z /= v.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(org.joml.Vector3fc, org.joml.Vector3d)
+    /**
+     * Divide this Vector3d component-wise by another Vector3f and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d div(Vector3fc v, Vector3d dest) {
-        dest.x = x / v.x();
-        dest.y = y / v.y();
-        dest.z = z / v.z();
+    public Vector3d div(Vector3f v, Vector3d dest) {
+        dest.x = x / v.x;
+        dest.y = y / v.y;
+        dest.z = z / v.z;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Divide this by <code>v</code> component-wise and store the result into <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to divide by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d div(Vector3dc v, Vector3d dest) {
-        dest.x = x / v.x();
-        dest.y = y / v.y();
-        dest.z = z / v.z();
+    public Vector3d div(Vector3d v, Vector3d dest) {
+        dest.x = x / v.x;
+        dest.y = y / v.y;
+        dest.z = z / v.z;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulProject(org.joml.Matrix4dc, org.joml.Vector3d)
+    /**
+     * Multiply the given matrix <code>mat</code> with this Vector3d, perform perspective division
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulProject(Matrix4dc mat, Vector3d dest) {
-        double invW = 1.0 / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33());
-        dest.set((mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30()) * invW,
-                 (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31()) * invW,
-                 (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32()) * invW);
+    public Vector3d mulProject(Matrix4d mat, Vector3d dest) {
+        double invW = 1.0 / (mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33);
+        dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) * invW,
+                 (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) * invW,
+                 (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) * invW);
         return dest;
     }
 
@@ -1110,18 +969,27 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulProject(Matrix4dc mat) {
+    public Vector3d mulProject(Matrix4d mat) {
         return mulProject(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulProject(org.joml.Matrix4fc, org.joml.Vector3d)
+    /**
+     * Multiply the given matrix <code>mat</code> with this Vector3d, perform perspective division
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulProject(Matrix4fc mat, Vector3d dest) {
-        double invW = 1.0 / (mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33());
-        dest.set((mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30()) * invW,
-                 (mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31()) * invW,
-                 (mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32()) * invW);
+    public Vector3d mulProject(Matrix4f mat, Vector3d dest) {
+        double invW = 1.0 / (mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33);
+        dest.set((mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30) * invW,
+                 (mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31) * invW,
+                 (mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32) * invW);
         return dest;
     }
 
@@ -1134,7 +1002,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulProject(Matrix4fc mat) {
+    public Vector3d mulProject(Matrix4f mat) {
         return mulProject(mat, this);
     }
 
@@ -1145,7 +1013,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mul(Matrix3fc mat) {
+    public Vector3d mul(Matrix3f mat) {
         return mul(mat, this);
     }
 
@@ -1156,27 +1024,41 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mul(Matrix3dc mat) {
+    public Vector3d mul(Matrix3d mat) {
         return mul(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Matrix3dc, org.joml.Vector3d)
+    /**
+     * Multiply the given matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mul(Matrix3dc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
+    public Vector3d mul(Matrix3d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(org.joml.Matrix3fc, org.joml.Vector3d)
+    /**
+     * Multiply the given matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mul(Matrix3fc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
+    public Vector3d mul(Matrix3f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
         return dest;
     }
 
@@ -1187,17 +1069,23 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix
      * @return this
      */
-    public Vector3d mulTranspose(Matrix3dc mat) {
+    public Vector3d mulTranspose(Matrix3d mat) {
         return mul(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTranspose(org.joml.Matrix3dc, org.joml.Vector3d)
+    /**
+     * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulTranspose(Matrix3dc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z,
-                 mat.m10() * x + mat.m11() * y + mat.m12() * z,
-                 mat.m20() * x + mat.m21() * y + mat.m22() * z);
+    public Vector3d mulTranspose(Matrix3d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m01 * y + mat.m02 * z,
+                 mat.m10 * x + mat.m11 * y + mat.m12 * z,
+                 mat.m20 * x + mat.m21 * y + mat.m22 * z);
         return dest;
     }
 
@@ -1208,17 +1096,23 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix
      * @return this
      */
-    public Vector3d mulTranspose(Matrix3fc mat) {
+    public Vector3d mulTranspose(Matrix3f mat) {
         return mul(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTranspose(org.joml.Matrix3fc, org.joml.Vector3d)
+    /**
+     * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulTranspose(Matrix3fc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z,
-                 mat.m10() * x + mat.m11() * y + mat.m12() * z,
-                 mat.m20() * x + mat.m21() * y + mat.m22() * z);
+    public Vector3d mulTranspose(Matrix3f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m01 * y + mat.m02 * z,
+                 mat.m10 * x + mat.m11 * y + mat.m12 * z,
+                 mat.m20 * x + mat.m21 * y + mat.m22 * z);
         return dest;
     }
 
@@ -1231,7 +1125,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulPosition(Matrix4fc mat) {
+    public Vector3d mulPosition(Matrix4f mat) {
         return mulPosition(mat, this);
     }
 
@@ -1244,7 +1138,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulPosition(Matrix4dc mat) {
+    public Vector3d mulPosition(Matrix4d mat) {
         return mulPosition(mat, this);
     }
 
@@ -1257,7 +1151,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulPosition(Matrix4x3dc mat) {
+    public Vector3d mulPosition(Matrix4x3d mat) {
         return mulPosition(mat, this);
     }
 
@@ -1270,47 +1164,83 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulPosition(Matrix4x3fc mat) {
+    public Vector3d mulPosition(Matrix4x3f mat) {
         return mulPosition(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4dc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulPosition(Matrix4dc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
+    public Vector3d mulPosition(Matrix4d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4fc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulPosition(Matrix4fc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
+    public Vector3d mulPosition(Matrix4f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4x3dc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulPosition(Matrix4x3dc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
+    public Vector3d mulPosition(Matrix4x3d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPosition(org.joml.Matrix4x3fc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulPosition(Matrix4x3fc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
+    public Vector3d mulPosition(Matrix4x3f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
         return dest;
     }
 
@@ -1323,17 +1253,26 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix whose transpose to multiply this vector by
      * @return this
      */
-    public Vector3d mulTransposePosition(Matrix4dc mat) {
+    public Vector3d mulTransposePosition(Matrix4d mat) {
         return mulTransposePosition(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTransposePosition(org.joml.Matrix4dc, org.joml.Vector3d)
+    /**
+     * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulTransposePosition(Matrix4dc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z + mat.m03(),
-                 mat.m10() * x + mat.m11() * y + mat.m12() * z + mat.m13(),
-                 mat.m20() * x + mat.m21() * y + mat.m22() * z + mat.m23());
+    public Vector3d mulTransposePosition(Matrix4d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m01 * y + mat.m02 * z + mat.m03,
+                 mat.m10 * x + mat.m11 * y + mat.m12 * z + mat.m13,
+                 mat.m20 * x + mat.m21 * y + mat.m22 * z + mat.m23);
         return dest;
     }
 
@@ -1346,17 +1285,26 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix whose transpose to multiply this vector by
      * @return this
      */
-    public Vector3d mulTransposePosition(Matrix4fc mat) {
+    public Vector3d mulTransposePosition(Matrix4f mat) {
         return mulTransposePosition(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTransposePosition(org.joml.Matrix4fc, org.joml.Vector3d)
+    /**
+     * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulTransposePosition(Matrix4fc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z + mat.m03(),
-                 mat.m10() * x + mat.m11() * y + mat.m12() * z + mat.m13(),
-                 mat.m20() * x + mat.m21() * y + mat.m22() * z + mat.m23());
+    public Vector3d mulTransposePosition(Matrix4f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m01 * y + mat.m02 * z + mat.m03,
+                 mat.m10 * x + mat.m11 * y + mat.m12 * z + mat.m13,
+                 mat.m20 * x + mat.m21 * y + mat.m22 * z + mat.m23);
         return dest;
     }
 
@@ -1370,18 +1318,27 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
-    public double mulPositionW(Matrix4fc mat) {
+    public double mulPositionW(Matrix4f mat) {
         return mulPositionW(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPositionW(org.joml.Matrix4fc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>, store the
+     * result in <code>dest</code> and return the <i>w</i> component of the resulting 4D vector.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the <tt>(x, y, z)</tt> components of the resulting vector
+     * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
-    public double mulPositionW(Matrix4fc mat, Vector3d dest) {
-        double w = mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33();
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
+    public double mulPositionW(Matrix4f mat, Vector3d dest) {
+        double w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33;
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
         return w;
     }
 
@@ -1395,18 +1352,27 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
-    public double mulPositionW(Matrix4dc mat) {
+    public double mulPositionW(Matrix4d mat) {
         return mulPositionW(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulPositionW(org.joml.Matrix4dc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code>, store the
+     * result in <code>dest</code> and return the <i>w</i> component of the resulting 4D vector.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the <tt>(x, y, z)</tt> components of the resulting vector
+     * @return the <i>w</i> component of the resulting 4D vector after multiplication
      */
-    public double mulPositionW(Matrix4dc mat, Vector3d dest) {
-        double w = mat.m03() * x + mat.m13() * y + mat.m23() * z + mat.m33();
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z + mat.m30(),
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z + mat.m31(),
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z + mat.m32());
+    public double mulPositionW(Matrix4d mat, Vector3d dest) {
+        double w = mat.m03 * x + mat.m13 * y + mat.m23 * z + mat.m33;
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z + mat.m30,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z + mat.m31,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z + mat.m32);
         return w;
     }
 
@@ -1419,7 +1385,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulDirection(Matrix4fc mat) {
+    public Vector3d mulDirection(Matrix4f mat) {
         return mulDirection(mat, this);
     }
 
@@ -1432,7 +1398,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulDirection(Matrix4dc mat) {
+    public Vector3d mulDirection(Matrix4d mat) {
         return mulDirection(mat, this);
     }
 
@@ -1445,7 +1411,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulDirection(Matrix4x3dc mat) {
+    public Vector3d mulDirection(Matrix4x3d mat) {
         return mulDirection(mat, this);
     }
 
@@ -1458,47 +1424,83 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix to multiply this vector by
      * @return this
      */
-    public Vector3d mulDirection(Matrix4x3fc mat) {
+    public Vector3d mulDirection(Matrix4x3f mat) {
         return mulDirection(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4dc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulDirection(Matrix4dc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
+    public Vector3d mulDirection(Matrix4d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4fc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulDirection(Matrix4fc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
+    public Vector3d mulDirection(Matrix4f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4x3dc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulDirection(Matrix4x3dc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
+    public Vector3d mulDirection(Matrix4x3d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulDirection(org.joml.Matrix4x3fc, org.joml.Vector3d)
+    /**
+     * Multiply the given 4x3 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulDirection(Matrix4x3fc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
-                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
-                 mat.m02() * x + mat.m12() * y + mat.m22() * z);
+    public Vector3d mulDirection(Matrix4x3f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m10 * y + mat.m20 * z,
+                 mat.m01 * x + mat.m11 * y + mat.m21 * z,
+                 mat.m02 * x + mat.m12 * y + mat.m22 * z);
         return dest;
     }
 
@@ -1511,17 +1513,26 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix whose transpose to multiply this vector by
      * @return this
      */
-    public Vector3d mulTransposeDirection(Matrix4dc mat) {
+    public Vector3d mulTransposeDirection(Matrix4d mat) {
         return mulTransposeDirection(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTransposeDirection(org.joml.Matrix4dc, org.joml.Vector3d)
+    /**
+     * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulTransposeDirection(Matrix4dc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z,
-                 mat.m10() * x + mat.m11() * y + mat.m12() * z,
-                 mat.m20() * x + mat.m21() * y + mat.m22() * z);
+    public Vector3d mulTransposeDirection(Matrix4d mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m01 * y + mat.m02 * z,
+                 mat.m10 * x + mat.m11 * y + mat.m12 * z,
+                 mat.m20 * x + mat.m21 * y + mat.m22 * z);
         return dest;
     }
 
@@ -1534,17 +1545,26 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the matrix whose transpose to multiply this vector by
      * @return this
      */
-    public Vector3d mulTransposeDirection(Matrix4fc mat) {
+    public Vector3d mulTransposeDirection(Matrix4f mat) {
         return mulTransposeDirection(mat, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mulTransposeDirection(org.joml.Matrix4fc, org.joml.Vector3d)
+    /**
+     * Multiply the transpose of the given 4x4 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>w</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix whose transpose to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d mulTransposeDirection(Matrix4fc mat, Vector3d dest) {
-        dest.set(mat.m00() * x + mat.m01() * y + mat.m02() * z,
-                 mat.m10() * x + mat.m11() * y + mat.m12() * z,
-                 mat.m20() * x + mat.m21() * y + mat.m22() * z);
+    public Vector3d mulTransposeDirection(Matrix4f mat, Vector3d dest) {
+        dest.set(mat.m00 * x + mat.m01 * y + mat.m02 * z,
+                 mat.m10 * x + mat.m11 * y + mat.m12 * z,
+                 mat.m20 * x + mat.m21 * y + mat.m22 * z);
         return dest;
     }
 
@@ -1562,8 +1582,14 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(double, org.joml.Vector3d)
+    /**
+     * Multiply this Vector3d by the given scalar value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *          the scalar factor
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d mul(double scalar, Vector3d dest) {
         dest.x = x * scalar;
@@ -1590,8 +1616,18 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#mul(double, double, double, org.joml.Vector3d)
+    /**
+     * Multiply the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to multiply this vector by
+     * @param y
+     *          the y component to multiply this vector by
+     * @param z
+     *          the z component to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d mul(double x, double y, double z, Vector3d dest) {
         dest.x = this.x * x;
@@ -1609,15 +1645,23 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the quaternion to rotate this vector
      * @return this
      */
-    public Vector3d rotate(Quaterniondc quat) {
+    public Vector3d rotate(Quaterniond quat) {
         quat.transform(this, this);
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#rotate(org.joml.Quaterniondc, org.joml.Vector3d)
+    /**
+     * Rotate this vector by the given quaternion <code>quat</code> and store the result in <code>dest</code>.
+     * 
+     * @see Quaterniond#transform(Vector3d)
+     * 
+     * @param quat
+     *          the quaternion to rotate this vector
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d rotate(Quaterniondc quat, Vector3d dest) {
+    public Vector3d rotate(Quaterniond quat, Vector3d dest) {
         quat.transform(this, dest);
         return dest;
     }
@@ -1628,7 +1672,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * <p>
      * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
      * 
-     * @see Quaterniond#rotationTo(Vector3dc, Vector3dc)
+     * @see Quaterniond#rotationTo(Vector3d, Vector3d)
      * 
      * @param toDir
      *          the destination direction
@@ -1636,7 +1680,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          will hold the result
      * @return dest
      */
-    public Quaterniond rotationTo(Vector3dc toDir, Quaterniond dest) {
+    public Quaterniond rotationTo(Vector3d toDir, Quaterniond dest) {
         return dest.rotationTo(this, toDir);
     }
 
@@ -1676,8 +1720,14 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(double, org.joml.Vector3d)
+    /**
+     * Divide this Vector3d by the given scalar value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *          the scalar to divide this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d div(double scalar, Vector3d dest) {
         dest.x = x / scalar;
@@ -1704,8 +1754,18 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#div(double, double, double, org.joml.Vector3d)
+    /**
+     * Divide the components of this Vector3f by the given scalar values and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component to divide this vector by
+     * @param y
+     *          the y component to divide this vector by
+     * @param z
+     *          the z component to divide this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d div(double x, double y, double z, Vector3d dest) {
         dest.x = this.x / x;
@@ -1714,15 +1774,19 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#lengthSquared()
+    /**
+     * Return the length squared of this vector.
+     * 
+     * @return the length squared
      */
     public double lengthSquared() {
         return x * x + y * y + z * z;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#length()
+    /**
+     * Return the length of this vector.
+     * 
+     * @return the length
      */
     public double length() {
         return Math.sqrt(lengthSquared());
@@ -1741,8 +1805,12 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#normalize(org.joml.Vector3d)
+    /**
+     * Normalize this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d normalize(Vector3d dest) {
         double invLength = 1.0 / length();
@@ -1759,10 +1827,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the other vector
      * @return this
      */
-    public Vector3d cross(Vector3dc v) {
-        set(y * v.z() - z * v.y(),
-            z * v.x() - x * v.z(),
-            x * v.y() - y * v.x());
+    public Vector3d cross(Vector3d v) {
+        set(y * v.z - z * v.y,
+            z * v.x - x * v.z,
+            x * v.y - y * v.x);
         return this;
     }
 
@@ -1783,18 +1851,34 @@ public class Vector3d implements Externalizable, Vector3dc {
                    this.x * y - this.y * x);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#cross(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Calculate the cross product of this and v2 and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d cross(Vector3dc v, Vector3d dest) {
-        dest.set(y * v.z() - z * v.y(),
-                 z * v.x() - x * v.z(),
-                 x * v.y() - y * v.x());
+    public Vector3d cross(Vector3d v, Vector3d dest) {
+        dest.set(y * v.z - z * v.y,
+                 z * v.x - x * v.z,
+                 x * v.y - y * v.x);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#cross(double, double, double, org.joml.Vector3d)
+    /**
+     * Compute the cross product of this vector and <tt>(x, y, z)</tt> and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d cross(double x, double y, double z, Vector3d dest) {
         return dest.set(this.y * z - this.z * y,
@@ -1802,18 +1886,30 @@ public class Vector3d implements Externalizable, Vector3dc {
                         this.x * y - this.y * x);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distance(org.joml.Vector3dc)
+    /**
+     * Return the distance between this vector and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the distance
      */
-    public double distance(Vector3dc v) {
-        double dx = v.x() - x;
-        double dy = v.y() - y;
-        double dz = v.z() - z;
+    public double distance(Vector3d v) {
+        double dx = v.x - x;
+        double dy = v.y - y;
+        double dz = v.z - z;
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distance(double, double, double)
+    /**
+     * Return the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @return the euclidean distance
      */
     public double distance(double x, double y, double z) {
         double dx = this.x - x;
@@ -1822,18 +1918,30 @@ public class Vector3d implements Externalizable, Vector3dc {
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distanceSquared(org.joml.Vector3dc)
+    /**
+     * Return the square of the distance between this vector and <code>v</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @return the squared of the distance
      */
-    public double distanceSquared(Vector3dc v) {
-        double dx = v.x() - x;
-        double dy = v.y() - y;
-        double dz = v.z() - z;
+    public double distanceSquared(Vector3d v) {
+        double dx = v.x - x;
+        double dy = v.y - y;
+        double dz = v.z - z;
         return dx * dx + dy * dy + dz * dz;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#distanceSquared(double, double, double)
+    /**
+     * Return the square of the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @return the square of the distance
      */
     public double distanceSquared(double x, double y, double z) {
         double dx = this.x - x;
@@ -1842,34 +1950,59 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dx * dx + dy * dy + dz * dz;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#dot(org.joml.Vector3dc)
+    /**
+     * Return the dot product of this vector and the supplied vector.
+     * 
+     * @param v
+     *          the other vector
+     * @return the dot product
      */
-    public double dot(Vector3dc v) {
-        return x * v.x() + y * v.y() + z * v.z();
+    public double dot(Vector3d v) {
+        return x * v.x + y * v.y + z * v.z;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#dot(float, float, float)
+    /**
+     * Return the dot product of this vector and the vector <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @return the dot product
      */
     public double dot(double x, double y, double z) {
         return this.x * x + this.y * y + this.z * z;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#angleCos(org.joml.Vector3dc)
+    /**
+     * Return the cosine of the angle between <code>this</code> vector and
+     * the supplied vector. Use this instead of <tt>Math.cos(angle(v))</tt>.
+     * 
+     * @see #angle(Vector3d)
+     * 
+     * @param v
+     *          the other vector
+     * @return the cosine of the angle
      */
-    public double angleCos(Vector3dc v) {
+    public double angleCos(Vector3d v) {
         double length1Sqared = x * x + y * y + z * z;
-        double length2Sqared = v.x() * v.x() + v.y() * v.y() + v.z() * v.z();
-        double dot = x * v.x() + y * v.y() + z * v.z();
+        double length2Sqared = v.x * v.x + v.y * v.y + v.z * v.z;
+        double dot = x * v.x + y * v.y + z * v.z;
         return dot / (Math.sqrt(length1Sqared * length2Sqared));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#angle(org.joml.Vector3dc)
+    /**
+     * Return the angle between this vector and the supplied vector.
+     * 
+     * @see #angleCos(Vector3d)
+     * 
+     * @param v
+     *          the other vector
+     * @return the angle, in radians
      */
-    public double angle(Vector3dc v) {
+    public double angle(Vector3d v) {
         double cos = angleCos(v);
         // This is because sometimes cos goes above 1 or below -1 because of lost precision
         cos = cos < 1 ? cos : 1;
@@ -1937,8 +2070,12 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#negate(org.joml.Vector3d)
+    /**
+     * Negate this vector and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d negate(Vector3d dest) {
         dest.x = -x;
@@ -1984,11 +2121,11 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the vector to reflect about
      * @return this
      */
-    public Vector3d reflect(Vector3dc normal) {
+    public Vector3d reflect(Vector3d normal) {
         double dot = this.dot(normal);
-        x = x - (dot + dot) * normal.x();
-        y = y - (dot + dot) * normal.y();
-        z = z - (dot + dot) * normal.z();
+        x = x - (dot + dot) * normal.x;
+        y = y - (dot + dot) * normal.y;
+        z = z - (dot + dot) * normal.z;
         return this;
     }
 
@@ -2011,19 +2148,35 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#reflect(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Reflect this vector about the given normal vector and store the result in <code>dest</code>.
+     * 
+     * @param normal
+     *          the vector to reflect about
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d reflect(Vector3dc normal, Vector3d dest) {
+    public Vector3d reflect(Vector3d normal, Vector3d dest) {
         double dot = this.dot(normal);
-        dest.x = x - (dot + dot) * normal.x();
-        dest.y = y - (dot + dot) * normal.y();
-        dest.z = z - (dot + dot) * normal.z();
+        dest.x = x - (dot + dot) * normal.x;
+        dest.y = y - (dot + dot) * normal.y;
+        dest.z = z - (dot + dot) * normal.z;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#reflect(double, double, double, org.joml.Vector3d)
+    /**
+     * Reflect this vector about the given normal vector and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component of the normal
+     * @param y
+     *          the y component of the normal
+     * @param z
+     *          the z component of the normal
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d reflect(double x, double y, double z, Vector3d dest) {
         double dot = this.dot(x, y, z);
@@ -2040,7 +2193,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the other vector
      * @return this
      */
-    public Vector3d half(Vector3dc other) {
+    public Vector3d half(Vector3d other) {
         return this.add(other).normalize();
     }
 
@@ -2059,41 +2212,83 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this.add(x, y, z).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#half(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Compute the half vector between this and the other vector and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other vector
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d half(Vector3dc other, Vector3d dest) {
+    public Vector3d half(Vector3d other, Vector3d dest) {
         return dest.set(this).add(other).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#half(double, double, double, org.joml.Vector3d)
+    /**
+     * Compute the half vector between this and the vector <tt>(x, y, z)</tt> 
+     * and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d half(double x, double y, double z, Vector3d dest) {
         return dest.set(this).add(x, y, z).normalize();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#smoothStep(org.joml.Vector3dc, double, org.joml.Vector3d)
+    /**
+     * Compute a smooth-step (i.e. hermite with zero tangents) interpolation
+     * between <code>this</code> vector and the given vector <code>v</code> and
+     * store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the other vector
+     * @param t
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d smoothStep(Vector3dc v, double t, Vector3d dest) {
+    public Vector3d smoothStep(Vector3d v, double t, Vector3d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
-        dest.x = (x + x - v.x() - v.x()) * t3 + (3.0 * v.x() - 3.0 * x) * t2 + x * t + x;
-        dest.y = (y + y - v.y() - v.y()) * t3 + (3.0 * v.y() - 3.0 * y) * t2 + y * t + y;
-        dest.z = (z + z - v.z() - v.z()) * t3 + (3.0 * v.z() - 3.0 * z) * t2 + z * t + z;
+        dest.x = (x + x - v.x - v.x) * t3 + (3.0 * v.x - 3.0 * x) * t2 + x * t + x;
+        dest.y = (y + y - v.y - v.y) * t3 + (3.0 * v.y - 3.0 * y) * t2 + y * t + y;
+        dest.z = (z + z - v.z - v.z) * t3 + (3.0 * v.z - 3.0 * z) * t2 + z * t + z;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#hermite(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Vector3dc, double, org.joml.Vector3d)
+    /**
+     * Compute a hermite interpolation between <code>this</code> vector and its
+     * associated tangent <code>t0</code> and the given vector <code>v</code>
+     * with its tangent <code>t1</code> and store the result in
+     * <code>dest</code>.
+     * 
+     * @param t0
+     *          the tangent of <code>this</code> vector
+     * @param v1
+     *          the other vector
+     * @param t1
+     *          the tangent of the other vector
+     * @param t
+     *          the interpolation factor, within <tt>[0..1]</tt>
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d hermite(Vector3dc t0, Vector3dc v1, Vector3dc t1, double t, Vector3d dest) {
+    public Vector3d hermite(Vector3d t0, Vector3d v1, Vector3d t1, double t, Vector3d dest) {
         double t2 = t * t;
         double t3 = t2 * t;
-        dest.x = (x + x - v1.x() - v1.x() + t1.x() + t0.x()) * t3 + (3.0 * v1.x() - 3.0 * x - t0.x() - t0.x() - t1.x()) * t2 + x * t + x;
-        dest.y = (y + y - v1.y() - v1.y() + t1.y() + t0.y()) * t3 + (3.0 * v1.y() - 3.0 * y - t0.y() - t0.y() - t1.y()) * t2 + y * t + y;
-        dest.z = (z + z - v1.z() - v1.z() + t1.z() + t0.z()) * t3 + (3.0 * v1.z() - 3.0 * z - t0.z() - t0.z() - t1.z()) * t2 + z * t + z;
+        dest.x = (x + x - v1.x - v1.x + t1.x + t0.x) * t3 + (3.0 * v1.x - 3.0 * x - t0.x - t0.x - t1.x) * t2 + x * t + x;
+        dest.y = (y + y - v1.y - v1.y + t1.y + t0.y) * t3 + (3.0 * v1.y - 3.0 * y - t0.y - t0.y - t1.y) * t2 + y * t + y;
+        dest.z = (z + z - v1.z - v1.z + t1.z + t0.z) * t3 + (3.0 * v1.z - 3.0 * z - t0.z - t0.z - t1.z) * t2 + z * t + z;
         return dest;
     }
 
@@ -2110,22 +2305,39 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the interpolation factor between 0.0 and 1.0
      * @return this
      */
-    public Vector3d lerp(Vector3dc other, double t) {
+    public Vector3d lerp(Vector3d other, double t) {
         return lerp(other, t, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#lerp(org.joml.Vector3dc, double, org.joml.Vector3d)
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     * 
+     * @param other
+     *          the other vector
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d lerp(Vector3dc other, double t, Vector3d dest) {
-        dest.x = x + (other.x() - x) * t;
-        dest.y = y + (other.y() - y) * t;
-        dest.z = z + (other.z() - z) * t;
+    public Vector3d lerp(Vector3d other, double t, Vector3d dest) {
+        dest.x = x + (other.x - x) * t;
+        dest.y = y + (other.y - y) * t;
+        dest.z = z + (other.z - z) * t;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#get(int)
+    /**
+     * Get the value of the specified component of this vector.
+     * 
+     * @param component
+     *          the component, within <tt>[0..2]</tt>
+     * @return the value
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..2]</tt>
      */
     public double get(int component) throws IllegalArgumentException {
         switch (component) {
@@ -2140,8 +2352,10 @@ public class Vector3d implements Externalizable, Vector3dc {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#maxComponent()
+    /**
+     * Determine the component with the biggest absolute value.
+     * 
+     * @return the component index, within <tt>[0..2]</tt>
      */
     public int maxComponent() {
         double absX = Math.abs(x);
@@ -2155,8 +2369,10 @@ public class Vector3d implements Externalizable, Vector3dc {
         return 2;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#minComponent()
+    /**
+     * Determine the component with the smallest (towards zero) absolute value.
+     * 
+     * @return the component index, within <tt>[0..2]</tt>
      */
     public int minComponent() {
         double absX = Math.abs(x);
@@ -2170,14 +2386,22 @@ public class Vector3d implements Externalizable, Vector3dc {
         return 2;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#orthogonalize(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Transform <code>this</code> vector so that it is orthogonal to the given vector <code>v</code>, normalize the result and store it into <code>dest</code>.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram–Schmidt process</a>
+     * 
+     * @param v
+     *          the reference vector which the result should be orthogonal to
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d orthogonalize(Vector3dc v, Vector3d dest) {
-        double invLenV = 1.0 / Math.sqrt(v.x() * v.x() + v.y() * v.y() + v.z() * v.z());
-        double vx = v.x() * invLenV;
-        double vy = v.y() * invLenV;
-        double vz = v.z() * invLenV;
+    public Vector3d orthogonalize(Vector3d v, Vector3d dest) {
+        double invLenV = 1.0 / Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        double vx = v.x * invLenV;
+        double vy = v.y * invLenV;
+        double vz = v.z * invLenV;
         double dot = (vx * x + vy * y + vz * z);
         double rx = x - dot * vx;
         double ry = y - dot * vy;
@@ -2198,17 +2422,27 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the reference vector which the result should be orthogonal to
      * @return this
      */
-    public Vector3d orthogonalize(Vector3dc v) {
+    public Vector3d orthogonalize(Vector3d v) {
         return orthogonalize(v, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3dc#orthogonalizeUnit(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Transform <code>this</code> vector so that it is orthogonal to the given unit vector <code>v</code>, normalize the result and store it into <code>dest</code>.
+     * <p>
+     * The vector <code>v</code> is assumed to be a {@link #normalize(Vector3d) unit} vector.
+     * <p>
+     * Reference: <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram–Schmidt process</a>
+     * 
+     * @param v
+     *          the reference unit vector which the result should be orthogonal to
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d orthogonalizeUnit(Vector3dc v, Vector3d dest) {
-        double vx = v.x();
-        double vy = v.y();
-        double vz = v.z();
+    public Vector3d orthogonalizeUnit(Vector3d v, Vector3d dest) {
+        double vx = v.x;
+        double vy = v.y;
+        double vz = v.z;
         double dot = (vx * x + vy * y + vz * z);
         double rx = x - dot * vx;
         double ry = y - dot * vy;
@@ -2231,24 +2465,8 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the reference unit vector which the result should be orthogonal to
      * @return this
      */
-    public Vector3d orthogonalizeUnit(Vector3dc v) {
+    public Vector3d orthogonalizeUnit(Vector3d v) {
         return orthogonalizeUnit(v, this);
-    }
-
-    /**
-     * Create a new immutable view of this {@link Vector3d}.
-     * <p>
-     * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Vector3d will not be possible.
-     * <p>
-     * This method allocates a new instance of a class implementing Vector3dc on every call.
-     * 
-     * @return the immutable instance
-     */
-    public Vector3dc toImmutable() {
-        if (!Options.DEBUG)
-            return this;
-        return new Proxy(this);
     }
 
 }

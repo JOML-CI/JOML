@@ -38,99 +38,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author Hans Uhlig
  */
-public class Vector3i implements Externalizable, Vector3ic {
-
-    private final class Proxy implements Vector3ic {
-        private final Vector3ic delegate;
-
-        Proxy(Vector3ic delegate) {
-            this.delegate = delegate;
-        }
-
-        public int x() {
-            return delegate.x();
-        }
-
-        public int y() {
-            return delegate.y();
-        }
-
-        public int z() {
-            return delegate.z();
-        }
-
-        public IntBuffer get(IntBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public IntBuffer get(int index, IntBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public ByteBuffer get(ByteBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public ByteBuffer get(int index, ByteBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public Vector3i sub(Vector3ic v, Vector3i dest) {
-            return delegate.sub(v, dest);
-        }
-
-        public Vector3i sub(int x, int y, int z, Vector3i dest) {
-            return delegate.sub(x, y, z, dest);
-        }
-
-        public Vector3i add(Vector3ic v, Vector3i dest) {
-            return delegate.add(v, dest);
-        }
-
-        public Vector3i add(int x, int y, int z, Vector3i dest) {
-            return delegate.add(x, y, z, dest);
-        }
-
-        public Vector3i mul(int scalar, Vector3i dest) {
-            return delegate.mul(scalar, dest);
-        }
-
-        public Vector3i mul(Vector3ic v, Vector3i dest) {
-            return delegate.mul(v, dest);
-        }
-
-        public Vector3i mul(int x, int y, int z, Vector3i dest) {
-            return delegate.mul(x, y, z, dest);
-        }
-
-        public long lengthSquared() {
-            return delegate.lengthSquared();
-        }
-
-        public double length() {
-            return delegate.length();
-        }
-
-        public double distance(Vector3ic v) {
-            return delegate.distance(v);
-        }
-
-        public double distance(int x, int y, int z) {
-            return delegate.distance(x, y, z);
-        }
-
-        public long distanceSquared(Vector3ic v) {
-            return delegate.distanceSquared(v);
-        }
-
-        public long distanceSquared(int x, int y, int z) {
-            return delegate.distanceSquared(x, y, z);
-        }
-
-        public Vector3i negate(Vector3i dest) {
-            return delegate.negate(dest);
-        }
-    }
+public class Vector3i implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -184,12 +92,12 @@ public class Vector3i implements Externalizable, Vector3ic {
      * Create a new {@link Vector3i} with the same values as <code>v</code>.
      *
      * @param v
-     *          the {@link Vector3ic} to copy the values from
+     *          the {@link Vector3i} to copy the values from
      */
-    public Vector3i(Vector3ic v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
+    public Vector3i(Vector3i v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
     }
 
     /**
@@ -197,13 +105,13 @@ public class Vector3i implements Externalizable, Vector3ic {
      * given <code>v</code> and the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2ic} to copy the values from
+     *          the {@link Vector2i} to copy the values from
      * @param z
      *          the z component
      */
-    public Vector3i(Vector2ic v, int z) {
-        this.x = v.x();
-        this.y = v.y();
+    public Vector3i(Vector2i v, int z) {
+        this.x = v.x;
+        this.y = v.y;
         this.z = z;
     }
 
@@ -279,22 +187,22 @@ public class Vector3i implements Externalizable, Vector3ic {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#x()
+    /**
+     * @return the value of the x component
      */
     public int x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#y()
+    /**
+     * @return the value of the y component
      */
     public int y() {
         return this.y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#z()
+    /**
+     * @return the value of the z component
      */
     public int z() {
         return this.z;
@@ -307,10 +215,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          contains the values of x, y and z to set
      * @return this
      */
-    public Vector3i set(Vector3ic v) {
-        x = v.x();
-        y = v.y();
-        z = v.z();
+    public Vector3i set(Vector3i v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
         return this;
     }
 
@@ -324,10 +232,10 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          contains the values of x, y and z to set
      * @return this
      */
-    public Vector3i set(Vector3dc v) {
-        x = (int) v.x();
-        y = (int) v.y();
-        z = (int) v.z();
+    public Vector3i set(Vector3d v) {
+        x = (int) v.x;
+        y = (int) v.y;
+        z = (int) v.z;
         return this;
     }
 
@@ -336,14 +244,14 @@ public class Vector3i implements Externalizable, Vector3ic {
      * component from the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2ic} to copy the values from
+     *          the {@link Vector2i} to copy the values from
      * @param z
      *          the z component
      * @return this
      */
-    public Vector3i set(Vector2ic v, int z) {
-        this.x = v.x();
-        this.y = v.y();
+    public Vector3i set(Vector2i v, int z) {
+        this.x = v.x;
+        this.y = v.y;
         this.z = z;
         return this;
     }
@@ -478,30 +386,74 @@ public class Vector3i implements Externalizable, Vector3ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#get(java.nio.IntBuffer)
+    /**
+     * Store this vector into the supplied {@link IntBuffer} at the current
+     * buffer {@link IntBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given IntBuffer.
+     * <p>
+     * In order to specify the offset into the IntBuffer at which the vector is
+     * stored, use {@link #get(int, IntBuffer)}, taking the absolute position as
+     * parameter.
+     *
+     * @see #get(int, IntBuffer)
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     * @return the passed in buffer
      */
     public IntBuffer get(IntBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#get(int, java.nio.IntBuffer)
+    /**
+     * Store this vector into the supplied {@link IntBuffer} starting at the
+     * specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given IntBuffer.
+     *
+     * @param index
+     *          the absolute position into the IntBuffer
+     * @param
+     *          buffer will receive the values of this vector in <tt>x, y, z</tt> order
+     * @return the passed in buffer
      */
     public IntBuffer get(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#get(java.nio.ByteBuffer)
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which the vector is
+     * stored, use {@link #get(int, ByteBuffer)}, taking the absolute position
+     * as parameter.
+     *
+     * @see #get(int, ByteBuffer)
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     * @return the passed in buffer
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#get(int, java.nio.ByteBuffer)
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} starting at the
+     * specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y, z</tt> order
+     * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
@@ -516,20 +468,27 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the vector to subtract
      * @return this
      */
-    public Vector3i sub(Vector3ic v) {
-        x -= v.x();
-        y -= v.y();
-        z -= v.z();
+    public Vector3i sub(Vector3i v) {
+        x -= v.x;
+        y -= v.y;
+        z -= v.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#sub(org.joml.Vector3ic, org.joml.Vector3i)
+    /**
+     * Subtract the supplied vector from this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3i sub(Vector3ic v, Vector3i dest) {
-        dest.x = x - v.x();
-        dest.y = y - v.y();
-        dest.z = z - v.z();
+    public Vector3i sub(Vector3i v, Vector3i dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
+        dest.z = z - v.z;
         return dest;
     }
 
@@ -551,8 +510,19 @@ public class Vector3i implements Externalizable, Vector3ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#sub(int, int, int, org.joml.Vector3i)
+    /**
+     * Decrement the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to subtract
+     * @param y
+     *          the y component to subtract
+     * @param z
+     *          the z component to subtract
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3i sub(int x, int y, int z, Vector3i dest) {
         dest.x = this.x - x;
@@ -568,20 +538,27 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the vector to add
      * @return this
      */
-    public Vector3i add(Vector3ic v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
+    public Vector3i add(Vector3i v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#add(org.joml.Vector3ic, org.joml.Vector3i)
+    /**
+     * Add the supplied vector to this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3i add(Vector3ic v, Vector3i dest) {
-        dest.x = x + v.x();
-        dest.y = y + v.y();
-        dest.z = z + v.z();
+    public Vector3i add(Vector3i v, Vector3i dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
+        dest.z = z + v.z;
         return dest;
     }
 
@@ -603,8 +580,19 @@ public class Vector3i implements Externalizable, Vector3ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#add(int, int, int, org.joml.Vector3i)
+    /**
+     * Increment the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to add
+     * @param y
+     *          the y component to add
+     * @param z
+     *          the z component to add
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3i add(int x, int y, int z, Vector3i dest) {
         dest.x = this.x + x;
@@ -628,8 +616,14 @@ public class Vector3i implements Externalizable, Vector3ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#mul(int, org.joml.Vector3i)
+    /**
+     * Multiply the components of this vector by the given scalar and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *        the value to multiply this vector's components by
+     * @param dest
+     *        will hold the result
+     * @return dest
      */
     public Vector3i mul(int scalar, Vector3i dest) {
         dest.x = x * scalar;
@@ -645,20 +639,27 @@ public class Vector3i implements Externalizable, Vector3ic {
      *          the vector to multiply
      * @return this
      */
-    public Vector3i mul(Vector3ic v) {
-        x += v.x();
-        y += v.y();
-        z += v.z();
+    public Vector3i mul(Vector3i v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#mul(org.joml.Vector3ic, org.joml.Vector3i)
+    /**
+     * Multiply the supplied vector by this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to multiply
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3i mul(Vector3ic v, Vector3i dest) {
-        dest.x = x * v.x();
-        dest.y = y * v.y();
-        dest.z = z * v.z();
+    public Vector3i mul(Vector3i v, Vector3i dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
+        dest.z = z * v.z;
         return dest;
     }
 
@@ -680,8 +681,19 @@ public class Vector3i implements Externalizable, Vector3ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#mul(int, int, int, org.joml.Vector3i)
+    /**
+     * Multiply the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to multiply
+     * @param y
+     *          the y component to multiply
+     * @param z
+     *          the z component to multiply
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3i mul(int x, int y, int z, Vector3i dest) {
         dest.x = this.x * x;
@@ -690,46 +702,74 @@ public class Vector3i implements Externalizable, Vector3ic {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#lengthSquared()
+    /**
+     * Return the length squared of this vector.
+     *
+     * @return the length squared
      */
     public long lengthSquared() {
         return x * x + y * y + z * z;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#length()
+    /**
+     * Return the length of this vector.
+     *
+     * @return the length
      */
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#distance(org.joml.Vector3ic)
+    /**
+     * Return the distance between this Vector and <code>v</code>.
+     *
+     * @param v
+     *          the other vector
+     * @return the distance
      */
-    public double distance(Vector3ic v) {
+    public double distance(Vector3i v) {
         return Math.sqrt(distanceSquared(v));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#distance(int, int, int)
+    /**
+     * Return the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     *
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @return the euclidean distance
      */
     public double distance(int x, int y, int z) {
         return Math.sqrt(distanceSquared(x, y, z));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#distanceSquared(org.joml.Vector3ic)
+    /**
+     * Return the square of the distance between this vector and <code>v</code>.
+     *
+     * @param v
+     *          the other vector
+     * @return the squared of the distance
      */
-    public long distanceSquared(Vector3ic v) {
-        int dx = this.x - v.x();
-        int dy = this.y - v.y();
-        int dz = this.z - v.z();
+    public long distanceSquared(Vector3i v) {
+        int dx = this.x - v.x;
+        int dy = this.y - v.y;
+        int dz = this.z - v.z;
         return dx * dx + dy * dy + dz * dz;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#distanceSquared(int, int, int)
+    /**
+     * Return the square of the distance between <code>this</code> vector and <tt>(x, y, z)</tt>.
+     *
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @param z
+     *          the z component of the other vector
+     * @return the square of the distance
      */
     public long distanceSquared(int x, int y, int z) {
         int dx = this.x - x;
@@ -794,8 +834,12 @@ public class Vector3i implements Externalizable, Vector3ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector3ic#negate(org.joml.Vector3i)
+    /**
+     * Negate this vector and store the result in <code>dest</code>.
+     *
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3i negate(Vector3i dest) {
         dest.x = -x;
@@ -834,22 +878,6 @@ public class Vector3i implements Externalizable, Vector3ic {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Create a new immutable view of this {@link Vector3i}.
-     * <p>
-     * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Vector3i will not be possible.
-     * <p>
-     * This method allocates a new instance of a class implementing Vector3ic on every call.
-     * 
-     * @return the immutable instance
-     */
-    public Vector3ic toImmutable() {
-        if (!Options.DEBUG)
-            return this;
-        return new Proxy(this);
     }
 
 }

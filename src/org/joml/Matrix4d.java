@@ -44,901 +44,97 @@ import java.text.NumberFormat;
  * @author Richard Greenlees
  * @author Kai Burjack
  */
-public class Matrix4d implements Externalizable, Matrix4dc {
-
-    private final class Proxy implements Matrix4dc {
-        private final Matrix4dc delegate;
-
-        Proxy(Matrix4dc delegate) {
-            this.delegate = delegate;
-        }
-
-        public byte properties() {
-            return delegate.properties();
-        }
-
-        public double m00() {
-            return delegate.m00();
-        }
-
-        public double m01() {
-            return delegate.m01();
-        }
-
-        public double m02() {
-            return delegate.m02();
-        }
-
-        public double m03() {
-            return delegate.m03();
-        }
-
-        public double m10() {
-            return delegate.m10();
-        }
-
-        public double m11() {
-            return delegate.m11();
-        }
-
-        public double m12() {
-            return delegate.m12();
-        }
-
-        public double m13() {
-            return delegate.m13();
-        }
-
-        public double m20() {
-            return delegate.m20();
-        }
-
-        public double m21() {
-            return delegate.m21();
-        }
-
-        public double m22() {
-            return delegate.m22();
-        }
-
-        public double m23() {
-            return delegate.m23();
-        }
-
-        public double m30() {
-            return delegate.m30();
-        }
-
-        public double m31() {
-            return delegate.m31();
-        }
-
-        public double m32() {
-            return delegate.m32();
-        }
-
-        public double m33() {
-            return delegate.m33();
-        }
-
-        public Matrix4d mul(Matrix4dc right, Matrix4d dest) {
-            return delegate.mul(right, dest);
-        }
-
-        public Matrix4d mul(Matrix4x3dc right, Matrix4d dest) {
-            return delegate.mul(right, dest);
-        }
-
-        public Matrix4d mul(Matrix4x3fc right, Matrix4d dest) {
-            return delegate.mul(right, dest);
-        }
-
-        public Matrix4d mul(Matrix4fc right, Matrix4d dest) {
-            return delegate.mul(right, dest);
-        }
-
-        public Matrix4d mulPerspectiveAffine(Matrix4dc view, Matrix4d dest) {
-            return delegate.mulPerspectiveAffine(view, dest);
-        }
-
-        public Matrix4d mulAffineR(Matrix4dc right, Matrix4d dest) {
-            return delegate.mulAffineR(right, dest);
-        }
-
-        public Matrix4d mulAffineR(Matrix4x3dc right, Matrix4d dest) {
-            return delegate.mulAffineR(right, dest);
-        }
-
-        public Matrix4d mulAffine(Matrix4dc right, Matrix4d dest) {
-            return delegate.mulAffine(right, dest);
-        }
-
-        public Matrix4d mulTranslationAffine(Matrix4dc right, Matrix4d dest) {
-            return delegate.mulTranslationAffine(right, dest);
-        }
-
-        public Matrix4d mulOrthoAffine(Matrix4dc view, Matrix4d dest) {
-            return delegate.mulOrthoAffine(view, dest);
-        }
-
-        public Matrix4d fma4x3(Matrix4dc other, double otherFactor, Matrix4d dest) {
-            return delegate.fma4x3(other, otherFactor, dest);
-        }
-
-        public Matrix4d add(Matrix4dc other, Matrix4d dest) {
-            return delegate.add(other, dest);
-        }
-
-        public Matrix4d sub(Matrix4dc subtrahend, Matrix4d dest) {
-            return delegate.sub(subtrahend, dest);
-        }
-
-        public Matrix4d mulComponentWise(Matrix4dc other, Matrix4d dest) {
-            return delegate.mulComponentWise(other, dest);
-        }
-
-        public Matrix4d add4x3(Matrix4dc other, Matrix4d dest) {
-            return delegate.add4x3(other, dest);
-        }
-
-        public Matrix4d add4x3(Matrix4fc other, Matrix4d dest) {
-            return delegate.add4x3(other, dest);
-        }
-
-        public Matrix4d sub4x3(Matrix4dc subtrahend, Matrix4d dest) {
-            return delegate.sub4x3(subtrahend, dest);
-        }
-
-        public Matrix4d mul4x3ComponentWise(Matrix4dc other, Matrix4d dest) {
-            return delegate.mul4x3ComponentWise(other, dest);
-        }
-
-        public double determinant() {
-            return delegate.determinant();
-        }
-
-        public double determinant3x3() {
-            return delegate.determinant3x3();
-        }
-
-        public double determinantAffine() {
-            return delegate.determinantAffine();
-        }
-
-        public Matrix4d invert(Matrix4d dest) {
-            return delegate.invert(dest);
-        }
-
-        public Matrix4d invertPerspective(Matrix4d dest) {
-            return delegate.invertPerspective(dest);
-        }
-
-        public Matrix4d invertFrustum(Matrix4d dest) {
-            return delegate.invertFrustum(dest);
-        }
-
-        public Matrix4d invertOrtho(Matrix4d dest) {
-            return delegate.invertOrtho(dest);
-        }
-
-        public Matrix4d invertPerspectiveView(Matrix4dc view, Matrix4d dest) {
-            return delegate.invertPerspectiveView(view, dest);
-        }
-
-        public Matrix4d invertAffine(Matrix4d dest) {
-            return delegate.invertAffine(dest);
-        }
-
-        public Matrix4d invertAffineUnitScale(Matrix4d dest) {
-            return delegate.invertAffineUnitScale(dest);
-        }
-
-        public Matrix4d invertLookAt(Matrix4d dest) {
-            return delegate.invertLookAt(dest);
-        }
-
-        public Matrix4d transpose(Matrix4d dest) {
-            return delegate.transpose(dest);
-        }
-
-        public Matrix4d transpose3x3(Matrix4d dest) {
-            return delegate.transpose3x3(dest);
-        }
-
-        public Matrix3d transpose3x3(Matrix3d dest) {
-            return delegate.transpose3x3(dest);
-        }
-
-        public Vector3d getTranslation(Vector3d dest) {
-            return delegate.getTranslation(dest);
-        }
-
-        public Vector3d getScale(Vector3d dest) {
-            return delegate.getScale(dest);
-        }
-
-        public Matrix4d get(Matrix4d dest) {
-            return delegate.get(dest);
-        }
-
-        public Matrix4x3d get4x3(Matrix4x3d dest) {
-            return delegate.get4x3(dest);
-        }
-
-        public Matrix3d get3x3(Matrix3d dest) {
-            return delegate.get3x3(dest);
-        }
-
-        public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
-            return delegate.getUnnormalizedRotation(dest);
-        }
-
-        public Quaternionf getNormalizedRotation(Quaternionf dest) {
-            return delegate.getNormalizedRotation(dest);
-        }
-
-        public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
-            return delegate.getUnnormalizedRotation(dest);
-        }
-
-        public Quaterniond getNormalizedRotation(Quaterniond dest) {
-            return delegate.getNormalizedRotation(dest);
-        }
-
-        public DoubleBuffer get(DoubleBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public DoubleBuffer get(int index, DoubleBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public FloatBuffer get(FloatBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public FloatBuffer get(int index, FloatBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public ByteBuffer get(ByteBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public ByteBuffer get(int index, ByteBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public ByteBuffer getFloats(ByteBuffer buffer) {
-            return delegate.getFloats(buffer);
-        }
-
-        public ByteBuffer getFloats(int index, ByteBuffer buffer) {
-            return delegate.getFloats(index, buffer);
-        }
-
-        public double[] get(double[] arr, int offset) {
-            return delegate.get(arr, offset);
-        }
-
-        public double[] get(double[] arr) {
-            return delegate.get(arr);
-        }
-
-        public float[] get(float[] arr, int offset) {
-            return delegate.get(arr, offset);
-        }
-
-        public float[] get(float[] arr) {
-            return delegate.get(arr);
-        }
-
-        public DoubleBuffer getTransposed(DoubleBuffer buffer) {
-            return delegate.getTransposed(buffer);
-        }
-
-        public DoubleBuffer getTransposed(int index, DoubleBuffer buffer) {
-            return delegate.getTransposed(index, buffer);
-        }
-
-        public ByteBuffer getTransposed(ByteBuffer buffer) {
-            return delegate.getTransposed(buffer);
-        }
-
-        public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
-            return delegate.getTransposed(index, buffer);
-        }
-
-        public DoubleBuffer get4x3Transposed(DoubleBuffer buffer) {
-            return delegate.get4x3Transposed(buffer);
-        }
-
-        public DoubleBuffer get4x3Transposed(int index, DoubleBuffer buffer) {
-            return delegate.get4x3Transposed(index, buffer);
-        }
-
-        public ByteBuffer get4x3Transposed(ByteBuffer buffer) {
-            return delegate.get4x3Transposed(buffer);
-        }
-
-        public ByteBuffer get4x3Transposed(int index, ByteBuffer buffer) {
-            return delegate.get4x3Transposed(index, buffer);
-        }
-
-        public Vector4d transform(Vector4d v) {
-            return delegate.transform(v);
-        }
-
-        public Vector4d transform(Vector4dc v, Vector4d dest) {
-            return delegate.transform(v, dest);
-        }
-
-        public Vector4d transform(double x, double y, double z, double w, Vector4d dest) {
-            return delegate.transform(x, y, z, w, dest);
-        }
-
-        public Vector4d transformProject(Vector4d v) {
-            return delegate.transformProject(v);
-        }
-
-        public Vector4d transformProject(Vector4dc v, Vector4d dest) {
-            return delegate.transformProject(v, dest);
-        }
-
-        public Vector4d transformProject(double x, double y, double z, double w, Vector4d dest) {
-            return delegate.transformProject(x, y, z, w, dest);
-        }
-
-        public Vector3d transformProject(Vector3d v) {
-            return delegate.transformProject(v);
-        }
-
-        public Vector3d transformProject(Vector3dc v, Vector3d dest) {
-            return delegate.transformProject(v, dest);
-        }
-
-        public Vector3d transformProject(double x, double y, double z, Vector3d dest) {
-            return delegate.transformProject(x, y, z, dest);
-        }
-
-        public Vector3d transformPosition(Vector3d v) {
-            return delegate.transformPosition(v);
-        }
-
-        public Vector3d transformPosition(Vector3dc v, Vector3d dest) {
-            return delegate.transformPosition(v, dest);
-        }
-
-        public Vector3d transformPosition(double x, double y, double z, Vector3d dest) {
-            return delegate.transformPosition(x, y, z, dest);
-        }
-
-        public Vector3d transformDirection(Vector3d v) {
-            return delegate.transformDirection(v);
-        }
-
-        public Vector3d transformDirection(Vector3dc v, Vector3d dest) {
-            return delegate.transformDirection(v, dest);
-        }
-
-        public Vector3d transformDirection(double x, double y, double z, Vector3d dest) {
-            return delegate.transformDirection(x, y, z, dest);
-        }
-
-        public Vector4d transformAffine(Vector4d v) {
-            return delegate.transformAffine(v);
-        }
-
-        public Vector4d transformAffine(Vector4dc v, Vector4d dest) {
-            return delegate.transformAffine(v, dest);
-        }
-
-        public Vector4d transformAffine(double x, double y, double z, double w, Vector4d dest) {
-            return delegate.transformAffine(x, y, z, w, dest);
-        }
-
-        public Matrix4d scale(Vector3dc xyz, Matrix4d dest) {
-            return delegate.scale(xyz, dest);
-        }
-
-        public Matrix4d scale(double x, double y, double z, Matrix4d dest) {
-            return delegate.scale(x, y, z, dest);
-        }
-
-        public Matrix4d scale(double xyz, Matrix4d dest) {
-            return delegate.scale(xyz, dest);
-        }
-
-        public Matrix4d scaleAround(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4d dest) {
-            return delegate.scaleAround(sx, sy, sz, ox, oy, oz, dest);
-        }
-
-        public Matrix4d scaleAround(double factor, double ox, double oy, double oz, Matrix4d dest) {
-            return delegate.scaleAround(factor, ox, oy, oz, dest);
-        }
-
-        public Matrix4d scaleLocal(double x, double y, double z, Matrix4d dest) {
-            return delegate.scaleLocal(x, y, z, dest);
-        }
-
-        public Matrix4d scaleAroundLocal(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4d dest) {
-            return delegate.scaleAroundLocal(sx, sy, sz, ox, oy, oz, dest);
-        }
-
-        public Matrix4d scaleAroundLocal(double factor, double ox, double oy, double oz, Matrix4d dest) {
-            return delegate.scaleAroundLocal(factor, ox, oy, oz, dest);
-        }
-
-        public Matrix4d rotate(double ang, double x, double y, double z, Matrix4d dest) {
-            return delegate.rotate(ang, x, y, z, dest);
-        }
-
-        public Matrix4d rotateTranslation(double ang, double x, double y, double z, Matrix4d dest) {
-            return delegate.rotateTranslation(ang, x, y, z, dest);
-        }
-
-        public Matrix4d rotateAffine(double ang, double x, double y, double z, Matrix4d dest) {
-            return delegate.rotateAffine(ang, x, y, z, dest);
-        }
-
-        public Matrix4d rotateAround(Quaterniondc quat, double ox, double oy, double oz, Matrix4d dest) {
-            return delegate.rotateAround(quat, ox, oy, oz, dest);
-        }
-
-        public Matrix4d rotateLocal(double ang, double x, double y, double z, Matrix4d dest) {
-            return delegate.rotateLocal(ang, x, y, z, dest);
-        }
-
-        public Matrix4d rotateAroundLocal(Quaterniondc quat, double ox, double oy, double oz, Matrix4d dest) {
-            return delegate.rotateAroundLocal(quat, ox, oy, oz, dest);
-        }
-
-        public Matrix4d translate(Vector3dc offset, Matrix4d dest) {
-            return delegate.translate(offset, dest);
-        }
-
-        public Matrix4d translate(Vector3fc offset, Matrix4d dest) {
-            return delegate.translate(offset, dest);
-        }
-
-        public Matrix4d translate(double x, double y, double z, Matrix4d dest) {
-            return delegate.translate(x, y, z, dest);
-        }
-
-        public Matrix4d translateLocal(Vector3fc offset, Matrix4d dest) {
-            return delegate.translateLocal(offset, dest);
-        }
-
-        public Matrix4d translateLocal(Vector3dc offset, Matrix4d dest) {
-            return delegate.translateLocal(offset, dest);
-        }
-
-        public Matrix4d translateLocal(double x, double y, double z, Matrix4d dest) {
-            return delegate.translateLocal(x, y, z, dest);
-        }
-
-        public Matrix4d rotateX(double ang, Matrix4d dest) {
-            return delegate.rotateX(ang, dest);
-        }
-
-        public Matrix4d rotateY(double ang, Matrix4d dest) {
-            return delegate.rotateY(ang, dest);
-        }
-
-        public Matrix4d rotateZ(double ang, Matrix4d dest) {
-            return delegate.rotateZ(ang, dest);
-        }
-
-        public Matrix4d rotateXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
-            return delegate.rotateXYZ(angleX, angleY, angleZ, dest);
-        }
-
-        public Matrix4d rotateAffineXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
-            return delegate.rotateAffineXYZ(angleX, angleY, angleZ, dest);
-        }
-
-        public Matrix4d rotateZYX(double angleZ, double angleY, double angleX, Matrix4d dest) {
-            return delegate.rotateZYX(angleZ, angleY, angleX, dest);
-        }
-
-        public Matrix4d rotateAffineZYX(double angleZ, double angleY, double angleX, Matrix4d dest) {
-            return delegate.rotateAffineZYX(angleZ, angleY, angleX, dest);
-        }
-
-        public Matrix4d rotateYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
-            return delegate.rotateYXZ(angleY, angleX, angleZ, dest);
-        }
-
-        public Matrix4d rotateAffineYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
-            return delegate.rotateAffineYXZ(angleY, angleX, angleZ, dest);
-        }
-
-        public Matrix4d rotate(Quaterniondc quat, Matrix4d dest) {
-            return delegate.rotate(quat, dest);
-        }
-
-        public Matrix4d rotate(Quaternionfc quat, Matrix4d dest) {
-            return delegate.rotate(quat, dest);
-        }
-
-        public Matrix4d rotateAffine(Quaterniondc quat, Matrix4d dest) {
-            return delegate.rotateAffine(quat, dest);
-        }
-
-        public Matrix4d rotateTranslation(Quaterniondc quat, Matrix4d dest) {
-            return delegate.rotateTranslation(quat, dest);
-        }
-
-        public Matrix4d rotateTranslation(Quaternionfc quat, Matrix4d dest) {
-            return delegate.rotateTranslation(quat, dest);
-        }
-
-        public Matrix4d rotateLocal(Quaterniondc quat, Matrix4d dest) {
-            return delegate.rotateLocal(quat, dest);
-        }
-
-        public Matrix4d rotateAffine(Quaternionfc quat, Matrix4d dest) {
-            return delegate.rotateAffine(quat, dest);
-        }
-
-        public Matrix4d rotateLocal(Quaternionfc quat, Matrix4d dest) {
-            return delegate.rotateLocal(quat, dest);
-        }
-
-        public Matrix4d rotate(AxisAngle4f axisAngle, Matrix4d dest) {
-            return delegate.rotate(axisAngle, dest);
-        }
-
-        public Matrix4d rotate(AxisAngle4d axisAngle, Matrix4d dest) {
-            return delegate.rotate(axisAngle, dest);
-        }
-
-        public Matrix4d rotate(double angle, Vector3dc axis, Matrix4d dest) {
-            return delegate.rotate(angle, axis, dest);
-        }
-
-        public Matrix4d rotate(double angle, Vector3fc axis, Matrix4d dest) {
-            return delegate.rotate(angle, axis, dest);
-        }
-
-        public Vector4d getRow(int row, Vector4d dest) throws IndexOutOfBoundsException {
-            return delegate.getRow(row, dest);
-        }
-
-        public Vector4d getColumn(int column, Vector4d dest) throws IndexOutOfBoundsException {
-            return delegate.getColumn(column, dest);
-        }
-
-        public Matrix4d normal(Matrix4d dest) {
-            return delegate.normal(dest);
-        }
-
-        public Matrix3d normal(Matrix3d dest) {
-            return delegate.normal(dest);
-        }
-
-        public Matrix4d normalize3x3(Matrix4d dest) {
-            return delegate.normalize3x3(dest);
-        }
-
-        public Matrix3d normalize3x3(Matrix3d dest) {
-            return delegate.normalize3x3(dest);
-        }
-
-        public Vector4d unproject(double winX, double winY, double winZ, int[] viewport, Vector4d dest) {
-            return delegate.unproject(winX, winY, winZ, viewport, dest);
-        }
-
-        public Vector3d unproject(double winX, double winY, double winZ, int[] viewport, Vector3d dest) {
-            return delegate.unproject(winX, winY, winZ, viewport, dest);
-        }
-
-        public Vector4d unproject(Vector3dc winCoords, int[] viewport, Vector4d dest) {
-            return delegate.unproject(winCoords, viewport, dest);
-        }
-
-        public Vector3d unproject(Vector3dc winCoords, int[] viewport, Vector3d dest) {
-            return delegate.unproject(winCoords, viewport, dest);
-        }
-
-        public Matrix4d unprojectRay(double winX, double winY, int[] viewport, Vector3d originDest, Vector3d dirDest) {
-            return delegate.unprojectRay(winX, winY, viewport, originDest, dirDest);
-        }
-
-        public Matrix4d unprojectRay(Vector2dc winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
-            return delegate.unprojectRay(winCoords, viewport, originDest, dirDest);
-        }
-
-        public Vector4d unprojectInv(Vector3dc winCoords, int[] viewport, Vector4d dest) {
-            return delegate.unprojectInv(winCoords, viewport, dest);
-        }
-
-        public Vector4d unprojectInv(double winX, double winY, double winZ, int[] viewport, Vector4d dest) {
-            return delegate.unprojectInv(winX, winY, winZ, viewport, dest);
-        }
-
-        public Vector3d unprojectInv(Vector3dc winCoords, int[] viewport, Vector3d dest) {
-            return delegate.unprojectInv(winCoords, viewport, dest);
-        }
-
-        public Vector3d unprojectInv(double winX, double winY, double winZ, int[] viewport, Vector3d dest) {
-            return delegate.unprojectInv(winX, winY, winZ, viewport, dest);
-        }
-
-        public Matrix4d unprojectInvRay(Vector2dc winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
-            return delegate.unprojectInvRay(winCoords, viewport, originDest, dirDest);
-        }
-
-        public Matrix4d unprojectInvRay(double winX, double winY, int[] viewport, Vector3d originDest, Vector3d dirDest) {
-            return delegate.unprojectInvRay(winX, winY, viewport, originDest, dirDest);
-        }
-
-        public Vector4d project(double x, double y, double z, int[] viewport, Vector4d winCoordsDest) {
-            return delegate.project(x, y, z, viewport, winCoordsDest);
-        }
-
-        public Vector3d project(double x, double y, double z, int[] viewport, Vector3d winCoordsDest) {
-            return delegate.project(x, y, z, viewport, winCoordsDest);
-        }
-
-        public Vector4d project(Vector3dc position, int[] viewport, Vector4d winCoordsDest) {
-            return delegate.project(position, viewport, winCoordsDest);
-        }
-
-        public Vector3d project(Vector3dc position, int[] viewport, Vector3d winCoordsDest) {
-            return delegate.project(position, viewport, winCoordsDest);
-        }
-
-        public Matrix4d reflect(double a, double b, double c, double d, Matrix4d dest) {
-            return delegate.reflect(a, b, c, d, dest);
-        }
-
-        public Matrix4d reflect(double nx, double ny, double nz, double px, double py, double pz, Matrix4d dest) {
-            return delegate.reflect(nx, ny, nz, px, py, pz, dest);
-        }
-
-        public Matrix4d reflect(Quaterniondc orientation, Vector3dc point, Matrix4d dest) {
-            return delegate.reflect(orientation, point, dest);
-        }
-
-        public Matrix4d reflect(Vector3dc normal, Vector3dc point, Matrix4d dest) {
-            return delegate.reflect(normal, point, dest);
-        }
-
-        public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-            return delegate.ortho(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
-        }
-
-        public Matrix4d ortho(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
-            return delegate.ortho(left, right, bottom, top, zNear, zFar, dest);
-        }
-
-        public Matrix4d orthoLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-            return delegate.orthoLH(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
-        }
-
-        public Matrix4d orthoLH(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
-            return delegate.orthoLH(left, right, bottom, top, zNear, zFar, dest);
-        }
-
-        public Matrix4d orthoSymmetric(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-            return delegate.orthoSymmetric(width, height, zNear, zFar, zZeroToOne, dest);
-        }
-
-        public Matrix4d orthoSymmetric(double width, double height, double zNear, double zFar, Matrix4d dest) {
-            return delegate.orthoSymmetric(width, height, zNear, zFar, dest);
-        }
-
-        public Matrix4d orthoSymmetricLH(double width, double height, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-            return delegate.orthoSymmetricLH(width, height, zNear, zFar, zZeroToOne, dest);
-        }
-
-        public Matrix4d orthoSymmetricLH(double width, double height, double zNear, double zFar, Matrix4d dest) {
-            return delegate.orthoSymmetricLH(width, height, zNear, zFar, dest);
-        }
-
-        public Matrix4d ortho2D(double left, double right, double bottom, double top, Matrix4d dest) {
-            return delegate.ortho2D(left, right, bottom, top, dest);
-        }
-
-        public Matrix4d ortho2DLH(double left, double right, double bottom, double top, Matrix4d dest) {
-            return delegate.ortho2DLH(left, right, bottom, top, dest);
-        }
-
-        public Matrix4d lookAlong(Vector3dc dir, Vector3dc up, Matrix4d dest) {
-            return delegate.lookAlong(dir, up, dest);
-        }
-
-        public Matrix4d lookAlong(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix4d dest) {
-            return delegate.lookAlong(dirX, dirY, dirZ, upX, upY, upZ, dest);
-        }
-
-        public Matrix4d lookAt(Vector3dc eye, Vector3dc center, Vector3dc up, Matrix4d dest) {
-            return delegate.lookAt(eye, center, up, dest);
-        }
-
-        public Matrix4d lookAt(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ, Matrix4d dest) {
-            return delegate.lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
-        }
-
-        public Matrix4d lookAtPerspective(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ, Matrix4d dest) {
-            return delegate.lookAtPerspective(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
-        }
-
-        public Matrix4d lookAtLH(Vector3dc eye, Vector3dc center, Vector3dc up, Matrix4d dest) {
-            return delegate.lookAtLH(eye, center, up, dest);
-        }
-
-        public Matrix4d lookAtLH(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ, Matrix4d dest) {
-            return delegate.lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
-        }
-
-        public Matrix4d lookAtPerspectiveLH(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ, Matrix4d dest) {
-            return delegate.lookAtPerspectiveLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
-        }
-
-        public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-            return delegate.perspective(fovy, aspect, zNear, zFar, zZeroToOne, dest);
-        }
-
-        public Matrix4d perspective(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
-            return delegate.perspective(fovy, aspect, zNear, zFar, dest);
-        }
-
-        public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-            return delegate.perspectiveLH(fovy, aspect, zNear, zFar, zZeroToOne, dest);
-        }
-
-        public Matrix4d perspectiveLH(double fovy, double aspect, double zNear, double zFar, Matrix4d dest) {
-            return delegate.perspectiveLH(fovy, aspect, zNear, zFar, dest);
-        }
-
-        public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-            return delegate.frustum(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
-        }
-
-        public Matrix4d frustum(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
-            return delegate.frustum(left, right, bottom, top, zNear, zFar, dest);
-        }
-
-        public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, boolean zZeroToOne, Matrix4d dest) {
-            return delegate.frustumLH(left, right, bottom, top, zNear, zFar, zZeroToOne, dest);
-        }
-
-        public Matrix4d frustumLH(double left, double right, double bottom, double top, double zNear, double zFar, Matrix4d dest) {
-            return delegate.frustumLH(left, right, bottom, top, zNear, zFar, dest);
-        }
-
-        public Vector4d frustumPlane(int plane, Vector4d planeEquation) {
-            return delegate.frustumPlane(plane, planeEquation);
-        }
-
-        public Vector3d frustumCorner(int corner, Vector3d point) {
-            return delegate.frustumCorner(corner, point);
-        }
-
-        public Vector3d perspectiveOrigin(Vector3d origin) {
-            return delegate.perspectiveOrigin(origin);
-        }
-
-        public double perspectiveFov() {
-            return delegate.perspectiveFov();
-        }
-
-        public double perspectiveNear() {
-            return delegate.perspectiveNear();
-        }
-
-        public double perspectiveFar() {
-            return delegate.perspectiveFar();
-        }
-
-        public Vector3d frustumRayDir(double x, double y, Vector3d dir) {
-            return delegate.frustumRayDir(x, y, dir);
-        }
-
-        public Vector3d positiveZ(Vector3d dir) {
-            return delegate.positiveZ(dir);
-        }
-
-        public Vector3d normalizedPositiveZ(Vector3d dir) {
-            return delegate.normalizedPositiveZ(dir);
-        }
-
-        public Vector3d positiveX(Vector3d dir) {
-            return delegate.positiveX(dir);
-        }
-
-        public Vector3d normalizedPositiveX(Vector3d dir) {
-            return delegate.normalizedPositiveX(dir);
-        }
-
-        public Vector3d positiveY(Vector3d dir) {
-            return delegate.positiveY(dir);
-        }
-
-        public Vector3d normalizedPositiveY(Vector3d dir) {
-            return delegate.normalizedPositiveY(dir);
-        }
-
-        public Vector3d originAffine(Vector3d origin) {
-            return delegate.originAffine(origin);
-        }
-
-        public Vector3d origin(Vector3d origin) {
-            return delegate.origin(origin);
-        }
-
-        public Matrix4d shadow(Vector4dc light, double a, double b, double c, double d, Matrix4d dest) {
-            return delegate.shadow(light, a, b, c, d, dest);
-        }
-
-        public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, double a, double b, double c, double d, Matrix4d dest) {
-            return delegate.shadow(lightX, lightY, lightZ, lightW, a, b, c, d, dest);
-        }
-
-        public Matrix4d shadow(Vector4dc light, Matrix4dc planeTransform, Matrix4d dest) {
-            return delegate.shadow(light, planeTransform, dest);
-        }
-
-        public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, Matrix4dc planeTransform, Matrix4d dest) {
-            return delegate.shadow(lightX, lightY, lightZ, lightW, planeTransform, dest);
-        }
-
-        public Matrix4d pick(double x, double y, double width, double height, int[] viewport, Matrix4d dest) {
-            return delegate.pick(x, y, width, height, viewport, dest);
-        }
-
-        public boolean isAffine() {
-            return delegate.isAffine();
-        }
-
-        public Matrix4d arcball(double radius, double centerX, double centerY, double centerZ, double angleX, double angleY, Matrix4d dest) {
-            return delegate.arcball(radius, centerX, centerY, centerZ, angleX, angleY, dest);
-        }
-
-        public Matrix4d arcball(double radius, Vector3dc center, double angleX, double angleY, Matrix4d dest) {
-            return delegate.arcball(radius, center, angleX, angleY, dest);
-        }
-
-        public Matrix4d projectedGridRange(Matrix4dc projector, double sLower, double sUpper, Matrix4d dest) {
-            return delegate.projectedGridRange(projector, sLower, sUpper, dest);
-        }
-
-        public Matrix4d perspectiveFrustumSlice(double near, double far, Matrix4d dest) {
-            return delegate.perspectiveFrustumSlice(near, far, dest);
-        }
-
-        public Matrix4d orthoCrop(Matrix4dc view, Matrix4d dest) {
-            return delegate.orthoCrop(view, dest);
-        }
-
-        public Matrix4d transformAab(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, Vector3d outMin, Vector3d outMax) {
-            return delegate.transformAab(minX, minY, minZ, maxX, maxY, maxZ, outMin, outMax);
-        }
-
-        public Matrix4d transformAab(Vector3dc min, Vector3dc max, Vector3d outMin, Vector3d outMax) {
-            return delegate.transformAab(min, max, outMin, outMax);
-        }
-
-        public Matrix4d lerp(Matrix4dc other, double t, Matrix4d dest) {
-            return delegate.lerp(other, t, dest);
-        }
-
-        public Matrix4d rotateTowards(Vector3dc direction, Vector3dc up, Matrix4d dest) {
-            return delegate.rotateTowards(direction, up, dest);
-        }
-
-        public Matrix4d rotateTowards(double dirX, double dirY, double dirZ, double upX, double upY, double upZ, Matrix4d dest) {
-            return delegate.rotateTowards(dirX, dirY, dirZ, upX, upY, upZ, dest);
-        }
-
-        public Vector3d getEulerAnglesZYX(Vector3d dest) {
-            return delegate.getEulerAnglesZYX(dest);
-        }
-    }
+public class Matrix4d implements Externalizable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * identifying the plane with equation <tt>x=-1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_NX = 0;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * identifying the plane with equation <tt>x=1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_PX = 1;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * identifying the plane with equation <tt>y=-1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_NY = 2;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * identifying the plane with equation <tt>y=1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_PY = 3;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * identifying the plane with equation <tt>z=-1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_NZ = 4;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Vector4d)}
+     * identifying the plane with equation <tt>z=1</tt> when using the identity matrix.  
+     */
+    public static final int PLANE_PZ = 5;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3d)}
+     * identifying the corner <tt>(-1, -1, -1)</tt> when using the identity matrix.
+     */
+    public static final  int CORNER_NXNYNZ = 0;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3d)}
+     * identifying the corner <tt>(1, -1, -1)</tt> when using the identity matrix.
+     */
+    public static final int CORNER_PXNYNZ = 1;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3d)}
+     * identifying the corner <tt>(1, 1, -1)</tt> when using the identity matrix.
+     */
+    public static final int CORNER_PXPYNZ = 2;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3d)}
+     * identifying the corner <tt>(-1, 1, -1)</tt> when using the identity matrix.
+     */
+    public static final int CORNER_NXPYNZ = 3;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3d)}
+     * identifying the corner <tt>(1, -1, 1)</tt> when using the identity matrix.
+     */
+    public static final int CORNER_PXNYPZ = 4;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3d)}
+     * identifying the corner <tt>(-1, -1, 1)</tt> when using the identity matrix.
+     */
+    public static final int CORNER_NXNYPZ = 5;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3d)}
+     * identifying the corner <tt>(-1, 1, 1)</tt> when using the identity matrix.
+     */
+    public static final int CORNER_NXPYPZ = 6;
+    /**
+     * Argument to the first parameter of {@link #frustumCorner(int, Vector3d)}
+     * identifying the corner <tt>(1, 1, 1)</tt> when using the identity matrix.
+     */
+    public static final int CORNER_PXPYPZ = 7;
+
+    /**
+     * Bit returned by {@link #properties()} to indicate that the matrix represents a perspective transformation.
+     */
+    public static final byte PROPERTY_PERSPECTIVE = 1<<0;
+    /**
+     * Bit returned by {@link #properties()} to indicate that the matrix represents an affine transformation.
+     */
+    public static final byte PROPERTY_AFFINE = 1<<1;
+    /**
+     * Bit returned by {@link #properties()} to indicate that the matrix represents the identity transformation.
+     */
+    public static final byte PROPERTY_IDENTITY = 1<<2;
+    /**
+     * Bit returned by {@link #properties()} to indicate that the matrix represents a pure translation transformation.
+     */
+    public static final byte PROPERTY_TRANSLATION = 1<<3;
 
     double m00, m01, m02, m03;
     double m10, m11, m12, m13;
@@ -962,25 +158,25 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * Create a new {@link Matrix4d} and make it a copy of the given matrix.
      * 
      * @param mat
-     *          the {@link Matrix4dc} to copy the values from
+     *          the {@link Matrix4d} to copy the values from
      */
-    public Matrix4d(Matrix4dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m03 = mat.m03();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m13 = mat.m13();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m23 = mat.m23();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
-        m33 = mat.m33();
+    public Matrix4d(Matrix4d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m03 = mat.m03;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m13 = mat.m13;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m23 = mat.m23;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
+        m33 = mat.m33;
         properties = mat.properties();
     }
 
@@ -988,25 +184,25 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * Create a new {@link Matrix4d} and make it a copy of the given matrix.
      * 
      * @param mat
-     *          the {@link Matrix4fc} to copy the values from
+     *          the {@link Matrix4f} to copy the values from
      */
-    public Matrix4d(Matrix4fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m03 = mat.m03();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m13 = mat.m13();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m23 = mat.m23();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
-        m33 = mat.m33();
+    public Matrix4d(Matrix4f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m03 = mat.m03;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m13 = mat.m13;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m23 = mat.m23;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
+        m33 = mat.m33;
         properties = mat.properties();
     }
 
@@ -1015,21 +211,21 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * and all other elements to identity.
      * 
      * @param mat
-     *          the {@link Matrix4x3dc} to copy the values from
+     *          the {@link Matrix4x3d} to copy the values from
      */
-    public Matrix4d(Matrix4x3dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
+    public Matrix4d(Matrix4x3d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
         m33 = 1.0;
         properties = (byte) (mat.properties() | PROPERTY_AFFINE);
     }
@@ -1039,42 +235,42 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * and all other elements to identity.
      * 
      * @param mat
-     *          the {@link Matrix4x3fc} to copy the values from
+     *          the {@link Matrix4x3f} to copy the values from
      */
-    public Matrix4d(Matrix4x3fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
+    public Matrix4d(Matrix4x3f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
         m33 = 1.0;
         properties = (byte) (mat.properties() | PROPERTY_AFFINE);
     }
 
     /**
-     * Create a new {@link Matrix4d} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3dc}
+     * Create a new {@link Matrix4d} by setting its uppper left 3x3 submatrix to the values of the given {@link Matrix3d}
      * and the rest to identity.
      * 
      * @param mat
-     *          the {@link Matrix3dc}
+     *          the {@link Matrix3d}
      */
-    public Matrix4d(Matrix3dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+    public Matrix4d(Matrix3d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
         m33 = 1.0;
         properties = PROPERTY_AFFINE;
     }
@@ -1220,105 +416,137 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#properties()
+    /**
+     * @return the properties of the matrix
      */
     public byte properties() {
         return properties;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m00()
+    /**
+     * Return the value of the matrix element at column 0 and row 0.
+     * 
+     * @return the value of the matrix element
      */
     public double m00() {
         return m00;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m01()
+    /**
+     * Return the value of the matrix element at column 0 and row 1.
+     * 
+     * @return the value of the matrix element
      */
     public double m01() {
         return m01;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m02()
+    /**
+     * Return the value of the matrix element at column 0 and row 2.
+     * 
+     * @return the value of the matrix element
      */
     public double m02() {
         return m02;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m03()
+    /**
+     * Return the value of the matrix element at column 0 and row 3.
+     * 
+     * @return the value of the matrix element
      */
     public double m03() {
         return m03;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m10()
+    /**
+     * Return the value of the matrix element at column 1 and row 0.
+     * 
+     * @return the value of the matrix element
      */
     public double m10() {
         return m10;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m11()
+    /**
+     * Return the value of the matrix element at column 1 and row 1.
+     * 
+     * @return the value of the matrix element
      */
     public double m11() {
         return m11;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m12()
+    /**
+     * Return the value of the matrix element at column 1 and row 2.
+     * 
+     * @return the value of the matrix element
      */
     public double m12() {
         return m12;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m13()
+    /**
+     * Return the value of the matrix element at column 1 and row 3.
+     * 
+     * @return the value of the matrix element
      */
     public double m13() {
         return m13;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m20()
+    /**
+     * Return the value of the matrix element at column 2 and row 0.
+     * 
+     * @return the value of the matrix element
      */
     public double m20() {
         return m20;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m21()
+    /**
+     * Return the value of the matrix element at column 2 and row 1.
+     * 
+     * @return the value of the matrix element
      */
     public double m21() {
         return m21;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m22()
+    /**
+     * Return the value of the matrix element at column 2 and row 2.
+     * 
+     * @return the value of the matrix element
      */
     public double m22() {
         return m22;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m23()
+    /**
+     * Return the value of the matrix element at column 2 and row 3.
+     * 
+     * @return the value of the matrix element
      */
     public double m23() {
         return m23;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m30()
+    /**
+     * Return the value of the matrix element at column 3 and row 0.
+     * 
+     * @return the value of the matrix element
      */
     public double m30() {
         return m30;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m31()
+    /**
+     * Return the value of the matrix element at column 3 and row 1.
+     * 
+     * @return the value of the matrix element
      */
     public double m31() {
         return m31;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m32()
+    /**
+     * Return the value of the matrix element at column 3 and row 2.
+     * 
+     * @return the value of the matrix element
      */
     public double m32() {
         return m32;
     }
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#m33()
+    /**
+     * Return the value of the matrix element at column 3 and row 3.
+     * 
+     * @return the value of the matrix element
      */
     public double m33() {
         return m33;
@@ -1570,30 +798,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /**
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
      * 
-     * @see #Matrix4d(Matrix4dc)
+     * @see #Matrix4d(Matrix4d)
      * @see #get(Matrix4d)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4d set(Matrix4dc m) {
-        m00 = m.m00();
-        m01 = m.m01();
-        m02 = m.m02();
-        m03 = m.m03();
-        m10 = m.m10();
-        m11 = m.m11();
-        m12 = m.m12();
-        m13 = m.m13();
-        m20 = m.m20();
-        m21 = m.m21();
-        m22 = m.m22();
-        m23 = m.m23();
-        m30 = m.m30();
-        m31 = m.m31();
-        m32 = m.m32();
-        m33 = m.m33();
+    public Matrix4d set(Matrix4d m) {
+        m00 = m.m00;
+        m01 = m.m01;
+        m02 = m.m02;
+        m03 = m.m03;
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
+        m13 = m.m13;
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
+        m23 = m.m23;
+        m30 = m.m30;
+        m31 = m.m31;
+        m32 = m.m32;
+        m33 = m.m33;
         properties = m.properties();
         return this;
     }
@@ -1601,29 +829,29 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /**
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix.
      * 
-     * @see #Matrix4d(Matrix4fc)
+     * @see #Matrix4d(Matrix4f)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4d set(Matrix4fc m) {
-        m00 = m.m00();
-        m01 = m.m01();
-        m02 = m.m02();
-        m03 = m.m03();
-        m10 = m.m10();
-        m11 = m.m11();
-        m12 = m.m12();
-        m13 = m.m13();
-        m20 = m.m20();
-        m21 = m.m21();
-        m22 = m.m22();
-        m23 = m.m23();
-        m30 = m.m30();
-        m31 = m.m31();
-        m32 = m.m32();
-        m33 = m.m33();
+    public Matrix4d set(Matrix4f m) {
+        m00 = m.m00;
+        m01 = m.m01;
+        m02 = m.m02;
+        m03 = m.m03;
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
+        m13 = m.m13;
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
+        m23 = m.m23;
+        m30 = m.m30;
+        m31 = m.m31;
+        m32 = m.m32;
+        m33 = m.m33;
         properties = m.properties();
         return this;
     }
@@ -1632,28 +860,28 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix
      * and set the other matrix elements to identity.
      * 
-     * @see #Matrix4d(Matrix4x3dc)
+     * @see #Matrix4d(Matrix4x3d)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4d set(Matrix4x3dc m) {
-        m00 = m.m00();
-        m01 = m.m01();
-        m02 = m.m02();
+    public Matrix4d set(Matrix4x3d m) {
+        m00 = m.m00;
+        m01 = m.m01;
+        m02 = m.m02;
         m03 = 0.0;
-        m10 = m.m10();
-        m11 = m.m11();
-        m12 = m.m12();
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
         m13 = 0.0;
-        m20 = m.m20();
-        m21 = m.m21();
-        m22 = m.m22();
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
         m23 = 0.0;
-        m30 = m.m30();
-        m31 = m.m31();
-        m32 = m.m32();
+        m30 = m.m30;
+        m31 = m.m31;
+        m32 = m.m32;
         m33 = 1.0;
         properties = (byte) (m.properties() | PROPERTY_AFFINE);
         return this;
@@ -1663,55 +891,55 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * Store the values of the given matrix <code>m</code> into <code>this</code> matrix
      * and set the other matrix elements to identity.
      * 
-     * @see #Matrix4d(Matrix4x3fc)
+     * @see #Matrix4d(Matrix4x3f)
      * 
      * @param m
      *          the matrix to copy the values from
      * @return this
      */
-    public Matrix4d set(Matrix4x3fc m) {
-        m00 = m.m00();
-        m01 = m.m01();
-        m02 = m.m02();
+    public Matrix4d set(Matrix4x3f m) {
+        m00 = m.m00;
+        m01 = m.m01;
+        m02 = m.m02;
         m03 = 0.0;
-        m10 = m.m10();
-        m11 = m.m11();
-        m12 = m.m12();
+        m10 = m.m10;
+        m11 = m.m11;
+        m12 = m.m12;
         m13 = 0.0;
-        m20 = m.m20();
-        m21 = m.m21();
-        m22 = m.m22();
+        m20 = m.m20;
+        m21 = m.m21;
+        m22 = m.m22;
         m23 = 0.0;
-        m30 = m.m30();
-        m31 = m.m31();
-        m32 = m.m32();
+        m30 = m.m30;
+        m31 = m.m31;
+        m32 = m.m32;
         m33 = 1.0;
         properties = (byte) (m.properties() | PROPERTY_AFFINE);
         return this;
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3dc} 
+     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3d} 
      * and the rest to identity.
      * 
-     * @see #Matrix4d(Matrix3dc)
+     * @see #Matrix4d(Matrix3d)
      * 
      * @param mat
-     *          the {@link Matrix3dc}
+     *          the {@link Matrix3d}
      * @return this
      */
-    public Matrix4d set(Matrix3dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
+    public Matrix4d set(Matrix3d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
         m03 = 0.0;
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
         m13 = 0.0;
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
         m23 = 0.0;
         m30 = 0.0;
         m31 = 0.0;
@@ -1722,102 +950,102 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to that of the given {@link Matrix4dc} 
+     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to that of the given {@link Matrix4d} 
      * and don't change the other elements.
      * 
      * @param mat
-     *          the {@link Matrix4dc}
+     *          the {@link Matrix4d}
      * @return this
      */
-    public Matrix4d set3x3(Matrix4dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+    public Matrix4d set3x3(Matrix4d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
         properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
 
     /**
-     * Set the upper 4x3 submatrix of this {@link Matrix4d} to the given {@link Matrix4x3dc} 
+     * Set the upper 4x3 submatrix of this {@link Matrix4d} to the given {@link Matrix4x3d} 
      * and don't change the other elements.
      * 
-     * @see Matrix4x3dc#get(Matrix4d)
+     * @see Matrix4x3d#get(Matrix4d)
      * 
      * @param mat
-     *          the {@link Matrix4x3dc}
+     *          the {@link Matrix4x3d}
      * @return this
      */
-    public Matrix4d set4x3(Matrix4x3dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
+    public Matrix4d set4x3(Matrix4x3d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
         properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
 
     /**
-     * Set the upper 4x3 submatrix of this {@link Matrix4d} to the given {@link Matrix4x3fc} 
+     * Set the upper 4x3 submatrix of this {@link Matrix4d} to the given {@link Matrix4x3f} 
      * and don't change the other elements.
      * 
-     * @see Matrix4x3fc#get(Matrix4d)
+     * @see Matrix4x3f#get(Matrix4d)
      * 
      * @param mat
-     *          the {@link Matrix4x3fc}
+     *          the {@link Matrix4x3f}
      * @return this
      */
-    public Matrix4d set4x3(Matrix4x3fc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
+    public Matrix4d set4x3(Matrix4x3f mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
         properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
 
     /**
-     * Set the upper 4x3 submatrix of this {@link Matrix4d} to the upper 4x3 submatrix of the given {@link Matrix4dc} 
+     * Set the upper 4x3 submatrix of this {@link Matrix4d} to the upper 4x3 submatrix of the given {@link Matrix4d} 
      * and don't change the other elements.
      * 
      * @param mat
-     *          the {@link Matrix4dc}
+     *          the {@link Matrix4d}
      * @return this
      */
-    public Matrix4d set4x3(Matrix4dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
-        m30 = mat.m30();
-        m31 = mat.m31();
-        m32 = mat.m32();
+    public Matrix4d set4x3(Matrix4d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
+        m30 = mat.m30;
+        m31 = mat.m31;
+        m32 = mat.m32;
         properties &= mat.properties() & ~(PROPERTY_PERSPECTIVE);
         return this;
     }
@@ -1913,36 +1141,36 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionfc}.
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionf}.
      * <p>
      * This method is equivalent to calling: <tt>rotation(q)</tt>
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/">http://www.euclideanspace.com/</a>
      * 
-     * @see #rotation(Quaternionfc)
+     * @see #rotation(Quaternionf)
      * 
      * @param q
-     *          the {@link Quaternionfc}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix4d set(Quaternionfc q) {
+    public Matrix4d set(Quaternionf q) {
         return rotation(q);
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniondc}.
+     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniond}.
      * <p>
      * This method is equivalent to calling: <tt>rotation(q)</tt>
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/">http://www.euclideanspace.com/</a>
      * 
-     * @see #rotation(Quaterniondc)
+     * @see #rotation(Quaterniond)
      * 
      * @param q
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @return this
      */
-    public Matrix4d set(Quaterniondc q) {
+    public Matrix4d set(Quaterniond q) {
         return rotation(q);
     }
 
@@ -1958,14 +1186,25 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the right operand of the multiplication
      * @return this
      */
-    public Matrix4d mul(Matrix4dc right) {
+    public Matrix4d mul(Matrix4d right) {
         return mul(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param right
+     *          the right operand of the multiplication
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d mul(Matrix4dc right, Matrix4d dest) {
+    public Matrix4d mul(Matrix4d right, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
@@ -1980,23 +1219,23 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return mulAffineR(right, dest);
         return mulGeneric(right, dest);
     }
-    private Matrix4d mulGeneric(Matrix4dc right, Matrix4d dest) {
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02() + m30 * right.m03();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02() + m31 * right.m03();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02() + m32 * right.m03();
-        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02() + m33 * right.m03();
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12() + m30 * right.m13();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12() + m31 * right.m13();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12() + m32 * right.m13();
-        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12() + m33 * right.m13();
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22() + m30 * right.m23();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22() + m31 * right.m23();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22() + m32 * right.m23();
-        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22() + m33 * right.m23();
-        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30 * right.m33();
-        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31 * right.m33();
-        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32 * right.m33();
-        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33 * right.m33();
+    private Matrix4d mulGeneric(Matrix4d right, Matrix4d dest) {
+        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03;
+        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03;
+        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03;
+        double nm03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03;
+        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13;
+        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13;
+        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13;
+        double nm13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13;
+        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23;
+        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23;
+        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23;
+        double nm23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23;
+        double nm30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33;
+        double nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33;
+        double nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33;
+        double nm33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -2017,10 +1256,23 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4x3dc, org.joml.Matrix4d)
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
      */
-    public Matrix4d mul(Matrix4x3dc right, Matrix4d dest) {
+    public Matrix4d mul(Matrix4x3d right, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
@@ -2028,10 +1280,23 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return mulAffineR(right, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4x3fc, org.joml.Matrix4d)
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
      */
-    public Matrix4d mul(Matrix4x3fc right, Matrix4d dest) {
+    public Matrix4d mul(Matrix4x3f right, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
@@ -2055,31 +1320,42 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return mul(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4fc, org.joml.Matrix4d)
+    /**
+     * Multiply this matrix by the supplied parameter matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     * 
+     * @param right
+     *          the right operand of the multiplication
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d mul(Matrix4fc right, Matrix4d dest) {
+    public Matrix4d mul(Matrix4f right, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
 
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02() + m30 * right.m03();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02() + m31 * right.m03();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02() + m32 * right.m03();
-        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02() + m33 * right.m03();
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12() + m30 * right.m13();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12() + m31 * right.m13();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12() + m32 * right.m13();
-        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12() + m33 * right.m13();
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22() + m30 * right.m23();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22() + m31 * right.m23();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22() + m32 * right.m23();
-        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22() + m33 * right.m23();
-        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30 * right.m33();
-        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31 * right.m33();
-        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32 * right.m33();
-        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33 * right.m33();
+        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02 + m30 * right.m03;
+        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02 + m31 * right.m03;
+        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02 + m32 * right.m03;
+        double nm03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02 + m33 * right.m03;
+        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12 + m30 * right.m13;
+        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12 + m31 * right.m13;
+        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12 + m32 * right.m13;
+        double nm13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12 + m33 * right.m13;
+        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22 + m30 * right.m23;
+        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22 + m31 * right.m23;
+        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22 + m32 * right.m23;
+        double nm23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22 + m33 * right.m23;
+        double nm30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30 * right.m33;
+        double nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31 * right.m33;
+        double nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32 * right.m33;
+        double nm33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33 * right.m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -2112,30 +1388,41 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the {@link #isAffine() affine} matrix to multiply <code>this</code> symmetric perspective projection matrix by
      * @return dest
      */
-    public Matrix4d mulPerspectiveAffine(Matrix4dc view) {
+    public Matrix4d mulPerspectiveAffine(Matrix4d view) {
        return mulPerspectiveAffine(view, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulPerspectiveAffine(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Multiply <code>this</code> symmetric perspective projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>P</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>P * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>P * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the {@link #isAffine() affine} matrix to multiply <code>this</code> symmetric perspective projection matrix by
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
      */
-    public Matrix4d mulPerspectiveAffine(Matrix4dc view, Matrix4d dest) {
-        double nm00 = m00 * view.m00();
-        double nm01 = m11 * view.m01();
-        double nm02 = m22 * view.m02();
-        double nm03 = m23 * view.m02();
-        double nm10 = m00 * view.m10();
-        double nm11 = m11 * view.m11();
-        double nm12 = m22 * view.m12();
-        double nm13 = m23 * view.m12();
-        double nm20 = m00 * view.m20();
-        double nm21 = m11 * view.m21();
-        double nm22 = m22 * view.m22();
-        double nm23 = m23 * view.m22();
-        double nm30 = m00 * view.m30();
-        double nm31 = m11 * view.m31();
-        double nm32 = m22 * view.m32() + m32;
-        double nm33 = m23 * view.m32();
+    public Matrix4d mulPerspectiveAffine(Matrix4d view, Matrix4d dest) {
+        double nm00 = m00 * view.m00;
+        double nm01 = m11 * view.m01;
+        double nm02 = m22 * view.m02;
+        double nm03 = m23 * view.m02;
+        double nm10 = m00 * view.m10;
+        double nm11 = m11 * view.m11;
+        double nm12 = m22 * view.m12;
+        double nm13 = m23 * view.m12;
+        double nm20 = m00 * view.m20;
+        double nm21 = m11 * view.m21;
+        double nm22 = m22 * view.m22;
+        double nm23 = m23 * view.m22;
+        double nm30 = m00 * view.m30;
+        double nm31 = m11 * view.m31;
+        double nm32 = m22 * view.m32 + m32;
+        double nm33 = m23 * view.m32;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -2171,30 +1458,44 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
      * @return this
      */
-    public Matrix4d mulAffineR(Matrix4dc right) {
+    public Matrix4d mulAffineR(Matrix4d right) {
        return mulAffineR(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
      */
-    public Matrix4d mulAffineR(Matrix4dc right, Matrix4d dest) {
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
-        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
-        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
-        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
-        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
-        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
-        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
-        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
+    public Matrix4d mulAffineR(Matrix4d right, Matrix4d dest) {
+        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+        double nm03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02;
+        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+        double nm13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12;
+        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        double nm23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22;
+        double nm30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
+        double nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
+        double nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
+        double nm33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -2229,30 +1530,41 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the right operand of the matrix multiplication
      * @return this
      */
-    public Matrix4d mulAffineR(Matrix4x3dc right) {
+    public Matrix4d mulAffineR(Matrix4x3d right) {
        return mulAffineR(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4x3dc, org.joml.Matrix4d)
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
      */
-    public Matrix4d mulAffineR(Matrix4x3dc right, Matrix4d dest) {
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
-        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
-        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
-        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
-        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
-        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
-        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
-        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
+    public Matrix4d mulAffineR(Matrix4x3d right, Matrix4d dest) {
+        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+        double nm03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02;
+        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+        double nm13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12;
+        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        double nm23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22;
+        double nm30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
+        double nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
+        double nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
+        double nm33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -2287,30 +1599,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the right operand of the matrix multiplication
      * @return this
      */
-    public Matrix4d mulAffineR(Matrix4x3fc right) {
+    public Matrix4d mulAffineR(Matrix4x3f right) {
        return mulAffineR(right, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4x3fc, org.joml.Matrix4d)
+     * @see org.joml.Matrix4d#mulAffineR(org.joml.Matrix4x3f, org.joml.Matrix4d)
      */
-    public Matrix4d mulAffineR(Matrix4x3fc right, Matrix4d dest) {
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
-        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
-        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
-        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
-        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
-        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
-        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
-        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
+    public Matrix4d mulAffineR(Matrix4x3f right, Matrix4d dest) {
+        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
+        double nm03 = m03 * right.m00 + m13 * right.m01 + m23 * right.m02;
+        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
+        double nm13 = m03 * right.m10 + m13 * right.m11 + m23 * right.m12;
+        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
+        double nm23 = m03 * right.m20 + m13 * right.m21 + m23 * right.m22;
+        double nm30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
+        double nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
+        double nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
+        double nm33 = m03 * right.m30 + m13 * right.m31 + m23 * right.m32 + m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
@@ -2349,29 +1661,46 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
      * @return this
      */
-    public Matrix4d mulAffine(Matrix4dc right) {
+    public Matrix4d mulAffine(Matrix4d right) {
        return mulAffine(right, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulAffine(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that <code>this</code> matrix and the given <code>right</code> matrix both represent an {@link #isAffine() affine} transformation
+     * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrices only represent affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
      */
-    public Matrix4d mulAffine(Matrix4dc right, Matrix4d dest) {
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+    public Matrix4d mulAffine(Matrix4d right, Matrix4d dest) {
+        double nm00 = m00 * right.m00 + m10 * right.m01 + m20 * right.m02;
+        double nm01 = m01 * right.m00 + m11 * right.m01 + m21 * right.m02;
+        double nm02 = m02 * right.m00 + m12 * right.m01 + m22 * right.m02;
         double nm03 = m03;
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        double nm10 = m00 * right.m10 + m10 * right.m11 + m20 * right.m12;
+        double nm11 = m01 * right.m10 + m11 * right.m11 + m21 * right.m12;
+        double nm12 = m02 * right.m10 + m12 * right.m11 + m22 * right.m12;
         double nm13 = m13;
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        double nm20 = m00 * right.m20 + m10 * right.m21 + m20 * right.m22;
+        double nm21 = m01 * right.m20 + m11 * right.m21 + m21 * right.m22;
+        double nm22 = m02 * right.m20 + m12 * right.m21 + m22 * right.m22;
         double nm23 = m23;
-        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
-        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
-        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
+        double nm30 = m00 * right.m30 + m10 * right.m31 + m20 * right.m32 + m30;
+        double nm31 = m01 * right.m30 + m11 * right.m31 + m21 * right.m32 + m31;
+        double nm32 = m02 * right.m30 + m12 * right.m31 + m22 * right.m32 + m32;
         double nm33 = m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
@@ -2393,25 +1722,41 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulTranslationAffine(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Multiply this matrix, which is assumed to only contain a translation, by the supplied <code>right</code> matrix, which is assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that <code>this</code> matrix only contains a translation, and that the given <code>right</code> matrix represents an {@link #isAffine() affine} transformation
+     * (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>).
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>right</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
      */
-    public Matrix4d mulTranslationAffine(Matrix4dc right, Matrix4d dest) {
-        double nm00 = right.m00();
-        double nm01 = right.m01();
-        double nm02 = right.m02();
+    public Matrix4d mulTranslationAffine(Matrix4d right, Matrix4d dest) {
+        double nm00 = right.m00;
+        double nm01 = right.m01;
+        double nm02 = right.m02;
         double nm03 = m03;
-        double nm10 = right.m10();
-        double nm11 = right.m11();
-        double nm12 = right.m12();
+        double nm10 = right.m10;
+        double nm11 = right.m11;
+        double nm12 = right.m12;
         double nm13 = m13;
-        double nm20 = right.m20();
-        double nm21 = right.m21();
-        double nm22 = right.m22();
+        double nm20 = right.m20;
+        double nm21 = right.m21;
+        double nm22 = right.m22;
         double nm23 = m23;
-        double nm30 = right.m30() + m30;
-        double nm31 = right.m31() + m31;
-        double nm32 = right.m32() + m32;
+        double nm30 = right.m30 + m30;
+        double nm31 = right.m31 + m31;
+        double nm32 = right.m32 + m32;
         double nm33 = m33;
         dest.m00 = nm00;
         dest.m01 = nm01;
@@ -2445,29 +1790,41 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the affine matrix which to multiply <code>this</code> with
      * @return dest
      */
-    public Matrix4d mulOrthoAffine(Matrix4dc view) {
+    public Matrix4d mulOrthoAffine(Matrix4d view) {
         return mulOrthoAffine(view, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulOrthoAffine(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Multiply <code>this</code> orthographic projection matrix by the supplied {@link #isAffine() affine} <code>view</code> matrix
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>V</code> the <code>view</code> matrix,
+     * then the new matrix will be <code>M * V</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * V * v</code>, the
+     * transformation of the <code>view</code> matrix will be applied first!
+     *
+     * @param view
+     *          the affine matrix which to multiply <code>this</code> with
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
      */
-    public Matrix4d mulOrthoAffine(Matrix4dc view, Matrix4d dest) {
-        double nm00 = m00 * view.m00();
-        double nm01 = m11 * view.m01();
-        double nm02 = m22 * view.m02();
+    public Matrix4d mulOrthoAffine(Matrix4d view, Matrix4d dest) {
+        double nm00 = m00 * view.m00;
+        double nm01 = m11 * view.m01;
+        double nm02 = m22 * view.m02;
         double nm03 = 0.0;
-        double nm10 = m00 * view.m10();
-        double nm11 = m11 * view.m11();
-        double nm12 = m22 * view.m12();
+        double nm10 = m00 * view.m10;
+        double nm11 = m11 * view.m11;
+        double nm12 = m22 * view.m12;
         double nm13 = 0.0;
-        double nm20 = m00 * view.m20();
-        double nm21 = m11 * view.m21();
-        double nm22 = m22 * view.m22();
+        double nm20 = m00 * view.m20;
+        double nm21 = m11 * view.m21;
+        double nm22 = m22 * view.m22;
         double nm23 = 0.0;
-        double nm30 = m00 * view.m30() + m30;
-        double nm31 = m11 * view.m31() + m31;
-        double nm32 = m22 * view.m32() + m32;
+        double nm30 = m00 * view.m30 + m30;
+        double nm31 = m11 * view.m31 + m31;
+        double nm32 = m22 * view.m32 + m32;
         double nm33 = 1.0;
         dest.m00 = nm00;
         dest.m01 = nm01;
@@ -2502,29 +1859,43 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the factor to multiply each of the other matrix's 4x3 components
      * @return this
      */
-    public Matrix4d fma4x3(Matrix4dc other, double otherFactor) {
+    public Matrix4d fma4x3(Matrix4d other, double otherFactor) {
         return fma4x3(other, otherFactor, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#fma4x3(org.joml.Matrix4dc, double, org.joml.Matrix4d)
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
+     * by first multiplying each component of <code>other</code>'s 4x3 submatrix by <code>otherFactor</code>,
+     * adding that to <code>this</code> and storing the final result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * <p>
+     * The matrices <code>this</code> and <code>other</code> will not be changed.
+     * 
+     * @param other
+     *          the other matrix
+     * @param otherFactor
+     *          the factor to multiply each of the other matrix's 4x3 components
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d fma4x3(Matrix4dc other, double otherFactor, Matrix4d dest) {
-        dest.m00 = m00 + other.m00() * otherFactor;
-        dest.m01 = m01 + other.m01() * otherFactor;
-        dest.m02 = m02 + other.m02() * otherFactor;
+    public Matrix4d fma4x3(Matrix4d other, double otherFactor, Matrix4d dest) {
+        dest.m00 = m00 + other.m00 * otherFactor;
+        dest.m01 = m01 + other.m01 * otherFactor;
+        dest.m02 = m02 + other.m02 * otherFactor;
         dest.m03 = m03;
-        dest.m10 = m10 + other.m10() * otherFactor;
-        dest.m11 = m11 + other.m11() * otherFactor;
-        dest.m12 = m12 + other.m12() * otherFactor;
+        dest.m10 = m10 + other.m10 * otherFactor;
+        dest.m11 = m11 + other.m11 * otherFactor;
+        dest.m12 = m12 + other.m12 * otherFactor;
         dest.m13 = m13;
-        dest.m20 = m20 + other.m20() * otherFactor;
-        dest.m21 = m21 + other.m21() * otherFactor;
-        dest.m22 = m22 + other.m22() * otherFactor;
+        dest.m20 = m20 + other.m20 * otherFactor;
+        dest.m21 = m21 + other.m21 * otherFactor;
+        dest.m22 = m22 + other.m22 * otherFactor;
         dest.m23 = m23;
-        dest.m30 = m30 + other.m30() * otherFactor;
-        dest.m31 = m31 + other.m31() * otherFactor;
-        dest.m32 = m32 + other.m32() * otherFactor;
+        dest.m30 = m30 + other.m30 * otherFactor;
+        dest.m31 = m31 + other.m31 * otherFactor;
+        dest.m32 = m32 + other.m32 * otherFactor;
         dest.m33 = m33;
         dest.properties = 0;
         return dest;
@@ -2537,30 +1908,36 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the other addend
      * @return this
      */
-    public Matrix4d add(Matrix4dc other) {
+    public Matrix4d add(Matrix4d other) {
         return add(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#add(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Component-wise add <code>this</code> and <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d add(Matrix4dc other, Matrix4d dest) {
-        dest.m00 = m00 + other.m00();
-        dest.m01 = m01 + other.m01();
-        dest.m02 = m02 + other.m02();
-        dest.m03 = m03 + other.m03();
-        dest.m10 = m10 + other.m10();
-        dest.m11 = m11 + other.m11();
-        dest.m12 = m12 + other.m12();
-        dest.m13 = m13 + other.m13();
-        dest.m20 = m20 + other.m20();
-        dest.m21 = m21 + other.m21();
-        dest.m22 = m22 + other.m22();
-        dest.m23 = m23 + other.m23();
-        dest.m30 = m30 + other.m30();
-        dest.m31 = m31 + other.m31();
-        dest.m32 = m32 + other.m32();
-        dest.m33 = m33 + other.m33();
+    public Matrix4d add(Matrix4d other, Matrix4d dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
+        dest.m03 = m03 + other.m03;
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
+        dest.m13 = m13 + other.m13;
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
+        dest.m23 = m23 + other.m23;
+        dest.m30 = m30 + other.m30;
+        dest.m31 = m31 + other.m31;
+        dest.m32 = m32 + other.m32;
+        dest.m33 = m33 + other.m33;
         dest.properties = 0;
         return dest;
     }
@@ -2572,30 +1949,36 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the subtrahend
      * @return this
      */
-    public Matrix4d sub(Matrix4dc subtrahend) {
+    public Matrix4d sub(Matrix4d subtrahend) {
         return sub(subtrahend, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#sub(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Component-wise subtract <code>subtrahend</code> from <code>this</code> and store the result in <code>dest</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d sub(Matrix4dc subtrahend, Matrix4d dest) {
-        dest.m00 = m00 - subtrahend.m00();
-        dest.m01 = m01 - subtrahend.m01();
-        dest.m02 = m02 - subtrahend.m02();
-        dest.m03 = m03 - subtrahend.m03();
-        dest.m10 = m10 - subtrahend.m10();
-        dest.m11 = m11 - subtrahend.m11();
-        dest.m12 = m12 - subtrahend.m12();
-        dest.m13 = m13 - subtrahend.m13();
-        dest.m20 = m20 - subtrahend.m20();
-        dest.m21 = m21 - subtrahend.m21();
-        dest.m22 = m22 - subtrahend.m22();
-        dest.m23 = m23 - subtrahend.m23();
-        dest.m30 = m30 - subtrahend.m30();
-        dest.m31 = m31 - subtrahend.m31();
-        dest.m32 = m32 - subtrahend.m32();
-        dest.m33 = m33 - subtrahend.m33();
+    public Matrix4d sub(Matrix4d subtrahend, Matrix4d dest) {
+        dest.m00 = m00 - subtrahend.m00;
+        dest.m01 = m01 - subtrahend.m01;
+        dest.m02 = m02 - subtrahend.m02;
+        dest.m03 = m03 - subtrahend.m03;
+        dest.m10 = m10 - subtrahend.m10;
+        dest.m11 = m11 - subtrahend.m11;
+        dest.m12 = m12 - subtrahend.m12;
+        dest.m13 = m13 - subtrahend.m13;
+        dest.m20 = m20 - subtrahend.m20;
+        dest.m21 = m21 - subtrahend.m21;
+        dest.m22 = m22 - subtrahend.m22;
+        dest.m23 = m23 - subtrahend.m23;
+        dest.m30 = m30 - subtrahend.m30;
+        dest.m31 = m31 - subtrahend.m31;
+        dest.m32 = m32 - subtrahend.m32;
+        dest.m33 = m33 - subtrahend.m33;
         dest.properties = 0;
         return dest;
     }
@@ -2607,30 +1990,36 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the other matrix
      * @return this
      */
-    public Matrix4d mulComponentWise(Matrix4dc other) {
+    public Matrix4d mulComponentWise(Matrix4d other) {
         return mulComponentWise(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulComponentWise(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Component-wise multiply <code>this</code> by <code>other</code> and store the result in <code>dest</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d mulComponentWise(Matrix4dc other, Matrix4d dest) {
-        dest.m00 = m00 * other.m00();
-        dest.m01 = m01 * other.m01();
-        dest.m02 = m02 * other.m02();
-        dest.m03 = m03 * other.m03();
-        dest.m10 = m10 * other.m10();
-        dest.m11 = m11 * other.m11();
-        dest.m12 = m12 * other.m12();
-        dest.m13 = m13 * other.m13();
-        dest.m20 = m20 * other.m20();
-        dest.m21 = m21 * other.m21();
-        dest.m22 = m22 * other.m22();
-        dest.m23 = m23 * other.m23();
-        dest.m30 = m30 * other.m30();
-        dest.m31 = m31 * other.m31();
-        dest.m32 = m32 * other.m32();
-        dest.m33 = m33 * other.m33();
+    public Matrix4d mulComponentWise(Matrix4d other, Matrix4d dest) {
+        dest.m00 = m00 * other.m00;
+        dest.m01 = m01 * other.m01;
+        dest.m02 = m02 * other.m02;
+        dest.m03 = m03 * other.m03;
+        dest.m10 = m10 * other.m10;
+        dest.m11 = m11 * other.m11;
+        dest.m12 = m12 * other.m12;
+        dest.m13 = m13 * other.m13;
+        dest.m20 = m20 * other.m20;
+        dest.m21 = m21 * other.m21;
+        dest.m22 = m22 * other.m22;
+        dest.m23 = m23 * other.m23;
+        dest.m30 = m30 * other.m30;
+        dest.m31 = m31 * other.m31;
+        dest.m32 = m32 * other.m32;
+        dest.m33 = m33 * other.m33;
         dest.properties = 0;
         return dest;
     }
@@ -2642,29 +2031,38 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the other addend
      * @return this
      */
-    public Matrix4d add4x3(Matrix4dc other) {
+    public Matrix4d add4x3(Matrix4d other) {
         return add4x3(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#add4x3(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d add4x3(Matrix4dc other, Matrix4d dest) {
-        dest.m00 = m00 + other.m00();
-        dest.m01 = m01 + other.m01();
-        dest.m02 = m02 + other.m02();
+    public Matrix4d add4x3(Matrix4d other, Matrix4d dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
         dest.m03 = m03;
-        dest.m10 = m10 + other.m10();
-        dest.m11 = m11 + other.m11();
-        dest.m12 = m12 + other.m12();
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
         dest.m13 = m13;
-        dest.m20 = m20 + other.m20();
-        dest.m21 = m21 + other.m21();
-        dest.m22 = m22 + other.m22();
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
         dest.m23 = m23;
-        dest.m30 = m30 + other.m30();
-        dest.m31 = m31 + other.m31();
-        dest.m32 = m32 + other.m32();
+        dest.m30 = m30 + other.m30;
+        dest.m31 = m31 + other.m31;
+        dest.m32 = m32 + other.m32;
         dest.m33 = m33;
         dest.properties = 0;
         return dest;
@@ -2677,29 +2075,38 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the other addend
      * @return this
      */
-    public Matrix4d add4x3(Matrix4fc other) {
+    public Matrix4d add4x3(Matrix4f other) {
         return add4x3(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#add4x3(org.joml.Matrix4fc, org.joml.Matrix4d)
+    /**
+     * Component-wise add the upper 4x3 submatrices of <code>this</code> and <code>other</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param other
+     *          the other addend
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d add4x3(Matrix4fc other, Matrix4d dest) {
-        dest.m00 = m00 + other.m00();
-        dest.m01 = m01 + other.m01();
-        dest.m02 = m02 + other.m02();
+    public Matrix4d add4x3(Matrix4f other, Matrix4d dest) {
+        dest.m00 = m00 + other.m00;
+        dest.m01 = m01 + other.m01;
+        dest.m02 = m02 + other.m02;
         dest.m03 = m03;
-        dest.m10 = m10 + other.m10();
-        dest.m11 = m11 + other.m11();
-        dest.m12 = m12 + other.m12();
+        dest.m10 = m10 + other.m10;
+        dest.m11 = m11 + other.m11;
+        dest.m12 = m12 + other.m12;
         dest.m13 = m13;
-        dest.m20 = m20 + other.m20();
-        dest.m21 = m21 + other.m21();
-        dest.m22 = m22 + other.m22();
+        dest.m20 = m20 + other.m20;
+        dest.m21 = m21 + other.m21;
+        dest.m22 = m22 + other.m22;
         dest.m23 = m23;
-        dest.m30 = m30 + other.m30();
-        dest.m31 = m31 + other.m31();
-        dest.m32 = m32 + other.m32();
+        dest.m30 = m30 + other.m30;
+        dest.m31 = m31 + other.m31;
+        dest.m32 = m32 + other.m32;
         dest.m33 = m33;
         dest.properties = 0;
         return dest;
@@ -2712,29 +2119,38 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the subtrahend
      * @return this
      */
-    public Matrix4d sub4x3(Matrix4dc subtrahend) {
+    public Matrix4d sub4x3(Matrix4d subtrahend) {
         return sub4x3(subtrahend, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#sub4x3(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Component-wise subtract the upper 4x3 submatrices of <code>subtrahend</code> from <code>this</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param subtrahend
+     *          the subtrahend
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d sub4x3(Matrix4dc subtrahend, Matrix4d dest) {
-        dest.m00 = m00 - subtrahend.m00();
-        dest.m01 = m01 - subtrahend.m01();
-        dest.m02 = m02 - subtrahend.m02();
+    public Matrix4d sub4x3(Matrix4d subtrahend, Matrix4d dest) {
+        dest.m00 = m00 - subtrahend.m00;
+        dest.m01 = m01 - subtrahend.m01;
+        dest.m02 = m02 - subtrahend.m02;
         dest.m03 = m03;
-        dest.m10 = m10 - subtrahend.m10();
-        dest.m11 = m11 - subtrahend.m11();
-        dest.m12 = m12 - subtrahend.m12();
+        dest.m10 = m10 - subtrahend.m10;
+        dest.m11 = m11 - subtrahend.m11;
+        dest.m12 = m12 - subtrahend.m12;
         dest.m13 = m13;
-        dest.m20 = m20 - subtrahend.m20();
-        dest.m21 = m21 - subtrahend.m21();
-        dest.m22 = m22 - subtrahend.m22();
+        dest.m20 = m20 - subtrahend.m20;
+        dest.m21 = m21 - subtrahend.m21;
+        dest.m22 = m22 - subtrahend.m22;
         dest.m23 = m23;
-        dest.m30 = m30 - subtrahend.m30();
-        dest.m31 = m31 - subtrahend.m31();
-        dest.m32 = m32 - subtrahend.m32();
+        dest.m30 = m30 - subtrahend.m30;
+        dest.m31 = m31 - subtrahend.m31;
+        dest.m32 = m32 - subtrahend.m32;
         dest.m33 = m33;
         dest.properties = 0;
         return dest;
@@ -2747,29 +2163,38 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the other matrix
      * @return this
      */
-    public Matrix4d mul4x3ComponentWise(Matrix4dc other) {
+    public Matrix4d mul4x3ComponentWise(Matrix4d other) {
         return mul4x3ComponentWise(other, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mul4x3ComponentWise(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Component-wise multiply the upper 4x3 submatrices of <code>this</code> by <code>other</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * The other components of <code>dest</code> will be set to the ones of <code>this</code>.
+     * 
+     * @param other
+     *          the other matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d mul4x3ComponentWise(Matrix4dc other, Matrix4d dest) {
-        dest.m00 = m00 * other.m00();
-        dest.m01 = m01 * other.m01();
-        dest.m02 = m02 * other.m02();
+    public Matrix4d mul4x3ComponentWise(Matrix4d other, Matrix4d dest) {
+        dest.m00 = m00 * other.m00;
+        dest.m01 = m01 * other.m01;
+        dest.m02 = m02 * other.m02;
         dest.m03 = m03;
-        dest.m10 = m10 * other.m10();
-        dest.m11 = m11 * other.m11();
-        dest.m12 = m12 * other.m12();
+        dest.m10 = m10 * other.m10;
+        dest.m11 = m11 * other.m11;
+        dest.m12 = m12 * other.m12;
         dest.m13 = m13;
-        dest.m20 = m20 * other.m20();
-        dest.m21 = m21 * other.m21();
-        dest.m22 = m22 * other.m22();
+        dest.m20 = m20 * other.m20;
+        dest.m21 = m21 * other.m21;
+        dest.m22 = m22 * other.m22;
         dest.m23 = m23;
-        dest.m30 = m30 * other.m30();
-        dest.m31 = m31 * other.m31();
-        dest.m32 = m32 * other.m32();
+        dest.m30 = m30 * other.m30;
+        dest.m31 = m31 * other.m31;
+        dest.m32 = m32 * other.m32;
         dest.m33 = m33;
         dest.properties = 0;
         return dest;
@@ -3064,8 +2489,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#determinant()
+    /**
+     * Return the determinant of this matrix.
+     * <p>
+     * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #determinantAffine()} can be used instead of this method.
+     * 
+     * @see #determinantAffine()
+     * 
+     * @return the determinant
      */
     public double determinant() {
         if ((properties & PROPERTY_AFFINE) != 0)
@@ -3078,8 +2510,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
              + (m02 * m13 - m03 * m12) * (m20 * m31 - m21 * m30);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#determinant3x3()
+    /**
+     * Return the determinant of the upper left 3x3 submatrix of this matrix.
+     * 
+     * @return the determinant
      */
     public double determinant3x3() {
         return (m00 * m11 - m01 * m10) * m22
@@ -3087,8 +2521,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
              + (m01 * m12 - m02 * m11) * m20;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#determinantAffine()
+    /**
+     * Return the determinant of this matrix by assuming that it represents an {@link #isAffine() affine} transformation and thus
+     * its last row is equal to <tt>(0, 0, 0, 1)</tt>.
+     * 
+     * @return the determinant
      */
     public double determinantAffine() {
         return (m00 * m11 - m01 * m10) * m22
@@ -3110,8 +2547,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return invert(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invert(org.joml.Matrix4d)
+    /**
+     * Invert <code>this</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>this</code> matrix represents an {@link #isAffine() affine} transformation, such as translation, rotation, scaling and shearing,
+     * and thus its last row is equal to <tt>(0, 0, 0, 1)</tt>, then {@link #invertAffine(Matrix4d)} can be used instead of this method.
+     * 
+     * @see #invertAffine(Matrix4d)
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
      */
     public Matrix4d invert(Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -3173,8 +2619,18 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invertPerspective(org.joml.Matrix4d)
+    /**
+     * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(double, double, double, double, Matrix4d) perspective()} methods,
+     * that is, if <code>this</code> is a symmetrical perspective frustum transformation,
+     * then this method builds the inverse of <code>this</code> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of a perspective projection matrix when being obtained via {@link #perspective(double, double, double, double, Matrix4d) perspective()}.
+     * 
+     * @see #perspective(double, double, double, double, Matrix4d)
+     * 
+     * @param dest
+     *          will hold the inverse of <code>this</code>
+     * @return dest
      */
     public Matrix4d invertPerspective(Matrix4d dest) {
         double a =  1.0 / (m00 * m11);
@@ -3201,8 +2657,21 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return invertPerspective(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invertFrustum(org.joml.Matrix4d)
+    /**
+     * If <code>this</code> is an arbitrary perspective projection matrix obtained via one of the {@link #frustum(double, double, double, double, double, double, Matrix4d) frustum()} methods,
+     * then this method builds the inverse of <code>this</code> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of a perspective projection matrix.
+     * <p>
+     * If this matrix represents a symmetric perspective frustum transformation, as obtained via {@link #perspective(double, double, double, double, Matrix4d) perspective()}, then
+     * {@link #invertPerspective(Matrix4d)} should be used instead.
+     * 
+     * @see #frustum(double, double, double, double, double, double, Matrix4d)
+     * @see #invertPerspective(Matrix4d)
+     * 
+     * @param dest
+     *          will hold the inverse of <code>this</code>
+     * @return dest
      */
     public Matrix4d invertFrustum(Matrix4d dest) {
         double invM00 = 1.0 / m00;
@@ -3236,8 +2705,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return invertFrustum(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invertOrtho(org.joml.Matrix4d)
+    /**
+     * Invert <code>this</code> orthographic projection matrix and store the result into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of an orthographic projection matrix.
+     * 
+     * @param dest
+     *          will hold the inverse of <code>this</code>
+     * @return dest
      */
     public Matrix4d invertOrtho(Matrix4d dest) {
         double invM00 = 1.0 / m00;
@@ -3262,10 +2737,28 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return invertOrtho(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invertPerspectiveView(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * If <code>this</code> is a perspective projection matrix obtained via one of the {@link #perspective(double, double, double, double, Matrix4d) perspective()} methods,
+     * that is, if <code>this</code> is a symmetrical perspective frustum transformation
+     * and the given <code>view</code> matrix is {@link #isAffine() affine} and has unit scaling (for example by being obtained via {@link #lookAt(double, double, double, double, double, double, double, double, double, Matrix4d) lookAt()}),
+     * then this method builds the inverse of <tt>this * view</tt> and stores it into the given <code>dest</code>.
+     * <p>
+     * This method can be used to quickly obtain the inverse of the combination of the view and projection matrices, when both were obtained
+     * via the common methods {@link #perspective(double, double, double, double, Matrix4d) perspective()} and {@link #lookAt(double, double, double, double, double, double, double, double, double, Matrix4d) lookAt()} or
+     * other methods, that build affine matrices, such as {@link #translate(double, double, double, Matrix4d) translate} and {@link #rotate(double, double, double, double, Matrix4d)}, except for {@link #scale(double, double, double, Matrix4d) scale()}.
+     * <p>
+     * For the special cases of the matrices <code>this</code> and <code>view</code> mentioned above this method, this method is equivalent to the following code:
+     * <pre>
+     * dest.set(this).mul(view).invert();
+     * </pre>
+     * 
+     * @param view
+     *          the view transformation (must be {@link #isAffine() affine} and have unit scaling)
+     * @param dest
+     *          will hold the inverse of <tt>this * view</tt>
+     * @return dest
      */
-    public Matrix4d invertPerspectiveView(Matrix4dc view, Matrix4d dest) {
+    public Matrix4d invertPerspectiveView(Matrix4d view, Matrix4d dest) {
         double a =  1.0 / (m00 * m11);
         double l = -1.0 / (m23 * m32);
         double pm00 =  m11 * a;
@@ -3273,19 +2766,28 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double pm23 = -m23 * l;
         double pm32 = -m32 * l;
         double pm33 =  m22 * l;
-        double vm30 = -view.m00() * view.m30() - view.m01() * view.m31() - view.m02() * view.m32();
-        double vm31 = -view.m10() * view.m30() - view.m11() * view.m31() - view.m12() * view.m32();
-        double vm32 = -view.m20() * view.m30() - view.m21() * view.m31() - view.m22() * view.m32();
-        dest.set(view.m00() * pm00, view.m10() * pm00, view.m20() * pm00, 0.0,
-                 view.m01() * pm11, view.m11() * pm11, view.m21() * pm11, 0.0,
+        double vm30 = -view.m00 * view.m30 - view.m01 * view.m31 - view.m02 * view.m32;
+        double vm31 = -view.m10 * view.m30 - view.m11 * view.m31 - view.m12 * view.m32;
+        double vm32 = -view.m20 * view.m30 - view.m21 * view.m31 - view.m22 * view.m32;
+        dest.set(view.m00 * pm00, view.m10 * pm00, view.m20 * pm00, 0.0,
+                 view.m01 * pm11, view.m11 * pm11, view.m21 * pm11, 0.0,
                  vm30 * pm23, vm31 * pm23, vm32 * pm23, pm23,
-                 view.m02() * pm32 + vm30 * pm33, view.m12() * pm32 + vm31 * pm33, view.m22() * pm32 + vm32 * pm33, pm33);
+                 view.m02 * pm32 + vm30 * pm33, view.m12 * pm32 + vm31 * pm33, view.m22 * pm32 + vm32 * pm33, pm33);
         dest.properties = 0;
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invertAffine(org.joml.Matrix4d)
+    /**
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and write the result into <code>dest</code>.
+     * <p>
+     * Note that if <code>this</code> matrix also has unit scaling, then the method {@link #invertAffineUnitScale(Matrix4d)} should be used instead.
+     * 
+     * @see #invertAffineUnitScale(Matrix4d)
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Matrix4d invertAffine(Matrix4d dest) {
         double s = determinantAffine();
@@ -3357,8 +2859,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return invertAffine(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invertAffineUnitScale(org.joml.Matrix4d)
+    /**
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3d#length() length} of the vector)
+     * and write the result into <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Matrix4d invertAffineUnitScale(Matrix4d dest) {
         dest.set(m00, m10, m20, 0.0,
@@ -3374,7 +2884,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
     /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
-     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3dc#length() length} of the vector).
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3d#length() length} of the vector).
      * <p>
      * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
      * 
@@ -3384,8 +2894,20 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return invertAffineUnitScale(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#invertLookAt(org.joml.Matrix4d)
+    /**
+     * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3d#length() length} of the vector),
+     * as is the case for matrices built via {@link #lookAt(Vector3d, Vector3d, Vector3d, Matrix4d)} and their overloads, and write the result into <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling {@link #invertAffineUnitScale(Matrix4d)}
+     * <p>
+     * Reference: <a href="http://www.gamedev.net/topic/425118-inverse--matrix/">http://www.gamedev.net/</a>
+     * 
+     * @see #invertAffineUnitScale(Matrix4d)
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Matrix4d invertLookAt(Matrix4d dest) {
         return invertAffineUnitScale(dest);
@@ -3393,8 +2915,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
     /**
      * Invert this matrix by assuming that it is an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
-     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3dc#length() length} of the vector),
-     * as is the case for matrices built via {@link #lookAt(Vector3dc, Vector3dc, Vector3dc)} and their overloads.
+     * and has unit scaling (i.e. {@link #transformDirection(Vector3d) transformDirection} does not change the {@link Vector3d#length() length} of the vector),
+     * as is the case for matrices built via {@link #lookAt(Vector3d, Vector3d, Vector3d)} and their overloads.
      * <p>
      * This method is equivalent to calling {@link #invertAffineUnitScale()}
      * <p>
@@ -3417,8 +2939,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return transpose(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transpose(org.joml.Matrix4d)
+    /**
+     * Transpose <code>this</code> matrix and store the result into <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
      */
     public Matrix4d transpose(Matrix4d dest) {
         double nm00 = m00;
@@ -3468,8 +2994,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return transpose3x3(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transpose3x3(org.joml.Matrix4d)
+    /**
+     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * All other matrix elements are left unchanged.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
      */
     public Matrix4d transpose3x3(Matrix4d dest) {
         double nm00 = m00;
@@ -3494,8 +3026,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transpose3x3(org.joml.Matrix3d)
+    /**
+     * Transpose only the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
      */
     public Matrix3d transpose3x3(Matrix3d dest) {
         dest.m00 = m00;
@@ -3555,8 +3091,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *              the offsets in x, y and z to translate
      * @return this
      */
-    public Matrix4d translation(Vector3fc offset) {
-        return translation(offset.x(), offset.y(), offset.z());
+    public Matrix4d translation(Vector3f offset) {
+        return translation(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -3569,8 +3105,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *              the offsets in x, y and z to translate
      * @return this
      */
-    public Matrix4d translation(Vector3dc offset) {
-        return translation(offset.x(), offset.y(), offset.z());
+    public Matrix4d translation(Vector3d offset) {
+        return translation(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -3601,22 +3137,26 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /**
      * Set only the translation components <tt>(m30, m31, m32)</tt> of this matrix to the given values <tt>(xyz.x, xyz.y, xyz.z)</tt>.
      * <p>
-     * To build a translation matrix instead, use {@link #translation(Vector3dc)}.
-     * To apply a translation, use {@link #translate(Vector3dc)}.
+     * To build a translation matrix instead, use {@link #translation(Vector3d)}.
+     * To apply a translation, use {@link #translate(Vector3d)}.
      * 
-     * @see #translation(Vector3dc)
-     * @see #translate(Vector3dc)
+     * @see #translation(Vector3d)
+     * @see #translate(Vector3d)
      * 
      * @param xyz
      *          the units to translate in <tt>(x, y, z)</tt>
      * @return this
      */
-    public Matrix4d setTranslation(Vector3dc xyz) {
-        return setTranslation(xyz.x(), xyz.y(), xyz.z());
+    public Matrix4d setTranslation(Vector3d xyz) {
+        return setTranslation(xyz.x, xyz.y, xyz.z);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getTranslation(org.joml.Vector3d)
+    /**
+     * Get only the translation components <tt>(m30, m31, m32)</tt> of this matrix and store them in the given vector <code>xyz</code>.
+     * 
+     * @param dest
+     *          will hold the translation components of this matrix
+     * @return dest
      */
     public Vector3d getTranslation(Vector3d dest) {
         dest.x = m30;
@@ -3625,8 +3165,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getScale(org.joml.Vector3d)
+    /**
+     * Get the scaling factors of <code>this</code> matrix for the three base axes.
+     * 
+     * @param dest
+     *          will hold the scaling factors for <tt>x</tt>, <tt>y</tt> and <tt>z</tt>
+     * @return dest
      */
     public Vector3d getScale(Vector3d dest) {
         dest.x = Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
@@ -3661,117 +3205,277 @@ public class Matrix4d implements Externalizable, Matrix4dc {
              + formatter.format(m03) + formatter.format(m13) + formatter.format(m23) + formatter.format(m33) + "\n"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(org.joml.Matrix4d)
+    /**
+     * Get the current values of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @param dest
+     *          the destination matrix
+     * @return the passed in destination
      */
     public Matrix4d get(Matrix4d dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get4x3(org.joml.Matrix4x3d)
+    /**
+     * Get the current values of the upper 4x3 submatrix of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
      */
     public Matrix4x3d get4x3(Matrix4x3d dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get3x3(org.joml.Matrix3d)
+    /**
+     * Get the current values of the upper left 3x3 submatrix of <code>this</code> matrix and store them into
+     * <code>dest</code>.
+     * 
+     * @param dest
+     *            the destination matrix
+     * @return the passed in destination
      */
     public Matrix3d get3x3(Matrix3d dest) {
         return dest.set(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getUnnormalizedRotation(org.joml.Quaternionf)
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaternionf}.
+     * <p>
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized and
+     * thus allows to ignore any additional scaling factor that is applied to the matrix.
+     * 
+     * @see Quaternionf#setFromUnnormalized(Matrix4d)
+     * 
+     * @param dest
+     *          the destination {@link Quaternionf}
+     * @return the passed in destination
      */
     public Quaternionf getUnnormalizedRotation(Quaternionf dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getNormalizedRotation(org.joml.Quaternionf)
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaternionf}.
+     * <p>
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
+     * 
+     * @see Quaternionf#setFromNormalized(Matrix4d)
+     * 
+     * @param dest
+     *          the destination {@link Quaternionf}
+     * @return the passed in destination
      */
     public Quaternionf getNormalizedRotation(Quaternionf dest) {
         return dest.setFromNormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getUnnormalizedRotation(org.joml.Quaterniond)
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * <p>
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are not normalized and
+     * thus allows to ignore any additional scaling factor that is applied to the matrix.
+     * 
+     * @see Quaterniond#setFromUnnormalized(Matrix4d)
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return the passed in destination
      */
     public Quaterniond getUnnormalizedRotation(Quaterniond dest) {
         return dest.setFromUnnormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getNormalizedRotation(org.joml.Quaterniond)
+    /**
+     * Get the current values of <code>this</code> matrix and store the represented rotation
+     * into the given {@link Quaterniond}.
+     * <p>
+     * This method assumes that the first three column vectors of the upper left 3x3 submatrix are normalized.
+     * 
+     * @see Quaterniond#setFromNormalized(Matrix4d)
+     * 
+     * @param dest
+     *          the destination {@link Quaterniond}
+     * @return the passed in destination
      */
     public Quaterniond getNormalizedRotation(Quaterniond dest) {
         return dest.setFromNormalized(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(java.nio.DoubleBuffer)
+    /**
+     * Store this matrix in column-major order into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * In order to specify the offset into the DoubleBuffer at which
+     * the matrix is stored, use {@link #get(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, DoubleBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
      */
     public DoubleBuffer get(DoubleBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(int, java.nio.DoubleBuffer)
+    /**
+     * Store this matrix in column-major order into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given {@link DoubleBuffer}.
+     * 
+     * @param index
+     *            the absolute position into the {@link DoubleBuffer}
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
      */
     public DoubleBuffer get(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(java.nio.FloatBuffer)
+    /**
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
+     * buffer {@link FloatBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given
+     * FloatBuffer.
+     * <p>
+     * In order to specify the offset into the FloatBuffer at which
+     * the matrix is stored, use {@link #get(int, FloatBuffer)}, taking
+     * the absolute position as parameter.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * 
+     * @see #get(int, FloatBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
      */
     public FloatBuffer get(FloatBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(int, java.nio.FloatBuffer)
+    /**
+     * Store this matrix in column-major order into the supplied {@link FloatBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given FloatBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given FloatBuffer.
+     * 
+     * @param index
+     *            the absolute position into the FloatBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
      */
     public FloatBuffer get(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(java.nio.ByteBuffer)
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(int, java.nio.ByteBuffer)
+    /**
+     * Store this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getFloats(java.nio.ByteBuffer)
+    /**
+     * Store the elements of this matrix as float values in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getFloats(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getFloats(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the elements of this matrix as float values in column-major order at its current position
+     * @return the passed in buffer
      */
     public ByteBuffer getFloats(ByteBuffer buffer) {
         return getFloats(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getFloats(int, java.nio.ByteBuffer)
+    /**
+     * Store the elements of this matrix as float values in column-major order into the supplied {@link ByteBuffer}
+     * starting at the specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the elements of this matrix as float values in column-major order
+     * @return the passed in buffer
      */
     public ByteBuffer getFloats(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(double[], int)
+    /**
+     * Store this matrix into the supplied double array in column-major order at the given offset.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
      */
     public double[] get(double[] arr, int offset) {
         arr[offset+0]  = m00;
@@ -3793,15 +3497,32 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(double[])
+    /**
+     * Store this matrix into the supplied double array in column-major order.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get(double[], int)}.
+     * 
+     * @see #get(double[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
      */
     public double[] get(double[] arr) {
         return get(arr, 0);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(float[], int)
+    /**
+     * Store the elements of this matrix as float values in column-major order into the supplied float array at the given offset.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given float array.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
      */
     public float[] get(float[] arr, int offset) {
         arr[offset+0]  = (float)m00;
@@ -3823,67 +3544,166 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return arr;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get(float[])
+    /**
+     * Store the elements of this matrix as float values in column-major order into the supplied float array.
+     * <p>
+     * Please note that due to this matrix storing double values those values will potentially
+     * lose precision when they are converted to float values before being put into the given float array.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get(float[], int)}.
+     * 
+     * @see #get(float[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
      */
     public float[] get(float[] arr) {
         return get(arr, 0);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getTransposed(java.nio.DoubleBuffer)
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * In order to specify the offset into the DoubleBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, DoubleBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
      */
     public DoubleBuffer getTransposed(DoubleBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getTransposed(int, java.nio.DoubleBuffer)
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * 
+     * @param index
+     *            the absolute position into the DoubleBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
      */
     public DoubleBuffer getTransposed(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getTransposed(java.nio.ByteBuffer)
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #getTransposed(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #getTransposed(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order at its current position
+     * @return the passed in buffer
      */
     public ByteBuffer getTransposed(ByteBuffer buffer) {
         return getTransposed(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getTransposed(int, java.nio.ByteBuffer)
+    /**
+     * Store the transpose of this matrix in column-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
      */
     public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get4x3Transposed(java.nio.DoubleBuffer)
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link DoubleBuffer} at the current
+     * buffer {@link DoubleBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * <p>
+     * In order to specify the offset into the DoubleBuffer at which
+     * the matrix is stored, use {@link #get4x3Transposed(int, DoubleBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get4x3Transposed(int, DoubleBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
+     * @return the passed in buffer
      */
     public DoubleBuffer get4x3Transposed(DoubleBuffer buffer) {
         return get4x3Transposed(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get4x3Transposed(int, java.nio.DoubleBuffer)
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link DoubleBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given DoubleBuffer.
+     * 
+     * @param index
+     *            the absolute position into the DoubleBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order
+     * @return the passed in buffer
      */
     public DoubleBuffer get4x3Transposed(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get4x3Transposed(java.nio.ByteBuffer)
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which
+     * the matrix is stored, use {@link #get4x3Transposed(int, ByteBuffer)}, taking
+     * the absolute position as parameter.
+     * 
+     * @see #get4x3Transposed(int, ByteBuffer)
+     * 
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order at its current position
+     * @return the passed in buffer
      */
     public ByteBuffer get4x3Transposed(ByteBuffer buffer) {
         return get4x3Transposed(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#get4x3Transposed(int, java.nio.ByteBuffer)
+    /**
+     * Store the upper 4x3 submatrix of <code>this</code> matrix in row-major order into the supplied {@link ByteBuffer} starting at the specified
+     * absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * 
+     * @param index
+     *            the absolute position into the ByteBuffer
+     * @param buffer
+     *            will receive the values of the upper 4x3 submatrix in row-major order
+     * @return the passed in buffer
      */
     public ByteBuffer get4x3Transposed(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
@@ -3975,16 +3795,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * matrix to obtain an additional scaling.
      * <p>
      * In order to post-multiply a scaling transformation directly to a
-     * matrix use {@link #scale(Vector3dc) scale()} instead.
+     * matrix use {@link #scale(Vector3d) scale()} instead.
      * 
-     * @see #scale(Vector3dc)
+     * @see #scale(Vector3d)
      * 
      * @param xyz
      *             the scale in x, y and z, respectively
      * @return this
      */
-    public Matrix4d scaling(Vector3dc xyz) {
-        return scaling(xyz.x(), xyz.y(), xyz.z());
+    public Matrix4d scaling(Vector3d xyz) {
+        return scaling(xyz.x, xyz.y, xyz.z);
     }
 
     /**
@@ -4487,8 +4307,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the axis to rotate about
      * @return this
      */
-    public Matrix4d rotation(double angle, Vector3dc axis) {
-        return rotation(angle, axis.x(), axis.y(), axis.z());
+    public Matrix4d rotation(double angle, Vector3d axis) {
+        return rotation(angle, axis.x, axis.y, axis.z);
     }
 
     /**
@@ -4506,26 +4326,52 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the axis to rotate about
      * @return this
      */
-    public Matrix4d rotation(double angle, Vector3fc axis) {
-        return rotation(angle, axis.x(), axis.y(), axis.z());
+    public Matrix4d rotation(double angle, Vector3f axis) {
+        return rotation(angle, axis.x, axis.y, axis.z);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transform(org.joml.Vector4d)
+    /**
+     * Transform/multiply the given vector by this matrix and store the result in that vector.
+     * 
+     * @see Vector4d#mul(Matrix4d)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
      */
     public Vector4d transform(Vector4d v) {
         return v.mul(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transform(org.joml.Vector4d, org.joml.Vector4d)
+    /**
+     * Transform/multiply the given vector by this matrix and store the result in <code>dest</code>.
+     * 
+     * @see Vector4d#mul(Matrix4d, Vector4d)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
      */
-    public Vector4d transform(Vector4dc v, Vector4d dest) {
+    public Vector4d transform(Vector4d v, Vector4d dest) {
         return v.mul(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transform(double, double, double, double, org.joml.Vector4d)
+    /**
+     * Transform/multiply the vector <tt>(x, y, z, w)</tt> by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param w
+     *          the w coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
      */
     public Vector4d transform(double x, double y, double z, double w, Vector4d dest) {
         dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
@@ -4535,22 +4381,48 @@ public class Matrix4d implements Externalizable, Matrix4dc {
        return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformProject(org.joml.Vector4d)
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
+     * 
+     * @see Vector4d#mulProject(Matrix4d)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
      */
     public Vector4d transformProject(Vector4d v) {
         return v.mulProject(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformProject(org.joml.Vector4d, org.joml.Vector4d)
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * 
+     * @see Vector4d#mulProject(Matrix4d, Vector4d)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
      */
-    public Vector4d transformProject(Vector4dc v, Vector4d dest) {
+    public Vector4d transformProject(Vector4d v, Vector4d dest) {
         return v.mulProject(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformProject(double, double, double, double, org.joml.Vector4d)
+    /**
+     * Transform/multiply the vector <tt>(x, y, z, w)</tt> by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the direction to transform
+     * @param y
+     *          the y coordinate of the direction to transform
+     * @param z
+     *          the z coordinate of the direction to transform
+     * @param w
+     *          the w coordinate of the direction to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
      */
     public Vector4d transformProject(double x, double y, double z, double w, Vector4d dest) {
         double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33 * w);
@@ -4561,22 +4433,52 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformProject(org.joml.Vector3d)
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in that vector.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @see Vector3d#mulProject(Matrix4d)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
      */
     public Vector3d transformProject(Vector3d v) {
         return v.mulProject(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformProject(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Transform/multiply the given vector by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @see Vector3d#mulProject(Matrix4d, Vector3d)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
      */
-    public Vector3d transformProject(Vector3dc v, Vector3d dest) {
+    public Vector3d transformProject(Vector3d v, Vector3d dest) {
         return v.mulProject(this, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformProject(double, double, double, org.joml.Vector3d)
+    /**
+     * Transform/multiply the vector <tt>(x, y, z)</tt> by this matrix, perform perspective divide and store the result in <code>dest</code>.
+     * <p>
+     * This method uses <tt>w=1.0</tt> as the fourth vector component.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
      */
     public Vector3d transformProject(double x, double y, double z, Vector3d dest) {
         double invW = 1.0 / (m03 * x + m13 * y + m23 * z + m33);
@@ -4586,8 +4488,26 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformPosition(org.joml.Vector3d)
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in that vector.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a position/location in 3D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(Vector4d)} or
+     * {@link #transformProject(Vector3d)} when perspective divide should be applied, too.
+     * <p>
+     * In order to store the result in another vector, use {@link #transformPosition(Vector3d, Vector3d)}.
+     * 
+     * @see #transformPosition(Vector3d, Vector3d)
+     * @see #transform(Vector4d)
+     * @see #transformProject(Vector3d)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
      */
     public Vector3d transformPosition(Vector3d v) {
         v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
@@ -4596,15 +4516,56 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return v;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformPosition(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a position/location in 3D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(Vector4d, Vector4d)} or
+     * {@link #transformProject(Vector3d, Vector3d)} when perspective divide should be applied, too.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformPosition(Vector3d)}.
+     * 
+     * @see #transformPosition(Vector3d)
+     * @see #transform(Vector4d, Vector4d)
+     * @see #transformProject(Vector3d, Vector3d)
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d transformPosition(Vector3dc v, Vector3d dest) {
-        return transformPosition(v.x(), v.y(), v.z(), dest);
+    public Vector3d transformPosition(Vector3d v, Vector3d dest) {
+        return transformPosition(v.x, v.y, v.z, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformPosition(double, double, double, org.joml.Vector3d)
+    /**
+     * Transform/multiply the 3D-vector <tt>(x, y, z)</tt>, as if it was a 4D-vector with w=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being 1.0, so it
+     * will represent a position/location in 3D-space rather than a direction. This method is therefore
+     * not suited for perspective projection transformations as it will not save the
+     * <tt>w</tt> component of the transformed vector.
+     * For perspective projection use {@link #transform(double, double, double, double, Vector4d)} or
+     * {@link #transformProject(double, double, double, Vector3d)} when perspective divide should be applied, too.
+     * 
+     * @see #transform(double, double, double, double, Vector4d)
+     * @see #transformProject(double, double, double, Vector3d)
+     * 
+     * @param x
+     *          the x coordinate of the position
+     * @param y
+     *          the y coordinate of the position
+     * @param z
+     *          the z coordinate of the position
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d transformPosition(double x, double y, double z, Vector3d dest) {
         dest.set(m00 * x + m10 * y + m20 * z + m30,
@@ -4613,8 +4574,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformDirection(org.joml.Vector3d)
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in that vector.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in another vector, use {@link #transformDirection(Vector3d, Vector3d)}.
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
      */
     public Vector3d transformDirection(Vector3d v) {
         v.set(m00 * v.x + m10 * v.y + m20 * v.z,
@@ -4623,18 +4595,46 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return v;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformDirection(org.joml.Vector3dc, org.joml.Vector3d)
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformDirection(Vector3d)}.
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector3d transformDirection(Vector3dc v, Vector3d dest) {
-        dest.set(m00 * v.x() + m10 * v.y() + m20 * v.z(),
-                 m01 * v.x() + m11 * v.y() + m21 * v.z(),
-                 m02 * v.x() + m12 * v.y() + m22 * v.z());
+    public Vector3d transformDirection(Vector3d v, Vector3d dest) {
+        dest.set(m00 * v.x + m10 * v.y + m20 * v.z,
+                 m01 * v.x + m11 * v.y + m21 * v.z,
+                 m02 * v.x + m12 * v.y + m22 * v.z);
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformDirection(double, double, double, org.joml.Vector3d)
+    /**
+     * Transform/multiply the 3D-vector <tt>(x, y, z)</tt>, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * 
+     * @param x
+     *          the x coordinate of the direction to transform
+     * @param y
+     *          the y coordinate of the direction to transform
+     * @param z
+     *          the z coordinate of the direction to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector3d transformDirection(double x, double y, double z, Vector3d dest) {
         dest.set(m00 * x + m10 * y + m20 * z,
@@ -4643,8 +4643,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformAffine(org.joml.Vector4d)
+    /**
+     * Transform/multiply the given 4D-vector by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation
+     * (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>).
+     * <p>
+     * In order to store the result in another vector, use {@link #transformAffine(Vector4d, Vector4d)}.
+     * 
+     * @see #transformAffine(Vector4d, Vector4d)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
      */
     public Vector4d transformAffine(Vector4d v) {
         v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30 * v.w,
@@ -4654,15 +4663,39 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return v;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformAffine(org.joml.Vector4dc, org.joml.Vector4d)
+    /**
+     * Transform/multiply the given 4D-vector by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation
+     * (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>) and store the result in <code>dest</code>.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformAffine(Vector4d)}.
+     * 
+     * @see #transformAffine(Vector4d)
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector4d transformAffine(Vector4dc v, Vector4d dest) {
-        return transformAffine(v.x(), v.y(), v.z(), v.w(), dest);
+    public Vector4d transformAffine(Vector4d v, Vector4d dest) {
+        return transformAffine(v.x, v.y, v.z, v.w, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformAffine(double, double, double, double, org.joml.Vector4d)
+    /**
+     * Transform/multiply the 4D-vector <tt>(x, y, z, w)</tt> by assuming that <code>this</code> matrix represents an {@link #isAffine() affine} transformation
+     * (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>) and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the direction to transform
+     * @param y
+     *          the y coordinate of the direction to transform
+     * @param z
+     *          the z coordinate of the direction to transform
+     * @param w
+     *          the w coordinate of the direction to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector4d transformAffine(double x, double y, double z, double w, Vector4d dest) {
         dest.set(m00 * x + m10 * y + m20 * z + m30 * w,
@@ -4673,31 +4706,43 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3dc} and don't change the other elements.
+     * Set the upper left 3x3 submatrix of this {@link Matrix4d} to the given {@link Matrix3d} and don't change the other elements.
      * 
      * @param mat
      *          the 3x3 matrix
      * @return this
      */
-    public Matrix4d set3x3(Matrix3dc mat) {
-        m00 = mat.m00();
-        m01 = mat.m01();
-        m02 = mat.m02();
-        m10 = mat.m10();
-        m11 = mat.m11();
-        m12 = mat.m12();
-        m20 = mat.m20();
-        m21 = mat.m21();
-        m22 = mat.m22();
+    public Matrix4d set3x3(Matrix3d mat) {
+        m00 = mat.m00;
+        m01 = mat.m01;
+        m02 = mat.m02;
+        m10 = mat.m10;
+        m11 = mat.m11;
+        m12 = mat.m12;
+        m20 = mat.m20;
+        m21 = mat.m21;
+        m22 = mat.m22;
         properties &= ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#scale(org.joml.Vector3dc, org.joml.Matrix4d)
+    /**
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given <tt>xyz.x</tt>,
+     * <tt>xyz.y</tt> and <tt>xyz.z</tt> factors, respectively and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param xyz
+     *            the factors of the x, y and z component, respectively
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
-    public Matrix4d scale(Vector3dc xyz, Matrix4d dest) {
-        return scale(xyz.x(), xyz.y(), xyz.z(), dest);
+    public Matrix4d scale(Vector3d xyz, Matrix4d dest) {
+        return scale(xyz.x, xyz.y, xyz.z, dest);
     }
 
     /**
@@ -4713,12 +4758,28 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            the factors of the x, y and z component, respectively
      * @return this
      */
-    public Matrix4d scale(Vector3dc xyz) {
-        return scale(xyz.x(), xyz.y(), xyz.z(), this);
+    public Matrix4d scale(Vector3d xyz) {
+        return scale(xyz.x, xyz.y, xyz.z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#scale(double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given x,
+     * y and z factors and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d scale(double x, double y, double z, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -4767,8 +4828,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return scale(x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#scale(double, org.joml.Matrix4d)
+    /**
+     * Apply scaling to this matrix by uniformly scaling all base axes by the given xyz factor
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * 
+     * @see #scale(double, double, double, Matrix4d)
+     * 
+     * @param xyz
+     *            the factor for all components
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d scale(double xyz, Matrix4d dest) {
         return scale(xyz, xyz, xyz, dest);
@@ -4792,8 +4867,33 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return scale(xyz, xyz, xyz);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#scaleAround(double, double, double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply scaling to <code>this</code> matrix by scaling the base axes by the given sx,
+     * sy and sz factors while using <tt>(ox, oy, oz)</tt> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>
+     * , the scaling will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(ox, oy, oz, dest).scale(sx, sy, sz).translate(-ox, -oy, -oz)</tt>
+     * 
+     * @param sx
+     *            the scaling factor of the x component
+     * @param sy
+     *            the scaling factor of the y component
+     * @param sz
+     *            the scaling factor of the z component
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d scaleAround(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4d dest) {
         double nm30 = m00 * ox + m10 * oy + m20 * oz + m30;
@@ -4874,15 +4974,52 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return scaleAround(factor, factor, factor, ox, oy, oz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#scaleAround(double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply scaling to this matrix by scaling all three base axes by the given <code>factor</code>
+     * while using <tt>(ox, oy, oz)</tt> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * scaling will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(ox, oy, oz, dest).scale(factor).translate(-ox, -oy, -oz)</tt>
+     * 
+     * @param factor
+     *            the scaling factor for all three axes
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return this
      */
     public Matrix4d scaleAround(double factor, double ox, double oy, double oz, Matrix4d dest) {
         return scaleAround(factor, factor, factor, ox, oy, oz, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#scaleLocal(double, double, double, org.joml.Matrix4d)
+    /**
+     * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given x,
+     * y and z factors and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
+     * , the scaling will be applied last!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param z
+     *            the factor of the z component
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d scaleLocal(double x, double y, double z, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -4945,8 +5082,33 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return scaleLocal(x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#scaleAroundLocal(double, double, double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given sx,
+     * sy and sz factors while using the given <tt>(ox, oy, oz)</tt> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
+     * , the scaling will be applied last!
+     * <p>
+     * This method is equivalent to calling: <tt>new Matrix4d().translate(ox, oy, oz).scale(sx, sy, sz).translate(-ox, -oy, -oz).mul(this, dest)</tt>
+     * 
+     * @param sx
+     *            the scaling factor of the x component
+     * @param sy
+     *            the scaling factor of the y component
+     * @param sz
+     *            the scaling factor of the z component
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d scaleAroundLocal(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4d dest) {
         dest.m00 = sx * (m00 - ox * m03) + ox * m03;
@@ -5023,15 +5185,58 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return scaleAroundLocal(factor, factor, factor, ox, oy, oz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#scaleAroundLocal(double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Pre-multiply scaling to this matrix by scaling all three base axes by the given <code>factor</code>
+     * while using <tt>(ox, oy, oz)</tt> as the scaling origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * <p>
+     * This method is equivalent to calling: <tt>new Matrix4d().translate(ox, oy, oz).scale(factor).translate(-ox, -oy, -oz).mul(this, dest)</tt>
+     * 
+     * @param factor
+     *            the scaling factor for all three axes
+     * @param ox
+     *            the x coordinate of the scaling origin
+     * @param oy
+     *            the y coordinate of the scaling origin
+     * @param oz
+     *            the z coordinate of the scaling origin
+     * @param dest
+     *            will hold the result
+     * @return this
      */
     public Matrix4d scaleAroundLocal(double factor, double ox, double oy, double oz, Matrix4d dest) {
         return scaleAroundLocal(factor, factor, factor, ox, oy, oz, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotate(double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply rotation to this matrix by rotating the given amount of radians
+     * about the given axis specified as x, y and z components and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>
+     * , the rotation will be applied first!
+     * 
+     * @param ang
+     *            the angle is in radians
+     * @param x
+     *            the x component of the axis
+     * @param y
+     *            the y component of the axis
+     * @param z
+     *            the z component of the axis
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotate(double ang, double x, double y, double z, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -5318,7 +5523,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin.
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -5334,7 +5539,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @param ox
      *          the x coordinate of the rotation origin
      * @param oy
@@ -5343,26 +5548,52 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the z coordinate of the rotation origin
      * @return this
      */
-    public Matrix4d rotateAround(Quaterniondc quat, double ox, double oy, double oz) {
+    public Matrix4d rotateAround(Quaterniond quat, double ox, double oy, double oz) {
         return rotateAround(quat, ox, oy, oz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateAround(org.joml.Quaterniondc, double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>M * Q</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * Q * v</code>,
+     * the quaternion rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>translate(ox, oy, oz, dest).rotate(quat).translate(-ox, -oy, -oz)</tt>
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @param quat
+     *          the {@link Quaterniond}
+     * @param ox
+     *          the x coordinate of the rotation origin
+     * @param oy
+     *          the y coordinate of the rotation origin
+     * @param oz
+     *          the z coordinate of the rotation origin
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d rotateAround(Quaterniondc quat, double ox, double oy, double oz, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotateAround(Quaterniond quat, double ox, double oy, double oz, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
         double rm02 = q02 - q13;
@@ -5525,22 +5756,48 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateLocal(ang, x, y, z, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateAroundLocal(org.joml.Quaterniondc, double, double, double, org.joml.Matrix4d)
+    /**
+     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix while using <tt>(ox, oy, oz)</tt>
+     * as the rotation origin, and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>Q</code> the rotation matrix obtained from the given quaternion,
+     * then the new matrix will be <code>Q * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>Q * M * v</code>,
+     * the quaternion rotation will be applied last!
+     * <p>
+     * This method is equivalent to calling: <tt>translateLocal(-ox, -oy, -oz, dest).rotateLocal(quat).translateLocal(ox, oy, oz)</tt>
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
+     * 
+     * @param quat
+     *          the {@link Quaterniond}
+     * @param ox
+     *          the x coordinate of the rotation origin
+     * @param oy
+     *          the y coordinate of the rotation origin
+     * @param oz
+     *          the z coordinate of the rotation origin
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d rotateAroundLocal(Quaterniondc quat, double ox, double oy, double oz, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotateAroundLocal(Quaterniond quat, double ox, double oy, double oz, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
         double lm00 = 1.0 - q11 - q22;
         double lm01 = q01 + q23;
         double lm02 = q02 - q13;
@@ -5583,7 +5840,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniondc} to this matrix while using <tt>(ox, oy, oz)</tt>
+     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix while using <tt>(ox, oy, oz)</tt>
      * as the rotation origin.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -5600,7 +5857,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @param ox
      *          the x coordinate of the rotation origin
      * @param oy
@@ -5609,7 +5866,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the z coordinate of the rotation origin
      * @return this
      */
-    public Matrix4d rotateAroundLocal(Quaterniondc quat, double ox, double oy, double oz) {
+    public Matrix4d rotateAroundLocal(Quaterniond quat, double ox, double oy, double oz) {
         return rotateAroundLocal(quat, ox, oy, oz, this);
     }
 
@@ -5623,16 +5880,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3dc)}.
+     * it, use {@link #translation(Vector3d)}.
      * 
-     * @see #translation(Vector3dc)
+     * @see #translation(Vector3d)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
      * @return this
      */
-    public Matrix4d translate(Vector3dc offset) {
-        return translate(offset.x(), offset.y(), offset.z());
+    public Matrix4d translate(Vector3d offset) {
+        return translate(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -5645,9 +5902,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3dc)}.
+     * it, use {@link #translation(Vector3d)}.
      * 
-     * @see #translation(Vector3dc)
+     * @see #translation(Vector3d)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
@@ -5655,8 +5912,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    public Matrix4d translate(Vector3dc offset, Matrix4d dest) {
-        return translate(offset.x(), offset.y(), offset.z(), dest);
+    public Matrix4d translate(Vector3d offset, Matrix4d dest) {
+        return translate(offset.x, offset.y, offset.z, dest);
     }
 
     /**
@@ -5669,16 +5926,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3fc)}.
+     * it, use {@link #translation(Vector3f)}.
      * 
-     * @see #translation(Vector3fc)
+     * @see #translation(Vector3f)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
      * @return this
      */
-    public Matrix4d translate(Vector3fc offset) {
-        return translate(offset.x(), offset.y(), offset.z());
+    public Matrix4d translate(Vector3f offset) {
+        return translate(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -5691,9 +5948,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(Vector3fc)}.
+     * it, use {@link #translation(Vector3f)}.
      * 
-     * @see #translation(Vector3fc)
+     * @see #translation(Vector3f)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
@@ -5701,8 +5958,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    public Matrix4d translate(Vector3fc offset, Matrix4d dest) {
-        return translate(offset.x(), offset.y(), offset.z(), dest);
+    public Matrix4d translate(Vector3f offset, Matrix4d dest) {
+        return translate(offset.x, offset.y, offset.z, dest);
     }
 
     /**
@@ -5799,16 +6056,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
      * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector3fc)}.
+     * it, use {@link #translation(Vector3f)}.
      * 
-     * @see #translation(Vector3fc)
+     * @see #translation(Vector3f)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
      * @return this
      */
-    public Matrix4d translateLocal(Vector3fc offset) {
-        return translateLocal(offset.x(), offset.y(), offset.z());
+    public Matrix4d translateLocal(Vector3f offset) {
+        return translateLocal(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -5821,9 +6078,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
      * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector3fc)}.
+     * it, use {@link #translation(Vector3f)}.
      * 
-     * @see #translation(Vector3fc)
+     * @see #translation(Vector3f)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
@@ -5831,8 +6088,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    public Matrix4d translateLocal(Vector3fc offset, Matrix4d dest) {
-        return translateLocal(offset.x(), offset.y(), offset.z(), dest);
+    public Matrix4d translateLocal(Vector3f offset, Matrix4d dest) {
+        return translateLocal(offset.x, offset.y, offset.z, dest);
     }
 
     /**
@@ -5845,16 +6102,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
      * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector3dc)}.
+     * it, use {@link #translation(Vector3d)}.
      * 
-     * @see #translation(Vector3dc)
+     * @see #translation(Vector3d)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
      * @return this
      */
-    public Matrix4d translateLocal(Vector3dc offset) {
-        return translateLocal(offset.x(), offset.y(), offset.z());
+    public Matrix4d translateLocal(Vector3d offset) {
+        return translateLocal(offset.x, offset.y, offset.z);
     }
 
     /**
@@ -5867,9 +6124,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <code>T * M * v</code>, the translation will be applied last!
      * <p>
      * In order to set the matrix to a translation transformation without pre-multiplying
-     * it, use {@link #translation(Vector3dc)}.
+     * it, use {@link #translation(Vector3d)}.
      * 
-     * @see #translation(Vector3dc)
+     * @see #translation(Vector3d)
      * 
      * @param offset
      *          the number of units in x, y and z by which to translate
@@ -5877,8 +6134,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    public Matrix4d translateLocal(Vector3dc offset, Matrix4d dest) {
-        return translateLocal(offset.x(), offset.y(), offset.z(), dest);
+    public Matrix4d translateLocal(Vector3d offset, Matrix4d dest) {
+        return translateLocal(offset.x, offset.y, offset.z, dest);
     }
 
     /**
@@ -6007,8 +6264,26 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m33 = in.readDouble();
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateX(double, org.joml.Matrix4d)
+    /**
+     * Apply rotation about the X axis to this matrix by rotating the given amount of radians 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotateX(double ang, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -6070,8 +6345,26 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateX(ang, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateY(double, org.joml.Matrix4d)
+    /**
+     * Apply rotation about the Y axis to this matrix by rotating the given amount of radians 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotateY(double ang, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -6133,8 +6426,26 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateY(ang, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateZ(double, org.joml.Matrix4d)
+    /**
+     * Apply rotation about the Z axis to this matrix by rotating the given amount of radians 
+     * and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotateZ(double ang, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -6246,8 +6557,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateXYZ(angleX, angleY, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateXYZ(double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateX(angleX, dest).rotateY(angleY).rotateZ(angleZ)</tt>
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotateXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -6329,8 +6662,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateAffineXYZ(angleX, angleY, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateAffineXYZ(double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method assumes that <code>this</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotateAffineXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
         double cosX = Math.cos(angleX);
@@ -6426,8 +6782,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateZYX(angleZ, angleY, angleX, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateZYX(double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateZ(angleZ, dest).rotateY(angleY).rotateX(angleX)</tt>
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotateZYX(double angleZ, double angleY, double angleX, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -6507,8 +6885,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateAffineZYX(angleZ, angleY, angleX, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateAffineZYX(double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply rotation of <code>angleZ</code> radians about the Z axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
+     * followed by a rotation of <code>angleX</code> radians about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method assumes that <code>this</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotateAffineZYX(double angleZ, double angleY, double angleX, Matrix4d dest) {
         double cosZ = Math.cos(angleZ);
@@ -6604,8 +7005,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateYXZ(angleY, angleX, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateYXZ(double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * This method is equivalent to calling: <tt>rotateY(angleY, dest).rotateX(angleX).rotateZ(angleZ)</tt>
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotateYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -6685,8 +7108,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return rotateAffineYXZ(angleY, angleX, angleZ, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#rotateAffineYXZ(double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply rotation of <code>angleY</code> radians about the Y axis, followed by a rotation of <code>angleX</code> radians about the X axis and
+     * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method assumes that <code>this</code> matrix represents an {@link #isAffine() affine} transformation (i.e. its last row is equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrix only represents affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * 
+     * @param angleY
+     *            the angle to rotate about Y
+     * @param angleX
+     *            the angle to rotate about X
+     * @param angleZ
+     *            the angle to rotate about Z
+     * @param dest
+     *            will hold the result
+     * @return dest
      */
     public Matrix4d rotateAffineYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
         double cosY =  Math.cos(angleY);
@@ -6783,7 +7229,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Set this matrix to the rotation transformation of the given {@link Quaterniondc}.
+     * Set this matrix to the rotation transformation of the given {@link Quaterniond}.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -6793,29 +7239,29 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * matrix to obtain an additional rotation.
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(Quaterniondc) rotate()} instead.
+     * use {@link #rotate(Quaterniond) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotate(Quaterniondc)
+     * @see #rotate(Quaterniond)
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @return this
      */
-    public Matrix4d rotation(Quaterniondc quat) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotation(Quaterniond quat) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
 
         m00 = 1.0 - q11 - q22;
         m01 = q01 + q23;
@@ -6839,7 +7285,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Set this matrix to the rotation transformation of the given {@link Quaternionfc}.
+     * Set this matrix to the rotation transformation of the given {@link Quaternionf}.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -6849,29 +7295,29 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * matrix to obtain an additional rotation.
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(Quaternionfc) rotate()} instead.
+     * use {@link #rotate(Quaternionf) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotate(Quaternionfc)
+     * @see #rotate(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternionfc}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix4d rotation(Quaternionfc quat) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotation(Quaternionf quat) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
 
         m00 = 1.0 - q11 - q22;
         m01 = q01 + q23;
@@ -6909,7 +7355,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz)</tt>
      * 
      * @see #translation(double, double, double)
-     * @see #rotate(Quaterniondc)
+     * @see #rotate(Quaterniond)
      * @see #scale(double, double, double)
      * 
      * @param tx
@@ -6981,8 +7427,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
      * 
-     * @see #translation(Vector3fc)
-     * @see #rotate(Quaternionfc)
+     * @see #translation(Vector3f)
+     * @see #rotate(Quaternionf)
      * 
      * @param translation
      *          the translation
@@ -6992,10 +7438,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the scaling factors
      * @return this
      */
-    public Matrix4d translationRotateScale(Vector3fc translation, 
-                                           Quaternionfc quat, 
-                                           Vector3fc scale) {
-        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
+    public Matrix4d translationRotateScale(Vector3f translation, 
+                                           Quaternionf quat, 
+                                           Vector3f scale) {
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
     }
 
     /**
@@ -7012,9 +7458,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
      * 
-     * @see #translation(Vector3dc)
-     * @see #rotate(Quaterniondc)
-     * @see #scale(Vector3dc)
+     * @see #translation(Vector3d)
+     * @see #rotate(Quaterniond)
+     * @see #scale(Vector3d)
      * 
      * @param translation
      *          the translation
@@ -7024,10 +7470,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the scaling factors
      * @return this
      */
-    public Matrix4d translationRotateScale(Vector3dc translation, 
-                                           Quaterniondc quat, 
-                                           Vector3dc scale) {
-        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
+    public Matrix4d translationRotateScale(Vector3d translation, 
+                                           Quaterniond quat, 
+                                           Vector3d scale) {
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
     }
 
     /**
@@ -7045,7 +7491,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(scale)</tt>
      * 
      * @see #translation(double, double, double)
-     * @see #rotate(Quaterniondc)
+     * @see #rotate(Quaterniond)
      * @see #scale(double)
      * 
      * @param tx
@@ -7086,8 +7532,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
      * 
-     * @see #translation(Vector3dc)
-     * @see #rotate(Quaterniondc)
+     * @see #translation(Vector3d)
+     * @see #rotate(Quaterniond)
      * @see #scale(double)
      * 
      * @param translation
@@ -7098,10 +7544,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the scaling factors
      * @return this
      */
-    public Matrix4d translationRotateScale(Vector3dc translation, 
-                                           Quaterniondc quat, 
+    public Matrix4d translationRotateScale(Vector3d translation, 
+                                           Quaterniond quat, 
                                            double scale) {
-        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale, scale, scale);
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale, scale, scale);
     }
 
     /**
@@ -7118,8 +7564,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
      * 
-     * @see #translation(Vector3fc)
-     * @see #rotate(Quaternionfc)
+     * @see #translation(Vector3f)
+     * @see #rotate(Quaternionf)
      * @see #scale(double)
      * 
      * @param translation
@@ -7130,10 +7576,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the scaling factors
      * @return this
      */
-    public Matrix4d translationRotateScale(Vector3fc translation, 
-                                           Quaternionfc quat, 
+    public Matrix4d translationRotateScale(Vector3f translation, 
+                                           Quaternionf quat, 
                                            double scale) {
-        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale, scale, scale);
+        return translationRotateScale(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale, scale, scale);
     }
 
     /**
@@ -7212,7 +7658,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translationRotateScale(...).invert()</tt>
      * 
-     * @see #translationRotateScale(Vector3dc, Quaterniondc, Vector3dc)
+     * @see #translationRotateScale(Vector3d, Quaterniond, Vector3d)
      * @see #invert()
      * 
      * @param translation
@@ -7223,10 +7669,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the scaling factors
      * @return this
      */
-    public Matrix4d translationRotateScaleInvert(Vector3dc translation, 
-                                                 Quaterniondc quat, 
-                                                 Vector3dc scale) {
-        return translationRotateScaleInvert(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
+    public Matrix4d translationRotateScaleInvert(Vector3d translation, 
+                                                 Quaterniond quat, 
+                                                 Vector3d scale) {
+        return translationRotateScaleInvert(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
     }
 
     /**
@@ -7236,7 +7682,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translationRotateScale(...).invert()</tt>
      * 
-     * @see #translationRotateScale(Vector3fc, Quaternionfc, Vector3fc)
+     * @see #translationRotateScale(Vector3f, Quaternionf, Vector3f)
      * @see #invert()
      * 
      * @param translation
@@ -7247,10 +7693,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the scaling factors
      * @return this
      */
-    public Matrix4d translationRotateScaleInvert(Vector3fc translation, 
-                                                 Quaternionfc quat, 
-                                                 Vector3fc scale) {
-        return translationRotateScaleInvert(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
+    public Matrix4d translationRotateScaleInvert(Vector3f translation, 
+                                                 Quaternionf quat, 
+                                                 Vector3f scale) {
+        return translationRotateScaleInvert(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z);
     }
 
     /**
@@ -7260,7 +7706,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translationRotateScale(...).invert()</tt>
      * 
-     * @see #translationRotateScale(Vector3dc, Quaterniondc, double)
+     * @see #translationRotateScale(Vector3d, Quaterniond, double)
      * @see #invert()
      * 
      * @param translation
@@ -7271,10 +7717,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the scaling factors
      * @return this
      */
-    public Matrix4d translationRotateScaleInvert(Vector3dc translation, 
-                                                 Quaterniondc quat, 
+    public Matrix4d translationRotateScaleInvert(Vector3d translation, 
+                                                 Quaterniond quat, 
                                                  double scale) {
-        return translationRotateScaleInvert(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale, scale, scale);
+        return translationRotateScaleInvert(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale, scale, scale);
     }
 
     /**
@@ -7284,7 +7730,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translationRotateScale(...).invert()</tt>
      * 
-     * @see #translationRotateScale(Vector3fc, Quaternionfc, double)
+     * @see #translationRotateScale(Vector3f, Quaternionf, double)
      * @see #invert()
      * 
      * @param translation
@@ -7295,10 +7741,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the scaling factors
      * @return this
      */
-    public Matrix4d translationRotateScaleInvert(Vector3fc translation, 
-                                                 Quaternionfc quat, 
+    public Matrix4d translationRotateScaleInvert(Vector3f translation, 
+                                                 Quaternionf quat, 
                                                  double scale) {
-        return translationRotateScaleInvert(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale, scale, scale);
+        return translationRotateScaleInvert(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale, scale, scale);
     }
 
     /**
@@ -7316,9 +7762,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz).mulAffine(m)</tt>
      * 
      * @see #translation(double, double, double)
-     * @see #rotate(Quaterniondc)
+     * @see #rotate(Quaterniond)
      * @see #scale(double, double, double)
-     * @see #mulAffine(Matrix4dc)
+     * @see #mulAffine(Matrix4d)
      * 
      * @param tx
      *          the number of units by which to translate the x-component
@@ -7412,9 +7858,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale).mulAffine(m)</tt>
      * 
-     * @see #translation(Vector3dc)
-     * @see #rotate(Quaterniondc)
-     * @see #mulAffine(Matrix4dc)
+     * @see #translation(Vector3d)
+     * @see #rotate(Quaterniond)
+     * @see #mulAffine(Matrix4d)
      * 
      * @param translation
      *          the translation
@@ -7426,11 +7872,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the {@link #isAffine() affine} matrix to multiply by
      * @return this
      */
-    public Matrix4d translationRotateScaleMulAffine(Vector3dc translation, 
-                                                    Quaterniondc quat, 
-                                                    Vector3dc scale,
+    public Matrix4d translationRotateScaleMulAffine(Vector3d translation, 
+                                                    Quaterniond quat, 
+                                                    Vector3d scale,
                                                     Matrix4d m) {
-        return translationRotateScaleMulAffine(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z(), m);
+        return translationRotateScaleMulAffine(translation.x, translation.y, translation.z, quat.x, quat.y, quat.z, quat.w, scale.x, scale.y, scale.z, m);
     }
 
     /**
@@ -7446,7 +7892,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
      * 
      * @see #translation(double, double, double)
-     * @see #rotate(Quaterniondc)
+     * @see #rotate(Quaterniond)
      * 
      * @param tx
      *          the number of units by which to translate the x-component
@@ -7510,7 +7956,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
      * 
      * @see #translation(double, double, double)
-     * @see #rotate(Quaterniondc)
+     * @see #rotate(Quaterniond)
      * 
      * @param tx
      *          the number of units by which to translate the x-component
@@ -7522,12 +7968,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the quaternion representing a rotation
      * @return this
      */
-    public Matrix4d translationRotate(double tx, double ty, double tz, Quaterniondc quat) {
-        return translationRotate(tx, ty, tz, quat.x(), quat.y(), quat.z(), quat.w());
+    public Matrix4d translationRotate(double tx, double ty, double tz, Quaterniond quat) {
+        return translationRotate(tx, ty, tz, quat.x, quat.y, quat.z, quat.w);
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix and store
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -7540,19 +7986,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaterniondc)}.
+     * use {@link #rotation(Quaterniond)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniondc)
+     * @see #rotation(Quaterniond)
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotate(Quaterniondc quat, Matrix4d dest) {
+    public Matrix4d rotate(Quaterniond quat, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(quat);
         else if ((properties & PROPERTY_TRANSLATION) != 0)
@@ -7561,19 +8007,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return rotateAffine(quat, dest);
         return rotateGeneric(quat, dest);
     }
-    private Matrix4d rotateGeneric(Quaterniondc quat, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    private Matrix4d rotateGeneric(Quaterniond quat, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
         double rm02 = q02 - q13;
@@ -7612,7 +8058,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -7625,19 +8071,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionfc)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionfc)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternionfc}
+     *          the {@link Quaternionf}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotate(Quaternionfc quat, Matrix4d dest) {
+    public Matrix4d rotate(Quaternionf quat, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(quat);
         else if ((properties & PROPERTY_TRANSLATION) != 0)
@@ -7646,19 +8092,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return rotateAffine(quat, dest);
         return rotateGeneric(quat, dest);
     }
-    private Matrix4d rotateGeneric(Quaternionfc quat, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    private Matrix4d rotateGeneric(Quaternionf quat, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
         double rm02 = q02 - q13;
@@ -7697,7 +8143,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -7709,22 +8155,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaterniondc)}.
+     * use {@link #rotation(Quaterniond)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniondc)
+     * @see #rotation(Quaterniond)
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @return this
      */
-    public Matrix4d rotate(Quaterniondc quat) {
+    public Matrix4d rotate(Quaterniond quat) {
         return rotate(quat, this);
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -7736,22 +8182,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionfc)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionfc)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternionfc}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix4d rotate(Quaternionfc quat) {
+    public Matrix4d rotate(Quaternionf quat) {
         return rotate(quat, this);
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this {@link #isAffine() affine} matrix and store
+     * Apply the rotation transformation of the given {@link Quaterniond} to this {@link #isAffine() affine} matrix and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
@@ -7766,31 +8212,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaterniondc)}.
+     * use {@link #rotation(Quaterniond)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniondc)
+     * @see #rotation(Quaterniond)
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotateAffine(Quaterniondc quat, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotateAffine(Quaterniond quat, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
 
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
@@ -7830,7 +8276,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix.
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
@@ -7844,22 +8290,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaterniondc)}.
+     * use {@link #rotation(Quaterniond)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniondc)
+     * @see #rotation(Quaterniond)
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @return this
      */
-    public Matrix4d rotateAffine(Quaterniondc quat) {
+    public Matrix4d rotateAffine(Quaterniond quat) {
         return rotateAffine(quat, this);
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -7874,31 +8320,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaterniondc)}.
+     * use {@link #rotation(Quaterniond)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniondc)
+     * @see #rotation(Quaterniond)
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotateTranslation(Quaterniondc quat, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotateTranslation(Quaterniond quat, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
         double rm02 = q02 - q13;
@@ -7935,7 +8381,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -7950,31 +8396,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionfc)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionfc)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternionfc}
+     *          the {@link Quaternionf}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotateTranslation(Quaternionfc quat, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotateTranslation(Quaternionf quat, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
         double rm02 = q02 - q13;
@@ -8011,7 +8457,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniondc} to this matrix and store
+     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -8024,31 +8470,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaterniondc)}.
+     * use {@link #rotation(Quaterniond)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniondc)
+     * @see #rotation(Quaterniond)
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotateLocal(Quaterniondc quat, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotateLocal(Quaterniond quat, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
         double lm00 = 1.0 - q11 - q22;
         double lm01 = q01 + q23;
         double lm02 = q02 - q13;
@@ -8095,7 +8541,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniondc} to this matrix.
+     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -8107,22 +8553,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaterniondc)}.
+     * use {@link #rotation(Quaterniond)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniondc)
+     * @see #rotation(Quaterniond)
      * 
      * @param quat
-     *          the {@link Quaterniondc}
+     *          the {@link Quaterniond}
      * @return this
      */
-    public Matrix4d rotateLocal(Quaterniondc quat) {
+    public Matrix4d rotateLocal(Quaterniond quat) {
         return rotateLocal(quat, this);
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this {@link #isAffine() affine} matrix and store
+     * Apply the rotation transformation of the given {@link Quaternionf} to this {@link #isAffine() affine} matrix and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
@@ -8137,31 +8583,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionfc)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionfc)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternionfc}
+     *          the {@link Quaternionf}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotateAffine(Quaternionfc quat, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotateAffine(Quaternionf quat, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
 
         double rm00 = 1.0 - q11 - q22;
         double rm01 = q01 + q23;
@@ -8201,7 +8647,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix.
+     * Apply the rotation transformation of the given {@link Quaternionf} to this matrix.
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
      * <p>
@@ -8215,22 +8661,22 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaternionfc)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionfc)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternionfc}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix4d rotateAffine(Quaternionfc quat) {
+    public Matrix4d rotateAffine(Quaternionf quat) {
         return rotateAffine(quat, this);
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -8243,31 +8689,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaternionfc)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionfc)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternionfc}
+     *          the {@link Quaternionf}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotateLocal(Quaternionfc quat, Matrix4d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
+    public Matrix4d rotateLocal(Quaternionf quat, Matrix4d dest) {
+        double dqx = quat.x + quat.x;
+        double dqy = quat.y + quat.y;
+        double dqz = quat.z + quat.z;
+        double q00 = dqx * quat.x;
+        double q11 = dqy * quat.y;
+        double q22 = dqz * quat.z;
+        double q01 = dqx * quat.y;
+        double q02 = dqx * quat.z;
+        double q03 = dqx * quat.w;
+        double q12 = dqy * quat.z;
+        double q13 = dqy * quat.w;
+        double q23 = dqz * quat.w;
         double lm00 = 1.0 - q11 - q22;
         double lm01 = q01 + q23;
         double lm02 = q02 - q13;
@@ -8314,7 +8760,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix.
+     * Pre-multiply the rotation transformation of the given {@link Quaternionf} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -8326,17 +8772,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaternionfc)}.
+     * use {@link #rotation(Quaternionf)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaternionfc)
+     * @see #rotation(Quaternionf)
      * 
      * @param quat
-     *          the {@link Quaternionfc}
+     *          the {@link Quaternionf}
      * @return this
      */
-    public Matrix4d rotateLocal(Quaternionfc quat) {
+    public Matrix4d rotateLocal(Quaternionf quat) {
         return rotateLocal(quat, this);
     }
 
@@ -8473,12 +8919,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(double, Vector3dc)}.
+     * use {@link #rotation(double, Vector3d)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(double, double, double, double)
-     * @see #rotation(double, Vector3dc)
+     * @see #rotation(double, Vector3d)
      * 
      * @param angle
      *          the angle in radians
@@ -8486,8 +8932,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the rotation axis (needs to be {@link Vector3d#normalize() normalized})
      * @return this
      */
-    public Matrix4d rotate(double angle, Vector3dc axis) {
-        return rotate(angle, axis.x(), axis.y(), axis.z());
+    public Matrix4d rotate(double angle, Vector3d axis) {
+        return rotate(angle, axis.x, axis.y, axis.z);
     }
 
     /**
@@ -8503,12 +8949,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(double, Vector3dc)}.
+     * use {@link #rotation(double, Vector3d)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(double, double, double, double)
-     * @see #rotation(double, Vector3dc)
+     * @see #rotation(double, Vector3d)
      * 
      * @param angle
      *          the angle in radians
@@ -8518,8 +8964,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotate(double angle, Vector3dc axis, Matrix4d dest) {
-        return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
+    public Matrix4d rotate(double angle, Vector3d axis, Matrix4d dest) {
+        return rotate(angle, axis.x, axis.y, axis.z, dest);
     }
 
     /**
@@ -8535,12 +8981,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(double, Vector3fc)}.
+     * use {@link #rotation(double, Vector3f)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(double, double, double, double)
-     * @see #rotation(double, Vector3fc)
+     * @see #rotation(double, Vector3f)
      * 
      * @param angle
      *          the angle in radians
@@ -8548,8 +8994,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the rotation axis (needs to be {@link Vector3f#normalize() normalized})
      * @return this
      */
-    public Matrix4d rotate(double angle, Vector3fc axis) {
-        return rotate(angle, axis.x(), axis.y(), axis.z());
+    public Matrix4d rotate(double angle, Vector3f axis) {
+        return rotate(angle, axis.x, axis.y, axis.z);
     }
 
     /**
@@ -8565,12 +9011,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the axis-angle rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(double, Vector3fc)}.
+     * use {@link #rotation(double, Vector3f)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle">http://en.wikipedia.org</a>
      * 
      * @see #rotate(double, double, double, double)
-     * @see #rotation(double, Vector3fc)
+     * @see #rotation(double, Vector3f)
      * 
      * @param angle
      *          the angle in radians
@@ -8580,12 +9026,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          will hold the result
      * @return dest
      */
-    public Matrix4d rotate(double angle, Vector3fc axis, Matrix4d dest) {
-        return rotate(angle, axis.x(), axis.y(), axis.z(), dest);
+    public Matrix4d rotate(double angle, Vector3f axis, Matrix4d dest) {
+        return rotate(angle, axis.x, axis.y, axis.z, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getRow(int, org.joml.Vector4d)
+    /**
+     * Get the row at the given <code>row</code> index, starting with <code>0</code>.
+     * 
+     * @param row
+     *          the row index in <tt>[0..3]</tt>
+     * @param dest
+     *          will hold the row components
+     * @return the passed in destination
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..3]</tt>
      */
     public Vector4d getRow(int row, Vector4d dest) throws IndexOutOfBoundsException {
         switch (row) {
@@ -8629,31 +9082,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..3]</tt>
      */
-    public Matrix4d setRow(int row, Vector4dc src) throws IndexOutOfBoundsException {
+    public Matrix4d setRow(int row, Vector4d src) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
-            this.m00 = src.x();
-            this.m10 = src.y();
-            this.m20 = src.z();
-            this.m30 = src.w();
+            this.m00 = src.x;
+            this.m10 = src.y;
+            this.m20 = src.z;
+            this.m30 = src.w;
             break;
         case 1:
-            this.m01 = src.x();
-            this.m11 = src.y();
-            this.m21 = src.z();
-            this.m31 = src.w();
+            this.m01 = src.x;
+            this.m11 = src.y;
+            this.m21 = src.z;
+            this.m31 = src.w;
             break;
         case 2:
-            this.m02 = src.x();
-            this.m12 = src.y();
-            this.m22 = src.z();
-            this.m32 = src.w();
+            this.m02 = src.x;
+            this.m12 = src.y;
+            this.m22 = src.z;
+            this.m32 = src.w;
             break;
         case 3:
-            this.m03 = src.x();
-            this.m13 = src.y();
-            this.m23 = src.z();
-            this.m33 = src.w();
+            this.m03 = src.x;
+            this.m13 = src.y;
+            this.m23 = src.z;
+            this.m33 = src.w;
             break;
         default:
             throw new IndexOutOfBoundsException();
@@ -8661,8 +9114,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#getColumn(int, org.joml.Vector4d)
+    /**
+     * Get the column at the given <code>column</code> index, starting with <code>0</code>.
+     * 
+     * @param column
+     *          the column index in <tt>[0..3]</tt>
+     * @param dest
+     *          will hold the column components
+     * @return the passed in destination
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..3]</tt>
      */
     public Vector4d getColumn(int column, Vector4d dest) throws IndexOutOfBoundsException {
         switch (column) {
@@ -8706,31 +9166,31 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..3]</tt>
      */
-    public Matrix4d setColumn(int column, Vector4dc src) throws IndexOutOfBoundsException {
+    public Matrix4d setColumn(int column, Vector4d src) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
-            this.m00 = src.x();
-            this.m01 = src.y();
-            this.m02 = src.z();
-            this.m03 = src.w();
+            this.m00 = src.x;
+            this.m01 = src.y;
+            this.m02 = src.z;
+            this.m03 = src.w;
             break;
         case 1:
-            this.m10 = src.x();
-            this.m11 = src.y();
-            this.m12 = src.z();
-            this.m13 = src.w();
+            this.m10 = src.x;
+            this.m11 = src.y;
+            this.m12 = src.z;
+            this.m13 = src.w;
             break;
         case 2:
-            this.m20 = src.x();
-            this.m21 = src.y();
-            this.m22 = src.z();
-            this.m23 = src.w();
+            this.m20 = src.x;
+            this.m21 = src.y;
+            this.m22 = src.z;
+            this.m23 = src.w;
             break;
         case 3:
-            this.m30 = src.x();
-            this.m31 = src.y();
-            this.m32 = src.z();
-            this.m33 = src.w();
+            this.m30 = src.x;
+            this.m31 = src.y;
+            this.m32 = src.z;
+            this.m33 = src.w;
             break;
         default:
             throw new IndexOutOfBoundsException();
@@ -8747,10 +9207,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link #set3x3(Matrix4dc)} to set a given Matrix4f to only the upper left 3x3 submatrix
+     * In that case, use {@link #set3x3(Matrix4d)} to set a given Matrix4f to only the upper left 3x3 submatrix
      * of this matrix.
      * 
-     * @see #set3x3(Matrix4dc)
+     * @see #set3x3(Matrix4d)
      * 
      * @return this
      */
@@ -8767,10 +9227,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link #set3x3(Matrix4dc)} to set a given Matrix4d to only the upper left 3x3 submatrix
+     * In that case, use {@link #set3x3(Matrix4d)} to set a given Matrix4d to only the upper left 3x3 submatrix
      * of a given matrix.
      * 
-     * @see #set3x3(Matrix4dc)
+     * @see #set3x3(Matrix4d)
      * 
      * @param dest
      *             will hold the result
@@ -8823,10 +9283,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * Please note that, if <code>this</code> is an orthogonal matrix or a matrix whose columns are orthogonal vectors, 
      * then this method <i>need not</i> be invoked, since in that case <code>this</code> itself is its normal matrix.
-     * In that case, use {@link Matrix3d#set(Matrix4dc)} to set a given Matrix3d to only the upper left 3x3 submatrix
+     * In that case, use {@link Matrix3d#set(Matrix4d)} to set a given Matrix3d to only the upper left 3x3 submatrix
      * of this matrix.
      * 
-     * @see Matrix3d#set(Matrix4dc)
+     * @see Matrix3d#set(Matrix4d)
      * @see #get3x3(Matrix3d)
      * 
      * @param dest
@@ -8868,8 +9328,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return normalize3x3(this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#normalize3x3(org.joml.Matrix4d)
+    /**
+     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
      */
     public Matrix4d normalize3x3(Matrix4d dest) {
         double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
@@ -8881,8 +9349,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#normalize3x3(org.joml.Matrix3d)
+    /**
+     * Normalize the upper left 3x3 submatrix of this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The resulting matrix will map unit vectors to unit vectors, though a pair of orthogonal input unit
+     * vectors need not be mapped to a pair of orthogonal output vectors if the original matrix was not orthogonal itself
+     * (i.e. had <i>skewing</i>).
+     * 
+     * @param dest
+     *             will hold the result
+     * @return dest
      */
     public Matrix3d normalize3x3(Matrix3d dest) {
         double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
@@ -8894,8 +9370,32 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unproject(double, double, double, int[], org.joml.Vector4d)
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInv(double, double, double, int[], Vector4d) unprojectInv()} can be invoked on it.
+     * 
+     * @see #unprojectInv(double, double, double, int[], Vector4d)
+     * @see #invert(Matrix4d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return dest
      */
     public Vector4d unproject(double winX, double winY, double winZ, int[] viewport, Vector4d dest) {
         double a = m00 * m11 - m01 * m10;
@@ -8939,8 +9439,32 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unproject(double, double, double, int[], org.joml.Vector3d)
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInv(double, double, double, int[], Vector3d) unprojectInv()} can be invoked on it.
+     * 
+     * @see #unprojectInv(double, double, double, int[], Vector3d)
+     * @see #invert(Matrix4d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return dest
      */
     public Vector3d unproject(double winX, double winY, double winZ, int[] viewport, Vector3d dest) {
         double a = m00 * m11 - m01 * m10;
@@ -8984,22 +9508,87 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unproject(org.joml.Vector3dc, int[], org.joml.Vector4d)
+    /**
+     * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInv(double, double, double, int[], Vector4d) unprojectInv()} can be invoked on it.
+     * 
+     * @see #unprojectInv(double, double, double, int[], Vector4d)
+     * @see #unproject(double, double, double, int[], Vector4d)
+     * @see #invert(Matrix4d)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return dest
      */
-    public Vector4d unproject(Vector3dc winCoords, int[] viewport, Vector4d dest) {
-        return unproject(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
+    public Vector4d unproject(Vector3d winCoords, int[] viewport, Vector4d dest) {
+        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unproject(org.joml.Vector3dc, int[], org.joml.Vector3d)
+    /**
+     * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInv(double, double, double, int[], Vector4d) unprojectInv()} can be invoked on it.
+     * 
+     * @see #unprojectInv(double, double, double, int[], Vector4d)
+     * @see #unproject(double, double, double, int[], Vector4d)
+     * @see #invert(Matrix4d)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return dest
      */
-    public Vector3d unproject(Vector3dc winCoords, int[] viewport, Vector3d dest) {
-        return unproject(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
+    public Vector3d unproject(Vector3d winCoords, int[] viewport, Vector3d dest) {
+        return unproject(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectRay(double, double, int[], org.joml.Vector3d, org.joml.Vector3d)
+    /**
+     * Unproject the given 2D window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at NDC <tt>z = -1.0</tt> and goes through NDC <tt>z = +1.0</tt>.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInvRay(double, double, int[], Vector3d, Vector3d) unprojectInvRay()} can be invoked on it.
+     * 
+     * @see #unprojectInvRay(double, double, int[], Vector3d, Vector3d)
+     * @see #invert(Matrix4d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
      */
     public Matrix4d unprojectRay(double winX, double winY, int[] viewport, Vector3d originDest, Vector3d dirDest) {
         double a = m00 * m11 - m01 * m10;
@@ -9049,22 +9638,86 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectRay(org.joml.Vector2dc, int[], org.joml.Vector3d, org.joml.Vector3d)
+    /**
+     * Unproject the given 2D window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at NDC <tt>z = -1.0</tt> and goes through NDC <tt>z = +1.0</tt>.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by the inverse of <code>this</code> matrix.  
+     * <p>
+     * As a necessary computation step for unprojecting, this method computes the inverse of <code>this</code> matrix.
+     * In order to avoid computing the matrix inverse with every invocation, the inverse of <code>this</code> matrix can be built
+     * once outside using {@link #invert(Matrix4d)} and then the method {@link #unprojectInvRay(double, double, int[], Vector3d, Vector3d) unprojectInvRay()} can be invoked on it.
+     * 
+     * @see #unprojectInvRay(double, double, int[], Vector3d, Vector3d)
+     * @see #unprojectRay(double, double, int[], Vector3d, Vector3d)
+     * @see #invert(Matrix4d)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
      */
-    public Matrix4d unprojectRay(Vector2dc winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
-        return unprojectRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
+    public Matrix4d unprojectRay(Vector2d winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
+        return unprojectRay(winCoords.x, winCoords.y, viewport, originDest, dirDest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectInv(org.joml.Vector3dc, int[], org.joml.Vector4d)
+    /**
+     * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method differs from {@link #unproject(Vector3d, int[], Vector4d) unproject()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unproject(Vector3d, int[], Vector4d)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return dest
      */
-    public Vector4d unprojectInv(Vector3dc winCoords, int[] viewport, Vector4d dest) {
-        return unprojectInv(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
+    public Vector4d unprojectInv(Vector3d winCoords, int[] viewport, Vector4d dest) {
+        return unprojectInv(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectInv(double, double, double, int[], org.joml.Vector4d)
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method differs from {@link #unproject(double, double, double, int[], Vector4d) unproject()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unproject(double, double, double, int[], Vector4d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return dest
      */
     public Vector4d unprojectInv(double winX, double winY, double winZ, int[] viewport, Vector4d dest) {
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
@@ -9078,15 +9731,57 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectInv(org.joml.Vector3dc, int[], org.joml.Vector3d)
+    /**
+     * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method differs from {@link #unproject(Vector3d, int[], Vector3d) unproject()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unproject(Vector3d, int[], Vector3d)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return dest
      */
-    public Vector3d unprojectInv(Vector3dc winCoords, int[] viewport, Vector3d dest) {
-        return unprojectInv(winCoords.x(), winCoords.y(), winCoords.z(), viewport, dest);
+    public Vector3d unprojectInv(Vector3d winCoords, int[] viewport, Vector3d dest) {
+        return unprojectInv(winCoords.x, winCoords.y, winCoords.z, viewport, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectInv(double, double, double, int[], org.joml.Vector3d)
+    /**
+     * Unproject the given window coordinates <tt>(winX, winY, winZ)</tt> by <code>this</code> matrix using the specified viewport.
+     * <p>
+     * This method differs from {@link #unproject(double, double, double, int[], Vector3d) unproject()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * <p>
+     * This method first converts the given window coordinates to normalized device coordinates in the range <tt>[-1..1]</tt>
+     * and then transforms those NDC coordinates by <code>this</code> matrix.  
+     * <p>
+     * The depth range of <tt>winZ</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
+     * 
+     * @see #unproject(double, double, double, int[], Vector3d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param winZ
+     *          the z-coordinate, which is the depth value in <tt>[0..1]</tt>
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          will hold the unprojected position
+     * @return dest
      */
     public Vector3d unprojectInv(double winX, double winY, double winZ, int[] viewport, Vector3d dest) {
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
@@ -9100,15 +9795,51 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectInvRay(org.joml.Vector2dc, int[], org.joml.Vector3d, org.joml.Vector3d)
+    /**
+     * Unproject the given window coordinates <code>winCoords</code> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at NDC <tt>z = -1.0</tt> and goes through NDC <tt>z = +1.0</tt>.
+     * <p>
+     * This method differs from {@link #unprojectRay(Vector2d, int[], Vector3d, Vector3d) unprojectRay()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * 
+     * @see #unprojectRay(Vector2d, int[], Vector3d, Vector3d)
+     * 
+     * @param winCoords
+     *          the window coordinates to unproject
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
      */
-    public Matrix4d unprojectInvRay(Vector2dc winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
-        return unprojectInvRay(winCoords.x(), winCoords.y(), viewport, originDest, dirDest);
+    public Matrix4d unprojectInvRay(Vector2d winCoords, int[] viewport, Vector3d originDest, Vector3d dirDest) {
+        return unprojectInvRay(winCoords.x, winCoords.y, viewport, originDest, dirDest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#unprojectInvRay(double, double, int[], org.joml.Vector3d, org.joml.Vector3d)
+    /**
+     * Unproject the given 2D window coordinates <tt>(winX, winY)</tt> by <code>this</code> matrix using the specified viewport
+     * and compute the origin and the direction of the resulting ray which starts at NDC <tt>z = -1.0</tt> and goes through NDC <tt>z = +1.0</tt>.
+     * <p>
+     * This method differs from {@link #unprojectRay(double, double, int[], Vector3d, Vector3d) unprojectRay()} 
+     * in that it assumes that <code>this</code> is already the inverse matrix of the original projection matrix.
+     * It exists to avoid recomputing the matrix inverse with every invocation.
+     * 
+     * @see #unprojectRay(double, double, int[], Vector3d, Vector3d)
+     * 
+     * @param winX
+     *          the x-coordinate in window coordinates (pixels)
+     * @param winY
+     *          the y-coordinate in window coordinates (pixels)
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param originDest
+     *          will hold the ray origin
+     * @param dirDest
+     *          will hold the (unnormalized) ray direction
+     * @return this
      */
     public Matrix4d unprojectInvRay(double winX, double winY, int[] viewport, Vector3d originDest, Vector3d dirDest) {
         double ndcX = (winX-viewport[0])/viewport[2]*2.0-1.0;
@@ -9128,8 +9859,27 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#project(double, double, double, int[], org.joml.Vector4d)
+    /**
+     * Project the given <tt>(x, y, z)</tt> position via <code>this</code> matrix using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @param x
+     *          the x-coordinate of the position to project
+     * @param y
+     *          the y-coordinate of the position to project
+     * @param z
+     *          the z-coordinate of the position to project
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     * @return winCoordsDest
      */
     public Vector4d project(double x, double y, double z, int[] viewport, Vector4d winCoordsDest) {
         winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
@@ -9143,8 +9893,27 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return winCoordsDest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#project(double, double, double, int[], org.joml.Vector3d)
+    /**
+     * Project the given <tt>(x, y, z)</tt> position via <code>this</code> matrix using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @param x
+     *          the x-coordinate of the position to project
+     * @param y
+     *          the y-coordinate of the position to project
+     * @param z
+     *          the z-coordinate of the position to project
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     * @return winCoordsDest
      */
     public Vector3d project(double x, double y, double z, int[] viewport, Vector3d winCoordsDest) {
         winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
@@ -9158,22 +9927,78 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return winCoordsDest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#project(org.joml.Vector3dc, int[], org.joml.Vector4d)
+    /**
+     * Project the given <code>position</code> via <code>this</code> matrix using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @see #project(double, double, double, int[], Vector4d)
+     * 
+     * @param position
+     *          the position to project into window coordinates
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     * @return winCoordsDest
      */
-    public Vector4d project(Vector3dc position, int[] viewport, Vector4d winCoordsDest) {
-        return project(position.x(), position.y(), position.z(), viewport, winCoordsDest);
+    public Vector4d project(Vector3d position, int[] viewport, Vector4d winCoordsDest) {
+        return project(position.x, position.y, position.z, viewport, winCoordsDest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#project(org.joml.Vector3dc, int[], org.joml.Vector3d)
+    /**
+     * Project the given <code>position</code> via <code>this</code> matrix using the specified viewport
+     * and store the resulting window coordinates in <code>winCoordsDest</code>.
+     * <p>
+     * This method transforms the given coordinates by <code>this</code> matrix including perspective division to 
+     * obtain normalized device coordinates, and then translates these into window coordinates by using the
+     * given <code>viewport</code> settings <tt>[x, y, width, height]</tt>.
+     * <p>
+     * The depth range of the returned <code>winCoordsDest.z</code> will be <tt>[0..1]</tt>, which is also the OpenGL default.  
+     * 
+     * @see #project(double, double, double, int[], Vector4d)
+     * 
+     * @param position
+     *          the position to project into window coordinates
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param winCoordsDest
+     *          will hold the projected window coordinates
+     * @return winCoordsDest
      */
-    public Vector3d project(Vector3dc position, int[] viewport, Vector3d winCoordsDest) {
-        return project(position.x(), position.y(), position.z(), viewport, winCoordsDest);
+    public Vector3d project(Vector3d position, int[] viewport, Vector3d winCoordsDest) {
+        return project(position.x, position.y, position.z, viewport, winCoordsDest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#reflect(double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the equation <tt>x*a + y*b + z*c + d = 0</tt> and store the result in <code>dest</code>.
+     * <p>
+     * The vector <tt>(a, b, c)</tt> must be a unit vector.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb281733(v=vs.85).aspx">msdn.microsoft.com</a>
+     * 
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Matrix4d reflect(double a, double b, double c, double d, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
@@ -9277,8 +10102,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return reflect(nx, ny, nz, px, py, pz, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#reflect(double, double, double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param nx
+     *          the x-coordinate of the plane normal
+     * @param ny
+     *          the y-coordinate of the plane normal
+     * @param nz
+     *          the z-coordinate of the plane normal
+     * @param px
+     *          the x-coordinate of a point on the plane
+     * @param py
+     *          the y-coordinate of a point on the plane
+     * @param pz
+     *          the z-coordinate of a point on the plane
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Matrix4d reflect(double nx, double ny, double nz, double px, double py, double pz, Matrix4d dest) {
         double invLength = 1.0 / Math.sqrt(nx * nx + ny * ny + nz * nz);
@@ -9304,8 +10151,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          a point on the plane
      * @return this
      */
-    public Matrix4d reflect(Vector3dc normal, Vector3dc point) {
-        return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z());
+    public Matrix4d reflect(Vector3d normal, Vector3d point) {
+        return reflect(normal.x, normal.y, normal.z, point.x, point.y, point.z);
     }
 
     /**
@@ -9313,7 +10160,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniondc} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniond} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
@@ -9327,28 +10174,60 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          a point on the plane
      * @return this
      */
-    public Matrix4d reflect(Quaterniondc orientation, Vector3dc point) {
+    public Matrix4d reflect(Quaterniond orientation, Vector3d point) {
         return reflect(orientation, point, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#reflect(org.joml.Quaterniondc, org.joml.Vector3dc, org.joml.Matrix4d)
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about a plane
+     * specified via the plane orientation and a point on the plane, and store the result in <code>dest</code>.
+     * <p>
+     * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniond} is
+     * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param orientation
+     *          the plane orientation
+     * @param point
+     *          a point on the plane
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d reflect(Quaterniondc orientation, Vector3dc point, Matrix4d dest) {
-        double num1 = orientation.x() + orientation.x();
-        double num2 = orientation.y() + orientation.y();
-        double num3 = orientation.z() + orientation.z();
-        double normalX = orientation.x() * num3 + orientation.w() * num2;
-        double normalY = orientation.y() * num3 - orientation.w() * num1;
-        double normalZ = 1.0 - (orientation.x() * num1 + orientation.y() * num2);
-        return reflect(normalX, normalY, normalZ, point.x(), point.y(), point.z(), dest);
+    public Matrix4d reflect(Quaterniond orientation, Vector3d point, Matrix4d dest) {
+        double num1 = orientation.x + orientation.x;
+        double num2 = orientation.y + orientation.y;
+        double num3 = orientation.z + orientation.z;
+        double normalX = orientation.x * num3 + orientation.w * num2;
+        double normalY = orientation.y * num3 - orientation.w * num1;
+        double normalZ = 1.0 - (orientation.x * num1 + orientation.y * num2);
+        return reflect(normalX, normalY, normalZ, point.x, point.y, point.z, dest);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#reflect(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Matrix4d)
+    /**
+     * Apply a mirror/reflection transformation to this matrix that reflects about the given plane
+     * specified via the plane normal and a point on the plane, and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param normal
+     *          the plane normal
+     * @param point
+     *          a point on the plane
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d reflect(Vector3dc normal, Vector3dc point, Matrix4d dest) {
-        return reflect(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z(), dest);
+    public Matrix4d reflect(Vector3d normal, Vector3d point, Matrix4d dest) {
+        return reflect(normal.x, normal.y, normal.z, point.x, point.y, point.z, dest);
     }
 
     /**
@@ -9428,8 +10307,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          a point on the plane
      * @return this
      */
-    public Matrix4d reflection(Vector3dc normal, Vector3dc point) {
-        return reflection(normal.x(), normal.y(), normal.z(), point.x(), point.y(), point.z());
+    public Matrix4d reflection(Vector3d normal, Vector3d point) {
+        return reflection(normal.x, normal.y, normal.z, point.x, point.y, point.z);
     }
 
     /**
@@ -9437,7 +10316,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniondc} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniond} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * 
      * @param orientation
@@ -9446,14 +10325,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          a point on the plane
      * @return this
      */
-    public Matrix4d reflection(Quaterniondc orientation, Vector3dc point) {
-        double num1 = orientation.x() + orientation.x();
-        double num2 = orientation.y() + orientation.y();
-        double num3 = orientation.z() + orientation.z();
-        double normalX = orientation.x() * num3 + orientation.w() * num2;
-        double normalY = orientation.y() * num3 - orientation.w() * num1;
-        double normalZ = 1.0 - (orientation.x() * num1 + orientation.y() * num2);
-        return reflection(normalX, normalY, normalZ, point.x(), point.y(), point.z());
+    public Matrix4d reflection(Quaterniond orientation, Vector3d point) {
+        double num1 = orientation.x + orientation.x;
+        double num2 = orientation.y + orientation.y;
+        double num3 = orientation.z + orientation.z;
+        double normalX = orientation.x * num3 + orientation.w * num2;
+        double normalY = orientation.y * num3 - orientation.w * num1;
+        double normalZ = 1.0 - (orientation.x * num1 + orientation.y * num2);
+        return reflection(normalX, normalY, normalZ, point.x, point.y, point.z);
     }
 
     /**
@@ -10735,15 +11614,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * lookalong rotation transformation will be applied first!
      * <p>
      * This is equivalent to calling
-     * {@link #lookAt(Vector3dc, Vector3dc, Vector3dc) lookAt}
+     * {@link #lookAt(Vector3d, Vector3d, Vector3d) lookAt}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(Vector3dc, Vector3dc) setLookAlong()}.
+     * use {@link #setLookAlong(Vector3d, Vector3d) setLookAlong()}.
      * 
      * @see #lookAlong(double, double, double, double, double, double)
-     * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
-     * @see #setLookAlong(Vector3dc, Vector3dc)
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
+     * @see #setLookAlong(Vector3d, Vector3d)
      * 
      * @param dir
      *            the direction in space to look along
@@ -10751,8 +11630,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4d lookAlong(Vector3dc dir, Vector3dc up) {
-        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), this);
+    public Matrix4d lookAlong(Vector3d dir, Vector3d up) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, this);
     }
 
     /**
@@ -10765,15 +11644,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * lookalong rotation transformation will be applied first!
      * <p>
      * This is equivalent to calling
-     * {@link #lookAt(Vector3dc, Vector3dc, Vector3dc) lookAt}
+     * {@link #lookAt(Vector3d, Vector3d, Vector3d) lookAt}
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * <p>
      * In order to set the matrix to a lookalong transformation without post-multiplying it,
-     * use {@link #setLookAlong(Vector3dc, Vector3dc) setLookAlong()}.
+     * use {@link #setLookAlong(Vector3d, Vector3d) setLookAlong()}.
      * 
      * @see #lookAlong(double, double, double, double, double, double)
-     * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
-     * @see #setLookAlong(Vector3dc, Vector3dc)
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
+     * @see #setLookAlong(Vector3d, Vector3d)
      * 
      * @param dir
      *            the direction in space to look along
@@ -10783,8 +11662,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            will hold the result
      * @return dest
      */
-    public Matrix4d lookAlong(Vector3dc dir, Vector3dc up, Matrix4d dest) {
-        return lookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z(), dest);
+    public Matrix4d lookAlong(Vector3d dir, Vector3d up, Matrix4d dest) {
+        return lookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z, dest);
     }
 
     /**
@@ -10932,14 +11811,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * point along <code>dir</code>.
      * <p>
      * This is equivalent to calling
-     * {@link #setLookAt(Vector3dc, Vector3dc, Vector3dc) setLookAt()} 
+     * {@link #setLookAt(Vector3d, Vector3d, Vector3d) setLookAt()} 
      * with <code>eye = (0, 0, 0)</code> and <code>center = dir</code>.
      * <p>
      * In order to apply the lookalong transformation to any previous existing transformation,
-     * use {@link #lookAlong(Vector3dc, Vector3dc)}.
+     * use {@link #lookAlong(Vector3d, Vector3d)}.
      * 
-     * @see #setLookAlong(Vector3dc, Vector3dc)
-     * @see #lookAlong(Vector3dc, Vector3dc)
+     * @see #setLookAlong(Vector3d, Vector3d)
+     * @see #lookAlong(Vector3d, Vector3d)
      * 
      * @param dir
      *            the direction in space to look along
@@ -10947,8 +11826,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4d setLookAlong(Vector3dc dir, Vector3dc up) {
-        return setLookAlong(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
+    public Matrix4d setLookAlong(Vector3d dir, Vector3d up) {
+        return setLookAlong(dir.x, dir.y, dir.z, up.x, up.y, up.z);
     }
 
     /**
@@ -11031,10 +11910,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * instead.
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
-     * use {@link #lookAt(Vector3dc, Vector3dc, Vector3dc) lookAt()}.
+     * use {@link #lookAt(Vector3d, Vector3d, Vector3d) lookAt()}.
      * 
      * @see #setLookAt(double, double, double, double, double, double, double, double, double)
-     * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
      * 
      * @param eye
      *            the position of the camera
@@ -11044,8 +11923,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4d setLookAt(Vector3dc eye, Vector3dc center, Vector3dc up) {
-        return setLookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z());
+    public Matrix4d setLookAt(Vector3d eye, Vector3d center, Vector3d up) {
+        return setLookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
     }
 
     /**
@@ -11055,7 +11934,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * In order to apply the lookat transformation to a previous existing transformation,
      * use {@link #lookAt(double, double, double, double, double, double, double, double, double) lookAt}.
      * 
-     * @see #setLookAt(Vector3dc, Vector3dc, Vector3dc)
+     * @see #setLookAt(Vector3d, Vector3d, Vector3d)
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
      * 
      * @param eyeX
@@ -11137,10 +12016,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
-     * use {@link #setLookAt(Vector3dc, Vector3dc, Vector3dc)}.
+     * use {@link #setLookAt(Vector3d, Vector3d, Vector3d)}.
      * 
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
-     * @see #setLookAlong(Vector3dc, Vector3dc)
+     * @see #setLookAlong(Vector3d, Vector3d)
      * 
      * @param eye
      *            the position of the camera
@@ -11152,8 +12031,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            will hold the result
      * @return dest
      */
-    public Matrix4d lookAt(Vector3dc eye, Vector3dc center, Vector3dc up, Matrix4d dest) {
-        return lookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), dest);
+    public Matrix4d lookAt(Vector3d eye, Vector3d center, Vector3d up, Matrix4d dest) {
+        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, dest);
     }
 
     /**
@@ -11166,10 +12045,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
-     * use {@link #setLookAt(Vector3dc, Vector3dc, Vector3dc)}.
+     * use {@link #setLookAt(Vector3d, Vector3d, Vector3d)}.
      * 
      * @see #lookAt(double, double, double, double, double, double, double, double, double)
-     * @see #setLookAlong(Vector3dc, Vector3dc)
+     * @see #setLookAlong(Vector3d, Vector3d)
      * 
      * @param eye
      *            the position of the camera
@@ -11179,8 +12058,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4d lookAt(Vector3dc eye, Vector3dc center, Vector3dc up) {
-        return lookAt(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), this);
+    public Matrix4d lookAt(Vector3d eye, Vector3d center, Vector3d up) {
+        return lookAt(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, this);
     }
 
     /**
@@ -11195,7 +12074,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt()}.
      * 
-     * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
      * @see #setLookAt(double, double, double, double, double, double, double, double, double)
      * 
      * @param eyeX
@@ -11316,7 +12195,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAt(double, double, double, double, double, double, double, double, double) setLookAt()}.
      * 
-     * @see #lookAt(Vector3dc, Vector3dc, Vector3dc)
+     * @see #lookAt(Vector3d, Vector3d, Vector3d)
      * @see #setLookAt(double, double, double, double, double, double, double, double, double)
      * 
      * @param eyeX
@@ -11473,10 +12352,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * instead.
      * <p>
      * In order to apply the lookat transformation to a previous existing transformation,
-     * use {@link #lookAtLH(Vector3dc, Vector3dc, Vector3dc) lookAt()}.
+     * use {@link #lookAtLH(Vector3d, Vector3d, Vector3d) lookAt()}.
      * 
      * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
-     * @see #lookAtLH(Vector3dc, Vector3dc, Vector3dc)
+     * @see #lookAtLH(Vector3d, Vector3d, Vector3d)
      * 
      * @param eye
      *            the position of the camera
@@ -11486,8 +12365,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4d setLookAtLH(Vector3dc eye, Vector3dc center, Vector3dc up) {
-        return setLookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z());
+    public Matrix4d setLookAtLH(Vector3d eye, Vector3d center, Vector3d up) {
+        return setLookAtLH(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z);
     }
 
     /**
@@ -11497,7 +12376,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * In order to apply the lookat transformation to a previous existing transformation,
      * use {@link #lookAtLH(double, double, double, double, double, double, double, double, double) lookAtLH}.
      * 
-     * @see #setLookAtLH(Vector3dc, Vector3dc, Vector3dc)
+     * @see #setLookAtLH(Vector3d, Vector3d, Vector3d)
      * @see #lookAtLH(double, double, double, double, double, double, double, double, double)
      * 
      * @param eyeX
@@ -11579,10 +12458,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
-     * use {@link #setLookAtLH(Vector3dc, Vector3dc, Vector3dc)}.
+     * use {@link #setLookAtLH(Vector3d, Vector3d, Vector3d)}.
      * 
      * @see #lookAtLH(double, double, double, double, double, double, double, double, double)
-     * @see #setLookAtLH(Vector3dc, Vector3dc, Vector3dc)
+     * @see #setLookAtLH(Vector3d, Vector3d, Vector3d)
      * 
      * @param eye
      *            the position of the camera
@@ -11594,8 +12473,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            will hold the result
      * @return dest
      */
-    public Matrix4d lookAtLH(Vector3dc eye, Vector3dc center, Vector3dc up, Matrix4d dest) {
-        return lookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), dest);
+    public Matrix4d lookAtLH(Vector3d eye, Vector3d center, Vector3d up, Matrix4d dest) {
+        return lookAtLH(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, dest);
     }
 
     /**
@@ -11608,7 +12487,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a lookat transformation without post-multiplying it,
-     * use {@link #setLookAtLH(Vector3dc, Vector3dc, Vector3dc)}.
+     * use {@link #setLookAtLH(Vector3d, Vector3d, Vector3d)}.
      * 
      * @see #lookAtLH(double, double, double, double, double, double, double, double, double)
      * 
@@ -11620,8 +12499,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *            the direction of 'up'
      * @return this
      */
-    public Matrix4d lookAtLH(Vector3dc eye, Vector3dc center, Vector3dc up) {
-        return lookAtLH(eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(), up.x(), up.y(), up.z(), this);
+    public Matrix4d lookAtLH(Vector3d eye, Vector3d center, Vector3d up) {
+        return lookAtLH(eye.x, eye.y, eye.z, center.x, center.y, center.z, up.x, up.y, up.z, this);
     }
 
     /**
@@ -11636,7 +12515,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAtLH(double, double, double, double, double, double, double, double, double) setLookAtLH()}.
      * 
-     * @see #lookAtLH(Vector3dc, Vector3dc, Vector3dc)
+     * @see #lookAtLH(Vector3d, Vector3d, Vector3d)
      * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
      * 
      * @param eyeX
@@ -11757,7 +12636,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * In order to set the matrix to a lookat transformation without post-multiplying it,
      * use {@link #setLookAtLH(double, double, double, double, double, double, double, double, double) setLookAtLH()}.
      * 
-     * @see #lookAtLH(Vector3dc, Vector3dc, Vector3dc)
+     * @see #lookAtLH(Vector3d, Vector3d, Vector3d)
      * @see #setLookAtLH(double, double, double, double, double, double, double, double, double)
      * 
      * @param eyeX
@@ -13025,8 +13904,35 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return setFrustumLH(left, right, bottom, top, zNear, zFar, false);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#frustumPlane(int, org.joml.Vector4d)
+    /**
+     * Calculate a frustum plane of <code>this</code> matrix, which
+     * can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>planeEquation</code>.
+     * <p>
+     * Generally, this method computes the frustum plane in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * The frustum plane will be given in the form of a general plane equation:
+     * <tt>a*x + b*y + c*z + d = 0</tt>, where the given {@link Vector4d} components will
+     * hold the <tt>(a, b, c, d)</tt> values of the equation.
+     * <p>
+     * The plane normal, which is <tt>(a, b, c)</tt>, is directed "inwards" of the frustum.
+     * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
+     * if the point is within the frustum (i.e. at the <i>positive</i> side of the frustum plane).
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     *
+     * @param plane
+     *          one of the six possible planes, given as numeric constants
+     *          {@link #PLANE_NX}, {@link #PLANE_PX},
+     *          {@link #PLANE_NY}, {@link #PLANE_PY}, 
+     *          {@link #PLANE_NZ} and {@link #PLANE_PZ}
+     * @param planeEquation
+     *          will hold the computed plane equation.
+     *          The plane equation will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector
+     * @return planeEquation
      */
     public Vector4d frustumPlane(int plane, Vector4d planeEquation) {
         switch (plane) {
@@ -13054,8 +13960,27 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return planeEquation;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#frustumCorner(int, org.joml.Vector3d)
+    /**
+     * Compute the corner coordinates of the frustum defined by <code>this</code> matrix, which
+     * can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>point</code>.
+     * <p>
+     * Generally, this method computes the frustum corners in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param corner
+     *          one of the eight possible corners, given as numeric constants
+     *          {@link #CORNER_NXNYNZ}, {@link #CORNER_PXNYNZ}, {@link #CORNER_PXPYNZ}, {@link #CORNER_NXPYNZ},
+     *          {@link #CORNER_PXNYPZ}, {@link #CORNER_NXNYPZ}, {@link #CORNER_NXPYPZ}, {@link #CORNER_PXPYPZ}
+     * @param point
+     *          will hold the resulting corner point coordinates
+     * @return point
      */
     public Vector3d frustumCorner(int corner, Vector3d point) {
         double d1, d2, d3;
@@ -13123,8 +14048,28 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return point;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#perspectiveOrigin(org.joml.Vector3d)
+    /**
+     * Compute the eye/origin of the perspective frustum transformation defined by <code>this</code> matrix, 
+     * which can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>origin</code>.
+     * <p>
+     * Note that this method will only work using perspective projections obtained via one of the
+     * perspective methods, such as {@link #perspective(double, double, double, double, Matrix4d) perspective()}
+     * or {@link #frustum(double, double, double, double, double, double, Matrix4d) frustum()}.
+     * <p>
+     * Generally, this method computes the origin in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param origin
+     *          will hold the origin of the coordinate system before applying <code>this</code>
+     *          perspective projection transformation
+     * @return origin
      */
     public Vector3d perspectiveOrigin(Vector3d origin) {
         /*
@@ -13154,8 +14099,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return origin;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#perspectiveFov()
+    /**
+     * Return the vertical field-of-view angle in radians of this perspective transformation matrix.
+     * <p>
+     * Note that this method will only work using perspective projections obtained via one of the
+     * perspective methods, such as {@link #perspective(double, double, double, double, Matrix4d) perspective()}
+     * or {@link #frustum(double, double, double, double, double, double, Matrix4d) frustum()}.
+     * <p>
+     * For orthogonal transformations this method will return <tt>0.0</tt>.
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @return the vertical field-of-view angle in radians
      */
     public double perspectiveFov() {
         /*
@@ -13169,22 +14125,55 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return Math.acos((n1x * n2x + n1y * n2y + n1z * n2z) / (n1len * n2len));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#perspectiveNear()
+    /**
+     * Extract the near clip plane distance from <code>this</code> perspective projection matrix.
+     * <p>
+     * This method only works if <code>this</code> is a perspective projection matrix, for example obtained via {@link #perspective(double, double, double, double, Matrix4d)}.
+     * 
+     * @return the near clip plane distance
      */
     public double perspectiveNear() {
         return m32 / (m23 + m22);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#perspectiveFar()
+    /**
+     * Extract the far clip plane distance from <code>this</code> perspective projection matrix.
+     * <p>
+     * This method only works if <code>this</code> is a perspective projection matrix, for example obtained via {@link #perspective(double, double, double, double, Matrix4d)}.
+     * 
+     * @return the far clip plane distance
      */
     public double perspectiveFar() {
         return m32 / (m22 - m23);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#frustumRayDir(double, double, org.joml.Vector3d)
+    /**
+     * Obtain the direction of a ray starting at the center of the coordinate system and going
+     * through the near frustum plane.
+     * <p>
+     * This method computes the <code>dir</code> vector in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * The parameters <code>x</code> and <code>y</code> are used to interpolate the generated ray direction
+     * from the bottom-left to the top-right frustum corners.
+     * <p>
+     * For optimal efficiency when building many ray directions over the whole frustum,
+     * it is recommended to use this method only in order to compute the four corner rays at
+     * <tt>(0, 0)</tt>, <tt>(1, 0)</tt>, <tt>(0, 1)</tt> and <tt>(1, 1)</tt>
+     * and then bilinearly interpolating between them; or to use the {@link FrustumRayBuilder}.
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param x
+     *          the interpolation factor along the left-to-right frustum planes, within <tt>[0..1]</tt>
+     * @param y
+     *          the interpolation factor along the bottom-to-top frustum planes, within <tt>[0..1]</tt>
+     * @param dir
+     *          will hold the normalized ray direction in the local frame of the coordinate system before 
+     *          transforming to homogeneous clipping space using <code>this</code> matrix
+     * @return dir
      */
     public Vector3d frustumRayDir(double x, double y, Vector3d dir) {
         /*
@@ -13212,8 +14201,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#positiveZ(org.joml.Vector3d)
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).invert();
+     * inv.transformDirection(dir.set(0, 0, 1)).normalize();
+     * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveZ(Vector3d)} instead.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return dir
      */
     public Vector3d positiveZ(Vector3d dir) {
         dir.x = m10 * m21 - m11 * m20;
@@ -13223,8 +14228,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#normalizedPositiveZ(org.joml.Vector3d)
+    /**
+     * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+Z</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).transpose();
+     * inv.transformDirection(dir.set(0, 0, 1));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Z</tt>
+     * @return dir
      */
     public Vector3d normalizedPositiveZ(Vector3d dir) {
         dir.x = m02;
@@ -13233,8 +14254,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#positiveX(org.joml.Vector3d)
+    /**
+     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).invert();
+     * inv.transformDirection(dir.set(1, 0, 0)).normalize();
+     * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveX(Vector3d)} instead.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
      */
     public Vector3d positiveX(Vector3d dir) {
         dir.x = m11 * m22 - m12 * m21;
@@ -13244,8 +14281,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#normalizedPositiveX(org.joml.Vector3d)
+    /**
+     * Obtain the direction of <tt>+X</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+X</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).transpose();
+     * inv.transformDirection(dir.set(1, 0, 0));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+X</tt>
+     * @return dir
      */
     public Vector3d normalizedPositiveX(Vector3d dir) {
         dir.x = m00;
@@ -13254,8 +14307,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#positiveY(org.joml.Vector3d)
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> matrix is applied.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).invert();
+     * inv.transformDirection(dir.set(0, 1, 0)).normalize();
+     * </pre>
+     * If <code>this</code> is already an orthogonal matrix, then consider using {@link #normalizedPositiveY(Vector3d)} instead.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return dir
      */
     public Vector3d positiveY(Vector3d dir) {
         dir.x = m12 * m20 - m10 * m22;
@@ -13265,8 +14334,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#normalizedPositiveY(org.joml.Vector3d)
+    /**
+     * Obtain the direction of <tt>+Y</tt> before the transformation represented by <code>this</code> <i>orthogonal</i> matrix is applied.
+     * This method only produces correct results if <code>this</code> is an <i>orthogonal</i> matrix.
+     * <p>
+     * This method uses the rotation component of the upper left 3x3 submatrix to obtain the direction 
+     * that is transformed to <tt>+Y</tt> by <code>this</code> matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4d inv = new Matrix4d(this).transpose();
+     * inv.transformDirection(dir.set(0, 1, 0));
+     * </pre>
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/">http://www.euclideanspace.com</a>
+     * 
+     * @param dir
+     *          will hold the direction of <tt>+Y</tt>
+     * @return dir
      */
     public Vector3d normalizedPositiveY(Vector3d dir) {
         dir.x = m01;
@@ -13275,8 +14360,21 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dir;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#originAffine(org.joml.Vector3d)
+    /**
+     * Obtain the position that gets transformed to the origin by <code>this</code> {@link #isAffine() affine} matrix.
+     * This can be used to get the position of the "camera" from a given <i>view</i> transformation matrix.
+     * <p>
+     * This method only works with {@link #isAffine() affine} matrices.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).invertAffine();
+     * inv.transformPosition(origin.set(0, 0, 0));
+     * </pre>
+     * 
+     * @param origin
+     *          will hold the position transformed to the origin
+     * @return origin
      */
     public Vector3d originAffine(Vector3d origin) {
         double a = m00 * m11 - m01 * m10;
@@ -13291,8 +14389,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return origin;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#origin(org.joml.Vector3d)
+    /**
+     * Obtain the position that gets transformed to the origin by <code>this</code> matrix.
+     * This can be used to get the position of the "camera" from a given <i>view/projection</i> transformation matrix.
+     * <p>
+     * This method is equivalent to the following code:
+     * <pre>
+     * Matrix4f inv = new Matrix4f(this).invert();
+     * inv.transformPosition(origin.set(0, 0, 0));
+     * </pre>
+     * 
+     * @param origin
+     *          will hold the position transformed to the origin
+     * @return origin
      */
     public Vector3d origin(Vector3d origin) {
         double a = m00 * m11 - m01 * m10;
@@ -13344,15 +14453,40 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the constant in the plane equation
      * @return this
      */
-    public Matrix4d shadow(Vector4dc light, double a, double b, double c, double d) {
-        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, this);
+    public Matrix4d shadow(Vector4d light, double a, double b, double c, double d) {
+        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#shadow(org.joml.Vector4dc, double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * 
+     * @param light
+     *          the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d shadow(Vector4dc light, double a, double b, double c, double d, Matrix4d dest) {
-        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
+    public Matrix4d shadow(Vector4d light, double a, double b, double c, double d, Matrix4d dest) {
+        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
     }
 
     /**
@@ -13390,8 +14524,39 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#shadow(double, double, double, double, double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane specified via the general plane equation
+     * <tt>x*a + y*b + z*c + d = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * <p>
+     * Reference: <a href="ftp://ftp.sgi.com/opengl/contrib/blythe/advanced99/notes/node192.html">ftp.sgi.com</a>
+     * 
+     * @param lightX
+     *          the x-component of the light's vector
+     * @param lightY
+     *          the y-component of the light's vector
+     * @param lightZ
+     *          the z-component of the light's vector
+     * @param lightW
+     *          the w-component of the light's vector
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, double a, double b, double c, double d, Matrix4d dest) {
         // normalize plane
@@ -13455,16 +14620,35 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#shadow(org.joml.Vector4dc, org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <code>light</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <tt>light.w</tt> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param light
+     *          the light's vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d shadow(Vector4dc light, Matrix4dc planeTransform, Matrix4d dest) {
+    public Matrix4d shadow(Vector4d light, Matrix4d planeTransform, Matrix4d dest) {
         // compute plane equation by transforming (y = 0)
-        double a = planeTransform.m10();
-        double b = planeTransform.m11();
-        double c = planeTransform.m12();
-        double d = -a * planeTransform.m30() - b * planeTransform.m31() - c * planeTransform.m32();
-        return shadow(light.x(), light.y(), light.z(), light.w(), a, b, c, d, dest);
+        double a = planeTransform.m10;
+        double b = planeTransform.m11;
+        double c = planeTransform.m12;
+        double d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
+        return shadow(light.x, light.y, light.z, light.w, a, b, c, d, dest);
     }
 
     /**
@@ -13490,15 +14674,40 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return shadow(light, planeTransform, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#shadow(double, double, double, double, org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Apply a projection transformation to this matrix that projects onto the plane with the general plane equation
+     * <tt>y = 0</tt> as if casting a shadow from a given light position/direction <tt>(lightX, lightY, lightZ, lightW)</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Before the shadow projection is applied, the plane is transformed via the specified <code>planeTransformation</code>.
+     * <p>
+     * If <code>lightW</code> is <tt>0.0</tt> the light is being treated as a directional light; if it is <tt>1.0</tt> it is a point light.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the shadow matrix,
+     * then the new matrix will be <code>M * S</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * S * v</code>, the
+     * reflection will be applied first!
+     * 
+     * @param lightX
+     *          the x-component of the light vector
+     * @param lightY
+     *          the y-component of the light vector
+     * @param lightZ
+     *          the z-component of the light vector
+     * @param lightW
+     *          the w-component of the light vector
+     * @param planeTransform
+     *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, Matrix4dc planeTransform, Matrix4d dest) {
+    public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, Matrix4d planeTransform, Matrix4d dest) {
         // compute plane equation by transforming (y = 0)
-        double a = planeTransform.m10();
-        double b = planeTransform.m11();
-        double c = planeTransform.m12();
-        double d = -a * planeTransform.m30() - b * planeTransform.m31() - c * planeTransform.m32();
+        double a = planeTransform.m10;
+        double b = planeTransform.m11;
+        double c = planeTransform.m12;
+        double d = -a * planeTransform.m30 - b * planeTransform.m31 - c * planeTransform.m32;
         return shadow(lightX, lightY, lightZ, lightW, a, b, c, d, dest);
     }
 
@@ -13527,7 +14736,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the transformation to transform the implied plane <tt>y = 0</tt> before applying the projection
      * @return this
      */
-    public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, Matrix4dc planeTransform) {
+    public Matrix4d shadow(double lightX, double lightY, double lightZ, double lightW, Matrix4d planeTransform) {
         return shadow(lightX, lightY, lightZ, lightW, planeTransform, this);
     }
 
@@ -13546,14 +14755,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the rotation axis (must be {@link Vector3d#normalize() normalized})
      * @return this
      */
-    public Matrix4d billboardCylindrical(Vector3dc objPos, Vector3dc targetPos, Vector3dc up) {
-        double dirX = targetPos.x() - objPos.x();
-        double dirY = targetPos.y() - objPos.y();
-        double dirZ = targetPos.z() - objPos.z();
+    public Matrix4d billboardCylindrical(Vector3d objPos, Vector3d targetPos, Vector3d up) {
+        double dirX = targetPos.x - objPos.x;
+        double dirY = targetPos.y - objPos.y;
+        double dirZ = targetPos.z - objPos.z;
         // left = up x dir
-        double leftX = up.y() * dirZ - up.z() * dirY;
-        double leftY = up.z() * dirX - up.x() * dirZ;
-        double leftZ = up.x() * dirY - up.y() * dirX;
+        double leftX = up.y * dirZ - up.z * dirY;
+        double leftY = up.z * dirX - up.x * dirZ;
+        double leftZ = up.x * dirY - up.y * dirX;
         // normalize left
         double invLeftLen = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLen;
@@ -13561,9 +14770,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         leftZ *= invLeftLen;
         // recompute dir by constraining rotation around 'up'
         // dir = left x up
-        dirX = leftY * up.z() - leftZ * up.y();
-        dirY = leftZ * up.x() - leftX * up.z();
-        dirZ = leftX * up.y() - leftY * up.x();
+        dirX = leftY * up.z - leftZ * up.y;
+        dirY = leftZ * up.x - leftX * up.z;
+        dirZ = leftX * up.y - leftY * up.x;
         // normalize dir
         double invDirLen = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
@@ -13574,17 +14783,17 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m01 = leftY;
         m02 = leftZ;
         m03 = 0.0;
-        m10 = up.x();
-        m11 = up.y();
-        m12 = up.z();
+        m10 = up.x;
+        m11 = up.y;
+        m12 = up.z;
         m13 = 0.0;
         m20 = dirX;
         m21 = dirY;
         m22 = dirZ;
         m23 = 0.0;
-        m30 = objPos.x();
-        m31 = objPos.y();
-        m32 = objPos.z();
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
         m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
@@ -13598,9 +14807,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * its position <code>objPos</code>.
      * <p>
      * If preserving an <i>up</i> vector is not necessary when rotating the +Z axis, then a shortest arc rotation can be obtained 
-     * using {@link #billboardSpherical(Vector3dc, Vector3dc)}.
+     * using {@link #billboardSpherical(Vector3d, Vector3d)}.
      * 
-     * @see #billboardSpherical(Vector3dc, Vector3dc)
+     * @see #billboardSpherical(Vector3d, Vector3d)
      * 
      * @param objPos
      *          the position of the object to rotate towards <code>targetPos</code>
@@ -13610,19 +14819,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the up axis used to orient the object
      * @return this
      */
-    public Matrix4d billboardSpherical(Vector3dc objPos, Vector3dc targetPos, Vector3dc up) {
-        double dirX = targetPos.x() - objPos.x();
-        double dirY = targetPos.y() - objPos.y();
-        double dirZ = targetPos.z() - objPos.z();
+    public Matrix4d billboardSpherical(Vector3d objPos, Vector3d targetPos, Vector3d up) {
+        double dirX = targetPos.x - objPos.x;
+        double dirY = targetPos.y - objPos.y;
+        double dirZ = targetPos.z - objPos.z;
         // normalize dir
         double invDirLen = 1.0 / Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
         dirX *= invDirLen;
         dirY *= invDirLen;
         dirZ *= invDirLen;
         // left = up x dir
-        double leftX = up.y() * dirZ - up.z() * dirY;
-        double leftY = up.z() * dirX - up.x() * dirZ;
-        double leftZ = up.x() * dirY - up.y() * dirX;
+        double leftX = up.y * dirZ - up.z * dirY;
+        double leftY = up.z * dirX - up.x * dirZ;
+        double leftZ = up.x * dirY - up.y * dirX;
         // normalize left
         double invLeftLen = 1.0 / Math.sqrt(leftX * leftX + leftY * leftY + leftZ * leftZ);
         leftX *= invLeftLen;
@@ -13645,9 +14854,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m21 = dirY;
         m22 = dirZ;
         m23 = 0.0;
-        m30 = objPos.x();
-        m31 = objPos.y();
-        m32 = objPos.z();
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
         m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
@@ -13661,9 +14870,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * its position <code>objPos</code>.
      * <p>
      * In order to specify an <i>up</i> vector which needs to be maintained when rotating the +Z axis of the object,
-     * use {@link #billboardSpherical(Vector3dc, Vector3dc, Vector3dc)}.
+     * use {@link #billboardSpherical(Vector3d, Vector3d, Vector3d)}.
      * 
-     * @see #billboardSpherical(Vector3dc, Vector3dc, Vector3dc)
+     * @see #billboardSpherical(Vector3d, Vector3d, Vector3d)
      * 
      * @param objPos
      *          the position of the object to rotate towards <code>targetPos</code>
@@ -13671,10 +14880,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the position of the target (for example the camera) towards which to rotate the object
      * @return this
      */
-    public Matrix4d billboardSpherical(Vector3dc objPos, Vector3dc targetPos) {
-        double toDirX = targetPos.x() - objPos.x();
-        double toDirY = targetPos.y() - objPos.y();
-        double toDirZ = targetPos.z() - objPos.z();
+    public Matrix4d billboardSpherical(Vector3d objPos, Vector3d targetPos) {
+        double toDirX = targetPos.x - objPos.x;
+        double toDirY = targetPos.y - objPos.y;
+        double toDirZ = targetPos.z - objPos.z;
         double x = -toDirY;
         double y = toDirX;
         double w = Math.sqrt(toDirX * toDirX + toDirY * toDirY + toDirZ * toDirZ) + toDirZ;
@@ -13699,9 +14908,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m21 = -q03;
         m22 = 1.0 - q11 - q00;
         m23 = 0.0;
-        m30 = objPos.x();
-        m31 = objPos.y();
-        m32 = objPos.z();
+        m30 = objPos.x;
+        m31 = objPos.y;
+        m32 = objPos.z;
         m33 = 1.0;
         properties = PROPERTY_AFFINE;
         return this;
@@ -13789,8 +14998,24 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#pick(double, double, double, double, int[], org.joml.Matrix4d)
+    /**
+     * Apply a picking transformation to this matrix using the given window coordinates <tt>(x, y)</tt> as the pick center
+     * and the given <tt>(width, height)</tt> as the size of the picking region in window coordinates, and store the result
+     * in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the picking region center in window coordinates
+     * @param y
+     *          the y coordinate of the picking region center in window coordinates
+     * @param width
+     *          the width of the picking region in window coordinates
+     * @param height
+     *          the height of the picking region in window coordinates
+     * @param viewport
+     *          the viewport described by <tt>[x, y, width, height]</tt>
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
      */
     public Matrix4d pick(double x, double y, double width, double height, int[] viewport, Matrix4d dest) {
         double sx = viewport[2] / width;
@@ -13833,8 +15058,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return pick(x, y, width, height, viewport, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#isAffine()
+    /**
+     * Determine whether this matrix describes an affine transformation. This is the case iff its last row is equal to <tt>(0, 0, 0, 1)</tt>.
+     * 
+     * @return <code>true</code> iff this matrix is affine; <code>false</code> otherwise
      */
     public boolean isAffine() {
         return m03 == 0.0 && m13 == 0.0 && m23 == 0.0 && m33 == 1.0;
@@ -13871,8 +15098,27 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#arcball(double, double, double, double, double, double, org.joml.Matrix4d)
+    /**
+     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and center <tt>(centerX, centerY, centerZ)</tt>
+     * position of the arcball and the specified X and Y rotation angles, and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-centerX, -centerY, -centerZ)</tt>
+     * 
+     * @param radius
+     *          the arcball radius
+     * @param centerX
+     *          the x coordinate of the center position of the arcball
+     * @param centerY
+     *          the y coordinate of the center position of the arcball
+     * @param centerZ
+     *          the z coordinate of the center position of the arcball
+     * @param angleX
+     *          the rotation angle around the X axis in radians
+     * @param angleY
+     *          the rotation angle around the Y axis in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Matrix4d arcball(double radius, double centerX, double centerY, double centerZ, double angleX, double angleY, Matrix4d dest) {
         double m30 = m20 * -radius + this.m30;
@@ -13919,11 +15165,26 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#arcball(double, org.joml.Vector3dc, double, double, org.joml.Matrix4d)
+    /**
+     * Apply an arcball view transformation to this matrix with the given <code>radius</code> and <code>center</code>
+     * position of the arcball and the specified X and Y rotation angles, and store the result in <code>dest</code>.
+     * <p>
+     * This method is equivalent to calling: <tt>translate(0, 0, -radius).rotateX(angleX).rotateY(angleY).translate(-center.x, -center.y, -center.z)</tt>
+     * 
+     * @param radius
+     *          the arcball radius
+     * @param center
+     *          the center position of the arcball
+     * @param angleX
+     *          the rotation angle around the X axis in radians
+     * @param angleY
+     *          the rotation angle around the Y axis in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d arcball(double radius, Vector3dc center, double angleX, double angleY, Matrix4d dest) {
-        return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, dest);
+    public Matrix4d arcball(double radius, Vector3d center, double angleX, double angleY, Matrix4d dest) {
+        return arcball(radius, center.x, center.y, center.z, angleX, angleY, dest);
     }
 
     /**
@@ -13966,8 +15227,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the rotation angle around the Y axis in radians
      * @return this
      */
-    public Matrix4d arcball(double radius, Vector3dc center, double angleX, double angleY) {
-        return arcball(radius, center.x(), center.y(), center.z(), angleX, angleY, this);
+    public Matrix4d arcball(double radius, Vector3d center, double angleX, double angleY) {
+        return arcball(radius, center.x, center.y, center.z, angleX, angleY, this);
     }
 
     /**
@@ -14016,10 +15277,26 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#projectedGridRange(org.joml.Matrix4dc, double, double, org.joml.Matrix4d)
+    /**
+     * Compute the <i>range matrix</i> for the Projected Grid transformation as described in chapter "2.4.2 Creating the range conversion matrix"
+     * of the paper <a href="http://fileadmin.cs.lth.se/graphics/theses/projects/projgrid/projgrid-lq.pdf">Real-time water rendering - Introducing the projected grid concept</a>
+     * based on the <i>inverse</i> of the view-projection matrix which is assumed to be <code>this</code>, and store that range matrix into <code>dest</code>.
+     * <p>
+     * If the projected grid will not be visible then this method returns <code>null</code>.
+     * <p>
+     * This method uses the <tt>y = 0</tt> plane for the projection.
+     * 
+     * @param projector
+     *          the projector view-projection transformation
+     * @param sLower
+     *          the lower (smallest) Y-coordinate which any transformed vertex might have while still being visible on the projected grid
+     * @param sUpper
+     *          the upper (highest) Y-coordinate which any transformed vertex might have while still being visible on the projected grid
+     * @param dest
+     *          will hold the resulting range matrix
+     * @return the computed range matrix; or <code>null</code> if the projected grid will not be visible
      */
-    public Matrix4d projectedGridRange(Matrix4dc projector, double sLower, double sUpper, Matrix4d dest) {
+    public Matrix4d projectedGridRange(Matrix4d projector, double sLower, double sUpper, Matrix4d dest) {
         // Compute intersection with frustum edges and plane
         double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE;
         double maxX = -Double.MAX_VALUE, maxY = -Double.MAX_VALUE;
@@ -14064,9 +15341,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
                     // project with projector matrix
                     double ix = p0x + isectT * dirX;
                     double iz = p0z + isectT * dirZ;
-                    invW = 1.0 / (projector.m03() * ix + projector.m23() * iz + projector.m33());
-                    double px = (projector.m00() * ix + projector.m20() * iz + projector.m30()) * invW;
-                    double py = (projector.m01() * ix + projector.m21() * iz + projector.m31()) * invW;
+                    invW = 1.0 / (projector.m03 * ix + projector.m23 * iz + projector.m33);
+                    double px = (projector.m00 * ix + projector.m20 * iz + projector.m30) * invW;
+                    double py = (projector.m01 * ix + projector.m21 * iz + projector.m31) * invW;
                     minX = minX < px ? minX : px;
                     minY = minY < py ? minY : py;
                     maxX = maxX > px ? maxX : px;
@@ -14081,8 +15358,23 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#perspectiveFrustumSlice(double, double, org.joml.Matrix4d)
+    /**
+     * Change the near and far clip plane distances of <code>this</code> perspective frustum transformation matrix
+     * and store the result in <code>dest</code>.
+     * <p>
+     * This method only works if <code>this</code> is a perspective projection frustum transformation, for example obtained
+     * via {@link #perspective(double, double, double, double, Matrix4d) perspective()} or {@link #frustum(double, double, double, double, double, double, Matrix4d) frustum()}.
+     * 
+     * @see #perspective(double, double, double, double, Matrix4d)
+     * @see #frustum(double, double, double, double, double, double, Matrix4d)
+     * 
+     * @param near
+     *          the new near clip plane distance
+     * @param far
+     *          the new far clip plane distance
+     * @param dest
+     *          will hold the resulting matrix
+     * @return dest
      */
     public Matrix4d perspectiveFrustumSlice(double near, double far, Matrix4d dest) {
         double invOldNear = (m23 + m22) / m32;
@@ -14107,10 +15399,25 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#orthoCrop(org.joml.Matrix4dc, org.joml.Matrix4d)
+    /**
+     * Build an ortographic projection transformation that fits the view-projection transformation represented by <code>this</code>
+     * into the given affine <code>view</code> transformation.
+     * <p>
+     * The transformation represented by <code>this</code> must be given as the {@link #invert(Matrix4d) inverse} of a typical combined camera view-projection
+     * transformation, whose projection can be either orthographic or perspective.
+     * <p>
+     * The <code>view</code> must be an {@link #isAffine() affine} transformation which in the application of Cascaded Shadow Maps is usually the light view transformation.
+     * It be obtained via any affine transformation or for example via {@link #lookAt(double, double, double, double, double, double, double, double, double, Matrix4d) lookAt()}.
+     * <p>
+     * Reference: <a href="http://developer.download.nvidia.com/SDK/10.5/opengl/screenshots/samples/cascaded_shadow_maps.html">OpenGL SDK - Cascaded Shadow Maps</a>
+     * 
+     * @param view
+     *          the view transformation to build a corresponding orthographic projection to fit the frustum of <code>this</code>
+     * @param dest
+     *          will hold the crop projection transformation
+     * @return dest
      */
-    public Matrix4d orthoCrop(Matrix4dc view, Matrix4d dest) {
+    public Matrix4d orthoCrop(Matrix4d view, Matrix4d dest) {
         // determine min/max world z and min/max orthographically view-projected x/y
         double minX = Double.MAX_VALUE, maxX = -Double.MAX_VALUE;
         double minY = Double.MAX_VALUE, maxY = -Double.MAX_VALUE;
@@ -14123,10 +15430,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             double wx = (m00 * x + m10 * y + m20 * z + m30) * invW;
             double wy = (m01 * x + m11 * y + m21 * z + m31) * invW;
             double wz = (m02 * x + m12 * y + m22 * z + m32) * invW;
-            invW = 1.0 / (view.m03() * wx + view.m13() * wy + view.m23() * wz + view.m33());
-            double vx = view.m00() * wx + view.m10() * wy + view.m20() * wz + view.m30();
-            double vy = view.m01() * wx + view.m11() * wy + view.m21() * wz + view.m31();
-            double vz = (view.m02() * wx + view.m12() * wy + view.m22() * wz + view.m32()) * invW;
+            invW = 1.0 / (view.m03 * wx + view.m13 * wy + view.m23 * wz + view.m33);
+            double vx = view.m00 * wx + view.m10 * wy + view.m20 * wz + view.m30;
+            double vy = view.m01 * wx + view.m11 * wy + view.m21 * wz + view.m31;
+            double vz = (view.m02 * wx + view.m12 * wy + view.m22 * wz + view.m32) * invW;
             minX = minX < vx ? minX : vx;
             maxX = maxX > vx ? maxX : vx;
             minY = minY < vy ? minY : vy;
@@ -14203,8 +15510,30 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformAab(double, double, double, double, double, double, org.joml.Vector3d, org.joml.Vector3d)
+    /**
+     * Transform the axis-aligned box given as the minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
+     * by <code>this</code> {@link #isAffine() affine} matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
+     * and maximum corner stored in <code>outMax</code>.
+     * <p>
+     * Reference: <a href="http://dev.theomader.com/transform-bounding-boxes/">http://dev.theomader.com</a>
+     * 
+     * @param minX
+     *              the x coordinate of the minimum corner of the axis-aligned box
+     * @param minY
+     *              the y coordinate of the minimum corner of the axis-aligned box
+     * @param minZ
+     *              the z coordinate of the minimum corner of the axis-aligned box
+     * @param maxX
+     *              the x coordinate of the maximum corner of the axis-aligned box
+     * @param maxY
+     *              the y coordinate of the maximum corner of the axis-aligned box
+     * @param maxZ
+     *              the y coordinate of the maximum corner of the axis-aligned box
+     * @param outMin
+     *              will hold the minimum corner of the resulting axis-aligned box
+     * @param outMax
+     *              will hold the maximum corner of the resulting axis-aligned box
+     * @return this
      */
     public Matrix4d transformAab(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, Vector3d outMin, Vector3d outMax) {
         double xax = m00 * minX, xay = m01 * minX, xaz = m02 * minX;
@@ -14287,11 +15616,23 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#transformAab(org.joml.Vector3dc, org.joml.Vector3dc, org.joml.Vector3d, org.joml.Vector3d)
+    /**
+     * Transform the axis-aligned box given as the minimum corner <code>min</code> and maximum corner <code>max</code>
+     * by <code>this</code> {@link #isAffine() affine} matrix and compute the axis-aligned box of the result whose minimum corner is stored in <code>outMin</code>
+     * and maximum corner stored in <code>outMax</code>.
+     * 
+     * @param min
+     *              the minimum corner of the axis-aligned box
+     * @param max
+     *              the maximum corner of the axis-aligned box
+     * @param outMin
+     *              will hold the minimum corner of the resulting axis-aligned box
+     * @param outMax
+     *              will hold the maximum corner of the resulting axis-aligned box
+     * @return this
      */
-    public Matrix4d transformAab(Vector3dc min, Vector3dc max, Vector3d outMin, Vector3d outMax) {
-        return transformAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), outMin, outMax);
+    public Matrix4d transformAab(Vector3d min, Vector3d max, Vector3d outMin, Vector3d outMax) {
+        return transformAab(min.x, min.y, min.z, max.x, max.y, max.z, outMin, outMax);
     }
 
     /**
@@ -14307,30 +15648,42 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *          the interpolation factor between 0.0 and 1.0
      * @return this
      */
-    public Matrix4d lerp(Matrix4dc other, double t) {
+    public Matrix4d lerp(Matrix4d other, double t) {
         return lerp(other, t, this);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#lerp(org.joml.Matrix4dc, double, org.joml.Matrix4d)
+    /**
+     * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>t</code> is <tt>0.0</tt> then the result is <code>this</code>. If the interpolation factor is <code>1.0</code>
+     * then the result is <code>other</code>.
+     *
+     * @param other
+     *          the other matrix
+     * @param t
+     *          the interpolation factor between 0.0 and 1.0
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Matrix4d lerp(Matrix4dc other, double t, Matrix4d dest) {
-        dest.m00 = m00 + (other.m00() - m00) * t;
-        dest.m01 = m01 + (other.m01() - m01) * t;
-        dest.m02 = m02 + (other.m02() - m02) * t;
-        dest.m03 = m03 + (other.m03() - m03) * t;
-        dest.m10 = m10 + (other.m10() - m10) * t;
-        dest.m11 = m11 + (other.m11() - m11) * t;
-        dest.m12 = m12 + (other.m12() - m12) * t;
-        dest.m13 = m13 + (other.m13() - m13) * t;
-        dest.m20 = m20 + (other.m20() - m20) * t;
-        dest.m21 = m21 + (other.m21() - m21) * t;
-        dest.m22 = m22 + (other.m22() - m22) * t;
-        dest.m23 = m23 + (other.m23() - m23) * t;
-        dest.m30 = m30 + (other.m30() - m30) * t;
-        dest.m31 = m31 + (other.m31() - m31) * t;
-        dest.m32 = m32 + (other.m32() - m32) * t;
-        dest.m33 = m33 + (other.m33() - m33) * t;
+    public Matrix4d lerp(Matrix4d other, double t, Matrix4d dest) {
+        dest.m00 = m00 + (other.m00 - m00) * t;
+        dest.m01 = m01 + (other.m01 - m01) * t;
+        dest.m02 = m02 + (other.m02 - m02) * t;
+        dest.m03 = m03 + (other.m03 - m03) * t;
+        dest.m10 = m10 + (other.m10 - m10) * t;
+        dest.m11 = m11 + (other.m11 - m11) * t;
+        dest.m12 = m12 + (other.m12 - m12) * t;
+        dest.m13 = m13 + (other.m13 - m13) * t;
+        dest.m20 = m20 + (other.m20 - m20) * t;
+        dest.m21 = m21 + (other.m21 - m21) * t;
+        dest.m22 = m22 + (other.m22 - m22) * t;
+        dest.m23 = m23 + (other.m23 - m23) * t;
+        dest.m30 = m30 + (other.m30 - m30) * t;
+        dest.m31 = m31 + (other.m31 - m31) * t;
+        dest.m32 = m32 + (other.m32 - m32) * t;
+        dest.m33 = m33 + (other.m33 - m33) * t;
         return dest;
     }
 
@@ -14345,12 +15698,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
-     * use {@link #rotationTowards(Vector3dc, Vector3dc) rotationTowards()}.
+     * use {@link #rotationTowards(Vector3d, Vector3d) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <tt>mulAffine(new Matrix4d().lookAt(new Vector3d(), new Vector3d(dir).negate(), up).invertAffine(), dest)</tt>
      * 
      * @see #rotateTowards(double, double, double, double, double, double, Matrix4d)
-     * @see #rotationTowards(Vector3dc, Vector3dc)
+     * @see #rotationTowards(Vector3d, Vector3d)
      * 
      * @param direction
      *              the direction to rotate towards
@@ -14360,8 +15713,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *              will hold the result
      * @return dest
      */
-    public Matrix4d rotateTowards(Vector3dc direction, Vector3dc up, Matrix4d dest) {
-        return rotateTowards(direction.x(), direction.y(), direction.z(), up.x(), up.y(), up.z(), dest);
+    public Matrix4d rotateTowards(Vector3d direction, Vector3d up, Matrix4d dest) {
+        return rotateTowards(direction.x, direction.y, direction.z, up.x, up.y, up.z, dest);
     }
 
     /**
@@ -14374,12 +15727,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * the lookat transformation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying it,
-     * use {@link #rotationTowards(Vector3dc, Vector3dc) rotationTowards()}.
+     * use {@link #rotationTowards(Vector3d, Vector3d) rotationTowards()}.
      * <p>
      * This method is equivalent to calling: <tt>mulAffine(new Matrix4d().lookAt(new Vector3d(), new Vector3d(dir).negate(), up).invertAffine())</tt>
      * 
      * @see #rotateTowards(double, double, double, double, double, double)
-     * @see #rotationTowards(Vector3dc, Vector3dc)
+     * @see #rotationTowards(Vector3d, Vector3d)
      * 
      * @param direction
      *              the direction to orient towards
@@ -14387,8 +15740,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *              the up vector
      * @return this
      */
-    public Matrix4d rotateTowards(Vector3dc direction, Vector3dc up) {
-        return rotateTowards(direction.x(), direction.y(), direction.z(), up.x(), up.y(), up.z(), this);
+    public Matrix4d rotateTowards(Vector3d direction, Vector3d up) {
+        return rotateTowards(direction.x, direction.y, direction.z, up.x, up.y, up.z, this);
     }
 
     /**
@@ -14405,7 +15758,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>mulAffine(new Matrix4d().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invertAffine())</tt>
      * 
-     * @see #rotateTowards(Vector3dc, Vector3dc)
+     * @see #rotateTowards(Vector3d, Vector3d)
      * @see #rotationTowards(double, double, double, double, double, double)
      * 
      * @param dirX
@@ -14441,7 +15794,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>mulAffine(new Matrix4d().lookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invertAffine(), dest)</tt>
      * 
-     * @see #rotateTowards(Vector3dc, Vector3dc)
+     * @see #rotateTowards(Vector3d, Vector3d)
      * @see #rotationTowards(double, double, double, double, double, double)
      * 
      * @param dirX
@@ -14526,7 +15879,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>setLookAt(new Vector3d(), new Vector3d(dir).negate(), up).invertAffine()</tt>
      * 
-     * @see #rotationTowards(Vector3dc, Vector3dc)
+     * @see #rotationTowards(Vector3d, Vector3d)
      * @see #rotateTowards(double, double, double, double, double, double)
      * 
      * @param dir
@@ -14535,8 +15888,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *              the up vector
      * @return this
      */
-    public Matrix4d rotationTowards(Vector3dc dir, Vector3dc up) {
-        return rotationTowards(dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
+    public Matrix4d rotationTowards(Vector3d dir, Vector3d up) {
+        return rotationTowards(dir.x, dir.y, dir.z, up.x, up.y, up.z);
     }
 
     /**
@@ -14548,7 +15901,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>setLookAt(0, 0, 0, -dirX, -dirY, -dirZ, upX, upY, upZ).invertAffine()</tt>
      * 
-     * @see #rotateTowards(Vector3dc, Vector3dc)
+     * @see #rotateTowards(Vector3d, Vector3d)
      * @see #rotationTowards(double, double, double, double, double, double)
      * 
      * @param dirX
@@ -14612,8 +15965,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * <p>
      * This method is equivalent to calling: <tt>translation(pos).rotateTowards(dir, up)</tt>
      * 
-     * @see #translation(Vector3dc)
-     * @see #rotateTowards(Vector3dc, Vector3dc)
+     * @see #translation(Vector3d)
+     * @see #rotateTowards(Vector3d, Vector3d)
      *
      * @param pos
      *              the position to translate to
@@ -14623,8 +15976,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      *              the up vector
      * @return this
      */
-    public Matrix4d translationRotateTowards(Vector3dc pos, Vector3dc dir, Vector3dc up) {
-        return translationRotateTowards(pos.x(), pos.y(), pos.z(), dir.x(), dir.y(), dir.z(), up.x(), up.y(), up.z());
+    public Matrix4d translationRotateTowards(Vector3d pos, Vector3d dir, Vector3d up) {
+        return translationRotateTowards(pos.x, pos.y, pos.z, dir.x, dir.y, dir.z, up.x, up.y, up.z);
     }
 
     /**
@@ -14724,22 +16077,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.y = Math.atan2(-m02, Math.sqrt(m12 * m12 + m22 * m22));
         dest.z = Math.atan2(m01, m00);
         return dest;
-    }
-
-    /**
-     * Create a new immutable view of this {@link Matrix4d}.
-     * <p>
-     * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Matrix4d will not be possible.
-     * <p>
-     * This method allocates a new instance of a class implementing Matrix4dc on every call.
-     * 
-     * @return the immutable instance
-     */
-    public Matrix4dc toImmutable() {
-        if (!Options.DEBUG)
-            return this;
-        return new Proxy(this);
     }
 
 }

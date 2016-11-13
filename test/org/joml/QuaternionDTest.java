@@ -1,4 +1,4 @@
-package org.joml.test;
+package org.joml;
 
 import junit.framework.TestCase;
 
@@ -74,9 +74,9 @@ public class QuaternionDTest extends TestCase {
     }
 
     public static void testRotateToReturnsDestination() {
-        Quaterniondc rotation = new Quaterniond();
+        Quaterniond rotation = new Quaterniond();
         Quaterniond destination = new Quaterniond();
-        Quaterniondc result = rotation.rotateTo(0, 1, 0, 0, 1, 0, destination);
+        Quaterniond result = rotation.rotateTo(0, 1, 0, 0, 1, 0, destination);
         assertSame(destination, result);
     }
 
@@ -84,9 +84,9 @@ public class QuaternionDTest extends TestCase {
         Vector3d axis = new Vector3d(1.0, 0.0, 0.0);
         double angleDeg = 45.0;
         double angleRad = java.lang.Math.toRadians(angleDeg);
-        Quaterniondc fromRad1 = new Quaterniond().fromAxisAngleRad(axis, angleRad);
-        Quaterniondc fromRad2 = new Quaterniond().fromAxisAngleRad(axis.x(), axis.y(), axis.z(), angleRad);
-        Quaterniondc fromDeg = new Quaterniond().fromAxisAngleDeg(axis, angleDeg);
+        Quaterniond fromRad1 = new Quaterniond().fromAxisAngleRad(axis, angleRad);
+        Quaterniond fromRad2 = new Quaterniond().fromAxisAngleRad(axis.x, axis.y, axis.z, angleRad);
+        Quaterniond fromDeg = new Quaterniond().fromAxisAngleDeg(axis, angleDeg);
         assertEquals(fromRad1, fromRad2);
         assertEquals(fromRad2, fromDeg);
     }

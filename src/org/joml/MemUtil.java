@@ -22,8 +22,6 @@
  */
 package org.joml;
 
-import java.lang.reflect.Field;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;

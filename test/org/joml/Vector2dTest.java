@@ -1,17 +1,17 @@
-package org.joml.test;
+package org.joml;
 
 import junit.framework.TestCase;
 
 import org.joml.*;
 
 /**
- * Test class for {@link Vector3d}.
+ * Test class for {@link Vector2d}.
  * @author Sebastian Fellner
  */
-public class Vector3dTest extends TestCase {
-    public static void testAngleVector3dVector3d() {
-        Vector3d testVec1 = new Vector3d(2, -9.37, 5.892);
-        Vector3d testVec2 = new Vector3d();
+public class Vector2dTest extends TestCase {
+    public static void testAngleVector2dVector2d() {
+        Vector2d testVec1 = new Vector2d(-9.37, 5.892);
+        Vector2d testVec2 = new Vector2d();
         
         // angle(v, v) should give 0
         double angle = testVec1.angle(testVec1);

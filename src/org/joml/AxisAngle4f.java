@@ -79,7 +79,7 @@ public class AxisAngle4f implements Externalizable {
     }
 
     /**
-     * Create a new {@link AxisAngle4f} from the given {@link Quaternionfc}.
+     * Create a new {@link AxisAngle4f} from the given {@link Quaternionf}.
      * <p>
      * Reference: <a href=
      * "http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/"
@@ -88,12 +88,12 @@ public class AxisAngle4f implements Externalizable {
      * @param q
      *            the quaternion from which to create the new AngleAxis4f
      */
-    public AxisAngle4f(Quaternionfc q) {
-        float acos = (float) Math.acos(q.w());
-        float invSqrt = (float) (1.0 / Math.sqrt(1.0 - q.w() * q.w()));
-        this.x = q.x() * invSqrt;
-        this.y = q.y() * invSqrt;
-        this.z = q.z() * invSqrt;
+    public AxisAngle4f(Quaternionf q) {
+        float acos = (float) Math.acos(q.w);
+        float invSqrt = (float) (1.0 / Math.sqrt(1.0 - q.w * q.w));
+        this.x = q.x * invSqrt;
+        this.y = q.y * invSqrt;
+        this.z = q.z * invSqrt;
         this.angle = acos + acos;
     }
 
@@ -122,8 +122,8 @@ public class AxisAngle4f implements Externalizable {
      * @param angle the angle in radians
      * @param v     the rotation axis as a {@link Vector3f}
      */
-    public AxisAngle4f(float angle, Vector3fc v) {
-        this(angle, v.x(), v.y(), v.z());
+    public AxisAngle4f(float angle, Vector3f v) {
+        this(angle, v.x, v.y, v.z);
     }
 
     /**
@@ -172,59 +172,59 @@ public class AxisAngle4f implements Externalizable {
      *            the rotation axis as a {@link Vector3f}
      * @return this
      */
-    public AxisAngle4f set(float angle, Vector3fc v) {
-        return set(angle, v.x(), v.y(), v.z());
+    public AxisAngle4f set(float angle, Vector3f v) {
+        return set(angle, v.x, v.y, v.z);
     }
 
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the given
-     * {@link Quaternionfc}.
+     * {@link Quaternionf}.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4f from
      * @return this
      */
-    public AxisAngle4f set(Quaternionfc q) {
-        double acos = Math.acos(q.w());
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
-        this.x = (float) (q.x() * invSqrt);
-        this.y = (float) (q.y() * invSqrt);
-        this.z = (float) (q.z() * invSqrt);
+    public AxisAngle4f set(Quaternionf q) {
+        double acos = Math.acos(q.w);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        this.x = (float) (q.x * invSqrt);
+        this.y = (float) (q.y * invSqrt);
+        this.z = (float) (q.z * invSqrt);
         this.angle = (float) (acos + acos);
         return this;
     }
 
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the given
-     * {@link Quaterniondc}.
+     * {@link Quaterniond}.
      * 
      * @param q
      *            the quaternion to set this AngleAxis4f from
      * @return this
      */
-    public AxisAngle4f set(Quaterniondc q) {
-        double acos = Math.acos(q.w());
-        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
-        this.x = (float) (q.x() * invSqrt);
-        this.y = (float) (q.y() * invSqrt);
-        this.z = (float) (q.z() * invSqrt);
+    public AxisAngle4f set(Quaterniond q) {
+        double acos = Math.acos(q.w);
+        double invSqrt = 1.0 / Math.sqrt(1.0 - q.w * q.w);
+        this.x = (float) (q.x * invSqrt);
+        this.y = (float) (q.y * invSqrt);
+        this.z = (float) (q.z * invSqrt);
         this.angle = (float) (acos + acos);
         return this;
     }
 
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the rotation 
-     * of the given {@link Matrix3fc}.
+     * of the given {@link Matrix3f}.
      * 
      * @param m
-     *            the Matrix3fc to set this AngleAxis4f from
+     *            the Matrix3f to set this AngleAxis4f from
      * @return this
      */
-    public AxisAngle4f set(Matrix3fc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
+    public AxisAngle4f set(Matrix3f m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = (float) Math.atan2(sin, cos);
         return this;
@@ -232,17 +232,17 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the rotation 
-     * of the given {@link Matrix3dc}.
+     * of the given {@link Matrix3d}.
      * 
      * @param m
      *            the Matrix3d to set this AngleAxis4f from
      * @return this
      */
-    public AxisAngle4f set(Matrix3dc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = (float) (m.m12() - m.m21());
-        y = (float) (m.m20() - m.m02());
-        z = (float) (m.m01() - m.m10());
+    public AxisAngle4f set(Matrix3d m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = (float) (m.m12 - m.m21);
+        y = (float) (m.m20 - m.m02);
+        z = (float) (m.m01 - m.m10);
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = (float) Math.atan2(sin, cos);
         return this;
@@ -250,17 +250,17 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the rotational component 
-     * of the given {@link Matrix4fc}.
+     * of the given {@link Matrix4f}.
      * 
      * @param m
-     *            the Matrix4fc to set this AngleAxis4f from
+     *            the Matrix4f to set this AngleAxis4f from
      * @return this
      */
-    public AxisAngle4f set(Matrix4fc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
+    public AxisAngle4f set(Matrix4f m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = (float) Math.atan2(sin, cos);
         return this;
@@ -268,17 +268,17 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the rotational component 
-     * of the given {@link Matrix4x3fc}.
+     * of the given {@link Matrix4x3f}.
      * 
      * @param m
-     *            the Matrix4x3fc to set this AngleAxis4f from
+     *            the Matrix4x3f to set this AngleAxis4f from
      * @return this
      */
-    public AxisAngle4f set(Matrix4x3fc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
+    public AxisAngle4f set(Matrix4x3f m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = m.m12 - m.m21;
+        y = m.m20 - m.m02;
+        z = m.m01 - m.m10;
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = (float) Math.atan2(sin, cos);
         return this;
@@ -286,17 +286,17 @@ public class AxisAngle4f implements Externalizable {
 
     /**
      * Set this {@link AxisAngle4f} to be equivalent to the rotational component 
-     * of the given {@link Matrix4dc}.
+     * of the given {@link Matrix4d}.
      * 
      * @param m
-     *            the Matrix4dc to set this AngleAxis4f from
+     *            the Matrix4d to set this AngleAxis4f from
      * @return this
      */
-    public AxisAngle4f set(Matrix4dc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = (float) (m.m12() - m.m21());
-        y = (float) (m.m20() - m.m02());
-        z = (float) (m.m01() - m.m10());
+    public AxisAngle4f set(Matrix4d m) {
+        double cos = (m.m00 + m.m11 + m.m22 - 1.0)*0.5;
+        x = (float) (m.m12 - m.m21);
+        y = (float) (m.m20 - m.m02);
+        z = (float) (m.m01 - m.m10);
         double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
         angle = (float) Math.atan2(sin, cos);
         return this;
@@ -443,13 +443,13 @@ public class AxisAngle4f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector3f transform(Vector3fc v, Vector3f dest) {
+    public Vector3f transform(Vector3f v, Vector3f dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
-        float dot = x * v.x() + y * v.y() + z * v.z();
-        dest.set((float) (v.x() * cos + sin * (y * v.z() - z * v.y()) + (1.0 - cos) * dot * x),
-                 (float) (v.y() * cos + sin * (z * v.x() - x * v.z()) + (1.0 - cos) * dot * y),
-                 (float) (v.z() * cos + sin * (x * v.y() - y * v.x()) + (1.0 - cos) * dot * z));
+        float dot = x * v.x + y * v.y + z * v.z;
+        dest.set((float) (v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x),
+                 (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
+                 (float) (v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z));
         return dest;
     }
 
@@ -474,13 +474,13 @@ public class AxisAngle4f implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector4f transform(Vector4fc v, Vector4f dest) {
+    public Vector4f transform(Vector4f v, Vector4f dest) {
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
-        float dot = x * v.x() + y * v.y() + z * v.z();
-        dest.set((float) (v.x() * cos + sin * (y * v.z() - z * v.y()) + (1.0 - cos) * dot * x),
-                 (float) (v.y() * cos + sin * (z * v.x() - x * v.z()) + (1.0 - cos) * dot * y),
-                 (float) (v.z() * cos + sin * (x * v.y() - y * v.x()) + (1.0 - cos) * dot * z),
+        float dot = x * v.x + y * v.y + z * v.z;
+        dest.set((float) (v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x),
+                 (float) (v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y),
+                 (float) (v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z),
                  dest.w);
         return dest;
     }

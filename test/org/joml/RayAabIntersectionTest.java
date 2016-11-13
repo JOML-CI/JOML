@@ -1,4 +1,4 @@
-package org.joml.test;
+package org.joml;
 
 import org.joml.RayAabIntersection;
 

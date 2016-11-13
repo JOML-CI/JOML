@@ -37,95 +37,7 @@ import java.text.NumberFormat;
  * @author Kai Burjack
  * @author Hans Uhlig
  */
-public class Vector2i implements Externalizable, Vector2ic {
-
-    private final class Proxy implements Vector2ic {
-        private final Vector2ic delegate;
-
-        Proxy(Vector2ic delegate) {
-            this.delegate = delegate;
-        }
-
-        public int x() {
-            return delegate.x();
-        }
-
-        public int y() {
-            return delegate.y();
-        }
-
-        public ByteBuffer get(ByteBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public ByteBuffer get(int index, ByteBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public IntBuffer get(IntBuffer buffer) {
-            return delegate.get(buffer);
-        }
-
-        public IntBuffer get(int index, IntBuffer buffer) {
-            return delegate.get(index, buffer);
-        }
-
-        public Vector2i sub(Vector2ic v, Vector2i dest) {
-            return delegate.sub(v, dest);
-        }
-
-        public Vector2i sub(int x, int y, Vector2i dest) {
-            return delegate.sub(x, y, dest);
-        }
-
-        public long lengthSquared() {
-            return delegate.lengthSquared();
-        }
-
-        public double length() {
-            return delegate.length();
-        }
-
-        public double distance(Vector2ic v) {
-            return delegate.distance(v);
-        }
-
-        public double distance(int x, int y) {
-            return delegate.distance(x, y);
-        }
-
-        public long distanceSquared(Vector2ic v) {
-            return delegate.distanceSquared(v);
-        }
-
-        public long distanceSquared(int x, int y) {
-            return delegate.distanceSquared(x, y);
-        }
-
-        public Vector2i add(Vector2ic v, Vector2i dest) {
-            return delegate.add(v, dest);
-        }
-
-        public Vector2i add(int x, int y, Vector2i dest) {
-            return delegate.add(x, y, dest);
-        }
-
-        public Vector2i mul(int scalar, Vector2i dest) {
-            return delegate.mul(scalar, dest);
-        }
-
-        public Vector2i mul(Vector2ic v, Vector2i dest) {
-            return delegate.mul(v, dest);
-        }
-
-        public Vector2i mul(int x, int y, Vector2i dest) {
-            return delegate.mul(x, y, dest);
-        }
-
-        public Vector2i negate(Vector2i dest) {
-            return delegate.negate(dest);
-        }
-    }
+public class Vector2i implements Externalizable {
 
     private static final long serialVersionUID = 1L;
 
@@ -174,11 +86,11 @@ public class Vector2i implements Externalizable, Vector2ic {
      * the given vector.
      *
      * @param v
-     *          the {@link Vector2ic} to copy the values from
+     *          the {@link Vector2i} to copy the values from
      */
-    public Vector2i(Vector2ic v) {
-        x = v.x();
-        y = v.y();
+    public Vector2i(Vector2i v) {
+        x = v.x;
+        y = v.y;
     }
 
     /**
@@ -253,15 +165,15 @@ public class Vector2i implements Externalizable, Vector2ic {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#x()
+    /**
+     * @return the value of the x component
      */
     public int x() {
         return this.x;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#y()
+    /**
+     * @return the value of the y component
      */
     public int y() {
         return this.y;
@@ -302,9 +214,9 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the vector to copy from
      * @return this
      */
-    public Vector2i set(Vector2ic v) {
-        x = v.x();
-        y = v.y();
+    public Vector2i set(Vector2i v) {
+        x = v.x;
+        y = v.y;
         return this;
     }
 
@@ -318,9 +230,9 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the vector to copy from
      * @return this
      */
-    public Vector2i set(Vector2dc v) {
-        x = (int) v.x();
-        y = (int) v.y();
+    public Vector2i set(Vector2d v) {
+        x = (int) v.x;
+        y = (int) v.y;
         return this;
     }
 
@@ -422,30 +334,74 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(java.nio.ByteBuffer)
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} at the current
+     * buffer {@link ByteBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     * <p>
+     * In order to specify the offset into the ByteBuffer at which the vector is
+     * stored, use {@link #get(int, ByteBuffer)}, taking the absolute position
+     * as parameter.
+     *
+     * @see #get(int, ByteBuffer)
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
      */
     public ByteBuffer get(ByteBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(int, java.nio.ByteBuffer)
+    /**
+     * Store this vector into the supplied {@link ByteBuffer} starting at the
+     * specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given ByteBuffer.
+     *
+     * @param index
+     *          the absolute position into the ByteBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
      */
     public ByteBuffer get(int index, ByteBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(java.nio.IntBuffer)
+    /**
+     * Store this vector into the supplied {@link IntBuffer} at the current
+     * buffer {@link IntBuffer#position() position}.
+     * <p>
+     * This method will not increment the position of the given IntBuffer.
+     * <p>
+     * In order to specify the offset into the IntBuffer at which the vector is
+     * stored, use {@link #get(int, IntBuffer)}, taking the absolute position as
+     * parameter.
+     *
+     * @see #get(int, IntBuffer)
+     *
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
      */
     public IntBuffer get(IntBuffer buffer) {
         return get(buffer.position(), buffer);
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#get(int, java.nio.IntBuffer)
+    /**
+     * Store this vector into the supplied {@link IntBuffer} starting at the
+     * specified absolute buffer position/index.
+     * <p>
+     * This method will not increment the position of the given IntBuffer.
+     *
+     * @param index
+     *          the absolute position into the IntBuffer
+     * @param buffer
+     *          will receive the values of this vector in <tt>x, y</tt> order
+     * @return the passed in buffer
      */
     public IntBuffer get(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.put(this, index, buffer);
@@ -460,18 +416,25 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the vector to subtract
      * @return this
      */
-    public Vector2i sub(Vector2ic v) {
-        x -= v.x();
-        y -= v.y();
+    public Vector2i sub(Vector2i v) {
+        x -= v.x;
+        y -= v.y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#sub(org.joml.Vector2ic, org.joml.Vector2i)
+    /**
+     * Subtract the supplied vector from this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to subtract
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector2i sub(Vector2ic v, Vector2i dest) {
-        dest.x = x - v.x();
-        dest.y = y - v.y();
+    public Vector2i sub(Vector2i v, Vector2i dest) {
+        dest.x = x - v.x;
+        dest.y = y - v.y;
         return dest;
     }
 
@@ -490,8 +453,17 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#sub(int, int, org.joml.Vector2i)
+    /**
+     * Decrement the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to subtract
+     * @param y
+     *          the y component to subtract
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector2i sub(int x, int y, Vector2i dest) {
         dest.x = this.x - x;
@@ -499,45 +471,70 @@ public class Vector2i implements Externalizable, Vector2ic {
         return dest;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#lengthSquared()
+    /**
+     * Return the length squared of this vector.
+     *
+     * @return the length squared
      */
     public long lengthSquared() {
         return x * x + y * y;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#length()
+    /**
+     * Return the length of this vector.
+     *
+     * @return the length
      */
     public double length() {
         return Math.sqrt(lengthSquared());
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distance(org.joml.Vector2ic)
+    /**
+     * Return the distance between this Vector and <code>v</code>.
+     *
+     * @param v
+     *          the other vector
+     * @return the distance
      */
-    public double distance(Vector2ic v) {
+    public double distance(Vector2i v) {
         return Math.sqrt(distanceSquared(v));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distance(int, int)
+    /**
+     * Return the distance between <code>this</code> vector and <tt>(x, y)</tt>.
+     *
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @return the euclidean distance
      */
     public double distance(int x, int y) {
         return Math.sqrt(distanceSquared(x, y));
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distanceSquared(org.joml.Vector2ic)
+    /**
+     * Return the square of the distance between this vector and <code>v</code>.
+     *
+     * @param v
+     *          the other vector
+     * @return the squared of the distance
      */
-    public long distanceSquared(Vector2ic v) {
-        int dx = this.x - v.x();
-        int dy = this.y - v.y();
+    public long distanceSquared(Vector2i v) {
+        int dx = this.x - v.x;
+        int dy = this.y - v.y;
         return dx * dx + dy * dy;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#distanceSquared(int, int)
+    /**
+     * Return the square of the distance between <code>this</code> vector and
+     * <tt>(x, y)</tt>.
+     *
+     * @param x
+     *          the x component of the other vector
+     * @param y
+     *          the y component of the other vector
+     * @return the square of the distance
      */
     public long distanceSquared(int x, int y) {
         int dx = this.x - x;
@@ -552,18 +549,25 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the vector to add
      * @return this
      */
-    public Vector2i add(Vector2ic v) {
-        x += v.x();
-        y += v.y();
+    public Vector2i add(Vector2i v) {
+        x += v.x;
+        y += v.y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#add(org.joml.Vector2ic, org.joml.Vector2i)
+    /**
+     * Add the supplied vector to this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to add
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector2i add(Vector2ic v, Vector2i dest) {
-        dest.x = x + v.x();
-        dest.y = y + v.y();
+    public Vector2i add(Vector2i v, Vector2i dest) {
+        dest.x = x + v.x;
+        dest.y = y + v.y;
         return dest;
     }
 
@@ -582,8 +586,17 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#add(int, int, org.joml.Vector2i)
+    /**
+     * Increment the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to add
+     * @param y
+     *          the y component to add
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector2i add(int x, int y, Vector2i dest) {
         dest.x = this.x + x;
@@ -605,8 +618,15 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#mul(int, org.joml.Vector2i)
+    /**
+     * Multiply all components of this {@link Vector2i} by the given scalar
+     * value and store the result in <code>dest</code>.
+     * 
+     * @param scalar
+     *          the scalar to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector2i mul(int scalar, Vector2i dest) {
         dest.x = x * scalar;
@@ -621,18 +641,25 @@ public class Vector2i implements Externalizable, Vector2ic {
      *          the vector to multiply
      * @return this
      */
-    public Vector2i mul(Vector2ic v) {
-        x += v.x();
-        y += v.y();
+    public Vector2i mul(Vector2i v) {
+        x += v.x;
+        y += v.y;
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#mul(org.joml.Vector2ic, org.joml.Vector2i)
+    /**
+     * Multiply the supplied vector by this one and store the result in
+     * <code>dest</code>.
+     *
+     * @param v
+     *          the vector to multiply
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
-    public Vector2i mul(Vector2ic v, Vector2i dest) {
-        dest.x = x * v.x();
-        dest.y = y * v.y();
+    public Vector2i mul(Vector2i v, Vector2i dest) {
+        dest.x = x * v.x;
+        dest.y = y * v.y;
         return dest;
     }
 
@@ -651,8 +678,17 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#mul(int, int, org.joml.Vector2i)
+    /**
+     * Multiply the components of this vector by the given values and store the
+     * result in <code>dest</code>.
+     *
+     * @param x
+     *          the x component to multiply
+     * @param y
+     *          the y component to multiply
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector2i mul(int x, int y, Vector2i dest) {
         dest.x = this.x * x;
@@ -692,8 +728,12 @@ public class Vector2i implements Externalizable, Vector2ic {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see org.joml.Vector2ic#negate(org.joml.Vector2i)
+    /**
+     * Negate this vector and store the result in <code>dest</code>.
+     *
+     * @param dest
+     *          will hold the result
+     * @return dest
      */
     public Vector2i negate(Vector2i dest) {
         dest.x = -x;
@@ -748,22 +788,6 @@ public class Vector2i implements Externalizable, Vector2ic {
      */
     public String toString(NumberFormat formatter) {
         return "(" + formatter.format(x) + " " + formatter.format(y) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
-
-    /**
-     * Create a new immutable view of this {@link Vector2i}.
-     * <p>
-     * The observable state of the returned object is the same as that of <code>this</code>, but casting
-     * the returned object to Vector2i will not be possible.
-     * <p>
-     * This method allocates a new instance of a class implementing Vector2ic on every call.
-     * 
-     * @return the immutable instance
-     */
-    public Vector2ic toImmutable() {
-        if (!Options.DEBUG)
-            return this;
-        return new Proxy(this);
     }
 
 }

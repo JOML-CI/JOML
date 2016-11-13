@@ -23,9 +23,9 @@
 package org.joml;
 
 /**
- * Efficiently performs frustum intersection tests by caching the frustum planes of an arbitrary transformation {@link Matrix4fc matrix}.
+ * Efficiently performs frustum intersection tests by caching the frustum planes of an arbitrary transformation {@link Matrix4f matrix}.
  * <p>
- * This class is preferred over the frustum intersection methods in {@link Matrix4fc} when many objects need to be culled by the same static frustum.
+ * This class is preferred over the frustum intersection methods in {@link Matrix4f} when many objects need to be culled by the same static frustum.
  * 
  * @author Kai Burjack
  */
@@ -73,7 +73,7 @@ public class FrustumIntersection {
      */
     public static final int INSIDE = -2;
     /**
-     * Return value of {@link #intersectSphere(Vector3fc, float)} or {@link #intersectSphere(float, float, float, float)}
+     * Return value of {@link #intersectSphere(Vector3f, float)} or {@link #intersectSphere(float, float, float, float)}
      * indicating that the sphere is completely outside of the frustum.
      */
     public static final int OUTSIDE = -3;
@@ -132,58 +132,58 @@ public class FrustumIntersection {
     /**
      * Create a new {@link FrustumIntersection} with undefined frustum planes.
      * <p>
-     * Before using any of the frustum culling methods, make sure to define the frustum planes using {@link #set(Matrix4fc)}.
+     * Before using any of the frustum culling methods, make sure to define the frustum planes using {@link #set(Matrix4f)}.
      */
     public FrustumIntersection() {
     }
 
     /**
-     * Create a new {@link FrustumIntersection} from the given {@link Matrix4fc matrix} by extracing the matrix's frustum planes.
+     * Create a new {@link FrustumIntersection} from the given {@link Matrix4f matrix} by extracing the matrix's frustum planes.
      * <p>
-     * In order to update the compute frustum planes later on, call {@link #set(Matrix4fc)}.
+     * In order to update the compute frustum planes later on, call {@link #set(Matrix4f)}.
      * 
-     * @see #set(Matrix4fc)
+     * @see #set(Matrix4f)
      * 
      * @param m
-     *          the {@link Matrix4fc} to create the frustum culler from
+     *          the {@link Matrix4f} to create the frustum culler from
      */
-    public FrustumIntersection(Matrix4fc m) {
+    public FrustumIntersection(Matrix4f m) {
         set(m);
     }
 
     /**
-     * Update the stored frustum planes of <code>this</code> {@link FrustumIntersection} with the given {@link Matrix4fc matrix}.
+     * Update the stored frustum planes of <code>this</code> {@link FrustumIntersection} with the given {@link Matrix4f matrix}.
      * <p>
      * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
      * 
      * @param m
-     *          the {@link Matrix4fc matrix} to update <code>this</code> frustum culler's frustum planes from
+     *          the {@link Matrix4f matrix} to update <code>this</code> frustum culler's frustum planes from
      * @return this
      */
-    public FrustumIntersection set(Matrix4fc m) {
+    public FrustumIntersection set(Matrix4f m) {
         float invl;
-        nxX = m.m03() + m.m00(); nxY = m.m13() + m.m10(); nxZ = m.m23() + m.m20(); nxW = m.m33() + m.m30();
+        nxX = m.m03 + m.m00; nxY = m.m13 + m.m10; nxZ = m.m23 + m.m20; nxW = m.m33 + m.m30;
         invl = (float) (1.0 / Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ));
         nxX *= invl; nxY *= invl; nxZ *= invl; nxW *= invl;
         planes[0].set(nxX, nxY, nxZ, nxW);
-        pxX = m.m03() - m.m00(); pxY = m.m13() - m.m10(); pxZ = m.m23() - m.m20(); pxW = m.m33() - m.m30();
+        pxX = m.m03 - m.m00; pxY = m.m13 - m.m10; pxZ = m.m23 - m.m20; pxW = m.m33 - m.m30;
         invl = (float) (1.0 / Math.sqrt(pxX * pxX + pxY * pxY + pxZ * pxZ));
         pxX *= invl; pxY *= invl; pxZ *= invl; pxW *= invl;
         planes[1].set(pxX, pxY, pxZ, pxW);
-        nyX = m.m03() + m.m01(); nyY = m.m13() + m.m11(); nyZ = m.m23() + m.m21(); nyW = m.m33() + m.m31();
+        nyX = m.m03 + m.m01; nyY = m.m13 + m.m11; nyZ = m.m23 + m.m21; nyW = m.m33 + m.m31;
         invl = (float) (1.0 / Math.sqrt(nyX * nyX + nyY * nyY + nyZ * nyZ));
         nyX *= invl; nyY *= invl; nyZ *= invl; nyW *= invl;
         planes[2].set(nyX, nyY, nyZ, nyW);
-        pyX = m.m03() - m.m01(); pyY = m.m13() - m.m11(); pyZ = m.m23() - m.m21(); pyW = m.m33() - m.m31();
+        pyX = m.m03 - m.m01; pyY = m.m13 - m.m11; pyZ = m.m23 - m.m21; pyW = m.m33 - m.m31;
         invl = (float) (1.0 / Math.sqrt(pyX * pyX + pyY * pyY + pyZ * pyZ));
         pyX *= invl; pyY *= invl; pyZ *= invl; pyW *= invl;
         planes[3].set(pyX, pyY, pyZ, pyW);
-        nzX = m.m03() + m.m02(); nzY = m.m13() + m.m12(); nzZ = m.m23() + m.m22(); nzW = m.m33() + m.m32();
+        nzX = m.m03 + m.m02; nzY = m.m13 + m.m12; nzZ = m.m23 + m.m22; nzW = m.m33 + m.m32;
         invl = (float) (1.0 / Math.sqrt(nzX * nzX + nzY * nzY + nzZ * nzZ));
         nzX *= invl; nzY *= invl; nzZ *= invl; nzW *= invl;
         planes[4].set(nzX, nzY, nzZ, nzW);
-        pzX = m.m03() - m.m02(); pzY = m.m13() - m.m12(); pzZ = m.m23() - m.m22(); pzW = m.m33() - m.m32();
+        pzX = m.m03 - m.m02; pzY = m.m13 - m.m12; pzZ = m.m23 - m.m22; pzW = m.m33 - m.m32;
         invl = (float) (1.0 / Math.sqrt(pzX * pzX + pzY * pzY + pzZ * pzZ));
         pzX *= invl; pzY *= invl; pzZ *= invl; pzW *= invl;
         planes[5].set(pzX, pzY, pzZ, pzW);
@@ -197,8 +197,8 @@ public class FrustumIntersection {
      *          the point to test
      * @return <code>true</code> if the given point is inside the frustum; <code>false</code> otherwise
      */
-    public boolean testPoint(Vector3fc point) {
-        return testPoint(point.x(), point.y(), point.z());
+    public boolean testPoint(Vector3f point) {
+        return testPoint(point.x, point.y, point.z);
     }
 
     /**
@@ -235,8 +235,8 @@ public class FrustumIntersection {
      * @return <code>true</code> if the given sphere is partly or completely inside the frustum;
      *         <code>false</code> otherwise
      */
-    public boolean testSphere(Vector3fc center, float radius) {
-        return testSphere(center.x(), center.y(), center.z(), radius);
+    public boolean testSphere(Vector3f center, float radius) {
+        return testSphere(center.x, center.y, center.z, radius);
     }
 
     /**
@@ -280,8 +280,8 @@ public class FrustumIntersection {
      * @return {@link #INSIDE} if the given sphere is completely inside the frustum, or {@link #INTERSECT} if the sphere intersects
      *         the frustum, or {@link #OUTSIDE} if the sphere is outside of the frustum
      */
-    public int intersectSphere(Vector3fc center, float radius) {
-        return intersectSphere(center.x(), center.y(), center.z(), radius);
+    public int intersectSphere(Vector3f center, float radius) {
+        return intersectSphere(center.x, center.y, center.z, radius);
     }
 
     /**
@@ -347,8 +347,8 @@ public class FrustumIntersection {
      *          the maximum corner coordinates of the axis-aligned box
      * @return <code>true</code> if the axis-aligned box is completely or partly inside of the frustum; <code>false</code> otherwise
      */
-    public boolean testAab(Vector3fc min, Vector3fc max) {
-        return testAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
+    public boolean testAab(Vector3f min, Vector3f max) {
+        return testAab(min.x, min.y, min.z, max.x, max.y, max.z);
     }
 
     /**
@@ -405,8 +405,8 @@ public class FrustumIntersection {
      *         or {@link #INTERSECT} if the box intersects the frustum, or {@link #INSIDE} if the box is fully inside of the frustum.
      *         The plane index is one of {@link #PLANE_NX}, {@link #PLANE_PX}, {@link #PLANE_NY}, {@link #PLANE_PY}, {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int intersectAab(Vector3fc min, Vector3fc max) {
-        return intersectAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
+    public int intersectAab(Vector3f min, Vector3f max) {
+        return intersectAab(min.x, min.y, min.z, max.x, max.y, max.z);
     }
 
     /**
@@ -476,7 +476,7 @@ public class FrustumIntersection {
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
-     * This method differs from {@link #intersectAab(Vector3fc, Vector3fc)} in that
+     * This method differs from {@link #intersectAab(Vector3f, Vector3f)} in that
      * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
@@ -499,8 +499,8 @@ public class FrustumIntersection {
      *         or {@link #INTERSECT} if the box intersects the frustum, or {@link #INSIDE} if the box is fully inside of the frustum.
      *         The plane index is one of {@link #PLANE_NX}, {@link #PLANE_PX}, {@link #PLANE_NY}, {@link #PLANE_PY}, {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int intersectAab(Vector3fc min, Vector3fc max, int mask) {
-        return intersectAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), mask);
+    public int intersectAab(Vector3f min, Vector3f max, int mask) {
+        return intersectAab(min.x, min.y, min.z, max.x, max.y, max.z, mask);
     }
 
     /**
@@ -581,7 +581,7 @@ public class FrustumIntersection {
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
      * <p>
-     * This method differs from {@link #intersectAab(Vector3fc, Vector3fc)} in that
+     * This method differs from {@link #intersectAab(Vector3f, Vector3f)} in that
      * it allows to mask-off planes that should not be calculated. For example, in order to only test a box against the
      * left frustum plane, use a mask of {@link #PLANE_MASK_NX}. Or in order to test all planes <i>except</i> the left plane, use 
      * a mask of <tt>(~0 ^ PLANE_MASK_NX)</tt>.
@@ -612,8 +612,8 @@ public class FrustumIntersection {
      *         or {@link #INTERSECT} if the box intersects the frustum, or {@link #INSIDE} if the box is fully inside of the frustum.
      *         The plane index is one of {@link #PLANE_NX}, {@link #PLANE_PX}, {@link #PLANE_NY}, {@link #PLANE_PY}, {@link #PLANE_NZ} and {@link #PLANE_PZ}
      */
-    public int intersectAab(Vector3fc min, Vector3fc max, int mask, int startPlane) {
-        return intersectAab(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), mask, startPlane);
+    public int intersectAab(Vector3f min, Vector3f max, int mask, int startPlane) {
+        return intersectAab(min.x, min.y, min.z, max.x, max.y, max.z, mask, startPlane);
     }
 
     /**

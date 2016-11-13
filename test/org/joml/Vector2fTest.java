@@ -1,16 +1,17 @@
-package org.joml.test;
+package org.joml;
 
 import junit.framework.TestCase;
+
 import org.joml.*;
 
 /**
- * Test class for {@link Vector3f}.
+ * Test class for {@link Vector2f}.
  * @author Sebastian Fellner
  */
-public class Vector3fTest extends TestCase {
-    public static void testAngleVector3fVector3f() {
-        Vector3f testVec1 = new Vector3f(2f, -9.37f, 5.892f);
-        Vector3f testVec2 = new Vector3f();
+public class Vector2fTest extends TestCase {
+    public static void testAngleVector2fVector2f() {
+        Vector2f testVec1 = new Vector2f(-9.37f, 5.892f);
+        Vector2f testVec2 = new Vector2f();
         
         // angle(v, v) should give 0
         float angle = testVec1.angle(testVec1);

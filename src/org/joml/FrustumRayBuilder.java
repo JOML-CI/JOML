@@ -23,7 +23,7 @@
 package org.joml;
 
 /**
- * Provides methods to compute rays through an arbitrary perspective transformation defined by a {@link Matrix4fc}.
+ * Provides methods to compute rays through an arbitrary perspective transformation defined by a {@link Matrix4f}.
  * <p>
  * This can be used to compute the eye-rays in simple software-based raycasting/raytracing.
  * <p>
@@ -43,23 +43,23 @@ public class FrustumRayBuilder {
     /**
      * Create a new {@link FrustumRayBuilder} with an undefined frustum.
      * <p>
-     * Before obtaining ray directions, make sure to define the frustum using {@link #set(Matrix4fc)}.
+     * Before obtaining ray directions, make sure to define the frustum using {@link #set(Matrix4f)}.
      */
     public FrustumRayBuilder() {
     }
 
     /**
-     * Create a new {@link FrustumRayBuilder} from the given {@link Matrix4fc matrix} by extracing the matrix's frustum.
+     * Create a new {@link FrustumRayBuilder} from the given {@link Matrix4f matrix} by extracing the matrix's frustum.
      * 
      * @param m
-     *          the {@link Matrix4fc} to create the frustum from
+     *          the {@link Matrix4f} to create the frustum from
      */
-    public FrustumRayBuilder(Matrix4fc m) {
+    public FrustumRayBuilder(Matrix4f m) {
         set(m);
     }
 
     /**
-     * Update the stored frustum corner rays and origin of <code>this</code> {@link FrustumRayBuilder} with the given {@link Matrix4fc matrix}.
+     * Update the stored frustum corner rays and origin of <code>this</code> {@link FrustumRayBuilder} with the given {@link Matrix4f matrix}.
      * <p>
      * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
      * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
@@ -67,14 +67,14 @@ public class FrustumRayBuilder {
      * Reference: <a href="http://geomalgorithms.com/a05-_intersect-1.html">http://geomalgorithms.com</a>
      * 
      * @param m
-     *          the {@link Matrix4fc matrix} to update the frustum corner rays and origin with
+     *          the {@link Matrix4f matrix} to update the frustum corner rays and origin with
      * @return this
      */
-    public FrustumRayBuilder set(Matrix4fc m) {
-        float nxX = m.m03() + m.m00(), nxY = m.m13() + m.m10(), nxZ = m.m23() + m.m20(), d1 = m.m33() + m.m30();
-        float pxX = m.m03() - m.m00(), pxY = m.m13() - m.m10(), pxZ = m.m23() - m.m20(), d2 = m.m33() - m.m30();
-        float nyX = m.m03() + m.m01(), nyY = m.m13() + m.m11(), nyZ = m.m23() + m.m21();
-        float pyX = m.m03() - m.m01(), pyY = m.m13() - m.m11(), pyZ = m.m23() - m.m21(), d3 = m.m33() - m.m31();
+    public FrustumRayBuilder set(Matrix4f m) {
+        float nxX = m.m03 + m.m00, nxY = m.m13 + m.m10, nxZ = m.m23 + m.m20, d1 = m.m33 + m.m30;
+        float pxX = m.m03 - m.m00, pxY = m.m13 - m.m10, pxZ = m.m23 - m.m20, d2 = m.m33 - m.m30;
+        float nyX = m.m03 + m.m01, nyY = m.m13 + m.m11, nyZ = m.m23 + m.m21;
+        float pyX = m.m03 - m.m01, pyY = m.m13 - m.m11, pyZ = m.m23 - m.m21, d3 = m.m33 - m.m31;
         // bottom left
         nxnyX = nyY * nxZ - nyZ * nxY;
         nxnyY = nyZ * nxX - nyX * nxZ;
@@ -110,7 +110,7 @@ public class FrustumRayBuilder {
      *          will hold the perspective origin
      * @return the <code>origin</code> vector
      */
-    public Vector3fc origin(Vector3f origin) {
+    public Vector3f origin(Vector3f origin) {
         origin.x = cx;
         origin.y = cy;
         origin.z = cz;
@@ -132,7 +132,7 @@ public class FrustumRayBuilder {
      *          will hold the normalized ray direction
      * @return the <code>dir</code> vector
      */
-    public Vector3fc dir(float x, float y, Vector3f dir) {
+    public Vector3f dir(float x, float y, Vector3f dir) {
         float y1x = nxnyX + (nxpyX - nxnyX) * y;
         float y1y = nxnyY + (nxpyY - nxnyY) * y;
         float y1z = nxnyZ + (nxpyZ - nxnyZ) * y;
