@@ -125,8 +125,9 @@ The following uploads a matrix to an OpenGL buffer object which can then be used
 Matrix4f m = ...; // <- the matrix to upload
 int ubo = ...; // <- name of a created and already initialized UBO
 ByteBuffer bb = ByteBuffer.allocateDirect(16 << 2).order(ByteOrder.nativeOrder());
+FloatBuffer fb = bb.asFloatBuffer();
 glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-glBufferSubData(GL_UNIFORM_BUFFER, 0, m.get(bb));
+glBufferSubData(GL_UNIFORM_BUFFER, 0, m.get(fb));
 ```
 As the example above shows, JOML objects can also be written into Java NIO Buffers.
 
