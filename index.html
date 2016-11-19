@@ -14,13 +14,18 @@
       <h1 class="project-name">JOML</h1>
       <h2 class="project-tagline">A Java math library for OpenGL rendering calculations</h2>
       <a href="https://github.com/JOML-CI/JOML" class="btn">View on GitHub</a>
-      <a href="apidocs/index.html" class="btn">View JavaDocs</a>
       <a href="https://github.com/JOML-CI/JOML/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/JOML-CI/JOML/tarball/master" class="btn">Download .tar.gz</a>
     </section>
 
     <section class="main-content">
-      <h2>
+      <h1>
+<a id="joml--java-opengl-math-library--" class="anchor" href="#joml--java-opengl-math-library--" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="http://joml-ci.github.io/JOML">JOML</a> – Java OpenGL Math Library <a href="https://travis-ci.org/JOML-CI/JOML"><img src="https://travis-ci.org/JOML-CI/JOML.svg?branch=master" alt="Build Status"></a> <a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22joml%22"><img src="https://maven-badges.herokuapp.com/maven-central/org.joml/joml/badge.svg" alt="Maven Central"></a>
+</h1>
+
+<p>A Java math library for OpenGL rendering calculations</p>
+
+<h2>
 <a id="design-goals" class="anchor" href="#design-goals" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Design goals</h2>
 
 <p>The goal of JOML is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.4 and not making use of JNI.</p>
@@ -100,6 +105,16 @@ Those methods resemble the ones known from GLU and act in the same way (i.e. the
 
 <p>The above transformation can then be used as a "view-projection" matrix in a shader.</p>
 
+<p>By convention, the methods <code>perspective()</code> and <code>lookAt()</code> will assume a right-handed coordinate system. This convention was established for OpenGL and first realized in the OpenGL Utility Library (GLU). JOML follows this convention.</p>
+
+<p>In addition, JOML also supports a left-handed coordinate system, as is used by Direct3D's matrix library. To use a left-handed coordinate system, there are the methods <code>perspectiveLH()</code> and <code>lookAtLH()</code>, as well as others, whose names end with <code>LH</code>:</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>()
+     .perspectiveLH((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)
+     .lookAtLH(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-k">-</span><span class="pl-c1">10.0f</span>,
+               <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
+               <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>);</pre></div>
+
 <h2>
 <a id="computation-result" class="anchor" href="#computation-result" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Computation result</h2>
 
@@ -144,14 +159,14 @@ glBufferSubData(<span class="pl-c1">GL_UNIFORM_BUFFER</span>, <span class="pl-c1
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">BufferUtils</span><span class="pl-k">.</span>createFloatBuffer(<span class="pl-c1">16</span>);
 <span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
-m<span class="pl-k">.</span>setPerspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)<span class="pl-k">.</span>get(fb);
+m<span class="pl-k">.</span>setPerspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>);
 glMatrixMode(<span class="pl-c1">GL_PROJECTION</span>);
-glLoadMatrixf(fb);
+glLoadMatrixf(m<span class="pl-k">.</span>get(fb));
 m<span class="pl-k">.</span>setLookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">10.0f</span>,
             <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
-            <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>)<span class="pl-k">.</span>get(fb);
+            <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>);
 glMatrixMode(<span class="pl-c1">GL_MODELVIEW</span>);
-glLoadMatrixf(fb);</pre></div>
+glLoadMatrixf(m<span class="pl-k">.</span>get(fb));</pre></div>
 
 <h2>
 <a id="using-with-vulkan-and-lwjgl-3" class="anchor" href="#using-with-vulkan-and-lwjgl-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using with Vulkan and LWJGL 3</h2>
@@ -208,14 +223,14 @@ gl<span class="pl-k">.</span>glUniformMatrix4fv(mat4Location, <span class="pl-c1
 
 <div class="highlight highlight-source-java"><pre><span class="pl-smi">FloatBuffer</span> fb <span class="pl-k">=</span> <span class="pl-smi">Buffers</span><span class="pl-k">.</span>newDirectFloatBuffer(<span class="pl-c1">16</span>);
 <span class="pl-smi">Matrix4f</span> m <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Matrix4f</span>();
-m<span class="pl-k">.</span>setPerspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>)<span class="pl-k">.</span>get(fb);
+m<span class="pl-k">.</span>setPerspective((<span class="pl-k">float</span>) <span class="pl-smi">Math</span><span class="pl-k">.</span>toRadians(<span class="pl-c1">45.0f</span>), <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.01f</span>, <span class="pl-c1">100.0f</span>);
 gl<span class="pl-k">.</span>glMatrixMode(<span class="pl-smi">GLMatrixFunc</span><span class="pl-c1"><span class="pl-k">.</span>GL_PROJECTION</span>);
-gl<span class="pl-k">.</span>glLoadMatrixf(fb);
+gl<span class="pl-k">.</span>glLoadMatrixf(m<span class="pl-k">.</span>get(fb));
 m<span class="pl-k">.</span>setLookAt(<span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">10.0f</span>,
             <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>, <span class="pl-c1">0.0f</span>,
-            <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>)<span class="pl-k">.</span>get(fb);
+            <span class="pl-c1">0.0f</span>, <span class="pl-c1">1.0f</span>, <span class="pl-c1">0.0f</span>);
 gl<span class="pl-k">.</span>glMatrixMode(<span class="pl-smi">GLMatrixFunc</span><span class="pl-c1"><span class="pl-k">.</span>GL_MODELVIEW</span>);
-gl<span class="pl-k">.</span>glLoadMatrixf(fb);</pre></div>
+gl<span class="pl-k">.</span>glLoadMatrixf(m<span class="pl-k">.</span>get(fb));</pre></div>
 
 <h2>
 <a id="staying-allocation-free" class="anchor" href="#staying-allocation-free" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Staying allocation-free</h2>
@@ -246,12 +261,28 @@ gl<span class="pl-k">.</span>glLoadMatrixf(fb);</pre></div>
   <span class="pl-c">// possibly apply more model transformations</span>
   m<span class="pl-k">.</span>rotateY(angle);
   <span class="pl-c">// get matrix into FloatBuffer and upload to OpenGL</span>
-  m<span class="pl-k">.</span>get(fb);
-  glUniformMatrix4fv(mat4Location, <span class="pl-c1">false</span>, fb);
+  glUniformMatrix4fv(mat4Location, <span class="pl-c1">false</span>, m<span class="pl-k">.</span>get(fb));
   <span class="pl-c1">...</span>
 }</pre></div>
 
 <p>In the example above, a single Matrix4f is allocated during some initialization time when the <em>init()</em> method is called. Then each <em>frame()</em> we reinitialize the same matrix with the <em>identity()</em> and recompute the camera transformation based on some other parameters.</p>
+
+<h2>
+<a id="immutable-views" class="anchor" href="#immutable-views" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Immutable Views</h2>
+
+<p>In more complex applications with multiple API providers and consumers/clients, it is sometimes desirable to communicate the intent that a certain object returned by an API call or consumed by a call should not get modified by the caller or the callee, respectively. This can be helpful to encourage efficient memory usage by sharing objects and to discourage/disallow unintended object mutations.</p>
+
+<p>For this, JOML provides immutable views on each class, realized via a Java interface implemented by each class. This interface only contains methods that will not mutate the object on which it is called.</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">private</span> <span class="pl-smi">Vector4f</span> sharedVector;
+<span class="pl-k">public</span> <span class="pl-smi">Vector4fc</span> getVector() {
+  <span class="pl-k">return</span> sharedVector;
+}
+<span class="pl-k">public</span> <span class="pl-k">void</span> consume(<span class="pl-smi">Vector4fc</span> v) {
+  <span class="pl-c">// ...</span>
+}</pre></div>
+
+<p>Using immutable views, it is possible to declare who is responsible of mutating an object and who is not allowed to.</p>
 
 <h2>
 <a id="multithreading" class="anchor" href="#multithreading" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multithreading</h2>
@@ -278,7 +309,7 @@ s<span class="pl-k">.</span>rotate((<span class="pl-k">float</span>) <span class
 <span class="pl-c">// do something with the Matrix4f of 's'</span></pre></div>
 
 <h2>
-<a id="projects-using-joml" class="anchor" href="#projects-using-joml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projects and Organisations using JOML</h2>
+<a id="projects-and-organisations-using-joml" class="anchor" href="#projects-and-organisations-using-joml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projects and Organisations using JOML</h2>
 
 <p>This section names real-world projects and organisations using JOML. All owners of the projects and responsible contacts of an organisation listed here were asked for permission before.</p>
 
@@ -286,7 +317,9 @@ s<span class="pl-k">.</span>rotate((<span class="pl-k">float</span>) <span class
 <li>
 <a href="http://www.weshallwake.com/2015/09/we-shall-wake-post-demo-7-briefing.html">We Shall Wake</a> – Post-World Accelerated Action.</li>
 <li>
-<a href="http://www.cs.unh.edu/~cs770/">Computer Graphics course</a> at the University of New Hampshire</li>
+<a href="http://www.cs.unh.edu/%7Ecs770/">Computer Graphics course</a> at the University of New Hampshire</li>
+<li>Samsung's <a href="http://www.gearvrf.org">GearVR Framework Project</a>
+</li>
 </ul>
 
       <footer class="site-footer">
