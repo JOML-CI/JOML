@@ -1892,34 +1892,31 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f set(Quaterniondc q) {
-        double dx = q.x() + q.x();
-        double dy = q.y() + q.y();
-        double dz = q.z() + q.z();
-        double q00 = dx * q.x();
-        double q11 = dy * q.y();
-        double q22 = dz * q.z();
-        double q01 = dx * q.y();
-        double q02 = dx * q.z();
-        double q03 = dx * q.w();
-        double q12 = dy * q.z();
-        double q13 = dy * q.w();
-        double q23 = dz * q.w();
-        this._m00((float) (1.0 - q11 - q22));
-        this._m01((float) (q01 + q23));
-        this._m02((float) (q02 - q13));
-        this._m03(0.0f);
-        this._m10((float) (q01 - q23));
-        this._m11((float) (1.0 - q22 - q00));
-        this._m12((float) (q12 + q03));
-        this._m13(0.0f);
-        this._m20((float) (q02 + q13));
-        this._m21((float) (q12 - q03));
-        this._m22((float) (1.0 - q11 - q00));
-        this._m23(0.0f);
-        this._m30(0.0f);
-        this._m31(0.0f);
-        this._m32(0.0f);
-        this._m33(1.0f);
+        double w2 = q.w() * q.w();
+        double x2 = q.x() * q.x();
+        double y2 = q.y() * q.y();
+        double z2 = q.z() * q.z();
+        double zw = q.z() * q.w();
+        double xy = q.x() * q.y();
+        double xz = q.x() * q.z();
+        double yw = q.y() * q.w();
+        double yz = q.y() * q.z();
+        double xw = q.x() * q.w();
+        _m00((float) (w2 + x2 - z2 - y2));
+        _m01((float) (xy + zw + zw + xy));
+        _m02((float) (xz - yw + xz - yw));
+        _m03(0.0f);
+        _m10((float) (-zw + xy - zw + xy));
+        _m11((float) (y2 - z2 + w2 - x2));
+        _m12((float) (yz + yz + xw + xw));
+        _m13(0.0f);
+        _m20((float) (yw + xz + xz + yw));
+        _m21((float) (yz + yz - xw - xw));
+        _m22((float) (z2 - y2 - x2 + w2));
+        _m30(0.0f);
+        _m31(0.0f);
+        _m32(0.0f);
+        _m33(1.0f);
         this._properties(PROPERTY_AFFINE);
         return this;
     }
@@ -4394,37 +4391,32 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f rotation(Quaternionfc quat) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-
-        this._m00(1.0f - q11 - q22);
-        this._m01(q01 + q23);
-        this._m02(q02 - q13);
-        this._m03(0.0f);
-        this._m10(q01 - q23);
-        this._m11(1.0f - q22 - q00);
-        this._m12(q12 + q03);
-        this._m13(0.0f);
-        this._m20(q02 + q13);
-        this._m21(q12 - q03);
-        this._m22(1.0f - q11 - q00);
-        this._m23(0.0f);
-        this._m30(0.0f);
-        this._m31(0.0f);
-        this._m32(0.0f);
-        this._m33(1.0f);
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        _m00(w2 + x2 - z2 - y2);
+        _m01(xy + zw + zw + xy);
+        _m02(xz - yw + xz - yw);
+        _m03(0.0f);
+        _m10(-zw + xy - zw + xy);
+        _m11(y2 - z2 + w2 - x2);
+        _m12(yz + yz + xw + xw);
+        _m13(0.0f);
+        _m20(yw + xz + xz + yw);
+        _m21(yz + yz - xw - xw);
+        _m22(z2 - y2 - x2 + w2);
+        _m30(0.0f);
+        _m31(0.0f);
+        _m32(0.0f);
+        _m33(1.0f);
         _properties(PROPERTY_AFFINE);
-
         return this;
     }
 
@@ -10441,27 +10433,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return rotateGeneric(quat, dest);
     }
     private Matrix4f rotateGeneric(Quaternionfc quat, Matrix4f dest) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-        float rm00 = 1.0f - q11 - q22;
-        float rm01 = q01 + q23;
-        float rm02 = q02 - q13;
-        float rm10 = q01 - q23;
-        float rm11 = 1.0f - q22 - q00;
-        float rm12 = q12 + q03;
-        float rm20 = q02 + q13;
-        float rm21 = q12 - q03;
-        float rm22 = 1.0f - q11 - q00;
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        float rm00 = w2 + x2 - z2 - y2;
+        float rm01 = xy + zw + zw + xy;
+        float rm02 = xz - yw + xz - yw;
+        float rm10 = -zw + xy - zw + xy;
+        float rm11 = y2 - z2 + w2 - x2;
+        float rm12 = yz + yz + xw + xw;
+        float rm20 = yw + xz + xz + yw;
+        float rm21 = yz + yz - xw - xw;
+        float rm22 = z2 - y2 - x2 + w2;
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
@@ -10546,29 +10536,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f rotateAffine(Quaternionfc quat, Matrix4f dest) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-
-        float rm00 = 1.0f - q11 - q22;
-        float rm01 = q01 + q23;
-        float rm02 = q02 - q13;
-        float rm10 = q01 - q23;
-        float rm11 = 1.0f - q22 - q00;
-        float rm12 = q12 + q03;
-        float rm20 = q02 + q13;
-        float rm21 = q12 - q03;
-        float rm22 = 1.0f - q11 - q00;
-
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        float rm00 = w2 + x2 - z2 - y2;
+        float rm01 = xy + zw + zw + xy;
+        float rm02 = xz - yw + xz - yw;
+        float rm10 = -zw + xy - zw + xy;
+        float rm11 = y2 - z2 + w2 - x2;
+        float rm12 = yz + yz + xw + xw;
+        float rm20 = yw + xz + xz + yw;
+        float rm21 = yz + yz - xw - xw;
+        float rm22 = z2 - y2 - x2 + w2;
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
@@ -10654,29 +10640,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f rotateTranslation(Quaternionfc quat, Matrix4f dest) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-
-        float rm00 = 1.0f - q11 - q22;
-        float rm01 = q01 + q23;
-        float rm02 = q02 - q13;
-        float rm10 = q01 - q23;
-        float rm11 = 1.0f - q22 - q00;
-        float rm12 = q12 + q03;
-        float rm20 = q02 + q13;
-        float rm21 = q12 - q03;
-        float rm22 = 1.0f - q11 - q00;
-
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        float rm00 = w2 + x2 - z2 - y2;
+        float rm01 = xy + zw + zw + xy;
+        float rm02 = xz - yw + xz - yw;
+        float rm10 = -zw + xy - zw + xy;
+        float rm11 = y2 - z2 + w2 - x2;
+        float rm12 = yz + yz + xw + xw;
+        float rm20 = yw + xz + xz + yw;
+        float rm21 = yz + yz - xw - xw;
+        float rm22 = z2 - y2 - x2 + w2;
         float nm00 = rm00;
         float nm01 = rm01;
         float nm02 = rm02;
@@ -10738,27 +10720,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#rotateAround(org.joml.Quaternionfc, float, float, float, org.joml.Matrix4f)
      */
     public Matrix4f rotateAround(Quaternionfc quat, float ox, float oy, float oz, Matrix4f dest) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-        float rm00 = 1.0f - q11 - q22;
-        float rm01 = q01 + q23;
-        float rm02 = q02 - q13;
-        float rm10 = q01 - q23;
-        float rm11 = 1.0f - q22 - q00;
-        float rm12 = q12 + q03;
-        float rm20 = q02 + q13;
-        float rm21 = q12 - q03;
-        float rm22 = 1.0f - q11 - q00;
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        float rm00 = w2 + x2 - z2 - y2;
+        float rm01 = xy + zw + zw + xy;
+        float rm02 = xz - yw + xz - yw;
+        float rm10 = -zw + xy - zw + xy;
+        float rm11 = y2 - z2 + w2 - x2;
+        float rm12 = yz + yz + xw + xw;
+        float rm20 = yw + xz + xz + yw;
+        float rm21 = yz + yz - xw - xw;
+        float rm22 = z2 - y2 - x2 + w2;
         float tm30 = m00 * ox + m10 * oy + m20 * oz + m30;
         float tm31 = m01 * ox + m11 * oy + m21 * oz + m31;
         float tm32 = m02 * ox + m12 * oy + m22 * oz + m32;
@@ -10817,27 +10797,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return dest
      */
     public Matrix4f rotateLocal(Quaternionfc quat, Matrix4f dest) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-        float lm00 = 1.0f - q11 - q22;
-        float lm01 = q01 + q23;
-        float lm02 = q02 - q13;
-        float lm10 = q01 - q23;
-        float lm11 = 1.0f - q22 - q00;
-        float lm12 = q12 + q03;
-        float lm20 = q02 + q13;
-        float lm21 = q12 - q03;
-        float lm22 = 1.0f - q11 - q00;
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        float lm00 = w2 + x2 - z2 - y2;
+        float lm01 = xy + zw + zw + xy;
+        float lm02 = xz - yw + xz - yw;
+        float lm10 = -zw + xy - zw + xy;
+        float lm11 = y2 - z2 + w2 - x2;
+        float lm12 = yz + yz + xw + xw;
+        float lm20 = yw + xz + xz + yw;
+        float lm21 = yz + yz - xw - xw;
+        float lm22 = z2 - y2 - x2 + w2;
         float nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
         float nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
         float nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
@@ -10905,27 +10883,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#rotateAroundLocal(org.joml.Quaternionfc, float, float, float, org.joml.Matrix4f)
      */
     public Matrix4f rotateAroundLocal(Quaternionfc quat, float ox, float oy, float oz, Matrix4f dest) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-        float lm00 = 1.0f - q11 - q22;
-        float lm01 = q01 + q23;
-        float lm02 = q02 - q13;
-        float lm10 = q01 - q23;
-        float lm11 = 1.0f - q22 - q00;
-        float lm12 = q12 + q03;
-        float lm20 = q02 + q13;
-        float lm21 = q12 - q03;
-        float lm22 = 1.0f - q11 - q00;
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        float lm00 = w2 + x2 - z2 - y2;
+        float lm01 = xy + zw + zw + xy;
+        float lm02 = xz - yw + xz - yw;
+        float lm10 = -zw + xy - zw + xy;
+        float lm11 = y2 - z2 + w2 - x2;
+        float lm12 = yz + yz + xw + xw;
+        float lm20 = yw + xz + xz + yw;
+        float lm21 = yz + yz - xw - xw;
+        float lm22 = z2 - y2 - x2 + w2;
         float tm00 = m00 - ox * m03;
         float tm01 = m01 - oy * m03;
         float tm02 = m02 - oz * m03;

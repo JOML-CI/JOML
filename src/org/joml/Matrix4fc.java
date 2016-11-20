@@ -2790,7 +2790,7 @@ public interface Matrix4fc {
     Matrix4f frustumLH(float left, float right, float bottom, float top, float zNear, float zFar, Matrix4f dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2813,7 +2813,7 @@ public interface Matrix4fc {
     Matrix4f rotate(Quaternionfc quat, Matrix4f dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this {@link #isAffine() affine} matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this {@link #isAffine() affine} matrix and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
@@ -2838,7 +2838,7 @@ public interface Matrix4fc {
     Matrix4f rotateAffine(Quaternionfc quat, Matrix4f dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation - and possibly scaling - ransformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -2863,7 +2863,7 @@ public interface Matrix4fc {
     Matrix4f rotateTranslation(Quaternionfc quat, Matrix4f dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin,
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin,
      * and store the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2894,7 +2894,7 @@ public interface Matrix4fc {
     Matrix4f rotateAround(Quaternionfc quat, float ox, float oy, float oz, Matrix4f dest);
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2917,7 +2917,7 @@ public interface Matrix4fc {
     Matrix4f rotateLocal(Quaternionfc quat, Matrix4f dest);
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix while using <tt>(ox, oy, oz)</tt>
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix while using <tt>(ox, oy, oz)</tt>
      * as the rotation origin, and store the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 

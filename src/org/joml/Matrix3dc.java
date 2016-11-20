@@ -755,7 +755,7 @@ public interface Matrix3dc {
     Matrix3d rotateLocal(double ang, double x, double y, double z, Matrix3d dest);
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniondc} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -778,7 +778,7 @@ public interface Matrix3dc {
     Matrix3d rotateLocal(Quaterniondc quat, Matrix3d dest);
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -801,7 +801,7 @@ public interface Matrix3dc {
     Matrix3d rotateLocal(Quaternionfc quat, Matrix3d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -824,7 +824,7 @@ public interface Matrix3dc {
     Matrix3d rotate(Quaterniondc quat, Matrix3d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 

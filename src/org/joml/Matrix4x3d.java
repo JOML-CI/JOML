@@ -412,7 +412,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return delegate.rotateYXZ(angleY, angleX, angleZ, dest);
         }
 
-        public Matrix4x3d rotate(Quaterniond quat, Matrix4x3d dest) {
+        public Matrix4x3d rotate(Quaterniondc quat, Matrix4x3d dest) {
             return delegate.rotate(quat, dest);
         }
 
@@ -420,7 +420,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return delegate.rotate(quat, dest);
         }
 
-        public Matrix4x3d rotateTranslation(Quaterniond quat, Matrix4x3d dest) {
+        public Matrix4x3d rotateTranslation(Quaterniondc quat, Matrix4x3d dest) {
             return delegate.rotateTranslation(quat, dest);
         }
 
@@ -428,7 +428,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return delegate.rotateTranslation(quat, dest);
         }
 
-        public Matrix4x3d rotateLocal(Quaterniond quat, Matrix4x3d dest) {
+        public Matrix4x3d rotateLocal(Quaterniondc quat, Matrix4x3d dest) {
             return delegate.rotateLocal(quat, dest);
         }
 
@@ -484,7 +484,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return delegate.reflect(nx, ny, nz, px, py, pz, dest);
         }
 
-        public Matrix4x3d reflect(Quaterniond orientation, Vector3dc point, Matrix4x3d dest) {
+        public Matrix4x3d reflect(Quaterniondc orientation, Vector3dc point, Matrix4x3d dest) {
             return delegate.reflect(orientation, point, dest);
         }
 
@@ -1303,7 +1303,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionfc}.
+     * Set this matrix to be equivalent to the rotation - and possibly scaling - specified by the given {@link Quaternionfc}.
      * <p>
      * This method is equivalent to calling: <tt>rotation(q)</tt>
      * 
@@ -1318,15 +1318,15 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaterniond}.
+     * Set this matrix to be equivalent to the rotation - and possibly scaling - specified by the given {@link Quaterniondc}.
      * <p>
      * This method is equivalent to calling: <tt>rotation(q)</tt>
      * 
      * @param q
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @return this
      */
-    public Matrix4x3d set(Quaterniond q) {
+    public Matrix4x3d set(Quaterniondc q) {
         return rotation(q);
     }
 
@@ -4660,7 +4660,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Set this matrix to the rotation transformation of the given {@link Quaterniond}.
+     * Set this matrix to the rotation - and possibly scaling - transformation of the given {@link Quaterniondc}.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -4670,49 +4670,45 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * matrix to obtain an additional rotation.
      * <p>
      * In order to apply the rotation transformation to an existing transformation,
-     * use {@link #rotate(Quaterniond) rotate()} instead.
+     * use {@link #rotate(Quaterniondc) rotate()} instead.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotate(Quaterniond)
+     * @see #rotate(Quaterniondc)
      * 
      * @param quat
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @return this
      */
-    public Matrix4x3d rotation(Quaterniond quat) {
-        double dqx = quat.x + quat.x;
-        double dqy = quat.y + quat.y;
-        double dqz = quat.z + quat.z;
-        double q00 = dqx * quat.x;
-        double q11 = dqy * quat.y;
-        double q22 = dqz * quat.z;
-        double q01 = dqx * quat.y;
-        double q02 = dqx * quat.z;
-        double q03 = dqx * quat.w;
-        double q12 = dqy * quat.z;
-        double q13 = dqy * quat.w;
-        double q23 = dqz * quat.w;
-
-        m00 = 1.0 - q11 - q22;
-        m01 = q01 + q23;
-        m02 = q02 - q13;
-        m10 = q01 - q23;
-        m11 = 1.0 - q22 - q00;
-        m12 = q12 + q03;
-        m20 = q02 + q13;
-        m21 = q12 - q03;
-        m22 = 1.0 - q11 - q00;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
+    public Matrix4x3d rotation(Quaterniondc quat) {
+        double w2 = quat.w() * quat.w();
+        double x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y();
+        double z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w();
+        double xy = quat.x() * quat.y();
+        double xz = quat.x() * quat.z();
+        double yw = quat.y() * quat.w();
+        double yz = quat.y() * quat.z();
+        double xw = quat.x() * quat.w();
+        m00 = w2 + x2 - z2 - y2;
+        m01 = xy + zw + zw + xy;
+        m02 = xz - yw + xz - yw;
+        m10 = -zw + xy - zw + xy;
+        m11 = y2 - z2 + w2 - x2;
+        m12 = yz + yz + xw + xw;
+        m20 = yw + xz + xz + yw;
+        m21 = yz + yz - xw - xw;
+        m22 = z2 - y2 - x2 + w2;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
         properties = 0;
-
         return this;
     }
 
     /**
-     * Set this matrix to the rotation transformation of the given {@link Quaternionfc}.
+     * Set this matrix to the rotation - and possibly scaling - transformation of the given {@link Quaternionfc}.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -4733,33 +4729,29 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return this
      */
     public Matrix4x3d rotation(Quaternionfc quat) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
-
-        m00 = 1.0 - q11 - q22;
-        m01 = q01 + q23;
-        m02 = q02 - q13;
-        m10 = q01 - q23;
-        m11 = 1.0 - q22 - q00;
-        m12 = q12 + q03;
-        m20 = q02 + q13;
-        m21 = q12 - q03;
-        m22 = 1.0 - q11 - q00;
-        m30 = 0.0;
-        m31 = 0.0;
-        m32 = 0.0;
+        double w2 = quat.w() * quat.w();
+        double x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y();
+        double z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w();
+        double xy = quat.x() * quat.y();
+        double xz = quat.x() * quat.z();
+        double yw = quat.y() * quat.w();
+        double yz = quat.y() * quat.z();
+        double xw = quat.x() * quat.w();
+        m00 = w2 + x2 - z2 - y2;
+        m01 = xy + zw + zw + xy;
+        m02 = xz - yw + xz - yw;
+        m10 = -zw + xy - zw + xy;
+        m11 = y2 - z2 + w2 - x2;
+        m12 = yz + yz + xw + xw;
+        m20 = yw + xz + xz + yw;
+        m21 = yz + yz - xw - xw;
+        m22 = z2 - y2 - x2 + w2;
+        m30 = 0.0f;
+        m31 = 0.0f;
+        m32 = 0.0f;
         properties = 0;
-
         return this;
     }
 
@@ -4778,7 +4770,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz)</tt>
      * 
      * @see #translation(double, double, double)
-     * @see #rotate(Quaterniond)
+     * @see #rotate(Quaterniondc)
      * @see #scale(double, double, double)
      * 
      * @param tx
@@ -4878,7 +4870,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale)</tt>
      * 
      * @see #translation(Vector3dc)
-     * @see #rotate(Quaterniond)
+     * @see #rotate(Quaterniondc)
      * 
      * @param translation
      *          the translation
@@ -4889,9 +4881,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return this
      */
     public Matrix4x3d translationRotateScale(Vector3dc translation, 
-                                           Quaterniond quat, 
+                                           Quaterniondc quat, 
                                            Vector3dc scale) {
-        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x, quat.y, quat.z, quat.w, scale.x(), scale.y(), scale.z());
+        return translationRotateScale(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z());
     }
 
     /**
@@ -4909,7 +4901,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).scale(sx, sy, sz).mul(m)</tt>
      * 
      * @see #translation(double, double, double)
-     * @see #rotate(Quaterniond)
+     * @see #rotate(Quaterniondc)
      * @see #scale(double, double, double)
      * @see #mul(Matrix4x3dc)
      * 
@@ -5002,7 +4994,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * This method is equivalent to calling: <tt>translation(translation).rotate(quat).scale(scale).mul(m)</tt>
      * 
      * @see #translation(Vector3dc)
-     * @see #rotate(Quaterniond)
+     * @see #rotate(Quaterniondc)
      * @see #mul(Matrix4x3dc)
      * 
      * @param translation
@@ -5015,8 +5007,8 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      *          the matrix to multiply by
      * @return this
      */
-    public Matrix4x3d translationRotateScaleMul(Vector3dc translation, Quaterniond quat, Vector3dc scale, Matrix4x3dc m) {
-        return translationRotateScaleMul(translation.x(), translation.y(), translation.z(), quat.x, quat.y, quat.z, quat.w, scale.x(), scale.y(), scale.z(), m);
+    public Matrix4x3d translationRotateScaleMul(Vector3dc translation, Quaterniondc quat, Vector3dc scale, Matrix4x3dc m) {
+        return translationRotateScaleMul(translation.x(), translation.y(), translation.z(), quat.x(), quat.y(), quat.z(), quat.w(), scale.x(), scale.y(), scale.z(), m);
     }
 
     /**
@@ -5032,7 +5024,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat)</tt>
      * 
      * @see #translation(double, double, double)
-     * @see #rotate(Quaterniond)
+     * @see #rotate(Quaterniondc)
      * 
      * @param tx
      *          the number of units by which to translate the x-component
@@ -5044,17 +5036,17 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      *          the quaternion representing a rotation
      * @return this
      */
-    public Matrix4x3d translationRotate(double tx, double ty, double tz, Quaterniond quat) {
-        double dqx = quat.x + quat.x, dqy = quat.y + quat.y, dqz = quat.z + quat.z;
-        double q00 = dqx * quat.x;
-        double q11 = dqy * quat.y;
-        double q22 = dqz * quat.z;
-        double q01 = dqx * quat.y;
-        double q02 = dqx * quat.z;
-        double q03 = dqx * quat.w;
-        double q12 = dqy * quat.z;
-        double q13 = dqy * quat.w;
-        double q23 = dqz * quat.w;
+    public Matrix4x3d translationRotate(double tx, double ty, double tz, Quaterniondc quat) {
+        double dqx = quat.x() + quat.x(), dqy = quat.y() + quat.y(), dqz = quat.z() + quat.z();
+        double q00 = dqx * quat.x();
+        double q11 = dqy * quat.y();
+        double q22 = dqz * quat.z();
+        double q01 = dqx * quat.y();
+        double q02 = dqx * quat.z();
+        double q03 = dqx * quat.w();
+        double q12 = dqy * quat.z();
+        double q13 = dqy * quat.w();
+        double q23 = dqz * quat.w();
         m00 = 1.0 - (q11 + q22);
         m01 = q01 + q23;
         m02 = q02 - q13;
@@ -5072,7 +5064,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -5085,47 +5077,45 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaterniond)}.
+     * use {@link #rotation(Quaterniondc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniond)
+     * @see #rotation(Quaterniondc)
      * 
      * @param quat
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3d rotate(Quaterniond quat, Matrix4x3d dest) {
+    public Matrix4x3d rotate(Quaterniondc quat, Matrix4x3d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotation(quat);
         else if ((properties & PROPERTY_TRANSLATION) != 0)
             return rotateTranslation(quat, dest);
         return rotateGeneric(quat, dest);
     }
-    private Matrix4x3d rotateGeneric(Quaterniond quat, Matrix4x3d dest) {
-        double dqx = quat.x + quat.x;
-        double dqy = quat.y + quat.y;
-        double dqz = quat.z + quat.z;
-        double q00 = dqx * quat.x;
-        double q11 = dqy * quat.y;
-        double q22 = dqz * quat.z;
-        double q01 = dqx * quat.y;
-        double q02 = dqx * quat.z;
-        double q03 = dqx * quat.w;
-        double q12 = dqy * quat.z;
-        double q13 = dqy * quat.w;
-        double q23 = dqz * quat.w;
-        double rm00 = 1.0 - q11 - q22;
-        double rm01 = q01 + q23;
-        double rm02 = q02 - q13;
-        double rm10 = q01 - q23;
-        double rm11 = 1.0 - q22 - q00;
-        double rm12 = q12 + q03;
-        double rm20 = q02 + q13;
-        double rm21 = q12 - q03;
-        double rm22 = 1.0 - q11 - q00;
+    private Matrix4x3d rotateGeneric(Quaterniondc quat, Matrix4x3d dest) {
+        double w2 = quat.w() * quat.w();
+        double x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y();
+        double z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w();
+        double xy = quat.x() * quat.y();
+        double xz = quat.x() * quat.z();
+        double yw = quat.y() * quat.w();
+        double yz = quat.y() * quat.z();
+        double xw = quat.x() * quat.w();
+        double rm00 = w2 + x2 - z2 - y2;
+        double rm01 = xy + zw + zw + xy;
+        double rm02 = xz - yw + xz - yw;
+        double rm10 = -zw + xy - zw + xy;
+        double rm11 = y2 - z2 + w2 - x2;
+        double rm12 = yz + yz + xw + xw;
+        double rm20 = yw + xz + xz + yw;
+        double rm21 = yz + yz - xw - xw;
+        double rm22 = z2 - y2 - x2 + w2;
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
@@ -5149,7 +5139,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -5182,27 +5172,25 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return rotateGeneric(quat, dest);
     }
     private Matrix4x3d rotateGeneric(Quaternionfc quat, Matrix4x3d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
-        double rm00 = 1.0 - q11 - q22;
-        double rm01 = q01 + q23;
-        double rm02 = q02 - q13;
-        double rm10 = q01 - q23;
-        double rm11 = 1.0 - q22 - q00;
-        double rm12 = q12 + q03;
-        double rm20 = q02 + q13;
-        double rm21 = q12 - q03;
-        double rm22 = 1.0 - q11 - q00;
+        double w2 = quat.w() * quat.w();
+        double x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y();
+        double z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w();
+        double xy = quat.x() * quat.y();
+        double xz = quat.x() * quat.z();
+        double yw = quat.y() * quat.w();
+        double yz = quat.y() * quat.z();
+        double xw = quat.x() * quat.w();
+        double rm00 = w2 + x2 - z2 - y2;
+        double rm01 = xy + zw + zw + xy;
+        double rm02 = xz - yw + xz - yw;
+        double rm10 = -zw + xy - zw + xy;
+        double rm11 = y2 - z2 + w2 - x2;
+        double rm12 = yz + yz + xw + xw;
+        double rm20 = yw + xz + xz + yw;
+        double rm21 = yz + yz - xw - xw;
+        double rm22 = z2 - y2 - x2 + w2;
         double nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         double nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         double nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
@@ -5226,7 +5214,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix.
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -5238,22 +5226,22 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaterniond)}.
+     * use {@link #rotation(Quaterniondc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniond)
+     * @see #rotation(Quaterniondc)
      * 
      * @param quat
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @return this
      */
-    public Matrix4x3d rotate(Quaterniond quat) {
+    public Matrix4x3d rotate(Quaterniondc quat) {
         return rotate(quat, this);
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix.
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -5280,7 +5268,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -5295,40 +5283,38 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * the quaternion rotation will be applied first!
      * <p>
      * In order to set the matrix to a rotation transformation without post-multiplying,
-     * use {@link #rotation(Quaterniond)}.
+     * use {@link #rotation(Quaterniondc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniond)
+     * @see #rotation(Quaterniondc)
      * 
      * @param quat
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3d rotateTranslation(Quaterniond quat, Matrix4x3d dest) {
-        double dqx = quat.x + quat.x;
-        double dqy = quat.y + quat.y;
-        double dqz = quat.z + quat.z;
-        double q00 = dqx * quat.x;
-        double q11 = dqy * quat.y;
-        double q22 = dqz * quat.z;
-        double q01 = dqx * quat.y;
-        double q02 = dqx * quat.z;
-        double q03 = dqx * quat.w;
-        double q12 = dqy * quat.z;
-        double q13 = dqy * quat.w;
-        double q23 = dqz * quat.w;
-        double rm00 = 1.0 - q11 - q22;
-        double rm01 = q01 + q23;
-        double rm02 = q02 - q13;
-        double rm10 = q01 - q23;
-        double rm11 = 1.0 - q22 - q00;
-        double rm12 = q12 + q03;
-        double rm20 = q02 + q13;
-        double rm21 = q12 - q03;
-        double rm22 = 1.0 - q11 - q00;
+    public Matrix4x3d rotateTranslation(Quaterniondc quat, Matrix4x3d dest) {
+        double w2 = quat.w() * quat.w();
+        double x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y();
+        double z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w();
+        double xy = quat.x() * quat.y();
+        double xz = quat.x() * quat.z();
+        double yw = quat.y() * quat.w();
+        double yz = quat.y() * quat.z();
+        double xw = quat.x() * quat.w();
+        double rm00 = w2 + x2 - z2 - y2;
+        double rm01 = xy + zw + zw + xy;
+        double rm02 = xz - yw + xz - yw;
+        double rm10 = -zw + xy - zw + xy;
+        double rm11 = y2 - z2 + w2 - x2;
+        double rm12 = yz + yz + xw + xw;
+        double rm20 = yw + xz + xz + yw;
+        double rm21 = yz + yz - xw - xw;
+        double rm22 = z2 - y2 - x2 + w2;
         double nm00 = rm00;
         double nm01 = rm01;
         double nm02 = rm02;
@@ -5352,7 +5338,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -5380,27 +5366,25 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return dest
      */
     public Matrix4x3d rotateTranslation(Quaternionfc quat, Matrix4x3d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
-        double rm00 = 1.0 - q11 - q22;
-        double rm01 = q01 + q23;
-        double rm02 = q02 - q13;
-        double rm10 = q01 - q23;
-        double rm11 = 1.0 - q22 - q00;
-        double rm12 = q12 + q03;
-        double rm20 = q02 + q13;
-        double rm21 = q12 - q03;
-        double rm22 = 1.0 - q11 - q00;
+        double w2 = quat.w() * quat.w();
+        double x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y();
+        double z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w();
+        double xy = quat.x() * quat.y();
+        double xz = quat.x() * quat.z();
+        double yw = quat.y() * quat.w();
+        double yz = quat.y() * quat.z();
+        double xw = quat.x() * quat.w();
+        double rm00 = w2 + x2 - z2 - y2;
+        double rm01 = xy + zw + zw + xy;
+        double rm02 = xz - yw + xz - yw;
+        double rm10 = -zw + xy - zw + xy;
+        double rm11 = y2 - z2 + w2 - x2;
+        double rm12 = yz + yz + xw + xw;
+        double rm20 = yw + xz + xz + yw;
+        double rm21 = yz + yz - xw - xw;
+        double rm22 = z2 - y2 - x2 + w2;
         double nm00 = rm00;
         double nm01 = rm01;
         double nm02 = rm02;
@@ -5424,7 +5408,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -5437,40 +5421,38 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaterniond)}.
+     * use {@link #rotation(Quaterniondc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniond)
+     * @see #rotation(Quaterniondc)
      * 
      * @param quat
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    public Matrix4x3d rotateLocal(Quaterniond quat, Matrix4x3d dest) {
-        double dqx = quat.x + quat.x;
-        double dqy = quat.y + quat.y;
-        double dqz = quat.z + quat.z;
-        double q00 = dqx * quat.x;
-        double q11 = dqy * quat.y;
-        double q22 = dqz * quat.z;
-        double q01 = dqx * quat.y;
-        double q02 = dqx * quat.z;
-        double q03 = dqx * quat.w;
-        double q12 = dqy * quat.z;
-        double q13 = dqy * quat.w;
-        double q23 = dqz * quat.w;
-        double lm00 = 1.0 - q11 - q22;
-        double lm01 = q01 + q23;
-        double lm02 = q02 - q13;
-        double lm10 = q01 - q23;
-        double lm11 = 1.0 - q22 - q00;
-        double lm12 = q12 + q03;
-        double lm20 = q02 + q13;
-        double lm21 = q12 - q03;
-        double lm22 = 1.0 - q11 - q00;
+    public Matrix4x3d rotateLocal(Quaterniondc quat, Matrix4x3d dest) {
+        double w2 = quat.w() * quat.w();
+        double x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y();
+        double z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w();
+        double xy = quat.x() * quat.y();
+        double xz = quat.x() * quat.z();
+        double yw = quat.y() * quat.w();
+        double yz = quat.y() * quat.z();
+        double xw = quat.x() * quat.w();
+        double lm00 = w2 + x2 - z2 - y2;
+        double lm01 = xy + zw + zw + xy;
+        double lm02 = xz - yw + xz - yw;
+        double lm10 = -zw + xy - zw + xy;
+        double lm11 = y2 - z2 + w2 - x2;
+        double lm12 = yz + yz + xw + xw;
+        double lm20 = yw + xz + xz + yw;
+        double lm21 = yz + yz - xw - xw;
+        double lm22 = z2 - y2 - x2 + w2;
         double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
         double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
         double nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
@@ -5500,7 +5482,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix.
+     * Pre-multiply the rotation transformation of the given {@link Quaterniondc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -5512,22 +5494,22 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * the quaternion rotation will be applied last!
      * <p>
      * In order to set the matrix to a rotation transformation without pre-multiplying,
-     * use {@link #rotation(Quaterniond)}.
+     * use {@link #rotation(Quaterniondc)}.
      * <p>
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
-     * @see #rotation(Quaterniond)
+     * @see #rotation(Quaterniondc)
      * 
      * @param quat
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @return this
      */
-    public Matrix4x3d rotateLocal(Quaterniond quat) {
+    public Matrix4x3d rotateLocal(Quaterniondc quat) {
         return rotateLocal(quat, this);
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -5553,27 +5535,25 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @return dest
      */
     public Matrix4x3d rotateLocal(Quaternionfc quat, Matrix4x3d dest) {
-        double dqx = quat.x() + quat.x();
-        double dqy = quat.y() + quat.y();
-        double dqz = quat.z() + quat.z();
-        double q00 = dqx * quat.x();
-        double q11 = dqy * quat.y();
-        double q22 = dqz * quat.z();
-        double q01 = dqx * quat.y();
-        double q02 = dqx * quat.z();
-        double q03 = dqx * quat.w();
-        double q12 = dqy * quat.z();
-        double q13 = dqy * quat.w();
-        double q23 = dqz * quat.w();
-        double lm00 = 1.0 - q11 - q22;
-        double lm01 = q01 + q23;
-        double lm02 = q02 - q13;
-        double lm10 = q01 - q23;
-        double lm11 = 1.0 - q22 - q00;
-        double lm12 = q12 + q03;
-        double lm20 = q02 + q13;
-        double lm21 = q12 - q03;
-        double lm22 = 1.0 - q11 - q00;
+        double w2 = quat.w() * quat.w();
+        double x2 = quat.x() * quat.x();
+        double y2 = quat.y() * quat.y();
+        double z2 = quat.z() * quat.z();
+        double zw = quat.z() * quat.w();
+        double xy = quat.x() * quat.y();
+        double xz = quat.x() * quat.z();
+        double yw = quat.y() * quat.w();
+        double yz = quat.y() * quat.z();
+        double xw = quat.x() * quat.w();
+        double lm00 = w2 + x2 - z2 - y2;
+        double lm01 = xy + zw + zw + xy;
+        double lm02 = xz - yw + xz - yw;
+        double lm10 = -zw + xy - zw + xy;
+        double lm11 = y2 - z2 + w2 - x2;
+        double lm12 = yz + yz + xw + xw;
+        double lm20 = yw + xz + xz + yw;
+        double lm21 = yz + yz - xw - xw;
+        double lm22 = z2 - y2 - x2 + w2;
         double nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
         double nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
         double nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
@@ -5603,7 +5583,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix.
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -6279,7 +6259,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniond} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniondc} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
@@ -6293,20 +6273,20 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      *          a point on the plane
      * @return this
      */
-    public Matrix4x3d reflect(Quaterniond orientation, Vector3dc point) {
+    public Matrix4x3d reflect(Quaterniondc orientation, Vector3dc point) {
         return reflect(orientation, point, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Matrix4x3dc#reflect(org.joml.Quaterniond, org.joml.Vector3dc, org.joml.Matrix4x3d)
+     * @see org.joml.Matrix4x3dc#reflect(org.joml.Quaterniondc, org.joml.Vector3dc, org.joml.Matrix4x3d)
      */
-    public Matrix4x3d reflect(Quaterniond orientation, Vector3dc point, Matrix4x3d dest) {
-        double num1 = orientation.x + orientation.x;
-        double num2 = orientation.y + orientation.y;
-        double num3 = orientation.z + orientation.z;
-        double normalX = orientation.x * num3 + orientation.w * num2;
-        double normalY = orientation.y * num3 - orientation.w * num1;
-        double normalZ = 1.0 - (orientation.x * num1 + orientation.y * num2);
+    public Matrix4x3d reflect(Quaterniondc orientation, Vector3dc point, Matrix4x3d dest) {
+        double num1 = orientation.x() + orientation.x();
+        double num2 = orientation.y() + orientation.y();
+        double num3 = orientation.z() + orientation.z();
+        double normalX = orientation.x() * num3 + orientation.w() * num2;
+        double normalY = orientation.y() * num3 - orientation.w() * num1;
+        double normalZ = 1.0 - (orientation.x() * num1 + orientation.y() * num2);
         return reflect(normalX, normalY, normalZ, point.x(), point.y(), point.z(), dest);
     }
 
@@ -6399,7 +6379,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * specified via the plane orientation and a point on the plane.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniond} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniondc} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * 
      * @param orientation
@@ -6408,13 +6388,13 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      *          a point on the plane
      * @return this
      */
-    public Matrix4x3d reflection(Quaterniond orientation, Vector3dc point) {
-        double num1 = orientation.x + orientation.x;
-        double num2 = orientation.y + orientation.y;
-        double num3 = orientation.z + orientation.z;
-        double normalX = orientation.x * num3 + orientation.w * num2;
-        double normalY = orientation.y * num3 - orientation.w * num1;
-        double normalZ = 1.0 - (orientation.x * num1 + orientation.y * num2);
+    public Matrix4x3d reflection(Quaterniondc orientation, Vector3dc point) {
+        double num1 = orientation.x() + orientation.x();
+        double num2 = orientation.y() + orientation.y();
+        double num3 = orientation.z() + orientation.z();
+        double normalX = orientation.x() * num3 + orientation.w() * num2;
+        double normalY = orientation.y() * num3 - orientation.w() * num1;
+        double normalZ = 1.0 - (orientation.x() * num1 + orientation.y() * num2);
         return reflection(normalX, normalY, normalZ, point.x(), point.y(), point.z());
     }
 

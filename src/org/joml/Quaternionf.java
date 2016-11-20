@@ -32,8 +32,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * Contains the definition and functions for rotations expressed as
- * 4-dimensional vectors
+ * Quaternion of 4 single-precision floats which can represent rotation and uniform scaling.
  *
  * @author Richard Greenlees
  * @author Kai Burjack
@@ -1431,21 +1430,28 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#transform(float, float, float, org.joml.Vector3f)
      */
     public Vector3f transform(float x, float y, float z, Vector3f dest) {
-        float num = this.x + this.x;
-        float num2 = this.y + this.y;
-        float num3 = this.z + this.z;
-        float num4 = this.x * num;
-        float num5 = this.y * num2;
-        float num6 = this.z * num3;
-        float num7 = this.x * num2;
-        float num8 = this.x * num3;
-        float num9 = this.y * num3;
-        float num10 = this.w * num;
-        float num11 = this.w * num2;
-        float num12 = this.w * num3;
-        dest.set((1.0f - (num5 + num6)) * x + (num7 - num12) * y + (num8 + num11) * z,
-                 (num7 + num12) * x + (1.0f - (num4 + num6)) * y + (num9 - num10) * z,
-                 (num8 - num11) * x + (num9 + num10) * y + (1.0f - (num4 + num5)) * z);
+        float w2 = this.w * this.w;
+        float x2 = this.x * this.x;
+        float y2 = this.y * this.y;
+        float z2 = this.z * this.z;
+        float zw = this.z * this.w;
+        float xy = this.x * this.y;
+        float xz = this.x * this.z;
+        float yw = this.y * this.w;
+        float yz = this.y * this.z;
+        float xw = this.x * this.w;
+        float m00 = w2 + x2 - z2 - y2;
+        float m01 = xy + zw + zw + xy;
+        float m02 = xz - yw + xz - yw;
+        float m10 = -zw + xy - zw + xy;
+        float m11 = y2 - z2 + w2 - x2;
+        float m12 = yz + yz + xw + xw;
+        float m20 = yw + xz + xz + yw;
+        float m21 = yz + yz - xw - xw;
+        float m22 = z2 - y2 - x2 + w2;
+        dest.x = m00 * x + m10 * y + m20 * z;
+        dest.y = m01 * x + m11 * y + m21 * z;
+        dest.z = m02 * x + m12 * y + m22 * z;
         return dest;
     }
 
@@ -1460,22 +1466,28 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#transform(float, float, float, org.joml.Vector4f)
      */
     public Vector4f transform(float x, float y, float z, Vector4f dest) {
-        float num = this.x + this.x;
-        float num2 = this.y + this.y;
-        float num3 = this.z + this.z;
-        float num4 = this.x * num;
-        float num5 = this.y * num2;
-        float num6 = this.z * num3;
-        float num7 = this.x * num2;
-        float num8 = this.x * num3;
-        float num9 = this.y * num3;
-        float num10 = this.w * num;
-        float num11 = this.w * num2;
-        float num12 = this.w * num3;
-        dest.set((1.0f - (num5 + num6)) * x + (num7 - num12) * y + (num8 + num11) * z,
-                 (num7 + num12) * x + (1.0f - (num4 + num6)) * y + (num9 - num10) * z,
-                 (num8 - num11) * x + (num9 + num10) * y + (1.0f - (num4 + num5)) * z,
-                 dest.w);
+        float w2 = this.w * this.w;
+        float x2 = this.x * this.x;
+        float y2 = this.y * this.y;
+        float z2 = this.z * this.z;
+        float zw = this.z * this.w;
+        float xy = this.x * this.y;
+        float xz = this.x * this.z;
+        float yw = this.y * this.w;
+        float yz = this.y * this.z;
+        float xw = this.x * this.w;
+        float m00 = w2 + x2 - z2 - y2;
+        float m01 = xy + zw + zw + xy;
+        float m02 = xz - yw + xz - yw;
+        float m10 = -zw + xy - zw + xy;
+        float m11 = y2 - z2 + w2 - x2;
+        float m12 = yz + yz + xw + xw;
+        float m20 = yw + xz + xz + yw;
+        float m21 = yz + yz - xw - xw;
+        float m22 = z2 - y2 - x2 + w2;
+        dest.x = m00 * x + m10 * y + m20 * z;
+        dest.y = m01 * x + m11 * y + m21 * z;
+        dest.z = m02 * x + m12 * y + m22 * z;
         return dest;
     }
 
@@ -1914,17 +1926,11 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /**
-     * Scale the rotation represented by this quaternion by the given <code>factor</code> using spherical linear interpolation.
-     * <p>
-     * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
-     * and thus equivalent to calling: <tt>new Quaternionf().slerp(this, factor)</tt>
-     * <p>
-     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
-     * 
-     * @see #slerp(Quaternionfc, float)
+     * Apply scaling to this quaternion, which results in any vector transformed by this quaternion to change
+     * its length by the given <code>factor</code>.
      * 
      * @param factor
-     *          the scaling/interpolation factor, within <tt>[0..1]</tt>
+     *          the scaling factor
      * @return this
      */
     public Quaternionf scale(float factor) {
@@ -1935,23 +1941,28 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * @see org.joml.Quaternionfc#scale(float, org.joml.Quaternionf)
      */
     public Quaternionf scale(float factor, Quaternionf dest) {
-        float absCosom = Math.abs(w);
-        float scale0, scale1;
-        if (1.0 - absCosom > 1E-6) {
-            float sinSqr = 1.0f - absCosom * absCosom;
-            float sinom = (float) (1.0 / Math.sqrt(sinSqr));
-            float omega = (float) Math.atan2(sinSqr * sinom, absCosom);
-            scale0 = (float) (Math.sin((1.0 - factor) * omega) * sinom);
-            scale1 = (float) (Math.sin(factor * omega) * sinom);
-        } else {
-            scale0 = 1.0f - factor;
-            scale1 = factor;
-        }
-        scale1 = w >= 0.0 ? scale1 : -scale1;
-        dest.x = scale1 * x;
-        dest.y = scale1 * y;
-        dest.z = scale1 * z;
-        dest.w = scale0 + scale1 * w;
+        float sqrt = (float) Math.sqrt(factor);
+        dest.x = sqrt * x;
+        dest.y = sqrt * y;
+        dest.z = sqrt * z;
+        dest.w = sqrt * w;
+        return this;
+    }
+
+    /**
+     * Set this quaternion to represent scaling, which results in a transformed vector to change
+     * its length by the given <code>factor</code>.
+     * 
+     * @param factor
+     *          the scaling factor
+     * @return this
+     */
+    public Quaternionf scaling(float factor) {
+        float sqrt = (float) Math.sqrt(factor);
+        this.x = 0.0f;
+        this.y = 0.0f;
+        this.z = 0.0f;
+        this.w = sqrt;
         return this;
     }
 

@@ -723,7 +723,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 
     /**
-     * Set this matrix to be equivalent to the rotation specified by the given {@link Quaternionfc}.
+     * Set this matrix to be equivalent to the rotation - and possibly scaling - specified by the given {@link Quaternionfc}.
      * <p>
      * This method is equivalent to calling: <tt>rotation(q)</tt>
      * <p>
@@ -740,7 +740,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 
     /**
-     * Set this matrix to a rotation equivalent to the given quaternion.
+     * Set this matrix to a rotation - and possibly scaling - equivalent to the given quaternion.
      * <p>
      * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/">http://www.euclideanspace.com/</a>
      * 
@@ -749,27 +749,25 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f set(Quaterniondc q) {
-        double dx = q.x() + q.x();
-        double dy = q.y() + q.y();
-        double dz = q.z() + q.z();
-        double q00 = dx * q.x();
-        double q11 = dy * q.y();
-        double q22 = dz * q.z();
-        double q01 = dx * q.y();
-        double q02 = dx * q.z();
-        double q03 = dx * q.w();
-        double q12 = dy * q.z();
-        double q13 = dy * q.w();
-        double q23 = dz * q.w();
-        m00 = (float) (1.0f - q11 - q22);
-        m01 = (float) (q01 + q23);
-        m02 = (float) (q02 - q13);
-        m10 = (float) (q01 - q23);
-        m11 = (float) (1.0f - q22 - q00);
-        m12 = (float) (q12 + q03);
-        m20 = (float) (q02 + q13);
-        m21 = (float) (q12 - q03);
-        m22 = (float) (1.0f - q11 - q00);
+        double w2 = q.w() * q.w();
+        double x2 = q.x() * q.x();
+        double y2 = q.y() * q.y();
+        double z2 = q.z() * q.z();
+        double zw = q.z() * q.w();
+        double xy = q.x() * q.y();
+        double xz = q.x() * q.z();
+        double yw = q.y() * q.w();
+        double yz = q.y() * q.z();
+        double xw = q.x() * q.w();
+        m00 = (float) (w2 + x2 - z2 - y2);
+        m01 = (float) (xy + zw + zw + xy);
+        m02 = (float) (xz - yw + xz - yw);
+        m10 = (float) (-zw + xy - zw + xy);
+        m11 = (float) (y2 - z2 + w2 - x2);
+        m12 = (float) (yz + yz + xw + xw);
+        m20 = (float) (yw + xz + xz + yw);
+        m21 = (float) (yz + yz - xw - xw);
+        m22 = (float) (z2 - y2 - x2 + w2);
         return this;
     }
 
@@ -1753,7 +1751,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 
     /**
-     * Set this matrix to the rotation transformation of the given {@link Quaternionfc}.
+     * Set this matrix to the rotation - and possibly scaling - transformation of the given {@link Quaternionfc}.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -1774,29 +1772,25 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return this
      */
     public Matrix3f rotation(Quaternionfc quat) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-
-        m00 = 1.0f - q11 - q22;
-        m01 = q01 + q23;
-        m02 = q02 - q13;
-        m10 = q01 - q23;
-        m11 = 1.0f - q22 - q00;
-        m12 = q12 + q03;
-        m20 = q02 + q13;
-        m21 = q12 - q03;
-        m22 = 1.0f - q11 - q00;
-
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        m00 = w2 + x2 - z2 - y2;
+        m01 = xy + zw + zw + xy;
+        m02 = xz - yw + xz - yw;
+        m10 = -zw + xy - zw + xy;
+        m11 = y2 - z2 + w2 - x2;
+        m12 = yz + yz + xw + xw;
+        m20 = yw + xz + xz + yw;
+        m21 = yz + yz - xw - xw;
+        m22 = z2 - y2 - x2 + w2;
         return this;
     }
 
@@ -2490,7 +2484,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix.
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -2517,7 +2511,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2543,29 +2537,25 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return dest
      */
     public Matrix3f rotate(Quaternionfc quat, Matrix3f dest) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-
-        float rm00 = 1.0f - q11 - q22;
-        float rm01 = q01 + q23;
-        float rm02 = q02 - q13;
-        float rm10 = q01 - q23;
-        float rm11 = 1.0f - q22 - q00;
-        float rm12 = q12 + q03;
-        float rm20 = q02 + q13;
-        float rm21 = q12 - q03;
-        float rm22 = 1.0f - q11 - q00;
-
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        float rm00 = w2 + x2 - z2 - y2;
+        float rm01 = xy + zw + zw + xy;
+        float rm02 = xz - yw + xz - yw;
+        float rm10 = -zw + xy - zw + xy;
+        float rm11 = y2 - z2 + w2 - x2;
+        float rm12 = yz + yz + xw + xw;
+        float rm20 = yw + xz + xz + yw;
+        float rm21 = yz + yz - xw - xw;
+        float rm22 = z2 - y2 - x2 + w2;
         float nm00 = m00 * rm00 + m10 * rm01 + m20 * rm02;
         float nm01 = m01 * rm00 + m11 * rm01 + m21 * rm02;
         float nm02 = m02 * rm00 + m12 * rm01 + m22 * rm02;
@@ -2581,12 +2571,11 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-
         return dest;
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2612,27 +2601,25 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @return dest
      */
     public Matrix3f rotateLocal(Quaternionfc quat, Matrix3f dest) {
-        float dqx = quat.x() + quat.x();
-        float dqy = quat.y() + quat.y();
-        float dqz = quat.z() + quat.z();
-        float q00 = dqx * quat.x();
-        float q11 = dqy * quat.y();
-        float q22 = dqz * quat.z();
-        float q01 = dqx * quat.y();
-        float q02 = dqx * quat.z();
-        float q03 = dqx * quat.w();
-        float q12 = dqy * quat.z();
-        float q13 = dqy * quat.w();
-        float q23 = dqz * quat.w();
-        float lm00 = 1.0f - q11 - q22;
-        float lm01 = q01 + q23;
-        float lm02 = q02 - q13;
-        float lm10 = q01 - q23;
-        float lm11 = 1.0f - q22 - q00;
-        float lm12 = q12 + q03;
-        float lm20 = q02 + q13;
-        float lm21 = q12 - q03;
-        float lm22 = 1.0f - q11 - q00;
+        float w2 = quat.w() * quat.w();
+        float x2 = quat.x() * quat.x();
+        float y2 = quat.y() * quat.y();
+        float z2 = quat.z() * quat.z();
+        float zw = quat.z() * quat.w();
+        float xy = quat.x() * quat.y();
+        float xz = quat.x() * quat.z();
+        float yw = quat.y() * quat.w();
+        float yz = quat.y() * quat.z();
+        float xw = quat.x() * quat.w();
+        float lm00 = w2 + x2 - z2 - y2;
+        float lm01 = xy + zw + zw + xy;
+        float lm02 = xz - yw + xz - yw;
+        float lm10 = -zw + xy - zw + xy;
+        float lm11 = y2 - z2 + w2 - x2;
+        float lm12 = yz + yz + xw + xw;
+        float lm20 = yw + xz + xz + yw;
+        float lm21 = yz + yz - xw - xw;
+        float lm22 = z2 - y2 - x2 + w2;
         float nm00 = lm00 * m00 + lm10 * m01 + lm20 * m02;
         float nm01 = lm01 * m00 + lm11 * m01 + lm21 * m02;
         float nm02 = lm02 * m00 + lm12 * m01 + lm22 * m02;
@@ -2655,7 +2642,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix.
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.

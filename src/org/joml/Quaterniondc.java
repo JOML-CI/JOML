@@ -384,20 +384,14 @@ public interface Quaterniondc {
     Quaterniond slerp(Quaterniondc target, double alpha, Quaterniond dest);
 
     /**
-     * Scale the rotation represented by this quaternion by the given <code>factor</code> using spherical linear interpolation, and store the result in <code>dest</code>.
-     * <p>
-     * This method is equivalent to performing a spherical linear interpolation between the unit quaternion and <code>this</code>,
-     * and thus equivalent to calling: <tt>new Quaterniond().slerp(this, factor, dest)</tt>
-     * <p>
-     * Reference: <a href="http://fabiensanglard.net/doom3_documentation/37725-293747_293747.pdf">http://fabiensanglard.net</a>
-     * 
-     * @see #slerp(Quaterniondc, double, Quaterniond)
+     * Apply scaling to this quaternion, which results in any vector transformed by the quaternion to change
+     * its length by the given <code>factor</code>, and store the result in <code>dest</code>.
      * 
      * @param factor
-     *          the scaling/interpolation factor, within <tt>[0..1]</tt>
+     *          the scaling factor
      * @param dest
      *          will hold the result
-     * @return this
+     * @return dest
      */
     Quaterniond scale(double factor, Quaterniond dest);
 

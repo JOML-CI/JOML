@@ -1420,7 +1420,7 @@ public interface Matrix4x3dc {
     Matrix4x3d rotateYXZ(double angleY, double angleX, double angleZ, Matrix4x3d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -1435,15 +1435,15 @@ public interface Matrix4x3dc {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
      * @param quat
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    Matrix4x3d rotate(Quaterniond quat, Matrix4x3d dest);
+    Matrix4x3d rotate(Quaterniondc quat, Matrix4x3d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -1466,7 +1466,7 @@ public interface Matrix4x3dc {
     Matrix4x3d rotate(Quaternionfc quat, Matrix4x3d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniond} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -1483,15 +1483,15 @@ public interface Matrix4x3dc {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
      * @param quat
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    Matrix4x3d rotateTranslation(Quaterniond quat, Matrix4x3d dest);
+    Matrix4x3d rotateTranslation(Quaterniondc quat, Matrix4x3d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -1516,7 +1516,7 @@ public interface Matrix4x3dc {
     Matrix4x3d rotateTranslation(Quaternionfc quat, Matrix4x3d dest);
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniond} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -1531,15 +1531,15 @@ public interface Matrix4x3dc {
      * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">http://en.wikipedia.org</a>
      * 
      * @param quat
-     *          the {@link Quaterniond}
+     *          the {@link Quaterniondc}
      * @param dest
      *          will hold the result
      * @return dest
      */
-    Matrix4x3d rotateLocal(Quaterniond quat, Matrix4x3d dest);
+    Matrix4x3d rotateLocal(Quaterniondc quat, Matrix4x3d dest);
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -1797,7 +1797,7 @@ public interface Matrix4x3dc {
      * specified via the plane orientation and a point on the plane, and store the result in <code>dest</code>.
      * <p>
      * This method can be used to build a reflection transformation based on the orientation of a mirror object in the scene.
-     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniond} is
+     * It is assumed that the default mirror plane's normal is <tt>(0, 0, 1)</tt>. So, if the given {@link Quaterniondc} is
      * the identity (does not apply any additional rotation), the reflection plane will be <tt>z=0</tt>, offset by the given <code>point</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the reflection matrix,
@@ -1813,7 +1813,7 @@ public interface Matrix4x3dc {
      *          will hold the result
      * @return dest
      */
-    Matrix4x3d reflect(Quaterniond orientation, Vector3dc point, Matrix4x3d dest);
+    Matrix4x3d reflect(Quaterniondc orientation, Vector3dc point, Matrix4x3d dest);
 
     /**
      * Apply a mirror/reflection transformation to this matrix that reflects about the given plane

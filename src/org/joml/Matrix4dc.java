@@ -1722,7 +1722,7 @@ public interface Matrix4dc {
     Matrix4d rotateAffine(double ang, double x, double y, double z, Matrix4d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin,
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix while using <tt>(ox, oy, oz)</tt> as the rotation origin,
      * and store the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -1784,7 +1784,7 @@ public interface Matrix4dc {
     Matrix4d rotateLocal(double ang, double x, double y, double z, Matrix4d dest);
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniondc} to this matrix while using <tt>(ox, oy, oz)</tt>
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix while using <tt>(ox, oy, oz)</tt>
      * as the rotation origin, and store the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2159,7 +2159,7 @@ public interface Matrix4dc {
     Matrix4d rotateAffineYXZ(double angleY, double angleX, double angleZ, Matrix4d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2182,7 +2182,7 @@ public interface Matrix4dc {
     Matrix4d rotate(Quaterniondc quat, Matrix4d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2205,7 +2205,7 @@ public interface Matrix4dc {
     Matrix4d rotate(Quaternionfc quat, Matrix4d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this {@link #isAffine() affine} matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this {@link #isAffine() affine} matrix and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
@@ -2230,7 +2230,7 @@ public interface Matrix4dc {
     Matrix4d rotateAffine(Quaterniondc quat, Matrix4d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaterniondc} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -2255,7 +2255,7 @@ public interface Matrix4dc {
     Matrix4d rotateTranslation(Quaterniondc quat, Matrix4d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix, which is assumed to only contain a translation, and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to only contain a translation.
@@ -2280,7 +2280,7 @@ public interface Matrix4dc {
     Matrix4d rotateTranslation(Quaternionfc quat, Matrix4d dest);
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaterniondc} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
@@ -2303,7 +2303,7 @@ public interface Matrix4dc {
     Matrix4d rotateLocal(Quaterniondc quat, Matrix4d dest);
 
     /**
-     * Apply the rotation transformation of the given {@link Quaternionfc} to this {@link #isAffine() affine} matrix and store
+     * Apply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this {@link #isAffine() affine} matrix and store
      * the result in <code>dest</code>.
      * <p>
      * This method assumes <code>this</code> to be {@link #isAffine() affine}.
@@ -2328,7 +2328,7 @@ public interface Matrix4dc {
     Matrix4d rotateAffine(Quaternionfc quat, Matrix4d dest);
 
     /**
-     * Pre-multiply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
+     * Pre-multiply the rotation - and possibly scaling - transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
