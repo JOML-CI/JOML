@@ -3148,6 +3148,110 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the given quaternion and <tt>M</tt> is the given matrix <code>mat</code>.
+     * <p>
+     * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
+     * at last the translation.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).mul(mat)</tt>
+     * 
+     * @see #translation(float, float, float)
+     * @see #rotate(Quaternionfc)
+     * @see #mul(Matrix4x3fc)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param mat
+     *          the matrix to multiply with
+     * @return this
+     */
+    public Matrix4x3f translationRotateMul(float tx, float ty, float tz, Quaternionfc quat, Matrix4x3fc mat) {
+        return translationRotateMul(tx, ty, tz, quat.x(), quat.y(), quat.z(), quat.w(), mat);
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt> and <tt>M</tt> is the given matrix <code>mat</code>
+     * <p>
+     * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
+     * at last the translation.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).mul(mat)</tt>
+     * 
+     * @see #translation(float, float, float)
+     * @see #rotate(Quaternionfc)
+     * @see #mul(Matrix4x3fc)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
+     * @param mat
+     *          the matrix to multiply with
+     * @return this
+     */
+    public Matrix4x3f translationRotateMul(float tx, float ty, float tz, float qx, float qy, float qz, float qw, Matrix4x3fc mat) {
+        float w2 = qw * qw;
+        float x2 = qx * qx;
+        float y2 = qy * qy;
+        float z2 = qz * qz;
+        float zw = qz * qw;
+        float xy = qx * qy;
+        float xz = qx * qz;
+        float yw = qy * qw;
+        float yz = qy * qz;
+        float xw = qx * qw;
+        float nm00 = w2 + x2 - z2 - y2;
+        float nm01 = xy + zw + zw + xy;
+        float nm02 = xz - yw + xz - yw;
+        float nm10 = -zw + xy - zw + xy;
+        float nm11 = y2 - z2 + w2 - x2;
+        float nm12 = yz + yz + xw + xw;
+        float nm20 = yw + xz + xz + yw;
+        float nm21 = yz + yz - xw - xw;
+        float nm22 = z2 - y2 - x2 + w2;
+        m00 = nm00 * mat.m00() + nm10 * mat.m01() + nm20 * mat.m02();
+        m01 = nm01 * mat.m00() + nm11 * mat.m01() + nm21 * mat.m02();
+        m02 = nm02 * mat.m00() + nm12 * mat.m01() + nm22 * mat.m02();
+        m10 = nm00 * mat.m10() + nm10 * mat.m11() + nm20 * mat.m12();
+        m11 = nm01 * mat.m10() + nm11 * mat.m11() + nm21 * mat.m12();
+        m12 = nm02 * mat.m10() + nm12 * mat.m11() + nm22 * mat.m12();
+        m20 = nm00 * mat.m20() + nm10 * mat.m21() + nm20 * mat.m22();
+        m21 = nm01 * mat.m20() + nm11 * mat.m21() + nm21 * mat.m22();
+        m22 = nm02 * mat.m20() + nm12 * mat.m21() + nm22 * mat.m22();
+        m30 = nm00 * mat.m30() + nm10 * mat.m31() + nm20 * mat.m32() + tx;
+        m31 = nm01 * mat.m30() + nm11 * mat.m31() + nm21 * mat.m32() + ty;
+        m32 = nm02 * mat.m30() + nm12 * mat.m31() + nm22 * mat.m32() + tz;
+        this.properties = 0;
+        return this;
+    }
+
+    /**
      * Set the left 3x3 submatrix of this {@link Matrix4x3f} to the given {@link Matrix3fc} and don't change the other elements.
      * 
      * @param mat

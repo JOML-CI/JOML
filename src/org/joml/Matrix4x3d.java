@@ -5064,6 +5064,110 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
     }
 
     /**
+     * Set <code>this</code> matrix to <tt>T * R * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the given quaternion and <tt>M</tt> is the given matrix <code>mat</code>.
+     * <p>
+     * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
+     * at last the translation.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).mul(mat)</tt>
+     * 
+     * @see #translation(double, double, double)
+     * @see #rotate(Quaternionfc)
+     * @see #mul(Matrix4x3dc)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param quat
+     *          the quaternion representing a rotation
+     * @param mat
+     *          the matrix to multiply with
+     * @return this
+     */
+    public Matrix4x3d translationRotateMul(double tx, double ty, double tz, Quaternionfc quat, Matrix4x3dc mat) {
+        return translationRotateMul(tx, ty, tz, quat.x(), quat.y(), quat.z(), quat.w(), mat);
+    }
+
+    /**
+     * Set <code>this</code> matrix to <tt>T * R * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
+     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt> and <tt>M</tt> is the given matrix <code>mat</code>
+     * <p>
+     * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
+     * at last the translation.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * This method is equivalent to calling: <tt>translation(tx, ty, tz).rotate(quat).mul(mat)</tt>
+     * 
+     * @see #translation(double, double, double)
+     * @see #rotate(Quaternionfc)
+     * @see #mul(Matrix4x3dc)
+     * 
+     * @param tx
+     *          the number of units by which to translate the x-component
+     * @param ty
+     *          the number of units by which to translate the y-component
+     * @param tz
+     *          the number of units by which to translate the z-component
+     * @param qx
+     *          the x-coordinate of the vector part of the quaternion
+     * @param qy
+     *          the y-coordinate of the vector part of the quaternion
+     * @param qz
+     *          the z-coordinate of the vector part of the quaternion
+     * @param qw
+     *          the scalar part of the quaternion
+     * @param mat
+     *          the matrix to multiply with
+     * @return this
+     */
+    public Matrix4x3d translationRotateMul(double tx, double ty, double tz, double qx, double qy, double qz, double qw, Matrix4x3dc mat) {
+        double w2 = qw * qw;
+        double x2 = qx * qx;
+        double y2 = qy * qy;
+        double z2 = qz * qz;
+        double zw = qz * qw;
+        double xy = qx * qy;
+        double xz = qx * qz;
+        double yw = qy * qw;
+        double yz = qy * qz;
+        double xw = qx * qw;
+        double nm00 = w2 + x2 - z2 - y2;
+        double nm01 = xy + zw + zw + xy;
+        double nm02 = xz - yw + xz - yw;
+        double nm10 = -zw + xy - zw + xy;
+        double nm11 = y2 - z2 + w2 - x2;
+        double nm12 = yz + yz + xw + xw;
+        double nm20 = yw + xz + xz + yw;
+        double nm21 = yz + yz - xw - xw;
+        double nm22 = z2 - y2 - x2 + w2;
+        m00 = nm00 * mat.m00() + nm10 * mat.m01() + nm20 * mat.m02();
+        m01 = nm01 * mat.m00() + nm11 * mat.m01() + nm21 * mat.m02();
+        m02 = nm02 * mat.m00() + nm12 * mat.m01() + nm22 * mat.m02();
+        m10 = nm00 * mat.m10() + nm10 * mat.m11() + nm20 * mat.m12();
+        m11 = nm01 * mat.m10() + nm11 * mat.m11() + nm21 * mat.m12();
+        m12 = nm02 * mat.m10() + nm12 * mat.m11() + nm22 * mat.m12();
+        m20 = nm00 * mat.m20() + nm10 * mat.m21() + nm20 * mat.m22();
+        m21 = nm01 * mat.m20() + nm11 * mat.m21() + nm21 * mat.m22();
+        m22 = nm02 * mat.m20() + nm12 * mat.m21() + nm22 * mat.m22();
+        m30 = nm00 * mat.m30() + nm10 * mat.m31() + nm20 * mat.m32() + tx;
+        m31 = nm01 * mat.m30() + nm11 * mat.m31() + nm21 * mat.m32() + ty;
+        m32 = nm02 * mat.m30() + nm12 * mat.m31() + nm22 * mat.m32() + tz;
+        this.properties = 0;
+        return this;
+    }
+
+    /**
      * Apply the rotation - and possibly scaling - transformation of the given {@link Quaterniondc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>
