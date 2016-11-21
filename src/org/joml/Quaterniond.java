@@ -1408,8 +1408,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     }
 
     /**
-     * Interpolate between <code>this</code> quaternion and the specified
-     * <code>target</code> using spherical linear interpolation using the specified interpolation factor <code>alpha</code>.
+     * Interpolate between <code>this</code> {@link #normalize() unit} quaternion and the specified
+     * <code>target</code> {@link #normalize() unit} quaternion using spherical linear interpolation using the specified interpolation factor <code>alpha</code>.
      * <p>
      * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
      * below <tt>1E-6</tt>.

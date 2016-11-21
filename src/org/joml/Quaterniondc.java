@@ -364,8 +364,8 @@ public interface Quaterniondc {
     double lengthSquared();
 
     /**
-     * Interpolate between <code>this</code> quaternion and the specified
-     * <code>target</code> using spherical linear interpolation using the specified interpolation factor <code>alpha</code>,
+     * Interpolate between <code>this</code> {@link #normalize(Quaterniond) unit} quaternion and the specified
+     * <code>target</code> {@link #normalize(Quaterniond) unit} quaternion using spherical linear interpolation using the specified interpolation factor <code>alpha</code>,
      * and store the result in <code>dest</code>.
      * <p>
      * This method resorts to non-spherical linear interpolation when the absolute dot product between <code>this</code> and <code>target</code> is
