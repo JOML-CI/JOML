@@ -4720,7 +4720,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 
     /**
      * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt>,
-     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, <tt>S</tt> is a scaling transformation
+     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>, <tt>S</tt> is a scaling transformation
      * which scales the three axes x, y and z by <tt>(sx, sy, sz)</tt> and <code>M</code> is an {@link #isAffine() affine} matrix.
      * <p>
      * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
@@ -4765,27 +4765,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
                                                     float qx, float qy, float qz, float qw, 
                                                     float sx, float sy, float sz,
                                                     Matrix4f m) {
-        float dqx = qx + qx;
-        float dqy = qy + qy;
-        float dqz = qz + qz;
-        float q00 = dqx * qx;
-        float q11 = dqy * qy;
-        float q22 = dqz * qz;
-        float q01 = dqx * qy;
-        float q02 = dqx * qz;
-        float q03 = dqx * qw;
-        float q12 = dqy * qz;
-        float q13 = dqy * qw;
-        float q23 = dqz * qw;
-        float nm00 = sx - (q11 + q22) * sx;
-        float nm01 = (q01 + q23) * sx;
-        float nm02 = (q02 - q13) * sx;
-        float nm10 = (q01 - q23) * sy;
-        float nm11 = sy - (q22 + q00) * sy;
-        float nm12 = (q12 + q03) * sy;
-        float nm20 = (q02 + q13) * sz;
-        float nm21 = (q12 - q03) * sz;
-        float nm22 = sz - (q11 + q00) * sz;
+        float w2 = qw * qw;
+        float x2 = qx * qx;
+        float y2 = qy * qy;
+        float z2 = qz * qz;
+        float zw = qz * qw;
+        float xy = qx * qy;
+        float xz = qx * qz;
+        float yw = qy * qw;
+        float yz = qy * qz;
+        float xw = qx * qw;
+        float nm00 = w2 + x2 - z2 - y2;
+        float nm01 = xy + zw + zw + xy;
+        float nm02 = xz - yw + xz - yw;
+        float nm10 = -zw + xy - zw + xy;
+        float nm11 = y2 - z2 + w2 - x2;
+        float nm12 = yz + yz + xw + xw;
+        float nm20 = yw + xz + xz + yw;
+        float nm21 = yz + yz - xw - xw;
+        float nm22 = z2 - y2 - x2 + w2;
         float m00 = nm00 * m.m00 + nm10 * m.m01 + nm20 * m.m02;
         float m01 = nm01 * m.m00 + nm11 * m.m01 + nm21 * m.m02;
         this._m02(nm02 * m.m00 + nm12 * m.m01 + nm22 * m.m02);
@@ -4816,7 +4814,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 
     /**
      * Set <code>this</code> matrix to <tt>T * R * S * M</tt>, where <tt>T</tt> is the given <code>translation</code>,
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion, <tt>S</tt> is a scaling transformation
+     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the given quaternion, <tt>S</tt> is a scaling transformation
      * which scales the axes by <code>scale</code> and <code>M</code> is an {@link #isAffine() affine} matrix.
      * <p>
      * When transforming a vector by the resulting matrix the transformation described by <code>M</code> will be applied first, then the scaling, then rotation and
@@ -4851,9 +4849,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 
     /**
      * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
-     * <tt>R</tt> is a rotation transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>.
+     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the quaternion <tt>(qx, qy, qz, qw)</tt>.
      * <p>
-     * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
+     * When transforming a vector by the resulting matrix the rotation - and possibly scaling - transformation will be applied first and then the translation.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
@@ -4881,30 +4879,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f translationRotate(float tx, float ty, float tz, float qx, float qy, float qz, float qw) {
-        float dqx = qx + qx;
-        float dqy = qy + qy;
-        float dqz = qz + qz;
-        float q00 = dqx * qx;
-        float q11 = dqy * qy;
-        float q22 = dqz * qz;
-        float q01 = dqx * qy;
-        float q02 = dqx * qz;
-        float q03 = dqx * qw;
-        float q12 = dqy * qz;
-        float q13 = dqy * qw;
-        float q23 = dqz * qw;
-        this._m00(1.0f - (q11 + q22));
-        this._m01(q01 + q23);
-        this._m02(q02 - q13);
-        this._m03(0.0f);
-        this._m10(q01 - q23);
-        this._m11(1.0f - (q22 + q00));
-        this._m12(q12 + q03);
-        this._m13(0.0f);
-        this._m20(q02 + q13);
-        this._m21(q12 - q03);
-        this._m22(1.0f - (q11 + q00));
-        this._m23(0.0f);
+        float w2 = qw * qw;
+        float x2 = qx * qx;
+        float y2 = qy * qy;
+        float z2 = qz * qz;
+        float zw = qz * qw;
+        float xy = qx * qy;
+        float xz = qx * qz;
+        float yw = qy * qw;
+        float yz = qy * qz;
+        float xw = qx * qw;
+        this._m00(w2 + x2 - z2 - y2);
+        this._m01(xy + zw + zw + xy);
+        this._m02(xz - yw + xz - yw);
+        this._m10(-zw + xy - zw + xy);
+        this._m11(y2 - z2 + w2 - x2);
+        this._m12(yz + yz + xw + xw);
+        this._m20(yw + xz + xz + yw);
+        this._m21(yz + yz - xw - xw);
+        this._m22(z2 - y2 - x2 + w2);
         this._m30(tx);
         this._m31(ty);
         this._m32(tz);
@@ -4915,9 +4908,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 
     /**
      * Set <code>this</code> matrix to <tt>T * R</tt>, where <tt>T</tt> is a translation by the given <tt>(tx, ty, tz)</tt> and
-     * <tt>R</tt> is a rotation transformation specified by the given quaternion.
+     * <tt>R</tt> is a rotation - and possibly scaling - transformation specified by the given quaternion.
      * <p>
-     * When transforming a vector by the resulting matrix the rotation transformation will be applied first and then the translation.
+     * When transforming a vector by the resulting matrix the rotation - and possibly scaling - transformation will be applied first and then the translation.
      * <p>
      * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
      * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
