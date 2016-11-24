@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 
 import org.joml.FrustumIntersection;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.joml.Math;
 
 /**
@@ -33,15 +34,15 @@ public class FrustumIntersectionTest extends TestCase {
         FrustumIntersection c = new FrustumIntersection(m);
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(-20, -2, 0, 20, 2, 0));
         Assert.assertEquals(FrustumIntersection.INSIDE, c.intersectAab(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f));
-        Assert.assertEquals(Matrix4f.PLANE_PX, c.intersectAab(1.1f, 0, 0, 2, 2, 2));
+        Assert.assertEquals(Matrix4fc.PLANE_PX, c.intersectAab(1.1f, 0, 0, 2, 2, 2));
         c.set(new Matrix4f().ortho(-1, 1, -1, 1, -1, 1));
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(0, 0, 0, 2, 2, 2));
-        Assert.assertEquals(Matrix4f.PLANE_PX, c.intersectAab(1.1f, 0, 0, 2, 2, 2));
+        Assert.assertEquals(Matrix4fc.PLANE_PX, c.intersectAab(1.1f, 0, 0, 2, 2, 2));
         c.set(new Matrix4f());
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(0.5f, 0.5f, 0.5f, 2, 2, 2));
-        Assert.assertEquals(Matrix4f.PLANE_PX, c.intersectAab(1.5f, 0.5f, 0.5f, 2, 2, 2));
-        Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAab(-2.5f, 0.5f, 0.5f, -1.5f, 2, 2));
-        Assert.assertEquals(Matrix4f.PLANE_NY, c.intersectAab(-0.5f, -2.5f, 0.5f, 1.5f, -2, 2));
+        Assert.assertEquals(Matrix4fc.PLANE_PX, c.intersectAab(1.5f, 0.5f, 0.5f, 2, 2, 2));
+        Assert.assertEquals(Matrix4fc.PLANE_NX, c.intersectAab(-2.5f, 0.5f, 0.5f, -1.5f, 2, 2));
+        Assert.assertEquals(Matrix4fc.PLANE_NY, c.intersectAab(-0.5f, -2.5f, 0.5f, 1.5f, -2, 2));
     }
 
     public static void testIsAabInPerspective() {
@@ -65,8 +66,8 @@ public class FrustumIntersectionTest extends TestCase {
         FrustumIntersection c = new FrustumIntersection(m);
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(5.1f, 0, -3, 8, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_PX));
         Assert.assertEquals(FrustumIntersection.INTERSECT, c.intersectAab(-6.1f, 0, -3, -5, 2, -2, ~0 ^ FrustumIntersection.PLANE_MASK_NX));
-        Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAab(-6.1f, 0, -3, -5, 2, -2, FrustumIntersection.PLANE_MASK_NX));
-        Assert.assertEquals(Matrix4f.PLANE_NX, c.intersectAab(-6.1f, 0, -3, -5, 2, -2, ~0, Matrix4f.PLANE_NX));
+        Assert.assertEquals(Matrix4fc.PLANE_NX, c.intersectAab(-6.1f, 0, -3, -5, 2, -2, FrustumIntersection.PLANE_MASK_NX));
+        Assert.assertEquals(Matrix4fc.PLANE_NX, c.intersectAab(-6.1f, 0, -3, -5, 2, -2, ~0, Matrix4fc.PLANE_NX));
     }
 
 }

@@ -33,32 +33,32 @@ public class QuaternionTest extends TestCase {
 
     public static void testSlerp() {
         Quaternionf q1 = new Quaternionf().rotateY(0.0f);
-        Quaternionf q2 = new Quaternionf().rotateY((float) java.lang.Math.PI);
+        Quaternionf q2 = new Quaternionf().rotateY((float) java.lang.Math.PI * 0.5f);
         Quaternionf q = new Quaternionf();
         Vector3f v = new Vector3f(1.0f, 0.0f, 0.0f);
         q1.slerp(q2, 0.5f, q);
         q.transform(v);
-        TestUtil.assertVector3fEquals(new Vector3f(0.0f, 0.0f, 1.0f), v, 1E-5f);
+        TestUtil.assertVector3fEquals(new Vector3f(1.0f, 0.0f, -1.0f).normalize(), v, 1E-5f);
     }
 
     public static void testNlerp() {
         Quaternionf q1 = new Quaternionf().rotateY(0.0f);
-        Quaternionf q2 = new Quaternionf().rotateY((float) java.lang.Math.PI);
+        Quaternionf q2 = new Quaternionf().rotateY((float) java.lang.Math.PI * 0.5f);
         Quaternionf q = new Quaternionf();
         Vector3f v = new Vector3f(1.0f, 0.0f, 0.0f);
         q1.nlerp(q2, 0.5f, q);
         q.transform(v);
-        TestUtil.assertVector3fEquals(new Vector3f(0.0f, 0.0f, 1.0f), v, 1E-5f);
+        TestUtil.assertVector3fEquals(new Vector3f(1.0f, 0.0f, -1.0f).normalize(), v, 1E-5f);
     }
 
     public static void testNlerpRecursive() {
         Quaternionf q1 = new Quaternionf().rotateY(0.0f);
-        Quaternionf q2 = new Quaternionf().rotateY((float) java.lang.Math.PI);
+        Quaternionf q2 = new Quaternionf().rotateY((float) java.lang.Math.PI * 0.5f);
         Quaternionf q = new Quaternionf();
         Vector3f v = new Vector3f(1.0f, 0.0f, 0.0f);
         q1.nlerpIterative(q2, 0.5f, 1E-5f, q);
         q.transform(v);
-        TestUtil.assertVector3fEquals(new Vector3f(0.0f, 0.0f, 1.0f), v, 1E-5f);
+        TestUtil.assertVector3fEquals(new Vector3f(1.0f, 0.0f, -1.0f).normalize(), v, 1E-5f);
     }
 
     public static void testRotationXYZ() {

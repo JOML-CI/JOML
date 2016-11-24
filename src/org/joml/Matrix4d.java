@@ -1838,8 +1838,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         x *= invLength;
         y *= invLength;
         z *= invLength;
-        double c = Math.cos(angle);
         double s = Math.sin(angle);
+        double c = Math.cosFromSin(s, angle);
         double omc = 1.0 - c;
         m00 = c + x*x*omc;
         m11 = c + y*y*omc;
@@ -1883,8 +1883,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         x *= invLength;
         y *= invLength;
         z *= invLength;
-        double c = Math.cos(angle);
         double s = Math.sin(angle);
+        double c = Math.cosFromSin(s, angle);
         double omc = 1.0 - c;
         m00 = c + x*x*omc;
         m11 = c + y*y*omc;
@@ -4007,8 +4007,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d rotation(double angle, double x, double y, double z) {
-        double cos = Math.cos(angle);
         double sin = Math.sin(angle);
+        double cos = Math.cosFromSin(sin, angle);
         double C = 1.0 - cos;
         double xy = x * y, xz = x * z, yz = y * z;
         m00 = cos + x * x * C;
@@ -4047,7 +4047,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d rotationX(double ang) {
         double sin, cos;
         sin = Math.sin(ang);
-        cos = Math.cos(ang);
+        cos = Math.cosFromSin(sin, ang);
         m00 = 1.0;
         m01 = 0.0;
         m02 = 0.0;
@@ -4084,7 +4084,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d rotationY(double ang) {
         double sin, cos;
         sin = Math.sin(ang);
-        cos = Math.cos(ang);
+        cos = Math.cosFromSin(sin, ang);
         m00 = cos;
         m01 = 0.0;
         m02 = -sin;
@@ -4121,7 +4121,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d rotationZ(double ang) {
         double sin, cos;
         sin = Math.sin(ang);
-        cos = Math.cos(ang);
+        cos = Math.cosFromSin(sin, ang);
         m00 = cos;
         m01 = sin;
         m02 = 0.0;
@@ -4161,12 +4161,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d rotationXYZ(double angleX, double angleY, double angleZ) {
-        double cosX =  Math.cos(angleX);
-        double sinX =  Math.sin(angleX);
-        double cosY =  Math.cos(angleY);
-        double sinY =  Math.sin(angleY);
-        double cosZ =  Math.cos(angleZ);
-        double sinZ =  Math.sin(angleZ);
+        double sinX = Math.sin(angleX);
+        double cosX = Math.cosFromSin(sinX, angleX);
+        double sinY = Math.sin(angleY);
+        double cosY = Math.cosFromSin(sinY, angleY);
+        double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinX = -sinX;
         double m_sinY = -sinY;
         double m_sinZ = -sinZ;
@@ -4221,12 +4221,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d rotationZYX(double angleZ, double angleY, double angleX) {
-        double cosZ =  Math.cos(angleZ);
-        double sinZ =  Math.sin(angleZ);
-        double cosY =  Math.cos(angleY);
-        double sinY =  Math.sin(angleY);
-        double cosX =  Math.cos(angleX);
-        double sinX =  Math.sin(angleX);
+        double sinX = Math.sin(angleX);
+        double cosX = Math.cosFromSin(sinX, angleX);
+        double sinY = Math.sin(angleY);
+        double cosY = Math.cosFromSin(sinY, angleY);
+        double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinZ = -sinZ;
         double m_sinY = -sinY;
         double m_sinX = -sinX;
@@ -4281,12 +4281,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d rotationYXZ(double angleY, double angleX, double angleZ) {
-        double cosY = Math.cos(angleY);
-        double sinY = Math.sin(angleY);
-        double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
-        double cosZ = Math.cos(angleZ);
+        double cosX = Math.cosFromSin(sinX, angleX);
+        double sinY = Math.sin(angleY);
+        double cosY = Math.cosFromSin(sinY, angleY);
         double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinY = -sinY;
         double m_sinX = -sinX;
         double m_sinZ = -sinZ;
@@ -4339,12 +4339,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setRotationXYZ(double angleX, double angleY, double angleZ) {
-        double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
-        double cosY = Math.cos(angleY);
+        double cosX = Math.cosFromSin(sinX, angleX);
         double sinY = Math.sin(angleY);
-        double cosZ = Math.cos(angleZ);
+        double cosY = Math.cosFromSin(sinY, angleY);
         double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinX = -sinX;
         double m_sinY = -sinY;
         double m_sinZ = -sinZ;
@@ -4389,12 +4389,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setRotationZYX(double angleZ, double angleY, double angleX) {
-        double cosZ = Math.cos(angleZ);
-        double sinZ = Math.sin(angleZ);
-        double cosY = Math.cos(angleY);
-        double sinY = Math.sin(angleY);
-        double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
+        double cosX = Math.cosFromSin(sinX, angleX);
+        double sinY = Math.sin(angleY);
+        double cosY = Math.cosFromSin(sinY, angleY);
+        double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinZ = -sinZ;
         double m_sinY = -sinY;
         double m_sinX = -sinX;
@@ -4439,12 +4439,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d setRotationYXZ(double angleY, double angleX, double angleZ) {
-        double cosY = Math.cos(angleY);
-        double sinY = Math.sin(angleY);
-        double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
-        double cosZ = Math.cos(angleZ);
+        double cosX = Math.cosFromSin(sinX, angleX);
+        double sinY = Math.sin(angleY);
+        double cosY = Math.cosFromSin(sinY, angleY);
         double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinY = -sinY;
         double m_sinX = -sinX;
         double m_sinZ = -sinZ;
@@ -5044,7 +5044,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
     private Matrix4d rotateGeneric(double ang, double x, double y, double z, Matrix4d dest) {
         double s = Math.sin(ang);
-        double c = Math.cos(ang);
+        double c = Math.cosFromSin(s, ang);
         double C = 1.0 - c;
         double xx = x * x, xy = x * y, xz = x * z;
         double yy = y * y, yz = y * z;
@@ -5156,7 +5156,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d rotateTranslation(double ang, double x, double y, double z, Matrix4d dest) {
         double s = Math.sin(ang);
-        double c = Math.cos(ang);
+        double c = Math.cosFromSin(s, ang);
         double C = 1.0 - c;
         double xx = x * x, xy = x * y, xz = x * z;
         double yy = y * y, yz = y * z;
@@ -5236,7 +5236,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d rotateAffine(double ang, double x, double y, double z, Matrix4d dest) {
         double s = Math.sin(ang);
-        double c = Math.cos(ang);
+        double c = Math.cosFromSin(s, ang);
         double C = 1.0 - c;
         double xx = x * x, xy = x * y, xz = x * z;
         double yy = y * y, yz = y * z;
@@ -5437,7 +5437,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d rotateLocal(double ang, double x, double y, double z, Matrix4d dest) {
         double s = Math.sin(ang);
-        double c = Math.cos(ang);
+        double c = Math.cosFromSin(s, ang);
         double C = 1.0 - c;
         double xx = x * x, xy = x * y, xz = x * z;
         double yy = y * y, yz = y * z;
@@ -6011,7 +6011,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return dest.rotationX(ang);
         double sin, cos;
         sin = Math.sin(ang);
-        cos = Math.cos(ang);
+        cos = Math.cosFromSin(sin, ang);
         double rm11 = cos;
         double rm12 = sin;
         double rm21 = -sin;
@@ -6074,7 +6074,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return dest.rotationY(ang);
         double sin, cos;
         sin = Math.sin(ang);
-        cos = Math.cos(ang);
+        cos = Math.cosFromSin(sin, ang);
         double rm00 = cos;
         double rm02 = -sin;
         double rm20 = sin;
@@ -6137,7 +6137,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return dest.rotationZ(ang);
         double sin, cos;
         sin = Math.sin(ang);
-        cos = Math.cos(ang);
+        cos = Math.cosFromSin(sin, ang);
         double rm00 = cos;
         double rm01 = sin;
         double rm10 = -sin;
@@ -6249,12 +6249,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
 
-        double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
-        double cosY = Math.cos(angleY);
+        double cosX = Math.cosFromSin(sinX, angleX);
         double sinY = Math.sin(angleY);
-        double cosZ = Math.cos(angleZ);
+        double cosY = Math.cosFromSin(sinY, angleY);
         double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinX = -sinX;
         double m_sinY = -sinY;
         double m_sinZ = -sinZ;
@@ -6329,12 +6329,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#rotateAffineXYZ(double, double, double, org.joml.Matrix4d)
      */
     public Matrix4d rotateAffineXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
-        double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
-        double cosY = Math.cos(angleY);
+        double cosX = Math.cosFromSin(sinX, angleX);
         double sinY = Math.sin(angleY);
-        double cosZ = Math.cos(angleZ);
+        double cosY = Math.cosFromSin(sinY, angleY);
         double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinX = -sinX;
         double m_sinY = -sinY;
         double m_sinZ = -sinZ;
@@ -6429,12 +6429,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
 
-        double cosZ = Math.cos(angleZ);
-        double sinZ = Math.sin(angleZ);
-        double cosY = Math.cos(angleY);
-        double sinY = Math.sin(angleY);
-        double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
+        double cosX = Math.cosFromSin(sinX, angleX);
+        double sinY = Math.sin(angleY);
+        double cosY = Math.cosFromSin(sinY, angleY);
+        double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinZ = -sinZ;
         double m_sinY = -sinY;
         double m_sinX = -sinX;
@@ -6507,12 +6507,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#rotateAffineZYX(double, double, double, org.joml.Matrix4d)
      */
     public Matrix4d rotateAffineZYX(double angleZ, double angleY, double angleX, Matrix4d dest) {
-        double cosZ = Math.cos(angleZ);
-        double sinZ = Math.sin(angleZ);
-        double cosY = Math.cos(angleY);
-        double sinY = Math.sin(angleY);
-        double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
+        double cosX = Math.cosFromSin(sinX, angleX);
+        double sinY = Math.sin(angleY);
+        double cosY = Math.cosFromSin(sinY, angleY);
+        double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinZ = -sinZ;
         double m_sinY = -sinY;
         double m_sinX = -sinX;
@@ -6607,12 +6607,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
 
-        double cosY =  Math.cos(angleY);
-        double sinY =  Math.sin(angleY);
-        double cosX =  Math.cos(angleX);
-        double sinX =  Math.sin(angleX);
-        double cosZ =  Math.cos(angleZ);
-        double sinZ =  Math.sin(angleZ);
+        double sinX = Math.sin(angleX);
+        double cosX = Math.cosFromSin(sinX, angleX);
+        double sinY = Math.sin(angleY);
+        double cosY = Math.cosFromSin(sinY, angleY);
+        double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinY = -sinY;
         double m_sinX = -sinX;
         double m_sinZ = -sinZ;
@@ -6685,12 +6685,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#rotateAffineYXZ(double, double, double, org.joml.Matrix4d)
      */
     public Matrix4d rotateAffineYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
-        double cosY =  Math.cos(angleY);
-        double sinY =  Math.sin(angleY);
-        double cosX =  Math.cos(angleX);
-        double sinX =  Math.sin(angleX);
-        double cosZ =  Math.cos(angleZ);
-        double sinZ =  Math.sin(angleZ);
+        double sinX = Math.sin(angleX);
+        double cosX = Math.cosFromSin(sinX, angleX);
+        double sinY = Math.sin(angleY);
+        double cosY = Math.cosFromSin(sinY, angleY);
+        double sinZ = Math.sin(angleZ);
+        double cosZ = Math.cosFromSin(sinZ, angleZ);
         double m_sinY = -sinY;
         double m_sinX = -sinX;
         double m_sinZ = -sinZ;
@@ -13837,8 +13837,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double m31 = m21 * -radius + this.m31;
         double m32 = m22 * -radius + this.m32;
         double m33 = m23 * -radius + this.m33;
-        double cos = Math.cos(angleX);
         double sin = Math.sin(angleX);
+        double cos = Math.cosFromSin(sin, angleX);
         double nm10 = m10 * cos + m20 * sin;
         double nm11 = m11 * cos + m21 * sin;
         double nm12 = m12 * cos + m22 * sin;
@@ -13847,8 +13847,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double m21 = this.m21 * cos - m11 * sin;
         double m22 = this.m22 * cos - m12 * sin;
         double m23 = this.m23 * cos - m13 * sin;
-        cos = Math.cos(angleY);
         sin = Math.sin(angleY);
+        cos = Math.cosFromSin(sin, angleY);
         double nm00 = m00 * cos - m20 * sin;
         double nm01 = m01 * cos - m21 * sin;
         double nm02 = m02 * cos - m22 * sin;

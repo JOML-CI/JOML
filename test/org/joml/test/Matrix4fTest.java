@@ -3,6 +3,7 @@ package org.joml.test;
 import junit.framework.TestCase;
 
 import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.joml.Math;
@@ -67,12 +68,12 @@ public class Matrix4fTest extends TestCase {
         .perspective((float) Math.toRadians(90), 1.0f, 0.1f, 100.0f)
         .rotateY((float) Math.toRadians(90))
         .translate(0, -5, 0);
-        m.frustumPlane(Matrix4f.PLANE_NX, left);
-        m.frustumPlane(Matrix4f.PLANE_PX, right);
-        m.frustumPlane(Matrix4f.PLANE_NY, bottom);
-        m.frustumPlane(Matrix4f.PLANE_PY, top);
-        m.frustumPlane(Matrix4f.PLANE_NZ, near);
-        m.frustumPlane(Matrix4f.PLANE_PZ, far);
+        m.frustumPlane(Matrix4fc.PLANE_NX, left);
+        m.frustumPlane(Matrix4fc.PLANE_PX, right);
+        m.frustumPlane(Matrix4fc.PLANE_NY, bottom);
+        m.frustumPlane(Matrix4fc.PLANE_PY, top);
+        m.frustumPlane(Matrix4fc.PLANE_NZ, near);
+        m.frustumPlane(Matrix4fc.PLANE_PZ, far);
 
         Vector4f expectedLeft = new Vector4f(1, 0, 1, 0).normalize3();
         Vector4f expectedRight = new Vector4f(1, 0, -1, 0).normalize3();
@@ -210,26 +211,26 @@ public class Matrix4fTest extends TestCase {
     public static void testFrustumCornerIdentity() {
         Matrix4f m = new Matrix4f();
         Vector3f corner = new Vector3f();
-        m.frustumCorner(Matrix4f.CORNER_NXNYNZ, corner); // left, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(-1, -1, -1), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYNZ, corner); // right, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(1, -1, -1), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYPZ, corner); // right, bottom, far
+        m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
         TestUtil.assertVector3fEquals(new Vector3f(1, -1, 1), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_NXPYPZ, corner); // left, top, far
+        m.frustumCorner(Matrix4fc.CORNER_NXPYPZ, corner); // left, top, far
         TestUtil.assertVector3fEquals(new Vector3f(-1, 1, 1), corner, 1E-6f);
     }
 
     public static void testFrustumCornerOrthoWide() {
         Matrix4f m = new Matrix4f().ortho2D(-2, 2, -1, 1);
         Vector3f corner = new Vector3f();
-        m.frustumCorner(Matrix4f.CORNER_NXNYNZ, corner); // left, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(-2, -1, 1), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYNZ, corner); // right, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(2, -1, 1), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYPZ, corner); // right, bottom, far
+        m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
         TestUtil.assertVector3fEquals(new Vector3f(2, -1, -1), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_NXPYPZ, corner); // left, top, far
+        m.frustumCorner(Matrix4fc.CORNER_NXPYPZ, corner); // left, top, far
         TestUtil.assertVector3fEquals(new Vector3f(-2, 1, -1), corner, 1E-6f);
     }
 
@@ -240,11 +241,11 @@ public class Matrix4fTest extends TestCase {
                 0, 0,  0, 
                 0, 1,  0);
         Vector3f corner = new Vector3f();
-        m.frustumCorner(Matrix4f.CORNER_NXNYNZ, corner); // left, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(-0.1f, -0.1f, 10 - 0.1f), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYNZ, corner); // right, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(0.1f, -0.1f, 10 - 0.1f), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYPZ, corner); // right, bottom, far
+        m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
         TestUtil.assertVector3fEquals(new Vector3f(100.0f, -100, 10 - 100f), corner, 1E-3f);
     }
 
@@ -255,11 +256,11 @@ public class Matrix4fTest extends TestCase {
                 0, 0,  0, 
                 0, 1,  0);
         Vector3f corner = new Vector3f();
-        m.frustumCorner(Matrix4f.CORNER_NXNYNZ, corner); // left, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(-0.2f, -0.1f, 10 - 0.1f), corner, 1E-5f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYNZ, corner); // right, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(0.2f, -0.1f, 10 - 0.1f), corner, 1E-5f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYPZ, corner); // right, bottom, far
+        m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
         TestUtil.assertVector3fEquals(new Vector3f(200.0f, -100, 10 - 100f), corner, 1E-3f);
     }
 
@@ -270,11 +271,11 @@ public class Matrix4fTest extends TestCase {
                  0, 0, 0, 
                  0, 1, 0);
         Vector3f corner = new Vector3f();
-        m.frustumCorner(Matrix4f.CORNER_NXNYNZ, corner); // left, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_NXNYNZ, corner); // left, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(10 - 0.1f, -0.1f, 0.1f), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYNZ, corner); // right, bottom, near
+        m.frustumCorner(Matrix4fc.CORNER_PXNYNZ, corner); // right, bottom, near
         TestUtil.assertVector3fEquals(new Vector3f(10 - 0.1f, -0.1f, -0.1f), corner, 1E-6f);
-        m.frustumCorner(Matrix4f.CORNER_PXNYPZ, corner); // right, bottom, far
+        m.frustumCorner(Matrix4fc.CORNER_PXNYPZ, corner); // right, bottom, far
         TestUtil.assertVector3fEquals(new Vector3f(-100.0f + 10, -100, -100f), corner, 1E-3f);
     }
 
@@ -357,7 +358,7 @@ public class Matrix4fTest extends TestCase {
         invm.transform(v, w);
         TestUtil.assertVector4fEquals(orig, w, 1E-4f);
         invm.invert();
-        TestUtil.assertMatrix4fEquals(m, invm, 1E-4f);
+        TestUtil.assertMatrix4fEquals(m, invm, 1E-3f);
     }
 
     public static void testRotateXYZ() {

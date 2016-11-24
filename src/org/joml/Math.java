@@ -212,6 +212,18 @@ public class Math {
         return java.lang.Math.cos(rad);
     }
 
+    public static double cosFromSin(double sin, double angle) {
+        // sin(x)^2 + cos(x)^2 = 1
+        double cos = sqrt(1.0 - sin * sin);
+        double a = angle + PIHalf;
+        double b = a - (int)(a / PI2) * PI2;
+        if (b < 0.0)
+            b = PI2 + b;
+        if (b >= PI)
+            return -cos;
+        return cos;
+    }
+
     /* Other math functions not yet approximated */
 
     public static double sqrt(double r) {

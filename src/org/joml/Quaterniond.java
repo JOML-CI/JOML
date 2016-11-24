@@ -385,7 +385,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         x = axisAngle.x * s;
         y = axisAngle.y * s;
         z = axisAngle.z * s;
-        w = Math.cos(axisAngle.angle * 0.5);
+        w = Math.cosFromSin(s, axisAngle.angle * 0.5);
     }
 
     /**
@@ -399,7 +399,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         x = axisAngle.x * s;
         y = axisAngle.y * s;
         z = axisAngle.z * s;
-        w = Math.cos(axisAngle.angle * 0.5);
+        w = Math.cosFromSin(s, axisAngle.angle * 0.5);
     }
 
     /**
@@ -680,7 +680,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         this.x = x * s;
         this.y = y * s;
         this.z = z * s;
-        this.w = Math.cos(angle * 0.5);
+        this.w = Math.cosFromSin(s, angle * 0.5);
         return this;
     }
 
@@ -948,7 +948,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         x = axisX / vLength * sinAngle;
         y = axisY / vLength * sinAngle;
         z = axisZ / vLength * sinAngle;
-        w = Math.cos(hangle);
+        w = Math.cosFromSin(sinAngle, hangle);
         return this;
     }
 
@@ -1319,11 +1319,11 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      */
     public Quaterniond rotationXYZ(double angleX, double angleY, double angleZ) {
         double sx = Math.sin(angleX * 0.5);
-        double cx = Math.cos(angleX * 0.5);
+        double cx = Math.cosFromSin(sx, angleX * 0.5);
         double sy = Math.sin(angleY * 0.5);
-        double cy = Math.cos(angleY * 0.5);
+        double cy = Math.cosFromSin(sy, angleY * 0.5);
         double sz = Math.sin(angleZ * 0.5);
-        double cz = Math.cos(angleZ * 0.5);
+        double cz = Math.cosFromSin(sz, angleZ * 0.5);
 
         double cycz = cy * cz;
         double sysz = sy * sz;
@@ -1354,11 +1354,11 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      */
     public Quaterniond rotationZYX(double angleZ, double angleY, double angleX) {
         double sx = Math.sin(angleX * 0.5);
-        double cx = Math.cos(angleX * 0.5);
+        double cx = Math.cosFromSin(sx, angleX * 0.5);
         double sy = Math.sin(angleY * 0.5);
-        double cy = Math.cos(angleY * 0.5);
+        double cy = Math.cosFromSin(sy, angleY * 0.5);
         double sz = Math.sin(angleZ * 0.5);
-        double cz = Math.cos(angleZ * 0.5);
+        double cz = Math.cosFromSin(sz, angleZ * 0.5);
 
         double cycz = cy * cz;
         double sysz = sy * sz;
@@ -1389,11 +1389,11 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      */
     public Quaterniond rotationYXZ(double angleY, double angleX, double angleZ) {
         double sx = Math.sin(angleX * 0.5);
-        double cx = Math.cos(angleX * 0.5);
+        double cx = Math.cosFromSin(sx, angleX * 0.5);
         double sy = Math.sin(angleY * 0.5);
-        double cy = Math.cos(angleY * 0.5);
+        double cy = Math.cosFromSin(sy, angleY * 0.5);
         double sz = Math.sin(angleZ * 0.5);
-        double cz = Math.cos(angleZ * 0.5);
+        double cz = Math.cosFromSin(sz, angleZ * 0.5);
 
         double x = cy * sx;
         double y = sy * cx;
@@ -2104,7 +2104,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         x = axisX * invVLength * sinAngle;
         y = axisY * invVLength * sinAngle;
         z = axisZ * invVLength * sinAngle;
-        w = (float) Math.cos(hangle);
+        w = (float) Math.cosFromSin(sinAngle, hangle);
 
         return this;
     }
@@ -2131,8 +2131,9 @@ public class Quaterniond implements Externalizable, Quaterniondc {
             s = 1.0 - thetaMagSq / 6.0;
         } else {
             double thetaMag = Math.sqrt(thetaMagSq);
-            w = Math.cos(thetaMag);
-            s = Math.sin(thetaMag) / thetaMag;
+            double sin = Math.sin(thetaMag);
+            s = sin / thetaMag;
+            w = Math.cosFromSin(sin, thetaMag);
         }
         x = thetaX * s;
         y = thetaY * s;
@@ -2148,8 +2149,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @return this
      */
     public Quaterniond rotationX(double angle) {
-        double cos = Math.cos(angle * 0.5);
         double sin = Math.sin(angle * 0.5);
+        double cos = Math.cosFromSin(sin, angle * 0.5);
         w = cos;
         x = sin;
         y = 0.0;
@@ -2165,8 +2166,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @return this
      */
     public Quaterniond rotationY(double angle) {
-        double cos = Math.cos(angle * 0.5);
         double sin = Math.sin(angle * 0.5);
+        double cos = Math.cosFromSin(sin, angle * 0.5);
         w = cos;
         x = 0.0;
         y = sin;
@@ -2182,8 +2183,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @return this
      */
     public Quaterniond rotationZ(double angle) {
-        double cos = Math.cos(angle * 0.5);
         double sin = Math.sin(angle * 0.5);
+        double cos = Math.cosFromSin(sin, angle * 0.5);
         w = cos;
         x = 0.0;
         y = 0.0;
@@ -2331,8 +2332,9 @@ public class Quaterniond implements Externalizable, Quaterniondc {
             s = 1.0 - thetaMagSq / 6.0;
         } else {
             double thetaMag = Math.sqrt(thetaMagSq);
-            dqW = Math.cos(thetaMag);
-            s = Math.sin(thetaMag) / thetaMag;
+            double sin = Math.sin(thetaMag);
+            s = sin / thetaMag;
+            dqW = Math.cosFromSin(sin, thetaMag);
         }
         dqX = thetaX * s;
         dqY = thetaY * s;
@@ -2401,8 +2403,9 @@ public class Quaterniond implements Externalizable, Quaterniondc {
             s = 1.0 - thetaMagSq / 6.0;
         } else {
             double thetaMag = Math.sqrt(thetaMagSq);
-            dqW = Math.cos(thetaMag);
-            s = Math.sin(thetaMag) / thetaMag;
+            double sin = Math.sin(thetaMag);
+            s = sin / thetaMag;
+            dqW = Math.cosFromSin(sin, thetaMag);
         }
         dqX = thetaX * s;
         dqY = thetaY * s;
@@ -2437,8 +2440,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#rotateX(double, org.joml.Quaterniond)
      */
     public Quaterniond rotateX(double angle, Quaterniond dest) {
-        double cos = Math.cos(angle * 0.5);
         double sin = Math.sin(angle * 0.5);
+        double cos = Math.cosFromSin(sin, angle * 0.5);
         dest.set(w * sin + x * cos,
                  y * cos + z * sin,
                  z * cos - y * sin,
@@ -2468,8 +2471,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#rotateY(double, org.joml.Quaterniond)
      */
     public Quaterniond rotateY(double angle, Quaterniond dest) {
-        double cos = Math.cos(angle * 0.5);
         double sin = Math.sin(angle * 0.5);
+        double cos = Math.cosFromSin(sin, angle * 0.5);
         dest.set(x * cos - z * sin,
                  w * sin + y * cos,
                  x * sin + z * cos,
@@ -2499,8 +2502,8 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#rotateZ(double, org.joml.Quaterniond)
      */
     public Quaterniond rotateZ(double angle, Quaterniond dest) {
-        double cos = Math.cos(angle * 0.5);
         double sin = Math.sin(angle * 0.5);
+        double cos = Math.cosFromSin(sin, angle * 0.5);
         dest.set(x * cos + y * sin,
                  y * cos - x * sin,
                  w * sin + z * cos,
@@ -2530,7 +2533,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     public Quaterniond rotateLocalX(double angle, Quaterniond dest) {
         double hangle = angle * 0.5;
         double s = Math.sin(hangle);
-        double c = Math.cos(hangle);
+        double c = Math.cosFromSin(s, hangle);
         dest.set(c * x + s * w,
                  c * y - s * z,
                  c * z + s * y,
@@ -2560,7 +2563,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     public Quaterniond rotateLocalY(double angle, Quaterniond dest) {
         double hangle = angle * 0.5;
         double s = Math.sin(hangle);
-        double c = Math.cos(hangle);
+        double c = Math.cosFromSin(s, hangle);
         dest.set(c * x + s * z,
                  c * y + s * w,
                  c * z - s * x,
@@ -2590,7 +2593,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
     public Quaterniond rotateLocalZ(double angle, Quaterniond dest) {
         double hangle = angle * 0.5;
         double s = Math.sin(hangle);
-        double c = Math.cos(hangle);
+        double c = Math.cosFromSin(s, hangle);
         dest.set(c * x - s * y,
                  c * y + s * x,
                  c * z + s * w,
@@ -2626,11 +2629,11 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      */
     public Quaterniond rotateXYZ(double angleX, double angleY, double angleZ, Quaterniond dest) {
         double sx =  Math.sin(angleX * 0.5);
-        double cx =  Math.cos(angleX * 0.5);
+        double cx =  Math.cosFromSin(sx, angleX * 0.5);
         double sy =  Math.sin(angleY * 0.5);
-        double cy =  Math.cos(angleY * 0.5);
+        double cy =  Math.cosFromSin(sy, angleY * 0.5);
         double sz =  Math.sin(angleZ * 0.5);
-        double cz =  Math.cos(angleZ * 0.5);
+        double cz =  Math.cosFromSin(sz, angleZ * 0.5);
 
         double cycz = cy * cz;
         double sysz = sy * sz;
@@ -2676,11 +2679,11 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      */
     public Quaterniond rotateZYX(double angleZ, double angleY, double angleX, Quaterniond dest) {
         double sx =  Math.sin(angleX * 0.5);
-        double cx =  Math.cos(angleX * 0.5);
+        double cx =  Math.cosFromSin(sx, angleX * 0.5);
         double sy =  Math.sin(angleY * 0.5);
-        double cy =  Math.cos(angleY * 0.5);
+        double cy =  Math.cosFromSin(sy, angleY * 0.5);
         double sz =  Math.sin(angleZ * 0.5);
-        double cz =  Math.cos(angleZ * 0.5);
+        double cz =  Math.cosFromSin(sz, angleZ * 0.5);
 
         double cycz = cy * cz;
         double sysz = sy * sz;
@@ -2725,12 +2728,12 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * @see org.joml.Quaterniondc#rotateYXZ(double, double, double, org.joml.Quaterniond)
      */
     public Quaterniond rotateYXZ(double angleY, double angleX, double angleZ, Quaterniond dest) {
-        double sx = Math.sin(angleX * 0.5);
-        double cx = Math.cos(angleX * 0.5);
-        double sy = Math.sin(angleY * 0.5);
-        double cy = Math.cos(angleY * 0.5);
-        double sz = Math.sin(angleZ * 0.5);
-        double cz = Math.cos(angleZ * 0.5);
+        double sx =  Math.sin(angleX * 0.5);
+        double cx =  Math.cosFromSin(sx, angleX * 0.5);
+        double sy =  Math.sin(angleY * 0.5);
+        double cy =  Math.cosFromSin(sy, angleY * 0.5);
+        double sz =  Math.sin(angleZ * 0.5);
+        double cz =  Math.cosFromSin(sz, angleZ * 0.5);
 
         double yx = cy * sx;
         double yy = sy * cx;
@@ -2769,7 +2772,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
         double rx = axisX * invVLength * sinAngle;
         double ry = axisY * invVLength * sinAngle;
         double rz = axisZ * invVLength * sinAngle;
-        double rw = Math.cos(hangle);
+        double rw = Math.cosFromSin(sinAngle, hangle);
 
         dest.set(w * rx + x * rw + y * rz - z * ry,
                  w * ry - x * rz + y * rw + z * rx,
