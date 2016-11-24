@@ -213,6 +213,8 @@ public class Math {
     }
 
     public static double cosFromSin(double sin, double angle) {
+        if (Options.FASTMATH)
+            return sin(angle + PIHalf);
         // sin(x)^2 + cos(x)^2 = 1
         double cos = sqrt(1.0 - sin * sin);
         double a = angle + PIHalf;

@@ -1094,8 +1094,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         x *= n;
         y *= n;
         z *= n;
-        double c = Math.cos(angle);
         double s = Math.sin(angle);
+        double c = Math.cosFromSin(s, angle);
         double omc = 1.0 - c;
         m00 = (float)(c + x*x*omc);
         m11 = (float)(c + y*y*omc);
@@ -1136,8 +1136,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         x *= n;
         y *= n;
         z *= n;
-        double c = Math.cos(angle);
         double s = Math.sin(angle);
+        double c = Math.cosFromSin(s, angle);
         double omc = 1.0 - c;
         m00 = (float)(c + x*x*omc);
         m11 = (float)(c + y*y*omc);
@@ -2353,8 +2353,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f rotation(float angle, float x, float y, float z) {
-        float cos = (float) Math.cos(angle);
         float sin = (float) Math.sin(angle);
+        float cos = (float) Math.cosFromSin(sin, angle);
         float C = 1.0f - cos;
         float xy = x * y, xz = x * z, yz = y * z;
         m00 = cos + x * x * C;
@@ -2398,8 +2398,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             cos = 0.0f;
             sin = -1.0f;
         } else {
-            cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
+            cos = (float) Math.cosFromSin(sin, ang);
         }
         m00 = 1.0f;
         m01 = 0.0f;
@@ -2442,8 +2442,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             cos = 0.0f;
             sin = -1.0f;
         } else {
-            cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
+            cos = (float) Math.cosFromSin(sin, ang);
         }
         m00 = cos;
         m01 = 0.0f;
@@ -2486,8 +2486,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             cos = 0.0f;
             sin = -1.0f;
         } else {
-            cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
+            cos = (float) Math.cosFromSin(sin, ang);
         }
         m00 = cos;
         m01 = sin;
@@ -2524,12 +2524,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f rotationXYZ(float angleX, float angleY, float angleZ) {
-        float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
-        float cosY = (float) Math.cos(angleY);
+        float cosX = (float) Math.cosFromSin(sinX, angleX);
         float sinY = (float) Math.sin(angleY);
-        float cosZ = (float) Math.cos(angleZ);
+        float cosY = (float) Math.cosFromSin(sinY, angleY);
         float sinZ = (float) Math.sin(angleZ);
+        float cosZ = (float) Math.cosFromSin(sinZ, angleZ);
         float m_sinX = -sinX;
         float m_sinY = -sinY;
         float m_sinZ = -sinZ;
@@ -2580,12 +2580,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f rotationZYX(float angleZ, float angleY, float angleX) {
-        float cosZ = (float) Math.cos(angleZ);
-        float sinZ = (float) Math.sin(angleZ);
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
+        float cosX = (float) Math.cosFromSin(sinX, angleX);
+        float sinY = (float) Math.sin(angleY);
+        float cosY = (float) Math.cosFromSin(sinY, angleY);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosZ = (float) Math.cosFromSin(sinZ, angleZ);
         float m_sinZ = -sinZ;
         float m_sinY = -sinY;
         float m_sinX = -sinX;
@@ -2636,12 +2636,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f rotationYXZ(float angleY, float angleX, float angleZ) {
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
-        float cosZ = (float) Math.cos(angleZ);
+        float cosX = (float) Math.cosFromSin(sinX, angleX);
+        float sinY = (float) Math.sin(angleY);
+        float cosY = (float) Math.cosFromSin(sinY, angleY);
         float sinZ = (float) Math.sin(angleZ);
+        float cosZ = (float) Math.cosFromSin(sinZ, angleZ);
         float m_sinY = -sinY;
         float m_sinX = -sinX;
         float m_sinZ = -sinZ;
@@ -2690,12 +2690,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f setRotationXYZ(float angleX, float angleY, float angleZ) {
-        float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
-        float cosY = (float) Math.cos(angleY);
+        float cosX = (float) Math.cosFromSin(sinX, angleX);
         float sinY = (float) Math.sin(angleY);
-        float cosZ = (float) Math.cos(angleZ);
+        float cosY = (float) Math.cosFromSin(sinY, angleY);
         float sinZ = (float) Math.sin(angleZ);
+        float cosZ = (float) Math.cosFromSin(sinZ, angleZ);
         float m_sinX = -sinX;
         float m_sinY = -sinY;
         float m_sinZ = -sinZ;
@@ -2740,12 +2740,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f setRotationZYX(float angleZ, float angleY, float angleX) {
-        float cosZ = (float) Math.cos(angleZ);
-        float sinZ = (float) Math.sin(angleZ);
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
+        float cosX = (float) Math.cosFromSin(sinX, angleX);
+        float sinY = (float) Math.sin(angleY);
+        float cosY = (float) Math.cosFromSin(sinY, angleY);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosZ = (float) Math.cosFromSin(sinZ, angleZ);
         float m_sinZ = -sinZ;
         float m_sinY = -sinY;
         float m_sinX = -sinX;
@@ -2790,12 +2790,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      * @return this
      */
     public Matrix4x3f setRotationYXZ(float angleY, float angleX, float angleZ) {
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
-        float cosZ = (float) Math.cos(angleZ);
+        float cosX = (float) Math.cosFromSin(sinX, angleX);
+        float sinY = (float) Math.sin(angleY);
+        float cosY = (float) Math.cosFromSin(sinY, angleY);
         float sinZ = (float) Math.sin(angleZ);
+        float cosZ = (float) Math.cosFromSin(sinZ, angleZ);
         float m_sinY = -sinY;
         float m_sinX = -sinX;
         float m_sinZ = -sinZ;
@@ -3503,8 +3503,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             cos = 0.0f;
             sin = -1.0f;
         } else {
-            cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
+            cos = (float) Math.cosFromSin(sin, ang);
         }
         float rm11 = cos;
         float rm12 = sin;
@@ -3573,8 +3573,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             cos = 0.0f;
             sin = -1.0f;
         } else {
-            cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
+            cos = (float) Math.cosFromSin(sin, ang);
         }
         float rm00 = cos;
         float rm02 = -sin;
@@ -3643,8 +3643,8 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             cos = 0.0f;
             sin = -1.0f;
         } else {
-            cos = (float) Math.cos(ang);
             sin = (float) Math.sin(ang);
+            cos = (float) Math.cosFromSin(sin, ang);
         }
         float rm00 = cos;
         float rm01 = sin;
@@ -3752,12 +3752,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
 
-        float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
-        float cosY = (float) Math.cos(angleY);
+        float cosX = (float) Math.cosFromSin(sinX, angleX);
         float sinY = (float) Math.sin(angleY);
-        float cosZ = (float) Math.cos(angleZ);
+        float cosY = (float) Math.cosFromSin(sinY, angleY);
         float sinZ = (float) Math.sin(angleZ);
+        float cosZ = (float) Math.cosFromSin(sinZ, angleZ);
         float m_sinX = -sinX;
         float m_sinY = -sinY;
         float m_sinZ = -sinZ;
@@ -3848,12 +3848,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);        
 
-        float cosZ = (float) Math.cos(angleZ);
-        float sinZ = (float) Math.sin(angleZ);
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
+        float cosX = (float) Math.cosFromSin(sinX, angleX);
+        float sinY = (float) Math.sin(angleY);
+        float cosY = (float) Math.cosFromSin(sinY, angleY);
+        float sinZ = (float) Math.sin(angleZ);
+        float cosZ = (float) Math.cosFromSin(sinZ, angleZ);
         float m_sinZ = -sinZ;
         float m_sinY = -sinY;
         float m_sinX = -sinX;
@@ -3944,12 +3944,12 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
 
-        float cosY = (float) Math.cos(angleY);
-        float sinY = (float) Math.sin(angleY);
-        float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
-        float cosZ = (float) Math.cos(angleZ);
+        float cosX = (float) Math.cosFromSin(sinX, angleX);
+        float sinY = (float) Math.sin(angleY);
+        float cosY = (float) Math.cosFromSin(sinY, angleY);
         float sinZ = (float) Math.sin(angleZ);
+        float cosZ = (float) Math.cosFromSin(sinZ, angleZ);
         float m_sinY = -sinY;
         float m_sinX = -sinX;
         float m_sinZ = -sinZ;
@@ -4026,7 +4026,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     }
     private Matrix4x3f rotateGeneric(float ang, float x, float y, float z, Matrix4x3f dest) {
         float s = (float) Math.sin(ang);
-        float c = (float) Math.cos(ang);
+        float c = (float) Math.cosFromSin(s, ang);
         float C = 1.0f - c;
         float xx = x * x, xy = x * y, xz = x * z;
         float yy = y * y, yz = y * z;
@@ -4136,7 +4136,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      */
     public Matrix4x3f rotateTranslation(float ang, float x, float y, float z, Matrix4x3f dest) {
         float s = (float) Math.sin(ang);
-        float c = (float) Math.cos(ang);
+        float c = (float) Math.cosFromSin(s, ang);
         float C = 1.0f - c;
         float xx = x * x, xy = x * y, xz = x * z;
         float yy = y * y, yz = y * z;
@@ -4211,7 +4211,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      */
     public Matrix4x3f rotateLocal(float ang, float x, float y, float z, Matrix4x3f dest) {
         float s = (float) Math.sin(ang);
-        float c = (float) Math.cos(ang);
+        float c = (float) Math.cosFromSin(s, ang);
         float C = 1.0f - c;
         float xx = x * x, xy = x * y, xz = x * z;
         float yy = y * y, yz = y * z;
@@ -8144,16 +8144,16 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         float m30 = m20 * -radius + this.m30;
         float m31 = m21 * -radius + this.m31;
         float m32 = m22 * -radius + this.m32;
-        float cos = (float) Math.cos(angleX);
         float sin = (float) Math.sin(angleX);
+        float cos = (float) Math.cosFromSin(sin, angleX);
         float nm10 = m10 * cos + m20 * sin;
         float nm11 = m11 * cos + m21 * sin;
         float nm12 = m12 * cos + m22 * sin;
         float m20 = this.m20 * cos - m10 * sin;
         float m21 = this.m21 * cos - m11 * sin;
         float m22 = this.m22 * cos - m12 * sin;
-        cos = (float) Math.cos(angleY);
         sin = (float) Math.sin(angleY);
+        cos = (float) Math.cosFromSin(sin, angleY);
         float nm00 = m00 * cos - m20 * sin;
         float nm01 = m01 * cos - m21 * sin;
         float nm02 = m02 * cos - m22 * sin;
