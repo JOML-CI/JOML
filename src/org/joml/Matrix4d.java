@@ -6566,6 +6566,8 @@ public class Matrix4d implements Externalizable {
     public Matrix4d rotateXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return dest.rotateAffineXYZ(angleX, angleY, angleZ);
 
         double cosX = Math.cos(angleX);
         double sinX = Math.sin(angleX);
@@ -6791,6 +6793,8 @@ public class Matrix4d implements Externalizable {
     public Matrix4d rotateZYX(double angleZ, double angleY, double angleX, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationZYX(angleZ, angleY, angleX);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return dest.rotateAffineZYX(angleZ, angleY, angleX);
 
         double cosZ = Math.cos(angleZ);
         double sinZ = Math.sin(angleZ);
@@ -7014,6 +7018,8 @@ public class Matrix4d implements Externalizable {
     public Matrix4d rotateYXZ(double angleY, double angleX, double angleZ, Matrix4d dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return dest.rotateAffineYXZ(angleY, angleX, angleZ);
 
         double cosY =  Math.cos(angleY);
         double sinY =  Math.sin(angleY);

@@ -5567,6 +5567,8 @@ public class Matrix4f implements Externalizable {
     public Matrix4f rotateXYZ(float angleX, float angleY, float angleZ, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationXYZ(angleX, angleY, angleZ);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return dest.rotateAffineXYZ(angleX, angleY, angleZ);
 
         float cosX = (float) Math.cos(angleX);
         float sinX = (float) Math.sin(angleX);
@@ -5791,7 +5793,9 @@ public class Matrix4f implements Externalizable {
      */
     public Matrix4f rotateZYX(float angleZ, float angleY, float angleX, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotationZYX(angleZ, angleY, angleX);        
+            return dest.rotationZYX(angleZ, angleY, angleX);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return dest.rotateAffineZYX(angleZ, angleY, angleX);
 
         float cosZ = (float) Math.cos(angleZ);
         float sinZ = (float) Math.sin(angleZ);
@@ -6015,6 +6019,8 @@ public class Matrix4f implements Externalizable {
     public Matrix4f rotateYXZ(float angleY, float angleX, float angleZ, Matrix4f dest) {
         if ((properties & PROPERTY_IDENTITY) != 0)
             return dest.rotationYXZ(angleY, angleX, angleZ);
+        else if ((properties & PROPERTY_AFFINE) != 0)
+            return dest.rotateAffineYXZ(angleY, angleX, angleZ);
 
         float cosY = (float) Math.cos(angleY);
         float sinY = (float) Math.sin(angleY);
