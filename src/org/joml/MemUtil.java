@@ -45,8 +45,14 @@ abstract class MemUtil {
         try {
             if (Options.NO_UNSAFE)
                 accessor = new MemUtilNIO();
-            else
-                accessor = new MemUtilUnsafe();
+            else {
+                /* Detect Android version */
+                if (android.os.Build.VERSION.SDK_INT <= 23 /* 6, Marshmallow */) {
+                    accessor = new MemUtilUnsafe_Marshmallow();
+                } else {
+                    accessor = new MemUtilUnsafe();
+                }
+            }
         } catch (Throwable e) {
             accessor = new MemUtilNIO();
         }
@@ -2179,11 +2185,11 @@ abstract class MemUtil {
         }
     }
 
-    public static final class MemUtilUnsafe extends MemUtil {
-        private static final sun.misc.Unsafe UNSAFE;
+    public static class MemUtilUnsafe extends MemUtil {
+        protected static final sun.misc.Unsafe UNSAFE;
         private static final long ADDRESS;
         private static final long Matrix3f_m00;
-        private static final long Matrix4f_m00;
+        protected static final long Matrix4f_m00;
         private static final long Matrix4x3f_m00;
         private static final long Vector3f_x;
         private static final long Vector3d_x;
@@ -2423,10 +2429,23 @@ abstract class MemUtil {
         	return Float.intBitsToFloat(UNSAFE.getInt(null, addr));
         }
 
-        public final void put(Matrix4f m, long destAddr) {
-            for (int i = 0; i < 8; i++) {
-                UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
-            }
+        public void put(Matrix4f m, long destAddr) {
+            putFloat(destAddr,    m.m00);
+            putFloat(destAddr+4,  m.m01);
+            putFloat(destAddr+8,  m.m02);
+            putFloat(destAddr+12, m.m03);
+            putFloat(destAddr+16, m.m10);
+            putFloat(destAddr+20, m.m11);
+            putFloat(destAddr+24, m.m12);
+            putFloat(destAddr+28, m.m13);
+            putFloat(destAddr+32, m.m20);
+            putFloat(destAddr+36, m.m21);
+            putFloat(destAddr+40, m.m22);
+            putFloat(destAddr+44, m.m23);
+            putFloat(destAddr+48, m.m30);
+            putFloat(destAddr+52, m.m31);
+            putFloat(destAddr+56, m.m32);
+            putFloat(destAddr+60, m.m33);
         }
 
         public final void put(Matrix4x3f m, long destAddr) {
@@ -4085,6 +4104,14 @@ abstract class MemUtil {
             dest.y = c;
             dest.z = c;
             dest.w = c;
+        }
+    }
+
+    public static class MemUtilUnsafe_Marshmallow extends MemUtilUnsafe {
+        public void put(Matrix4f m, long destAddr) {
+            for (int i = 0; i < 8; i++) {
+                UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
+            }
         }
     }
 }

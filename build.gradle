@@ -29,7 +29,7 @@ android {
   compileSdkVersion 10
   buildToolsVersion '22.0.1'
   defaultConfig {
-    minSdkVersion 1
+    minSdkVersion 4
     targetSdkVersion 10
     versionCode 191
     versionName "1.9.1"
@@ -85,6 +85,8 @@ task javadoc(type: Javadoc) {
   excludes = ['**/package.html']
   title = "JOML ${version} API"
   source = android.sourceSets.main.java.srcDirs
+  ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+  classpath = files(source) + files(ext.androidJar)
 }
 task javadocJar(type: Jar, dependsOn: javadoc) {
   classifier = 'javadoc'
