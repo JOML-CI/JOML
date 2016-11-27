@@ -2197,7 +2197,6 @@ abstract class MemUtil {
         private static final long Vector2f_x;
         private static final long Vector2d_x;
         private static final long Vector2i_x;
-        private static final long floatArrayOffset;
 
         static {
             UNSAFE = getUnsafeInstance();
@@ -2212,7 +2211,6 @@ abstract class MemUtil {
                 Vector2f_x = checkVector2f();
                 Vector2d_x = checkVector2d();
                 Vector2i_x = checkVector2i();
-                floatArrayOffset = UNSAFE.arrayBaseOffset(float[].class);
                 // Check if we can use object field offset/address put/get methods
                 sun.misc.Unsafe.class.getDeclaredMethod("getLong", new Class[] {Object.class, long.class});
                 sun.misc.Unsafe.class.getDeclaredMethod("putOrderedLong", new Class[] {Object.class, long.class, long.class});
@@ -3090,41 +3088,95 @@ abstract class MemUtil {
         }
 
         public final void copy(float[] arr, int off, Matrix4f dest) {
-            for (int i = 0; i < 8; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4f_m00 + (i << 3), UNSAFE.getLong(arr, floatArrayOffset + (off << 2) + (i << 3)));
-            }
+            dest.m00 = arr[off];
+            dest.m01 = arr[off+1];
+            dest.m02 = arr[off+2];
+            dest.m03 = arr[off+3];
+            dest.m10 = arr[off+4];
+            dest.m11 = arr[off+5];
+            dest.m12 = arr[off+6];
+            dest.m13 = arr[off+7];
+            dest.m20 = arr[off+8];
+            dest.m21 = arr[off+9];
+            dest.m22 = arr[off+10];
+            dest.m23 = arr[off+11];
+            dest.m30 = arr[off+12];
+            dest.m31 = arr[off+13];
+            dest.m32 = arr[off+14];
+            dest.m33 = arr[off+15];
         }
 
         public final void copy(float[] arr, int off, Matrix3f dest) {
-            for (int i = 0; i < 4; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix3f_m00 + (i << 3), UNSAFE.getLong(arr, floatArrayOffset + (off << 2) + (i << 3)));
-            }
-            putFloat(dest, Matrix3f_m00 + 32, getFloat(arr, floatArrayOffset + (off << 2) + 32));
+            dest.m00 = arr[off];
+            dest.m01 = arr[off+1];
+            dest.m02 = arr[off+2];
+            dest.m10 = arr[off+3];
+            dest.m11 = arr[off+4];
+            dest.m12 = arr[off+5];
+            dest.m20 = arr[off+6];
+            dest.m21 = arr[off+7];
+            dest.m22 = arr[off+8];
         }
 
         public final void copy(float[] arr, int off, Matrix4x3f dest) {
-            for (int i = 0; i < 6; i++) {
-                UNSAFE.putOrderedLong(dest, Matrix4x3f_m00 + (i << 3), UNSAFE.getLong(arr, floatArrayOffset + (off << 2) + (i << 3)));
-            }
+            dest.m00 = arr[off];
+            dest.m01 = arr[off+1];
+            dest.m02 = arr[off+2];
+            dest.m10 = arr[off+3];
+            dest.m11 = arr[off+4];
+            dest.m12 = arr[off+5];
+            dest.m20 = arr[off+6];
+            dest.m21 = arr[off+7];
+            dest.m22 = arr[off+8];
+            dest.m30 = arr[off+9];
+            dest.m31 = arr[off+10];
+            dest.m32 = arr[off+11];
         }
 
         public final void copy(Matrix4f src, float[] dest, int off) {
-            for (int i = 0; i < 8; i++) {
-                UNSAFE.putOrderedLong(dest, floatArrayOffset + (off << 2) + (i << 3), UNSAFE.getLong(src, Matrix4f_m00 + (i << 3)));
-            }
+            dest[off]    = src.m00;
+            dest[off+1]  = src.m01;
+            dest[off+2]  = src.m02;
+            dest[off+3]  = src.m03;
+            dest[off+4]  = src.m10;
+            dest[off+5]  = src.m11;
+            dest[off+6]  = src.m12;
+            dest[off+7]  = src.m13;
+            dest[off+8]  = src.m20;
+            dest[off+9]  = src.m21;
+            dest[off+10] = src.m22;
+            dest[off+11] = src.m23;
+            dest[off+12] = src.m30;
+            dest[off+13] = src.m31;
+            dest[off+14] = src.m32;
+            dest[off+15] = src.m33;
         }
 
         public final void copy(Matrix3f src, float[] dest, int off) {
-            for (int i = 0; i < 4; i++) {
-                UNSAFE.putOrderedLong(dest, floatArrayOffset + (off << 2) + (i << 3), UNSAFE.getLong(src, Matrix3f_m00 + (i << 3)));
-            }
-            putFloat(dest, floatArrayOffset + (off << 2) + 32, getFloat(src, Matrix3f_m00 + 32));
+            dest[off]   = src.m00;
+            dest[off+1] = src.m01;
+            dest[off+2] = src.m02;
+            dest[off+3] = src.m10;
+            dest[off+4] = src.m11;
+            dest[off+5] = src.m12;
+            dest[off+6] = src.m20;
+            dest[off+7] = src.m21;
+            dest[off+8] = src.m22;
         }
 
         public final void copy(Matrix4x3f src, float[] dest, int off) {
-            for (int i = 0; i < 6; i++) {
-                UNSAFE.putOrderedLong(dest, floatArrayOffset + (off << 2) + (i << 3), UNSAFE.getLong(src, Matrix4x3f_m00 + (i << 3)));
-            }
+            dest[off]    = src.m00;
+            dest[off+1]  = src.m01;
+            dest[off+2]  = src.m02;
+            dest[off+3]  = src.m10;
+            dest[off+4]  = src.m11;
+            dest[off+5]  = src.m12;
+            dest[off+6]  = src.m20;
+            dest[off+7]  = src.m21;
+            dest[off+8]  = src.m22;
+            dest[off+9]  = src.m30;
+            dest[off+10] = src.m31;
+            dest[off+11] = src.m32;
         }
 
         public final void identity(Matrix4f dest) {
