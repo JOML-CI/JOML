@@ -1,8 +1,10 @@
-package org.joml;
+package org.joml.test;
+
+import org.joml.Matrix4f;
+import org.joml.Quaterniond;
+import org.joml.Vector3d;
 
 import junit.framework.TestCase;
-
-import org.joml.*;
 
 /**
  * Test class for {@link Quaterniond}.

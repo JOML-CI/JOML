@@ -1,4 +1,4 @@
-package org.joml;
+package org.joml.test;
 
 import org.joml.Quaternionf;
 import org.joml.QuaternionfInterpolator;

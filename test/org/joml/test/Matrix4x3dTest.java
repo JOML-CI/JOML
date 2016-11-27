@@ -1,8 +1,7 @@
-package org.joml;
+package org.joml.test;
 
 import junit.framework.TestCase;
 
-import org.joml.Matrix4x3d;
 import org.joml.Matrix4x3d;
 import org.joml.Vector3d;
 import org.joml.Math;

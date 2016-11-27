@@ -1,8 +1,8 @@
-package org.joml;
+package org.joml.test;
+
+import org.joml.Vector4f;
 
 import junit.framework.TestCase;
-
-import org.joml.*;
 
 /**
  * Test class for {@link Vector4f}.
