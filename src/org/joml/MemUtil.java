@@ -2188,9 +2188,9 @@ abstract class MemUtil {
     public static class MemUtilUnsafe extends MemUtil {
         protected static final sun.misc.Unsafe UNSAFE;
         private static final long ADDRESS;
-        private static final long Matrix3f_m00;
+        protected static final long Matrix3f_m00;
         protected static final long Matrix4f_m00;
-        private static final long Matrix4x3f_m00;
+        protected static final long Matrix4x3f_m00;
         private static final long Vector3f_x;
         private static final long Vector3d_x;
         private static final long Vector3i_x;
@@ -2405,7 +2405,7 @@ abstract class MemUtil {
         	UNSAFE.putLong(dst, addr, Double.doubleToRawLongBits(dbl));
         }
 
-        private void putFloat(long addr, float flt) {
+        protected void putFloat(long addr, float flt) {
         	UNSAFE.putInt(null, addr, Float.floatToRawIntBits(flt));
         }
 
@@ -2448,10 +2448,19 @@ abstract class MemUtil {
             putFloat(destAddr+60, m.m33);
         }
 
-        public final void put(Matrix4x3f m, long destAddr) {
-            for (int i = 0; i < 6; i++) {
-                UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4x3f_m00 + (i << 3)));
-            }
+        public void put(Matrix4x3f m, long destAddr) {
+            putFloat(destAddr,    m.m00);
+            putFloat(destAddr+4,  m.m01);
+            putFloat(destAddr+8,  m.m02);
+            putFloat(destAddr+12, m.m10);
+            putFloat(destAddr+16, m.m11);
+            putFloat(destAddr+20, m.m12);
+            putFloat(destAddr+24, m.m20);
+            putFloat(destAddr+28, m.m21);
+            putFloat(destAddr+32, m.m22);
+            putFloat(destAddr+36, m.m30);
+            putFloat(destAddr+40, m.m31);
+            putFloat(destAddr+44, m.m32);
         }
 
         public final void put4x4(Matrix4x3f m, long destAddr) {
@@ -2694,11 +2703,16 @@ abstract class MemUtil {
             putFloat(destAddr + 44, (float)m.m32);
         }
 
-        public final void put(Matrix3f m, long destAddr) {
-            for (int i = 0; i < 4; i++) {
-                UNSAFE.putOrderedLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3f_m00 + (i << 3)));
-            }
-            putFloat(destAddr + 32, m.m22);
+        public void put(Matrix3f m, long destAddr) {
+            putFloat(destAddr,    m.m00);
+            putFloat(destAddr+4,  m.m01);
+            putFloat(destAddr+8,  m.m02);
+            putFloat(destAddr+12, m.m10);
+            putFloat(destAddr+16, m.m11);
+            putFloat(destAddr+20, m.m12);
+            putFloat(destAddr+24, m.m20);
+            putFloat(destAddr+28, m.m21);
+            putFloat(destAddr+32, m.m22);
         }
 
         public final void put(Matrix3d m, long destAddr) {
@@ -4108,10 +4122,23 @@ abstract class MemUtil {
     }
 
     public static class MemUtilUnsafe_Marshmallow extends MemUtilUnsafe {
-        public void put(Matrix4f m, long destAddr) {
+        public final void put(Matrix4f m, long destAddr) {
             for (int i = 0; i < 8; i++) {
                 UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4f_m00 + (i << 3)));
             }
+        }
+
+        public final void put(Matrix4x3f m, long destAddr) {
+            for (int i = 0; i < 6; i++) {
+                UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix4x3f_m00 + (i << 3)));
+            }
+        }
+
+        public final void put(Matrix3f m, long destAddr) {
+            for (int i = 0; i < 4; i++) {
+                UNSAFE.putLong(null, destAddr + (i << 3), UNSAFE.getLong(m, Matrix3f_m00 + (i << 3)));
+            }
+            putFloat(destAddr + 32, m.m22);
         }
     }
 }
