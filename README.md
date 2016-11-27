@@ -290,4 +290,5 @@ This section names real-world projects and organisations using JOML. All owners 
 
 * [We Shall Wake](http://www.weshallwake.com/2015/09/we-shall-wake-post-demo-7-briefing.html) – Post-World Accelerated Action.
 * [Computer Graphics course](http://www.cs.unh.edu/~cs770/) at the University of New Hampshire
+* [Computer Graphics course](http://www.cl.cam.ac.uk/teaching/1617/Graphics/) at the University of Cambridge
 * Samsung's [GearVR Framework Project](http://www.gearvrf.org)
