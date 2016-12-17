@@ -38,6 +38,16 @@ class Random {
          */
         private static final float INT_TO_FLOAT = Float.intBitsToFloat(864026624);
 
+        private static final boolean HAS_Long_rotateLeft = hasLongRotateLeft();
+        private static boolean hasLongRotateLeft() {
+            try {
+                Long.class.getDeclaredMethod("rotateLeft", new Class[] { long.class, int.class });
+                return true;
+            } catch (NoSuchMethodException e) {
+                return false;
+            }
+        }
+
         /**
          * Xorshiro128 state
          */
@@ -76,9 +86,24 @@ class Random {
             long s1 = _s1;
             long result = s0 + s1;
             s1 ^= s0;
-            _s0 = Long.rotateLeft(s0, 55) ^ s1 ^ (s1 << 14); // a, b
-            _s1 = Long.rotateLeft(s1, 36); // c
+            rotateLeft(s0, s1);
             return (int) (result & 0xFFFFFFFF);
+        }
+
+        private static long rotl_JDK4(final long x, final int k) {
+            return (x << k) | (x >>> (64 - k));
+        }
+        private static long rotl_JDK5(final long x, final int k) {
+            return Long.rotateLeft(x, k);
+        }
+        private static long rotl(final long x, final int k) {
+            if (HAS_Long_rotateLeft)
+                return rotl_JDK5(x, k);
+            return rotl_JDK4(x, k);
+        }
+        private void rotateLeft(long s0, long s1) {
+            _s0 = rotl(s0, 55) ^ s1 ^ (s1 << 14);
+            _s1 = rotl(s1, 36);
         }
 
         /**
