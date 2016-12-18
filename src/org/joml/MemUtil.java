@@ -22,6 +22,7 @@
  */
 package org.joml;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -2197,10 +2198,15 @@ abstract class MemUtil {
         private static final long Quaternionf_x;
         private static final long floatArrayOffset;
 
+        /**
+         * Used to create a direct ByteBuffer for a known address.
+         */
+        private static final native ByteBuffer newTestBuffer();
+
         static {
             UNSAFE = getUnsafeInstance();
             try {
-                ADDRESS = UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
+                ADDRESS = findBufferAddress();
                 Matrix4f_m00 = checkMatrix4f();
                 Matrix4x3f_m00 = checkMatrix4x3f();
                 Matrix3f_m00 = checkMatrix3f();
@@ -2219,9 +2225,31 @@ abstract class MemUtil {
                 sun.misc.Unsafe.class.getDeclaredMethod("getLong", new Class[] {Object.class, long.class});
                 sun.misc.Unsafe.class.getDeclaredMethod("putOrderedLong", new Class[] {Object.class, long.class, long.class});
             } catch (NoSuchFieldException e) {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException(e);
             } catch (NoSuchMethodException e) {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException(e);
+            }
+        }
+
+        private static long findBufferAddress() {
+            try {
+                return UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
+            } catch (Exception e) {
+                /* Maybe because of JDK9 AwkwardStrongEncapsulation. */
+                /* Try detecting the address from a known value. */
+                try {
+                    SharedLibraryLoader.load();
+                } catch (IOException e1) {
+                    throw new UnsupportedOperationException("Failed to load joml shared library", e1);
+                }
+                ByteBuffer bb = newTestBuffer();
+                long offset = 8L;
+                while (offset <= 32L) { // <- don't expect offset to be too large
+                    if (UNSAFE.getLong(bb, offset) == 0xFEEDBABEDEADBEEFL)
+                        return offset;
+                    offset += 8L;
+                }
+                throw new UnsupportedOperationException("Could not detect ByteBuffer.address offset", e);
             }
         }
 
