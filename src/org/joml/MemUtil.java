@@ -2202,6 +2202,10 @@ abstract class MemUtil {
          * Used to create a direct ByteBuffer for a known address.
          */
         private static final native ByteBuffer newTestBuffer();
+        /**
+         * Return the pointer size (4 = 32-bit, 8 = 64-bit).
+         */
+        private static native int getPointerSize();
 
         static {
             UNSAFE = getUnsafeInstance();
@@ -2233,7 +2237,8 @@ abstract class MemUtil {
 
         private static long findBufferAddress() {
             try {
-                return UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
+                throw new UnsupportedOperationException();
+                //return UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
             } catch (Exception e) {
                 /* Maybe because of JDK9 AwkwardStrongEncapsulation. */
                 /* Try detecting the address from a known value. */
@@ -2243,9 +2248,12 @@ abstract class MemUtil {
                     throw new UnsupportedOperationException("Failed to load joml shared library", e1);
                 }
                 ByteBuffer bb = newTestBuffer();
+                long magicAddress = 0xFEEDBABEDEADBEEFL;
+                if (getPointerSize() == 4)
+                    magicAddress &= 0xFFFFFFFFL;
                 long offset = 8L;
                 while (offset <= 32L) { // <- don't expect offset to be too large
-                    if (UNSAFE.getLong(bb, offset) == 0xFEEDBABEDEADBEEFL)
+                    if (UNSAFE.getLong(bb, offset) == magicAddress)
                         return offset;
                     offset += 8L;
                 }
