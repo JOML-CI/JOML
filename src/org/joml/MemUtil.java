@@ -2237,8 +2237,7 @@ abstract class MemUtil {
 
         private static long findBufferAddress() {
             try {
-                throw new UnsupportedOperationException();
-                //return UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
+                return UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
             } catch (Exception e) {
                 /* Maybe because of JDK9 AwkwardStrongEncapsulation. */
                 /* Try detecting the address from a known value. */
