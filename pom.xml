@@ -70,6 +70,27 @@
 			</properties>
 		</profile>
 		<profile>
+			<!--
+				Includes the native shared libraries in the jar.
+				This is only necessary when running JOML under Java 9
+				and _not_ using -Djoml.nounsafe.
+			-->
+			<id>with-natives</id>
+			<activation>
+				<property>
+					<name>with-natives</name>
+				</property>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>native/build</directory>
+						<filtering>false</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
 			<id>deployment</id>
 			<activation>
 				<property>
@@ -111,8 +132,10 @@
 						<configuration>
 							<rules>
 								<requireJavaVersion>
-									<!-- To successfully compile JOML, we need at least a JDK6 -->
-									<!-- because conditionally loaded classes use > 1.4 features -->
+									<!--
+										To successfully compile JOML, we need at least a JDK6
+										because conditionally loaded classes use > 1.4 features.
+									-->
 									<version>1.6</version>
 								</requireJavaVersion>
 							</rules>

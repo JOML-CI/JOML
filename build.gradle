@@ -8,7 +8,10 @@ archivesBaseName = 'joml'
 sourceCompatibility = 1.4
 targetCompatibility = 1.4
 sourceSets {
-  main.java.srcDir 'src'
+  main {
+    java.srcDir 'src'
+    resources.srcDirs = ["native/build"]
+  }
   test.java.srcDir 'test'
 }
 

@@ -1,0 +1,5 @@
+LIBRARY joml32
+EXPORTS
+   JNI_OnLoad @1
+   Java_org_joml_MemUtil_00024MemUtilUnsafe_newTestBuffer @2
+   Java_org_joml_MemUtil_00024MemUtilUnsafe_getPointerSize @3
