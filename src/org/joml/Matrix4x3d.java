@@ -2274,6 +2274,7 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         m30 = x;
         m31 = y;
         m32 = z;
+        properties = 0;
         return this;
     }
 

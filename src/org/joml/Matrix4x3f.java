@@ -1922,6 +1922,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         m30 = x;
         m31 = y;
         m32 = z;
+        properties = 0;
         return this;
     }
 
