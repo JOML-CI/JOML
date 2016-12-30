@@ -68,6 +68,71 @@
 				<maven.compiler.source>1.6</maven.compiler.source>
 				<maven.compiler.target>1.6</maven.compiler.target>
 			</properties>
+			<build>
+				<plugins>
+					<!--
+						Make sure the jdk9 profile is only used with a
+						1.9 JDK, and not forcefully enabled via -Pjdk9, because
+						antrun will not work on earlier JDKs, because of missing
+						tools.jar.
+					-->
+					<plugin>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>1.4.1</version>
+						<executions>
+							<execution>
+								<id>enforce-versions</id>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireJavaVersion>
+											<version>1.9</version>
+										</requireJavaVersion>
+									</rules>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!--
+						Use the antrun plugin to build and run a post-processing
+						Java application to rewrite the Java class file
+						version from 1.6 back to 1.4 in all compiled class files.
+					-->
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<phase>process-classes</phase>
+								<configuration>
+									<target>
+										<echo message="Post-process compiled class files..."></echo>
+										<mkdir dir="${project.build.directory}/buildhelper" />
+										<javac
+											srcdir="buildhelper"
+											destdir="${project.build.directory}/buildhelper"
+											includeantruntime="false">
+											<classpath refid="maven.plugin.classpath" />
+										</javac>
+										<java classname="Java6to4" classpathref="maven.plugin.classpath">
+											<classpath>
+												<pathelement location="${project.build.directory}/buildhelper" />
+											</classpath>
+											<arg value="${project.build.outputDirectory}" />
+										</java>
+										<echo message="Post-processing done."></echo>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<!--
