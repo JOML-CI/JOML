@@ -130,6 +130,13 @@
 								</goals>
 							</execution>
 						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.ow2.asm</groupId>
+								<artifactId>asm</artifactId>
+								<version>5.2</version>
+							</dependency>
+						</dependencies>
 					</plugin>
 				</plugins>
 			</build>
@@ -211,6 +218,9 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.0</version>
+				<configuration>
+					<!--<compilerArgument>-g:vars</compilerArgument>-->
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
