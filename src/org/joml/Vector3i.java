@@ -28,6 +28,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
@@ -752,22 +753,37 @@ public class Vector3i implements Externalizable, Vector3ic {
 
     /**
      * Return a string representation of this vector.
-     *
+     * <p>
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
+     * 
      * @return the string representation
      */
     public String toString() {
-        return "(" + x + " " + y + " " + z + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        DecimalFormat formatter = new DecimalFormat("0.000E0;-");
+        String str = toString(formatter);
+        StringBuffer res = new StringBuffer();
+        int eIndex = Integer.MIN_VALUE;
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c == 'E') {
+                eIndex = i;
+            } else if (Character.isDigit(c) && eIndex == i - 1) {
+                res.append('+');
+            }
+            res.append(c);
+        }
+        return res.toString();
     }
 
     /**
-     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
-     *
+     * Return a string representation of this quaternion by formatting the vector components with the given {@link NumberFormat}.
+     * 
      * @param formatter
      *          the {@link NumberFormat} used to format the vector components with
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        return "(" + formatter.format(x) + " " + formatter.format(y) + " " + formatter.format(z) + ")";
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

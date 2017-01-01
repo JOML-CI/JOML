@@ -3553,13 +3553,25 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     /**
      * Return a string representation of this matrix.
      * <p>
-     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>  0.000E0; -</tt>".
+     * This method creates a new {@link DecimalFormat} on every invocation with the format string "<tt>0.000E0;-</tt>".
      * 
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat("  0.000E0; -"); //$NON-NLS-1$
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
+        DecimalFormat formatter = new DecimalFormat("0.000E0;-");
+        String str = toString(formatter);
+        StringBuffer res = new StringBuffer();
+        int eIndex = Integer.MIN_VALUE;
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c == 'E') {
+                eIndex = i;
+            } else if (Character.isDigit(c) && eIndex == i - 1) {
+                res.append('+');
+            }
+            res.append(c);
+        }
+        return res.toString();
     }
 
     /**
@@ -3570,10 +3582,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return the string representation
      */
     public String toString(NumberFormat formatter) {
-        return formatter.format(m00) + formatter.format(m10) + formatter.format(m20) + formatter.format(m30) + "\n" //$NON-NLS-1$
-             + formatter.format(m01) + formatter.format(m11) + formatter.format(m21) + formatter.format(m31) + "\n" //$NON-NLS-1$
-             + formatter.format(m02) + formatter.format(m12) + formatter.format(m22) + formatter.format(m32) + "\n" //$NON-NLS-1$
-             + formatter.format(m03) + formatter.format(m13) + formatter.format(m23) + formatter.format(m33) + "\n"; //$NON-NLS-1$
+        return formatter.format(m00) + " " + formatter.format(m10) + " " + formatter.format(m20) + " " + formatter.format(m30) + "\n"
+             + formatter.format(m01) + " " + formatter.format(m11) + " " + formatter.format(m21) + " " + formatter.format(m31) + "\n"
+             + formatter.format(m02) + " " + formatter.format(m12) + " " + formatter.format(m22) + " " + formatter.format(m32) + "\n"
+             + formatter.format(m03) + " " + formatter.format(m13) + " " + formatter.format(m23) + " " + formatter.format(m33) + "\n";
     }
 
     /**
