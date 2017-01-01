@@ -493,8 +493,24 @@ public class AxisAngle4f implements Externalizable {
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-"); //$NON-NLS-1$
-        return toString(formatter).replaceAll("E(\\d+)", "E+$1"); //$NON-NLS-1$ //$NON-NLS-2$
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
+        String str = toString(formatter);
+        StringBuffer res = new StringBuffer();
+        int eIndex = Integer.MIN_VALUE;
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c == 'E') {
+                eIndex = i;
+            } else if (c == ' ' && eIndex == i - 1) {
+                // workaround Java 1.4 DecimalFormat bug
+                res.append('+');
+                continue;
+            } else if (Character.isDigit(c) && eIndex == i - 1) {
+                res.append('+');
+            }
+            res.append(c);
+        }
+        return res.toString();
     }
 
     /**

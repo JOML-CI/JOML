@@ -42,8 +42,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.4</maven.compiler.source>
-		<maven.compiler.target>1.4</maven.compiler.target>
+		<maven.compiler.source>1.2</maven.compiler.source>
+		<maven.compiler.target>1.2</maven.compiler.target>
+		<excludePackage>java/**</excludePackage>
 	</properties>
 	<distributionManagement>
 		<snapshotRepository>
@@ -58,6 +59,18 @@
 		</repository>
 	</distributionManagement>
 	<profiles>
+		<profile>
+			<id>jdk3</id>
+			<activation>
+				<property>
+					<name>jdk3</name>
+				</property>
+			</activation>
+			<properties>
+				<!-- Do not exclude the Java 1.4 API classes -->
+				<excludePackage></excludePackage>
+			</properties>
+		</profile>
 		<profile>
 			<id>jdk9</id>
 			<activation>
@@ -220,8 +233,25 @@
 				<version>3.6.0</version>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<!-- Exclude the Java 1.4 API classes when excludePackage is set -->
+					<excludes>
+						<exclude>${excludePackage}</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>3.0.1</version>
+				<configuration>
+					<excludes>
+						<!-- Exclude the Java 1.4 API classes from the sources jar -->
+						<exclude>java/**</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>package-sources</id>
@@ -234,6 +264,10 @@
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.4</version>
+				<configuration>
+					<!-- Exclude the Java 1.4 API classes from the javadoc jar -->
+					<excludePackageNames>java.nio</excludePackageNames>
+				</configuration>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>

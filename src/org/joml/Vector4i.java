@@ -897,7 +897,7 @@ public class Vector4i implements Externalizable, Vector4ic {
      * @return the string representation
      */
     public String toString() {
-        DecimalFormat formatter = new DecimalFormat("0.000E0;-");
+        DecimalFormat formatter = new DecimalFormat(" 0.000E0;-");
         String str = toString(formatter);
         StringBuffer res = new StringBuffer();
         int eIndex = Integer.MIN_VALUE;
@@ -905,6 +905,10 @@ public class Vector4i implements Externalizable, Vector4ic {
             char c = str.charAt(i);
             if (c == 'E') {
                 eIndex = i;
+            } else if (c == ' ' && eIndex == i - 1) {
+                // workaround Java 1.4 DecimalFormat bug
+                res.append('+');
+                continue;
             } else if (Character.isDigit(c) && eIndex == i - 1) {
                 res.append('+');
             }
