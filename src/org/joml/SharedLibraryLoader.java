@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+//#ifndef __GWT__
+
 import java.io.*;
 import java.net.URL;
 import java.util.zip.CRC32;
@@ -117,3 +119,5 @@ final class SharedLibraryLoader {
     }
 
 }
+
+//#endif

@@ -116,16 +116,6 @@ public class Intersectionf {
      */
     public static final int INSIDE = 3;
 
-    private static final boolean HAS_floatToRawIntBits = hasFloatToRawIntBits();
-    private static boolean hasFloatToRawIntBits() {
-        try {
-            Float.class.getDeclaredMethod("floatToRawIntBits", new Class[] { float.class });
-            return true;
-        } catch (NoSuchMethodException e) {
-            return false;
-        }
-    }
-
     /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
      * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
@@ -1147,19 +1137,7 @@ public class Intersectionf {
         float x = d * c - e * b;
         float y = e * a - d * b;
         float z = x + y - ac_bb;
-        return ((floatToIntBits(z) & ~(floatToIntBits(x) | floatToIntBits(y))) & 0x8000000000000000L) != 0L;
-    }
-
-    private static int floatToIntBits(float dbl) {
-        if (HAS_floatToRawIntBits)
-            return floatToIntBits1_3(dbl);
-        return floatToIntBits1_2(dbl);
-    }
-    private static int floatToIntBits1_3(float dbl) {
-        return Float.floatToRawIntBits(dbl);
-    }
-    private static int floatToIntBits1_2(float dbl) {
-        return Float.floatToIntBits(dbl);
+        return ((Runtime.floatToIntBits(z) & ~(Runtime.floatToIntBits(x) | Runtime.floatToIntBits(y))) & 0x8000000000000000L) != 0L;
     }
 
     /**

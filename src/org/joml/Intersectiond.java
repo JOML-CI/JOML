@@ -116,16 +116,6 @@ public class Intersectiond {
      */
     public static final int INSIDE = 3;
 
-    private static final boolean HAS_doubleToRawLongBits = hasDoubleToRawLongBits();
-    private static boolean hasDoubleToRawLongBits() {
-        try {
-            Double.class.getDeclaredMethod("doubleToRawLongBits", new Class[] { double.class });
-            return true;
-        } catch (NoSuchMethodException e) {
-            return false;
-        }
-    }
-
     /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
      * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>.
@@ -1147,19 +1137,7 @@ public class Intersectiond {
         double x = d * c - e * b;
         double y = e * a - d * b;
         double z = x + y - ac_bb;
-        return ((doubleToLongBits(z) & ~(doubleToLongBits(x) | doubleToLongBits(y))) & 0x8000000000000000L) != 0L;
-    }
-
-    private static long doubleToLongBits(double dbl) {
-        if (HAS_doubleToRawLongBits)
-            return doubleToLongBits1_3(dbl);
-        return doubleToLongBits1_2(dbl);
-    }
-    private static long doubleToLongBits1_3(double dbl) {
-        return Double.doubleToRawLongBits(dbl);
-    }
-    private static long doubleToLongBits1_2(double dbl) {
-        return Double.doubleToLongBits(dbl);
+        return ((Runtime.doubleToLongBits(z) & ~(Runtime.doubleToLongBits(x) | Runtime.doubleToLongBits(y))) & 0x8000000000000000L) != 0L;
     }
 
     /**

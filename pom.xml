@@ -44,7 +44,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.2</maven.compiler.source>
 		<maven.compiler.target>1.2</maven.compiler.target>
-		<excludePackage>java/**</excludePackage>
+		<preprocessorDefine>__JRE__</preprocessorDefine>
+		<javaExclude>java/**</javaExclude>
 	</properties>
 	<distributionManagement>
 		<snapshotRepository>
@@ -66,10 +67,22 @@
 					<name>jdk3</name>
 				</property>
 			</activation>
-			<properties>
-				<!-- Do not exclude the Java 1.4 API classes -->
-				<excludePackage></excludePackage>
-			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-jar-plugin</artifactId>
+						<version>3.0.2</version>
+						<configuration>
+							<!-- Do not exclude the Java 1.4 NIO API classes -->
+							<excludes>
+								<exclude>java/lang/**</exclude>
+								<exclude>java/io/**</exclude>
+								<exclude>java/text/**</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>jdk9</id>
@@ -176,6 +189,48 @@
 			</build>
 		</profile>
 		<profile>
+			<!-- 
+				Builds a GWT module JAR file by preprocessing with the __GWT__ define.
+			-->
+			<id>gwt</id>
+			<activation>
+				<property>
+					<name>gwt</name>
+				</property>
+			</activation>
+			<properties>
+				<!-- Define the '__GWT__' preprocessor variable -->
+				<preprocessorDefine>__GWT__</preprocessorDefine>
+				<!-- Do not generate a source jar (source will be inside the binary jar) -->
+				<maven.source.skip>true</maven.source.skip>
+				<!-- Do not generate a javadoc jar -->
+				<maven.javadoc.skip>true</maven.javadoc.skip>
+				<!-- Do not exclude any java/** sources -->
+				<javaExclude></javaExclude>
+				<!-- Use 'gwt' classifier -->
+				<classifier>gwt</classifier>
+			</properties>
+			<build>
+				<!-- Add the sources to the jar artifact -->
+				<resources>
+					<resource>
+						<directory>${project.build.directory}/generated-sources/preprocessed</directory>
+						<includes>
+							<include>**/*.java</include>
+						</includes>
+						<filtering>false</filtering>
+					</resource>
+					<resource>
+						<directory>${project.build.sourceDirectory}</directory>
+						<includes>
+							<include>joml.gwt.xml</include>
+						</includes>
+						<filtering>false</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
 			<id>deployment</id>
 			<activation>
 				<property>
@@ -229,18 +284,63 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>com.igormaznitsa</groupId>
+				<artifactId>jcp</artifactId>
+				<version>6.1.0</version>
+				<executions>
+					<execution>
+						<id>preprocessSources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>preprocess</goal>
+						</goals>
+						<configuration>
+							<source>src</source>
+						</configuration>
+					</execution>
+					<execution>
+						<id>processTestSources</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>preprocess</goal>
+						</goals>
+						<configuration>
+							<useTestSources>true</useTestSources>
+							<source>test</source>
+						</configuration>
+					</execution>
+					<execution>
+						<id>clearGeneratedFolders</id>
+						<goals>
+							<goal>clear</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<processing>java</processing>
+					<keepLines>false</keepLines>
+					<verbose>false</verbose>
+					<globalVars>
+						<property>
+							<name>${preprocessorDefine}</name>
+							<value>1</value>
+						</property>
+					</globalVars>
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.0</version>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.0.2</version>
 				<configuration>
 					<!-- Exclude the Java 1.4 API classes when excludePackage is set -->
 					<excludes>
-						<exclude>${excludePackage}</exclude>
+						<exclude>${javaExclude}</exclude>
 					</excludes>
+					<classifier>${classifier}</classifier>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -250,6 +350,7 @@
 					<excludes>
 						<!-- Exclude the Java 1.4 API classes from the sources jar -->
 						<exclude>java/**</exclude>
+						<exclude>joml.gwt.xml</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -266,7 +367,7 @@
 				<version>2.10.4</version>
 				<configuration>
 					<!-- Exclude the Java 1.4 API classes from the javadoc jar -->
-					<excludePackageNames>java.nio</excludePackageNames>
+					<excludePackageNames>java</excludePackageNames>
 				</configuration>
 				<executions>
 					<execution>
@@ -285,6 +386,13 @@
 			<artifactId>junit</artifactId>
 			<version>3.8.2</version>
 			<scope>test</scope>
+		</dependency>
+		<!-- Only needed to compile against GWT's NumberFormat class -->
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>2.0.0</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

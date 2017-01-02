@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+//#ifndef __GWT__
+
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
@@ -323,3 +325,5 @@ public class PolygonsIntersection {
     }
 
 }
+
+//#endif

@@ -22,9 +22,11 @@
  */
 package org.joml;
 
+//#ifndef __GWT__
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.Buffer;
+//#endif
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
@@ -39,10 +41,12 @@ import java.nio.IntBuffer;
  * @author Kai Burjack
  */
 abstract class MemUtil {
-    public static final MemUtil INSTANCE = createInstance();
-
+    static final MemUtil INSTANCE = createInstance();
     private static final MemUtil createInstance() {
         MemUtil accessor;
+//#ifdef __GWT__
+        accessor = new MemUtilNIO();
+//#else
         try {
             if (Options.NO_UNSAFE)
                 accessor = new MemUtilNIO();
@@ -51,10 +55,10 @@ abstract class MemUtil {
         } catch (Throwable e) {
             accessor = new MemUtilNIO();
         }
+//#endif
         return accessor;
     }
 
-    public abstract MemUtilUnsafe UNSAFE();
     public abstract void put(Matrix4f m, int offset, FloatBuffer dest);
     public abstract void put(Matrix4f m, int offset, ByteBuffer dest);
     public abstract void put(Matrix4x3f m, int offset, FloatBuffer dest);
@@ -211,10 +215,6 @@ abstract class MemUtil {
     public abstract void broadcast(int c, Vector4i dest);
 
     public static final class MemUtilNIO extends MemUtil {
-        public MemUtilUnsafe UNSAFE() {
-            return null;
-        }
-
         private void put0(Matrix4f m, FloatBuffer dest) {
             dest.put(0,  m.m00);
             dest.put(1,  m.m01);
@@ -2180,6 +2180,7 @@ abstract class MemUtil {
         }
     }
 
+//#ifndef __GWT__
     public static final class MemUtilUnsafe extends MemUtil {
         private static final sun.misc.Unsafe UNSAFE;
         private static final boolean HAS_putOrderedLong;
@@ -4116,4 +4117,5 @@ abstract class MemUtil {
             putLong(dest, Vector4i_x+8, two);
         }
     }
+//#endif
 }

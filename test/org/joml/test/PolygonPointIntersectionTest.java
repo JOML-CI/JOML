@@ -1,5 +1,7 @@
 package org.joml.test;
 
+//#ifndef __GWT__
+
 import junit.framework.TestCase;
 
 import org.joml.PolygonsIntersection;
@@ -98,3 +100,5 @@ public class PolygonPointIntersectionTest extends TestCase {
     }
 
 }
+
+//#endif

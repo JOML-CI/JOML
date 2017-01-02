@@ -22,6 +22,8 @@
  */
 package org.joml;
 
+//#ifndef __GWT__
+
 import java.util.regex.Pattern;
 
 /**
@@ -91,3 +93,5 @@ abstract class Platform {
     abstract String mapLibraryName(String name);
 
 }
+
+//#endif
