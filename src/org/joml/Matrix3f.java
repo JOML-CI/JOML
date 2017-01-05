@@ -31,6 +31,10 @@ import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+//#ifdef __GWT__
+import com.google.gwt.typedarrays.shared.Float32Array;
+//#endif
+
 /**
  * Contains the definition of a 3x3 matrix of floats, and associated functions to transform
  * it. The matrix is column-major to match OpenGL's interpretation, and it looks like this:
@@ -130,6 +134,12 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         public Quaterniond getNormalizedRotation(Quaterniond dest) {
             return delegate.getNormalizedRotation(dest);
         }
+
+//#ifdef __GWT__
+        public Float32Array get(Float32Array buffer) {
+            return delegate.get(buffer);
+        }
+//#endif
 
         public FloatBuffer get(FloatBuffer buffer) {
             return delegate.get(buffer);
@@ -1069,6 +1079,24 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     public Quaterniond getNormalizedRotation(Quaterniond dest) {
         return dest.setFromNormalized(this);
     }
+
+//#ifdef __GWT__
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3fc#get(com.google.gwt.typedarrays.shared.Float32Array)
+     */
+    public Float32Array get(Float32Array buffer) {
+        buffer.set(0,  m00);
+        buffer.set(1,  m01);
+        buffer.set(2,  m02);
+        buffer.set(3,  m10);
+        buffer.set(4,  m11);
+        buffer.set(5,  m12);
+        buffer.set(6,  m20);
+        buffer.set(7,  m21);
+        buffer.set(8,  m22);
+        return buffer;
+    }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Matrix3fc#get(java.nio.FloatBuffer)

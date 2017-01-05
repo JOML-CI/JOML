@@ -26,6 +26,10 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+//#ifdef __GWT__
+import com.google.gwt.typedarrays.shared.Float32Array;
+//#endif
+
 /**
  * Interface to an immutable 4x4 matrix of single-precision floats.
  * 
@@ -852,6 +856,17 @@ public interface Matrix4fc {
      * @return the passed in destination
      */
     Quaterniond getNormalizedRotation(Quaterniond dest);
+
+//#ifdef __GWT__
+    /**
+     * Store this matrix in column-major order into the supplied {@link Float32Array}.
+     * 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    Float32Array get(Float32Array buffer);
+//#endif
 
     /**
      * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
