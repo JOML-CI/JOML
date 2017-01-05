@@ -46,6 +46,7 @@
 		<maven.compiler.target>1.2</maven.compiler.target>
 		<preprocessorDefine>__JRE__</preprocessorDefine>
 		<javaExclude>java/**</javaExclude>
+		<variant>joml</variant>
 	</properties>
 	<distributionManagement>
 		<snapshotRepository>
@@ -67,6 +68,9 @@
 					<name>jdk3</name>
 				</property>
 			</activation>
+			<properties>
+				<variant>joml-jdk3</variant>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -201,14 +205,9 @@
 			<properties>
 				<!-- Define the '__GWT__' preprocessor variable -->
 				<preprocessorDefine>__GWT__</preprocessorDefine>
-				<!-- Do not generate a source jar (source will be inside the binary jar) -->
-				<maven.source.skip>true</maven.source.skip>
-				<!-- Do not generate a javadoc jar -->
-				<maven.javadoc.skip>true</maven.javadoc.skip>
 				<!-- Do not exclude any java/** sources -->
 				<javaExclude></javaExclude>
-				<!-- Use 'gwt' classifier -->
-				<classifier>gwt</classifier>
+				<variant>joml-gwt</variant>
 			</properties>
 			<build>
 				<!-- Add the sources to the jar artifact -->
@@ -259,6 +258,7 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
+		<finalName>${variant}-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-enforcer-plugin</artifactId>
@@ -340,7 +340,6 @@
 					<excludes>
 						<exclude>${javaExclude}</exclude>
 					</excludes>
-					<classifier>${classifier}</classifier>
 				</configuration>
 			</plugin>
 			<plugin>
