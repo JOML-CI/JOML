@@ -22,9 +22,11 @@
  */
 package org.joml;
 
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
+//#endif
 
 /**
  * Interface to an immutable 3x3 matrix of double-precision floats.
@@ -235,6 +237,7 @@ public interface Matrix3dc {
      */
     Quaterniond getNormalizedRotation(Quaterniond dest);
 
+//#ifdef __HAS_NIO__
     /**
      * Store this matrix into the supplied {@link DoubleBuffer} at the current
      * buffer {@link DoubleBuffer#position() position} using column-major order.
@@ -374,6 +377,7 @@ public interface Matrix3dc {
      * @return the passed in buffer
      */
     ByteBuffer getFloats(int index, ByteBuffer buffer);
+//#endif
 
     /**
      * Store this matrix into the supplied double array in column-major order at the given offset.

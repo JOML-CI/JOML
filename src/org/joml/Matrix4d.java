@@ -26,9 +26,11 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -285,6 +287,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.getNormalizedRotation(dest);
         }
 
+//#ifdef __HAS_NIO__
         public DoubleBuffer get(DoubleBuffer buffer) {
             return delegate.get(buffer);
         }
@@ -316,6 +319,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         public ByteBuffer getFloats(int index, ByteBuffer buffer) {
             return delegate.getFloats(index, buffer);
         }
+//#endif
 
         public double[] get(double[] arr, int offset) {
             return delegate.get(arr, offset);
@@ -333,6 +337,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.get(arr);
         }
 
+//#ifdef __HAS_NIO__
         public DoubleBuffer getTransposed(DoubleBuffer buffer) {
             return delegate.getTransposed(buffer);
         }
@@ -364,6 +369,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         public ByteBuffer get4x3Transposed(int index, ByteBuffer buffer) {
             return delegate.get4x3Transposed(index, buffer);
         }
+//#endif
 
         public Vector4d transform(Vector4d v) {
             return delegate.transform(v);
@@ -1144,6 +1150,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         properties = 0;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Create a new {@link Matrix4d} by reading its 16 double components from the given {@link DoubleBuffer}
      * at the buffer's current position.
@@ -1158,6 +1165,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     public Matrix4d(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
+//#endif
 
     /**
      * Create a new {@link Matrix4d} and initialize its four columns using the supplied vectors.
@@ -2958,6 +2966,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return set(m, 0);
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Set the values of this matrix by reading 16 double values from the given {@link DoubleBuffer} in column-major order,
      * starting at its current position.
@@ -3029,6 +3038,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         properties = 0;
         return this;
     }
+//#endif
 
     /**
      * Set the four columns of this matrix to the supplied vectors, respectively.
@@ -3726,6 +3736,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest.setFromNormalized(this);
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(java.nio.DoubleBuffer)
      */
@@ -3785,6 +3796,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(double[], int)
@@ -3846,6 +3858,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return get(arr, 0);
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#getTransposed(java.nio.DoubleBuffer)
      */
@@ -3905,6 +3918,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /**
      * Set all the values within this matrix to 0.

@@ -26,8 +26,10 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -59,6 +61,7 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.z();
         }
 
+//#ifdef __HAS_NIO__
         public ByteBuffer get(ByteBuffer buffer) {
             return delegate.get(buffer);
         }
@@ -74,6 +77,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         public DoubleBuffer get(int index, DoubleBuffer buffer) {
             return delegate.get(index, buffer);
         }
+//#endif
 
         public Vector3d sub(Vector3dc v, Vector3d dest) {
             return delegate.sub(v, dest);
@@ -437,6 +441,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         this.z = z;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector3d} and read this vector from the supplied {@link ByteBuffer}
      * at the current buffer {@link ByteBuffer#position() position}.
@@ -496,6 +501,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     public Vector3d(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#x()
@@ -609,6 +615,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
@@ -680,6 +687,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
+//#endif
 
     /**
      * Set the value of the specified component of this vector.
@@ -708,6 +716,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#get(java.nio.ByteBuffer)
      */
@@ -737,6 +746,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /**
      * Subtract the supplied vector from this one.

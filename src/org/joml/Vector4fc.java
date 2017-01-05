@@ -22,8 +22,10 @@
  */
 package org.joml;
 
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+//#endif
 
 /**
  * Interface to an immutable 4-dimensional vector of single-precision floats.
@@ -52,6 +54,7 @@ public interface Vector4fc {
      */
     float w();
 
+//#ifdef __HAS_NIO__
     /**
      * Store this vector into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
@@ -113,6 +116,7 @@ public interface Vector4fc {
      * @return the passed in buffer
      */
     ByteBuffer get(int index, ByteBuffer buffer);
+//#endif
 
     /**
      * Subtract the supplied vector from this one and store the result in <code>dest</code>.

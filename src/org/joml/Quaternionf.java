@@ -26,8 +26,10 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -114,6 +116,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
             return delegate.get(dest);
         }
 
+//#ifdef __HAS_NIO__
         public ByteBuffer getAsMatrix3f(ByteBuffer dest) {
             return delegate.getAsMatrix3f(dest);
         }
@@ -137,6 +140,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         public FloatBuffer getAsMatrix4x3f(FloatBuffer dest) {
             return delegate.getAsMatrix4x3f(dest);
         }
+//#endif
 
         public Quaternionf mul(Quaternionfc q, Quaternionf dest) {
             return delegate.mul(q, dest);
@@ -623,6 +627,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         return dest.set(this);
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Quaternionfc#getAsMatrix3f(java.nio.ByteBuffer)
      */
@@ -670,6 +675,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
         MemUtil.INSTANCE.putMatrix4x3f(this, dest.position(), dest);
         return dest;
     }
+//#endif
 
     /**
      * Set this quaternion to the given values.

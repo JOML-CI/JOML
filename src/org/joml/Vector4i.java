@@ -26,8 +26,10 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -64,6 +66,7 @@ public class Vector4i implements Externalizable, Vector4ic {
             return delegate.w();
         }
 
+//#ifdef __HAS_NIO__
         public IntBuffer get(IntBuffer buffer) {
             return delegate.get(buffer);
         }
@@ -79,6 +82,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         public ByteBuffer get(int index, ByteBuffer buffer) {
             return delegate.get(index, buffer);
         }
+//#endif
 
         public Vector4i sub(Vector4ic v, Vector4i dest) {
             return delegate.sub(v, dest);
@@ -252,6 +256,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         this.w = w;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector4i} and read this vector from the supplied
      * {@link ByteBuffer} at the current buffer
@@ -323,6 +328,7 @@ public class Vector4i implements Externalizable, Vector4ic {
     public Vector4i(int index, IntBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#x()
@@ -443,6 +449,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
@@ -516,6 +523,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
+//#endif
 
     /**
      * Set the value of the specified component of this vector.
@@ -547,6 +555,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Vector4ic#get(java.nio.IntBuffer)
      */
@@ -576,6 +585,7 @@ public class Vector4i implements Externalizable, Vector4ic {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /**
      * Subtract the supplied vector from this one.

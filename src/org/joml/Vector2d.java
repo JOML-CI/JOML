@@ -26,8 +26,10 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -54,6 +56,7 @@ public class Vector2d implements Externalizable, Vector2dc {
             return delegate.y();
         }
 
+//#ifdef __HAS_NIO__
         public ByteBuffer get(ByteBuffer buffer) {
             return delegate.get(buffer);
         }
@@ -69,6 +72,7 @@ public class Vector2d implements Externalizable, Vector2dc {
         public DoubleBuffer get(int index, DoubleBuffer buffer) {
             return delegate.get(index, buffer);
         }
+//#endif
 
         public Vector2d sub(double x, double y, Vector2d dest) {
             return delegate.sub(x, y, dest);
@@ -213,6 +217,7 @@ public class Vector2d implements Externalizable, Vector2dc {
         y = v.y();
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
      * at the current buffer {@link ByteBuffer#position() position}.
@@ -278,6 +283,7 @@ public class Vector2d implements Externalizable, Vector2dc {
     public Vector2d(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#x()
@@ -345,6 +351,7 @@ public class Vector2d implements Externalizable, Vector2dc {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
@@ -416,6 +423,7 @@ public class Vector2d implements Externalizable, Vector2dc {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
+//#endif
 
     /**
      * Set the value of the specified component of this vector.
@@ -441,6 +449,7 @@ public class Vector2d implements Externalizable, Vector2dc {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Vector2dc#get(java.nio.ByteBuffer)
      */
@@ -470,6 +479,7 @@ public class Vector2d implements Externalizable, Vector2dc {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /**
      * Set this vector to be one of its perpendicular vectors.

@@ -26,8 +26,10 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -62,6 +64,7 @@ public class Vector4d implements Externalizable, Vector4dc {
             return delegate.w();
         }
 
+//#ifdef __HAS_NIO__
         public ByteBuffer get(ByteBuffer buffer) {
             return delegate.get(buffer);
         }
@@ -77,6 +80,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         public DoubleBuffer get(int index, DoubleBuffer buffer) {
             return delegate.get(index, buffer);
         }
+//#endif
 
         public Vector4d sub(double x, double y, double z, double w, Vector4d dest) {
             return delegate.sub(x, y, z, w, dest);
@@ -340,6 +344,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         this.w = w;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector4d} and read this vector from the supplied {@link ByteBuffer}
      * at the current buffer {@link ByteBuffer#position() position}.
@@ -400,6 +405,7 @@ public class Vector4d implements Externalizable, Vector4dc {
     public Vector4d(int index, DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Vector4dc#x()
@@ -567,6 +573,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
@@ -638,6 +645,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
+//#endif
 
     /**
      * Set the value of the specified component of this vector.
@@ -669,6 +677,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Vector4dc#get(java.nio.ByteBuffer)
      */
@@ -698,6 +707,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /**
      * Subtract the supplied vector from this one.

@@ -22,8 +22,10 @@
  */
 package org.joml;
 
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
+//#endif
 
 /**
  * Interface to an immutable 4-dimensional vector of double-precision floats.
@@ -52,6 +54,7 @@ public interface Vector4dc {
      */
     double w();
 
+//#ifdef __HAS_NIO__
     /**
      * Store this vector into the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
@@ -113,6 +116,7 @@ public interface Vector4dc {
      * @return the passed in buffer
      */
     DoubleBuffer get(int index, DoubleBuffer buffer);
+//#endif
 
     /**
      * Subtract <tt>(x, y, z, w)</tt> from this and store the result in <code>dest</code>.

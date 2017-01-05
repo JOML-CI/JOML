@@ -26,8 +26,10 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -141,6 +143,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         }
 //#endif
 
+//#ifdef __HAS_NIO__
         public FloatBuffer get(FloatBuffer buffer) {
             return delegate.get(buffer);
         }
@@ -172,6 +175,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
             return delegate.getTransposed(index, buffer);
         }
+//#endif
 
         public float[] get(float[] arr, int offset) {
             return delegate.get(arr, offset);
@@ -414,6 +418,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         this.m22 = m22;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Create a new {@link Matrix3f} by reading its 9 float components from the given {@link FloatBuffer}
      * at the buffer's current position.
@@ -428,6 +433,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     public Matrix3f(FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
+//#endif
 
     /**
      * Create a new {@link Matrix3f} and initialize its three columns using the supplied vectors.
@@ -1098,6 +1104,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
     }
 //#endif
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Matrix3fc#get(java.nio.FloatBuffer)
      */
@@ -1157,6 +1164,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Matrix3fc#get(float[], int)
@@ -1173,6 +1181,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         return get(arr, 0);
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Set the values of this matrix by reading 9 float values from the given {@link FloatBuffer} in column-major order,
      * starting at its current position.
@@ -1206,6 +1215,7 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
         return this;
     }
+//#endif
 
     /**
      * Set all values within this matrix to zero.

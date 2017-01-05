@@ -26,9 +26,11 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -132,6 +134,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
             return delegate.getNormalizedRotation(dest);
         }
 
+//#ifdef __HAS_NIO__
         public DoubleBuffer get(DoubleBuffer buffer) {
             return delegate.get(buffer);
         }
@@ -163,6 +166,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         public ByteBuffer getFloats(int index, ByteBuffer buffer) {
             return delegate.getFloats(index, buffer);
         }
+//#endif
 
         public double[] get(double[] arr, int offset) {
             return delegate.get(arr, offset);
@@ -472,6 +476,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         this.m22 = m22;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Create a new {@link Matrix3d} by reading its 9 double components from the given {@link DoubleBuffer}
      * at the buffer's current position.
@@ -486,6 +491,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
     public Matrix3d(DoubleBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
+//#endif
 
     /**
      * Create a new {@link Matrix3d} and initialize its three columns using the supplied vectors.
@@ -1188,6 +1194,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return dest.setFromNormalized(this);
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Matrix3dc#get(java.nio.DoubleBuffer)
      */
@@ -1247,6 +1254,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         MemUtil.INSTANCE.putf(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Matrix3dc#get(double[], int)
@@ -1294,6 +1302,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         return get(arr, 0);
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Set the values of this matrix by reading 9 double values from the given {@link DoubleBuffer} in column-major order,
      * starting at its current position.
@@ -1361,6 +1370,7 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         MemUtil.INSTANCE.getf(this, buffer.position(), buffer);
         return this;
     }
+//#endif
 
     /**
      * Set the three columns of this matrix to the supplied vectors, respectively.

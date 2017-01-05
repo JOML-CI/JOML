@@ -22,9 +22,11 @@
  */
 package org.joml;
 
+//#ifdef __HAS_NIO__
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+//#endif
 
 //#ifdef __GWT__
 import com.google.gwt.typedarrays.shared.Float32Array;
@@ -868,6 +870,7 @@ public interface Matrix4fc {
     Float32Array get(Float32Array buffer);
 //#endif
 
+//#ifdef __HAS_NIO__
     /**
      * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
@@ -1059,6 +1062,7 @@ public interface Matrix4fc {
      * @return the passed in buffer
      */
     ByteBuffer get4x3Transposed(int index, ByteBuffer buffer);
+//#endif
 
     /**
      * Store this matrix into the supplied float array in column-major order at the given offset.
@@ -3188,8 +3192,7 @@ public interface Matrix4fc {
      * <p>
      * The depth range of <tt>winCoords.z</tt> is assumed to be <tt>[0..1]</tt>, which is also the OpenGL default.
      * <p>
-     * This method reads the four viewport parameters from the current int[]'s {@link Buffer#position() position}
-     * and does not modify the buffer's position.
+     * This method reads the four viewport parameters from the given int[].
      * 
      * @see #unproject(Vector3fc, int[], Vector4f)
      * 

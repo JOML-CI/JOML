@@ -22,8 +22,10 @@
  */
 package org.joml;
 
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+//#endif
 
 /**
  * Interface to an immutable 3-dimensional vector of integers.
@@ -47,6 +49,7 @@ public interface Vector3ic {
      */
     int z();
 
+//#ifdef __HAS_NIO__
     /**
      * Store this vector into the supplied {@link IntBuffer} at the current
      * buffer {@link IntBuffer#position() position}.
@@ -110,6 +113,7 @@ public interface Vector3ic {
      * @return the passed in buffer
      */
     ByteBuffer get(int index, ByteBuffer buffer);
+//#endif
 
     /**
      * Subtract the supplied vector from this one and store the result in

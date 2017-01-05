@@ -20,6 +20,7 @@ repositories {
 }
 dependencies {
   testCompile group: 'junit', name: 'junit', version: '3.8.2'
+  compile group: 'com.google.gwt', name: 'gwt-user', version: '2.5.0'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

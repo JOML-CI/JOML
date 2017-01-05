@@ -25,12 +25,14 @@ package org.joml;
 //#ifndef __GWT__
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.nio.Buffer;
 //#endif
+//#ifdef __HAS_NIO__
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+//#endif
 
 /**
  * Helper class to do efficient memory operations on all JOML objects, NIO buffers and primitive arrays.
@@ -59,6 +61,7 @@ abstract class MemUtil {
         return accessor;
     }
 
+//#ifdef __HAS_NIO__
     public abstract void put(Matrix4f m, int offset, FloatBuffer dest);
     public abstract void put(Matrix4f m, int offset, ByteBuffer dest);
     public abstract void put(Matrix4x3f m, int offset, FloatBuffer dest);
@@ -153,6 +156,7 @@ abstract class MemUtil {
     public abstract void get(Vector2d dst, int offset, ByteBuffer src);
     public abstract void get(Vector2i dst, int offset, IntBuffer src);
     public abstract void get(Vector2i dst, int offset, ByteBuffer src);
+//#endif
 
     public abstract void copy(Matrix4f src, Matrix4f dest);
     public abstract void copy(Matrix4x3f src, Matrix4x3f dest);
@@ -190,12 +194,14 @@ abstract class MemUtil {
     public abstract void zero(Vector4f dest);
     public abstract void zero(Vector4i dest);
 
+//#ifdef __HAS_NIO__
     public abstract void putMatrix3f(Quaternionf q, int position, ByteBuffer dest);
     public abstract void putMatrix3f(Quaternionf q, int position, FloatBuffer dest);
     public abstract void putMatrix4f(Quaternionf q, int position, ByteBuffer dest);
     public abstract void putMatrix4f(Quaternionf q, int position, FloatBuffer dest);
     public abstract void putMatrix4x3f(Quaternionf q, int position, ByteBuffer dest);
     public abstract void putMatrix4x3f(Quaternionf q, int position, FloatBuffer dest);
+//#endif
 
     public abstract void set(Matrix4f dest, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3);
     public abstract void set(Matrix4x3f dest, Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3);
@@ -215,6 +221,7 @@ abstract class MemUtil {
     public abstract void broadcast(int c, Vector4i dest);
 
     public static final class MemUtilNIO extends MemUtil {
+//#ifdef __HAS_NIO__
         private void put0(Matrix4f m, FloatBuffer dest) {
             dest.put(0,  m.m00);
             dest.put(1,  m.m01);
@@ -1434,6 +1441,7 @@ abstract class MemUtil {
             dst.x = src.getInt(offset);
             dst.y = src.getInt(offset+4);
         }
+//#endif
 
         public final void copy(Matrix4f src, Matrix4f dest) {
             dest.m00 = src.m00;
@@ -1914,6 +1922,7 @@ abstract class MemUtil {
             dest.w = 0;
         }
 
+//#ifdef __HAS_NIO__
         public final void putMatrix3f(Quaternionf q, int position, ByteBuffer dest) {
             float w2 = q.w * q.w;
             float x2 = q.x * q.x;
@@ -2062,6 +2071,7 @@ abstract class MemUtil {
             dest.put(position + 10, 0.0f);
             dest.put(position + 11, 0.0f);
         }
+//#endif
 
         public final void set(Matrix4f m, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
             m.m00 = col0.x;
@@ -2185,7 +2195,9 @@ abstract class MemUtil {
         private static final sun.misc.Unsafe UNSAFE;
         private static final boolean HAS_putOrderedLong;
 
+//#ifdef __HAS_NIO__
         private static final long ADDRESS;
+//#endif
         private static final long Matrix3f_m00;
         private static final long Matrix4f_m00;
         private static final long Matrix4x3f_m00;
@@ -2201,6 +2213,7 @@ abstract class MemUtil {
         private static final long Quaternionf_x;
         private static final long floatArrayOffset;
 
+//#ifdef __HAS_NIO__
         /**
          * Used to create a direct ByteBuffer for a known address.
          */
@@ -2209,12 +2222,15 @@ abstract class MemUtil {
          * Return the pointer size (4 = 32-bit, 8 = 64-bit).
          */
         private static native int getPointerSize();
+//#endif
 
         static {
             UNSAFE = getUnsafeInstance();
             boolean hasPutOrderedLong;
             try {
+//#ifdef __HAS_NIO__
                 ADDRESS = findBufferAddress();
+//#endif
                 Matrix4f_m00 = checkMatrix4f();
                 Matrix4x3f_m00 = checkMatrix4x3f();
                 Matrix3f_m00 = checkMatrix3f();
@@ -2246,6 +2262,7 @@ abstract class MemUtil {
             }
         }
 
+//#ifdef __HAS_NIO__
         private static long findBufferAddress() {
             try {
                 return UNSAFE.objectFieldOffset(getDeclaredField(Buffer.class, "address")); //$NON-NLS-1$
@@ -2270,10 +2287,7 @@ abstract class MemUtil {
                 throw new UnsupportedOperationException("Could not detect ByteBuffer.address offset", e);
             }
         }
-
-        public MemUtilUnsafe UNSAFE() {
-            return this;
-        }
+//#endif
 
         private static long checkMatrix4f() throws NoSuchFieldException, SecurityException {
             Field f = Matrix4f.class.getDeclaredField("m00");
@@ -2487,9 +2501,11 @@ abstract class MemUtil {
             throw new UnsupportedOperationException();
         }
 
+//#ifdef __HAS_NIO__
         public final long addressOf(Buffer buffer) {
             return UNSAFE.getLong(buffer, ADDRESS);
         }
+//#endif
 
         private static final void putLong(Object obj, long off, long val) {
             if (HAS_putOrderedLong)
@@ -3325,6 +3341,7 @@ abstract class MemUtil {
             throw new IllegalArgumentException("Must use a direct buffer");
         }
 
+//#ifdef __HAS_NIO__
         public final void putMatrix3f(Quaternionf q, int position, ByteBuffer dest) {
             if (Options.DEBUG && !dest.isDirect()) {
                 throwNoDirectBufferException();
@@ -4030,6 +4047,7 @@ abstract class MemUtil {
             }
             get(dst, addressOf(src) + offset);
         }
+//#endif
 
         public final void set(Matrix4f m, Vector4f col0, Vector4f col1, Vector4f col2, Vector4f col3) {
             putLong(m, Matrix4f_m00,      UNSAFE.getLong(col0, Vector4f_x));

@@ -44,7 +44,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.2</maven.compiler.source>
 		<maven.compiler.target>1.2</maven.compiler.target>
-		<preprocessorDefine>__JRE__</preprocessorDefine>
+		<platform>__JRE__</platform>
+		<hasNio>__HAS_NIO__</hasNio>
 		<javaExclude>java/**</javaExclude>
 		<variant>joml</variant>
 	</properties>
@@ -70,23 +71,8 @@
 			</activation>
 			<properties>
 				<variant>joml-jdk3</variant>
+				<hasNio>__NHAS_NIO__</hasNio>
 			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<artifactId>maven-jar-plugin</artifactId>
-						<version>3.0.2</version>
-						<configuration>
-							<!-- Do not exclude the Java 1.4 NIO API classes -->
-							<excludes>
-								<exclude>java/lang/**</exclude>
-								<exclude>java/io/**</exclude>
-								<exclude>java/text/**</exclude>
-							</excludes>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 		<profile>
 			<id>jdk9</id>
@@ -204,9 +190,9 @@
 			</activation>
 			<properties>
 				<!-- Define the '__GWT__' preprocessor variable -->
-				<preprocessorDefine>__GWT__</preprocessorDefine>
-				<!-- Do not exclude any java/** sources -->
-				<javaExclude></javaExclude>
+				<platform>__GWT__</platform>
+				<hasNio>__NHAS_NIO__</hasNio>
+				<javaExclude>java/nio/**</javaExclude>
 				<variant>joml-gwt</variant>
 			</properties>
 			<build>
@@ -322,7 +308,11 @@
 					<verbose>false</verbose>
 					<globalVars>
 						<property>
-							<name>${preprocessorDefine}</name>
+							<name>${platform}</name>
+							<value>1</value>
+						</property>
+						<property>
+							<name>${hasNio}</name>
 							<value>1</value>
 						</property>
 					</globalVars>

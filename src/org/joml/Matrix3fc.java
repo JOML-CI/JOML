@@ -22,8 +22,10 @@
  */
 package org.joml;
 
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+//#endif
 
 //#ifdef __GWT__
 import com.google.gwt.typedarrays.shared.Float32Array;
@@ -244,6 +246,7 @@ public interface Matrix3fc {
     Float32Array get(Float32Array buffer);
 //#endif
 
+//#ifdef __HAS_NIO__
     /**
      * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
@@ -371,6 +374,7 @@ public interface Matrix3fc {
      * @return the passed in buffer
      */
     ByteBuffer getTransposed(int index, ByteBuffer buffer);
+//#endif
 
     /**
      * Store this matrix into the supplied float array in column-major order at the given offset.

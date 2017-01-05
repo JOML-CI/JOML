@@ -26,8 +26,10 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -213,6 +215,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         }
 //#endif
 
+//#ifdef __HAS_NIO__
         public FloatBuffer get(FloatBuffer buffer) {
             return delegate.get(buffer);
         }
@@ -228,6 +231,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         public ByteBuffer get(int index, ByteBuffer buffer) {
             return delegate.get(index, buffer);
         }
+//#endif
 
         public float[] get(float[] arr, int offset) {
             return delegate.get(arr, offset);
@@ -237,6 +241,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             return delegate.get(arr);
         }
 
+//#ifdef __HAS_NIO__
         public FloatBuffer get4x4(FloatBuffer buffer) {
             return delegate.get4x4(buffer);
         }
@@ -268,6 +273,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
             return delegate.getTransposed(index, buffer);
         }
+//#endif
 
         public float[] getTransposed(float[] arr, int offset) {
             return delegate.getTransposed(arr, offset);
@@ -670,6 +676,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         properties = 0;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Create a new {@link Matrix4x3f} by reading its 12 float components from the given {@link FloatBuffer}
      * at the buffer's current position.
@@ -684,6 +691,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     public Matrix4x3f(FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, buffer.position(), buffer);
     }
+//#endif
 
     /**
      * Create a new {@link Matrix4x3f} and initialize its four columns using the supplied vectors.
@@ -1650,6 +1658,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return set(m, 0);
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Set the values of this matrix by reading 12 float values from the given {@link FloatBuffer} in column-major order,
      * starting at its current position.
@@ -1685,6 +1694,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         properties = 0;
         return this;
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4x3fc#determinant()
@@ -2111,6 +2121,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
     }
 //#endif
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Matrix4x3fc#get(java.nio.FloatBuffer)
      */
@@ -2140,6 +2151,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4x3fc#get(float[], int)
@@ -2156,6 +2168,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return get(arr, 0);
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Matrix4x3fc#get4x4(java.nio.FloatBuffer)
      */
@@ -2215,6 +2228,7 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         MemUtil.INSTANCE.putTransposed(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4x3fc#getTransposed(float[], int)

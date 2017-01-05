@@ -22,8 +22,10 @@
  */
 package org.joml;
 
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+//#endif
 
 //#ifdef __GWT__
 import com.google.gwt.typedarrays.shared.Float32Array;
@@ -456,6 +458,7 @@ public interface Matrix4x3fc {
     Float32Array get(Float32Array buffer);
 //#endif
 
+//#ifdef __HAS_NIO__
     /**
      * Store this matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}.
@@ -519,6 +522,7 @@ public interface Matrix4x3fc {
      * @return the passed in buffer
      */
     ByteBuffer get(int index, ByteBuffer buffer);
+//#endif
 
     /**
      * Store this matrix into the supplied float array in column-major order at the given offset.
@@ -544,6 +548,7 @@ public interface Matrix4x3fc {
      */
     float[] get(float[] arr);
 
+//#ifdef __HAS_NIO__
     /**
      * Store a 4x4 matrix in column-major order into the supplied {@link FloatBuffer} at the current
      * buffer {@link FloatBuffer#position() position}, where the upper 4x3 submatrix is <code>this</code> and the last row is <tt>(0, 0, 0, 1)</tt>.
@@ -671,6 +676,7 @@ public interface Matrix4x3fc {
      * @return the passed in buffer
      */
     ByteBuffer getTransposed(int index, ByteBuffer buffer);
+//#endif
 
     /**
      * Store this matrix into the supplied float array in row-major order at the given offset.

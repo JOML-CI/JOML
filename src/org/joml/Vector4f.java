@@ -26,8 +26,10 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+//#ifdef __HAS_NIO__
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+//#endif
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -63,6 +65,7 @@ public class Vector4f implements Externalizable, Vector4fc {
             return delegate.w();
         }
 
+//#ifdef __HAS_NIO__
         public FloatBuffer get(FloatBuffer buffer) {
             return delegate.get(buffer);
         }
@@ -78,6 +81,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         public ByteBuffer get(int index, ByteBuffer buffer) {
             return delegate.get(index, buffer);
         }
+//#endif
 
         public Vector4f sub(Vector4fc v, Vector4f dest) {
             return delegate.sub(v, dest);
@@ -302,6 +306,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         this.w = w;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector4f} and read this vector from the supplied {@link ByteBuffer}
      * at the current buffer {@link ByteBuffer#position() position}.
@@ -367,6 +372,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     public Vector4f(int index, FloatBuffer buffer) {
         MemUtil.INSTANCE.get(this, index, buffer);
     }
+//#endif
 
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#x()
@@ -504,6 +510,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /**
      * Read this vector from the supplied {@link ByteBuffer} at the current
      * buffer {@link ByteBuffer#position() position}.
@@ -575,6 +582,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         MemUtil.INSTANCE.get(this, index, buffer);
         return this;
     }
+//#endif
 
     /**
      * Set the value of the specified component of this vector.
@@ -606,6 +614,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         return this;
     }
 
+//#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Vector4fc#get(java.nio.FloatBuffer)
      */
@@ -635,6 +644,7 @@ public class Vector4f implements Externalizable, Vector4fc {
         MemUtil.INSTANCE.put(this, index, buffer);
         return buffer;
     }
+//#endif
 
     /**
      * Subtract the supplied vector from this one.
