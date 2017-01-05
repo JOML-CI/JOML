@@ -132,7 +132,7 @@
 											includeantruntime="false">
 											<classpath refid="maven.plugin.classpath" />
 										</javac>
-										<java classname="Java6to4" classpathref="maven.plugin.classpath">
+										<java classname="Java6to2" classpathref="maven.plugin.classpath">
 											<classpath>
 												<pathelement location="${project.build.directory}/buildhelper" />
 											</classpath>
