@@ -456,6 +456,17 @@ public interface Matrix4x3fc {
      * @return the passed in buffer
      */
     Float32Array get(Float32Array buffer);
+    /**
+     * Store this matrix in column-major order into the supplied {@link Float32Array}
+     * at the given index.
+     * 
+     * @param index
+     *            the index at which to store this matrix in the supplied Float32Array 
+     * @param buffer
+     *            will receive the values of this matrix in column-major order
+     * @return the passed in buffer
+     */
+    Float32Array get(int index, Float32Array buffer);
 //#endif
 
 //#ifdef __HAS_NIO__

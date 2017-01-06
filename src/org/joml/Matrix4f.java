@@ -306,6 +306,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         public Float32Array get(Float32Array buffer) {
             return delegate.get(buffer);
         }
+        public Float32Array get(int index, Float32Array buffer) {
+            return delegate.get(index, buffer);
+        }
 //#endif
 
 //#ifdef __HAS_NIO__
@@ -3728,6 +3731,28 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         buffer.set(13, m31);
         buffer.set(14, m32);
         buffer.set(15, m33);
+        return buffer;
+    }
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#get(int, com.google.gwt.typedarrays.shared.Float32Array)
+     */
+    public Float32Array get(int index, Float32Array buffer) {
+        buffer.set(index+0,  m00);
+        buffer.set(index+1,  m01);
+        buffer.set(index+2,  m02);
+        buffer.set(index+3,  m03);
+        buffer.set(index+4,  m10);
+        buffer.set(index+5,  m11);
+        buffer.set(index+6,  m12);
+        buffer.set(index+7,  m13);
+        buffer.set(index+8,  m20);
+        buffer.set(index+9,  m21);
+        buffer.set(index+10, m22);
+        buffer.set(index+11, m23);
+        buffer.set(index+12, m30);
+        buffer.set(index+13, m31);
+        buffer.set(index+14, m32);
+        buffer.set(index+15, m33);
         return buffer;
     }
 //#endif
