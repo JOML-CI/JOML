@@ -72,6 +72,7 @@
 			<properties>
 				<variant>joml-jdk3</variant>
 				<hasNio>__NHAS_NIO__</hasNio>
+				<javaExclude>java/**</javaExclude>
 			</properties>
 		</profile>
 		<profile>
