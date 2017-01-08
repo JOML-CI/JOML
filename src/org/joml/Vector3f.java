@@ -902,6 +902,27 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /**
+     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @return this
+     */
+    public Vector3f mul(Matrix3x2fc mat) {
+        return mul(mat, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#mul(org.joml.Matrix3x2fc, org.joml.Vector3f)
+     */
+    public Vector3f mul(Matrix3x2fc mat, Vector3f dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
+                 z);
+        return dest;
+    }
+
+    /**
      * Multiply the transpose of the given matrix with this Vector3f store the result in <code>this</code>.
      * 
      * @param mat

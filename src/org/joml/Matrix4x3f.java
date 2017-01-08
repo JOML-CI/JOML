@@ -244,6 +244,14 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             return delegate.get(arr);
         }
 
+        public float[] get4x4(float[] arr, int offset) {
+            return delegate.get4x4(arr, offset);
+        }
+
+        public float[] get4x4(float[] arr) {
+            return delegate.get4x4(arr);
+        }
+
 //#ifdef __HAS_NIO__
         public FloatBuffer get4x4(FloatBuffer buffer) {
             return delegate.get4x4(buffer);
@@ -2187,6 +2195,21 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
      */
     public float[] get(float[] arr) {
         return get(arr, 0);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3fc#get4x4(float[], int)
+     */
+    public float[] get4x4(float[] arr, int offset) {
+        MemUtil.INSTANCE.copy4x4(this, arr, offset);
+        return arr;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3fc#get4x4(float[])
+     */
+    public float[] get4x4(float[] arr) {
+        return get4x4(arr, 0);
     }
 
 //#ifdef __HAS_NIO__

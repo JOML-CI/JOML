@@ -559,6 +559,30 @@ public interface Matrix4x3fc {
      */
     float[] get(float[] arr);
 
+    /**
+     * Store this matrix as an equivalent 4x4 matrix into the supplied float array in column-major order at the given offset.
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @param offset
+     *          the offset into the array
+     * @return the passed in array
+     */
+    float[] get4x4(float[] arr, int offset);
+
+    /**
+     * Store this matrix as an equivalent 4x4 matrix into the supplied float array in column-major order.
+     * <p>
+     * In order to specify an explicit offset into the array, use the method {@link #get4x4(float[], int)}.
+     * 
+     * @see #get4x4(float[], int)
+     * 
+     * @param arr
+     *          the array to write the matrix values into
+     * @return the passed in array
+     */
+    float[] get4x4(float[] arr);
+
 //#ifdef __HAS_NIO__
     /**
      * Store a 4x4 matrix in column-major order into the supplied {@link FloatBuffer} at the current
