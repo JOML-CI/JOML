@@ -215,12 +215,18 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      * @return dest
      */
     public Matrix3x2f mul(Matrix3x2fc right, Matrix3x2f dest) {
-        dest.set(m00 * right.m00() + m10 * right.m01(),
-                 m01 * right.m00() + m11 * right.m01(),
-                 m00 * right.m10() + m10 * right.m11(),
-                 m01 * right.m10() + m11 * right.m11(),
-                 m00 * right.m20() + m10 * right.m21() + m20,
-                 m01 * right.m20() + m11 * right.m21() + m21);
+        float nm00 = m00 * right.m00() + m10 * right.m01();
+        float nm01 = m01 * right.m00() + m11 * right.m01();
+        float nm10 = m00 * right.m10() + m10 * right.m11();
+        float nm11 = m01 * right.m10() + m11 * right.m11();
+        float nm20 = m00 * right.m20() + m10 * right.m21() + m20;
+        float nm21 = m01 * right.m20() + m11 * right.m21() + m21;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
         return dest;
     }
 
@@ -300,15 +306,20 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      * @return dest
      */
     public Matrix3x2f invert(Matrix3x2f dest) {
-        float s = determinant();
         // client must make sure that matrix is invertible
-        s = 1.0f / s;
-        dest.set( m11 * s,
-                 -m01 * s,
-                 -m10 * s,
-                  m00 * s,
-                 (m10 * m21 - m20 * m11) * s,
-                 (m20 * m01 - m00 * m21) * s);
+        float s = 1.0f / (m00 * m11 - m01 * m10);
+        float nm00 =  m11 * s;
+        float nm01 = -m01 * s;
+        float nm10 = -m10 * s;
+        float nm11 =  m00 * s;
+        float nm20 = (m10 * m21 - m20 * m11) * s;
+        float nm21 = (m20 * m01 - m00 * m21) * s;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
         return dest;
     }
 
@@ -355,13 +366,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      * @return this
      */
     public Matrix3x2f translation(Vector2f offset) {
-        m00 = 1.0f;
-        m01 = 0.0f;
-        m10 = 0.0f;
-        m11 = 1.0f;
-        m20 = offset.x;
-        m21 = offset.y;
-        return this;
+        return translation(offset.x, offset.y);
     }
 
     /**
@@ -399,9 +404,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      * @return this
      */
     public Matrix3x2f setTranslation(Vector2f offset) {
-        m20 = offset.x;
-        m21 = offset.y;
-        return this;
+        return setTranslation(offset.x, offset.y);
     }
 
     /**
@@ -1133,13 +1136,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      * @return this
      */
     public Matrix3x2f scaling(float factor) {
-        m00 = factor;
-        m01 = 0.0f;
-        m10 = 0.0f;
-        m11 = factor;
-        m20 = 0.0f;
-        m21 = 0.0f;
-        return this;
+        return scaling(factor, factor);
     }
 
     /**
