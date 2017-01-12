@@ -1191,6 +1191,27 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
+     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @return this
+     */
+    public Vector3d mul(Matrix3x2dc mat) {
+        return mul(mat, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#mul(org.joml.Matrix3x2dc, org.joml.Vector3d)
+     */
+    public Vector3d mul(Matrix3x2dc mat, Vector3d dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
+                 z);
+        return dest;
+    }
+
+    /**
      * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>this</code>.
      * 
      * @param mat
