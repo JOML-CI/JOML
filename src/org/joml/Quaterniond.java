@@ -305,10 +305,7 @@ public class Quaterniond implements Externalizable, Quaterniondc {
      * where <tt>(x, y, z)</tt> is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
      */
     public Quaterniond() {
-        x = 0.0;
-        y = 0.0;
-        z = 0.0;
-        w = 1.0;
+        this.w = 1.0;
     }
 
     /**

@@ -343,7 +343,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
      * where <tt>(x, y, z)</tt> is the vector part of the quaternion and <tt>w</tt> is the real/scalar part.
      */
     public Quaternionf() {
-        MemUtil.INSTANCE.identity(this);
+        this.w = 1.0f;
     }
 
     /**
