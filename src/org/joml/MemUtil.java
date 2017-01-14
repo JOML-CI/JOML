@@ -2513,7 +2513,6 @@ abstract class MemUtil {
 //#ifndef __GWT__
     public static final class MemUtilUnsafe extends MemUtil {
         private static final sun.misc.Unsafe UNSAFE;
-        private static final boolean HAS_putOrderedLong;
 
 //#ifdef __HAS_NIO__
         private static final long ADDRESS;
@@ -2547,7 +2546,6 @@ abstract class MemUtil {
 
         static {
             UNSAFE = getUnsafeInstance();
-            boolean hasPutOrderedLong;
             try {
 //#ifdef __HAS_NIO__
                 ADDRESS = findBufferAddress();
@@ -2569,14 +2567,7 @@ abstract class MemUtil {
                 floatArrayOffset = UNSAFE.arrayBaseOffset(float[].class);
                 // Check if we can use object field offset/address put/get methods
                 sun.misc.Unsafe.class.getDeclaredMethod("getLong", new Class[] {Object.class, long.class});
-                try {
-                    sun.misc.Unsafe.class.getDeclaredMethod("putOrderedLong", new Class[] {Object.class, long.class, long.class});
-                    hasPutOrderedLong = true;
-                } catch (NoSuchMethodException e) {
-                    sun.misc.Unsafe.class.getDeclaredMethod("putLong", new Class[] {Object.class, long.class, long.class});
-                    hasPutOrderedLong = false;
-                }
-                HAS_putOrderedLong = hasPutOrderedLong;
+                sun.misc.Unsafe.class.getDeclaredMethod("putLong", new Class[] {Object.class, long.class, long.class});
             } catch (NoSuchFieldException e) {
                 throw new UnsupportedOperationException(e);
             } catch (NoSuchMethodException e) {
@@ -2845,10 +2836,7 @@ abstract class MemUtil {
 //#endif
 
         private static final void putLong(Object obj, long off, long val) {
-            if (HAS_putOrderedLong)
-                UNSAFE.putOrderedLong(obj, off, val);
-            else
-                UNSAFE.putLong(obj, off, val);
+            UNSAFE.putLong(obj, off, val);
         }
 
         public final void put(Matrix4f m, long destAddr) {
