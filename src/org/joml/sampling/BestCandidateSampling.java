@@ -363,21 +363,7 @@ public class BestCandidateSampling {
         }
 
         private void insertIntoChild(Vector2f o) {
-            float xm = minX + hs;
-            float ym = minY + hs;
-            if (o.x >= xm) {
-                if (o.y >= ym) {
-                    children[PXPY].insert(o);
-                } else {
-                    children[PXNY].insert(o);
-                }
-            } else {
-                if (o.y >= ym) {
-                    children[NXPY].insert(o);
-                } else {
-                    children[NXNY].insert(o);
-                }
-            }
+            children[quadrant(o.x, o.y)].insert(o);
         }
 
         void insert(Vector2f object) {
@@ -394,7 +380,7 @@ public class BestCandidateSampling {
                 insertIntoChild(object);
             } else {
                 if (objects == null)
-                    objects = new ArrayList(32);
+                    objects = new ArrayList(MAX_OBJECTS_PER_NODE);
                 objects.add(object);
             }
         }
@@ -410,27 +396,33 @@ public class BestCandidateSampling {
             return PXPY;
         }
 
-        float nearest(float x, float y, float n) {
-            float nr = n;
-            if (x < minX - n || x > minX + hs * 2 + n || y < minY - n || y > minY + hs * 2 + n) {
-                return nr;
+        float nearest(float x, float y, float lowerBound, float upperBound) {
+            float ub = upperBound;
+            if (x < minX - upperBound || x > minX + hs * 2 + upperBound || y < minY - upperBound 
+                    || y > minY + hs * 2 + upperBound) {
+                return ub;
             }
             if (children != null) {
                 for (int i = quadrant(x, y), c = 0; c < 4; i = (i + 1) & 3, c++) {
-                    float n1 = children[i].nearest(x, y, nr);
-                    nr = Math.min(n1, nr);
+                    float n1 = children[i].nearest(x, y, lowerBound, ub);
+                    ub = Math.min(n1, ub);
+                    if (ub <= lowerBound)
+                        return lowerBound;
                 }
-                return nr;
+                return ub;
             }
-            float nr2 = nr * nr;
+            float ub2 = ub * ub;
+            float lb2 = lowerBound * lowerBound;
             for (int i = 0; objects != null && i < objects.size(); i++) {
                 Vector2f o = (Vector2f) objects.get(i);
                 float d = o.distanceSquared(x, y);
-                if (d < nr2) {
-                    nr2 = d;
+                if (d <= lb2)
+                    return lowerBound;
+                if (d < ub2) {
+                    ub2 = d;
                 }
             }
-            return (float) Math.sqrt(nr2);
+            return (float) Math.sqrt(ub2);
         }
     }
 
@@ -473,7 +465,7 @@ public class BestCandidateSampling {
                         x = rnd.nextFloat() * 2.0f - 1.0f;
                         y = rnd.nextFloat() * 2.0f - 1.0f;
                     } while (x * x + y * y > 1.0f);
-                    float minDist = qtree.nearest(x, y, Float.POSITIVE_INFINITY);
+                    float minDist = qtree.nearest(x, y, bestDist, Float.POSITIVE_INFINITY);
                     if (minDist > bestDist) {
                         bestDist = minDist;
                         bestX = x;
@@ -522,7 +514,7 @@ public class BestCandidateSampling {
                 for (int c = 0; c < numCandidates; c++) {
                     float x = rnd.nextFloat() * 2.0f - 1.0f;
                     float y = rnd.nextFloat() * 2.0f - 1.0f;
-                    float minDist = qtree.nearest(x, y, Float.POSITIVE_INFINITY);
+                    float minDist = qtree.nearest(x, y, bestDist, Float.POSITIVE_INFINITY);
                     if (minDist > bestDist) {
                         bestDist = minDist;
                         bestX = x;
@@ -531,6 +523,170 @@ public class BestCandidateSampling {
                 }
                 callback.onNewSample(bestX, bestY);
                 qtree.insert(new Vector2f(bestX, bestY));
+            }
+        }
+    }
+
+    /**
+     * Simple octree for points and 1-nearest neighbor distance query.
+     * 
+     * @author Kai Burjack
+     */
+    private static class Octree {
+        private static final int MAX_OBJECTS_PER_NODE = 32;
+
+        // Constants for the octants of the octree
+        private static final int PXNYNZ = 0;
+        private static final int NXNYNZ = 1;
+        private static final int NXPYNZ = 2;
+        private static final int PXPYNZ = 3;
+        private static final int PXNYPZ = 4;
+        private static final int NXNYPZ = 5;
+        private static final int NXPYPZ = 6;
+        private static final int PXPYPZ = 7;
+
+        private float minX, minY, minZ, hs;
+        private ArrayList objects;
+        private Octree[] children;
+
+        Octree(float minX, float minY, float minZ, float size) {
+            this.minX = minX;
+            this.minY = minY;
+            this.minZ = minZ;
+            this.hs = size * 0.5f;
+        }
+
+        private void split() {
+            children = new Octree[8];
+            children[NXNYNZ] = new Octree(minX, minY, minZ, hs);
+            children[PXNYNZ] = new Octree(minX + hs, minY, minZ, hs);
+            children[NXPYNZ] = new Octree(minX, minY + hs, minZ, hs);
+            children[PXPYNZ] = new Octree(minX + hs, minY + hs, minZ, hs);
+            children[NXNYPZ] = new Octree(minX, minY, minZ + hs, hs);
+            children[PXNYPZ] = new Octree(minX + hs, minY, minZ + hs, hs);
+            children[NXPYPZ] = new Octree(minX, minY + hs, minZ + hs, hs);
+            children[PXPYPZ] = new Octree(minX + hs, minY + hs, minZ + hs, hs);
+        }
+
+        private void insertIntoChild(Vector3f o) {
+            children[octant(o.x, o.y, o.z)].insert(o);
+        }
+
+        void insert(Vector3f object) {
+            if (children != null) {
+                insertIntoChild(object);
+                return;
+            }
+            if (objects != null && objects.size() == MAX_OBJECTS_PER_NODE) {
+                split();
+                for (int i = 0; i < objects.size(); i++) {
+                    insertIntoChild((Vector3f) objects.get(i));
+                }
+                objects = null;
+                insertIntoChild(object);
+            } else {
+                if (objects == null)
+                    objects = new ArrayList(MAX_OBJECTS_PER_NODE);
+                objects.add(object);
+            }
+        }
+
+        private int octant(float x, float y, float z) {
+            if (x < minX + hs)
+                if (y < minY + hs) {
+                    if (z < minZ + hs)
+                        return NXNYNZ;
+                    return NXNYPZ;
+                } else if (z < minZ + hs)
+                    return NXPYNZ;
+                else
+                    return NXPYPZ;
+            else if (y < minY + hs) {
+                if (z < minZ + hs)
+                    return PXNYNZ;
+                return PXNYPZ;
+            } else if (z < minZ + hs)
+                return PXPYNZ;
+            else
+                return PXPYPZ;
+        }
+
+        float nearest(float x, float y, float z, float lowerBound, float upperBound) {
+            float up = upperBound;
+            if (x < minX - upperBound || x > minX + hs * 2 + upperBound || y < minY - upperBound || y > minY + hs * 2 + upperBound ||
+                    z < minZ - upperBound || z > minZ + hs * 2 + upperBound) {
+                return up;
+            }
+            if (children != null) {
+                for (int i = octant(x, y, z), c = 0; c < 8; i = (i + 1) & 7, c++) {
+                    float n1 = children[i].nearest(x, y, z, lowerBound, up);
+                    up = Math.min(n1, up);
+                    if (up <= lowerBound)
+                        return lowerBound;
+                }
+                return up;
+            }
+            float up2 = up * up;
+            float lb2 = lowerBound * lowerBound;
+            for (int i = 0; objects != null && i < objects.size(); i++) {
+                Vector3f o = (Vector3f) objects.get(i);
+                float d = o.distanceSquared(x, y, z);
+                if (d <= lb2)
+                    return lowerBound;
+                if (d < up2) {
+                    up2 = d;
+                }
+            }
+            return (float) Math.sqrt(up2);
+        }
+    }
+
+    /**
+     * Generates Best Candidate samples inside a unit cube.
+     * 
+     * @author Kai Burjack
+     */
+    public static class Cube {
+        private final Random rnd;
+        private final Octree octree;
+
+        /**
+         * Create a new instance of {@link Cube}, initialize the random number generator with the given <code>seed</code> and generate <code>numSamples</code>
+         * number of 'best candidate' sample positions on the unit cube with each sample tried <code>numCandidates</code> number of times, and call the given <code>callback</code>
+         * for each sample generate.
+         * 
+         * @param seed
+         *            the seed to initialize the random number generator with
+         * @param numSamples
+         *            the number of samples to generate
+         * @param numCandidates
+         *            the number of candidates to test for each sample
+         * @param callback
+         *            will be called for each sample generated
+         */
+        public Cube(long seed, int numSamples, int numCandidates, Callback3d callback) {
+            this.rnd = new Random(seed);
+            this.octree = new Octree(-1, -1, -1, 2);
+            generate(numSamples, numCandidates, callback);
+        }
+
+        private void generate(int numSamples, int numCandidates, Callback3d callback) {
+            for (int i = 0; i < numSamples; i++) {
+                float bestX = 0, bestY = 0, bestZ = 0, bestDist = 0.0f;
+                for (int c = 0; c < numCandidates; c++) {
+                    float x = rnd.nextFloat() * 2.0f - 1.0f;
+                    float y = rnd.nextFloat() * 2.0f - 1.0f;
+                    float z = rnd.nextFloat() * 2.0f - 1.0f;
+                    float minDist = octree.nearest(x, y, z, bestDist, Float.POSITIVE_INFINITY);
+                    if (minDist > bestDist) {
+                        bestDist = minDist;
+                        bestX = x;
+                        bestY = y;
+                        bestZ = z;
+                    }
+                }
+                callback.onNewSample(bestX, bestY, bestZ);
+                octree.insert(new Vector3f(bestX, bestY, bestZ));
             }
         }
     }
