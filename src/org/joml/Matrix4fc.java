@@ -1667,6 +1667,24 @@ public interface Matrix4fc {
     Matrix4f rotateZ(float ang, Matrix4f dest);
 
     /**
+     * Apply rotation about the Z axis to align the local <tt>+X</tt> towards <tt>(dirX, dirY)</tt> and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * The vector <tt>(dirX, dirY)</tt> must be a unit vector.
+     * 
+     * @param dirX
+     *            the x component of the normalized direction
+     * @param dirY
+     *            the y component of the normalized direction
+     * @return this
+     */
+    Matrix4f rotateTowardsXY(float dirX, float dirY, Matrix4f dest);
+
+    /**
      * Apply rotation of <code>angleX</code> radians about the X axis, followed by a rotation of <code>angleY</code> radians about the Y axis and
      * followed by a rotation of <code>angleZ</code> radians about the Z axis and store the result in <code>dest</code>.
      * <p>

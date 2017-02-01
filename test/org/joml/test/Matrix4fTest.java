@@ -457,4 +457,13 @@ public class Matrix4fTest extends TestCase {
         assertEquals(-1.0f, p.z, 1E-6f);
     }
 
+    public static void testRotateTowardsXY() {
+        Vector3f v = new Vector3f(1, 1, 0).normalize();
+        Matrix4f m1 = new Matrix4f().rotateZ(v.angle(new Vector3f(1, 0, 0)), new Matrix4f());
+        Matrix4f m2 = new Matrix4f().rotateTowardsXY(v.x, v.y, new Matrix4f());
+        TestUtil.assertMatrix4fEquals(m1, m2, 0);
+        Vector3f t = m1.transformDirection(new Vector3f(0, 1, 0));
+        TestUtil.assertVector3fEquals(new Vector3f(-1, 1, 0).normalize(), t, 1E-6f);
+    }
+
 }

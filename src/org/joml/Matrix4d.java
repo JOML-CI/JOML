@@ -535,6 +535,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.rotateZ(ang, dest);
         }
 
+        public Matrix4d rotateTowardsXY(double dirX, double dirY, Matrix4d dest) {
+            return delegate.rotateTowardsXY(dirX, dirY, dest);
+        }
+
         public Matrix4d rotateXYZ(double angleX, double angleY, double angleZ, Matrix4d dest) {
             return delegate.rotateXYZ(angleX, angleY, angleZ, dest);
         }
@@ -4173,6 +4177,38 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /**
+     * Set this matrix to a rotation transformation about the Z axis to align the local <tt>+X</tt> towards <tt>(dirX, dirY)</tt>.
+     * <p>
+     * The vector <tt>(dirX, dirY)</tt> must be a unit vector.
+     * 
+     * @param dirX
+     *            the x component of the normalized direction
+     * @param dirY
+     *            the y component of the normalized direction
+     * @return this
+     */
+    public Matrix4d rotationTowardsXY(double dirX, double dirY) {
+        this.m00 = dirY;
+        this.m01 = dirX;
+        this.m02 = 0.0;
+        this.m03 = 0.0;
+        this.m10 = -dirX;
+        this.m11 = dirY;
+        this.m12 = 0.0;
+        this.m13 = 0.0;
+        this.m20 = 0.0;
+        this.m21 = 0.0;
+        this.m22 = 1.0;
+        this.m23 = 0.0;
+        this.m30 = 0.0;
+        this.m31 = 0.0;
+        this.m32 = 0.0;
+        this.m33 = 1.0;
+        properties = PROPERTY_AFFINE;
+        return this;
+    }
+
+    /**
      * Set this matrix to a rotation of <code>angleX</code> radians about the X axis, followed by a rotation
      * of <code>angleY</code> radians about the Y axis and followed by a rotation of <code>angleZ</code> radians about the Z axis.
      * <p>
@@ -6163,41 +6199,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#rotateZ(double, org.joml.Matrix4d)
      */
     public Matrix4d rotateZ(double ang, Matrix4d dest) {
-        if ((properties & PROPERTY_IDENTITY) != 0)
-            return dest.rotationZ(ang);
-        double sin, cos;
-        sin = Math.sin(ang);
-        cos = Math.cosFromSin(sin, ang);
-        double rm00 = cos;
-        double rm01 = sin;
-        double rm10 = -sin;
-        double rm11 = cos;
-
-        // add temporaries for dependent values
-        double nm00 = m00 * rm00 + m10 * rm01;
-        double nm01 = m01 * rm00 + m11 * rm01;
-        double nm02 = m02 * rm00 + m12 * rm01;
-        double nm03 = m03 * rm00 + m13 * rm01;
-        // set non-dependent values directly
-        dest.m10 = m00 * rm10 + m10 * rm11;
-        dest.m11 = m01 * rm10 + m11 * rm11;
-        dest.m12 = m02 * rm10 + m12 * rm11;
-        dest.m13 = m03 * rm10 + m13 * rm11;
-        // set other values
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m20 = m20;
-        dest.m21 = m21;
-        dest.m22 = m22;
-        dest.m23 = m23;
-        dest.m30 = m30;
-        dest.m31 = m31;
-        dest.m32 = m32;
-        dest.m33 = m33;
-        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
-        return dest;
+        double sin = Math.sin(ang);
+        double cos = Math.cosFromSin(sin, ang);
+        return rotateTowardsXY(sin, cos, dest);
     }
 
     /**
@@ -6220,6 +6224,60 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d rotateZ(double ang) {
         return rotateZ(ang, this);
+    }
+
+    /**
+     * Apply rotation about the Z axis to align the local <tt>+X</tt> towards <tt>(dirX, dirY)</tt>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * rotation will be applied first!
+     * <p>
+     * The vector <tt>(dirX, dirY)</tt> must be a unit vector.
+     * 
+     * @param dirX
+     *            the x component of the normalized direction
+     * @param dirY
+     *            the y component of the normalized direction
+     * @return this
+     */
+    public Matrix4d rotateTowardsXY(double dirX, double dirY) {
+        return rotateTowardsXY(dirX, dirY, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#rotateTowardsXY(double, double, org.joml.Matrix4d)
+     */
+    public Matrix4d rotateTowardsXY(double dirX, double dirY, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotationTowardsXY(dirX, dirY);
+        double rm00 = dirY;
+        double rm01 = dirX;
+        double rm10 = -dirX;
+        double rm11 = dirY;
+        double nm00 = m00 * rm00 + m10 * rm01;
+        double nm01 = m01 * rm00 + m11 * rm01;
+        double nm02 = m02 * rm00 + m12 * rm01;
+        double nm03 = m03 * rm00 + m13 * rm01;
+        dest.m10 = m00 * rm10 + m10 * rm11;
+        dest.m11 = m01 * rm10 + m11 * rm11;
+        dest.m12 = m02 * rm10 + m12 * rm11;
+        dest.m13 = m03 * rm10 + m13 * rm11;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
+        dest.m23 = m23;
+        dest.m30 = m30;
+        dest.m31 = m31;
+        dest.m32 = m32;
+        dest.m33 = m33;
+        dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
+        return dest;
     }
 
     /**
