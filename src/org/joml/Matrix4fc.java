@@ -1680,6 +1680,8 @@ public interface Matrix4fc {
      *            the x component of the normalized direction
      * @param dirY
      *            the y component of the normalized direction
+     * @param dest
+     *            will hold the result
      * @return this
      */
     Matrix4f rotateTowardsXY(float dirX, float dirY, Matrix4f dest);

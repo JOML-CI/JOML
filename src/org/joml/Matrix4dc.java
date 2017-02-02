@@ -2013,6 +2013,8 @@ public interface Matrix4dc {
      *            the x component of the normalized direction
      * @param dirY
      *            the y component of the normalized direction
+     * @param dest
+     *            will hold the result
      * @return this
      */
     Matrix4d rotateTowardsXY(double dirX, double dirY, Matrix4d dest);
