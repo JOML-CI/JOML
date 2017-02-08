@@ -363,8 +363,11 @@
 					<excludes>
 						<!-- Exclude the Java 1.4 API classes from the sources jar -->
 						<exclude>java/**</exclude>
+						<!-- Exclude GWT config -->
 						<exclude>joml.gwt.xml</exclude>
 					</excludes>
+					<!-- Exclude the natives -->
+					<excludeResources>true</excludeResources>
 				</configuration>
 				<executions>
 					<execution>
