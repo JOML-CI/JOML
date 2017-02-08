@@ -4,7 +4,7 @@ apply plugin: 'signing'
 
 group = 'org.joml'
 archivesBaseName = 'joml-android'
-version = '1.9.1-SNAPSHOT'
+version = '1.9.3-SNAPSHOT'
 
 ext.ossrhUsername = project.hasProperty('ossrhUsername') ? project.getProperty('ossrhUsername') : ''
 ext.ossrhPassword = project.hasProperty('ossrhPassword') ? project.getProperty('ossrhPassword') : ''
