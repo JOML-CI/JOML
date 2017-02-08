@@ -119,6 +119,10 @@ public class Vector3f implements Externalizable, Vector3fc {
             return delegate.mul(mat, dest);
         }
 
+        public Vector3f mul(Matrix3x2fc mat, Vector3f dest) {
+            return delegate.mul(mat, dest);
+        }
+
         public Vector3f mulTranspose(Matrix3fc mat, Vector3f dest) {
             return delegate.mulTranspose(mat, dest);
         }

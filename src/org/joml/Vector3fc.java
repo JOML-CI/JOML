@@ -245,6 +245,18 @@ public interface Vector3fc {
     Vector3f mul(Matrix3fc mat, Vector3f dest);
 
     /**
+     * Multiply the given matrix <code>mat</code> with <code>this</code> by assuming a
+     * third row in the matrix of <tt>(0, 0, 1)</tt> and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f mul(Matrix3x2fc mat, Vector3f dest);
+
+    /**
      * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>dest</code>.
      * 
      * @param mat

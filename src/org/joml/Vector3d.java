@@ -151,6 +151,14 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.mul(mat, dest);
         }
 
+        public Vector3d mul(Matrix3x2dc mat, Vector3d dest) {
+            return delegate.mul(mat, dest);
+        }
+
+        public Vector3d mul(Matrix3x2fc mat, Vector3d dest) {
+            return delegate.mul(mat, dest);
+        }
+
         public Vector3d mulTranspose(Matrix3dc mat, Vector3d dest) {
             return delegate.mulTranspose(mat, dest);
         }
@@ -1191,7 +1199,8 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     * Multiply the given matrix with this Vector3d by assuming a third row in the matrix of <tt>(0, 0, 1)</tt>
+     * and store the result in <code>this</code>.
      * 
      * @param mat
      *          the matrix
@@ -1212,7 +1221,29 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Multiply the transpose of the given matrix with this Vector3f and store the result in <code>this</code>.
+     * Multiply the given matrix with this Vector3d by assuming a third row in the matrix of <tt>(0, 0, 1)</tt>
+     * and store the result in <code>this</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @return this
+     */
+    public Vector3d mul(Matrix3x2fc mat) {
+        return mul(mat, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#mul(org.joml.Matrix3x2fc, org.joml.Vector3d)
+     */
+    public Vector3d mul(Matrix3x2fc mat, Vector3d dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20() * z,
+                 mat.m01() * x + mat.m11() * y + mat.m21() * z,
+                 z);
+        return dest;
+    }
+
+    /**
+     * Multiply the transpose of the given matrix with this Vector3d and store the result in <code>this</code>.
      * 
      * @param mat
      *          the matrix
@@ -1233,7 +1264,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Multiply the transpose of the given matrix with  this Vector3f and store the result in <code>this</code>.
+     * Multiply the transpose of the given matrix with  this Vector3d and store the result in <code>this</code>.
      * 
      * @param mat
      *          the matrix
@@ -1604,7 +1635,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Multiply the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
+     * Multiply the components of this Vector3d by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to multiply this vector by
@@ -1718,7 +1749,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Divide the components of this Vector3f by the given scalar values and store the result in <code>this</code>.
+     * Divide the components of this Vector3d by the given scalar values and store the result in <code>this</code>.
      * 
      * @param x
      *          the x component to divide this vector by
