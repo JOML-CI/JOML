@@ -74,11 +74,7 @@ public class Matrix4x3f implements Externalizable {
      *          the {@link Matrix3f}
      */
     public Matrix4x3f(Matrix3f mat) {
-        if (mat instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy((Matrix3f) mat, this);
-        } else {
-            set3x3Matrix3f(mat);
-        }
+        MemUtil.INSTANCE.copy(mat, this);
     }
 
     /**
@@ -88,11 +84,7 @@ public class Matrix4x3f implements Externalizable {
      *          the {@link Matrix4x3f} to copy the values from
      */
     public Matrix4x3f(Matrix4x3f mat) {
-        if (mat instanceof Matrix4x3f) {
-            MemUtil.INSTANCE.copy((Matrix4x3f) mat, this);
-        } else {
-            setMatrix4x3f(mat);
-        }
+        MemUtil.INSTANCE.copy(mat, this);
         properties = mat.properties;
     }
 
@@ -171,14 +163,7 @@ public class Matrix4x3f implements Externalizable {
      *          the fourth column
      */
     public Matrix4x3f(Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3) {
-        if (col0 instanceof Vector3f &&
-            col1 instanceof Vector3f &&
-            col2 instanceof Vector3f &&
-            col3 instanceof Vector3f) {
-            MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2, (Vector3f) col3);
-        } else {
-            setVector3f(col0, col1, col2, col3);
-        }
+        MemUtil.INSTANCE.set(this, col0, col1, col2, col3);
     }
 
     /**
@@ -473,27 +458,9 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f set(Matrix4x3f m) {
-        if (m instanceof Matrix4x3f) {
-            MemUtil.INSTANCE.copy((Matrix4x3f) m, this);
-        } else {
-            setMatrix4x3f(m);
-        }
+        MemUtil.INSTANCE.copy(m, this);
         properties = m.properties;
         return this;
-    }
-    private void setMatrix4x3f(Matrix4x3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m30 = mat.m30;
-        m31 = mat.m31;
-        m32 = mat.m32;
     }
 
     /**
@@ -506,27 +473,9 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f set(Matrix4f m) {
-        if (m instanceof Matrix4f) {
-            MemUtil.INSTANCE.copy((Matrix4f) m, this);
-        } else {
-            setMatrix4f(m);
-        }
+        MemUtil.INSTANCE.copy(m, this);
         properties = (byte) (m.properties & (PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return this;
-    }
-    private void setMatrix4f(Matrix4f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m30 = mat.m30;
-        m31 = mat.m31;
-        m32 = mat.m32;
     }
 
     /**
@@ -570,27 +519,9 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f set(Matrix3f mat) {
-        if (mat instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy((Matrix3f) mat, this);
-        } else {
-            setMatrix3f(mat);
-        }
+        MemUtil.INSTANCE.copy(mat, this);
         properties = 0;
         return this;
-    }
-    private void setMatrix3f(Matrix3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
-        m30 = 0.0f;
-        m31 = 0.0f;
-        m32 = 0.0f;
     }
 
     /**
@@ -744,30 +675,9 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f set(Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3) {
-        if (col0 instanceof Vector3f &&
-            col1 instanceof Vector3f &&
-            col2 instanceof Vector3f &&
-            col3 instanceof Vector3f) {
-            MemUtil.INSTANCE.set(this, (Vector3f) col0, (Vector3f) col1, (Vector3f) col2, (Vector3f) col3);
-        } else {
-            setVector3f(col0, col1, col2, col3);
-        }
+        MemUtil.INSTANCE.set(this, col0, col1, col2, col3);
         this.properties = 0;
         return this;
-    }
-    private void setVector3f(Vector3f col0, Vector3f col1, Vector3f col2, Vector3f col3) {
-        this.m00 = col0.x;
-        this.m01 = col0.y;
-        this.m02 = col0.z;
-        this.m10 = col1.x;
-        this.m11 = col1.y;
-        this.m12 = col1.z;
-        this.m20 = col2.x;
-        this.m21 = col2.y;
-        this.m22 = col2.z;
-        this.m30 = col3.x;
-        this.m31 = col3.y;
-        this.m32 = col3.z;
     }
 
     /**
@@ -779,24 +689,9 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f set3x3(Matrix4x3f mat) {
-        if (mat instanceof Matrix4x3f) {
-            MemUtil.INSTANCE.copy3x3((Matrix4x3f) mat, this);
-        } else {
-            set3x3Matrix4x3f(mat);
-        }
+        MemUtil.INSTANCE.copy3x3(mat, this);
         properties &= mat.properties;
         return this;
-    }
-    private void set3x3Matrix4x3f(Matrix4x3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
     }
 
     /**
@@ -3004,24 +2899,9 @@ public class Matrix4x3f implements Externalizable {
      * @return this
      */
     public Matrix4x3f set3x3(Matrix3f mat) {
-        if (mat instanceof Matrix3f) {
-            MemUtil.INSTANCE.copy3x3((Matrix3f) mat, this);
-        } else {
-            set3x3Matrix3f(mat);
-        }
+        MemUtil.INSTANCE.copy3x3(mat, this);
         properties &= ~(PROPERTY_IDENTITY | PROPERTY_TRANSLATION);
         return this;
-    }
-    private void set3x3Matrix3f(Matrix3f mat) {
-        m00 = mat.m00;
-        m01 = mat.m01;
-        m02 = mat.m02;
-        m10 = mat.m10;
-        m11 = mat.m11;
-        m12 = mat.m12;
-        m20 = mat.m20;
-        m21 = mat.m21;
-        m22 = mat.m22;
     }
 
     /**

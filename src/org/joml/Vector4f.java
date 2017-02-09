@@ -73,14 +73,7 @@ public class Vector4f implements Externalizable {
      *          the {@link Vector4f} to copy the values from
      */
     public Vector4f(Vector4f v) {
-        if (v instanceof Vector4f) {
-            MemUtil.INSTANCE.copy((Vector4f) v, this);
-        } else {
-            this.x = v.x;
-            this.y = v.y;
-            this.z = v.z;
-            this.w = v.w;
-        }
+        MemUtil.INSTANCE.copy((Vector4f) v, this);
     }
 
     /**
@@ -248,14 +241,7 @@ public class Vector4f implements Externalizable {
      * @return this
      */
     public Vector4f set(Vector4f v) {
-        if (v instanceof Vector4f) {
-            MemUtil.INSTANCE.copy((Vector4f) v, this);
-        } else {
-            this.x = v.x;
-            this.y = v.y;
-            this.z = v.z;
-            this.w = v.w;
-        }
+        MemUtil.INSTANCE.copy(v, this);
         return this;
     }
 
