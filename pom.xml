@@ -115,7 +115,7 @@
 					<!--
 						Use the antrun plugin to build and run a post-processing
 						Java application to rewrite the Java class file
-						version from 1.6 back to 1.4 in all compiled class files.
+						version from 1.6 back to 1.2 in all compiled class files.
 					-->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
