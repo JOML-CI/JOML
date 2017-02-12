@@ -245,6 +245,17 @@ public interface Vector3fc {
     Vector3f mul(Matrix3fc mat, Vector3f dest);
 
     /**
+     * Multiply the given matrix with this Vector3f and store the result in <code>dest</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f mul(Matrix3dc mat, Vector3f dest);
+
+    /**
      * Multiply the given matrix <code>mat</code> with <code>this</code> by assuming a
      * third row in the matrix of <tt>(0, 0, 1)</tt> and store the result in <code>dest</code>.
      * 
@@ -467,6 +478,26 @@ public interface Vector3fc {
      * @return dest
      */
     Quaternionf rotationTo(float toDirX, float toDirY, float toDirZ, Quaternionf dest);
+
+    /**
+     * Rotate this vector the specified radians about the given rotation axis and store the result
+     * into <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param x
+     *          the x component of the rotation axis
+     * @param y
+     *          the y component of the rotation axis
+     * @param z
+     *          the z component of the rotation axis
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f rotateAbout(float angle, float x, float y, float z, Vector3f dest);
 
     /**
      * Return the length squared of this vector.

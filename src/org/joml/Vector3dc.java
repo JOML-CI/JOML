@@ -619,6 +619,62 @@ public interface Vector3dc {
      * @return dest
      */
     Vector3d rotate(Quaterniondc quat, Vector3d dest);
+    
+    /**
+     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <code>toDir</code>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @see Quaterniond#rotationTo(Vector3dc, Vector3dc)
+     * 
+     * @param toDir
+     *          the destination direction
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Quaterniond rotationTo(Vector3dc toDir, Quaterniond dest);
+
+    /**
+     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <tt>(toDirX, toDirY, toDirZ)</tt>
+     * and store the result in <code>dest</code>.
+     * <p>
+     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
+     * 
+     * @see Quaterniond#rotationTo(double, double, double, double, double, double)
+     * 
+     * @param toDirX
+     *          the x coordinate of the destination direction
+     * @param toDirY
+     *          the y coordinate of the destination direction
+     * @param toDirZ
+     *          the z coordinate of the destination direction
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Quaterniond rotationTo(double toDirX, double toDirY, double toDirZ, Quaterniond dest);
+
+    /**
+     * Rotate this vector the specified radians about the given rotation axis and store the result
+     * into <code>dest</code>.
+     * <p>
+     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param x
+     *          the x component of the rotation axis
+     * @param y
+     *          the y component of the rotation axis
+     * @param z
+     *          the z component of the rotation axis
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d rotateAbout(double angle, double x, double y, double z, Vector3d dest);
 
     /**
      * Divide this Vector3d by the given scalar value and store the result in <code>dest</code>.

@@ -532,6 +532,26 @@ public interface Matrix3dc {
     Vector3d transform(Vector3dc v, Vector3d dest);
 
     /**
+     * Transform the given vector by this matrix.
+     * 
+     * @param v
+     *          the vector to transform
+     * @return v
+     */
+    Vector3f transform(Vector3f v);
+
+    /**
+     * Transform the given vector by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transform(Vector3fc v, Vector3f dest);
+
+    /**
      * Transform the vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
      * 
      * @param x

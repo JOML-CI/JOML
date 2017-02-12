@@ -427,6 +427,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.transformDirection(v, dest);
         }
 
+        public Vector3f transformDirection(Vector3f v) {
+            return delegate.transformDirection(v);
+        }
+
+        public Vector3f transformDirection(Vector3fc v, Vector3f dest) {
+            return delegate.transformDirection(v, dest);
+        }
+
         public Vector3d transformDirection(double x, double y, double z, Vector3d dest) {
             return delegate.transformDirection(x, y, z, dest);
         }
@@ -3512,15 +3520,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#transpose3x3(org.joml.Matrix3d)
      */
     public Matrix3d transpose3x3(Matrix3d dest) {
-        dest.m00 = m00;
-        dest.m01 = m10;
-        dest.m02 = m20;
-        dest.m10 = m01;
-        dest.m11 = m11;
-        dest.m12 = m21;
-        dest.m20 = m02;
-        dest.m21 = m12;
-        dest.m22 = m22;
+        dest.m00(m00);
+        dest.m01(m10);
+        dest.m02(m20);
+        dest.m10(m01);
+        dest.m11(m11);
+        dest.m12(m21);
+        dest.m20(m02);
+        dest.m21(m12);
+        dest.m22(m22);
         return dest;
     }
 
@@ -3744,183 +3752,183 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(java.nio.DoubleBuffer)
      */
-    public DoubleBuffer get(DoubleBuffer buffer) {
-        return get(buffer.position(), buffer);
+    public DoubleBuffer get(DoubleBuffer dest) {
+        return get(dest.position(), dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(int, java.nio.DoubleBuffer)
      */
-    public DoubleBuffer get(int index, DoubleBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
+    public DoubleBuffer get(int index, DoubleBuffer dest) {
+        MemUtil.INSTANCE.put(this, index, dest);
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(java.nio.FloatBuffer)
      */
-    public FloatBuffer get(FloatBuffer buffer) {
-        return get(buffer.position(), buffer);
+    public FloatBuffer get(FloatBuffer dest) {
+        return get(dest.position(), dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(int, java.nio.FloatBuffer)
      */
-    public FloatBuffer get(int index, FloatBuffer buffer) {
-        MemUtil.INSTANCE.putf(this, index, buffer);
-        return buffer;
+    public FloatBuffer get(int index, FloatBuffer dest) {
+        MemUtil.INSTANCE.putf(this, index, dest);
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(java.nio.ByteBuffer)
      */
-    public ByteBuffer get(ByteBuffer buffer) {
-        return get(buffer.position(), buffer);
+    public ByteBuffer get(ByteBuffer dest) {
+        return get(dest.position(), dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(int, java.nio.ByteBuffer)
      */
-    public ByteBuffer get(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
+    public ByteBuffer get(int index, ByteBuffer dest) {
+        MemUtil.INSTANCE.put(this, index, dest);
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#getFloats(java.nio.ByteBuffer)
      */
-    public ByteBuffer getFloats(ByteBuffer buffer) {
-        return getFloats(buffer.position(), buffer);
+    public ByteBuffer getFloats(ByteBuffer dest) {
+        return getFloats(dest.position(), dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#getFloats(int, java.nio.ByteBuffer)
      */
-    public ByteBuffer getFloats(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.putf(this, index, buffer);
-        return buffer;
+    public ByteBuffer getFloats(int index, ByteBuffer dest) {
+        MemUtil.INSTANCE.putf(this, index, dest);
+        return dest;
     }
 //#endif
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(double[], int)
      */
-    public double[] get(double[] arr, int offset) {
-        arr[offset+0]  = m00;
-        arr[offset+1]  = m01;
-        arr[offset+2]  = m02;
-        arr[offset+3]  = m03;
-        arr[offset+4]  = m10;
-        arr[offset+5]  = m11;
-        arr[offset+6]  = m12;
-        arr[offset+7]  = m13;
-        arr[offset+8]  = m20;
-        arr[offset+9]  = m21;
-        arr[offset+10] = m22;
-        arr[offset+11] = m23;
-        arr[offset+12] = m30;
-        arr[offset+13] = m31;
-        arr[offset+14] = m32;
-        arr[offset+15] = m33;
-        return arr;
+    public double[] get(double[] dest, int offset) {
+        dest[offset+0]  = m00;
+        dest[offset+1]  = m01;
+        dest[offset+2]  = m02;
+        dest[offset+3]  = m03;
+        dest[offset+4]  = m10;
+        dest[offset+5]  = m11;
+        dest[offset+6]  = m12;
+        dest[offset+7]  = m13;
+        dest[offset+8]  = m20;
+        dest[offset+9]  = m21;
+        dest[offset+10] = m22;
+        dest[offset+11] = m23;
+        dest[offset+12] = m30;
+        dest[offset+13] = m31;
+        dest[offset+14] = m32;
+        dest[offset+15] = m33;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(double[])
      */
-    public double[] get(double[] arr) {
-        return get(arr, 0);
+    public double[] get(double[] dest) {
+        return get(dest, 0);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(float[], int)
      */
-    public float[] get(float[] arr, int offset) {
-        arr[offset+0]  = (float)m00;
-        arr[offset+1]  = (float)m01;
-        arr[offset+2]  = (float)m02;
-        arr[offset+3]  = (float)m03;
-        arr[offset+4]  = (float)m10;
-        arr[offset+5]  = (float)m11;
-        arr[offset+6]  = (float)m12;
-        arr[offset+7]  = (float)m13;
-        arr[offset+8]  = (float)m20;
-        arr[offset+9]  = (float)m21;
-        arr[offset+10] = (float)m22;
-        arr[offset+11] = (float)m23;
-        arr[offset+12] = (float)m30;
-        arr[offset+13] = (float)m31;
-        arr[offset+14] = (float)m32;
-        arr[offset+15] = (float)m33;
-        return arr;
+    public float[] get(float[] dest, int offset) {
+        dest[offset+0]  = (float)m00;
+        dest[offset+1]  = (float)m01;
+        dest[offset+2]  = (float)m02;
+        dest[offset+3]  = (float)m03;
+        dest[offset+4]  = (float)m10;
+        dest[offset+5]  = (float)m11;
+        dest[offset+6]  = (float)m12;
+        dest[offset+7]  = (float)m13;
+        dest[offset+8]  = (float)m20;
+        dest[offset+9]  = (float)m21;
+        dest[offset+10] = (float)m22;
+        dest[offset+11] = (float)m23;
+        dest[offset+12] = (float)m30;
+        dest[offset+13] = (float)m31;
+        dest[offset+14] = (float)m32;
+        dest[offset+15] = (float)m33;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get(float[])
      */
-    public float[] get(float[] arr) {
-        return get(arr, 0);
+    public float[] get(float[] dest) {
+        return get(dest, 0);
     }
 
 //#ifdef __HAS_NIO__
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#getTransposed(java.nio.DoubleBuffer)
      */
-    public DoubleBuffer getTransposed(DoubleBuffer buffer) {
-        return getTransposed(buffer.position(), buffer);
+    public DoubleBuffer getTransposed(DoubleBuffer dest) {
+        return getTransposed(dest.position(), dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#getTransposed(int, java.nio.DoubleBuffer)
      */
-    public DoubleBuffer getTransposed(int index, DoubleBuffer buffer) {
-        MemUtil.INSTANCE.putTransposed(this, index, buffer);
-        return buffer;
+    public DoubleBuffer getTransposed(int index, DoubleBuffer dest) {
+        MemUtil.INSTANCE.putTransposed(this, index, dest);
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#getTransposed(java.nio.ByteBuffer)
      */
-    public ByteBuffer getTransposed(ByteBuffer buffer) {
-        return getTransposed(buffer.position(), buffer);
+    public ByteBuffer getTransposed(ByteBuffer dest) {
+        return getTransposed(dest.position(), dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#getTransposed(int, java.nio.ByteBuffer)
      */
-    public ByteBuffer getTransposed(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.putTransposed(this, index, buffer);
-        return buffer;
+    public ByteBuffer getTransposed(int index, ByteBuffer dest) {
+        MemUtil.INSTANCE.putTransposed(this, index, dest);
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get4x3Transposed(java.nio.DoubleBuffer)
      */
-    public DoubleBuffer get4x3Transposed(DoubleBuffer buffer) {
-        return get4x3Transposed(buffer.position(), buffer);
+    public DoubleBuffer get4x3Transposed(DoubleBuffer dest) {
+        return get4x3Transposed(dest.position(), dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get4x3Transposed(int, java.nio.DoubleBuffer)
      */
-    public DoubleBuffer get4x3Transposed(int index, DoubleBuffer buffer) {
-        MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
-        return buffer;
+    public DoubleBuffer get4x3Transposed(int index, DoubleBuffer dest) {
+        MemUtil.INSTANCE.put4x3Transposed(this, index, dest);
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get4x3Transposed(java.nio.ByteBuffer)
      */
-    public ByteBuffer get4x3Transposed(ByteBuffer buffer) {
-        return get4x3Transposed(buffer.position(), buffer);
+    public ByteBuffer get4x3Transposed(ByteBuffer dest) {
+        return get4x3Transposed(dest.position(), dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#get4x3Transposed(int, java.nio.ByteBuffer)
      */
-    public ByteBuffer get4x3Transposed(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.put4x3Transposed(this, index, buffer);
-        return buffer;
+    public ByteBuffer get4x3Transposed(int index, ByteBuffer dest) {
+        MemUtil.INSTANCE.put4x3Transposed(this, index, dest);
+        return dest;
     }
 //#endif
 
@@ -4655,11 +4663,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformPosition(org.joml.Vector3d)
      */
-    public Vector3d transformPosition(Vector3d v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30,
-              m01 * v.x + m11 * v.y + m21 * v.z + m31,
-              m02 * v.x + m12 * v.y + m22 * v.z + m32);
-        return v;
+    public Vector3d transformPosition(Vector3d dest) {
+        dest.set(m00 * dest.x + m10 * dest.y + m20 * dest.z + m30,
+                 m01 * dest.x + m11 * dest.y + m21 * dest.z + m31,
+                 m02 * dest.x + m12 * dest.y + m22 * dest.z + m32);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -4682,11 +4690,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformDirection(org.joml.Vector3d)
      */
-    public Vector3d transformDirection(Vector3d v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z,
-              m01 * v.x + m11 * v.y + m21 * v.z,
-              m02 * v.x + m12 * v.y + m22 * v.z);
-        return v;
+    public Vector3d transformDirection(Vector3d dest) {
+        dest.set(m00 * dest.x + m10 * dest.y + m20 * dest.z,
+                 m01 * dest.x + m11 * dest.y + m21 * dest.z,
+                 m02 * dest.x + m12 * dest.y + m22 * dest.z);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -4710,14 +4718,44 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#transformDirection(org.joml.Vector3f)
+     */
+    public Vector3f transformDirection(Vector3f dest) {
+        dest.set((float)(m00 * dest.x + m10 * dest.y + m20 * dest.z),
+                 (float)(m01 * dest.x + m11 * dest.y + m21 * dest.z),
+                 (float)(m02 * dest.x + m12 * dest.y + m22 * dest.z));
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#transformDirection(org.joml.Vector3fc, org.joml.Vector3f)
+     */
+    public Vector3f transformDirection(Vector3fc v, Vector3f dest) {
+        dest.set((float)(m00 * v.x() + m10 * v.y() + m20 * v.z()),
+                 (float)(m01 * v.x() + m11 * v.y() + m21 * v.z()),
+                 (float)(m02 * v.x() + m12 * v.y() + m22 * v.z()));
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#transformDirection(double, double, double, org.joml.Vector3f)
+     */
+    public Vector3f transformDirection(double x, double y, double z, Vector3f dest) {
+        dest.set((float)(m00 * x + m10 * y + m20 * z),
+                 (float)(m01 * x + m11 * y + m21 * z),
+                 (float)(m02 * x + m12 * y + m22 * z));
+        return dest;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4dc#transformAffine(org.joml.Vector4d)
      */
-    public Vector4d transformAffine(Vector4d v) {
-        v.set(m00 * v.x + m10 * v.y + m20 * v.z + m30 * v.w,
-              m01 * v.x + m11 * v.y + m21 * v.z + m31 * v.w,
-              m02 * v.x + m12 * v.y + m22 * v.z + m32 * v.w,
-              v.w);
-        return v;
+    public Vector4d transformAffine(Vector4d dest) {
+        dest.set(m00 * dest.x + m10 * dest.y + m20 * dest.z + m30 * dest.w,
+                 m01 * dest.x + m11 * dest.y + m21 * dest.z + m31 * dest.w,
+                 m02 * dest.x + m12 * dest.y + m22 * dest.z + m32 * dest.w,
+                 dest.w);
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -6199,6 +6237,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#rotateZ(double, org.joml.Matrix4d)
      */
     public Matrix4d rotateZ(double ang, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.rotationZ(ang);
         double sin = Math.sin(ang);
         double cos = Math.cosFromSin(sin, ang);
         return rotateTowardsXY(sin, cos, dest);
@@ -8895,15 +8935,15 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double det = (m00m11 - m01m10) * m22 + (m02m10 - m00m12) * m21 + (m01m12 - m02m11) * m20;
         double s = 1.0 / det;
         /* Invert and transpose in one go */
-        dest.m00 = (m11 * m22 - m21 * m12) * s;
-        dest.m01 = (m20 * m12 - m10 * m22) * s;
-        dest.m02 = (m10 * m21 - m20 * m11) * s;
-        dest.m10 = (m21 * m02 - m01 * m22) * s;
-        dest.m11 = (m00 * m22 - m20 * m02) * s;
-        dest.m12 = (m20 * m01 - m00 * m21) * s;
-        dest.m20 = (m01m12 - m02m11) * s;
-        dest.m21 = (m02m10 - m00m12) * s;
-        dest.m22 = (m00m11 - m01m10) * s;
+        dest.m00((m11 * m22 - m21 * m12) * s);
+        dest.m01((m20 * m12 - m10 * m22) * s);
+        dest.m02((m10 * m21 - m20 * m11) * s);
+        dest.m10((m21 * m02 - m01 * m22) * s);
+        dest.m11((m00 * m22 - m20 * m02) * s);
+        dest.m12((m20 * m01 - m00 * m21) * s);
+        dest.m20((m01m12 - m02m11) * s);
+        dest.m21((m02m10 - m00m12) * s);
+        dest.m22((m00m11 - m01m10) * s);
         return dest;
     }
 
@@ -8940,9 +8980,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
         double invYlen = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
         double invZlen = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
-        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
-        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
+        dest.m00(m00 * invXlen); dest.m01(m01 * invXlen); dest.m02(m02 * invXlen);
+        dest.m10(m10 * invYlen); dest.m11(m11 * invYlen); dest.m12(m12 * invYlen);
+        dest.m20(m20 * invZlen); dest.m21(m21 * invZlen); dest.m22(m22 * invZlen);
         return dest;
     }
 
@@ -9183,45 +9223,45 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#project(double, double, double, int[], org.joml.Vector4d)
      */
-    public Vector4d project(double x, double y, double z, int[] viewport, Vector4d winCoordsDest) {
-        winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
-        winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
-        winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
-        winCoordsDest.w = m03 * x + m13 * y + m23 * z + m33;
-        winCoordsDest.div(winCoordsDest.w);
-        winCoordsDest.x = (winCoordsDest.x*0.5+0.5) * viewport[2] + viewport[0];
-        winCoordsDest.y = (winCoordsDest.y*0.5+0.5) * viewport[3] + viewport[1];
-        winCoordsDest.z = (1.0+winCoordsDest.z)*0.5;
-        return winCoordsDest;
+    public Vector4d project(double x, double y, double z, int[] viewport, Vector4d dest) {
+        dest.x = m00 * x + m10 * y + m20 * z + m30;
+        dest.y = m01 * x + m11 * y + m21 * z + m31;
+        dest.z = m02 * x + m12 * y + m22 * z + m32;
+        dest.w = m03 * x + m13 * y + m23 * z + m33;
+        dest.div(dest.w);
+        dest.x = (dest.x*0.5+0.5) * viewport[2] + viewport[0];
+        dest.y = (dest.y*0.5+0.5) * viewport[3] + viewport[1];
+        dest.z = (1.0+dest.z)*0.5;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#project(double, double, double, int[], org.joml.Vector3d)
      */
-    public Vector3d project(double x, double y, double z, int[] viewport, Vector3d winCoordsDest) {
-        winCoordsDest.x = m00 * x + m10 * y + m20 * z + m30;
-        winCoordsDest.y = m01 * x + m11 * y + m21 * z + m31;
-        winCoordsDest.z = m02 * x + m12 * y + m22 * z + m32;
+    public Vector3d project(double x, double y, double z, int[] viewport, Vector3d dest) {
+        dest.x = m00 * x + m10 * y + m20 * z + m30;
+        dest.y = m01 * x + m11 * y + m21 * z + m31;
+        dest.z = m02 * x + m12 * y + m22 * z + m32;
         double w = m03 * x + m13 * y + m23 * z + m33;
-        winCoordsDest.div(w);
-        winCoordsDest.x = (winCoordsDest.x*0.5+0.5) * viewport[2] + viewport[0];
-        winCoordsDest.y = (winCoordsDest.y*0.5+0.5) * viewport[3] + viewport[1];
-        winCoordsDest.z = (1.0+winCoordsDest.z)*0.5;
-        return winCoordsDest;
+        dest.div(w);
+        dest.x = (dest.x*0.5+0.5) * viewport[2] + viewport[0];
+        dest.y = (dest.y*0.5+0.5) * viewport[3] + viewport[1];
+        dest.z = (1.0+dest.z)*0.5;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#project(org.joml.Vector3dc, int[], org.joml.Vector4d)
      */
-    public Vector4d project(Vector3dc position, int[] viewport, Vector4d winCoordsDest) {
-        return project(position.x(), position.y(), position.z(), viewport, winCoordsDest);
+    public Vector4d project(Vector3dc position, int[] viewport, Vector4d dest) {
+        return project(position.x(), position.y(), position.z(), viewport, dest);
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#project(org.joml.Vector3dc, int[], org.joml.Vector3d)
      */
-    public Vector3d project(Vector3dc position, int[] viewport, Vector3d winCoordsDest) {
-        return project(position.x(), position.y(), position.z(), viewport, winCoordsDest);
+    public Vector3d project(Vector3dc position, int[] viewport, Vector3d dest) {
+        return project(position.x(), position.y(), position.z(), viewport, dest);
     }
 
     /* (non-Javadoc)
@@ -13080,36 +13120,36 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#frustumPlane(int, org.joml.Vector4d)
      */
-    public Vector4d frustumPlane(int plane, Vector4d planeEquation) {
+    public Vector4d frustumPlane(int plane, Vector4d dest) {
         switch (plane) {
         case PLANE_NX:
-            planeEquation.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
+            dest.set(m03 + m00, m13 + m10, m23 + m20, m33 + m30).normalize3();
             break;
         case PLANE_PX:
-            planeEquation.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3();
+            dest.set(m03 - m00, m13 - m10, m23 - m20, m33 - m30).normalize3();
             break;
         case PLANE_NY:
-            planeEquation.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3();
+            dest.set(m03 + m01, m13 + m11, m23 + m21, m33 + m31).normalize3();
             break;
         case PLANE_PY:
-            planeEquation.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3();
+            dest.set(m03 - m01, m13 - m11, m23 - m21, m33 - m31).normalize3();
             break;
         case PLANE_NZ:
-            planeEquation.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3();
+            dest.set(m03 + m02, m13 + m12, m23 + m22, m33 + m32).normalize3();
             break;
         case PLANE_PZ:
-            planeEquation.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3();
+            dest.set(m03 - m02, m13 - m12, m23 - m22, m33 - m32).normalize3();
             break;
         default:
             throw new IllegalArgumentException("plane"); //$NON-NLS-1$
         }
-        return planeEquation;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#frustumCorner(int, org.joml.Vector3d)
      */
-    public Vector3d frustumCorner(int corner, Vector3d point) {
+    public Vector3d frustumCorner(int corner, Vector3d dest) {
         double d1, d2, d3;
         double n1x, n1y, n1z, n2x, n2y, n2z, n3x, n3y, n3z;
         switch (corner) {
@@ -13169,16 +13209,16 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         c12y = n1z * n2x - n1x * n2z;
         c12z = n1x * n2y - n1y * n2x;
         double invDot = 1.0 / (n1x * c23x + n1y * c23y + n1z * c23z);
-        point.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
-        point.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
-        point.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
-        return point;
+        dest.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
+        dest.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
+        dest.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#perspectiveOrigin(org.joml.Vector3d)
      */
-    public Vector3d perspectiveOrigin(Vector3d origin) {
+    public Vector3d perspectiveOrigin(Vector3d dest) {
         /*
          * Simply compute the intersection point of the left, right and top frustum plane.
          */
@@ -13200,10 +13240,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         c12y = n1z * n2x - n1x * n2z;
         c12z = n1x * n2y - n1y * n2x;
         double invDot = 1.0 / (n1x * c23x + n1y * c23y + n1z * c23z);
-        origin.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
-        origin.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
-        origin.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
-        return origin;
+        dest.x = (-c23x * d1 - c31x * d2 - c12x * d3) * invDot;
+        dest.y = (-c23y * d1 - c31y * d2 - c12y * d3) * invDot;
+        dest.z = (-c23z * d1 - c31z * d2 - c12z * d3) * invDot;
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -13238,7 +13278,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#frustumRayDir(double, double, org.joml.Vector3d)
      */
-    public Vector3d frustumRayDir(double x, double y, Vector3d dir) {
+    public Vector3d frustumRayDir(double x, double y, Vector3d dest) {
         /*
          * This method works by first obtaining the frustum plane normals,
          * then building the cross product to obtain the corner rays,
@@ -13257,96 +13297,96 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         m2x = (b - c - d + e + f - a) * (1.0 - y) + (a + b - c - d - e + f) * y;
         m2y = (h - i - j + k + l - g) * (1.0 - y) + (g + h - i - j - k + l) * y;
         m2z = (n - o - p + q + r - m) * (1.0 - y) + (m + n - o - p - q + r) * y;
-        dir.x = m1x * (1.0 - x) + m2x * x;
-        dir.y = m1y * (1.0 - x) + m2y * x;
-        dir.z = m1z * (1.0 - x) + m2z * x;
-        dir.normalize();
-        return dir;
+        dest.x = m1x * (1.0 - x) + m2x * x;
+        dest.y = m1y * (1.0 - x) + m2y * x;
+        dest.z = m1z * (1.0 - x) + m2z * x;
+        dest.normalize();
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#positiveZ(org.joml.Vector3d)
      */
-    public Vector3d positiveZ(Vector3d dir) {
-        dir.x = m10 * m21 - m11 * m20;
-        dir.y = m20 * m01 - m21 * m00;
-        dir.z = m00 * m11 - m01 * m10;
-        dir.normalize();
-        return dir;
+    public Vector3d positiveZ(Vector3d dest) {
+        dest.x = m10 * m21 - m11 * m20;
+        dest.y = m20 * m01 - m21 * m00;
+        dest.z = m00 * m11 - m01 * m10;
+        dest.normalize();
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#normalizedPositiveZ(org.joml.Vector3d)
      */
-    public Vector3d normalizedPositiveZ(Vector3d dir) {
-        dir.x = m02;
-        dir.y = m12;
-        dir.z = m22;
-        return dir;
+    public Vector3d normalizedPositiveZ(Vector3d dest) {
+        dest.x = m02;
+        dest.y = m12;
+        dest.z = m22;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#positiveX(org.joml.Vector3d)
      */
-    public Vector3d positiveX(Vector3d dir) {
-        dir.x = m11 * m22 - m12 * m21;
-        dir.y = m02 * m21 - m01 * m22;
-        dir.z = m01 * m12 - m02 * m11;
-        dir.normalize();
-        return dir;
+    public Vector3d positiveX(Vector3d dest) {
+        dest.x = m11 * m22 - m12 * m21;
+        dest.y = m02 * m21 - m01 * m22;
+        dest.z = m01 * m12 - m02 * m11;
+        dest.normalize();
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#normalizedPositiveX(org.joml.Vector3d)
      */
-    public Vector3d normalizedPositiveX(Vector3d dir) {
-        dir.x = m00;
-        dir.y = m10;
-        dir.z = m20;
-        return dir;
+    public Vector3d normalizedPositiveX(Vector3d dest) {
+        dest.x = m00;
+        dest.y = m10;
+        dest.z = m20;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#positiveY(org.joml.Vector3d)
      */
-    public Vector3d positiveY(Vector3d dir) {
-        dir.x = m12 * m20 - m10 * m22;
-        dir.y = m00 * m22 - m02 * m20;
-        dir.z = m02 * m10 - m00 * m12;
-        dir.normalize();
-        return dir;
+    public Vector3d positiveY(Vector3d dest) {
+        dest.x = m12 * m20 - m10 * m22;
+        dest.y = m00 * m22 - m02 * m20;
+        dest.z = m02 * m10 - m00 * m12;
+        dest.normalize();
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#normalizedPositiveY(org.joml.Vector3d)
      */
-    public Vector3d normalizedPositiveY(Vector3d dir) {
-        dir.x = m01;
-        dir.y = m11;
-        dir.z = m21;
-        return dir;
+    public Vector3d normalizedPositiveY(Vector3d dest) {
+        dest.x = m01;
+        dest.y = m11;
+        dest.z = m21;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#originAffine(org.joml.Vector3d)
      */
-    public Vector3d originAffine(Vector3d origin) {
+    public Vector3d originAffine(Vector3d dest) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
         double d = m01 * m12 - m02 * m11;
         double g = m20 * m31 - m21 * m30;
         double h = m20 * m32 - m22 * m30;
         double j = m21 * m32 - m22 * m31;
-        origin.x = -m10 * j + m11 * h - m12 * g;
-        origin.y =  m00 * j - m01 * h + m02 * g;
-        origin.z = -m30 * d + m31 * b - m32 * a;
-        return origin;
+        dest.x = -m10 * j + m11 * h - m12 * g;
+        dest.y =  m00 * j - m01 * h + m02 * g;
+        dest.z = -m30 * d + m31 * b - m32 * a;
+        return dest;
     }
 
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#origin(org.joml.Vector3d)
      */
-    public Vector3d origin(Vector3d origin) {
+    public Vector3d origin(Vector3d dest) {
         double a = m00 * m11 - m01 * m10;
         double b = m00 * m12 - m02 * m10;
         double c = m00 * m13 - m03 * m10;
@@ -13368,7 +13408,7 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double x = nm30 * nm33;
         double y = nm31 * nm33;
         double z = nm32 * nm33;
-        return origin.set(x, y, z);
+        return dest.set(x, y, z);
     }
 
     /**

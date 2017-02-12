@@ -2192,15 +2192,15 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
      * @see org.joml.Matrix4x3dc#transpose3x3(org.joml.Matrix3d)
      */
     public Matrix3d transpose3x3(Matrix3d dest) {
-        dest.m00 = m00;
-        dest.m01 = m10;
-        dest.m02 = m20;
-        dest.m10 = m01;
-        dest.m11 = m11;
-        dest.m12 = m21;
-        dest.m20 = m02;
-        dest.m21 = m12;
-        dest.m22 = m22;
+        dest.m00(m00);
+        dest.m01(m10);
+        dest.m02(m20);
+        dest.m10(m01);
+        dest.m11(m11);
+        dest.m12(m21);
+        dest.m20(m02);
+        dest.m21(m12);
+        dest.m22(m22);
         return dest;
     }
 
@@ -6208,15 +6208,15 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         double det = (m00m11 - m01m10) * m22 + (m02m10 - m00m12) * m21 + (m01m12 - m02m11) * m20;
         double s = 1.0 / det;
         /* Invert and transpose in one go */
-        dest.m00 = (m11 * m22 - m21 * m12) * s;
-        dest.m01 = (m20 * m12 - m10 * m22) * s;
-        dest.m02 = (m10 * m21 - m20 * m11) * s;
-        dest.m10 = (m21 * m02 - m01 * m22) * s;
-        dest.m11 = (m00 * m22 - m20 * m02) * s;
-        dest.m12 = (m20 * m01 - m00 * m21) * s;
-        dest.m20 = (m01m12 - m02m11) * s;
-        dest.m21 = (m02m10 - m00m12) * s;
-        dest.m22 = (m00m11 - m01m10) * s;
+        dest.m00((m11 * m22 - m21 * m12) * s);
+        dest.m01((m20 * m12 - m10 * m22) * s);
+        dest.m02((m10 * m21 - m20 * m11) * s);
+        dest.m10((m21 * m02 - m01 * m22) * s);
+        dest.m11((m00 * m22 - m20 * m02) * s);
+        dest.m12((m20 * m01 - m00 * m21) * s);
+        dest.m20((m01m12 - m02m11) * s);
+        dest.m21((m02m10 - m00m12) * s);
+        dest.m22((m00m11 - m01m10) * s);
         return dest;
     }
 
@@ -6253,9 +6253,9 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         double invXlen = 1.0 / Math.sqrt(m00 * m00 + m01 * m01 + m02 * m02);
         double invYlen = 1.0 / Math.sqrt(m10 * m10 + m11 * m11 + m12 * m12);
         double invZlen = 1.0 / Math.sqrt(m20 * m20 + m21 * m21 + m22 * m22);
-        dest.m00 = m00 * invXlen; dest.m01 = m01 * invXlen; dest.m02 = m02 * invXlen;
-        dest.m10 = m10 * invYlen; dest.m11 = m11 * invYlen; dest.m12 = m12 * invYlen;
-        dest.m20 = m20 * invZlen; dest.m21 = m21 * invZlen; dest.m22 = m22 * invZlen;
+        dest.m00(m00 * invXlen); dest.m01(m01 * invXlen); dest.m02(m02 * invXlen);
+        dest.m10(m10 * invYlen); dest.m11(m11 * invYlen); dest.m12(m12 * invYlen);
+        dest.m20(m20 * invZlen); dest.m21(m21 * invZlen); dest.m22(m22 * invZlen);
         return dest;
     }
 

@@ -208,6 +208,14 @@ public class Matrix3d implements Externalizable, Matrix3dc {
             return delegate.transform(v, dest);
         }
 
+        public Vector3f transform(Vector3f v) {
+            return delegate.transform(v);
+        }
+
+        public Vector3f transform(Vector3fc v, Vector3f dest) {
+            return delegate.transform(v, dest);
+        }
+
         public Vector3d transform(double x, double y, double z, Vector3d dest) {
             return delegate.transform(x, y, z, dest);
         }
@@ -1810,19 +1818,8 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      */
     public Matrix3d rotationX(double ang) {
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         m00 = 1.0;
         m01 = 0.0;
         m02 = 0.0;
@@ -1850,19 +1847,8 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      */
     public Matrix3d rotationY(double ang) {
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         m00 = cos;
         m01 = 0.0;
         m02 = -sin;
@@ -1890,19 +1876,8 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      */
     public Matrix3d rotationZ(double ang) {
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         m00 = cos;
         m01 = sin;
         m02 = 0.0;
@@ -2172,6 +2147,21 @@ public class Matrix3d implements Externalizable, Matrix3dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#transform(org.joml.Vector3f)
+     */
+    public Vector3f transform(Vector3f v) {
+        return v.mul(this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#transform(org.joml.Vector3fc, org.joml.Vector3f)
+     */
+    public Vector3f transform(Vector3fc v, Vector3f dest) {
+        v.mul(this, dest);
+        return dest;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix3dc#transform(double, double, double, org.joml.Vector3d)
      */
     public Vector3d transform(double x, double y, double z, Vector3d dest) {
@@ -2210,19 +2200,8 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      */
     public Matrix3d rotateX(double ang, Matrix3d dest) {
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         double rm11 = cos;
         double rm21 = -sin;
         double rm12 = sin;
@@ -2274,19 +2253,8 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      */
     public Matrix3d rotateY(double ang, Matrix3d dest) {
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         double rm00 = cos;
         double rm20 = sin;
         double rm02 = -sin;
@@ -2338,19 +2306,8 @@ public class Matrix3d implements Externalizable, Matrix3dc {
      */
     public Matrix3d rotateZ(double ang, Matrix3d dest) {
         double sin, cos;
-        if (ang == Math.PI || ang == -Math.PI) {
-            cos = -1.0;
-            sin = 0.0;
-        } else if (ang == Math.PI * 0.5 || ang == -Math.PI * 1.5) {
-            cos = 0.0;
-            sin = 1.0;
-        } else if (ang == -Math.PI * 0.5 || ang == Math.PI * 1.5) {
-            cos = 0.0;
-            sin = -1.0;
-        } else {
-            sin = Math.sin(ang);
-            cos = Math.cosFromSin(sin, ang);
-        }
+        sin = Math.sin(ang);
+        cos = Math.cosFromSin(sin, ang);
         double rm00 = cos;
         double rm10 = -sin;
         double rm01 = sin;

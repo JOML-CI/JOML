@@ -1434,9 +1434,45 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#transform(org.joml.Vector3fc, org.joml.Vector3f)
+     */
+    public Vector3d transform(Vector3dc vec, Vector3d dest) {
+        return transform(vec.x(), vec.y(), vec.z(), dest);
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Quaternionfc#transform(float, float, float, org.joml.Vector3f)
      */
     public Vector3f transform(float x, float y, float z, Vector3f dest) {
+        float w2 = this.w * this.w;
+        float x2 = this.x * this.x;
+        float y2 = this.y * this.y;
+        float z2 = this.z * this.z;
+        float zw = this.z * this.w;
+        float xy = this.x * this.y;
+        float xz = this.x * this.z;
+        float yw = this.y * this.w;
+        float yz = this.y * this.z;
+        float xw = this.x * this.w;
+        float m00 = w2 + x2 - z2 - y2;
+        float m01 = xy + zw + zw + xy;
+        float m02 = xz - yw + xz - yw;
+        float m10 = -zw + xy - zw + xy;
+        float m11 = y2 - z2 + w2 - x2;
+        float m12 = yz + yz + xw + xw;
+        float m20 = yw + xz + xz + yw;
+        float m21 = yz + yz - xw - xw;
+        float m22 = z2 - y2 - x2 + w2;
+        dest.x = m00 * x + m10 * y + m20 * z;
+        dest.y = m01 * x + m11 * y + m21 * z;
+        dest.z = m02 * x + m12 * y + m22 * z;
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Quaternionfc#transform(float, float, float, org.joml.Vector3d)
+     */
+    public Vector3d transform(double x, double y, double z, Vector3d dest) {
         float w2 = this.w * this.w;
         float x2 = this.x * this.x;
         float y2 = this.y * this.y;

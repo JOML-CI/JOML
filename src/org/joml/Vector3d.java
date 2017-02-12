@@ -235,6 +235,18 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.rotate(quat, dest);
         }
 
+        public Quaterniond rotationTo(Vector3dc toDir, Quaterniond dest) {
+            return delegate.rotationTo(toDir, dest);
+        }
+
+        public Quaterniond rotationTo(double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
+            return delegate.rotationTo(toDirX, toDirY, toDirZ, dest);
+        }
+
+        public Vector3d rotateAbout(double angle, double x, double y, double z, Vector3d dest) {
+            return delegate.rotateAbout(angle, x, y, z, dest);
+        }
+
         public Vector3d div(double scalar, Vector3d dest) {
             return delegate.div(scalar, dest);
         }
@@ -1189,6 +1201,16 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Vector3dc#mul(org.joml.Matrix3dc, org.joml.Vector3f)
+     */
+    public Vector3f mul(Matrix3dc mat, Vector3f dest) {
+        dest.set((float)(mat.m00() * x + mat.m10() * y + mat.m20() * z),
+                 (float)(mat.m01() * x + mat.m11() * y + mat.m21() * z),
+                 (float)(mat.m02() * x + mat.m12() * y + mat.m22() * z));
+        return dest;
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Vector3dc#mul(org.joml.Matrix3fc, org.joml.Vector3d)
      */
     public Vector3d mul(Matrix3fc mat, Vector3d dest) {
@@ -1684,44 +1706,58 @@ public class Vector3d implements Externalizable, Vector3dc {
         return dest;
     }
 
-    /**
-     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <code>toDir</code>
-     * and store the result in <code>dest</code>.
-     * <p>
-     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
-     * 
-     * @see Quaterniond#rotationTo(Vector3dc, Vector3dc)
-     * 
-     * @param toDir
-     *          the destination direction
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Vector3dc#rotationTo(org.joml.Vector3dc, org.joml.Quaterniond)
      */
     public Quaterniond rotationTo(Vector3dc toDir, Quaterniond dest) {
         return dest.rotationTo(this, toDir);
     }
 
-    /**
-     * Compute the quaternion representing a rotation of <code>this</code> vector to point along <tt>(toDirX, toDirY, toDirZ)</tt>
-     * and store the result in <code>dest</code>.
-     * <p>
-     * Because there can be multiple possible rotations, this method chooses the one with the shortest arc.
-     * 
-     * @see Quaterniond#rotationTo(double, double, double, double, double, double)
-     * 
-     * @param toDirX
-     *          the x coordinate of the destination direction
-     * @param toDirY
-     *          the y coordinate of the destination direction
-     * @param toDirZ
-     *          the z coordinate of the destination direction
-     * @param dest
-     *          will hold the result
-     * @return dest
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Vector3dc#rotationTo(double, double, double, org.joml.Quaterniond)
      */
     public Quaterniond rotationTo(double toDirX, double toDirY, double toDirZ, Quaterniond dest) {
         return dest.rotationTo(x, y, z, toDirX, toDirY, toDirZ);
+    }
+
+    /**
+     * Rotate this vector the specified radians about the given rotation axis.
+     * <p>
+     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param x
+     *          the x component of the rotation axis
+     * @param y
+     *          the y component of the rotation axis
+     * @param z
+     *          the z component of the rotation axis
+     * @return this
+     */
+    public Vector3d rotateAbout(double angle, double x, double y, double z) {
+        return rotateAbout(angle, x, y, z, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#rotateAbout(double, double, double, double, org.joml.Vector3d)
+     */
+    public Vector3d rotateAbout(double angle, double x, double y, double z, Vector3d dest) {
+        double q0x = this.x, q0y = this.y, q0z = this.z, q0w = 0.0f;
+        double sin = Math.sin(angle * 0.5);
+        double cos = Math.cosFromSin(sin, angle * 0.5);
+        double q1x = x * sin, q1y = y * sin, q1z = z * sin, q1w = cos;
+        double scale = 1.0f / (q1x * q1x + q1y * q1y + q1z * q1z);
+        double q2x = q1w * q0x + q1x * q0w + q1y * q0z - q1z * q0y;
+        double q2y = q1w * q0y - q1x * q0z + q1y * q0w + q1z * q0x;
+        double q2z = q1w * q0z + q1x * q0y - q1y * q0x + q1z * q0w;
+        double q2w = q1w * q0w - q1x * q0x - q1y * q0y - q1z * q0z;
+        this.x = (-q2w * q1x + q2x * q1w - q2y * q1z + q2z * q1y) * scale;
+        this.y = (-q2w * q1y + q2x * q1z + q2y * q1w - q2z * q1x) * scale;
+        this.z = (-q2w * q1z - q2x * q1y + q2y * q1x + q2z * q1w) * scale;
+        return this;
     }
 
     /**

@@ -1377,6 +1377,40 @@ public interface Matrix4dc {
     Vector3d transformDirection(Vector3dc v, Vector3d dest);
 
     /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in that vector.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in another vector, use {@link #transformDirection(Vector3fc, Vector3f)}.
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @return v
+     */
+    Vector3f transformDirection(Vector3f v);
+
+    /**
+     * Transform/multiply the given 3D-vector, as if it was a 4D-vector with w=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 3D-vector is treated as a 4D-vector with its w-component being <tt>0.0</tt>, so it
+     * will represent a direction in 3D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformDirection(Vector3f)}.
+     * 
+     * @param v
+     *          the vector to transform and to hold the final result
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformDirection(Vector3fc v, Vector3f dest);
+
+    /**
      * Transform/multiply the 3D-vector <tt>(x, y, z)</tt>, as if it was a 4D-vector with w=0, by
      * this matrix and store the result in <code>dest</code>.
      * <p>

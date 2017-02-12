@@ -119,6 +119,10 @@ public class Vector3f implements Externalizable, Vector3fc {
             return delegate.mul(mat, dest);
         }
 
+        public Vector3f mul(Matrix3dc mat, Vector3f dest) {
+            return delegate.mul(mat, dest);
+        }
+
         public Vector3f mul(Matrix3x2fc mat, Vector3f dest) {
             return delegate.mul(mat, dest);
         }
@@ -181,6 +185,10 @@ public class Vector3f implements Externalizable, Vector3fc {
 
         public Quaternionf rotationTo(float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
             return delegate.rotationTo(toDirX, toDirY, toDirZ, dest);
+        }
+
+        public Vector3f rotateAbout(float angle, float x, float y, float z, Vector3f dest) {
+            return delegate.rotateAbout(angle, x, y, z, dest);
         }
 
         public float lengthSquared() {
@@ -912,6 +920,27 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the matrix
      * @return this
      */
+    public Vector3f mul(Matrix3dc mat) {
+        return mul(mat, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#mul(org.joml.Matrix3dc, org.joml.Vector3f)
+     */
+    public Vector3f mul(Matrix3dc mat, Vector3f dest) {
+        dest.set((float)(mat.m00() * x + mat.m10() * y + mat.m20() * z),
+                 (float)(mat.m01() * x + mat.m11() * y + mat.m21() * z),
+                 (float)(mat.m02() * x + mat.m12() * y + mat.m22() * z));
+        return dest;
+    }
+
+    /**
+     * Multiply the given matrix with this Vector3f and store the result in <code>this</code>.
+     * 
+     * @param mat
+     *          the matrix
+     * @return this
+     */
     public Vector3f mul(Matrix3x2fc mat) {
         return mul(mat, this);
     }
@@ -1250,6 +1279,44 @@ public class Vector3f implements Externalizable, Vector3fc {
      */
     public Quaternionf rotationTo(float toDirX, float toDirY, float toDirZ, Quaternionf dest) {
         return dest.rotationTo(x, y, z, toDirX, toDirY, toDirZ);
+    }
+
+    /**
+     * Rotate this vector the specified radians about the given rotation axis.
+     * <p>
+     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param x
+     *          the x component of the rotation axis
+     * @param y
+     *          the y component of the rotation axis
+     * @param z
+     *          the z component of the rotation axis
+     * @return this
+     */
+    public Vector3f rotateAbout(float angle, float x, float y, float z) {
+        return rotateAbout(angle, x, y, z, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3fc#rotateAbout(float, float, float, float, org.joml.Vector3f)
+     */
+    public Vector3f rotateAbout(float angle, float x, float y, float z, Vector3f dest) {
+        float q0x = this.x, q0y = this.y, q0z = this.z, q0w = 0.0f;
+        float sin = (float) Math.sin(angle * 0.5);
+        float cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        float q1x = x * sin, q1y = y * sin, q1z = z * sin, q1w = cos;
+        float scale = 1.0f / (q1x * q1x + q1y * q1y + q1z * q1z);
+        float q2x = q1w * q0x + q1x * q0w + q1y * q0z - q1z * q0y;
+        float q2y = q1w * q0y - q1x * q0z + q1y * q0w + q1z * q0x;
+        float q2z = q1w * q0z + q1x * q0y - q1y * q0x + q1z * q0w;
+        float q2w = q1w * q0w - q1x * q0x - q1y * q0y - q1z * q0z;
+        this.x = (-q2w * q1x + q2x * q1w - q2y * q1z + q2z * q1y) * scale;
+        this.y = (-q2w * q1y + q2x * q1z + q2y * q1w - q2z * q1x) * scale;
+        this.z = (-q2w * q1z - q2x * q1y + q2y * q1x + q2z * q1w) * scale;
+        return this;
     }
 
     /* (non-Javadoc)

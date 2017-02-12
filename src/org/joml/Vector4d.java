@@ -138,6 +138,10 @@ public class Vector4d implements Externalizable, Vector4dc {
             return delegate.rotate(quat, dest);
         }
 
+        public Vector4d rotateAbout(double angle, double x, double y, double z, Vector4d dest) {
+            return delegate.rotateAbout(angle, x, y, z, dest);
+        }
+
         public double lengthSquared() {
             return delegate.lengthSquared();
         }
@@ -1140,6 +1144,44 @@ public class Vector4d implements Externalizable, Vector4dc {
     public Vector4d rotate(Quaterniondc quat, Vector4d dest) {
         quat.transform(this, dest);
         return dest;
+    }
+
+    /**
+     * Rotate this vector the specified radians about the given rotation axis.
+     * <p>
+     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param x
+     *          the x component of the rotation axis
+     * @param y
+     *          the y component of the rotation axis
+     * @param z
+     *          the z component of the rotation axis
+     * @return this
+     */
+    public Vector4d rotateAbout(double angle, double x, double y, double z) {
+        return rotateAbout(angle, x, y, z, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#rotateAbout(double, double, double, double, org.joml.Vector4d)
+     */
+    public Vector4d rotateAbout(double angle, double x, double y, double z, Vector4d dest) {
+        double q0x = this.x, q0y = this.y, q0z = this.z, q0w = 0.0f;
+        double sin = Math.sin(angle * 0.5);
+        double cos = Math.cosFromSin(sin, angle * 0.5);
+        double q1x = x * sin, q1y = y * sin, q1z = z * sin, q1w = cos;
+        double scale = 1.0f / (q1x * q1x + q1y * q1y + q1z * q1z);
+        double q2x = q1w * q0x + q1x * q0w + q1y * q0z - q1z * q0y;
+        double q2y = q1w * q0y - q1x * q0z + q1y * q0w + q1z * q0x;
+        double q2z = q1w * q0z + q1x * q0y - q1y * q0x + q1z * q0w;
+        double q2w = q1w * q0w - q1x * q0x - q1y * q0y - q1z * q0z;
+        this.x = (-q2w * q1x + q2x * q1w - q2y * q1z + q2z * q1y) * scale;
+        this.y = (-q2w * q1y + q2x * q1z + q2y * q1w - q2z * q1x) * scale;
+        this.z = (-q2w * q1z - q2x * q1y + q2y * q1x + q2z * q1w) * scale;
+        return this;
     }
 
     /* (non-Javadoc)
