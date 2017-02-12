@@ -102,7 +102,7 @@ public class AxisAngle4d implements Externalizable {
      *            the quaternion from which to create the new AngleAxis4f
      */
     public AxisAngle4d(Quaternionfc q) {
-        double acos = Math.acos(q.w());
+        double acos = safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
         x = q.x() * invSqrt;
         y = q.y() * invSqrt;
@@ -121,7 +121,7 @@ public class AxisAngle4d implements Externalizable {
      *            the quaternion from which to create the new AngleAxis4d
      */
     public AxisAngle4d(Quaterniondc q) {
-        double acos = Math.acos(q.w());
+        double acos = safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
         x = q.x() * invSqrt;
         y = q.y() * invSqrt;
@@ -254,7 +254,7 @@ public class AxisAngle4d implements Externalizable {
      * @return this
      */
     public AxisAngle4d set(Quaternionfc q) {
-        double acos = Math.acos(q.w());
+        double acos = safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
         this.x = q.x() * invSqrt;
         this.y = q.y() * invSqrt;
@@ -272,7 +272,7 @@ public class AxisAngle4d implements Externalizable {
      * @return this
      */
     public AxisAngle4d set(Quaterniondc q) {
-        double acos = Math.acos(q.w());
+        double acos = safeAcos(q.w());
         double invSqrt = 1.0 / Math.sqrt(1.0 - q.w() * q.w());
         this.x = q.x() * invSqrt;
         this.y = q.y() * invSqrt;
@@ -284,90 +284,269 @@ public class AxisAngle4d implements Externalizable {
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotation 
      * of the given {@link Matrix3fc}.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
      * 
      * @param m
      *            the Matrix3fc to set this AngleAxis4d from
      * @return this
      */
     public AxisAngle4d set(Matrix3fc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
-        double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = Math.atan2(sin, cos);
+        double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
+        double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
+        double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
+        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
+        nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
+        nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
+        double epsilon = 1E-4;
+        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+            angle = Math.PI;
+            double xx = (nm00 + 1) / 2;
+            double yy = (nm11 + 1) / 2;
+            double zz = (nm22 + 1) / 2;
+            double xy = (nm10 + nm01) / 4;
+            double xz = (nm20 + nm02) / 4;
+            double yz = (nm21 + nm12) / 4;
+            if ((xx > yy) && (xx > zz)) {
+                x = Math.sqrt(xx);
+                y = xy / x;
+                z = xz / x;
+            } else if (yy > zz) {
+                y = Math.sqrt(yy);
+                x = xy / y;
+                z = yz / y;
+            } else {
+                z = Math.sqrt(zz);
+                x = xz / z;
+                y = yz / z;
+            }
+            return this;
+        }
+        double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
+        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        x = (nm12 - nm21) / s;
+        y = (nm20 - nm02) / s;
+        z = (nm01 - nm10) / s;
         return this;
+    }
+
+    private static double safeAcos(double v) {
+        if (v < -1.0)
+            return Math.PI;
+        else if (v > +1.0)
+            return 0.0;
+        else
+            return Math.acos(v);
     }
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotation 
      * of the given {@link Matrix3dc}.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
      * 
      * @param m
      *            the Matrix3dc to set this AngleAxis4d from
      * @return this
      */
     public AxisAngle4d set(Matrix3dc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
-        double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = Math.atan2(sin, cos);
+        double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
+        double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
+        double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
+        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
+        nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
+        nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
+        double epsilon = 1E-4;
+        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+            angle = Math.PI;
+            double xx = (nm00 + 1) / 2;
+            double yy = (nm11 + 1) / 2;
+            double zz = (nm22 + 1) / 2;
+            double xy = (nm10 + nm01) / 4;
+            double xz = (nm20 + nm02) / 4;
+            double yz = (nm21 + nm12) / 4;
+            if ((xx > yy) && (xx > zz)) {
+                x = Math.sqrt(xx);
+                y = xy / x;
+                z = xz / x;
+            } else if (yy > zz) {
+                y = Math.sqrt(yy);
+                x = xy / y;
+                z = yz / y;
+            } else {
+                z = Math.sqrt(zz);
+                x = xz / z;
+                y = yz / z;
+            }
+            return this;
+        }
+        double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
+        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        x = (nm12 - nm21) / s;
+        y = (nm20 - nm02) / s;
+        z = (nm01 - nm10) / s;
         return this;
     }
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotational component 
      * of the given {@link Matrix4fc}.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
      * 
      * @param m
      *            the Matrix4fc to set this AngleAxis4d from
      * @return this
      */
     public AxisAngle4d set(Matrix4fc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
-        double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = Math.atan2(sin, cos);
+        double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
+        double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
+        double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
+        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
+        nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
+        nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
+        double epsilon = 1E-4;
+        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+            angle = Math.PI;
+            double xx = (nm00 + 1) / 2;
+            double yy = (nm11 + 1) / 2;
+            double zz = (nm22 + 1) / 2;
+            double xy = (nm10 + nm01) / 4;
+            double xz = (nm20 + nm02) / 4;
+            double yz = (nm21 + nm12) / 4;
+            if ((xx > yy) && (xx > zz)) {
+                x = Math.sqrt(xx);
+                y = xy / x;
+                z = xz / x;
+            } else if (yy > zz) {
+                y = Math.sqrt(yy);
+                x = xy / y;
+                z = yz / y;
+            } else {
+                z = Math.sqrt(zz);
+                x = xz / z;
+                y = yz / z;
+            }
+            return this;
+        }
+        double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
+        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        x = (nm12 - nm21) / s;
+        y = (nm20 - nm02) / s;
+        z = (nm01 - nm10) / s;
         return this;
     }
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotational component 
      * of the given {@link Matrix4x3fc}.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
      * 
      * @param m
      *            the Matrix4x3fc to set this AngleAxis4d from
      * @return this
      */
     public AxisAngle4d set(Matrix4x3fc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
-        double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = Math.atan2(sin, cos);
+        double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
+        double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
+        double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
+        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
+        nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
+        nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
+        double epsilon = 1E-4;
+        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+            angle = Math.PI;
+            double xx = (nm00 + 1) / 2;
+            double yy = (nm11 + 1) / 2;
+            double zz = (nm22 + 1) / 2;
+            double xy = (nm10 + nm01) / 4;
+            double xz = (nm20 + nm02) / 4;
+            double yz = (nm21 + nm12) / 4;
+            if ((xx > yy) && (xx > zz)) {
+                x = Math.sqrt(xx);
+                y = xy / x;
+                z = xz / x;
+            } else if (yy > zz) {
+                y = Math.sqrt(yy);
+                x = xy / y;
+                z = yz / y;
+            } else {
+                z = Math.sqrt(zz);
+                x = xz / z;
+                y = yz / z;
+            }
+            return this;
+        }
+        double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
+        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        x = (nm12 - nm21) / s;
+        y = (nm20 - nm02) / s;
+        z = (nm01 - nm10) / s;
         return this;
     }
 
     /**
      * Set this {@link AxisAngle4d} to be equivalent to the rotational component 
      * of the given {@link Matrix4dc}.
+     * <p>
+     * Reference: <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/">http://www.euclideanspace.com</a>
      * 
      * @param m
      *            the Matrix4dc to set this AngleAxis4d from
      * @return this
      */
     public AxisAngle4d set(Matrix4dc m) {
-        double cos = (m.m00() + m.m11() + m.m22() - 1.0)*0.5;
-        x = m.m12() - m.m21();
-        y = m.m20() - m.m02();
-        z = m.m01() - m.m10();
-        double sin = 0.5*Math.sqrt(x*x + y*y + z*z);
-        angle = Math.atan2(sin, cos);
+        double nm00 = m.m00(), nm01 = m.m01(), nm02 = m.m02();
+        double nm10 = m.m10(), nm11 = m.m11(), nm12 = m.m12();
+        double nm20 = m.m20(), nm21 = m.m21(), nm22 = m.m22();
+        double lenX = 1.0 / Math.sqrt(m.m00() * m.m00() + m.m01() * m.m01() + m.m02() * m.m02());
+        double lenY = 1.0 / Math.sqrt(m.m10() * m.m10() + m.m11() * m.m11() + m.m12() * m.m12());
+        double lenZ = 1.0 / Math.sqrt(m.m20() * m.m20() + m.m21() * m.m21() + m.m22() * m.m22());
+        nm00 *= lenX; nm01 *= lenX; nm02 *= lenX;
+        nm10 *= lenY; nm11 *= lenY; nm12 *= lenY;
+        nm20 *= lenZ; nm21 *= lenZ; nm22 *= lenZ;
+        double epsilon = 1E-4;
+        if ((Math.abs(nm10 - nm01) < epsilon) && (Math.abs(nm20 - nm02) < epsilon) && (Math.abs(nm21 - nm12) < epsilon)) {
+            angle = Math.PI;
+            double xx = (nm00 + 1) / 2;
+            double yy = (nm11 + 1) / 2;
+            double zz = (nm22 + 1) / 2;
+            double xy = (nm10 + nm01) / 4;
+            double xz = (nm20 + nm02) / 4;
+            double yz = (nm21 + nm12) / 4;
+            if ((xx > yy) && (xx > zz)) {
+                x = Math.sqrt(xx);
+                y = xy / x;
+                z = xz / x;
+            } else if (yy > zz) {
+                y = Math.sqrt(yy);
+                x = xy / y;
+                z = yz / y;
+            } else {
+                z = Math.sqrt(zz);
+                x = xz / z;
+                y = yz / z;
+            }
+            return this;
+        }
+        double s = Math.sqrt((nm12 - nm21) * (nm12 - nm21) + (nm20 - nm02) * (nm20 - nm02) + (nm01 - nm10) * (nm01 - nm10));
+        angle = safeAcos((nm00 + nm11 + nm22 - 1) / 2);
+        x = (nm12 - nm21) / s;
+        y = (nm20 - nm02) / s;
+        z = (nm01 - nm10) / s;
         return this;
     }
 
@@ -529,6 +708,37 @@ public class AxisAngle4d implements Externalizable {
      *          the vector to transform
      * @return v
      */
+    public Vector3f transform(Vector3f v) {
+        return transform(v, v);
+    }
+
+    /**
+     * Transform the given vector by the rotation transformation described by this {@link AxisAngle4d}
+     * and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector3f transform(Vector3fc v, Vector3f dest) {
+        double sin = Math.sin(angle);
+        double cos = Math.cosFromSin(sin, angle);
+        double dot = x * v.x() + y * v.y() + z * v.z();
+        dest.set((float) (v.x() * cos + sin * (y * v.z() - z * v.y()) + (1.0 - cos) * dot * x),
+                 (float) (v.y() * cos + sin * (z * v.x() - x * v.z()) + (1.0 - cos) * dot * y),
+                 (float) (v.z() * cos + sin * (x * v.y() - y * v.x()) + (1.0 - cos) * dot * z));
+        return dest;
+    }
+
+    /**
+     * Transform the given vector by the rotation transformation described by this {@link AxisAngle4d}.
+     * 
+     * @param v
+     *          the vector to transform
+     * @return v
+     */
     public Vector4d transform(Vector4d v) {
         return transform(v, v);
     }
@@ -543,13 +753,13 @@ public class AxisAngle4d implements Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector4d transform(Vector4d v, Vector4d dest) {
+    public Vector4d transform(Vector4dc v, Vector4d dest) {
         double sin = Math.sin(angle);
         double cos = Math.cosFromSin(sin, angle);
-        double dot = x * v.x + y * v.y + z * v.z;
-        dest.set(v.x * cos + sin * (y * v.z - z * v.y) + (1.0 - cos) * dot * x,
-                 v.y * cos + sin * (z * v.x - x * v.z) + (1.0 - cos) * dot * y,
-                 v.z * cos + sin * (x * v.y - y * v.x) + (1.0 - cos) * dot * z,
+        double dot = x * v.x() + y * v.y() + z * v.z();
+        dest.set(v.x() * cos + sin * (y * v.z() - z * v.y()) + (1.0 - cos) * dot * x,
+                 v.y() * cos + sin * (z * v.x() - x * v.z()) + (1.0 - cos) * dot * y,
+                 v.z() * cos + sin * (x * v.y() - y * v.x()) + (1.0 - cos) * dot * z,
                  dest.w);
         return dest;
     }
