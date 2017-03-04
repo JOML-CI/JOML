@@ -247,6 +247,10 @@ public class Vector3f implements Externalizable, Vector3fc {
             return delegate.negate(dest);
         }
 
+        public Vector3f absolute(Vector3f dest) {
+            return delegate.absolute(dest);
+        }
+
         public Vector3f reflect(Vector3fc normal, Vector3f dest) {
             return delegate.reflect(normal, dest);
         }
@@ -1591,6 +1595,29 @@ public class Vector3f implements Externalizable, Vector3fc {
         dest.x = -x;
         dest.y = -y;
         dest.z = -z;
+        return dest;
+    }
+
+    /**
+     * Set <code>this</code> vector's components to their respective absolute values.
+     * 
+     * @return this
+     */
+    public Vector3f absolute() {
+        this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+        this.z = Math.abs(this.z);
+        return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Vector3fc#absolute(org.joml.Vector3f)
+     */
+    public Vector3f absolute(Vector3f dest) {
+        dest.x = Math.abs(this.x);
+        dest.y = Math.abs(this.y);
+        dest.z = Math.abs(this.z);
         return dest;
     }
 

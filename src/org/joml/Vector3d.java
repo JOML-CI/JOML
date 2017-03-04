@@ -311,6 +311,10 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.negate(dest);
         }
 
+        public Vector3d absolute(Vector3d dest) {
+            return delegate.absolute(dest);
+        }
+
         public Vector3d reflect(Vector3dc normal, Vector3d dest) {
             return delegate.reflect(normal, dest);
         }
@@ -2058,6 +2062,29 @@ public class Vector3d implements Externalizable, Vector3dc {
         dest.x = -x;
         dest.y = -y;
         dest.z = -z;
+        return dest;
+    }
+
+    /**
+     * Set <code>this</code> vector's components to their respective absolute values.
+     * 
+     * @return this
+     */
+    public Vector3d absolute() {
+        this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+        this.z = Math.abs(this.z);
+        return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Vector3dc#absolute(org.joml.Vector3d)
+     */
+    public Vector3d absolute(Vector3d dest) {
+        dest.x = Math.abs(this.x);
+        dest.y = Math.abs(this.y);
+        dest.z = Math.abs(this.z);
         return dest;
     }
 

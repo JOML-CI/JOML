@@ -850,6 +850,15 @@ public interface Vector3dc {
     Vector3d negate(Vector3d dest);
 
     /**
+     * Compute the absolute values of the individual components of <code>this</code> and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d absolute(Vector3d dest);
+
+    /**
      * Reflect this vector about the given normal vector and store the result in <code>dest</code>.
      * 
      * @param normal

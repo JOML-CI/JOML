@@ -646,6 +646,15 @@ public interface Vector3fc {
     Vector3f negate(Vector3f dest);
 
     /**
+     * Compute the absolute values of the individual components of <code>this</code> and store the result in <code>dest</code>.
+     * 
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f absolute(Vector3f dest);
+
+    /**
      * Reflect this vector about the given <code>normal</code> vector and store the result in <code>dest</code>.
      * 
      * @param normal
