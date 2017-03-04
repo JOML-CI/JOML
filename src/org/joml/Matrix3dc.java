@@ -999,6 +999,17 @@ public interface Matrix3dc {
     Vector3d getColumn(int column, Vector3d dest) throws IndexOutOfBoundsException;
 
     /**
+     * Get the matrix element value at the given column and row.
+     * 
+     * @param column
+     *          the colum index in <tt>[0..2]</tt>
+     * @param row
+     *          the row index in <tt>[0..2]</tt>
+     * @return the element value
+     */
+    double get(int column, int row);
+
+    /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
      * 
      * @param dest

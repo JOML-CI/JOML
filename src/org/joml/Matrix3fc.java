@@ -905,6 +905,17 @@ public interface Matrix3fc {
     Vector3f getColumn(int column, Vector3f dest) throws IndexOutOfBoundsException;
 
     /**
+     * Get the matrix element value at the given column and row.
+     * 
+     * @param column
+     *          the colum index in <tt>[0..2]</tt>
+     * @param row
+     *          the row index in <tt>[0..2]</tt>
+     * @return the element value
+     */
+    float get(int column, int row);
+
+    /**
      * Compute a normal matrix from <code>this</code> matrix and store it into <code>dest</code>.
      * 
      * @param dest

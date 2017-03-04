@@ -280,6 +280,10 @@ public class Matrix3f implements Externalizable, Matrix3fc {
             return delegate.getColumn(column, dest);
         }
 
+        public float get(int column, int row) {
+            return delegate.get(column, row);
+        }
+
         public Matrix3f normal(Matrix3f dest) {
             return delegate.normal(dest);
         }
@@ -3111,21 +3115,39 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
      */
     public Matrix3f setRow(int row, Vector3fc src) throws IndexOutOfBoundsException {
+        return setRow(row, src.x(), src.y(), src.z());
+    }
+
+    /**
+     * Set the row at the given <code>row</code> index, starting with <code>0</code>.
+     * 
+     * @param row
+     *          the row index in <tt>[0..2]</tt>
+     * @param x
+     *          the first element in the row
+     * @param y
+     *          the second element in the row
+     * @param z
+     *          the third element in the row
+     * @return this
+     * @throws IndexOutOfBoundsException if <code>row</code> is not in <tt>[0..2]</tt>
+     */
+    public Matrix3f setRow(int row, float x, float y, float z) throws IndexOutOfBoundsException {
         switch (row) {
         case 0:
-            this.m00 = src.x();
-            this.m01 = src.y();
-            this.m02 = src.z();
+            this.m00 = x;
+            this.m01 = y;
+            this.m02 = z;
             break;
         case 1:
-            this.m10 = src.x();
-            this.m11 = src.y();
-            this.m12 = src.z();
+            this.m10 = x;
+            this.m11 = y;
+            this.m12 = z;
             break;
         case 2:
-            this.m20 = src.x();
-            this.m21 = src.y();
-            this.m22 = src.z();
+            this.m20 = x;
+            this.m21 = y;
+            this.m22 = z;
             break;
         default:
             throw new IndexOutOfBoundsException();
@@ -3170,26 +3192,156 @@ public class Matrix3f implements Externalizable, Matrix3fc {
      * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..2]</tt>
      */
     public Matrix3f setColumn(int column, Vector3fc src) throws IndexOutOfBoundsException {
+        return setColumn(column, src.x(), src.y(), src.z());
+    }
+
+    /**
+     * Set the column at the given <code>column</code> index, starting with <code>0</code>.
+     * 
+     * @param column
+     *          the column index in <tt>[0..2]</tt>
+     * @param x
+     *          the first element in the column
+     * @param y
+     *          the second element in the column
+     * @param z
+     *          the third element in the column
+     * @return this
+     * @throws IndexOutOfBoundsException if <code>column</code> is not in <tt>[0..2]</tt>
+     */
+    public Matrix3f setColumn(int column, float x, float y, float z) throws IndexOutOfBoundsException {
         switch (column) {
         case 0:
-            this.m00 = src.x();
-            this.m01 = src.y();
-            this.m02 = src.z();
+            this.m00 = x;
+            this.m01 = y;
+            this.m02 = z;
             break;
         case 1:
-            this.m10 = src.x();
-            this.m11 = src.y();
-            this.m12 = src.z();
+            this.m10 = x;
+            this.m11 = y;
+            this.m12 = z;
             break;
         case 2:
-            this.m20 = src.x();
-            this.m21 = src.y();
-            this.m22 = src.z();
+            this.m20 = x;
+            this.m21 = y;
+            this.m22 = z;
             break;
         default:
             throw new IndexOutOfBoundsException();
         }
         return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix3fc#get(int, int)
+     */
+    public float get(int column, int row) {
+        switch (column) {
+        case 0:
+            switch (row) {
+            case 0:
+                return m00;
+            case 1:
+                return m01;
+            case 2:
+                return m02;
+            default:
+                break;
+            }
+            break;
+        case 1:
+            switch (row) {
+            case 0:
+                return m10;
+            case 1:
+                return m11;
+            case 2:
+                return m12;
+            default:
+                break;
+            }
+            break;
+        case 2:
+            switch (row) {
+            case 0:
+                return m20;
+            case 1:
+                return m21;
+            case 2:
+                return m22;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * Set the matrix element at the given column and row to the specified value.
+     * 
+     * @param column
+     *          the colum index in <tt>[0..2]</tt>
+     * @param row
+     *          the row index in <tt>[0..2]</tt>
+     * @param value
+     *          the value
+     * @return this
+     */
+    public Matrix3f set(int column, int row, float value) {
+        switch (column) {
+        case 0:
+            switch (row) {
+            case 0:
+                this.m00 = value;
+                break;
+            case 1:
+                this.m01 = value;
+                break;
+            case 2:
+                this.m02 = value;
+                break;
+            default:
+                break;
+            }
+            break;
+        case 1:
+            switch (row) {
+            case 0:
+                this.m10 = value;
+                break;
+            case 1:
+                this.m11 = value;
+                break;
+            case 2:
+                this.m12 = value;
+                break;
+            default:
+                break;
+            }
+            break;
+        case 2:
+            switch (row) {
+            case 0:
+                this.m20 = value;
+                break;
+            case 1:
+                this.m21 = value;
+                break;
+            case 2:
+                this.m22 = value;
+                break;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
+        throw new IllegalArgumentException();
     }
 
     /**
