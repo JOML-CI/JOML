@@ -10532,6 +10532,58 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
+     * Set this matrix to represent a perspective projection equivalent to the given intrinsic camera calibration parameters.
+     * The resulting matrix will be suited for a right-handed coordinate system using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * <p>
+     * See: <a href="https://en.wikipedia.org/wiki/Camera_resectioning#Intrinsic_parameters">https://en.wikipedia.org/</a>
+     * <p>
+     * Reference: <a href="http://ksimek.github.io/2013/06/03/calibrated_cameras_in_opengl/">http://ksimek.github.io/</a>
+     * 
+     * @param alphaX
+     *          specifies the focal length and scale along the X axis
+     * @param alphaY
+     *          specifies the focal length and scale along the Y axis
+     * @param gamma
+     *          the skew coefficient between the X and Y axis (may be <tt>0</tt>)
+     * @param u0
+     *          the X coordinate of the principal point in image/sensor units
+     * @param v0
+     *          the Y coordinate of the principal point in image/sensor units
+     * @param imgWidth
+     *          the width of the sensor/image image/sensor units
+     * @param imgHeight
+     *          the height of the sensor/image image/sensor units
+     * @param near
+     *          the distance to the near plane
+     * @param far
+     *          the distance to the far plane
+     * @return this
+     */
+    public Matrix4f setFromIntrinsic(float alphaX, float alphaY, float gamma, float u0, float v0, int imgWidth, int imgHeight, float near, float far) {
+        float l00 = 2.0f / imgWidth;
+        float l11 = 2.0f / imgHeight;
+        float l22 = 2.0f / (near - far);
+        this.m00 = l00 * alphaX;
+        this.m01 = 0.0f;
+        this.m02 = 0.0f;
+        this.m03 = 0.0f;
+        this.m10 = l00 * gamma;
+        this.m11 = l11 * alphaY;
+        this.m12 = 0.0f;
+        this.m13 = 0.0f;
+        this.m20 = l00 * u0 - 1.0f;
+        this.m21 = l11 * v0 - 1.0f;
+        this.m22 = l22 * -(near + far) + (far + near) / (near - far);
+        this.m23 = -1.0f;
+        this.m30 = 0.0f;
+        this.m31 = 0.0f;
+        this.m32 = l22 * -near * far;
+        this.m33 = 0.0f;
+        this.properties = PROPERTY_PERSPECTIVE;
+        return this;
+    }
+
+    /**
      * Apply the rotation transformation of the given {@link Quaternionfc} to this matrix and store
      * the result in <code>dest</code>.
      * <p>

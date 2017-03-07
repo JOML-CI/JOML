@@ -13117,6 +13117,58 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return setFrustumLH(left, right, bottom, top, zNear, zFar, false);
     }
 
+    /**
+     * Set this matrix to represent a perspective projection equivalent to the given intrinsic camera calibration parameters.
+     * The resulting matrix will be suited for a right-handed coordinate system using OpenGL's NDC z range of <tt>[-1..+1]</tt>.
+     * <p>
+     * See: <a href="https://en.wikipedia.org/wiki/Camera_resectioning#Intrinsic_parameters">https://en.wikipedia.org/</a>
+     * <p>
+     * Reference: <a href="http://ksimek.github.io/2013/06/03/calibrated_cameras_in_opengl/">http://ksimek.github.io/</a>
+     * 
+     * @param alphaX
+     *          specifies the focal length and scale along the X axis
+     * @param alphaY
+     *          specifies the focal length and scale along the Y axis
+     * @param gamma
+     *          the skew coefficient between the X and Y axis (may be <tt>0</tt>)
+     * @param u0
+     *          the X coordinate of the principal point in image/sensor units
+     * @param v0
+     *          the Y coordinate of the principal point in image/sensor units
+     * @param imgWidth
+     *          the width of the sensor/image image/sensor units
+     * @param imgHeight
+     *          the height of the sensor/image image/sensor units
+     * @param near
+     *          the distance to the near plane
+     * @param far
+     *          the distance to the far plane
+     * @return this
+     */
+    public Matrix4d setFromIntrinsic(double alphaX, double alphaY, double gamma, double u0, double v0, int imgWidth, int imgHeight, double near, double far) {
+        double l00 = 2.0 / imgWidth;
+        double l11 = 2.0 / imgHeight;
+        double l22 = 2.0 / (near - far);
+        this.m00 = l00 * alphaX;
+        this.m01 = 0.0;
+        this.m02 = 0.0;
+        this.m03 = 0.0;
+        this.m10 = l00 * gamma;
+        this.m11 = l11 * alphaY;
+        this.m12 = 0.0;
+        this.m13 = 0.0;
+        this.m20 = l00 * u0 - 1.0;
+        this.m21 = l11 * v0 - 1.0;
+        this.m22 = l22 * -(near + far) + (far + near) / (near - far);
+        this.m23 = -1.0;
+        this.m30 = 0.0;
+        this.m31 = 0.0;
+        this.m32 = l22 * -near * far;
+        this.m33 = 0.0;
+        this.properties = PROPERTY_PERSPECTIVE;
+        return this;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#frustumPlane(int, org.joml.Vector4d)
      */
