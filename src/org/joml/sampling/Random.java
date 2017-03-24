@@ -37,7 +37,7 @@ class Random {
          * = 0x1p-24f
          */
         private static final float INT_TO_FLOAT = Float.intBitsToFloat(864026624);
-
+//#ifndef __GWT__
         private static final boolean HAS_Long_rotateLeft = hasLongRotateLeft();
         private static boolean hasLongRotateLeft() {
             try {
@@ -47,6 +47,7 @@ class Random {
                 return false;
             }
         }
+//#endif
 
         /**
          * Xorshiro128 state
@@ -89,17 +90,22 @@ class Random {
             rotateLeft(s0, s1);
             return (int) (result & 0xFFFFFFFF);
         }
-
+//#ifndef __GWT__
         private static long rotl_JDK4(final long x, final int k) {
             return (x << k) | (x >>> (64 - k));
         }
+//#endif
         private static long rotl_JDK5(final long x, final int k) {
             return Long.rotateLeft(x, k);
         }
         private static long rotl(final long x, final int k) {
+//#ifndef __GWT__
             if (HAS_Long_rotateLeft)
+//#endif
                 return rotl_JDK5(x, k);
+//#ifndef __GWT__
             return rotl_JDK4(x, k);
+//#endif
         }
         private void rotateLeft(long s0, long s1) {
             _s0 = rotl(s0, 55) ^ s1 ^ (s1 << 14);

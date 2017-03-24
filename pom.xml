@@ -273,7 +273,7 @@
 			<plugin>
 				<groupId>com.igormaznitsa</groupId>
 				<artifactId>jcp</artifactId>
-				<version>6.1.0</version>
+				<version>6.1.1</version>
 				<executions>
 					<execution>
 						<id>preprocessSources</id>
