@@ -7,4 +7,8 @@
 	<define-property name="joml.debug" values="true,false" />
 	<define-property name="joml.fastmath" values="true,false" />
 	<define-property name="joml.sinLookup" values="true,false" />
+
+	<set-property name="joml.debug" value="false" />
+	<set-property name="joml.fastmath" value="false" />
+	<set-property name="joml.sinLookup" value="false" />
 </module>
