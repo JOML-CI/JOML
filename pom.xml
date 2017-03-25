@@ -193,7 +193,6 @@
 				<!-- Define the '__GWT__' preprocessor variable -->
 				<platform>__GWT__</platform>
 				<hasNio>__NHAS_NIO__</hasNio>
-				<javaExclude>org/joml/jre/java/nio/**</javaExclude>
 				<variant>joml-gwt</variant>
 			</properties>
 			<build>
@@ -322,11 +321,11 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.0</version>
-                <configuration>
-                    <excludes>
-                        <exclude>org/joml/jre/**</exclude>
-                    </excludes>
-                </configuration>
+				<configuration>
+					<excludes>
+						<exclude>org/joml/jre/**</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -355,7 +354,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.0.2</version>
 				<configuration>
-					<!-- Exclude the Java 1.4 API classes when excludePackage is set -->
+					<!-- Exclude the Java 1.4 API classes when javaExclude is set -->
 					<excludes>
 						<exclude>${javaExclude}</exclude>
 					</excludes>
