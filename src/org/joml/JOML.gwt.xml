@@ -1,8 +1,8 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.0//EN"
          "http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
 <module>
-	<source path="org" />
-	<source path="java" />
+	<super-source path="jre" />
+	<source path="" />
 
 	<define-property name="joml.debug" values="true,false" />
 	<define-property name="joml.fastmath" values="true,false" />
