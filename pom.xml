@@ -46,7 +46,7 @@
 		<maven.compiler.target>1.2</maven.compiler.target>
 		<platform>__JRE__</platform>
 		<hasNio>__HAS_NIO__</hasNio>
-		<javaExclude>java/**</javaExclude>
+		<javaExclude>org/joml/jre/**</javaExclude>
 		<variant>joml</variant>
 	</properties>
 	<distributionManagement>
@@ -72,7 +72,7 @@
 			<properties>
 				<variant>joml-jdk3</variant>
 				<hasNio>__NHAS_NIO__</hasNio>
-				<javaExclude>java/**</javaExclude>
+				<javaExclude>org/joml/jre/**</javaExclude>
 			</properties>
 		</profile>
 		<profile>
@@ -180,7 +180,7 @@
 			</build>
 		</profile>
 		<profile>
-			<!-- 
+			<!--
 				Builds a GWT module JAR file by preprocessing with the __GWT__ define.
 			-->
 			<id>gwt</id>
@@ -193,7 +193,7 @@
 				<!-- Define the '__GWT__' preprocessor variable -->
 				<platform>__GWT__</platform>
 				<hasNio>__NHAS_NIO__</hasNio>
-				<javaExclude>java/nio/**</javaExclude>
+				<javaExclude>org/joml/jre/java/nio/**</javaExclude>
 				<variant>joml-gwt</variant>
 			</properties>
 			<build>
@@ -209,7 +209,7 @@
 					<resource>
 						<directory>${project.build.sourceDirectory}</directory>
 						<includes>
-							<include>joml.gwt.xml</include>
+							<include>org/joml/JOML.gwt.xml</include>
 						</includes>
 						<filtering>false</filtering>
 					</resource>
@@ -322,6 +322,11 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>org/joml/jre/**</exclude>
+                    </excludes>
+                </configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -362,9 +367,9 @@
 				<configuration>
 					<excludes>
 						<!-- Exclude the Java 1.4 API classes from the sources jar -->
-						<exclude>java/**</exclude>
+						<exclude>org/joml/jre/**</exclude>
 						<!-- Exclude GWT config -->
-						<exclude>joml.gwt.xml</exclude>
+						<exclude>org/joml/JOML.gwt.xml</exclude>
 					</excludes>
 					<!-- Exclude the natives -->
 					<excludeResources>true</excludeResources>
@@ -383,7 +388,7 @@
 				<version>2.10.4</version>
 				<configuration>
 					<!-- Exclude the Java 1.4 API classes from the javadoc jar -->
-					<excludePackageNames>java</excludePackageNames>
+					<excludePackageNames>org.joml.jre</excludePackageNames>
 				</configuration>
 				<executions>
 					<execution>
