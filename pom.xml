@@ -194,6 +194,7 @@
 				<platform>__GWT__</platform>
 				<hasNio>__NHAS_NIO__</hasNio>
 				<variant>joml-gwt</variant>
+				<javaExclude></javaExclude>
 			</properties>
 			<build>
 				<!-- Add the sources to the jar artifact -->
