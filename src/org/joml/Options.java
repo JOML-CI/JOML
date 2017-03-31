@@ -22,6 +22,11 @@
  */
 package org.joml;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.Locale;
+
 /**
  * Utility class for reading system properties.
  * 
@@ -56,6 +61,36 @@ class Options {
      * When {@link #SIN_LOOKUP} is <code>true</code>, this determines the table size.
      */
     static final int SIN_LOOKUP_BITS = Integer.parseInt(System.getProperty("joml.sinLookup.bits", "14"));
+
+    /**
+     * Whether to use a {@link NumberFormat} producing scientific notation output when formatting matrix,
+     * vector and quaternion components to strings.
+     */
+    static final boolean useNumberFormat = hasOption(System.getProperty("joml.format", "true"));
+
+    /**
+     * When {@link #useNumberFormat} is <code>true</code> then this determines the number of decimal digits
+     * produced in the formatted numbers.
+     */
+    static final int numberFormatDecimals = Integer.parseInt(System.getProperty("joml.format.decimals", "3")); 
+
+    /**
+     * The {@link NumberFormat} used to format all numbers throughout all JOML classes.
+     */
+    static final NumberFormat NUMBER_FORMAT = decimalFormat();
+
+    static NumberFormat decimalFormat() {
+        NumberFormat df;
+        if (useNumberFormat) {
+            char[] prec = new char[numberFormatDecimals];
+            Arrays.fill(prec, '0');
+            df = new DecimalFormat(" 0." + new String(prec) + "E0;-");
+        } else {
+            df = NumberFormat.getNumberInstance(Locale.ENGLISH);
+            df.setGroupingUsed(false);
+        }
+        return df;
+    }
 
     static boolean hasOption(String v) {
         if (v == null)

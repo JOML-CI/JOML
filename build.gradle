@@ -9,7 +9,10 @@ sourceCompatibility = 1.2
 targetCompatibility = 1.2
 sourceSets {
   main {
-    java.srcDir 'src'
+    java {
+      srcDir 'src'
+      exclude 'org/joml/jre/**'
+    }
     resources.srcDirs = ["native/build"]
   }
   test.java.srcDir 'test'
