@@ -3596,13 +3596,13 @@ public class Matrix3d implements Externalizable, Matrix3dc {
             switch (row) {
             case 0:
                 this.m00 = value;
-                break;
+                return this;
             case 1:
                 this.m01 = value;
-                break;
+                return this;
             case 2:
                 this.m02 = value;
-                break;
+                return this;
             default:
                 break;
             }
@@ -3611,13 +3611,13 @@ public class Matrix3d implements Externalizable, Matrix3dc {
             switch (row) {
             case 0:
                 this.m10 = value;
-                break;
+                return this;
             case 1:
                 this.m11 = value;
-                break;
+                return this;
             case 2:
                 this.m12 = value;
-                break;
+                return this;
             default:
                 break;
             }
@@ -3626,13 +3626,13 @@ public class Matrix3d implements Externalizable, Matrix3dc {
             switch (row) {
             case 0:
                 this.m20 = value;
-                break;
+                return this;
             case 1:
                 this.m21 = value;
-                break;
+                return this;
             case 2:
                 this.m22 = value;
-                break;
+                return this;
             default:
                 break;
             }
