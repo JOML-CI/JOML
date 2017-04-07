@@ -25,7 +25,9 @@ package org.joml;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
+//#ifndef __GWT__
 import java.util.Locale;
+//#endif
 
 /**
  * Utility class for reading system properties.
@@ -62,17 +64,19 @@ class Options {
      */
     static final int SIN_LOOKUP_BITS = Integer.parseInt(System.getProperty("joml.sinLookup.bits", "14"));
 
+//#ifndef __GWT__
     /**
      * Whether to use a {@link NumberFormat} producing scientific notation output when formatting matrix,
      * vector and quaternion components to strings.
      */
     static final boolean useNumberFormat = hasOption(System.getProperty("joml.format", "true"));
+//#endif
 
     /**
      * When {@link #useNumberFormat} is <code>true</code> then this determines the number of decimal digits
      * produced in the formatted numbers.
      */
-    static final int numberFormatDecimals = Integer.parseInt(System.getProperty("joml.format.decimals", "3")); 
+    static final int numberFormatDecimals = Integer.parseInt(System.getProperty("joml.format.decimals", "3"));
 
     /**
      * The {@link NumberFormat} used to format all numbers throughout all JOML classes.
@@ -81,14 +85,18 @@ class Options {
 
     static NumberFormat decimalFormat() {
         NumberFormat df;
+//#ifndef __GWT__
         if (useNumberFormat) {
+//#endif
             char[] prec = new char[numberFormatDecimals];
             Arrays.fill(prec, '0');
             df = new DecimalFormat(" 0." + new String(prec) + "E0;-");
+//#ifndef __GWT__
         } else {
             df = NumberFormat.getNumberInstance(Locale.ENGLISH);
             df.setGroupingUsed(false);
         }
+//#endif
         return df;
     }
 
