@@ -195,6 +195,10 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
             return delegate.transform(v, dest);
         }
 
+        public Vector3f transform(float x, float y, float z, Vector3f dest) {
+            return delegate.transform(x, y, z, dest);
+        }
+
         public Vector2f transformPosition(Vector2f v) {
             return delegate.transformPosition(v);
         }
@@ -203,12 +207,20 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
             return delegate.transformPosition(v, dest);
         }
 
+        public Vector2f transformPosition(float x, float y, Vector2f dest) {
+            return delegate.transformPosition(x, y, dest);
+        }
+
         public Vector2f transformDirection(Vector2f v) {
             return delegate.transformDirection(v);
         }
 
         public Vector2f transformDirection(Vector2f v, Vector2f dest) {
             return delegate.transformDirection(v, dest);
+        }
+
+        public Vector2f transformDirection(float x, float y, Vector2f dest) {
+            return delegate.transformDirection(x, y, dest);
         }
 
         public Matrix3x2f rotate(float ang, Matrix3x2f dest) {
@@ -1428,6 +1440,23 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
     }
 
     /**
+     * Transform/multiply the given vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component of the vector to transform
+     * @param y
+     *          the y component of the vector to transform
+     * @param z
+     *          the z component of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector3f transform(float x, float y, float z, Vector3f dest) {
+       return dest.set(m00 * x + m10 * y + m20 * z, m01 * x + m11 * y + m21 * z, z);
+    }
+
+    /**
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=1, by
      * this matrix and store the result in that vector.
      * <p>
@@ -1474,6 +1503,30 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
     }
 
     /**
+     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
+     * will represent a position/location in 2D-space rather than a direction.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformPosition(Vector2f)}.
+     * 
+     * @see #transformPosition(Vector2f)
+     * @see #transform(Vector3f, Vector3f)
+     * 
+     * @param x
+     *          the x component of the vector to transform
+     * @param y
+     *          the y component of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f transformPosition(float x, float y, Vector2f dest) {
+        return dest.set(m00 * x + m10 * y + m20, m01 * x + m11 * y + m21);
+    }
+
+    /**
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
      * this matrix and store the result in that vector.
      * <p>
@@ -1508,7 +1561,7 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
      * @see #transformDirection(Vector2f)
      * 
      * @param v
-     *          the vector to transform and to hold the final result
+     *          the vector to transform
      * @param dest
      *          will hold the result
      * @return dest
@@ -1517,6 +1570,30 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
         dest.set(m00 * v.x + m10 * v.y,
                  m01 * v.x + m11 * v.y);
         return dest;
+    }
+
+    /**
+     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * will represent a direction in 2D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformDirection(Vector2f)}.
+     * 
+     * @see #transformDirection(Vector2f)
+     * 
+     * @param x
+     *          the x component of the vector to transform
+     * @param y
+     *          the y component of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2f transformDirection(float x, float y, Vector2f dest) {
+        return dest.set(m00 * x + m10 * y, m01 * x + m11 * y);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -1961,6 +2038,72 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
         float ndcY = (winY-viewport[1])/viewport[3]*2.0f-1.0f;
         dest.x = m00 * ndcX + m10 * ndcY + m20;
         dest.y = m01 * ndcX + m11 * ndcY + m21;
+        return dest;
+    }
+
+    /**
+     * Apply shearing to this matrix by shearing along the X axis using the Y axis factor <code>yFactor</code>.
+     * 
+     * @param yFactor
+     *          the factor for the Y component to shear along the X axis
+     * @return this
+     */
+    public Matrix3x2f shearX(float yFactor) {
+        return shearX(yFactor, this);
+    }
+
+    /**
+     * Apply shearing to this matrix by shearing along the X axis using the Y axis factor <code>yFactor</code>,
+     * and store the result in <code>dest</code>.
+     * 
+     * @param yFactor
+     *          the factor for the Y component to shear along the X axis
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3x2f shearX(float yFactor, Matrix3x2f dest) {
+        float nm10 = m00 * yFactor + m10;
+        float nm11 = m01 * yFactor + m11;
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        return dest;
+    }
+
+    /**
+     * Apply shearing to this matrix by shearing along the Y axis using the X axis factor <code>xFactor</code>.
+     * 
+     * @param xFactor
+     *          the factor for the X component to shear along the Y axis
+     * @return this
+     */
+    public Matrix3x2f shearY(float xFactor) {
+        return shearY(xFactor, this);
+    }
+
+    /**
+     * Apply shearing to this matrix by shearing along the Y axis using the X axis factor <code>xFactor</code>,
+     * and store the result in <code>dest</code>.
+     * 
+     * @param xFactor
+     *          the factor for the X component to shear along the Y axis
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3x2f shearY(float xFactor, Matrix3x2f dest) {
+        float nm00 = m00 + m10 * xFactor;
+        float nm01 = m01 + m11 * xFactor;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m10 = m10;
+        dest.m11 = m11;
+        dest.m20 = m20;
+        dest.m21 = m21;
         return dest;
     }
 

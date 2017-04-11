@@ -195,6 +195,10 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
             return delegate.transform(v, dest);
         }
 
+        public Vector3d transform(double x, double y, double z, Vector3d dest) {
+            return delegate.transform(x, y, z, dest);
+        }
+
         public Vector2d transformPosition(Vector2d v) {
             return delegate.transformPosition(v);
         }
@@ -203,12 +207,20 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
             return delegate.transformPosition(v, dest);
         }
 
+        public Vector2d transformPosition(double x, double y, Vector2d dest) {
+            return delegate.transformPosition(x, y, dest);
+        }
+
         public Vector2d transformDirection(Vector2d v) {
             return delegate.transformDirection(v);
         }
 
         public Vector2d transformDirection(Vector2d v, Vector2d dest) {
             return delegate.transformDirection(v, dest);
+        }
+
+        public Vector2d transformDirection(double x, double y, Vector2d dest) {
+            return delegate.transformDirection(x, y, dest);
         }
 
         public Matrix3x2d rotate(double ang, Matrix3x2d dest) {
@@ -1428,6 +1440,23 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
+     * Transform/multiply the given vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component of the vector to transform
+     * @param y
+     *          the y component of the vector to transform
+     * @param z
+     *          the z component of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    public Vector3d transform(double x, double y, double z, Vector3d dest) {
+       return dest.set(m00 * x + m10 * y + m20 * z, m01 * x + m11 * y + m21 * z, z);
+    }
+
+    /**
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=1, by
      * this matrix and store the result in that vector.
      * <p>
@@ -1474,6 +1503,30 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
+     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
+     * will represent a position/location in 2D-space rather than a direction.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformPosition(Vector2d)}.
+     * 
+     * @see #transformPosition(Vector2d)
+     * @see #transform(Vector3d, Vector3d)
+     * 
+     * @param x
+     *          the x component of the vector to transform
+     * @param y
+     *          the y component of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2d transformPosition(double x, double y, Vector2d dest) {
+        return dest.set(m00 * x + m10 * y + m20, m01 * x + m11 * y + m21);
+    }
+
+    /**
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
      * this matrix and store the result in that vector.
      * <p>
@@ -1517,6 +1570,30 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         dest.set(m00 * v.x + m10 * v.y,
                  m01 * v.x + m11 * v.y);
         return dest;
+    }
+
+    /**
+     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * will represent a direction in 2D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformDirection(Vector2d)}.
+     * 
+     * @see #transformDirection(Vector2d)
+     * 
+     * @param x
+     *          the x component of the vector to transform
+     * @param y
+     *          the y component of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Vector2d transformDirection(double x, double y, Vector2d dest) {
+        return dest.set(m00 * x + m10 * y, m01 * x + m11 * y);
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

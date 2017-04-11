@@ -524,6 +524,21 @@ public interface Matrix3x2fc {
     Vector3f transform(Vector3f v, Vector3f dest);
 
     /**
+     * Transform/multiply the given vector <tt>(x, y, z)</tt> by this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x component of the vector to transform
+     * @param y
+     *          the y component of the vector to transform
+     * @param z
+     *          the z component of the vector to transform
+     * @param dest
+     *          will contain the result
+     * @return dest
+     */
+    Vector3f transform(float x, float y, float z, Vector3f dest);
+
+    /**
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=1, by
      * this matrix and store the result in that vector.
      * <p>
@@ -562,6 +577,28 @@ public interface Matrix3x2fc {
     Vector2f transformPosition(Vector2f v, Vector2f dest);
 
     /**
+     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=1, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
+     * will represent a position/location in 2D-space rather than a direction.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformPosition(Vector2f)}.
+     * 
+     * @see #transformPosition(Vector2f)
+     * @see #transform(Vector3f, Vector3f)
+     * 
+     * @param x
+     *          the x component of the vector to transform
+     * @param y
+     *          the y component of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f transformPosition(float x, float y, Vector2f dest);
+
+    /**
      * Transform/multiply the given 2D-vector, as if it was a 3D-vector with z=0, by
      * this matrix and store the result in that vector.
      * <p>
@@ -592,12 +629,34 @@ public interface Matrix3x2fc {
      * @see #transformDirection(Vector2f)
      * 
      * @param v
-     *          the vector to transform and to hold the final result
+     *          the vector to transform
      * @param dest
      *          will hold the result
      * @return dest
      */
     Vector2f transformDirection(Vector2f v, Vector2f dest);
+
+    /**
+     * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=0, by
+     * this matrix and store the result in <code>dest</code>.
+     * <p>
+     * The given 2D-vector is treated as a 3D-vector with its z-component being <tt>0.0</tt>, so it
+     * will represent a direction in 2D-space rather than a position. This method will therefore
+     * not take the translation part of the matrix into account.
+     * <p>
+     * In order to store the result in the same vector, use {@link #transformDirection(Vector2f)}.
+     * 
+     * @see #transformDirection(Vector2f)
+     * 
+     * @param x
+     *          the x component of the vector to transform
+     * @param y
+     *          the y component of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f transformDirection(float x, float y, Vector2f dest);
 
     /**
      * Apply a rotation transformation to this matrix by rotating the given amount of radians and store the result in <code>dest</code>.
