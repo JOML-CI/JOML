@@ -1063,12 +1063,12 @@ public class Intersectionf {
      *              the constant
      * @param maxR
      *              the maximum expected root
-     * @return the lowest of the two roots of the quadratic equation; or {@link Float#MAX_VALUE}
+     * @return the lowest of the two roots of the quadratic equation; or {@link Float#POSITIVE_INFINITY}
      */
     private static float computeLowestRoot(float a, float b, float c, float maxR) {
         float determinant = b * b - 4.0f * a * c;
         if (determinant < 0.0f)
-            return Float.MAX_VALUE;
+            return Float.POSITIVE_INFINITY;
         float sqrtD = (float) Math.sqrt(determinant);
         float r1 = (-b - sqrtD) / (2.0f * a);
         float r2 = (-b + sqrtD) / (2.0f * a);
@@ -1083,7 +1083,7 @@ public class Intersectionf {
         if (r2 > 0.0f && r2 < maxR) {
             return r2;
         }
-        return Float.MAX_VALUE;
+        return Float.POSITIVE_INFINITY;
     }
 
     /**
@@ -3706,7 +3706,7 @@ public class Intersectionf {
      * @return the index of the first vertex of the polygon edge that intersects the ray; or <tt>-1</tt> if the ray does not intersect the polygon
      */
     public static int intersectPolygonRay(float[] verticesXY, float originX, float originY, float dirX, float dirY, Vector2f p) {
-        float nearestT = Float.MAX_VALUE;
+        float nearestT = Float.POSITIVE_INFINITY;
         int count = verticesXY.length >> 1;
         int edgeIndex = -1;
         float aX = verticesXY[(count-1)<<1], aY = verticesXY[((count-1)<<1) + 1];
@@ -3754,7 +3754,7 @@ public class Intersectionf {
      * @return the index of the first vertex of the polygon edge that intersects the ray; or <tt>-1</tt> if the ray does not intersect the polygon
      */
     public static int intersectPolygonRay(Vector2fc[] vertices, float originX, float originY, float dirX, float dirY, Vector2f p) {
-        float nearestT = Float.MAX_VALUE;
+        float nearestT = Float.POSITIVE_INFINITY;
         int count = vertices.length;
         int edgeIndex = -1;
         float aX = vertices[count-1].x(), aY = vertices[count-1].y();

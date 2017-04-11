@@ -13119,12 +13119,12 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @return this
      */
     public Matrix4f frustumAabb(Vector3f min, Vector3f max) {
-        float minX = Float.MAX_VALUE;
-        float minY = Float.MAX_VALUE;
-        float minZ = Float.MAX_VALUE;
-        float maxX = -Float.MAX_VALUE;
-        float maxY = -Float.MAX_VALUE;
-        float maxZ = -Float.MAX_VALUE;
+        float minX = Float.POSITIVE_INFINITY;
+        float minY = Float.POSITIVE_INFINITY;
+        float minZ = Float.POSITIVE_INFINITY;
+        float maxX = Float.NEGATIVE_INFINITY;
+        float maxY = Float.NEGATIVE_INFINITY;
+        float maxZ = Float.NEGATIVE_INFINITY;
         for (int t = 0; t < 8; t++) {
             float x = ((t & 1) << 1) - 1.0f;
             float y = (((t >>> 1) & 1) << 1) - 1.0f;
@@ -13154,8 +13154,8 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f projectedGridRange(Matrix4fc projector, float sLower, float sUpper, Matrix4f dest) {
         // Compute intersection with frustum edges and plane
-        float minX = Float.MAX_VALUE, minY = Float.MAX_VALUE;
-        float maxX = -Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
+        float minX = Float.POSITIVE_INFINITY, minY = Float.POSITIVE_INFINITY;
+        float maxX = Float.NEGATIVE_INFINITY, maxY = Float.NEGATIVE_INFINITY;
         boolean intersection = false;
         for (int t = 0; t < 3 * 4; t++) {
             float c0X, c0Y, c0Z;
@@ -13275,9 +13275,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f orthoCrop(Matrix4fc view, Matrix4f dest) {
         // determine min/max world z and min/max orthographically view-projected x/y
-        float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE;
-        float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
-        float minZ = Float.MAX_VALUE, maxZ = -Float.MAX_VALUE;
+        float minX = Float.POSITIVE_INFINITY, maxX = Float.NEGATIVE_INFINITY;
+        float minY = Float.POSITIVE_INFINITY, maxY = Float.NEGATIVE_INFINITY;
+        float minZ = Float.POSITIVE_INFINITY, maxZ = Float.NEGATIVE_INFINITY;
         for (int t = 0; t < 8; t++) {
             float x = ((t & 1) << 1) - 1.0f;
             float y = (((t >>> 1) & 1) << 1) - 1.0f;

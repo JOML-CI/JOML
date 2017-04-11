@@ -14130,12 +14130,12 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @return this
      */
     public Matrix4d frustumAabb(Vector3d min, Vector3d max) {
-        double minX = Double.MAX_VALUE;
-        double minY = Double.MAX_VALUE;
-        double minZ = Double.MAX_VALUE;
-        double maxX = -Double.MAX_VALUE;
-        double maxY = -Double.MAX_VALUE;
-        double maxZ = -Double.MAX_VALUE;
+        double minX = Double.POSITIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double minZ = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+        double maxZ = Double.NEGATIVE_INFINITY;
         for (int t = 0; t < 8; t++) {
             double x = ((t & 1) << 1) - 1.0;
             double y = (((t >>> 1) & 1) << 1) - 1.0;
@@ -14165,8 +14165,8 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d projectedGridRange(Matrix4dc projector, double sLower, double sUpper, Matrix4d dest) {
         // Compute intersection with frustum edges and plane
-        double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE;
-        double maxX = -Double.MAX_VALUE, maxY = -Double.MAX_VALUE;
+        double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY;
         boolean intersection = false;
         for (int t = 0; t < 3 * 4; t++) {
             double c0X, c0Y, c0Z;
@@ -14256,9 +14256,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      */
     public Matrix4d orthoCrop(Matrix4dc view, Matrix4d dest) {
         // determine min/max world z and min/max orthographically view-projected x/y
-        double minX = Double.MAX_VALUE, maxX = -Double.MAX_VALUE;
-        double minY = Double.MAX_VALUE, maxY = -Double.MAX_VALUE;
-        double minZ = Double.MAX_VALUE, maxZ = -Double.MAX_VALUE;
+        double minX = Double.POSITIVE_INFINITY, maxX = Double.NEGATIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY;
+        double minZ = Double.POSITIVE_INFINITY, maxZ = Double.NEGATIVE_INFINITY;
         for (int t = 0; t < 8; t++) {
             double x = ((t & 1) << 1) - 1.0;
             double y = (((t >>> 1) & 1) << 1) - 1.0;
