@@ -202,6 +202,10 @@ public class Vector4f implements Externalizable, Vector4fc {
         public Vector4f hermite(Vector4fc t0, Vector4fc v1, Vector4fc t1, float t, Vector4f dest) {
             return delegate.hermite(t0, v1, t1, t, dest);
         }
+
+        public float get(int component) throws IllegalArgumentException {
+            return delegate.get(component);
+        }
     }
 
     private static final long serialVersionUID = 1L;
@@ -1413,6 +1417,24 @@ public class Vector4f implements Externalizable, Vector4fc {
         dest.z = z + (other.z() - z) * t;
         dest.w = w + (other.w() - w) * t;
         return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#get(int)
+     */
+    public float get(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        case 2:
+            return z;
+        case 3:
+            return w;
+        default:
+            throw new IllegalArgumentException();
+        }
     }
 
     /**

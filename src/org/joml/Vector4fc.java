@@ -506,4 +506,14 @@ public interface Vector4fc {
      */
     Vector4f hermite(Vector4fc t0, Vector4fc v1, Vector4fc t1, float t, Vector4f dest);
 
+    /**
+     * Get the value of the specified component of this vector.
+     * 
+     * @param component
+     *          the component, within <tt>[0..3]</tt>
+     * @return the value
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..3]</tt>
+     */
+    float get(int component) throws IllegalArgumentException;
+
 }

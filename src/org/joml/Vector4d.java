@@ -197,6 +197,10 @@ public class Vector4d implements Externalizable, Vector4dc {
         public Vector4d lerp(Vector4dc other, double t, Vector4d dest) {
             return delegate.lerp(other, t, dest);
         }
+
+        public double get(int component) throws IllegalArgumentException {
+            return delegate.get(component);
+        }
     }
 
     private static final long serialVersionUID = 1L;
@@ -1465,6 +1469,24 @@ public class Vector4d implements Externalizable, Vector4dc {
         dest.z = z + (other.z() - z) * t;
         dest.w = w + (other.w() - w) * t;
         return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4dc#get(int)
+     */
+    public double get(int component) throws IllegalArgumentException {
+        switch (component) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        case 2:
+            return z;
+        case 3:
+            return w;
+        default:
+            throw new IllegalArgumentException();
+        }
     }
 
     /**

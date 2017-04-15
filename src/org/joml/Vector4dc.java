@@ -480,4 +480,14 @@ public interface Vector4dc {
      */
     Vector4d lerp(Vector4dc other, double t, Vector4d dest);
 
+    /**
+     * Get the value of the specified component of this vector.
+     * 
+     * @param component
+     *          the component, within <tt>[0..3]</tt>
+     * @return the value
+     * @throws IllegalArgumentException if <code>component</code> is not within <tt>[0..3]</tt>
+     */
+    double get(int component) throws IllegalArgumentException;
+
 }
