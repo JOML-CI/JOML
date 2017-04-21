@@ -529,6 +529,18 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.rotateLocal(ang, x, y, z, dest);
         }
 
+        public Matrix4f rotateLocalX(float ang, Matrix4f dest) {
+            return delegate.rotateLocalX(ang, dest);
+        }
+
+        public Matrix4f rotateLocalY(float ang, Matrix4f dest) {
+            return delegate.rotateLocalY(ang, dest);
+        }
+
+        public Matrix4f rotateLocalZ(float ang, Matrix4f dest) {
+            return delegate.rotateLocalZ(ang, dest);
+        }
+
         public Matrix4f translate(Vector3fc offset, Matrix4f dest) {
             return delegate.translate(offset, dest);
         }
@@ -6769,6 +6781,258 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public Matrix4f rotateLocal(float ang, float x, float y, float z) {
         return rotateLocal(ang, x, y, z, this);
+    }
+
+    /**
+     * Pre-multiply a rotation around the X axis to this matrix by rotating the given amount of radians
+     * about the X axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotationX(float) rotationX()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotationX(float)
+     * 
+     * @param ang
+     *            the angle in radians to rotate about the X axis
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateLocalX(float ang, Matrix4f dest) {
+        float sin = (float) Math.sin(ang);
+        float cos = (float) Math.cosFromSin(sin, ang);
+        float nm01 = cos * m01 - sin * m02;
+        float nm02 = sin * m01 + cos * m02;
+        float nm11 = cos * m11 - sin * m12;
+        float nm12 = sin * m11 + cos * m12;
+        float nm21 = cos * m21 - sin * m22;
+        float nm22 = sin * m21 + cos * m22;
+        float nm31 = cos * m31 - sin * m32;
+        float nm32 = sin * m31 + cos * m32;
+        dest._m00(m00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(m03);
+        dest._m10(m10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(m13);
+        dest._m20(m20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(m23);
+        dest._m30(m30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(m33);
+        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION)));
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians about the X axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotationX(float) rotationX()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotationX(float)
+     * 
+     * @param ang
+     *            the angle in radians to rotate about the X axis
+     * @return this
+     */
+    public Matrix4f rotateLocalX(float ang) {
+        return rotateLocalX(ang, this);
+    }
+
+    /**
+     * Pre-multiply a rotation around the Y axis to this matrix by rotating the given amount of radians
+     * about the Y axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotationY(float) rotationY()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotationY(float)
+     * 
+     * @param ang
+     *            the angle in radians to rotate about the Y axis
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateLocalY(float ang, Matrix4f dest) {
+        float sin = (float) Math.sin(ang);
+        float cos = (float) Math.cosFromSin(sin, ang);
+        float nm00 =  cos * m00 + sin * m02;
+        float nm02 = -sin * m00 + cos * m02;
+        float nm10 =  cos * m10 + sin * m12;
+        float nm12 = -sin * m10 + cos * m12;
+        float nm20 =  cos * m20 + sin * m22;
+        float nm22 = -sin * m20 + cos * m22;
+        float nm30 =  cos * m30 + sin * m32;
+        float nm32 = -sin * m30 + cos * m32;
+        dest._m00(nm00);
+        dest._m01(m01);
+        dest._m02(nm02);
+        dest._m03(m03);
+        dest._m10(nm10);
+        dest._m11(m11);
+        dest._m12(nm12);
+        dest._m13(m13);
+        dest._m20(nm20);
+        dest._m21(m21);
+        dest._m22(nm22);
+        dest._m23(m23);
+        dest._m30(nm30);
+        dest._m31(m31);
+        dest._m32(nm32);
+        dest._m33(m33);
+        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION)));
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians about the Y axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotationY(float) rotationY()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotationY(float)
+     * 
+     * @param ang
+     *            the angle in radians to rotate about the Y axis
+     * @return this
+     */
+    public Matrix4f rotateLocalY(float ang) {
+        return rotateLocalY(ang, this);
+    }
+
+    /**
+     * Pre-multiply a rotation around the Z axis to this matrix by rotating the given amount of radians
+     * about the Z axis and store the result in <code>dest</code>.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotationZ(float) rotationZ()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotationZ(float)
+     * 
+     * @param ang
+     *            the angle in radians to rotate about the Z axis
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix4f rotateLocalZ(float ang, Matrix4f dest) {
+        float sin = (float) Math.sin(ang);
+        float cos = (float) Math.cosFromSin(sin, ang);
+        float nm00 = cos * m00 - sin * m01;
+        float nm01 = sin * m00 + cos * m01;
+        float nm10 = cos * m10 - sin * m11;
+        float nm11 = sin * m10 + cos * m11;
+        float nm20 = cos * m20 - sin * m21;
+        float nm21 = sin * m20 + cos * m21;
+        float nm30 = cos * m30 - sin * m31;
+        float nm31 = sin * m30 + cos * m31;
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(m02);
+        dest._m03(m03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(m12);
+        dest._m13(m13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(m22);
+        dest._m23(m23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(m32);
+        dest._m33(m33);
+        dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION)));
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians about the Z axis.
+     * <p>
+     * When used with a right-handed coordinate system, the produced rotation will rotate a vector 
+     * counter-clockwise around the rotation axis, when viewing along the negative axis direction towards the origin.
+     * When used with a left-handed coordinate system, the rotation is clockwise.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotationZ(float) rotationY()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotationY(float)
+     * 
+     * @param ang
+     *            the angle in radians to rotate about the Z axis
+     * @return this
+     */
+    public Matrix4f rotateLocalZ(float ang) {
+        return rotateLocalZ(ang, this);
     }
 
     /**
