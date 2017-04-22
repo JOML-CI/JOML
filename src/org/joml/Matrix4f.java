@@ -2573,7 +2573,7 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      *          the subtrahend
      * @return this
      */
-    public Matrix4f sub(Matrix4f subtrahend) {
+    public Matrix4f sub(Matrix4fc subtrahend) {
         return sub(subtrahend, this);
     }
 
