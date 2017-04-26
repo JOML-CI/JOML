@@ -227,6 +227,21 @@ t.setTransform(m.m00, m.m01, m.m10, m.m11, m.m20, m.m21);
 ```
 *(Note: The AffineTransform class uses a different order for the row and column indices of a matrix element. Here, the row index comes first, and then the column index)*
 
+Using with [JavaFX](http://docs.oracle.com/javafx/)
+---------------------------------------------------
+JavaFX holds arbitrary affine transformations in an instance of the [Affine](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/transform/Affine.html) class.
+Instead of operating on Affine objects, JOML's matrix classes can be used to build the transformations. When a matrix has been built in JOML, its represented transformation can be copied to an Affine instance like so:
+```Java
+Matrix4f m = ...; // <- any affine transformation built with JOML
+Affine t = ...; // <- any JavaFX Affine instance
+t.setToTransform(m.m00(), m.m10(), m.m20(), m.m30(),
+                 m.m01(), m.m11(), m.m21(), m.m31(),
+                 m.m02(), m.m12(), m.m22(), m.m32());
+```
+The above will copy any affine transformation, represented by the Matrix4f, to the provided Affine instance.
+
+*(Note: The Affine class uses a different order for the row and column indices of a matrix element. Here, the row index comes first, and then the column index)*
+
 Staying allocation-free
 -----------------------
 JOML is designed to be completely allocation-free for all methods. That means JOML will never allocate Java objects on the heap unless you as the client specifically requests to do so via the *new* keyword when creating a new matrix or vector or calling the *toString()* method on them.
