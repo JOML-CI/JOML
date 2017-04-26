@@ -2042,6 +2042,32 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
+     * Compute the extents of the coordinate system before this transformation was applied and store the resulting
+     * corner coordinates in <code>corner</code> and the span vectors in <code>xDir</code> and <code>yDir</code>.
+     * <p>
+     * That means, given the maximum extents of the coordinate system between <tt>[-1..+1]</tt> in all dimensions,
+     * this method returns one corner and the length and direction of the two base axis vectors in the coordinate
+     * system before this transformation is applied, which transforms into the corner coordinates <tt>[-1, +1]</tt>.
+     * 
+     * @param corner
+     *          will hold one corner of the span
+     * @param xDir
+     *          will hold the direction and length of the span along the positive X axis
+     * @param yDir
+     *          will hold the direction and length of the span along the positive Y axis
+     * @return this
+     */
+    public Matrix3x2d span(Vector2d corner, Vector2d xDir, Vector2d yDir) {
+        double s = 1.0 / (m00 * m11 - m01 * m10);
+        double nm00 =  m11 * s, nm01 = -m01 * s, nm10 = -m10 * s, nm11 =  m00 * s;
+        corner.x = -nm00 - nm10 + (m10 * m21 - m20 * m11) * s;
+        corner.y = -nm01 - nm11 + (m20 * m01 - m00 * m21) * s;
+        xDir.x = 2.0 * nm00; xDir.y = 2.0 * nm01;
+        yDir.x = 2.0 * nm10; yDir.y = 2.0 * nm11;
+        return this;
+    }
+
+    /**
      * Create a new immutable view of this {@link Matrix3x2d}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting

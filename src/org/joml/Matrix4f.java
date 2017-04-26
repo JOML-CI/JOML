@@ -14154,6 +14154,47 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
+     * Compute the extents of the coordinate system before this {@link #isAffine() affine} transformation was applied
+     * and store the resulting corner coordinates in <code>corner</code> and the span vectors in
+     * <code>xDir</code>, <code>yDir</code> and <code>zDir</code>.
+     * <p>
+     * That means, given the maximum extents of the coordinate system between <tt>[-1..+1]</tt> in all dimensions,
+     * this method returns one corner and the length and direction of the three base axis vectors in the coordinate
+     * system before this transformation is applied, which transforms into the corner coordinates <tt>[-1, +1]</tt>.
+     * <p>
+     * This method is equivalent to computing at least three adjacent corners using {@link #frustumCorner(int, Vector3f)}
+     * and subtracting them to obtain the length and direction of the span vectors.
+     * 
+     * @param corner
+     *          will hold one corner of the span (usually the corner {@link Matrix4fc#CORNER_NXNYNZ})
+     * @param xDir
+     *          will hold the direction and length of the span along the positive X axis
+     * @param yDir
+     *          will hold the direction and length of the span along the positive Y axis
+     * @param zDir
+     *          will hold the direction and length of the span along the positive z axis
+     * @return this
+     */
+    public Matrix4f affineSpan(Vector3f corner, Vector3f xDir, Vector3f yDir, Vector3f zDir) {
+        float a = m10 * m22, b = m10 * m21, c = m10 * m02, d = m10 * m01;
+        float e = m11 * m22, f = m11 * m20, g = m11 * m02, h = m11 * m00;
+        float i = m12 * m21, j = m12 * m20, k = m12 * m01, l = m12 * m00;
+        float m = m20 * m02, n = m20 * m01, o = m21 * m02, p = m21 * m00;
+        float q = m22 * m01, r = m22 * m00;
+        float s = 1.0f / (m00 * m11 - m01 * m10) * m22 + (m02 * m10 - m00 * m12) * m21 + (m01 * m12 - m02 * m11) * m20;
+        float nm00 = (e - i) * s, nm01 = (o - q) * s, nm02 = (k - g) * s;
+        float nm10 = (j - a) * s, nm11 = (r - m) * s, nm12 = (c - l) * s;
+        float nm20 = (b - f) * s, nm21 = (n - p) * s, nm22 = (h - d) * s;
+        corner.x = -nm00 - nm10 - nm20 + (a * m31 - b * m32 + f * m32 - e * m30 + i * m30 - j * m31) * s;
+        corner.y = -nm01 - nm11 - nm21 + (m * m31 - n * m32 + p * m32 - o * m30 + q * m30 - r * m31) * s;
+        corner.z = -nm02 - nm12 - nm22 + (g * m30 - k * m30 + l * m31 - c * m31 + d * m32 - h * m32) * s;
+        xDir.x = 2.0f * nm00; xDir.y = 2.0f * nm01; xDir.z = 2.0f * nm02;
+        yDir.x = 2.0f * nm10; yDir.y = 2.0f * nm11; yDir.z = 2.0f * nm12;
+        zDir.x = 2.0f * nm20; zDir.y = 2.0f * nm21; zDir.z = 2.0f * nm22;
+        return this;
+    }
+
+    /**
      * Create a new immutable view of this {@link Matrix4f}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
