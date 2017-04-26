@@ -273,7 +273,7 @@
 			<plugin>
 				<groupId>com.igormaznitsa</groupId>
 				<artifactId>jcp</artifactId>
-				<version>6.1.1</version>
+				<version>6.1.2</version>
 				<executions>
 					<execution>
 						<id>preprocessSources</id>
@@ -321,7 +321,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.0</version>
+				<version>3.6.1</version>
 				<configuration>
 					<excludes>
 						<exclude>org/joml/jre/**</exclude>
