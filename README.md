@@ -208,6 +208,25 @@ gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 gl.glLoadMatrixf(m.get(fb));
 ```
 
+Using with [Java 2D](https://docs.oracle.com/javase/tutorial/2d/)
+---------------------------------------------------
+Java 2D holds the transformation applied to drawn primitives in an instance of the [AffineTransform](https://docs.oracle.com/javase/7/docs/api/java/awt/geom/AffineTransform.html) class, which can be manipulated directly or operated on via methods on the [Graphics2D](https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html) class, such as [rotate()](https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html#rotate(double)) or [translate()](https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html#translate(double,%20double)).
+Instead of the AffineTransformation, JOML's matrix classes can be used to build the transformations. When a matrix has been built in JOML, its represented transformation can be copied to an AffineTransform instance like so:
+```Java
+Matrix4f m = ...; // <- any affine 2D transformation built with JOML
+AffineTransform t = ...; // <- any Java 2D AffineTransform (e.g. Graphics2D.getTransform())
+t.setTransform(m.m00(), m.m01(), m.m10(), m.m11(), m.m30(), m.m31());
+```
+The above will copy any affine 2D transformation, represented by the Matrix4f, to the provided AffineTransform instance.
+
+Since Java 2D cannot represent 3D transformations, using a Matrix4f in JOML is not necessary. For 2D transformations JOML provides the Matrix3x2f and Matrix3x2d classes. If those are used, copying the 2D transformation into a Java 2D AffineTransform instance works like this:
+```Java
+Matrix3x2f m = ...; // <- any 2D transformation built with JOML
+AffineTransform t = ...; // <- any Java 2D AffineTransform
+t.setTransform(m.m00, m.m01, m.m10, m.m11, m.m20, m.m21);
+```
+*(Note: The AffineTransform class uses a different order for the row and column indices of a matrix element. Here, the row index comes first, and then the column index)*
+
 Staying allocation-free
 -----------------------
 JOML is designed to be completely allocation-free for all methods. That means JOML will never allocate Java objects on the heap unless you as the client specifically requests to do so via the *new* keyword when creating a new matrix or vector or calling the *toString()* method on them.
