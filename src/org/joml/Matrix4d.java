@@ -135,6 +135,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.mul(right, dest);
         }
 
+        public Matrix4d mul(Matrix3x2dc right, Matrix4d dest) {
+            return delegate.mul(right, dest);
+        }
+
+        public Matrix4d mul(Matrix3x2fc right, Matrix4d dest) {
+            return delegate.mul(right, dest);
+        }
+
         public Matrix4d mul(Matrix4fc right, Matrix4d dest) {
             return delegate.mul(right, dest);
         }
@@ -144,10 +152,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         }
 
         public Matrix4d mulAffineR(Matrix4dc right, Matrix4d dest) {
-            return delegate.mulAffineR(right, dest);
-        }
-
-        public Matrix4d mulAffineR(Matrix4x3dc right, Matrix4d dest) {
             return delegate.mulAffineR(right, dest);
         }
 
@@ -473,6 +477,10 @@ public class Matrix4d implements Externalizable, Matrix4dc {
 
         public Matrix4d scaleLocal(double x, double y, double z, Matrix4d dest) {
             return delegate.scaleLocal(x, y, z, dest);
+        }
+
+        public Matrix4d scaleLocal(double xyz, Matrix4d dest) {
+            return delegate.scaleLocal(xyz, dest);
         }
 
         public Matrix4d scaleAroundLocal(double sx, double sy, double sz, double ox, double oy, double oz, Matrix4d dest) {
@@ -2050,6 +2058,13 @@ public class Matrix4d implements Externalizable, Matrix4dc {
     }
 
     /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#mul(org.joml.Matrix4x3dc)
+     */
+    public Matrix4d mul(Matrix4x3dc right) {
+        return mul(right, this);
+    }
+
+    /* (non-Javadoc)
      * @see org.joml.Matrix4dc#mul(org.joml.Matrix4x3dc, org.joml.Matrix4d)
      */
     public Matrix4d mul(Matrix4x3dc right, Matrix4d dest) {
@@ -2057,7 +2072,43 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
-        return mulAffineR(right, dest);
+        return mulGeneric(right, dest);
+    }
+    private Matrix4d mulGeneric(Matrix4x3dc right, Matrix4d dest) {
+        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
+        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
+        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
+        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
+        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
+        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
+        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
+        return dest;
     }
 
     /* (non-Javadoc)
@@ -2068,7 +2119,147 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return dest.set(right);
         else if ((right.properties() & PROPERTY_IDENTITY) != 0)
             return dest.set(this);
-        return mulAffineR(right, dest);
+        return mulGeneric(right, dest);
+    }
+    private Matrix4d mulGeneric(Matrix4x3fc right, Matrix4d dest) {
+        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
+        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
+        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
+        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
+        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
+        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
+        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
+        return dest;
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4d mul(Matrix3x2dc right) {
+        return mul(right, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#mul(org.joml.Matrix3x2dc, org.joml.Matrix4d)
+     */
+    public Matrix4d mul(Matrix3x2dc right, Matrix4d dest) {
+        double nm00 = m00 * right.m00() + m10 * right.m01();
+        double nm01 = m01 * right.m00() + m11 * right.m01();
+        double nm02 = m02 * right.m00() + m12 * right.m01();
+        double nm03 = m03 * right.m00() + m13 * right.m01();
+        double nm10 = m00 * right.m10() + m10 * right.m11();
+        double nm11 = m01 * right.m10() + m11 * right.m11();
+        double nm12 = m02 * right.m10() + m12 * right.m11();
+        double nm13 = m03 * right.m10() + m13 * right.m11();
+        double nm30 = m00 * right.m20() + m10 * right.m21() + m30;
+        double nm31 = m01 * right.m20() + m11 * right.m21() + m31;
+        double nm32 = m02 * right.m20() + m12 * right.m21() + m32;
+        double nm33 = m03 * right.m20() + m13 * right.m21() + m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
+        dest.m23 = m23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
+        return dest;
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4d mul(Matrix3x2fc right) {
+        return mul(right, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#mul(org.joml.Matrix3x2fc, org.joml.Matrix4d)
+     */
+    public Matrix4d mul(Matrix3x2fc right, Matrix4d dest) {
+        double nm00 = m00 * right.m00() + m10 * right.m01();
+        double nm01 = m01 * right.m00() + m11 * right.m01();
+        double nm02 = m02 * right.m00() + m12 * right.m01();
+        double nm03 = m03 * right.m00() + m13 * right.m01();
+        double nm10 = m00 * right.m10() + m10 * right.m11();
+        double nm11 = m01 * right.m10() + m11 * right.m11();
+        double nm12 = m02 * right.m10() + m12 * right.m11();
+        double nm13 = m03 * right.m10() + m13 * right.m11();
+        double nm30 = m00 * right.m20() + m10 * right.m21() + m30;
+        double nm31 = m01 * right.m20() + m11 * right.m21() + m31;
+        double nm32 = m02 * right.m20() + m12 * right.m21() + m32;
+        double nm33 = m03 * right.m20() + m13 * right.m21() + m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = m20;
+        dest.m21 = m21;
+        dest.m22 = m22;
+        dest.m23 = m23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
+        return dest;
     }
 
     /**
@@ -2211,122 +2402,6 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4dc, org.joml.Matrix4d)
      */
     public Matrix4d mulAffineR(Matrix4dc right, Matrix4d dest) {
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
-        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
-        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
-        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
-        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
-        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
-        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
-        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
-        dest.m22 = nm22;
-        dest.m23 = nm23;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
-        return dest;
-    }
-
-    /**
-     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
-     * <p>
-     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     *
-     * @param right
-     *          the right operand of the matrix multiplication
-     * @return this
-     */
-    public Matrix4d mulAffineR(Matrix4x3dc right) {
-       return mulAffineR(right, this);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4x3dc, org.joml.Matrix4d)
-     */
-    public Matrix4d mulAffineR(Matrix4x3dc right, Matrix4d dest) {
-        double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
-        double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
-        double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
-        double nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
-        double nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
-        double nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
-        double nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
-        double nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
-        double nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
-        double nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
-        double nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
-        double nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
-        double nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
-        double nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
-        double nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
-        double nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
-        dest.m00 = nm00;
-        dest.m01 = nm01;
-        dest.m02 = nm02;
-        dest.m03 = nm03;
-        dest.m10 = nm10;
-        dest.m11 = nm11;
-        dest.m12 = nm12;
-        dest.m13 = nm13;
-        dest.m20 = nm20;
-        dest.m21 = nm21;
-        dest.m22 = nm22;
-        dest.m23 = nm23;
-        dest.m30 = nm30;
-        dest.m31 = nm31;
-        dest.m32 = nm32;
-        dest.m33 = nm33;
-        dest.properties = (byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION));
-        return dest;
-    }
-
-    /**
-     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
-     * <p>
-     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     *
-     * @param right
-     *          the right operand of the matrix multiplication
-     * @return this
-     */
-    public Matrix4d mulAffineR(Matrix4x3fc right) {
-       return mulAffineR(right, this);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4dc#mulAffineR(org.joml.Matrix4x3fc, org.joml.Matrix4d)
-     */
-    public Matrix4d mulAffineR(Matrix4x3fc right, Matrix4d dest) {
         double nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
         double nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
         double nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
@@ -5038,6 +5113,29 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         dest.m33 = nm33;
         dest.properties = (byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION));
         return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#scaleLocal(double, org.joml.Matrix4d)
+     */
+    public Matrix4d scaleLocal(double xyz, Matrix4d dest) {
+        return scaleLocal(xyz, xyz, xyz, dest);
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling the base axes by the given xyz factor.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * 
+     * @param xyz
+     *            the factor of the x, y and z component
+     * @return this
+     */
+    public Matrix4d scaleLocal(double xyz) {
+        return scaleLocal(xyz, this);
     }
 
     /**

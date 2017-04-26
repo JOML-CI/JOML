@@ -95,8 +95,16 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
             return delegate.translate(x, y, dest);
         }
 
-        public Matrix3x2d translate(Vector2d offset, Matrix3x2d dest) {
+        public Matrix3x2d translate(Vector2dc offset, Matrix3x2d dest) {
             return delegate.translate(offset, dest);
+        }
+
+        public Matrix3x2d translateLocal(double x, double y, Matrix3x2d dest) {
+            return delegate.translateLocal(x, y, dest);
+        }
+
+        public Matrix3x2d translateLocal(Vector2dc offset, Matrix3x2d dest) {
+            return delegate.translateLocal(offset, dest);
         }
 
         public Matrix3x2d get(Matrix3x2d dest) {
@@ -167,6 +175,14 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
             return delegate.scale(x, y, dest);
         }
 
+        public Matrix3x2d scaleLocal(double x, double y, Matrix3x2d dest) {
+            return delegate.scaleLocal(x, y, dest);
+        }
+
+        public Matrix3x2d scaleLocal(double xy, Matrix3x2d dest) {
+            return delegate.scaleLocal(xy, dest);
+        }
+
         public Matrix3x2d scaleAroundLocal(double sx, double sy, double ox, double oy, Matrix3x2d dest) {
             return delegate.scaleAroundLocal(sx, sy, ox, oy, dest);
         }
@@ -191,7 +207,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
             return delegate.transform(v);
         }
 
-        public Vector3d transform(Vector3d v, Vector3d dest) {
+        public Vector3d transform(Vector3dc v, Vector3d dest) {
             return delegate.transform(v, dest);
         }
 
@@ -203,7 +219,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
             return delegate.transformPosition(v);
         }
 
-        public Vector2d transformPosition(Vector2d v, Vector2d dest) {
+        public Vector2d transformPosition(Vector2dc v, Vector2d dest) {
             return delegate.transformPosition(v, dest);
         }
 
@@ -215,7 +231,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
             return delegate.transformDirection(v);
         }
 
-        public Vector2d transformDirection(Vector2d v, Vector2d dest) {
+        public Vector2d transformDirection(Vector2dc v, Vector2d dest) {
             return delegate.transformDirection(v, dest);
         }
 
@@ -227,11 +243,15 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
             return delegate.rotate(ang, dest);
         }
 
+        public Matrix3x2d rotateLocal(double ang, Matrix3x2d dest) {
+            return delegate.rotateLocal(ang, dest);
+        }
+
         public Matrix3x2d rotateAbout(double ang, double x, double y, Matrix3x2d dest) {
             return delegate.rotateAbout(ang, x, y, dest);
         }
 
-        public Matrix3x2d rotateTo(Vector2d fromDir, Vector2d toDir, Matrix3x2d dest) {
+        public Matrix3x2d rotateTo(Vector2dc fromDir, Vector2dc toDir, Matrix3x2d dest) {
             return delegate.rotateTo(fromDir, toDir, dest);
         }
 
@@ -581,16 +601,16 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * matrix to obtain an additional translation.
      * <p>
      * In order to apply a translation via to an already existing transformation
-     * matrix, use {@link #translate(Vector2d) translate()} instead.
+     * matrix, use {@link #translate(Vector2dc) translate()} instead.
      * 
-     * @see #translate(Vector2d)
+     * @see #translate(Vector2dc)
      * 
      * @param offset
      *          the translation
      * @return this
      */
-    public Matrix3x2d translation(Vector2d offset) {
-        return translation(offset.x, offset.y);
+    public Matrix3x2d translation(Vector2dc offset) {
+        return translation(offset.x(), offset.y());
     }
 
     /**
@@ -617,18 +637,18 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     /**
      * Set only the translation components of this matrix <tt>(m20, m21)</tt> to the given values <tt>(offset.x, offset.y)</tt>.
      * <p>
-     * To build a translation matrix instead, use {@link #translation(Vector2d)}.
-     * To apply a translation to another matrix, use {@link #translate(Vector2d)}.
+     * To build a translation matrix instead, use {@link #translation(Vector2dc)}.
+     * To apply a translation to another matrix, use {@link #translate(Vector2dc)}.
      * 
-     * @see #translation(Vector2d)
-     * @see #translate(Vector2d)
+     * @see #translation(Vector2dc)
+     * @see #translate(Vector2dc)
      * 
      * @param offset
      *          the new translation to set
      * @return this
      */
-    public Matrix3x2d setTranslation(Vector2d offset) {
-        return setTranslation(offset.x, offset.y);
+    public Matrix3x2d setTranslation(Vector2dc offset) {
+        return setTranslation(offset.x(), offset.y());
     }
 
     /**
@@ -698,9 +718,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(double, double)}.
+     * it, use {@link #translation(Vector2dc)}.
      * 
-     * @see #translation(Vector2d)
+     * @see #translation(Vector2dc)
      * 
      * @param offset
      *          the offset to translate
@@ -708,8 +728,8 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Matrix3x2d translate(Vector2d offset, Matrix3x2d dest) {
-        return translate(offset.x, offset.y, dest);
+    public Matrix3x2d translate(Vector2dc offset, Matrix3x2d dest) {
+        return translate(offset.x(), offset.y(), dest);
     }
 
     /**
@@ -721,16 +741,118 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * <code>M * T * v</code>, the translation will be applied first!
      * <p>
      * In order to set the matrix to a translation transformation without post-multiplying
-     * it, use {@link #translation(double, double)}.
+     * it, use {@link #translation(Vector2dc)}.
      * 
-     * @see #translation(Vector2d)
+     * @see #translation(Vector2dc)
      * 
      * @param offset
      *          the offset to translate
      * @return this
      */
-    public Matrix3x2d translate(Vector2d offset) {
-        return translate(offset.x, offset.y, this);
+    public Matrix3x2d translate(Vector2dc offset) {
+        return translate(offset.x(), offset.y(), this);
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x and y.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without pre-multiplying
+     * it, use {@link #translation(Vector2dc)}.
+     * 
+     * @see #translation(Vector2dc)
+     * 
+     * @param offset
+     *          the number of units in x and y by which to translate
+     * @return this
+     */
+    public Matrix3x2d translateLocal(Vector2dc offset) {
+        return translateLocal(offset.x(), offset.y());
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x and y and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without pre-multiplying
+     * it, use {@link #translation(Vector2dc)}.
+     * 
+     * @see #translation(Vector2dc)
+     * 
+     * @param offset
+     *          the number of units in x and y by which to translate
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3x2d translateLocal(Vector2dc offset, Matrix3x2d dest) {
+        return translateLocal(offset.x(), offset.y(), dest);
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x and y and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without pre-multiplying
+     * it, use {@link #translation(double, double)}.
+     * 
+     * @see #translation(double, double)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public Matrix3x2d translateLocal(double x, double y, Matrix3x2d dest) {
+        dest.m00 = m00;
+        dest.m01 = m01;
+        dest.m10 = m10;
+        dest.m11 = m11;
+        dest.m20 = m20 + x;
+        dest.m21 = m21 + y;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x and y.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * <p>
+     * In order to set the matrix to a translation transformation without pre-multiplying
+     * it, use {@link #translation(double, double)}.
+     * 
+     * @see #translation(double, double)
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @return this
+     */
+    public Matrix3x2d translateLocal(double x, double y) {
+        return translateLocal(x, y, this);
     }
 
     /**
@@ -1164,6 +1286,60 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
         return scale(xy, xy);
     }
 
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3x2dc#scaleLocal(double, double, org.joml.Matrix3x2d)
+     */
+    public Matrix3x2d scaleLocal(double x, double y, Matrix3x2d dest) {
+        dest.m00 = x * m00;
+        dest.m01 = y * m01;
+        dest.m10 = x * m10;
+        dest.m11 = y * m11;
+        dest.m20 = x * m20;
+        dest.m21 = y * m21;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling the base axes by the given x and y factors.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @return this
+     */
+    public Matrix3x2d scaleLocal(double x, double y) {
+        return scaleLocal(x, y, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3x2dc#scaleLocal(double, org.joml.Matrix3x2d)
+     */
+    public Matrix3x2d scaleLocal(double xy, Matrix3x2d dest) {
+        return scaleLocal(xy, xy, dest);
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling the base axes by the given xy factor.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * 
+     * @param xy
+     *            the factor of the x and y component
+     * @return this
+     */
+    public Matrix3x2d scaleLocal(double xy) {
+        return scaleLocal(xy, xy, this);
+    }
+
     /**
      * Apply scaling to <code>this</code> matrix by scaling the base axes by the given sx and
      * sy factors while using <tt>(ox, oy)</tt> as the scaling origin, and store the result in <code>dest</code>.
@@ -1435,7 +1611,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          will contain the result
      * @return dest
      */
-    public Vector3d transform(Vector3d v, Vector3d dest) {
+    public Vector3d transform(Vector3dc v, Vector3d dest) {
         return v.mul(this, dest);
     }
 
@@ -1463,9 +1639,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
      * will represent a position/location in 2D-space rather than a direction.
      * <p>
-     * In order to store the result in another vector, use {@link #transformPosition(Vector2d, Vector2d)}.
+     * In order to store the result in another vector, use {@link #transformPosition(Vector2dc, Vector2d)}.
      * 
-     * @see #transformPosition(Vector2d, Vector2d)
+     * @see #transformPosition(Vector2dc, Vector2d)
      * @see #transform(Vector3d)
      * 
      * @param v
@@ -1488,7 +1664,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * In order to store the result in the same vector, use {@link #transformPosition(Vector2d)}.
      * 
      * @see #transformPosition(Vector2d)
-     * @see #transform(Vector3d, Vector3d)
+     * @see #transform(Vector3dc, Vector3d)
      * 
      * @param v
      *          the vector to transform
@@ -1496,9 +1672,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector2d transformPosition(Vector2d v, Vector2d dest) {
-        dest.set(m00 * v.x + m10 * v.y + m20,
-                 m01 * v.x + m11 * v.y + m21);
+    public Vector2d transformPosition(Vector2dc v, Vector2d dest) {
+        dest.set(m00 * v.x() + m10 * v.y() + m20,
+                 m01 * v.x() + m11 * v.y() + m21);
         return dest;
     }
 
@@ -1512,7 +1688,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * In order to store the result in the same vector, use {@link #transformPosition(Vector2d)}.
      * 
      * @see #transformPosition(Vector2d)
-     * @see #transform(Vector3d, Vector3d)
+     * @see #transform(Vector3dc, Vector3d)
      * 
      * @param x
      *          the x component of the vector to transform
@@ -1534,9 +1710,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      * will represent a direction in 2D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
-     * In order to store the result in another vector, use {@link #transformDirection(Vector2d, Vector2d)}.
+     * In order to store the result in another vector, use {@link #transformDirection(Vector2dc, Vector2d)}.
      * 
-     * @see #transformDirection(Vector2d, Vector2d)
+     * @see #transformDirection(Vector2dc, Vector2d)
      * 
      * @param v
      *          the vector to transform and to hold the final result
@@ -1566,9 +1742,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *          will hold the result
      * @return dest
      */
-    public Vector2d transformDirection(Vector2d v, Vector2d dest) {
-        dest.set(m00 * v.x + m10 * v.y,
-                 m01 * v.x + m11 * v.y);
+    public Vector2d transformDirection(Vector2dc v, Vector2d dest) {
+        dest.set(m00 * v.x() + m10 * v.y(),
+                 m01 * v.x() + m11 * v.y());
         return dest;
     }
 
@@ -1663,6 +1839,68 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotation(double) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(double)
+     * 
+     * @param ang
+     *            the angle in radians to rotate
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    public Matrix3x2d rotateLocal(double ang, Matrix3x2d dest) {
+        double sin = Math.sin(ang);
+        double cos = Math.cosFromSin(sin, ang);
+        double nm00 = cos * m00 - sin * m01;
+        double nm01 = sin * m00 + cos * m01;
+        double nm10 = cos * m10 - sin * m11;
+        double nm11 = sin * m10 + cos * m11;
+        double nm20 = cos * m20 - sin * m21;
+        double nm21 = sin * m20 + cos * m21;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * In order to set the matrix to a rotation matrix without pre-multiplying the rotation
+     * transformation, use {@link #rotation(double) rotation()}.
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @see #rotation(double)
+     * 
+     * @param ang
+     *            the angle in radians to rotate
+     * @return this
+     */
+    public Matrix3x2d rotateLocal(double ang) {
+        return rotateLocal(ang, this);
+    }
+
+    /**
      * Apply a rotation transformation to this matrix by rotating the given amount of radians about
      * the specified rotation center <tt>(x, y)</tt>.
      * <p>
@@ -1742,9 +1980,9 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *            will hold the result
      * @return dest
      */
-    public Matrix3x2d rotateTo(Vector2d fromDir, Vector2d toDir, Matrix3x2d dest) {
-        double dot = fromDir.x * toDir.x + fromDir.y * toDir.y;
-        double det = fromDir.x * toDir.y - fromDir.y * toDir.x;
+    public Matrix3x2d rotateTo(Vector2dc fromDir, Vector2dc toDir, Matrix3x2d dest) {
+        double dot = fromDir.x() * toDir.x() + fromDir.y() * toDir.y();
+        double det = fromDir.x() * toDir.y() - fromDir.y() * toDir.x();
         double rm00 = dot;
         double rm01 = det;
         double rm10 = -det;
@@ -1774,7 +2012,7 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
      *            the normalized destination direction
      * @return this
      */
-    public Matrix3x2d rotateTo(Vector2d fromDir, Vector2d toDir) {
+    public Matrix3x2d rotateTo(Vector2dc fromDir, Vector2dc toDir) {
         return rotateTo(fromDir, toDir, this);
     }
 

@@ -130,6 +130,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.mul(right, dest);
         }
 
+        public Matrix4f mul(Matrix3x2fc right, Matrix4f dest) {
+            return delegate.mul(right, dest);
+        }
+
         public Matrix4f mul(Matrix4x3fc right, Matrix4f dest) {
             return delegate.mul(right, dest);
         }
@@ -143,10 +147,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         }
 
         public Matrix4f mulAffineR(Matrix4fc right, Matrix4f dest) {
-            return delegate.mulAffineR(right, dest);
-        }
-
-        public Matrix4f mulAffineR(Matrix4x3fc right, Matrix4f dest) {
             return delegate.mulAffineR(right, dest);
         }
 
@@ -463,6 +463,10 @@ public class Matrix4f implements Externalizable, Matrix4fc {
 
         public Matrix4f scaleLocal(float x, float y, float z, Matrix4f dest) {
             return delegate.scaleLocal(x, y, z, dest);
+        }
+
+        public Matrix4f scaleLocal(float xyz, Matrix4f dest) {
+            return delegate.scaleLocal(xyz, dest);
         }
 
         public Matrix4f scaleAroundLocal(float sx, float sy, float sz, float ox, float oy, float oz, Matrix4f dest) {
@@ -2090,6 +2094,22 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         return dest;
     }
 
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4f mul(Matrix4x3fc right) {
+        return mul(right, this);
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Matrix4fc#mul(org.joml.Matrix4x3fc, org.joml.Matrix4f)
      */
@@ -2100,7 +2120,95 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return dest.set(this);
         else if ((properties & PROPERTY_PERSPECTIVE) != 0 && (right.properties() & PROPERTY_AFFINE) != 0)
             return mulPerspectiveAffine(right, dest);
-        return mulAffineR(right, dest);
+        return mulGeneric(right, dest);
+    }
+    private Matrix4f mulGeneric(Matrix4x3fc right, Matrix4f dest) {
+        float nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
+        float nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
+        float nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
+        float nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
+        float nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
+        float nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
+        float nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
+        float nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
+        float nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
+        float nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
+        float nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
+        float nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
+        float nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
+        float nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
+        float nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
+        float nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
+        dest._properties((byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION)));
+        return dest;
+    }
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4f mul(Matrix3x2fc right) {
+        return mul(right, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#mul(org.joml.Matrix3x2fc, org.joml.Matrix4f)
+     */
+    public Matrix4f mul(Matrix3x2fc right, Matrix4f dest) {
+        float nm00 = m00 * right.m00() + m10 * right.m01();
+        float nm01 = m01 * right.m00() + m11 * right.m01();
+        float nm02 = m02 * right.m00() + m12 * right.m01();
+        float nm03 = m03 * right.m00() + m13 * right.m01();
+        float nm10 = m00 * right.m10() + m10 * right.m11();
+        float nm11 = m01 * right.m10() + m11 * right.m11();
+        float nm12 = m02 * right.m10() + m12 * right.m11();
+        float nm13 = m03 * right.m10() + m13 * right.m11();
+        float nm30 = m00 * right.m20() + m10 * right.m21() + m30;
+        float nm31 = m01 * right.m20() + m11 * right.m21() + m31;
+        float nm32 = m02 * right.m20() + m12 * right.m21() + m32;
+        float nm33 = m03 * right.m20() + m13 * right.m21() + m33;
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(m20);
+        dest._m21(m21);
+        dest._m22(m22);
+        dest._m23(m23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
+        dest._properties((byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION)));
+        return dest;
     }
 
     /**
@@ -2238,64 +2346,6 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      * @see org.joml.Matrix4fc#mulAffineR(org.joml.Matrix4fc, org.joml.Matrix4f)
      */
     public Matrix4f mulAffineR(Matrix4fc right, Matrix4f dest) {
-        float nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
-        float nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
-        float nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
-        float nm03 = m03 * right.m00() + m13 * right.m01() + m23 * right.m02();
-        float nm10 = m00 * right.m10() + m10 * right.m11() + m20 * right.m12();
-        float nm11 = m01 * right.m10() + m11 * right.m11() + m21 * right.m12();
-        float nm12 = m02 * right.m10() + m12 * right.m11() + m22 * right.m12();
-        float nm13 = m03 * right.m10() + m13 * right.m11() + m23 * right.m12();
-        float nm20 = m00 * right.m20() + m10 * right.m21() + m20 * right.m22();
-        float nm21 = m01 * right.m20() + m11 * right.m21() + m21 * right.m22();
-        float nm22 = m02 * right.m20() + m12 * right.m21() + m22 * right.m22();
-        float nm23 = m03 * right.m20() + m13 * right.m21() + m23 * right.m22();
-        float nm30 = m00 * right.m30() + m10 * right.m31() + m20 * right.m32() + m30;
-        float nm31 = m01 * right.m30() + m11 * right.m31() + m21 * right.m32() + m31;
-        float nm32 = m02 * right.m30() + m12 * right.m31() + m22 * right.m32() + m32;
-        float nm33 = m03 * right.m30() + m13 * right.m31() + m23 * right.m32() + m33;
-        dest._m00(nm00);
-        dest._m01(nm01);
-        dest._m02(nm02);
-        dest._m03(nm03);
-        dest._m10(nm10);
-        dest._m11(nm11);
-        dest._m12(nm12);
-        dest._m13(nm13);
-        dest._m20(nm20);
-        dest._m21(nm21);
-        dest._m22(nm22);
-        dest._m23(nm23);
-        dest._m30(nm30);
-        dest._m31(nm31);
-        dest._m32(nm32);
-        dest._m33(nm33);
-        dest._properties((byte) (properties & ~(PROPERTY_IDENTITY | PROPERTY_PERSPECTIVE | PROPERTY_TRANSLATION)));
-        return dest;
-    }
-
-    /**
-     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>this</code>.
-     * <p>
-     * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     *
-     * @param right
-     *          the right operand of the matrix multiplication
-     * @return this
-     */
-    public Matrix4f mulAffineR(Matrix4x3fc right) {
-       return mulAffineR(right, this);
-    }
-
-    /* (non-Javadoc)
-     * @see org.joml.Matrix4fc#mulAffineR(org.joml.Matrix4x3fc, org.joml.Matrix4f)
-     */
-    public Matrix4f mulAffineR(Matrix4x3fc right, Matrix4f dest) {
         float nm00 = m00 * right.m00() + m10 * right.m01() + m20 * right.m02();
         float nm01 = m01 * right.m00() + m11 * right.m01() + m21 * right.m02();
         float nm02 = m02 * right.m00() + m12 * right.m01() + m22 * right.m02();
@@ -5476,6 +5526,29 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m33(nm33);
         dest._properties((byte) (properties & ~(PROPERTY_PERSPECTIVE | PROPERTY_IDENTITY | PROPERTY_TRANSLATION)));
         return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#scaleLocal(float, org.joml.Matrix4f)
+     */
+    public Matrix4f scaleLocal(float xyz, Matrix4f dest) {
+        return scaleLocal(xyz, xyz, xyz, dest);
+    }
+
+    /**
+     * Pre-multiply scaling to this matrix by scaling the base axes by the given xyz factor.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>, the
+     * scaling will be applied last!
+     * 
+     * @param xyz
+     *            the factor of the x, y and z component
+     * @return this
+     */
+    public Matrix4f scaleLocal(float xyz) {
+        return scaleLocal(xyz, this);
     }
 
     /**

@@ -262,6 +262,22 @@ public interface Matrix4fc {
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
      * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
+     * then the new matrix will be <code>M * R</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
+     * transformation of the right matrix will be applied first!
+     *
+     * @param right
+     *          the right operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    Matrix4f mul(Matrix3x2fc right, Matrix4f dest);
+
+    /**
+     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
+     * <p>
      * The last row of the <code>right</code> matrix is assumed to be <tt>(0, 0, 0, 1)</tt>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
@@ -327,22 +343,6 @@ public interface Matrix4fc {
      * @return dest
      */
     Matrix4f mulAffineR(Matrix4fc right, Matrix4f dest);
-
-    /**
-     * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
-     * <p>
-     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,
-     * then the new matrix will be <code>M * R</code>. So when transforming a
-     * vector <code>v</code> with the new matrix by using <code>M * R * v</code>, the
-     * transformation of the right matrix will be applied first!
-     *
-     * @param right
-     *          the right operand of the matrix multiplication
-     * @param dest
-     *          the destination matrix, which will hold the result
-     * @return dest
-     */
-    Matrix4f mulAffineR(Matrix4x3fc right, Matrix4f dest);
 
     /**
      * Multiply this matrix by the supplied <code>right</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
@@ -1519,6 +1519,23 @@ public interface Matrix4fc {
      * @return this
      */
     Matrix4f scaleAround(float factor, float ox, float oy, float oz, Matrix4f dest);
+
+    /**
+     * Pre-multiply scaling to <code>this</code> matrix by scaling all base axes by the given <code>xyz</code> factor,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
+     * , the scaling will be applied last!
+     * 
+     * @param xyz
+     *            the factor to scale all three base axes by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Matrix4f scaleLocal(float xyz, Matrix4f dest);
 
     /**
      * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given x,

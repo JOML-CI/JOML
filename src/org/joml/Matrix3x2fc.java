@@ -152,7 +152,43 @@ public interface Matrix3x2fc {
      *          will hold the result
      * @return dest
      */
-    Matrix3x2f translate(Vector2f offset, Matrix3x2f dest);
+    Matrix3x2f translate(Vector2fc offset, Matrix3x2f dest);
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x and y and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * 
+     * @param offset
+     *          the number of units in x and y by which to translate
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix3x2f translateLocal(Vector2fc offset, Matrix3x2f dest);
+
+    /**
+     * Pre-multiply a translation to this matrix by translating by the given number of
+     * units in x and y and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>T</code> the translation
+     * matrix, then the new matrix will be <code>T * M</code>. So when
+     * transforming a vector <code>v</code> with the new matrix by using
+     * <code>T * M * v</code>, the translation will be applied last!
+     * 
+     * @param x
+     *          the offset to translate in x
+     * @param y
+     *          the offset to translate in y
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Matrix3x2f translateLocal(float x, float y, Matrix3x2f dest);
 
     /**
      * Get the current values of <code>this</code> matrix and store them into
@@ -450,6 +486,42 @@ public interface Matrix3x2fc {
     Matrix3x2f scale(float xy, Matrix3x2f dest);
 
     /**
+     * Pre-multiply scaling to <code>this</code> matrix by scaling the two base axes by the given <code>xy</code> factor,
+     * and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
+     * , the scaling will be applied last!
+     * 
+     * @param xy
+     *            the factor to scale all two base axes by
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Matrix3x2f scaleLocal(float xy, Matrix3x2f dest);
+
+    /**
+     * Pre-multiply scaling to <code>this</code> matrix by scaling the base axes by the given x and y
+     * factors and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>S</code> the scaling matrix,
+     * then the new matrix will be <code>S * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>S * M * v</code>
+     * , the scaling will be applied last!
+     * 
+     * @param x
+     *            the factor of the x component
+     * @param y
+     *            the factor of the y component
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Matrix3x2f scaleLocal(float x, float y, Matrix3x2f dest);
+
+    /**
      * Apply scaling to <code>this</code> matrix by scaling the base axes by the given sx and
      * sy factors while using <tt>(ox, oy)</tt> as the scaling origin, and store the result in <code>dest</code>.
      * <p>
@@ -545,9 +617,9 @@ public interface Matrix3x2fc {
      * The given 2D-vector is treated as a 3D-vector with its z-component being 1.0, so it
      * will represent a position/location in 2D-space rather than a direction.
      * <p>
-     * In order to store the result in another vector, use {@link #transformPosition(Vector2f, Vector2f)}.
+     * In order to store the result in another vector, use {@link #transformPosition(Vector2fc, Vector2f)}.
      * 
-     * @see #transformPosition(Vector2f, Vector2f)
+     * @see #transformPosition(Vector2fc, Vector2f)
      * @see #transform(Vector3f)
      * 
      * @param v
@@ -574,7 +646,7 @@ public interface Matrix3x2fc {
      *          will hold the result
      * @return dest
      */
-    Vector2f transformPosition(Vector2f v, Vector2f dest);
+    Vector2f transformPosition(Vector2fc v, Vector2f dest);
 
     /**
      * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=1, by
@@ -606,9 +678,9 @@ public interface Matrix3x2fc {
      * will represent a direction in 2D-space rather than a position. This method will therefore
      * not take the translation part of the matrix into account.
      * <p>
-     * In order to store the result in another vector, use {@link #transformDirection(Vector2f, Vector2f)}.
+     * In order to store the result in another vector, use {@link #transformDirection(Vector2fc, Vector2f)}.
      * 
-     * @see #transformDirection(Vector2f, Vector2f)
+     * @see #transformDirection(Vector2fc, Vector2f)
      * 
      * @param v
      *          the vector to transform and to hold the final result
@@ -634,7 +706,7 @@ public interface Matrix3x2fc {
      *          will hold the result
      * @return dest
      */
-    Vector2f transformDirection(Vector2f v, Vector2f dest);
+    Vector2f transformDirection(Vector2fc v, Vector2f dest);
 
     /**
      * Transform/multiply the given 2D-vector <tt>(x, y)</tt>, as if it was a 3D-vector with z=0, by
@@ -672,6 +744,24 @@ public interface Matrix3x2fc {
      * @return dest
      */
     Matrix3x2f rotate(float ang, Matrix3x2f dest);
+
+    /**
+     * Pre-multiply a rotation to this matrix by rotating the given amount of radians and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>R</code> the rotation matrix,
+     * then the new matrix will be <code>R * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>R * M * v</code>, the
+     * rotation will be applied last!
+     * <p>
+     * Reference: <a href="http://en.wikipedia.org/wiki/Rotation_matrix#Rotation_matrix_from_axis_and_angle">http://en.wikipedia.org</a>
+     * 
+     * @param ang
+     *            the angle in radians
+     * @param dest
+     *            will hold the result
+     * @return dest
+     */
+    Matrix3x2f rotateLocal(float ang, Matrix3x2f dest);
 
     /**
      * Apply a rotation transformation to this matrix by rotating the given amount of radians about
@@ -714,7 +804,7 @@ public interface Matrix3x2fc {
      *            will hold the result
      * @return dest
      */
-    Matrix3x2f rotateTo(Vector2f fromDir, Vector2f toDir, Matrix3x2f dest);
+    Matrix3x2f rotateTo(Vector2fc fromDir, Vector2fc toDir, Matrix3x2f dest);
 
     /**
      * Apply a "view" transformation to this matrix that maps the given <tt>(left, bottom)</tt> and
