@@ -1434,7 +1434,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#transform(org.joml.Vector3fc, org.joml.Vector3f)
+     * @see org.joml.Quaternionfc#transform(org.joml.Vector3dc, org.joml.Vector3d)
      */
     public Vector3d transform(Vector3dc vec, Vector3d dest) {
         return transform(vec.x(), vec.y(), vec.z(), dest);
@@ -1470,7 +1470,7 @@ public class Quaternionf implements Externalizable, Quaternionfc {
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Quaternionfc#transform(float, float, float, org.joml.Vector3d)
+     * @see org.joml.Quaternionfc#transform(double, double, double, org.joml.Vector3d)
      */
     public Vector3d transform(double x, double y, double z, Vector3d dest) {
         float w2 = this.w * this.w;
