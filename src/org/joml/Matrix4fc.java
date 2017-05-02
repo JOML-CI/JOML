@@ -260,6 +260,44 @@ public interface Matrix4fc {
     Matrix4f mul(Matrix4fc right, Matrix4f dest);
 
     /**
+     * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
+     * then the new matrix will be <code>L * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
+     * transformation of <code>this</code> matrix will be applied first!
+     *
+     * @param left
+     *          the left operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    Matrix4f mulLocal(Matrix4fc left, Matrix4f dest);
+
+    /**
+     * Pre-multiply this matrix by the supplied <code>left</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>dest</code>.
+     * <p>
+     * This method assumes that <code>this</code> matrix and the given <code>left</code> matrix both represent an {@link #isAffine() affine} transformation
+     * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrices only represent affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>left</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
+     * then the new matrix will be <code>L * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
+     * transformation of <code>this</code> matrix will be applied first!
+     *
+     * @param left
+     *          the left operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    Matrix4f mulLocalAffine(Matrix4fc left, Matrix4f dest);
+
+    /**
      * Multiply this matrix by the supplied <code>right</code> matrix and store the result in <code>dest</code>.
      * <p>
      * If <code>M</code> is <code>this</code> matrix and <code>R</code> the <code>right</code> matrix,

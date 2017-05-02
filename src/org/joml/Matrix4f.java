@@ -130,6 +130,14 @@ public class Matrix4f implements Externalizable, Matrix4fc {
             return delegate.mul(right, dest);
         }
 
+        public Matrix4f mulLocal(Matrix4fc left, Matrix4f dest) {
+            return delegate.mulLocal(left, dest);
+        }
+
+        public Matrix4f mulLocalAffine(Matrix4fc left, Matrix4f dest) {
+            return delegate.mulLocalAffine(left, dest);
+        }
+
         public Matrix4f mul(Matrix3x2fc right, Matrix4f dest) {
             return delegate.mul(right, dest);
         }
@@ -2091,6 +2099,133 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         dest._m32(nm32);
         dest._m33(nm33);
         dest._properties(0);
+        return dest;
+    }
+
+    /**
+     * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
+     * then the new matrix will be <code>L * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
+     * transformation of <code>this</code> matrix will be applied first!
+     *
+     * @param left
+     *          the left operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4f mulLocal(Matrix4fc left) {
+       return mulLocal(left, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#mulLocal(org.joml.Matrix4fc, org.joml.Matrix4f)
+     */
+    public Matrix4f mulLocal(Matrix4fc left, Matrix4f dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(left);
+        else if ((left.properties() & PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        else if ((properties & PROPERTY_AFFINE) != 0 && (left.properties() & PROPERTY_AFFINE) != 0)
+            return mulLocalAffine(left, dest);
+        return mulLocalGeneric(left, dest);
+    }
+    private Matrix4f mulLocalGeneric(Matrix4fc left, Matrix4f dest) {
+        float nm00 = left.m00() * m00 + left.m10() * m01 + left.m20() * m02 + left.m30() * m03;
+        float nm01 = left.m01() * m00 + left.m11() * m01 + left.m21() * m02 + left.m31() * m03;
+        float nm02 = left.m02() * m00 + left.m12() * m01 + left.m22() * m02 + left.m32() * m03;
+        float nm03 = left.m03() * m00 + left.m13() * m01 + left.m23() * m02 + left.m33() * m03;
+        float nm10 = left.m00() * m10 + left.m10() * m11 + left.m20() * m12 + left.m30() * m13;
+        float nm11 = left.m01() * m10 + left.m11() * m11 + left.m21() * m12 + left.m31() * m13;
+        float nm12 = left.m02() * m10 + left.m12() * m11 + left.m22() * m12 + left.m32() * m13;
+        float nm13 = left.m03() * m10 + left.m13() * m11 + left.m23() * m12 + left.m33() * m13;
+        float nm20 = left.m00() * m20 + left.m10() * m21 + left.m20() * m22 + left.m30() * m23;
+        float nm21 = left.m01() * m20 + left.m11() * m21 + left.m21() * m22 + left.m31() * m23;
+        float nm22 = left.m02() * m20 + left.m12() * m21 + left.m22() * m22 + left.m32() * m23;
+        float nm23 = left.m03() * m20 + left.m13() * m21 + left.m23() * m22 + left.m33() * m23;
+        float nm30 = left.m00() * m30 + left.m10() * m31 + left.m20() * m32 + left.m30() * m33;
+        float nm31 = left.m01() * m30 + left.m11() * m31 + left.m21() * m32 + left.m31() * m33;
+        float nm32 = left.m02() * m30 + left.m12() * m31 + left.m22() * m32 + left.m32() * m33;
+        float nm33 = left.m03() * m30 + left.m13() * m31 + left.m23() * m32 + left.m33() * m33;
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
+        dest._properties(0);
+        return dest;
+    }
+
+    /**
+     * Pre-multiply this matrix by the supplied <code>left</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>this</code>.
+     * <p>
+     * This method assumes that <code>this</code> matrix and the given <code>left</code> matrix both represent an {@link #isAffine() affine} transformation
+     * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrices only represent affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>left</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
+     * then the new matrix will be <code>L * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
+     * transformation of <code>this</code> matrix will be applied first!
+     *
+     * @param left
+     *          the left operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @return this
+     */
+    public Matrix4f mulLocalAffine(Matrix4fc left) {
+       return mulLocalAffine(left, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4fc#mulLocalAffine(org.joml.Matrix4fc, org.joml.Matrix4f)
+     */
+    public Matrix4f mulLocalAffine(Matrix4fc left, Matrix4f dest) {
+        float nm00 = left.m00() * m00 + left.m10() * m01 + left.m20() * m02;
+        float nm01 = left.m01() * m00 + left.m11() * m01 + left.m21() * m02;
+        float nm02 = left.m02() * m00 + left.m12() * m01 + left.m22() * m02;
+        float nm03 = left.m03();
+        float nm10 = left.m00() * m10 + left.m10() * m11 + left.m20() * m12;
+        float nm11 = left.m01() * m10 + left.m11() * m11 + left.m21() * m12;
+        float nm12 = left.m02() * m10 + left.m12() * m11 + left.m22() * m12;
+        float nm13 = left.m13();
+        float nm20 = left.m00() * m20 + left.m10() * m21 + left.m20() * m22;
+        float nm21 = left.m01() * m20 + left.m11() * m21 + left.m21() * m22;
+        float nm22 = left.m02() * m20 + left.m12() * m21 + left.m22() * m22;
+        float nm23 = left.m23();
+        float nm30 = left.m00() * m30 + left.m10() * m31 + left.m20() * m32 + left.m30();
+        float nm31 = left.m01() * m30 + left.m11() * m31 + left.m21() * m32 + left.m31();
+        float nm32 = left.m02() * m30 + left.m12() * m31 + left.m22() * m32 + left.m32();
+        float nm33 = left.m33();
+        dest._m00(nm00);
+        dest._m01(nm01);
+        dest._m02(nm02);
+        dest._m03(nm03);
+        dest._m10(nm10);
+        dest._m11(nm11);
+        dest._m12(nm12);
+        dest._m13(nm13);
+        dest._m20(nm20);
+        dest._m21(nm21);
+        dest._m22(nm22);
+        dest._m23(nm23);
+        dest._m30(nm30);
+        dest._m31(nm31);
+        dest._m32(nm32);
+        dest._m33(nm33);
+        dest._properties(PROPERTY_AFFINE);
         return dest;
     }
 
