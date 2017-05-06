@@ -179,6 +179,34 @@ public interface Vector2dc {
     Vector2d mul(Vector2dc v, Vector2d dest);
 
     /**
+     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d mulPosition(Matrix3x2dc mat, Vector2d dest);
+
+    /**
+     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2d mulDirection(Matrix3x2dc mat, Vector2d dest);
+
+    /**
      * Return the dot product of this vector and <code>v</code>.
      * 
      * @param v

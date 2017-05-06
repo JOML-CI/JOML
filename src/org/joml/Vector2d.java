@@ -98,6 +98,14 @@ public class Vector2d implements Externalizable, Vector2dc {
             return delegate.mul(v, dest);
         }
 
+        public Vector2d mulPosition(Matrix3x2dc mat, Vector2d dest) {
+            return delegate.mulPosition(mat, dest);
+        }
+
+        public Vector2d mulDirection(Matrix3x2dc mat, Vector2d dest) {
+            return delegate.mulDirection(mat, dest);
+        }
+
         public double dot(Vector2dc v) {
             return delegate.dot(v);
         }
@@ -623,6 +631,50 @@ public class Vector2d implements Externalizable, Vector2dc {
     public Vector2d mul(Vector2dc v, Vector2d dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
+        return dest;
+    }
+
+    /**
+     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector2d mulPosition(Matrix3x2dc mat) {
+        return mulPosition(mat, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#mulPosition(org.joml.Matrix3x2dc, org.joml.Vector2d)
+     */
+    public Vector2d mulPosition(Matrix3x2dc mat, Vector2d dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20(),
+                 mat.m01() * x + mat.m11() * y + mat.m21());
+        return dest;
+    }
+
+    /**
+     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector2d mulDirection(Matrix3x2dc mat) {
+        return mulPosition(mat, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2dc#mulDirection(org.joml.Matrix3x2dc, org.joml.Vector2d)
+     */
+    public Vector2d mulDirection(Matrix3x2dc mat, Vector2d dest) {
+        dest.set(mat.m00() * x + mat.m10() * y,
+                 mat.m01() * x + mat.m11() * y);
         return dest;
     }
 

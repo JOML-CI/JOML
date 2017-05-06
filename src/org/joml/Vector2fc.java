@@ -283,6 +283,34 @@ public interface Vector2fc {
     Vector2f mul(Vector2fc v, Vector2f dest);
 
     /**
+     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f mulPosition(Matrix3x2fc mat, Vector2f dest);
+
+    /**
+     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code> and store the
+     * result in <code>dest</code>.
+     * <p>
+     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector2f mulDirection(Matrix3x2fc mat, Vector2f dest);
+
+    /**
      * Linearly interpolate <code>this</code> and <code>other</code> using the given interpolation factor <code>t</code>
      * and store the result in <code>dest</code>.
      * <p>

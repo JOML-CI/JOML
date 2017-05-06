@@ -142,6 +142,14 @@ public class Vector2f implements Externalizable, Vector2fc {
             return delegate.mul(v, dest);
         }
 
+        public Vector2f mulPosition(Matrix3x2fc mat, Vector2f dest) {
+            return delegate.mulPosition(mat, dest);
+        }
+
+        public Vector2f mulDirection(Matrix3x2fc mat, Vector2f dest) {
+            return delegate.mulDirection(mat, dest);
+        }
+
         public Vector2f lerp(Vector2fc other, float t, Vector2f dest) {
             return delegate.lerp(other, t, dest);
         }
@@ -764,6 +772,50 @@ public class Vector2f implements Externalizable, Vector2fc {
     public Vector2f mul(Vector2fc v, Vector2f dest) {
         dest.x = x * v.x();
         dest.y = y * v.y();
+        return dest;
+    }
+
+    /**
+     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>1.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector2f mulPosition(Matrix3x2fc mat) {
+        return mulPosition(mat, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#mulPosition(org.joml.Matrix3x2fc, org.joml.Vector2f)
+     */
+    public Vector2f mulPosition(Matrix3x2fc mat, Vector2f dest) {
+        dest.set(mat.m00() * x + mat.m10() * y + mat.m20(),
+                 mat.m01() * x + mat.m11() * y + mat.m21());
+        return dest;
+    }
+
+    /**
+     * Multiply the given 3x2 matrix <code>mat</code> with <code>this</code>.
+     * <p>
+     * This method assumes the <tt>z</tt> component of <code>this</code> to be <tt>0.0</tt>.
+     * 
+     * @param mat
+     *          the matrix to multiply this vector by
+     * @return this
+     */
+    public Vector2f mulDirection(Matrix3x2fc mat) {
+        return mulPosition(mat, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector2fc#mulDirection(org.joml.Matrix3x2fc, org.joml.Vector2f)
+     */
+    public Vector2f mulDirection(Matrix3x2fc mat, Vector2f dest) {
+        dest.set(mat.m00() * x + mat.m10() * y,
+                 mat.m01() * x + mat.m11() * y);
         return dest;
     }
 
