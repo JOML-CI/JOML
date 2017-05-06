@@ -389,6 +389,90 @@ public class FrustumIntersection {
     }
 
     /**
+     * Test whether the given XY-plane (at <tt>Z = 0</tt>) is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.
+     * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>-1</tt> for planes that are actually not visible/do not intersect the frustum.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * 
+     * @param min
+     *          the minimum corner coordinates of the XY-plane
+     * @param max
+     *          the maximum corner coordinates of the XY-plane
+     * @return <code>true</code> if the XY-plane is completely or partly inside of the frustum; <code>false</code> otherwise
+     */
+    public boolean testPlaneXY(Vector2fc min, Vector2fc max) {
+        return testPlaneXY(min.x(), min.y(), max.x(), max.y());
+    }
+
+    /**
+     * Test whether the given XY-plane (at <tt>Z = 0</tt>) is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.
+     * The box is specified via its min and max corner coordinates.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>-1</tt> for planes that are actually not visible/do not intersect the frustum.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * <p>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * 
+     * @param minX
+     *          the x-coordinate of the minimum corner
+     * @param minY
+     *          the y-coordinate of the minimum corner
+     * @param maxX
+     *          the x-coordinate of the maximum corner
+     * @param maxY
+     *          the y-coordinate of the maximum corner
+     * @return <code>true</code> if the XY-plane is completely or partly inside of the frustum; <code>false</code> otherwise
+     */
+    public boolean testPlaneXY(float minX, float minY, float maxX, float maxY) {
+        /*
+         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
+         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         */
+        return nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) >= -nxW &&
+               pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) >= -pxW &&
+               nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) >= -nyW &&
+               pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) >= -pyW &&
+               nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) >= -nzW &&
+               pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) >= -pzW;
+    }
+
+    /**
+     * Test whether the given XZ-plane (at <tt>Y = 0</tt>) is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.
+     * The box is specified via its min and max corner coordinates.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>-1</tt> for planes that are actually not visible/do not intersect the frustum.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * <p>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * 
+     * @param minX
+     *          the x-coordinate of the minimum corner
+     * @param minZ
+     *          the z-coordinate of the minimum corner
+     * @param maxX
+     *          the x-coordinate of the maximum corner
+     * @param maxZ
+     *          the z-coordinate of the maximum corner
+     * @return <code>true</code> if the XZ-plane is completely or partly inside of the frustum; <code>false</code> otherwise
+     */
+    public boolean testPlaneXZ(float minX, float minZ, float maxX, float maxZ) {
+        /*
+         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
+         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         */
+        return nxX * (nxX < 0 ? minX : maxX) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW &&
+               pxX * (pxX < 0 ? minX : maxX) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW &&
+               nyX * (nyX < 0 ? minX : maxX) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW &&
+               pyX * (pyX < 0 ? minX : maxX) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW &&
+               nzX * (nzX < 0 ? minX : maxX) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW &&
+               pzX * (pzX < 0 ? minX : maxX) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW;
+    }
+
+    /**
      * Determine whether the given axis-aligned box is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler
      * and, if the box is not inside this frustum, return the index of the plane that culled it.
      * The box is specified via its <code>min</code> and <code>max</code> corner coordinates.
