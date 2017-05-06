@@ -4719,9 +4719,9 @@ public interface Matrix4dc {
     /**
      * Test whether the given point <tt>(x, y, z)</tt> is within the frustum defined by <code>this</code> matrix.
      * <p>
-     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>C</tt>
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>M</tt>
      * into standard OpenGL clip space and tests whether the given point with the coordinates <tt>(x, y, z)</tt> given
-     * in space <tt>C</tt> is within the clip space.
+     * in space <tt>M</tt> is within the clip space.
      * <p>
      * When testing multiple points using the same transformation matrix, {@link FrustumIntersection} should be used instead.
      * <p>
@@ -4741,9 +4741,9 @@ public interface Matrix4dc {
     /**
      * Test whether the given sphere is partly or completely within or outside of the frustum defined by <code>this</code> matrix.
      * <p>
-     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>C</tt>
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>M</tt>
      * into standard OpenGL clip space and tests whether the given sphere with the coordinates <tt>(x, y, z)</tt> given
-     * in space <tt>C</tt> is within the clip space.
+     * in space <tt>M</tt> is within the clip space.
      * <p>
      * When testing multiple spheres using the same transformation matrix, or more sophisticated/optimized intersection algorithms are required,
      * {@link FrustumIntersection} should be used instead.
@@ -4771,9 +4771,9 @@ public interface Matrix4dc {
      * Test whether the given axis-aligned box is partly or completely within or outside of the frustum defined by <code>this</code> matrix.
      * The box is specified via its min and max corner coordinates.
      * <p>
-     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>C</tt>
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>M</tt>
      * into standard OpenGL clip space and tests whether the given axis-aligned box with its minimum corner coordinates <tt>(minX, minY, minZ)</tt>
-     * and maximum corner coordinates <tt>(maxX, maxY, maxZ)</tt> given in space <tt>C</tt> is within the clip space.
+     * and maximum corner coordinates <tt>(maxX, maxY, maxZ)</tt> given in space <tt>M</tt> is within the clip space.
      * <p>
      * When testing multiple axis-aligned boxes using the same transformation matrix, or more sophisticated/optimized intersection algorithms are required,
      * {@link FrustumIntersection} should be used instead.
