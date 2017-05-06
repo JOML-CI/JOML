@@ -475,6 +475,41 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
     }
 
     /**
+     * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
+     * then the new matrix will be <code>L * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
+     * transformation of <code>this</code> matrix will be applied first!
+     *
+     * @param left
+     *          the left operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix3x2d mulLocal(Matrix3x2dc left) {
+       return mulLocal(left, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3x2dc#mulLocal(org.joml.Matrix3x2dc, org.joml.Matrix3x2d)
+     */
+    public Matrix3x2d mulLocal(Matrix3x2dc left, Matrix3x2d dest) {
+        double nm00 = left.m00() * m00 + left.m10() * m01;
+        double nm01 = left.m01() * m00 + left.m11() * m01;
+        double nm10 = left.m00() * m10 + left.m10() * m11;
+        double nm11 = left.m01() * m10 + left.m11() * m11;
+        double nm20 = left.m00() * m20 + left.m10() * m21 + left.m20();
+        double nm21 = left.m01() * m20 + left.m11() * m21 + left.m21();
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        return dest;
+    }
+
+    /**
      * Set the values within this matrix to the supplied double values. The result looks like this:
      * <p>
      * m00, m10, m20<br>

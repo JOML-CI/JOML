@@ -1725,26 +1725,13 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         return invertGeneric(dest);
     }
     private Matrix4x3f invertGeneric(Matrix4x3f dest) {
-        float s = determinant();
-        s = 1.0f / s;
-        float m10m22 = m10 * m22;
-        float m10m21 = m10 * m21;
-        float m10m02 = m10 * m02;
-        float m10m01 = m10 * m01;
-        float m11m22 = m11 * m22;
-        float m11m20 = m11 * m20;
-        float m11m02 = m11 * m02;
-        float m11m00 = m11 * m00;
-        float m12m21 = m12 * m21;
-        float m12m20 = m12 * m20;
-        float m12m01 = m12 * m01;
-        float m12m00 = m12 * m00;
-        float m20m02 = m20 * m02;
-        float m20m01 = m20 * m01;
-        float m21m02 = m21 * m02;
-        float m21m00 = m21 * m00;
-        float m22m01 = m22 * m01;
-        float m22m00 = m22 * m00;
+        float m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
+        float m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
+        float s = 1.0f / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
+        float m10m22 = m10 * m22, m10m21 = m10 * m21, m11m22 = m11 * m22;
+        float m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
+        float m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
+        float m21m00 = m21 * m00, m22m01 = m22 * m01, m22m00 = m22 * m00;
         float nm00 = (m11m22 - m12m21) * s;
         float nm01 = (m21m02 - m22m01) * s;
         float nm02 = (m12m01 - m11m02) * s;

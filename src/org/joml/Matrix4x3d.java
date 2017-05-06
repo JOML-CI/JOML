@@ -2053,26 +2053,13 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
         return invertGeneric(dest);
     }
     private Matrix4x3d invertGeneric(Matrix4x3d dest) {
-        double s = determinant();
-        s = 1.0 / s;
-        double m10m22 = m10 * m22;
-        double m10m21 = m10 * m21;
-        double m10m02 = m10 * m02;
-        double m10m01 = m10 * m01;
-        double m11m22 = m11 * m22;
-        double m11m20 = m11 * m20;
-        double m11m02 = m11 * m02;
-        double m11m00 = m11 * m00;
-        double m12m21 = m12 * m21;
-        double m12m20 = m12 * m20;
-        double m12m01 = m12 * m01;
-        double m12m00 = m12 * m00;
-        double m20m02 = m20 * m02;
-        double m20m01 = m20 * m01;
-        double m21m02 = m21 * m02;
-        double m21m00 = m21 * m00;
-        double m22m01 = m22 * m01;
-        double m22m00 = m22 * m00;
+        double m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
+        double m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
+        double s = 1.0f / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
+        double m10m22 = m10 * m22, m10m21 = m10 * m21, m11m22 = m11 * m22;
+        double m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
+        double m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
+        double m21m00 = m21 * m00, m22m01 = m22 * m01, m22m00 = m22 * m00;
         double nm00 = (m11m22 - m12m21) * s;
         double nm01 = (m21m02 - m22m01) * s;
         double nm02 = (m12m01 - m11m02) * s;
