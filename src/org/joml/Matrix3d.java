@@ -94,6 +94,10 @@ public class Matrix3d implements Externalizable, Matrix3dc {
             return delegate.mul(right, dest);
         }
 
+        public Matrix3d mulLocal(Matrix3dc left, Matrix3d dest) {
+            return delegate.mulLocal(left, dest);
+        }
+
         public Matrix3d mul(Matrix3fc right, Matrix3d dest) {
             return delegate.mul(right, dest);
         }
@@ -921,6 +925,41 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
+     * then the new matrix will be <code>L * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
+     * transformation of <code>this</code> matrix will be applied first!
+     *
+     * @param left
+     *          the left operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix3d mulLocal(Matrix3dc left) {
+       return mulLocal(left, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#mulLocal(org.joml.Matrix3dc, org.joml.Matrix3d)
+     */
+    public Matrix3d mulLocal(Matrix3dc left, Matrix3d dest) {
+        double nm00 = left.m00() * m00 + left.m10() * m01 + left.m20() * m02;
+        double nm01 = left.m01() * m00 + left.m11() * m01 + left.m20() * m02;
+        double nm10 = left.m00() * m10 + left.m10() * m11 + left.m20() * m12;
+        double nm11 = left.m01() * m10 + left.m11() * m11 + left.m20() * m12;
+        double nm20 = left.m00() * m20 + left.m10() * m21 + left.m20() * m22;
+        double nm21 = left.m01() * m20 + left.m11() * m21 + left.m21() * m22;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
         return dest;
     }
 

@@ -83,6 +83,10 @@ public class Matrix3x2d implements Matrix3x2dc, Externalizable {
             return delegate.mul(right, dest);
         }
 
+        public Matrix3x2d mulLocal(Matrix3x2dc left, Matrix3x2d dest) {
+            return delegate.mulLocal(left, dest);
+        }
+
         public double determinant() {
             return delegate.determinant();
         }

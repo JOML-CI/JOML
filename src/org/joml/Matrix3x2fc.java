@@ -102,6 +102,22 @@ public interface Matrix3x2fc {
     Matrix3x2f mul(Matrix3x2fc right, Matrix3x2f dest);
 
     /**
+     * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>dest</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
+     * then the new matrix will be <code>L * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
+     * transformation of <code>this</code> matrix will be applied first!
+     *
+     * @param left
+     *          the left operand of the matrix multiplication
+     * @param dest
+     *          the destination matrix, which will hold the result
+     * @return dest
+     */
+    Matrix3x2f mulLocal(Matrix3x2fc left, Matrix3x2f dest);
+
+    /**
      * Return the determinant of this matrix.
      * 
      * @return the determinant
