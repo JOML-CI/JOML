@@ -4716,4 +4716,91 @@ public interface Matrix4dc {
      */
     Vector3d getEulerAnglesZYX(Vector3d dest);
 
+    /**
+     * Test whether the given point <tt>(x, y, z)</tt> is within the frustum defined by <code>this</code> matrix.
+     * <p>
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>C</tt>
+     * into standard OpenGL clip space and tests whether the given point with the coordinates <tt>(x, y, z)</tt> given
+     * in space <tt>C</tt> is within the clip space.
+     * <p>
+     * When testing multiple points using the same transformation matrix, {@link FrustumIntersection} should be used instead.
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param x
+     *          the x-coordinate of the point
+     * @param y
+     *          the y-coordinate of the point
+     * @param z
+     *          the z-coordinate of the point
+     * @return <code>true</code> if the given point is inside the frustum; <code>false</code> otherwise
+     */
+    boolean testPoint(double x, double y, double z);
+
+    /**
+     * Test whether the given sphere is partly or completely within or outside of the frustum defined by <code>this</code> matrix.
+     * <p>
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>C</tt>
+     * into standard OpenGL clip space and tests whether the given sphere with the coordinates <tt>(x, y, z)</tt> given
+     * in space <tt>C</tt> is within the clip space.
+     * <p>
+     * When testing multiple spheres using the same transformation matrix, or more sophisticated/optimized intersection algorithms are required,
+     * {@link FrustumIntersection} should be used instead.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>true</tt> for spheres that are actually not visible.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param x
+     *          the x-coordinate of the sphere's center
+     * @param y
+     *          the y-coordinate of the sphere's center
+     * @param z
+     *          the z-coordinate of the sphere's center
+     * @param r
+     *          the sphere's radius
+     * @return <code>true</code> if the given sphere is partly or completely inside the frustum; <code>false</code> otherwise
+     */
+    boolean testSphere(double x, double y, double z, double r);
+
+    /**
+     * Test whether the given axis-aligned box is partly or completely within or outside of the frustum defined by <code>this</code> matrix.
+     * The box is specified via its min and max corner coordinates.
+     * <p>
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>C</tt>
+     * into standard OpenGL clip space and tests whether the given axis-aligned box with its minimum corner coordinates <tt>(minX, minY, minZ)</tt>
+     * and maximum corner coordinates <tt>(maxX, maxY, maxZ)</tt> given in space <tt>C</tt> is within the clip space.
+     * <p>
+     * When testing multiple axis-aligned boxes using the same transformation matrix, or more sophisticated/optimized intersection algorithms are required,
+     * {@link FrustumIntersection} should be used instead.
+     * <p>
+     * The algorithm implemented by this method is conservative. This means that in certain circumstances a <i>false positive</i>
+     * can occur, when the method returns <tt>-1</tt> for boxes that are actually not visible/do not intersect the frustum.
+     * See <a href="http://iquilezles.org/www/articles/frustumcorrect/frustumcorrect.htm">iquilezles.org</a> for an examination of this problem.
+     * <p>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * <br>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param minX
+     *          the x-coordinate of the minimum corner
+     * @param minY
+     *          the y-coordinate of the minimum corner
+     * @param minZ
+     *          the z-coordinate of the minimum corner
+     * @param maxX
+     *          the x-coordinate of the maximum corner
+     * @param maxY
+     *          the y-coordinate of the maximum corner
+     * @param maxZ
+     *          the z-coordinate of the maximum corner
+     * @return <code>true</code> if the axis-aligned box is completely or partly inside of the frustum; <code>false</code> otherwise
+     */
+    boolean testAab(double minX, double minY, double minZ, double maxX, double maxY, double maxZ);
+
 }

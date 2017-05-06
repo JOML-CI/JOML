@@ -466,4 +466,18 @@ public class Matrix4fTest extends TestCase {
         TestUtil.assertVector3fEquals(new Vector3f(-1, 1, 0).normalize(), t, 1E-6f);
     }
 
+    public static void testTestPoint() {
+        Matrix4f m = new Matrix4f().perspective((float)Math.toRadians(90), 1.0f, 0.1f, 10.0f).lookAt(0, 0, 10, 0, 0, 0, 0, 1, 0).scale(2);
+        assertTrue(m.testPoint(0, 0, 0));
+        assertTrue(m.testPoint(9.999f*0.5f, 0, 0));
+        assertFalse(m.testPoint(10.001f*0.5f, 0, 0));
+    }
+
+    public static void testTestAab() {
+        Matrix4f m = new Matrix4f().perspective((float)Math.toRadians(90), 1.0f, 0.1f, 10.0f).lookAt(0, 0, 10, 0, 0, 0, 0, 1, 0).scale(2);
+        assertTrue(m.testAab(-1, -1, -1, 1, 1, 1));
+        assertTrue(m.testAab(9.999f*0.5f, 0, 0, 10, 1, 1));
+        assertFalse(m.testAab(10.001f*0.5f, 0, 0, 10, 1, 1));
+    }
+
 }

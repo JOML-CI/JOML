@@ -940,6 +940,18 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         public Vector3f getEulerAnglesZYX(Vector3f dest) {
             return delegate.getEulerAnglesZYX(dest);
         }
+
+        public boolean testPoint(float x, float y, float z) {
+            return delegate.testPoint(x, y, z);
+        }
+
+        public boolean testSphere(float x, float y, float z, float r) {
+            return delegate.testSphere(x, y, z, r);
+        }
+
+        public boolean testAab(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+            return delegate.testAab(minX, minY, minZ, maxX, maxY, maxZ);
+        }
     }
 
     private static final long serialVersionUID = 1L;
@@ -14383,6 +14395,74 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         yDir.x = 2.0f * nm10; yDir.y = 2.0f * nm11; yDir.z = 2.0f * nm12;
         zDir.x = 2.0f * nm20; zDir.y = 2.0f * nm21; zDir.z = 2.0f * nm22;
         return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix4fc#testPoint(float, float, float)
+     */
+    public boolean testPoint(float x, float y, float z) {
+        float nxX = m03 + m00, nxY = m13 + m10, nxZ = m23 + m20, nxW = m33 + m30;
+        float pxX = m03 - m00, pxY = m13 - m10, pxZ = m23 - m20, pxW = m33 - m30;
+        float nyX = m03 + m01, nyY = m13 + m11, nyZ = m23 + m21, nyW = m33 + m31;
+        float pyX = m03 - m01, pyY = m13 - m11, pyZ = m23 - m21, pyW = m33 - m31;
+        float nzX = m03 + m02, nzY = m13 + m12, nzZ = m23 + m22, nzW = m33 + m32;
+        float pzX = m03 - m02, pzY = m13 - m12, pzZ = m23 - m22, pzW = m33 - m32;
+        return nxX * x + nxY * y + nxZ * z + nxW >= 0 && pxX * x + pxY * y + pxZ * z + pxW >= 0 &&
+               nyX * x + nyY * y + nyZ * z + nyW >= 0 && pyX * x + pyY * y + pyZ * z + pyW >= 0 &&
+               nzX * x + nzY * y + nzZ * z + nzW >= 0 && pzX * x + pzY * y + pzZ * z + pzW >= 0;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix4fc#testSphere(float, float, float, float)
+     */
+    public boolean testSphere(float x, float y, float z, float r) {
+        float invl;
+        float nxX = m03 + m00, nxY = m13 + m10, nxZ = m23 + m20, nxW = m33 + m30;
+        invl = (float) (1.0 / Math.sqrt(nxX * nxX + nxY * nxY + nxZ * nxZ));
+        nxX *= invl; nxY *= invl; nxZ *= invl; nxW *= invl;
+        float pxX = m03 - m00, pxY = m13 - m10, pxZ = m23 - m20, pxW = m33 - m30;
+        invl = (float) (1.0 / Math.sqrt(pxX * pxX + pxY * pxY + pxZ * pxZ));
+        pxX *= invl; pxY *= invl; pxZ *= invl; pxW *= invl;
+        float nyX = m03 + m01, nyY = m13 + m11, nyZ = m23 + m21, nyW = m33 + m31;
+        invl = (float) (1.0 / Math.sqrt(nyX * nyX + nyY * nyY + nyZ * nyZ));
+        nyX *= invl; nyY *= invl; nyZ *= invl; nyW *= invl;
+        float pyX = m03 - m01, pyY = m13 - m11, pyZ = m23 - m21, pyW = m33 - m31;
+        invl = (float) (1.0 / Math.sqrt(pyX * pyX + pyY * pyY + pyZ * pyZ));
+        pyX *= invl; pyY *= invl; pyZ *= invl; pyW *= invl;
+        float nzX = m03 + m02, nzY = m13 + m12, nzZ = m23 + m22, nzW = m33 + m32;
+        invl = (float) (1.0 / Math.sqrt(nzX * nzX + nzY * nzY + nzZ * nzZ));
+        nzX *= invl; nzY *= invl; nzZ *= invl; nzW *= invl;
+        float pzX = m03 - m02, pzY = m13 - m12, pzZ = m23 - m22, pzW = m33 - m32;
+        invl = (float) (1.0 / Math.sqrt(pzX * pzX + pzY * pzY + pzZ * pzZ));
+        pzX *= invl; pzY *= invl; pzZ *= invl; pzW *= invl;
+        return nxX * x + nxY * y + nxZ * z + nxW >= -r && pxX * x + pxY * y + pxZ * z + pxW >= -r &&
+               nyX * x + nyY * y + nyZ * z + nyW >= -r && pyX * x + pyY * y + pyZ * z + pyW >= -r &&
+               nzX * x + nzY * y + nzZ * z + nzW >= -r && pzX * x + pzY * y + pzZ * z + pzW >= -r;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix4fc#testAab(float, float, float, float, float, float)
+     */
+    public boolean testAab(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+        float nxX = m03 + m00, nxY = m13 + m10, nxZ = m23 + m20, nxW = m33 + m30;
+        float pxX = m03 - m00, pxY = m13 - m10, pxZ = m23 - m20, pxW = m33 - m30;
+        float nyX = m03 + m01, nyY = m13 + m11, nyZ = m23 + m21, nyW = m33 + m31;
+        float pyX = m03 - m01, pyY = m13 - m11, pyZ = m23 - m21, pyW = m33 - m31;
+        float nzX = m03 + m02, nzY = m13 + m12, nzZ = m23 + m22, nzW = m33 + m32;
+        float pzX = m03 - m02, pzY = m13 - m12, pzZ = m23 - m22, pzW = m33 - m32;
+        /*
+         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
+         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         */
+        return nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) + nxZ * (nxZ < 0 ? minZ : maxZ) >= -nxW &&
+               pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) + pxZ * (pxZ < 0 ? minZ : maxZ) >= -pxW &&
+               nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) + nyZ * (nyZ < 0 ? minZ : maxZ) >= -nyW &&
+               pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) + pyZ * (pyZ < 0 ? minZ : maxZ) >= -pyW &&
+               nzX * (nzX < 0 ? minX : maxX) + nzY * (nzY < 0 ? minY : maxY) + nzZ * (nzZ < 0 ? minZ : maxZ) >= -nzW &&
+               pzX * (pzX < 0 ? minX : maxX) + pzY * (pzY < 0 ? minY : maxY) + pzZ * (pzZ < 0 ? minZ : maxZ) >= -pzW;
     }
 
     /**
