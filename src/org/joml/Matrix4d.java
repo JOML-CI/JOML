@@ -127,6 +127,14 @@ public class Matrix4d implements Externalizable, Matrix4dc {
             return delegate.mul(right, dest);
         }
 
+        public Matrix4d mulLocal(Matrix4dc left, Matrix4d dest) {
+            return delegate.mulLocal(left, dest);
+        }
+
+        public Matrix4d mulLocalAffine(Matrix4dc left, Matrix4d dest) {
+            return delegate.mulLocalAffine(left, dest);
+        }
+
         public Matrix4d mul(Matrix4x3dc right, Matrix4d dest) {
             return delegate.mul(right, dest);
         }
@@ -2057,6 +2065,133 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         return dest;
     }
 
+    /**
+     * Pre-multiply this matrix by the supplied <code>left</code> matrix and store the result in <code>this</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
+     * then the new matrix will be <code>L * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
+     * transformation of <code>this</code> matrix will be applied first!
+     *
+     * @param left
+     *          the left operand of the matrix multiplication
+     * @return this
+     */
+    public Matrix4d mulLocal(Matrix4dc left) {
+       return mulLocal(left, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#mulLocal(org.joml.Matrix4dc, org.joml.Matrix4d)
+     */
+    public Matrix4d mulLocal(Matrix4dc left, Matrix4d dest) {
+        if ((properties & PROPERTY_IDENTITY) != 0)
+            return dest.set(left);
+        else if ((left.properties() & PROPERTY_IDENTITY) != 0)
+            return dest.set(this);
+        else if ((properties & PROPERTY_AFFINE) != 0 && (left.properties() & PROPERTY_AFFINE) != 0)
+            return mulLocalAffine(left, dest);
+        return mulLocalGeneric(left, dest);
+    }
+    private Matrix4d mulLocalGeneric(Matrix4dc left, Matrix4d dest) {
+        double nm00 = left.m00() * m00 + left.m10() * m01 + left.m20() * m02 + left.m30() * m03;
+        double nm01 = left.m01() * m00 + left.m11() * m01 + left.m21() * m02 + left.m31() * m03;
+        double nm02 = left.m02() * m00 + left.m12() * m01 + left.m22() * m02 + left.m32() * m03;
+        double nm03 = left.m03() * m00 + left.m13() * m01 + left.m23() * m02 + left.m33() * m03;
+        double nm10 = left.m00() * m10 + left.m10() * m11 + left.m20() * m12 + left.m30() * m13;
+        double nm11 = left.m01() * m10 + left.m11() * m11 + left.m21() * m12 + left.m31() * m13;
+        double nm12 = left.m02() * m10 + left.m12() * m11 + left.m22() * m12 + left.m32() * m13;
+        double nm13 = left.m03() * m10 + left.m13() * m11 + left.m23() * m12 + left.m33() * m13;
+        double nm20 = left.m00() * m20 + left.m10() * m21 + left.m20() * m22 + left.m30() * m23;
+        double nm21 = left.m01() * m20 + left.m11() * m21 + left.m21() * m22 + left.m31() * m23;
+        double nm22 = left.m02() * m20 + left.m12() * m21 + left.m22() * m22 + left.m32() * m23;
+        double nm23 = left.m03() * m20 + left.m13() * m21 + left.m23() * m22 + left.m33() * m23;
+        double nm30 = left.m00() * m30 + left.m10() * m31 + left.m20() * m32 + left.m30() * m33;
+        double nm31 = left.m01() * m30 + left.m11() * m31 + left.m21() * m32 + left.m31() * m33;
+        double nm32 = left.m02() * m30 + left.m12() * m31 + left.m22() * m32 + left.m32() * m33;
+        double nm33 = left.m03() * m30 + left.m13() * m31 + left.m23() * m32 + left.m33() * m33;
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = 0;
+        return dest;
+    }
+
+    /**
+     * Pre-multiply this matrix by the supplied <code>left</code> matrix, both of which are assumed to be {@link #isAffine() affine}, and store the result in <code>this</code>.
+     * <p>
+     * This method assumes that <code>this</code> matrix and the given <code>left</code> matrix both represent an {@link #isAffine() affine} transformation
+     * (i.e. their last rows are equal to <tt>(0, 0, 0, 1)</tt>)
+     * and can be used to speed up matrix multiplication if the matrices only represent affine transformations, such as translation, rotation, scaling and shearing (in any combination).
+     * <p>
+     * This method will not modify either the last row of <code>this</code> or the last row of <code>left</code>.
+     * <p>
+     * If <code>M</code> is <code>this</code> matrix and <code>L</code> the <code>left</code> matrix,
+     * then the new matrix will be <code>L * M</code>. So when transforming a
+     * vector <code>v</code> with the new matrix by using <code>L * M * v</code>, the
+     * transformation of <code>this</code> matrix will be applied first!
+     *
+     * @param left
+     *          the left operand of the matrix multiplication (the last row is assumed to be <tt>(0, 0, 0, 1)</tt>)
+     * @return this
+     */
+    public Matrix4d mulLocalAffine(Matrix4dc left) {
+       return mulLocalAffine(left, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4dc#mulLocalAffine(org.joml.Matrix4dc, org.joml.Matrix4d)
+     */
+    public Matrix4d mulLocalAffine(Matrix4dc left, Matrix4d dest) {
+        double nm00 = left.m00() * m00 + left.m10() * m01 + left.m20() * m02;
+        double nm01 = left.m01() * m00 + left.m11() * m01 + left.m21() * m02;
+        double nm02 = left.m02() * m00 + left.m12() * m01 + left.m22() * m02;
+        double nm03 = left.m03();
+        double nm10 = left.m00() * m10 + left.m10() * m11 + left.m20() * m12;
+        double nm11 = left.m01() * m10 + left.m11() * m11 + left.m21() * m12;
+        double nm12 = left.m02() * m10 + left.m12() * m11 + left.m22() * m12;
+        double nm13 = left.m13();
+        double nm20 = left.m00() * m20 + left.m10() * m21 + left.m20() * m22;
+        double nm21 = left.m01() * m20 + left.m11() * m21 + left.m21() * m22;
+        double nm22 = left.m02() * m20 + left.m12() * m21 + left.m22() * m22;
+        double nm23 = left.m23();
+        double nm30 = left.m00() * m30 + left.m10() * m31 + left.m20() * m32 + left.m30();
+        double nm31 = left.m01() * m30 + left.m11() * m31 + left.m21() * m32 + left.m31();
+        double nm32 = left.m02() * m30 + left.m12() * m31 + left.m22() * m32 + left.m32();
+        double nm33 = left.m33();
+        dest.m00 = nm00;
+        dest.m01 = nm01;
+        dest.m02 = nm02;
+        dest.m03 = nm03;
+        dest.m10 = nm10;
+        dest.m11 = nm11;
+        dest.m12 = nm12;
+        dest.m13 = nm13;
+        dest.m20 = nm20;
+        dest.m21 = nm21;
+        dest.m22 = nm22;
+        dest.m23 = nm23;
+        dest.m30 = nm30;
+        dest.m31 = nm31;
+        dest.m32 = nm32;
+        dest.m33 = nm33;
+        dest.properties = PROPERTY_AFFINE;
+        return dest;
+    }
+
     /* (non-Javadoc)
      * @see org.joml.Matrix4dc#mul(org.joml.Matrix4x3dc)
      */
@@ -3397,58 +3532,41 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @see org.joml.Matrix4dc#invertAffine(org.joml.Matrix4d)
      */
     public Matrix4d invertAffine(Matrix4d dest) {
-        double s = determinantAffine();
-        s = 1.0 / s;
-        double m10m22 = m10 * m22;
-        double m10m21 = m10 * m21;
-        double m10m02 = m10 * m02;
-        double m10m01 = m10 * m01;
-        double m11m22 = m11 * m22;
-        double m11m20 = m11 * m20;
-        double m11m02 = m11 * m02;
-        double m11m00 = m11 * m00;
-        double m12m21 = m12 * m21;
-        double m12m20 = m12 * m20;
-        double m12m01 = m12 * m01;
-        double m12m00 = m12 * m00;
-        double m20m02 = m20 * m02;
-        double m20m01 = m20 * m01;
-        double m21m02 = m21 * m02;
-        double m21m00 = m21 * m00;
-        double m22m01 = m22 * m01;
-        double m22m00 = m22 * m00;
+        double m11m00 = m00 * m11, m10m01 = m01 * m10, m10m02 = m02 * m10;
+        double m12m00 = m00 * m12, m12m01 = m01 * m12, m11m02 = m02 * m11;
+        double s = 1.0f / ((m11m00 - m10m01) * m22 + (m10m02 - m12m00) * m21 + (m12m01 - m11m02) * m20);
+        double m10m22 = m10 * m22, m10m21 = m10 * m21, m11m22 = m11 * m22;
+        double m11m20 = m11 * m20, m12m21 = m12 * m21, m12m20 = m12 * m20;
+        double m20m02 = m20 * m02, m20m01 = m20 * m01, m21m02 = m21 * m02;
+        double m21m00 = m21 * m00, m22m01 = m22 * m01, m22m00 = m22 * m00;
         double nm00 = (m11m22 - m12m21) * s;
         double nm01 = (m21m02 - m22m01) * s;
         double nm02 = (m12m01 - m11m02) * s;
-        double nm03 = 0.0;
         double nm10 = (m12m20 - m10m22) * s;
         double nm11 = (m22m00 - m20m02) * s;
         double nm12 = (m10m02 - m12m00) * s;
-        double nm13 = 0.0;
         double nm20 = (m10m21 - m11m20) * s;
         double nm21 = (m20m01 - m21m00) * s;
         double nm22 = (m11m00 - m10m01) * s;
-        double nm23 = 0.0;
         double nm30 = (m10m22 * m31 - m10m21 * m32 + m11m20 * m32 - m11m22 * m30 + m12m21 * m30 - m12m20 * m31) * s;
         double nm31 = (m20m02 * m31 - m20m01 * m32 + m21m00 * m32 - m21m02 * m30 + m22m01 * m30 - m22m00 * m31) * s;
         double nm32 = (m11m02 * m30 - m12m01 * m30 + m12m00 * m31 - m10m02 * m31 + m10m01 * m32 - m11m00 * m32) * s;
-        double nm33 = 1.0;
         dest.m00 = nm00;
         dest.m01 = nm01;
         dest.m02 = nm02;
-        dest.m03 = nm03;
+        dest.m03 = 0.0;
         dest.m10 = nm10;
         dest.m11 = nm11;
         dest.m12 = nm12;
-        dest.m13 = nm13;
+        dest.m13 = 0.0;
         dest.m20 = nm20;
         dest.m21 = nm21;
         dest.m22 = nm22;
-        dest.m23 = nm23;
+        dest.m23 = 0.0;
         dest.m30 = nm30;
         dest.m31 = nm31;
         dest.m32 = nm32;
-        dest.m33 = nm33;
+        dest.m33 = 1.0;
         dest.properties = PROPERTY_AFFINE;
         return dest;
     }
