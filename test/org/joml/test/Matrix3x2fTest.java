@@ -38,4 +38,22 @@ public class Matrix3x2fTest extends TestCase {
         TestUtil.assertVector2fEquals(new Vector2f(2, 1), m.unproject(800, 600, new int[] {0, 0, 800, 600}, new Vector2f()), 1E-6f);
     }
 
+    public static void testTestPoint() {
+        Matrix3x2f m = new Matrix3x2f().view(-4, 2, -3, 10);
+        assertTrue(m.testPoint(0, 0));
+        assertTrue(m.testPoint(-4, -2.9f));
+        assertFalse(m.testPoint(-4.01f, -2.9f));
+        assertFalse(m.testPoint(-3.9f, -3.01f));
+        assertTrue(m.testPoint(0, 9.99f));
+        assertFalse(m.testPoint(0, 10.01f));
+
+        // rotated
+        m.setView(-2, 2, -2, 2).rotate((float)Math.toRadians(45));
+        float[] area = m.viewArea(new float[4]);
+        assertTrue(m.testPoint(area[0], 0));
+        assertFalse(m.testPoint(area[0]-0.01f, 0));
+        assertTrue(m.testPoint(area[2]-0.1f, 0));
+        assertFalse(m.testPoint(area[2]+0.01f, 0));
+    }
+
 }

@@ -1001,4 +1001,67 @@ public interface Matrix3x2fc {
      */
     Vector2f unprojectInv(float winX, float winY, int[] viewport, Vector2f dest);
 
+    /**
+     * Test whether the given point <tt>(x, y)</tt> is within the frustum defined by <code>this</code> matrix.
+     * <p>
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>M</tt>
+     * into standard OpenGL clip space and tests whether the given point with the coordinates <tt>(x, y, z)</tt> given
+     * in space <tt>M</tt> is within the clip space.
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param x
+     *          the x-coordinate of the point
+     * @param y
+     *          the y-coordinate of the point
+     * @return <code>true</code> if the given point is inside the frustum; <code>false</code> otherwise
+     */
+    boolean testPoint(float x, float y);
+
+    /**
+     * Test whether the given circle is partly or completely within or outside of the frustum defined by <code>this</code> matrix.
+     * <p>
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>M</tt>
+     * into standard OpenGL clip space and tests whether the given sphere with the coordinates <tt>(x, y, z)</tt> given
+     * in space <tt>M</tt> is within the clip space.
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param x
+     *          the x-coordinate of the circle's center
+     * @param y
+     *          the y-coordinate of the circle's center
+     * @param r
+     *          the circle's radius
+     * @return <code>true</code> if the given circle is partly or completely inside the frustum; <code>false</code> otherwise
+     */
+    boolean testCircle(float x, float y, float r);
+
+    /**
+     * Test whether the given axis-aligned rectangle is partly or completely within or outside of the frustum defined by <code>this</code> matrix.
+     * The rectangle is specified via its min and max corner coordinates.
+     * <p>
+     * This method assumes <code>this</code> matrix to be a transformation from any arbitrary coordinate system/space <tt>M</tt>
+     * into standard OpenGL clip space and tests whether the given axis-aligned rectangle with its minimum corner coordinates <tt>(minX, minY, minZ)</tt>
+     * and maximum corner coordinates <tt>(maxX, maxY, maxZ)</tt> given in space <tt>M</tt> is within the clip space.
+     * <p>
+     * Reference: <a href="http://www.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a>
+     * <br>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     * 
+     * @param minX
+     *          the x-coordinate of the minimum corner
+     * @param minY
+     *          the y-coordinate of the minimum corner
+     * @param maxX
+     *          the x-coordinate of the maximum corner
+     * @param maxY
+     *          the y-coordinate of the maximum corner
+     * @return <code>true</code> if the axis-aligned box is completely or partly inside of the frustum; <code>false</code> otherwise
+     */
+    boolean testAar(float minX, float minY, float maxX, float maxY);
+
 }

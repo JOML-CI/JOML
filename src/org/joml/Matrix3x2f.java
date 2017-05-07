@@ -294,6 +294,18 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
         public Vector2f unprojectInv(float winX, float winY, int[] viewport, Vector2f dest) {
             return delegate.unprojectInv(winX, winY, viewport, dest);
         }
+
+        public boolean testPoint(float x, float y) {
+            return delegate.testPoint(x, y);
+        }
+
+        public boolean testCircle(float x, float y, float r) {
+            return delegate.testCircle(x, y, r);
+        }
+
+        public boolean testAar(float minX, float minY, float maxX, float maxY) {
+            return delegate.testAar(minX, minY, maxX, maxY);
+        }
     }
 
     private static final long serialVersionUID = 1L;
@@ -2408,6 +2420,60 @@ public class Matrix3x2f implements Matrix3x2fc, Externalizable {
         xDir.x = 2.0f * nm00; xDir.y = 2.0f * nm01;
         yDir.x = 2.0f * nm10; yDir.y = 2.0f * nm11;
         return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix3x2fc#testPoint(float, float)
+     */
+    public boolean testPoint(float x, float y) {
+        float nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
+        float pxX = -m00, pxY = -m10, pxW = 1.0f - m20;
+        float nyX = +m01, nyY = +m11, nyW = 1.0f + m21;
+        float pyX = -m01, pyY = -m11, pyW = 1.0f - m21;
+        return nxX * x + nxY * y + nxW >= 0 && pxX * x + pxY * y + pxW >= 0 &&
+               nyX * x + nyY * y + nyW >= 0 && pyX * x + pyY * y + pyW >= 0;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix3x2fc#testCircle(float, float, float)
+     */
+    public boolean testCircle(float x, float y, float r) {
+        float invl;
+        float nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
+        invl = (float) (1.0 / Math.sqrt(nxX * nxX + nxY * nxY));
+        nxX *= invl; nxY *= invl; nxW *= invl;
+        float pxX = -m00, pxY = -m10, pxW = 1.0f - m20;
+        invl = (float) (1.0 / Math.sqrt(pxX * pxX + pxY * pxY));
+        pxX *= invl; pxY *= invl; pxW *= invl;
+        float nyX = +m01, nyY = +m11, nyW = 1.0f + m21;
+        invl = (float) (1.0 / Math.sqrt(nyX * nyX + nyY * nyY));
+        nyX *= invl; nyY *= invl; nyW *= invl;
+        float pyX = -m01, pyY = -m11, pyW = 1.0f - m21;
+        invl = (float) (1.0 / Math.sqrt(pyX * pyX + pyY * pyY));
+        pyX *= invl; pyY *= invl; pyW *= invl;
+        return nxX * x + nxY * y + nxW >= -r && pxX * x + pxY * y + pxW >= -r &&
+               nyX * x + nyY * y + nyW >= -r && pyX * x + pyY * y + pyW >= -r;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.joml.Matrix3x2fc#testAar(float, float, float, float)
+     */
+    public boolean testAar(float minX, float minY, float maxX, float maxY) {
+        float nxX = +m00, nxY = +m10, nxW = 1.0f + m20;
+        float pxX = -m00, pxY = -m10, pxW = 1.0f - m20;
+        float nyX = +m01, nyY = +m11, nyW = 1.0f + m21;
+        float pyX = -m01, pyY = -m11, pyW = 1.0f - m21;
+        /*
+         * This is an implementation of the "2.4 Basic intersection test" of the mentioned site.
+         * It does not distinguish between partially inside and fully inside, though, so the test with the 'p' vertex is omitted.
+         */
+        return nxX * (nxX < 0 ? minX : maxX) + nxY * (nxY < 0 ? minY : maxY) >= -nxW &&
+               pxX * (pxX < 0 ? minX : maxX) + pxY * (pxY < 0 ? minY : maxY) >= -pxW &&
+               nyX * (nyX < 0 ? minX : maxX) + nyY * (nyY < 0 ? minY : maxY) >= -nyW &&
+               pyX * (pyX < 0 ? minX : maxX) + pyY * (pyY < 0 ? minY : maxY) >= -pyW;
     }
 
     /**
