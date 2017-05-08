@@ -737,7 +737,7 @@ public class Intersectionf {
      * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
      * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
      * <p>
-     * Reference: Book "Real-Time Collision Detection"
+     * Reference: Book "Real-Time Collision Detection" chapter 5.1.5 "Closest Point on Triangle to Point"
      * 
      * @param v0X
      *          the x coordinate of the first vertex of the triangle
@@ -773,54 +773,63 @@ public class Intersectionf {
             float v2X, float v2Y, float v2Z,
             float pX, float pY, float pZ,
             Vector3f result) {
-        float aX = v0X - pX, aY = v0Y - pY, aZ = v0Z - pZ;
-        float bX = v1X - pX, bY = v1Y - pY, bZ = v1Z - pZ;
-        float cX = v2X - pX, cY = v2Y - pY, cZ = v2Z - pZ;
-        float abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
-        float acX = cX - aX, acY = cY - aY, acZ = cZ - aZ;
-        float d1 = -(abX * aX + abY * aY + abZ * aZ);
-        float d2 = -(acX * aX + acY * aY + acZ * aZ);
+        float abX = v1X - v0X, abY = v1Y - v0Y, abZ = v1Z - v0Z;
+        float acX = v2X - v0X, acY = v2Y - v0Y, acZ = v2Z - v0Z;
+        float apX = pX - v0X, apY = pY - v0Y, apZ = pZ - v0Z;
+        float d1 = abX * apX + abY * apY + abZ * apZ;
+        float d2 = acX * apX + acY * apY + acZ * apZ;
         if (d1 <= 0.0f && d2 <= 0.0f) {
-            result.set(v0X, v0Y, v0Z);
+            result.x = v0X;
+            result.y = v0Y;
+            result.z = v0Z;
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float d3 = -(abX * bX + abY * bY + abZ * bZ);
-        float d4 = -(acX * bX + acY * bY + acZ * bZ);
+        float bpX = pX - v1X, bpY = pY - v1Y, bpZ = pZ - v1Z;
+        float d3 = abX * bpX + abY * bpY + abZ * bpZ;
+        float d4 = acX * bpX + acY * bpY + acZ * bpZ;
         if (d3 >= 0.0f && d4 <= d3) {
-            result.set(v1X, v1Y, v1Z);
+            result.x = v1X;
+            result.y = v1Y;
+            result.z = v1Z;
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float vc = d1 * d4 - d3 * d2;
+        float vc = d1*d4 - d3*d2;
         if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
             float v = d1 / (d1 - d3);
-            result.set(v0X + abX * v, v0Y + abY * v, v0Z * abZ * v);
+            result.x = v0X + v * abX;
+            result.y = v0Y + v * abY;
+            result.z = v0Z + v * abZ;
             return POINT_ON_TRIANGLE_EDGE;
         }
-        float d5 = -(abX * cX + abY * cY + abZ * cZ);
-        float d6 = -(acX * cX + acY * cY + acZ * cZ);
+        float cpX = pX - v2X, cpY = pY - v2Y, cpZ = pZ - v2Z;
+        float d5 = abX * cpX + abY * cpY + abZ * cpZ;
+        float d6 = acX * cpX + acY * cpY + acZ * cpZ;
         if (d6 >= 0.0f && d5 <= d6) {
             result.set(v2X, v2Y, v2Z);
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float vb = d5 * d2 - d1 * d6;
+        float vb = d5*d2 - d1*d6;
         if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
             float w = d2 / (d2 - d6);
-            result.set(v0X + acX * w, v0Y + acY * w, v0Z + acZ * w);
+            result.x = v0X + w * acX;
+            result.y = v0Y + w * acY;
+            result.z = v0Z + w * acZ;
             return POINT_ON_TRIANGLE_EDGE;
         }
-        float va = d3 * d6 - d5 * d4;
-        if (va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f) {
-            float w = (d4 - d3) / (d4 - d3 + d5 - d6);
-            result.set(v1X + (cX - bX) * w, v1Y + (cY - bY) * w, v1Z + (cZ - bZ) * w);
+        float va = d3*d6 - d5*d4;
+        if (va <= 0.0f && d4 - d3 >= 0.0f && d5 - d6 >= 0.0f) {
+            float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+            result.x = v1X + w * (v2X - v1X);
+            result.y = v1Y + w * (v2Y - v1Y);
+            result.z = v1Z + w * (v2Z - v1Z);
             return POINT_ON_TRIANGLE_EDGE;
         }
         float denom = 1.0f / (va + vb + vc);
-        float vn = vb * denom;
-        float wn = vc * denom;
-        result.set(
-            v0X + abX * vn + acX * wn,
-            v0Y + abY * vn + acY * wn,
-            v0Z + abZ * vn + acZ * wn);
+        float v = vb * denom;
+        float w = vc * denom;
+        result.x = v0X + abX * v + acX * w;
+        result.y = v0Y + abY * v + acY * w;
+        result.z = v0Z + abZ * v + acZ * w;
         return POINT_ON_TRIANGLE_FACE;
     }
 
@@ -831,7 +840,7 @@ public class Intersectionf {
      * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
      * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
      * <p>
-     * Reference: Book "Real-Time Collision Detection"
+     * Reference: Book "Real-Time Collision Detection" chapter 5.1.5 "Closest Point on Triangle to Point"
      * 
      * @param v0
      *          the first vertex of the triangle
@@ -2963,7 +2972,7 @@ public class Intersectionf {
      * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
      * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
      * <p>
-     * Reference: Book "Real-Time Collision Detection"
+     * Reference: Book "Real-Time Collision Detection" chapter 5.1.5 "Closest Point on Triangle to Point"
      * 
      * @param v0X
      *          the x coordinate of the first vertex of the triangle
@@ -2986,51 +2995,58 @@ public class Intersectionf {
      * @return one of {@link #POINT_ON_TRIANGLE_VERTEX}, {@link #POINT_ON_TRIANGLE_EDGE} or {@link #POINT_ON_TRIANGLE_FACE}
      */
     public static int findClosestPointOnTriangle(float v0X, float v0Y, float v1X, float v1Y, float v2X, float v2Y, float pX, float pY, Vector2f result) {
-        float aX = v0X - pX, aY = v0Y - pY;
-        float bX = v1X - pX, bY = v1Y - pY;
-        float cX = v2X - pX, cY = v2Y - pY;
-        float abX = bX - aX, abY = bY - aY;
-        float acX = cX - aX, acY = cY - aY;
-        float d1 = -(abX * aX + abY * aY);
-        float d2 = -(acX * aX + acY * aY);
+        float abX = v1X - v0X, abY = v1Y - v0Y;
+        float acX = v2X - v0X, acY = v2Y - v0Y;
+        float apX = pX - v0X, apY = pY - v0Y;
+        float d1 = abX * apX + abY * apY;
+        float d2 = acX * apX + acY * apY;
         if (d1 <= 0.0f && d2 <= 0.0f) {
-            result.set(v0X, v0Y);
+            result.x = v0X;
+            result.y = v0Y;
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float d3 = -(abX * bX + abY * bY);
-        float d4 = -(acX * bX + acY * bY);
+        float bpX = pX - v1X, bpY = pY - v1Y;
+        float d3 = abX * bpX + abY * bpY;
+        float d4 = acX * bpX + acY * bpY;
         if (d3 >= 0.0f && d4 <= d3) {
-            result.set(v1X, v1Y);
+            result.x = v1X;
+            result.y = v1Y;
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float vc = d1 * d4 - d3 * d2;
+        float vc = d1*d4 - d3*d2;
         if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
             float v = d1 / (d1 - d3);
-            result.set(v0X + abX * v, v0Y + abY * v);
+            result.x = v0X + v * abX;
+            result.y = v0Y + v * abY;
             return POINT_ON_TRIANGLE_EDGE;
         }
-        float d5 = -(abX * cX + abY * cY );
-        float d6 = -(acX * cX + acY * cY);
+        float cpX = pX - v2X, cpY = pY - v2Y;
+        float d5 = abX * cpX + abY * cpY;
+        float d6 = acX * cpX + acY * cpY;
         if (d6 >= 0.0f && d5 <= d6) {
-            result.set(v2X, v2Y);
+            result.x = v2X;
+            result.y = v2Y;
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float vb = d5 * d2 - d1 * d6;
+        float vb = d5*d2 - d1*d6;
         if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
             float w = d2 / (d2 - d6);
-            result.set(v0X + acX * w, v0Y + acY * w);
+            result.x = v0X + w * acX;
+            result.y = v0Y + w * acY;
             return POINT_ON_TRIANGLE_EDGE;
         }
-        float va = d3 * d6 - d5 * d4;
-        if (va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f) {
-            float w = (d4 - d3) / (d4 - d3 + d5 - d6);
-            result.set(v1X + (cX - bX) * w, v1Y + (cY - bY) * w);
+        float va = d3*d6 - d5*d4;
+        if (va <= 0.0f && d4 - d3 >= 0.0f && d5 - d6 >= 0.0f) {
+            float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+            result.x = v1X + w * (v2X - v1X);
+            result.y = v1Y + w * (v2Y - v1Y);
             return POINT_ON_TRIANGLE_EDGE;
         }
         float denom = 1.0f / (va + vb + vc);
-        float vn = vb * denom;
-        float wn = vc * denom;
-        result.set(v0X + abX * vn + acX * wn, v0Y + abY * vn + acY * wn);
+        float v = vb * denom;
+        float w = vc * denom;
+        result.x = v0X + abX * v + acX * w;
+        result.y = v0Y + abY * v + acY * w;
         return POINT_ON_TRIANGLE_FACE;
     }
 
@@ -3041,7 +3057,7 @@ public class Intersectionf {
      * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
      * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
      * <p>
-     * Reference: Book "Real-Time Collision Detection"
+     * Reference: Book "Real-Time Collision Detection" chapter 5.1.5 "Closest Point on Triangle to Point"
      * 
      * @param v0
      *          the first vertex of the triangle
