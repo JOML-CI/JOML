@@ -805,7 +805,9 @@ public class Intersectiond {
         double d5 = abX * cpX + abY * cpY + abZ * cpZ;
         double d6 = acX * cpX + acY * cpY + acZ * cpZ;
         if (d6 >= 0.0 && d5 <= d6) {
-            result.set(v2X, v2Y, v2Z);
+            result.x = v2X;
+            result.y = v2Y;
+            result.z = v2Z;
             return POINT_ON_TRIANGLE_VERTEX;
         }
         double vb = d5*d2 - d1*d6;
