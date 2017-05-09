@@ -332,6 +332,211 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether two oriented boxes given via their center position, orientation and half-size, intersect.
+     * <p>
+     * The orientation of a box is given as three unit vectors spanning the local orthonormal basis of the box.
+     * <p>
+     * The size is given as the half-size along each of the unit vectors defining the orthonormal basis.
+     * <p>
+     * Reference: Book "Real-Time Collision Detection" chapter 4.4.1 "OBB-OBB Intersection"
+     * 
+     * @param b0c
+     *          the center of the first box
+     * @param b0uX
+     *          the local X unit vector of the first box
+     * @param b0uY
+     *          the local Y unit vector of the first box
+     * @param b0uZ
+     *          the local Z unit vector of the first box
+     * @param b0hs
+     *          the half-size of the first box
+     * @param b1c
+     *          the center of the second box
+     * @param b1uX
+     *          the local X unit vector of the second box
+     * @param b1uY
+     *          the local Y unit vector of the second box
+     * @param b1uZ
+     *          the local Z unit vector of the second box
+     * @param b1hs
+     *          the half-size of the second box
+     * @return <code>true</code> if both boxes intersect; <code>false</code> otherwise
+     */
+    public static boolean testObOb(
+            Vector3f b0c, Vector3f b0uX, Vector3f b0uY, Vector3f b0uZ, Vector3f b0hs,
+            Vector3f b1c, Vector3f b1uX, Vector3f b1uY, Vector3f b1uZ, Vector3f b1hs) {
+        return testObOb(
+                b0c.x, b0c.y, b0c.z, b0uX.x, b0uX.y, b0uX.z, b0uY.x, b0uY.y, b0uY.z, b0uZ.x, b0uZ.y, b0uZ.z, b0hs.x, b0hs.y, b0hs.z,
+                b1c.x, b1c.y, b1c.z, b1uX.x, b1uX.y, b1uX.z, b1uY.x, b1uY.y, b1uY.z, b1uZ.x, b1uZ.y, b1uZ.z, b1hs.x, b1hs.y, b1hs.z);
+    }
+
+    /**
+     * Test whether two oriented boxes given via their center position, orientation and half-size, intersect.
+     * <p>
+     * The orientation of a box is given as three unit vectors spanning the local orthonormal basis of the box.
+     * <p>
+     * The size is given as the half-size along each of the unit vectors defining the orthonormal basis.
+     * <p>
+     * Reference: Book "Real-Time Collision Detection" chapter 4.4.1 "OBB-OBB Intersection"
+     * 
+     * @param b0cX
+     *          the x coordinate of the center of the first box
+     * @param b0cY
+     *          the y coordinate of the center of the first box
+     * @param b0cZ
+     *          the z coordinate of the center of the first box
+     * @param b0uXx
+     *          the x coordinate of the local X unit vector of the first box
+     * @param b0uXy
+     *          the y coordinate of the local X unit vector of the first box
+     * @param b0uXz
+     *          the z coordinate of the local X unit vector of the first box
+     * @param b0uYx
+     *          the x coordinate of the local Y unit vector of the first box
+     * @param b0uYy
+     *          the y coordinate of the local Y unit vector of the first box
+     * @param b0uYz
+     *          the z coordinate of the local Y unit vector of the first box
+     * @param b0uZx
+     *          the x coordinate of the local Z unit vector of the first box
+     * @param b0uZy
+     *          the y coordinate of the local Z unit vector of the first box
+     * @param b0uZz
+     *          the z coordinate of the local Z unit vector of the first box
+     * @param b0hsX
+     *          the half-size of the first box along its local X axis
+     * @param b0hsY
+     *          the half-size of the first box along its local Y axis
+     * @param b0hsZ
+     *          the half-size of the first box along its local Z axis
+     * @param b1cX
+     *          the x coordinate of the center of the second box
+     * @param b1cY
+     *          the y coordinate of the center of the second box
+     * @param b1cZ
+     *          the z coordinate of the center of the second box
+     * @param b1uXx
+     *          the x coordinate of the local X unit vector of the second box
+     * @param b1uXy
+     *          the y coordinate of the local X unit vector of the second box
+     * @param b1uXz
+     *          the z coordinate of the local X unit vector of the second box
+     * @param b1uYx
+     *          the x coordinate of the local Y unit vector of the second box
+     * @param b1uYy
+     *          the y coordinate of the local Y unit vector of the second box
+     * @param b1uYz
+     *          the z coordinate of the local Y unit vector of the second box
+     * @param b1uZx
+     *          the x coordinate of the local Z unit vector of the second box
+     * @param b1uZy
+     *          the y coordinate of the local Z unit vector of the second box
+     * @param b1uZz
+     *          the z coordinate of the local Z unit vector of the second box
+     * @param b1hsX
+     *          the half-size of the second box along its local X axis
+     * @param b1hsY
+     *          the half-size of the second box along its local Y axis
+     * @param b1hsZ
+     *          the half-size of the second box along its local Z axis
+     * @return <code>true</code> if both boxes intersect; <code>false</code> otherwise
+     */
+    public static boolean testObOb(
+            float b0cX, float b0cY, float b0cZ, float b0uXx, float b0uXy, float b0uXz, float b0uYx, float b0uYy, float b0uYz, float b0uZx, float b0uZy, float b0uZz, float b0hsX, float b0hsY, float b0hsZ,
+            float b1cX, float b1cY, float b1cZ, float b1uXx, float b1uXy, float b1uXz, float b1uYx, float b1uYy, float b1uYz, float b1uZx, float b1uZy, float b1uZz, float b1hsX, float b1hsY, float b1hsZ) {
+        float ra, rb;
+        float rm00, rm01, rm02, rm10, rm11, rm12, rm20, rm21, rm22;
+        float arm00, arm01, arm02, arm10, arm11, arm12, arm20, arm21, arm22;
+        // Compute rotation matrix expressing b in a's coordinate frame
+        rm00 = b0uXx * b1uXx + b0uXy * b1uXy + b0uXz * b1uXz;
+        rm01 = b0uXx * b1uYx + b0uXy * b1uYy + b0uXz * b1uYz;
+        rm02 = b0uXx * b1uZx + b0uXy * b1uZy + b0uXz * b1uZz;
+        rm10 = b0uYx * b1uXx + b0uYy * b1uXy + b0uYz * b1uXz;
+        rm11 = b0uYx * b1uYx + b0uYy * b1uYy + b0uYz * b1uYz;
+        rm12 = b0uYx * b1uZx + b0uYy * b1uZy + b0uYz * b1uZz;
+        rm20 = b0uZx * b1uXx + b0uZy * b1uXy + b0uZz * b1uXz;
+        rm21 = b0uZx * b1uYx + b0uZy * b1uYy + b0uZz * b1uYz;
+        rm22 = b0uZx * b1uZx + b0uZy * b1uZy + b0uZz * b1uZz;
+        // Compute translation vector t
+        float tX = b1cX - b0cX, tY = b1cY - b0cY, tZ = b1cZ - b0cZ;
+        // Bring translation into a's coordinate frame
+        tX = tX * b0uXx + tY * b0uXy + tZ * b0uXz;
+        tY = tY * b0uYx + tY * b0uYy + tZ * b0uYz;
+        tZ = tZ * b0uZx + tZ * b0uZy + tZ * b0uZz;
+        // Compute common subexpressions. Add in an epsilon term to
+        // counteract arithmetic errors when two edges are parallel and
+        // their cross product is (near) null (see text for details)
+        float EPSILON = 1E-6f;
+        arm00 = Math.abs(rm00) + EPSILON;
+        arm01 = Math.abs(rm01) + EPSILON;
+        arm02 = Math.abs(rm02) + EPSILON;
+        arm10 = Math.abs(rm10) + EPSILON;
+        arm11 = Math.abs(rm11) + EPSILON;
+        arm12 = Math.abs(rm12) + EPSILON;
+        arm20 = Math.abs(rm20) + EPSILON;
+        arm21 = Math.abs(rm21) + EPSILON;
+        arm22 = Math.abs(rm22) + EPSILON;
+        // Test axes L = A0, L = A1, L = A2
+        ra = b0hsX;
+        rb = b1hsX * arm00 + b1hsY * arm01 + b1hsZ * arm02;
+        if (Math.abs(tX) > ra + rb) return false;
+        ra = b0hsY;
+        rb = b1hsX * arm10 + b1hsY * arm11 + b1hsZ * arm12;
+        if (Math.abs(tY) > ra + rb) return false;
+        ra = b0hsZ;
+        rb = b1hsX * arm20 + b1hsY * arm21 + b1hsZ * arm22;
+        if (Math.abs(tZ) > ra + rb) return false;
+        // Test axes L = B0, L = B1, L = B2
+        ra = b0hsX * arm00 + b0hsY * arm10 + b0hsZ * arm20;
+        rb = b1hsX;
+        if (Math.abs(tX * rm00 + tY * rm10 + tZ * rm20) > ra + rb) return false;
+        ra = b0hsX * arm01 + b0hsY * arm11 + b0hsZ * arm21;
+        rb = b1hsY;
+        if (Math.abs(tX * rm01 + tY * rm11 + tZ * rm21) > ra + rb) return false;
+        ra = b0hsX * arm02 + b0hsY * arm12 + b0hsZ * arm22;
+        rb = b1hsZ;
+        if (Math.abs(tX * rm02 + tY * rm12 + tZ * rm22) > ra + rb) return false;
+        // Test axis L = A0 x B0
+        ra = b0hsY * arm20 + b0hsZ * arm10;
+        rb = b1hsY * arm02 + b1hsZ * arm01;
+        if (Math.abs(tZ * rm10 - tY * rm20) > ra + rb) return false;
+        // Test axis L = A0 x B1
+        ra = b0hsY * arm21 + b0hsZ * arm11;
+        rb = b1hsX * arm02 + b1hsZ * arm00;
+        if (Math.abs(tZ * rm11 - tY * rm21) > ra + rb) return false;
+        // Test axis L = A0 x B2
+        ra = b0hsY * arm22 + b0hsZ * arm12;
+        rb = b1hsX * arm01 + b1hsY * arm00;
+        if (Math.abs(tZ * rm12 - tY * rm22) > ra + rb) return false;
+        // Test axis L = A1 x B0
+        ra = b0hsX * arm20 + b0hsZ * arm00;
+        rb = b1hsY * arm12 + b1hsZ * arm11;
+        if (Math.abs(tX * rm20 + tZ * rm00) > ra + rb) return false;
+        // Test axis L = A1 x B1
+        ra = b0hsX * arm21 + b0hsZ * arm01;
+        rb = b1hsX * arm12 + b1hsZ * arm10;
+        if (Math.abs(tX * rm21 - tZ * rm01) > ra + rb) return false;
+        // Test axis L = A1 x B2
+        ra = b0hsX * arm22 + b0hsZ * arm02;
+        rb = b1hsX * arm11 + b1hsY * arm10;
+        if (Math.abs(tX * rm22 - tZ * rm02) > ra + rb) return false;
+        // Test axis L = A2 x B0
+        ra = b0hsX * arm10 + b0hsY * arm00;
+        rb = b1hsY * arm22 + b1hsZ * arm21;
+        if (Math.abs(tY * rm00 - tX * rm10) > ra + rb) return false;
+        // Test axis L = A2 x B1
+        ra = b0hsX * arm11 + b0hsY * arm01;
+        rb = b1hsX * arm22 + b1hsZ * arm20;
+        if (Math.abs(tY * rm01 - tX * rm11) > ra + rb) return false;
+        // Test axis L = A2 x B2
+        ra = b0hsX * arm12 + b0hsY * arm02;
+        rb = b1hsX * arm21 + b1hsY * arm20;
+        if (Math.abs(tY * rm02 - tX * rm12) > ra + rb) return false;
+        // both boxes do intersect
+        return true;
+    }
+
+    /**
      * Test whether the one sphere with center <tt>(aX, aY, aZ)</tt> and square radius <code>radiusSquaredA</code> intersects the other
      * sphere with center <tt>(bX, bY, bZ)</tt> and square radius <code>radiusSquaredB</code>, and store the center of the circle of
      * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
@@ -793,7 +998,7 @@ public class Intersectionf {
             result.z = v1Z;
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float vc = d1*d4 - d3*d2;
+        float vc = d1 * d4 - d3 * d2;
         if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
             float v = d1 / (d1 - d3);
             result.x = v0X + v * abX;
@@ -810,7 +1015,7 @@ public class Intersectionf {
             result.z = v2Z;
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float vb = d5*d2 - d1*d6;
+        float vb = d5 * d2 - d1 * d6;
         if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
             float w = d2 / (d2 - d6);
             result.x = v0X + w * acX;
@@ -818,9 +1023,9 @@ public class Intersectionf {
             result.z = v0Z + w * acZ;
             return POINT_ON_TRIANGLE_EDGE;
         }
-        float va = d3*d6 - d5*d4;
+        float va = d3 * d6 - d5 * d4;
         if (va <= 0.0f && d4 - d3 >= 0.0f && d5 - d6 >= 0.0f) {
-            float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+            float w = (d4 - d3) / (d4 - d3 + d5 - d6);
             result.x = v1X + w * (v2X - v1X);
             result.y = v1Y + w * (v2Y - v1Y);
             result.z = v1Z + w * (v2Z - v1Z);
@@ -858,6 +1063,59 @@ public class Intersectionf {
      */
     public static int findClosestPointOnTriangle(Vector3fc v0, Vector3fc v1, Vector3fc v2, Vector3fc p, Vector3f result) {
         return findClosestPointOnTriangle(v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), p.x(), p.y(), p.z(), result);
+    }
+
+    /**
+     * Reference: Book "Real-Time Collision Detection" chapter 5.1.4.2 "Closest Point on 3D Rectangle to Point"
+     * 
+     * @param aX
+     * @param aY
+     * @param aZ
+     * @param bX
+     * @param bY
+     * @param bZ
+     * @param cX
+     * @param cY
+     * @param cZ
+     * @param pX
+     * @param pY
+     * @param pZ
+     * @param res
+     */
+    public static void findClosestPointOnRectangle(
+            float aX, float aY, float aZ,
+            float bX, float bY, float bZ,
+            float cX, float cY, float cZ,
+            float pX, float pY, float pZ, Vector3f res) {
+        float abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
+        float acX = cX - aX, acY = cY - aY, acZ = cZ - aZ;
+        float dX = pX - aX, dY = pY - aY, dZ = pZ - aZ;
+        float qX = aX, qY = aY, qZ = aZ;
+        float dist = dX * abX + dY + abY + dZ * abZ;
+        float maxdist = abX * abX + abY * abY + abZ * abZ;
+        if (dist >= maxdist) {
+            qX += abX;
+            qY += abY;
+            qZ += abZ;
+        } else if (dist > 0.0f) {
+            qX += (dist / maxdist) * abX;
+            qY += (dist / maxdist) * abY;
+            qZ += (dist / maxdist) * abZ;
+        }
+        dist = dX * acX + dY * acY + dZ * acZ;
+        maxdist = acX * acX + acY * acY + acZ * acZ;
+        if (dist >= maxdist) {
+            qX += acX;
+            qY += acY;
+            qZ += acZ;
+        } else if (dist > 0.0f) {
+            qX += (dist / maxdist) * acX;
+            qY += (dist / maxdist) * acY;
+            qZ += (dist / maxdist) * acZ;
+        }
+        res.x = qX;
+        res.y = qY;
+        res.z = qZ;
     }
 
     /**
@@ -3015,7 +3273,7 @@ public class Intersectionf {
             result.y = v1Y;
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float vc = d1*d4 - d3*d2;
+        float vc = d1 * d4 - d3 * d2;
         if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
             float v = d1 / (d1 - d3);
             result.x = v0X + v * abX;
@@ -3030,16 +3288,16 @@ public class Intersectionf {
             result.y = v2Y;
             return POINT_ON_TRIANGLE_VERTEX;
         }
-        float vb = d5*d2 - d1*d6;
+        float vb = d5 * d2 - d1 * d6;
         if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
             float w = d2 / (d2 - d6);
             result.x = v0X + w * acX;
             result.y = v0Y + w * acY;
             return POINT_ON_TRIANGLE_EDGE;
         }
-        float va = d3*d6 - d5*d4;
+        float va = d3 * d6 - d5 * d4;
         if (va <= 0.0f && d4 - d3 >= 0.0f && d5 - d6 >= 0.0f) {
-            float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+            float w = (d4 - d3) / (d4 - d3 + d5 - d6);
             result.x = v1X + w * (v2X - v1X);
             result.y = v1Y + w * (v2Y - v1Y);
             return POINT_ON_TRIANGLE_EDGE;
