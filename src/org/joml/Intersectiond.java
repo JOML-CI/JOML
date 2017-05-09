@@ -970,6 +970,42 @@ public class Intersectiond {
     }
 
     /**
+     * Find the point on the given line segment which is closest to the specified point <tt>(pX, pY, pZ)</tt>, and store the result in <code>result</code>.
+     * 
+     * @param aX
+     *          the x coordinate of the first end point of the line segment
+     * @param aY
+     *          the y coordinate of the first end point of the line segment
+     * @param aZ
+     *          the z coordinate of the first end point of the line segment
+     * @param bX
+     *          the x coordinate of the second end point of the line segment
+     * @param bY
+     *          the y coordinate of the second end point of the line segment
+     * @param bZ
+     *          the z coordinate of the second end point of the line segment
+     * @param pX
+     *          the x coordinate of the point
+     * @param pY
+     *          the y coordinate of the point
+     * @param pZ
+     *          the z coordinate of the point
+     * @param result
+     *          will hold the result
+     * @return result
+     */
+    public static Vector3d findClosestPointOnLineSegmentToPoint(double aX, double aY, double aZ, double bX, double bY, double bZ, double pX, double pY, double pZ, Vector3d result) {
+        double abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
+        double t = ((pX - aX) * abX + (pY - aY) * abY + (pZ - aZ) * abZ) / (abX * abX + abY * abY + abZ * abZ);
+        if (t < 0.0) t = 0.0;
+        if (t > 1.0) t = 1.0;
+        result.x = aX + t * abX;
+        result.y = aY + t * abY;
+        result.z = aZ + t * abZ;
+        return result;
+    }
+
+    /**
      * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>
      * between that triangle and the given point <tt>(pX, pY, pZ)</tt> and store that point into the given <code>result</code>.
      * <p>
