@@ -936,6 +936,40 @@ public class Intersectiond {
     }
 
     /**
+     * Find the point on the given plane which is closest to the specified point <tt>(pX, pY, pZ)</tt> and store the result in <code>result</code>.
+     * 
+     * @param aX
+     *          the x coordinate of one point on the plane
+     * @param aY
+     *          the y coordinate of one point on the plane
+     * @param aZ
+     *          the z coordinate of one point on the plane
+     * @param nX
+     *          the x coordinate of the unit normal of the plane
+     * @param nY
+     *          the y coordinate of the unit normal of the plane
+     * @param nZ
+     *          the z coordinate of the unit normal of the plane
+     * @param pX
+     *          the x coordinate of the point
+     * @param pY
+     *          the y coordinate of the point
+     * @param pZ
+     *          the z coordinate of the point
+     * @param result
+     *          will hold the result
+     * @return result
+     */
+    public static Vector3d findClosestPointOnPlaneToPoint(double aX, double aY, double aZ, double nX, double nY, double nZ, double pX, double pY, double pZ, Vector3d result) {
+        double d = -(nX * aX + nY * aY + nZ * aZ);
+        double t = nX * pX + nY * pY + nZ * pZ - d;
+        result.x = pX - t * nX;
+        result.y = pY - t * nY;
+        result.z = pZ - t * nZ;
+        return result;
+    }
+
+    /**
      * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>
      * between that triangle and the given point <tt>(pX, pY, pZ)</tt> and store that point into the given <code>result</code>.
      * <p>
