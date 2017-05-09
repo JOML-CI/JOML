@@ -960,7 +960,7 @@ public class Intersectiond {
      *          will hold the result
      * @return result
      */
-    public static Vector3d findClosestPointOnPlaneToPoint(double aX, double aY, double aZ, double nX, double nY, double nZ, double pX, double pY, double pZ, Vector3d result) {
+    public static Vector3d findClosestPointOnPlane(double aX, double aY, double aZ, double nX, double nY, double nZ, double pX, double pY, double pZ, Vector3d result) {
         double d = -(nX * aX + nY * aY + nZ * aZ);
         double t = nX * pX + nY * pY + nZ * pZ - d;
         result.x = pX - t * nX;
@@ -994,7 +994,7 @@ public class Intersectiond {
      *          will hold the result
      * @return result
      */
-    public static Vector3d findClosestPointOnLineSegmentToPoint(double aX, double aY, double aZ, double bX, double bY, double bZ, double pX, double pY, double pZ, Vector3d result) {
+    public static Vector3d findClosestPointOnLineSegment(double aX, double aY, double aZ, double bX, double bY, double bZ, double pX, double pY, double pZ, Vector3d result) {
         double abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
         double t = ((pX - aX) * abX + (pY - aY) * abY + (pZ - aZ) * abZ) / (abX * abX + abY * abY + abZ * abZ);
         if (t < 0.0) t = 0.0;
@@ -1133,6 +1133,77 @@ public class Intersectiond {
      */
     public static int findClosestPointOnTriangle(Vector3dc v0, Vector3dc v1, Vector3dc v2, Vector3dc p, Vector3d result) {
         return findClosestPointOnTriangle(v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), p.x(), p.y(), p.z(), result);
+    }
+
+    /**
+     * Find the point on a given rectangle, specified via three of its corners, which is closest to the specified point
+     * <tt>(pX, pY, pZ)</tt> and store the result into <code>res</code>.
+     * <p>
+     * Reference: Book "Real-Time Collision Detection" chapter 5.1.4.2 "Closest Point on 3D Rectangle to Point"
+     * 
+     * @param aX
+     *          the x coordinate of the first corner point of the rectangle
+     * @param aY
+     *          the y coordinate of the first corner point of the rectangle
+     * @param aZ
+     *          the z coordinate of the first corner point of the rectangle
+     * @param bX
+     *          the x coordinate of the second corner point of the rectangle 
+     * @param bY
+     *          the y coordinate of the second corner point of the rectangle
+     * @param bZ
+     *          the z coordinate of the second corner point of the rectangle
+     * @param cX
+     *          the x coordinate of the third corner point of the rectangle
+     * @param cY
+     *          the y coordinate of the third corner point of the rectangle
+     * @param cZ
+     *          the z coordinate of the third corner point of the rectangle
+     * @param pX
+     *          the x coordinate of the point
+     * @param pY
+     *          the y coordinate of the point
+     * @param pZ
+     *          the z coordinate of the point
+     * @param res
+     *          will hold the result
+     * @return res
+     */
+    public static Vector3d findClosestPointOnRectangle(
+            double aX, double aY, double aZ,
+            double bX, double bY, double bZ,
+            double cX, double cY, double cZ,
+            double pX, double pY, double pZ, Vector3d res) {
+        double abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
+        double acX = cX - aX, acY = cY - aY, acZ = cZ - aZ;
+        double dX = pX - aX, dY = pY - aY, dZ = pZ - aZ;
+        double qX = aX, qY = aY, qZ = aZ;
+        double dist = dX * abX + dY + abY + dZ * abZ;
+        double maxdist = abX * abX + abY * abY + abZ * abZ;
+        if (dist >= maxdist) {
+            qX += abX;
+            qY += abY;
+            qZ += abZ;
+        } else if (dist > 0.0) {
+            qX += (dist / maxdist) * abX;
+            qY += (dist / maxdist) * abY;
+            qZ += (dist / maxdist) * abZ;
+        }
+        dist = dX * acX + dY * acY + dZ * acZ;
+        maxdist = acX * acX + acY * acY + acZ * acZ;
+        if (dist >= maxdist) {
+            qX += acX;
+            qY += acY;
+            qZ += acZ;
+        } else if (dist > 0.0) {
+            qX += (dist / maxdist) * acX;
+            qY += (dist / maxdist) * acY;
+            qZ += (dist / maxdist) * acZ;
+        }
+        res.x = qX;
+        res.y = qY;
+        res.z = qZ;
+        return res;
     }
 
     /**

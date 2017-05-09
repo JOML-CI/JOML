@@ -960,7 +960,7 @@ public class Intersectionf {
      *          will hold the result
      * @return result
      */
-    public static Vector3f findClosestPointOnPlaneToPoint(float aX, float aY, float aZ, float nX, float nY, float nZ, float pX, float pY, float pZ, Vector3f result) {
+    public static Vector3f findClosestPointOnPlane(float aX, float aY, float aZ, float nX, float nY, float nZ, float pX, float pY, float pZ, Vector3f result) {
         float d = -(nX * aX + nY * aY + nZ * aZ);
         float t = nX * pX + nY * pY + nZ * pZ - d;
         result.x = pX - t * nX;
@@ -994,7 +994,7 @@ public class Intersectionf {
      *          will hold the result
      * @return result
      */
-    public static Vector3f findClosestPointOnLineSegmentToPoint(float aX, float aY, float aZ, float bX, float bY, float bZ, float pX, float pY, float pZ, Vector3f result) {
+    public static Vector3f findClosestPointOnLineSegment(float aX, float aY, float aZ, float bX, float bY, float bZ, float pX, float pY, float pZ, Vector3f result) {
         float abX = bX - aX, abY = bY - aY, abZ = bZ - aZ;
         float t = ((pX - aX) * abX + (pY - aY) * abY + (pZ - aZ) * abZ) / (abX * abX + abY * abY + abZ * abZ);
         if (t < 0.0f) t = 0.0f;
@@ -1136,23 +1136,40 @@ public class Intersectionf {
     }
 
     /**
+     * Find the point on a given rectangle, specified via three of its corners, which is closest to the specified point
+     * <tt>(pX, pY, pZ)</tt> and store the result into <code>res</code>.
+     * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.1.4.2 "Closest Point on 3D Rectangle to Point"
      * 
      * @param aX
+     *          the x coordinate of the first corner point of the rectangle
      * @param aY
+     *          the y coordinate of the first corner point of the rectangle
      * @param aZ
+     *          the z coordinate of the first corner point of the rectangle
      * @param bX
+     *          the x coordinate of the second corner point of the rectangle 
      * @param bY
+     *          the y coordinate of the second corner point of the rectangle
      * @param bZ
+     *          the z coordinate of the second corner point of the rectangle
      * @param cX
+     *          the x coordinate of the third corner point of the rectangle
      * @param cY
+     *          the y coordinate of the third corner point of the rectangle
      * @param cZ
+     *          the z coordinate of the third corner point of the rectangle
      * @param pX
+     *          the x coordinate of the point
      * @param pY
+     *          the y coordinate of the point
      * @param pZ
+     *          the z coordinate of the point
      * @param res
+     *          will hold the result
+     * @return res
      */
-    public static void findClosestPointOnRectangle(
+    public static Vector3f findClosestPointOnRectangle(
             float aX, float aY, float aZ,
             float bX, float bY, float bZ,
             float cX, float cY, float cZ,
@@ -1186,6 +1203,7 @@ public class Intersectionf {
         res.x = qX;
         res.y = qY;
         res.z = qZ;
+        return res;
     }
 
     /**
