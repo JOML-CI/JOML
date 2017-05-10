@@ -36,9 +36,9 @@ public class Intersectionf {
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
      * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
      * {@link #intersectSweptSphereTriangle}
-     * to signal that the closest point is a vertex of the triangle.
+     * to signal that the closest point is the first vertex of the triangle.
      */
-    public static final int POINT_ON_TRIANGLE_VERTEX = 0;
+    public static final int POINT_ON_TRIANGLE_VERTEX_0 = 1;
     /**
      * Return value of
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
@@ -46,9 +46,51 @@ public class Intersectionf {
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
      * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
      * {@link #intersectSweptSphereTriangle}
-     * to signal that the closest point lies on an edge of the triangle.
+     * to signal that the closest point is the second vertex of the triangle.
      */
-    public static final int POINT_ON_TRIANGLE_EDGE = 1;
+    public static final int POINT_ON_TRIANGLE_VERTEX_1 = 2;
+    /**
+     * Return value of
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
+     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #intersectSweptSphereTriangle}
+     * to signal that the closest point is the third vertex of the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_VERTEX_2 = 3;
+
+    /**
+     * Return value of
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
+     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #intersectSweptSphereTriangle}
+     * to signal that the closest point lies on the edge between the first and second vertex of the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_EDGE_01 = 4;
+    /**
+     * Return value of
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
+     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #intersectSweptSphereTriangle}
+     * to signal that the closest point lies on the edge between the second and third vertex of the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_EDGE_12 = 5;
+    /**
+     * Return value of
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
+     * {@link #findClosestPointOnTriangle(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector3f)},
+     * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, Vector2f)} and
+     * {@link #findClosestPointOnTriangle(Vector2fc, Vector2fc, Vector2fc, Vector2fc, Vector2f)} or
+     * {@link #intersectSweptSphereTriangle}
+     * to signal that the closest point lies on the edge between the third and first vertex of the triangle.
+     */
+    public static final int POINT_ON_TRIANGLE_EDGE_20 = 6;
+
     /**
      * Return value of
      * {@link #findClosestPointOnTriangle(float, float, float, float, float, float, float, float, float, float, float, float, Vector3f)},
@@ -1009,8 +1051,9 @@ public class Intersectionf {
      * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>
      * between that triangle and the given point <tt>(pX, pY, pZ)</tt> and store that point into the given <code>result</code>.
      * <p>
-     * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
-     * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
+     * Additionally, this method returns whether the closest point is a vertex ({@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2})
+     * of the triangle, lies on an edge ({@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20})
+     * or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
      * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.1.5 "Closest Point on Triangle to Point"
      * 
@@ -1040,7 +1083,9 @@ public class Intersectionf {
      *          the y coordinate of the point
      * @param result
      *          will hold the closest point
-     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX}, {@link #POINT_ON_TRIANGLE_EDGE} or {@link #POINT_ON_TRIANGLE_FACE}
+     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2},
+     *                {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20} or
+     *                {@link #POINT_ON_TRIANGLE_FACE}
      */
     public static int findClosestPointOnTriangle(
             float v0X, float v0Y, float v0Z,
@@ -1057,7 +1102,7 @@ public class Intersectionf {
             result.x = v0X;
             result.y = v0Y;
             result.z = v0Z;
-            return POINT_ON_TRIANGLE_VERTEX;
+            return POINT_ON_TRIANGLE_VERTEX_0;
         }
         float bpX = pX - v1X, bpY = pY - v1Y, bpZ = pZ - v1Z;
         float d3 = abX * bpX + abY * bpY + abZ * bpZ;
@@ -1066,7 +1111,7 @@ public class Intersectionf {
             result.x = v1X;
             result.y = v1Y;
             result.z = v1Z;
-            return POINT_ON_TRIANGLE_VERTEX;
+            return POINT_ON_TRIANGLE_VERTEX_1;
         }
         float vc = d1 * d4 - d3 * d2;
         if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
@@ -1074,7 +1119,7 @@ public class Intersectionf {
             result.x = v0X + v * abX;
             result.y = v0Y + v * abY;
             result.z = v0Z + v * abZ;
-            return POINT_ON_TRIANGLE_EDGE;
+            return POINT_ON_TRIANGLE_EDGE_01;
         }
         float cpX = pX - v2X, cpY = pY - v2Y, cpZ = pZ - v2Z;
         float d5 = abX * cpX + abY * cpY + abZ * cpZ;
@@ -1083,7 +1128,7 @@ public class Intersectionf {
             result.x = v2X;
             result.y = v2Y;
             result.z = v2Z;
-            return POINT_ON_TRIANGLE_VERTEX;
+            return POINT_ON_TRIANGLE_VERTEX_2;
         }
         float vb = d5 * d2 - d1 * d6;
         if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
@@ -1091,7 +1136,7 @@ public class Intersectionf {
             result.x = v0X + w * acX;
             result.y = v0Y + w * acY;
             result.z = v0Z + w * acZ;
-            return POINT_ON_TRIANGLE_EDGE;
+            return POINT_ON_TRIANGLE_EDGE_20;
         }
         float va = d3 * d6 - d5 * d4;
         if (va <= 0.0f && d4 - d3 >= 0.0f && d5 - d6 >= 0.0f) {
@@ -1099,7 +1144,7 @@ public class Intersectionf {
             result.x = v1X + w * (v2X - v1X);
             result.y = v1Y + w * (v2Y - v1Y);
             result.z = v1Z + w * (v2Z - v1Z);
-            return POINT_ON_TRIANGLE_EDGE;
+            return POINT_ON_TRIANGLE_EDGE_12;
         }
         float denom = 1.0f / (va + vb + vc);
         float v = vb * denom;
@@ -1114,8 +1159,9 @@ public class Intersectionf {
      * Determine the closest point on the triangle with the vertices <code>v0</code>, <code>v1</code>, <code>v2</code>
      * between that triangle and the given point <code>p</code> and store that point into the given <code>result</code>.
      * <p>
-     * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
-     * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
+     * Additionally, this method returns whether the closest point is a vertex ({@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2})
+     * of the triangle, lies on an edge ({@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20})
+     * or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
      * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.1.5 "Closest Point on Triangle to Point"
      * 
@@ -1129,7 +1175,9 @@ public class Intersectionf {
      *          the point
      * @param result
      *          will hold the closest point
-     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX}, {@link #POINT_ON_TRIANGLE_EDGE} or {@link #POINT_ON_TRIANGLE_FACE}
+     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2},
+     *                {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20} or
+     *                {@link #POINT_ON_TRIANGLE_FACE}
      */
     public static int findClosestPointOnTriangle(Vector3fc v0, Vector3fc v1, Vector3fc v2, Vector3fc p, Vector3f result) {
         return findClosestPointOnTriangle(v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z(), v2.x(), v2.y(), v2.z(), p.x(), p.y(), p.z(), result);
@@ -1256,9 +1304,9 @@ public class Intersectionf {
      *              iff the moving sphere and the triangle intersect, this will hold the point of intersection in the <tt>(x, y, z)</tt> components
      *              and the time of intersection in the <tt>w</tt> component
      * @return {@link #POINT_ON_TRIANGLE_FACE} if the intersection point lies on the triangle's face,
-     *         or {@link #POINT_ON_TRIANGLE_VERTEX} if the intersection point is a vertex,
-     *         or {@link #POINT_ON_TRIANGLE_EDGE} if the intersection point lies on an edge;
-     *         or <tt>-1</tt> if no intersection
+     *         or {@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1} or {@link #POINT_ON_TRIANGLE_VERTEX_2} if the intersection point is a vertex,
+     *         or {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12} or {@link #POINT_ON_TRIANGLE_EDGE_20} if the intersection point lies on an edge;
+     *         or <tt>0</tt> if no intersection
      */
     public static int intersectSweptSphereTriangle(
             float centerX, float centerY, float centerZ, float radius, float velX, float velY, float velZ,
@@ -1279,10 +1327,10 @@ public class Intersectionf {
         float signedDist = (a * centerX + b * centerY + c * centerZ + d) * invLen;
         float dot = (a * velX + b * velY + c * velZ) * invLen;
         if (dot < epsilon && dot > -epsilon)
-            return -1;
+            return 0;
         float pt0 = (radius - signedDist) / dot;
         if (pt0 > maxT)
-            return -1;
+            return 0;
         float pt1 = (-radius - signedDist) / dot;
         float p0X = centerX - radius * a * invLen + velX * pt0;
         float p0Y = centerY - radius * b * invLen + velY * pt0;
@@ -1295,7 +1343,7 @@ public class Intersectionf {
             pointAndTime.w = pt0;
             return POINT_ON_TRIANGLE_FACE;
         }
-        int isect = -1;
+        int isect = 0;
         float t0 = maxT;
         float A = velX * velX + velY * velY + velZ * velZ;
         float radius2 = radius * radius;
@@ -1312,7 +1360,7 @@ public class Intersectionf {
             pointAndTime.z = v0Z;
             pointAndTime.w = root0;
             t0 = root0;
-            isect = POINT_ON_TRIANGLE_VERTEX;
+            isect = POINT_ON_TRIANGLE_VERTEX_0;
         }
         // test against v1
         float centerV1X = centerX - v1X;
@@ -1328,7 +1376,7 @@ public class Intersectionf {
             pointAndTime.z = v1Z;
             pointAndTime.w = root1;
             t0 = root1;
-            isect = POINT_ON_TRIANGLE_VERTEX;
+            isect = POINT_ON_TRIANGLE_VERTEX_1;
         }
         // test against v2
         float centerV2X = centerX - v2X;
@@ -1343,7 +1391,7 @@ public class Intersectionf {
             pointAndTime.z = v2Z;
             pointAndTime.w = root2;
             t0 = root2;
-            isect = POINT_ON_TRIANGLE_VERTEX;
+            isect = POINT_ON_TRIANGLE_VERTEX_2;
         }
         float velLen = velX * velX + velY * velY + velZ * velZ;
         // test against edge10
@@ -1363,7 +1411,7 @@ public class Intersectionf {
             pointAndTime.z = v0Z + f10 * v10Z;
             pointAndTime.w = root10;
             t0 = root10;
-            isect = POINT_ON_TRIANGLE_EDGE;
+            isect = POINT_ON_TRIANGLE_EDGE_01;
         }
         // test against edge20
         float len20 = v20X * v20X + v20Y * v20Y + v20Z * v20Z;
@@ -1380,7 +1428,7 @@ public class Intersectionf {
             pointAndTime.z = v0Z + f20 * v20Z;
             pointAndTime.w = root20;
             t0 = root20;
-            isect = POINT_ON_TRIANGLE_EDGE;
+            isect = POINT_ON_TRIANGLE_EDGE_20;
         }
         // test against edge21
         float v21X = v2X - v1X;
@@ -1402,7 +1450,7 @@ public class Intersectionf {
             pointAndTime.z = v1Z + f21 * v21Z;
             pointAndTime.w = root21;
             t0 = root21;
-            isect = POINT_ON_TRIANGLE_EDGE;
+            isect = POINT_ON_TRIANGLE_EDGE_12;
         }
         return isect;
     }
@@ -3317,8 +3365,9 @@ public class Intersectionf {
      * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y)</tt>, <tt>(v1X, v1Y)</tt>, <tt>(v2X, v2Y)</tt>
      * between that triangle and the given point <tt>(pX, pY)</tt> and store that point into the given <code>result</code>.
      * <p>
-     * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
-     * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
+     * Additionally, this method returns whether the closest point is a vertex ({@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2})
+     * of the triangle, lies on an edge ({@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20})
+     * or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
      * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.1.5 "Closest Point on Triangle to Point"
      * 
@@ -3340,7 +3389,9 @@ public class Intersectionf {
      *          the y coordinate of the point
      * @param result
      *          will hold the closest point
-     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX}, {@link #POINT_ON_TRIANGLE_EDGE} or {@link #POINT_ON_TRIANGLE_FACE}
+     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2},
+     *                {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20} or
+     *                {@link #POINT_ON_TRIANGLE_FACE}
      */
     public static int findClosestPointOnTriangle(float v0X, float v0Y, float v1X, float v1Y, float v2X, float v2Y, float pX, float pY, Vector2f result) {
         float abX = v1X - v0X, abY = v1Y - v0Y;
@@ -3351,7 +3402,7 @@ public class Intersectionf {
         if (d1 <= 0.0f && d2 <= 0.0f) {
             result.x = v0X;
             result.y = v0Y;
-            return POINT_ON_TRIANGLE_VERTEX;
+            return POINT_ON_TRIANGLE_VERTEX_0;
         }
         float bpX = pX - v1X, bpY = pY - v1Y;
         float d3 = abX * bpX + abY * bpY;
@@ -3359,14 +3410,14 @@ public class Intersectionf {
         if (d3 >= 0.0f && d4 <= d3) {
             result.x = v1X;
             result.y = v1Y;
-            return POINT_ON_TRIANGLE_VERTEX;
+            return POINT_ON_TRIANGLE_VERTEX_1;
         }
         float vc = d1 * d4 - d3 * d2;
         if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) {
             float v = d1 / (d1 - d3);
             result.x = v0X + v * abX;
             result.y = v0Y + v * abY;
-            return POINT_ON_TRIANGLE_EDGE;
+            return POINT_ON_TRIANGLE_EDGE_01;
         }
         float cpX = pX - v2X, cpY = pY - v2Y;
         float d5 = abX * cpX + abY * cpY;
@@ -3374,21 +3425,21 @@ public class Intersectionf {
         if (d6 >= 0.0f && d5 <= d6) {
             result.x = v2X;
             result.y = v2Y;
-            return POINT_ON_TRIANGLE_VERTEX;
+            return POINT_ON_TRIANGLE_VERTEX_2;
         }
         float vb = d5 * d2 - d1 * d6;
         if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) {
             float w = d2 / (d2 - d6);
             result.x = v0X + w * acX;
             result.y = v0Y + w * acY;
-            return POINT_ON_TRIANGLE_EDGE;
+            return POINT_ON_TRIANGLE_EDGE_20;
         }
         float va = d3 * d6 - d5 * d4;
         if (va <= 0.0f && d4 - d3 >= 0.0f && d5 - d6 >= 0.0f) {
             float w = (d4 - d3) / (d4 - d3 + d5 - d6);
             result.x = v1X + w * (v2X - v1X);
             result.y = v1Y + w * (v2Y - v1Y);
-            return POINT_ON_TRIANGLE_EDGE;
+            return POINT_ON_TRIANGLE_EDGE_12;
         }
         float denom = 1.0f / (va + vb + vc);
         float v = vb * denom;
@@ -3402,8 +3453,9 @@ public class Intersectionf {
      * Determine the closest point on the triangle with the vertices <code>v0</code>, <code>v1</code>, <code>v2</code>
      * between that triangle and the given point <code>p</code> and store that point into the given <code>result</code>.
      * <p>
-     * Additionally, this method returns whether the closest point is a {@link #POINT_ON_TRIANGLE_VERTEX vertex} of the triangle, or lies on an
-     * {@link #POINT_ON_TRIANGLE_EDGE edge} or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
+     * Additionally, this method returns whether the closest point is a vertex ({@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2})
+     * of the triangle, lies on an edge ({@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20})
+     * or on the {@link #POINT_ON_TRIANGLE_FACE face} of the triangle.
      * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.1.5 "Closest Point on Triangle to Point"
      * 
@@ -3417,7 +3469,9 @@ public class Intersectionf {
      *          the point
      * @param result
      *          will hold the closest point
-     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX}, {@link #POINT_ON_TRIANGLE_EDGE} or {@link #POINT_ON_TRIANGLE_FACE}
+     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2},
+     *                {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20} or
+     *                {@link #POINT_ON_TRIANGLE_FACE}
      */
     public static int findClosestPointOnTriangle(Vector2fc v0, Vector2fc v1, Vector2fc v2, Vector2fc p, Vector2f result) {
         return findClosestPointOnTriangle(v0.x(), v0.y(), v1.x(), v1.y(), v2.x(), v2.y(), p.x(), p.y(), result);
