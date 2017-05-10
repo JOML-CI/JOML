@@ -1216,23 +1216,23 @@ public class Intersectionf {
      * @param bZ
      *          the z coordinate of the line segment's second end point
      * @param v0X
-     *          the x coordinate of the first vertex
+     *          the x coordinate of the triangle's first vertex
      * @param v0Y
-     *          the y coordinate of the first vertex
+     *          the y coordinate of the triangle's first vertex
      * @param v0Z
-     *          the z coordinate of the first vertex
+     *          the z coordinate of the triangle's first vertex
      * @param v1X
-     *          the x coordinate of the second vertex
+     *          the x coordinate of the triangle's second vertex
      * @param v1Y
-     *          the y coordinate of the second vertex
+     *          the y coordinate of the triangle's second vertex
      * @param v1Z
-     *          the z coordinate of the second vertex
+     *          the z coordinate of the triangle's second vertex
      * @param v2X
-     *          the x coordinate of the third vertex
+     *          the x coordinate of the triangle's third vertex
      * @param v2Y
-     *          the y coordinate of the third vertex
+     *          the y coordinate of the triangle's third vertex
      * @param v2Z
-     *          the z coordinate of the third vertex
+     *          the z coordinate of the triangle's third vertex
      * @param lineSegmentResult
      *          will hold the closest point on the line segment
      * @param triangleResult
@@ -1265,37 +1265,55 @@ public class Intersectionf {
             mintX = triangleResult.x; mintY = triangleResult.y; mintZ = triangleResult.z;
         }
         // segment endpoint A and plane of triangle (when A projects inside V0V1V2)
-        float v1Y0Y = v1Y - v0Y;
-        float v2Z0Z = v2Z - v0Z;
-        float v2Y0Y = v2Y - v0Y;
-        float v1Z0Z = v1Z - v0Z;
-        float v2X0X = v2X - v0X;
-        float v1X0X = v1X - v0X;
-        float a = v1Y0Y * v2Z0Z - v2Y0Y * v1Z0Z;
-        float b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
-        float c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
-        float invLen = 1.0f / (float) Math.sqrt(a*a + b*b + c*c);
-        a *= invLen; b *= invLen; c *= invLen;
-        float nd = -(a * v0X + b * v0Y + c * v0Z);
+        boolean computed = false;
+        float a = Float.NaN, b = Float.NaN, c = Float.NaN, nd = Float.NaN;
         if (testPointInTriangle(aX, aY, aZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z)) {
+            float v1Y0Y = v1Y - v0Y;
+            float v2Z0Z = v2Z - v0Z;
+            float v2Y0Y = v2Y - v0Y;
+            float v1Z0Z = v1Z - v0Z;
+            float v2X0X = v2X - v0X;
+            float v1X0X = v1X - v0X;
+            a = v1Y0Y * v2Z0Z - v2Y0Y * v1Z0Z;
+            b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
+            c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
+            computed = true;
+            float invLen = 1.0f / (float) Math.sqrt(a*a + b*b + c*c);
+            a *= invLen; b *= invLen; c *= invLen;
+            nd = -(a * v0X + b * v0Y + c * v0Z);
             d = (a * aX + b * aY + c * aZ + nd);
             float l = d;
             d *= d;
             if (d < min) {
                 min = d;
                 minlsX = aX; minlsY = aY; minlsZ = aZ;
-                mintX = aX - a*d; mintY = aY - b*d; mintZ = aZ - c*l;
+                mintX = aX - a*l; mintY = aY - b*l; mintZ = aZ - c*l;
             }
         }
         // segment endpoint B and plane of triangle (when B projects inside V0V1V2)
         if (testPointInTriangle(bX, bY, bZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z)) {
+            if (!computed) {
+                float v1Y0Y = v1Y - v0Y;
+                float v2Z0Z = v2Z - v0Z;
+                float v2Y0Y = v2Y - v0Y;
+                float v1Z0Z = v1Z - v0Z;
+                float v2X0X = v2X - v0X;
+                float v1X0X = v1X - v0X;
+                a = v1Y0Y * v2Z0Z - v2Y0Y * v1Z0Z;
+                b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
+                c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
+                computed = true;
+                float invLen = 1.0f / (float) Math.sqrt(a*a + b*b + c*c);
+                a *= invLen; b *= invLen; c *= invLen;
+                nd = -(a * v0X + b * v0Y + c * v0Z);
+            }
             d = (a * bX + b * bY + c * bZ + nd);
             float l = d;
             d *= d;
             if (d < min) {
                 min = d;
                 minlsX = bX; minlsY = bY; minlsZ = bZ;
-                mintX = bX - a*d; mintY = bY - b*d; mintZ = bZ - c*l;
+                mintX = bX - a*l; mintY = bY - b*l; mintZ = bZ - c*l;
             }
         }
         lineSegmentResult.set(minlsX, minlsY, minlsZ);
