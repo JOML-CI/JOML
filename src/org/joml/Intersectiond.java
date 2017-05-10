@@ -649,6 +649,61 @@ public class Intersectiond {
     }
 
     /**
+     * Test whether the given sphere with center <tt>(sX, sY, sZ)</tt> intersects the triangle given by its three vertices, and if they intersect
+     * store the point of intersection into <code>result</code>.
+     * <p>
+     * This method also returns whether the point of intersection is on one of the triangle's vertices, edges or on the face.
+     * 
+     * Reference: Book "Real-Time Collision Detection" chapter 5.2.7 "Testing Sphere Against Triangle"
+     * 
+     * @param sX
+     *          the x coordinate of the sphere's center
+     * @param sY
+     *          the y coordinate of the sphere's center
+     * @param sZ
+     *          the z coordinate of the sphere's center
+     * @param sR
+     *          the sphere's radius
+     * @param v0X
+     *          the x coordinate of the first vertex of the triangle
+     * @param v0Y
+     *          the y coordinate of the first vertex of the triangle
+     * @param v0Z
+     *          the z coordinate of the first vertex of the triangle
+     * @param v1X
+     *          the x coordinate of the second vertex of the triangle
+     * @param v1Y
+     *          the y coordinate of the second vertex of the triangle
+     * @param v1Z
+     *          the z coordinate of the second vertex of the triangle
+     * @param v2X
+     *          the x coordinate of the third vertex of the triangle
+     * @param v2Y
+     *          the y coordinate of the third vertex of the triangle
+     * @param v2Z
+     *          the z coordinate of the third vertex of the triangle
+     * @param result
+     *          will hold the point of intersection
+     * @return one of {@link #POINT_ON_TRIANGLE_VERTEX_0}, {@link #POINT_ON_TRIANGLE_VERTEX_1}, {@link #POINT_ON_TRIANGLE_VERTEX_2},
+     *                {@link #POINT_ON_TRIANGLE_EDGE_01}, {@link #POINT_ON_TRIANGLE_EDGE_12}, {@link #POINT_ON_TRIANGLE_EDGE_20} or
+     *                {@link #POINT_ON_TRIANGLE_FACE} or <tt>0</tt>
+     */
+    public static int intersectSphereTriangle(
+            double sX, double sY, double sZ, double sR,
+            double v0X, double v0Y, double v0Z,
+            double v1X, double v1Y, double v1Z,
+            double v2X, double v2Y, double v2Z,
+            Vector3d result) {
+        int closest = findClosestPointOnTriangle(v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z, sX, sY, sZ, result);
+        double vX = result.x - sX, vY = result.y - sY, vZ = result.z - sZ;
+        double dot = vX * vX + vY * vY + vZ * vZ;
+        if (dot <= sR * sR) {
+            return closest;
+        }
+        return 0;
+    }
+
+    /**
      * Test whether the one sphere with center <tt>(aX, aY, aZ)</tt> and square radius <code>radiusSquaredA</code> intersects the other
      * sphere with center <tt>(bX, bY, bZ)</tt> and square radius <code>radiusSquaredB</code>.
      * <p>
