@@ -1103,6 +1103,101 @@ public class Intersectionf {
     }
 
     /**
+     * Find the closest points on the two line segments, store the point on the first line segment in <code>resultA</code> and 
+     * the point on the second line segment in <code>resultB</code>, and return the square distance between both points.
+     * 
+     * Reference: Book "Real-Time Collision Detection" chapter 5.1.9 "Closest Points of Two Line Segments"
+     * 
+     * @param a0X
+     *          the x coordinate of the first line segment's first end point
+     * @param a0Y
+     *          the y coordinate of the first line segment's first end point
+     * @param a0Z
+     *          the z coordinate of the first line segment's first end point
+     * @param a1X
+     *          the x coordinate of the first line segment's second end point
+     * @param a1Y
+     *          the y coordinate of the first line segment's second end point
+     * @param a1Z
+     *          the z coordinate of the first line segment's second end point
+     * @param b0X
+     *          the x coordinate of the second line segment's first end point
+     * @param b0Y
+     *          the y coordinate of the second line segment's first end point
+     * @param b0Z
+     *          the z coordinate of the second line segment's first end point
+     * @param b1X
+     *          the x coordinate of the second line segment's second end point
+     * @param b1Y
+     *          the y coordinate of the second line segment's second end point
+     * @param b1Z
+     *          the z coordinate of the second line segment's second end point
+     * @param resultA
+     *          will hold the point on the first line segment
+     * @param resultB
+     *          will hold the point on the second line segment
+     * @return the square distance between the two closest points
+     */
+    public static float findClosestPointOnLineSegments(
+            float a0X, float a0Y, float a0Z, float a1X, float a1Y, float a1Z,
+            float b0X, float b0Y, float b0Z, float b1X, float b1Y, float b1Z,
+            Vector3f resultA, Vector3f resultB) {
+        float d1x = a1X - a0X, d1y = a1Y - a0Y, d1z = a1Z - a0Z;
+        float d2x = b1X - b0X, d2y = b1Y - b0Y, d2z = b1Z - b0Z;
+        float rX = a0X - b0X, rY = a0Y - b0Y, rZ = a0Z - b0Z;
+        float a = d1x * d1x + d1y * d1y + d1z * d1z;
+        float e = d2x * d2x + d2y * d2y + d2z * d2z;
+        float f = d2x * rX + d2y * rY + d2z * rZ;
+        float EPSILON = 1E-5f;
+        float s, t;
+        if (a <= EPSILON && e <= EPSILON) {
+            // Both segments degenerate into points
+            resultA.set(a0X, a0Y, a0Z);
+            resultB.set(b0X, b0Y, b0Z);
+            return resultA.dot(resultB);
+        }
+        if (a <= EPSILON) {
+            // First segment degenerates into a point
+            s = 0.0f;
+            t = f / e;
+            t = Math.min(Math.max(t, 0.0f), 1.0f);
+        } else {
+            float c = d1x * rX + d1y * rY + d1z * rZ;
+            if (e <= EPSILON) {
+                // Second segment degenerates into a point
+                t = 0.0f;
+                s = Math.min(Math.max(-c / a, 0.0f), 1.0f);
+            } else {
+                // The general nondegenerate case starts here
+                float b = d1x * d2x + d1y * d2y + d1z * d2z;
+                float denom = a * e - b * b;
+                // If segments not parallel, compute closest point on L1 to L2 and
+                // clamp to segment S1. Else pick arbitrary s (here 0)
+                if (denom != 0.0)
+                    s = Math.min(Math.max((b*f - c*e) / denom, 0.0f), 1.0f);
+                else
+                    s = 0.0f;
+                // Compute point on L2 closest to S1(s) using
+                // t = Dot((P1 + D1*s) - P2,D2) / Dot(D2,D2) = (b*s + f) / e
+                t = (b * s + f) / e;
+                // If t in [0,1] done. Else clamp t, recompute s for the new value
+                // of t using s = Dot((P2 + D2*t) - P1,D1) / Dot(D1,D1)= (t*b - c) / a
+                // and clamp s to [0, 1]
+                if (t < 0.0) {
+                    t = 0.0f;
+                    s = Math.min(Math.max(-c / a, 0.0f), 1.0f);
+                } else if (t > 1.0) {
+                    t = 1.0f;
+                    s = Math.min(Math.max((b - c) / a, 0.0f), 1.0f);
+                }
+            }
+        }
+        resultA.set(a0X + d1x * s, a0Y + d1y * s, a0Z + d1z * s);
+        resultB.set(b0X + d2x * t, b0Y + d2y * t, b0Z + d2z * t);
+        return resultA.dot(resultB);
+    }
+
+    /**
      * Determine the closest point on the triangle with the given vertices <tt>(v0X, v0Y, v0Z)</tt>, <tt>(v1X, v1Y, v1Z)</tt>, <tt>(v2X, v2Y, v2Z)</tt>
      * between that triangle and the given point <tt>(pX, pY, pZ)</tt> and store that point into the given <code>result</code>.
      * <p>
