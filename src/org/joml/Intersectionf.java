@@ -655,7 +655,7 @@ public class Intersectionf {
      * store the point of intersection into <code>result</code>.
      * <p>
      * This method also returns whether the point of intersection is on one of the triangle's vertices, edges or on the face.
-     * 
+     * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.2.7 "Testing Sphere Against Triangle"
      * 
      * @param sX
@@ -1105,7 +1105,7 @@ public class Intersectionf {
     /**
      * Find the closest points on the two line segments, store the point on the first line segment in <code>resultA</code> and 
      * the point on the second line segment in <code>resultB</code>, and return the square distance between both points.
-     * 
+     * <p>
      * Reference: Book "Real-Time Collision Detection" chapter 5.1.9 "Closest Points of Two Line Segments"
      * 
      * @param a0X
@@ -1138,7 +1138,7 @@ public class Intersectionf {
      *          will hold the point on the second line segment
      * @return the square distance between the two closest points
      */
-    public static float findClosestPointOnLineSegments(
+    public static float findClosestPointsLineSegments(
             float a0X, float a0Y, float a0Z, float a1X, float a1Y, float a1Z,
             float b0X, float b0Y, float b0Z, float b1X, float b1Y, float b1Z,
             Vector3f resultA, Vector3f resultB) {
@@ -1194,7 +1194,113 @@ public class Intersectionf {
         }
         resultA.set(a0X + d1x * s, a0Y + d1y * s, a0Z + d1z * s);
         resultB.set(b0X + d2x * t, b0Y + d2y * t, b0Z + d2z * t);
-        return resultA.dot(resultB);
+        float dX = resultA.x - resultB.x, dY = resultA.y - resultB.y, dZ = resultA.z - resultB.z;
+        return dX*dX + dY*dY + dZ*dZ;
+    }
+
+    /**
+     * Find the closest points on a line segment and a triangle.
+     * <p>
+     * Reference: Book "Real-Time Collision Detection" chapter 5.1.10 "Closest Points of a Line Segment and a Triangle"
+     * 
+     * @param aX
+     *          the x coordinate of the line segment's first end point
+     * @param aY
+     *          the y coordinate of the line segment's first end point
+     * @param aZ
+     *          the z coordinate of the line segment's first end point
+     * @param bX
+     *          the x coordinate of the line segment's second end point
+     * @param bY
+     *          the y coordinate of the line segment's second end point
+     * @param bZ
+     *          the z coordinate of the line segment's second end point
+     * @param v0X
+     *          the x coordinate of the first vertex
+     * @param v0Y
+     *          the y coordinate of the first vertex
+     * @param v0Z
+     *          the z coordinate of the first vertex
+     * @param v1X
+     *          the x coordinate of the second vertex
+     * @param v1Y
+     *          the y coordinate of the second vertex
+     * @param v1Z
+     *          the z coordinate of the second vertex
+     * @param v2X
+     *          the x coordinate of the third vertex
+     * @param v2Y
+     *          the y coordinate of the third vertex
+     * @param v2Z
+     *          the z coordinate of the third vertex
+     * @param lineSegmentResult
+     *          will hold the closest point on the line segment
+     * @param triangleResult
+     *          will hold the closest point on the triangle
+     * @return the square distance of the closest points
+     */
+    public static float findClosestPointsLineSegmentTriangle(
+            float aX, float aY, float aZ, float bX, float bY, float bZ,
+            float v0X, float v0Y, float v0Z, float v1X, float v1Y, float v1Z, float v2X, float v2Y, float v2Z,
+            Vector3f lineSegmentResult, Vector3f triangleResult) {
+        float min, d;
+        float minlsX, minlsY, minlsZ, mintX, mintY, mintZ;
+        // AB -> V0V1
+        d = findClosestPointsLineSegments(aX, aY, aZ, bX, bY, bZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, lineSegmentResult, triangleResult);
+        min = d;
+        minlsX = lineSegmentResult.x; minlsY = lineSegmentResult.y; minlsZ = lineSegmentResult.z;
+        mintX = triangleResult.x; mintY = triangleResult.y; mintZ = triangleResult.z;
+        // AB -> V1V2
+        d = findClosestPointsLineSegments(aX, aY, aZ, bX, bY, bZ, v1X, v1Y, v1Z, v2X, v2Y, v2Z, lineSegmentResult, triangleResult);
+        if (d < min) {
+            min = d;
+            minlsX = lineSegmentResult.x; minlsY = lineSegmentResult.y; minlsZ = lineSegmentResult.z;
+            mintX = triangleResult.x; mintY = triangleResult.y; mintZ = triangleResult.z;
+        }
+        // AB -> V2V0
+        d = findClosestPointsLineSegments(aX, aY, aZ, bX, bY, bZ, v2X, v2Y, v2Z, v0X, v0Y, v0Z, lineSegmentResult, triangleResult);
+        if (d < min) {
+            min = d;
+            minlsX = lineSegmentResult.x; minlsY = lineSegmentResult.y; minlsZ = lineSegmentResult.z;
+            mintX = triangleResult.x; mintY = triangleResult.y; mintZ = triangleResult.z;
+        }
+        // segment endpoint A and plane of triangle (when A projects inside V0V1V2)
+        float v1Y0Y = v1Y - v0Y;
+        float v2Z0Z = v2Z - v0Z;
+        float v2Y0Y = v2Y - v0Y;
+        float v1Z0Z = v1Z - v0Z;
+        float v2X0X = v2X - v0X;
+        float v1X0X = v1X - v0X;
+        float a = v1Y0Y * v2Z0Z - v2Y0Y * v1Z0Z;
+        float b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
+        float c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
+        float invLen = 1.0f / (float) Math.sqrt(a*a + b*b + c*c);
+        a *= invLen; b *= invLen; c *= invLen;
+        float nd = -(a * v0X + b * v0Y + c * v0Z);
+        if (testPointInTriangle(aX, aY, aZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z)) {
+            d = (a * aX + b * aY + c * aZ + nd);
+            float l = d;
+            d *= d;
+            if (d < min) {
+                min = d;
+                minlsX = aX; minlsY = aY; minlsZ = aZ;
+                mintX = aX - a*d; mintY = aY - b*d; mintZ = aZ - c*l;
+            }
+        }
+        // segment endpoint B and plane of triangle (when B projects inside V0V1V2)
+        if (testPointInTriangle(bX, bY, bZ, v0X, v0Y, v0Z, v1X, v1Y, v1Z, v2X, v2Y, v2Z)) {
+            d = (a * bX + b * bY + c * bZ + nd);
+            float l = d;
+            d *= d;
+            if (d < min) {
+                min = d;
+                minlsX = bX; minlsY = bY; minlsZ = bZ;
+                mintX = bX - a*d; mintY = bY - b*d; mintZ = bZ - c*l;
+            }
+        }
+        lineSegmentResult.set(minlsX, minlsY, minlsZ);
+        triangleResult.set(mintX, mintY, mintZ);
+        return min;
     }
 
     /**
@@ -1411,7 +1517,7 @@ public class Intersectionf {
      * The vertices of the triangle must be specified in counter-clockwise winding order.
      * <p>
      * An intersection is only considered if the time of intersection is smaller than the given <code>maxT</code> value.
-     * 
+     * <p>
      * Reference: <a href="http://www.peroxide.dk/papers/collision/collision.pdf">Improved Collision detection and Response</a>
      * 
      * @param centerX
