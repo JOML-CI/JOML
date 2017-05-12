@@ -4510,20 +4510,19 @@ public class Intersectionf {
         return true;
     }
 
-    private static boolean separatingAxis(Vector2f[] v1s, Vector2f[] v2s, int len1, int len2, float dx, float dy) {
-        float axisX = dy, axisY = -dx;
+    private static boolean separatingAxis(Vector2f[] v1s, Vector2f[] v2s, float aX, float aY) {
         float minA = Float.POSITIVE_INFINITY, maxA = Float.NEGATIVE_INFINITY;
         float minB = Float.POSITIVE_INFINITY, maxB = Float.NEGATIVE_INFINITY;
-        int maxLen = Math.max(len1, len2);
+        int maxLen = Math.max(v1s.length, v2s.length);
         /* Project both polygons on axis */
         for (int k = 0; k < maxLen; k++) {
             if (k < v1s.length) {
-                float d = v1s[k].x * axisX + v1s[k].y * axisY;
+                float d = v1s[k].x * aX + v1s[k].y * aY;
                 minA = Math.min(minA, d);
                 maxA = Math.max(maxA, d);
             }
             if (k < v2s.length) {
-                float d = v2s[k].x * axisX + v2s[k].y * axisY;
+                float d = v2s[k].x * aX + v2s[k].y * aY;
                 minB = Math.min(minB, d);
                 maxB = Math.max(maxB, d);
             }
@@ -4545,14 +4544,13 @@ public class Intersectionf {
      * @return <code>true</code> if the polygons intersect; <code>false</code> otherwise
      */
     public static boolean testPolygonPolygon(Vector2f[] v1s, Vector2f[] v2s) {
-        int len1 = v1s.length, len2 = v2s.length;
         /* Try to find a separating axis using the first polygon's edges */
-        for (int i = 0, j = len1 - 1; i < len2; j = i, i++)
-            if (separatingAxis(v1s, v2s, len1, len2, v1s[i].x - v1s[j].x, v1s[i].y - v1s[j].y))
+        for (int i = 0, j = v1s.length - 1; i < v1s.length; j = i, i++)
+            if (separatingAxis(v1s, v2s, v1s[i].x - v1s[j].x, v1s[i].y - v1s[j].y))
                 return false; 
         /* Try to find a separating axis using the second polygon's edges */
-        for (int i = 0, j = len1 - 1; i < len2; j = i, i++)
-            if (separatingAxis(v1s, v2s, len1, len2, v2s[i].x - v2s[j].x, v2s[i].y - v2s[j].y))
+        for (int i = 0, j = v2s.length - 1; i < v2s.length; j = i, i++)
+            if (separatingAxis(v1s, v2s, v2s[i].x - v2s[j].x, v2s[i].y - v2s[j].y))
                 return false; 
         return true;
     }
