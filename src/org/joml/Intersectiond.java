@@ -1300,7 +1300,6 @@ public class Intersectiond {
                 a = v1Y0Y * v2Z0Z - v2Y0Y * v1Z0Z;
                 b = v1Z0Z * v2X0X - v2Z0Z * v1X0X;
                 c = v1X0X * v2Y0Y - v2X0X * v1Y0Y;
-                computed = true;
                 double invLen = 1.0 / Math.sqrt(a*a + b*b + c*c);
                 a *= invLen; b *= invLen; c *= invLen;
                 nd = -(a * v0X + b * v0Y + c * v0Z);
@@ -4506,6 +4505,48 @@ public class Intersectiond {
             return false;
         p.x = (d2x * d1ps1 - d1x * d2ps2) / det;
         p.y = (d1y * d2ps2 - d2y * d1ps1) / det;
+        return true;
+    }
+
+    private static boolean separateAxis(Vector2d[] v1s, Vector2d[] v2s, int len1, int len2, double dx, double dy) {
+        double axisX = dy, axisY = -dx;
+        double minA = Double.POSITIVE_INFINITY, maxA = Double.NEGATIVE_INFINITY;
+        double minB = Double.POSITIVE_INFINITY, maxB = Double.NEGATIVE_INFINITY;
+        /* Project first polygon on axis */
+        for (int k = 0; k < len1; k++) {
+            double d = v1s[k].x * axisX + v1s[k].y * axisY;
+            minA = Math.min(minA, d);
+            maxA = Math.max(maxA, d);
+        }
+        /* Project second polygon on axis */
+        for (int k = 0; k < len2; k++) {
+            double d = v2s[k].x * axisX + v2s[k].y * axisY;
+            minB = Math.min(minB, d);
+            maxB = Math.max(maxB, d);
+        }
+        /* Check if intervals overlap */
+        return minA > maxB || minB > maxA; 
+    }
+
+    /**
+     * Test if the two polygons, given via their vertices, intersect.
+     * 
+     * @param v1s
+     *          the vertices of the first polygon
+     * @param v2s
+     *          the vertices of the second polygon
+     * @return <code>true</code> if the polygons intersect; <code>false</code> otherwise
+     */
+    public static boolean testPolygonPolygon(Vector2d[] v1s, Vector2d[] v2s) {
+        int len1 = v1s.length, len2 = v2s.length;
+        /* Try to find a separating axis using the first polygon's edges */
+        for (int i = 0, j = len1 - 1; i < len2; j = i, i++)
+            if (separateAxis(v1s, v2s, len1, len2, v1s[i].x - v1s[j].x, v1s[i].y - v1s[j].y))
+                return false; 
+        /* Try to find a separating axis using the second polygon's edges */
+        for (int i = 0, j = len1 - 1; i < len2; j = i, i++)
+            if (separateAxis(v1s, v2s, len1, len2, v2s[i].x - v2s[j].x, v2s[i].y - v2s[j].y))
+                return false; 
         return true;
     }
 
