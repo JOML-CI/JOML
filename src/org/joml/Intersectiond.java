@@ -4515,14 +4515,16 @@ public class Intersectiond {
         /* Project both polygons on axis */
         for (int k = 0; k < maxLen; k++) {
             if (k < v1s.length) {
-                double d = v1s[k].x * aX + v1s[k].y * aY;
-                minA = Math.min(minA, d);
-                maxA = Math.max(maxA, d);
+                Vector2d v1 = v1s[k];
+                double d = v1.x * aX + v1.y * aY;
+                if (d < minA) minA = d;
+                if (d > minA) maxA = d;
             }
             if (k < v2s.length) {
-                double d = v2s[k].x * aX + v2s[k].y * aY;
-                minB = Math.min(minB, d);
-                maxB = Math.max(maxB, d);
+                Vector2d v2 = v2s[k];
+                double d = v2.x * aX + v2.y * aY;
+                if (d < minB) minB = d;
+                if (d > minB) maxB = d;
             }
             /* Early-out if overlap found */
             if (minA <= maxB && minB <= maxA) {
@@ -4543,13 +4545,17 @@ public class Intersectiond {
      */
     public static boolean testPolygonPolygon(Vector2d[] v1s, Vector2d[] v2s) {
         /* Try to find a separating axis using the first polygon's edges */
-        for (int i = 0, j = v1s.length - 1; i < v1s.length; j = i, i++)
-            if (separatingAxis(v1s, v2s, v1s[i].x - v1s[j].x, v1s[i].y - v1s[j].y))
-                return false; 
+        for (int i = 0, j = v1s.length - 1; i < v1s.length; j = i, i++) {
+            Vector2d s = v1s[i], t = v1s[j];
+            if (separatingAxis(v1s, v2s, s.y - t.y, t.x - s.x))
+                return false;
+        }
         /* Try to find a separating axis using the second polygon's edges */
-        for (int i = 0, j = v2s.length - 1; i < v2s.length; j = i, i++)
-            if (separatingAxis(v1s, v2s, v2s[i].x - v2s[j].x, v2s[i].y - v2s[j].y))
-                return false; 
+        for (int i = 0, j = v2s.length - 1; i < v2s.length; j = i, i++) {
+            Vector2d s = v2s[i], t = v2s[j];
+            if (separatingAxis(v1s, v2s, s.y - t.y, t.x - s.x))
+                return false;
+        }
         return true;
     }
 
