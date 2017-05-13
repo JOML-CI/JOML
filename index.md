@@ -1,10 +1,10 @@
 # [JOML](http://joml-ci.github.io/JOML) – Java OpenGL Math Library [![Build Status](https://travis-ci.org/JOML-CI/JOML.svg?branch=master)](https://travis-ci.org/JOML-CI/JOML) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.joml/joml/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22joml%22)
-A Java math library for OpenGL rendering calculations
+A Java math library for OpenGL rendering calculations | use it on: [Desktop](https://github.com/JOML-CI/JOML/wiki#maven-setup-for-desktop) / [Android](https://github.com/JOML-CI/JOML/wiki#gradle-setup-for-android) / [GWT](https://github.com/JOML-CI/JOML/wiki#gradle-setup-for-gwt)
 
 Design goals
 ------------
 
-The goal of JOML is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.4 and not making use of JNI.
+The goal of JOML [ˈʤɔmɛl] is to provide easy-to-use, feature-rich and efficient linear algebra operations, needed by any 3D application. At the same time, JOML tries to pose the lowest possible requirements to an execution environment by being compatible with Java 1.4 and not making use of JNI.
 
 If you like to know more about JOML's design, see the corresponding [Wiki page](https://github.com/JOML-CI/JOML/wiki/Design).
 
@@ -207,6 +207,40 @@ m.setLookAt(0.0f, 0.0f, 10.0f,
 gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 gl.glLoadMatrixf(m.get(fb));
 ```
+
+Using with [Java 2D](https://docs.oracle.com/javase/tutorial/2d/)
+---------------------------------------------------
+Java 2D holds the transformation applied to drawn primitives in an instance of the [AffineTransform](https://docs.oracle.com/javase/7/docs/api/java/awt/geom/AffineTransform.html) class, which can be manipulated directly or operated on via methods on the [Graphics2D](https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html) class, such as [rotate()](https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html#rotate(double)) or [translate()](https://docs.oracle.com/javase/7/docs/api/java/awt/Graphics2D.html#translate(double,%20double)).
+Instead of the AffineTransformation, JOML's matrix classes can be used to build the transformations. When a matrix has been built in JOML, its represented transformation can be copied to an AffineTransform instance like so:
+```Java
+Matrix4f m = ...; // <- any affine 2D transformation built with JOML
+AffineTransform t = ...; // <- any Java 2D AffineTransform (e.g. Graphics2D.getTransform())
+t.setTransform(m.m00(), m.m01(), m.m10(), m.m11(), m.m30(), m.m31());
+```
+The above will copy any affine 2D transformation, represented by the Matrix4f, to the provided AffineTransform instance.
+
+Since Java 2D cannot represent 3D transformations, using a Matrix4f in JOML is not necessary. For 2D transformations JOML provides the Matrix3x2f and Matrix3x2d classes. If those are used, copying the 2D transformation into a Java 2D AffineTransform instance works like this:
+```Java
+Matrix3x2f m = ...; // <- any 2D transformation built with JOML
+AffineTransform t = ...; // <- any Java 2D AffineTransform
+t.setTransform(m.m00, m.m01, m.m10, m.m11, m.m20, m.m21);
+```
+*(Note: The AffineTransform class uses a different order for the row and column indices of a matrix element. Here, the row index comes first, and then the column index)*
+
+Using with [JavaFX](http://docs.oracle.com/javafx/)
+---------------------------------------------------
+JavaFX holds arbitrary affine transformations in an instance of the [Affine](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/transform/Affine.html) class.
+Instead of operating on Affine objects, JOML's matrix classes can be used to build the transformations. When a matrix has been built in JOML, its represented transformation can be copied to an Affine instance like so:
+```Java
+Matrix4f m = ...; // <- any affine transformation built with JOML
+Affine t = ...; // <- any JavaFX Affine instance
+t.setToTransform(m.m00(), m.m10(), m.m20(), m.m30(),
+                 m.m01(), m.m11(), m.m21(), m.m31(),
+                 m.m02(), m.m12(), m.m22(), m.m32());
+```
+The above will copy any affine transformation, represented by the Matrix4f, to the provided Affine instance.
+
+*(Note: The Affine class uses a different order for the row and column indices of a matrix element. Here, the row index comes first, and then the column index)*
 
 Staying allocation-free
 -----------------------
