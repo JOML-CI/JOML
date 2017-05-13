@@ -232,6 +232,118 @@ public class Intersectiond {
     }
 
     /**
+     * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the moving sphere with center
+     * <tt>(cX, cY, cZ)</tt>, <code>radius</code> and velocity <tt>(vX, vY, vZ)</tt>, and store the point of intersection
+     * in the <tt>(x, y, z)</tt> components of the supplied vector and the time of intersection in the w component.
+     * <p>
+     * The normal vector <tt>(a, b, c)</tt> of the plane equation needs to be normalized.
+     * <p>
+     * Reference: Book "Real-Time Collision Detection" chapter 5.5.3 "Intersecting Moving Sphere Against Plane"
+     * 
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param cX
+     *          the x coordinate of the center position of the sphere at t=0
+     * @param cY
+     *          the y coordinate of the center position of the sphere at t=0
+     * @param cZ
+     *          the z coordinate of the center position of the sphere at t=0
+     * @param radius
+     *          the sphere's radius
+     * @param vX
+     *          the x component of the velocity of the sphere
+     * @param vY
+     *          the y component of the velocity of the sphere
+     * @param vZ
+     *          the z component of the velocity of the sphere
+     * @param pointAndTime
+     *          will hold the point and time of intersection (if any)
+     * @return <code>true</code> iff the sphere intersects the plane; <code>false</code> otherwise
+     */
+    public static boolean intersectPlaneSweptSphere(
+            double a, double b, double c, double d,
+            double cX, double cY, double cZ, double radius,
+            double vX, double vY, double vZ,
+            Vector4d pointAndTime) {
+        // Compute distance of sphere center to plane
+        double dist = a * cX + b * cY + c * cZ - d;
+        if (Math.abs(dist) <= radius) {
+            // The sphere is already overlapping the plane. Set time of
+            // intersection to zero and q to sphere center
+            pointAndTime.set(cX, cY, cZ, 0.0);
+            return true;
+        }
+        double denom = a * vX + b * vY + c * vZ;
+        if (denom * dist >= 0.0) {
+            // No intersection as sphere moving parallel to or away from plane
+            return false;
+        }
+        // Sphere is moving towards the plane
+        // Use +r in computations if sphere in front of plane, else -r
+        double r = dist > 0.0 ? radius : -radius;
+        double t = (r - dist) / denom;
+        pointAndTime.set(
+                cX + t * vX - r * a,
+                cY + t * vY - r * b,
+                cZ + t * vZ - r * c,
+                t);
+        return true;
+    }
+
+    /**
+     * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere moving from center
+     * position <tt>(t0X, t0Y, t0Z)</tt> to <tt>(t1X, t1Y, t1Z)</tt> and having the given <code>radius</code>.
+     * <p>
+     * The normal vector <tt>(a, b, c)</tt> of the plane equation needs to be normalized.
+     * <p>
+     * Reference: Book "Real-Time Collision Detection" chapter 5.5.3 "Intersecting Moving Sphere Against Plane"
+     * 
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @param t0X
+     *          the x coordinate of the start position of the sphere
+     * @param t0Y
+     *          the y coordinate of the start position of the sphere
+     * @param t0Z
+     *          the z coordinate of the start position of the sphere
+     * @param r
+     *          the sphere's radius
+     * @param t1X
+     *          the x coordinate of the end position of the sphere
+     * @param t1Y
+     *          the y coordinate of the end position of the sphere
+     * @param t1Z
+     *          the z coordinate of the end position of the sphere
+     * @return <code>true</code> if the sphere intersects the plane; <code>false</code> otherwise
+     */
+    public static boolean testPlaneSweptSphere(
+            double a, double b, double c, double d,
+            double t0X, double t0Y, double t0Z, double r,
+            double t1X, double t1Y, double t1Z) {
+        // Get the distance for both a and b from plane p
+        double adist = t0X * a + t0Y * b + t0Z * c - d;
+        double bdist = t1X * a + t1Y * b + t1Z * c - d;
+        // Intersects if on different sides of plane (distances have different signs)
+        if (adist * bdist < 0.0) return true;
+        // Intersects if start or end position within radius from plane
+        if (Math.abs(adist) <= r || Math.abs(bdist) <= r) return true;
+        // No intersection
+        return false;
+    }
+
+    /**
      * Test whether the axis-aligned box with minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>
      * intersects the plane with the general equation <i>a*x + b*y + c*z + d = 0</i>.
      * <p>
