@@ -4632,13 +4632,13 @@ public class Intersectionf {
                 Vector2f v1 = v1s[k];
                 float d = v1.x * aX + v1.y * aY;
                 if (d < minA) minA = d;
-                if (d > minA) maxA = d;
+                if (d > maxA) maxA = d;
             }
             if (k < v2s.length) {
                 Vector2f v2 = v2s[k];
                 float d = v2.x * aX + v2.y * aY;
                 if (d < minB) minB = d;
-                if (d > minB) maxB = d;
+                if (d > maxB) maxB = d;
             }
             /* Early-out if overlap found */
             if (minA <= maxB && minB <= maxA) {
