@@ -664,17 +664,17 @@ public interface Vector3dc {
      * 
      * @param angle
      *          the angle in radians
-     * @param x
+     * @param aX
      *          the x component of the rotation axis
-     * @param y
+     * @param aY
      *          the y component of the rotation axis
-     * @param z
+     * @param aZ
      *          the z component of the rotation axis
      * @param dest
      *          will hold the result
      * @return dest
      */
-    Vector3d rotateAbout(double angle, double x, double y, double z, Vector3d dest);
+    Vector3d rotateAbout(double angle, double aX, double aY, double aZ, Vector3d dest);
 
     /**
      * Divide this Vector3d by the given scalar value and store the result in <code>dest</code>.

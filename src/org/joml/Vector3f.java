@@ -1307,19 +1307,16 @@ public class Vector3f implements Externalizable, Vector3fc {
     /* (non-Javadoc)
      * @see org.joml.Vector3fc#rotateAbout(float, float, float, float, org.joml.Vector3f)
      */
-    public Vector3f rotateAbout(float angle, float x, float y, float z, Vector3f dest) {
-        float q0x = this.x, q0y = this.y, q0z = this.z;
-        float sin = (float) Math.sin(angle * 0.5);
-        float cos = (float) Math.cosFromSin(sin, angle * 0.5);
-        float q1x = x * sin, q1y = y * sin, q1z = z * sin, q1w = cos;
-        float scale = 1.0f / (q1x * q1x + q1y * q1y + q1z * q1z);
-        float q2x =  q1w * q0x + q1y * q0z - q1z * q0y;
-        float q2y =  q1w * q0y - q1x * q0z + q1z * q0x;
-        float q2z =  q1w * q0z + q1x * q0y - q1y * q0x;
-        float q2w = -q1x * q0x - q1y * q0y - q1z * q0z;
-        dest.x = (-q2w * q1x + q2x * q1w - q2y * q1z + q2z * q1y) * scale;
-        dest.y = (-q2w * q1y + q2x * q1z + q2y * q1w - q2z * q1x) * scale;
-        dest.z = (-q2w * q1z - q2x * q1y + q2y * q1x + q2z * q1w) * scale;
+    public Vector3f rotateAbout(float angle, float aX, float aY, float aZ, Vector3f dest) {
+        float hangle = angle * 0.5f;
+        float sinAngle = (float) Math.sin(hangle);
+        float qx = aX * sinAngle, qy = aY * sinAngle, qz = aZ * sinAngle;
+        float qw = (float) Math.cosFromSin(sinAngle, hangle);
+        float w2 = qw * qw, x2 = qx * qx, y2 = qy * qy, z2 = qz * qz, zw = qz * qw;
+        float xy = qx * qy, xz = qx * qz, yw = qy * qw, yz = qy * qz, xw = qx * qw;
+        dest.x = (w2 + x2 - z2 - y2) * x + (-zw + xy - zw + xy) * y + (yw + xz + xz + yw) * z;
+        dest.y = (xy + zw + zw + xy) * x + ( y2 - z2 + w2 - x2) * y + (yz + yz - xw - xw) * z;
+        dest.z = (xz - yw + xz - yw) * x + ( yz + yz + xw + xw) * y + (z2 - y2 - x2 + w2) * z;
         return this;
     }
 

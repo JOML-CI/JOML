@@ -303,17 +303,17 @@ public interface Vector4dc {
      * 
      * @param angle
      *          the angle in radians
-     * @param x
+     * @param aX
      *          the x component of the rotation axis
-     * @param y
+     * @param aY
      *          the y component of the rotation axis
-     * @param z
+     * @param aZ
      *          the z component of the rotation axis
      * @param dest
      *          will hold the result
      * @return dest
      */
-    Vector4d rotateAbout(double angle, double x, double y, double z, Vector4d dest);
+    Vector4d rotateAbout(double angle, double aX, double aY, double aZ, Vector4d dest);
 
     /**
      * Return the length squared of this vector.

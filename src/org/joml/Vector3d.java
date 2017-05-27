@@ -1748,19 +1748,16 @@ public class Vector3d implements Externalizable, Vector3dc {
     /* (non-Javadoc)
      * @see org.joml.Vector3dc#rotateAbout(double, double, double, double, org.joml.Vector3d)
      */
-    public Vector3d rotateAbout(double angle, double x, double y, double z, Vector3d dest) {
-        double q0x = this.x, q0y = this.y, q0z = this.z;
-        double sin = Math.sin(angle * 0.5);
-        double cos = Math.cosFromSin(sin, angle * 0.5);
-        double q1x = x * sin, q1y = y * sin, q1z = z * sin, q1w = cos;
-        double scale = 1.0f / (q1x * q1x + q1y * q1y + q1z * q1z);
-        double q2x =  q1w * q0x + q1y * q0z - q1z * q0y;
-        double q2y =  q1w * q0y - q1x * q0z + q1z * q0x;
-        double q2z =  q1w * q0z + q1x * q0y - q1y * q0x;
-        double q2w = -q1x * q0x - q1y * q0y - q1z * q0z;
-        dest.x = (-q2w * q1x + q2x * q1w - q2y * q1z + q2z * q1y) * scale;
-        dest.y = (-q2w * q1y + q2x * q1z + q2y * q1w - q2z * q1x) * scale;
-        dest.z = (-q2w * q1z - q2x * q1y + q2y * q1x + q2z * q1w) * scale;
+    public Vector3d rotateAbout(double angle, double aX, double aY, double aZ, Vector3d dest) {
+        double hangle = angle * 0.5;
+        double sinAngle = Math.sin(hangle);
+        double qx = aX * sinAngle, qy = aY * sinAngle, qz = aZ * sinAngle;
+        double qw = Math.cosFromSin(sinAngle, hangle);
+        double w2 = qw * qw, x2 = qx * qx, y2 = qy * qy, z2 = qz * qz, zw = qz * qw;
+        double xy = qx * qy, xz = qx * qz, yw = qy * qw, yz = qy * qz, xw = qx * qw;
+        dest.x = (w2 + x2 - z2 - y2) * x + (-zw + xy - zw + xy) * y + (yw + xz + xz + yw) * z;
+        dest.y = (xy + zw + zw + xy) * x + ( y2 - z2 + w2 - x2) * y + (yz + yz - xw - xw) * z;
+        dest.z = (xz - yw + xz - yw) * x + ( yz + yz + xw + xw) * y + (z2 - y2 - x2 + w2) * z;
         return this;
     }
 

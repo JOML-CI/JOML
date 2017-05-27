@@ -339,17 +339,17 @@ public interface Vector4fc {
      * 
      * @param angle
      *          the angle in radians
-     * @param x
+     * @param aX
      *          the x component of the rotation axis
-     * @param y
+     * @param aY
      *          the y component of the rotation axis
-     * @param z
+     * @param aZ
      *          the z component of the rotation axis
      * @param dest
      *          will hold the result
      * @return dest
      */
-    Vector4f rotateAbout(float angle, float x, float y, float z, Vector4f dest);
+    Vector4f rotateAbout(float angle, float aX, float aY, float aZ, Vector4f dest);
 
     /**
      * Return the length squared of this vector.
