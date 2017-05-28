@@ -480,10 +480,8 @@ public interface Vector3fc {
     Quaternionf rotationTo(float toDirX, float toDirY, float toDirZ, Quaternionf dest);
 
     /**
-     * Rotate this vector the specified radians about the given rotation axis and store the result
+     * Rotate this vector the specified radians around the given rotation axis and store the result
      * into <code>dest</code>.
-     * <p>
-     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
      * 
      * @param angle
      *          the angle in radians
@@ -497,7 +495,43 @@ public interface Vector3fc {
      *          will hold the result
      * @return dest
      */
-    Vector3f rotateAbout(float angle, float aX, float aY, float aZ, Vector3f dest);
+    Vector3f rotateAxis(float angle, float aX, float aY, float aZ, Vector3f dest);
+
+    /**
+     * Rotate this vector the specified radians around the X axis and store the result
+     * into <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f rotateX(float angle, Vector3f dest);
+
+    /**
+     * Rotate this vector the specified radians around the Y axis and store the result
+     * into <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f rotateY(float angle, Vector3f dest);
+
+    /**
+     * Rotate this vector the specified radians around the Z axis and store the result
+     * into <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f rotateZ(float angle, Vector3f dest);
 
     /**
      * Return the length squared of this vector.

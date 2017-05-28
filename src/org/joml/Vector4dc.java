@@ -296,10 +296,8 @@ public interface Vector4dc {
     Vector4d rotate(Quaterniondc quat, Vector4d dest);
 
     /**
-     * Rotate this vector the specified radians about the given rotation axis and store the result
+     * Rotate this vector the specified radians around the given rotation axis and store the result
      * into <code>dest</code>.
-     * <p>
-     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
      * 
      * @param angle
      *          the angle in radians
@@ -313,7 +311,43 @@ public interface Vector4dc {
      *          will hold the result
      * @return dest
      */
-    Vector4d rotateAbout(double angle, double aX, double aY, double aZ, Vector4d dest);
+    Vector4d rotateAxis(double angle, double aX, double aY, double aZ, Vector4d dest);
+
+    /**
+     * Rotate this vector the specified radians around the X axis and store the result
+     * into <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d rotateX(double angle, Vector4d dest);
+
+    /**
+     * Rotate this vector the specified radians around the Y axis and store the result
+     * into <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d rotateY(double angle, Vector4d dest);
+
+    /**
+     * Rotate this vector the specified radians around the Z axis and store the result
+     * into <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4d rotateZ(double angle, Vector4d dest);
 
     /**
      * Return the length squared of this vector.

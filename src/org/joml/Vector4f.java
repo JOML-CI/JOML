@@ -147,8 +147,20 @@ public class Vector4f implements Externalizable, Vector4fc {
             return delegate.rotate(quat, dest);
         }
 
-        public Vector4f rotateAbout(float angle, float x, float y, float z, Vector4f dest) {
-            return delegate.rotateAbout(angle, x, y, z, dest);
+        public Vector4f rotateAxis(float angle, float x, float y, float z, Vector4f dest) {
+            return delegate.rotateAxis(angle, x, y, z, dest);
+        }
+
+        public Vector4f rotateX(float angle, Vector4f dest) {
+            return delegate.rotateX(angle, dest);
+        }
+
+        public Vector4f rotateY(float angle, Vector4f dest) {
+            return delegate.rotateY(angle, dest);
+        }
+
+        public Vector4f rotateZ(float angle, Vector4f dest) {
+            return delegate.rotateZ(angle, dest);
         }
 
         public float lengthSquared() {
@@ -1086,9 +1098,7 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /**
-     * Rotate this vector the specified radians about the given rotation axis.
-     * <p>
-     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
+     * Rotate this vector the specified radians around the given rotation axis.
      * 
      * @param angle
      *          the angle in radians
@@ -1101,13 +1111,13 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return this
      */
     public Vector4f rotateAbout(float angle, float x, float y, float z) {
-        return rotateAbout(angle, x, y, z, this);
+        return rotateAxis(angle, x, y, z, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector4fc#rotateAbout(float, float, float, float, org.joml.Vector4f)
+     * @see org.joml.Vector4fc#rotateAxis(float, float, float, float, org.joml.Vector4f)
      */
-    public Vector4f rotateAbout(float angle, float aX, float aY, float aZ, Vector4f dest) {
+    public Vector4f rotateAxis(float angle, float aX, float aY, float aZ, Vector4f dest) {
         float hangle = angle * 0.5f;
         float sinAngle = (float) Math.sin(hangle);
         float qx = aX * sinAngle, qy = aY * sinAngle, qz = aZ * sinAngle;
@@ -1117,6 +1127,75 @@ public class Vector4f implements Externalizable, Vector4fc {
         dest.x = (w2 + x2 - z2 - y2) * x + (-zw + xy - zw + xy) * y + (yw + xz + xz + yw) * z;
         dest.y = (xy + zw + zw + xy) * x + ( y2 - z2 + w2 - x2) * y + (yz + yz - xw - xw) * z;
         dest.z = (xz - yw + xz - yw) * x + ( yz + yz + xw + xw) * y + (z2 - y2 - x2 + w2) * z;
+        return this;
+    }
+
+    /**
+     * Rotate this vector the specified radians around the X axis.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Vector4f rotateX(float angle) {
+        return rotateX(angle, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#rotateX(float, org.joml.Vector4f)
+     */
+    public Vector4f rotateX(float angle, Vector4f dest) {
+        float sin = (float) Math.sin(angle * 0.5), cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        dest.x = x;
+        dest.y = y * cos - z * sin;
+        dest.z = y * sin + z * cos;
+        dest.w = w;
+        return this;
+    }
+
+    /**
+     * Rotate this vector the specified radians around the Y axis.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Vector4f rotateY(float angle) {
+        return rotateY(angle, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#rotateY(float, org.joml.Vector4f)
+     */
+    public Vector4f rotateY(float angle, Vector4f dest) {
+        float sin = (float) Math.sin(angle * 0.5), cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        dest.x =  x * cos + z * sin;
+        dest.y =  y;
+        dest.z = -x * sin + z * cos;
+        dest.w =  w;
+        return this;
+    }
+
+    /**
+     * Rotate this vector the specified radians around the Z axis.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Vector4f rotateZ(float angle) {
+        return rotateZ(angle, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector4fc#rotateZ(float, org.joml.Vector4f)
+     */
+    public Vector4f rotateZ(float angle, Vector4f dest) {
+        float sin = (float) Math.sin(angle * 0.5), cos = (float) Math.cosFromSin(sin, angle * 0.5);
+        dest.x = x * cos - y * sin;
+        dest.y = x * sin + y * cos;
+        dest.z = z;
+        dest.w = w;
         return this;
     }
 

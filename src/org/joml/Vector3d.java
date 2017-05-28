@@ -243,8 +243,20 @@ public class Vector3d implements Externalizable, Vector3dc {
             return delegate.rotationTo(toDirX, toDirY, toDirZ, dest);
         }
 
-        public Vector3d rotateAbout(double angle, double x, double y, double z, Vector3d dest) {
-            return delegate.rotateAbout(angle, x, y, z, dest);
+        public Vector3d rotateAxis(double angle, double x, double y, double z, Vector3d dest) {
+            return delegate.rotateAxis(angle, x, y, z, dest);
+        }
+
+        public Vector3d rotateX(double angle, Vector3d dest) {
+            return delegate.rotateX(angle, dest);
+        }
+
+        public Vector3d rotateY(double angle, Vector3d dest) {
+            return delegate.rotateY(angle, dest);
+        }
+
+        public Vector3d rotateZ(double angle, Vector3d dest) {
+            return delegate.rotateZ(angle, dest);
         }
 
         public Vector3d div(double scalar, Vector3d dest) {
@@ -1727,9 +1739,7 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
-     * Rotate this vector the specified radians about the given rotation axis.
-     * <p>
-     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
+     * Rotate this vector the specified radians around the given rotation axis.
      * 
      * @param angle
      *          the angle in radians
@@ -1741,14 +1751,14 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component of the rotation axis
      * @return this
      */
-    public Vector3d rotateAbout(double angle, double x, double y, double z) {
-        return rotateAbout(angle, x, y, z, this);
+    public Vector3d rotateAxis(double angle, double x, double y, double z) {
+        return rotateAxis(angle, x, y, z, this);
     }
 
     /* (non-Javadoc)
-     * @see org.joml.Vector3dc#rotateAbout(double, double, double, double, org.joml.Vector3d)
+     * @see org.joml.Vector3dc#rotateAxis(double, double, double, double, org.joml.Vector3d)
      */
-    public Vector3d rotateAbout(double angle, double aX, double aY, double aZ, Vector3d dest) {
+    public Vector3d rotateAxis(double angle, double aX, double aY, double aZ, Vector3d dest) {
         double hangle = angle * 0.5;
         double sinAngle = Math.sin(hangle);
         double qx = aX * sinAngle, qy = aY * sinAngle, qz = aZ * sinAngle;
@@ -1758,6 +1768,72 @@ public class Vector3d implements Externalizable, Vector3dc {
         dest.x = (w2 + x2 - z2 - y2) * x + (-zw + xy - zw + xy) * y + (yw + xz + xz + yw) * z;
         dest.y = (xy + zw + zw + xy) * x + ( y2 - z2 + w2 - x2) * y + (yz + yz - xw - xw) * z;
         dest.z = (xz - yw + xz - yw) * x + ( yz + yz + xw + xw) * y + (z2 - y2 - x2 + w2) * z;
+        return this;
+    }
+
+    /**
+     * Rotate this vector the specified radians around the X axis.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Vector3d rotateX(double angle) {
+        return rotateX(angle, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#rotateX(double, org.joml.Vector3d)
+     */
+    public Vector3d rotateX(double angle, Vector3d dest) {
+        double sin = Math.sin(angle * 0.5), cos = Math.cosFromSin(sin, angle * 0.5);
+        dest.x = x;
+        dest.y = y * cos - z * sin;
+        dest.z = y * sin + z * cos;
+        return this;
+    }
+
+    /**
+     * Rotate this vector the specified radians around the Y axis.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Vector3d rotateY(double angle) {
+        return rotateY(angle, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#rotateY(double, org.joml.Vector3d)
+     */
+    public Vector3d rotateY(double angle, Vector3d dest) {
+        double sin = Math.sin(angle * 0.5), cos = Math.cosFromSin(sin, angle * 0.5);
+        dest.x =  x * cos + z * sin;
+        dest.y =  y;
+        dest.z = -x * sin + z * cos;
+        return this;
+    }
+
+    /**
+     * Rotate this vector the specified radians around the Z axis.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @return this
+     */
+    public Vector3d rotateZ(double angle) {
+        return rotateZ(angle, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Vector3dc#rotateZ(double, org.joml.Vector3d)
+     */
+    public Vector3d rotateZ(double angle, Vector3d dest) {
+        double sin = Math.sin(angle * 0.5), cos = Math.cosFromSin(sin, angle * 0.5);
+        dest.x = x * cos - y * sin;
+        dest.y = x * sin + y * cos;
+        dest.z = z;
         return this;
     }
 

@@ -332,10 +332,8 @@ public interface Vector4fc {
     Vector4f rotate(Quaternionfc quat, Vector4f dest);
 
     /**
-     * Rotate this vector the specified radians about the given rotation axis and store the result
+     * Rotate this vector the specified radians around the given rotation axis and store the result
      * into <code>dest</code>.
-     * <p>
-     * Reference: <a href="http://paulbourke.net/geometry/rotate/">http://paulbourke.net</a>
      * 
      * @param angle
      *          the angle in radians
@@ -349,7 +347,43 @@ public interface Vector4fc {
      *          will hold the result
      * @return dest
      */
-    Vector4f rotateAbout(float angle, float aX, float aY, float aZ, Vector4f dest);
+    Vector4f rotateAxis(float angle, float aX, float aY, float aZ, Vector4f dest);
+
+    /**
+     * Rotate this vector the specified radians around the X axis and store the result
+     * into <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f rotateX(float angle, Vector4f dest);
+
+    /**
+     * Rotate this vector the specified radians around the Y axis and store the result
+     * into <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f rotateY(float angle, Vector4f dest);
+
+    /**
+     * Rotate this vector the specified radians around the Z axis and store the result
+     * into <code>dest</code>.
+     * 
+     * @param angle
+     *          the angle in radians
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector4f rotateZ(float angle, Vector4f dest);
 
     /**
      * Return the length squared of this vector.
