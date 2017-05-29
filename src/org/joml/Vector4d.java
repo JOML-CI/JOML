@@ -1123,10 +1123,11 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d div(double scalar) {
-        x /= scalar;
-        y /= scalar;
-        z /= scalar;
-        w /= scalar;
+        double inv = 1.0 / scalar;
+        x *= inv;
+        y *= inv;
+        z *= inv;
+        w *= inv;
         return this;
     }
 
@@ -1134,10 +1135,11 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @see org.joml.Vector4dc#div(double, org.joml.Vector4d)
      */
     public Vector4d div(double scalar, Vector4d dest) {
-        dest.x = x / scalar;
-        dest.y = y / scalar;
-        dest.z = z / scalar;
-        dest.w = w / scalar;
+        double inv = 1.0 / scalar;
+        dest.x = x * inv;
+        dest.y = y * inv;
+        dest.z = z * inv;
+        dest.w = w * inv;
         return dest;
     }
 

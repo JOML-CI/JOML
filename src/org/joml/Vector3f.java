@@ -1217,9 +1217,10 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return this
      */
     public Vector3f div(float scalar) {
-        x /= scalar;
-        y /= scalar;
-        z /= scalar;
+        float inv = 1.0f / scalar;
+        x *= inv;
+        y *= inv;
+        z *= inv;
         return this;
     }
 
@@ -1227,9 +1228,10 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @see org.joml.Vector3fc#div(float, org.joml.Vector3f)
      */
     public Vector3f div(float scalar, Vector3f dest) {
-        dest.x = x / scalar;
-        dest.y = y / scalar;
-        dest.z = z / scalar;
+        float inv = 1.0f / scalar;
+        dest.x = x * inv;
+        dest.y = y * inv;
+        dest.z = z * inv;
         return dest;
     }
 

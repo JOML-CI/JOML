@@ -1027,10 +1027,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return this
      */
     public Vector4f div(float scalar) {
-        x /= scalar;
-        y /= scalar;
-        z /= scalar;
-        w /= scalar;
+        float inv = 1.0f / scalar;
+        x *= inv;
+        y *= inv;
+        z *= inv;
+        w *= inv;
         return this;
     }
 
@@ -1038,10 +1039,11 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @see org.joml.Vector4fc#div(float, org.joml.Vector4f)
      */
     public Vector4f div(float scalar, Vector4f dest) {
-        dest.x = x / scalar;
-        dest.y = y / scalar;
-        dest.z = z / scalar;
-        dest.w = w / scalar;
+        float inv = 1.0f / scalar;
+        dest.x = x * inv;
+        dest.y = y * inv;
+        dest.z = z * inv;
+        dest.w = w * inv;
         return dest;
     }
 

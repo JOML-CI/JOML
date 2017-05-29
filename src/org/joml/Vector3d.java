@@ -1845,9 +1845,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d div(double scalar) {
-        x /= scalar;
-        y /= scalar;
-        z /= scalar;
+        double inv = 1.0 / scalar;
+        x *= inv;
+        y *= inv;
+        z *= inv;
         return this;
     }
 
@@ -1855,9 +1856,10 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @see org.joml.Vector3dc#div(double, org.joml.Vector3d)
      */
     public Vector3d div(double scalar, Vector3d dest) {
-        dest.x = x / scalar;
-        dest.y = y / scalar;
-        dest.z = z / scalar;
+        double inv = 1.0 / scalar;
+        dest.x = x * inv;
+        dest.y = y * inv;
+        dest.z = z * inv;
         return dest;
     }
 
