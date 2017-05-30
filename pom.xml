@@ -193,6 +193,7 @@
 				<!-- Define the '__GWT__' preprocessor variable -->
 				<platform>__GWT__</platform>
 				<hasNio>__NHAS_NIO__</hasNio>
+                <javaExclude>org/joml/jre/java/nio/**</javaExclude>
 				<variant>joml-gwt</variant>
 				<javaExclude></javaExclude>
 			</properties>
