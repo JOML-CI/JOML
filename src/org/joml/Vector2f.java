@@ -880,7 +880,7 @@ public class Vector2f implements Externalizable, Vector2fc {
     }
 
     /**
-     * Return a string representation of this quaternion by formatting the vector components with the given {@link NumberFormat}.
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
      * 
      * @param formatter
      *          the {@link NumberFormat} used to format the vector components with

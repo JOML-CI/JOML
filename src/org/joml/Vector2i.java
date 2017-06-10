@@ -752,7 +752,7 @@ public class Vector2i implements Externalizable, Vector2ic {
     }
 
     /**
-     * Return a string representation of this quaternion by formatting the vector components with the given {@link NumberFormat}.
+     * Return a string representation of this vector by formatting the vector components with the given {@link NumberFormat}.
      * 
      * @param formatter
      *          the {@link NumberFormat} used to format the vector components with

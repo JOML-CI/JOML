@@ -191,6 +191,21 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether the given plane intersects the given sphere with center.
+     * <p>
+     * Reference: <a href="http://math.stackexchange.com/questions/943383/determine-circle-of-intersection-of-plane-and-sphere">http://math.stackexchange.com</a>
+     *
+     * @param plane
+     *          the plane
+     * @param sphere
+     *          the sphere
+     * @return <code>true</code> iff the plane intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testPlaneSphere(Planef plane, Spheref sphere) {
+        return testPlaneSphere(plane.a, plane.b, plane.c, plane.d, sphere.x, sphere.y, sphere.z, sphere.r);
+    }
+
+    /**
      * Test whether the plane with the general plane equation <i>a*x + b*y + c*z + d = 0</i> intersects the sphere with center
      * <tt>(centerX, centerY, centerZ)</tt> and <code>radius</code>, and store the center of the circle of
      * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
@@ -405,6 +420,21 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether the axis-aligned box intersects the plane.
+     * <p>
+     * Reference: <a href="http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html">http://zach.in.tu-clausthal.de</a> ("Geometric Approach - Testing Boxes II")
+     * 
+     * @param aabb
+     *          the AABB
+     * @param plane
+     *          the plane
+     * @return <code>true</code> iff the axis-aligned box intersects the plane; <code>false</code> otherwise
+     */
+    public static boolean testAabPlane(AABBf aabb, Planef plane) {
+        return testAabPlane(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, plane.a, plane.b, plane.c, plane.d);
+    }
+
+    /**
      * Test whether the axis-aligned box with minimum corner <code>min</code> and maximum corner <code>max</code>
      * intersects the plane with the general equation <i>a*x + b*y + c*z + d = 0</i>.
      * <p>
@@ -483,6 +513,19 @@ public class Intersectionf {
      */
     public static boolean testAabAab(Vector3fc minA, Vector3fc maxA, Vector3fc minB, Vector3fc maxB) {
         return testAabAab(minA.x(), minA.y(), minA.z(), maxA.x(), maxA.y(), maxA.z(), minB.x(), minB.y(), minB.z(), maxB.x(), maxB.y(), maxB.z());
+    }
+
+    /**
+     * Test whether the two axis-aligned boxes intersect.
+     * 
+     * @param aabb1
+     *              the first AABB
+     * @param aabb2
+     *              the second AABB
+     * @return <code>true</code> iff both axis-aligned boxes intersect; <code>false</code> otherwise
+     */
+    public static boolean testAabAab(AABBf aabb1, AABBf aabb2) {
+        return testAabAab(aabb1.minX, aabb1.minY, aabb1.minZ, aabb1.maxX, aabb1.maxY, aabb1.maxZ, aabb2.minX, aabb2.minY, aabb2.minZ, aabb2.maxX, aabb2.maxY, aabb2.maxZ);
     }
 
     /**
@@ -763,6 +806,26 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether the one sphere with intersects the other sphere, and store the center of the circle of
+     * intersection in the <tt>(x, y, z)</tt> components of the supplied vector and the radius of that circle in the w component.
+     * <p>
+     * The normal vector of the circle of intersection can simply be obtained by subtracting the center of either sphere from the other.
+     * <p>
+     * Reference: <a href="http://gamedev.stackexchange.com/questions/75756/sphere-sphere-intersection-and-circle-sphere-intersection">http://gamedev.stackexchange.com</a>
+     * 
+     * @param sphereA
+     *              the first sphere
+     * @param sphereB
+     *              the second sphere
+     * @param centerAndRadiusOfIntersectionCircle
+     *              will hold the center of the circle of intersection in the <tt>(x, y, z)</tt> components and the radius in the w component
+     * @return <code>true</code> iff both spheres intersect; <code>false</code> otherwise
+     */
+    public static boolean intersectSphereSphere(Spheref sphereA, Spheref sphereB, Vector4f centerAndRadiusOfIntersectionCircle) {
+        return intersectSphereSphere(sphereA.x, sphereA.y, sphereA.z, sphereA.r*sphereA.r, sphereB.x, sphereB.y, sphereB.z, sphereB.r*sphereB.r, centerAndRadiusOfIntersectionCircle);
+    }
+
+    /**
      * Test whether the given sphere with center <tt>(sX, sY, sZ)</tt> intersects the triangle given by its three vertices, and if they intersect
      * store the point of intersection into <code>result</code>.
      * <p>
@@ -1022,6 +1085,28 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether the given ray intersects the given plane, and return the
+     * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
+     * <p>
+     * This method returns <tt>-1.0</tt> if the ray does not intersect the plane, because it is either parallel to the plane or its direction points
+     * away from the plane or the ray's origin is on the <i>negative</i> side of the plane (i.e. the plane's normal points away from the ray's origin).
+     * <p>
+     * Reference: <a href="https://www.siggraph.org/education/materials/HyperGraph/raytrace/rayplane_intersection.htm">https://www.siggraph.org/</a>
+     * 
+     * @param ray
+     *              the ray
+     * @param plane
+     *              the plane
+     * @param epsilon
+     *              some small epsilon for when the ray is parallel to the plane
+     * @return the value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point, if the ray
+     *         intersects the plane; <tt>-1.0</tt> otherwise
+     */
+    public static float intersectRayPlane(Rayf ray, Planef plane, float epsilon) {
+        return intersectRayPlane(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, plane.a, plane.b, plane.c, plane.d, epsilon);
+    }
+
+    /**
      * Test whether the ray with given origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt> intersects the plane
      * given as the general plane equation <i>a*x + b*y + c*z + d = 0</i>, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
@@ -1142,6 +1227,21 @@ public class Intersectionf {
      */
     public static boolean testAabSphere(Vector3fc min, Vector3fc max, Vector3fc center, float radiusSquared) {
         return testAabSphere(min.x(), min.y(), min.z(), max.x(), max.y(), max.z(), center.x(), center.y(), center.z(), radiusSquared);
+    }
+
+    /**
+     * Test whether the given axis-aligned box intersects the given sphere.
+     * <p>
+     * Reference: <a href="http://stackoverflow.com/questions/4578967/cube-sphere-intersection-test#answer-4579069">http://stackoverflow.com</a>
+     * 
+     * @param aabb
+     *          the AABB
+     * @param sphere
+     *          the sphere
+     * @return <code>true</code> iff the axis-aligned box intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testAabSphere(AABBf aabb, Spheref sphere) {
+        return testAabSphere(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, sphere.x, sphere.y, sphere.z, sphere.r*sphere.r);
     }
 
     /**
@@ -2013,6 +2113,28 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether the given ray intersects the given sphere,
+     * and store the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> for both points (near
+     * and far) of intersections into the given <code>result</code> vector.
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
+     * <p>
+     * Reference: <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection">http://www.scratchapixel.com/</a>
+     * 
+     * @param ray
+     *              the ray
+     * @param sphere
+     *              the sphere
+     * @param result
+     *              a vector that will contain the values of the parameter <i>t</i> in the ray equation
+     *              <i>p(t) = origin + t * dir</i> for both points (near, far) of intersections with the sphere
+     * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean intersectRaySphere(Rayf ray, Spheref sphere, Vector2f result) {
+        return intersectRaySphere(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, sphere.x, sphere.y, sphere.z, sphere.r*sphere.r, result);
+    }
+
+    /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and normalized direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the given sphere with center <tt>(centerX, centerY, centerZ)</tt> and square radius <code>radiusSquared</code>.
      * <p>
@@ -2077,6 +2199,23 @@ public class Intersectionf {
      */
     public static boolean testRaySphere(Vector3fc origin, Vector3fc dir, Vector3fc center, float radiusSquared) {
         return testRaySphere(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), center.x(), center.y(), center.z(), radiusSquared);
+    }
+
+    /**
+     * Test whether the given ray intersects the given sphere.
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the sphere.
+     * <p>
+     * Reference: <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection">http://www.scratchapixel.com/</a>
+     * 
+     * @param ray
+     *              the ray
+     * @param sphere
+     *              the sphere
+     * @return <code>true</code> if the ray intersects the sphere; <code>false</code> otherwise
+     */
+    public static boolean testRaySphere(Rayf ray, Spheref sphere) {
+        return testRaySphere(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, sphere.x, sphere.y, sphere.z, sphere.r*sphere.r);
     }
 
     /**
@@ -2273,6 +2412,33 @@ public class Intersectionf {
     }
 
     /**
+     * Test whether the given ray intersects given the axis-aligned box
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection..
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
+     * <p>
+     * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
+     * <p>
+     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * 
+     * @see #intersectRayAab(float, float, float, float, float, float, float, float, float, float, float, float, Vector2f)
+     * @see RayAabIntersection
+     * 
+     * @param ray
+     *              the ray
+     * @param aabb
+     *              the AABB
+     * @param result
+     *              a vector which will hold the resulting values of the parameter
+     *              <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the near and far point of intersection
+     *              iff the ray intersects the axis-aligned box
+     * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
+     */
+    public static boolean intersectRayAab(Rayf ray, AABBf aabb, Vector2f result) {
+        return intersectRayAab(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, result);
+    }
+
+    /**
      * Determine whether the undirected line segment with the end points <tt>(p0X, p0Y, p0Z)</tt> and <tt>(p1X, p1Y, p1Z)</tt>
      * intersects the axis-aligned box given as its minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>,
      * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + p0 * (p1 - p0)</i> of the near and far point of intersection.
@@ -2404,6 +2570,34 @@ public class Intersectionf {
     }
 
     /**
+     * Determine whether the given undirected line segment intersects the given axis-aligned box,
+     * and return the values of the parameter <i>t</i> in the ray equation <i>p(t) = origin + p0 * (p1 - p0)</i> of the near and far point of intersection.
+     * <p>
+     * This method returns <code>true</code> for a line segment whose either end point lies inside the axis-aligned box.
+     * <p>
+     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     * 
+     * @see #intersectLineSegmentAab(Vector3fc, Vector3fc, Vector3fc, Vector3fc, Vector2f)
+     * 
+     * @param lineSegment
+     *              the line segment
+     * @param aabb
+     *              the AABB
+     * @param result
+     *              a vector which will hold the resulting values of the parameter
+     *              <i>t</i> in the ray equation <i>p(t) = p0 + t * (p1 - p0)</i> of the near and far point of intersection
+     *              iff the line segment intersects the axis-aligned box
+     * @return {@link #INSIDE} if the line segment lies completely inside of the axis-aligned box; or
+     *         {@link #OUTSIDE} if the line segment lies completely outside of the axis-aligned box; or
+     *         {@link #ONE_INTERSECTION} if one of the end points of the line segment lies inside of the axis-aligned box; or
+     *         {@link #TWO_INTERSECTION} if the line segment intersects two sides of the axis-aligned box
+     *         or lies on an edge or a side of the box
+     */
+    public static int intersectLineSegmentAab(LineSegmentf lineSegment, AABBf aabb, Vector2f result) {
+        return intersectLineSegmentAab(lineSegment.aX, lineSegment.aY, lineSegment.aZ, lineSegment.bX, lineSegment.bY, lineSegment.bZ, aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ, result);
+    }
+
+    /**
      * Test whether the given ray with the origin <tt>(originX, originY, originZ)</tt> and direction <tt>(dirX, dirY, dirZ)</tt>
      * intersects the axis-aligned box given as its minimum corner <tt>(minX, minY, minZ)</tt> and maximum corner <tt>(maxX, maxY, maxZ)</tt>.
      * <p>
@@ -2503,6 +2697,28 @@ public class Intersectionf {
      */
     public static boolean testRayAab(Vector3fc origin, Vector3fc dir, Vector3fc min, Vector3fc max) {
         return testRayAab(origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z(), min.x(), min.y(), min.z(), max.x(), max.y(), max.z());
+    }
+
+    /**
+     * Test whether the given ray intersects the given axis-aligned box.
+     * <p>
+     * This method returns <code>true</code> for a ray whose origin lies inside the axis-aligned box.
+     * <p>
+     * If many boxes need to be tested against the same ray, then the {@link RayAabIntersection} class is likely more efficient.
+     * <p>
+     * Reference: <a href="http://people.csail.mit.edu/amy/papers/box-jgt.pdf">http://people.csail.mit.edu/</a>
+     *  
+     * @see #testRayAab(float, float, float, float, float, float, float, float, float, float, float, float)
+     * @see RayAabIntersection
+     * 
+     * @param ray
+     *              the ray
+     * @param aabb
+     *              the AABB
+     * @return <code>true</code> if the given ray intersects the axis-aligned box; <code>false</code> otherwise
+     */
+    public static boolean testRayAab(Rayf ray, AABBf aabb) {
+        return testRayAab(ray.oX, ray.oY, ray.oZ, ray.dX, ray.dY, ray.dZ, aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ);
     }
 
     /**
