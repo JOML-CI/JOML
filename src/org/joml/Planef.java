@@ -82,6 +82,41 @@ public class Planef {
         this.d = d;
     }
 
+    /**
+     * Set the components of this plane. 
+     * 
+     * @param a
+     *          the x factor in the plane equation
+     * @param b
+     *          the y factor in the plane equation
+     * @param c
+     *          the z factor in the plane equation
+     * @param d
+     *          the constant in the plane equation
+     * @return this
+     */
+    public Planef set(float a, float b, float c, float d) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
+        return this;
+    }
+
+    /**
+     * Normalize this plane.
+     * 
+     * @return this
+     */
+    public Planef normalize() {
+        float invLength = (float) (1.0 / Math.sqrt(a * a + b * b + c * c));
+        a *= invLength;
+        b *= invLength;
+        c *= invLength;
+        d *= invLength;
+        return this;
+    }
+
     public int hashCode() {
         final int prime = 31;
         int result = 1;

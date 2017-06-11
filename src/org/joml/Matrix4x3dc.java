@@ -36,6 +36,37 @@ import java.nio.FloatBuffer;
 public interface Matrix4x3dc {
 
     /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Planed)}
+     * identifying the plane with equation <tt>x=-1</tt> when using the identity matrix.  
+     */
+    int PLANE_NX = 0;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Planed)}
+     * identifying the plane with equation <tt>x=1</tt> when using the identity matrix.  
+     */
+    int PLANE_PX = 1;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Planed)}
+     * identifying the plane with equation <tt>y=-1</tt> when using the identity matrix.  
+     */
+    int PLANE_NY = 2;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Planed)}
+     * identifying the plane with equation <tt>y=1</tt> when using the identity matrix.  
+     */
+    int PLANE_PY = 3;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Planed)}
+     * identifying the plane with equation <tt>z=-1</tt> when using the identity matrix.  
+     */
+    int PLANE_NZ = 4;
+    /**
+     * Argument to the first parameter of {@link #frustumPlane(int, Planed)}
+     * identifying the plane with equation <tt>z=1</tt> when using the identity matrix.  
+     */
+    int PLANE_PZ = 5;
+
+    /**
      * Bit returned by {@link #properties()} to indicate that the matrix represents the identity transformation.
      */
     byte PROPERTY_IDENTITY = 1<<2;
@@ -2313,6 +2344,34 @@ public interface Matrix4x3dc {
      * @return dest
      */
     Matrix4x3d lookAtLH(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ, double upX, double upY, double upZ, Matrix4x3d dest);
+
+    /**
+     * Calculate a frustum plane of <code>this</code> matrix, which
+     * can be a projection matrix or a combined modelview-projection matrix, and store the result
+     * in the given <code>plane</code>.
+     * <p>
+     * Generally, this method computes the frustum plane in the local frame of
+     * any coordinate system that existed before <code>this</code>
+     * transformation was applied to it in order to yield homogeneous clipping space.
+     * <p>
+     * The plane normal, which is <tt>(a, b, c)</tt>, is directed "inwards" of the frustum.
+     * Any plane/point test using <tt>a*x + b*y + c*z + d</tt> therefore will yield a result greater than zero
+     * if the point is within the frustum (i.e. at the <i>positive</i> side of the frustum plane).
+     * <p>
+     * Reference: <a href="http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf">
+     * Fast Extraction of Viewing Frustum Planes from the World-View-Projection Matrix</a>
+     *
+     * @param which
+     *          one of the six possible planes, given as numeric constants
+     *          {@link #PLANE_NX}, {@link #PLANE_PX},
+     *          {@link #PLANE_NY}, {@link #PLANE_PY}, 
+     *          {@link #PLANE_NZ} and {@link #PLANE_PZ}
+     * @param plane
+     *          will hold the computed plane equation.
+     *          The plane equation will be normalized, meaning that <tt>(a, b, c)</tt> will be a unit vector
+     * @return planeEquation
+     */
+    Planed frustumPlane(int which, Planed plane);
 
     /**
      * Obtain the direction of <tt>+Z</tt> before the transformation represented by <code>this</code> matrix is applied.

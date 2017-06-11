@@ -510,6 +510,10 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
             return delegate.normalize3x3(dest);
         }
 
+        public Planef frustumPlane(int which, Planef plane) {
+            return delegate.frustumPlane(which, plane);
+        }
+
         public Vector3f positiveZ(Vector3f dir) {
             return delegate.positiveZ(dir);
         }
@@ -7671,6 +7675,35 @@ public class Matrix4x3f implements Externalizable, Matrix4x3fc {
         dest.m10(m10 * invYlen); dest.m11(m11 * invYlen); dest.m12(m12 * invYlen);
         dest.m20(m20 * invZlen); dest.m21(m21 * invZlen); dest.m22(m22 * invZlen);
         return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3fc#frustumPlane(int, org.joml.Planef)
+     */
+    public Planef frustumPlane(int which, Planef plane) {
+        switch (which) {
+        case PLANE_NX:
+            plane.set(m00, m10, m20, 1.0f + m30).normalize();
+            break;
+        case PLANE_PX:
+            plane.set(-m00, -m10, -m20, 1.0f - m30).normalize();
+            break;
+        case PLANE_NY:
+            plane.set(m01, m11, m21, 1.0f + m31).normalize();
+            break;
+        case PLANE_PY:
+            plane.set(-m01, -m11, -m21, 1.0f - m31).normalize();
+            break;
+        case PLANE_NZ:
+            plane.set(m02, m12, m22, 1.0f + m32).normalize();
+            break;
+        case PLANE_PZ:
+            plane.set(-m02, -m12, -m22, 1.0f - m32).normalize();
+            break;
+        default:
+            throw new IllegalArgumentException("which"); //$NON-NLS-1$
+        }
+        return plane;
     }
 
     /* (non-Javadoc)

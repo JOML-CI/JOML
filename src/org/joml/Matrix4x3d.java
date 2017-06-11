@@ -562,6 +562,10 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
             return delegate.lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, dest);
         }
 
+        public Planed frustumPlane(int which, Planed plane) {
+            return delegate.frustumPlane(which, plane);
+        }
+
         public Vector3d positiveZ(Vector3d dir) {
             return delegate.positiveZ(dir);
         }
@@ -8646,6 +8650,35 @@ public class Matrix4x3d implements Externalizable, Matrix4x3dc {
                                double centerX, double centerY, double centerZ,
                                double upX, double upY, double upZ) {
         return lookAtLH(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ, this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix4x3dc#frustumPlane(int, org.joml.Planed)
+     */
+    public Planed frustumPlane(int which, Planed plane) {
+        switch (which) {
+        case PLANE_NX:
+            plane.set(m00, m10, m20, 1.0f + m30).normalize();
+            break;
+        case PLANE_PX:
+            plane.set(-m00, -m10, -m20, 1.0f - m30).normalize();
+            break;
+        case PLANE_NY:
+            plane.set(m01, m11, m21, 1.0f + m31).normalize();
+            break;
+        case PLANE_PY:
+            plane.set(-m01, -m11, -m21, 1.0f - m31).normalize();
+            break;
+        case PLANE_NZ:
+            plane.set(m02, m12, m22, 1.0f + m32).normalize();
+            break;
+        case PLANE_PZ:
+            plane.set(-m02, -m12, -m22, 1.0f - m32).normalize();
+            break;
+        default:
+            throw new IllegalArgumentException("which"); //$NON-NLS-1$
+        }
+        return plane;
     }
 
     /* (non-Javadoc)
