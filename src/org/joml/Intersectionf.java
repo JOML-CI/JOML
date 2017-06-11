@@ -3773,6 +3773,39 @@ public class Intersectionf {
     }
 
     /**
+     * Compute the distance of the given point <tt>(pX, pY, pZ)</tt> to the line defined by the two points <tt>(x0, y0, z0)</tt> and <tt>(x1, y1, z1)</tt>.
+     * <p>
+     * Reference: <a href="http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html">http://mathworld.wolfram.com</a>
+     * 
+     * @param pX
+     *          the x coordinate of the point
+     * @param pY
+     *          the y coordinate of the point
+     * @param pZ
+     *          the z coordinate of the point
+     * @param x0
+     *          the x coordinate of the first point on the line
+     * @param y0
+     *          the y coordinate of the first point on the line
+     * @param z0
+     *          the z coordinate of the first point on the line
+     * @param x1
+     *          the x coordinate of the second point on the line
+     * @param y1
+     *          the y coordinate of the second point on the line
+     * @param z1
+     *          the z coordinate of the second point on the line
+     * @return the distance between the point and the line
+     */
+    public static float distancePointLine(float pX, float pY, float pZ, 
+            float x0, float y0, float z0, float x1, float y1, float z1) {
+        float d21x = x1 - x0, d21y = y1 - y0, d21z = z1 - z0;
+        float d10x = x0 - pX, d10y = y0 - pY, d10z = z0 - pZ;
+        float cx = d21y * d10z - d21z * d10y, cy = d21z * d10x - d21x * d10z, cz = d21x * d10y - d21y * d10x;
+        return (float) Math.sqrt((cx*cx + cy*cy + cz*cz) / (d21x*d21x + d21y*d21y + d21z*d21z));
+    }
+
+    /**
      * Test whether the ray with given origin <tt>(originX, originY)</tt> and direction <tt>(dirX, dirY)</tt> intersects the line
      * containing the given point <tt>(pointX, pointY)</tt> and having the normal <tt>(normalX, normalY)</tt>, and return the
      * value of the parameter <i>t</i> in the ray equation <i>p(t) = origin + t * dir</i> of the intersection point.
