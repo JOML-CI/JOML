@@ -32,12 +32,12 @@ import java.text.NumberFormat;
  */
 public class AABBf {
 
-    public float minX, minY, minZ;
-    public float maxX, maxY, maxZ;
+    public float minX = Float.POSITIVE_INFINITY, minY = Float.POSITIVE_INFINITY, minZ = Float.POSITIVE_INFINITY;
+    public float maxX = Float.NEGATIVE_INFINITY, maxY = Float.NEGATIVE_INFINITY, maxZ = Float.NEGATIVE_INFINITY;
 
     /**
      * Create a new {@link AABBf} representing the box with
-     * <tt>(minX, minY, minZ)=(0, 0, 0)</tt> and <tt>(maxX, maxY, maxZ)=(0, 0, 0)</tt>.
+     * <tt>(minX, minY, minZ)=(+inf, +inf, +inf)</tt> and <tt>(maxX, maxY, maxZ)=(-inf, -inf, -inf)</tt>.
      */
     public AABBf() {
     }
@@ -158,6 +158,68 @@ public class AABBf {
     }
 
     /**
+     * Set <code>this</code> to the union of <code>this</code> and the given point <tt>(x, y, z)</tt>.
+     * 
+     * @param x
+     *          the x coordinate of the point
+     * @param y
+     *          the y coordinate of the point
+     * @param z
+     *          the z coordinate of the point
+     * @return this
+     */
+    public AABBf union(float x, float y, float z) {
+        return union(x, y, z);
+    }
+
+    /**
+     * Set <code>this</code> to the union of <code>this</code> and the given point <code>p</code>.
+     * 
+     * @param p
+     *          the point
+     * @return this
+     */
+    public AABBf union(Vector3fc p) {
+        return union(p.x(), p.y(), p.z(), this);
+    }
+
+    /**
+     * Compute the union of <code>this</code> and the given point <tt>(x, y, z)</tt> and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the point
+     * @param y
+     *          the y coordinate of the point
+     * @param z
+     *          the z coordinate of the point
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AABBf union(float x, float y, float z, AABBf dest) {
+        dest.minX = this.minX < x ? this.minX : x;
+        dest.minY = this.minY < y ? this.minY : y;
+        dest.minZ = this.minZ < z ? this.minZ : z;
+        dest.maxX = this.maxX > x ? this.maxX : x;
+        dest.maxY = this.maxY > y ? this.maxY : y;
+        dest.maxZ = this.maxZ > z ? this.maxZ : z;
+        return dest;
+    }
+
+    /**
+     * Compute the union of <code>this</code> and the given point <code>p</code> and store the result in <code>dest</code>.
+     * 
+     * @param p
+     *          the point
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    public AABBf union(Vector3fc p, AABBf dest) {
+        return union(p.x(), p.y(), p.z(), dest);
+    }
+
+    /**
      * Set <code>this</code> to the union of <code>this</code> and <code>other</code>.
      * 
      * @param other
@@ -185,6 +247,32 @@ public class AABBf {
         dest.maxY = this.maxY > other.maxY ? this.maxY : other.maxY;
         dest.maxZ = this.maxZ > other.maxZ ? this.maxZ : other.maxZ;
         return dest;
+    }
+
+    /**
+     * Ensure that the minimum coordinates are strictly less than or equal to the maximum coordinates by swapping
+     * them if necessary.
+     * 
+     * @return this
+     */
+    public AABBf correctBounds() {
+        float tmp;
+        if (this.minX > this.maxX) {
+            tmp = this.minX;
+            this.minX = this.maxX;
+            this.maxX = tmp;
+        }
+        if (this.minY > this.maxY) {
+            tmp = this.minY;
+            this.minY = this.maxY;
+            this.maxY = tmp;
+        }
+        if (this.minZ > this.maxZ) {
+            tmp = this.minZ;
+            this.minZ = this.maxZ;
+            this.maxZ = tmp;
+        }
+        return this;
     }
 
     /**
