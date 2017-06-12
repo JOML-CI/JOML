@@ -14499,6 +14499,42 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
+     * Create a view and projection matrix from a given <code>eye</code> position, a given near plane rectangle corner <code>p</code>
+     * and the extents of the near plane rectangle along its local <code>x</code> and <code>y</code> axes, and store the resulting matrices
+     * in <code>projDest</code> and <code>viewDest</code>.
+     * <p>
+     * This method creates a view and perspective projection matrix assuming that there is a pinhole camera at position <code>eye</code>
+     * projecting the scene onto the near plane defined by the rectangle.
+     * 
+     * @param eye
+     *          the position of the camera
+     * @param p
+     *          the "lower" corner of the near plane rectangle
+     * @param x
+     *          the direction and length of the local X axis/side of the near plane rectangle
+     * @param y
+     *          the direction and length of the local Y axis/side of the near plane rectangle
+     * @param nearFarDist
+     *          the distance between the far and near plane (the near plane will be calculated by this method)
+     * @param projDest
+     *          will hold the resulting projection matrix
+     * @param viewDest
+     *          will hold the resulting view matrix
+     */
+    public static void projViewFromRectangle(Vector3f eye, Vector3f p, Vector3f x, Vector3f y, float nearFarDist, Matrix4f projDest, Matrix4f viewDest) {
+        float zx = y.y * x.z - y.z * x.y, zy = y.z * x.x - y.x * x.z, zz = y.x * x.y - y.y * x.x;
+        float len = (float) Math.sqrt(zx * zx + zy * zy + zz * zz);
+        float near = -(zx * eye.x + zy * eye.y + zz * eye.z - (zx * p.x + zy * p.y + zz * p.z)) / len;
+        viewDest.setLookAt(eye.x, eye.y, eye.z, eye.x + zx, eye.y + zy, eye.z + zz, y.x, y.y, y.z);
+        float ctx = viewDest.m00 * p.x + viewDest.m10 * p.y + viewDest.m20 * p.z + viewDest.m30;
+        float cty = viewDest.m01 * p.x + viewDest.m11 * p.y + viewDest.m21 * p.z + viewDest.m31;
+        float tx = p.x + x.x + y.x, ty = p.y + x.y + y.y, tz = p.z + x.z + y.z;
+        tx = viewDest.m00 * tx + viewDest.m10 * ty + viewDest.m20 * tz + viewDest.m30;
+        ty = viewDest.m01 * tx + viewDest.m11 * ty + viewDest.m21 * tz + viewDest.m31;
+        projDest.setFrustum(ctx, tx, cty, ty, near, near + nearFarDist);
+    }
+
+    /**
      * Create a new immutable view of this {@link Matrix4f}.
      * <p>
      * The observable state of the returned object is the same as that of <code>this</code>, but casting
