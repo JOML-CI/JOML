@@ -14529,9 +14529,9 @@ public class Matrix4f implements Externalizable, Matrix4fc {
         float ctx = viewDest.m00 * p.x + viewDest.m10 * p.y + viewDest.m20 * p.z + viewDest.m30;
         float cty = viewDest.m01 * p.x + viewDest.m11 * p.y + viewDest.m21 * p.z + viewDest.m31;
         float tx = p.x + x.x + y.x, ty = p.y + x.y + y.y, tz = p.z + x.z + y.z;
-        tx = viewDest.m00 * tx + viewDest.m10 * ty + viewDest.m20 * tz + viewDest.m30;
-        ty = viewDest.m01 * tx + viewDest.m11 * ty + viewDest.m21 * tz + viewDest.m31;
-        projDest.setFrustum(ctx, tx, cty, ty, near, near + nearFarDist);
+        float ntx = viewDest.m00 * tx + viewDest.m10 * ty + viewDest.m20 * tz + viewDest.m30;
+        float nty = viewDest.m01 * tx + viewDest.m11 * ty + viewDest.m21 * tz + viewDest.m31;
+        projDest.setFrustum(ctx, ntx, cty, nty, near, near + nearFarDist);
     }
 
     /**
