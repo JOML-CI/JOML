@@ -14499,21 +14499,23 @@ public class Matrix4f implements Externalizable, Matrix4fc {
     }
 
     /**
-     * Create a view and projection matrix from a given <code>eye</code> position, a given bottom left corner <code>p</code> of the near plane rectangle
+     * Create a view and projection matrix from a given <code>eye</code> position, a given bottom left corner position <code>p</code> of the near plane rectangle
      * and the extents of the near plane rectangle along its local <code>x</code> and <code>y</code> axes, and store the resulting matrices
      * in <code>projDest</code> and <code>viewDest</code>.
      * <p>
      * This method creates a view and perspective projection matrix assuming that there is a pinhole camera at position <code>eye</code>
      * projecting the scene onto the near plane defined by the rectangle.
+     * <p>
+     * All positions and lengths are in the same (world) unit.
      * 
      * @param eye
      *          the position of the camera
      * @param p
-     *          the bottom left corner of the near plane rectangle (will map to the bottom left corner in clip space)
+     *          the bottom left corner of the near plane rectangle (will map to the bottom left corner in window coordinates)
      * @param x
-     *          the direction and length of the local X axis/side of the near plane rectangle
+     *          the direction and length of the local "bottom/top" X axis/side of the near plane rectangle
      * @param y
-     *          the direction and length of the local Y axis/side of the near plane rectangle
+     *          the direction and length of the local "left/right" Y axis/side of the near plane rectangle
      * @param nearFarDist
      *          the distance between the far and near plane (the near plane will be calculated by this method)
      * @param projDest
@@ -14523,13 +14525,15 @@ public class Matrix4f implements Externalizable, Matrix4fc {
      */
     public static void projViewFromRectangle(Vector3f eye, Vector3f p, Vector3f x, Vector3f y, float nearFarDist, Matrix4f projDest, Matrix4f viewDest) {
         float zx = y.y * x.z - y.z * x.y, zy = y.z * x.x - y.x * x.z, zz = y.x * x.y - y.y * x.x;
+        float zd = zx * (p.x - eye.x) + zy * (p.y - eye.y) + zz * (p.z - eye.z);
+        float zs = zd >= 0 ? 1 : -1; zx *= zs; zy *= zs; zz *= zs; zd *= zs; 
         viewDest.setLookAt(eye.x, eye.y, eye.z, eye.x + zx, eye.y + zy, eye.z + zz, y.x, y.y, y.z);
         float px = viewDest.m00 * p.x + viewDest.m10 * p.y + viewDest.m20 * p.z + viewDest.m30;
         float py = viewDest.m01 * p.x + viewDest.m11 * p.y + viewDest.m21 * p.z + viewDest.m31;
         float tx = viewDest.m00 * x.x + viewDest.m10 * x.y + viewDest.m20 * x.z;
         float ty = viewDest.m01 * y.x + viewDest.m11 * y.y + viewDest.m21 * y.z;
         float len = (float) Math.sqrt(zx * zx + zy * zy + zz * zz);
-        float near = (-zx * eye.x - zy * eye.y - zz * eye.z + zx * p.x + zy * p.y + zz * p.z) / len;
+        float near = zd / len;
         projDest.setFrustum(px, px + tx, py, py + ty, near, near + nearFarDist);
     }
 
