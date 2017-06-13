@@ -15532,12 +15532,11 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         viewDest.setLookAt(eye.x, eye.y, eye.z, eye.x + zx, eye.y + zy, eye.z + zz, y.x, y.y, y.z);
         double px = viewDest.m00 * p.x + viewDest.m10 * p.y + viewDest.m20 * p.z + viewDest.m30;
         double py = viewDest.m01 * p.x + viewDest.m11 * p.y + viewDest.m21 * p.z + viewDest.m31;
-        double tx = p.x + x.x + y.x, ty = p.y + x.y + y.y, tz = p.z + x.z + y.z;
-        double ttx = viewDest.m00 * tx + viewDest.m10 * ty + viewDest.m20 * tz + viewDest.m30;
-        double tty = viewDest.m01 * tx + viewDest.m11 * ty + viewDest.m21 * tz + viewDest.m31;
+        double tx = viewDest.m00 * x.x + viewDest.m10 * x.y + viewDest.m20 * x.z;
+        double ty = viewDest.m01 * y.x + viewDest.m11 * y.y + viewDest.m21 * y.z;
         double len = Math.sqrt(zx * zx + zy * zy + zz * zz);
         double near = (-zx * eye.x - zy * eye.y - zz * eye.z + zx * p.x + zy * p.y + zz * p.z) / len;
-        projDest.setFrustum(px, ttx, py, tty, near, near + nearFarDist);
+        projDest.setFrustum(px, px + tx, py, py + ty, near, near + nearFarDist);
     }
 
     /**
