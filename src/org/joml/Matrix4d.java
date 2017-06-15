@@ -15525,7 +15525,9 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @param nearFarDist
      *          the distance between the far and near plane (the near plane will be calculated by this method).
      *          If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
-     *          If a negative value is used (except for {@link Double#NEGATIVE_INFINITY}) the near and far planes will be swapped.
+     *          If the special value {@link Double#NEGATIVE_INFINITY} is used, the near and far planes will be swapped and 
+     *          the near clipping plane will be at positive infinity.
+     *          If a negative value is used (except for {@link Double#NEGATIVE_INFINITY}) the near and far planes will be swapped
      * @param zeroToOne
      *          whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
      *          or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
