@@ -15523,13 +15523,20 @@ public class Matrix4d implements Externalizable, Matrix4dc {
      * @param y
      *          the direction and length of the local "left/right" Y axis/side of the near plane rectangle
      * @param nearFarDist
-     *          the distance between the far and near plane (the near plane will be calculated by this method)
+     *          the distance between the far and near plane (the near plane will be calculated by this method).
+     *          If the special value {@link Double#POSITIVE_INFINITY} is used, the far clipping plane will be at positive infinity.
+     *          If a negative value is used (except for {@link Double#NEGATIVE_INFINITY}) the near and far planes will be swapped.
+     * @param zeroToOne
+     *          whether to use Vulkan's and Direct3D's NDC z range of <tt>[0..+1]</tt> when <code>true</code>
+     *          or whether to use OpenGL's NDC z range of <tt>[-1..+1]</tt> when <code>false</code>
      * @param projDest
      *          will hold the resulting projection matrix
      * @param viewDest
      *          will hold the resulting view matrix
      */
-    public static void projViewFromRectangle(Vector3d eye, Vector3d p, Vector3d x, Vector3d y, double nearFarDist, Matrix4d projDest, Matrix4d viewDest) {
+    public static void projViewFromRectangle(
+            Vector3d eye, Vector3d p, Vector3d x, Vector3d y, double nearFarDist, boolean zeroToOne,
+            Matrix4d projDest, Matrix4d viewDest) {
         double zx = y.y * x.z - y.z * x.y, zy = y.z * x.x - y.x * x.z, zz = y.x * x.y - y.y * x.x;
         double zd = zx * (p.x - eye.x) + zy * (p.y - eye.y) + zz * (p.z - eye.z);
         double zs = zd >= 0 ? 1 : -1; zx *= zs; zy *= zs; zz *= zs; zd *= zs; 
@@ -15539,8 +15546,19 @@ public class Matrix4d implements Externalizable, Matrix4dc {
         double tx = viewDest.m00 * x.x + viewDest.m10 * x.y + viewDest.m20 * x.z;
         double ty = viewDest.m01 * y.x + viewDest.m11 * y.y + viewDest.m21 * y.z;
         double len = Math.sqrt(zx * zx + zy * zy + zz * zz);
-        double near = zd / len;
-        projDest.setFrustum(px, px + tx, py, py + ty, near, near + nearFarDist);
+        double near = zd / len, far;
+        if (Double.isInfinite(nearFarDist) && nearFarDist < 0.0) {
+            far = near;
+            near = Double.POSITIVE_INFINITY;
+        } else if (Double.isInfinite(nearFarDist) && nearFarDist > 0.0) {
+            far = Double.POSITIVE_INFINITY;
+        } else if (nearFarDist < 0.0) {
+            far = near;
+            near = near + nearFarDist;
+        } else {
+            far = near + nearFarDist;
+        }
+        projDest.setFrustum(px, px + tx, py, py + ty, near, far, zeroToOne);
     }
 
     /**
