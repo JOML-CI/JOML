@@ -373,6 +373,18 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /**
+     * Create a new {@link Vector3f} with the same values as <code>v</code>.
+     * 
+     * @param v
+     *          the {@link Vector3ic} to copy the values from
+     */
+    public Vector3f(Vector3ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+    }
+
+    /**
      * Create a new {@link Vector3f} with the first two components from the
      * given <code>v</code> and the given <code>z</code>
      * 
@@ -382,6 +394,21 @@ public class Vector3f implements Externalizable, Vector3fc {
      *          the z component
      */
     public Vector3f(Vector2fc v, float z) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+    }
+
+    /**
+     * Create a new {@link Vector3f} with the first two components from the
+     * given <code>v</code> and the given <code>z</code>
+     * 
+     * @param v
+     *          the {@link Vector2ic} to copy the values from
+     * @param z
+     *          the z component
+     */
+    public Vector3f(Vector2ic v, float z) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;
@@ -502,6 +529,20 @@ public class Vector3f implements Externalizable, Vector3fc {
     }
 
     /**
+     * Set the x, y and z components to match the supplied vector.
+     * 
+     * @param v
+     *          contains the values of x, y and z to set
+     * @return this
+     */
+    public Vector3f set(Vector3ic v) {
+        x = v.x();
+        y = v.y();
+        z = v.z();
+        return this;
+    }
+
+    /**
      * Set the first two components from the given <code>v</code>
      * and the z component from the given <code>z</code>
      *
@@ -512,6 +553,23 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return this
      */
     public Vector3f set(Vector2fc v, float z) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+        return this;
+    }
+
+    /**
+     * Set the first two components from the given <code>v</code>
+     * and the z component from the given <code>z</code>
+     *
+     * @param v
+     *          the {@link Vector2ic} to copy the values from
+     * @param z
+     *          the z component
+     * @return this
+     */
+    public Vector3f set(Vector2ic v, float z) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;

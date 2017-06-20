@@ -436,6 +436,18 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
+     * Create a new {@link Vector3d} whose values will be copied from the given vector.
+     * 
+     * @param v
+     *          provides the initial values for the new vector
+     */
+    public Vector3d(Vector3ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+    }
+
+    /**
      * Create a new {@link Vector3d} with the first two components from the
      * given <code>v</code> and the given <code>z</code>
      *
@@ -445,6 +457,21 @@ public class Vector3d implements Externalizable, Vector3dc {
      *          the z component
      */
     public Vector3d(Vector2fc v, double z) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+    }
+
+    /**
+     * Create a new {@link Vector3d} with the first two components from the
+     * given <code>v</code> and the given <code>z</code>
+     *
+     * @param v
+     *          the {@link Vector2ic} to copy the values from
+     * @param z
+     *          the z component
+     */
+    public Vector3d(Vector2ic v, double z) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;
@@ -575,16 +602,47 @@ public class Vector3d implements Externalizable, Vector3dc {
     }
 
     /**
+     * Set the x, y and z components to match the supplied vector.
+     * 
+     * @param v
+     *          the vector to set this vector's components from
+     * @return this
+     */
+    public Vector3d set(Vector3ic v) {
+        x = v.x();
+        y = v.y();
+        z = v.z();
+        return this;
+    }
+
+    /**
      * Set the first two components from the given <code>v</code>
      * and the z component from the given <code>z</code>
      *
      * @param v
-     *          the {@link Vector2d} to copy the values from
+     *          the {@link Vector2dc} to copy the values from
      * @param z
      *          the z component
      * @return this
      */
     public Vector3d set(Vector2dc v, double z) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+        return this;
+    }
+
+    /**
+     * Set the first two components from the given <code>v</code>
+     * and the z component from the given <code>z</code>
+     *
+     * @param v
+     *          the {@link Vector2ic} to copy the values from
+     * @param z
+     *          the z component
+     * @return this
+     */
+    public Vector3d set(Vector2ic v, double z) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;

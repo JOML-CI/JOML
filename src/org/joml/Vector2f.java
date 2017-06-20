@@ -214,6 +214,17 @@ public class Vector2f implements Externalizable, Vector2fc {
         y = v.y();
     }
 
+    /**
+     * Create a new {@link Vector2f} and initialize its components to the one of the given vector.
+     * 
+     * @param v
+     *        the {@link Vector2ic} to copy the values from
+     */
+    public Vector2f(Vector2ic v) {
+        x = v.x();
+        y = v.y();
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2f} and read this vector from the supplied {@link ByteBuffer}
@@ -329,6 +340,19 @@ public class Vector2f implements Externalizable, Vector2fc {
      * @return this
      */
     public Vector2f set(Vector2fc v) {
+        x = v.x();
+        y = v.y();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector2f} to the values of v.
+     * 
+     * @param v
+     *        the vector to copy from
+     * @return this
+     */
+    public Vector2f set(Vector2ic v) {
         x = v.x();
         y = v.y();
         return this;

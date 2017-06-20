@@ -264,6 +264,19 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /**
+     * Create a new {@link Vector4f} with the same values as <code>v</code>.
+     * 
+     * @param v
+     *          the {@link Vector4ic} to copy the values from
+     */
+    public Vector4f(Vector4ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = v.w();
+    }
+
+    /**
      * Create a new {@link Vector4f} with the first three components from the
      * given <code>v</code> and the given <code>w</code>.
      * 
@@ -273,6 +286,22 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the w component
      */
     public Vector4f(Vector3fc v, float w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = w;
+    }
+
+    /**
+     * Create a new {@link Vector4f} with the first three components from the
+     * given <code>v</code> and the given <code>w</code>.
+     * 
+     * @param v
+     *          the {@link Vector3ic}
+     * @param w
+     *          the w component
+     */
+    public Vector4f(Vector3ic v, float w) {
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();
@@ -291,6 +320,24 @@ public class Vector4f implements Externalizable, Vector4fc {
      *          the w component
      */
     public Vector4f(Vector2fc v, float z, float w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+        this.w = w;
+    }
+
+    /**
+     * Create a new {@link Vector4f} with the first two components from the
+     * given <code>v</code> and the given <code>z</code>, and <code>w</code>.
+     * 
+     * @param v
+     *          the {@link Vector2ic}
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
+     */
+    public Vector4f(Vector2ic v, float z, float w) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;
@@ -443,6 +490,21 @@ public class Vector4f implements Externalizable, Vector4fc {
 
     /**
      * Set this {@link Vector4f} to the values of the given <code>v</code>.
+     * 
+     * @param v
+     *          the vector whose values will be copied into this
+     * @return this
+     */
+    public Vector4f set(Vector4ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = v.w();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector4f} to the values of the given <code>v</code>.
      * <p>
      * Note that due to the given vector <code>v</code> storing the components in double-precision,
      * there is the possibility to lose precision.
@@ -478,6 +540,24 @@ public class Vector4f implements Externalizable, Vector4fc {
     }
 
     /**
+     * Set the first three components of this to the components of
+     * <code>v</code> and the last component to <code>w</code>.
+     * 
+     * @param v
+     *          the {@link Vector3ic} to copy
+     * @param w
+     *          the w component
+     * @return this
+     */
+    public Vector4f set(Vector3ic v, float w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = w;
+        return this;
+    }
+
+    /**
      * Sets the first two components of this to the components of given <code>v</code>
      * and last two components to the given <code>z</code>, and <code>w</code>.
      *
@@ -490,6 +570,26 @@ public class Vector4f implements Externalizable, Vector4fc {
      * @return this
      */
     public Vector4f set(Vector2fc v, float z, float w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+        this.w = w;
+        return this;
+    }
+
+    /**
+     * Sets the first two components of this to the components of given <code>v</code>
+     * and last two components to the given <code>z</code>, and <code>w</code>.
+     *
+     * @param v
+     *          the {@link Vector2ic}
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
+     * @return this
+     */
+    public Vector4f set(Vector2ic v, float z, float w) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;

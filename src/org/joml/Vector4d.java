@@ -255,6 +255,19 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
+     * Create a new {@link Vector4d} with the same values as <code>v</code>.
+     * 
+     * @param v
+     *          the {@link Vector4ic} to copy the values from
+     */
+    public Vector4d(Vector4ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = v.w();
+    }
+
+    /**
      * Create a new {@link Vector4d} with the first three components from the
      * given <code>v</code> and the given <code>w</code>.
      * 
@@ -264,6 +277,22 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector3dc v, double w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = w;
+    }
+
+    /**
+     * Create a new {@link Vector4d} with the first three components from the
+     * given <code>v</code> and the given <code>w</code>.
+     * 
+     * @param v
+     *          the {@link Vector3ic}
+     * @param w
+     *          the w component
+     */
+    public Vector4d(Vector3ic v, double w) {
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();
@@ -282,6 +311,24 @@ public class Vector4d implements Externalizable, Vector4dc {
      *          the w component
      */
     public Vector4d(Vector2dc v, double z, double w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+        this.w = w;
+    }
+
+    /**
+     * Create a new {@link Vector4d} with the first two components from the
+     * given <code>v</code> and the given <code>z</code> and <code>w</code>.
+     *
+     * @param v
+     *          the {@link Vector2ic}
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
+     */
+    public Vector4d(Vector2ic v, double z, double w) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;
@@ -486,6 +533,21 @@ public class Vector4d implements Externalizable, Vector4dc {
     }
 
     /**
+     * Set this {@link Vector4d} to the values of the given <code>v</code>.
+     * 
+     * @param v
+     *          the vector whose values will be copied into this
+     * @return this
+     */
+    public Vector4d set(Vector4ic v) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = v.w();
+        return this;
+    }
+
+    /**
      * Set the x, y, and z components of this to the components of
      * <code>v</code> and the w component to <code>w</code>.
      * 
@@ -496,6 +558,24 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector3dc v, double w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = v.z();
+        this.w = w;
+        return this;
+    }
+
+    /**
+     * Set the x, y, and z components of this to the components of
+     * <code>v</code> and the w component to <code>w</code>.
+     * 
+     * @param v
+     *          the {@link Vector3ic} to copy
+     * @param w
+     *          the w component
+     * @return this
+     */
+    public Vector4d set(Vector3ic v, double w) {
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();
@@ -534,6 +614,26 @@ public class Vector4d implements Externalizable, Vector4dc {
      * @return this
      */
     public Vector4d set(Vector2dc v, double z, double w) {
+        this.x = v.x();
+        this.y = v.y();
+        this.z = z;
+        this.w = w;
+        return this;
+    }
+
+    /**
+     * Set the x and y components from the given <code>v</code>
+     * and the z and w components to the given <code>z</code> and <code>w</code>.
+     *
+     * @param v
+     *          the {@link Vector2ic}
+     * @param z
+     *          the z component
+     * @param w
+     *          the w component
+     * @return this
+     */
+    public Vector4d set(Vector2ic v, double z, double w) {
         this.x = v.x();
         this.y = v.y();
         this.z = z;

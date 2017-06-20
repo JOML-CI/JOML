@@ -225,6 +225,17 @@ public class Vector2d implements Externalizable, Vector2dc {
         y = v.y();
     }
 
+    /**
+     * Create a new {@link Vector2d} and initialize its components to the one of the given vector.
+     * 
+     * @param v
+     *          the {@link Vector2ic} to copy the values from
+     */
+    public Vector2d(Vector2ic v) {
+        x = v.x();
+        y = v.y();
+    }
+
 //#ifdef __HAS_NIO__
     /**
      * Create a new {@link Vector2d} and read this vector from the supplied {@link ByteBuffer}
@@ -354,6 +365,19 @@ public class Vector2d implements Externalizable, Vector2dc {
      * @return this
      */
     public Vector2d set(Vector2fc v) {
+        x = v.x();
+        y = v.y();
+        return this;
+    }
+
+    /**
+     * Set this {@link Vector2d} to be a clone of <code>v</code>.
+     * 
+     * @param v
+     *          the vector to copy from
+     * @return this
+     */
+    public Vector2d set(Vector2ic v) {
         x = v.x();
         y = v.y();
         return this;
