@@ -1037,7 +1037,7 @@ public class Vector3f implements Externalizable, Vector3fc {
      * @return this
      */
     public Vector3f mulTranspose(Matrix3fc mat) {
-        return mul(mat, this);
+        return mulTranspose(mat, this);
     }
 
     /* (non-Javadoc)

@@ -220,6 +220,18 @@ public class Matrix3f implements Externalizable, Matrix3fc {
             return delegate.transform(x, y, z, dest);
         }
 
+        public Vector3f transformTranspose(Vector3f v) {
+            return delegate.transformTranspose(v);
+        }
+
+        public Vector3f transformTranspose(Vector3fc v, Vector3f dest) {
+            return delegate.transformTranspose(v, dest);
+        }
+
+        public Vector3f transformTranspose(float x, float y, float z, Vector3f dest) {
+            return delegate.transformTranspose(x, y, z, dest);
+        }
+
         public Matrix3f rotateX(float ang, Matrix3f dest) {
             return delegate.rotateX(ang, dest);
         }
@@ -1910,6 +1922,31 @@ public class Matrix3f implements Externalizable, Matrix3fc {
         dest.set(m00 * x + m10 * y + m20 * z,
                  m01 * x + m11 * y + m21 * z,
                  m02 * x + m12 * y + m22 * z);
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3fc#transformTranspose(org.joml.Vector3f)
+     */
+    public Vector3f transformTranspose(Vector3f v) {
+        return v.mulTranspose(this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3fc#transformTranspose(org.joml.Vector3fc, org.joml.Vector3f)
+     */
+    public Vector3f transformTranspose(Vector3fc v, Vector3f dest) {
+        v.mulTranspose(this, dest);
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3fc#transformTranspose(float, float, float, org.joml.Vector3f)
+     */
+    public Vector3f transformTranspose(float x, float y, float z, Vector3f dest) {
+        dest.set(m00 * x + m01 * y + m02 * z,
+                 m10 * x + m11 * y + m12 * z,
+                 m20 * x + m21 * y + m22 * z);
         return dest;
     }
 

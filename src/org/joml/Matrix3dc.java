@@ -583,6 +583,41 @@ public interface Matrix3dc {
     Vector3d transform(double x, double y, double z, Vector3d dest);
 
     /**
+     * Transform the given vector by the transpose of this matrix.
+     * 
+     * @param v
+     *          the vector to transform
+     * @return v
+     */
+    Vector3d transformTranspose(Vector3d v);
+
+    /**
+     * Transform the given vector by the transpose of this matrix and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d transformTranspose(Vector3dc v, Vector3d dest);
+
+    /**
+     * Transform the vector <tt>(x, y, z)</tt> by the transpose of this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3d transformTranspose(double x, double y, double z, Vector3d dest);
+
+    /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of radians
      * and store the result in <code>dest</code>.
      * <p>

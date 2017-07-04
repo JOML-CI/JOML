@@ -1346,7 +1346,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d mulTranspose(Matrix3dc mat) {
-        return mul(mat, this);
+        return mulTranspose(mat, this);
     }
 
     /* (non-Javadoc)
@@ -1367,7 +1367,7 @@ public class Vector3d implements Externalizable, Vector3dc {
      * @return this
      */
     public Vector3d mulTranspose(Matrix3fc mat) {
-        return mul(mat, this);
+        return mulTranspose(mat, this);
     }
 
     /* (non-Javadoc)

@@ -224,6 +224,18 @@ public class Matrix3d implements Externalizable, Matrix3dc {
             return delegate.transform(x, y, z, dest);
         }
 
+        public Vector3d transformTranspose(Vector3d v) {
+            return delegate.transformTranspose(v);
+        }
+
+        public Vector3d transformTranspose(Vector3dc v, Vector3d dest) {
+            return delegate.transformTranspose(v, dest);
+        }
+
+        public Vector3d transformTranspose(double x, double y, double z, Vector3d dest) {
+            return delegate.transformTranspose(x, y, z, dest);
+        }
+
         public Matrix3d rotateX(double ang, Matrix3d dest) {
             return delegate.rotateX(ang, dest);
         }
@@ -2223,6 +2235,31 @@ public class Matrix3d implements Externalizable, Matrix3dc {
         dest.set(m00 * x + m10 * y + m20 * z,
                  m01 * x + m11 * y + m21 * z,
                  m02 * x + m12 * y + m22 * z);
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#transformTranspose(org.joml.Vector3d)
+     */
+    public Vector3d transformTranspose(Vector3d v) {
+        return v.mulTranspose(this);
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#transformTranspose(org.joml.Vector3dc, org.joml.Vector3d)
+     */
+    public Vector3d transformTranspose(Vector3dc v, Vector3d dest) {
+        v.mulTranspose(this, dest);
+        return dest;
+    }
+
+    /* (non-Javadoc)
+     * @see org.joml.Matrix3dc#transformTranspose(double, double, double, org.joml.Vector3d)
+     */
+    public Vector3d transformTranspose(double x, double y, double z, Vector3d dest) {
+        dest.set(m00 * x + m01 * y + m02 * z,
+                 m10 * x + m11 * y + m12 * z,
+                 m20 * x + m21 * y + m22 * z);
         return dest;
     }
 

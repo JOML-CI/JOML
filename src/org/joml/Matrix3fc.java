@@ -541,6 +541,41 @@ public interface Matrix3fc {
     Vector3f transform(float x, float y, float z, Vector3f dest);
 
     /**
+     * Transform the given vector by the transpose of this matrix.
+     * 
+     * @param v
+     *          the vector to transform
+     * @return v
+     */
+    Vector3f transformTranspose(Vector3f v);
+
+    /**
+     * Transform the given vector by the transpose of this matrix and store the result in <code>dest</code>.
+     * 
+     * @param v
+     *          the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformTranspose(Vector3fc v, Vector3f dest);
+
+    /**
+     * Transform the vector <tt>(x, y, z)</tt> by the transpose of this matrix and store the result in <code>dest</code>.
+     * 
+     * @param x
+     *          the x coordinate of the vector to transform
+     * @param y
+     *          the y coordinate of the vector to transform
+     * @param z
+     *          the z coordinate of the vector to transform
+     * @param dest
+     *          will hold the result
+     * @return dest
+     */
+    Vector3f transformTranspose(float x, float y, float z, Vector3f dest);
+
+    /**
      * Apply rotation about the X axis to this matrix by rotating the given amount of radians
      * and store the result in <code>dest</code>.
      * <p>
