@@ -1297,7 +1297,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         dest.x = nx;
         dest.y = ny;
         dest.z = nz;
-        return this;
+        return dest;
     }
 
     /**
@@ -1320,7 +1320,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         dest.y = y * cos - z * sin;
         dest.z = y * sin + z * cos;
         dest.w = w;
-        return this;
+        return dest;
     }
 
     /**
@@ -1343,7 +1343,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         dest.y =  y;
         dest.z = -x * sin + z * cos;
         dest.w = w;
-        return this;
+        return dest;
     }
 
     /**
@@ -1366,7 +1366,7 @@ public class Vector4d implements Externalizable, Vector4dc {
         dest.y = x * sin + y * cos;
         dest.z = z;
         dest.w = w;
-        return this;
+        return dest;
     }
 
     /* (non-Javadoc)

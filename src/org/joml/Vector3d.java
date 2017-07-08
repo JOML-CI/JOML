@@ -1851,7 +1851,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         dest.x = x;
         dest.y = y * cos - z * sin;
         dest.z = y * sin + z * cos;
-        return this;
+        return dest;
     }
 
     /**
@@ -1873,7 +1873,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         dest.x =  x * cos + z * sin;
         dest.y =  y;
         dest.z = -x * sin + z * cos;
-        return this;
+        return dest;
     }
 
     /**
@@ -1895,7 +1895,7 @@ public class Vector3d implements Externalizable, Vector3dc {
         dest.x = x * cos - y * sin;
         dest.y = x * sin + y * cos;
         dest.z = z;
-        return this;
+        return dest;
     }
 
     /**

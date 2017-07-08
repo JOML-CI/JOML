@@ -1390,7 +1390,7 @@ public class Vector3f implements Externalizable, Vector3fc {
         dest.x = nx;
         dest.y = ny;
         dest.z = nz;
-        return this;
+        return dest;
     }
 
     /**
@@ -1412,7 +1412,7 @@ public class Vector3f implements Externalizable, Vector3fc {
         dest.x = x;
         dest.y = y * cos - z * sin;
         dest.z = y * sin + z * cos;
-        return this;
+        return dest;
     }
 
     /**
@@ -1434,7 +1434,7 @@ public class Vector3f implements Externalizable, Vector3fc {
         dest.x =  x * cos + z * sin;
         dest.y =  y;
         dest.z = -x * sin + z * cos;
-        return this;
+        return dest;
     }
 
     /**
@@ -1456,7 +1456,7 @@ public class Vector3f implements Externalizable, Vector3fc {
         dest.x = x * cos - y * sin;
         dest.y = x * sin + y * cos;
         dest.z = z;
-        return this;
+        return dest;
     }
 
     /* (non-Javadoc)
